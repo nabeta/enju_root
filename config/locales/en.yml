@@ -1,0 +1,69 @@
+en:
+  date:
+    formats:
+      default: "%Y-%m-%d"
+      short: "%e %b"
+      long: "%B %e, %Y"
+      only_day: "%e"
+
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    order: [ :year, :month, :day ]
+  
+  time:
+    formats:
+      default: "%a %b %d %H:%M:%S %Z %Y"
+      time: "%H:%M"
+      short: "%d %b %H:%M"
+      long: "%B %d, %Y %H:%M"
+      only_second: "%S"
+      
+      datetime:
+        formats:
+          default: "%Y-%m-%dT%H:%M:%S%Z"
+          
+      am: 'am'
+      pm: 'pm'
+
+  show: "Show"
+  edit: "Edit"
+  destroy: "Destroy"
+  create: "Create"
+  update: "Update"
+  delete: "Delete"
+  reset: "Reset"
+  login: "Login"
+  login_name: "Login name"
+  logout: "Logout"
+  account: "Account"
+  password: "Password"
+  bookmark: "Bookmark"
+  library: "Library"
+  search: "Search"
+  request: "Request"
+  event: "Event"
+  management: "Management"
+  circulation: "Circulation"
+  message: "Message"
+  acquisition: "Acquisition"
+  page:
+    user_title: "{{login_name}} 's library"
+    logged_in_as: "logged in as {{login_name}}"
+    library: "Library"
+    language: "Language"
+    subject: "Subject"
+    search_term: "Search term"
+    number_of_manifestations:
+      one: "1 record in this library."
+      other: "{{numdocs}} records in this library."
+    number_of_unread_messages:
+      one: "You have 1 unread message."
+      other: "You have {{numdocs}} unread messages."
+    number_of_search_results:
+      one: "1 record found from {{numdocs}} records in {{seconds}} seconds."
+      other: "{{count}} records found from {{numdocs}} records in {{seconds}} seconds."
+    tag: "Tag"
+  session:
+    logged_out: "You have been logged out."

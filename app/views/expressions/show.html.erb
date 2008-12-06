@@ -1,0 +1,182 @@
+<%= render :partial => 'page/tabview' -%>
+
+<div id="submenu">
+  <%- if_authorized?(:destroy, @expression) do -%>
+    <ul>
+      <li><%= link_to ('New expression'), new_expression_path -%></li>
+      <li><%= link_to t('edit'), edit_expression_path(@expression) -%></li>
+      <li><%= link_to t('destroy'), expression_path(@expression), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <%- case when @work -%>
+        <li><%= link_to ('Back'), work_expressions_path(@work) -%></li>
+      <%- when @patron -%>
+        <li><%= link_to ('Back'), patron_expressions_path(@patron) -%></li>
+      <%- else -%>
+        <li><%= link_to ('Back'), expressions_path -%></li>
+      <%- end -%>
+    </ul>
+  <%- end -%>
+    <ul>
+      <li><%= link_to ('Add a translator'), expression_patrons_path(@expression) -%></li>
+    </ul>
+    <ul>
+      <li><%= link_to ('Add a new manifestation'), expression_manifestations_path(@expression) -%></li>
+      <%- if @expression.serial? -%>
+        <li><%= link_to ('Add next issue'), new_expression_manifestation_path(@expression) -%></li>
+      <%- end -%>
+    </ul>
+</div>
+<div id="content_detail">
+  <%- cache(:id => @expression.id) do -%>
+  <h1>
+    [E]
+    <%=h @expression.original_title -%>
+    <%= expression_form_icon(@expression.expression_form) -%>
+  </h1>
+
+<div>
+  <%= patrons_list(@expression.work.patrons, :link => true) -%>
+  <%= patrons_list(@expression.patrons, :link => true) -%>
+</div>
+<div id="tabview">
+
+  <div id="demo" class="yui-navset yui-navset-top">
+    <ul class="yui-nav">
+      <li title="active" class="selected"><a href="#tab1"><em><%= ('Expression') -%></em></a></li>
+      <%- unless @expression.patrons.blank? -%>
+        <li><a href="#tab2"><em><%= ('Patron') -%></em></a></li>
+      <%- end -%>
+      <li><a href="#tab3"><em><%= ('Related works') -%></em></a></li>
+      <li><a href="#tab4"><em><%= ('Related resources') -%></em></a></li>
+    </ul>
+    <div class="yui-content">
+      <div id="tab1">
+        <table style="width: 100%">
+          <tr>
+            <td><b><%= ('Title transcription') -%>:</b></td>
+            <td><%=h @expression.title_transcription -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Summarization') -%>:</b></td>
+            <td><%=h @expression.summarization -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Context') -%>:</b></td>
+            <td><%=h @expression.context -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Language') -%>:</b></td>
+            <td><%=h @expression.language.display_name -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Form') -%>:</b></td>
+            <td>
+              <%= expression_form_icon(@expression.expression_form) -%>
+              <%=h @expression.expression_form.display_name -%>
+            </td>
+          </tr>
+          <%- if @expression.serial? -%>
+            <tr>
+              <td><b><%= ('Frequency of issue') -%>:</b></td>
+              <td><%=h @expression.frequency_of_issue.display_name -%></td>
+            </tr>
+            <tr>
+              <td><b><%= ('ISSN') -%>:</b></td>
+              <td><%=h @expression.issn -%></td>
+            </tr>
+          <%- end -%>
+          <tr>
+            <td><b><%= ('Note') -%>:</b></td>
+            <td><%=h @expression.note -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Created at') -%>:</b></td>
+            <td><%=h @expression.created_at -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Updated at') -%>:</b></td>
+            <td><%=h @expression.updated_at -%></td>
+          </tr>
+        </table>
+      </div>
+      <%- unless @expression.patrons.blank? -%>
+      <div id="tab2">
+        <ul>
+          <%- @expression.patrons.each do |patron| -%>
+            <li>
+              [P]
+              <%= link_to h(patron.full_name), patron_path(patron) -%>
+              (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + h(patron.full_name_without_space) -%>)
+            </li>
+          <%- end -%>
+        </ul>
+      </div>
+    <%- end -%>
+      <div id="tab3">
+        <%- if @expression.work -%>
+          <ul>
+            <li>
+              [W]
+              <%= link_to h(@expression.work.original_title), work_path(@expression.work) if @expression.work -%>
+              <%= patrons_list(@expression.work.patrons, :link => true) -%>
+              <%- unless @expression.manifestations.blank? -%>
+                <ul>
+                  <%- @expression.manifestations.each do |manifestation| -%>
+                    <li>
+                    [M]
+                    <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                    <%= form_icon(manifestation.manifestation_form) -%>
+                    <%- manifestation.expressions.each do |expression| -%>
+                      <%= expression_form_icon(expression.expression_form) -%>
+                    <%- end -%>
+                    <%= patrons_list(manifestation.authors, :link => true) -%>
+                    <%= patrons_list(manifestation.editors, :link => true) -%>
+                    <%= patrons_list(manifestation.publishers, :link => true) -%>
+                    <%- if manifestation.date_of_publication -%>
+                      (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                    <%- end -%>
+                    </li>
+                  <%- end -%>
+                </ul>
+              <%- end -%>
+            </li>
+          </ul>
+        <%- end -%>
+      </div>
+      <div id="tab4">
+        <ul>
+          <%- @expression.manifestations.each do |manifestation| -%>
+            <li>
+            [M]
+            <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+            <%= form_icon(manifestation.manifestation_form) -%>
+            <%- manifestation.expressions.each do |expression| -%>
+              <%= expression_form_icon(expression.expression_form) -%>
+            <%- end -%>
+            <%= patrons_list(manifestation.authors, :link => true) -%>
+            <%= patrons_list(manifestation.editors, :link => true) -%>
+            <%= patrons_list(manifestation.publishers, :link => true) -%>
+            <%- if manifestation.date_of_publication -%>
+              (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+            <%- end -%>
+              <%- unless manifestation.works.blank? -%>
+                <ul>
+                  <%- manifestation.works.each do |work| -%>
+                    <li>
+                    [W]
+                    <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @expression.work -%>
+                    <%= link_to h(work.original_title), work_path(work) -%>
+                    <%= patrons_list(work.patrons, :link => true) -%>
+                    </li>
+                  <%- end -%>
+                </ul>
+              <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<%= render :partial => 'page/tabview' -%>
+<%- end -%>
+</div>

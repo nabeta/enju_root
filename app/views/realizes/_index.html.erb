@@ -1,0 +1,25 @@
+<h1><%= ('Listing realizes') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Patron') -%></th>
+    <th><%= ('Expression') -%></th>
+  </tr>
+
+<%- for realize in @realizes -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(realize.patron.full_name), patron_path(realize.patron) -%></td>
+    <td><%= link_to h(realize.expression.original_title), expression_path(realize.expression) -%></td>
+    <%- if_authorized?(:destroy, realize) do -%>
+      <td><%= link_to t('show'), realize -%></td>
+      <td><%= link_to t('destroy'), realize, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%- if_authorized?(:new, Realize) do -%>
+  <p><%= link_to ('New realize'), new_realize_path -%></p>
+<%- end -%>
+
+<%= will_paginate(@realizes) -%>

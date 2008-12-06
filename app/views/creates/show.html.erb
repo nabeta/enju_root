@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to patrons'), work_patrons_path(@create.work) -%></li>
+    <li><%= link_to ('Back to works'), patron_works_path(@create.patron) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Patron') -%>:</b>
+  <%= link_to h(@create.patron.full_name), patron_path(@create.patron) -%>
+</p>
+
+<p>
+<b><%= ('Work') -%>:</b>
+  <%= link_to h(@create.work.original_title), work_path(@create.work) -%>
+</p>
+
+</div>

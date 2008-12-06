@@ -1,0 +1,13 @@
+div#content{
+  width: 300px;
+}
+
+div#submenu{
+  float: left;
+  width: 100px;
+}
+
+div#content_detail{
+  float: left;
+  width: 180px;
+}

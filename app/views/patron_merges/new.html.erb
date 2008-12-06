@@ -1,0 +1,38 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), patron_merges_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New patron_merge') -%></h1>
+
+<%= error_messages_for :patron_merge -%>
+
+<%- form_for(@patron_merge) do |f| -%>
+  <p>
+  <b><%= ('Patron') -%></b><br />
+  <%- if @patron -%>
+    <%= link_to h(@patron.full_name), patron_path(@patron) -%>
+    <%= f.hidden_field :patron_id, :value => @patron.id -%>
+  <%- else -%>
+    <%= f.text_field :patron_id, :value => params[:patron_id] -%>
+  <%- end -%>
+  </p>
+
+  <p>
+  <b><%= ('Patron merge list') -%></b><br />
+  <%- if @patron_merge_list -%>
+    <%= link_to h(@patron_merge_list.title), patron_merge_list_path(@patron_merge_list) -%>
+    <%= f.hidden_field :patron_merge_list_id, :value => @patron_merge_list.id -%>
+  <%- else -%>
+    <%= f.text_field :patron_merge_list_id, :value => params[:patron_merge_list_id] -%>
+  <%- end -%>
+  </p>
+
+  <p>
+    <%= f.submit t('create') -%>
+  </p>
+<%- end -%>
+
+</div>

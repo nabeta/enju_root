@@ -1,0 +1,17 @@
+<h1><%= ('Editing checkin') -%></h1>
+
+<%= error_messages_for :checkin -%>
+
+<%- form_for(:checkin, :url => checkin_path(@checkin), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Item') -%></b><br />
+    <%= f.text_field :item_identifier -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+<%= link_to t('show'), checkin_path(@checkin) -%> |
+<%= link_to ('Back'), checkins_path -%>

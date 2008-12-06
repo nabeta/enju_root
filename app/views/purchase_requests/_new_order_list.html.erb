@@ -1,0 +1,72 @@
+<div id="submenu">
+  <ul>
+    <%- if @user -%>
+      <li><%= link_to ('Back'), user_purchase_requests_path(@user.login) -%></li>
+    <%- else -%>
+      <li><%= link_to ('Back'), purchase_requests_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New purchase_request') -%></h1>
+
+<%= error_messages_for :purchase_request -%>
+
+<%- form_for(@purchase_request, :url => order_list_purchase_requests_path(@order_list)) do |f| -%>
+  <p>
+  <b><%= ('User') -%></b><br />
+  <%- if @user -%>
+    <%= link_to h(@user.login), user_path(@user.login) -%>
+  <%- else -%>
+    <%= link_to h(current_user.login), user_path(current_user.login) -%>
+  <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%= f.text_area :title, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Author') -%></b><br />
+    <%= f.text_area :author, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Publisher') -%></b><br />
+    <%= f.text_area :publisher, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Isbn') -%></b><br />
+    <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+  </p>
+
+  <p>
+    <b><%= ('Date of publication') -%></b><br />
+    <%= f.date_select :date_of_publication, :blank => true -%>
+  </p>
+
+  <p>
+    <b><%= ('Price') -%></b><br />
+    <%= f.text_field :price, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Url') -%></b><br />
+    <%= f.text_field :url, :class => 'resource_url' -%>
+  </p>
+
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.submit t('create') -%>
+  </p>
+
+<%- end -%>
+
+</div>

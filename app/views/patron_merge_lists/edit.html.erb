@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @patron_merge_list -%></li>
+    <li><%= link_to ('Back'), patron_merge_lists_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing patron_merge_list') -%></h1>
+
+<%= error_messages_for :patron_merge_list -%>
+
+<%- form_for(@patron_merge_list) do |f| -%>
+  <p>
+  <b><%= ('Title') -%></b><br />
+    <%= f.text_field :title -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

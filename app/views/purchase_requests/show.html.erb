@@ -1,0 +1,90 @@
+<div id="submenu">
+  <ul>
+    <%- if @purchase_request.order_list -%>
+      <li><%= link_to ('Remove from order list'), order_list_order_path(@purchase_request.order_list, @purchase_request.order), :method => :delete, :confirm => ('Are you sure?') -%></li>
+    <%- else -%>
+      <li><%= link_to ('Add to order list'), new_purchase_request_order_path(@purchase_request) -%></li>
+    <%- end -%>
+    <%- if @user -%>
+      <li><%= link_to ('New purchase_request'), new_user_purchase_request_path(@user.login) -%></li>
+    <%- end -%>
+    <li><%= link_to t('edit'), edit_user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= link_to t('destroy'), user_purchase_request_path(@purchase_request.user.login, @purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></li>
+    <%- end -%>
+    <li><%= link_to ('Back'), user_purchase_requests_path(@purchase_request.user.login) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+<p>
+<b><%= ('User') -%>:</b>
+  <%= link_to h(@purchase_request.user.login), user_path(@purchase_request.user.login) -%>
+</p>
+
+<p>
+<b><%= ('Order list') -%>:</b>
+  <%- if @purchase_request.order_list -%>
+    <%= link_to h(@purchase_request.order_list.title), order_list_purchase_requests_path(@purchase_request.order_list) -%>
+  <%- else -%>
+    <%= ('Not ordered') -%>
+  <%- end -%>
+</p>
+
+<p>
+<b><%= ('Title') -%>:</b>
+  <%=h @purchase_request.title -%>
+</p>
+
+<p>
+<b><%= ('Author') -%>:</b>
+  <%=h @purchase_request.author -%>
+</p>
+
+<p>
+<b><%= ('Publisher') -%>:</b>
+  <%=h @purchase_request.publisher -%>
+</p>
+
+<p>
+<b><%= ('Isbn') -%>:</b>
+  <%=h @purchase_request.isbn -%>
+</p>
+
+<p>
+<b><%= ('Date of publication') -%>:</b>
+  <%=h @purchase_request.date_of_publication -%>
+</p>
+
+<p>
+<b><%= ('Price') -%>:</b>
+  <%=h @purchase_request.price -%>
+</p>
+
+<p>
+<b><%= ('Url') -%>:</b>
+  <%= link_to h(@purchase_request.url), @purchase_request.url -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @purchase_request.note -%>
+</p>
+
+<p>
+<b><%= ('Ordered at') -%>:</b>
+  <%=h @purchase_request.order_list.ordered_at if @purchase_request.order_list -%>
+</p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @purchase_request.created_at -%>
+</p>
+
+<p>
+<b><%= ('Updated at') -%>:</b>
+  <%=h @purchase_request.updated_at -%>
+</p>
+
+</div>

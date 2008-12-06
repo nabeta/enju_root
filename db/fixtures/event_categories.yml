@@ -1,0 +1,13 @@
+--- 
+event_category_00001: 
+  name: unknown
+  name: Unknown
+  id: 1
+  note: ""
+  position: 1
+event_category_00002: 
+  name: closed
+  display_name: Closed
+  id: 2
+  note: ""
+  position: 2

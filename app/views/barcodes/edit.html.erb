@@ -1,0 +1,28 @@
+<h1>Editing barcode</h1>
+
+<%- form_for(@barcode) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :barcode_type -%><br />
+    <%= f.text_field :barcode_type -%>
+  </p>
+  <p>
+    <%= f.label :barcodable_id -%><br />
+    <%= f.text_field :barcodable_id -%>
+  </p>
+  <p>
+    <%= f.label :barcodable_type -%><br />
+    <%= f.text_field :barcodable_type -%>
+  </p>
+  <p>
+    <%= f.label :data -%><br />
+    <%= f.text_field :data -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+<%= link_to t('show'), @barcode -%> |
+<%= link_to ('Back'), barcodes_path -%>

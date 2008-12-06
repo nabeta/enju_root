@@ -1,0 +1,43 @@
+<div id="submenu">
+  <ul>
+    <%- case when @patron -%>
+      <li><%= link_to ('Back'), patron_manifestations_path(@patron) -%></li>
+    <%- when @manifestation -%>
+      <li><%= link_to ('Back'), manifestation_patrons_path(@manifestation) -%></li>
+    <%- else -%>
+      <li><%= link_to ('Back'), produces_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New produce') -%></h1>
+
+<%= error_messages_for :produce -%>
+
+<%- form_for(:produce, :url => produces_path) do |f| -%>
+  <p>
+  <b><%= ('Patron') -%></b><br />
+  <%- if @patron -%>
+    <%= link_to h(@patron.full_name), patron_path(@patron) -%>
+    <%= f.hidden_field :patron_id, :value => @patron.id -%>
+  <%- else -%>
+    <%= f.text_field :patron_id, :value => params[:patron_id] -%>
+  <%- end -%>
+  </p>
+
+  <p>
+  <b><%= ('Manifestation') -%></b><br />
+  <%- if @manifestation -%>
+    <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
+    <%= f.hidden_field :manifestation_id, :value => @manifestation.id -%>
+  <%- else -%>
+    <%= f.text_field :manifestation_id, :value => params[:manifestation_id] -%>
+  <%- end -%>
+  </p>
+
+  <p>
+  <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+</div>

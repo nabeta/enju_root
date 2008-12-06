@@ -1,0 +1,58 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Works'), patron_works_path(@patron) -%></li>
+    <li><%= link_to ('Manifestations'), patron_manifestations_path(@patron) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    <%= link_to h(@patron.full_name), @patron -%>
+  </h1>
+
+  <%- form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
+    <p>
+      <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+      <%- if_authorized?(:destroy, @patron) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+        <%- else -%>
+          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
+          <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+        <%- end -%>
+      <%- end -%>
+      <%= submit_tag ('Search') -%>
+      <%= link_to ('Back to index'), patron_expressions_path(@patron) -%>
+    </p>
+  <%- end -%>
+
+<table style="width:100%">
+  <tr>
+    <th><%=('Title') -%></th>
+    <th><%= ('Language') -%></th>
+    <th></th>
+  </tr>
+  
+<%- for expression in @expressions -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(expression.original_title), expression -%>
+      <%= expression_form_icon(expression.expression_form) -%>
+    </td>
+    <td><%=h expression.language.display_name -%></td>
+    <td>
+      <%- if_authorized?(:destroy, expression) do -%>
+        <%- if params[:mode] == "add" -%>
+          <%= link_to ('Add'), new_patron_realize_path(@patron, :expression_id => expression.id) -%>
+        <%- else -%>
+          <%- perform = @patron.performs.find_by_expression_id(expression.id) -%>
+          <%= link_to t('destroy'), patron_perform_path(@patron, perform), :confirm => ('Are you sure?'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@expressions) -%>
+</div>

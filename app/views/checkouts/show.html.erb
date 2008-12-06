@@ -1,0 +1,33 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_user_checkout_path(@checkout.user.login, @checkout) -%></li>
+    <li><%= link_to ('Back'), user_checkouts_path(@checkout.user.login) -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= link_to ('Back to checkout index'), checkouts_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+
+<div id="content_detail">
+  <table style="width: 100%">
+    <tr>
+      <td><%= ('Title') -%></td>
+      <td><%= link_to h(@checkout.item.manifestation.original_title), @checkout.item.manifestation -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Item identifier') -%></td>
+      <td><%= link_to h(@checkout.item.item_identifier), @checkout.item -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Due date') -%></td>
+      <td><%=h @checkout.due_date.strftime('%Y-%m-%d') -%></td>
+    </tr>
+    <%- if_authorized?(:destroy, @checkout) do -%>
+      <tr>
+        <td><%= ('Checked out by') -%></td>
+        <td><%=h @checkout.user.login -%></td>
+      </tr>
+    <%- end -%>
+  </table>
+</div>

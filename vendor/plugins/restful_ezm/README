@@ -1,0 +1,89 @@
+RESTful_Easy_Messages Plug-in
+
+Mostrar / Ocultar Avisos
+RESTful_Easy_Messages
+
+    * 16th October , 2007 by Sam in Ruby on Rails
+    * 31 comments
+
+So three month ago I released my first Rails plug-in, Easy_Messages (EZM), and I was pleasantly surprised by the response, excited that people were actually using my code. Then I became paranoid as people were actually using my code! Since then I worked briefly on a project which was written with REST in mind and was forced to look into it. Up to that point I had been doing my best to not meet REST in the hallway as I was a little scared by him. I don’t know why? After watching the Peepcode screencast by Geoffrey Grosenbach, everything clicked and I realized that I could make the code for EZM much better. The end result is this plug-in. I hope you find it useful.
+
+== The code is hosted at GitHub.
+
+Here’s how to install the plug-in. (Rails 2.1 required for git plug-ins)
+
+./script/plugin install git://github.com/sschroed/restful_ezm.git
+
+== Here’s how to run the generator.
+
+For standard html views: ./script/generate messages erb
+For haml[1] views: ./script/generate messages haml
+
+[1] You will need to install the haml plug-in for the views to render properly.
+
+I’ve tried to decouple as much of the code as I could with this release. If you used Easy_Messages you’ll remember most of the code was stuck in the plug-in directory. With REZM the generator will put a controller, helper, model, tests, and a few other support files right into your project for easy access. To see the entire list view the FILELIST in plugins/restful_easy_messages. There is still a tiny bit of code in the plug-in though.
+
+If you are using Rick Olson’s RESTful_Authentication you can get REZM up and running with minimal setup as I pulled it from a project that uses it.
+
+First, update the user model.
+view plainprint?
+
+   1. class User < ActiveRecord::Base  
+   2.   restful_easy_messages  
+   3.   # The rest of your class  
+   4.   #  
+   5.   #  
+   6. end  
+
+class User < ActiveRecord::Base restful_easy_messages # The rest of your class # # end
+
+Then add the REZM routes.
+view plainprint?
+
+   1. # Add these names routes to your project's config/routes.rb  
+   2.   
+   3. map.resources :users do |user|  
+   4.   user.resources :messages,  
+   5.                  :collection => {:destroy_selected => :post,  
+   6.                                  :inbox            => :get,  
+   7.                                  :outbox           => :get,  
+   8.                                  :trashbin         => :get},  
+   9.                  :member => {:reply => :get}  
+  10. end  
+
+# Add these names routes to your project's config/routes.rb map.resources :users do |user| user.resources :messages, :collection => {:destroy_selected => :post, :inbox => :get, :outbox => :get, :trashbin => :get}, :member => {:reply => :get} end
+
+Now run db:migrate and you should be good to go.
+
+But what if you didn’t use restful_authentication? Having to use Acts_As_Authenticated for EZM was the biggest complaint that I heard so I made REZM with hooks for you to switch out R_A if you want. Open lib\restful_easy_messages_controller_system.rb to do so. Just replace the current_user and login_required methods with calls to similar ones in your application.
+view plainprint?
+
+   1. module RestfulEasyMessagesControllerSystem  
+   2.   protected  
+   3.     
+   4.   # This method provides an abstraction layer to the REZM controller for the  
+   5.   # "current", logged-in user in case you are not using Restful_Authentication.  
+   6.   def rezm_user  
+   7.     # Provide your version of current_user here if not using Restful_authentication  
+   8.     current_user  
+   9.   end  
+  10.     
+  11.   # This method provides an abstraction layer to the REZM controller for   
+  12.   # requiring a user to be loggefd in if you are not using Restful_Authentication.  
+  13.   def rezm_login_required  
+  14.     # Provide your version of login_required here if not using Restful_authentication  
+  15.     login_required  
+  16.   end  
+  17.     
+  18.   # Inclusion hook to make #rezm_user  
+  19.   # available as ActionView helper methods.  
+  20.   def self.included(base)  
+  21.     base.send :helper_method, :rezm_user  
+  22.   end  
+  23. end  
+
+module RestfulEasyMessagesControllerSystem protected # This method provides an abstraction layer to the REZM controller for the # "current", logged-in user in case you are not using Restful_Authentication. def rezm_user # Provide your version of current_user here if not using Restful_authentication current_user end # This method provides an abstraction layer to the REZM controller for # requiring a user to be loggefd in if you are not using Restful_Authentication. def rezm_login_required # Provide your version of login_required here if not using Restful_authentication login_required end # Inclusion hook to make #rezm_user # available as ActionView helper methods. def self.included(base) base.send :helper_method, :rezm_user end end
+
+I believe that is it. Oh wait, there is also an Atom feed for the inbox!
+
+If you wish to try out REZM I’ve set up a sample app. You can message the user “sam” if you want to test writing a mesasge.

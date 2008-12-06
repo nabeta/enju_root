@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), user_question_answers_path(@user.login, @question) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New answer') -%></h1>
+
+<%= error_messages_for :answer -%>
+
+<%- form_for(:answer, :url => user_question_answers_path(@user.login, @question)) do |f| -%>
+
+  <p>
+  <b><%= ('Question') -%></b><br />
+    <%=h @question.body -%>
+    <%= f.hidden_field :question_id, :value => @question.id -%>
+  </p>
+
+  <p>
+  <b><%= ('Body') -%></b><br />
+  <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+</div>

@@ -1,0 +1,23 @@
+<h1><%= ('Listing resource_has_subjects') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Subject') -%></th>
+    <th><%= ('Subjectable type') -%></th>
+  </tr>
+
+<%- for resource_has_subject in @resource_has_subjects -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(resource_has_subject.subject.term), resource_has_subject.subject -%></td>
+    <td><%= link_to h(resource_has_subject.subjectable_type), resource_has_subject.subjectable -%></td>
+    <td><%= link_to t('show'), resource_has_subject -%></td>
+    <td><%= link_to t('edit'), edit_resource_has_subject_path(resource_has_subject) -%></td>
+    <td><%= link_to t('destroy'), resource_has_subject, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@resource_has_subjects) -%>
+<br />
+
+<%= link_to ('New resource_has_subject'), new_resource_has_subject_path -%>

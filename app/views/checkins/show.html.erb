@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_checkin_path(@checkin) -%></li>
+    <li><%= link_to ('Back'), checkins_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Item') -%>:</b>
+  <%= link_to h(@checkin.item.manifestation.original_title), item_path(@checkin.item) -%>
+</p>
+
+<p>
+<b><%= ('Librarian') -%>:</b>
+  <%= link_to h(@checkin.librarian.login), user_path(@checkin.librarian.login) -%>
+</p>
+
+</div>

@@ -1,0 +1,35 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), library_shelf_path(@shelf.library.short_name) -%></li>
+    <li><%= link_to ('Back'), library_shelves_path(@shelf.library.short_name) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing shelf') -%></h1>
+
+<%= error_messages_for :shelf -%>
+
+<%- form_for(:shelf, :url => shelf_path(@shelf), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Name') -%></b><br />
+  <%= f.text_field :name, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+  <b><%= ('Note') -%></b><br />
+  <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+  <b><%= ('Library') -%></b><br />
+    <select name="shelf[library_id]">
+      <%= options_from_collection_for_select(@libraries, "id", "name", @shelf.library_id) -%>
+    </select>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+</div>

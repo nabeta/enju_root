@@ -1,0 +1,57 @@
+<h1><%= ('Listing items') -%></h1>
+
+<%- case params[:inventory] when 'not_on_shelf' -%>
+  <h2><%= ('Not on shelf') -%></h2>
+  <p>
+    <%= link_to ('Inventory file'), @inventory_file -%>
+    <%= link_to ('All items'), inventory_file_items_path(@inventory_file) -%>
+    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
+    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_on_shelf', :lang => 'ja') -%>)
+  </p>
+<%- when 'not_in catalog' -%>
+  <h2><%= ('Not in catalog') -%></h2>
+  <p>
+    <%= link_to ('Inventory file'), @inventory_file -%>
+    <%= link_to ('All items'), inventory_file_items_path(@inventory_file) -%>
+    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
+    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_in_catalog', :lang => 'ja') -%>)
+  </p>
+<%- else -%>
+  <h2><%= ('All items') -%></h2>
+  <p>
+    <%= link_to ('Inventory file'), @inventory_file -%>
+    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
+    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
+    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :lang => 'ja') -%>)
+  </p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Manifestation') -%></th>
+    <th><%= ('Item identifier') -%></th>
+    <th><%= ('Call number') -%></th>
+    <th><%= ('Library') -%></th>
+    <th><%= ('Shelf') -%></th>
+    <th><%= ('Circulation status') -%></th>
+  </tr>
+  
+<%- for item in @items -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => item.manifestation} -%>
+    </td>
+    <td><%= link_to h(item.item_identifier), item -%></td>
+    <td><%=h item.call_number -%></td>
+    <td><%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name) -%></td>
+    <td><%= link_to h(item.shelf.name), item.shelf -%></td>
+    <td><%=h item.circulation_status.display_name -%></td>
+    <%- if_authorized?(:destroy, item) do -%>
+      <td><%= link_to t('edit'), edit_item_path(item) -%></td>
+      <td><%= link_to t('destroy'), item_path(item), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@items) -%>

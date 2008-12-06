@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_language_path(@language) -%></li>
+    <li><%= link_to ('Back'), languages_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Name') -%>:</b>
+  <%=h @language.name -%>
+</p>
+
+<p>
+<b><%= ('Native name') -%>:</b>
+  <%=h @language.native_name -%>
+</p>
+
+<p>
+<b><%= ('Display name') -%>:</b>
+  <%=h @language.display_name -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @language.note -%>
+</p>
+
+</div>

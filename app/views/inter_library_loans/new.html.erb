@@ -1,0 +1,40 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), inter_library_loans_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1>New inter_library_loan</h1>
+
+<%= error_messages_for :inter_library_loan -%>
+
+<%- form_for(@inter_library_loan) do |f| -%>
+  <p>
+    <b><%= ('Borrowing library') -%></b><br />
+    <%= f.select(:borrowing_library_id, @libraries.collect{|l| [l.display_name, l.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Requested at') -%></b><br />
+    <%= f.date_select :requested_at -%>
+  </p>
+
+  <p>
+  <b><%= ('Item') -%></b><br />
+    <%- if @item -%>
+      <%= link_to h(@item.shelf.library.display_name), library_path(@item.shelf.library.short_name) -%>
+      <%= link_to h(@item.item_identifier), @item -%>
+      (<%= link_to h(@item.manifestation.original_title), @item.manifestation -%>)
+      <%= f.hidden_field :item_identifier, :value => @item.item_identifier -%>
+    <%- else -%>
+      <%= f.text_field :item_identifier -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <%= f.submit Create -%>
+  </p>
+<%- end -%>
+
+</div>

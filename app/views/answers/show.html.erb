@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
+    <li><%= link_to ('Back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('User') -%>:</b>
+  <%= link_to h(@answer.user.login), user_path(@answer.user.login) -%>
+</p>
+
+<p>
+<b><%= ('Question') -%>:</b>
+  <%=h @answer.question.body -%>
+</p>
+
+<p>
+<b><%= ('Body') -%>:</b>
+  <%=h @answer.body -%>
+</p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @answer.created_at -%>
+</p>
+
+<p>
+<b><%= ('Updated at') -%>:</b>
+  <%=h @answer.updated_at -%>
+</p>
+
+</div>

@@ -1,0 +1,69 @@
+--- 
+library_00001: 
+  short_name: web
+  short_display_name: Web
+  name: World Wide Web
+  fax_number: 
+  updated_at: 
+  telephone_number_1: 
+  telephone_number_2: 
+  lng: 
+  id: 1
+  lat: 
+  address: 
+  created_at: 
+  library_group_id: 1
+  patron_id: 7
+  call_number_delimiter: "|"
+  position: 1
+library_00002: 
+  short_name: kamata
+  short_display_name: 蒲田
+  name: Kamata Library
+  fax_number: ""
+  updated_at: 2007-08-31 00:18:06.662349 +09:00
+  telephone_number_1: 81-3-3732-5111
+  telephone_number_2: ""
+  lng: 139.715606
+  id: 2
+  lat: 35.565284
+  address: Tokyo
+  created_at: 2007-08-13 18:10:00 +09:00
+  library_group_id: 1
+  patron_id: 8
+  call_number_delimiter: "|"
+  position: 2
+library_00003: 
+  short_name: hachioji
+  short_display_name: 八王子
+  name: Hachioji Library
+  fax_number: 042-637-2116
+  updated_at: 2007-08-31 00:18:16.188285 +09:00
+  telephone_number_1: 042-637-2033
+  telephone_number_2: ""
+  lng: 139.340303
+  id: 3
+  lat: 35.62601
+  address: Hachioji
+  created_at: 2007-08-14 16:37:00 +09:00
+  library_group_id: 1
+  patron_id: 9
+  call_number_delimiter: "|"
+  position: 3
+library_00004: 
+  short_name: mita
+  short_display_name: 三田
+  name: Mita Library
+  fax_number: ""
+  updated_at: 2007-08-31 00:18:20.043951 +09:00
+  telephone_number_1: ""
+  telephone_number_2: ""
+  lng: 139.742699
+  id: 4
+  lat: 35.64865
+  address: Tokyo
+  created_at: 2007-08-23 19:51:00 +09:00
+  library_group_id: 1
+  patron_id: 10
+  call_number_delimiter: "|"
+  position: 4

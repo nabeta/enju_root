@@ -1,0 +1,40 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @message -%></li>
+    <li><%= link_to ('Back'), messages_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing message') -%></h1>
+
+<%= error_messages_for :message -%>
+
+<%- form_for(@message) do |f| -%>
+  <p>
+    <b><%= ('Sender') -%></b><br />
+    <%= @message.sender.login -%>
+    <%= f.hidden_field :sender_id -%>
+  </p>
+
+  <p>
+    <b><%= ('Receiver') -%></b><br />
+    <%= f.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
+  </p>
+
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%= f.text_field :title, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Body') -%></b><br />
+    <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

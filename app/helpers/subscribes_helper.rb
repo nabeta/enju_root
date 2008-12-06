@@ -1,0 +1,2 @@
+module SubscribesHelper
+end

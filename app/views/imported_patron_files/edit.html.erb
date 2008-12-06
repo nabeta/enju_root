@@ -1,0 +1,16 @@
+<h1><%= ('Editing imported_patron_file') %></h1>
+
+<%- form_for(@imported_patron_file) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :filename -%><br />
+    <%= f.text_field :filename -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+<%= link_to t('show'), @imported_patron_file -%> |
+<%= link_to ('Back'), imported_patron_files_path -%>

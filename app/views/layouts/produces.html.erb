@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title><%= ('Produces') -%>: <%=h controller.action_name -%></title>
+  <%= render :partial => 'page/include' -%>
+</head>
+<body class="yui-skin-sam" id="yahoo-com">
+
+<%= render :partial => 'page/header' -%>
+  
+<div id="content">
+
+<div style="color: green"><%= flash[:notice] -%></div>
+
+<%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
+
+</body>
+</html>

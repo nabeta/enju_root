@@ -1,0 +1,17 @@
+<h3><%= t('page.library') -%></h3>
+<ul>
+  <%- libraries = params[:library].to_s.split -%>
+  <%- @libraries.each do |library| -%>
+    <%- current_libraries = libraries.dup -%>
+    <%- if @facet_results["library_f_facet"]["#{library.short_name}"] -%>
+      <li>
+      <%- if current_libraries.include?(library.short_name) -%><strong><%- end -%>
+        <%= link_to h("#{library.name} (" + @facet_results["library_f_facet"]["#{library.short_name}"].to_i.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.short_name).uniq.join(' '), :form => nil, :view => nil)) -%>
+        <%- if current_libraries.include?(library.short_name) -%></strong><%- end -%>
+      </li>
+    <%- end -%>
+  <%- end -%>
+  <%- if params[:library] -%>
+    <li><%= link_to ('Remove this facet'), url_for(:params => params.merge(:library => nil, :page => nil, :view => nil)) -%></li>
+  <%- end -%>
+</ul>

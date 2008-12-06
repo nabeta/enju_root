@@ -1,0 +1,41 @@
+<div id="left_pane">
+  <div id="user_search_form">
+    <h1><%=h ('Catalog search') -%></h1>
+    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+      <div>
+        <%= ('Search term') -%>:
+        <%= text_field_tag 'query', nil, :style => 'width: 250px' -%>
+        <%= submit_tag h(('Search')) -%><br />
+        <%= link_to h(('Advanced search')), '/page/advanced_search' -%>
+      </div>
+    <%- end -%>
+    <%= javascript_tag("$('query').focus()") -%>
+
+    <%- cache(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs') do -%>
+      <p><%=h t('page.number_of_manifestations', :numdocs => Manifestation.numdocs, :count => Manifestation.numdocs) -%></p>
+    <%- end -%>
+
+    <h3><%= link_to ('New resources'), :controller => 'manifestations', :mode => 'recent' -%></h3>
+  </div>
+
+  <div id="news_feed_box">
+    <%- cache(:controller => :news_feeds, :action => :index, :action_suffix => 'list') do -%>
+      <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
+    <%- end -%>
+  </div>
+
+</div>
+
+<div id="right_pane">
+  <div id="picked_up_box">
+    <h3><%= ('Pick up') -%></h3>
+    <%= render :partial => 'manifestations/pickup', :locals => {:picked_up => @picked_up} -%>
+  </div>
+
+  <div id="tag_cloud_box">
+    <h3><%= ('Popular tags') -%></h3>
+    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud') do -%>
+      <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
+    <%- end -%>
+  </div>
+</div>

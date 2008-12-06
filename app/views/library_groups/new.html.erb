@@ -1,0 +1,46 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), library_groups_path -%></li>
+  </ul>
+</div>
+
+<div id="conttent_detail">
+<h1><%= ('New library_group') -%></h1>
+
+<%= error_messages_for :library_group -%>
+
+<%- form_for(:library_group, :url => library_groups_path) do |f| -%>
+  <p>
+    <b><%= ('Name') -%></b><br />
+    <%= f.text_field :name, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Display name') -%></b><br />
+    <%= f.text_field :display_name, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Short name') -%></b><br />
+    <%= f.text_field :short_name -%>
+  </p>
+
+  <p>
+    <b><%= ('Email') -%></b><br />
+    <%= f.text_field :email, :class => 'resource_email' -%>
+  </p>
+
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('My networks') -%></b><br />
+    <%= f.text_area :my_networks, :class => 'resource_textarea' -%>
+  </p>
+
+  <%= submit_tag t('create') -%>
+<%- end -%>
+
+</div>

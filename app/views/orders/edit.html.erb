@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), order_path(@order) -%></li>
+    <li><%= link_to ('Back'), orders_path -%></li>
+  </ul>
+</div>
+
+<div id="submenu">
+<h1><%= ('Editing order') -%></h1>
+
+<%= error_messages_for :order -%>
+
+<%- form_for(:order, :url => order_path(@order), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Order list') -%></b><br />
+    <%= f.text_field :order_list_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Purchase request') -%></b><br />
+    <%= f.text_field :purchase_request_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

@@ -1,0 +1,59 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_picture_file_path(@picture_file) -%></li>
+    <li><%= link_to ('Back'), picture_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Attachable') -%>:</b>
+  <%= link_to h(@picture_file.picture_attachable_type), @picture_file.picture_attachable -%>
+</p>
+
+<p>
+  <b><%= ('Size') -%>:</b>
+  <%=h @picture_file.size -%>
+</p>
+
+<p>
+  <b><%= ('Content type') -%>:</b>
+  <%=h @picture_file.content_type -%>
+</p>
+
+<p>
+  <b><%= ('Filename') -%>:</b>
+  <%= link_to h(@picture_file.filename), formatted_picture_file_path(@picture_file, @picture_file.extname) -%>
+</p>
+
+<p>
+  <b><%= ('Height') -%>:</b>
+  <%=h @picture_file.height -%>
+</p>
+
+<p>
+  <b><%= ('Width') -%>:</b>
+  <%=h @picture_file.width -%>
+</p>
+
+<p>
+<b><%= ('Parent') -%>:</b>
+  <%=h @picture_file.parent_id -%>
+</p>
+
+<p>
+<b><%= ('Thumbnail') -%>:</b>
+  <%=h @picture_file.thumbnail -%>
+</p>
+
+<p>
+  <b>Db file:</b>
+  <%=h @picture_file.db_file_id -%>
+</p>
+
+<p>
+  <b><%= ('File hash') -%>:</b>
+  <%=h @picture_file.file_hash -%>
+</p>
+
+</div>

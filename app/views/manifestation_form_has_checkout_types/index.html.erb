@@ -1,0 +1,24 @@
+<h1><%= ('Listing manifestation_form_has_checkout_types') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Manifestation form') -%></th>
+    <th><%= ('Checkout type') -%></th>
+    <th><%= ('Note') -%></th>
+  </tr>
+
+<%- for manifestation_form_has_checkout_type in @manifestation_form_has_checkout_types -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(manifestation_form_has_checkout_type.manifestation_form.display_name), manifestation_form_has_checkout_type.manifestation_form -%></td>
+    <td><%= link_to h(manifestation_form_has_checkout_type.checkout_type.display_name), manifestation_form_has_checkout_type.checkout_type -%></td>
+    <td><%=h manifestation_form_has_checkout_type.note -%></td>
+    <td><%= link_to t('show'), manifestation_form_has_checkout_type -%></td>
+    <td><%= link_to t('edit'), edit_manifestation_form_has_checkout_type_path(manifestation_form_has_checkout_type) -%></td>
+    <td><%= link_to t('destroy'), manifestation_form_has_checkout_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= link_to ('New manifestation_form_has_checkout_type'), new_manifestation_form_has_checkout_type_path -%>

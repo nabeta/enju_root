@@ -1,0 +1,2 @@
+module CirculationStatusesHelper
+end

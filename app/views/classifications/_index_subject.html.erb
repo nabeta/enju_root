@@ -1,0 +1,40 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Classification) do -%>
+      <li><%= link_to ('New classification'), new_classification_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+                     
+<div id="content_detail">
+  <h1>
+    <%= link_to h(@subject.term), @subject -%>
+  </h1>
+
+  <%- form_for :classifications, :url => subject_classifications_path(@subject), :html => {:method => 'get'} do -%>
+    <p>
+      <%= ('Search term') -%>: <%= text_field_tag 'query', @query -%>
+      <%= submit_tag ('Search') -%>
+    </p>
+  <%- end -%>
+        
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Category') -%></th>
+    <th><%= ('Note') -%></th>
+    <th><%= ('Type') -%></th>
+  </tr>
+
+<%- for classification in @classifications -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(classification.category), subject_classification_path(@subject, classification) -%></td>
+    <td><%=h classification.note -%></td>
+    <td><%=h classification.classification_type.display_name -%></td>
+    <td><%= link_to t('edit'), edit_subject_classification_path(@subject, classification) -%></td>
+    <td><%= link_to t('destroy'), subject_classification_path(@subject, classification), :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@classifications) -%>
+</div>

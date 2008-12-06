@@ -1,0 +1,47 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_user_group_path(@user_group) -%></li>
+    <li><%= link_to ('Back'), user_groups_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @user_group.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @user_group.display_name -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @user_group.note -%>
+</p>
+
+<p>
+<b><%= ('Checkout type') -%></b>
+<ul>
+  <%- @user_group.user_group_has_checkout_types.each do |available_checkout_type| -%>
+    <li>
+      <%= link_to h(available_checkout_type.checkout_type.display_name), available_checkout_type.checkout_type -%>
+      (<%= link_to h("#{available_checkout_type.checkout_period} days"), edit_user_group_has_checkout_type_path(@user_group) -%> )
+    </li>
+  <%- end -%>
+</ul>
+
+<p><%= link_to ('Add a checkout type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @user_group.created_at -%>
+</p>
+
+<p>
+<b><%= ('Updated at') -%>:</b>
+  <%=h @user_group.updated_at -%>
+</p>
+
+</div>

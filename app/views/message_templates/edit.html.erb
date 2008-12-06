@@ -1,0 +1,33 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @message_template -%></li>
+    <li><%= link_to ('Back'), message_templates_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing message_template') -%></h1>
+
+<%= error_messages_for :message_template -%>
+
+<%- form_for(@message_template) do |f| -%>
+  <p>
+    <b><%= ('Status') -%></b><br />
+    <%= f.text_field :status, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%= f.text_field :title, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Body') -%></b><br />
+    <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+</div>

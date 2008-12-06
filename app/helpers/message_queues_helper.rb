@@ -1,0 +1,2 @@
+module MessageQueuesHelper
+end

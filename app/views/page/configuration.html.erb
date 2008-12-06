@@ -1,0 +1,65 @@
+<h1><%= ('Configuration') -%></h1>
+
+<div id="left_pane">
+  <h1><%= ('Library') -%></h1>
+  <ul>
+    <li><%= link_to ('Library group'), library_groups_path -%></li>
+    <li><%= link_to ('Library'), libraries_path -%>
+      <ul>
+        <li><%= link_to ('Shelf'), shelves_path -%></li>
+        <li><%= link_to ('Advertisement'), advertisements_path -%></li>
+      </ul>
+    </li>
+    <li><%= link_to ('User group'), user_groups_path -%></li>
+    <li><%= link_to ('Checkout type'), checkout_types_path -%>
+      <ul>
+        <li><%= link_to ('User groups and checkout types'), user_group_has_checkout_types_path -%></li>
+        <li><%= link_to ('Manifestation forms and checkout types'), manifestation_form_has_checkout_types_path -%></li>
+      </ul>
+    </li>
+    <li><%= link_to ('Event category'), event_categories_path -%></li>
+    <li><%= link_to ('Bookstore'), bookstores_path -%></li>
+    <li><%= link_to ('News feed'), news_feeds_path -%></li>
+    <li><%= link_to ('Message template'), message_templates_path -%></li>
+    <li><%= link_to ('Message queue'), message_queues_path -%></li>
+    <li><%= link_to ('Search engine'), search_engines_path -%></li>
+    <li><%= link_to ('Barcode'), barcodes_path -%></li>
+  </ul>
+
+</div>
+<div id="right_pane">
+  <h1><%= ('Resource') -%></h1>
+  <ul>
+    <li><%= link_to ('Attachment files'), attachment_files_path -%></li>
+    <li><%= link_to ('Picture files'), picture_files_path -%></li>
+    <li><%= link_to ('Bookmarked resources'), bookmarked_resources_path -%></li>
+    <li><%= link_to ('Donation'), donates_path -%></li>
+    <li><%= link_to ('Inventory'), inventory_files_path -%></li>
+    <li><%= link_to ('Patron merge list'), patron_merge_lists_path -%></li>
+    <li><%= link_to ('Work merge list'), patron_merge_lists_path -%></li>
+    <li><%= link_to ('Expression merge list'), expression_merge_lists_path -%></li>
+  </ul>
+
+  <h1><%= ('Subject and classification') -%></h1>
+  <ul>
+    <li><%= link_to ('Subject'), subjects_path -%></li>
+    <li><%= link_to ('Subject type'), subject_types_path -%></li>
+    <li><%= link_to ('Classification'), classifications_path -%></li>
+    <li><%= link_to ('Classification type'), classification_types_path -%></li>
+  </ul>
+
+  <h1><%= ('Form') -%></h1>
+  <ul>
+    <li><%= link_to ('Work form'), work_forms_path -%></li>
+    <li><%= link_to ('Expression form'), expression_forms_path -%></li>
+    <li><%= link_to ('Manifestation form'), manifestation_forms_path -%></li>
+    <li><%= link_to ('Circulation statuses'), circulation_statuses_path -%></li>
+    <li><%= link_to ('Patron type'), patron_types_path -%></li>
+    <li><%= link_to ('Language'), languages_path -%></li>
+    <li><%= link_to ('Country'), countries_path -%></li>
+    <li><%= link_to ('Use restriction'), use_restrictions_path -%></li>
+    <li><%= link_to ('Frequency of issue'), frequency_of_issues_path -%></li>
+    <li><%= link_to ('Request type'), request_types_path -%></li>
+    <li><%= link_to ('Request status type'), request_status_types_path -%></li>
+  </ul>
+</div>

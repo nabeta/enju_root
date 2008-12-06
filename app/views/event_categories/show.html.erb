@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_event_category_path(@event_category) -%></li>
+    <li><%= link_to ('Back'), event_categories_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @event_category.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @event_category.display_name -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @event_category.note -%>
+</p>
+
+</div>

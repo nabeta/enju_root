@@ -1,0 +1,49 @@
+<div id="submenu">
+  <ul>
+    <li><%= rezm_link_to_inbox -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= rezm_link_to_create_message -%></li>
+      <li><%= rezm_link_to_outbox -%></li>
+    <%- end -%>
+    <li><%= rezm_link_to_trash_bin -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Messages') -%></h1>
+<div class="" >
+  <%= flash[:notice] -%> 
+  <p></p>
+  <fieldset>
+    <legend><%= ('View Message') -%></legend>
+	
+	    <p>
+        <label for="message_receiver_name" ><strong><%= ('Receiver') -%>:</strong></label>
+        <%= rezm_to_user_link(@message) -%>
+      </p>
+      <p>
+        <label for="message_sender_name" ><strong><%= ('Sender') -%>:</strong></label>
+        <%= rezm_from_user_link(@message) -%>
+      </p>
+    
+      <p>
+        <label for="message_sent_at" ><strong><%= ('Sent at') -%>:</strong></label>
+        <%=h @message.created_at -%>
+      </p>
+    
+      <p>
+        <label for="message_subject" ><strong><%= ('Subject') -%>:</strong></label>  
+        <%=h @message.subject -%>
+      </p>
+      
+      <p>
+        <label for="message_body" ><strong><%= ('Message') -%>:</strong></label>  
+        <%= auto_link(simple_format(@message.body)) -%>
+      </p>
+
+  </fieldset>
+  
+  <%= rezm_button_to_reply(@message) -%>
+  <%= rezm_button_to_delete(@message) -%>
+</div>
+</div>

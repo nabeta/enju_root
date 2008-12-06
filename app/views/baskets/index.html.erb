@@ -1,0 +1,24 @@
+<h1><%= ('Listing baskets') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('User') -%></th>
+    <th><%= ('Note') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+
+<%- for basket in @baskets -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h basket.user.login -%></td>
+    <td><%=h basket.note -%></td>
+    <td><%=h basket.updated_at -%></td>
+    <td><%= link_to t('show'), user_basket_path(basket.user.login, basket) -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@baskets) -%>
+
+<br />
+
+<%= link_to ('New basket'), new_user_basket_path(@user.login) -%>

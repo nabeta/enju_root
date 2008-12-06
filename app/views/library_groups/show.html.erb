@@ -1,0 +1,59 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_library_group_path(@library_group) -%></li>
+    <li><%= link_to ('Back'), library_groups_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @library_group.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @library_group.display_name -%>
+</p>
+
+<p>
+  <b><%= ('Short name') -%>:</b>
+  <%=h @library_group.short_name -%>
+</p>
+
+<p>
+  <b><%= ('Email') -%>:</b>
+  <%=h @library_group.email -%>
+</p>
+
+<p>
+  <b><%= ('My networks') -%>:</b>
+  <%=h @library_group.my_networks -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @library_group.note -%>
+</p>
+
+<p>
+  <b><%= ('Library') -%>:</b></br>
+</p>
+
+<ul>
+  <%- @library_group.physical_libraries.each do |library| -%>
+    <li><%= link_to h(library.name), library_path(library) -%></li>
+  <%- end -%>
+</ul>
+
+<p>
+  <b><%= ('News feed') -%>:</b></br>
+</p>
+
+<ul>
+  <%- @library_group.news_feeds.each do |news_feed| -%>
+    <li><%= link_to h(news_feed.title), news_feed -%></li>
+  <%- end -%>
+</ul>
+
+</div>

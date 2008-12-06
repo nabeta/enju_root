@@ -1,0 +1,2 @@
+module CheckedItemsHelper
+end

@@ -1,0 +1,12 @@
+[2008-07-12]
+  - refactored to be a better plugin citizen using modules and a cleanup
+  - fixed laziness by removing Time and DateTime aliases for second and minute
+  - removed unused tasks folder
+  - tidied up rakefile
+
+[2008-06-17]
+  - moved to http://github.com/adzap/date_time_text_field_helpers
+  
+[2008-02-25]
+	- changed default sizes for components to fix for safari
+	- updated README

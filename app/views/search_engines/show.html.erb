@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_search_engine_path(@search_engine) -%></li>
+    <li><%= link_to ('Back'), search_engines_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @search_engine.name -%>
+</p>
+
+<p>
+  <b><%= ('Url') -%>:</b>
+  <%=h @search_engine.url -%>
+</p>
+
+<p>
+  <b><%= ('Base url') -%>:</b>
+  <%=h @search_engine.base_url -%>
+</p>
+
+<p>
+  <b><%= ('Http method') -%>:</b>
+  <%=h @search_engine.http_method -%>
+</p>
+
+<p>
+  <b><%= ('Query param') -%>:</b>
+  <%=h @search_engine.query_param -%>
+</p>
+
+<p>
+  <b><%= ('Additional param') -%>:</b>
+  <%= textilize(h(@search_engine.additional_param)) -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @search_engine.note -%>
+</p>
+
+</div>

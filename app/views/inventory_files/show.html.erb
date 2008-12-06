@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_inventory_file_path(@inventory_file) -%> </li>
+    <li><%= link_to ('Back'), inventory_files_path -%> </li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Db file') -%> :</b>
+  <%=h @inventory_file.db_file_id -%> 
+</p>
+
+<p>
+  <b><%= ('Filename') -%> :</b>
+  <%=h @inventory_file.filename -%> 
+</p>
+
+<p>
+  <b><%= ('Content type') -%> :</b>
+  <%=h @inventory_file.content_type -%> 
+</p>
+
+<p>
+  <b><%= ('Size') -%> :</b>
+  <%=h @inventory_file.size -%> 
+</p>
+
+<p>
+  <b><%= ('File hash') -%> :</b>
+  <%=h @inventory_file.file_hash -%> 
+</p>
+
+<p>
+  <b><%= ('User') -%> :</b>
+  <%=h @inventory_file.user_id -%> 
+</p>
+
+<p>
+  <b><%= ('Note') -%> :</b>
+  <%=h @inventory_file.note -%> 
+</p>
+
+</div>

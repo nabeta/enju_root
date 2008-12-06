@@ -1,0 +1,32 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, ManifestationForm) do -%>
+      <li><%= link_to ('New manifestation_form'), new_manifestation_form_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing manifestation_forms') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <th><%= ('Display name') -%></th>
+    <th><%= ('Note') -%></th>
+  </tr>
+  
+<%- for manifestation_form in @manifestation_forms -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(manifestation_form.name), manifestation_form -%></td>
+    <td><%= link_to h(manifestation_form.display_name), manifestation_form -%></td>
+    <td><%=h manifestation_form.note -%></td>
+    <%- if_authorized?(:destroy, manifestation_form) do -%>
+      <td><%= link_to t('edit'), edit_manifestation_form_path(manifestation_form) -%></td>
+      <td><%= link_to t('destroy'), manifestation_form_path(manifestation_form), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+</div>

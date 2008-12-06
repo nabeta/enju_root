@@ -1,0 +1,18 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to purchase_requests'), order_list_purchase_requests_path(@order.order_list) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Order list') -%>:</b>
+  <%= link_to h(@order.order_list.title), order_list_purchase_requests_path(@order.order_list) -%>
+</p>
+
+<p>
+<b><%= ('Purchase request') -%>:</b>
+  <%= link_to h(@order.purchase_request.title), purchase_request_path(@order.purchase_request) -%>
+</p>
+
+</div>

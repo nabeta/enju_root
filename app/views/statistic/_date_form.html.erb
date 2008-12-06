@@ -1,0 +1,11 @@
+<%- form_tag({:controller => 'statistic', :action => controller.action_name}, {:method => 'get'}) do -%>
+  <p>
+    <%= ('From') -%>
+    <%= select_date @from_date, :prefix => 'stat_from', :use_month_numbers => true -%>
+    <%= ('To') -%>
+    <%= select_date @to_date, :prefix => 'stat_to', :use_month_numbers => true -%>
+    <%= hidden_field_tag 'report', value -%>
+    <%= submit_tag ('Submit') -%>
+    <%= link_to ('Today'), url_for(:report => 'most_bookmarked', :from_date => Date.today, :to_date => Date.today) -%>
+  </p>
+<%- end -%>

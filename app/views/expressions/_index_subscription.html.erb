@@ -1,0 +1,61 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Add a subscription'), subscriptions_path -%></li>
+    <li><%= link_to ('New expression'), new_subscription_expression_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    <%= link_to h(@subscription.title), @subscription -%>
+  </h1>
+
+  <%- form_for :expressions, :url => subscription_expressions_path(@subscription), :html => {:method => 'get'} do -%>
+    <p>
+      <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+      <%- if_authorized?(:destroy, @subscription) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
+          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+        <%- else -%>
+          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
+          <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+        <%- end -%>
+      <%- end -%>
+      <%= submit_tag ('Search') -%>
+      <%= link_to ('Back to index'), subscription_expressions_path(@subscription) -%>
+    </p>
+  <%- end -%>
+
+<table style="width:100%">
+  <tr>
+    <th><%=('Title') -%></th>
+    <th><%= ('Language') -%></th>
+  </tr>
+  
+<%- for expression in @expressions -%>
+  <tr>
+    <td>
+      [E]
+      <%= link_to h(expression.original_title), subscription_expression_path(@subscription, expression) -%>
+      <%= expression_form_icon(expression.expression_form) -%><br />
+      <%= patrons_list(expression.authors, :link => true) -%>
+      <%= patrons_list(expression.patrons, :link => true) -%>
+    </td>
+    <td><%=h expression.language.display_name -%></td>
+    <td>
+      <%- if_authorized?(:destroy, expression) do -%>
+        <%- if params[:mode] == "add" -%>
+          <%= link_to ('Add'), new_subscription_subscribe_path(@subscription, :expression_id => expression.id, :mode => 'add') -%>
+        <%- else -%>
+          <%- subscribe = @subscription.subscribes.find_by_expression_id(expression.id) -%>
+          <%= link_to t('destroy'), subscription_subscribe_path(@subscription, subscribe), :confirm => ('Are you sure?'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@expressions) -%>
+</div>

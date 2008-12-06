@@ -1,0 +1,33 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), user_question_path(@question.user.login, @question) -%></li>
+    <li><%= link_to ('Back'), user_questions_path(@question.user.login) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing question') -%></h1>
+
+<%= error_messages_for :question -%>
+
+<%- form_for(:question, :url => user_question_path(@question.user.login, @question), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('User') -%></b><br />
+  <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
+  </p>
+
+  <p>
+  <b><%= ('Body') -%></b><br />
+    <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+  <b><%= ('Private question') -%></b><br />
+    <%= f.check_box :private_question -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+</div>

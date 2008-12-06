@@ -1,0 +1,15 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Users'), imported_patron_files_path -%></li>
+    <li><%= link_to ('Events'), imported_event_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Import records') -%></h1>
+  <%- form_for(:manifestation, :url => manifestations_path(:mode => 'import_isbn')) do |f| -%>
+    <%= h(('ISBN')) -%>: <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+    <%= submit_tag ('Import') -%>
+  <%- end -%>
+  <%= javascript_tag("$('manifestation_isbn').focus()") -%>
+</div>

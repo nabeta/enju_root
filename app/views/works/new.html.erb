@@ -1,0 +1,51 @@
+<%- if @patron -%>
+  <%= render :partial => 'new_patron' -%>
+<%- else -%>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), works_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New work') -%></h1>
+
+<%= error_messages_for :work -%>
+
+<%- form_for(:work, :url => works_path) do |f| -%>
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%= f.text_field :original_title, :class => 'resource_title' -%>
+  </p>
+  
+  <p>
+    <b><%= ('Title transcription') -%></b><br />
+    <%= f.text_field :title_transcription, :class => 'resource_title' -%>
+  </p>
+  
+  <p>
+    <b><%= ('Title alternative') -%></b><br />
+    <%= f.text_field :title_alternative, :class => 'resource_title' -%>
+  </p>
+  
+  <%- unless @patron.blank? -%>
+  <p>
+    <b><%= ('Creator') -%></b><br />
+    <%=h @patron.full_name -%>
+  </p>
+  <%- end -%>
+
+  <p>
+    <b><%= ('Context') -%></b><br />
+    <%= f.text_area :context, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.hidden_field :parent_id, :value => @parent.id, :class => 'resource_textarea' if @parent -%>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+
+<%- end -%>
+</div>

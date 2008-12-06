@@ -1,0 +1,39 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_country_path(@country) -%></li>
+    <li><%= link_to ('Back'), countries_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Name') -%>:</b>
+  <%=h @country.name -%>
+</p>
+
+<p>
+<b><%= ('Display name') -%>:</b>
+  <%=h @country.display_name -%>
+</p>
+
+<p>
+<b><%= ('Alpha 2') -%>:</b>
+  <%=h @country.alpha_2 -%>
+</p>
+
+<p>
+<b><%= ('Alpha 3') -%>:</b>
+  <%=h @country.alpha_3 -%>
+</p>
+
+<p>
+<b><%= ('Numeric 2') -%>:</b>
+  <%=h @country.numeric_3 -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @country.note -%>
+</p>
+
+</div>

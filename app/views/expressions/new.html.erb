@@ -1,0 +1,11 @@
+<%- case when @patron -%>
+  <%= render :partial => 'new_patron' -%>
+<%- when @work -%>
+  <%= render :partial => 'new_work' -%>
+<%- when @manifestation -%>
+  <%= render :partial => 'new_manifestation' -%>
+<%- else -%>
+  <%- form_for(:expression, :url => expressions_path) do |f| -%>
+    <%= render :partial => 'new', :locals => {:f => f} -%>
+  <%- end -%>
+<%- end -%>

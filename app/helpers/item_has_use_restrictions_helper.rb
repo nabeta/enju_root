@@ -1,0 +1,2 @@
+module ItemHasUseRestrictionsHelper
+end

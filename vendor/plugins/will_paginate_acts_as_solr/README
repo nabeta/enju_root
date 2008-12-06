@@ -1,0 +1,23 @@
+WillPaginateActsAsSolr
+======================
+
+A simple plugin for ActsAsSolr and WillPaginate.
+
+Just add the plugin;
+  ruby script/plugin install git://github.com/jgp/will_paginate_acts_as_solr
+
+And we're done.
+
+Example
+=======
+
+  Model.paginate_by_solr("some solr query", :page => 2, :per_page => 23)
+
+gets us a will_paginate collection like we want
+
+  collection.total_entries == 33290
+  collection.current_page  == 2
+  collection.next_page     == 3
+  ...  
+
+Copyright (c) 2008 [JGP], released under the MIT license

@@ -1,0 +1,25 @@
+<h1><%= ('Listing barcodes') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th>Barcode type</th>
+    <th>Barcodable</th>
+    <th>Barcodable type</th>
+  </tr>
+
+<%- for barcode in @barcodes -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h barcode.barcode_type -%></td>
+    <td><%=h barcode.barcodable_id -%></td>
+    <td><%=h barcode.barcodable_type -%></td>
+    <td><%= link_to t('show'), barcode -%></td>
+    <td><%= link_to t('edit'), edit_barcode_path(barcode) -%></td>
+    <td><%= link_to t('destroy'), barcode, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@barcodes) -%>
+<br />
+
+<%= link_to ('New barcode'), new_barcode_path -%>

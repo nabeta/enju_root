@@ -1,0 +1,17 @@
+--- 
+role_00001: 
+  name: Guest
+  id: 1
+  note: 
+role_00002: 
+  name: User
+  id: 2
+  note: 
+role_00003: 
+  name: Librarian
+  id: 3
+  note: 
+role_00004: 
+  name: Administrator
+  id: 4
+  note: 

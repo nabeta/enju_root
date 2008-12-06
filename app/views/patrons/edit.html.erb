@@ -1,0 +1,103 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), patron_path(@patron) -%></li>
+    <li><%= link_to ('Back'), patrons_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing patron') -%></h1>
+
+<%= error_messages_for :patron -%>
+
+<%- form_for(:patron, :url => patron_path(@patron), :html => { :method => :put }) do |f| -%>
+  <p>
+    <b><%= ('Type') -%></b>
+    <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
+  </p>
+
+    <b><%= ('Full name') -%></b><br />
+    <%= f.text_field :full_name, :class => 'resource_title' -%><br />
+    <%= ('Transcription') -%><br />
+    <%= f.text_field :full_name_transcription, :class => 'resource_title' -%><br />
+    <%= ('Alternative') -%><br />
+    <%= f.text_area :full_name_alternative, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Other designation') -%></b><br />
+    <%= f.text_area :other_designation, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Place') -%></b><br />
+    <%= f.text_area :place, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+  <b><%= ('Date of birth') -%></b><br />
+    <%= f.date_select :date_of_birth, :blank => true -%>
+  </p>
+
+  <p>
+  <b><%= ('Date of death') -%></b><br />
+    <%= f.date_select :date_of_death, :blank => true -%>
+  </p>
+
+  <p>
+    <b><%= ('Country') -%></b>
+    <%= f.select(:country_id, @countries.collect{|c| [c.display_name, c.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Language') -%></b>
+    <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Access role') -%></b>
+    <%= f.select(:access_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+  <%- if @patron.user -%>
+  <p>
+    <b><%= ('Zip code 1') -%></b><br />
+    <%= f.text_field :zip_code_1, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Address 1') -%></b><br />
+    <%= f.text_area :address_1, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Address 1 note') -%></b><br />
+    <%= f.text_area :address_1_note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Zip code 2') -%></b><br />
+    <%= f.text_field :zip_code_1, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Address 2') -%></b><br />
+    <%= f.text_area :address_2, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Address 2 note') -%></b><br />
+    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
+  </p>
+
+  <%- end -%>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+</div>

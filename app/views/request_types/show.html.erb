@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_request_type_path(@request_type) -%></li>
+    <li><%= link_to ('Back'), request_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @request_type.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @request_type.display_name -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @request_type.note -%>
+</p>
+
+</div>

@@ -1,0 +1,53 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_inter_library_loan_path(@inter_library_loan) -%></li>
+    <%- unless @inter_library_loan.item.shelf.library == current_user.library -%>
+      <li><%= link_to ('Return this item'), edit_inter_library_loan_path(@inter_library_loan) -%></li>
+    <%- end -%>
+    <li><%= link_to ('Back'), inter_library_loans_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Library') -%>:</b>
+  <%= link_to h(@inter_library_loan.item.shelf.library.name), library_path(@inter_library_loan.item.shelf.library.short_name) -%>
+</p>
+
+<p>
+  <b><%= ('Borrowing library') -%>:</b>
+  <%= link_to h(@inter_library_loan.borrowing_library.name), library_path(@inter_library_loan.borrowing_library.short_name) -%>
+</p>
+
+<p>
+  <b><%= ('Item') -%>:</b>
+  <%= link_to h(@inter_library_loan.item.item_identifier), @inter_library_loan.item -%>
+  (<%= link_to h(@inter_library_loan.item.manifestation.original_title), @inter_library_loan.item.manifestation -%>)
+</p>
+
+<p>
+  <b><%= ('Requested at') -%>:</b>
+  <%=h @inter_library_loan.shipped_at -%>
+</p>
+
+<p>
+  <b><%= ('Shipped at') -%>:</b>
+  <%=h @inter_library_loan.shipped_at -%>
+</p>
+
+<p>
+  <b><%= ('Received at') -%>:</b>
+  <%=h @inter_library_loan.received_at -%>
+</p>
+
+<p>
+  <b><%= ('Return shipped at') -%>:</b>
+  <%=h @inter_library_loan.return_shipped_at -%>
+</p>
+
+<p>
+  <b><%= ('Return received at') -%>:</b>
+  <%=h @inter_library_loan.return_received_at -%>
+</p>
+
+</div>

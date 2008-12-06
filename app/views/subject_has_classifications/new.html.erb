@@ -1,0 +1,21 @@
+<h1>New subject_has_classification</h1>
+
+<%= error_messages_for :subject_has_classification -%>
+
+<%- form_for(@subject_has_classification) do |f| -%>
+  <p>
+    <b>Subject</b><br />
+    <%= f.text_field :subject_id -%>
+  </p>
+
+  <p>
+    <b>Decimal classification</b><br />
+    <%= f.text_field :classification_id -%>
+  </p>
+
+  <p>
+    <%= f.submit Create -%>
+  </p>
+<%- end -%>
+
+<%= link_to 'Back', subject_has_classifications_path -%>

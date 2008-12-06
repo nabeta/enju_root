@@ -1,0 +1,2 @@
+module UseRestrictionsHelper
+end

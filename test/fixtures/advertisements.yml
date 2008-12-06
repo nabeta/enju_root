@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+advertisement_00001:
+  id: 1
+  title: MyString
+  url: MyString
+  body: MyText
+  note: MyText
+  started_at: <%= Time.zone.now %>
+  ended_at: <%= Time.zone.parse(Date.tomorrow.to_s) %>
+  position: 1
+advertisement_00002:
+  id: 2
+  title: MyString
+  url: MyString
+  body: MyText
+  note: MyText
+  started_at: <%= Time.zone.now %>
+  ended_at: <%= Time.zone.parse(Date.tomorrow.to_s) %>
+  position: 2
+advertisement_00003:
+  id: 3
+  title: MyString
+  url: MyString
+  note: MyText
+  body: MyText
+  started_at: <%= Time.zone.now %>
+  ended_at: <%= Time.zone.parse(Date.tomorrow.to_s) %>
+  position: 3

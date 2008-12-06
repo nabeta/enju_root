@@ -1,0 +1,13 @@
+<div id="tag_list">
+  <%- if @manifestation.tags -%>
+    <%- @manifestation.tags.each do |tag| -%>
+      <%= link_to_tag(tag) -%>
+      <%- if_authorized?(:destroy, tag) do -%>
+        <%= link_to image_tag('/icons/tag_blue_edit.png', :alt => t('edit')), tag_path(tag.name) -%>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+  <%- if logged_in? -%>
+    (<%= link_to_remote t('edit'), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'edit', :id => @manifestation.id, :mode => 'tag_edit'}, :method => :get -%>)
+  <%- end -%>
+</div>

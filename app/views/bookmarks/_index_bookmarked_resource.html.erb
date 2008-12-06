@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Bookmark) do -%>
+      <li><%= link_to ('New bookmark'), new_bookmarked_resource_bookmark_path(@bookmarked_resource) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    <%= link_to h(@bookmarked_resource.title), @bookmarked_resource -%>
+  </h1>
+<table>
+  <tr>
+    <th><%= ('User') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+
+<%- for bookmark in @bookmarks -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(bookmark.user.login), user_path(bookmark.user.login) -%></td>
+    <td><%=h bookmark.created_at -%></td>
+    <td><%=h bookmark.updated_at -%></td>
+    <%- if_authorized?(:destroy, bookmark) do -%>
+      <td><%= link_to t('destroy'), bookmarked_resource_bookmark_path(@bookmark.bookmarked_resource, bookmark), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@bookmarks) -%>
+
+</div>

@@ -1,0 +1,25 @@
+<h1><%= ('Listing produces') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Patron') -%></th>
+    <th><%= ('Manifestation') -%></th>
+  </tr>
+  
+<%- for produce in @produces -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(produce.patron.full_name), patron_path(produce.patron) -%></td>
+    <td><%= link_to h(produce.manifestation.original_title), manifestation_path(produce.manifestation) -%></td>
+    <%- if_authorized?(:destroy, produce) do -%>
+      <td><%= link_to t('show'), produce -%></td>
+      <td><%= link_to t('destroy'), produce, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%- if_authorized?(:new, Produce) do -%>
+  <p><%= link_to ('New produce'), new_produce_path -%></p>
+<%- end -%>
+
+<%= will_paginate(@produces) -%>

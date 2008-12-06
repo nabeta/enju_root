@@ -1,0 +1,68 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), search_histories_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b>Operation:</b>
+  <%=h @search_history.operation -%>
+</p>
+
+<p>
+  <b>Version:</b>
+  <%=h @search_history.version -%>
+</p>
+
+<p>
+<b><%= ('Query') -%>:</b>
+<%= link_to h(@search_history.query), manifestations_path(:query => @search_history.query) -%>
+</p>
+
+<p>
+<b><%= ('Start record') -%>:</b>
+  <%=h @search_history.start_record -%>
+</p>
+
+<p>
+<b><%= ('Maximum records') -%>:</b>
+  <%=h @search_history.maximum_records -%>
+</p>
+
+<p>
+  <b>Record packing:</b>
+  <%=h @search_history.record_packing -%>
+</p>
+
+<p>
+  <b>Record schema:</b>
+  <%=h @search_history.record_schema -%>
+</p>
+
+<p>
+  <b>Result set ttl:</b>
+  <%=h @search_history.result_set_ttl -%>
+</p>
+
+<p>
+  <b>Stylesheet:</b>
+  <%=h @search_history.stylesheet -%>
+</p>
+
+<p>
+  <b>Extra request data:</b>
+  <%=h @search_history.extra_request_data -%>
+</p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @search_history.created_at -%>
+</p>
+
+<p>
+<b><%= ('User') -%>:</b>
+  <%=h @search_history.user.login if @search_history.user -%>
+</p>
+
+</div>

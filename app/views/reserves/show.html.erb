@@ -1,0 +1,53 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_user_reserve_path(@reserve.user.login, @reserve) -%></li>
+    <li><%= link_to ('Cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => ('Are you sure?'), :method => :put -%></li>
+    <li><%= link_to t('destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => ('Are you sure?'), :method => :delete -%></li>
+    <li><%= link_to ('Back'), user_reserves_path(@reserve.user.login) -%></li>
+  </ul>
+  <!--
+  <p>TODO: 予約取り消し時に、次の予約者に連絡する</p>
+  -->
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Patron') -%>:</b>
+  <%= link_to h(@reserve.user.login) -%>
+</p>
+
+<p>
+  <b><%= ('Manifestation') -%>:</b><br />
+  <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
+    <%= book_jacket(@reserve.manifestation) -%>
+  <%- end -%>
+  <br />
+  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @reserve.manifestation} -%>
+</p>
+
+<p>
+  <b><%= ('Request status type') -%>:</b>
+  <%=h @reserve.request_status_type.name -%>
+</p>
+
+<p>
+  <b><%= ('Created at') -%>:</b>
+  <%=h @reserve.created_at -%>
+</p>
+
+<p>
+  <b><%= ('Canceled at') -%>:</b>
+  <%=h @reserve.canceled_at -%>
+</p>
+
+<p>
+  <b><%= ('Expired at') -%>:</b>
+  <%=h @reserve.expired_at -%>
+</p>
+
+<p>
+<b><%= ('Checked out at') -%>:</b>
+  <%=h @reserve.checked_out_at -%>
+</p>
+
+</div>

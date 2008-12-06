@@ -1,0 +1,84 @@
+<div id="submenu">
+  <div id="manifestation_book_jacket">
+    <%- cache(:controller => :manifestations, :action => :show, :id => @item.manifestation.id, :action_suffix => 'book_jacket') do -%>
+      <%= book_jacket(@item.manifestation) -%>
+    <%- end -%>
+  </div>
+
+  <ul>
+    <li><%= link_to t('show'), item_path(@item) -%></li>
+    <li><%= link_to ('Back'), manifestation_items_path(@item.manifestation) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing item') -%></h1>
+
+<%= error_messages_for :item -%>
+
+<%- form_for(:item, :url => item_path(@item), :html => { :method => :put }) do |f| -%>
+  <b><%= ('Manifestation') -%></b><br />
+  <div>
+    <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
+      <%- if @item.manifestation -%>
+        <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @item.manifestation} -%>
+      <%- end -%>
+    <%- end -%>
+  </div>
+
+  <p>
+    <b><%= ('Library') -%> / <%= ('Shelf') -%></b><br />
+    <select id="library_id" name="library_id">
+      <%= options_from_collection_for_select(@libraries, "short_name", "name", @item.shelf.library.short_name) -%>
+    </select>
+    <span id="item1">
+      <%= f.select(:shelf_id, @item.shelf.library.shelves.collect{|s| [s.name, s.id]}) -%>
+    </span>
+    <%= observe_field("library_id", :update => "item1", :url => {:controller => 'shelves', :action => 'index', :item_id => @item, :select => true}, :method => :get, :with => "'library_id='+value") -%>
+  </p>
+
+  <p>
+  <b><%= ('Circulation status') -%></b><br />
+    <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
+  </p>
+
+  <p>
+  <b><%= ('Call number') -%></b><br />
+    <%= f.text_field :call_number -%>
+  </p>
+
+  <p>
+  <b><%= ('Price') -%></b><br />
+    <%= f.text_field :price -%>
+  </p>
+
+  <p>
+  <b><%= ('URL') -%></b><br />
+    <%= f.text_field :url, :class => 'resource_url' -%>
+  </p>
+ 
+  <p>
+  <b><%= ('Include supplements') -%></b>
+    <%= f.check_box :include_supplements -%>
+  </p>
+ 
+  <!--
+  <p>
+  <b><%= ('Use restriction') -%></b><br />
+  <%- @use_restrictions.each do |use_restriction| -%>
+    <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
+    <%=h use_restriction.display_name -%><br />
+  <%- end -%>
+  </p>
+  -->
+
+  <p>
+    <b><%= ('Item identifier') -%></b><br />
+    <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
+  </p>
+ 
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+</div>

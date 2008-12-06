@@ -1,0 +1,67 @@
+<div id="submenu">
+  <ul>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Statistics') -%></h1>
+
+  <table>
+    <tr>
+      <td><%= ('Patron') -%></td>
+      <td><%= Patron.count -%></td>
+    </tr>
+    <tr>
+      <td><%= link_to ('User'), :action => :user -%></td>
+      <td><%= User.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Work') -%></td>
+      <td><%= Work.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Expression') -%></td>
+      <td><%= Expression.count -%></td>
+    </tr>
+    <tr>
+      <td><%= link_to ('Manifestation'), :action => :manifestation -%></td>
+      <td><%= Manifestation.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Item') -%></td>
+      <td><%= Item.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Search history') -%></td>
+      <td><%= SearchHistory.count -%></td>
+    </tr>
+    <tr>
+      <td><%= link_to ('Bookmark'), :action => :bookmark -%></td>
+      <td><%= Bookmark.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Tag') -%></td>
+      <td><%= Tag.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Checkout') -%></td>
+      <td><%= Checkout.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Reservation') -%></td>
+      <td><%= Reserve.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Purchase request') -%></td>
+      <td><%= PurchaseRequest.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Question') -%></td>
+      <td><%= Question.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Answer') -%></td>
+      <td><%= Answer.count -%></td>
+    </tr>
+  </table>
+</div>

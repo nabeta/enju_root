@@ -1,0 +1,15 @@
+<div id="submenu">
+  <ul>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Export') -%></h1>
+
+<ul>
+  <li><%= link_to ('Patrons'), formatted_patrons_path(:csv) -%></li>
+  <li><%= link_to ('Events'), formatted_events_path(:csv) -%></li>
+  <li><%= link_to ('Manifestation'), formatted_manifestations_path(:csv) -%></li>
+  <li><%= link_to ('Item'), formatted_items_path(:csv) -%></li>
+</ul>
+</div>

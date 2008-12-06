@@ -1,0 +1,37 @@
+<h1><%= ('Listing answers') -%></h1>
+
+<%- if @question -%>
+  <h1><%= ('Question') -%></h1>
+
+  <p><%= link_to textilize_without_paragraph(h(@question.body)), user_question_path(@question.user.login, @question) -%></p>
+<%- end -%>
+
+<h1><%= ('Answers') -%></h1>
+<table style="width: 100%">
+  <tr>
+    <th><%= ('User') -%></th>
+    <th><%= ('Body') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+  
+<%- @answers.each_with_index do |answer, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(answer.user.login), user_path(answer.user.login) -%></td>
+    <td><%= link_to truncate(h(answer.body), :length => 20), user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
+    <td><%=h answer.created_at -%></td>
+    <td><%=h answer.updated_at -%></td>
+    <%- if_authorized?(:destroy, answer) do -%>
+      <td><%= link_to t('show'), user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
+      <td><%= link_to t('edit'), edit_user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
+      <td><%= link_to t('destroy'), user_question_answer_path(answer.user.login, answer.question, answer), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%- if @question -%>
+  <%= link_to ('New answer'), new_user_question_answer_path(@user.login, @question) -%>
+<%- end -%>

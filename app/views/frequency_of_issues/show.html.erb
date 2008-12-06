@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_frequency_of_issue_path(@frequency_of_issue) -%></li>
+    <li><%= link_to ('Back'), frequency_of_issues_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @frequency_of_issue.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @frequency_of_issue.display_name -%>
+</p>
+
+</div>

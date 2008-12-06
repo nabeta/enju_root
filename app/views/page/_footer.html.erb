@@ -1,0 +1,18 @@
+<%= @config -%>
+<div id="footer">
+
+<%- cache(:controller => :page, :action_suffix => 'footer') do -%>
+<div id="description">
+  "<a href="http://kamata.lib.teu.ac.jp/trac/catalog/">A prototype for Project Next-L</a>",
+  <%= ('open-source integrated library system') -%> |
+  <%= link_to ('About this system'), "/page/about" -%> |
+  <%= link_to ('Report bugs'), "http://kamata.lib.teu.ac.jp/trac/catalog/wiki/HowToReportBugs" -%>
+  <br />
+  Developed by <a href="http://kamata.lib.teu.ac.jp/~tanabe/">Kosuke Tanabe</a> and <a href="http://www.next-l.jp/">Project Next-L</a> |
+  Powered by <a href="http://www.rubyonrails.org/">Ruby on Rails</a>,
+  <%= database_adapter -%>
+  and <a href="http://lucene.apache.org/solr/">Solr</a>
+</div>
+<%- end -%>
+
+</div>

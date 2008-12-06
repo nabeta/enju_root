@@ -1,0 +1,41 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), picture_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New picture_file') -%></h1>
+
+<%= error_messages_for :picture_file -%>
+<%- case when @manifestation -%>
+  <%= render :partial => 'new_manifestation' -%>
+<%- when @event -%>
+  <%= render :partial => 'new_event' -%>
+<%- when @shelf -%>
+  <%= render :partial => 'new_shelf' -%>
+<%- when @patron -%>
+  <%= render :partial => 'new_patron' -%>
+<%- else -%>
+  <%- form_for(:picture_file, :url => picture_files_path, :html => { :multipart => true, :method => :post }) do |f| -%>
+  <p>
+  <b><%= ('Title') -%></b><br />
+  <%= f.text_field :title -%>
+  </p>
+
+  <%= f.hidden_field :picture_attachable_id -%>
+
+  <%= f.hidden_field :picture_attachable_type -%>
+
+  <p>
+  <b><%= ('File') -%></b><br />
+  <%= f.file_field :uploaded_data -%>
+  </p>
+
+  <p>
+    <%= f.submit t('create') -%>
+  </p>
+<%- end -%>
+
+<%- end -%>
+</div>

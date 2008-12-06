@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-script-type" content="text/javascript" />
+  <meta name="keywords" content="library system, open source, ILS, OPAC, ruby on rails" />
+  <meta name="description" content="A prototype for Project Next-L, open-source integrated library system" />
+  <title>
+    <%- if @title -%>
+      <%=h @title -%> - 
+    <%- end -%>
+    <%=h @library_group.display_name -%></title>
+  <%= render :partial => 'page/include' -%>
+  <link rel="search" type="application/opensearchdescription+xml" href="/page/opensearch" title = "<%=h @library_group.display_name -%>" />
+</head>
+<body class="yui-skin-sam" id="yahoo-com">
+
+<%= render :partial => 'page/header' -%>
+
+<div id="content">
+
+<div style="color: green"><%= flash[:notice] -%></div>
+
+<%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
+
+</body>
+</html>

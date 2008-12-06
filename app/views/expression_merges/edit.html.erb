@@ -1,0 +1,30 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @expression_merge -%></li>
+    <li><%= link_to ('Back'), expression_merges_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing expression_merge') -%></h1>
+
+<%= error_messages_for :expression_merge -%>
+
+<%- form_for(@expression_merge) do |f| -%>
+
+  <p>
+  <b><%= ('Expression') -%></b><br />
+  <%= f.text_field :expression_id, :value => @expression_merge.expression_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Expression merge list') -%></b><br />
+  <%= f.text_field :expression_merge_list_id, :value => @expression_merge.expression_merge_list_id -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

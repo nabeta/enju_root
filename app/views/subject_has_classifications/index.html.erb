@@ -1,0 +1,27 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('New subject_has_classification'), new_subject_has_classification_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing subject_has_classifications') -%></h1>
+
+<table>
+  <tr>
+    <th><%= ('Subject') -%></th>
+    <th><%= ('Classification') -%></th>
+  </tr>
+
+<%- for subject_has_classification in @subject_has_classifications -%>
+  <tr>
+    <td><%=h subject_has_classification.subject_id -%></td>
+    <td><%=h subject_has_classification.classification_id -%></td>
+    <td><%= link_to t('show'), subject_has_classification -%></td>
+    <td><%= link_to t('edit'), edit_subject_has_classification_path(subject_has_classification) -%></td>
+    <td><%= link_to t('destroy'), subject_has_classification, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+</div>

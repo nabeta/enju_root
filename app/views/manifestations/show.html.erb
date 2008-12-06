@@ -1,0 +1,370 @@
+<div id="submenu">
+  <div id="manifestation_book_jacket">
+    <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
+      <%= book_jacket(@manifestation) -%>
+    <%- end -%>
+  </div>
+
+  <%- if logged_in? -%>
+    <div id="call_number_content">
+      <%- for item in @manifestation.items -%>
+        <%- if item.hold?(current_user.library) -%>
+          <%= call_number_label(item) -%>
+        <%- end -%>
+      <%- end -%>
+    </div>
+  <%- end -%>
+
+  <div id="manifestation_bookmark_buttons">
+    <%- if logged_in? -%>
+      <ul>
+        <%- if @manifestation.bookmarked_resource -%>
+          <%- if @manifestation.bookmarked_resource.bookmarked?(current_user) -%>
+            <li><%= link_to ('Delete this bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => ('Are you sure?'), :method => :delete -%></li>
+          <%- end -%>
+        <%- else -%>
+          <li><%= link_to ('Add to bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
+        <%- end -%>
+
+      <%- unless @manifestation.manifestation_form.name == 'file' -%>
+        <li>
+          <%- if current_user.has_role?('Librarian') -%>
+            <%= link_to ('Reserve this manifestation'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
+          <%- else -%>
+            <%- if @manifestation.reserved?(current_user) -%>
+              <%= link_to ('Cancel reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
+            <%- else -%>
+              <%= link_to ('Reserve this manifestation'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
+            <%- end -%>
+          <%- end -%>
+          <br />
+          (<%= ('%{count} user') -%>)
+        </li>
+      <%- end -%>
+      </ul>
+
+      <%- if current_user.has_role?('Librarian') -%>
+        <ul>
+          <%- case when @expression -%>
+            <li><%= link_to ('Edit manifestations'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
+          <%- when @patron -%>
+            <li><%= link_to ('Edit manifestations'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
+          <%- else -%>
+            <li><%= link_to ('Edit manifestations'), edit_manifestation_path(@manifestation) -%></li>
+          <%- end -%>
+          <ul>
+            <li><%= link_to ('Edit publishers'), manifestation_patrons_path(@manifestation) -%></li>
+            <%- if @manifestation.serial? -%>
+              <li><%= link_to ('Add next issue'), new_expression_manifestation_path(@manifestation.serial) -%></li>
+            <%- end -%>
+          </ul>
+          <li><%= link_to ('Edit expressions'), manifestation_expressions_path(@manifestation) -%></li>
+          <li><%= link_to ('Edit items'), manifestation_items_path(@manifestation) -%></li>
+        </ul>
+      <%- end -%>
+    <%- end -%>
+    </div>
+  </div>
+
+  <div id="content_detail">
+    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+      <div>
+        <%= paginate_id_link(@manifestation) -%>
+        <%= link_to ('Back to search results'), back_to_manifestation_index -%>
+        <!--
+        <%= ('Search term') -%>:
+        <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 20em'} -%>
+        <%= submit_tag h(('Search')) -%>
+        <%= link_to h(('Advanced search')), '/page/advanced_search' -%>
+        -->
+    </div>
+  <%- end -%>
+
+<!-- cache start -->
+<%
+  cache(:id => @manifestation.id, :action_suffix => 'detail') do
+%>
+    <%= render :partial => 'manifestation_patrons_list' -%>
+
+  <div id="tabview">
+
+<div id="demo" class="yui-navset yui-navset-top">
+  <ul class="yui-nav">
+    <li title="active" class="selected"><a href="#tab1"><em><%= ('Detail') -%></em></a></li>
+    <%- if @manifestation.related_works.size > 0 -%>
+      <li><a href="#tab3"><em><%= ('Related works') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
+    <%- end -%>
+    <%- if @manifestation.related_manifestations.size > 0 -%>
+      <li><a href="#tab4"><em><%= ('Related resources') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
+    <%- end -%>
+    <%- unless @amazon_reviews.blank? -%>
+      <li><a href="#tab6"><em><%= ('Amazon review') -%></em></a></li>
+    <%- end -%>
+  </ul>            
+  <div class="yui-content">
+    <div id="tab1">
+    <%- if @manifestation.isbn -%>
+      <%= render :partial => 'google_book_search' -%>
+    <%- end -%>
+
+    <table id="manifestation_detail">
+      <%- if @manifestation.youtube_id or @manifestation.nicovideo_id -%>
+      <tr>
+        <td style="width: 200px"><%=h ('Video') -%>:</td>
+        <td>
+          <%- if @manifestation.youtube_id -%>
+            <%= render :partial => 'youtube' -%>
+          <%- elsif @manifestation.nicovideo_id -%>
+            <%= render :partial => 'nicovideo' -%>
+          <%- end -%>
+        </td>
+      </tr>
+    <%- end -%>
+    <%- if @manifestation.serial -%>
+      <tr>
+        <td style="width: 200px"><%=h ('Serial') -%>:</td>
+        <td><%= serial_title_link(@manifestation) -%>
+          <%- if @manifestation.serial.issn? -%>
+            (ISSN: <%=h @manifestation.serial.issn -%>)
+          <%- end -%>
+        </td>
+      </tr>
+      <tr>
+        <td><%=h ('Number') -%>:</td>
+        <td>
+          <%- unless @manifestation.volume_number.blank? -%>
+            <%= ('Volume number') -%>: <%=h @manifestation.volume_number.join("/") -%>
+          <%- end -%>
+          <%- unless @manifestation.issue_number_list.blank? -%>
+            <%= ('Issue number') -%>: <%=h @manifestation.issue_number.join("/") -%>
+          <%- end -%>
+          <%- unless @manifestation.serial_number_list.blank? -%>
+            <%= ('Serial number') -%>: <%=h @manifestation.serial_number.join("/") -%>
+          <%- end -%>
+        </td>
+      </tr>
+    <%- end -%>
+    <tr>
+      <td style="width: 200px"><%=h ('Form') -%>:</td>
+      <td>
+        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name -%>
+      </td>
+    </tr>
+    <tr>
+      <td><%=h ('Language') -%>:</td>
+      <td><%= language_list(@manifestation.languages) -%></td>
+    </tr>
+    <tr>
+      <td><%=h ('Physical description') -%>:</td>
+      <td>
+        <%- if @manifestation.number_of_pages -%>
+          <%=h @manifestation.number_of_pages -%> p. 
+          (<%=h @manifestation.start_page -%> - <%=h @manifestation.end_page -%>)
+        <%- end -%>
+        <%- if @manifestation.height -%>
+          <%=h @manifestation.height -%> cm.
+        <%- end -%>
+      </td>
+    </tr>
+    <tr>
+      <td><%= ('Price') -%></td>
+      <td><%= @manifestation.price -%></td>
+    </tr>
+    <tr>
+      <td><%=h ('Subject') -%>:</td>
+      <td>
+        <%- for subject in @manifestation.subjects -%>
+          <%= link_to h(subject.term), subject -%>
+          <%= link_to image_tag('/icons/page_edit.png', :alt => t('edit')), subject -%>
+        <%- end -%>
+        <%- if logged_in? and current_user.has_role?('Librarian') -%>
+          (<%= link_to t('edit'), manifestation_subjects_path(@manifestation) -%>)
+        <%- end -%>
+      </td>
+    </tr>
+    <tr>
+      <td><%=h ('Tag') -%>:
+      </td>
+      <td>
+        <%= render :partial => 'tag_list' -%>
+      </td>
+    </tr>
+    <%- unless @manifestation.serial? -%>
+      <tr>
+        <td>ISBN:</td>
+        <td>
+          <%- if @manifestation.isbn -%>
+            <%=h @manifestation.isbn -%>
+            <%- if @manifestation.isbn10 -%>
+              ( <%=h @manifestation.isbn10 -%> )
+            <%- end -%>
+          <%- end -%>
+        </td>
+      </tr>
+    <%- end -%>
+    <%- unless @manifestation.attachment_files.blank? -%>
+      <tr>
+        <td><%= ('Attachment files') -%>:</td>
+        <td><%= render :partial => 'attachment_files' -%></td>
+      </tr>
+    <%- end -%>
+    <tr>
+      <td><%= ('Note') -%>:</td>
+      <td><%= textilize_without_paragraph(h(@manifestation.note)) -%></td>
+    </tr>
+    </table>
+
+      <%- unless @manifestation.items_on_shelves.blank? -%>
+        <table style="width: 100%">
+          <tr>
+            <th><%=h ('Library') -%></th>
+            <th><%=h ('Shelf') -%></th>
+            <th><%=h ('Call number') -%></th>
+            <th><%=h ('Item identifier') -%></th>
+            <th><%=h ('Circulation status') -%></th>
+            <!--
+            <th><%=h ('Request') -%></th>
+            -->
+          </tr>
+          <%- for item in @manifestation.items -%>
+            <%- unless (item.shelf.blank? or item.shelf.web_shelf?) -%>
+              <tr>
+                <td>
+                  <%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name)%>
+                </td>
+                <td><%= link_to h(item.shelf.name), library_shelf_path(item.shelf.library.short_name, item.shelf) -%></td>
+                <td>
+                  <%=h item.call_number -%>
+                </td>
+                <td>
+                  <%= link_to h(item.item_identifier), item -%>
+                </td>
+                <td>
+                  <%=h item.circulation_status.display_name if item.circulation_status -%>
+                  <%- if item.rent? -%>
+                    (
+                      <%= ('Due date') -%>:
+                      <%=h item.checkouts.first.due_date.strftime('%Y-%m-%d') -%>
+                    )
+                  <%- end -%>
+                </td>
+                <!--
+                <td>
+                  <%- if logged_in? -%>
+                    <%= link_to h(('Request')), new_user_reserve_path(current_user.login, :item_id => item.id) unless item.shelf.library == current_user.library -%>
+                  <%- end -%>
+                </td>
+                -->
+              </tr>
+            <%- end -%>
+          <%- end -%>
+        </table>
+      <%- end -%>
+      <%- if @manifestation.bookmarks -%>
+        <h4>この資料をブックマークしているパトロン</h4>
+        <%= render :partial => 'bookmarks_for_this_manifestation' -%>
+      <%- end -%>
+    </div>
+    <%- if @manifestation.related_works.size > 0 -%>
+      <div id="tab3">
+      <%- unless @manifestation.related_works.blank? -%>
+        <ul>
+          <%- @manifestation.related_works.each do |work| -%>
+            <li>
+              <%- if work.serials.blank? -%>
+                [W] <%= link_to h(work.original_title), work_path(work) -%>
+                <%- work.expressions.each do |e| -%>
+                  <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                <%- end -%>
+                <%= patrons_list(work.patrons, :link => true) -%>
+                <ul>
+                  <%- work.manifestations.each do |manifestation| -%>
+                      <%- unless @manifestation == manifestation -%>
+                        <li>
+                          [M]
+                          <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                          <%= form_icon(manifestation.manifestation_form) -%>
+                          <%- manifestation.expressions.each do |e| -%>
+                            <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                          <%- end -%>
+                          <%= patrons_list(manifestation.authors) -%>
+                          <%= patrons_list(manifestation.editors) -%>
+                          <%= patrons_list(manifestation.patrons) -%>
+                          <%- if manifestation.date_of_publication -%>
+                            (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                          <%- end -%>
+                        </li>
+                      <%- end -%>
+                  <%- end -%>
+                </ul>
+              <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+      <%- end -%>
+    </div>
+    <%- end -%>
+    <%- if @manifestation.related_manifestations.size > 0 -%>
+    <div id="tab4">
+      <%- unless @manifestation.related_manifestations.blank? -%>
+        <ul>
+          <%- @manifestation.related_manifestations.each do |manifestation| -%>
+            <%- unless manifestation == @manifestation -%>
+              <li>
+                [M] <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                <%= form_icon(manifestation.manifestation_form) -%>
+                <%- manifestation.expressions.each do |e| -%>
+                  <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                <%- end -%>
+                <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
+                <%= patrons_list(manifestation.authors, :link => true) -%>
+                <%= patrons_list(manifestation.editors, :link => true) -%>
+                <%= patrons_list(manifestation.patrons, :link => true) -%>
+                <%- if manifestation.date_of_publication -%>
+                  (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                <%- end -%>
+                <%- unless manifestation.works.blank? -%>
+                  <ul>
+                    <%- manifestation.works.each do |work| -%>
+                        <li>
+                          [W]
+                          <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
+                          <%= link_to h(work.original_title), work_path(work) -%>
+                          <%- work.expressions.each do |e| -%>
+                            <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                          <%- end -%>
+                          <%= patrons_list(work.patrons, :link => true) -%>
+                        </li>
+                    <%- end -%>
+                  </ul>
+                <%- end -%>
+              </li>
+            <%- end -%>
+          <%- end -%>
+        </ul>
+      <%- end -%>
+    </div>
+    <%- end -%>
+    <!--
+    <div id="tab5">
+    </div>
+    -->
+    <%- if @amazon_reviews.size > 0 -%>
+      <div id="tab6">
+        <p><%= link_to ('These reviews are from Amazon.com.'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
+        <%- @amazon_reviews.each do |comment| -%>
+          <div class="amazon_summary"><strong><%=h comment[:summary] -%></strong> (<%=h comment[:date] -%>)</div>
+          <p><%= h(comment[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
+        <%- end -%>
+      </div>
+    <%- end -%>
+  </div>
+</div>
+<%= render :partial => 'page/tabview' -%>
+<!-- cache end -->
+    <%
+      end
+    -%>
+</div>
+
+</div>

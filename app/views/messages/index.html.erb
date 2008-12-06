@@ -1,0 +1,36 @@
+<div id="submenu">
+  <ul>
+    <li><%= rezm_link_to_inbox -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= rezm_link_to_create_message -%></li>
+      <li><%= rezm_link_to_outbox -%></li>
+    <%- end -%>
+    <li><%= rezm_link_to_trash_bin -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Messages') -%></h1>
+<%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
+  <table style="width: 100%">
+    <tr>
+      <th></th>
+      <th><%= ('Subject') -%></th>
+      <th><%= rezm_sender_or_receiver_label -%></th>
+      <th><%= ('Sent') -%></th>
+    </tr>
+  <%- for message in @messages  -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= rezm_delete_check_box(message) -%></td>
+      <td><%= rezm_link_to_message(message) -%></td>
+      <td><%= rezm_sender_or_receiver(message) -%></td>
+      <td><%= rezm_sent_at(message) -%></td>  
+    </tr>
+  <%- end -%>
+    <tr>
+      <td colspan="4"><%= submit_tag ('Delete') -%></td>
+    </tr>
+  </table>
+<%- end -%>
+<%= will_paginate(@messages) -%>
+</div>

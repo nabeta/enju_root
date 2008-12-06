@@ -1,0 +1,21 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to statistics index'), :action => 'index' -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Manifestation statistics') -%></h1>
+  <table style="width: 100%">
+    <tr>
+      <td><%= ('Manifestation') -%></td>
+      <td><%=h Manifestation.count -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Produce') -%></td>
+      <td><%=h Produce.count -%></td>
+    </tr>
+  </table>
+
+  <p><%= link_to ('Manifestations most checked out'), :action => :manifestation, :report => 'most_checked_out' -%></p>
+</div>

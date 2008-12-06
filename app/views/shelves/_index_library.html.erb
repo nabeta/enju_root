@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Shelf) do -%>
+      <li><%= link_to ('New shelf'), new_library_shelf_path(@library.short_name) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing shelves') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <th><%= ('Library') -%></th>
+  </tr>
+  
+<%- @shelves.each_with_index do |shelf, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(shelf.name), shelf -%></td>
+    <td><%= link_to h(shelf.library.name), library_path(shelf.library.short_name) -%></td>
+    <%- if_authorized?(:destroy, shelf) do -%>
+      <td><%= link_to t('edit'), edit_library_shelf_path(shelf.library.short_name, shelf) -%></td>
+      <td><%= link_to t('destroy'), shelf_path(shelf), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= shelf.first? ? '' : link_to('▲', {:action => 'update', :position  => (shelf.position  > 1 ? shelf.position - 1 : 1), :id => shelf.id}, :method => :put) -%></td>
+      <td><%= shelf.last? ? '' : link_to('▼', {:action => 'update', :position => (shelf.position + 1), :id => shelf.id}, :method => :put) -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+<%= will_paginate(@shelves) -%>
+</div>

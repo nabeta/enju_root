@@ -1,0 +1,14 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Checkout'), new_basket_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing checkins') -%></h1>
+
+  <div id="checkin_list">
+    <%= render :partial => 'list' -%>
+  </div>
+
+</div>

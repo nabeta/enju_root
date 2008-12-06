@@ -1,0 +1,9 @@
+class Twitter < ActiveResource::Base
+  #USER = "your_twitter_account"
+  #PASS = "your_twitter_password"
+  self.site = "http://#{USER}:#{PASS}@twitter.com"
+  self.logger = Logger.new($stderr)
+
+  class Twitter::Status < Twitter
+  end
+end

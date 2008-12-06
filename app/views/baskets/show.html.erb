@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_user_basket_path(@basket.user.login, @basket) -%></li>
+    <li><%= link_to ('Back'), user_baskets_path(@basket.user.login) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <p>
+    <b><%= ('User') -%>:</b>
+    <%=h @basket.user.login -%>
+  </p>
+
+  <p>
+    <b><%= ('Note') -%>:</b>
+    <%=h @basket.note -%>
+  </p>
+</div>
+

@@ -1,0 +1,24 @@
+<div id="left_pane">
+  <div id="user_box">
+    <h1><%= link_to h(@user.login), edit_user_path(@user.login) -%></h1>
+    <%- if flash[:temporary_password] -%>
+      <p><%= ('Your temporary password is') -%>: </p>
+      <p style="font-size: 200%"><%=h flash[:temporary_password] -%></p>
+    <%- end -%>
+    <ul>
+      <li><%= link_to ('Send a message'), new_user_message_path(current_user.login, :recipient => @user.login) -%></li>
+    </ul>
+  </div>
+</div>
+
+<div id="right_pane">
+  <div id="tag_cloud_box">
+    <h3><%= ('Tag cloud') -%></h3>
+    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => @user.login) do -%>
+      <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
+    <%- end -%>
+    <p>(<%= link_to ('Listing tags'), tags_path -%>)</p>
+  </div>
+
+</div>
+

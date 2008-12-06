@@ -1,0 +1,25 @@
+<h1><%= ('Listing inventories') -%> </h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Inventory file') -%> </th>
+    <th><%= ('Item') -%> </th>
+    <th><%= ('Note') -%> </th>
+  </tr>
+
+<%- for inventory in @inventories -%> 
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h inventory.inventory_file_id -%> </td>
+    <td><%=h inventory.item_id -%> </td>
+    <td><%=h inventory.note -%> </td>
+    <td><%= link_to t('show'), inventory -%> </td>
+    <td><%= link_to t('edit'), edit_inventory_path(inventory) -%> </td>
+    <td><%= link_to t('destroy'), inventory, :confirm => ('Are you sure?'), :method => :delete -%> </td>
+  </tr>
+<%- end -%> 
+</table>
+
+<%= link_to ('New inventory'), new_inventory_path -%>
+
+<%= will_paginate(@inventories) -%>
+

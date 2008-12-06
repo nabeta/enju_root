@@ -1,0 +1,27 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @news_feed -%></li>
+    <li><%= link_to ('Back'), news_feeds_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing news_feed') -%></h1>
+
+<%- form_for(@news_feed) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :title -%><br />
+    <%= f.text_field :title, :class => 'resource_class' -%>
+  </p>
+  <p>
+    <%= f.label :url -%><br />
+    <%= f.text_field :url, :class => 'resource_url' -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), reify_path(@reify) -%></li>
+    <li><%= link_to ('Back'), reifies_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing reify') -%></h1>
+
+<%= error_messages_for :reify -%>
+
+<%- form_for(:reify, :url => reify_path(@reify), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Work') -%></b><br />
+    <%= f.text_field :work_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Expression') -%></b><br />
+    <%= f.text_field :expression_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

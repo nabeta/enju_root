@@ -1,0 +1,350 @@
+body{
+  margin-left: 5px;
+  margin-right: 5px;
+  text-align: left;
+  width: 920px;
+}
+
+a:hover { color: #fff; background-color:#B3D4FF; }
+
+strong{
+  font-weight: bold;
+}
+
+div#narrow_search, div#narrow_library_search{
+  margin-top: 1em;
+}
+.line0{
+  background: #D6ECFA;
+}
+.line1{
+  background: white;
+}
+.overdue{
+  color: red;
+}
+.duedate_is_today{
+  color: blue;
+}
+.in_checkout{
+  color: black;
+}
+
+div#navibar, div#bd{
+  padding-left: 2px;
+}
+
+div#navibar{
+  clear: both;
+  width: 100%;
+}
+
+div#content{
+  padding-left: 4px;
+  clear: both;
+  width: 922px;
+}
+
+div#result_list{
+  width: 700px;
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+  border: 1px solid #5970B2;
+  margin-top: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+div#sidebar{
+  margin-left: 10px;
+  width: 188px;
+  float: left;
+  padding: 5px;
+  border: 1px solid #5970B2;
+  margin-top: 5px;
+}
+
+div#header{
+  padding: 2px;
+  width: 100%;
+  clear: both
+}
+
+div#header_left, div#navibar_left{
+  width: 300px;
+  float: left;
+  padding-left: 2px;
+  padding-right: 2px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+div#header_advertisement{
+  width: 430px;
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+div#header_right, div#navibar_right{
+  width: 160px;
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+div#search_footer{
+  clear: both;
+}
+
+div#submenu{
+  width: 216px;
+  padding-top: 1em;
+  float: left;
+}
+
+div#manifestation_book_jacket{
+  text-align: center;
+  margin-top: 2em;
+}
+
+div#manifestation_bookmark_buttons{
+  clear: both;
+  margin-top: 1em;
+}
+
+div#content_detail{
+  width: 700px;
+  float: left;
+  margin-bottom: 1em;
+  padding-left: 6px;
+  padding-top: 1em;
+}
+
+div#manifestation_footer{
+  margin-top: 1em;
+  clear: both;
+}
+
+div#related_works{
+  height: 100px;
+}
+
+div#expression_content, div#manifestation_content{
+  border: 1px solid #5970B2;
+}
+
+div#patron_content{
+  float: left;
+  width: 40%;
+  padding-left: 2em;
+}
+
+div#body{
+  margin-top: 1em;
+}
+
+div#left_pane{
+  margin-top: 1em;
+  float: left;
+  width: 456px;
+  word-break: break-all;
+}
+
+div#right_pane{
+  margin-top: 1em;
+  float: left;
+  margin-left: 10px;
+  width: 456px;
+  word-break: break-all;
+}
+
+div#footer{
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-left: 0em;
+  margin-right: 0em;
+  clear: both;
+}
+
+h1{
+  font-size: 180%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+h2{
+  font-size: 160%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+h3{
+  font-size: 150%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+form{
+  padding: 0;
+}
+
+table{
+  border: 1px solid #5970B2;
+}
+
+td, th{
+  border: 1px solid #5970B2;
+  padding: 5px;
+  word-break: break-all
+}
+
+table#manifestation_list{
+  width: 100%;
+}
+
+div#searchform{
+  padding-top: 10px;
+}
+
+table#manifestation_detail{
+  width: 100%;
+}
+
+td#manifestation_item{
+  width: 20%;
+}
+
+td#manifestation_data{
+  width: 80%;
+}
+
+li.yuimenubaritem{
+  width: 130px;
+}
+
+div#services{
+  width: 920px;
+}
+
+div#bookmarks_for_manifestation{
+  border: 1px solid #5970B2;
+}
+
+div#user_search_form, div#message_box, div#news_feed_box, div#user_box{
+  padding: 10px;
+  border: 1px solid #5970B2;
+  margin-bottom: 10px;
+}
+
+div#picked_up_box{
+  padding: 10px;
+  border: 1px solid #5970B2;
+  margin-bottom: 10px;
+}
+
+div#tag_cloud_box{
+  padding: 10px;
+  border: 1px solid #5970B2;
+}
+
+img{
+  border: 0;
+}
+
+div#tabview{
+  margin-top: 1em;
+}
+
+div#call_number_content{
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+div#call_number_content_left{
+  float: left
+  width: 20px;
+}
+
+div#call_number_content_right{
+  float: left
+  width: 20px;
+}
+
+table#call_number_label{
+  border: solid 1px green;
+}
+
+.call_number_table{
+  margin-left: auto;
+  margin-right: auto;
+  border: 0;
+}
+
+.call_number_label{
+  border: solid 1px green;
+  width: 50px;
+  padding: 0px;
+  text-align: center;
+}
+
+li{
+  line-height: 2em;
+}
+
+input.resource_title{
+  width: 30em;
+}
+
+input.resource_email{
+  width: 20em;
+}
+
+input.resource_url{
+  width: 40em;
+}
+
+input.resource_isbn_issn, input.resource_item_identifier, input.resource_user_number{
+  width: 15em;
+  ime-mode: disabled;
+}
+
+input.resource_integer{
+  width: 5em;
+  ime-mode: disabled;
+}
+
+input.year_field, input.month_field, input.day_field{
+  width: 5em;
+  ime-mode: disabled;
+}
+
+textarea.resource_textarea{
+  width: 40em;
+  height: 10em;
+}
+
+th.checked_item_title{
+  width: 400px;
+}
+
+div#description{
+  margin-left: 1em;
+}
+
+.error_message{
+  color: red;
+}
+
+div.holding{
+  margin-top: 10px;
+}
+/* .yui-skin-sam .yui-navset .yui-content{background:white;} */

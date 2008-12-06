@@ -1,0 +1,36 @@
+<h1><%= ('Listing inter_library_loans') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Item') -%></th>
+    <th><%= ('Library') -%></th>
+    <th><%= ('Borrowing library') -%></th>
+    <th><%= ('Shipped at') -%></th>
+    <th><%= ('Received at') -%></th>
+  </tr>
+
+<%- for inter_library_loan in @inter_library_loans -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(inter_library_loan.item.item_identifier), inter_library_loan.item -%>
+      <br />
+      (<%= link_to h(inter_library_loan.item.manifestation.original_title), inter_library_loan.item.manifestation -%>)
+    </td>
+    <td><%= link_to h(inter_library_loan.item.shelf.library.name), library_path(inter_library_loan.item.shelf.library.short_name) -%></td>
+    <td><%= link_to h(inter_library_loan.borrowing_library.name), library_path(inter_library_loan.borrowing_library.short_name) -%></td>
+    <td><%=h inter_library_loan.shipped_at -%></td>
+    <td><%=h inter_library_loan.received_at -%></td>
+    <%- if_authorized?(:destroy, inter_library_loan) do -%>
+      <td><%= link_to t('show'), inter_library_loan -%></td>
+      <td><%= link_to t('edit'), edit_inter_library_loan_path(inter_library_loan) -%></td>
+      <td><%= link_to t('destroy'), inter_library_loan, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%- if_authorized?(:new, InterLibraryLoan) do -%>
+  <%= link_to ('New inter_library_loan'), new_inter_library_loan_path -%>
+<%- end -%>

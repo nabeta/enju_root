@@ -1,0 +1,34 @@
+<h1><%= ('Listing checkout_types') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <th><%= ('Display name') -%></th>
+    <th><%= ('Note') -%></th>
+  </tr>
+
+<%- for checkout_type in @checkout_types -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(checkout_type.name), checkout_type -%></td>
+    <td><%= link_to h(checkout_type.display_name), checkout_type -%></td>
+    <td><%=h checkout_type.note -%></td>
+    <td><%= link_to t('show'), checkout_type -%></td>
+    <td><%= link_to t('edit'), edit_checkout_type_path(checkout_type) -%></td>
+    <td><%= link_to t('destroy'), checkout_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- unless @user_group -%>
+      <%- if_authorized?(:desroy, checkout_type) do -%>
+        <td><%= checkout_type.first? ? '' : link_to('▲', {:action => 'update', :position  => (checkout_type.position  > 1 ? checkout_type.position - 1 : 1), :id => checkout_type.id}, :method => :put) -%></td>
+        <td><%= checkout_type.last? ? '' : link_to('▼', {:action => 'update', :position => (checkout_type.position + 1), :id => checkout_type.id}, :method => :put) -%></td>
+      <%- end -%>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%- if @user_group -%>
+  <%= link_to ('Add a checkout_type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%>
+<%- else -%>
+  <%= link_to ('New checkout_type'), new_checkout_type_path -%>
+<%- end -%>

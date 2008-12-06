@@ -1,0 +1,41 @@
+<div id="submenu">
+  <ul>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing tags') -%></h1>
+
+<p><%= ('Order by') -%>:
+  <%= link_to ('name'), tags_path(:order => 'name') -%>
+  <%= link_to ('taggings_count'), tags_path(:order => 'taggings_count') -%>
+  <%= link_to ('created_at'), tags_path(:order => 'created_at') -%>
+</p>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <!--
+    <th><%= ('Link') -%></th>
+    -->
+    <th><%= ('Taggings count') -%></th>
+    <th><%= ('Created at') -%></th>
+  </tr>
+<%- for tag in @tags -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(tag.name), tag_path(tag.name) -%>
+    </td>
+    <!--
+    <td>
+      <%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(tag.name) -%>
+    </td>
+    -->
+    <td><%=h tag.taggings_count -%></td>
+    <td><%=h tag.created_at -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@tags) -%>
+</div>

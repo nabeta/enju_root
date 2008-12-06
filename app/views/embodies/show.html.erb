@@ -1,0 +1,18 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to expressions'), manifestation_expressions_path(@embody.manifestation) -%></li>
+    <li><%= link_to ('Back to manifestations'), expression_manifestations_path(@embody.expression) -%></li>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Expression') -%>:</b>
+  <%= link_to h(@embody.expression.original_title), expression_path(@embody.expression) -%>
+</p>
+
+<p>
+<b><%= ('Manifestation') -%>:</b>
+  <%= link_to h(@embody.manifestation.original_title), manifestation_path(@embody.manifestation) -%>
+</p>
+
+</div>

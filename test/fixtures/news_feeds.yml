@@ -1,0 +1,20 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+news_feed_00001:
+  id: 1
+  title: "Project Next-L Wiki"
+  url: "http://next-l.slis.keio.ac.jp/wiki/wiki.cgi?action=RSS"
+  body:
+  position: 1
+news_feed_00002:
+  id: 2
+  title: "Kosuke Tanabe's diary"
+  url: "http://kamata.lib.teu.ac.jp/~tanabe/diary/index.rdf"
+  body: 
+  position: 2
+news_feed_00003:
+  id: 3
+  title: "Not a feed"
+  url: "http://www.slis.keio.ac.jp/"
+  body: 
+  position: 3

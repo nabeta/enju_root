@@ -1,0 +1,26 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('New expression_merge_list'), new_expression_merge_list_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing expression_merge_lists') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th></th>
+  </tr>
+
+<%- for expression_merge_list in @expression_merge_lists -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(expression_merge_list.title), expression_merge_list -%></td>
+    <td><%= link_to t('show'), expression_merge_list -%></td>
+    <td><%= link_to t('edit'), edit_expression_merge_list_path(expression_merge_list) -%></td>
+    <td><%= link_to t('destroy'), expression_merge_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+</div>

@@ -1,0 +1,120 @@
+--- 
+shelf_00005: 
+  name: !binary |
+    55Sw6L6644Gu5py6
+
+  updated_at: 2008-01-08 01:23:15.995345 +09:00
+  deleted_at: 
+  id: 5
+  note: !binary |
+    55Sw6L6644Gu5py644Gn44GZ44CC5o6i44GZ44Gu44Gr5pmC6ZaT44GM44GL
+    44GL44KK44G+44GZ44CC
+
+  library_id: 2
+  created_at: 2008-01-07 14:01:38.661870 +09:00
+  position: 5
+shelf_00010: 
+  name: "4\xE9\x9A\x8E\xE6\x96\xB0\xE7\x9D\x80\xE6\xA3\x9A"
+  updated_at: 2008-01-09 04:07:58.531285 +09:00
+  deleted_at: 
+  id: 10
+  note: ""
+  library_id: 3
+  created_at: 2008-01-09 04:07:58.531285 +09:00
+  position: 10
+shelf_00011: 
+  name: "4\xE9\x9A\x8E\xE9\x9B\x91\xE8\xAA\x8C\xE6\xA3\x9A"
+  updated_at: 2008-01-09 04:08:43.248073 +09:00
+  deleted_at: 
+  id: 11
+  note: ""
+  library_id: 3
+  created_at: 2008-01-09 04:08:43.248073 +09:00
+  position: 11
+shelf_00001: 
+  name: (not specified)
+  updated_at: 2008-01-07 15:12:41.750966 +09:00
+  deleted_at: 
+  id: 1
+  note: ""
+  library_id: 1
+  created_at: 2007-11-19 16:58:35.709671 +09:00
+  position: 1
+shelf_00012: 
+  name: "4\xE9\x9A\x8E\xE5\x8C\x97\xE5\x81\xB4"
+  updated_at: 2008-01-09 04:10:28.552823 +09:00
+  deleted_at: 
+  id: 12
+  note: ""
+  library_id: 3
+  created_at: 2008-01-09 04:10:28.552823 +09:00
+  position: 12
+shelf_00013: 
+  name: "4\xE9\x9A\x8E\xE5\x8D\x97\xE5\x81\xB4"
+  updated_at: 2008-01-09 04:10:44.907652 +09:00
+  deleted_at: 
+  id: 13
+  note: ""
+  library_id: 3
+  created_at: 2008-01-09 04:10:44.907652 +09:00
+  position: 13
+shelf_00002: 
+  name: !binary |
+    5aWl44Gu6ZuR6KqM5p62
+
+  updated_at: 2008-01-11 00:28:47.828324 +09:00
+  deleted_at: 
+  id: 2
+  note: ""
+  library_id: 2
+  created_at: 2007-11-19 16:58:35.723438 +09:00
+  position: 2
+shelf_00014: 
+  name: !binary |
+    55yf44KT5Lit44Gu6ZuR6KqM5p62
+
+  updated_at: 2008-01-11 00:27:23.943230 +09:00
+  deleted_at: 
+  id: 14
+  note: ""
+  library_id: 2
+  created_at: 2008-01-11 00:27:23.943230 +09:00
+  position: 14
+shelf_00003: 
+  name: "6\xE5\x8F\xB7\xE9\xA4\xA8"
+  updated_at: 2008-01-07 14:50:01.510414 +09:00
+  deleted_at: 
+  id: 3
+  note: ""
+  library_id: 2
+  created_at: 2008-01-07 13:59:46.209044 +09:00
+  position: 3
+shelf_00004: 
+  name: "8\xE5\x8F\xB7\xE9\xA4\xA8"
+  updated_at: 2008-01-07 14:50:14.070124 +09:00
+  deleted_at: 
+  id: 4
+  note: ""
+  library_id: 2
+  created_at: 2008-01-07 14:00:49.431782 +09:00
+  position: 4
+shelf_00015: 
+  name: !binary |
+    5omL5YmN44Gu6ZuR6KqM5p62
+
+  updated_at: 2008-01-11 00:27:49.870704 +09:00
+  deleted_at: 
+  id: 15
+  note: ""
+  library_id: 2
+  created_at: 2008-01-11 00:27:49.870704 +09:00
+  position: 15
+shelf_00017: 
+  name: Web
+  updated_at: 2008-01-11 00:27:49.870704 +09:00
+  deleted_at: 
+  id: 17
+  note: ""
+  library_id: 1
+  created_at: 2008-01-11 00:27:49.870704 +09:00
+  position: 17

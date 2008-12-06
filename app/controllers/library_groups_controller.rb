@@ -1,0 +1,85 @@
+class LibraryGroupsController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+  require_role 'Administrator', :except => [:index, :show]
+
+  # GET /library_groups
+  # GET /library_groups.xml
+  def index
+    @library_groups = LibraryGroup.find(:all)
+
+    respond_to do |format|
+      format.html # index.rhtml
+      format.xml  { render :xml => @library_groups.to_xml }
+    end
+  end
+
+  # GET /library_groups/1
+  # GET /library_groups/1.xml
+  def show
+    @library_group = LibraryGroup.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.rhtml
+      format.xml  { render :xml => @library_group.to_xml }
+    end
+  end
+
+  # GET /library_groups/new
+  #def new
+  #  @library_group = LibraryGroup.new
+  #end
+
+  # GET /library_groups/1;edit
+  def edit
+    @library_group = LibraryGroup.find(params[:id])
+  end
+
+  # POST /library_groups
+  # POST /library_groups.xml
+  def create
+    access_denied
+  #  @library_group = LibraryGroup.new(params[:library_group])
+  #
+  #  respond_to do |format|
+  #    if @library_group.save
+  #      flash[:notice] = ('LibraryGroup was successfully created.')
+  #      format.html { redirect_to library_group_url(@library_group) }
+  #      format.xml  { head :created, :location => library_group_url(@library_group) }
+  #    else
+  #      format.html { render :action => "new" }
+  #      format.xml  { render :xml => @library_group.errors.to_xml }
+  #    end
+  #  end
+  end
+
+  # PUT /library_groups/1
+  # PUT /library_groups/1.xml
+  def update
+    @library_group = LibraryGroup.find(params[:id])
+
+    respond_to do |format|
+      if @library_group.update_attributes(params[:library_group])
+        expire_page '/page/opensearch'
+        flash[:notice] = ('LibraryGroup was successfully updated.')
+        format.html { redirect_to library_group_url(@library_group) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @library_group.errors.to_xml }
+      end
+    end
+  end
+
+  # DELETE /library_groups/1
+  # DELETE /library_groups/1.xml
+  def destroy
+    access_denied
+  #  @library_group = LibraryGroup.find(params[:id])
+  #  @library_group.destroy
+  #
+  #  respond_to do |format|
+  #    format.html { redirect_to library_groups_url }
+  #    format.xml  { head :ok }
+  #  end
+  end
+end

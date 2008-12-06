@@ -1,0 +1,31 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_news_feed_path(@news_feed) -%></li>
+    <li><%= link_to ('Back'), news_feeds_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Title') -%>:</b>
+  <%=h @news_feed.title -%>
+</p>
+
+<p>
+  <b><%= ('Url') -%>:</b>
+  <%= link_to h(@news_feed.url), @news_feed.url -%>
+</p>
+
+<div id="news_feed_box">
+  <%= render :partial => 'news_feeds/content', :locals => {:news_feed => @news_feed} -%>
+</div>
+
+<%- form_for(@news_feed, :url => news_feed_url(@news_feed, :mode => 'force_reload')) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.submit "Force reload" -%>
+  </p>
+<%- end -%>
+
+</div>

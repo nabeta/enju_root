@@ -1,0 +1,65 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('New patron'), new_expression_patron_path(@expression) -%></li>
+    <li><%= link_to ('Add a manifestation'), expression_manifestations_path(@expression) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <h1>
+    [E]
+    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+  </h1>
+
+<%- form_for :patrons, :url => expression_patrons_path(@expression), :html => {:method => 'get'} do -%>
+<p>
+  <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%- if_authorized?(:destroy, @expression) do -%>
+    <%- if params[:mode] == 'add' -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+    <%- else -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+    <%- end -%>
+  <%- end -%>
+  <%= submit_tag ('Search') -%>
+  <%= link_to ('Back to index'), expression_patrons_path(@expression) -%>
+</p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Patron name') -%></th>
+    <th><%= ('Type') -%></th>
+    <th><%= ('Other designation') -%></th>
+    <th><%= ('Place') -%></th>
+    <th><%= ('Date of birth') -%></th>
+    <th><%= ('Date of death') -%></th>
+    <th></th>
+  </tr>
+<%- @patrons.each do |patron| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(patron.full_name), patron -%></td>
+    <td><%=h patron.patron_type.display_name -%></td>
+    <td><%=h patron.other_designation -%></td>
+    <td><%=h patron.place -%></td>
+    <td><%=h patron.date_of_birth -%></td>
+    <td><%=h patron.date_of_death -%></td>
+    <td>
+      <%- if_authorized?(:destroy, patron) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= link_to ('Add'), new_expression_realize_path(@expression, :patron_id => patron.id) unless @expression.patrons.include?(patron) -%>
+        <%- else -%>
+          <%- realize = @expression.realizes.find_by_patron_id(patron.id) -%>
+          <%= link_to t('destroy'), expression_realize_path(@expression, realize), :confirm => ('Are you sure?'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@patrons) -%>
+</div>

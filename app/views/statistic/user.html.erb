@@ -1,0 +1,18 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to statistics index'), :action => 'index' -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('User statistics') -%></h1>
+  <table>
+    <tr>
+      <td><%= ('User') -%></td>
+      <td><%=h User.count -%></td>
+    </tr>
+  </table>
+
+  <p><%= link_to ('Users who checked out many books'), :action => :user, :report => 'checked_out' -%></p>
+
+</div>

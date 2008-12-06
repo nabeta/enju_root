@@ -1,0 +1,22 @@
+<h1><%= ('Editing checked_item') -%></h1>
+
+<%= error_messages_for :checked_item -%>
+
+<%- form_for(@checked_item) do |f| -%>
+  <p>
+    <b><%= ('Item') -%></b><br />
+    <%= f.text_field :item_id -%>
+  </p>
+
+  <p>
+    <b><%= ('Basket') -%></b><br />
+    <%= f.text_field :basket_id -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+<%= link_to t('show'), user_basket_checked_item_path(@checked_item.basket.user, @checked_item.basket, @checked_item) -%> |
+<%= link_to ('Back'), user_basket_checked_items_path(@checked_item.basket.user, @checked_item.basket) -%>

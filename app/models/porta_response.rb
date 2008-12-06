@@ -1,0 +1,2 @@
+class PortaResponse < ManifestationApiResponse
+end

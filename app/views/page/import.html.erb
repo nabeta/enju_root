@@ -1,0 +1,15 @@
+<div id="submenu">
+  <ul>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Import') -%></h1>
+
+<ul>
+  <li><%= link_to ('Patrons'), imported_patron_files_path -%></li>
+  <li><%= link_to ('Events'), imported_event_files_path -%></li>
+  <li><%= link_to ('ISBN'), new_manifestation_path(:mode => 'import_isbn') -%></li>
+  <li><%= link_to ('Resource'), imported_resource_files_path -%></li>
+</ul>
+</div>

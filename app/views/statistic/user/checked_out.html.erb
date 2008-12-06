@@ -1,0 +1,23 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to user statistics index'), :action => 'user' -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Checkout statistics') -%></h1>
+<table>
+  <tr>
+    <th><%= ('User')%></th>
+    <th><%= ('Checkouts count') -%></th>
+  </tr>
+  <%- @users.each do |user| -%>
+    <tr>
+      <td><%= link_to h(user.login), user_path(user.login) -%></td>
+      <td><%=h user.checkouts_count -%></td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@users) -%>
+</div>

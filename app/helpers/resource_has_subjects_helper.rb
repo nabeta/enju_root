@@ -1,0 +1,2 @@
+module ResourceHasSubjectsHelper
+end

@@ -1,0 +1,29 @@
+<table style="width: 100%">
+  <tr>
+    <th class="checked_item_title"><%= ('Title') -%></th>
+    <th><%= ('Item identifier') -%></th>
+    <th><%= ('Due date') -%></th>
+    <th></th>
+  </tr>
+  
+<%- if @checkouts -%>
+  <%- @checkouts.each_with_index do |checkout, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => checkout.item.manifestation} -%>
+      <div class="holding" id="holding_<%=h checkout.item.manifestation.id -%>"></div>
+    </td>
+    <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
+    <td><%=h checkout.due_date.strftime("%Y-%m-%d") -%></td>
+    <td>
+      <%= if_authorized?(:edit, checkout) do link_to t('edit'), edit_user_checkout_path(checkout.user.login, checkout) end -%>
+    </td>
+    <!--
+    <td>
+      <%= if_authorized?(:edit, checkout) do link_to ('Delete'), user_checkout_path(checkout.user.login, checkout), :confirm => ('Are you sure?'), :method => :delete end -%>
+    </td>
+    -->
+  </tr>
+  <%- end -%>
+<%- end -%>
+</table>

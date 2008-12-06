@@ -1,0 +1,49 @@
+--- 
+classification_type_00003: 
+  name: DDC
+  updated_at: 2008-03-02 22:53:58.937354 +09:00
+  id: 3
+  note: ""
+  display_name: DDC
+  created_at: 2008-03-02 22:53:58.937354 +09:00
+  position: 3
+classification_type_00004: 
+  name: UDC
+  updated_at: 2008-03-02 22:54:20.265696 +09:00
+  id: 4
+  note: ""
+  display_name: UDC
+  created_at: 2008-03-02 22:54:20.265696 +09:00
+  position: 4
+classification_type_00005: 
+  name: LCC
+  updated_at: 2008-03-02 22:54:41.169172 +09:00
+  id: 5
+  note: ""
+  display_name: LCC
+  created_at: 2008-03-02 22:54:41.169172 +09:00
+  position: 5
+classification_type_00006: 
+  name: NLMC
+  updated_at: 2008-03-02 22:54:56.181793 +09:00
+  id: 6
+  note: ""
+  display_name: NLMC
+  created_at: 2008-03-02 22:54:56.181793 +09:00
+  position: 6
+classification_type_00001: 
+  name: NDC
+  updated_at: 2008-03-02 22:53:40.696331 +09:00
+  id: 1
+  note: ""
+  display_name: NDC
+  created_at: 2008-03-02 22:53:40.696331 +09:00
+  position: 1
+classification_type_00002: 
+  name: NDLC
+  updated_at: 2008-03-02 22:53:51.394954 +09:00
+  id: 2
+  note: ""
+  display_name: NDLC
+  created_at: 2008-03-02 22:53:51.394954 +09:00
+  position: 2

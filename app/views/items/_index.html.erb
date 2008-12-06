@@ -1,0 +1,63 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Item) do -%>
+      <li><%= link_to ('New item'), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <%- if @manifestation -%>
+    <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+  <%- else -%>
+    <h1><%= ('Listing items') -%></h1>
+  <%- end -%>
+
+<%- form_for :items, :url => items_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag ('Search') -%>
+  </p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Item identifier') -%></th>
+    <th><%= ('Call number') -%></th>
+    <th><%= ('Manifestation') -%></th>
+    <th><%= ('Library') -%></th>
+    <th><%= ('Shelf') -%></th>
+    <th><%= ('Circulation status') -%></th>
+  </tr>
+  
+<%- for item in @items -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if item.item_identifier.blank? -%>
+        (<%= link_to ('no number'), item -%>)
+      <%- else -%>
+        <%= link_to h(item.item_identifier), item -%>
+      <%- end -%>
+    </td>
+    <td><%=h item.call_number -%></td>
+    <td>
+      <%- if item.manifestation -%>
+        <%= link_to h(item.manifestation.original_title), item.manifestation -%>
+      <%- else -%>
+        (<%= link_to ('No manifestation'), item_exemplify_path(item) -%>)
+      <%- end -%>
+    </td>
+    <td><%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name) -%></td>
+    <td><%= link_to h(item.shelf.name), item.shelf -%></td>
+    <td><%=h item.circulation_status.display_name -%></td>
+    <%- if_authorized?(:destroy, item) do -%>
+      <td><%= link_to t('edit'), edit_item_path(item) -%></td>
+      <td><%= link_to t('destroy'), item_path(item), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@items) -%>
+</div>

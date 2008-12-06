@@ -1,0 +1,29 @@
+<div id='submenu'>
+  <ul>
+    <li><%= link_to t('edit'), edit_subscribe_path(@subscribe) -%></li>
+    <li><%= link_to ('Back'), subscribes_path -%></li>
+  </ul>
+</div>
+
+<div id='content_detail'>
+<p>
+  <b><%= ('Subscription') -%>:</b>
+  <%= link_to h(@subscribe.subscription.title), subscription_path(@subscribe.subscription) -%>
+</p>
+
+<p>
+  <b><%= ('Expression') -%>:</b>
+  <%= link_to h(@subscribe.expression.original_title), expression_path(@subscribe.expression) -%>
+</p>
+
+<p>
+  <b><%= ('Start on') -%>:</b>
+  <%=h @subscribe.start_on -%>
+</p>
+
+<p>
+  <b><%= ('End on') -%>:</b>
+  <%=h @subscribe.end_on -%>
+</p>
+
+</div>

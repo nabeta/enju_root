@@ -1,0 +1,31 @@
+<h1>RESTful Eazy Messages</h1>
+<div class="" >
+<%= error_messages_for 'message' %>
+<%= rezm_menu -%>
+  <p></p>
+  <%= flash[:notice] %> 
+  <fieldset>
+    <legend>Send Message</legend>
+
+    <% form_for @message do |form| %>
+      <p>
+        <label for="message_recepient" >Recipient:</label><br />
+        <%= form.text_field :recipient, :size => 40, :value => @message.recipient %>
+      </p>
+    
+      <p>
+        <label for="message_subject" >Subject:</label><br />
+        <%= form.text_field :subject, :size => 40 %>
+      </p>
+      
+      <p>
+        <label for="message_body" >Message:</label><br />
+        <%= form.text_area :body %>
+      </p>
+
+      <%= submit_tag "Send Message" %>
+
+    <% end %>
+  </fieldset>
+  
+</div>

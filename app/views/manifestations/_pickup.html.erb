@@ -1,0 +1,30 @@
+<%- if @picked_up -%>
+  <div style="width: 200px; float: left; text-align: center">
+    <%- cache(:controller => :manifestations, :action => :show, :id => @picked_up.id, :action_suffix => 'book_jacket') do -%>
+      <%= book_jacket(@picked_up) -%>
+    <%- end -%>
+  </div>
+  <%- cache(:controller => :manifestations, :action => :show, :id => @picked_up.id, :action_suffix => 'pickup') do -%>
+    <div style="float: left">
+      <p>
+      <strong><%= ('Subjects') -%>:</strong>
+      <%- @picked_up.subjects.each do |subject| -%>
+        <%= link_to h(subject.term), manifestations_path(:subject => subject.term) -%>
+      <%- end -%>
+      </p>
+      <p>
+        <strong><%= t('page.tag') -%>:</strong>
+        <%- cache(:controller => :manifestations, :action => :show, :id => @picked_up.id, :action_suffix => 'tags') do -%>
+          <%- @picked_up.tags.each do |tag| -%>
+            <%= link_to h(tag.name), manifestations_path(:tag => tag.name) -%>
+          <%- end -%>
+        <%- end -%>
+      </p>
+    </div>
+    <div style="clear: both"></div>
+    <div style="margin-top: 5px">
+      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @picked_up} -%>
+    </div>
+   <div class="holding" id="holding_<%=h @picked_up.id -%>"></div>
+  <%- end -%>
+<%- end -%>

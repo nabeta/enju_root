@@ -1,0 +1,49 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_imported_event_file_path(@imported_event_file) -%></li>
+    <li><%= link_to ('Back'), imported_event_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Filename') -%>:</b>
+  <%=h @imported_event_file.filename -%>
+</p>
+
+<p>
+  <b><%= ('Content type') -%>:</b>
+  <%=h @imported_event_file.content_type -%>
+</p>
+
+<p>
+  <b><%= ('Size') -%>:</b>
+  <%=h @imported_event_file.size -%>
+</p>
+
+<p>
+  <b><%= ('File hash') -%>:</b>
+  <%=h @imported_event_file.file_hash -%>
+</p>
+
+<p>
+  <b><%= ('User') -%>:</b>
+  <%= link_to h(@imported_event_file.user.login), user_path(@imported_event_file.user.login) -%>
+</p>
+
+<table style="width: 100%">
+  <%- @imported_event_file.imported_objects.each do |object| -%>
+    <tr>
+      <td><%= link_to h(object.importable.title), object.importable -%></td>
+      <td><%= link_to h(object.importable.library.name), object.importable.library -%></td>
+      <td>
+        <%=h object.importable.started_at -%>
+        -
+        <%=h object.importable.ended_at -%>
+
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+</div>

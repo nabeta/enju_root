@@ -1,0 +1,31 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @resource_has_subject -%></li>
+    <li><%= link_to ('Back'), resource_has_subjects_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Editing resource_has_subject') -%></h1>
+
+<%- form_for(@resource_has_subject) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :subject_id -%><br />
+    <%= f.text_field :subject_id -%>
+  </p>
+  <p>
+    <%= f.label :subjectable_id -%><br />
+    <%= f.text_field :subjectable_id -%>
+  </p>
+  <p>
+    <%= f.label :subjectable_type -%><br />
+    <%= f.text_field :subjectable_type -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

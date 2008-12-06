@@ -1,0 +1,4 @@
+title,url,tag,created_at
+<%- @bookmarks.each do |bookmark| -%>
+"<%=h bookmark.bookmarked_resource.title.gsub(/"/, '""') -%>",<%=h bookmark.bookmarked_resource.url -%>,"<%=h bookmark.tag_list %>",<%=h bookmark.created_at %><%= "\n" -%>
+<%- end -%>

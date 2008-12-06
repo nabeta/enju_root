@@ -1,0 +1,59 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Work) do -%>
+      <li><%= link_to ('New work'), new_work_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+                      
+<div id="content_detail">
+<%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= hidden_field_tag 'parent_id', @parent.id if @parent -%>
+    <%= hidden_field_tag 'work_id', @work.id if @work -%>
+    <%= submit_tag ('Search') -%>
+    <%- if_authorized?(:destroy, @work) do -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+      <%- end -%>
+    <%- end -%>
+    <%= link_to ('Back to index'), patron_works_path(@patron) -%>
+  </p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Context') -%></th>
+    <th></th>
+  </tr>
+  <%- for work in @works -%>
+    <tr>
+      <td>
+        <%= link_to h(work.original_title), work_path(work, :parent_id => @parent.id) -%>
+        <br />
+        <%- work.patrons.each do |patron| -%>
+          <%= link_to h(patron.full_name), patron -%>
+        <%- end -%>
+      </td>
+      <td><%=h work.context -%></td>
+      <td>
+        <%- if_authorized?(:destroy, work) do -%>
+          <%- if params[:mode] == "add " -%>
+            <%= link_to ('Add'), edit_work_path(work, :parent_id => @parent.id) -%>
+          <%- else -%>
+            <%= link_to t('destroy'), work_path(work, :parent_id => nil), :confirm => ('Are you sure?'), :method => :put -%>
+          <%- end -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@works) -%>
+</div>

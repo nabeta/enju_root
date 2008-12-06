@@ -1,0 +1,18 @@
+<p>
+  <b>Imported file:</b>
+  <%=h @imported_object.imported_file_id -%>
+</p>
+
+<p>
+  <b>Importable:</b>
+  <%=h @imported_object.importable_id -%>
+</p>
+
+<p>
+  <b>Importable type:</b>
+  <%=h @imported_object.importable_type -%>
+</p>
+
+
+<%= link_to t('edit'), edit_imported_object_path(@imported_object) -%> |
+<%= link_to 'Back', imported_objects_path -%>

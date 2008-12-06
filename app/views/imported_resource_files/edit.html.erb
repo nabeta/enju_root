@@ -1,0 +1,23 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @imported_resource_file -%></li>
+    <li><%= link_to ('Back'), imported_resource_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1>Editing imported_resource_file</h1>
+
+<%- form_for(@imported_resource_file) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :filename -%><br />
+    <%= f.text_field :filename -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

@@ -1,0 +1,146 @@
+<h1><%=h ('Edit %{user}\'s profile') -%></h1>
+
+<%= error_messages_for :user -%>
+
+<p>
+ <%= link_to ('Patron profile'), @user.patron -%>
+</p>
+
+<%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
+  
+  <div id="left_pane">
+
+  <p>
+    <b><%= ('Email') -%></b><br />
+    <%= f.text_field :email, :class => 'resource_email' -%>
+  </p>
+
+  <p>
+    <b><%= t('password') -%></b><br />
+    <%- if current_user == @user -%>
+      <table>
+        <tr>
+          <td><%= ('Current password') -%>:</td>
+          <td><%= password_field_tag "user[old_password]" -%></td>
+        </tr>
+        <tr>
+          <td><%= ('New password') -%>:</td>
+          <td><%= password_field_tag "user[password]" -%></td>
+        </tr>
+        <tr>
+          <td><%= ('Repeat new password') -%>:</td>
+          <td><%= password_field_tag "user[password_confirmation]" -%></td>
+        </tr>
+      </table>
+    <%- end -%>
+  </p>
+
+  <p>
+    <%= f.check_box :auto_generated_password -%> <%= ('Set auto-generated password') -%>
+  </p>
+
+  <p><b><%= ('Expired at') -%></b><br />
+    <%= f.date_select :expired_at, :blank => true -%>
+  </p>
+  
+  <p>
+    <%= f.check_box :locked -%> <%= ('Suspended') -%>
+  </p>
+
+  <p><b><%= t('bookmark') -%></b><br />
+  <p>
+    <%= f.check_box :share_bookmarks -%> <%= ('Share bookmarks') -%>
+  </p>
+  </div>
+
+  <div id="right_pane">
+  <%- if current_user.has_role?('Librarian') -%>
+    <p>
+      <b><%= ('User group') -%></b><br />
+      <%= f.select(:user_group_id, @user_groups.collect{|u| [u.name, u.id]}) -%>
+    </p>
+  <%- end -%>
+
+  <%- if current_user.has_role?('Administrator') -%>
+    <p>
+      <b><%= ('Role') -%></b><br />
+      <select id="user_role_id" name="user[role_id]">
+      <%= options_from_collection_for_select(@roles, "id", "display_name", @user_role_id) -%>
+      </select>
+    </p>
+  <%- end -%>
+
+    <p>
+      <b><%= ('User number') -%></b><br />
+      <%- if current_user.has_role?('Librarian') -%>
+        <%= f.text_field :user_number, :class => 'resource_user_number' -%>
+      <%- else -%>
+        <%=h @user.user_number -%>
+      <%- end -%>
+    </p>
+
+  <%- if current_user.has_role?('Librarian') -%>
+    <p>
+      <b><%= t('library') -%></b><br />
+      <%= f.select(:library_id, @libraries.collect{|l| [l.name, l.id]}) -%>
+    </p>
+
+    <p>
+      <b><%= ('Access role') -%></b><br />
+      <%= f.select(:access_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+    </p>
+  <%- end -%>
+
+  </div>
+
+<p style="clear: both">
+  <p><b><%= ('Keyword list') -%></b><br />
+   <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
+  </p>
+
+  <p><b><%= ('Note') -%></b><br />
+   <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <!--
+  <h1><%= ('History') -%></h1>
+  <p>
+    <%= f.check_box :save_search_history -%> <%= ('Save search history') -%>
+  </p>
+
+  <p>
+    <%= f.check_box :save_checkout_history -%> <%= ('Save checkout history') -%>
+  </p>
+  -->
+
+  <p>
+  <%= submit_tag t('update'), :confirm => ('Are you sure?') -%>
+  </p>
+
+<%- end -%>
+
+<b><%= ('Reset Checkout iCalendar url') -%></b><br />
+<%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
+  <!-- TODO: iCalendarファイルはhttpsで送信するべき -->
+  <%= ('Current url') -%>:
+  <%- if @user.checkout_icalendar_token -%>
+    <%= link_to "http://#{LIBRARY_WEB_HOSTNAME}/icalendar/#{h(@user.checkout_icalendar_token)}.ics", url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
+  <%- end -%>
+  <br />
+  <%= hidden_field_tag 'user[reset_url]', 'checkout_icalendar' -%>
+  <%= f.submit t('reset') -%>
+<%- end -%>
+<%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
+  <%= hidden_field_tag 'user[delete_url]', 'checkout_icalendar' -%>
+  <%= f.submit t('delete') -%>
+<%- end -%>
+</p>
+
+<%- if current_user.has_role?('Librarian') -%>
+  <%- unless current_user == @user -%>
+    <h3><%= ('Delete this user') -%></h3>
+    <p>
+    <%= link_to t('destroy'), user_path(@user.login), :confirm => ('Are you sure?'), :method => :delete -%>
+    </p>
+  <%- end -%>
+<%- end -%>

@@ -1,0 +1,37 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Order) do -%>
+      <li><%= link_to ('New order'), new_order_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing orders') -%></h1>
+
+<table>
+  <tr>
+    <th><%= ('Order list') -%></th>
+    <th><%= ('Purchase request') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+
+<%- for order in @orders -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(order.order_list.title), order.order_list -%></td>
+    <td><%= link_to h(order.purchase_request.title), purchase_request_path(order.purchase_request) -%></td>
+    <td><%=h order.created_at -%></td>
+    <td><%=h order.updated_at -%></td>
+    <%- if_authorized?(:destroy, order) do -%>
+      <td><%= link_to t('show'), order_path(order) -%></td>
+      <td><%= link_to t('edit'), edit_order_path(order) -%></td>
+      <td><%= link_to t('destroy'), order_path(order), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@orders) -%>
+
+</div>

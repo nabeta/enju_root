@@ -1,0 +1,35 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @subscribe -%></li>
+    <li><%= link_to ('Back'), subscribes_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing subscribe') -%></h1>
+
+<%- form_for(@subscribe) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :subscription_id -%><br />
+    <%= f.text_field :subscription_id -%>
+  </p>
+  <p>
+    <%= f.label :expression_id -%><br />
+    <%= f.text_field :expression_id -%>
+  </p>
+  <p>
+    <%= f.label :start_on -%><br />
+    <%= f.date_select :start_on -%>
+  </p>
+  <p>
+    <%= f.label :end_on -%><br />
+    <%= f.date_select :end_on -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

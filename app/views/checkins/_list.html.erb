@@ -1,0 +1,39 @@
+<div style="color: red"><%=h flash[:message].to_s -%></div>
+
+<%- remote_form_for @checkin, :html => {:method => :post}, :update => :checkin_list, :url => user_basket_checkins_path(@basket.user.login, @basket, :mode => 'list') do |f| -%>
+
+  <p><%= ('Item identifier') -%>:
+    <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
+    <%= f.hidden_field :librarian_id, :value => current_user.id -%>
+    <%= submit_tag ('Checkin') -%></p>
+<%- end -%>
+<%= javascript_tag("$('checkin_item_identifier').focus()") -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Item') -%></th>
+    <th><%= ('Due date') -%></th>
+  </tr>
+  
+<%- @checkins.each_with_index do |checkin, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => checkin.item.manifestation} -%>
+      <div class="holding" id="holding_<%=h checkin.item.manifestation.id -%>"></div>
+    </td>
+    <td>
+      <%= link_to h(checkin.item.item_identifier), item_path(checkin.item) -%>
+      <br />
+      <%- unless checkin.item.shelf.library == current_user.library -%>
+        <span style="color: red"><%= link_to ('Inter library loan'), item_inter_library_loans_path(checkin.item) -%></span>
+      <%- end -%>
+    </td>
+    <td>
+      <%- if checkin.checkout -%>
+        <%=h checkin.checkout.due_date.strftime('%Y-%m-%d') -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>

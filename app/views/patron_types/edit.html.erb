@@ -1,0 +1,31 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @patron_type -%></li>
+    <li><%= link_to ('Back'), patron_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Editing patron_type') -%></h1>
+
+<%- form_for(@patron_type) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :name -%><br />
+    <%= f.text_field :name -%>
+  </p>
+  <p>
+    <%= f.label :display_name -%><br />
+    <%= f.text_field :display_name -%>
+  </p>
+  <p>
+    <%= f.label :note -%><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

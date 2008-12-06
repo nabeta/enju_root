@@ -1,0 +1,45 @@
+<div id="submenu">
+  <ul>
+    <li><%= rezm_link_to_inbox -%></li>
+    <li><%= rezm_link_to_create_message -%></li>
+    <li><%= rezm_link_to_outbox -%></li>
+    <li><%= rezm_link_to_trash_bin -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('New message') -%></h1>
+<div class="" >
+<%= error_messages_for 'message' -%>
+  <p></p>
+  <fieldset>
+    <legend><%= ('Send message') -%></legend>
+
+    <%- form_for :message, :url => user_messages_path do |form| -%>
+      <p>
+        <label for="message_recepient"><%= ('Recipient') -%>:</label><br />
+        <%- if @message_queue -%>
+          <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
+          <%= form.hidden_field :recipient, :value => h(@message_queue.receiver.login) -%>
+        <%- else -%>
+          <%= form.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
+        <%- end -%>
+      </p>
+    
+      <p>
+        <label for="message_subject"><%= ('Subject') -%>:</label><br />
+        <%= form.text_field :subject, :class => 'resource_title' -%>
+      </p>
+      
+      <p>
+        <label for="message_body"><%= ('Message') -%>:</label><br />
+        <%= form.text_area :body, :class => 'resource_textarea' -%>
+      </p>
+
+      <%= submit_tag ('Send message') -%>
+
+    <%- end -%>
+  </fieldset>
+  
+</div>
+</div>

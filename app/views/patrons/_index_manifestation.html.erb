@@ -1,0 +1,67 @@
+<div id="submenu">
+  <div id="manifestation_book_jacket">
+    <%= book_jacket(@manifestation) -%>
+  </div>
+  <ul>
+    <li><%= link_to ('Back to manifestations'), manifestations_path -%></li>
+    <li><%= link_to ('Add an expression'), manifestation_expressions_path(@manifestation) -%></li>
+    <li><%= link_to ('Add an item'), manifestation_items_path(@manifestation) -%></li>
+    <li><%= link_to ('New patron'), new_manifestation_patron_path(@manifestation) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+
+<%- form_for :patrons, :url => manifestation_patrons_path(@manifestation), :html => {:method => 'get'} do -%>
+<p>
+  <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%- if_authorized?(:destroy, @manifestation) do -%>
+    <%- if params[:mode] == 'add' -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+    <%- else -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+    <%- end -%>
+  <%- end -%>
+  <%= submit_tag ('Search') -%>
+  <%= link_to ('Back to index'), manifestation_patrons_path(@manifestation) -%>
+</p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Patron name') -%></th>
+    <th><%= ('Type') -%></th>
+    <th><%= ('Other designation') -%></th>
+    <th><%= ('Place') -%></th>
+    <th><%= ('Date of birth') -%></th>
+    <th><%= ('Date of death') -%></th>
+    <th></th>
+  </tr>
+  <%- @patrons.each do |patron| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= link_to h(patron.full_name), patron -%></td>
+      <td><%=h patron.patron_type.display_name -%></td>
+      <td><%=h patron.other_designation -%></td>
+      <td><%=h patron.place -%></td>
+      <td><%=h patron.date_of_birth -%></td>
+      <td><%=h patron.date_of_death -%></td>
+      <td>
+        <%- if_authorized?(:destroy, patron) do -%>
+          <%- if params[:mode] == 'add' -%>
+            <%= link_to ('Add'), new_manifestation_produce_path(@manifestation, :patron_id => patron.id) unless @manifestation.patrons.include?(patron) -%>
+          <%- else -%>
+            <%- produce = @manifestation.produces.find_by_patron_id(patron.id) -%>
+            <%= link_to t('destroy'), manifestation_produce_path(@manifestation, produce), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%- end -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@patrons) -%>
+</div>

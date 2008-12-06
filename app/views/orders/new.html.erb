@@ -1,0 +1,33 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), orders_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New order') -%></h1>
+
+<%= error_messages_for :order -%>
+
+<%- form_for(:order, :url => orders_path) do |f| -%>
+  <p>
+  <b><%= ('Order list') -%></b><br />
+    <%= f.select(:order_list_id, @order_lists.collect{|l| [l.title, l.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Purchase request') -%></b><br />
+    <%- if @purchase_request -%>
+      <%= link_to h(@purchase_request.title), @purchase_request -%>
+      <%= f.hidden_field :purchase_request_id, :value => @purchase_request.id -%>
+    <%- else -%>
+      <%= f.text_field :purchase_request_id -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+
+</div>

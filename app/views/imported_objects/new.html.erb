@@ -1,0 +1,23 @@
+<h1>New imported_object</h1>
+
+<%- form_for(@imported_object) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :imported_file_id -%><br />
+    <%= f.text_field :imported_file_id -%>
+  </p>
+  <p>
+    <%= f.label :importable_id -%><br />
+    <%= f.text_field :importable_id -%>
+  </p>
+  <p>
+    <%= f.label :importable_type -%><br />
+    <%= f.text_field :importable_type -%>
+  </p>
+  <p>
+    <%= f.submit Create -%>
+  </p>
+<%- end -%>
+
+<%= link_to 'Back', imported_objects_path -%>

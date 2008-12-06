@@ -1,0 +1,50 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Add a patron'), new_patron_path -%></li>
+    <li><%= link_to ('Merge patrons'), patron_merge_lists_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Listing patrons') -%></h1>
+<%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag ('Search') -%>
+  </p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Patron name') -%></th>
+    <th><%= ('User name') -%></th>
+    <th><%= ('Type') -%></th>
+    <th><%= ('Language') -%></th>
+    <th><%= ('Place') -%></th>
+    <th></th>
+  </tr>
+  <%- @patrons.each do |patron| -%>
+    <%- unless patron.nil? -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(patron.full_name), patron_path(patron) -%><br />
+        <%=h patron.full_name_transcription -%>
+      </td>
+      <td>
+        <%= link_to h(patron.user.login), edit_user_path(patron.user.login) if patron.user -%>
+      </td>
+      <td><%=h patron.patron_type.display_name -%></td>
+      <td><%=h patron.language.display_name -%></td>
+      <td><%=h patron.place -%></td>
+      <td>
+        <%- if_authorized?(:destroy, patron) do -%>
+          <%= link_to t('edit'), edit_patron_path(patron) -%>
+        <%- end -%>
+      </td>
+    </tr>
+    <%- end -%>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@patrons) -%>
+</div>

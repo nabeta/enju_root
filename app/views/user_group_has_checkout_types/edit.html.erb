@@ -1,0 +1,66 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @user_group_has_checkout_type -%></li>
+    <li><%= link_to ('Back'), user_group_has_checkout_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing user_group_has_checkout_type') -%></h1>
+
+<%- form_for(@user_group_has_checkout_type) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :user_group_id -%><br />
+    <%= f.select(:user_group_id, @user_groups.collect{|u| [u.display_name, u.id]}) -%>
+  </p>
+  <p>
+    <%= f.label :checkout_type_id -%><br />
+    <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name, c.id]}) -%>
+  </p>
+  <p>
+    <b><%= ('Checkout limit') -%></b><br />
+    <%= f.text_field :checkout_limit, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Checkout period') -%></b><br />
+    <%= f.text_field :checkout_period, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Checkout renewal limit') -%></b><br />
+    <%= f.text_field :checkout_renewal_limit, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Reservation limit') -%></b><br />
+    <%= f.text_field :reservation_limit, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Reservation expired period') -%></b><br />
+    <%= f.text_field :reservation_expired_period, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Fixed due date') -%></b><br />
+    <%= f.date_select :fixed_due_date, :blank => true -%>
+  </p>
+
+  <p>
+    <b><%= ('Set due date before closing_day') -%></b><br />
+    <%= f.check_box :set_due_date_before_closing_day -%>
+  </p>
+
+  <p>
+    <%= f.label :note -%><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

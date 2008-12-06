@@ -1,0 +1,5 @@
+<%- if params[:mode] == 'import_isbn' -%>
+  <%= render :partial => 'import_isbn' -%>
+<%- else -%>
+  <%= render :partial => 'new' -%>
+<%- end -%>

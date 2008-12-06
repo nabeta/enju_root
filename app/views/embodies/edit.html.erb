@@ -1,0 +1,22 @@
+<h1><%= ('Editing embody') -%></h1>
+
+<%= error_messages_for :embody -%>
+
+<%- form_for(@embody) do |f| -%>
+  <p>
+  <b><%= ('Expression') -%></b><br />
+    <%= f.text_field :expression_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Manifestation') -%></b><br />
+    <%= f.text_field :manifestation_id -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+<%= link_to t('show'), @embody -%> |
+<%= link_to ('Back'), embodies_path -%>

@@ -1,0 +1,32 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to bookmark statistics index'), '/statistic/bookmark' -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Most bookmarked') -%></h1>
+
+<%= render :partial => 'statistic/date_form', :locals => {:value => params[:report]} -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title')%></th>
+    <th><%= ('Bookmarks count') -%></th>
+    <th><%= ('Total bookmarks count') -%></th>
+  </tr>
+  <%- @bookmarked_resources.each do |bookmarked_resource| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => bookmarked_resource.manifestation} -%>
+      </td>
+      <td><%=h bookmarked_resource.bookmarked_count(@from_date, @to_date) -%></td>
+      <td><%=h bookmarked_resource.bookmarks.size -%></td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%- params = {
+} -%>
+<%= will_paginate(@bookmarked_resources, :params => {:report => 'most_bookmarked', :from_date => @from_date, :to_date => @to_date, :stat_from => nil}) -%>
+</div>

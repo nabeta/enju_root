@@ -1,0 +1,9 @@
+<%- case when @manifestation -%>
+  <%= render :partial => 'new_manifestation' -%>
+<%- when @event -%>
+  <%= render :partial => 'new_event' -%>
+<%- when @patron -%>
+  <%= render :partial => 'new_patron' -%>
+<%- else -%>
+  <%= render :partial => 'new' -%>
+<%- end -%>

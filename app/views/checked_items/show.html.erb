@@ -1,0 +1,13 @@
+<p>
+  <b><%= ('Item') -%>:</b>
+  <%=h @checked_item.item_id -%>
+</p>
+
+<p>
+  <b><%= ('Basket') -%>:</b>
+  <%=h @checked_item.basket_id -%>
+</p>
+
+
+<%= link_to t('edit'), edit_user_basket_checked_item_path(@checked_item.basket.user, @checked_item.basket, @checked_item) -%> |
+<%= link_to ('Back'), user_basket_checked_items_path(@checked_item.basket.user, @checked_item.basket) -%>

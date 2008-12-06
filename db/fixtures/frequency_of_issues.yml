@@ -1,0 +1,41 @@
+--- 
+frequency_of_issue_00001: 
+  name: unknown
+  display_name: Unknown
+  id: 1
+  position: 1
+frequency_of_issue_00002: 
+  name: daily
+  display_name: Daily
+  id: 2
+  position: 2
+frequency_of_issue_00003: 
+  name: weekly
+  display_name: Weekly
+  id: 3
+  position: 3
+frequency_of_issue_00004: 
+  name: biweekly
+  display_name: Biweekly
+  id: 4
+  position: 4
+frequency_of_issue_00005: 
+  name: quarterly
+  display_name: Quarterly
+  id: 5
+  position: 5
+frequency_of_issue_00006: 
+  name: bimonthly
+  display_name: Bimonthly
+  id: 6
+  position: 6
+frequency_of_issue_00007: 
+  name: quarterly
+  display_name: Quarterly
+  id: 7
+  position: 7
+frequency_of_issue_00008: 
+  name: yearly
+  display_name: Yearly
+  id: 8
+  position: 8

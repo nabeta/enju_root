@@ -1,0 +1,7 @@
+<div id='google_booksearch_content'>
+  <script type="text/javascript" src="http://books.google.com/books/previewlib.js"></script>
+  <script type="text/javascript">
+    GBS_setLanguage('ja');
+    GBS_insertEmbeddedViewer('ISBN:<%= @manifestation.isbn13 -%>',680,600);
+  </script>
+</div>

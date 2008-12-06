@@ -1,0 +1,47 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @inventory_file -%> </li>
+    <li><%= link_to ('Back'), inventory_files_path -%> </li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing inventory_file') -%> </h1>
+
+<%- form_for(@inventory_file) do |f| -%> 
+  <%= f.error_messages -%> 
+
+  <p>
+    <%= f.label :db_file_id -%> <br />
+    <%= f.text_field :db_file_id -%> 
+  </p>
+  <p>
+    <%= f.label :filename -%> <br />
+    <%= f.text_field :filename -%> 
+  </p>
+  <p>
+    <%= f.label :content_type -%> <br />
+    <%= f.text_field :content_type -%> 
+  </p>
+  <p>
+    <%= f.label :size -%> <br />
+    <%= f.text_field :size -%> 
+  </p>
+  <p>
+    <%= f.label :file_hash -%> <br />
+    <%= f.text_field :file_hash -%> 
+  </p>
+  <p>
+    <%= f.label :user_id -%> <br />
+    <%= f.text_field :user_id -%> 
+  </p>
+  <p>
+    <%= f.label :note -%> <br />
+    <%= f.text_area :note -%> 
+  </p>
+  <p>
+    <%= f.submit t('update') -%> 
+  </p>
+<%- end -%> 
+
+</div>

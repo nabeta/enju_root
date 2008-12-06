@@ -1,0 +1,30 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), message_queues_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('New message_queue') -%></h1>
+
+<%- form_for(@message_queue) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :sender_id -%><br />
+    <%= link_to h(current_user.login), user_path(current_user.login) -%>
+    <%= f.hidden_field :sender_id -%>
+  </p>
+  <p>
+    <%= f.label :receiver_id -%><br />
+    <%= f.text_field :receiver_id -%>
+  </p>
+  <p>
+    <%= f.label :message_template_id -%><br />
+    <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
+  </p>
+  <p>
+    <%= f.submit Create -%>
+  </p>
+<%- end -%>
+</div>

@@ -1,0 +1,33 @@
+<%= javascript_include_tag 'jquery' -%>
+<script type="text/javascript">
+    jQuery.noConflict();
+</script>
+<%= javascript_include_tag :defaults -%>
+<%= javascript_include_tag 'thickbox', 'builder', 'extension' -%>
+<%= javascript_include_tag 'yui/yahoo/yahoo-min',
+    'yui/yahoo-dom-event/yahoo-dom-event',
+    'yui/element/element-beta-min',
+    'yui/connection/connection-min',
+    'yui/container/container_core-min',
+    'yui/tabview/tabview-min',
+    'yui/treeview/treeview-min',
+    'yui/history/history-min',
+    'yui/menu/menu-min'
+%>
+<%= stylesheet_link_tag 'yui/build/reset-fonts-grids/reset-fonts-grids',
+    'yui/build/fonts/fonts-min',
+    'yui/build/base/base-min',
+    'yui/build/assets/skins/sam/tabview',
+    'yui/build/assets/skins/sam/treeview',
+    'yui/build/assets/skins/sam/menu' -%>
+<%= stylesheet_link_tag 'thickbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet' -%>
+<%= calendar_date_select_includes %>
+<script type="text/javascript">
+  YAHOO.util.Event.onContentReady("services", function () {
+    var oMenuBar = new YAHOO.widget.MenuBar("services", { 
+                                                    autosubmenudisplay: true, 
+                                                    hidedelay: 750, 
+                                                    lazyload: true });
+    oMenuBar.render();
+  });
+</script>

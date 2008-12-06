@@ -1,0 +1,43 @@
+<div id="submenu">
+  <%- if_authorized?(:destroy, @shelf) do -%>
+    <ul>
+      <li><%= link_to ('New shelf'), new_shelf_path -%></li>
+      <li><%= link_to t('edit'), edit_shelf_path(@shelf) -%></li>
+      <li><%= link_to ('Add a picture'), new_library_shelf_picture_file_path(@shelf.library.short_name, @shelf) -%></li>
+      <li>
+      <%- if session[:return_to] -%>
+        <%= link_to ('Back'), session[:return_to] -%>
+      <%- else -%>
+        <%= link_to ('Back'), shelves_path -%>
+      <%- end -%>
+      </li>
+    </ul>
+<%- end -%>
+</div>
+<div id="content_detail">
+  <h1><%= link_to h(@shelf.library.name), library_path(@shelf.library.short_name) -%>
+    <%=h @shelf.name -%></h1>
+</p>
+
+<p>
+  <%=h @shelf.note -%><br />
+</p>
+
+<p>
+  <b><%= ('Pictures') -%>:</b><br />
+  <%- @shelf.picture_files.each do |file| -%>
+    <%= image_tag(picture_file_path(file.thumbnails.first, :format => file.thumbnails.first.extname)) -%>
+  <%- end -%>
+</p>
+
+<p>
+  <b><%= ('Created at') -%>:</b>
+  <%=h @shelf.created_at -%>
+</p>
+
+<p>
+  <b><%= ('Updated at') -%>:</b>
+  <%=h @shelf.updated_at -%>
+</p>
+
+</div>

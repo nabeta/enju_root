@@ -1,0 +1,39 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_advertisement_path(@advertisement) -%></li>
+    <li><%= link_to ('Back'), advertisements_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Title') -%>:</b>
+  <%=h @advertisement.title -%>
+</p>
+
+<p>
+  <b><%= ('Url') -%>:</b>
+  <%=h @advertisement.url -%>
+</p>
+
+<p>
+  <b><%= ('Body') -%>:</b>
+  <%=h @advertisement.body -%>
+</p>
+
+<p>
+  <b><%= ('Started at') -%>:</b>
+  <%=h @advertisement.started_at -%>
+</p>
+
+<p>
+  <b><%= ('Ended at') -%>:</b>
+  <%=h @advertisement.ended_at -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @advertisement.note -%>
+</p>
+
+</div>

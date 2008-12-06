@@ -1,0 +1,26 @@
+<h1><%= ('New item_has_use_restriction') -%></h1>
+
+<%= error_messages_for :item_has_use_restriction -%>
+
+<%- form_for(@item_has_use_restriction) do |f| -%>
+  <p>
+    <b><%= ('Item') -%></b><br />
+    <%- if @item -%>
+      <%= link_to h(@item.item_identifier), item_path(@item) -%> (<%= link_to h(@item.manifestation.original_title), manifestation_path(@item.manifestation) -%>)
+      <%= f.hidden_field :item_id, :value => @item.id -%>
+    <%- else -%>
+      <%= f.text_field :item_id -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Use restriction') -%></b><br />
+    <%= f.select(:use_restriction_id, @use_restrictions.collect{|u| [u.name, u.id]}) -%>
+  </p>
+
+  <p>
+    <%= f.submit t('create') -%>
+  </p>
+<%- end -%>
+
+<%= link_to ('Back'), item_has_use_restrictions_path -%>

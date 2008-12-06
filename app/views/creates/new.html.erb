@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <%- if @create -%>
+      <li><%= link_to ('Back to patrons'), work_patrons_path(@create.work) -%></li>
+      <li><%= link_to ('Back to works'), patron_works_path(@create.patron) -%></li>
+    <%- else -%>
+      <li><%= link_to ('Back to patrons'), work_patrons_path(@work) -%></li>
+      <li><%= link_to ('Back to works'), patron_works_path(@patron) -%></li>
+      <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New create') -%></h1>
+
+<%= error_messages_for :create -%>
+
+<%- form_for(:create, :url => creates_path) do |f| -%>
+  <p>
+  <b><%= ('Patron') -%></b><br />
+    <%- if @patron -%>
+		  <%= link_to h(@patron.full_name), @patron -%>
+      <%= f.hidden_field :patron_id, :value => @patron.id -%>
+    <%- else -%>
+      <%= f.text_field :patron_id, :value => params[:patron_id] -%>
+    <%- end -%>
+  </p>
+
+  <p>
+  <b><%= ('Work') -%></b><br />
+    <%- if @work -%>
+		  <%= link_to h(@work.original_title), @work -%>
+      <%= f.hidden_field :work_id, :value => @work.id -%>
+    <%- else -%>
+      <%= f.text_field :work_id, :value => params[:work_id] -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+
+</div>

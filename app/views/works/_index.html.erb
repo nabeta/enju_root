@@ -1,0 +1,43 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Work) do -%>
+      <li><%= link_to ('New work'), new_work_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing works') -%></h1>
+
+<%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag ('Search') -%>
+   </p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Context') -%></th>
+    <th></th>
+  </tr>
+  
+  <%- for work in @works -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(work.original_title), work_path(work) -%>
+        <br />
+        <%= patrons_list(work.patrons) -%>
+      </td>
+      <td><%=h work.context -%></td>
+      <td>
+        <%- if_authorized?(:destroy, work) do -%>
+          <%= link_to t('edit'), edit_work_path(work) -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@works) -%>

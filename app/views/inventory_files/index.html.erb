@@ -1,0 +1,32 @@
+<h1><%= ('Listing inventory_files') -%> </h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Db file') -%> </th>
+    <th><%= ('Filename') -%> </th>
+    <th><%= ('Content type') -%> </th>
+    <th><%= ('Size') -%> </th>
+    <th><%= ('File hash') -%> </th>
+    <th><%= ('User') -%> </th>
+    <th><%= ('Note') -%> </th>
+  </tr>
+
+<%- for inventory_file in @inventory_files -%> 
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h inventory_file.db_file_id -%> </td>
+    <td><%=h inventory_file.filename -%> </td>
+    <td><%=h inventory_file.content_type -%> </td>
+    <td><%=h inventory_file.size -%> </td>
+    <td><%=h inventory_file.file_hash -%> </td>
+    <td><%=h inventory_file.user_id -%> </td>
+    <td><%=h inventory_file.note -%> </td>
+    <td><%= link_to t('show'), inventory_file -%> </td>
+    <td><%= link_to t('edit'), edit_inventory_file_path(inventory_file) -%> </td>
+    <td><%= link_to t('destroy'), inventory_file, :confirm => ('Are you sure?'), :method => :delete -%> </td>
+  </tr>
+<%- end -%> 
+</table>
+
+<%= link_to ('New inventory_file'), new_inventory_file_path -%>
+
+<%= will_paginate(@inventory_files) -%>

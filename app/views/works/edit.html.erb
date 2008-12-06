@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), work_path(@work) -%></li>
+    <li><%= link_to ('Back'), works_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing work') -%></h1>
+
+<%= error_messages_for :work -%>
+
+<%- form_for(:work, :url => work_path(@work), :html => { :method => :put }) do |f| -%>
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%= f.text_field :original_title, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Title transcription') -%></b><br />
+    <%= f.text_field :title_transcription, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Context') -%></b><br />
+    <%= f.text_area :context, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

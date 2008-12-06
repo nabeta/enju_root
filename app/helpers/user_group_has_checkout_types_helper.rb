@@ -1,0 +1,2 @@
+module UserGroupHasCheckoutTypesHelper
+end

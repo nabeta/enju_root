@@ -1,0 +1,52 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_event_path(@event) -%></li>
+    <li><%= link_to ('Back'), events_path -%></li>
+  </ul>
+<%- if logged_in? -%>
+  <ul>
+    <li><%= link_to ('Add to bookmark'), new_user_bookmark_path(current_user.login, :url => request.url) -%></li>
+  </ul>
+<%- end -%>
+</div>
+
+<div id="content_detail">
+<h1>
+  <%=h @event.title -%>
+</h1>
+
+<p>
+<b><%= ('Event category') -%>:</b>
+  <%=h @event.event_category.display_name -%>
+</p>
+
+<p>
+<b><%= ('Library') -%>:</b>
+  <%= link_to h(@event.library.name), library_path(@event.library.short_name) -%>
+</p>
+
+<p>
+<b><%= ('Start at') -%>:</b>
+  <%=h @event.started_at -%>
+</p>
+
+<p>
+<b><%= ('End at') -%>:</b>
+  <%=h @event.ended_at -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @event.note -%>
+</p>
+
+<!--
+<p>
+<b><%= ('Tag') -%>:</b>
+  <%- @event.tags.collect {|tag| -%>
+    <%= link_to h(tag.name), events_path(:tag => tag.name) -%>
+  <%- } -%>
+</p>
+-->
+
+</div>

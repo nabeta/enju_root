@@ -1,0 +1,106 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:destroy, @subject) do -%>
+      <li><%= link_to t('edit'), edit_subject_path(@subject) -%></li>
+      <li>
+        <%= link_to ('Manifestations'), subject_manifestations_path(@subject) -%>
+        (<%=h @subject.manifestations.size -%>)
+      </li>
+      <li>
+        <%= link_to ('Classifications'), subject_classifications_path(@subject) -%>
+        (<%=h @subject.classifications.size -%>)
+      </li>
+      <!--
+      <li><%= link_to ('Search catalog for this subject'), subject_manifestations_path(@subject) -%></li>
+      -->
+      <%- if @manifestation -%>
+        <li><%= link_to ('Back to subjects'), manifestation_subjects_path(@manifestation) -%></li>
+        <li><%= link_to ('Back to manifestation'), @manifestation -%></li>
+      <%- else -%>
+        <li><%= link_to ('Back to subjects'), subjects_path -%></li>
+      <%- end -%>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    [S]
+    <%=h @subject.term -%>
+  </h1>
+
+<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@subject.term)) -%>)</p>
+
+<p>
+<b><%= ('Term transcription') -%>:</b>
+  <%=h @subject.term_transcription -%>
+</p>
+
+<p>
+<b><%= ('Subject type') -%>:</b>
+  <%=h @subject.subject_type.display_name -%>
+</p>
+
+<p>
+<b><%= ('Use') -%>:</b>
+  <%= link_to h(@subject.use_term.term), subject_path(@subject.use_term) if @subject.use_term -%>
+</p>
+
+<p>
+<b><%= ('Used for') -%>:</b>
+<%- @subject.use_terms.each do |use_term| -%>
+  <%= link_to h(use_term.term), subject_path(use_term) -%>
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Broader term') -%>:</b>
+<%- @subject.broader_terms.each do |broader_term| -%>
+  <%= link_to h(broader_term.term), subject_path(broader_term.term) -%>
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Narrower term') -%>:</b>
+<%- @subject.narrower_terms.each do |narrower_term| -%>
+  <%= link_to h(narrower_term.term), subject_path(narrower_term.term) -%>
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Related term') -%>:</b>
+<%- @subject.related_terms.each do |related_term| -%>
+  <%= link_to h(related_term.term), subject_path(related_term.term) -%>
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Classification') -%>:</b>
+<%- @subject.classifications.each do |classification| -%>
+  <%= link_to h(classification.category), classification -%> (<%=h classification.classification_type.display_name -%>)
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Scope note') -%>:</b>
+  <%=h @subject.scope_note -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @subject.note -%>
+</p>
+
+<p>
+<b><%= ('Count') -%>:</b>
+  <%=h @subject.resource_has_subjects_count -%>
+</p>
+
+<p>
+<b><%= ('Tags') -%>:</b>
+<%- @subject.tags.each do |tag| -%>
+  <%= link_to h(tag.name), tag_path(tag.name) -%>
+<%- end -%>
+</p>
+
+</div>

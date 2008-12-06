@@ -1,0 +1,29 @@
+<h1><%= ('Listing imported_event_files') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th>Db file</th>
+    <th><%= ('Filename') -%></th>
+    <th><%= ('Content type') -%></th>
+    <th><%= ('Size') -%></th>
+    <th><%= ('User') -%></th>
+  </tr>
+
+<%- for imported_event_file in @imported_event_files -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h imported_event_file.db_file_id -%></td>
+    <td><%=h imported_event_file.filename -%></td>
+    <td><%=h imported_event_file.content_type -%></td>
+    <td><%=h imported_event_file.size -%></td>
+    <td><%= link_to h(imported_event_file.user.login), user_path(imported_event_file.user.login) -%></td>
+    <td><%= link_to t('show'), imported_event_file -%></td>
+    <td><%= link_to t('edit'), edit_imported_event_file_path(imported_event_file) -%></td>
+    <td><%= link_to t('destroy'), imported_event_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@imported_event_files) -%>
+<br />
+
+<%= link_to ('New imported_event_file'), new_imported_event_file_path -%>

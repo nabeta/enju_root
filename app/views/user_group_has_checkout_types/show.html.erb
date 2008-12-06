@@ -1,0 +1,59 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_user_group_has_checkout_type_path(@user_group_has_checkout_type) -%></li>
+    <li><%= link_to ('Back'), user_group_has_checkout_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('User group') -%>:</b>
+  <%= link_to h(@user_group_has_checkout_type.user_group.display_name), @user_group_has_checkout_type.user_group -%>
+</p>
+
+<p>
+  <b><%= ('Checkout type') -%>:</b>
+  <%= link_to h(@user_group_has_checkout_type.checkout_type.display_name), @user_group_has_checkout_type.checkout_type -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @user_group_has_checkout_type.note -%>
+</p>
+
+<p>
+  <b><%= ('Checkout limit') -%>:</b>
+  <%=h @user_group_has_checkout_type.checkout_limit -%>
+</p>
+
+<p>
+  <b><%= ('Checkout period') -%>:</b>
+  <%=h @user_group_has_checkout_type.checkout_period -%>
+</p>
+
+<p>
+  <b><%= ('Checkout renewal limit') -%>:</b>
+  <%=h @user_group_has_checkout_type.checkout_renewal_limit -%>
+</p>
+
+<p>
+  <b><%= ('Reservation limit') -%>:</b>
+  <%=h @user_group_has_checkout_type.reservation_limit -%>
+</p>
+
+<p>
+  <b><%= ('Reservation expired period') -%>:</b>
+  <%=h @user_group_has_checkout_type.reservation_expired_period -%>
+</p>
+
+<p>
+  <b><%= ('Fixed due date') -%>:</b>
+  <%=h @user_group_has_checkout_type.fixed_due_date -%>
+</p>
+
+<p>
+  <b><%= ('Set due date before closing_day') -%>:</b>
+  <%=h @user_group_has_checkout_type.set_due_date_before_closing_day -%>
+</p>
+
+</div>

@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_classification_type_path(@classification_type) -%></li>
+    <li><%= link_to ('Back'), classification_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Name') -%>:</b>
+  <%=h @classification_type.name -%>
+</p>
+
+<p>
+<b><%= ('Display name') -%>:</b>
+  <%=h @classification_type.display_name -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @classification_type.note -%>
+</p>
+
+</div>

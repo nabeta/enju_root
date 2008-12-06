@@ -1,0 +1,9 @@
+<%- case when @parent -%>
+  <%= render :partial => 'index_parent' -%>
+<%- when @patron -%>
+  <%= render :partial => 'index_patron' -%>
+<%- when @work_merge_list -%>
+  <%= render :partial => 'index_work_merge_list' -%>
+<%- else -%>
+  <%= render :partial => 'index' -%>
+<%- end -%>

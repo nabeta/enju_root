@@ -1,0 +1,20 @@
+<div id="submenu">
+  <ul>
+  </ul>
+</div>
+
+
+<div id="content_detail">
+<h1><%= ('Circulation') -%></h1>
+
+<ul>
+  <li><%= link_to ('Checkout'), new_basket_path -%>
+  <li><%= link_to ('Checkin'), checkins_path -%>
+</ul>
+
+<ul>
+  <li><%= link_to ('Checkout index'), checkouts_path -%>
+  <li><%= link_to ('Overdue'), checkouts_path(:view => 'overdue') -%>
+</ul>
+
+</div>

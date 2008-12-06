@@ -1,0 +1,21 @@
+%h1 RESTful Easy Messages - haml
+= flash[:notice]
+= rezm_menu
+%p
+= error_messages_for 'message'
+%fieldset
+  %legend Send Message
+  - form_for @message do |form|
+    %p
+      %label{ :for => "message_recepient" }Recipient:
+      %br/
+      = form.text_field :recipient, :size => 40, :value => @message.recipient
+    %p
+      %label{ :for => "message_subject" }Subject:
+      %br/
+      = form.text_field :subject, :size => 40
+    %p
+      %label{ :for => "message_body" }Message:
+      %br/
+      = form.text_area :body
+    = submit_tag "Send Message"

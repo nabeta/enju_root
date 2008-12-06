@@ -1,0 +1,35 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Embody) do -%>
+      <li><%= link_to ('New embody'), expression_manifestations_path(@expression) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing embodies') -%></h1>
+
+<h3><%= link_to h(@expression.original_title), @expression -%></h3>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Manifestation') -%></th>
+  </tr>
+
+<%- for embody in @embodies -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
+      <%= form_icon(embody.manifestation.manifestation_form) -%>
+    </td>
+    <%- if_authorized?(:destroy, embody) do -%>
+      <td><%= link_to t('destroy'), embody, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= will_paginate(@embodies) -%>
+</div>

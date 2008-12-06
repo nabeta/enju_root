@@ -1,0 +1,31 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @exemplify -%></li>
+    <li><%= link_to ('Back'), exemplifies_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Editing exemplify') -%></h1>
+
+<%- form_for(@exemplify) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :manifestation_id -%><br />
+    <%= f.text_field :manifestation_id -%>
+  </p>
+  <p>
+    <%= f.label :item_id -%><br />
+    <%= f.text_field :item_id -%>
+  </p>
+  <p>
+    <%= f.label :type -%><br />
+    <%= f.text_field :type -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

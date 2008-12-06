@@ -1,0 +1,45 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Answer this question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
+    <li><%= link_to t('edit'), edit_user_question_path(@question.user.login, @question) -%></li>
+    <li><%= link_to ('Back'), back_to_question_index -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('User') -%>:</b>
+  <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
+</p>
+
+<p>
+<b><%= ('Body') -%>:</b>
+  <%= textilize_without_paragraph(h(@question.body)) -%>
+</p>
+
+<p>
+<b><%= ('Private question') -%>:</b>
+  <%=h @question.private_question -%>
+</p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @question.created_at -%>
+</p>
+
+<p>
+<b><%= ('Updated at') -%>:</b>
+  <%=h @question.updated_at -%>
+</p>
+
+<p>
+<b><%= link_to ('Answers'), user_question_answers_path(@question.user.login, @question) -%>:</b>
+</p>
+
+<ul>
+<%- for answer in @question.answers -%>
+  <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= textilize_without_paragraph(h(answer.body)) -%></li>
+<%- end -%>
+</ul>
+
+</div>

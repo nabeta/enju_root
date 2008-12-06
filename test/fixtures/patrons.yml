@@ -1,0 +1,161 @@
+--- 
+patron_00001: 
+  place: ""
+  last_name: Administrator
+  first_name: 
+  full_name: Administrator
+  updated_at: 2007-11-21 22:01:56.137409 +09:00
+  other_designation: ""
+  id: 1
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:06:06.507237 +09:00
+patron_00002: 
+  place: ""
+  last_name: Librarian1
+  first_name: 
+  full_name: Librarian1
+  updated_at: 2007-11-21 22:02:10.359793 +09:00
+  other_designation: ""
+  id: 2
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:06:07.724517 +09:00
+patron_00003: 
+  place: 
+  last_name: Kosuke
+  first_name: Tanabe
+  full_name: Kosuke Tanabe
+  updated_at: 2007-12-04 16:25:01.523618 +09:00
+  other_designation: 
+  id: 3
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-12-04 16:25:01.523618 +09:00
+patron_00004: 
+  place: 
+  last_name: Librarian2
+  first_name: 
+  full_name: Librarian2
+  updated_at: 2007-12-04 16:25:01.785027 +09:00
+  other_designation: 
+  id: 4
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-12-04 16:25:01.785027 +09:00
+patron_00005: 
+  place: ""
+  last_name: Guest2
+  first_name: 
+  full_name: Guest2
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 5
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00
+patron_00006: 
+  place: ""
+  last_name: New patron 1
+  first_name: 
+  full_name: New patron 1
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 6
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00
+patron_00007: 
+  place: ""
+  last_name: New patron 2
+  first_name: 
+  full_name: New patron 2
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 7
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00
+patron_00008: 
+  place: ""
+  last_name: New patron 3
+  first_name: 
+  full_name: New patron 3
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 8
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00
+patron_00009: 
+  place: ""
+  last_name: New patron 4
+  first_name: 
+  full_name:  New patron 4
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 9
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00
+patron_00010: 
+  place: ""
+  last_name: New patron 5
+  first_name: 
+  full_name: New patron 5
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 10
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  access_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00

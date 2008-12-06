@@ -1,0 +1,35 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Purchase requests'), order_list_purchase_requests_path(@order_list) -%></li>
+    <li><%= link_to t('edit'), edit_order_list_path(@order_list) -%></li>
+    <li><%= link_to ('Back'), order_lists_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('User') -%>:</b>
+  <%= link_to h(@order_list.user.login), user_path(@order_list.user.login) -%>
+</p>
+
+<p>
+  <b><%= ('Title') -%>:</b>
+  <%=h @order_list.title -%>
+</p>
+
+<p>
+  <b><%= ('Bookstore') -%>:</b>
+  <%= link_to h(@order_list.bookstore.name), @order_list.bookstore -%>
+</p>
+
+<p>
+  <b><%= ('Ordered at') -%>:</b>
+  <%=h @order_list.ordered_at -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @order_list.note -%>
+</p>
+
+</div>

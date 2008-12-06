@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_advertise_path(@advertise) -%></li>
+    <li><%= link_to ('Back'), advertises_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Patron') -%>:</b>
+  <%= link_to h(@advertise.patron.full_name), @advertise.patron -%>
+</p>
+
+<p>
+  <b><%= ('Advertisement') -%>:</b>
+  <%= link_to h(@advertise.advertisement.title), @advertise.advertisement -%>
+</p>
+
+</div>

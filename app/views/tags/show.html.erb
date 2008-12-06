@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), back_to_tag_index -%></li>
+    <li><%= link_to t('edit'), edit_tag_path(@tag.name) -%></li>
+    <li><%= link_to ('Search manifestations'), manifestations_path(:tag => h(@tag.name)) -%></li>
+    <%- if logged_in? -%>
+      <li><%= link_to ('Search bookmarks'), user_bookmarked_resources_path(current_user.login, :tag => h(@tag.name)) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    [T]
+    <%=h @tag.name -%>
+  </h1>
+
+<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@tag.name)) -%>)</p>
+
+<p>
+  <b><%= ('Taggings count') -%>:</b>
+    <%= link_to h(@tag.taggings_count), manifestations_path(:tag => h(@tag.name)) -%>
+</p>
+
+<p>
+  <b><%= ('Created at') -%>:</b>
+  <%=h @tag.created_at -%>
+</p>
+
+<p>
+  <b><%= ('Synonym') -%>:</b>
+  <%- @tag.synonym.to_s.split.each do |word| -%>
+    <%= link_to h(word), :controller => :tags, :action => :show, :id => h(word) -%>
+  <%- end -%>
+</p>
+
+<p>
+  <b><%= ('Subjects') -%>:</b>
+  <%- @tag.subjects.each do |subject| -%>
+    <%= link_to h(subject.term), subject -%>
+  <%- end -%>
+</p>
+
+</div>

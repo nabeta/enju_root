@@ -1,0 +1,36 @@
+--- 
+resource_has_subject_00004: 
+  subjectable_id: 1
+  created_at: 2008-06-06 15:11:42.534834 +09:00
+  updated_at: 2008-06-06 15:11:42.534834 +09:00
+  subject_id: 1
+  id: 4
+  subjectable_type: Item
+resource_has_subject_00005: 
+  subjectable_id: 1
+  created_at: 2008-06-06 15:11:49.143545 +09:00
+  updated_at: 2008-06-06 15:11:49.143545 +09:00
+  subject_id: 1
+  id: 5
+  subjectable_type: Patron
+resource_has_subject_00001: 
+  subjectable_id: 1
+  created_at: 2008-06-06 15:11:29.667289 +09:00
+  updated_at: 2008-06-06 15:11:29.667289 +09:00
+  subject_id: 1
+  id: 1
+  subjectable_type: Work
+resource_has_subject_00002: 
+  subjectable_id: 1
+  created_at: 2008-06-06 15:11:33.311274 +09:00
+  updated_at: 2008-06-06 15:11:33.311274 +09:00
+  subject_id: 1
+  id: 2
+  subjectable_type: Expression
+resource_has_subject_00003: 
+  subjectable_id: 1
+  created_at: 2008-06-06 15:11:37.290715 +09:00
+  updated_at: 2008-06-06 15:11:37.290715 +09:00
+  subject_id: 1
+  id: 3
+  subjectable_type: Manifestation

@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, ExpressionForm) do -%>
+      <li><%= link_to ('New expression_form'), new_expression_form_path -%></li>
+    <%- end -%>
+  </li>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing expression_forms') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <th><%= ('Display name') -%></th>
+    <th><%= ('Note') -%></th>
+  </tr>
+  
+<%- for expression_form in @expression_forms -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(expression_form.name), expression_form -%></td>
+    <td><%= link_to h(expression_form.display_name), expression_form -%></td>
+    <td><%=h expression_form.note -%></td>
+    <%- if_authorized?(:destroy, expression_form) do -%>
+      <td><%= link_to t('edit'), edit_expression_form_path(expression_form) -%></td>
+      <td><%= link_to t('destroy'), expression_form_path(expression_form), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= expression_form.first? ? '' : link_to('▲', {:action => 'update', :positin  => (expression_form.position > 1 ? expression_form.position - 1 : 1), :id => expression_form.id}, :method => :put) -%></td>
+      <td><%= expression_form.last? ? '' : link_to('▼', {:action => 'update', :positio => (expression_form.position + 1), :id => expression_form.id}, :method => :put) -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+</div>

@@ -1,0 +1,66 @@
+<% cache do %>
+  <h1>Kamata Library (unofficial)</h1>
+
+<h2>Catalog Search</h2>
+<% form_tag({:controller => 'resources'}, {:method => 'get'}) do -%>
+<p><%= text_field_tag 'query' %>
+<%= submit_tag 'Search' %>
+<%= link_to 'Advanced search', '/menu/advanced_search' %>
+</p>
+<% end -%>
+<% if logged_in? %>
+  <% if current_user.has_role?("Librarian") %>
+    <h2>User Search</h2>
+    <% form_tag({:controller => 'users'}, {:method => 'get'}) do -%>
+      <p><%= text_field_tag 'query' %>
+      <%= submit_tag 'Search' %>
+      </p>
+    <% end -%>
+  <% end -%>
+<% end -%>
+<% end -%>
+
+<p><%=h @results %></p>
+
+<p><%= @numdocs %> documents in this catalog.</p>
+
+<p>書誌データは<a href="http://simile.mit.edu/rdf-test-data/barton/">Barton Catalog dataset</a>を利用しています。日本語の書誌データはありませんのでご了承ください。</p>
+
+<% unless logged_in? %>
+<p>ダミーとして以下の利用者が登録されています。画面上部の"Login"のリンク先にあるログイン画面で、ユーザ名とパスワードを入力します。</p>
+<table border="1">
+  <tr>
+    <th>ユーザ名</th>
+    <th>パスワード</th>
+  </tr>
+  <tr>
+    <td>librarian1</td>
+    <td>librarian1</td>
+  </tr>
+  <tr>
+    <td>librarian2</td>
+    <td>librarian2</td>
+  </tr>
+  <tr>
+    <td>guest1</td>
+    <td>guest1</td>
+  </tr>
+  <tr>
+    <td>guest2</td>
+    <td>guest2</td>
+  </tr>
+  <tr>
+    <td>guest3</td>
+    <td>guest3</td>
+  </tr>
+  <tr>
+    <td>guest4</td>
+    <td>guest4</td>
+  </tr>
+  <tr>
+    <td>guest5</td>
+    <td>guest5</td>
+  </tr>
+</table>
+<% end -%>
+

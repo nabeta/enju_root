@@ -1,0 +1,43 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_imported_patron_file_path(@imported_patron_file) -%></li>
+    <li><%= link_to ('Back'), imported_patron_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Filename') -%>:</b>
+  <%=h @imported_patron_file.filename -%>
+</p>
+
+<p>
+  <b><%= ('Content type') -%>:</b>
+  <%=h @imported_patron_file.content_type -%>
+</p>
+
+<p>
+  <b><%= ('Size') -%>:</b>
+  <%=h @imported_patron_file.size -%>
+</p>
+
+<p>
+  <b><%= ('File hash') -%>:</b>
+  <%=h @imported_patron_file.file_hash -%>
+</p>
+
+<p>
+  <b><%= ('User') -%>:</b>
+  <%= link_to h(@imported_patron_file.user.login), user_path(@imported_patron_file.user.login) -%>
+</p>
+
+<table style="width: 100%">
+  <%- @imported_patron_file.imported_objects.each do |object| -%>
+    <tr>
+      <td><%= link_to h(object.importable.full_name), object.importable -%></td>
+      <td><%=h object.created_at -%></td>
+    </tr>
+  <%- end -%>
+</table>
+
+</div>

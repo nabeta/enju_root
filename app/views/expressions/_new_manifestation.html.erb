@@ -1,0 +1,16 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), manifestation_expressions_path(@manifestation) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New expression') -%></h1>
+
+<%= error_messages_for :expression -%>
+
+<%- form_for(:expression, :url => manifestation_expressions_path(@manifestation)) do |f| -%>
+  <%= render :partial => 'new', :locals => {:f => f} -%>
+<%- end -%>
+
+</div>

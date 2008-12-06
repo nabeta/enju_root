@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_manifestation_form_has_checkout_type_path(@manifestation_form_has_checkout_type) -%></li>
+    <li><%= link_to ('Back'), manifestation_form_has_checkout_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Manifestation form') -%>:</b>
+  <%= link_to h(@manifestation_form_has_checkout_type.manifestation_form.display_name), @manifestation_form_has_checkout_type.manifestation_form -%>
+</p>
+
+<p>
+  <b><%= ('Checkout type') -%>:</b>
+  <%= link_to h(@manifestation_form_has_checkout_type.checkout_type.display_name), @manifestation_form_has_checkout_type.checkout_type -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @manifestation_form_has_checkout_type.note -%>
+</p>
+
+</div>

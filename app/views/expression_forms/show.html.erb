@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_expression_form_path(@expression_form) -%></li>
+    <li><%= link_to ('Back'), expression_forms_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Name') -%>:</b>
+  <%=h @expression_form.name -%>
+</p>
+
+<p>
+<b><%= ('Display name') -%>:</b>
+  <%=h @expression_form.display_name -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @expression_form.note -%>
+</p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @expression_form.created_at -%>
+</p>
+
+<p>
+<b><%= ('Updated at') -%>:</b>
+  <%=h @expression_form.updated_at -%>
+</p>
+
+</div>

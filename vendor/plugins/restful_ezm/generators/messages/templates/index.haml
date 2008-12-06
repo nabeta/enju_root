@@ -1,0 +1,21 @@
+%h1 RESTful Easy Messages - haml
+%p= flash[:notice]
+= rezm_menu
+%p
+- form_for :message, :url => destroy_selected_messages_path do |form|
+  %table{:border => "1"}
+    %tr
+      %th
+      %th Subject
+      %th= rezm_sender_or_receiver_label
+      %th Sent
+    - for message in @messages
+      %tr
+        %td= rezm_delete_check_box(message)
+        %td= rezm_link_to_message(message)
+        %td= rezm_sender_or_receiver(message)
+        %td= rezm_sent_at(message)
+    %tr
+      %td{:colspan=> "4"}= submit_tag "Delete"
+	
+

@@ -1,0 +1,39 @@
+xml.instruct! :xml, :version=>"1.0" 
+xml.rss('version' => "2.0",
+        'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
+        'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
+        'xmlns:atom' => "http://www.w3.org/2005/Atom"){
+  xml.channel{
+    xml.title "#{@library_group.name} search results"
+    xml.link "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => nil))}"
+    xml.description "open-source integrated library automation system developed by Kamata Library and Project Next-L"
+    xml.language "ja-jp" # TODO: 日本語以外の資料
+    xml.ttl "60"
+    xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"
+    xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"
+    xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "#{request.protocol}#{request.host_with_port}/page/opensearch"
+    unless params[:query].blank?
+      xml.tag! "opensearch:totalResults", @count[:query_result]
+      xml.tag! "opensearch:startIndex", @startrecord
+      xml.tag! "opensearch:itemsPerPage", @per_page
+      xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
+    end
+    if @manifestations
+      for manifestation in @manifestations
+        xml.item do
+          xml.title h(manifestation.original_title)
+          #xml.description(manifestation.original_title)
+          # rfc822
+          xml.pubDate h(manifestation.created_at.rfc2822)
+          xml.link "#{request.protocol}#{request.host_with_port}" + manifestation_path(manifestation)
+          xml.guid "#{request.protocol}#{request.host_with_port}" + manifestation_path(manifestation), :isPermaLink => "true"
+          manifestation.tags.each do |tag|
+            xml.category h(tag)
+          end
+          xml.tag! "dc:Identifier", manifestation.isbn
+        end
+      end
+      @startrecord += 1
+    end
+  }
+}

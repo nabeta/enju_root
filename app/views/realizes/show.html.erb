@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to patrons'), expression_patrons_path(@realize.expression) -%></li>
+    <li><%= link_to ('Back to expressions'), patron_expressions_path(@realize.patron) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Patron') -%>:</b>
+  <%= link_to h(@realize.patron.full_name), patron_path(@realize.patron) -%>
+</p>
+
+<p>
+<b><%= ('Expression') -%>:</b>
+  <%= link_to h(@realize.expression.original_title), expression_path(@realize.expression) -%>
+</p>
+
+</div>

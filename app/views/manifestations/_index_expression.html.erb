@@ -1,0 +1,68 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('New manifestation'), new_expression_manifestation_path(@expression) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    [E]
+    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+  </h1>
+  <p>
+    <%= patrons_list(@expression.authors) -%>
+    <%= patrons_list(@expression.patrons) -%>
+  </p>
+
+  <%- form_for :manifestations, :url => expression_manifestations_path(@expression), :html => {:method => 'get'} do -%>
+    <p>
+      <%= ('Search term') -%>:
+      <%= text_field_tag 'query', h(@query), :id => 'searchform_top', :size => 40 -%>
+      <%- if_authorized?(:destroy, @expression) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
+          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+        <%- else -%>
+          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
+          <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+        <%- end -%>
+      <%- end -%>
+      <%= submit_tag h(('Search')) -%>
+      <!--
+      <%= link_to h(('Advanced search')), '/page/advanced_search' -%>
+      -->
+      <%= link_to ('Back to index'), expression_manifestations_path(@expression) -%>
+    </p>
+  <%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th></th>
+  </tr>
+  
+<%- for manifestation in @manifestations -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(manifestation.original_title), manifestation -%>
+      <%= form_icon(manifestation.manifestation_form) -%><br />
+      <%= patrons_list(manifestation.authors) -%>
+      <%= patrons_list(manifestation.editors) -%>
+      <%= patrons_list(manifestation.patrons) -%>
+    </td>
+    <td>
+      <%- if_authorized?(:destroy, manifestation) do -%>
+        <%- if params[:mode] == "add" -%>
+          <%= link_to ('Add'), new_expression_embody_path(@expression, :manifestation_id => manifestation.id) unless @expression.manifestations.include?(manifestation) -%>
+        <%- else -%>
+          <%- embody = @expression.embodies.find_by_manifestation_id(manifestation.id) -%>
+          <%= link_to t('destroy'), expression_embody_path(@expression, embody), :confirm => ('Are you sure?'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@manifestations) if @manifestations -%>
+</div>

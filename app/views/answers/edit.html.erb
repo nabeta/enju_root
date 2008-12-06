@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
+    <li><%= link_to ('Back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing answer') -%></h1>
+
+<%= error_messages_for :answer -%>
+
+<%- form_for(:answer, :url => user_question_answer_path(@answer.user.login, @answer.question, @answer), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('User') -%></b><br />
+    <%= link_to h(@answer.user.login), user_path(@answer.user) -%>
+  </p>
+
+  <p>
+  <b><%= ('Question') -%></b><br />
+    <%= link_to h(@answer.question.body), question_path(@answer.question) -%>
+  </p>
+
+  <p>
+  <b><%= ('Body') -%></b><br />
+    <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

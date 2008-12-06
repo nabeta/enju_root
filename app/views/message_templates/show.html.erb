@@ -1,0 +1,23 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_message_template_path(@message_template) -%></li>
+    <li><%= link_to ('Back'), message_templates_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Status') -%>:</b>
+  <%=h @message_template.status -%>
+</p>
+
+<p>
+  <b><%= ('Title') -%>:</b>
+  <%=h @message_template.title -%>
+</p>
+
+<p>
+  <b><%= ('Body') -%>:</b>
+  <%= h(@message_template.body).gsub("\n", '<br />') -%>
+</p>
+</div>

@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), realize_path(@realize) -%></li>
+    <li><%= link_to ('Back'), realizes_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing realize') -%></h1>
+
+<%= error_messages_for :realize -%>
+
+<%- form_for(:realize, :url => realize_path(@realize), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Patron') -%></b><br />
+    <%= f.text_field :patron_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Expression') -%></b><br />
+    <%= f.text_field :expression_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

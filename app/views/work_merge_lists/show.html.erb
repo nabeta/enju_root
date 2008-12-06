@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Add a work'), work_merge_list_works_path(@work_merge_list) -%></li>
+    <li><%= link_to ('Edit a list'), work_merge_list_work_merges_path(@work_merge_list) -%></li>
+  </ul>
+  <ul>
+    <li><%= link_to t('edit'), edit_work_merge_list_path(@work_merge_list) -%></li>
+    <li><%= link_to ('Back'), work_merge_lists_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<%- form_for(:work_merge_list, :url => work_merge_list_path(@work_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Title') -%>:</b>
+    <%=h @work_merge_list.title -%>
+  </p>
+
+  <ul>
+    <%- @work_merge_list.works.each do |work| -%>
+      <li><%= radio_button_tag 'selected_work_id', work.id -%><%= link_to h(work.original_title), work_path(work) -%></li>
+    <%- end -%>
+  </ul>
+  <%- if @work_merge_list.works.size > 1 -%>
+    <%= f.submit "Merge", :confirm => ('Are you sure?') -%>
+  <%- end -%>
+<%- end -%>
+
+</div>

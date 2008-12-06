@@ -1,0 +1,2 @@
+module SubjectHasClassificationsHelper
+end

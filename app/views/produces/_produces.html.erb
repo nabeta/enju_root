@@ -1,0 +1,26 @@
+<table>
+  <tr>
+    <th><%= ('Patron') -%></th>
+    <th><%= ('Manifestation') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+  
+<%- for produce in @produces -%>
+  <tr>
+    <td><%=h produce.patron_id -%></td>
+    <td><%= link_to h(produce.manifestation.original_title), manifestation_path(produce.manifestation) -%></td>
+    <td><%=h produce.created_at -%></td>
+    <td><%=h produce.updated_at -%></td>
+    <td><%= link_to t('show'), produce_path(produce) -%></td>
+    <td><%= link_to t('edit'), edit_produce_path(produce) -%></td>
+    <td><%= link_to t('destroy'), produce_path(produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= will_paginate(@produces) -%>
+
+<%= link_to ('New produce'), new_produce_path -%>

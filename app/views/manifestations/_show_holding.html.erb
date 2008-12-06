@@ -1,0 +1,40 @@
+<%- cache(:action => :show, :id => @manifestation.id, :action_suffix => 'show_holding') do -%>
+  <table border="1">
+    <tr>
+      <th><%=h ('Library name') -%></th>
+      <th><%=h ('Location') -%></th>
+      <th><%=h ('Call number') -%></th>
+      <th><%=h ('Item identifier') -%></th>
+      <th><%=h ('Status') -%></th>
+    </tr>
+    <%- for item in @manifestation.items -%>
+      <%- unless (item.shelf.blank? or item.shelf.web_shelf?) -%>
+        <tr>
+          <td>
+            <%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name)%>
+          </td>
+          <td><%= link_to h(item.shelf.name), shelf_path(item.shelf) -%></td>
+          <td>
+            <%=h item.call_number -%>
+          </td>
+          <td>
+            <%- unless item.item_identifier.blank? -%>
+              <%= link_to h(item.item_identifier), item -%>
+            <%- else -%>
+              (<%= link_to ('no number'), item -%>)
+            <%- end -%>
+          </td>
+          <td>
+            <%- if item.rent? -%>
+              <span style="color: red">
+            <%- end -%>
+            <%=h item.circulation_status.display_name if item.circulation_status -%>
+            <%- if item.rent? -%>
+              </span>
+            <%- end -%>
+          </td>
+        </tr>
+      <%- end -%>
+    <%- end -%>
+  </table>
+<%- end -%>

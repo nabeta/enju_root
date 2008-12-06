@@ -1,0 +1,23 @@
+<p>
+  <b>Barcode type:</b>
+  <%=h @barcode.barcode_type -%>
+</p>
+
+<p>
+  <b>Barcodable:</b>
+  <%=h @barcode.barcodable_id -%>
+</p>
+
+<p>
+  <b>Barcodable type:</b>
+  <%=h @barcode.barcodable_type -%>
+</p>
+
+<p>
+  <b>Data:</b>
+  <%= image_tag(barcode_path(@barcode) + '.png') -%>
+</p>
+
+
+<%= link_to t('edit'), edit_barcode_path(@barcode) -%> |
+<%= link_to ('Back'), barcodes_path -%>

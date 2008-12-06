@@ -1,0 +1,33 @@
+<div id="submenu">
+  <ul>
+    <%- if @patron_merge_list -%>
+      <li><%= link_to ('Add a patron'), patron_merge_list_patrons_path(@patron_merge_list) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing patron_merges') -%></h1>
+
+<%- if @patron_merge_list -%>
+  <p><%= ('Patrons in %{patron_merge_list}') -%></p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <td><%= ('Patron') -%></td>
+    <td><%= ('Patron merge list') -%></td>
+  </tr>
+
+<%- for patron_merge in @patron_merges -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(patron_merge.patron.full_name), patron_path(patron_merge.patron) -%></td>
+    <td><%= link_to h(patron_merge.patron_merge_list.title), patron_merge_list_path(patron_merge.patron_merge_list) -%></td>
+    <td><%= link_to t('show'), patron_merge -%></td>
+    <td><%= link_to t('edit'), edit_patron_merge_path(patron_merge) -%></td>
+    <td><%= link_to t('destroy'), patron_merge, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+</div>

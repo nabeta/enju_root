@@ -1,0 +1,24 @@
+<%- unless @manifestation.bookmarks.blank? -%>
+  <ul>
+  <%- @manifestation.bookmarked_resource.bookmarks.each do |bookmark| -%>
+    <%- if bookmark.user.share_bookmarks -%>
+      <li><%= link_to h(bookmark.user.login), user_bookmark_path(bookmark.user.login, bookmark) -%>
+      <%- bookmark.tags.each do |tag| -%>
+        [<%= link_to h(tag.name), manifestations_path(:tag => tag.name) -%>]
+      <%- end -%>
+      <%=h bookmark.note -%>
+      <%- if logged_in? and current_user == bookmark.user -%>
+        <%= link_to image_tag('/icons/page_edit.png', :alt => t('edit')), edit_user_bookmark_path(bookmark.user.login, bookmark) -%>
+      <%- end -%>
+      </li>
+    <%- end -%>
+  <%- end -%>
+  </ul>
+<%- else -%>
+  <p>
+    <%= ('Not bookmarked.') -%>
+    <%- if logged_in? -%>
+      <%= link_to h(('Add to bookmark')), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%>
+    <%- end -%>
+  </p>
+<%- end -%>

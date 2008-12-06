@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_inventory_path(@inventory) -%> </li>
+    <li><%= link_to ('Back'), inventories_path -%> </li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Item') %>:</b>
+  <%=h @inventory.item_id -%> 
+</p>
+
+<p>
+  <b><%= ('Inventory file') %>:</b>
+  <%=h @inventory.inventory_file_id -%> 
+</p>
+
+<p>
+  <b><%= ('Note') %>:</b>
+  <%=h @inventory.note -%> 
+</p>
+
+</div>

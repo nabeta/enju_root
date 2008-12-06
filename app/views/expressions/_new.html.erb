@@ -1,0 +1,90 @@
+  <%- if @parent_expression -%>
+    <p>
+      <b><%= ('Parent') -%></b><br />
+      <%= link_to h(@parent_expression.original_title), expression_path(@parent_expression) -%>
+    </p>
+    <%= f.hidden_field :parent_id, :value => @parent_expression.id -%>
+  <%- end -%>
+
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%- if @work -%>
+      <%= f.text_field :original_title, :value => @work.original_title, :class => 'resource_title' -%>
+    <%- elsif @manifestation -%>
+      <%= f.text_field :original_title, :value => @manifestation.original_title, :class => 'resource_title' -%>
+    <%- else -%>
+      <%= f.text_field :original_title, :class => 'resource_title' -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Title transcription') -%></b><br />
+    <%- if @work -%>
+      <%= f.text_field :title_transcription, :value => @work.title_transcription, :class => 'resource_title' -%>
+    <%- elsif @manifestation -%>
+      <%= f.text_field :title_transcription, :value => @manifestation.title_transcription, :class => 'resource_title' -%>
+    <%- else -%>
+      <%= f.text_field :title_transcription, :class => 'resource_title' -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Title alternative') -%></b><br />
+    <%- if @work -%>
+      <%= f.text_field :title_alternative, :value => @work.title_alternative, :class => 'resource_title' -%>
+    <%- elsif @manifestation -%>
+      <%= f.text_field :title_alternative, :value => @manifestation.title_alternative, :class => 'resource_title' -%>
+    <%- else -%>
+      <%= f.text_field :title_alternative, :class => 'resource_title' -%>
+    <%- end -%>
+  </p>
+
+  <%- unless @patron.blank? -%>
+    <p>
+      <b><%= ('Author') -%></b><br />
+      <%=h @patron.full_name -%>
+    </p>
+  <%- end -%>
+
+  <p>
+    <b><%= ('Summarization') -%></b><br />
+    <%= f.text_area :summarization, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Context') -%></b><br />
+    <%= f.text_area :context, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Language') -%></b><br />
+    <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Expression form') -%></b><br />
+    <%= f.select(:expression_form_id, @expression_forms.collect{|b| [b.name, b.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Frequency of issue') -%></b><br />
+    <%= f.select(:frequency_of_issue_id, @frequency_of_issues.collect{|i| [i.display_name, i.id]}) -%>
+  </p>
+
+  <%- if @manifestation -%>
+    <%- if @manifestation.serial -%>
+      <p>
+        <b><%= ('ISSN') -%></b><br />
+        <%= f.text_field :issn, :class => 'resource_isbn_issn' -%>
+      </p>
+    <%- end -%>
+  <%- end -%>
+
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('create') -%>
+  </p>

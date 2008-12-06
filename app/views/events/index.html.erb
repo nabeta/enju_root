@@ -1,0 +1,63 @@
+<div id="submenu">
+  <ul>
+    <%- if logged_in? -%>
+      <%- if current_user.has_role?('Librarian') -%>
+        <%- if @library -%>
+          <li><%= link_to ('New event'), new_library_event_path(@library.short_name, :date => params[:date]) -%></li>
+        <%- else -%>
+          <li><%= link_to ('New event'), new_event_path(:date => params[:date]) -%></li>
+        <%- end -%>
+        <li><%= link_to ('Import events'), imported_event_files_path -%></li>
+      <%- end -%>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing events') -%></h1>
+
+<p>
+  <%- if @library -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), formatted_library_events_path(@library.short_name, :rss) -%>
+    (<%= link_to ('RSS'), formatted_library_events_path(@library.short_name, :rss) -%>)
+    (<%= link_to ('CSV'), formatted_library_events_path(@library.short_name, :csv, :lang => 'ja') -%>)
+  <%- else -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), formatted_events_path(:rss) -%>
+    (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
+    (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
+  <%- end -%>
+  <%= link_to ('All libraries'), events_path -%>
+</p>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Event category') -%></th>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Note') -%></th>
+    <th><%= ('Library') -%></th>
+    <th><%= ('Date') -%></th>
+  </tr>
+
+<%- @events.each_with_index do |event, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h event.event_category.display_name -%></td>
+    <td><%= link_to h(event.title), event -%></td>
+    <td><%=h event.note -%></td>
+    <td><%= link_to h(event.library.name), library_path(event.library.short_name) -%></td>
+    <td>
+      <%=h event.started_at.strftime("%Y-%m-%d") -%>
+      -
+      <%=h event.ended_at.strftime("%Y-%m-%d") -%>
+    </td>
+    <%- if logged_in? -%>
+      <%- if current_user.has_role?('Librarian') -%>
+        <td><%= link_to t('edit'), edit_event_path(event) -%></td>
+        <td><%= link_to t('destroy'), event, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <%- end -%>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@events) -%>
+</div>

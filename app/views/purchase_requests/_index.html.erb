@@ -1,0 +1,64 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('New purchase_request'), new_user_purchase_request_path(current_user.login)%></li>
+    <%- case params[:mode] when 'not_ordered' -%>
+      <li><%= link_to ('Ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
+      <li><%= link_to ('All requests'), purchase_requests_path -%></li>
+    <%- when 'ordered' -%>
+      <li><%= link_to ('Not ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
+      <li><%= link_to ('All requests'), purchase_requests_path -%></li>
+    <%- else -%>
+      <li><%= link_to ('Ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
+      <li><%= link_to ('Not ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Listing purchase_requests') -%></h1>
+
+<p>
+  <%- if @user -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
+    (<%= link_to ('RSS'), formatted_user_purchase_requests_path(@user.login, :rss) -%>)
+    (<%= link_to ('CSV'), formatted_user_purchase_requests_path(@user.login, :csv, :lang => 'ja') -%>)
+  <%- else -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), :format => :rss -%>
+    (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
+    (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
+  <%- end -%>
+  <%= ('Bookmarklet') -%>:
+  <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library purchase bookmark') -%></a>
+</p>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Price') -%></th>
+    <th><%= ('Order list') -%></th>
+  </tr>
+
+  <%- @purchase_requests.each_with_index do |purchase_request, i| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(purchase_request.title), purchase_request -%>
+        <br />
+        <%=h purchase_request.author -%>
+        <%=h purchase_request.publisher -%>
+        <%=h purchase_request.date_of_publication -%>
+      </td>
+      <td><%=h purchase_request.price -%></td>
+      <td>
+        <%= link_to h(purchase_request.order_list.title), order_list_purchase_requests_path(purchase_request.order_list) if purchase_request.order_list -%>
+      </td>
+      <td><%= link_to t('edit'), edit_user_purchase_request_path(purchase_request.user.login, purchase_request) -%></td>
+      <%- if current_user.has_role?('Librarian') -%>
+        <td><%= link_to t('destroy'), user_purchase_request_path(purchase_request.user.login, purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <%- end -%>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@purchase_requests) -%>
+
+</div>

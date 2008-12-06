@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_checkout_type_path(@checkout_type) -%></li>
+    <li><%= link_to 'Back', checkout_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b>Name:</b>
+  <%=h @checkout_type.name -%>
+</p>
+
+<p>
+  <b>Display name:</b>
+  <%=h @checkout_type.display_name -%>
+</p>
+
+<p>
+<b><%= ('User group') -%></b>
+<ul>
+  <%- @checkout_type.user_group_has_checkout_types.each do |available_user_group| -%>
+    <li><%= link_to h(available_user_group.user_group.display_name), available_user_group.user_group -%></li>
+  <%- end -%>
+</ul>
+
+<p><%= link_to ('Add a user group'), new_checkout_type_user_group_has_checkout_type_path(@checkout_type) -%></p>
+
+<p>
+<b><%= ('Manifestation form') -%></b>
+<ul>
+  <%- @checkout_type.manifestation_form_has_checkout_types.each do |available_manifestation_form| -%>
+    <li><%= link_to h(available_manifestation_form.manifestation_form.display_name), available_manifestation_form.manifestation_form -%></li>
+  <%- end -%>
+</ul>
+
+<p><%= link_to ('Add a manifestation form'), new_checkout_type_manifestation_form_has_checkout_type_path(@checkout_type) -%></p>
+
+<p>
+  <b>Note:</b>
+  <%=h @checkout_type.note -%>
+</p>
+
+</div>

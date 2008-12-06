@@ -1,0 +1,26 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), advertises_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New advertise') -%></h1>
+
+<%- form_for(@advertise) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :patron_id -%><br />
+    <%= f.text_field :patron_id -%>
+  </p>
+  <p>
+    <%= f.label :advertisement_id -%><br />
+    <%= f.text_field :advertisement_id -%>
+  </p>
+  <p>
+    <%= f.submit Create -%>
+  </p>
+<%- end -%>
+
+</div>

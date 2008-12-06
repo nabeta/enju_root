@@ -1,0 +1,2 @@
+module FrequencyOfIssuesHelper
+end

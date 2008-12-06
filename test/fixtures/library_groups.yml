@@ -1,0 +1,9 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+one:
+  id: 1
+  name: unknown
+  display_name: unknown
+  short_name: unknown
+  email: next-l@kamata.lib.teu.ac.jp
+  note: 
+  my_networks: 0.0.0.0/0

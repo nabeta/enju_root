@@ -1,0 +1,23 @@
+<h1><%= ('Editing produce') -%></h1>
+
+<%= error_messages_for :produce -%>
+
+<%- form_for(:produce, :url => produce_path(@produce), :html => { :method => :put }) do |f| -%>
+  <p>
+    <b><%= ('Patron') -%></b><br />
+    <%= f.text_field :patron_id -%>
+  </p>
+
+  <p>
+    <b><%= ('Manifestation') -%></b><br />
+    <%= f.text_field :manifestation_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+
+<%- end -%>
+
+<%= link_to t('show'), produce_path(@produce) -%> |
+<%= link_to ('Back'), produces_path -%>

@@ -1,0 +1,23 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to h(@library_group.name), h("http://#{LIBRARY_WEB_HOSTNAME}") -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <%- form_tag(sessions_path, :name => 'login_form') do -%>
+    <p><label for="login"><%= t('login_name') -%></label><br/>
+    <%= text_field_tag 'login' -%></p>
+
+    <p><label for="password"><%= t('password') -%></label><br/>
+    <%= password_field_tag 'password' -%></p>
+
+    <p><label for="remember_me"><%= ('Remember me') -%>:</label>
+    <%= check_box_tag 'remember_me' -%></p>
+
+    <p><%= submit_tag t('login') -%></p>
+  <%- end -%>
+  <%= javascript_tag("$('login').focus()") -%>
+
+</div>

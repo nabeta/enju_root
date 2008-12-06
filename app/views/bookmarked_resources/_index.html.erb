@@ -1,0 +1,48 @@
+<div>
+  <h1><%= ('Listing bookmarks') -%></h1>
+
+  <p><%= link_to ('Most bookmarked') , bookmarked_resources_path -%></p>
+
+<%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= text_field_tag 'query', @query -%>
+    <%= submit_tag h(('Search')) -%>
+  </p>
+<%- end -%>
+
+  <div>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
+    (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
+    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
+    <%- if logged_in? -%>
+      <%= ('Bookmarklet') -%>:
+      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library bookmark') -%></a>
+    <%- end -%>
+  </div>
+
+<table style="width: 100%">
+  <tr>
+    <th></th>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Tag') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th></th>
+  </tr>
+  <%- @bookmarked_resources.each_with_index do |manifestation, i| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= itemnum = @startrecord + i -%></td>
+      <td><%= link_to h(manifestation.original_title), manifestation -%></td>
+      <td>
+        <%- manifestation.tags.each do |tag| -%>
+          <%= link_to h(tag.name), tag_path(tag.name) -%>
+        <%- end -%>
+      </td>
+      <td><%=h manifestation.created_at -%></td>
+      <td><%= link_to t('show'), bookmarked_resource_path(manifestation.bookmarked_resource) -%></td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@bookmarked_resources) -%>
+
+</div>

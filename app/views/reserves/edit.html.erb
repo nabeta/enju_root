@@ -1,0 +1,39 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), user_reserve_path(@reserve.user.login, @reserve) -%></li>
+    <li><%= link_to ('Back'), user_reserves_path(@reserve.user.login) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing reservation') -%></h1>
+
+<%= error_messages_for :reservation -%>
+
+<%- form_for(:reserve, :url => user_reserve_path(@reserve.user.login, @reserve), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Patron') -%></b><br />
+  <%= link_to h(@reserve.user.patron.full_name), patron_path(@reserve.user.patron) -%> (<%=h @reserve.user.login -%>)
+  </p>
+
+  <p>
+  <b><%= ('Manifestation') -%></b><br />
+    <%- if @reserve.manifestation -%>
+      <%= link_to h(@reserve.manifestation.original_title), manifestation_path(@reserve.manifestation) -%><br />
+      <%= f.hidden_field :manifestation_id -%>
+    <%- else -%>
+      <%= f.text_field :manifestation_id -%>
+    <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Expired at') -%></b><br />
+    <%= f.date_select :expired_at, :include_blank => true -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

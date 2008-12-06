@@ -1,0 +1,41 @@
+<%- if params[:mode] == 'not_found' -%>
+  <h1><%= ('Failed search') -%></h1>
+  <%= reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
+  <p>
+    <%= link_to ('All histories'), search_histories_path -%>
+  </p>
+<%- else -%>
+  <h1><%= ('Listing search_histories') -%></h1>
+  <p>
+    <%= link_to ('Failed search'), search_histories_path(:mode => 'not_found') -%>
+  </p>
+<%- end -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Query') -%></th>
+    <th><%= ('Number of records') -%></th>
+    <%- unless params[:mode] == 'not_found' -%>
+      <th><%= ('Start record') -%></th>
+    <%- end -%>
+    <th><%= ('Searched at') -%></th>
+  </tr>
+  
+<%- @search_histories.each_with_index do |search_history, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(search_history.query), manifestations_path(:query => search_history.query) -%></td>
+    <td><%=h search_history.number_of_records -%></td>
+    <%- unless params[:mode] == 'not_found' -%>
+      <td><%=h search_history.start_record -%></td>
+    <%- end -%>
+    <td><%=h search_history.created_at -%></td>
+    <%- if_authorized?(:destroy, search_history) do -%>
+      <td><%= link_to t('show'), search_history -%></td>
+      <td><%= link_to t('edit'), edit_search_history_path(search_history) -%></td>
+      <td><%= link_to t('destroy'), search_history, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@search_histories) -%>

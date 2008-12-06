@@ -1,0 +1,7 @@
+require File.dirname(__FILE__) + '/../test_helper'
+
+class WorkTest < Test::Unit::TestCase
+  fixtures :works
+
+  # Replace this with your real tests.
+end

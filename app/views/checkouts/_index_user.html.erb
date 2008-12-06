@@ -1,0 +1,40 @@
+<div id="submenu">
+  <ul>
+    <%- @user.user_group.user_group_has_checkout_types.each do |available_checkout_type| -%>
+      <li>
+        <%=h available_checkout_type.checkout_type.display_name -%>:
+        <%=h @user.checked_item_count[:"#{available_checkout_type.checkout_type.name}"] -%> / <%=h available_checkout_type.checkout_limit -%>
+      </li>
+    <%- end -%>
+  </ul>
+  <ul>
+    <li><%= link_to 'iCalendar', ('/icalendar/' + h(@user.checkout_icalendar_token) + '.ics') -%></li>
+    <li><%= link_to ('Reservation'), user_reserves_path(@user.login) -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= link_to ('All checkouts'), checkouts_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing checkouts') -%></h1>
+
+<div>
+  <%- if params[:view] == 'overdue' -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>
+    (<%= link_to ('RSS'), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>)
+    (<%= link_to ('CSV'), formatted_user_checkouts_path(@user.login, :csv, :view => 'overdue', :lang => 'ja') -%>)
+  <%- else -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss) -%>
+    (<%= link_to ('RSS'), formatted_user_checkouts_path(@user.login, :rss) -%>)
+    (<%= link_to ('CSV'), formatted_user_checkouts_path(@user.login, :csv, :lang => 'ja') -%>)
+  <%- end -%>
+</div>
+
+<%= render :partial => 'list' -%>
+
+<%- if @checkouts.size == 0 -%>
+  <p><%= ('No checkouts.') -%></p>
+<%- end -%>
+
+</div>

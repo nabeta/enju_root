@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_use_restriction_path(@use_restriction) -%></li>
+    <li><%= link_to ('Back'), use_restrictions_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @use_restriction.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @use_restriction.display_name -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @use_restriction.note -%>
+</p>
+
+</div>

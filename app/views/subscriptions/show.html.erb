@@ -1,0 +1,36 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_subscription_path(@subscription) -%></li>
+    <li><%= link_to ('Add an expression'), subscription_expressions_path(@subscription) -%></li>
+    <li><%= link_to ('Back'), subscriptions_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Title') -%>:</b>
+  <%=h @subscription.title -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @subscription.note -%>
+</p>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+  </tr>
+  <%- @subscription.expressions.each do |expression| -%>
+    <tr>
+      <td>
+        <strong><%= link_to h(expression.original_title), expression -%></strong>
+        <br />
+        <%= patrons_list(expression.work.patrons)%>
+        <%= patrons_list(expression.patrons) -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+</div>

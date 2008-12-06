@@ -1,0 +1,49 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_imported_resource_file_path(@imported_resource_file) -%></li>
+    <li><%= link_to ('Back'), imported_resource_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Filename') -%>:</b>
+  <%=h @imported_resource_file.filename -%>
+</p>
+
+<p>
+  <b><%= ('Content type') -%>:</b>
+  <%=h @imported_resource_file.content_type -%>
+</p>
+
+<p>
+  <b><%= ('Size') -%>:</b>
+  <%=h @imported_resource_file.size -%>
+</p>
+
+<p>
+  <b><%= ('File hash') -%>:</b>
+  <%=h @imported_resource_file.file_hash -%>
+</p>
+
+<p>
+  <b><%= ('User') -%>:</b>
+  <%= link_to h(@imported_resource_file.user.login), user_path(@imported_resource_file.user.login) -%>
+</p>
+
+<table style="width: 100%">
+  <%- @imported_resource_file.imported_objects.each do |object| -%>
+    <tr>
+      <td><%= link_to h(object.importable.title), object.importable -%></td>
+      <td><%= link_to h(object.importable.library.name), object.importable.library -%></td>
+      <td>
+        <%=h object.importable.start_at -%>
+        -
+        <%=h object.importable.end_at -%>
+
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+</div>

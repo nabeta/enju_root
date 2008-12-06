@@ -1,0 +1,5 @@
+<ul>
+  <%- @manifestation.attachment_files.each do |attachment_file| -%>
+    <li><%= link_to h(attachment_file.filename), formatted_attachment_file_path(attachment_file, :download) -%></li>
+  <%- end -%>
+</ul>

@@ -1,0 +1,20 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_donate_path(@donate) -%></li>
+    <li><%= link_to ('Back'), donates_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Patron') -%>:</b>
+  <%= link_to h(@donate.patron.full_name), @donate.patron -%>
+</p>
+
+<p>
+  <b><%= ('Item') -%>:</b>
+  <%= link_to h(@donate.item.manifestation.original_title), @donate.item.manifestation -%>
+  (<%= link_to h(@donate.item.item_identifier), @donate.item -%>)
+</p>
+
+</div>

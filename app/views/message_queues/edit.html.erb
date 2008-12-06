@@ -1,0 +1,38 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @message_queue -%></li>
+    <li><%= link_to ('Back'), message_queues_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Editing message_queue') -%></h1>
+
+<%- form_for(@message_queue) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :sender_id -%><br />
+    <%= link_to h(@message_queue.sender.login), user_path(@message_queue.sender.login) -%>
+  </p>
+  <p>
+    <%= f.label :receiver_id -%><br />
+    <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
+  </p>
+  <p>
+    <%= f.label :message_template_id -%><br />
+    <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
+  </p>
+  <p>
+    <%= f.label :subject -%><br />
+    <%=h @message_queue.subject -%>
+  </p>
+  <p>
+    <%= f.label :body -%><br />
+    <%= textilize(h(@message_queue.body)) -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+</div>

@@ -1,0 +1,21 @@
+<h1><%= ('New checked_item') -%></h1>
+
+<%= error_messages_for :checked_item -%>
+
+<%- form_for(@checked_item, :url => user_basket_checked_items_path(@basket.user.login, @basket)) do |f| -%>
+  <p>
+  <b><%= ('Item') -%></b><br />
+    <%= f.text_field :item_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Basket') -%></b><br />
+    <%= f.text_field :basket_id -%>
+  </p>
+
+  <p>
+    <%= f.submit t('create') -%>
+  </p>
+<%- end -%>
+
+<%= link_to ('Back'), user_basket_checked_items_path(@basket.user.login, @basket) -%>

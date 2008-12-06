@@ -1,0 +1,111 @@
+--- 
+classification_00006: 
+  name: !binary |
+    5oqA6KGT44O75bel5a2m
+
+  updated_at: 2008-03-02 19:25:19.555182 +09:00
+  classification_type_id: 2
+  category: "500"
+  id: 6
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:25:19.555182 +09:00
+classification_00007: 
+  name: !binary |
+    55Sj5qWt
+
+  updated_at: 2008-03-02 19:25:31.846101 +09:00
+  classification_type_id: 2
+  category: "600"
+  id: 7
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:25:31.846101 +09:00
+classification_00008: 
+  name: !binary |
+    6Iq46KGT44O7576O6KGT
+
+  updated_at: 2008-03-02 19:25:42.485981 +09:00
+  classification_type_id: 2
+  category: "700"
+  id: 8
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:25:42.485981 +09:00
+classification_00009: 
+  name: !binary |
+    6KiA6Kqe
+
+  updated_at: 2008-03-02 19:25:54.879049 +09:00
+  classification_type_id: 2
+  category: "800"
+  id: 9
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:25:54.879049 +09:00
+classification_00010: 
+  name: !binary |
+    5paH5a2m
+
+  updated_at: 2008-03-02 19:26:03.099902 +09:00
+  classification_type_id: 2
+  category: "900"
+  id: 10
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:26:03.099902 +09:00
+classification_00001: 
+  name: !binary |
+    57eP6KiY
+
+  updated_at: 2008-03-02 19:23:02.050270 +09:00
+  classification_type_id: 1
+  category: "000"
+  id: 1
+  note: ""
+  parent_id: 
+  created_at: 2008-03-02 19:21:50.689538 +09:00
+classification_00002: 
+  name: !binary |
+    5ZOy5a2m
+
+  updated_at: 2008-03-02 19:23:55.187964 +09:00
+  classification_type_id: 1
+  category: "100"
+  id: 2
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:23:55.187964 +09:00
+classification_00003: 
+  name: !binary |
+    5q205Y+y
+
+  updated_at: 2008-03-02 19:24:44.271616 +09:00
+  classification_type_id: 1
+  category: "200"
+  id: 3
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:24:44.271616 +09:00
+classification_00004: 
+  name: !binary |
+    56S+5Lya56eR5a2m
+
+  updated_at: 2008-03-02 19:24:56.797259 +09:00
+  classification_type_id: 1
+  category: "300"
+  id: 4
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:24:56.797259 +09:00
+classification_00005: 
+  name: !binary |
+    6Ieq54S256eR5a2m
+
+  updated_at: 2008-03-02 19:25:08.317117 +09:00
+  classification_type_id: 1
+  category: "400"
+  id: 5
+  note: 
+  parent_id: 
+  created_at: 2008-03-02 19:25:08.317117 +09:00

@@ -1,0 +1,20 @@
+<%- form_for(:picture_file, :url => library_shelf_picture_files_path(@shelf.library, @shelf), :html => { :multipart => true, :method => :post }) do |f| -%>
+  <p>
+    <b><%= ('Attachable') -%></b><br />
+    <%= link_to h(@shelf.library.name), library_path(@shelf.library.short_name) -%>
+    <%= link_to h(@shelf.name), @shelf -%>
+    <%= f.hidden_field :picture_attachable_id -%>
+    <%= f.hidden_field :picture_attachable_type -%>
+  </p>
+
+  <p>
+    <b><%= ('File') -%></b><br />
+    <%= f.file_field :uploaded_data -%>
+  </p>
+
+  <p>
+    <%= f.submit t('create') -%>
+  </p>
+<%- end -%>
+<%= link_to ('Back'), library_shelf_picture_files_path(@shelf.library, @shelf) -%>
+

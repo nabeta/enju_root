@@ -1,0 +1,27 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @advertise -%></li>
+    <li><%= link_to ('Back'), advertises_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing advertise') -%></h1>
+
+<%- form_for(@advertise) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label :patron_id -%><br />
+    <%= f.text_field :patron_id -%>
+  </p>
+  <p>
+    <%= f.label :advertisement_id -%><br />
+    <%= f.text_field :advertisement_id -%>
+  </p>
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

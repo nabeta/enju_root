@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), user_questions_path(@user.login) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New question') -%></h1>
+
+<%= error_messages_for :question -%>
+
+<%- form_for(:question, :url => user_questions_path(@user.login)) do |f| -%>
+  <p>
+  <b><%= ('User') -%></b><br />
+    <%= link_to h(@user.login), user_path(@user.login) -%>
+    <%= f.hidden_field :user_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Body') -%></b><br />
+  <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+  <b><%= ('Private question') -%></b><br />
+    <%= f.check_box :private_question -%>
+  </p>
+
+  <p>
+  <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+
+</div>

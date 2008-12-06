@@ -1,0 +1,128 @@
+<div id="result_list">
+  <div id="searchform">
+    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+    <p>
+      <%= t('page.search_term') -%>:
+      <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
+      <%= submit_tag t('page.search') -%>
+      <%= link_to h(('Advanced search')), '/page/advanced_search' -%>
+    </p>
+  <%- end -%>
+  </div>
+
+<%- unless @query.blank? -%>
+  <%- if @count[:query_result] > 0 -%>
+    <script type="text/javascript">
+      window.onload = function() {
+      Element.show('spinner_all_facet');
+      Element.show('spinner_tag_cloud');
+      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")).gsub("&amp;", "&") -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
+      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")).gsub("&amp;", "&") -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
+      return false;
+    }
+    </script>
+
+    <p><%= t'page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => @seconds -%></p>
+    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+      <p>
+        <%= ('Sort by') -%>:
+        <%- if params[:sort].blank? -%>
+          <strong><%= ('Date of acquisition') -%></strong>
+        <%- else -%>
+          <%= link_to ('Date of acquisition'), params.merge(:sort => nil) -%>
+        <%- end -%>
+        <%- if params[:sort] == 'date' -%>
+          <strong><%= ('Date of publication') -%></strong>
+        <%- else -%>
+          <%= link_to ('Date of publication'), params.merge(:sort => 'date') -%>
+        <%- end -%>
+        <%- if params[:sort] == 'title' -%>
+          <strong><%= ('Title') -%></strong>
+        <%- else -%>
+          <%= link_to ('Title'), params.merge(:sort => 'title') -%>
+        <%- end -%>
+      </p>
+    <%- end -%>
+
+    <div class="autopagerize_page_element">
+      <%= render :partial => 'manifestation_list' -%>
+
+<!--
+http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
+-->
+      <%= will_paginate(@manifestations, :previous_label => "&#171; " + ('Previous'), :next_label => ('Next') + " &#187;") -%>
+      <div style="margin-top: 1em">
+        <%- if @manifestations and @manifestations.size > Manifestation.per_page / 2 -%>
+          <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+            <p>
+              <%= t('page.search_term') -%>: <%= text_field_tag 'query', h("#{@query} #{@tag}"), {:id => 'searchform_bottom', :style => 'width: 350px'} -%>
+              <%= submit_tag t('page.search') -%>
+              <%= link_to ('Advanced search'), '/page/advanced_search' -%>
+            </p>
+          <%- end -%>
+        <%- end -%>
+      </div>
+    </div>
+
+  <%- else -%>
+    <p>
+      <%= ('No records found.') -%>
+      <%= ('You can search the following database.') -%>
+    </p>
+    <%- @search_engines.each do |search_engine| -%>
+      <p>
+        <%= form_tag search_engine.base_url, :method => search_engine.http_method -%>
+          <%= link_to h(search_engine.name), h(search_engine.url) -%>
+          <%= submit_tag ('Search') -%>
+          <br />
+          <%=h search_engine.note -%>
+          <%= hidden_field_tag search_engine.query_param, h(@query) -%>
+          <%- search_engine.search_params(@query).each{|k, v| -%>
+            <%= hidden_field_tag k, h(v) -%>
+          <%- } -%>
+        </form>
+      </p>
+    <%- end -%>
+  <%- end -%>
+<%- else -%>
+  <p><%= ('Enter your search term.') -%></p>
+<%- end -%>
+
+<%- if @count[:query_result] > 0 -%>
+  <div id="tag_cloud">
+    <h3><%= ('Tag') -%></h3>
+    <div id="tag_cloud_list" style="display: none"></div>
+    <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
+      :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
+  </div>
+<%- end -%>
+    <div class="autopagerize_insert_before">
+    </div>
+
+</div>
+
+<div id="sidebar">
+  <%- unless @query.blank? -%>
+    <div>
+      <%- if params[:library_id].blank? -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'Feed', :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
+      <%- else -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'Feed', :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
+      <%- end -%>
+    </div>
+    <h1><%= link_to ('Total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h1>
+    <p>
+    <%- if @count[:query_result] > 0 -%>
+
+      <div id="all_facet_box">
+        <div id="all_facet_list" style="display: none"></div>
+        <%= image_tag 'spinner.gif', :id => 'spinner_all_facet',
+          :style => 'margin-top: 10px; margin-left: 40px; display: none' -%>
+      </div>
+
+    <%- end -%>
+  <%- else -%>
+    <!-- Replace with your message -->
+    <p>This catalog is developed by <a href="http://kamata.lib.teu.ac.jp/">Kamata Library</a> and <a href="http://www.next-l.jp/">Project Next-L</a>.</p>
+  <%- end -%>
+</div>

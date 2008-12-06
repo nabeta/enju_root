@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('New subscription'), new_subscription_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing subscriptions') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Subscription term') -%></th>
+    <th><%= ('Count') -%></th>
+  </tr>
+
+<%- for subscription in @subscriptions -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(subscription.title), subscription -%></td>
+    <td><%= subscription.expressions.size -%></td>
+    <td><%= link_to t('edit'), edit_subscription_path(subscription) -%></td>
+    <td><%= link_to t('destroy'), subscription, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@subscrpitions) -%>
+
+</div>

@@ -1,0 +1,40 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_bookstore_path(@bookstore) -%></li>
+    <li><%= link_to ('Back'), bookstores_path -%></li>
+    <li><%= link_to ('Order lists'), bookstore_order_lists_path(@bookstore) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @bookstore.name -%>
+</p>
+
+<p>
+  <b><%= ('Address') -%>:</b>
+  <%=h @bookstore.address -%>
+</p>
+
+<p>
+  <b><%= ('Telephone number') -%>:</b>
+  <%=h @bookstore.telephone_number -%>
+</p>
+
+<p>
+  <b><%= ('Fax number') -%>:</b>
+  <%=h @bookstore.fax_number -%>
+</p>
+
+<p>
+  <b><%= ('Url') -%>:</b>
+  <%= link_to h(@bookstore.url), @bookstore.url -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @bookstore.note -%>
+</p>
+
+</div>

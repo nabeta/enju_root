@@ -1,0 +1,30 @@
+<h1><%= ('Listing advertisements') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Title') -%></th>
+    <th><%= ('Url') -%></th>
+    <th><%= ('Body') -%></th>
+    <th><%= ('Period') -%></th>
+  </tr>
+
+<%- for advertisement in @advertisements -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(advertisement.title), advertisement -%></td>
+    <td><%= link_to h(advertisement.url), advertisement.url -%></td>
+    <td><%=h advertisement.body -%></td>
+    <td>
+      <%=h advertisement.started_at.strftime("%Y-%m-%d") -%>
+      -
+      <%=h advertisement.ended_at.strftime("%Y-%m-%d") -%>
+    </td>
+    <td><%= link_to t('show'), advertisement -%></td>
+    <td><%= link_to t('edit'), edit_advertisement_path(advertisement) -%></td>
+    <td><%= link_to t('destroy'), advertisement, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= link_to ('New advertisement'), new_advertisement_path -%>

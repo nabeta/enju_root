@@ -1,0 +1,28 @@
+--- 
+:backgroundrb: 
+  :port: 11006
+  :ip: 0.0.0.0
+  :environment: production
+:schedules:
+  :periodic_worker:
+    :solr_reindex:
+      :trigger_args: 0 0 4 * * *
+    :fetch_feeds:
+      :trigger_args: 0 0 * * * *
+    :send_messages:
+      :trigger_args: 0 0 * * * *
+    :expire_baskets:
+      :trigger_args: 0 0 0 * * *
+    :expire_reservations:
+      :trigger_args: 0 5 0 * * *
+    :expire_aaws_responses:
+      :trigger_args: 0 0 5 * * *
+    :expire_sessions:
+      :trigger_args: 0 */5 * * * *
+      :data: "14d"
+    :import_patrons:
+      :trigger_args: 0 0 3 * * *
+    :import_events:
+      :trigger_args: 0 0 2 * * *
+    :import_resources:
+      :trigger_args: 0 0 1 * * *

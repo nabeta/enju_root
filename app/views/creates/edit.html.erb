@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), create_path(@create) -%></li>
+    <li><%= link_to ('Back'), creates_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing create') -%></h1>
+
+<%= error_messages_for :create -%>
+
+<%- form_for(:create, :url => create_path(@create), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Patron') -%></b><br />
+    <%= f.text_field :patron_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Work') -%></b><br />
+    <%= f.text_field :work_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

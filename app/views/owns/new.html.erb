@@ -1,0 +1,28 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), owns_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New own') -%></h1>
+
+<%= error_messages_for :own -%>
+
+<%- form_for(:own, :url => owns_path) do |f| -%>
+  <p>
+    <b><%= ('Library') -%></b><br />
+    <%= f.text_field :patron_id -%>
+  </p>
+
+  <p>
+    <b><%= ('Item') -%></b><br />
+    <%= f.text_field :item_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+
+</div>

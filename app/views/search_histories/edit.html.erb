@@ -1,0 +1,67 @@
+<h1><%= ('Editing search_history') -%></h1>
+
+<%= error_messages_for :search_history -%>
+
+<%- form_for(:search_history, :url => search_history_path(@search_history), :html => { :method => :put }) do |f| -%>
+  <p>
+    <b>Operation</b><br />
+    <%= f.text_field :operation -%>
+  </p>
+
+  <p>
+    <b>Version</b><br />
+    <%= f.text_field :version -%>
+  </p>
+
+  <p>
+    <b><%= ('Query') -%></b><br />
+    <%= f.text_field :query -%>
+  </p>
+
+  <p>
+    <b><%= ('Start record') -%></b><br />
+    <%= f.text_field :start_record -%>
+  </p>
+
+  <p>
+    <b><%= ('Maximum records') -%></b><br />
+    <%= f.text_field :maximum_records -%>
+  </p>
+
+  <p>
+    <b>Record packing</b><br />
+    <%= f.text_field :record_packing -%>
+  </p>
+
+  <p>
+    <b>Record schema</b><br />
+    <%= f.text_field :record_schema -%>
+  </p>
+
+  <p>
+    <b>Result set ttl</b><br />
+    <%= f.text_field :result_set_ttl -%>
+  </p>
+
+  <p>
+    <b>Stylesheet</b><br />
+    <%= f.text_field :stylesheet -%>
+  </p>
+
+  <p>
+    <b>Extra request data</b><br />
+    <%= f.text_field :extra_request_data -%>
+  </p>
+
+  <p>
+  <b><%= ('User') -%></b><br />
+    <%= f.text_field :user_id -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+
+<%= link_to t('show'), user_search_history_path(@search_history.user.login, @search_history) -%> |
+<%= link_to ('Back'), user_search_histories_path(@search_history.user.login) -%>

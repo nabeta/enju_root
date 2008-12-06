@@ -1,0 +1,19 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_reify_path(@reify) -%></li>
+    <li><%= link_to ('Back'), reifies_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Work') -%>:</b>
+  <%= link_to h(@reify.work.original_title), work_path(@reify.work) -%>
+</p>
+
+<p>
+  <b><%= ('Expression') -%>:</b>
+  <%= link_to h(@reify.expression.original_title), expression_path(@reify.expression) -%>
+</p>
+
+</div>

@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:destroy, @classification) do -%>
+      <li><%= link_to t('edit'), edit_classification_path(@classification) -%></li>
+    <%- end -%>
+    <li><%= link_to ('Back'), back_to_classification_index -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Category') -%>:</b>
+  <%=h @classification.category -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @classification.note -%>
+</p>
+
+<p>
+<b><%= ('Type') -%>:</b>
+  <%=h @classification.classification_type.name -%>
+</p>
+
+<p>
+<b><%= ('Subject') -%>:</b>
+</p>
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Term') -%></th>
+    <th><%= ('Term transcription') -%></th>
+    <th><%= ('Subject type') -%></th>
+  </tr>
+  <%- @classification.subjects.each do |subject| -%>
+    <tr>
+      <td><%= link_to h(subject.term), subject -%></td>
+      <td><%= link_to h(subject.term_transcription), subject -%></td>
+      <td><%=h subject.subject_type.name -%></td>
+    </tr>
+  <%- end -%>
+</table>
+
+</div>

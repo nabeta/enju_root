@@ -1,0 +1,22 @@
+<div>
+  <h1><%= ("Listing %{user}'s bookmarked resources") -%></h1>
+  <%- form_for :works, :url => user_bookmarked_resources_path(@user.login), :html => {:method => 'get'} do -%>
+    <p>
+      <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+      <%= submit_tag ('Search') -%>
+    </p>
+  <%- end -%>
+
+  <p>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>
+    (<%= link_to ('RSS'), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>)
+    (<%= link_to ('CSV'), formatted_user_bookmarked_resources_path(@user.login, :csv, :lang => 'ja') -%>)
+    <%= ('Bookmarklet') -%>:
+    <a href="javascript:window.location.href='<%=h new_user_bookmark_url(@user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library bookmark') -%></a>
+  </p>
+
+  <%= render :partial => 'bookmarked_resources/bookmark_list' -%>
+
+<%= will_paginate(@bookmarked_resources) -%>
+
+</div>

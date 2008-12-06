@@ -1,0 +1,69 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @attachment_file -%></li>
+    <li><%= link_to ('Back'), attachment_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing attachment_file') -%></h1>
+
+<%= error_messages_for :attachment_file -%>
+
+<%- form_for(@attachment_file) do |f| -%>
+  <p>
+    <b>Attachable</b><br />
+    <%= f.text_field :attachable_id -%>
+  </p>
+
+  <p>
+    <b>Attachable type</b><br />
+    <%= f.text_field :attachable_type -%>
+  </p>
+
+  <p>
+  <b><%= ('Size') -%></b><br />
+    <%= f.text_field :size -%>
+  </p>
+
+  <p>
+  <b>Content type</b><br />
+    <%= f.text_field :content_type -%>
+  </p>
+
+  <p>
+  <b><%= ('Filename') -%></b><br />
+    <%= f.text_field :filename -%>
+  </p>
+
+  <p>
+  <b><%= ('Height') -%></b><br />
+    <%= f.text_field :height -%>
+  </p>
+
+  <p>
+  <b><%= ('Width') -%></b><br />
+    <%= f.text_field :width -%>
+  </p>
+
+  <p>
+  <b><%= ('Parent') -%></b><br />
+    <%= f.text_field :parent_id -%>
+  </p>
+
+  <p>
+  <b><%= ('Thumbnail') -%></b><br />
+    <%= f.text_field :thumbnail -%>
+  </p>
+
+  <p>
+    <b>Db file</b><br />
+    <%= f.text_field :db_file_id -%>
+  </p>
+
+  <p>
+    <%= f.submit t('update') -%>
+  </p>
+<%- end -%>
+
+</div>

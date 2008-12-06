@@ -1,0 +1,24 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_patron_type_path(@patron_type) -%></li>
+    <li><%= link_to ('Back'), patron_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= ('Name') -%>:</b>
+  <%=h @patron_type.name -%>
+</p>
+
+<p>
+  <b><%= ('Display name') -%>:</b>
+  <%=h @patron_type.display_name -%>
+</p>
+
+<p>
+  <b><%= ('Note') -%>:</b>
+  <%=h @patron_type.note -%>
+</p>
+
+</div>

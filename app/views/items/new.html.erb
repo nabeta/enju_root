@@ -1,0 +1,87 @@
+<div id="submenu">
+  <%- if @manifestation -%>
+    <div id="manifestation_book_jacket">
+      <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
+        <%= book_jacket(@manifestation) -%>
+      <%- end -%>
+    </div>
+  <%- end -%>
+
+  <ul>
+    <%- if @manifestation -%>
+      <li><%= link_to ('Back'), manifestation_items_path(@manifestation) -%></li>
+    <%- else -%>
+      <li><%= link_to ('Back'), items_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('New item') -%></h1>
+  <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+
+<%= error_messages_for :item -%>
+
+<%- form_for(:item, :url => manifestation_items_path(@manifestation)) do |f| -%>
+
+  <p>
+    <b><%= ('Library') -%> / <%= ('Shelf') -%></b><br />
+    <select id="library_id" name="library_id">
+      <%= options_from_collection_for_select(@libraries, "short_name", "name", @library.short_name) -%>
+    </select>
+    <span id="item1">
+      <%= f.select(:shelf_id, @library.shelves.collect{|s| [s.name, s.id]}) -%>
+    </span>
+    <%= observe_field("library_id", :update => "item1", :url => {:controller => 'shelves', :action => 'index', :item_id => @item, :select => true}, :method => :get, :with => "'library_id='+value") -%>
+  </p>
+
+  <p>
+    <b><%= ('Circulation status') -%></b><br />
+    <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Checkout type') -%></b><br />
+    <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name, c.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Call number') -%></b><br />
+    <%= f.text_field :call_number -%>
+  </p>
+
+  <p>
+  <b><%= ('Price') -%></b><br />
+    <%= f.text_field :price -%>
+  </p>
+
+  <p>
+  <b><%= ('URL') -%></b><br />
+    <%= f.text_field :url, :class => 'resource_url' -%>
+  </p>
+ 
+  <p>
+    <b><%= ('Include supplements') -%></b>
+    <%= f.check_box :include_supplements -%>
+  </p>
+
+<!--
+  <p>
+  <b><%= ('Use restriction') -%></b> # TODO: 互いに矛盾する利用制限を指定させない<br />
+    <%- @use_restrictions.each do |use_restriction| -%>
+      <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
+      <%=h use_restriction.display_name -%><br />
+    <%- end -%>
+  </p>
+  -->
+
+  <p>
+    <b><%= ('Item identifier') -%></b><br />
+    <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+</div>

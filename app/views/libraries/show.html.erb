@@ -1,0 +1,121 @@
+<div id="submenu">
+  <ul>
+  <%- if_authorized?(:edit, @library) do  -%>
+    <li><%= link_to t('edit'), edit_library_path(@library.short_name) -%></li>
+  <%- end -%>
+
+  <%- if_authorized?(:new, Shelf) do  -%>
+    <li><%= link_to ('New shelf'), new_library_shelf_path(@library.short_name) -%></li>
+  <%- end -%>
+  <%- if session[:return_to] -%>
+    <li><%= link_to ('Back'), h(session[:return_to]) -%></li>
+  <%- else -%>
+    <li><%= link_to ('Back'), libraries_path -%></li>
+  <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%=h @library.name -%></h1>
+
+<p>
+  <%= ('Short display name') -%>: <%=h @library.short_display_name -%><br />
+  <%= ('Address') -%>: <%=h @library.address -%><br />
+  <%= ('Telephone number') -%>: <%=h @library.telephone_number_1 -%>
+  <%=h @library.telephone_number_2 -%>
+  FAX: <%=h @library.fax_number -%>
+</p>
+  <p>
+    <%=h @library.note -%>
+  </p>
+
+<%- unless @library.web? -%>
+<div id="tabview">
+  
+  <div id="demo" class="yui-navset yui-navset-top">
+    <ul class="yui-nav">
+      <li title="active" class="selected"><a href="#tab1"><em><%= ('Map') -%></em></a></li>
+      <li><a href="#tab2"><em><%= ('Staff') -%></em></a></li>
+      <li><a href="#tab3"><em><%= ('Shelf') -%></em></a></li>
+      <li><a href="#tab4"><em><%= ('Event') -%></em></a></li>
+      <%- if_authorized?(:destroy, @library) do -%>
+        <li><a href="#tab5"><em><%= ('Configuration') -%></em></a></li>
+      <%- end -%>
+    </ul>
+    <div class="yui-content">
+      <div id="tab1">
+
+        <%- if @map -%>
+          <%= GMap.header -%>
+          <%= @map.to_html -%>
+          <%= @map.div(:width => 600, :height => 400) -%>
+        <%- end -%>
+
+        <p>
+          <b><%= ('Created at') -%>:</b>
+          <%=h @library.created_at -%>
+        </p>
+
+        <p>
+          <b><%= ('Updated at') -%>:</b>
+          <%=h @library.updated_at -%>
+        </p>
+
+      </div>
+      <div id="tab2">
+        <ul>
+          <%- @library.users.librarians.each do |librarian| -%>
+            <li>
+              <%= link_to h(librarian.login), patron_path(librarian.patron) -%>
+              <%- unless librarian.note.blank? -%>
+                <br />
+                <%=h librarian.note -%>
+              <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+      </div>
+      <div id="tab3">
+
+        <table style="width: 100%">
+          <tr>
+            <th><%= ('Shelf') -%></th>
+            <th><%= ('Note') -%></th>
+          </tr>
+          <%- @library.shelves.each do |shelf| -%>
+          <tr>
+            <td><%= link_to h(shelf.name), library_shelf_path(@library.short_name, shelf) -%></td>
+            <td><%=h shelf.note -%></td>
+          </tr>
+          <%- end -%>
+        </table>
+
+        </div>
+
+        <div id="tab4">
+          <h3><%= link_to ('Events'), library_events_path(@library.short_name) -%></h3>
+
+          <div id="library_calendar" style="text-align:left">
+            <%= render :partial => 'calendar' -%>
+          </div>
+        </div>
+
+        <div id="tab5">
+          <h3><%= ('Configuration') -%></h3>
+          <p>
+            <b><%= ('Call number rows') -%>:</b>
+            <%=h @library.call_number_rows -%>
+          </p>
+
+          <p>
+            <b><%= ('Call number delimiter') -%>:</b>
+            <%=h @library.call_number_delimiter -%>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <%= render :partial => 'page/tabview' -%>
+<%- end -%>
+</div>

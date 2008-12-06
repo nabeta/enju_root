@@ -1,0 +1,152 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('show'), @inter_library_loan -%></li>
+    <li><%= link_to ('Back'), inter_library_loans_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('Editing inter_library_loan') -%></h1>
+
+<%= error_messages_for :inter_library_loan -%>
+
+<%- form_for(@inter_library_loan) do |f| -%>
+  <p>
+  <b><%= ('Borrowing library') -%></b><br />
+    <%= f.select(:borrowing_library_id, @libraries.collect{|l| [l.display_name, l.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Item') -%></b><br />
+    <%= link_to h(@inter_library_loan.item.shelf.library.display_name), library_path(@inter_library_loan.item.shelf.library.short_name) -%>
+    <%= link_to h(@inter_library_loan.item.item_identifier), @inter_library_loan.item -%>
+    (<%= link_to h(@inter_library_loan.item.manifestation.original_title), @inter_library_loan.item.manifestation -%>)
+    <%= f.hidden_field :item_id -%>
+  </p>
+
+  <%- case @inter_library_loan.state
+    when 'requested' -%>
+    <p>
+      <b><%= ('Requested at') -%></b><br />
+      <%=h @inter_library_loan.requested_at -%>
+    </p>
+
+    <%- if @inter_library_loan.item.hold?(current_user.library) -%>
+      <p>
+        <b><%= ('Shipped at') -%></b><br />
+        <%= f.datetime_select :shipped_at -%>
+      </p>
+      <p>
+        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+      </p>
+    <%- end -%>
+  <%- when 'shipped' -%>
+    <p>
+      <b><%= ('Requested at') -%></b><br />
+      <%=h @inter_library_loan.requested_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Shipped at') -%></b><br />
+      <%=h @inter_library_loan.shipped_at -%>
+    </p>
+
+    <%- if !@inter_library_loan.item.hold?(current_user.library) -%>
+      <p>
+        <b><%= ('Received at') -%></b><br />
+        <%= f.datetime_select :received_at -%>
+      </p>
+      <p>
+        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+      </p>
+    <%- end -%>
+  <%- when 'received' -%>
+    <p>
+      <b><%= ('Requested at') -%></b><br />
+      <%=h @inter_library_loan.requested_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Shipped at') -%></b><br />
+      <%=h @inter_library_loan.shipped_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Received at') -%></b><br />
+      <%=h @inter_library_loan.received_at -%>
+    </p>
+
+    <%- if !@inter_library_loan.item.hold?(current_user.library) -%>
+      <p>
+        <b><%= ('Return shipped at') -%></b><br />
+        <%= f.datetime_select :return_shipped_at -%>
+      </p>
+      <p>
+        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+      </p>
+    <%- end -%>
+  <%- when 'return_shipped' -%>
+    <p>
+      <b><%= ('Requested at') -%></b><br />
+      <%=h @inter_library_loan.requested_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Shipped at') -%></b><br />
+      <%=h @inter_library_loan.shipped_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Received at') -%></b><br />
+      <%=h @inter_library_loan.received_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Return shipped at') -%></b><br />
+      <%=h @inter_library_loan.return_shipped_at -%>
+    </p>
+
+    <%- if @inter_library_loan.item.hold?(current_user.library) -%>
+      <p>
+        <b><%= ('Return received at') -%></b><br />
+        <%= f.datetime_select :return_received_at -%>
+      </p>
+      <p>
+        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+      </p>
+    <%- end -%>
+  <%- when 'return_received' -%>
+    <p>
+      <b><%= ('Requested at') -%></b><br />
+      <%=h @inter_library_loan.requested_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Shipped at') -%></b><br />
+      <%=h @inter_library_loan.shipped_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Received at') -%></b><br />
+      <%=h @inter_library_loan.received_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Return shipped at') -%></b><br />
+      <%=h @inter_library_loan.return_shipped_at -%>
+    </p>
+
+    <p>
+      <b><%= ('Return received at') -%></b><br />
+      <%=h @inter_library_loan.return_received_at -%>
+    </p>
+  <%- end -%>
+
+  <p>
+    <b><%= ('Current status') -%></b><br />
+    <%=h @inter_library_loan.item.circulation_status.display_name -%>
+  </p>
+
+<%- end -%>
+
+</div>

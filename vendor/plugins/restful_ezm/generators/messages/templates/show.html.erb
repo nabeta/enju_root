@@ -1,0 +1,32 @@
+<h1>RESTful Eazy Messages</h1>
+<div class="" >
+<%= rezm_menu -%>
+  <%= flash[:notice] %> 
+  <p></p>
+  <fieldset>
+    <legend>View Message</legend>
+	
+	  <p>
+        <label for="message_sender_name" ><strong>To:</strong></label>
+        <%= rezm_to_user_link(@message) %>
+      </p>
+      <p>
+        <label for="message_sender_name" ><strong>From:</strong></label>
+        <%= rezm_from_user_link(@message) %>
+      </p>
+    
+      <p>
+        <label for="message_subject" ><strong>Subject:</strong></label>  
+        <%=h @message.subject %>
+      </p>
+      
+      <p>
+        <label for="message_body" ><strong>Message:</strong></label>  
+        <%= simple_format(h(@message.body)) %>
+      </p>
+
+  </fieldset>
+  
+  <%= rezm_button_to_reply(@message) %>
+  <%= rezm_button_to_delete(@message) %>
+</div>

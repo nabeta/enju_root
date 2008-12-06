@@ -1,0 +1,38 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Edit bookmarked_resource'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%></li>
+    <li><%= link_to t('show'), user_bookmark_path(@bookmark.user.login, @bookmark) -%></li>
+    <li><%= link_to ('Back'), user_bookmarks_path(@bookmark.user.login) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Editing bookmark') -%></h1>
+
+<%= error_messages_for :bookmark -%>
+
+<%- form_for(:bookmark, :url => user_bookmark_path(@bookmark.user.login, @bookmark), :html => { :method => :put }) do |f| -%>
+  <p>
+  <b><%= ('Title') -%></b><br />
+  <%- if @bookmark.bookmarked_resource -%>
+    <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%>
+  <%- else -%>
+    <%= f.text_field :bookmarked_resource_id -%>
+  <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Tag') -%></b><br />
+    <%= f.text_field :tag_list, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= submit_tag t('update') -%>
+  </p>
+<%- end -%>
+</div>

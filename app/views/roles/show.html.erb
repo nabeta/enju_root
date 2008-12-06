@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('edit'), edit_role_path(@role) -%></li>
+    <li><%= link_to ('Back'), roles_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Name') -%>:</b>
+  <%=h @role.name -%>
+</p>
+
+<p>
+<b><%= ('Display name') -%>:</b>
+  <%=h @role.name -%>
+</p>
+
+<p>
+<b><%= ('Note') -%>:</b>
+  <%=h @role.note -%>
+</p>
+
+<p>
+<b><%= ('Created at') -%>:</b>
+  <%=h @role.created_at -%>
+</p>
+
+<p>
+<b><%= ('Updated at') -%>:</b>
+  <%=h @role.updated_at -%>
+</p>
+
+</div>

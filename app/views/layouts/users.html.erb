@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-script-type" content="text/javascript" />
+  <%- if @user -%>
+  <title><%= t('page.user_title', :login_name => @user.login) -%> - <%= "#{@library_group.display_name}" -%></title>
+  <%- else -%>
+    <title><%= @library_group.display_name -%></title>
+  <%- end -%>
+  <%= render :partial => 'page/include' -%>
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= request.protocol + request.host_with_port -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+</head>
+<body class="yui-skin-sam" id="yahoo-com">
+
+<%= render :partial => 'page/header' -%>
+
+<div id="content">
+
+  <div style="color: green">
+    <%= flash[:error] -%>
+    <%= flash[:notice] -%>
+  </div>
+
+<%= yield  -%>
+
+<%= render :partial => 'page/footer' -%>
+
+</div>
+
+</body>
+</html>

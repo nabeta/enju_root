@@ -1,0 +1,24 @@
+<h1>Listing imported_objects</h1>
+
+<table>
+  <tr>
+    <th>Imported file</th>
+    <th>Importable</th>
+    <th>Importable type</th>
+  </tr>
+
+<%- for imported_object in @imported_objects -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h imported_object.imported_file_id -%></td>
+    <td><%=h imported_object.importable_id -%></td>
+    <td><%=h imported_object.importable_type -%></td>
+    <td><%= link_to 'Show', imported_object -%></td>
+    <td><%= link_to t('edit'), edit_imported_object_path(imported_object) -%></td>
+    <td><%= link_to t('destroy'), imported_object, :confirm => 'Are you sure?', :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= link_to 'New imported_object', new_imported_object_path -%>

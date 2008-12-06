@@ -1,0 +1,32 @@
+<div id="sidebar">
+  <%- if @resources -%>
+    <h4><a href="http://crd.ndl.go.jp/">レファレンス協同データベース</a></h4>
+    <p><%=h ('%{count} record found') -%><br />
+    <%- if @refkyo_count > 0 -%>
+      <!--
+      Displaying <%=h @startrecord -%> to 
+      <%- if @refkyo_count < @startrecord + Question.per_page - 1 -%>
+        <%=h @refkyo_count -%>
+      <%- else -%>
+        <%=h @startrecord + Question.per_page - 1 -%>
+      <%- end -%>
+      .</p>
+      -->
+    <%- end -%>
+    <ul>
+      <%- @resources.each do |resource| -%>
+        <li><%= link_to h(truncate(resource[:title])), resource[:link] -%></li>
+      <%- end -%>
+    </ul>
+    <%- if @refkyo_count > Question.per_page -%>
+      <%- if @startrecord > Question.per_page -%>
+        <%= link_to "&#171;" + ('Previous'), params.merge(:page => @page - 1) -%>
+      <%- end -%>
+      <%- if @refkyo_count >= Question.per_page * (@page) -%>
+        <%= link_to ('Next') + "&#187;", params.merge(:page => @page + 1) -%>
+      <%- end -%>
+    <%- end -%>
+  <%- else -%>
+    <p>You can search <a href="http://crd.ndl.go.jp/">レファレンス協同データベース</a>.</p>
+  <%- end -%>
+</div>

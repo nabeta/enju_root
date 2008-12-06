@@ -1,0 +1,2 @@
+module ManifestationFormHasCheckoutTypesHelper
+end

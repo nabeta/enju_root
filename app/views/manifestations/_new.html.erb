@@ -1,0 +1,120 @@
+<div id="submenu">
+  <ul>
+    <%- case when @expression -%>
+      <li><%= link_to ('Back'), expression_manifestations_path(@expression) -%></li>
+    <%- when @patron -%>
+      <li><%= link_to ('Back'), patron_manifestations_path(@patron) -%></li>
+    <%- else -%>
+      <li><%= link_to ('Back'), manifestations_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= ('New manifsetation') -%></h1>
+  <p>
+    <b><%= ('Expression title') -%></b><br />
+    <%= link_to h(@expression.original_title), @expression -%>
+    <%- unless @expression.subscribed? -%>
+      <br />
+      <spam class="error_message"><%= ('This subscription is expired!') -%></span>
+    <%- end -%>
+  </p>
+
+<%= error_messages_for :manifestation -%>
+
+<%- form_for(:manifestation, :url => expression_manifestations_path(@expression)) do |f| -%>
+  <p>
+    <b><%= ('Title') -%></b><br />
+    <%= f.text_field :original_title, :value => @expression.original_title, :class => 'resource_title' -%>
+  </p>
+  <p>
+    <b><%= ('Title transcription') -%></b><br />
+    <%- if @expression -%>
+      <%= f.text_field :title_transcription, :value => @expression.title_alternative, :class => 'resource_title' -%>
+    <%- else -%>
+      <%= f.text_field :title_transcription, :class => 'resource_title' -%>
+      <%= ('Transcription') -%>
+    <%- end -%>
+  </p>
+  <p>
+    <%- if @expression -%>
+      <b><%= ('Title alternative') -%></b><br />
+      <%= f.text_field :title_alternative, :value => @expression.title_alternative, :class => 'resource_title' -%>
+    <%- else -%>
+      <%= f.text_field :title_alternative, :class => 'resource_title' -%>
+    <%- end -%>
+  </p>
+  
+  <p>
+  <b><%= ('Form') -%></b>
+    <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name, m.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Date of publication') -%></b>
+    <%= f.date_select :date_of_publication, :blank => true -%>
+  </p>
+
+  <p>
+    <%- if @expression.serial? -%>
+      <%= render :partial => 'new_serial', :locals => {:f => f} -%>
+    <%- else -%>
+      <b><%= ('Edition') -%></b>
+      <%= f.text_field :edition, :class => 'resource_integer' -%>
+      <b><%= ('Volume number') -%></b>
+      <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
+    <%- end -%>
+  </p>
+
+  <%- unless @expression.serial? -%>
+    <p>
+      <b><%= ('ISBN') -%></b>
+      <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+    </p>
+  <%- end -%>
+
+  <p>
+    <b><%= ('Start page') -%></b>
+    <%= f.text_field :start_page, :class => 'resource_integer' -%>
+    <b><%= ('End page') -%></b>
+    <%= f.text_field :end_page, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+  <b><%= ('Height') -%>(cm)</b>
+    <%= f.text_field :height, :class => 'resource_integer' -%>
+  <b><%= ('Width') -%>(cm)</b>
+    <%= f.text_field :width, :class => 'resource_integer' -%>
+  <b><%= ('Depth') -%>(cm)</b>
+    <%= f.text_field :depth, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Price') -%></b>
+    <%= f.text_field :price, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <b><%= ('Access address') -%></b><br />
+    <%= f.text_field :access_address, :class => 'resource_url' -%>
+  </p>
+
+  <p>
+    <b><%= ('Repository content') -%></b>
+    <%= f.check_box :repository_content -%>
+  </p>
+  
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= hidden_field_tag :expression_id, @expression.id if @expression -%>
+    <%= hidden_field_tag :item_id, @item.id if @item -%>
+    <%= hidden_field_tag :patron_id, @patron.id if @patron -%>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+</div>

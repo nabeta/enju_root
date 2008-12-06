@@ -1,0 +1,28 @@
+<h1><%= ('Listing roles') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <th><%= ('Display name') -%></th>
+    <th><%= ('Note') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+  
+<%- for role in @roles -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(role.name), role_path(role) -%></td>
+    <td><%= link_to h(role.display_name), role_path(role) -%></td>
+    <td><%=h role.note -%></td>
+    <td><%=h role.created_at -%></td>
+    <td><%=h role.updated_at -%></td>
+    <td><%= link_to t('show'), role_path(role) -%></td>
+    <td><%= link_to t('edit'), edit_role_path(role) -%></td>
+    <td><%= link_to t('destroy'), role_path(role), :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= link_to ('New role'), new_role_path -%>

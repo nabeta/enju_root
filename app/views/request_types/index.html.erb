@@ -1,0 +1,24 @@
+<h1><%= ('Listing request_types') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Name') -%></th>
+    <th><%= ('Display name') -%></th>
+    <th><%= ('Note') -%></th>
+  </tr>
+
+<%- for request_type in @request_types -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h request_type.name -%></td>
+    <td><%=h request_type.display_name -%></td>
+    <td><%=h request_type.note -%></td>
+    <td><%= link_to t('show'), request_type -%></td>
+    <td><%= link_to t('edit'), edit_request_type_path(request_type) -%></td>
+    <td><%= link_to t('destroy'), request_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= link_to ('New request_type'), new_request_type_path -%>

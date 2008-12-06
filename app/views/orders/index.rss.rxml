@@ -1,0 +1,37 @@
+xml.instruct! :xml, :version=>"1.0" 
+xml.rss('version' => "2.0",
+  'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
+  'xmlns:atom' => "http://www.w3.org/2005/Atom"){
+  xml.channel{
+    if @user
+      xml.title "#{@user.login}'s orders at #{@library_group.name}"
+      xml.link "#{request.protocol}#{request.host_with_port}" + user_orders_path(@user.login)
+    else
+      xml.title "Orders at #{@library_group.name}"
+      xml.link "#{request.protocol}#{request.host_with_port}" + orders_path
+    end
+    xml.description "open-source integrated library automation system developed by Kamata Library"
+    xml.language "ja-jp" # TODO: 日本語以外
+    xml.ttl "60"
+    xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"
+    xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"
+    #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
+    unless params[:query].blank?
+      xml.tag! "opensearch:totalResults", @count[:query_result]
+      xml.tag! "opensearch:startIndex", @startrecord
+      xml.tag! "opensearch:itemsPerPage", @per_page
+      #xml.tag! "opensearch:Query", :role => 'request', :searchTerms => params[:query], :startPage => (params[:page] || 1)
+    end
+    for order in @orders
+      xml.item do
+        xml.title order.order_list.title
+        #xml.description(order.title)
+        # rfc822
+        xml.pubDate order.created_at.rfc2822
+        xml.link "#{request.protocol}#{request.host_with_port}" + order_path(order)
+        xml.guid "#{request.protocol}#{request.host_with_port}" + order_path(order), :isPermaLink => "true"
+      end
+      @startrecord += 1
+    end
+  }
+}

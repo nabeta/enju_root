@@ -1,0 +1,75 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back'), patrons_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('New patron') -%></h1>
+
+<%= error_messages_for :patron -%>
+
+<%- form_for(:patron, :url => patrons_path) do |f| -%>
+  <p>
+    <b><%= ('Type') -%></b>
+    <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Full name') -%></b><br />
+    <%= f.text_field :full_name, :class => 'resource_title' -%><br />
+    <%= ('Transcription') -%><br />
+    <%= f.text_field :full_name_transcription, :class => 'resource_title' -%><br />
+    <%= ('Alternative') -%><br />
+    <%= f.text_area :full_name_alternative, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Other designation') -%></b><br />
+    <%= f.text_area :other_designation, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Place') -%></b><br />
+    <%= f.text_area :place, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <b><%= ('Date of birth') -%></b>
+    <%= f.date_select :date_of_birth, :blank => true -%>
+  </p>
+
+  <p>
+    <b><%= ('Date of death') -%></b>
+    <%= f.date_select :date_of_death, :blank => true -%>
+  </p>
+
+  <p>
+    <b><%= ('Language') -%></b>
+    <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Country') -%></b>
+    <%= f.select(:country_id, @countries.collect{|c| [c.display_name, c.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Access role') -%></b>
+    <%= f.select(:access_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= ('Note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= hidden_field_tag 'work_id', @work.id if @work -%>
+    <%= hidden_field_tag 'expression_id', @expression.id if @expression -%>
+    <%= hidden_field_tag 'manifestation_id', @manifestation.id if @manifestation -%>
+    <%= hidden_field_tag 'item_id', @item.id if @item -%>
+    <%= submit_tag t('create') -%>
+  </p>
+<%- end -%>
+</div>

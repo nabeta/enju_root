@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Library) do -%>
+      <li><%= link_to ('New library'), new_library_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing libraries') -%></h1>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Library name') -%></th>
+    <th>
+      <%= ('Telephone number') -%>
+    </th>
+    <th><%= ('Fax number') -%></th>
+  </tr>
+  
+<%- @libraries.each_with_index do |library, i| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(library.name), library_path(library.short_name) -%>
+      <br />
+      <%=h library.address -%>
+    </td>
+    <td>
+      <%=h library.telephone_number_1 -%>
+      <br />
+      <%=h library.telephone_number_2 -%>
+    </td>
+    <td><%=h library.fax_number -%></td>
+    <%- if_authorized?(:destroy, library) do -%>
+      <td><%= link_to t('edit'), edit_library_path(library.short_name) -%></td>
+      <td><%= link_to t('destroy'), library_path(library.short_name), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= library.first? ? '' : link_to('▲', {:action => 'update', :position => (library.position  > 1 ? library.position - 1 : 1), :id => library.short_name}, :method => :put) -%></td>
+      <td><%= library.last? ? '' : link_to('▼', {:action => 'update', :position => (library.position + 1), :id => library.short_name}, :method => :put) -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+</div>

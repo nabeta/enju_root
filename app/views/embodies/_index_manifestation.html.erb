@@ -1,0 +1,39 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Embody) do -%>
+      <li><%= link_to ('New embody'), manifestation_expressions_path(@manifestation) -%></li>
+      <li><%= link_to ('Show manifestation'), @manifestation -%></li>
+      <li><%= link_to ('Edit manifestation'), edit_manifestation_path(@manifestation) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= ('Listing embodies') -%></h1>
+
+<%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+
+<table style="width: 100%">
+  <tr>
+    <th><%= ('Expression') -%></th>
+  </tr>
+
+<%- for embody in @embodies -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(embody.expression.original_title), expression_path(embody.expression) -%>
+      <%= expression_form_icon(embody.expression.expression_form) -%>
+    </td>
+    <%- if_authorized?(:destroy, embody) do -%>
+      <td><%= link_to t('destroy'), embody, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= embody.first? ? '' : link_to('▲', {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
+      <td><%= embody.last? ? '' : link_to('▼', {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<br />
+
+<%= will_paginate(@embodies) -%>
+</div>

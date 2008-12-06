@@ -1,0 +1,7 @@
+<%- if @manifestation -%>
+  <%= render :partial => 'index_manifestation' -%>
+<%- elsif @classification -%>
+  <%= render :partial => 'index_classification' -%>
+<%- else -%>
+  <%= render :partial => 'index' -%>
+<%- end -%>

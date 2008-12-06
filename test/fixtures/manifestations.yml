@@ -1,0 +1,219 @@
+--- 
+manifestation_00001: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: "4798002062"
+  updated_at: 2007-11-19 16:59:00.293393 +09:00
+  original_title: "\xE3\x82\x88\xE3\x81\x8F\xE3\x82\x8F\xE3\x81\x8B\xE3\x82\x8B\xE6\x9C\x80\xE6\x96\xB0Web\xE3\x82\xB5\xE3\x83\xBC\xE3\x83\x93\xE3\x82\xB9\xE6\x8A\x80\xE8\xA1\x93"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 1
+  height: 
+  width: 
+  exemplifies_count: 5
+  created_at: 2007-11-19 16:59:00.293393 +09:00
+  start_page: 1
+  end_page: 100
+  repository_content: true
+manifestation_00002: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: "4915724824"
+  updated_at: 2007-11-19 16:59:00.991512 +09:00
+  original_title: "\xE6\x83\x85\xE5\xA0\xB1\xE9\x80\x9A\xE4\xBF\xA1\xE3\x83\x8F\xE3\x83\xB3\xE3\x83\x89\xE3\x83\x96\xE3\x83\x83\xE3\x82\xAF2005"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 2
+  height: 
+  width: 
+  exemplifies_count: 7
+  created_at: 2007-11-19 16:59:00.991512 +09:00
+  repository_content: false
+manifestation_00003: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: "4897063590"
+  updated_at: 2007-11-19 16:59:01.618359 +09:00
+  original_title: !binary |
+    44GT44KM44GL44KJ44Gu55Sf5ZG956eR5a2m56CU56m26ICF44Gu44Gf44KB
+    44Gu44OQ44Kk44Kq54m56Kix5YWl6ZaA6Kyb5bqn
+
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 3
+  height: 
+  width: 
+  exemplifies_count: 3
+  created_at: 2007-11-19 16:59:01.618359 +09:00
+manifestation_00004: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: 0471412791
+  updated_at: 2007-11-19 16:59:02.275738 +09:00
+  original_title: THE BIOTECH INVESTOR'S BIBLE
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 4
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:59:02.275738 +09:00
+manifestation_00005: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: ""
+  updated_at: 2007-11-19 16:58:54.333183 +09:00
+  original_title: !binary |
+    6aGn5a6i5rqA6Laz5Z6L44Oe44O844Kx44OG44Kj44Oz44Kw44Gu5qeL5Zuz
+
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 5
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:54.333183 +09:00
+manifestation_00006: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: ""
+  updated_at: 2007-11-19 16:58:56.255684 +09:00
+  original_title: !binary |
+    5LuV57WE44G/6Z2p5paw44Gu5pmC5Luj
+
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 6
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:56.255684 +09:00
+manifestation_00007: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: 0470844701
+  updated_at: 2007-11-19 16:58:56.892741 +09:00
+  original_title: dictionary of e-business
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 7
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:56.892741 +09:00
+manifestation_00008: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: "4798101028"
+  updated_at: 2007-11-19 16:58:57.463333 +09:00
+  original_title: "Web\xE3\x82\xB5\xE3\x83\xBC\xE3\x83\x93\xE3\x82\xB9\xE5\xAE\x8C\xE5\x85\xA8\xE8\xA7\xA3\xE8\xAA\xAC"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 8
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:57.463333 +09:00
+manifestation_00009: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: "4641143331"
+  updated_at: 2007-11-19 16:58:58.166195 +09:00
+  original_title: !binary |
+    6YCQ5p2h6Kej6Kqs5LiN5q2j56u25LqJ6Ziy5q2i5rOV
+
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 9
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:58.166195 +09:00
+manifestation_00010: 
+  manifestation_form_id: 1
+  language_id: 1
+  isbn: "4822281167"
+  updated_at: 2007-11-19 16:58:58.799724 +09:00
+  original_title: "Web\xE3\x82\xB5\xE3\x83\xBC\xE3\x83\x93\xE3\x82\xB9\xE5\xAE\x8C\xE5\x85\xA8\xE6\xA7\x8B\xE7\xAF\x89\xE3\x82\xAC\xE3\x82\xA4\xE3\x83\x89"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 10
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:58.799724 +09:00
+manifestation_00021: 
+  manifestation_form_id: 1
+  isbn: "4822281167"
+  updated_at: 2007-11-19 16:58:58.799724 +09:00
+  original_title: "Web\xE3\x82\xB5\xE3\x83\xBC\xE3\x83\x93\xE3\x82\xB9\xE5\xAE\x8C\xE5\x85\xA8\xE6\xA7\x8B\xE7\xAF\x89\xE3\x82\xAC\xE3\x82\xA4\xE3\x83\x89"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: 
+  id: 11
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:58.799724 +09:00
+manifestation_00022: 
+  manifestation_form_id: 1
+  isbn: 
+  updated_at: 2007-11-19 16:58:58.799724 +09:00
+  original_title: "YouTube - Open Source ILS Song"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: "http://jp.youtube.com/watch?v=BSHBzd9ftDE"
+  id: 22
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2008-04-17 00:34:01 +09:00
+manifestation_00023: 
+  manifestation_form_id: 1
+  isbn: 
+  created_at: 2008-04-17 00:34:01 +09:00
+  original_title: "世界の美しい図書館集めてみた【第一弾】"
+  price: 
+  manifestation_identifier: 
+  depth: 
+  date_of_publication: 
+  access_address: "http://www.nicovideo.jp/watch/sm3015373"
+  id: 23
+  height: 
+  width: 
+  exemplifies_count: 0
+  created_at: 2007-11-19 16:58:58.799724 +09:00

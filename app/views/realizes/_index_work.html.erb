@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Realize) do -%>
+      <li><%= link_to ('New realize'), new_work_realize_path(@work) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1>
+    <%= link_to h(@work.original_title), @work -%>
+  </h1>
+<table>
+  <tr>
+    <th><%= ('Expression') -%></th>
+    <th><%= ('Created at') -%></th>
+    <th><%= ('Updated at') -%></th>
+  </tr>
+
+<%- for realize in @realizes -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(realize.expression.original_title), expression_path(realize.expression) -%></td>
+    <td><%=h realize.created_at -%></td>
+    <td><%=h realize.updated_at -%></td>
+    <%- if_authorized?(:destroy, realize) do -%>
+      <td><%= link_to t('destroy'), work_realize_path(@work, realize), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@realizes) -%>
+
+</div>

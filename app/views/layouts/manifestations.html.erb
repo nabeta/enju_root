@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-script-type" content="text/javascript" />
+  <%- if controller.action_name == 'show' and @manifestation -%>
+    <title><%=h @manifestation.original_title -%> : <%= ('Manifestations') -%> - <%=h@library_group.display_name -%></title>
+  <%- elsif controller.action_name == 'index' -%>
+    <%- case when @patron -%>
+      <title><%= ("%{patron}'s manifestations") -%></title>
+    <%- when @expression -%>
+      <title><%= ("Manifestations for %{expression}") -%></title>
+    <%- when @query -%>
+      <title><%=h @query -%> : <%= ('Manifestations') -%> - <%=h@library_group.display_name -%></title>
+    <%- else -%>
+      <title><%= ('Manifestations') -%>: <%=h controller.action_name -%></title>
+    <%- end -%>
+  <%- else -%>
+    <title><%= ('Manifestations') -%>: <%=h controller.action_name -%></title>
+  <%- end -%>
+  <%= render :partial => 'page/include' -%>
+  <%- if controller.action_name == 'index' -%>
+    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Manifestations in %{library}")) -%>
+  <%- end -%>
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= request.protocol + request.host_with_port -%>/page/opensearch" title="<%=h@library_group.display_name -%>" />
+</head>
+<body class="yui-skin-sam" id="yahoo-com">
+
+<%= render :partial => 'page/header' -%>
+
+<div id="content">
+
+<div style="color: green"><%= flash[:notice] -%></div>
+
+<%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
+
+</body>
+</html>

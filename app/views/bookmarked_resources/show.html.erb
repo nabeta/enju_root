@@ -1,0 +1,42 @@
+<div id="submenu">
+  <ul>
+    <%- if @user -%>
+      <li><%= link_to t('edit'), edit_user_bookmarked_resource_path(@user.login, @bookmarked_resource) -%></li>
+    <%- else -%>
+      <li><%= link_to t('edit'), edit_bookmarked_resource_path(@bookmarked_resource) -%></li>
+    <%- end -%>
+    <li><%= link_to ('Back'), bookmarked_resources_path -%></li>
+    <li><%= link_to ('Back to search results'), back_to_bookmarked_resource_index(@user) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+<b><%= ('Title') -%>:</b>
+<%= link_to h(@bookmarked_resource.title), h(@bookmarked_resource.url) -%>
+<%- if @bookmarked_resource.manifestation -%>
+  (<%= link_to ('Manifestation'), @bookmarked_resource.manifestation -%>)
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Url') -%>:</b>
+  <%= link_to h(@bookmarked_resource.url), h(@bookmarked_resource.url) -%>
+</p>
+
+<p>
+<b><%= ('Tags') -%>:</b><br />
+<%- @bookmarked_resource.tags.each do |tag| -%>
+  <%= link_to h(tag.name), tag_path(tag.name) -%>
+<%- end -%>
+</p>
+
+<p>
+<b><%= ('Bookmarked user(s)') -%>:</b> <%= h(@bookmarked_resource.bookmarks_count) -%>
+</p>
+<ul>
+  <%- @bookmarked_resource.bookmarks.each do |bookmark| -%>
+    <li><%= link_to h(bookmark.user.login), user_bookmarked_resources_path(bookmark.user.login) -%></li>
+  <%- end -%>
+        
+</ul>

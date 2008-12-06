@@ -1,0 +1,45 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Back to reservations'), reserves_path -%></li>
+    <%- if @manifestation -%>
+      <li><%= link_to ('Back to manifestation'), @manifestation -%></li>
+    <%- end -%>
+  </ul>
+</div>
+              
+<div id="content_detail">
+<h1><%= ('New reservation') -%></h1>
+
+<%= error_messages_for :reserve -%>
+
+<%- form_for(:reserve, :url => reserves_path) do |f| -%>
+  <p>
+  <b><%= ('Manifestation') -%></b><br />
+  <%- if @reserve.manifestation -%>
+    <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
+      <%= book_jacket(@reserve.manifestation) -%>
+    <%- end -%>
+    <br />
+    <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @reserve.manifestation} -%>
+    <%= f.hidden_field :manifestation_id -%>
+  <%- else -%>
+    <%= f.text_field :manifestation_id -%>
+  <%- end -%>
+  </p>
+
+  <p>
+    <b><%= ('Expired at') -%></b><br />
+    <%= f.date_select :expired_at, :blank => true -%>
+  </p>
+
+  <p>
+    <b><%= ('User number') -%></b><br />
+    <%= f.text_field :user_number, :class => 'resource_user_number' -%>
+  </p>
+
+  <p>
+  <%= submit_tag t('create'), :confirm => ('Are you sure?') -%>
+  </p>
+<%- end -%>
+<%= javascript_tag("$('reserve_user_number').focus()") -%>
+</div>
