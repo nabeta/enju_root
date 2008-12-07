@@ -34,16 +34,16 @@ class BookmarkedResourcesController < ApplicationController
 
     #begin
       unless query.blank?
-        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at DESC')
+        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc')
       else
           if @user
             query = "user: #{@user.login}"
-            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at DESC')
+            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc')
           else
             if logged_in?
               if current_user.has_role?('Librarian')
                 query = "user: [* TO *]"
-                @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at DESC')
+                @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc')
               else
                 redirect_to user_bookmarks_url(current_user.login)
                 return
@@ -54,7 +54,7 @@ class BookmarkedResourcesController < ApplicationController
             end
           end
         end
-      bookmarked_resource_ids = Manifestation.find_id_by_solr(query, :order => 'updated_at DESC', :limit => Manifestation.numdocs).results
+      bookmarked_resource_ids = Manifestation.find_id_by_solr(query, :order => 'updated_at desc', :limit => Manifestation.numdocs).results
       @count[:query_result] = @bookmarked_resources.total_entries
       session[:bookmarked_resource_ids] = bookmarked_resource_ids
     #rescue
