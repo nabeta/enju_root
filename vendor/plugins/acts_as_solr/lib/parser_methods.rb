@@ -28,14 +28,18 @@ module ActsAsSolr #:nodoc:
         
         if models.nil?
           # TODO: use a filter query for type, allowing Solr to cache it individually
-          models = "AND #{solr_type_condition}"
+          models = "#{solr_type_condition}"
           field_list = solr_configuration[:primary_key_field]
         else
           field_list = "id"
         end
         
         query_options[:field_list] = [field_list, 'score']
-        query = "(#{query.gsub(/ *: */,"_t:")}) #{models}"
+        unless query.nil? || query.empty? || query == '*'
+          query = "(#{map_query_to_fields(query)}) AND #{models}"
+        else
+          query = "#{models}"
+        end
         order = options[:order].split(/\s*,\s*/).collect{|e| e.gsub(/\s+/,'_t ').gsub(/\bscore_t\b/, 'score')  }.join(',') if options[:order] 
         query_options[:query] = replace_types([query])[0] # TODO adjust replace_types to work with String or Array  
 
@@ -119,6 +123,51 @@ module ActsAsSolr #:nodoc:
         end
       end
       strings
+    end
+    
+    # map index fields to the appropriate lucene_fields
+    # "title:(a fish in my head)" => "title_t:(a fish in my head)"
+    # it should avoid mapping to _sort fields
+    def map_query_to_fields(query)
+      #{query.gsub(/ *: */,"_t:")}
+      query.gsub(/(\w+)\s*:\s*/) do |match| # sets $1 in the block
+        field_name = $1
+        field_name = field_name_to_lucene_field(field_name)
+        "#{field_name}:"
+      end
+    end
+    
+    # looks through the configured :solr_fields, and chooses the most appropriate
+    # pass it :sort if you would prefer a :sort_field
+    # or pass it :text if that's your prefered type
+    def field_name_to_solr_field(field_name, favoured_types=nil)
+      favoured_types = Array(favoured_types)
+      
+      solr_fields = configuration[:solr_fields].select do |field, options|
+        field.to_s == field_name.to_s
+      end
+      prefered, secondary = solr_fields.partition do |field, options|
+        favoured_types.include?(options[:type])
+      end
+      prefered.first || secondary.first # will return nil if no matches
+    end
+    
+    # takes a normalized field... ie. [:field, {:type => :text}]
+    # gets us the lucene field name "field_t"
+    def solr_field_to_lucene_field(normalized_field)
+      field_name, options = normalized_field
+      field_type = options[:type]
+      "#{field_name}_#{get_solr_field_type(field_type)}"
+    end
+    
+    # "title" => "title_t", or "title_sort"
+    # "score" => "score" -- SPECIAL CASE
+    def field_name_to_lucene_field(field_name, favoured_types=[:string, :text])
+      if normalized_field = field_name_to_solr_field(field_name, favoured_types)
+        solr_field_to_lucene_field(normalized_field)
+      else
+        field_name.to_s
+      end
     end
     
     # Adds the score to each one of the instances found

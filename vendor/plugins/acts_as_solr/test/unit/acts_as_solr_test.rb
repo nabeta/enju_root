@@ -407,6 +407,11 @@ class ActsAsSolrTest < Test::Unit::TestCase
     assert_equal 2, movies.total
   end
   
+  def test_indexed_date_field_format_query
+    movies = Movie.find_by_solr "time_on_xml:[#{1.day.from_now} TO #{Time.zone.now}]"
+    assert_equal 2, movies.total
+  end
+  
   # Ensure solr can handle blank queries
   def test_find_by_solr_blank_query
     assert_nothing_raised {

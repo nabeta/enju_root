@@ -358,7 +358,7 @@ class ManifestationsController < ApplicationController
     #  end
     #end
     if options[:mode] == 'recent'
-      query = "#{query} created_at: [#{1.month.ago.utc.iso8601} TO *]"
+      query = "#{query} created_at: [NOW-1MONTH TO NOW]"
     end
     #unless options[:formtype].blank?
     #  query = "#{query} formtype: #{options[:formtype]}"

@@ -44,7 +44,7 @@ class PatronsController < ApplicationController
 
       @patrons = Patron.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
       @count[:query_result] = @patrons.total_entries
-      @patrons = Patron.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at DESC').compact
+      @patrons = Patron.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
     else
       case
       when @work
