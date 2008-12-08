@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_event_path(@event) -%></li>
-    <li><%= link_to ('Back'), events_path -%></li>
+    <li><%= link_to t('page.edit'), edit_event_path(@event) -%></li>
+    <li><%= link_to t('page.back'), events_path -%></li>
   </ul>
 <%- if logged_in? -%>
   <ul>
@@ -36,13 +36,13 @@
 </p>
 
 <p>
-<b><%= ('Note') -%>:</b>
+<b><%= t('page.note') -%>:</b>
   <%=h @event.note -%>
 </p>
 
 <!--
 <p>
-<b><%= ('Tag') -%>:</b>
+<b><%= t('page.tag') -%>:</b>
   <%- @event.tags.collect {|tag| -%>
     <%= link_to h(tag.name), events_path(:tag => tag.name) -%>
   <%- } -%>

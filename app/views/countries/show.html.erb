@@ -1,18 +1,18 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_country_path(@country) -%></li>
-    <li><%= link_to ('Back'), countries_path -%></li>
+    <li><%= link_to t('page.edit'), edit_country_path(@country) -%></li>
+    <li><%= link_to t('page.back'), countries_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-<b><%= ('Name') -%>:</b>
+<b><%= t('page.name') -%>:</b>
   <%=h @country.name -%>
 </p>
 
 <p>
-<b><%= ('Display name') -%>:</b>
+<b><%= t('page.display_name') -%>:</b>
   <%=h @country.display_name -%>
 </p>
 
@@ -32,7 +32,7 @@
 </p>
 
 <p>
-<b><%= ('Note') -%>:</b>
+<b><%= t('page.note') -%>:</b>
   <%=h @country.note -%>
 </p>
 

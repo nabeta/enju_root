@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), news_feeds_path -%></li>
+    <li><%= link_to t('page.back'), news_feeds_path -%></li>
   </ul>
 </div>
 
@@ -19,7 +19,7 @@
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
   <p>
-    <%= f.submit Create -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

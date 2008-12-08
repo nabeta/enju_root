@@ -2,7 +2,7 @@
   <ul>
     <%- if_authorized?(:new, Produce) do -%>
       <li><%= link_to ('New produce'), new_patron_produce_path(@patron) -%></li>
-      <li><%= link_to ('Back'), patron_manifestations_path(@patron) -%></li>
+      <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -14,7 +14,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Manifestation') -%></th>
+    <th><%= t('page.manifestation') -%></th>
   </tr>
   
 <%- for produce in @produces -%>
@@ -27,7 +27,7 @@
       <%= patrons_list(produce.manifestation.patrons, :link => true) -%>
     </td>
     <%- if_authorized?(:destroy, produce) do -%>
-      <td><%= link_to t('destroy'), patron_produce_path(produce.patron, produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), patron_produce_path(produce.patron, produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

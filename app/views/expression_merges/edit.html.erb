@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @expression_merge -%></li>
-    <li><%= link_to ('Back'), expression_merges_path -%></li>
+    <li><%= link_to t('page.show'), @expression_merge -%></li>
+    <li><%= link_to t('page.back'), expression_merges_path -%></li>
   </ul>
 </div>
 
@@ -13,7 +13,7 @@
 <%- form_for(@expression_merge) do |f| -%>
 
   <p>
-  <b><%= ('Expression') -%></b><br />
+  <b><%= t('page.expression') -%></b><br />
   <%= f.text_field :expression_id, :value => @expression_merge.expression_id -%>
   </p>
 
@@ -23,7 +23,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

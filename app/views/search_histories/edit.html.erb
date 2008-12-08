@@ -54,14 +54,14 @@
   </p>
 
   <p>
-  <b><%= ('User') -%></b><br />
+  <b><%= t('page.user') -%></b><br />
     <%= f.text_field :user_id -%>
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 
-<%= link_to t('show'), user_search_history_path(@search_history.user.login, @search_history) -%> |
-<%= link_to ('Back'), user_search_histories_path(@search_history.user.login) -%>
+<%= link_to t('page.show'), user_search_history_path(@search_history.user.login, @search_history) -%> |
+<%= link_to t('page.back'), user_search_histories_path(@search_history.user.login) -%>

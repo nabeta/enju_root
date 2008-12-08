@@ -9,9 +9,9 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Name') -%></th>
-    <th><%= ('Display name') -%></th>
-    <th><%= ('Note') -%></th>
+    <th><%= t('page.name') -%></th>
+    <th><%= t('page.display_name') -%></th>
+    <th><%= t('page.note') -%></th>
   </tr>
 
 <%- for patron_type in @patron_types -%>
@@ -19,8 +19,8 @@
     <td><%= link_to h(patron_type.name), patron_type -%></td>
     <td><%= link_to h(patron_type.display_name), patron_type -%></td>
     <td><%=h patron_type.note -%></td>
-    <td><%= link_to t('edit'), edit_patron_type_path(patron_type) -%></td>
-    <td><%= link_to t('destroy'), patron_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.edit'), edit_patron_type_path(patron_type) -%></td>
+    <td><%= link_to t('page.destroy'), patron_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

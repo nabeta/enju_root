@@ -1,23 +1,23 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_event_category_path(@event_category) -%></li>
-    <li><%= link_to ('Back'), event_categories_path -%></li>
+    <li><%= link_to t('page.edit'), edit_event_category_path(@event_category) -%></li>
+    <li><%= link_to t('page.back'), event_categories_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Name') -%>:</b>
+  <b><%= t('page.name') -%>:</b>
   <%=h @event_category.name -%>
 </p>
 
 <p>
-  <b><%= ('Display name') -%>:</b>
+  <b><%= t('page.display_name') -%>:</b>
   <%=h @event_category.display_name -%>
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @event_category.note -%>
 </p>
 

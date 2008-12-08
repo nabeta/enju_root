@@ -6,7 +6,7 @@
     <th><%= ('Filename') -%></th>
     <th><%= ('Content type') -%></th>
     <th><%= ('Size') -%></th>
-    <th><%= ('User') -%></th>
+    <th><%= t('page.user') -%></th>
   </tr>
 
 <%- for imported_resource_file in @imported_resource_files -%>
@@ -16,9 +16,9 @@
     <td><%=h imported_resource_file.content_type -%></td>
     <td><%=h imported_resource_file.size -%></td>
     <td><%= link_to h(imported_resource_file.user.login), user_path(imported_resource_file.user.login) -%></td>
-    <td><%= link_to t('show'), imported_resource_file -%></td>
-    <td><%= link_to t('edit'), edit_imported_resource_file_path(imported_resource_file) -%></td>
-    <td><%= link_to t('destroy'), imported_resource_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), imported_resource_file -%></td>
+    <td><%= link_to t('page.edit'), edit_imported_resource_file_path(imported_resource_file) -%></td>
+    <td><%= link_to t('page.destroy'), imported_resource_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

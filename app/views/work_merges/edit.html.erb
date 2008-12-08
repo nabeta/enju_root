@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @work_merge -%></li>
-    <li><%= link_to ('Back'), work_merges_path -%></li>
+    <li><%= link_to t('page.show'), @work_merge -%></li>
+    <li><%= link_to t('page.back'), work_merges_path -%></li>
   </ul>
 </div>
 
@@ -13,7 +13,7 @@
 <%- form_for(@work_merge) do |f| -%>
 
   <p>
-  <b><%= ('Work') -%></b><br />
+  <b><%= t('page.work') -%></b><br />
   <%= f.text_field :work_id, :value => @work_merge.work_id -%>
   </p>
 
@@ -23,7 +23,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

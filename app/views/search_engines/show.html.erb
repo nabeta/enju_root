@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_search_engine_path(@search_engine) -%></li>
-    <li><%= link_to ('Back'), search_engines_path -%></li>
+    <li><%= link_to t('page.edit'), edit_search_engine_path(@search_engine) -%></li>
+    <li><%= link_to t('page.back'), search_engines_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Name') -%>:</b>
+  <b><%= t('page.name') -%>:</b>
   <%=h @search_engine.name -%>
 </p>
 
@@ -37,7 +37,7 @@
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @search_engine.note -%>
 </p>
 

@@ -4,7 +4,7 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), works_path -%></li>
+    <li><%= link_to t('page.back'), works_path -%></li>
   </ul>
 </div>
 
@@ -15,7 +15,7 @@
 
 <%- form_for(:work, :url => works_path) do |f| -%>
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>
   </p>
   
@@ -43,7 +43,7 @@
 
   <p>
     <%= f.hidden_field :parent_id, :value => @parent.id, :class => 'resource_textarea' if @parent -%>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), imported_resource_files_path -%></li>
+    <li><%= link_to t('page.back'), imported_resource_files_path -%></li>
   </ul>
 </div>
 
@@ -11,12 +11,12 @@
   <%= f.error_messages -%>
 
   <p>
-    <b><%= ('File') -%></b><br />
+    <b><%= t('page.file') -%></b><br />
     <%= f.file_field :uploaded_data -%>
   </p>
 
   <p>
-    <%= f.submit Create -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_user_group_has_checkout_type_path(@user_group_has_checkout_type) -%></li>
-    <li><%= link_to ('Back'), user_group_has_checkout_types_path -%></li>
+    <li><%= link_to t('page.edit'), edit_user_group_has_checkout_type_path(@user_group_has_checkout_type) -%></li>
+    <li><%= link_to t('page.back'), user_group_has_checkout_types_path -%></li>
   </ul>
 </div>
 
@@ -17,7 +17,7 @@
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @user_group_has_checkout_type.note -%>
 </p>
 

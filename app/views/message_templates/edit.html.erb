@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @message_template -%></li>
-    <li><%= link_to ('Back'), message_templates_path -%></li>
+    <li><%= link_to t('page.show'), @message_template -%></li>
+    <li><%= link_to t('page.back'), message_templates_path -%></li>
   </ul>
 </div>
 
@@ -17,7 +17,7 @@
   </p>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 </div>

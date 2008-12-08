@@ -7,7 +7,7 @@
   <%- end -%>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%- if @work -%>
       <%= f.text_field :original_title, :value => @work.original_title, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>
@@ -41,7 +41,7 @@
 
   <%- unless @patron.blank? -%>
     <p>
-      <b><%= ('Author') -%></b><br />
+      <b><%= t('page.author') -%></b><br />
       <%=h @patron.full_name -%>
     </p>
   <%- end -%>
@@ -57,7 +57,7 @@
   </p>
 
   <p>
-    <b><%= ('Language') -%></b><br />
+    <b><%= t('page.language') -%></b><br />
     <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
   </p>
 
@@ -81,10 +81,10 @@
   <%- end -%>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>

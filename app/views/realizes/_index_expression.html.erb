@@ -2,7 +2,7 @@
   <ul>
     <%- if_authorized?(:new, Realize) do -%>
       <li><%= link_to ('New realize'), new_expression_realize_path(@expression) -%></li>
-      <li><%= link_to ('Back'), expression_patrons_path(@expression) -%></li>
+      <li><%= link_to t('page.back'), expression_patrons_path(@expression) -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -14,7 +14,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Expression') -%></th>
+    <th><%= t('page.expression') -%></th>
   </tr>
 
 <%- for realize in @realizes -%>
@@ -27,7 +27,7 @@
       <%= patrons_list(@expression.patrons) -%>
     </td>
     <%- if_authorized?(:destroy, realize) do -%>
-      <td><%= link_to t('destroy'), expression_realize_path(@expression, realize), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), expression_realize_path(@expression, realize), :confirm => ('Are you sure?'), :method => :delete -%></td>
       <td><%= realize.first? ? '' : link_to('▲', {:action => 'update', :position => (realize.position > 1 ? realize.position - 1 : 1), :id => realize.id, :expression_id => @expression.id}, :method => :put) -%></td>
       <td><%= realize.last? ? '' : link_to('▼', {:action => 'update', :position => (realize.position + 1), :id => realize.id, :expression_id => @expression.id}, :method => :put) -%></td>
     <%- end -%>

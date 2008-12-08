@@ -9,12 +9,12 @@
 
   <ul>
     <%- if @shelf -%>
-      <li><%= link_to t('edit'), edit_library_shelf_item_path(@shelf.library, @shelf, @item) -%></li>
+      <li><%= link_to t('page.edit'), edit_library_shelf_item_path(@shelf.library, @shelf, @item) -%></li>
     <%- else -%>
-      <li><%= link_to t('edit'), edit_item_path(@item) -%></li>
+      <li><%= link_to t('page.edit'), edit_item_path(@item) -%></li>
     <%- end -%>
-    <li><%= link_to ('Back'), items_path -%></li>
-    <li><%= link_to t('destroy'), item_path(@item), :confirm => ('Are you sure?'), :method => :delete -%></li>
+    <li><%= link_to t('page.back'), items_path -%></li>
+    <li><%= link_to t('page.destroy'), item_path(@item), :confirm => ('Are you sure?'), :method => :delete -%></li>
     <li><%= link_to ('Inter library loan index'), item_inter_library_loans_path(@item) -%></li>
     <%- if @item.inter_library_loans.blank? -%>
       <li><%= link_to ('New inter library loan'), new_item_inter_library_loan_path(@item) -%></li>
@@ -24,7 +24,7 @@
 
 <div id="content_detail">
 <p>
-  <b><%= ('Manifestation') -%>:</b>
+  <b><%= t('page.manifestation') -%>:</b>
   <div>
     <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
       <%- if @item.manifestation -%>
@@ -51,14 +51,14 @@
 </p>
 
 <p>
-  <b><%= ('Item identifier') -%>:</b>
+  <b><%= tt('activerecord.attributes.item.item_identifier') -%>:</b>
   <%=h @item.item_identifier -%>
   <br />
   <%= image_tag("#{barcode_url(@item.barcode)}.png", :alt => @item.item_identifier) if @item.barcode -%>
 </p>
 
 <p>
-  <b><%= ('Price') -%>:</b>
+  <b><%= t('page.price') -%>:</b>
   <%=h @item.price -%>
 </p>
 
@@ -96,12 +96,12 @@
 <%- end -%>
 
 <p>
-  <b><%= ('Created at') -%>:</b>
+  <b><%= t('page.created_at') -%>:</b>
   <%=h @item.created_at -%>
 </p>
 
 <p>
-  <b><%= ('Updated at') -%>:</b>
+  <b><%= t('page.updated_at') -%>:</b>
   <%=h @item.updated_at -%>
 </p>
 </div>

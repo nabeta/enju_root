@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), bookstores_path -%></li>
+    <li><%= link_to t('page.back'), bookstores_path -%></li>
   </ul>
 </div>
 
@@ -11,7 +11,7 @@
 
 <%- form_for(@bookstore) do |f| -%>
   <p>
-    <b><%= ('Name') -%></b><br />
+    <b><%= t('page.name') -%></b><br />
     <%= f.text_field :name -%>
   </p>
 
@@ -36,12 +36,12 @@
   </p>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

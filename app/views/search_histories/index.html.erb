@@ -30,9 +30,9 @@
     <%- end -%>
     <td><%=h search_history.created_at -%></td>
     <%- if_authorized?(:destroy, search_history) do -%>
-      <td><%= link_to t('show'), search_history -%></td>
-      <td><%= link_to t('edit'), edit_search_history_path(search_history) -%></td>
-      <td><%= link_to t('destroy'), search_history, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), search_history -%></td>
+      <td><%= link_to t('page.edit'), edit_search_history_path(search_history) -%></td>
+      <td><%= link_to t('page.destroy'), search_history, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

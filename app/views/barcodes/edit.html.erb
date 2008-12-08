@@ -20,9 +20,9 @@
     <%= f.text_field :data -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
-<%= link_to t('show'), @barcode -%> |
-<%= link_to ('Back'), barcodes_path -%>
+<%= link_to t('page.show'), @barcode -%> |
+<%= link_to t('page.back'), barcodes_path -%>

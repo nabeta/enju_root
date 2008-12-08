@@ -1,14 +1,14 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Add a work'), work_merge_list_works_path(@work_merge.work_merge_list_id) -%></li>
-    <li><%= link_to t('edit'), edit_work_merge_path(@work_merge) -%></li>
-    <li><%= link_to ('Back'), work_merges_path -%></li>
+    <li><%= link_to t('page.edit'), edit_work_merge_path(@work_merge) -%></li>
+    <li><%= link_to t('page.back'), work_merges_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-<b><%= ('Work') -%>:</b>
+<b><%= t('page.work') -%>:</b>
 <%= link_to h(@work_merge.work.original_title), work_path(@work_merge.work) -%>
 </p>
 

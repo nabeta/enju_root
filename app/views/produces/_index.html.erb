@@ -2,8 +2,8 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Patron') -%></th>
-    <th><%= ('Manifestation') -%></th>
+    <th><%= t('page.patron') -%></th>
+    <th><%= t('page.manifestation') -%></th>
   </tr>
   
 <%- for produce in @produces -%>
@@ -11,8 +11,8 @@
     <td><%= link_to h(produce.patron.full_name), patron_path(produce.patron) -%></td>
     <td><%= link_to h(produce.manifestation.original_title), manifestation_path(produce.manifestation) -%></td>
     <%- if_authorized?(:destroy, produce) do -%>
-      <td><%= link_to t('show'), produce -%></td>
-      <td><%= link_to t('destroy'), produce, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), produce -%></td>
+      <td><%= link_to t('page.destroy'), produce, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

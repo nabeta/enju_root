@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), picture_files_path -%></li>
+    <li><%= link_to t('page.back'), picture_files_path -%></li>
   </ul>
 </div>
 
@@ -19,7 +19,7 @@
 <%- else -%>
   <%- form_for(:picture_file, :url => picture_files_path, :html => { :multipart => true, :method => :post }) do |f| -%>
   <p>
-  <b><%= ('Title') -%></b><br />
+  <b><%= t('page.title') -%></b><br />
   <%= f.text_field :title -%>
   </p>
 
@@ -28,12 +28,12 @@
   <%= f.hidden_field :picture_attachable_type -%>
 
   <p>
-  <b><%= ('File') -%></b><br />
+  <b><%= t('page.file') -%></b><br />
   <%= f.file_field :uploaded_data -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

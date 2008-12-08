@@ -4,14 +4,14 @@
   <%- if_authorized?(:destroy, @expression) do -%>
     <ul>
       <li><%= link_to ('New expression'), new_expression_path -%></li>
-      <li><%= link_to t('edit'), edit_expression_path(@expression) -%></li>
-      <li><%= link_to t('destroy'), expression_path(@expression), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
+      <li><%= link_to t('page.destroy'), expression_path(@expression), :confirm => ('Are you sure?'), :method => :delete -%></li>
       <%- case when @work -%>
-        <li><%= link_to ('Back'), work_expressions_path(@work) -%></li>
+        <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
       <%- when @patron -%>
-        <li><%= link_to ('Back'), patron_expressions_path(@patron) -%></li>
+        <li><%= link_to t('page.back'), patron_expressions_path(@patron) -%></li>
       <%- else -%>
-        <li><%= link_to ('Back'), expressions_path -%></li>
+        <li><%= link_to t('page.back'), expressions_path -%></li>
       <%- end -%>
     </ul>
   <%- end -%>
@@ -41,9 +41,9 @@
 
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#tab1"><em><%= ('Expression') -%></em></a></li>
+      <li title="active" class="selected"><a href="#tab1"><em><%= t('page.expression') -%></em></a></li>
       <%- unless @expression.patrons.blank? -%>
-        <li><a href="#tab2"><em><%= ('Patron') -%></em></a></li>
+        <li><a href="#tab2"><em><%= t('page.patron') -%></em></a></li>
       <%- end -%>
       <li><a href="#tab3"><em><%= ('Related works') -%></em></a></li>
       <li><a href="#tab4"><em><%= ('Related resources') -%></em></a></li>
@@ -64,7 +64,7 @@
             <td><%=h @expression.context -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Language') -%>:</b></td>
+            <td><b><%= t('page.language') -%>:</b></td>
             <td><%=h @expression.language.display_name -%></td>
           </tr>
           <tr>
@@ -85,15 +85,15 @@
             </tr>
           <%- end -%>
           <tr>
-            <td><b><%= ('Note') -%>:</b></td>
+            <td><b><%= t('page.note') -%>:</b></td>
             <td><%=h @expression.note -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Created at') -%>:</b></td>
+            <td><b><%= t('page.created_at') -%>:</b></td>
             <td><%=h @expression.created_at -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Updated at') -%>:</b></td>
+            <td><b><%= t('page.updated_at') -%>:</b></td>
             <td><%=h @expression.updated_at -%></td>
           </tr>
         </table>

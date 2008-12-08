@@ -12,24 +12,24 @@
 
   <%- form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
     <p>
-      <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
       <%- if_authorized?(:destroy, @patron) do -%>
         <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
         <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
         <%- end -%>
       <%- end -%>
-      <%= submit_tag ('Search') -%>
+      <%= submit_tag t('page.search') -%>
       <%= link_to ('Back to index'), patron_expressions_path(@patron) -%>
     </p>
   <%- end -%>
 
 <table style="width:100%">
   <tr>
-    <th><%=('Title') -%></th>
-    <th><%= ('Language') -%></th>
+    <th><%=t('page.title') -%></th>
+    <th><%= t('page.language') -%></th>
     <th></th>
   </tr>
   
@@ -43,10 +43,10 @@
     <td>
       <%- if_authorized?(:destroy, expression) do -%>
         <%- if params[:mode] == "add" -%>
-          <%= link_to ('Add'), new_patron_realize_path(@patron, :expression_id => expression.id) -%>
+          <%= link_to t('page.add'), new_patron_realize_path(@patron, :expression_id => expression.id) -%>
         <%- else -%>
           <%- perform = @patron.performs.find_by_expression_id(expression.id) -%>
-          <%= link_to t('destroy'), patron_perform_path(@patron, perform), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), patron_perform_path(@patron, perform), :confirm => ('Are you sure?'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

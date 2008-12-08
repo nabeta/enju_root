@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), message_queues_path -%></li>
+    <li><%= link_to t('page.back'), message_queues_path -%></li>
   </ul>
 </div>
 
@@ -24,7 +24,7 @@
     <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
   </p>
   <p>
-    <%= f.submit Create -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

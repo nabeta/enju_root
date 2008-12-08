@@ -11,17 +11,17 @@
 
 <%- form_for :subjects, :url => manifestation_subjects_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
-  <%= ('Search term') -%>: <%= text_field_tag 'query', @query -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
   <%- if_authorized?(:destroy, @manifestation) do -%>
     <%- if params[:mode] == 'add' -%>
-      <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
-      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
     <%- else -%>
-      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
-      <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
     <%- end -%>
   <%- end -%>
-  <%= submit_tag ('Search') -%>
+  <%= submit_tag t('page.search') -%>
   <%= link_to ('Back to index'), manifestation_subjects_path(@manifestation) -%></p>
   </p>
 <%- end -%>
@@ -44,10 +44,10 @@
     <td>
       <%- if_authorized?(:destroy, subject) do -%>
         <%- if params[:mode] == "add" -%>
-          <%= link_to ('Add'), new_manifestation_resource_has_subject_path(@manifestation, :subject_id => subject.id) -%>
+          <%= link_to t('page.add'), new_manifestation_resource_has_subject_path(@manifestation, :subject_id => subject.id) -%>
         <%- else -%>
           <%- has_subject = @manifestation.resource_has_subjects.find_by_subject_id(subject.id) -%>
-          <%= link_to t('destroy'), manifestation_resource_has_subject_path(@manifestation, has_subject), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), manifestation_resource_has_subject_path(@manifestation, has_subject), :confirm => ('Are you sure?'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

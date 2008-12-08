@@ -6,8 +6,8 @@
   </div>
 
   <ul>
-    <li><%= link_to t('show'), item_path(@item) -%></li>
-    <li><%= link_to ('Back'), manifestation_items_path(@item.manifestation) -%></li>
+    <li><%= link_to t('page.show'), item_path(@item) -%></li>
+    <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
   </ul>
 </div>
 
@@ -17,7 +17,7 @@
 <%= error_messages_for :item -%>
 
 <%- form_for(:item, :url => item_path(@item), :html => { :method => :put }) do |f| -%>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
   <div>
     <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
       <%- if @item.manifestation -%>
@@ -48,7 +48,7 @@
   </p>
 
   <p>
-  <b><%= ('Price') -%></b><br />
+  <b><%= t('page.price') -%></b><br />
     <%= f.text_field :price -%>
   </p>
 
@@ -73,12 +73,12 @@
   -->
 
   <p>
-    <b><%= ('Item identifier') -%></b><br />
+    <b><%= tt('activerecord.attributes.item.item_identifier') -%></b><br />
     <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
   </p>
  
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 </div>

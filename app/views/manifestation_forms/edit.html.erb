@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), manifestation_form_path(@manifestation_form) -%></li>
-    <li><%= link_to ('Back'), manifestation_forms_path -%></li>
+    <li><%= link_to t('page.show'), manifestation_form_path(@manifestation_form) -%></li>
+    <li><%= link_to t('page.back'), manifestation_forms_path -%></li>
   </ul>
 </div>
 
@@ -12,22 +12,22 @@
 
 <%- form_for(:manifestation_form, :url => manifestation_form_path(@manifestation_form), :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= ('Name') -%></b><br />
+    <b><%= t('page.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= ('Display name') -%></b><br />
+    <b><%= t('page.display_name') -%></b><br />
     <%= f.text_field :display_name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

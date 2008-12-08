@@ -2,7 +2,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Patron') -%></th>
+    <th><%= t('page.patron') -%></th>
     <th><%= ('Advertisement') -%></th>
   </tr>
 
@@ -10,9 +10,9 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(advertise.patron.full_name), advertise.patron -%></td>
     <td><%= link_to h(advertise.advertisement.title), advertise.advertisement -%></td>
-    <td><%= link_to t('show'), advertise -%></td>
-    <td><%= link_to t('edit'), edit_advertise_path(advertise) -%></td>
-    <td><%= link_to t('destroy'), advertise, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), advertise -%></td>
+    <td><%= link_to t('page.edit'), edit_advertise_path(advertise) -%></td>
+    <td><%= link_to t('page.destroy'), advertise, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
     <%- case when @expression -%>
-      <li><%= link_to ('Back'), expression_manifestations_path(@expression) -%></li>
+      <li><%= link_to t('page.back'), expression_manifestations_path(@expression) -%></li>
     <%- when @patron -%>
-      <li><%= link_to ('Back'), patron_manifestations_path(@patron) -%></li>
+      <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back'), manifestations_path -%></li>
+      <li><%= link_to t('page.back'), manifestations_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -25,7 +25,7 @@
 
 <%- form_for(:manifestation, :url => expression_manifestations_path(@expression)) do |f| -%>
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :original_title, :value => @expression.original_title, :class => 'resource_title' -%>
   </p>
   <p>
@@ -52,7 +52,7 @@
   </p>
 
   <p>
-    <b><%= ('Date of publication') -%></b>
+    <b><%= t('activerecord.attributes.imanifestation.date_of_publication') -%></b>
     <%= f.date_select :date_of_publication, :blank => true -%>
   </p>
 
@@ -60,7 +60,7 @@
     <%- if @expression.serial? -%>
       <%= render :partial => 'new_serial', :locals => {:f => f} -%>
     <%- else -%>
-      <b><%= ('Edition') -%></b>
+      <b><%= t('activerecord.attributes.imanifestation.edition') -%></b>
       <%= f.text_field :edition, :class => 'resource_integer' -%>
       <b><%= ('Volume number') -%></b>
       <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
@@ -75,23 +75,23 @@
   <%- end -%>
 
   <p>
-    <b><%= ('Start page') -%></b>
+    <b><%= t('activerecord.attributes.imanifestation.start_page') -%></b>
     <%= f.text_field :start_page, :class => 'resource_integer' -%>
-    <b><%= ('End page') -%></b>
+    <b><%= t('activerecord.attributes.imanifestation.end_page') -%></b>
     <%= f.text_field :end_page, :class => 'resource_integer' -%>
   </p>
 
   <p>
-  <b><%= ('Height') -%>(cm)</b>
+  <b><%= t('activerecord.attributes.imanifestation.height') -%>(cm)</b>
     <%= f.text_field :height, :class => 'resource_integer' -%>
-  <b><%= ('Width') -%>(cm)</b>
+  <b><%= t('activerecord.attributes.imanifestation.width') -%>(cm)</b>
     <%= f.text_field :width, :class => 'resource_integer' -%>
-  <b><%= ('Depth') -%>(cm)</b>
+  <b><%= t('activerecord.attributes.imanifestation.depth') -%>(cm)</b>
     <%= f.text_field :depth, :class => 'resource_integer' -%>
   </p>
 
   <p>
-    <b><%= ('Price') -%></b>
+    <b><%= t('page.price') -%></b>
     <%= f.text_field :price, :class => 'resource_integer' -%>
   </p>
 
@@ -101,12 +101,12 @@
   </p>
 
   <p>
-    <b><%= ('Repository content') -%></b>
+    <b><%= t('activerecord.attributes.imanifestation.repository_content') -%></b>
     <%= f.check_box :repository_content -%>
   </p>
   
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
@@ -114,7 +114,7 @@
     <%= hidden_field_tag :expression_id, @expression.id if @expression -%>
     <%= hidden_field_tag :item_id, @item.id if @item -%>
     <%= hidden_field_tag :patron_id, @patron.id if @patron -%>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 </div>

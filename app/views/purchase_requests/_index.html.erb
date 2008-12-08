@@ -33,8 +33,8 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Title') -%></th>
-    <th><%= ('Price') -%></th>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('page.price') -%></th>
     <th><%= ('Order list') -%></th>
   </tr>
 
@@ -51,9 +51,9 @@
       <td>
         <%= link_to h(purchase_request.order_list.title), order_list_purchase_requests_path(purchase_request.order_list) if purchase_request.order_list -%>
       </td>
-      <td><%= link_to t('edit'), edit_user_purchase_request_path(purchase_request.user.login, purchase_request) -%></td>
+      <td><%= link_to t('page.edit'), edit_user_purchase_request_path(purchase_request.user.login, purchase_request) -%></td>
       <%- if current_user.has_role?('Librarian') -%>
-        <td><%= link_to t('destroy'), user_purchase_request_path(purchase_request.user.login, purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), user_purchase_request_path(purchase_request.user.login, purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

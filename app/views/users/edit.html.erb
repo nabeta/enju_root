@@ -98,7 +98,7 @@
    <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
   </p>
 
-  <p><b><%= ('Note') -%></b><br />
+  <p><b><%= t('page.note') -%></b><br />
    <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
@@ -114,7 +114,7 @@
   -->
 
   <p>
-  <%= submit_tag t('update'), :confirm => ('Are you sure?') -%>
+  <%= submit_tag t('page.update'), :confirm => ('Are you sure?') -%>
   </p>
 
 <%- end -%>
@@ -132,7 +132,7 @@
 <%- end -%>
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   <%= hidden_field_tag 'user[delete_url]', 'checkout_icalendar' -%>
-  <%= f.submit t('delete') -%>
+  <%= f.submit t('page.delete') -%>
 <%- end -%>
 </p>
 
@@ -140,7 +140,7 @@
   <%- unless current_user == @user -%>
     <h3><%= ('Delete this user') -%></h3>
     <p>
-    <%= link_to t('destroy'), user_path(@user.login), :confirm => ('Are you sure?'), :method => :delete -%>
+    <%= link_to t('page.destroy'), user_path(@user.login), :confirm => ('Are you sure?'), :method => :delete -%>
     </p>
   <%- end -%>
 <%- end -%>

@@ -2,9 +2,9 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Patron') -%></th>
-    <th><%= ('Item') -%></th>
-    <th><%= ('Manifestation') -%></th>
+    <th><%= t('page.patron') -%></th>
+    <th><%= t('page.item') -%></th>
+    <th><%= t('page.manifestation') -%></th>
   </tr>
   
 <%- for own in @owns -%>
@@ -21,8 +21,8 @@
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => own.item.manifestation} -%>
     </td>
     <%- if_authorized?(:destroy, own) do -%>
-      <td><%= link_to t('show'), own -%></td>
-      <td><%= link_to t('destroy'), own, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), own -%></td>
+      <td><%= link_to t('page.destroy'), own, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

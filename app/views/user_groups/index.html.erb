@@ -9,9 +9,9 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Name') -%></th>
-    <th><%= ('Display name') -%></th>
-    <th><%= ('Note') -%></th>
+    <th><%= t('page.name') -%></th>
+    <th><%= t('page.display_name') -%></th>
+    <th><%= t('page.note') -%></th>
   </tr>
   
 <%- for user_group in @user_groups -%>
@@ -19,8 +19,8 @@
     <td><%= link_to h(user_group.name), user_group -%></td>
     <td><%= link_to h(user_group.display_name), user_group -%></td>
     <td><%=h user_group.note -%></td>
-    <td><%= link_to t('edit'), edit_user_group_path(user_group) -%></td>
-    <td><%= link_to t('destroy'), user_group_path(user_group), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>
+    <td><%= link_to t('page.destroy'), user_group_path(user_group), :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

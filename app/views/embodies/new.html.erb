@@ -17,7 +17,7 @@
 
 <%- form_for(@embody) do |f| -%>
   <p>
-  <b><%= ('Expression') -%></b><br />
+  <b><%= t('page.expression') -%></b><br />
   <%- if @expression -%>
     <%= link_to h(@expression.original_title), expression_path(@expression) -%>
     <%= f.hidden_field :expression_id, :value => @expression.id -%>
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
   <%- if @manifestation -%>
     <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
     <%= f.hidden_field :manifestation_id, :value => @manifestation.id -%>
@@ -37,7 +37,7 @@
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

@@ -11,9 +11,9 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Name') -%></th>
-    <th><%= ('Display name') -%></th>
-    <th><%= ('Note') -%></th>
+    <th><%= t('page.name') -%></th>
+    <th><%= t('page.display_name') -%></th>
+    <th><%= t('page.note') -%></th>
   </tr>
 
 <%- for use_restriction in @use_restrictions -%>
@@ -22,8 +22,8 @@
     <td><%= link_to h(use_restriction.display_name), use_restriction -%></td>
     <td><%=h use_restriction.note -%></td>
     <%- if_authorized?(:destroy, use_restriction) do -%>
-      <td><%= link_to t('edit'), edit_use_restriction_path(use_restriction) -%></td>
-      <td><%= link_to t('destroy'), use_restriction, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.edit'), edit_use_restriction_path(use_restriction) -%></td>
+      <td><%= link_to t('page.destroy'), use_restriction, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

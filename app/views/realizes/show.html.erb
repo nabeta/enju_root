@@ -7,12 +7,12 @@
 
 <div id="content_detail">
 <p>
-<b><%= ('Patron') -%>:</b>
+<b><%= t('page.patron') -%>:</b>
   <%= link_to h(@realize.patron.full_name), patron_path(@realize.patron) -%>
 </p>
 
 <p>
-<b><%= ('Expression') -%>:</b>
+<b><%= t('page.expression') -%>:</b>
   <%= link_to h(@realize.expression.original_title), expression_path(@realize.expression) -%>
 </p>
 

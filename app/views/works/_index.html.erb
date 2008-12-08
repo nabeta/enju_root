@@ -11,14 +11,14 @@
 
 <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
-    <%= submit_tag ('Search') -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
    </p>
 <%- end -%>
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Title') -%></th>
+    <th><%= t('page.title') -%></th>
     <th><%= ('Context') -%></th>
     <th></th>
   </tr>
@@ -33,7 +33,7 @@
       <td><%=h work.context -%></td>
       <td>
         <%- if_authorized?(:destroy, work) do -%>
-          <%= link_to t('edit'), edit_work_path(work) -%>
+          <%= link_to t('page.edit'), edit_work_path(work) -%>
         <%- end -%>
       </td>
     </tr>

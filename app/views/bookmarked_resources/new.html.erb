@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), bookmarked_resources_path -%></li>
+    <li><%= link_to t('page.back'), bookmarked_resources_path -%></li>
   </ul>
 </div>
 
@@ -11,7 +11,7 @@
 
 <%- form_for(@bookmarked_resource) do |f| -%>
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
@@ -21,7 +21,7 @@
   </p>
 
   <p>
-    <b><%= ('Manifestation') -%></b><br />
+    <b><%= t('page.manifestation') -%></b><br />
     <%- if @manifestation -%>
       <%= link_to h(@manifestation.original_title),  @manifestation -%>
       <%= f.hidden_field :manifestation_id, @manifestation_id -%>
@@ -31,7 +31,7 @@
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

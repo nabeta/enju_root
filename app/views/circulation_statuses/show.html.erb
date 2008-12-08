@@ -1,23 +1,23 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_circulation_status_path(@circulation_status) -%></li>
-    <li><%= link_to ('Back'), circulation_statuses_path -%></li>
+    <li><%= link_to t('page.edit'), edit_circulation_status_path(@circulation_status) -%></li>
+    <li><%= link_to t('page.back'), circulation_statuses_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-<b><%= ('Name') -%>:</b>
+<b><%= t('page.name') -%>:</b>
   <%=h @circulation_status.name -%>
 </p>
 
 <p>
-<b><%= ('Display name') -%>:</b>
+<b><%= t('page.display_name') -%>:</b>
   <%=h @circulation_status.display_name -%>
 </p>
 
 <p>
-<b><%= ('Note') -%>:</b>
+<b><%= t('page.note') -%>:</b>
   <%=h @circulation_status.note -%>
 </p>
 

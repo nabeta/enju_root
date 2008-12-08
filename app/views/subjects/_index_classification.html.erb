@@ -13,8 +13,8 @@
 
 <%- form_for :subjects, :url => classification_subjects_path(@classification), :html => {:method => 'get'} do -%>
   <p>
-  <%= ('Search term') -%>: <%= text_field_tag 'query', @query -%>
-  <%= submit_tag ('Search') -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
+  <%= submit_tag t('page.search') -%>
   <%= link_to ('Back to index'), classification_subjects_path(@classification) -%></p>
   </p>
 <%- end -%>
@@ -36,10 +36,10 @@
     <td>
       <%- if_authorized?(:destroy, subject) do -%>
         <%- if params[:mode] == "add" -%>
-          <%= link_to ('Add'), new_classification_subject_has_classification_path(@classification, :subject_id => subject.id) -%>
+          <%= link_to t('page.add'), new_classification_subject_has_classification_path(@classification, :subject_id => subject.id) -%>
         <%- else -%>
           <%- has_subject = @classification.subject_has_classifications.find_by_subject_id(subject.id) -%>
-          <%= link_to t('destroy'), classification_subject_has_classification_path(@classification, has_subject), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), classification_subject_has_classification_path(@classification, has_subject), :confirm => ('Are you sure?'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

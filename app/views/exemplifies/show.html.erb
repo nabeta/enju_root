@@ -1,18 +1,18 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_exemplify_path(@exemplify) -%></li>
-    <li><%= link_to ('Back'), exemplifies_path -%></li>
+    <li><%= link_to t('page.edit'), edit_exemplify_path(@exemplify) -%></li>
+    <li><%= link_to t('page.back'), exemplifies_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Manifestation') -%>:</b>
+  <b><%= t('page.manifestation') -%>:</b>
   <%= link_to h(@exemplify.manifestation.original_title), @exemplify.manifestation -%>
 </p>
 
 <p>
-  <b><%= ('Item') -%>:</b>
+  <b><%= t('page.item') -%>:</b>
   <%= link_to h(@exemplify.item.item_identifier), @exemplify.item -%>
 </p>
 

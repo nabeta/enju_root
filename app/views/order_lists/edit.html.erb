@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @order_list -%></li>
-    <li><%= link_to ('Back'), order_lists_path -%></li>
+    <li><%= link_to t('page.show'), @order_list -%></li>
+    <li><%= link_to t('page.back'), order_lists_path -%></li>
   </ul>
 </div>
 
@@ -16,7 +16,7 @@
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
   <p>
-    <b><%= ('Bookstore') -%></b><br />
+    <b><%= t('page.bookstore') -%></b><br />
     <%= f.select(:bookstore_id, @bookstores.collect{|b| [b.name, b.id]}, :include_blank => true) -%>
   </p>
   <p>
@@ -28,7 +28,7 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

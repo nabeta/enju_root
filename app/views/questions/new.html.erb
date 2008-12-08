@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), user_questions_path(@user.login) -%></li>
+    <li><%= link_to t('page.back'), user_questions_path(@user.login) -%></li>
   </ul>
 </div>
 
@@ -11,7 +11,7 @@
 
 <%- form_for(:question, :url => user_questions_path(@user.login)) do |f| -%>
   <p>
-  <b><%= ('User') -%></b><br />
+  <b><%= t('page.user') -%></b><br />
     <%= link_to h(@user.login), user_path(@user.login) -%>
     <%= f.hidden_field :user_id -%>
   </p>
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-  <%= submit_tag t('create') -%>
+  <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 

@@ -1,23 +1,23 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_user_group_path(@user_group) -%></li>
-    <li><%= link_to ('Back'), user_groups_path -%></li>
+    <li><%= link_to t('page.edit'), edit_user_group_path(@user_group) -%></li>
+    <li><%= link_to t('page.back'), user_groups_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Name') -%>:</b>
+  <b><%= t('page.name') -%>:</b>
   <%=h @user_group.name -%>
 </p>
 
 <p>
-  <b><%= ('Display name') -%>:</b>
+  <b><%= t('page.display_name') -%>:</b>
   <%=h @user_group.display_name -%>
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @user_group.note -%>
 </p>
 
@@ -35,12 +35,12 @@
 <p><%= link_to ('Add a checkout type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></p>
 
 <p>
-<b><%= ('Created at') -%>:</b>
+<b><%= t('page.created_at') -%>:</b>
   <%=h @user_group.created_at -%>
 </p>
 
 <p>
-<b><%= ('Updated at') -%>:</b>
+<b><%= t('page.updated_at') -%>:</b>
   <%=h @user_group.updated_at -%>
 </p>
 

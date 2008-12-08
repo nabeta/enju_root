@@ -12,7 +12,7 @@
 
 <%- form_for(:reify, :url => reifies_path) do |f| -%>
   <p>
-    <b><%= ('Work') -%></b><br />
+    <b><%= t('page.work') -%></b><br />
     <%- if @work -%>
 		  <%= link_to h(@work.original_title), @work -%>
       <%= f.hidden_field :work_id, :value => @work.id -%>
@@ -22,7 +22,7 @@
   </p>
 
   <p>
-    <b><%= ('Expression') -%></b><br />
+    <b><%= t('page.expression') -%></b><br />
     <%- if @expression -%>
 		  <%= link_to h(@expression.original_title), expression_path(@expression) -%>
       <%= f.hidden_field :expression_id, :value => @expression.id -%>
@@ -32,7 +32,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 

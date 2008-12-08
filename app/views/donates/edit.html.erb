@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @donate -%></li>
-    <li><%= link_to ('Back'), donates_path -%></li>
+    <li><%= link_to t('page.show'), @donate -%></li>
+    <li><%= link_to t('page.back'), donates_path -%></li>
   </ul>
 </div>
 
@@ -12,17 +12,17 @@
 
 <%- form_for(@donate) do |f| -%>
   <p>
-    <b><%= ('Patron') -%></b><br />
+    <b><%= t('page.patron') -%></b><br />
     <%= f.text_field :patron_id -%>
   </p>
 
   <p>
-    <b><%= ('Item') -%></b><br />
+    <b><%= t('page.item') -%></b><br />
     <%= f.text_field :item_id -%>
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
