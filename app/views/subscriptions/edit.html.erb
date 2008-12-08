@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @subscription -%></li>
-    <li><%= link_to ('Back'), subscriptions_path -%></li>
+    <li><%= link_to t('page.show'), @subscription -%></li>
+    <li><%= link_to t('page.back'), subscriptions_path -%></li>
   </ul>
 </div>
 
@@ -20,7 +20,7 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

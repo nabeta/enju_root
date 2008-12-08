@@ -8,9 +8,9 @@
     <%= f.text_field :filename -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
-<%= link_to t('show'), @imported_patron_file -%> |
-<%= link_to ('Back'), imported_patron_files_path -%>
+<%= link_to t('page.show'), @imported_patron_file -%> |
+<%= link_to t('page.back'), imported_patron_files_path -%>

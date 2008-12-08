@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), manifestation_attachment_files_path(@manifestation) -%></li>
+    <li><%= link_to t('page.back'), manifestation_attachment_files_path(@manifestation) -%></li>
   </ul>
 </div>
 
@@ -18,12 +18,12 @@
   </p>
 
   <p>
-    <b><%= ('File') -%></b><br />
+    <b><%= t('page.file') -%></b><br />
     <%= f.file_field :uploaded_data -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

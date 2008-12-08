@@ -14,13 +14,13 @@
 
 <%- form_for(:reserve, :url => reserves_path) do |f| -%>
   <p>
-  <b><%= ('Patron') -%></b><br />
+  <b><%= t('page.patron') -%></b><br />
     <%= link_to h(@user.patron.full_name), patron_path(@user.patron) -%>
     (<%=h @user.login -%>)
   </p>
 
   <p>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
     <%- if @item -%>
       <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
         <%= book_jacket(@reserve.manifestation) -%>
@@ -47,7 +47,7 @@
 
   <p>
     <%= f.hidden_field :user_number, :class => 'resource_user_number', :value => @user.user_number -%>
-    <%= submit_tag t('create'), :confirm => ('Are you sure?') -%>
+    <%= submit_tag t('page.create'), :confirm => ('Are you sure?') -%>
   </p>
 <%- end -%>
 </div>

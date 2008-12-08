@@ -4,7 +4,7 @@
 
 <%- form_for(@item_has_use_restriction) do |f| -%>
   <p>
-  <b><%= ('Item') -%></b><br />
+  <b><%= t('page.item') -%></b><br />
   <%- if @item_has_use_restriction.item -%>
     <%= link_to h(@item_has_use_restriction.item.item_identifier), item_path(@item_has_use_restriction.item) -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), manifestation_path(@item_has_use_restriction.item.manifestation) -%>)
     <%= f.hidden_field :item_id -%>
@@ -19,9 +19,9 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
-<%= link_to t('show'), @item_has_use_restriction -%> |
-<%= link_to ('Back'), item_has_use_restrictions_path -%>
+<%= link_to t('page.show'), @item_has_use_restriction -%> |
+<%= link_to t('page.back'), item_has_use_restrictions_path -%>

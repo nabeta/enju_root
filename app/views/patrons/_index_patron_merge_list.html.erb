@@ -9,17 +9,17 @@
 
 <%- form_for :patrons, :url => patron_merge_list_patrons_path(@patron_merge_list), :html => {:method => 'get'} do -%>
 <p>
-  <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
   <%- if_authorized?(:destroy, @patron_merge_list) do -%>
     <%- if params[:mode] == 'add' -%>
-      <%= radio_button_tag 'mode', 'show' -%> <%= t('show') -%>
-      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= ('Add') -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
     <%- else -%>
-      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('show') -%>
-      <%= radio_button_tag 'mode', 'add' -%> <%= ('Add') -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
     <%- end -%>
   <%- end -%>
-  <%= submit_tag ('Search') -%>
+  <%= submit_tag t('page.search') -%>
   <%= link_to ('Back to index'), patron_merge_list_patrons_path(@patron_merge_list) -%>
 </p>
 <%- end -%>
@@ -45,10 +45,10 @@
     <td>
       <%- if_authorized?(:destroy, patron) do -%>
         <%- if params[:mode] == 'add' -%>
-          <%= link_to ('Add'), new_patron_merge_list_patron_merge_path(@patron_merge_list, :patron_id => patron.id) unless @patron_merge_list.patrons.include?(patron) -%>
+          <%= link_to t('page.add'), new_patron_merge_list_patron_merge_path(@patron_merge_list, :patron_id => patron.id) unless @patron_merge_list.patrons.include?(patron) -%>
         <%- else -%>
           <%- patron_merge = @patron_merge_list.patron_merges.find_by_patron_id(patron) -%>
-          <%= link_to t('destroy'), patron_merge_list_patron_merge_path(@patron_merge_list, patron_merge), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), patron_merge_list_patron_merge_path(@patron_merge_list, patron_merge), :confirm => ('Are you sure?'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

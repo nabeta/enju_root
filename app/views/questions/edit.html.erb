@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), user_question_path(@question.user.login, @question) -%></li>
-    <li><%= link_to ('Back'), user_questions_path(@question.user.login) -%></li>
+    <li><%= link_to t('page.show'), user_question_path(@question.user.login, @question) -%></li>
+    <li><%= link_to t('page.back'), user_questions_path(@question.user.login) -%></li>
   </ul>
 </div>
 
@@ -12,7 +12,7 @@
 
 <%- form_for(:question, :url => user_question_path(@question.user.login, @question), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('User') -%></b><br />
+  <b><%= t('page.user') -%></b><br />
   <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
   </p>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 </div>

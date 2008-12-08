@@ -1,23 +1,23 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_use_restriction_path(@use_restriction) -%></li>
-    <li><%= link_to ('Back'), use_restrictions_path -%></li>
+    <li><%= link_to t('page.edit'), edit_use_restriction_path(@use_restriction) -%></li>
+    <li><%= link_to t('page.back'), use_restrictions_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Name') -%>:</b>
+  <b><%= t('page.name') -%>:</b>
   <%=h @use_restriction.name -%>
 </p>
 
 <p>
-  <b><%= ('Display name') -%>:</b>
+  <b><%= t('page.display_name') -%>:</b>
   <%=h @use_restriction.display_name -%>
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @use_restriction.note -%>
 </p>
 

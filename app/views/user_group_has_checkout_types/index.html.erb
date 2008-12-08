@@ -4,7 +4,7 @@
   <tr>
     <th><%= ('User group') -%></th>
     <th><%= ('Checkout type') -%></th>
-    <th><%= ('Note') -%></th>
+    <th><%= t('page.note') -%></th>
   </tr>
 
 <%- for user_group_has_checkout_type in @user_group_has_checkout_types -%>
@@ -12,9 +12,9 @@
     <td><%= link_to h(user_group_has_checkout_type.user_group.display_name), user_group_has_checkout_type.user_group -%></td>
     <td><%= link_to h(user_group_has_checkout_type.checkout_type.display_name), user_group_has_checkout_type.checkout_type -%></td>
     <td><%=h user_group_has_checkout_type.note -%></td>
-    <td><%= link_to t('show'), user_group_has_checkout_type -%></td>
-    <td><%= link_to t('edit'), edit_user_group_has_checkout_type_path(user_group_has_checkout_type) -%></td>
-    <td><%= link_to t('destroy'), user_group_has_checkout_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), user_group_has_checkout_type -%></td>
+    <td><%= link_to t('page.edit'), edit_user_group_has_checkout_type_path(user_group_has_checkout_type) -%></td>
+    <td><%= link_to t('page.destroy'), user_group_has_checkout_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

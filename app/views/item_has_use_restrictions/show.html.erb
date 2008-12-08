@@ -1,10 +1,10 @@
 <p>
-<b><%= ('Item') -%>:</b>
+<b><%= t('page.item') -%>:</b>
   <%= link_to h(@item_has_use_restriction.item_id), item_path(@item_has_use_restriction.item_id) -%>
 </p>
 
 <p>
-<b><%= ('Item identifier') -%>:</b>
+<b><%= tt('activerecord.attributes.item.item_identifier') -%>:</b>
   <%= link_to h(@item_has_use_restriction.item.item_identifier), item_path(@item_has_use_restriction.item_id) -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), manifestation_path(@item_has_use_restriction.item.manifestation) -%>)
 </p>
 
@@ -14,5 +14,5 @@
 </p>
 
 
-<%= link_to t('edit'), edit_item_has_use_restriction_path(@item_has_use_restriction) -%> |
-<%= link_to ('Back'), item_has_use_restrictions_path -%>
+<%= link_to t('page.edit'), edit_item_has_use_restriction_path(@item_has_use_restriction) -%> |
+<%= link_to t('page.back'), item_has_use_restrictions_path -%>

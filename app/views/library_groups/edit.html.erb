@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), library_groups_path -%></li>
+    <li><%= link_to t('page.back'), library_groups_path -%></li>
   </ul>
 </div>
 
@@ -12,17 +12,17 @@
 <%- form_for(:library_group, :url => library_group_path(@library_group), :html => { :method => :put }) do |f| -%>
 
   <p>
-    <b><%= ('Name') -%></b><br />
+    <b><%= t('page.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= ('Display name') -%></b><br />
+    <b><%= t('page.display_name') -%></b><br />
     <%= f.text_field :display_name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= ('Short name') -%></b><br />
+    <b><%= t('page.short_name') -%></b><br />
     <%= f.text_field :short_name -%>
   </p>
 
@@ -37,10 +37,10 @@
   </p>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
-  <%= submit_tag t('update') -%>
+  <%= submit_tag t('page.update') -%>
 <%- end -%>
 </div>

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), checkout_types_path -%></li>
+    <li><%= link_to t('page.back'), checkout_types_path -%></li>
   </ul>
 </div>
 
@@ -23,7 +23,7 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.submit Create -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

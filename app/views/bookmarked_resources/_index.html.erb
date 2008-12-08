@@ -6,7 +6,7 @@
 <%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
   <p>
     <%= text_field_tag 'query', @query -%>
-    <%= submit_tag h(('Search')) -%>
+    <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>
 
@@ -23,9 +23,9 @@
 <table style="width: 100%">
   <tr>
     <th></th>
-    <th><%= ('Title') -%></th>
-    <th><%= ('Tag') -%></th>
-    <th><%= ('Created at') -%></th>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('page.tag') -%></th>
+    <th><%= t('page.created_at') -%></th>
     <th></th>
   </tr>
   <%- @bookmarked_resources.each_with_index do |manifestation, i| -%>
@@ -38,7 +38,7 @@
         <%- end -%>
       </td>
       <td><%=h manifestation.created_at -%></td>
-      <td><%= link_to t('show'), bookmarked_resource_path(manifestation.bookmarked_resource) -%></td>
+      <td><%= link_to t('page.show'), bookmarked_resource_path(manifestation.bookmarked_resource) -%></td>
     </tr>
   <%- end -%>
 </table>

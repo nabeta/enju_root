@@ -2,8 +2,8 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Patron') -%></th>
-    <th><%= ('Expression') -%></th>
+    <th><%= t('page.patron') -%></th>
+    <th><%= t('page.expression') -%></th>
   </tr>
 
 <%- for realize in @realizes -%>
@@ -11,8 +11,8 @@
     <td><%= link_to h(realize.patron.full_name), patron_path(realize.patron) -%></td>
     <td><%= link_to h(realize.expression.original_title), expression_path(realize.expression) -%></td>
     <%- if_authorized?(:destroy, realize) do -%>
-      <td><%= link_to t('show'), realize -%></td>
-      <td><%= link_to t('destroy'), realize, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), realize -%></td>
+      <td><%= link_to t('page.destroy'), realize, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

@@ -4,7 +4,7 @@
 
 <%- form_for(@item_has_use_restriction) do |f| -%>
   <p>
-    <b><%= ('Item') -%></b><br />
+    <b><%= t('page.item') -%></b><br />
     <%- if @item -%>
       <%= link_to h(@item.item_identifier), item_path(@item) -%> (<%= link_to h(@item.manifestation.original_title), manifestation_path(@item.manifestation) -%>)
       <%= f.hidden_field :item_id, :value => @item.id -%>
@@ -19,8 +19,8 @@
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 
-<%= link_to ('Back'), item_has_use_restrictions_path -%>
+<%= link_to t('page.back'), item_has_use_restrictions_path -%>

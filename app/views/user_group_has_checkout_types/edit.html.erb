@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @user_group_has_checkout_type -%></li>
-    <li><%= link_to ('Back'), user_group_has_checkout_types_path -%></li>
+    <li><%= link_to t('page.show'), @user_group_has_checkout_type -%></li>
+    <li><%= link_to t('page.back'), user_group_has_checkout_types_path -%></li>
   </ul>
 </div>
 
@@ -59,7 +59,7 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

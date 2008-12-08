@@ -2,7 +2,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Item') -%></th>
+    <th><%= t('page.item') -%></th>
     <th><%= ('Library') -%></th>
     <th><%= ('Borrowing library') -%></th>
     <th><%= ('Shipped at') -%></th>
@@ -21,9 +21,9 @@
     <td><%=h inter_library_loan.shipped_at -%></td>
     <td><%=h inter_library_loan.received_at -%></td>
     <%- if_authorized?(:destroy, inter_library_loan) do -%>
-      <td><%= link_to t('show'), inter_library_loan -%></td>
-      <td><%= link_to t('edit'), edit_inter_library_loan_path(inter_library_loan) -%></td>
-      <td><%= link_to t('destroy'), inter_library_loan, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), inter_library_loan -%></td>
+      <td><%= link_to t('page.edit'), edit_inter_library_loan_path(inter_library_loan) -%></td>
+      <td><%= link_to t('page.destroy'), inter_library_loan, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

@@ -1,23 +1,23 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_library_group_path(@library_group) -%></li>
-    <li><%= link_to ('Back'), library_groups_path -%></li>
+    <li><%= link_to t('page.edit'), edit_library_group_path(@library_group) -%></li>
+    <li><%= link_to t('page.back'), library_groups_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Name') -%>:</b>
+  <b><%= t('page.name') -%>:</b>
   <%=h @library_group.name -%>
 </p>
 
 <p>
-  <b><%= ('Display name') -%>:</b>
+  <b><%= t('page.display_name') -%>:</b>
   <%=h @library_group.display_name -%>
 </p>
 
 <p>
-  <b><%= ('Short name') -%>:</b>
+  <b><%= t('page.short_name') -%>:</b>
   <%=h @library_group.short_name -%>
 </p>
 
@@ -32,7 +32,7 @@
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @library_group.note -%>
 </p>
 

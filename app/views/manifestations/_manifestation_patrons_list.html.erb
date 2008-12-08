@@ -8,13 +8,13 @@
     </h1>
     <p>
       <%- unless @manifestation.authors.blank? -%>
-        <%= ('Author') -%>: <%= patrons_list(@manifestation.authors) -%>
+        <%= t('page.author') -%>: <%= patrons_list(@manifestation.authors) -%>
       <%- end -%>
       <%- unless @manifestation.editors.blank? -%>
         <%= ('Editor') -%>: <%= patrons_list(@manifestation.editors) -%>
       <%- end -%>
       <%- unless @manifestation.publishers.blank? -%>
-        <%= ('Publisher') -%>: <%= patrons_list(@manifestation.publishers) -%>
+        <%= t('page.publisher') -%>: <%= patrons_list(@manifestation.publishers) -%>
         <%- if @manifestation.date_of_publication -%>
           (<%=h @manifestation.date_of_publication.strftime('%Y') -%>)
         <%- end -%>

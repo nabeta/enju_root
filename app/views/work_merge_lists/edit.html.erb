@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @work_merge_list -%></li>
-    <li><%= link_to ('Back'), work_merge_lists_path -%></li>
+    <li><%= link_to t('page.show'), @work_merge_list -%></li>
+    <li><%= link_to t('page.back'), work_merge_lists_path -%></li>
   </ul>
 </div>
 
@@ -12,12 +12,12 @@
 
 <%- form_for(@work_merge_list) do |f| -%>
   <p>
-  <b><%= ('Title') -%></b><br />
+  <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title -%>
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

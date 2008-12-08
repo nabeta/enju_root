@@ -7,12 +7,12 @@
 
 <div id="content_detail">
 <p>
-  <b><%= ('Patron') -%>:</b>
+  <b><%= t('page.patron') -%>:</b>
   <%=link_to h(@produce.patron.full_name), patron_path(@produce.patron) -%>
 </p>
 
 <p>
-  <b><%= ('Manifestation') -%>:</b>
+  <b><%= t('page.manifestation') -%>:</b>
   <%= link_to h(@produce.manifestation.original_title), manifestation_path(@produce.manifestation) -%>
 </p>
 

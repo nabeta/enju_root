@@ -2,9 +2,9 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('User') -%></th>
-    <th><%= ('Note') -%></th>
-    <th><%= ('Updated at') -%></th>
+    <th><%= t('page.user') -%></th>
+    <th><%= t('page.note') -%></th>
+    <th><%= t('page.updated_at') -%></th>
   </tr>
 
 <%- for basket in @baskets -%>
@@ -12,7 +12,7 @@
     <td><%=h basket.user.login -%></td>
     <td><%=h basket.note -%></td>
     <td><%=h basket.updated_at -%></td>
-    <td><%= link_to t('show'), user_basket_path(basket.user.login, basket) -%></td>
+    <td><%= link_to t('page.show'), user_basket_path(basket.user.login, basket) -%></td>
   </tr>
 <%- end -%>
 </table>

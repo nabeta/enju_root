@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_news_feed_path(@news_feed) -%></li>
-    <li><%= link_to ('Back'), news_feeds_path -%></li>
+    <li><%= link_to t('page.edit'), edit_news_feed_path(@news_feed) -%></li>
+    <li><%= link_to t('page.back'), news_feeds_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
   <%=h @news_feed.title -%>
 </p>
 

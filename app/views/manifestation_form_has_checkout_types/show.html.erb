@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_manifestation_form_has_checkout_type_path(@manifestation_form_has_checkout_type) -%></li>
-    <li><%= link_to ('Back'), manifestation_form_has_checkout_types_path -%></li>
+    <li><%= link_to t('page.edit'), edit_manifestation_form_has_checkout_type_path(@manifestation_form_has_checkout_type) -%></li>
+    <li><%= link_to t('page.back'), manifestation_form_has_checkout_types_path -%></li>
   </ul>
 </div>
 
@@ -17,7 +17,7 @@
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @manifestation_form_has_checkout_type.note -%>
 </p>
 

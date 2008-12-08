@@ -4,15 +4,15 @@
     <li><%= link_to ('Edit a list'), work_merge_list_work_merges_path(@work_merge_list) -%></li>
   </ul>
   <ul>
-    <li><%= link_to t('edit'), edit_work_merge_list_path(@work_merge_list) -%></li>
-    <li><%= link_to ('Back'), work_merge_lists_path -%></li>
+    <li><%= link_to t('page.edit'), edit_work_merge_list_path(@work_merge_list) -%></li>
+    <li><%= link_to t('page.back'), work_merge_lists_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <%- form_for(:work_merge_list, :url => work_merge_list_path(@work_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
     <%=h @work_merge_list.title -%>
   </p>
 

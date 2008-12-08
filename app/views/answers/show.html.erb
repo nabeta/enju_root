@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
-    <li><%= link_to ('Back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
+    <li><%= link_to t('page.edit'), edit_user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
+    <li><%= link_to t('page.back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-<b><%= ('User') -%>:</b>
+<b><%= t('page.user') -%>:</b>
   <%= link_to h(@answer.user.login), user_path(@answer.user.login) -%>
 </p>
 
@@ -22,12 +22,12 @@
 </p>
 
 <p>
-<b><%= ('Created at') -%>:</b>
+<b><%= t('page.created_at') -%>:</b>
   <%=h @answer.created_at -%>
 </p>
 
 <p>
-<b><%= ('Updated at') -%>:</b>
+<b><%= t('page.updated_at') -%>:</b>
   <%=h @answer.updated_at -%>
 </p>
 

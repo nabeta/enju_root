@@ -15,7 +15,7 @@
 
 <table style="width: 100%">
   <tr>
-    <td><%= ('Expression') -%></td>
+    <td><%= t('page.expression') -%></td>
     <td><%= ('Expression merge list') -%></td>
   </tr>
 
@@ -23,9 +23,9 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(expression_merge.expression.original_title), expression_path(expression_merge.expression) -%></td>
     <td><%= link_to h(expression_merge.expression_merge_list.title), expression_merge_list_path(expression_merge.expression_merge_list) -%></td>
-    <td><%= link_to t('show'), expression_merge -%></td>
-    <td><%= link_to t('edit'), edit_expression_merge_path(expression_merge) -%></td>
-    <td><%= link_to t('destroy'), expression_merge, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), expression_merge -%></td>
+    <td><%= link_to t('page.edit'), edit_expression_merge_path(expression_merge) -%></td>
+    <td><%= link_to t('page.destroy'), expression_merge, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

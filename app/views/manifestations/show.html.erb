@@ -72,10 +72,10 @@
         <%= paginate_id_link(@manifestation) -%>
         <%= link_to ('Back to search results'), back_to_manifestation_index -%>
         <!--
-        <%= ('Search term') -%>:
+        <%= t('page.search_term') -%>:
         <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 20em'} -%>
-        <%= submit_tag h(('Search')) -%>
-        <%= link_to h(('Advanced search')), '/page/advanced_search' -%>
+        <%= submit_tag t('page.search') -%>
+        <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
         -->
     </div>
   <%- end -%>
@@ -108,7 +108,7 @@
     <%- end -%>
 
     <table id="manifestation_detail">
-      <%- if @manifestation.youtube_id or @manifestation.nicovideo_id -%>
+    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id -%>
       <tr>
         <td style="width: 200px"><%=h ('Video') -%>:</td>
         <td>
@@ -151,7 +151,7 @@
       </td>
     </tr>
     <tr>
-      <td><%=h ('Language') -%>:</td>
+      <td><%=h t('page.language') -%>:</td>
       <td><%= language_list(@manifestation.languages) -%></td>
     </tr>
     <tr>
@@ -167,23 +167,23 @@
       </td>
     </tr>
     <tr>
-      <td><%= ('Price') -%></td>
+      <td><%= t('page.price') -%></td>
       <td><%= @manifestation.price -%></td>
     </tr>
     <tr>
-      <td><%=h ('Subject') -%>:</td>
+      <td><%=h t('page.subject') -%>:</td>
       <td>
         <%- for subject in @manifestation.subjects -%>
           <%= link_to h(subject.term), subject -%>
-          <%= link_to image_tag('/icons/page_edit.png', :alt => t('edit')), subject -%>
+          <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
         <%- if logged_in? and current_user.has_role?('Librarian') -%>
-          (<%= link_to t('edit'), manifestation_subjects_path(@manifestation) -%>)
+          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
         <%- end -%>
       </td>
     </tr>
     <tr>
-      <td><%=h ('Tag') -%>:
+      <td><%=h t('page.tag') -%>:
       </td>
       <td>
         <%= render :partial => 'tag_list' -%>
@@ -209,7 +209,7 @@
       </tr>
     <%- end -%>
     <tr>
-      <td><%= ('Note') -%>:</td>
+      <td><%= t('page.note') -%>:</td>
       <td><%= textilize_without_paragraph(h(@manifestation.note)) -%></td>
     </tr>
     </table>
@@ -220,7 +220,7 @@
             <th><%=h ('Library') -%></th>
             <th><%=h ('Shelf') -%></th>
             <th><%=h ('Call number') -%></th>
-            <th><%=h ('Item identifier') -%></th>
+            <th><%=h tt('activerecord.attributes.item.item_identifier') -%></th>
             <th><%=h ('Circulation status') -%></th>
             <!--
             <th><%=h ('Request') -%></th>

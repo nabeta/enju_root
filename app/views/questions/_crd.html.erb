@@ -20,10 +20,10 @@
     </ul>
     <%- if @refkyo_count > Question.per_page -%>
       <%- if @startrecord > Question.per_page -%>
-        <%= link_to "&#171;" + ('Previous'), params.merge(:page => @page - 1) -%>
+        <%= link_to "&#171;" + t('page.previous'), params.merge(:page => @page - 1) -%>
       <%- end -%>
       <%- if @refkyo_count >= Question.per_page * (@page) -%>
-        <%= link_to ('Next') + "&#187;", params.merge(:page => @page + 1) -%>
+        <%= link_to t('page.next') + "&#187;", params.merge(:page => @page + 1) -%>
       <%- end -%>
     <%- end -%>
   <%- else -%>

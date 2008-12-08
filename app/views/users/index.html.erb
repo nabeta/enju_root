@@ -12,17 +12,17 @@
 
 <%- form_for :users, :url => users_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
     <%= hidden_field_tag 'patron_id', @patron.id if @patron -%>
-    <%= submit_tag ('Search') -%>
+    <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>
 
 <table style="width: 100%">
   <tr>
     <th><%= ('Login') -%></th>
-    <th><%= ('Name') -%></th>
-    <th><%= ('Checkout') -%></th>
+    <th><%= t('page.name') -%></th>
+    <th><%= t('page.checkout') -%></th>
     <th><%= ('Reservation') -%></th>
   </tr>
   
@@ -31,11 +31,11 @@
     <td><%= link_to h(user.login), user_path(user.login) -%></td>
     <td><%=h user.patron.full_name if current_user.has_role?('Librarian')%></td>
     <td>
-      <%= link_to ('Checkout'), new_basket_path(:user_id => user.id) -%>
+      <%= link_to t('page.checkout'), new_basket_path(:user_id => user.id) -%>
       (<%= link_to ('Checkout history'), user_checkouts_path(user.login) -%>)
     </td>
     <td><%= link_to ('Reservation'), user_reserves_path(user.login) -%></td>
-    <td><%= link_to t('edit'), edit_user_path(user.login) -%></td>
+    <td><%= link_to t('page.edit'), edit_user_path(user.login) -%></td>
   </tr>
 <%- end -%>
 </table>

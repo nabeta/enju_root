@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @advertise -%></li>
-    <li><%= link_to ('Back'), advertises_path -%></li>
+    <li><%= link_to t('page.show'), @advertise -%></li>
+    <li><%= link_to t('page.back'), advertises_path -%></li>
   </ul>
 </div>
 
@@ -20,7 +20,7 @@
     <%= f.text_field :advertisement_id -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

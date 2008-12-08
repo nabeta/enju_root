@@ -1,10 +1,10 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_inter_library_loan_path(@inter_library_loan) -%></li>
+    <li><%= link_to t('page.edit'), edit_inter_library_loan_path(@inter_library_loan) -%></li>
     <%- unless @inter_library_loan.item.shelf.library == current_user.library -%>
       <li><%= link_to ('Return this item'), edit_inter_library_loan_path(@inter_library_loan) -%></li>
     <%- end -%>
-    <li><%= link_to ('Back'), inter_library_loans_path -%></li>
+    <li><%= link_to t('page.back'), inter_library_loans_path -%></li>
   </ul>
 </div>
 
@@ -20,7 +20,7 @@
 </p>
 
 <p>
-  <b><%= ('Item') -%>:</b>
+  <b><%= t('page.item') -%>:</b>
   <%= link_to h(@inter_library_loan.item.item_identifier), @inter_library_loan.item -%>
   (<%= link_to h(@inter_library_loan.item.manifestation.original_title), @inter_library_loan.item.manifestation -%>)
 </p>

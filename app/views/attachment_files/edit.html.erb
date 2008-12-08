@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @attachment_file -%></li>
-    <li><%= link_to ('Back'), attachment_files_path -%></li>
+    <li><%= link_to t('page.show'), @attachment_file -%></li>
+    <li><%= link_to t('page.back'), attachment_files_path -%></li>
   </ul>
 </div>
 
@@ -62,7 +62,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), @patron -%></li>
+    <li><%= link_to t('page.back'), @patron -%></li>
   </ul>
 </div>
 
@@ -9,7 +9,7 @@
 
 <%- form_for :user, :url => users_path do |f| -%>
 <%- if @patron -%>
-  <p><label for="login"><%= ('Name') -%></label><br/>
+  <p><label for="login"><%= t('page.name') -%></label><br/>
   <%= link_to h(@patron.full_name), patron_path(@patron) -%>
   <%= f.hidden_field :patron_id, :value => @patron.id -%></p>
 <%- end -%>

@@ -16,8 +16,8 @@
     <p><label for="remember_me"><%= ('Remember me') -%>:</label>
     <%= check_box_tag 'remember_me' -%></p>
 
-    <p><%= submit_tag t('login') -%></p>
+    <p><%= submit_tag t('page.login') -%></p>
   <%- end -%>
-  <%= javascript_tag("$('login').focus()") -%>
+  <%= javascript_tag("$t('page.login').focus()") -%>
 
 </div>

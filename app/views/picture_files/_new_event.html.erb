@@ -7,13 +7,13 @@
   </p>
 
   <p>
-    <b><%= ('File') -%></b><br />
+    <b><%= t('page.file') -%></b><br />
     <%= f.file_field :uploaded_data -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
-<%= link_to ('Back'), event_picture_files_path(@event) -%>
+<%= link_to t('page.back'), event_picture_files_path(@event) -%>
 

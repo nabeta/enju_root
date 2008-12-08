@@ -2,9 +2,9 @@
 
 <table>
   <tr>
-    <th><%= ('Item') -%></th>
-    <th><%= ('Item identifier') -%></th>
-    <th><%= ('Manifestation') -%></th>
+    <th><%= t('page.item') -%></th>
+    <th><%= tt('activerecord.attributes.item.item_identifier') -%></th>
+    <th><%= t('page.manifestation') -%></th>
     <th><%= ('Use restriction') -%></th>
   </tr>
 
@@ -14,9 +14,9 @@
     <td><%= link_to h(item_has_use_restriction.item.item_identifier), item_path(item_has_use_restriction.item_id) -%></td>
     <td><%= link_to h(item_has_use_restriction.item.manifestation.original_title), manifestation_path(item_has_use_restriction.item.manifestation) -%></td>
     <td><%= link_to h(item_has_use_restriction.use_restriction.display_name), use_restriction_path(item_has_use_restriction.use_restriction_id) -%></td>
-    <td><%= link_to t('show'), item_has_use_restriction -%></td>
-    <td><%= link_to t('edit'), edit_item_has_use_restriction_path(item_has_use_restriction) -%></td>
-    <td><%= link_to t('destroy'), item_has_use_restriction, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), item_has_use_restriction -%></td>
+    <td><%= link_to t('page.edit'), edit_item_has_use_restriction_path(item_has_use_restriction) -%></td>
+    <td><%= link_to t('page.destroy'), item_has_use_restriction, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), patron_path(@patron) -%></li>
-    <li><%= link_to ('Back'), patrons_path -%></li>
+    <li><%= link_to t('page.show'), patron_path(@patron) -%></li>
+    <li><%= link_to t('page.back'), patrons_path -%></li>
   </ul>
 </div>
 
@@ -50,7 +50,7 @@
   </p>
 
   <p>
-    <b><%= ('Language') -%></b>
+    <b><%= t('page.language') -%></b>
     <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
   </p>
 
@@ -60,7 +60,7 @@
   </p>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <%- if @patron.user -%>
@@ -97,7 +97,7 @@
   <%- end -%>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 </div>

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), exemplifies_path -%></li>
+    <li><%= link_to t('page.back'), exemplifies_path -%></li>
   </ul>
 </div>
 
@@ -19,7 +19,7 @@
     <%= f.text_field :item_id -%>
   </p>
   <p>
-    <%= f.submit Create -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

@@ -1,23 +1,23 @@
 <div id="submenu">
   <ul>
-    <li<%= link_to t('edit'), edit_work_form_path(@work_form) -%></li>
-    <li><%= link_to ('Back'), work_forms_path -%></li>
+    <li<%= link_to t('page.edit'), edit_work_form_path(@work_form) -%></li>
+    <li><%= link_to t('page.back'), work_forms_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Name') -%>:</b>
+  <b><%= t('page.name') -%>:</b>
   <%=h @work_form.name -%>
 </p>
 
 <p>
-  <b><%= ('Display name') -%>:</b>
+  <b><%= t('page.display_name') -%>:</b>
   <%=h @work_form.name -%>
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @work_form.note -%>
 </p>
 

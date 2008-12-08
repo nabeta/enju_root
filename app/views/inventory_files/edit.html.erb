@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @inventory_file -%> </li>
-    <li><%= link_to ('Back'), inventory_files_path -%> </li>
+    <li><%= link_to t('page.show'), @inventory_file -%> </li>
+    <li><%= link_to t('page.back'), inventory_files_path -%> </li>
   </ul>
 </div>
 
@@ -40,7 +40,7 @@
     <%= f.text_area :note -%> 
   </p>
   <p>
-    <%= f.submit t('update') -%> 
+    <%= f.submit t('page.update') -%> 
   </p>
 <%- end -%> 
 

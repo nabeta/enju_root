@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
     <%- if @user -%>
-      <li><%= link_to t('show'), user_bookmarked_resource_path(@user.login, @bookmarked_resource) -%></li>
-      <li><%= link_to ('Back'), user_bookmarked_resources_path(@user.login) -%></li>
+      <li><%= link_to t('page.show'), user_bookmarked_resource_path(@user.login, @bookmarked_resource) -%></li>
+      <li><%= link_to t('page.back'), user_bookmarked_resources_path(@user.login) -%></li>
     <%- else -%>
-      <li><%= link_to t('show'), @bookmarked_resource -%></li>
-      <li><%= link_to ('Back'), bookmarked_resources_path -%></li>
+      <li><%= link_to t('page.show'), @bookmarked_resource -%></li>
+      <li><%= link_to t('page.back'), bookmarked_resources_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -17,7 +17,7 @@
 
 <%- form_for(@bookmarked_resource) do |f| -%>
   <p>
-  <b><%= ('Title') -%></b><br />
+  <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
@@ -27,14 +27,14 @@
   </p>
 
   <p>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
     <%= link_to h(@bookmarked_resource.manifestation.original_title), @bookmarked_resource.manifestation -%>
     <%= f.hidden_field :manifestation_id -%>
   </p>
 
   <p>
     <%= hidden_field_tag 'user_id', @user.login if @user -%>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

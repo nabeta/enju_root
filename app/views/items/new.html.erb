@@ -9,9 +9,9 @@
 
   <ul>
     <%- if @manifestation -%>
-      <li><%= link_to ('Back'), manifestation_items_path(@manifestation) -%></li>
+      <li><%= link_to t('page.back'), manifestation_items_path(@manifestation) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back'), items_path -%></li>
+      <li><%= link_to t('page.back'), items_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -51,7 +51,7 @@
   </p>
 
   <p>
-  <b><%= ('Price') -%></b><br />
+  <b><%= t('page.price') -%></b><br />
     <%= f.text_field :price -%>
   </p>
 
@@ -76,12 +76,12 @@
   -->
 
   <p>
-    <b><%= ('Item identifier') -%></b><br />
+    <b><%= tt('activerecord.attributes.item.item_identifier') -%></b><br />
     <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 </div>

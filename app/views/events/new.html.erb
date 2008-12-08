@@ -1,9 +1,9 @@
 <div id="submenu">
   <ul>
     <%- if @library -%>
-      <li><%= link_to ('Back'), library_events_path(@library.short_name) -%></li>
+      <li><%= link_to t('page.back'), library_events_path(@library.short_name) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back'), events_path -%></li>
+      <li><%= link_to t('page.back'), events_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -25,7 +25,7 @@
   </p>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
@@ -40,19 +40,19 @@
   </p>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <!--
   <p>
-    <b><%= ('Tag') -%></b><br />
+    <b><%= t('page.tag') -%></b><br />
     <%= f.text_field :tag_list -%>
   </p>
   -->
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

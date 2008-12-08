@@ -11,9 +11,9 @@
       <%= t('page.logged_in_as', :login_name => current_user.login) -%>
       <br />
       <%= link_to t('account'), edit_user_path(current_user.login) -%>
-      <%= link_to t('logout'), '/logout' -%>
+      <%= link_to t('page.logout'), '/logout' -%>
     <%- else -%>
-      <%= link_to t('login'), {:action => "new", :controller => "sessions"} -%>
+      <%= link_to t('page.login'), {:action => "new", :controller => "sessions"} -%>
     <%- end -%>
   </div>
 </div>
@@ -65,7 +65,7 @@
                       <div class="bd">
                         <ul>
                           <%- if_authorized?(:destroy, Checkout) do -%>
-                            <li class="yuimenuitem"><%= link_to ('Checkout'), new_basket_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.checkout'), new_basket_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                           <%- if_authorized?(:destroy, Checkin) do -%>
                             <li class="yuimenuitem">

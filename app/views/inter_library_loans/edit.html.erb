@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @inter_library_loan -%></li>
-    <li><%= link_to ('Back'), inter_library_loans_path -%></li>
+    <li><%= link_to t('page.show'), @inter_library_loan -%></li>
+    <li><%= link_to t('page.back'), inter_library_loans_path -%></li>
   </ul>
 </div>
 
@@ -17,7 +17,7 @@
   </p>
 
   <p>
-    <b><%= ('Item') -%></b><br />
+    <b><%= t('page.item') -%></b><br />
     <%= link_to h(@inter_library_loan.item.shelf.library.display_name), library_path(@inter_library_loan.item.shelf.library.short_name) -%>
     <%= link_to h(@inter_library_loan.item.item_identifier), @inter_library_loan.item -%>
     (<%= link_to h(@inter_library_loan.item.manifestation.original_title), @inter_library_loan.item.manifestation -%>)
@@ -37,7 +37,7 @@
         <%= f.datetime_select :shipped_at -%>
       </p>
       <p>
-        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
       </p>
     <%- end -%>
   <%- when 'shipped' -%>
@@ -57,7 +57,7 @@
         <%= f.datetime_select :received_at -%>
       </p>
       <p>
-        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
       </p>
     <%- end -%>
   <%- when 'received' -%>
@@ -82,7 +82,7 @@
         <%= f.datetime_select :return_shipped_at -%>
       </p>
       <p>
-        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
       </p>
     <%- end -%>
   <%- when 'return_shipped' -%>
@@ -112,7 +112,7 @@
         <%= f.datetime_select :return_received_at -%>
       </p>
       <p>
-        <%= f.submit t('update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
       </p>
     <%- end -%>
   <%- when 'return_received' -%>

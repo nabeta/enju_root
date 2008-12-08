@@ -9,8 +9,8 @@
   <h1><%= ('Listing patrons') -%></h1>
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
-    <%= submit_tag ('Search') -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>
 
@@ -19,7 +19,7 @@
     <th><%= ('Patron name') -%></th>
     <th><%= ('User name') -%></th>
     <th><%= ('Type') -%></th>
-    <th><%= ('Language') -%></th>
+    <th><%= t('page.language') -%></th>
     <th><%= ('Place') -%></th>
     <th></th>
   </tr>
@@ -38,7 +38,7 @@
       <td><%=h patron.place -%></td>
       <td>
         <%- if_authorized?(:destroy, patron) do -%>
-          <%= link_to t('edit'), edit_patron_path(patron) -%>
+          <%= link_to t('page.edit'), edit_patron_path(patron) -%>
         <%- end -%>
       </td>
     </tr>

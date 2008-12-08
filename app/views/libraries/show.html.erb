@@ -1,16 +1,16 @@
 <div id="submenu">
   <ul>
   <%- if_authorized?(:edit, @library) do  -%>
-    <li><%= link_to t('edit'), edit_library_path(@library.short_name) -%></li>
+    <li><%= link_to t('page.edit'), edit_library_path(@library.short_name) -%></li>
   <%- end -%>
 
   <%- if_authorized?(:new, Shelf) do  -%>
     <li><%= link_to ('New shelf'), new_library_shelf_path(@library.short_name) -%></li>
   <%- end -%>
   <%- if session[:return_to] -%>
-    <li><%= link_to ('Back'), h(session[:return_to]) -%></li>
+    <li><%= link_to t('page.back'), h(session[:return_to]) -%></li>
   <%- else -%>
-    <li><%= link_to ('Back'), libraries_path -%></li>
+    <li><%= link_to t('page.back'), libraries_path -%></li>
   <%- end -%>
   </ul>
 </div>
@@ -52,12 +52,12 @@
         <%- end -%>
 
         <p>
-          <b><%= ('Created at') -%>:</b>
+          <b><%= t('page.created_at') -%>:</b>
           <%=h @library.created_at -%>
         </p>
 
         <p>
-          <b><%= ('Updated at') -%>:</b>
+          <b><%= t('page.updated_at') -%>:</b>
           <%=h @library.updated_at -%>
         </p>
 
@@ -80,7 +80,7 @@
         <table style="width: 100%">
           <tr>
             <th><%= ('Shelf') -%></th>
-            <th><%= ('Note') -%></th>
+            <th><%= t('page.note') -%></th>
           </tr>
           <%- @library.shelves.each do |shelf| -%>
           <tr>

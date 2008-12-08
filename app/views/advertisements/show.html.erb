@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_advertisement_path(@advertisement) -%></li>
-    <li><%= link_to ('Back'), advertisements_path -%></li>
+    <li><%= link_to t('page.edit'), edit_advertisement_path(@advertisement) -%></li>
+    <li><%= link_to t('page.back'), advertisements_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
   <%=h @advertisement.title -%>
 </p>
 
@@ -32,7 +32,7 @@
 </p>
 
 <p>
-  <b><%= ('Note') -%>:</b>
+  <b><%= t('page.note') -%>:</b>
   <%=h @advertisement.note -%>
 </p>
 

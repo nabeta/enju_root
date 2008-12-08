@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @message -%></li>
-    <li><%= link_to ('Back'), messages_path -%></li>
+    <li><%= link_to t('page.show'), @message -%></li>
+    <li><%= link_to t('page.back'), messages_path -%></li>
   </ul>
 </div>
 
@@ -23,7 +23,7 @@
   </p>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
@@ -33,7 +33,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

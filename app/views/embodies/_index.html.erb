@@ -2,8 +2,8 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Expression') -%></th>
-    <th><%= ('Manifestation') -%></th>
+    <th><%= t('page.expression') -%></th>
+    <th><%= t('page.manifestation') -%></th>
   </tr>
 
 <%- for embody in @embodies -%>
@@ -17,8 +17,8 @@
       <%= expression_form_icon(embody.expression.expression_form) -%>
     </td>
     <%- if_authorized?(:destroy, embody) do -%>
-      <td><%= link_to t('show'), embody_path(embody) -%></td>
-      <td><%= link_to t('destroy'), embody_path(embody), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), embody_path(embody) -%></td>
+      <td><%= link_to t('page.destroy'), embody_path(embody), :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

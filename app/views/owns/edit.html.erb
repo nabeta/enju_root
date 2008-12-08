@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), own_path(@own) -%></li>
-    <li><%= link_to ('Back'), owns_path -%></li>
+    <li><%= link_to t('page.show'), own_path(@own) -%></li>
+    <li><%= link_to t('page.back'), owns_path -%></li>
   </ul>
 </div>
 
@@ -17,12 +17,12 @@
   </p>
 
   <p>
-  <b><%= ('Item') -%></b><br />
+  <b><%= t('page.item') -%></b><br />
     <%= f.text_field :item_id -%>
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

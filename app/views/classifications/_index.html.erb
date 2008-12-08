@@ -11,16 +11,16 @@
 
 <%- form_for :classifications, :url => classifications_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= ('Search term') -%>: <%= text_field_tag 'query', @query -%>
-    <%= submit_tag ('Search') -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
+    <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>
         
 <table style="width: 100%">
   <tr>
     <th><%= ('Category') -%></th>
-    <!-- <th><%= ('Name') -%></th> -->
-    <th><%= ('Note') -%></th>
+    <!-- <th><%= t('page.name') -%></th> -->
+    <th><%= t('page.note') -%></th>
     <th><%= ('Type') -%></th>
   </tr>
 
@@ -31,8 +31,8 @@
     <td><%=h classification.note -%></td>
     <td><%=h classification.classification_type.display_name -%></td>
     <%- if_authorized?(:destroy, classification) do -%>
-      <td><%= link_to t('edit'), edit_classification_path(classification) -%></td>
-      <td><%= link_to t('destroy'), classification, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.edit'), edit_classification_path(classification) -%></td>
+      <td><%= link_to t('page.destroy'), classification, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

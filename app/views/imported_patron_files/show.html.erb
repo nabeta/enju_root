@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_imported_patron_file_path(@imported_patron_file) -%></li>
-    <li><%= link_to ('Back'), imported_patron_files_path -%></li>
+    <li><%= link_to t('page.edit'), edit_imported_patron_file_path(@imported_patron_file) -%></li>
+    <li><%= link_to t('page.back'), imported_patron_files_path -%></li>
   </ul>
 </div>
 
@@ -27,7 +27,7 @@
 </p>
 
 <p>
-  <b><%= ('User') -%>:</b>
+  <b><%= t('page.user') -%>:</b>
   <%= link_to h(@imported_patron_file.user.login), user_path(@imported_patron_file.user.login) -%>
 </p>
 

@@ -2,7 +2,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Subject') -%></th>
+    <th><%= t('page.subject') -%></th>
     <th><%= ('Subjectable type') -%></th>
   </tr>
 
@@ -10,9 +10,9 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(resource_has_subject.subject.term), resource_has_subject.subject -%></td>
     <td><%= link_to h(resource_has_subject.subjectable_type), resource_has_subject.subjectable -%></td>
-    <td><%= link_to t('show'), resource_has_subject -%></td>
-    <td><%= link_to t('edit'), edit_resource_has_subject_path(resource_has_subject) -%></td>
-    <td><%= link_to t('destroy'), resource_has_subject, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), resource_has_subject -%></td>
+    <td><%= link_to t('page.edit'), edit_resource_has_subject_path(resource_has_subject) -%></td>
+    <td><%= link_to t('page.destroy'), resource_has_subject, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

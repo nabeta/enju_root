@@ -2,8 +2,8 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Name') -%></th>
-    <th><%= ('Display name') -%></th>
+    <th><%= t('page.name') -%></th>
+    <th><%= t('page.display_name') -%></th>
     <th><%= ('Alpha 2') -%></th>
     <th><%= ('Alpha 3') -%></th>
     <th><%= ('Numeric 3') -%></th>
@@ -17,7 +17,7 @@
     <td><%=h country.alpha_3 -%></td>
     <td><%=h country.numeric_3 -%></td>
     <%- if_authorized?(:desroy, country) do -%>
-      <td><%= link_to t('edit'), edit_country_path(country) -%></td>
+      <td><%= link_to t('page.edit'), edit_country_path(country) -%></td>
       <td><%= country.first? ? '' : link_to('▲', {:action => 'update', :position  => (country.position  > 1 ? country.position - 1 : 1), :id => country.id}, :method => :put) -%></td>
       <td><%= country.last? ? '' : link_to('▼', {:action => 'update', :position => (country.position + 1), :id => country.id}, :method => :put) -%></td>
     <%- end -%>

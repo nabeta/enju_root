@@ -1,9 +1,9 @@
 <div id="submenu">
   <ul>
     <%- if @user -%>
-      <li><%= link_to ('Back'), user_purchase_requests_path(@user.login) -%></li>
+      <li><%= link_to t('page.back'), user_purchase_requests_path(@user.login) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back'), purchase_requests_path -%></li>
+      <li><%= link_to t('page.back'), purchase_requests_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -15,7 +15,7 @@
 
 <%- form_for(@purchase_request, :url => order_list_purchase_requests_path(@order_list)) do |f| -%>
   <p>
-  <b><%= ('User') -%></b><br />
+  <b><%= t('page.user') -%></b><br />
   <%- if @user -%>
     <%= link_to h(@user.login), user_path(@user.login) -%>
   <%- else -%>
@@ -24,17 +24,17 @@
   </p>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_area :title, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= ('Author') -%></b><br />
+    <b><%= t('page.author') -%></b><br />
     <%= f.text_area :author, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= ('Publisher') -%></b><br />
+    <b><%= t('page.publisher') -%></b><br />
     <%= f.text_area :publisher, :class => 'resource_textarea' -%>
   </p>
 
@@ -49,7 +49,7 @@
   </p>
 
   <p>
-    <b><%= ('Price') -%></b><br />
+    <b><%= t('page.price') -%></b><br />
     <%= f.text_field :price, :class => 'resource_integer' -%>
   </p>
 
@@ -59,12 +59,12 @@
   </p>
 
   <p>
-    <b><%= ('Note') -%></b><br />
+    <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 
 <%- end -%>

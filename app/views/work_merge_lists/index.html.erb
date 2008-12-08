@@ -9,16 +9,16 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Title') -%></th>
+    <th><%= t('page.title') -%></th>
     <th></th>
   </tr>
 
 <%- for work_merge_list in @work_merge_lists -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(work_merge_list.title), work_merge_list -%></td>
-    <td><%= link_to t('show'), work_merge_list -%></td>
-    <td><%= link_to t('edit'), edit_work_merge_list_path(work_merge_list) -%></td>
-    <td><%= link_to t('destroy'), work_merge_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), work_merge_list -%></td>
+    <td><%= link_to t('page.edit'), edit_work_merge_list_path(work_merge_list) -%></td>
+    <td><%= link_to t('page.destroy'), work_merge_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

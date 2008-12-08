@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), back_to_tag_index -%></li>
-    <li><%= link_to t('edit'), edit_tag_path(@tag.name) -%></li>
+    <li><%= link_to t('page.back'), back_to_tag_index -%></li>
+    <li><%= link_to t('page.edit'), edit_tag_path(@tag.name) -%></li>
     <li><%= link_to ('Search manifestations'), manifestations_path(:tag => h(@tag.name)) -%></li>
     <%- if logged_in? -%>
       <li><%= link_to ('Search bookmarks'), user_bookmarked_resources_path(current_user.login, :tag => h(@tag.name)) -%></li>
@@ -23,7 +23,7 @@
 </p>
 
 <p>
-  <b><%= ('Created at') -%>:</b>
+  <b><%= t('page.created_at') -%>:</b>
   <%=h @tag.created_at -%>
 </p>
 

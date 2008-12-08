@@ -9,17 +9,17 @@
 
 <table style="width: 100%">
   <tr>
-    <td><%= ('Title') -%></td>
-    <td><%= ('Created at') -%></td>
+    <td><%= t('page.title') -%></td>
+    <td><%= t('page.created_at') -%></td>
   </tr>
 
 <%- for patron_merge_list in @patron_merge_lists -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(patron_merge_list.title), patron_merge_list -%></td>
     <td><%=h patron_merge_list.created_at -%></td>
-    <td><%= link_to t('show'), patron_merge_list -%></td>
-    <td><%= link_to t('edit'), edit_patron_merge_list_path(patron_merge_list) -%></td>
-    <td><%= link_to t('destroy'), patron_merge_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), patron_merge_list -%></td>
+    <td><%= link_to t('page.edit'), edit_patron_merge_list_path(patron_merge_list) -%></td>
+    <td><%= link_to t('page.destroy'), patron_merge_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>
