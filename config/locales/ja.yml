@@ -188,7 +188,3 @@ ja:
     publisher: "出版者"
   session:
     logged_out: "ログアウトしました。"
-  manifestation:
-    date_of_publication: "出版日"
-  item:
-    item_identifier: "個別資料ID"
