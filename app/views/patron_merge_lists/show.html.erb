@@ -1,15 +1,15 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Add a patron'), patron_merge_list_patrons_path(@patron_merge_list) -%></li>
-    <li><%= link_to t('edit'), edit_patron_merge_list_path(@patron_merge_list) -%></li>
-    <li><%= link_to ('Back'), patron_merge_lists_path -%></li>
+    <li><%= link_to t('page.edit'), edit_patron_merge_list_path(@patron_merge_list) -%></li>
+    <li><%= link_to t('page.back'), patron_merge_lists_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <%- form_for(:patron_merge_list, :url => patron_merge_list_path(@patron_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
     <%=h @patron_merge_list.title -%>
   </p>
 

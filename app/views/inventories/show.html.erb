@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_inventory_path(@inventory) -%> </li>
-    <li><%= link_to ('Back'), inventories_path -%> </li>
+    <li><%= link_to t('page.edit'), edit_inventory_path(@inventory) -%> </li>
+    <li><%= link_to t('page.back'), inventories_path -%> </li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Item') %>:</b>
+  <b><%= t('page.item') %>:</b>
   <%=h @inventory.item_id -%> 
 </p>
 

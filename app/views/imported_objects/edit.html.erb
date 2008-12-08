@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @imported_object -%></li>
-    <li><%= link_to ('Back'), imported_objects_path -%></li>
+    <li><%= link_to t('page.show'), @imported_object -%></li>
+    <li><%= link_to t('page.back'), imported_objects_path -%></li>
   </ul>
 </div>
 
@@ -24,7 +24,7 @@
     <%= f.text_field :importable_type -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

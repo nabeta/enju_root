@@ -1,15 +1,15 @@
 <div id="submenu">
   <ul>
     <%- if @user -%>
-      <li><%= link_to t('edit'),edit_user_bookmark_path(@user.login, @bookmark) -%></li>
-      <li><%= link_to t('destroy'), user_bookmark_path(@user.login, @bookmark), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <li><%= link_to t('page.edit'),edit_user_bookmark_path(@user.login, @bookmark) -%></li>
+      <li><%= link_to t('page.destroy'), user_bookmark_path(@user.login, @bookmark), :confirm => ('Are you sure?'), :method => :delete -%></li>
       <li><%= link_to ('Back to manifestation'), @bookmark.bookmarked_resource.manifestation -%></li>
-      <li><%= link_to ('Back'), user_bookmarks_path(@user.login) -%></li>
+      <li><%= link_to t('page.back'), user_bookmarks_path(@user.login) -%></li>
     <%- else -%>
-      <li><%= link_to t('edit'),edit_bookmark_path(@bookmark) -%></li>
-      <li><%= link_to t('destroy'), bookmark_path(@bookmark), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <li><%= link_to t('page.edit'),edit_bookmark_path(@bookmark) -%></li>
+      <li><%= link_to t('page.destroy'), bookmark_path(@bookmark), :confirm => ('Are you sure?'), :method => :delete -%></li>
       <li><%= link_to ('Back to manifestation'), session[:return_to] if session[:return_to] -%></li>
-      <li><%= link_to ('Back'), bookmarks_path -%></li>
+      <li><%= link_to t('page.back'), bookmarks_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -25,7 +25,7 @@
 <p>
   <b><%= ('Bookmarked resource') -%>:</b>
   <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%><br />
-  (<%= link_to ('Manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
+  (<%= link_to t('page.manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
   (<%= link_to ('Detail'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%>)
 </p>
 
@@ -42,12 +42,12 @@
 </p>
 
 <p>
-  <b><%= ('Created at') -%>:</b>
+  <b><%= t('page.created_at') -%>:</b>
   <%=h @bookmark.created_at -%>
 </p>
 
 <p>
-<b><%= ('Updated at') -%>:</b>
+<b><%= t('page.updated_at') -%>:</b>
   <%=h @bookmark.updated_at -%>
 </p>
 

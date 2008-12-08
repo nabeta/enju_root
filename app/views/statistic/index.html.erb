@@ -16,19 +16,19 @@
       <td><%= User.count -%></td>
     </tr>
     <tr>
-      <td><%= ('Work') -%></td>
+      <td><%= t('page.work') -%></td>
       <td><%= Work.count -%></td>
     </tr>
     <tr>
-      <td><%= ('Expression') -%></td>
+      <td><%= t('page.expression') -%></td>
       <td><%= Expression.count -%></td>
     </tr>
     <tr>
-      <td><%= link_to ('Manifestation'), :action => :manifestation -%></td>
+      <td><%= link_to t('page.manifestation'), :action => :manifestation -%></td>
       <td><%= Manifestation.count -%></td>
     </tr>
     <tr>
-      <td><%= ('Item') -%></td>
+      <td><%= t('page.item') -%></td>
       <td><%= Item.count -%></td>
     </tr>
     <tr>

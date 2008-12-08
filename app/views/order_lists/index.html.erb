@@ -9,8 +9,8 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Title') -%></th>
-    <th><%= ('Bookstore') -%></th>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('page.bookstore') -%></th>
     <th><%= ('Note') -%></th>
   </tr>
 
@@ -19,8 +19,8 @@
     <td><%= link_to h(order_list.title), order_list -%></td>
     <td><%= link_to h(order_list.bookstore.name), order_list.bookstore -%></td>
     <td><%=h order_list.note -%></td>
-    <td><%= link_to t('edit'), edit_order_list_path(order_list) -%></td>
-    <td><%= link_to t('destroy'), order_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.edit'), edit_order_list_path(order_list) -%></td>
+    <td><%= link_to t('page.destroy'), order_list, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

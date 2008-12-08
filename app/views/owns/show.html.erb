@@ -12,7 +12,7 @@
 </p>
 
 <p>
-<b><%= ('Item') -%>:</b>
+<b><%= t('page.item') -%>:</b>
   <%= link_to h(@own.item.item_identifier), item_path(@own.item) -%>
   (<%= link_to h(@own.item.manifestation.original_title), manifestation_path(@own.item.manifestation) -%>)
 </p>

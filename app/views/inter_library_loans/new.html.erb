@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), inter_library_loans_path -%></li>
+    <li><%= link_to t('page.back'), inter_library_loans_path -%></li>
   </ul>
 </div>
 
@@ -21,7 +21,7 @@
   </p>
 
   <p>
-  <b><%= ('Item') -%></b><br />
+  <b><%= t('page.item') -%></b><br />
     <%- if @item -%>
       <%= link_to h(@item.shelf.library.display_name), library_path(@item.shelf.library.short_name) -%>
       <%= link_to h(@item.item_identifier), @item -%>
@@ -33,7 +33,7 @@
   </p>
 
   <p>
-    <%= f.submit Create -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

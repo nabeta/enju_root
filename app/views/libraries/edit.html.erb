@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), library_path(@library.short_name) -%></li>
-    <li><%= link_to ('Back'), libraries_path -%></li>
+    <li><%= link_to t('page.show'), library_path(@library.short_name) -%></li>
+    <li><%= link_to t('page.back'), libraries_path -%></li>
   </ul>
 </div>
 
@@ -63,7 +63,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_message_template_path(@message_template) -%></li>
-    <li><%= link_to ('Back'), message_templates_path -%></li>
+    <li><%= link_to t('page.edit'), edit_message_template_path(@message_template) -%></li>
+    <li><%= link_to t('page.back'), message_templates_path -%></li>
   </ul>
 </div>
 
@@ -12,7 +12,7 @@
 </p>
 
 <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
   <%=h @message_template.title -%>
 </p>
 

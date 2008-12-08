@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), event_attachment_files_path(@event) -%></li>
+    <li><%= link_to t('page.back'), event_attachment_files_path(@event) -%></li>
   </ul>
 </div>
 
@@ -23,7 +23,7 @@
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

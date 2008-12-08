@@ -20,8 +20,8 @@
     <td><%= link_to h(frequency_of_issue.name), frequency_of_issue -%></td>
     <td><%= link_to h(frequency_of_issue.display_name), frequency_of_issue -%></td>
     <%- if_authorized?(:destroy, frequency_of_issue) do -%>
-      <td><%= link_to t('edit'), edit_frequency_of_issue_path(frequency_of_issue) -%></td>
-      <td><%= link_to t('destroy'), frequency_of_issue, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.edit'), edit_frequency_of_issue_path(frequency_of_issue) -%></td>
+      <td><%= link_to t('page.destroy'), frequency_of_issue, :confirm => ('Are you sure?'), :method => :delete -%></td>
       <td><%= frequency_of_issue.first? ? '' : link_to('▲', {:action => 'update', :position  => (frequency_of_issue.position  > 1 ? frequency_of_issue.position - 1 : 1), :id => frequency_of_issue.id}, :method => :put) -%></td>
       <td><%= frequency_of_issue.last? ? '' : link_to('▼', {:action => 'update', :position => (frequency_of_issue.position + 1), :id => frequency_of_issue.id}, :method => :put) -%></td>
     <%- end -%>

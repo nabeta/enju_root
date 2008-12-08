@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), search_histories_path -%></li>
+    <li><%= link_to t('page.back'), search_histories_path -%></li>
   </ul>
 </div>
 
@@ -56,7 +56,7 @@
 </p>
 
 <p>
-<b><%= ('Created at') -%>:</b>
+<b><%= t('page.created_at') -%>:</b>
   <%=h @search_history.created_at -%>
 </p>
 

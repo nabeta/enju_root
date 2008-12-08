@@ -8,11 +8,11 @@
     <%- if @user -%>
       <li><%= link_to ('New purchase_request'), new_user_purchase_request_path(@user.login) -%></li>
     <%- end -%>
-    <li><%= link_to t('edit'), edit_user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
+    <li><%= link_to t('page.edit'), edit_user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
     <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to t('destroy'), user_purchase_request_path(@purchase_request.user.login, @purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <li><%= link_to t('page.destroy'), user_purchase_request_path(@purchase_request.user.login, @purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></li>
     <%- end -%>
-    <li><%= link_to ('Back'), user_purchase_requests_path(@purchase_request.user.login) -%></li>
+    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login) -%></li>
   </ul>
 </div>
 
@@ -33,7 +33,7 @@
 </p>
 
 <p>
-<b><%= ('Title') -%>:</b>
+<b><%= t('page.title') -%>:</b>
   <%=h @purchase_request.title -%>
 </p>
 
@@ -58,7 +58,7 @@
 </p>
 
 <p>
-<b><%= ('Price') -%>:</b>
+<b><%= t('page.price') -%>:</b>
   <%=h @purchase_request.price -%>
 </p>
 
@@ -78,12 +78,12 @@
 </p>
 
 <p>
-<b><%= ('Created at') -%>:</b>
+<b><%= t('page.created_at') -%>:</b>
   <%=h @purchase_request.created_at -%>
 </p>
 
 <p>
-<b><%= ('Updated at') -%>:</b>
+<b><%= t('page.updated_at') -%>:</b>
   <%=h @purchase_request.updated_at -%>
 </p>
 

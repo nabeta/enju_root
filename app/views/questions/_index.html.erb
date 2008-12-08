@@ -4,8 +4,8 @@
   <div id="searchform">
     <%- form_for :questions, :url => questions_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query), {:style => 'width: 350px'} -%>
-    <%= submit_tag ('Search') -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:style => 'width: 350px'} -%>
+    <%= submit_tag t('page.search') -%>
   </p>
   <%- end -%>
   </div>
@@ -17,7 +17,7 @@
       <th><%= ('User') -%></th>
       <th><%= ('Body') -%></th>
       <th><%= ('Answers') -%></th>
-      <th><%= ('Updated at') -%></th>
+      <th><%= t('page.updated_at') -%></th>
     </tr>
   
   <%- @questions.each_with_index do |question, i| -%>
@@ -28,7 +28,7 @@
       <td><%=h question.answers.size -%></td>
       <td><%=h question.updated_at -%></td>
       <%- if_authorized?(:destroy, question) do -%>
-        <td><%= link_to t('destroy'), user_question_path(question.user.login, question), :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), user_question_path(question.user.login, question), :confirm => ('Are you sure?'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

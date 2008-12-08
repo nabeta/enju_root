@@ -2,15 +2,15 @@
   <ul>
     <li><%= link_to ('Add an expression'), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
     <li><%= link_to ('Edit a list'), expression_merge_list_expression_merges_path(@expression_merge_list) -%></li>
-    <li><%= link_to t('edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
-    <li><%= link_to ('Back'), expression_merge_lists_path -%></li>
+    <li><%= link_to t('page.edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
+    <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <%- form_for(:expression_merge_list, :url => expression_merge_list_path(@expression_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
     <%=h @expression_merge_list.title -%>
   </p>
 

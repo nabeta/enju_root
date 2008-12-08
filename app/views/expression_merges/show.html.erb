@@ -1,14 +1,14 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Add an expression'), expression_merge_list_expressions_path(@expression_merge.expression_merge_list_id) -%></li>
-    <li><%= link_to t('edit'), edit_expression_merge_path(@expression_merge) -%></li>
-    <li><%= link_to ('Back'), expression_merges_path -%></li>
+    <li><%= link_to t('page.edit'), edit_expression_merge_path(@expression_merge) -%></li>
+    <li><%= link_to t('page.back'), expression_merges_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-<b><%= ('Expression') -%>:</b>
+<b><%= t('page.expression') -%>:</b>
 <%= link_to h(@expression_merge.expression.original_title), expression_path(@expression_merge.expression) -%>
 </p>
 

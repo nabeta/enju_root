@@ -19,7 +19,7 @@
     <td><%=h language.iso_639_2 -%></td>
     <td><%=h language.iso_639_3 -%></td>
     <%- if_authorized?(:desroy, language) do -%>
-      <td><%= link_to t('edit'), edit_language_path(language) -%></td>
+      <td><%= link_to t('page.edit'), edit_language_path(language) -%></td>
       <td><%= language.first? ? '' : link_to('▲', {:action => 'update', :position  => (language.position  > 1 ? language.position - 1 : 1), :id => language.id}, :method => :put) -%></td>
       <td><%= language.last? ? '' : link_to('▼', {:action => 'update', :position => (language.position + 1), :id => language.id}, :method => :put) -%></td>
     <%- end -%>

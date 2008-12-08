@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), attachment_files_path -%></li>
+    <li><%= link_to t('page.back'), attachment_files_path -%></li>
   </ul>
 </div>
 
@@ -16,7 +16,7 @@
   </p>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title -%>
   </p>
 
@@ -25,7 +25,7 @@
   <%= f.hidden_field :attachable_type -%>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 
 <%- end -%>

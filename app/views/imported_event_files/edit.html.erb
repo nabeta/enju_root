@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @imported_event_file -%></li>
-    <li><%= link_to ('Back'), imported_event_files_path -%></li>
+    <li><%= link_to t('page.show'), @imported_event_file -%></li>
+    <li><%= link_to t('page.back'), imported_event_files_path -%></li>
   </ul>
 </div>
 
@@ -16,7 +16,7 @@
     <%= f.text_field :filename -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

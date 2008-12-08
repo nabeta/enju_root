@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), roles_path -%></li>
+    <li><%= link_to t('page.back'), roles_path -%></li>
   </ul>
 </div>
 
@@ -26,17 +26,17 @@
   </p>
 
   <p>
-    <b><%= ('Created at') -%></b><br />
+    <b><%= t('page.created_at') -%></b><br />
     <%= f.datetime_select :created_at -%>
   </p>
 
   <p>
-    <b><%= ('Updated at') -%></b><br />
+    <b><%= t('page.updated_at') -%></b><br />
     <%= f.datetime_select :updated_at -%>
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 

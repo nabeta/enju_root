@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @classification -%></li>
-    <li><%= link_to ('Back'), classifications_path -%></li>
+    <li><%= link_to t('page.show'), @classification -%></li>
+    <li><%= link_to t('page.back'), classifications_path -%></li>
   </ul>
 </div>
 
@@ -32,7 +32,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

@@ -1,14 +1,14 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_subscription_path(@subscription) -%></li>
+    <li><%= link_to t('page.edit'), edit_subscription_path(@subscription) -%></li>
     <li><%= link_to ('Add an expression'), subscription_expressions_path(@subscription) -%></li>
-    <li><%= link_to ('Back'), subscriptions_path -%></li>
+    <li><%= link_to t('page.back'), subscriptions_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
   <%=h @subscription.title -%>
 </p>
 
@@ -19,7 +19,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Title') -%></th>
+    <th><%= t('page.title') -%></th>
   </tr>
   <%- @subscription.expressions.each do |expression| -%>
     <tr>

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
-    <li><%= link_to ('Back'), user_checkouts_path(@checkout.user.login) -%></li>
+    <li><%= link_to t('page.show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
+    <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
   </ul>
 </div>
 
@@ -14,13 +14,13 @@
     <%= ('New due date') -%>: <%=h @renew_due_date -%>
     <%= f.hidden_field :due_date, :value => @renew_due_date -%>
     <br />
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   <%- end -%>
 <%- else -%>
   <p><%= ('This item can\'t be renewed.') -%></p>
 <%- end -%>
 
-<h1><%= t('edit') -%></h1>
+<h1><%= t('page.edit') -%></h1>
 
 <%= error_messages_for :checkout -%>
 
@@ -32,7 +32,7 @@
     <br />
     <%= ('Loan renewal count') -%>: <%= f.text_field :checkout_renewal_count, :class => 'resource_integer' -%>
     <br />
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 </div>

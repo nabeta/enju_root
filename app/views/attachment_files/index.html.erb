@@ -25,9 +25,9 @@
     <td><%=h attachment_file.content_type -%></td>
     <td><%= link_to h(attachment_file.filename), formatted_attachment_file_path(attachment_file, :download) -%></td>
     <%- if_authorized?(:destroy, attachment_file) do -%>
-      <td><%= link_to t('show'), attachment_file -%></td>
-      <td><%= link_to t('edit'), edit_attachment_file_path(attachment_file) -%></td>
-      <td><%= link_to t('destroy'), attachment_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), attachment_file -%></td>
+      <td><%= link_to t('page.edit'), edit_attachment_file_path(attachment_file) -%></td>
+      <td><%= link_to t('page.destroy'), attachment_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

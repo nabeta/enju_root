@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:destroy, @subject) do -%>
-      <li><%= link_to t('edit'), edit_subject_path(@subject) -%></li>
+      <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
       <li>
         <%= link_to ('Manifestations'), subject_manifestations_path(@subject) -%>
         (<%=h @subject.manifestations.size -%>)

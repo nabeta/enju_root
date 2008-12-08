@@ -1,9 +1,9 @@
 <div id="submenu">
   <ul>
     <%- if @library -%>
-      <li><%= link_to ('Back'), library_shelves_path(@library.short_name) -%></li>
+      <li><%= link_to t('page.back'), library_shelves_path(@library.short_name) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back'), shelves_path -%></li>
+      <li><%= link_to t('page.back'), shelves_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -30,7 +30,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 </div>

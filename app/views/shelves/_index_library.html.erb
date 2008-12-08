@@ -20,8 +20,8 @@
     <td><%= link_to h(shelf.name), shelf -%></td>
     <td><%= link_to h(shelf.library.name), library_path(shelf.library.short_name) -%></td>
     <%- if_authorized?(:destroy, shelf) do -%>
-      <td><%= link_to t('edit'), edit_library_shelf_path(shelf.library.short_name, shelf) -%></td>
-      <td><%= link_to t('destroy'), shelf_path(shelf), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.edit'), edit_library_shelf_path(shelf.library.short_name, shelf) -%></td>
+      <td><%= link_to t('page.destroy'), shelf_path(shelf), :confirm => ('Are you sure?'), :method => :delete -%></td>
       <td><%= shelf.first? ? '' : link_to('▲', {:action => 'update', :position  => (shelf.position  > 1 ? shelf.position - 1 : 1), :id => shelf.id}, :method => :put) -%></td>
       <td><%= shelf.last? ? '' : link_to('▼', {:action => 'update', :position => (shelf.position + 1), :id => shelf.id}, :method => :put) -%></td>
     <%- end -%>

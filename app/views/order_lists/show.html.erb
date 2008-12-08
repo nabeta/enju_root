@@ -1,8 +1,8 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Purchase requests'), order_list_purchase_requests_path(@order_list) -%></li>
-    <li><%= link_to t('edit'), edit_order_list_path(@order_list) -%></li>
-    <li><%= link_to ('Back'), order_lists_path -%></li>
+    <li><%= link_to t('page.edit'), edit_order_list_path(@order_list) -%></li>
+    <li><%= link_to t('page.back'), order_lists_path -%></li>
   </ul>
 </div>
 
@@ -13,12 +13,12 @@
 </p>
 
 <p>
-  <b><%= ('Title') -%>:</b>
+  <b><%= t('page.title') -%>:</b>
   <%=h @order_list.title -%>
 </p>
 
 <p>
-  <b><%= ('Bookstore') -%>:</b>
+  <b><%= t('page.bookstore') -%>:</b>
   <%= link_to h(@order_list.bookstore.name), @order_list.bookstore -%>
 </p>
 

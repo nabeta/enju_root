@@ -11,7 +11,7 @@
 
 <%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= ('Search term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
     <%- if params[:view] == 'serial' -%>
       <%= check_box_tag 'view', 'serial', :checked => true -%>
     <%- else -%>
@@ -19,14 +19,14 @@
     <%- end -%>
     <%= ('Serial') -%>
 
-    <%= submit_tag ('Search') -%>
+    <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>
 
 <table style="width: 100%">
   <tr>
-    <th><%= ('Title') -%></th>
-    <th><%= ('Language') -%></th>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('page.language') -%></th>
   </tr>
   
   <%- for expression in @expressions -%>
@@ -39,8 +39,8 @@
       </td>
       <td><%=h expression.language.display_name -%></td>
       <%- if_authorized?(:destroy, expression) do -%>
-        <td><%= link_to t('edit'), edit_expression_path(expression) -%></td>
-        <td><%= link_to t('destroy'), expression_path(expression), :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
+        <td><%= link_to t('page.destroy'), expression_path(expression), :confirm => ('Are you sure?'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

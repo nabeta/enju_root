@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_user_basket_path(@basket.user.login, @basket) -%></li>
-    <li><%= link_to ('Back'), user_baskets_path(@basket.user.login) -%></li>
+    <li><%= link_to t('page.edit'), edit_user_basket_path(@basket.user.login, @basket) -%></li>
+    <li><%= link_to t('page.back'), user_baskets_path(@basket.user.login) -%></li>
   </ul>
 </div>
 

@@ -32,7 +32,7 @@
 <table style="width: 100%">
   <tr>
     <th><%= ('Event category') -%></th>
-    <th><%= ('Title') -%></th>
+    <th><%= t('page.title') -%></th>
     <th><%= ('Note') -%></th>
     <th><%= ('Library') -%></th>
     <th><%= ('Date') -%></th>
@@ -51,8 +51,8 @@
     </td>
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
-        <td><%= link_to t('edit'), edit_event_path(event) -%></td>
-        <td><%= link_to t('destroy'), event, :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.edit'), edit_event_path(event) -%></td>
+        <td><%= link_to t('page.destroy'), event, :confirm => ('Are you sure?'), :method => :delete -%></td>
       <%- end -%>
     <%- end -%>
   </tr>

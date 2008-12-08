@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @circulation_status -%></li>
-    <li><%= link_to ('Back'), circulation_statuses_path -%></li>
+    <li><%= link_to t('page.show'), @circulation_status -%></li>
+    <li><%= link_to t('page.back'), circulation_statuses_path -%></li>
   </ul>
 </div>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

@@ -9,7 +9,7 @@
     </th>
     <th><%= ('Message template') -%></th>
     <th><%= ('Message subject') -%></th>
-    <th><%= ('Created at') -%></th>
+    <th><%= t('page.created_at') -%></th>
     <th><%= ('Sent at') -%></th>
   </tr>
 
@@ -25,9 +25,9 @@
     <td><%=h message_queue.subject -%></td>
     <td><%=h message_queue.created_at -%></td>
     <td><%=h message_queue.sent_at -%></td>
-    <td><%= link_to t('show'), message_queue -%></td>
-    <td><%= link_to t('edit'), edit_message_queue_path(message_queue) -%></td>
-    <td><%= link_to t('destroy'), message_queue, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), message_queue -%></td>
+    <td><%= link_to t('page.edit'), edit_message_queue_path(message_queue) -%></td>
+    <td><%= link_to t('page.destroy'), message_queue, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

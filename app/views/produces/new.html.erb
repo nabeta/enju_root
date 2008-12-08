@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
     <%- case when @patron -%>
-      <li><%= link_to ('Back'), patron_manifestations_path(@patron) -%></li>
+      <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
     <%- when @manifestation -%>
-      <li><%= link_to ('Back'), manifestation_patrons_path(@manifestation) -%></li>
+      <li><%= link_to t('page.back'), manifestation_patrons_path(@manifestation) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back'), produces_path -%></li>
+      <li><%= link_to t('page.back'), produces_path -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
   <%- if @manifestation -%>
     <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
     <%= f.hidden_field :manifestation_id, :value => @manifestation.id -%>
@@ -37,7 +37,7 @@
   </p>
 
   <p>
-  <%= submit_tag t('create') -%>
+  <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 </div>

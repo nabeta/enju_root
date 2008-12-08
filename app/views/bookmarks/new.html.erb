@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), h(session[:return_to]) -%></li>
+    <li><%= link_to t('page.back'), h(session[:return_to]) -%></li>
   </ul>
 </div>
 
@@ -12,7 +12,7 @@
 <%if logged_in? -%>
   <%- form_for(:bookmark, :url => user_bookmarks_path(@user.login)) do |f| -%>
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title, :value => h(@title), :class => 'resource_title' -%>
   </p>
   
@@ -37,7 +37,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
   <%- end -%>
   <%= javascript_tag("$('bookmark_tag_list').focus()") -%>

@@ -10,9 +10,9 @@
         </ul>
         -->
      </li>
-      <li><%= link_to t('edit'), edit_work_path(@work) -%></li>
-      <li><%= link_to ('Back'), works_path -%></li>
-      <li><%= link_to t('destroy'), work_path(@work), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <li><%= link_to t('page.edit'), edit_work_path(@work) -%></li>
+      <li><%= link_to t('page.back'), works_path -%></li>
+      <li><%= link_to t('page.destroy'), work_path(@work), :confirm => ('Are you sure?'), :method => :delete -%></li>
     </ul>
   <%- end -%>
       <ul>
@@ -43,10 +43,10 @@
       <li title="active" class="selected"><a href="#tab1"><em><%= ('Detail') -%></em></a></li>
       <li><a href="#tab2"><em><%= ('Author') -%></em></a></li>
       <%- unless @work.children.blank? -%>
-        <li><a href="#tab3"><em><%= ('Work') -%></em></a></li>
+        <li><a href="#tab3"><em><%= t('page.work') -%></em></a></li>
       <%- end -%>
       <%- unless @work.expressions.blank? -%>
-        <li><a href="#tab4"><em><%= ('Expression') -%></em></a></li>
+        <li><a href="#tab4"><em><%= t('page.expression') -%></em></a></li>
       <%- end -%>
       <li><a href="#tab5"><em><%= ('Related resources') -%></em></a></li>
     </ul>
@@ -62,11 +62,11 @@
             <td><%=h @work.context -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Created at') -%>:</b></td>
+            <td><b><%= t('page.created_at') -%>:</b></td>
             <td><%=h @work.created_at -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Updated at') -%>:</b></td>
+            <td><b><%= t('page.updated_at') -%>:</b></td>
             <td><%=h @work.updated_at -%></td>
           </tr>
         </table>

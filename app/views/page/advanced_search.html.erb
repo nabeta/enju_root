@@ -1,9 +1,9 @@
-<h1><%= ('Advanced search') -%></h1>
+<h1><%= t('page.advanced_search') -%></h1>
 
 <%- form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
   <table>
     <tr>
-      <td><label><%= ('Search term') -%>:</label></td>
+      <td><label><%= t('page.search_term') -%>:</label></td>
       <td><%= text_field_tag 'query' -%></td>
     </tr>
     <tr>
@@ -45,7 +45,7 @@
       <td></td>
       <td>
         <%= hidden_field_tag 'advanced_search', 'true' -%>
-        <%= submit_tag ('Search') -%>
+        <%= submit_tag t('page.search') -%>
       </td>
     </tr>
   </table>

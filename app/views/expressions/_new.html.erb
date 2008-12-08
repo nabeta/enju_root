@@ -7,7 +7,7 @@
   <%- end -%>
 
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%- if @work -%>
       <%= f.text_field :original_title, :value => @work.original_title, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>
@@ -57,7 +57,7 @@
   </p>
 
   <p>
-    <b><%= ('Language') -%></b><br />
+    <b><%= t('page.language') -%></b><br />
     <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
   </p>
 
@@ -86,5 +86,5 @@
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>

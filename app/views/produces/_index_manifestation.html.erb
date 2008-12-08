@@ -2,7 +2,7 @@
   <ul>
     <%- if_authorized?(:new, Produce) do -%>
       <li><%= link_to ('New produce'), new_manifestation_produce_path(@manifestation) -%></li>
-      <li><%= link_to ('Back'), manifestation_patrons_path(@manifestation) -%></li>
+      <li><%= link_to t('page.back'), manifestation_patrons_path(@manifestation) -%></li>
       <li><%= link_to ('Show manifestation'), @manifestation -%></li>
     <%- end -%>
   </ul>
@@ -19,7 +19,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(produce.patron.full_name), patron_path(produce.patron) -%></td>
     <%- if_authorized?(:destroy, produce) do -%>
-      <td><%= link_to t('destroy'), manifestation_produce_path(produce.manifestation, produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), manifestation_produce_path(produce.manifestation, produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
       <td><%= produce.first? ? '' : link_to('▲', {:action => 'update', :position => (produce.position  > 1 ? produce.position - 1 : 1), :id => produce.id, :manifestation_id => @manifestation.id}, :method => :put) -%></td>
       <td><%= produce.last? ? '' : link_to('▼', {:action => 'update', :position => (produce.position + 1), :id => produce.id, :manifestation_id => @manifestation.id}, :method => :put) -%></td>
     <%- end -%>

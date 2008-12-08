@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), realize_path(@realize) -%></li>
-    <li><%= link_to ('Back'), realizes_path -%></li>
+    <li><%= link_to t('page.show'), realize_path(@realize) -%></li>
+    <li><%= link_to t('page.back'), realizes_path -%></li>
   </ul>
 </div>
 
@@ -17,12 +17,12 @@
   </p>
 
   <p>
-  <b><%= ('Expression') -%></b><br />
+  <b><%= t('page.expression') -%></b><br />
     <%= f.text_field :expression_id -%>
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

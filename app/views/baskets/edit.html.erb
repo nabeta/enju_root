@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), basket_path(@basket) -%></li>
-    <li><%= link_to ('Back'), user_baskets_path(@basket.user.login) -%></li>
+    <li><%= link_to t('page.show'), basket_path(@basket) -%></li>
+    <li><%= link_to t('page.back'), user_baskets_path(@basket.user.login) -%></li>
   </ul>
 </div>
 
@@ -23,7 +23,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 </div>

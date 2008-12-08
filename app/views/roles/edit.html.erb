@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), role_path(@role) -%></li>
-    <li><%= link_to ('Back'), roles_path -%></li>
+    <li><%= link_to t('page.show'), role_path(@role) -%></li>
+    <li><%= link_to t('page.back'), roles_path -%></li>
   </ul>
 </div>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

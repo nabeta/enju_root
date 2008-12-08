@@ -9,15 +9,15 @@
   </p>
 
   <p>
-    <b><%= ('Manifestation') -%></b><br />
+    <b><%= t('page.manifestation') -%></b><br />
     <%= f.text_field :manifestation_id -%>
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 
 <%- end -%>
 
-<%= link_to t('show'), produce_path(@produce) -%> |
-<%= link_to ('Back'), produces_path -%>
+<%= link_to t('page.show'), produce_path(@produce) -%> |
+<%= link_to t('page.back'), produces_path -%>

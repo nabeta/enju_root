@@ -13,8 +13,8 @@
 
   <%- form_for :classifications, :url => subject_classifications_path(@subject), :html => {:method => 'get'} do -%>
     <p>
-      <%= ('Search term') -%>: <%= text_field_tag 'query', @query -%>
-      <%= submit_tag ('Search') -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
+      <%= submit_tag t('page.search') -%>
     </p>
   <%- end -%>
         
@@ -30,8 +30,8 @@
     <td><%= link_to h(classification.category), subject_classification_path(@subject, classification) -%></td>
     <td><%=h classification.note -%></td>
     <td><%=h classification.classification_type.display_name -%></td>
-    <td><%= link_to t('edit'), edit_subject_classification_path(@subject, classification) -%></td>
-    <td><%= link_to t('destroy'), subject_classification_path(@subject, classification), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.edit'), edit_subject_classification_path(@subject, classification) -%></td>
+    <td><%= link_to t('page.destroy'), subject_classification_path(@subject, classification), :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

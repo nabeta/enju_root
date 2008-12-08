@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @patron_merge -%></li>
-    <li><%= link_to ('Back'), patron_merges_path -%></li>
+    <li><%= link_to t('page.show'), @patron_merge -%></li>
+    <li><%= link_to t('page.back'), patron_merges_path -%></li>
   </ul>
 </div>
 
@@ -23,7 +23,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

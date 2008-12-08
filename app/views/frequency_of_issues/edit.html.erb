@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @frequency_of_issue -%></li>
-    <li><%= link_to ('Back'), frequency_of_issues_path -%></li>
+    <li><%= link_to t('page.show'), @frequency_of_issue -%></li>
+    <li><%= link_to t('page.back'), frequency_of_issues_path -%></li>
   </ul>
 </div>
   
@@ -22,7 +22,7 @@
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

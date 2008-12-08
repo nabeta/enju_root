@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @subject -%></li>
-    <li><%= link_to ('Back'), subjects_path -%></li>
+    <li><%= link_to t('page.show'), @subject -%></li>
+    <li><%= link_to t('page.back'), subjects_path -%></li>
   </ul>
 </div>
 
@@ -22,7 +22,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

@@ -1,9 +1,9 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:destroy, @classification) do -%>
-      <li><%= link_to t('edit'), edit_classification_path(@classification) -%></li>
+      <li><%= link_to t('page.edit'), edit_classification_path(@classification) -%></li>
     <%- end -%>
-    <li><%= link_to ('Back'), back_to_classification_index -%></li>
+    <li><%= link_to t('page.back'), back_to_classification_index -%></li>
   </ul>
 </div>
 
@@ -24,7 +24,7 @@
 </p>
 
 <p>
-<b><%= ('Subject') -%>:</b>
+<b><%= t('page.subject') -%>:</b>
 </p>
 <table style="width: 100%">
   <tr>

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), work_path(@work) -%></li>
-    <li><%= link_to ('Back'), works_path -%></li>
+    <li><%= link_to t('page.show'), work_path(@work) -%></li>
+    <li><%= link_to t('page.back'), works_path -%></li>
   </ul>
 </div>
 
@@ -12,7 +12,7 @@
 
 <%- form_for(:work, :url => work_path(@work), :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= ('Title') -%></b><br />
+    <b><%= t('page.title') -%></b><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>
   </p>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

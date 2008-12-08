@@ -5,8 +5,8 @@
     <th><%= ('Name') -%></th>
     <th><%= ('Display name') -%></th>
     <th><%= ('Note') -%></th>
-    <th><%= ('Created at') -%></th>
-    <th><%= ('Updated at') -%></th>
+    <th><%= t('page.created_at') -%></th>
+    <th><%= t('page.updated_at') -%></th>
   </tr>
   
 <%- for role in @roles -%>
@@ -16,9 +16,9 @@
     <td><%=h role.note -%></td>
     <td><%=h role.created_at -%></td>
     <td><%=h role.updated_at -%></td>
-    <td><%= link_to t('show'), role_path(role) -%></td>
-    <td><%= link_to t('edit'), edit_role_path(role) -%></td>
-    <td><%= link_to t('destroy'), role_path(role), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), role_path(role) -%></td>
+    <td><%= link_to t('page.edit'), edit_role_path(role) -%></td>
+    <td><%= link_to t('page.destroy'), role_path(role), :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

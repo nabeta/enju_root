@@ -11,8 +11,8 @@
   <tr>
     <th><%= ('User') -%></th>
     <th><%= ('Body') -%></th>
-    <th><%= ('Created at') -%></th>
-    <th><%= ('Updated at') -%></th>
+    <th><%= t('page.created_at') -%></th>
+    <th><%= t('page.updated_at') -%></th>
   </tr>
   
 <%- @answers.each_with_index do |answer, i| -%>
@@ -22,9 +22,9 @@
     <td><%=h answer.created_at -%></td>
     <td><%=h answer.updated_at -%></td>
     <%- if_authorized?(:destroy, answer) do -%>
-      <td><%= link_to t('show'), user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
-      <td><%= link_to t('edit'), edit_user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
-      <td><%= link_to t('destroy'), user_question_answer_path(answer.user.login, answer.question, answer), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
+      <td><%= link_to t('page.edit'), edit_user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
+      <td><%= link_to t('page.destroy'), user_question_answer_path(answer.user.login, answer.question, answer), :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

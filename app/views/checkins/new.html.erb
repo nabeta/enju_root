@@ -4,11 +4,11 @@
 
 <%- form_for(:checkin, :url => checkins_path) do |f| -%>
   <p>
-    <b><%= ('Item') -%></b><br />
+    <b><%= t('page.item') -%></b><br />
     <%= f.text_field :item_id -%>
   </p>
 
-  <%= submit_tag t('create') -%>
+  <%= submit_tag t('page.create') -%>
 <%- end -%>
 
-<%= link_to ('Back'), checkins_path -%>
+<%= link_to t('page.back'), checkins_path -%>

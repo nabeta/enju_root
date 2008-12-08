@@ -20,9 +20,9 @@
     <td><%=h inventory_file.file_hash -%> </td>
     <td><%=h inventory_file.user_id -%> </td>
     <td><%=h inventory_file.note -%> </td>
-    <td><%= link_to t('show'), inventory_file -%> </td>
-    <td><%= link_to t('edit'), edit_inventory_file_path(inventory_file) -%> </td>
-    <td><%= link_to t('destroy'), inventory_file, :confirm => ('Are you sure?'), :method => :delete -%> </td>
+    <td><%= link_to t('page.show'), inventory_file -%> </td>
+    <td><%= link_to t('page.edit'), edit_inventory_file_path(inventory_file) -%> </td>
+    <td><%= link_to t('page.destroy'), inventory_file, :confirm => ('Are you sure?'), :method => :delete -%> </td>
   </tr>
 <%- end -%> 
 </table>

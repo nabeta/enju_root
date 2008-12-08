@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), expression_merge_lists_path -%></li>
+    <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
   </ul>
 </div>
 
@@ -11,12 +11,12 @@
 
 <%- form_for(@expression_merge_list) do |f| -%>
   <p>
-  <b><%= ('Title') -%></b><br />
+  <b><%= t('page.title') -%></b><br />
     <%= f.text_field :title -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

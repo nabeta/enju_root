@@ -6,7 +6,7 @@
   </p>
 
   <p>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
   <%- if @manifestation -%>
     <%=h @manifestation.original_title -%>
   <%- else -%>
@@ -15,8 +15,8 @@
   </p>
 
   <p>
-    <%= submit_tag t('create') -%>
+    <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
 
-<%= link_to ('Back'), produces_path(@patron) -%>
+<%= link_to t('page.back'), produces_path(@patron) -%>

@@ -12,8 +12,8 @@
 <table style="width: 100%">
   <tr>
     <th><%= ('Patron') -%></th>
-    <th><%= ('Manifestation') -%></th>
-    <th><%= ('Item') -%></th>
+    <th><%= t('page.manifestation') -%></th>
+    <th><%= t('page.item') -%></th>
   </tr>
 
 <%- for donate in @donates -%>
@@ -26,9 +26,9 @@
       <%= link_to h(donate.item.item_identifier), donate.item -%>
     </td>
     <%- if_authorized?(:destroy, donate) do -%>
-      <td><%= link_to t('show'), donate -%></td>
-      <td><%= link_to t('edit'), edit_donate_path(donate) -%></td>
-      <td><%= link_to t('destroy'), donate, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), donate -%></td>
+      <td><%= link_to t('page.edit'), edit_donate_path(donate) -%></td>
+      <td><%= link_to t('page.destroy'), donate, :confirm => ('Are you sure?'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

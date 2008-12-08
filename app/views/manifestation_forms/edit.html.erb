@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), manifestation_form_path(@manifestation_form) -%></li>
-    <li><%= link_to ('Back'), manifestation_forms_path -%></li>
+    <li><%= link_to t('page.show'), manifestation_form_path(@manifestation_form) -%></li>
+    <li><%= link_to t('page.back'), manifestation_forms_path -%></li>
   </ul>
 </div>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

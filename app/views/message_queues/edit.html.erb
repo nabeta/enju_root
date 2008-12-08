@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), @message_queue -%></li>
-    <li><%= link_to ('Back'), message_queues_path -%></li>
+    <li><%= link_to t('page.show'), @message_queue -%></li>
+    <li><%= link_to t('page.back'), message_queues_path -%></li>
   </ul>
 </div>
 
@@ -32,7 +32,7 @@
     <%= textilize(h(@message_queue.body)) -%>
   </p>
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 </div>

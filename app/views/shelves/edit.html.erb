@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), library_shelf_path(@shelf.library.short_name) -%></li>
-    <li><%= link_to ('Back'), library_shelves_path(@shelf.library.short_name) -%></li>
+    <li><%= link_to t('page.show'), library_shelf_path(@shelf.library.short_name) -%></li>
+    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.short_name) -%></li>
   </ul>
 </div>
 
@@ -29,7 +29,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 </div>

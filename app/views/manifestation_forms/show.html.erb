@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('edit'), edit_manifestation_form_path(@manifestation_form) -%></li>
-    <li><%= link_to ('Back'), manifestation_forms_path -%></li>
+    <li><%= link_to t('page.edit'), edit_manifestation_form_path(@manifestation_form) -%></li>
+    <li><%= link_to t('page.back'), manifestation_forms_path -%></li>
   </ul>
 </div>
 
@@ -31,12 +31,12 @@
 </p>
 
 <p>
-<b><%= ('Created at') -%>:</b>
+<b><%= t('page.created_at') -%>:</b>
   <%=h @manifestation_form.created_at -%>
 </p>
 
 <p>
-<b><%= ('Updated at') -%>:</b>
+<b><%= t('page.updated_at') -%>:</b>
   <%=h @manifestation_form.updated_at -%>
 </p>
 

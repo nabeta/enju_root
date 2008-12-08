@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('show'), user_group_path(@user_group) -%></li>
-    <li><%= link_to ('Back'), user_groups_path -%></li>
+    <li><%= link_to t('page.show'), user_group_path(@user_group) -%></li>
+    <li><%= link_to t('page.back'), user_groups_path -%></li>
   </ul>
 </div>
 
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('update') -%>
+    <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>
 

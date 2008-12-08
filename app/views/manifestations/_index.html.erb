@@ -5,7 +5,7 @@
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
       <%= submit_tag t('page.search') -%>
-      <%= link_to h(('Advanced search')), '/page/advanced_search' -%>
+      <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
     </p>
   <%- end -%>
   </div>
@@ -37,9 +37,9 @@
           <%= link_to ('Date of publication'), params.merge(:sort => 'date') -%>
         <%- end -%>
         <%- if params[:sort] == 'title' -%>
-          <strong><%= ('Title') -%></strong>
+          <strong><%= t('page.title') -%></strong>
         <%- else -%>
-          <%= link_to ('Title'), params.merge(:sort => 'title') -%>
+          <%= link_to t('page.title'), params.merge(:sort => 'title') -%>
         <%- end -%>
       </p>
     <%- end -%>
@@ -57,7 +57,7 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
             <p>
               <%= t('page.search_term') -%>: <%= text_field_tag 'query', h("#{@query} #{@tag}"), {:id => 'searchform_bottom', :style => 'width: 350px'} -%>
               <%= submit_tag t('page.search') -%>
-              <%= link_to ('Advanced search'), '/page/advanced_search' -%>
+              <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
             </p>
           <%- end -%>
         <%- end -%>
@@ -73,7 +73,7 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
       <p>
         <%= form_tag search_engine.base_url, :method => search_engine.http_method -%>
           <%= link_to h(search_engine.name), h(search_engine.url) -%>
-          <%= submit_tag ('Search') -%>
+          <%= submit_tag t('page.search') -%>
           <br />
           <%=h search_engine.note -%>
           <%= hidden_field_tag search_engine.query_param, h(@query) -%>
@@ -90,7 +90,7 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
 
 <%- if @count[:query_result] > 0 -%>
   <div id="tag_cloud">
-    <h3><%= ('Tag') -%></h3>
+    <h3><%= t('page.tag') -%></h3>
     <div id="tag_cloud_list" style="display: none"></div>
     <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
       :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>

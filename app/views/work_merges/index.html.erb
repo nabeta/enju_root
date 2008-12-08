@@ -15,7 +15,7 @@
 
 <table style="width: 100%">
   <tr>
-    <td><%= ('Work') -%></td>
+    <td><%= t('page.work') -%></td>
     <td><%= ('Work merge list') -%></td>
   </tr>
 
@@ -23,9 +23,9 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(work_merge.work.original_title), work_path(work_merge.work) -%></td>
     <td><%= link_to h(work_merge.work_merge_list.title), work_merge_list_path(work_merge.work_merge_list) -%></td>
-    <td><%= link_to t('show'), work_merge -%></td>
-    <td><%= link_to t('edit'), edit_work_merge_path(work_merge) -%></td>
-    <td><%= link_to t('destroy'), work_merge, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.show'), work_merge -%></td>
+    <td><%= link_to t('page.edit'), edit_work_merge_path(work_merge) -%></td>
+    <td><%= link_to t('page.destroy'), work_merge, :confirm => ('Are you sure?'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

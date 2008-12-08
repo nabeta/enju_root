@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back'), donates_path -%></li>
+    <li><%= link_to t('page.back'), donates_path -%></li>
   </ul>
 </div>
 
@@ -16,12 +16,12 @@
   </p>
 
   <p>
-    <b><%= ('Item') -%></b><br />
+    <b><%= t('page.item') -%></b><br />
     <%= f.text_field :item_id -%>
   </p>
 
   <p>
-    <%= f.submit t('create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

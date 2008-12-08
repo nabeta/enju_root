@@ -6,12 +6,12 @@
 
 <div id="content_detail">
 <p>
-<b><%= ('Expression') -%>:</b>
+<b><%= t('page.expression') -%>:</b>
   <%= link_to h(@embody.expression.original_title), expression_path(@embody.expression) -%>
 </p>
 
 <p>
-<b><%= ('Manifestation') -%>:</b>
+<b><%= t('page.manifestation') -%>:</b>
   <%= link_to h(@embody.manifestation.original_title), manifestation_path(@embody.manifestation) -%>
 </p>
 

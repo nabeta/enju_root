@@ -4,19 +4,19 @@
 
 <%- form_for(@embody) do |f| -%>
   <p>
-  <b><%= ('Expression') -%></b><br />
+  <b><%= t('page.expression') -%></b><br />
     <%= f.text_field :expression_id -%>
   </p>
 
   <p>
-  <b><%= ('Manifestation') -%></b><br />
+  <b><%= t('page.manifestation') -%></b><br />
     <%= f.text_field :manifestation_id -%>
   </p>
 
   <p>
-    <%= f.submit t('update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
-<%= link_to t('show'), @embody -%> |
-<%= link_to ('Back'), embodies_path -%>
+<%= link_to t('page.show'), @embody -%> |
+<%= link_to t('page.back'), embodies_path -%>
