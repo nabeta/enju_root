@@ -46,7 +46,7 @@
           <%= link_to t('page.add'), new_patron_realize_path(@patron, :expression_id => expression.id) -%>
         <%- else -%>
           <%- perform = @patron.performs.find_by_expression_id(expression.id) -%>
-          <%= link_to t('page.destroy'), patron_perform_path(@patron, perform), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), patron_perform_path(@patron, perform), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

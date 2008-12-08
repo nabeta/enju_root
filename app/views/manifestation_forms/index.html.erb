@@ -23,7 +23,7 @@
     <td><%=h manifestation_form.note -%></td>
     <%- if_authorized?(:destroy, manifestation_form) do -%>
       <td><%= link_to t('page.edit'), edit_manifestation_form_path(manifestation_form) -%></td>
-      <td><%= link_to t('page.destroy'), manifestation_form_path(manifestation_form), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), manifestation_form_path(manifestation_form), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

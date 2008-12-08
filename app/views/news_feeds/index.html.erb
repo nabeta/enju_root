@@ -12,7 +12,7 @@
     <td><%= link_to h(news_feed.url), news_feed.url -%></td>
     <td><%= link_to t('page.show'), news_feed -%></td>
     <td><%= link_to t('page.edit'), edit_news_feed_path(news_feed) -%></td>
-    <td><%= link_to t('page.destroy'), news_feed, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), news_feed, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- if_authorized?(:desroy, news_feed) do -%>
       <td><%= news_feed.first? ? '' : link_to('▲', {:action => 'update', :position  => (news_feed.position  > 1 ? news_feed.position - 1 : 1), :id => news_feed.id}, :method => :put) -%></td>
       <td><%= news_feed.last? ? '' : link_to('▼', {:action => 'update', :position => (news_feed.position + 1), :id => news_feed.id}, :method => :put) -%></td>

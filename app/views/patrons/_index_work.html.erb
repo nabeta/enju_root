@@ -54,7 +54,7 @@
           <%= link_to t('page.add'), new_work_create_path(@work, :patron_id => patron.id) unless @work.patrons.include?(patron) -%>
         <%- else -%>
           <%- create = @work.creates.find_by_patron_id(patron) -%>
-          <%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

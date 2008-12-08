@@ -19,7 +19,7 @@
     <%- end -%>
   </ul>
   <%- if @patron_merge_list.patrons.size > 1 -%>
-    <%= f.submit "Merge", :confirm => ('Are you sure?') -%>
+    <%= f.submit "Merge", :confirm => t('page.are_you_sure') -%>
   <%- end -%>
 <%- end -%>
 

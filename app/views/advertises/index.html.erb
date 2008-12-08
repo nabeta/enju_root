@@ -12,7 +12,7 @@
     <td><%= link_to h(advertise.advertisement.title), advertise.advertisement -%></td>
     <td><%= link_to t('page.show'), advertise -%></td>
     <td><%= link_to t('page.edit'), edit_advertise_path(advertise) -%></td>
-    <td><%= link_to t('page.destroy'), advertise, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), advertise, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

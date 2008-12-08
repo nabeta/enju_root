@@ -31,7 +31,7 @@
     <%- if_authorized?(:destroy, picture_file) do -%>
       <td><%= link_to t('page.show'), picture_file -%></td>
       <td><%= link_to t('page.edit'), edit_picture_file_path(picture_file) -%></td>
-      <td><%= link_to t('page.destroy'), picture_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), picture_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

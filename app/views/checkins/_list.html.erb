@@ -2,7 +2,7 @@
 
 <%- remote_form_for @checkin, :html => {:method => :post}, :update => :checkin_list, :url => user_basket_checkins_path(@basket.user.login, @basket, :mode => 'list') do |f| -%>
 
-  <p><%= tt('activerecord.attributes.item.item_identifier') -%>:
+  <p><%= t('activerecord.attributes.item.item_identifier') -%>:
     <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
     <%= f.hidden_field :librarian_id, :value => current_user.id -%>
     <%= submit_tag ('Checkin') -%></p>

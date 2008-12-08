@@ -23,11 +23,7 @@
 <table style="width: 100%">
   <tr>
     <th><%= ('Id') -%></th>
-<<<<<<< HEAD:app/views/reserves/index.html.erb
     <th><%= t('page.user') -%></th>
-=======
-    <th><%= ('User') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/reserves/index.html.erb
     <th><%= t('page.manifestation') -%></th>
     <th><%= ('Status') -%></th>
     <th><%= ('Expired at') -%></th>
@@ -48,9 +44,9 @@
       <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.login, reserve) -%></td>
       <td>
         <%- if reserve.user.reserves.waiting.include?(reserve) -%>
-          <%= link_to ('Cancel'), user_reserve_path(reserve.user.login, reserve, :mode => 'cancel'), :confirm => ('Are you sure?'), :method => :put -%>
+          <%= link_to ('Cancel'), user_reserve_path(reserve.user.login, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
         <%- else -%>
-          <%= link_to t('page.destroy'), user_reserve_path(reserve.user.login, reserve), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), user_reserve_path(reserve.user.login, reserve), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       </td>
     <%- end -%>

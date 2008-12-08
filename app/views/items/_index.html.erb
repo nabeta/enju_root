@@ -23,7 +23,7 @@
 
 <table style="width: 100%">
   <tr>
-    <th><%= tt('activerecord.attributes.item.item_identifier') -%></th>
+    <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= ('Call number') -%></th>
     <th><%= t('page.manifestation') -%></th>
     <th><%= ('Library') -%></th>
@@ -53,7 +53,7 @@
     <td><%=h item.circulation_status.display_name -%></td>
     <%- if_authorized?(:destroy, item) do -%>
       <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
-      <td><%= link_to t('page.destroy'), item_path(item), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), item_path(item), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

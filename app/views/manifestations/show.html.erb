@@ -20,7 +20,7 @@
       <ul>
         <%- if @manifestation.bookmarked_resource -%>
           <%- if @manifestation.bookmarked_resource.bookmarked?(current_user) -%>
-            <li><%= link_to ('Delete this bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => ('Are you sure?'), :method => :delete -%></li>
+            <li><%= link_to ('Delete this bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
           <%- end -%>
         <%- else -%>
           <li><%= link_to ('Add to bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
@@ -90,7 +90,7 @@
 
 <div id="demo" class="yui-navset yui-navset-top">
   <ul class="yui-nav">
-    <li title="active" class="selected"><a href="#tab1"><em><%= ('Detail') -%></em></a></li>
+    <li title="nctive" class="selected"><a href="#tab1"><em><%= ('Detail') -%></em></a></li>
     <%- if @manifestation.related_works.size > 0 -%>
       <li><a href="#tab3"><em><%= ('Related works') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
@@ -220,7 +220,7 @@
             <th><%=h ('Library') -%></th>
             <th><%=h ('Shelf') -%></th>
             <th><%=h ('Call number') -%></th>
-            <th><%=h tt('activerecord.attributes.item.item_identifier') -%></th>
+            <th><%=h t('activerecord.attributes.item.item_identifier') -%></th>
             <th><%=h ('Circulation status') -%></th>
             <!--
             <th><%=h ('Request') -%></th>

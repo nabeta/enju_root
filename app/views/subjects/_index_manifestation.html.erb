@@ -47,7 +47,7 @@
           <%= link_to t('page.add'), new_manifestation_resource_has_subject_path(@manifestation, :subject_id => subject.id) -%>
         <%- else -%>
           <%- has_subject = @manifestation.resource_has_subjects.find_by_subject_id(subject.id) -%>
-          <%= link_to t('page.destroy'), manifestation_resource_has_subject_path(@manifestation, has_subject), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), manifestation_resource_has_subject_path(@manifestation, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

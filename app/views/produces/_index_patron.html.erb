@@ -27,7 +27,7 @@
       <%= patrons_list(produce.manifestation.patrons, :link => true) -%>
     </td>
     <%- if_authorized?(:destroy, produce) do -%>
-      <td><%= link_to t('page.destroy'), patron_produce_path(produce.patron, produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), patron_produce_path(produce.patron, produce), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

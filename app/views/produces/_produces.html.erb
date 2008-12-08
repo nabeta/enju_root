@@ -1,10 +1,6 @@
 <table>
   <tr>
-<<<<<<< HEAD:app/views/produces/_produces.html.erb
     <th><%= t('page.patron') -%></th>
-=======
-    <th><%= ('Patron') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/produces/_produces.html.erb
     <th><%= t('page.manifestation') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
@@ -18,7 +14,7 @@
     <td><%=h produce.updated_at -%></td>
     <td><%= link_to t('page.show'), produce_path(produce) -%></td>
     <td><%= link_to t('page.edit'), edit_produce_path(produce) -%></td>
-    <td><%= link_to t('page.destroy'), produce_path(produce), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), produce_path(produce), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

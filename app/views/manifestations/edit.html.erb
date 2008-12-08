@@ -6,7 +6,7 @@
   </div>
   <ul>
     <li><%= link_to t('page.show'), manifestation_path(@manifestation) -%></li>
-    <li><%= link_to t('page.destroy'), manifestation_path(@manifestation), :confirm => ('Are you sure?'), :method => :delete -%></li>
+    <li><%= link_to t('page.destroy'), manifestation_path(@manifestation), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- case when @expression -%>
     <li><%= link_to t('page.back'), expression_manifestations_path(@expression) -%></li>
     <%- when @patron -%>

@@ -25,7 +25,7 @@
     <td><%=h bookmark.updated_at -%></td>
     <%- if_authorized?(:destroy, bookmark) do -%>
       <td><%= link_to t('page.show'), bookmark_path(bookmark) -%></td>
-      <td><%= link_to t('page.destroy'), bookmark_path(bookmark), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), bookmark_path(bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

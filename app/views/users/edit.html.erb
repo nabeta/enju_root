@@ -114,7 +114,7 @@
   -->
 
   <p>
-  <%= submit_tag t('page.update'), :confirm => ('Are you sure?') -%>
+  <%= submit_tag t('page.update'), :confirm => t('page.are_you_sure') -%>
   </p>
 
 <%- end -%>
@@ -140,7 +140,7 @@
   <%- unless current_user == @user -%>
     <h3><%= ('Delete this user') -%></h3>
     <p>
-    <%= link_to t('page.destroy'), user_path(@user.login), :confirm => ('Are you sure?'), :method => :delete -%>
+    <%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%>
     </p>
   <%- end -%>
 <%- end -%>

@@ -3,11 +3,7 @@
 <table>
   <tr>
     <th><%= t('page.item') -%></th>
-<<<<<<< HEAD:app/views/item_has_use_restrictions/index.html.erb
-    <th><%= tt('activerecord.attributes.item.item_identifier') -%></th>
-=======
-    <th><%= ('Item identifier') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/item_has_use_restrictions/index.html.erb
+    <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= t('page.manifestation') -%></th>
     <th><%= ('Use restriction') -%></th>
   </tr>
@@ -20,7 +16,7 @@
     <td><%= link_to h(item_has_use_restriction.use_restriction.display_name), use_restriction_path(item_has_use_restriction.use_restriction_id) -%></td>
     <td><%= link_to t('page.show'), item_has_use_restriction -%></td>
     <td><%= link_to t('page.edit'), edit_item_has_use_restriction_path(item_has_use_restriction) -%></td>
-    <td><%= link_to t('page.destroy'), item_has_use_restriction, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), item_has_use_restriction, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

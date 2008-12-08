@@ -11,11 +11,7 @@
 
 <table style="width: 100%">
   <tr>
-<<<<<<< HEAD:app/views/donates/index.html.erb
     <th><%= t('page.patron') -%></th>
-=======
-    <th><%= ('Patron') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/donates/index.html.erb
     <th><%= t('page.manifestation') -%></th>
     <th><%= t('page.item') -%></th>
   </tr>
@@ -32,7 +28,7 @@
     <%- if_authorized?(:destroy, donate) do -%>
       <td><%= link_to t('page.show'), donate -%></td>
       <td><%= link_to t('page.edit'), edit_donate_path(donate) -%></td>
-      <td><%= link_to t('page.destroy'), donate, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), donate, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

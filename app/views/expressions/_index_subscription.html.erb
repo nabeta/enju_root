@@ -49,7 +49,7 @@
           <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :expression_id => expression.id, :mode => 'add') -%>
         <%- else -%>
           <%- subscribe = @subscription.subscribes.find_by_expression_id(expression.id) -%>
-          <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, subscribe), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, subscribe), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

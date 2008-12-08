@@ -40,7 +40,7 @@
       <td><%=h expression.language.display_name -%></td>
       <%- if_authorized?(:destroy, expression) do -%>
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
-        <td><%= link_to t('page.destroy'), expression_path(expression), :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), expression_path(expression), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

@@ -33,7 +33,7 @@
     <td><%=h library.fax_number -%></td>
     <%- if_authorized?(:destroy, library) do -%>
       <td><%= link_to t('page.edit'), edit_library_path(library.short_name) -%></td>
-      <td><%= link_to t('page.destroy'), library_path(library.short_name), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), library_path(library.short_name), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= library.first? ? '' : link_to('▲', {:action => 'update', :position => (library.position  > 1 ? library.position - 1 : 1), :id => library.short_name}, :method => :put) -%></td>
       <td><%= library.last? ? '' : link_to('▼', {:action => 'update', :position => (library.position + 1), :id => library.short_name}, :method => :put) -%></td>
     <%- end -%>

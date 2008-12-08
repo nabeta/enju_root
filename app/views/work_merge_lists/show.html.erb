@@ -22,7 +22,7 @@
     <%- end -%>
   </ul>
   <%- if @work_merge_list.works.size > 1 -%>
-    <%= f.submit "Merge", :confirm => ('Are you sure?') -%>
+    <%= f.submit "Merge", :confirm => t('page.are_you_sure') -%>
   <%- end -%>
 <%- end -%>
 

@@ -19,7 +19,7 @@
     <td><%= link_to h(subscribe.expression.original_title), subscribe.expression -%></td>
     <td><%= link_to t('page.show'), subscribe -%></td>
     <td><%= link_to t('page.edit'), edit_subscribe_path(subscribe) -%></td>
-    <td><%= link_to t('page.destroy'), subscribe, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), subscribe, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

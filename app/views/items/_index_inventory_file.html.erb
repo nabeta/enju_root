@@ -29,11 +29,7 @@
 <table style="width: 100%">
   <tr>
     <th><%= t('page.manifestation') -%></th>
-<<<<<<< HEAD:app/views/items/_index_inventory_file.html.erb
-    <th><%= tt('activerecord.attributes.item.item_identifier') -%></th>
-=======
-    <th><%= ('Item identifier') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/items/_index_inventory_file.html.erb
+    <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= ('Call number') -%></th>
     <th><%= ('Library') -%></th>
     <th><%= ('Shelf') -%></th>
@@ -52,7 +48,7 @@
     <td><%=h item.circulation_status.display_name -%></td>
     <%- if_authorized?(:destroy, item) do -%>
       <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
-      <td><%= link_to t('page.destroy'), item_path(item), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), item_path(item), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

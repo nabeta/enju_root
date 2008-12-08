@@ -14,7 +14,7 @@
     <td><%=h request_type.note -%></td>
     <td><%= link_to t('page.show'), request_type -%></td>
     <td><%= link_to t('page.edit'), edit_request_type_path(request_type) -%></td>
-    <td><%= link_to t('page.destroy'), request_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), request_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

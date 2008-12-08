@@ -27,7 +27,7 @@
       <%= patrons_list(@expression.patrons) -%>
     </td>
     <%- if_authorized?(:destroy, reify) do -%>
-      <td><%= link_to t('page.destroy'), expression_reify_path(@expression, reify), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), expression_reify_path(@expression, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= reify.first? ? '' : link_to('▲', {:action => 'update', :position => (reify.position > 1 ? reify.position - 1 : 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%></td>
       <td><%= reify.last? ? '' : link_to('▼', {:action => 'update', :position => (reify.position + 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%></td>
     <%- end -%>

@@ -23,7 +23,7 @@
     <%- if_authorized?(:destroy, inter_library_loan) do -%>
       <td><%= link_to t('page.show'), inter_library_loan -%></td>
       <td><%= link_to t('page.edit'), edit_inter_library_loan_path(inter_library_loan) -%></td>
-      <td><%= link_to t('page.destroy'), inter_library_loan, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), inter_library_loan, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

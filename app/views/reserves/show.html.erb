@@ -1,8 +1,8 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_path(@reserve.user.login, @reserve) -%></li>
-    <li><%= link_to ('Cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => ('Are you sure?'), :method => :put -%></li>
-    <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => ('Are you sure?'), :method => :delete -%></li>
+    <li><%= link_to ('Cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%></li>
+    <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to t('page.back'), user_reserves_path(@reserve.user.login) -%></li>
   </ul>
   <!--

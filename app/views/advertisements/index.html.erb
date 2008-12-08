@@ -20,7 +20,7 @@
     </td>
     <td><%= link_to t('page.show'), advertisement -%></td>
     <td><%= link_to t('page.edit'), edit_advertisement_path(advertisement) -%></td>
-    <td><%= link_to t('page.destroy'), advertisement, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), advertisement, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

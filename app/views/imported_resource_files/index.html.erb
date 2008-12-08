@@ -18,7 +18,7 @@
     <td><%= link_to h(imported_resource_file.user.login), user_path(imported_resource_file.user.login) -%></td>
     <td><%= link_to t('page.show'), imported_resource_file -%></td>
     <td><%= link_to t('page.edit'), edit_imported_resource_file_path(imported_resource_file) -%></td>
-    <td><%= link_to t('page.destroy'), imported_resource_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), imported_resource_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

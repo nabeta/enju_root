@@ -53,7 +53,7 @@
       </td>
       <td><%= link_to t('page.edit'), edit_user_purchase_request_path(purchase_request.user.login, purchase_request) -%></td>
       <%- if current_user.has_role?('Librarian') -%>
-        <td><%= link_to t('page.destroy'), user_purchase_request_path(purchase_request.user.login, purchase_request), :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), user_purchase_request_path(purchase_request.user.login, purchase_request), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

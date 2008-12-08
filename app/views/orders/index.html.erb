@@ -26,7 +26,7 @@
     <%- if_authorized?(:destroy, order) do -%>
       <td><%= link_to t('page.show'), order_path(order) -%></td>
       <td><%= link_to t('page.edit'), edit_order_path(order) -%></td>
-      <td><%= link_to t('page.destroy'), order_path(order), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), order_path(order), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>
