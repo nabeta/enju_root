@@ -1,0 +1,3 @@
+config/environments.rb
+config/initializers/site_keys.rb
+app/controllers/application.rb
