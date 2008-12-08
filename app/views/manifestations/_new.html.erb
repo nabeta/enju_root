@@ -52,7 +52,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.imanifestation.date_of_publication') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.date_of_publication') -%></b>
     <%= f.date_select :date_of_publication, :blank => true -%>
   </p>
 
@@ -60,7 +60,7 @@
     <%- if @expression.serial? -%>
       <%= render :partial => 'new_serial', :locals => {:f => f} -%>
     <%- else -%>
-      <b><%= t('activerecord.attributes.imanifestation.edition') -%></b>
+      <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
       <%= f.text_field :edition, :class => 'resource_integer' -%>
       <b><%= ('Volume number') -%></b>
       <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
@@ -75,18 +75,18 @@
   <%- end -%>
 
   <p>
-    <b><%= t('activerecord.attributes.imanifestation.start_page') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.start_page') -%></b>
     <%= f.text_field :start_page, :class => 'resource_integer' -%>
-    <b><%= t('activerecord.attributes.imanifestation.end_page') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.end_page') -%></b>
     <%= f.text_field :end_page, :class => 'resource_integer' -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.imanifestation.height') -%>(cm)</b>
+  <b><%= t('activerecord.attributes.manifestation.height') -%>(cm)</b>
     <%= f.text_field :height, :class => 'resource_integer' -%>
-  <b><%= t('activerecord.attributes.imanifestation.width') -%>(cm)</b>
+  <b><%= t('activerecord.attributes.manifestation.width') -%>(cm)</b>
     <%= f.text_field :width, :class => 'resource_integer' -%>
-  <b><%= t('activerecord.attributes.imanifestation.depth') -%>(cm)</b>
+  <b><%= t('activerecord.attributes.manifestation.depth') -%>(cm)</b>
     <%= f.text_field :depth, :class => 'resource_integer' -%>
   </p>
 
@@ -101,7 +101,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.imanifestation.repository_content') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.repository_content') -%></b>
     <%= f.check_box :repository_content -%>
   </p>
   

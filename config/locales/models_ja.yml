@@ -407,7 +407,7 @@ ja:
         end_on: 終了日
       checkin:
       item:
-        call_number: 電話番号
+        call_number: 請求記号
         item_identifier: 個別資料ID
         deleted_at: 削除時刻
         include_supplements: 付録を含む
