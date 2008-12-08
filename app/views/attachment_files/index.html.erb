@@ -27,7 +27,7 @@
     <%- if_authorized?(:destroy, attachment_file) do -%>
       <td><%= link_to t('page.show'), attachment_file -%></td>
       <td><%= link_to t('page.edit'), edit_attachment_file_path(attachment_file) -%></td>
-      <td><%= link_to t('page.destroy'), attachment_file, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), attachment_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

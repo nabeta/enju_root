@@ -47,7 +47,7 @@
 
   <p>
     <%= f.hidden_field :user_number, :class => 'resource_user_number', :value => @user.user_number -%>
-    <%= submit_tag t('page.create'), :confirm => ('Are you sure?') -%>
+    <%= submit_tag t('page.create'), :confirm => t('page.are_you_sure') -%>
   </p>
 <%- end -%>
 </div>

@@ -14,7 +14,7 @@
     <td><%=h checkout_type.note -%></td>
     <td><%= link_to t('page.show'), checkout_type -%></td>
     <td><%= link_to t('page.edit'), edit_checkout_type_path(checkout_type) -%></td>
-    <td><%= link_to t('page.destroy'), checkout_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- unless @user_group -%>
       <%- if_authorized?(:desroy, checkout_type) do -%>
         <td><%= checkout_type.first? ? '' : link_to('▲', {:action => 'update', :position  => (checkout_type.position  > 1 ? checkout_type.position - 1 : 1), :id => checkout_type.id}, :method => :put) -%></td>

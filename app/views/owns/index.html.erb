@@ -2,11 +2,7 @@
 
 <table style="width: 100%">
   <tr>
-<<<<<<< HEAD:app/views/owns/index.html.erb
     <th><%= t('page.patron') -%></th>
-=======
-    <th><%= ('Patron') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/owns/index.html.erb
     <th><%= t('page.item') -%></th>
     <th><%= t('page.manifestation') -%></th>
   </tr>
@@ -26,7 +22,7 @@
     </td>
     <%- if_authorized?(:destroy, own) do -%>
       <td><%= link_to t('page.show'), own -%></td>
-      <td><%= link_to t('page.destroy'), own, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), own, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

@@ -2,11 +2,7 @@
 
 <table>
   <tr>
-<<<<<<< HEAD:app/views/creates/_index_work.html.erb
     <th><%= t('page.patron') -%></th>
-=======
-    <th><%= ('Patron') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/creates/_index_work.html.erb
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
   </tr>
@@ -18,7 +14,7 @@
     <td><%=h create.updated_at -%></td>
     <%- if_authorized?(:destroy, create) do -%>
       <td><%= link_to t('page.show'), work_create_path(@work, create) -%></td>
-      <td><%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= create.first? ? '' : link_to('▲', {:action => 'update', :position => (create.position > 1 ? create.position - 1 : 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
       <td><%= create.last? ? '' : link_to('▼', {:action => 'update', :position => (create.position + 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
     <%- end -%>

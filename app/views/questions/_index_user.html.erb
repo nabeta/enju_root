@@ -28,7 +28,7 @@
       <td><%=h question.answers.size -%></td>
       <td><%=h question.updated_at -%></td>
       <%- if_authorized?(:destroy, question) do -%>
-        <td><%= link_to t('page.destroy'), user_question_path(question.user.login, question), :confirm => ('Are you sure?'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), user_question_path(question.user.login, question), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

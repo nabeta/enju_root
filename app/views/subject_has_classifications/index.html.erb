@@ -19,7 +19,7 @@
     <td><%=h subject_has_classification.classification_id -%></td>
     <td><%= link_to t('page.show'), subject_has_classification -%></td>
     <td><%= link_to t('page.edit'), edit_subject_has_classification_path(subject_has_classification) -%></td>
-    <td><%= link_to t('page.destroy'), subject_has_classification, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), subject_has_classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

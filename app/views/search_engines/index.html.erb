@@ -12,7 +12,7 @@
     <td><%=h search_engine.note -%></td>
     <td><%= link_to t('page.show'), search_engine -%></td>
     <td><%= link_to t('page.edit'), edit_search_engine_path(search_engine) -%></td>
-    <td><%= link_to t('page.destroy'), search_engine, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), search_engine, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <td><%= search_engine.first? ? '' : link_to('▲', {:action => 'update', :position  => (search_engine.position  > 1 ? search_engine.position - 1 : 1), :id => search_engine.id}, :method => :put) -%></td>
     <td><%= search_engine.last? ? '' : link_to('▼', {:action => 'update', :position => (search_engine.position + 1), :id => search_engine.id}, :method => :put) -%></td>
   </tr>

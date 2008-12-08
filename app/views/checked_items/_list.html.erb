@@ -2,11 +2,7 @@
 
 <%- remote_form_for @checked_item, :html => {:method => :post}, :update => :checked_item_list, :url => user_basket_checked_items_path(@basket.user.login, @basket, :mode => 'list') do |f| -%>
   <div>
-<<<<<<< HEAD:app/views/checked_items/_list.html.erb
-    <%= tt('activerecord.attributes.item.item_identifier') -%>: <%= f.text_field :item_identifier -%>
-=======
-    <%= ('Item identifier') -%>: <%= f.text_field :item_identifier -%>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/checked_items/_list.html.erb
+    <%= t('activerecord.attributes.item.item_identifier') -%>: <%= f.text_field :item_identifier -%>
     <%= submit_tag t('page.create') -%>
   </div>
 <%- end -%>
@@ -14,11 +10,7 @@
 <table style="width: 100%">
   <tr>
     <th class="checked_item_title"><%= t('page.title') -%></th>
-<<<<<<< HEAD:app/views/checked_items/_list.html.erb
-    <th><%= tt('activerecord.attributes.item.item_identifier') -%></th>
-=======
-    <th><%= ('Item identifier') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/checked_items/_list.html.erb
+    <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= ('Due date') -%></th>
   </tr>
 
@@ -30,7 +22,7 @@
     </td>
     <td><%= link_to h(checked_item.item.item_identifier), item_path(checked_item.item) -%></td>
     <td><%=h checked_item.due_date.strftime('%Y-%m-%d') -%></td>
-    <td><%= link_to t('page.destroy'), user_basket_checked_item_path(checked_item.basket.user.login, checked_item.basket, checked_item), :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), user_basket_checked_item_path(checked_item.basket.user.login, checked_item.basket, checked_item), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

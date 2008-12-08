@@ -45,7 +45,7 @@
           <%= link_to t('page.add'), new_expression_merge_list_expression_merge_path(@expression_merge_list, :expression_id => expression.id) unless @expression_merge_list.expressions.include?(expression) -%>
         <%- else -%>
           <%- expression_merge = @expression_merge_list.expression_merges.find_by_expression_id(expression) -%>
-          <%= link_to t('page.destroy'), expression_merge_list_expression_merge_path(@expression_merge_list, expression_merge), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), expression_merge_list_expression_merge_path(@expression_merge_list, expression_merge), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

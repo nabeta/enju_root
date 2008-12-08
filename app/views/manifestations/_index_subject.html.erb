@@ -52,7 +52,7 @@
           <%= link_to t('page.add'), new_subject_resource_has_subject_path(@subject, :manifestation_id => manifestation.id) -%>
         <%- else -%>
           <%- has_subject = @subject.resource_has_subjects.find_by_subjectable_id_and_subjectable_type(manifestation.id, 'Manifestation') -%>
-          <%= link_to t('page.destroy'), subject_resource_has_subject_path(@subject, has_subject), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), subject_resource_has_subject_path(@subject, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

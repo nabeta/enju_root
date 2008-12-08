@@ -18,7 +18,7 @@
     <td><%= link_to h(bookstore.url), bookstore.url -%></td>
     <%- if_authorized?(:destroy, bookstore) do -%>
       <td><%= link_to t('page.edit'), edit_bookstore_path(bookstore) -%></td>
-      <td><%= link_to t('page.destroy'), bookstore, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), bookstore, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= bookstore.first? ? '' : link_to('▲', {:action => 'update', :position => (bookstore.position  > 1 ? bookstore.position - 1 : 1), :id => bookstore.id}, :method => :put) -%></td>
       <td><%= bookstore.last? ? '' : link_to('▼', {:action => 'update', :position => (bookstore.position + 1), :id => bookstore.id}, :method => :put) -%></td>
     <%- end -%>

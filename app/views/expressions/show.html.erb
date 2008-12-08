@@ -5,7 +5,7 @@
     <ul>
       <li><%= link_to ('New expression'), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
-      <li><%= link_to t('page.destroy'), expression_path(@expression), :confirm => ('Are you sure?'), :method => :delete -%></li>
+      <li><%= link_to t('page.destroy'), expression_path(@expression), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- case when @work -%>
         <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
       <%- when @patron -%>

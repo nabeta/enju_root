@@ -37,7 +37,7 @@
         <%= f.datetime_select :shipped_at -%>
       </p>
       <p>
-        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
       </p>
     <%- end -%>
   <%- when 'shipped' -%>
@@ -57,7 +57,7 @@
         <%= f.datetime_select :received_at -%>
       </p>
       <p>
-        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
       </p>
     <%- end -%>
   <%- when 'received' -%>
@@ -82,7 +82,7 @@
         <%= f.datetime_select :return_shipped_at -%>
       </p>
       <p>
-        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
       </p>
     <%- end -%>
   <%- when 'return_shipped' -%>
@@ -112,7 +112,7 @@
         <%= f.datetime_select :return_received_at -%>
       </p>
       <p>
-        <%= f.submit t('page.update'), :confirm => ('Are you sure?') -%>
+        <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
       </p>
     <%- end -%>
   <%- when 'return_received' -%>

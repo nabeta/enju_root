@@ -4,7 +4,7 @@
 </p>
 
 <p>
-<b><%= tt('activerecord.attributes.item.item_identifier') -%>:</b>
+<b><%= t('activerecord.attributes.item.item_identifier') -%>:</b>
   <%= link_to h(@item_has_use_restriction.item.item_identifier), item_path(@item_has_use_restriction.item_id) -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), manifestation_path(@item_has_use_restriction.item.manifestation) -%>)
 </p>
 

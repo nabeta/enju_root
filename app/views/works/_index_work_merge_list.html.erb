@@ -44,7 +44,7 @@
           <%= link_to t('page.add'), new_work_merge_list_work_merge_path(@work_merge_list, :work_id => work.id) unless @work_merge_list.works.include?(work) -%>
         <%- else -%>
           <%- work_merge = @work_merge_list.work_merges.find_by_work_id(work) -%>
-          <%= link_to t('page.destroy'), work_merge_list_work_merge_path(@work_merge_list, work_merge), :confirm => ('Are you sure?'), :method => :delete -%>
+          <%= link_to t('page.destroy'), work_merge_list_work_merge_path(@work_merge_list, work_merge), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

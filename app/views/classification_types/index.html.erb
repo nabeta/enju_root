@@ -23,7 +23,7 @@
     <td><%=h classification_type.note -%></td>
     <%- if_authorized?(:destroy, classification_type) do -%>
       <td><%= link_to t('page.edit'), edit_classification_type_path(classification_type) -%></td>
-      <td><%= link_to t('page.destroy'), classification_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), classification_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

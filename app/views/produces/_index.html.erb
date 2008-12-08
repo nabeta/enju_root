@@ -2,11 +2,7 @@
 
 <table style="width: 100%">
   <tr>
-<<<<<<< HEAD:app/views/produces/_index.html.erb
     <th><%= t('page.patron') -%></th>
-=======
-    <th><%= ('Patron') -%></th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/produces/_index.html.erb
     <th><%= t('page.manifestation') -%></th>
   </tr>
   
@@ -16,7 +12,7 @@
     <td><%= link_to h(produce.manifestation.original_title), manifestation_path(produce.manifestation) -%></td>
     <%- if_authorized?(:destroy, produce) do -%>
       <td><%= link_to t('page.show'), produce -%></td>
-      <td><%= link_to t('page.destroy'), produce, :confirm => ('Are you sure?'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), produce, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

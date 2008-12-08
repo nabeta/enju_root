@@ -14,7 +14,7 @@
     <td><%=h manifestation_form_has_checkout_type.note -%></td>
     <td><%= link_to t('page.show'), manifestation_form_has_checkout_type -%></td>
     <td><%= link_to t('page.edit'), edit_manifestation_form_has_checkout_type_path(manifestation_form_has_checkout_type) -%></td>
-    <td><%= link_to t('page.destroy'), manifestation_form_has_checkout_type, :confirm => ('Are you sure?'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), manifestation_form_has_checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

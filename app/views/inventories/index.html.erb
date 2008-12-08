@@ -4,11 +4,7 @@
   <tr>
     <th><%= ('Inventory file') -%> </th>
     <th><%= t('page.item') -%> </th>
-<<<<<<< HEAD:app/views/inventories/index.html.erb
     <th><%= t('page.note') -%> </th>
-=======
-    <th><%= ('Note') -%> </th>
->>>>>>> 591cc9f71f2d9220e978c2c274fc370eea38768e:app/views/inventories/index.html.erb
   </tr>
 
 <%- for inventory in @inventories -%> 
@@ -18,7 +14,7 @@
     <td><%=h inventory.note -%> </td>
     <td><%= link_to t('page.show'), inventory -%> </td>
     <td><%= link_to t('page.edit'), edit_inventory_path(inventory) -%> </td>
-    <td><%= link_to t('page.destroy'), inventory, :confirm => ('Are you sure?'), :method => :delete -%> </td>
+    <td><%= link_to t('page.destroy'), inventory, :confirm => t('page.are_you_sure'), :method => :delete -%> </td>
   </tr>
 <%- end -%> 
 </table>

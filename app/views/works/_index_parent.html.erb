@@ -47,7 +47,7 @@
           <%- if params[:mode] == "add " -%>
             <%= link_to t('page.add'), edit_work_path(work, :parent_id => @parent.id) -%>
           <%- else -%>
-            <%= link_to t('page.destroy'), work_path(work, :parent_id => nil), :confirm => ('Are you sure?'), :method => :put -%>
+            <%= link_to t('page.destroy'), work_path(work, :parent_id => nil), :confirm => t('page.are_you_sure'), :method => :put -%>
           <%- end -%>
         <%- end -%>
       </td>
