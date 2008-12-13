@@ -33,7 +33,7 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     Manifestation.rebuild_solr_index(500)
     Item.rebuild_solr_index(500)
     logger.info "#{Time.zone.now} optimized!"
-  rescue
+  rescue StandardError, Timeout::Error
     logger.info "#{Time.zone.now} optimization failed!"
   end
 

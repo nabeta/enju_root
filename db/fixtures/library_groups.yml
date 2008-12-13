@@ -4,5 +4,6 @@ library_group_00001:
   display_name: Your library system
   short_name: yours
   email: library@example.com
+  use_dsbl: false
   note: 
   my_networks: 0.0.0.0/0

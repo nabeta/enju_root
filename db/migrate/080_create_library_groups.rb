@@ -6,6 +6,7 @@ class CreateLibraryGroups < ActiveRecord::Migration
       t.column :short_name, :string, :null => false
       t.column :email, :string
       t.text :my_networks
+      t.boolean :use_dsbl, :default => false, :null => false
       t.text :note
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
