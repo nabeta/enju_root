@@ -32,9 +32,9 @@
           <%= link_to ('Date of acquisition'), params.merge(:sort => nil) -%>
         <%- end -%>
         <%- if params[:sort] == 'date' -%>
-          <strong><%= t('activerecord.attributes.imanifestation.date_of_publication') -%></strong>
+          <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
         <%- else -%>
-          <%= link_to t('activerecord.attributes.imanifestation.date_of_publication'), params.merge(:sort => 'date') -%>
+          <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort => 'date') -%>
         <%- end -%>
         <%- if params[:sort] == 'title' -%>
           <strong><%= t('page.title') -%></strong>
