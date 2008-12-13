@@ -1,0 +1,28 @@
+<h1>Editing manifestation_has_manifestation</h1>
+
+<% form_for(@manifestation_has_manifestation) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :from_manifestation_id %><br />
+    <%= f.text_field :from_manifestation_id %>
+  </p>
+  <p>
+    <%= f.label :to_manifestation_id %><br />
+    <%= f.text_field :to_manifestation_id %>
+  </p>
+  <p>
+    <%= f.label :manifestation_relationship_type_id %><br />
+    <%= f.text_field :manifestation_relationship_type_id %>
+  </p>
+  <p>
+    <%= f.label :position %><br />
+    <%= f.text_field :position %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @manifestation_has_manifestation %> |
+<%= link_to 'Back', manifestation_has_manifestations_path %>

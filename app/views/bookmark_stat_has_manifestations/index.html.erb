@@ -1,0 +1,24 @@
+<h1>Listing bookmark_stat_has_manifestations</h1>
+
+<table>
+  <tr>
+    <th>Bookmark stat</th>
+    <th>Manifestation</th>
+    <th>Bookmarks count</th>
+  </tr>
+
+<% for bookmark_stat_has_manifestation in @bookmark_stat_has_manifestations %>
+  <tr>
+    <td><%=h bookmark_stat_has_manifestation.bookmark_stat_id %></td>
+    <td><%=h bookmark_stat_has_manifestation.manifestation_id %></td>
+    <td><%=h bookmark_stat_has_manifestation.bookmarks_count %></td>
+    <td><%= link_to 'Show', bookmark_stat_has_manifestation %></td>
+    <td><%= link_to 'Edit', edit_bookmark_stat_has_manifestation_path(bookmark_stat_has_manifestation) %></td>
+    <td><%= link_to 'Destroy', bookmark_stat_has_manifestation, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New bookmark_stat_has_manifestation', new_bookmark_stat_has_manifestation_path %>

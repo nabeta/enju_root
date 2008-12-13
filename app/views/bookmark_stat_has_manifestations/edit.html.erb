@@ -1,0 +1,24 @@
+<h1>Editing bookmark_stat_has_manifestation</h1>
+
+<% form_for(@bookmark_stat_has_manifestation) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :bookmark_stat_id %><br />
+    <%= f.text_field :bookmark_stat_id %>
+  </p>
+  <p>
+    <%= f.label :manifestation_id %><br />
+    <%= f.text_field :manifestation_id %>
+  </p>
+  <p>
+    <%= f.label :bookmarks_count %><br />
+    <%= f.text_field :bookmarks_count %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @bookmark_stat_has_manifestation %> |
+<%= link_to 'Back', bookmark_stat_has_manifestations_path %>

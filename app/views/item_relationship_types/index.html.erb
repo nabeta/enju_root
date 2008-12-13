@@ -1,0 +1,26 @@
+<h1>Listing item_relationship_types</h1>
+
+<table id="index">
+  <tr>
+    <th>Name</th>
+    <th>Display name</th>
+    <th>Note</th>
+    <th>Position</th>
+  </tr>
+
+<% for item_relationship_type in @item_relationship_types %>
+  <tr>
+    <td><%=h item_relationship_type.name %></td>
+    <td><%=h item_relationship_type.display_name %></td>
+    <td><%=h item_relationship_type.note %></td>
+    <td><%=h item_relationship_type.position %></td>
+    <td><%= link_to 'Show', item_relationship_type %></td>
+    <td><%= link_to 'Edit', edit_item_relationship_type_path(item_relationship_type) %></td>
+    <td><%= link_to 'Destroy', item_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New item_relationship_type', new_item_relationship_type_path %>

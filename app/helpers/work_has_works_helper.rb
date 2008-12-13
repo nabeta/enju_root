@@ -1,0 +1,2 @@
+module WorkHasWorksHelper
+end

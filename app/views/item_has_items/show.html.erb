@@ -1,0 +1,23 @@
+<p>
+  <b>From item:</b>
+  <%=h @item_has_item.from_item_id %>
+</p>
+
+<p>
+  <b>To item:</b>
+  <%=h @item_has_item.to_item_id %>
+</p>
+
+<p>
+  <b>Item Relationship type:</b>
+  <%=h @item_has_item.item_relationship_type_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @item_has_item.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_item_has_item_path(@item_has_item) %> |
+<%= link_to 'Back', item_has_items_path %>

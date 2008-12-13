@@ -1,0 +1,28 @@
+<h1>Editing item_has_item</h1>
+
+<% form_for(@item_has_item) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :from_item_id %><br />
+    <%= f.text_field :from_item_id %>
+  </p>
+  <p>
+    <%= f.label :to_item_id %><br />
+    <%= f.text_field :to_item_id %>
+  </p>
+  <p>
+    <%= f.label :item_relationship_type_id %><br />
+    <%= f.text_field :item_relationship_type_id %>
+  </p>
+  <p>
+    <%= f.label :position %><br />
+    <%= f.text_field :position %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @item_has_item %> |
+<%= link_to 'Back', item_has_items_path %>

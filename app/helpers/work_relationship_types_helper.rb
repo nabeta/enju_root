@@ -1,0 +1,2 @@
+module WorkRelationshipTypesHelper
+end
