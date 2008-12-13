@@ -11,11 +11,11 @@
   </div>
 
 <%- if @count[:query_result] > 0 -%>
-  <table style="width: 100%">
+  <table id="index">
     <tr>
       <th><%= ('Id') -%></th>
       <th><%= t('page.user') -%></th>
-      <th><%= ('Body') -%></th>
+      <th><%= t('activerecord.attributes.question.body') -%></th>
       <th><%= ('Answers') -%></th>
       <th><%= t('page.updated_at') -%></th>
     </tr>

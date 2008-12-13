@@ -31,7 +31,7 @@ module AuthenticatedSystem
     #    current_<%= file_name %>.login != "bob"
     #  end
     #
-    def authorized?(action=nil, resource=nil, *args)
+    def authorized?(action = action_name, resource = nil)
       logged_in?
     end
 
@@ -68,8 +68,10 @@ module AuthenticatedSystem
           redirect_to new_<%= controller_routing_name %>_path
         end
         # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
-        # you may want to change format.any to e.g. format.any(:js, :xml)
-        format.any do
+        # Add any other API formats here.  (Some browsers, notably IE6, send Accept: */* and trigger 
+        # the 'format.any' block incorrectly. See http://bit.ly/ie6_borken or http://bit.ly/ie6_borken2
+        # for a workaround.)
+        format.any(:json, :xml) do
           request_http_basic_authentication 'Web Password'
         end
       end
@@ -164,7 +166,7 @@ module AuthenticatedSystem
     end
     
     # Refresh the cookie auth token if it exists, create it otherwise
-    def handle_remember_cookie! new_cookie_flag
+    def handle_remember_cookie!(new_cookie_flag)
       return unless @current_<%= file_name %>
       case
       when valid_remember_cookie? then @current_<%= file_name %>.refresh_token # keeping same expiry date

@@ -7,11 +7,11 @@
   </div>
 <%- end -%>
 <%= javascript_tag("$('checked_item_item_identifier').focus()") -%>
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th class="checked_item_title"><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
-    <th><%= ('Due date') -%></th>
+    <th><%= t('activerecord.attributes.checkout.due_date') -%></th>
   </tr>
 
 <%- @checked_items.each_with_index do |checked_item, i| -%>

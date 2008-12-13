@@ -27,12 +27,12 @@
       </p>
     
       <p>
-        <label for="message_subject"><%= t('page.subject') -%>:</label><br />
+        <label for="message_subject"><%= t('activerecord.attributes.message.subject') -%>:</label><br />
         <%= form.text_field :subject, :class => 'resource_title' -%>
       </p>
       
       <p>
-        <label for="message_body"><%= ('Message') -%>:</label><br />
+        <label for="message_body"><%= t('activerecord.attributes.message.body') -%>:</label><br />
         <%= form.text_area :body, :class => 'resource_textarea' -%>
       </p>
 

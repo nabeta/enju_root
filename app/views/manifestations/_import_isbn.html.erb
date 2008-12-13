@@ -9,7 +9,7 @@
   <h1><%= ('Import records') -%></h1>
   <%- form_for(:manifestation, :url => manifestations_path(:mode => 'import_isbn')) do |f| -%>
     <%= h(('ISBN')) -%>: <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
-    <%= submit_tag ('Import') -%>
+    <%= submit_tag t('page.import') -%>
   <%- end -%>
   <%= javascript_tag("$('manifestation_isbn').focus()") -%>
 </div>

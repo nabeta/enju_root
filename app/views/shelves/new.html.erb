@@ -25,7 +25,7 @@
   </p>
 
   <p>
-  <b><%= ('Library') -%></b><br />
+  <b><%= t('page.library') -%></b><br />
     <%= f.select(:library_id, @libraries.collect{|l| [l.name, l.id]}) -%>
   </p>
 

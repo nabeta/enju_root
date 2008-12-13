@@ -1,4 +1,28 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :bookmark_stat_has_manifestations
+
+  map.resources :bookmark_stats
+
+  map.resources :checkout_stats
+
+  map.resources :checkout_stat_has_manifestations
+
+  map.resources :item_relationship_types
+
+  map.resources :manifestation_relationship_types
+
+  map.resources :expression_relationship_types
+
+  map.resources :work_relationship_types
+
+  map.resources :item_has_items
+
+  map.resources :manifestation_has_manifestations
+
+  map.resources :expression_has_expressions
+
+  map.resources :work_has_works
+
   map.resources :inventories
 
   map.resources :inventory_files do |inventory_file|

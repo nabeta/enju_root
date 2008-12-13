@@ -15,11 +15,11 @@
   <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
   <%= submit_tag t('page.search') -%>
-  <%= link_to ('Back to index'), classification_subjects_path(@classification) -%></p>
+  <%= link_to t('page.back_to_index'), classification_subjects_path(@classification) -%></p>
   </p>
 <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= ('Term') -%></th>
     <th><%= ('Term transcription') -%></th>

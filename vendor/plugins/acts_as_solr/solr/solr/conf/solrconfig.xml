@@ -67,11 +67,11 @@
      -->
 
     <!-- autocommit pending docs if certain criteria are met 
+    -->
     <autoCommit> 
       <maxDocs>10000</maxDocs>
       <maxTime>1000</maxTime>
     </autoCommit>
-    -->
 
     <!-- The RunExecutableListener executes an external command.
          exe - the name of the executable to run

@@ -25,11 +25,11 @@
     <%- end -%>
   <%- end -%>
   <%= submit_tag t('page.search') -%>
-  <%= link_to ('Back to index'), expression_patrons_path(@expression) -%>
+  <%= link_to t('page.back_to_index'), expression_patrons_path(@expression) -%>
 </p>
 <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= ('Patron name') -%></th>
     <th><%= ('Type') -%></th>

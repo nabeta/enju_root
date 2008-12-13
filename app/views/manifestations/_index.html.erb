@@ -22,7 +22,7 @@
     }
     </script>
 
-    <p><%= t'page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => @seconds -%></p>
+    <p><%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => sprintf("%.3f", @seconds)) -%></p>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
         <%= ('Sort by') -%>:
@@ -105,9 +105,9 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
   <%- unless @query.blank? -%>
     <div>
       <%- if params[:library_id].blank? -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'Feed', :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
       <%- else -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'Feed', :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
       <%- end -%>
     </div>
     <h1><%= link_to ('Total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h1>

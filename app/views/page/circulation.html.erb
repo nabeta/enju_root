@@ -9,12 +9,12 @@
 
 <ul>
   <li><%= link_to t('page.checkout'), new_basket_path -%>
-  <li><%= link_to ('Checkin'), checkins_path -%>
+  <li><%= link_to t('page.checkin'), checkins_path -%>
 </ul>
 
 <ul>
   <li><%= link_to ('Checkout index'), checkouts_path -%>
-  <li><%= link_to ('Overdue'), checkouts_path(:view => 'overdue') -%>
+  <li><%= link_to t('page.overdue'), checkouts_path(:view => 'overdue') -%>
 </ul>
 
 </div>

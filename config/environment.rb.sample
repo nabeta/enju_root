@@ -51,7 +51,8 @@ Rails::Initializer.run do |config|
   config.gem "barby"
   config.gem "rubyist-aasm", :lib => "aasm"
   config.gem "mislav-will_paginate", :lib => "will_paginate"
-  config.gem "jpmobile"
+#  config.gem "jpmobile"
+  config.gem "prawn"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

@@ -26,11 +26,11 @@
       <!--
       <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
       -->
-      <%= link_to ('Back to index'), subject_manifestations_path(@subject) -%>
+      <%= link_to t('page.back_to_index'), subject_manifestations_path(@subject) -%>
     </p>
   <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th></th>

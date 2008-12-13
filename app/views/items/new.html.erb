@@ -25,7 +25,7 @@
 <%- form_for(:item, :url => manifestation_items_path(@manifestation)) do |f| -%>
 
   <p>
-    <b><%= ('Library') -%> / <%= ('Shelf') -%></b><br />
+    <b><%= t('page.library') -%> / <%= t('page.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%= options_from_collection_for_select(@libraries, "short_name", "name", @library.short_name) -%>
     </select>
@@ -61,7 +61,7 @@
   </p>
  
   <p>
-    <b><%= ('Include supplements') -%></b>
+    <b><%= t('activerecord.attributes.item.include_supplements') -%></b>
     <%= f.check_box :include_supplements -%>
   </p>
 

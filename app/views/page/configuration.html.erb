@@ -1,12 +1,12 @@
-<h1><%= ('Configuration') -%></h1>
+<h1><%= t('page.configuration') -%></h1>
 
 <div id="left_pane">
-  <h1><%= ('Library') -%></h1>
+  <h1><%= t('page.library') -%></h1>
   <ul>
     <li><%= link_to ('Library group'), library_groups_path -%></li>
-    <li><%= link_to ('Library'), libraries_path -%>
+    <li><%= link_to t('page.library'), libraries_path -%>
       <ul>
-        <li><%= link_to ('Shelf'), shelves_path -%></li>
+        <li><%= link_to t('page.shelf'), shelves_path -%></li>
         <li><%= link_to ('Advertisement'), advertisements_path -%></li>
       </ul>
     </li>

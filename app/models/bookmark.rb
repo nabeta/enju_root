@@ -1,7 +1,7 @@
 class Bookmark < ActiveRecord::Base
   named_scope :bookmarked, lambda {|from_date, to_date| {:conditions => ['created_at >= ? AND created_at < ?', from_date, to_date]}}
   belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
-  belongs_to :user, :counter_cache => true #, :validate => true
+  belongs_to :user #, :counter_cache => true, :validate => true
   validates_presence_of :user, :bookmarked_resource_id, :title
   validates_presence_of :url, :on => :create
   validates_associated :user, :bookmarked_resource
@@ -80,5 +80,9 @@ class Bookmark < ActiveRecord::Base
     item.circulation_status = circulation_status
     item.shelf = shelf
     self.bookmarked_resource.manifestation.items << item
+  end
+
+  def self.manifestations_count(from_date, to_date, manifestation)
+    self.bookmarked(from_date, to_date).find(:all, :conditions => {:manifestation_id => manifestation.id}).count
   end
 end

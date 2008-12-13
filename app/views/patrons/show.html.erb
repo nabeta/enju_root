@@ -38,7 +38,7 @@
 
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#tab1"><em><%= ('Detail') -%></em></a></li>
+      <li title="active" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
       <%- unless @patron.works.blank? -%>
         <li><a href="#tab2"><em><%= t('page.work') -%></em></a></li>
       <%- end -%>
@@ -54,7 +54,7 @@
     </ul>
     <div class="yui-content">
       <div id="tab1">
-        <table style="width: 100%">
+        <table id="index">
           <tr>
             <td><b><%= ('Patron name') -%>:</b></td>
             <td><%=h @patron.full_name -%></td>
@@ -74,11 +74,11 @@
             <td><%=h @patron.patron_type.display_name -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Other designation') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.patron.other_designation') -%>:</b></td>
             <td><%=h @patron.other_designation -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Place') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.patron.place') -%>:</b></td>
             <td><%=h @patron.place -%></td>
           </tr>
           <tr>
@@ -87,40 +87,40 @@
           </tr>
           <%- if_authorized?(:destroy, @patron) do -%>
             <tr>
-              <td><b><%= ('Zip code 1') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.zip_code_1') -%>:</b></td>
               <td><%=h @patron.zip_code_1 -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Address 1') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.address_1') -%>:</b></td>
               <td><%=h @patron.address_1 -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Address 1 note') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.address_1_note') -%>:</b></td>
               <td><%=h @patron.address_1_note -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Zip code 2') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.zip_code_2') -%>:</b></td>
               <td><%=h @patron.zip_code_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Address 2') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.address_2') -%>:</b></td>
               <td><%=h @patron.address_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Address 2 note') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.address_2_note') -%>:</b></td>
               <td><%=h @patron.address_2_note -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Date of birth') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.date_of_birth') -%>:</b></td>
               <td><%=h @patron.date_of_birth -%></td>
             </tr>
             <tr>
-              <td><b><%= ('Date of death') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.patron.date_of_death') -%>:</b></td>
               <td><%=h @patron.date_of_death -%></td>
             </tr>
           <%- end -%>
           <tr>
-            <td><b><%=t 'activerecord.attributes.patron.note' -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.patron.note') -%>:</b></td>
             <td><%=h @patron.note -%></td>
           </tr>
           <tr>
@@ -140,7 +140,7 @@
               <li>
                 [W]
                 <%= link_to h(work.original_title), work_path(work) -%>
-                <%= patrons_list(work.patrons, :link => true) -%>
+                <%= patrons_list(work.patrons) -%>
                 <%- unless work.manifestations.blank? -%>
                   <ul>
                     <%- work.manifestations.each do |manifestation| -%>
@@ -151,8 +151,8 @@
                       <%- manifestation.expressions.each do |expression| -%>
                         <%= expression_form_icon(expression.expression_form) -%>
                       <%- end -%>
-                      <%= patrons_list(manifestation.authors, :link => true) -%>
-                      <%= patrons_list(manifestation.patrons, :link => true) -%>
+                      <%= patrons_list(manifestation.authors) -%>
+                      <%= patrons_list(manifestation.patrons) -%>
                       <%- if manifestation.date_of_publication -%>
                         (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
                       <%- end -%>
@@ -173,8 +173,8 @@
             [E]
             <%= link_to h(expression.original_title), expression_path(expression) -%>
             <%= expression_form_icon(expression.expression_form) -%>
-            <%= patrons_list(expression.work.patrons, :link => true) -%>
-            <%= patrons_list(expression.patrons, :link => true) -%>
+            <%= patrons_list(expression.work.patrons) -%>
+            <%= patrons_list(expression.patrons) -%>
               <ul>
                 <%- expression.manifestations.each do |manifestation| -%>
                   <li>
@@ -184,8 +184,8 @@
                   <%- manifestation.expressions.each do |expression| -%>
                     <%= expression_form_icon(expression.expression_form) -%>
                   <%- end -%>
-                  <%= patrons_list(manifestation.authors, :link => true) -%>
-                  <%= patrons_list(manifestation.patrons, :link => true) -%>
+                  <%= patrons_list(manifestation.authors) -%>
+                  <%= patrons_list(manifestation.patrons) -%>
                   <%- if manifestation.date_of_publication -%>
                     (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
                   <%- end -%>
@@ -208,8 +208,8 @@
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
               <%- end -%>
-              <%= patrons_list(manifestation.authors, :link => true) -%>
-              <%= patrons_list(manifestation.patrons, :link => true) -%>
+              <%= patrons_list(manifestation.authors) -%>
+              <%= patrons_list(manifestation.patrons) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>
@@ -220,7 +220,7 @@
                       <li>
                       [W]
                       <%= link_to h(work.original_title), work_path(work) -%>
-                      <%= patrons_list(work.patrons, :link => true) -%>
+                      <%= patrons_list(work.patrons) -%>
                       </li>
                     <%- end -%>
                   <%- end -%>
@@ -230,8 +230,8 @@
                       [E]
                       <%= link_to h(expression.original_title), expression_path(expression) -%>
                       <%= expression_form_icon(expression.expression_form) -%>
-                      <%= patrons_list(expression.work.patrons, :link => true) -%>
-                      <%= patrons_list(expression.patrons, :link => true) -%>
+                      <%= patrons_list(expression.work.patrons) -%>
+                      <%= patrons_list(expression.patrons) -%>
                       </li>
                     <%- end -%>
                   <%- end -%>
@@ -251,8 +251,8 @@
               [M]
               <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
               <%= form_icon(manifestation.manifestation_form) -%>
-              <%= patrons_list(manifestation.authors, :link => true) -%>
-              <%= patrons_list(manifestation.patrons, :link => true) -%>
+              <%= patrons_list(manifestation.authors) -%>
+              <%= patrons_list(manifestation.patrons) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>

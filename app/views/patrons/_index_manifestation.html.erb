@@ -27,11 +27,11 @@
     <%- end -%>
   <%- end -%>
   <%= submit_tag t('page.search') -%>
-  <%= link_to ('Back to index'), manifestation_patrons_path(@manifestation) -%>
+  <%= link_to t('page.back_to_index'), manifestation_patrons_path(@manifestation) -%>
 </p>
 <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= ('Patron name') -%></th>
     <th><%= ('Type') -%></th>

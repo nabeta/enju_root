@@ -208,6 +208,10 @@ table#manifestation_list{
   width: 100%;
 }
 
+table#index{
+  width: 100%;
+}
+
 div#searchform{
   padding-top: 10px;
 }

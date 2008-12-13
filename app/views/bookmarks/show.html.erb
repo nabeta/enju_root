@@ -26,7 +26,7 @@
   <b><%= ('Bookmarked resource') -%>:</b>
   <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%><br />
   (<%= link_to t('page.manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
-  (<%= link_to ('Detail'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%>)
+  (<%= link_to t('page.detail'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%>)
 </p>
 
 <p>

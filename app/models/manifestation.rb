@@ -22,6 +22,10 @@ class Manifestation < ActiveRecord::Base
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
+  has_many :checkout_stat_has_manifestations
+  has_many :checkout_stats, :through => :checkout_stat_has_manifestations
+  has_many :bookmark_stat_has_manifestations
+  has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
@@ -732,4 +736,7 @@ class Manifestation < ActiveRecord::Base
     true
   end
 
+  def checkouts(from_date, to_date)
+    Checkout.completed(from_date, to_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
+  end
 end

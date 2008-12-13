@@ -35,7 +35,7 @@
 </p>
 
 <p>
-  <b><%= ('Subjects') -%>:</b>
+  <b><%= t('page.subject') -%>:</b>
   <%- @tag.subjects.each do |subject| -%>
     <%= link_to h(subject.term), subject -%>
   <%- end -%>

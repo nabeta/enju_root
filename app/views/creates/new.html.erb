@@ -1,12 +1,7 @@
 <div id="submenu">
   <ul>
-    <%- if @create -%>
-      <li><%= link_to ('Back to patrons'), work_patrons_path(@create.work) -%></li>
-      <li><%= link_to ('Back to works'), patron_works_path(@create.patron) -%></li>
-    <%- else -%>
-      <li><%= link_to ('Back to patrons'), work_patrons_path(@work) -%></li>
-      <li><%= link_to ('Back to works'), patron_works_path(@patron) -%></li>
-      <%- end -%>
+    <li><%= link_to ('Back to patrons'), work_patrons_path(@work) if @work -%></li>
+    <li><%= link_to ('Back to works'), patron_works_path(@patron) if @patron -%></li>
   </ul>
 </div>
 

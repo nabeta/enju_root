@@ -12,7 +12,7 @@
 
 <%- form_for(:own, :url => own_path(@own), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('Library') -%></b><br />
+  <b><%= t('page.library') -%></b><br />
     <%= f.text_field :patron_id -%>
   </p>
 

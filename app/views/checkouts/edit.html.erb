@@ -25,7 +25,7 @@
 <%= error_messages_for :checkout -%>
 
 <%- form_for(:checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put }) do |f| -%>
-  <p><label for="checkout_due_date"><%= ('Due date') -%></label>
+  <p><label for="checkout_due_date"><%= t('activerecord.attributes.checkout.due_date') -%></label>
     <%= f.hidden_field :user_id -%>
     <%= f.hidden_field :item_id -%>
     <%= f.date_select :due_date, :value => @renew_due_date  -%>

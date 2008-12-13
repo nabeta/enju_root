@@ -5,7 +5,7 @@
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
       <%- if manifestation.authors.size > 3 -%>
-        (<%= link_to_remote ('Hide'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_authors', :index_num => manifestation.id}, :method => :get -%>)
+        (<%= link_to_remote t('page.hide'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_authors', :index_num => manifestation.id}, :method => :get -%>)
       <%- end -%>
     <%- end -%>
   <%- else -%>
@@ -15,7 +15,7 @@
       <%- end -%>
     <%- end -%>
     <%- if manifestation.authors.size > 3 -%>
-      (<%= link_to_remote ('Show all'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_all_authors', :index_num => manifestation.id}, :method => :get -%>)
+      (<%= link_to_remote t('page.show_all'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_all_authors', :index_num => manifestation.id}, :method => :get -%>)
     <%- end -%>
   <%- end -%>
 

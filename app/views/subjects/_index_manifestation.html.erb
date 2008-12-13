@@ -22,11 +22,11 @@
     <%- end -%>
   <%- end -%>
   <%= submit_tag t('page.search') -%>
-  <%= link_to ('Back to index'), manifestation_subjects_path(@manifestation) -%></p>
+  <%= link_to t('page.back_to_index'), manifestation_subjects_path(@manifestation) -%></p>
   </p>
 <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= ('Term') -%></th>
     <th><%= ('Term transcription') -%></th>

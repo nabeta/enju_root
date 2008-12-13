@@ -18,7 +18,6 @@
   </div>
 </div>
 
-<%- cache(:controller => :page, :role_name => @role.name) do -%>
   <div id="navibar">
     <div id="bd">
     <!-- start: primary column from outer template -->
@@ -39,7 +38,7 @@
                         <li class="yuimenuitem"><%= link_to ('Search questions'), questions_path, :class => 'yuimenuitemlabel' -%></li>
                         <li class="yuimenuitem"><%= link_to ('Search patrons'), patrons_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- if_authorized?(:destroy, User) do -%>
-                          <li class="yuimenuitem"><%= link_to ('Search users'), users_path, :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.search_user'), users_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
                       </ul>
                     </div>
@@ -70,9 +69,9 @@
                           <%- if_authorized?(:destroy, Checkin) do -%>
                             <li class="yuimenuitem">
                               <%- if @checkins and @basket -%>
-                                <%= link_to ('Checkin'), user_basket_checkins_path(@basket.user.login, @basket), :class => 'yuimenuitemlabel' -%>
+                                <%= link_to t('page.checkin'), user_basket_checkins_path(@basket.user.login, @basket), :class => 'yuimenuitemlabel' -%>
                               <%- else -%>
-                                <%= link_to ('Checkin'), checkins_path, :class => 'yuimenuitemlabel' -%>
+                                <%= link_to t('page.checkin'), checkins_path, :class => 'yuimenuitemlabel' -%>
                               <%- end -%>
                             </li>
                           <%- end -%>
@@ -89,7 +88,7 @@
                 <li class="yuimenubaritem">
                   <%- if logged_in? -%>
                     <%- if current_user.has_role?('Librarian') -%>
-                      <%= link_to t('acquisition'), '/page/acquisition', :class => 'yuimenuitemlabel' -%>
+                      <%= link_to t('page.acquisition'), '/page/acquisition', :class => 'yuimenuitemlabel' -%>
                     <%- else -%>
                       <%= link_to t('bookmark'), user_bookmarked_resources_path(current_user.login), :class => 'yuimenubaritemlabel' -%>
                     <%- end -%>
@@ -153,14 +152,14 @@
                         <div class="bd">                    
                           <ul>
                             <li class="yuimenuitem"><%= link_to ('Patron management'), new_patron_path, :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to ('Import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to ('Export'), '/page/export', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.export'), '/page/export', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('Order list'), order_lists_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('Statistics'), '/statistic', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('Search history'), search_histories_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('Recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('Send questions and answers to CRD'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to ('Configuration'), '/page/configuration', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.configuration'), '/page/configuration', :class => 'yuimenuitemlabel' -%></li>
                           </ul>
                         </div>
                       </div>                    
@@ -174,4 +173,3 @@
       </div>
     </div>
   </div>
-<%- end -%>
