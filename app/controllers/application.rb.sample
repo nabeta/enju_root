@@ -27,7 +27,6 @@ class ApplicationController < ActionController::Base
   #before_filter :login_from_cookie
   before_filter :get_library_group, :get_user_role
   #session :session_key => '_catalog_session_id'
-  #init_gettext 'catalog'
 
   def get_library_group
     @library_group = LibraryGroup.find(1)
@@ -271,20 +270,20 @@ class ApplicationController < ActionController::Base
   end
 
   def check_client_ip_address
-    client_ip = IPAddr.new(request.remote_ip)
-    allowed = false
+    return true if LibraryGroup.find(1).my_networks?(request.remote_ip)
+    access_denied
+  end
 
-    allowed_networks = LibraryGroup.find(1).my_networks.to_s.split
-    allowed_networks.each do |allowed_network|
-      begin
-        network = IPAddr.new(allowed_network)
-        allowed = true if network.include?(client_ip)
-      rescue
-        nil
-      end
+  def check_dsbl
+    return true if LibraryGroup.find(1).my_networks?(request.remote_ip)
+    begin
+      reversed_address = request.remote_ip.split(/\./).reverse.join(".")
+      result = Socket.gethostbyname("#{reversed_address}.niku.2ch.net.").last.unpack("C4").join(".")
+      raise SocketError unless result =~ /^127\.0\.0\./
+      access_denied
+    rescue SocketError
+      nil
     end
-
-    access_denied unless allowed
   end
 
   def profile

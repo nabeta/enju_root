@@ -10,7 +10,7 @@
 
 <div id="content_detail">
 <p>
-  <b><%= ('Library') -%>:</b>
+  <b><%= t('page.library') -%>:</b>
   <%= link_to h(@inter_library_loan.item.shelf.library.name), library_path(@inter_library_loan.item.shelf.library.short_name) -%>
 </p>
 

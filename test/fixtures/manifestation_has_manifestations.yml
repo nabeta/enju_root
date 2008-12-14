@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  from_manifestation_id: 1
+  to_manifestation_id: 1
+  manifestation_relationship_type_id: 1
+  position: 1
+
+two:
+  from_manifestation_id: 1
+  to_manifestation_id: 1
+  manifestation_relationship_type_id: 1
+  position: 1

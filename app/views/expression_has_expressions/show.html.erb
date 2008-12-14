@@ -1,0 +1,23 @@
+<p>
+  <b>From expression:</b>
+  <%=h @expression_has_expression.from_expression_id %>
+</p>
+
+<p>
+  <b>To expression:</b>
+  <%=h @expression_has_expression.to_expression_id %>
+</p>
+
+<p>
+  <b>Expression Relationship type:</b>
+  <%=h @expression_has_expression.expression_relationship_type_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @expression_has_expression.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_expression_has_expression_path(@expression_has_expression) %> |
+<%= link_to 'Back', expression_has_expressions_path %>

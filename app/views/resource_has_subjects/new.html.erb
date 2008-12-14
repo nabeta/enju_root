@@ -3,7 +3,7 @@
     <%- if @manifestation -%>
       <li><%= link_to ('Back to subjects'), manifestation_subjects_path(@manifestation) -%></li>
     <%- else -%>
-      <li><%= link_to ('Back to index'), subjects_path -%></li>
+      <li><%= link_to t('page.back_to_index'), subjects_path -%></li>
     <%- end -%>
   </ul>
 </div>

@@ -5,15 +5,15 @@
   <p><%= t('activerecord.attributes.item.item_identifier') -%>:
     <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
     <%= f.hidden_field :librarian_id, :value => current_user.id -%>
-    <%= submit_tag ('Checkin') -%></p>
+    <%= submit_tag t('page.checkin') -%></p>
 <%- end -%>
 <%= javascript_tag("$('checkin_item_identifier').focus()") -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('page.item') -%></th>
-    <th><%= ('Due date') -%></th>
+    <th><%= t('activerecord.attributes.checkout.due_date') -%></th>
   </tr>
   
 <%- @checkins.each_with_index do |checkin, i| -%>

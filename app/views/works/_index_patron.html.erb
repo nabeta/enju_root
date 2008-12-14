@@ -26,11 +26,11 @@
       <%- end -%>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
-    <%= link_to ('Back to index'), patron_works_path(@patron) -%>
+    <%= link_to t('page.back_to_index'), patron_works_path(@patron) -%>
    </p>
 <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= ('Context') -%></th>

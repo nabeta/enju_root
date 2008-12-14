@@ -10,7 +10,7 @@
 
 
 <div id="content_detail">
-  <table style="width: 100%">
+  <table id="index">
     <tr>
       <td><%= t('page.title') -%></td>
       <td><%= link_to h(@checkout.item.manifestation.original_title), @checkout.item.manifestation -%></td>
@@ -20,7 +20,7 @@
       <td><%= link_to h(@checkout.item.item_identifier), @checkout.item -%></td>
     </tr>
     <tr>
-      <td><%= ('Due date') -%></td>
+      <td><%= t('activerecord.attributes.checkout.due_date') -%></td>
       <td><%=h @checkout.due_date.strftime('%Y-%m-%d') -%></td>
     </tr>
     <%- if_authorized?(:destroy, @checkout) do -%>

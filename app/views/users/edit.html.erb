@@ -48,7 +48,6 @@
   </p>
 
   <p><b><%= t('bookmark') -%></b><br />
-  <p>
     <%= f.check_box :share_bookmarks -%> <%= ('Share bookmarks') -%>
   </p>
   </div>
@@ -81,7 +80,7 @@
 
   <%- if current_user.has_role?('Librarian') -%>
     <p>
-      <b><%= t('library') -%></b><br />
+      <b><%= t('page.library') -%></b><br />
       <%= f.select(:library_id, @libraries.collect{|l| [l.name, l.id]}) -%>
     </p>
 

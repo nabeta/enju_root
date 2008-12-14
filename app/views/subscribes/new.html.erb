@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Back to subscription'), subscription_path(@subscription) if @subscription -%>
-    <li><%= link_to ('Back to expressions'), subscription_expressions_path(@subscription) -%>
+    <li><%= link_to ('Back to expressions'), subscription_expressions_path(@subscription) if @subscription -%>
   </ul>
 </div>
 
@@ -10,7 +10,7 @@
 
 <%= error_messages_for :subscribe -%>
 
-<%- form_for(:subscribe, :url => subscription_subscribes_path(@subscription)) do |f| -%>
+<%- form_for(:subscribe) do |f| -%>
   <p>
     <b><%= ('Subscription') -%></b><br />
     <%- if @subscription -%>

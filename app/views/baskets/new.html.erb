@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Checkin'), checkins_path -%></li>
-    <li><%= link_to ('Search users'), users_path -%></li>
+    <li><%= link_to t('page.checkin'), checkins_path -%></li>
+    <li><%= link_to t('page.search_user'), users_path -%></li>
     <li><%= link_to t('page.back'), '/' -%></li>
   </ul>
 </div>
@@ -22,7 +22,7 @@
   <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   -->
-    <%= f.submit 'Submit' -%>
+    <%= f.submit t('page.submit') -%>
   </p>
   <%= javascript_tag("$('basket_user_number').focus()") -%>
 <%- end -%>

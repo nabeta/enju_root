@@ -1,0 +1,26 @@
+<h1>Listing expression_has_expressions</h1>
+
+<table>
+  <tr>
+    <th>From expression</th>
+    <th>To expression</th>
+    <th>Expression Relationship type</th>
+    <th>Position</th>
+  </tr>
+
+<% for expression_has_expression in @expression_has_expressions %>
+  <tr>
+    <td><%=h expression_has_expression.from_expression_id %></td>
+    <td><%=h expression_has_expression.to_expression_id %></td>
+    <td><%=h expression_has_expression.expression_relationship_type_id %></td>
+    <td><%=h expression_has_expression.position %></td>
+    <td><%= link_to 'Show', expression_has_expression %></td>
+    <td><%= link_to 'Edit', edit_expression_has_expression_path(expression_has_expression) %></td>
+    <td><%= link_to 'Destroy', expression_has_expression, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New expression_has_expression', new_expression_has_expression_path %>

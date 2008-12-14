@@ -1,0 +1,23 @@
+<p>
+  <b>From manifestation:</b>
+  <%=h @manifestation_has_manifestation.from_manifestation_id %>
+</p>
+
+<p>
+  <b>To manifestation:</b>
+  <%=h @manifestation_has_manifestation.to_manifestation_id %>
+</p>
+
+<p>
+  <b>Manifestation Relationship type:</b>
+  <%=h @manifestation_has_manifestation.manifestation_relationship_type_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @manifestation_has_manifestation.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_manifestation_has_manifestation_path(@manifestation_has_manifestation) %> |
+<%= link_to 'Back', manifestation_has_manifestations_path %>

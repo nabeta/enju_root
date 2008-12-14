@@ -38,7 +38,7 @@
             <%- end -%>
           <%- end -%>
           <br />
-          (<%= ('%{count} user') -%>)
+          (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
         </li>
       <%- end -%>
       </ul>
@@ -70,7 +70,7 @@
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= paginate_id_link(@manifestation) -%>
-        <%= link_to ('Back to search results'), back_to_manifestation_index -%>
+        <%= link_to t('page.back_to_search_results'), back_to_manifestation_index -%>
         <!--
         <%= t('page.search_term') -%>:
         <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 20em'} -%>
@@ -90,7 +90,7 @@
 
 <div id="demo" class="yui-navset yui-navset-top">
   <ul class="yui-nav">
-    <li title="nctive" class="selected"><a href="#tab1"><em><%= ('Detail') -%></em></a></li>
+    <li title="nctive" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
     <%- if @manifestation.related_works.size > 0 -%>
       <li><a href="#tab3"><em><%= ('Related works') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
@@ -214,52 +214,9 @@
     </tr>
     </table>
 
-      <%- unless @manifestation.items_on_shelves.blank? -%>
-        <table style="width: 100%">
-          <tr>
-            <th><%=h ('Library') -%></th>
-            <th><%=h ('Shelf') -%></th>
-            <th><%=h t('activerecord.attributes.item.call_number') -%></th>
-            <th><%=h t('activerecord.attributes.item.item_identifier') -%></th>
-            <th><%=h ('Circulation status') -%></th>
-            <!--
-            <th><%=h ('Request') -%></th>
-            -->
-          </tr>
-          <%- for item in @manifestation.items -%>
-            <%- unless (item.shelf.blank? or item.shelf.web_shelf?) -%>
-              <tr>
-                <td>
-                  <%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name)%>
-                </td>
-                <td><%= link_to h(item.shelf.name), library_shelf_path(item.shelf.library.short_name, item.shelf) -%></td>
-                <td>
-                  <%=h item.call_number -%>
-                </td>
-                <td>
-                  <%= link_to h(item.item_identifier), item -%>
-                </td>
-                <td>
-                  <%=h item.circulation_status.display_name if item.circulation_status -%>
-                  <%- if item.rent? -%>
-                    (
-                      <%= ('Due date') -%>:
-                      <%=h item.checkouts.first.due_date.strftime('%Y-%m-%d') -%>
-                    )
-                  <%- end -%>
-                </td>
-                <!--
-                <td>
-                  <%- if logged_in? -%>
-                    <%= link_to h(('Request')), new_user_reserve_path(current_user.login, :item_id => item.id) unless item.shelf.library == current_user.library -%>
-                  <%- end -%>
-                </td>
-                -->
-              </tr>
-            <%- end -%>
-          <%- end -%>
-        </table>
-      <%- end -%>
+    <%- unless @manifestation.items_on_shelves.blank? -%>
+      <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
+    <%- end -%>
       <%- if @manifestation.bookmarks -%>
         <h4>この資料をブックマークしているパトロン</h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>

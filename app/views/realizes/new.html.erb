@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to patrons'), expression_patrons_path(@expression) -%>
-    <li><%= link_to ('Back to expressions'), patron_expressions_path(@patron) -%>
+    <li><%= link_to ('Back to patrons'), expression_patrons_path(@expression) if @expression -%>
+    <li><%= link_to ('Back to expressions'), patron_expressions_path(@patron) if @patron -%>
   </ul>
 </div>
 

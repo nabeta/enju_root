@@ -12,7 +12,7 @@
 
 <%- form_for(@message) do |f| -%>
   <p>
-    <b><%= ('Sender') -%></b><br />
+    <b><%= t('page.sender') -%></b><br />
     <%= @message.sender.login -%>
     <%= f.hidden_field :sender_id -%>
   </p>

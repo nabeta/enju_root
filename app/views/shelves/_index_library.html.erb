@@ -9,10 +9,10 @@
 <div id="content_detail">
 <h1><%= ('Listing shelves') -%></h1>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.name') -%></th>
-    <th><%= ('Library') -%></th>
+    <th><%= t('page.library') -%></th>
   </tr>
   
 <%- @shelves.each_with_index do |shelf, i| -%>

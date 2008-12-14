@@ -28,7 +28,7 @@
         <%- end -%>
       <%- end -%>
       <%= submit_tag t('page.search') -%>
-      <%= link_to ('Back to index'), patron_manifestations_path(@patron) -%>
+      <%= link_to t('page.back_to_index'), patron_manifestations_path(@patron) -%>
     </p>
   <%- end -%>
 
@@ -36,7 +36,7 @@
 <p>for <%=h @patron.full_name -%></p>
 -->
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.manifestation') -%></th>
     <th></th>

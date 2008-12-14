@@ -36,10 +36,10 @@
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#tab1"><em><%= ('Map') -%></em></a></li>
       <li><a href="#tab2"><em><%= ('Staff') -%></em></a></li>
-      <li><a href="#tab3"><em><%= ('Shelf') -%></em></a></li>
+      <li><a href="#tab3"><em><%= t('page.shelf') -%></em></a></li>
       <li><a href="#tab4"><em><%= ('Event') -%></em></a></li>
       <%- if_authorized?(:destroy, @library) do -%>
-        <li><a href="#tab5"><em><%= ('Configuration') -%></em></a></li>
+        <li><a href="#tab5"><em><%= t('page.configuration') -%></em></a></li>
       <%- end -%>
     </ul>
     <div class="yui-content">
@@ -77,9 +77,9 @@
       </div>
       <div id="tab3">
 
-        <table style="width: 100%">
+        <table id="index">
           <tr>
-            <th><%= ('Shelf') -%></th>
+            <th><%= t('page.shelf') -%></th>
             <th><%= t('page.note') -%></th>
           </tr>
           <%- @library.shelves.each do |shelf| -%>
@@ -101,7 +101,7 @@
         </div>
 
         <div id="tab5">
-          <h3><%= ('Configuration') -%></h3>
+          <h3><%= t('page.configuration') -%></h3>
           <p>
             <b><%= ('Call number rows') -%>:</b>
             <%=h @library.call_number_rows -%>

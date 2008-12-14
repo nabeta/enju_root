@@ -12,7 +12,7 @@
 <div id="content_detail">
 <h1><%= ('Messages') -%></h1>
 <%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
-  <table style="width: 100%">
+  <table id="index">
     <tr>
       <th></th>
       <th><%= t('page.subject') -%></th>

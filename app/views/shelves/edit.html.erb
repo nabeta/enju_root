@@ -22,7 +22,7 @@
   </p>
 
   <p>
-  <b><%= ('Library') -%></b><br />
+  <b><%= t('page.library') -%></b><br />
     <select name="shelf[library_id]">
       <%= options_from_collection_for_select(@libraries, "id", "name", @shelf.library_id) -%>
     </select>

@@ -31,11 +31,11 @@
       <!--
       <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
       -->
-      <%= link_to ('Back to index'), expression_manifestations_path(@expression) -%>
+      <%= link_to t('page.back_to_index'), expression_manifestations_path(@expression) -%>
     </p>
   <%- end -%>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th></th>

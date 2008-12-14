@@ -156,8 +156,8 @@ ja:
         address_2_note: アドレス2注記
         other_designation: 他の指定
         place: 場所
-        date_of_birth: 生年月日は
-        date_of_death: 死亡日
+        date_of_birth: 生年月日
+        date_of_death: 没年月日
         lock_version: ロックバージョン
         note: 注記
       feeds/app:
@@ -326,8 +326,8 @@ ja:
         receiver_purged: 受信機の削除
         sender_deleted: 送信者が削除
         sender_purged: 送信者削除
-        read_at: 読んで
-        subject: 主題
+        read_at: 開封時刻
+        subject: 件名
         body: 本文
       classification:
         category: カテゴリー

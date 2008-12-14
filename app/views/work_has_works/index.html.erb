@@ -1,0 +1,26 @@
+<h1>Listing work_has_works</h1>
+
+<table>
+  <tr>
+    <th>From work</th>
+    <th>To work</th>
+    <th>Work Relationship type</th>
+    <th>Position</th>
+  </tr>
+
+<% for work_has_work in @work_has_works %>
+  <tr>
+    <td><%=h work_has_work.from_work_id %></td>
+    <td><%=h work_has_work.to_work_id %></td>
+    <td><%=h work_has_work.work_relationship_type_id %></td>
+    <td><%=h work_has_work.position %></td>
+    <td><%= link_to 'Show', work_has_work %></td>
+    <td><%= link_to 'Edit', edit_work_has_work_path(work_has_work) %></td>
+    <td><%= link_to 'Destroy', work_has_work, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New work_has_work', new_work_has_work_path %>

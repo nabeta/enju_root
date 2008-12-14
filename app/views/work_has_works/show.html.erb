@@ -1,0 +1,23 @@
+<p>
+  <b>From work:</b>
+  <%=h @work_has_work.from_work_id %>
+</p>
+
+<p>
+  <b>To work:</b>
+  <%=h @work_has_work.to_work_id %>
+</p>
+
+<p>
+  <b>Relationship type:</b>
+  <%=h @work_has_work.work_relationship_type_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @work_has_work.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_work_has_work_path(@work_has_work) %> |
+<%= link_to 'Back', work_has_works_path %>

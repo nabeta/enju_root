@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   has_many :taggings
   belongs_to :user_group #, :validate => true
   has_many :purchase_requests
-  belongs_to :library, :counter_cache => true #, :validate => true
+  belongs_to :library, :counter_cache => true, :validate => true
   has_many :imported_files
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id' #, :validate => true
   has_many :imported_resources
@@ -63,14 +63,15 @@ class User < ActiveRecord::Base
   validates_presence_of     :login, :user_number
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login,    :case_sensitive => false
-  validates_format_of       :login,    :with => RE_LOGIN_OK, :message => MSG_LOGIN_BAD
+  validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
-  validates_length_of       :name,     :maximum => 100
+  validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
+  validates_length_of       :name,     :maximum => 255
 
   #validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}
   validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}
-  validates_format_of       :email,    :with => RE_EMAIL_OK, :message => MSG_EMAIL_BAD, :if => proc{|user| !user.email.blank?}
+  validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message, :if => proc{|user| !user.email.blank?}
 
   validates_format_of   :login, :with => /^[a-z][0-9a-z]{2,254}$/
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => proc{|user| !user.email.blank?}

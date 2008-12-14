@@ -1,0 +1,29 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Edit', edit_work_relationship_type_path(@work_relationship_type) %></li>
+    <li><%= link_to 'Back', work_relationship_types_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b>Name:</b>
+  <%=h @work_relationship_type.name %>
+</p>
+
+<p>
+  <b>Display name:</b>
+  <%=h @work_relationship_type.display_name %>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%=h @work_relationship_type.note %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @work_relationship_type.position %>
+</p>
+
+</div>

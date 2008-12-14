@@ -33,7 +33,7 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     Manifestation.rebuild_solr_index(500)
     Item.rebuild_solr_index(500)
     logger.info "#{Time.zone.now} optimized!"
-  rescue
+  rescue StandardError, Timeout::Error
     logger.info "#{Time.zone.now} optimization failed!"
   end
 
@@ -45,11 +45,12 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
   end
 
   def expire_reservations(args = nil)
-    Reserve.will_expire(Time.zone.now.beginning_of_day).each do |reserve|
+    reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
+    reservations.each do |reserve|
       reserve.aasm_expire!
       reserve.send_message('expired')
     end
-    Reserve.send_message_to_patrons('expired')
+    Reserve.send_message_to_patrons('expired') unless reservations.blank?
     logger.info "#{Time.zone.now} reservations expired!"
   rescue
     logger.info "#{Time.zone.now} expiring reservations failed!"
@@ -91,5 +92,10 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     end
   rescue
     logger.info "#{Time.zone.now} importing resources failed!"
+  end
+
+  def culculate_checkouts_count(from_date, to_date)
+    checkout_stat = CheckoutStat.create(:from_date => from_date, :to_date => to_date)
+    checkout_stat.culculate_checkouts_count
   end
 end

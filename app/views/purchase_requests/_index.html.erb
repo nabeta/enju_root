@@ -19,11 +19,11 @@
 
 <p>
   <%- if @user -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
     (<%= link_to ('RSS'), formatted_user_purchase_requests_path(@user.login, :rss) -%>)
     (<%= link_to ('CSV'), formatted_user_purchase_requests_path(@user.login, :csv, :lang => 'ja') -%>)
   <%- else -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => ('Feed'), :border => 0), :format => :rss -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
     (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
     (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
   <%- end -%>
@@ -31,7 +31,7 @@
   <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library purchase bookmark') -%></a>
 </p>
 
-<table style="width: 100%">
+<table id="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('page.price') -%></th>
