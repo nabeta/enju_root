@@ -109,7 +109,7 @@ ja:
         address: "Address"
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number: ファクス番号
+        fax_number: "Fax number"
         lat: 緯度
         lng: LNGの
         note: "Note"
@@ -136,8 +136,8 @@ ja:
       inventory:
         note: "Note"
       patron:
-        last_name: 姓
-        middle_name: ミドルネーム
+        last_name: "Last name"
+        middle_name: "Middle name"
         first_name: "Name"
         last_name_transcription: 最後の名前を転写
         middle_name_transcription: ミドルネーム転写
@@ -156,8 +156,8 @@ ja:
         address_2_note: アドレス2注記
         other_designation: 他の指定
         place: "Place"
-        date_of_birth: 生年月日は
-        date_of_death: 死亡日
+        date_of_birth: "Date of birth"
+        date_of_death: "Date of death"
         lock_version: "Lock version"
         note: "Note"
       feeds/app:
@@ -195,31 +195,6 @@ ja:
         value: 値
       feeds/activity:
         title: "Title"
-      person:
-        last_name: 姓
-        middle_name: ミドルネーム
-        first_name: "Name"
-        last_name_transcription: 最後の名前を転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前を転写
-        corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
-        full_name: 正式名称
-        full_name_transcription: フルネーム転写
-        full_name_alternative: フルネーム代替
-        deleted_at: "Deleted at"
-        zip_code_1: 郵便番号1
-        zip_code_2: 郵便番号2
-        address_1: 住所1
-        address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
-        other_designation: 他の指定
-        place: "Place"
-        date_of_birth: 生年月日は
-        date_of_death: 死亡日
-        lock_version: "Lock version"
-        note: "Note"
       subject_as_object:
         term: "Term"
       subject_as_place:
@@ -229,30 +204,30 @@ ja:
         original_title: "Original title"
         title_transcription: "Title transcription"
         title_alternative: "Titlte alternative"
-        summarization: 要約
-        context: コンテキスト
-        issn: Issn
+        summarization: "Summarization"
+        context: "Context"
+        issn: "ISSN"
         note: "Note"
         lock_version: "Lock version"
         deleted_at: "Deleted at"
       language:
         name: "Name"
-        native_name: ネイティブ名
+        native_name: "Native name"
         display_name: "Display name"
-        iso_639_1: のISO 639 1
-        iso_639_2: のISO 639 2
-        iso_639_3: のISO 639 3
+        iso_639_1: "ISO 639 1"
+        iso_639_2: "ISO 639 2"
+        iso_639_3: "ISO 639 3"
         note: "Note"
         position: "Position"
       patron_merge_list:
         title: "Title"
       user:
-        login: ログイン
+        login: "Login"
         name: "Name"
-        openid_url: OpenIDの"URL"
+        openid_url: "OpenID URL"
         email: "Email"
         crypted_password: 暗号化パスワード
-        salt: 塩
+        salt: "Salt"
         deleted_at: "Deleted at"
         remember_token: 覚えているトークン
         remember_token_expires_at: トークンを忘れないで期限が切れる
@@ -271,31 +246,6 @@ ja:
         keyword_list: キーワードリスト
         user_number: 利用者番号
         state: "State"
-      corporate_body:
-        last_name: 姓
-        middle_name: ミドルネーム
-        first_name: "Name"
-        last_name_transcription: 最後の名前を転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前を転写
-        corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
-        full_name: 正式名称
-        full_name_transcription: フルネーム転写
-        full_name_alternative: フルネーム代替
-        deleted_at: "Deleted at"
-        zip_code_1: 郵便番号1
-        zip_code_2: 郵便番号2
-        address_1: 住所1
-        address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
-        other_designation: 他の指定
-        place: "Place"
-        date_of_birth: 生年月日は
-        date_of_death: 死亡日
-        lock_version: "Lock version"
-        note: "Note"
       resource_has_subject:
         subjectable_type: Subjectableタイプ
       picture_file:
@@ -327,7 +277,7 @@ ja:
         sender_deleted: 送信者が削除
         sender_purged: 送信者削除
         read_at: 読んで
-        subject: 主題
+        subject: "Subject"
         body: "Body"
       classification:
         category: カテゴリー
@@ -343,7 +293,7 @@ ja:
       search_history:
         operation: 操作
         version: バージョン
-        query: クエリ
+        query: "Query"
         start_record: スタート記録
         maximum_records: 最大レコード数
         record_packing: レコードの梱包
@@ -407,7 +357,7 @@ ja:
         end_on: 端に
       checkin:
       item:
-        call_number: 電話番号
+        call_number: "Call number"
         item_identifier: 項目識別子
         deleted_at: "Deleted at"
         include_supplements: を含むサプリメント
@@ -418,7 +368,7 @@ ja:
       barcode:
         barcode_type: バーコードタイプ
         barcodable_type: Barcodableタイプ
-        code_word: 符号語
+        code_word: "Code word"
         data: "Data"
       work:
         original_title: "Original title"
@@ -485,13 +435,13 @@ ja:
       order_list:
         title: "Title"
         note: "Note"
-        ordered_at: で取り寄せ
+        ordered_at: "Ordered at"
         deleted_at: "Deleted at"
         state: "State"
       advertise:
         position: "Position"
       event:
-        date: 日付
+        date: "Date"
         title: "Title"
         note: "Note"
         started_at: "Started at"
@@ -545,7 +495,7 @@ ja:
         height: "Height"
         width: "Width"
         depth: "Depth"
-        isbn: ISBNコード
+        isbn: "ISBN"
         isbn10: Isbn10
         wrong_isbn: 間違ったISBNコード
         nbn: Nbn
@@ -553,7 +503,7 @@ ja:
         volume_number_list: 巻号一覧
         issue_number_list: 発行番号一覧
         serial_number_list: シリアル番号のリストを表示
-        edition: 版
+        edition: "Edition"
         note: "Note"
         repository_content: リポジトリのコンテンツ
         lock_version: "Lock version"
