@@ -1,3 +1,10 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Back', checkout_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <h1>New checkout_stat</h1>
 
 <% form_for(@checkout_stat) do |f| %>
@@ -16,8 +23,8 @@
     <%= f.text_area :note, :class => 'resource_textarea' %>
   </p>
   <p>
-    <%= f.submit "Create" %>
+    <%= f.submit t('page.create') %>
   </p>
 <% end %>
 
-<%= link_to 'Back', checkout_stats_path %>
+</div>

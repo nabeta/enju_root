@@ -1,3 +1,11 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @checkout_stat %></li>
+    <li><<%= link_to t('page.back'), checkout_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <h1>Editing checkout_stat</h1>
 
 <% form_for(@checkout_stat) do |f| %>
@@ -20,5 +28,4 @@
   </p>
 <% end %>
 
-<%= link_to t('page.show'), @checkout_stat %> |
-<%= link_to t('page.back'), checkout_stats_path %>
+</div>

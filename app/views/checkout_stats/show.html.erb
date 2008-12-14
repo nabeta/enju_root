@@ -1,3 +1,11 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Edit', edit_checkout_stat_path(@checkout_stat) %></li>
+    <li><%= link_to 'Back', checkout_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <p>
   <b>From date:</b>
   <%=h @checkout_stat.from_date %>
@@ -28,5 +36,4 @@
   <% end -%>
 </table>
 
-<%= link_to 'Edit', edit_checkout_stat_path(@checkout_stat) %> |
-<%= link_to 'Back', checkout_stats_path %>
+</div>
