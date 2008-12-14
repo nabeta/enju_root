@@ -4,9 +4,15 @@ require 'rails_generator/commands'
 require 'gettext'
 
 class I18nGenerator < Rails::Generator::NamedBase
-  attr_reader :locale_name, :cldr, :translator, :generate_models_only, :generate_locales_only
+  attr_reader :locale_name, :cldr, :translator, :generate_translation_only, :generate_locale_only
 
   def initialize(runtime_args, runtime_options = {})
+    if options[:scaffold]
+      #TODO invoke scaffold generator
+      puts 'please use generate i18n_scaffold command'
+      exit
+    end
+
     super
     unless name =~ /^[a-zA-Z]{2}([-_][a-zA-Z]{2})?$/
       puts 'ERROR: Wrong locale format. Please input in ?? or ??-?? format.'
@@ -16,10 +22,10 @@ class I18nGenerator < Rails::Generator::NamedBase
     GetText.bindtextdomain 'rails'
     GetText.locale = @locale_name
 
-    unless self.generate_models_only
+    unless options[:generate_translation_only]
       @cldr = CldrDocument.new @locale_name
     end
-    unless self.generate_locales_only
+    unless options[:generate_locale_only]
       lang = @locale_name.sub(/-.*$/, '')
       @translator = Translator.new lang
     end
@@ -28,7 +34,7 @@ class I18nGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
       m.directory 'config/locales'
-      unless self.generate_models_only
+      unless options[:generate_translation_only]
         m.generate_configuration
         if defined_in_rails_i18n_repository?
           m.fetch_from_rails_i18n_repository
@@ -38,10 +44,20 @@ class I18nGenerator < Rails::Generator::NamedBase
           m.action_view_yaml
         end
       end
-      unless self.generate_locales_only
-        m.models_yaml
+      unless options[:generate_locale_only]
+        m.translation_yaml
       end
     end
+  end
+
+  protected
+  def add_options!(opt)
+    opt.separator ''
+    opt.separator 'Options:'
+    opt.on('--translation',
+           'Generate translations for all models with their attributes and all translation keys in the view files.') {|v| options[:generate_translation_only] = v}
+    opt.on('--locale',
+           'Generate locale files.') {|v| options[:generate_locale_only] = v}
   end
 
   private
@@ -54,7 +70,7 @@ class I18nGenerator < Rails::Generator::NamedBase
   end
 end
 
-require File.join(File.dirname(__FILE__), '../i18n_locales/i18n_locales_command')
-require File.join(File.dirname(__FILE__), '../i18n_models/i18n_models_command')
+require File.join(File.dirname(__FILE__), '../i18n_locale/i18n_locale_command')
+require File.join(File.dirname(__FILE__), '../i18n_translation/i18n_translation_command')
 Rails::Generator::Commands::Create.send :include, I18nGenerator::Generator::Commands::Create
 

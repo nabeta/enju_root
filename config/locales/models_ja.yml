@@ -590,6 +590,7 @@ ja:
         short_name: 短縮名
         email: メール
         my_networks: マイネットワーク
+        use_dsbl: "DSBLを使用する"
         note: 注記
       imported_event_file:
         filename: ファイル名

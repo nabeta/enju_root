@@ -44,11 +44,13 @@
   </p>
   
   <p>
+    <b><%= ('Suspended') -%></b>
     <%= f.check_box :locked -%> <%= ('Suspended') -%>
   </p>
 
-  <p><b><%= t('bookmark') -%></b><br />
-    <%= f.check_box :share_bookmarks -%> <%= ('Share bookmarks') -%>
+  <p>
+    <b><%= ('Share bookmarks') -%></b>
+    <%= f.check_box :share_bookmarks -%>
   </p>
   </div>
 

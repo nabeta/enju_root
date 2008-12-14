@@ -1,24 +1,24 @@
 ja:
   activerecord:
     models:
-      library: ライブラリ
-      question: 質問
-      imported_patron_file: 輸入守護ファイル
-      circulation_status: 循環状態
-      inventory: 棚卸資産
-      patron: パトロン
+      library: "Library"
+      question: "Question"
+      imported_patron_file: "Imported patron file"
+      circulation_status: "Circulation status"
+      inventory: "Inventory"
+      patron: "Patron"
       feeds/app: フィード/アプリ
       feeds/persistence: フィード/永続
       feeds/shared: フィード/共有
       feeds/instance: フィード/インスタンス
       feeds/global: フィード/グローバル
       feeds/activity: フィード/活動
-      person: 人
+      person: "Person"
       subject_as_object: 件名オブジェクトとして
       subject_as_place: 対象地として
       subject_has_classification: 件名分類している
-      expression: 表現
-      language: 言語
+      expression: "Expression"
+      language: "Language"
       patron_merge_list: 後援者リストのマージ
       user: ユーザ
       corporate_body: 統合体
@@ -57,7 +57,7 @@ ja:
       frequency_of_issue: 周波数問題
       expression_merge_list: 式のリストのマージ
       use_restriction: 使用制限
-      subject: 主題
+      subject: "Subject"
       expression_form: 表現形式
       work_merge: 仕事をマージ
       aaws_response: Aaws応答
@@ -103,42 +103,42 @@ ja:
       user_group_has_checkout_type: ユーザグループのチェックアウトを入力している
     attributes:
       library:
-        name: 名前
-        short_name: ショートネーム
+        name: "Name"
+        short_name: "Short name"
         short_display_name: 短い表示名
-        address: 住所
+        address: "Address"
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
         fax_number: ファクス番号
         lat: 緯度
         lng: LNGの
-        note: 注記
+        note: "Note"
         call_number_rows: 数の行を請求
         call_number_delimiter: 電話番号の区切り文字
-        position: 位置
-        deleted_at: で削除された
+        position: "Position"
+        deleted_at: "Deleted at"
       question:
-        body: 体
+        body: "Body"
         private_question: 秘密の質問
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
       imported_patron_file:
-        filename: ファイル名
-        content_type: コンテンツタイプ
-        size: 寸法
-        file_hash: ファイルのハッシュ
-        note: 注記
-        imported_at: インポートで
+        filename: "Filename"
+        content_type: "Content type"
+        size: "Size"
+        file_hash: "File hash"
+        note: "Note"
+        imported_at: "Imported at"
       circulation_status:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       inventory:
-        note: 注記
+        note: "Note"
       patron:
         last_name: 姓
         middle_name: ミドルネーム
-        first_name: 名前
+        first_name: "Name"
         last_name_transcription: 最後の名前を転写
         middle_name_transcription: ミドルネーム転写
         first_name_transcription: 最初の名前を転写
@@ -147,7 +147,7 @@ ja:
         full_name: 正式名称
         full_name_transcription: フルネーム転写
         full_name_alternative: フルネーム代替
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
@@ -155,14 +155,14 @@ ja:
         address_1_note: 住所1注記
         address_2_note: アドレス2注記
         other_designation: 他の指定
-        place: 場所
+        place: "Place"
         date_of_birth: 生年月日は
         date_of_death: 死亡日
-        lock_version: ロックバージョン
-        note: 注記
+        lock_version: "Lock version"
+        note: "Note"
       feeds/app:
         source_url: ソースURL
-        title: タイトル
+        title: "Title"
         description: 説明
         directory_title: ディレクトリタイトル
         title_url: 作品のURL
@@ -171,9 +171,9 @@ ja:
         author_affiliation: 著者略歴
         author_location: 著者のロケーション
         screenshot: スクリーンショット
-        thumbnail: サムネイル
-        height: 高さ
-        width: 幅
+        thumbnail: "Thumbnail"
+        height: "Height"
+        width: "Width"
         scaling: スケーリング
         scrolling: スクロール
         singleton: シングルトン
@@ -194,11 +194,11 @@ ja:
         key: 鍵
         value: 値
       feeds/activity:
-        title: タイトル
+        title: "Title"
       person:
         last_name: 姓
         middle_name: ミドルネーム
-        first_name: 名前
+        first_name: "Name"
         last_name_transcription: 最後の名前を転写
         middle_name_transcription: ミドルネーム転写
         first_name_transcription: 最初の名前を転写
@@ -207,7 +207,7 @@ ja:
         full_name: 正式名称
         full_name_transcription: フルネーム転写
         full_name_alternative: フルネーム代替
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
@@ -215,66 +215,66 @@ ja:
         address_1_note: 住所1注記
         address_2_note: アドレス2注記
         other_designation: 他の指定
-        place: 場所
+        place: "Place"
         date_of_birth: 生年月日は
         date_of_death: 死亡日
-        lock_version: ロックバージョン
-        note: 注記
+        lock_version: "Lock version"
+        note: "Note"
       subject_as_object:
-        term: 用語
+        term: "Term"
       subject_as_place:
-        term: 用語
+        term: "Term"
       subject_has_classification:
       expression:
-        original_title: 原題
-        title_transcription: タイトル転写
-        title_alternative: 代替タイトル
+        original_title: "Original title"
+        title_transcription: "Title transcription"
+        title_alternative: "Titlte alternative"
         summarization: 要約
         context: コンテキスト
         issn: Issn
-        note: 注記
-        lock_version: ロックバージョン
-        deleted_at: で削除された
+        note: "Note"
+        lock_version: "Lock version"
+        deleted_at: "Deleted at"
       language:
-        name: 名前
+        name: "Name"
         native_name: ネイティブ名
-        display_name: 表示名
+        display_name: "Display name"
         iso_639_1: のISO 639 1
         iso_639_2: のISO 639 2
         iso_639_3: のISO 639 3
-        note: 注記
-        position: 位置
+        note: "Note"
+        position: "Position"
       patron_merge_list:
-        title: タイトル
+        title: "Title"
       user:
         login: ログイン
-        name: 名前
-        openid_url: OpenIDのURLを
-        email: メール
+        name: "Name"
+        openid_url: OpenIDの"URL"
+        email: "Email"
         crypted_password: 暗号化パスワード
         salt: 塩
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
         remember_token: 覚えているトークン
         remember_token_expires_at: トークンを忘れないで期限が切れる
         activation_code: 活性化コード
         activated_at: でアクティブ
-        expired_at: で期限切れ
+        expired_at: "Expired at"
         locked: ロック
         checkout_icalendar_token: チェックアウトiCalendarのトークン
         answer_rss_token: 答えはトークンのRSS
         duedate_reminder_days: Duedateリマインダー日
-        note: 注記
+        note: "Note"
         share_bookmarks: 共有ブックマーク
         save_search_history: 検索履歴を保存する
         save_checkout_history: チェックアウトの履歴を保存する
-        lock_version: ロックバージョン
+        lock_version: "Lock version"
         keyword_list: キーワードリスト
         user_number: 利用者番号
-        state: 状態
+        state: "State"
       corporate_body:
         last_name: 姓
         middle_name: ミドルネーム
-        first_name: 名前
+        first_name: "Name"
         last_name_transcription: 最後の名前を転写
         middle_name_transcription: ミドルネーム転写
         first_name_transcription: 最初の名前を転写
@@ -283,7 +283,7 @@ ja:
         full_name: 正式名称
         full_name_transcription: フルネーム転写
         full_name_alternative: フルネーム代替
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
@@ -291,36 +291,36 @@ ja:
         address_1_note: 住所1注記
         address_2_note: アドレス2注記
         other_designation: 他の指定
-        place: 場所
+        place: "Place"
         date_of_birth: 生年月日は
         date_of_death: 死亡日
-        lock_version: ロックバージョン
-        note: 注記
+        lock_version: "Lock version"
+        note: "Note"
       resource_has_subject:
         subjectable_type: Subjectableタイプ
       picture_file:
         picture_attachable_type: 画像を添付可能なタイプ
-        size: 寸法
-        content_type: コンテンツタイプ
-        title: タイトル
-        filename: ファイル名
-        height: 高さ
-        width: 幅
-        thumbnail: サムネイル
-        sha1_hash: SHA1ハッシュ
+        size: "Size"
+        content_type: "Content type"
+        title: "Title"
+        filename: "Filename"
+        height: "Height"
+        width: "Width"
+        thumbnail: "Thumbnail"
+        file_hash: "File hash"
       work_form:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       inter_library_loan:
         requested_at: で要求
         shipped_at: で出荷
         received_at: で受信
         return_shipped_at: リターンで出荷
         return_received_at: リターンで受信
-        deleted_at: で削除された
-        state: 状態
+        deleted_at: "Deleted at"
+        state: "State"
       message:
         receiver_deleted: 受信機の削除
         receiver_purged: 受信機の削除
@@ -328,18 +328,18 @@ ja:
         sender_purged: 送信者削除
         read_at: 読んで
         subject: 主題
-        body: 体
+        body: "Body"
       classification:
         category: カテゴリー
-        name: 名前
-        note: 注記
+        name: "Name"
+        note: "Note"
       imported_object:
         imported_file_type: インポートするファイルの種類
         importable_type: 輸入のタイプ
       exemplify:
-        position: 位置
+        position: "Position"
       own:
-        position: 位置
+        position: "Position"
       search_history:
         operation: 操作
         version: バージョン
@@ -359,49 +359,49 @@ ja:
         extra_response_data: 余分な応答データ
         echoed_search_retrieve_request: エコーの検索リクエストを取得
       shelf:
-        name: 名前
-        note: 注記
-        position: 位置
-        deleted_at: で削除された
+        name: "Name"
+        note: "Note"
+        position: "Position"
+        deleted_at: "Deleted at"
       event_category:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       advertisement:
-        title: タイトル
-        url: URLを
-        body: 体
-        note: 注記
-        started_at: からスタート
-        ended_at: 終わり方をした
-        deleted_at: で削除された
-        position: 位置
+        title: "Title"
+        url: "URL"
+        body: "Body"
+        note: "Note"
+        started_at: "Started at"
+        ended_at: "Ended at"
+        deleted_at: "Deleted at"
+        position: "Position"
       porta_response:
-        body: 体
+        body: "Body"
       donate:
       basket:
-        note: 注記
-        lock_version: ロックバージョン
+        note: "Note"
+        lock_version: "Lock version"
       subject_as_event:
-        term: 用語
+        term: "Term"
       checked_item:
         due_date: 期日
       produce:
-        position: 位置
+        position: "Position"
       role:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       session:
-        data: データ
+        data: "Data"
       subject_broader_term:
       subject_type:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       subscribe:
         start_on: スタートを
         end_on: 端に
@@ -409,264 +409,265 @@ ja:
       item:
         call_number: 電話番号
         item_identifier: 項目識別子
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
         include_supplements: を含むサプリメント
-        note: 注記
-        url: URLを
-        price: 価格
-        lock_version: ロックバージョン
+        note: "Note"
+        url: "URL"
+        price: "Price"
+        lock_version: "Lock version"
       barcode:
         barcode_type: バーコードタイプ
         barcodable_type: Barcodableタイプ
         code_word: 符号語
-        data: データ
+        data: "Data"
       work:
-        original_title: 原題
-        title_transcription: タイトル転写
-        title_alternative: 代替タイトル
+        original_title: "Original title"
+        title_transcription: "Title transcription"
+        title_alternative: "Titlte alternative"
         context: コンテキスト
-        note: 注記
-        lock_version: ロックバージョン
-        deleted_at: で削除された
+        note: "Note"
+        lock_version: "Lock version"
+        deleted_at: "Deleted at"
       purchase_request:
-        title: タイトル
+        title: "Title"
         author: 著者
         publisher: 出版社
         isbn: ISBNコード
         date_of_publication: 出版日
-        price: 価格
-        url: URLを
-        note: 注記
-        accepted_at: で利用できる
+        price: "Price"
+        url: "URL"
+        note: "Note"
+        accepted_at: "Accepted at"
         denied_at: で拒否されました
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
       realize:
-        position: 位置
+        position: "Position"
       reify:
-        position: 位置
+        position: "Position"
       subject_as_concept:
-        term: 用語
+        term: "Term"
       frequency_of_issue:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       expression_merge_list:
-        title: タイトル
+        title: "Title"
       use_restriction:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       subject:
-        term: 用語
+        term: "Term"
         term_transcription: 用語転写
         scope_note: スコープ注記
-        note: 注記
-        lock_version: ロックバージョン
+        note: "Note"
+        lock_version: "Lock version"
       expression_form:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       work_merge:
       aaws_response:
-        body: 体
+        body: "Body"
       patron_type:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       work_merge_list:
-        title: タイトル
+        title: "Title"
       order:
-        position: 位置
-        state: 状態
+        position: "Position"
+        state: "State"
       order_list:
-        title: タイトル
-        note: 注記
+        title: "Title"
+        note: "Note"
         ordered_at: で取り寄せ
-        deleted_at: で削除された
-        state: 状態
+        deleted_at: "Deleted at"
+        state: "State"
       advertise:
-        position: 位置
+        position: "Position"
       event:
         date: 日付
-        title: タイトル
-        note: 注記
-        started_at: からスタート
-        ended_at: 終わり方をした
-        deleted_at: で削除された
+        title: "Title"
+        note: "Note"
+        started_at: "Started at"
+        ended_at: "Ended at"
+        deleted_at: "Deleted at"
       embody:
-        position: 位置
+        position: "Position"
       item_has_use_restriction:
       expression_merge:
       request_status_type:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       news_feed:
-        title: タイトル
-        url: URLを
-        body: 体
-        position: 位置
+        title: "Title"
+        url: "URL"
+        body: "Body"
+        position: "Position"
       search_engine:
-        name: 名前
-        url: URLを
-        base_url: ベースURL
-        http_method: HTTPメソッド
-        query_param: クエリパラメータ
-        additional_param: 追加のパラメータ
-        note: 注記
-        position: 位置
+        name: "Name"
+        url: "URL"
+        base_url: "Base URL"
+        http_method: "HTTP method"
+        query_param: "Query param"
+        additional_param: "Additional param"
+        note: "Note"
+        position: "Position"
       bookmark:
-        note: 注記
+        note: "Note"
       create:
-        position: 位置
+        position: "Position"
       db_file:
-        data: データ
+        data: "Data"
       manifestation_form:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       manifestation:
-        original_title: 原題
-        title_alternative: 代替タイトル
-        title_transcription: タイトル転写
+        original_title: "Original title"
+        title_alternative: "Titlte alternative"
+        title_transcription: "Title transcription"
         classification_number: 分類番号
         manifestation_identifier: 症状の識別子
         date_of_publication: 出版日
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
         access_address: アクセスアドレス
         start_page: スタートページ
         end_page: 最後のページ
-        height: 高さ
-        width: 幅
-        depth: 深さ
+        height: "Height"
+        width: "Width"
+        depth: "Depth"
         isbn: ISBNコード
         isbn10: Isbn10
         wrong_isbn: 間違ったISBNコード
         nbn: Nbn
-        price: 価格
+        price: "Price"
         volume_number_list: 巻号一覧
         issue_number_list: 発行番号一覧
         serial_number_list: シリアル番号のリストを表示
         edition: 版
-        note: 注記
+        note: "Note"
         repository_content: リポジトリのコンテンツ
-        lock_version: ロックバージョン
+        lock_version: "Lock version"
       user_group:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
-        deleted_at: で削除された
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
+        deleted_at: "Deleted at"
       imported_resource_file:
-        filename: ファイル名
-        content_type: コンテンツタイプ
-        size: 寸法
-        file_hash: ファイルのハッシュ
-        note: 注記
-        imported_at: インポートで
+        filename: "Filename"
+        content_type: "Content type"
+        size: "Size"
+        file_hash: "File hash"
+        note: "Note"
+        imported_at: "Imported at"
       checkout:
         due_date: 期日
-        lock_version: ロックバージョン
+        lock_version: "Lock version"
       subscription:
-        title: タイトル
-        note: 注記
-        deleted_at: で削除された
+        title: "Title"
+        note: "Note"
+        deleted_at: "Deleted at"
       message_template:
         status: 地位
-        title: タイトル
-        body: 体
-        position: 位置
+        title: "Title"
+        body: "Body"
+        position: "Position"
       patron_merge:
       subject_related_term:
       library_group:
-        name: 名前
-        display_name: 表示名
-        short_name: ショートネーム
-        email: メール
+        name: "Name"
+        display_name: "Display name"
+        short_name: "Short name"
+        email: "Email"
         my_networks: マイネットワーク
-        note: 注記
+        use_dsbl: "Use DSBL"
+        note: "Note"
       imported_event_file:
-        filename: ファイル名
-        content_type: コンテンツタイプ
-        size: 寸法
-        file_hash: ファイルのハッシュ
-        note: 注記
-        imported_at: インポートで
+        filename: "Filename"
+        content_type: "Content type"
+        size: "Size"
+        file_hash: "File hash"
+        note: "Note"
+        imported_at: "Imported at"
       bookmarked_resource:
-        title: タイトル
-        url: URLを
+        title: "Title"
+        url: "URL"
       attachment_file:
         attachable_type: 添付可能なタイプ
-        size: 寸法
-        content_type: コンテンツタイプ
-        title: タイトル
-        filename: ファイル名
-        height: 高さ
-        width: 幅
-        thumbnail: サムネイル
-        fulltext: 全文
-        file_hash: ファイルのハッシュ
+        size: "Size"
+        content_type: "Content type"
+        title: "Title"
+        filename: "Filename"
+        height: "Height"
+        width: "Width"
+        thumbnail: "Thumbnail"
+        fulltext: "Fulltext"
+        file_hash: "File hash"
       reserve:
         checked_out_at: で、チェックアウト
-        canceled_at: でキャンセル
-        expired_at: で期限切れ
-        deleted_at: で削除された
-        state: 状態
+        canceled_at: "Canceled at"
+        expired_at: "Expired at"
+        deleted_at: "Deleted at"
+        state: "State"
       message_queue:
         sent_at: 送信で
-        deleted_at: で削除された
+        deleted_at: "Deleted at"
       answer:
-        body: 体
-        deleted_at: で削除された
+        body: "Body"
+        deleted_at: "Deleted at"
       bookstore:
-        name: 名前
-        address: 住所
-        note: 注記
+        name: "Name"
+        address: "Address"
+        note: "Note"
         telephone_number: 電話番号
         fax_number: ファクス番号
-        url: URLを
-        position: 位置
-        deleted_at: で削除された
+        url: "URL"
+        position: "Position"
+        deleted_at: "Deleted at"
       checkout_type:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       classification_type:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       country:
-        name: 名前
-        display_name: 表示名
+        name: "Name"
+        display_name: "Display name"
         alpha_2: アルファ2
         alpha_3: アルファ3
         numeric_3: 数値3
-        note: 注記
-        position: 位置
+        note: "Note"
+        position: "Position"
       manifestation_api_response:
-        body: 体
+        body: "Body"
       request_type:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
+        name: "Name"
+        display_name: "Display name"
+        note: "Note"
+        position: "Position"
       inventory_file:
-        filename: ファイル名
-        content_type: コンテンツタイプ
-        size: 寸法
-        file_hash: ファイルのハッシュ
-        note: 注記
+        filename: "Filename"
+        content_type: "Content type"
+        size: "Size"
+        file_hash: "File hash"
+        note: "Note"
       manifestation_form_has_checkout_type:
-        note: 注記
-        position: 位置
+        note: "Note"
+        position: "Position"
       user_group_has_checkout_type:
         checkout_limit: チェックアウトリミット
         checkout_period: チェックアウト期間
@@ -675,6 +676,6 @@ ja:
         reservation_expired_period: 予約期間が期限切れ
         set_due_date_before_closing_day: 締め切り日までに設定予定日
         fixed_due_date: 固定予定日
-        note: 注記
-        position: 位置
+        note: "Note"
+        position: "Position"
 
