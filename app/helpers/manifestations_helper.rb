@@ -2,12 +2,6 @@ module ManifestationsHelper
   def back_to_manifestation_index
     if session[:params][:manifestation]
       manifestations_path(:params => session[:params][:manifestation])
-    elsif session[:params][:bookmarked_resource]
-      if current_user
-        user_bookmarked_resources_path(:params => session[:params][:bookmarked_resource])
-      else
-        bookmarked_resources_path(:params => session[:params][:bookmarked_resource])
-      end
     else
       manifestations_path
     end

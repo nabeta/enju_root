@@ -19,11 +19,11 @@ class PageController < ApplicationController
   end
 
   def patron
-    @title = ('Patron')
+    @title = t('activerecord.models.patron')
   end
   
   def advanced_search
-    @title = ('Advanced search')
+    @title = t('page.advanced_search')
   end
 
   def message
@@ -35,15 +35,15 @@ class PageController < ApplicationController
   end
 
   def circulation
-    @title = ('Circulation')
+    @title = t('page.circulation')
   end
   
   def statistics
-    @title = ('Statistics')
+    @title = t('page.statistics')
   end
   
   def acquisition
-    @title = ('Acquisition')
+    @title = t('page.acquisition')
   end
 
   def management
