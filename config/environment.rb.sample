@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   config.gem "oai"
 #  config.gem "jasper-rails"
   config.gem "icalendar"
-  config.gem "RedCloth", :version => '4.0.4'
+  config.gem "RedCloth"
   config.gem "rmagick", :lib => "RMagick"
   config.gem "extractcontent"
   config.gem "zoom"
@@ -53,6 +53,7 @@ Rails::Initializer.run do |config|
   config.gem "mislav-will_paginate", :lib => "will_paginate"
 #  config.gem "jpmobile"
   config.gem "prawn"
+  config.gem "rscribd"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

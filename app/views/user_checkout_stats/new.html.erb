@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), user_stats_path %></li>
+    <li><%= link_to t('page.back'), user_checkout_stats_path %></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1>New user_stat</h1>
+<h1>New user_checkout_stat</h1>
 
-<% form_for(@user_stat) do |f| %>
+<% form_for(@user_checkout_stat) do |f| %>
   <%= f.error_messages %>
 
   <p>

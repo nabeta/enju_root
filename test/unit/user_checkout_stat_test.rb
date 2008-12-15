@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class UserStatHasCheckoutTest < ActiveSupport::TestCase
+class UserCheckoutStatTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true

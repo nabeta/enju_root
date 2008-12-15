@@ -1,0 +1,2 @@
+module UserCheckoutStatsHelper
+end

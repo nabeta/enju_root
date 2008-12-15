@@ -630,6 +630,6 @@ en:
         note: 注記
       checkout_stat:
         note: 注記
-      user_stat:
+      user_checkout_stat:
         note: 注記
 
