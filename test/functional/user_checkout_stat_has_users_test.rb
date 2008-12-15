@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserCheckoutStatHasUsersControllerTest < ActionController::TestCase
-  fixtures :user_checkout_stat_has_users, :users
+  fixtures :user_checkout_stats, :user_checkout_stat_has_users, :users
 
   test "guest should not get index" do
     get :index
@@ -117,7 +117,7 @@ class UserCheckoutStatHasUsersControllerTest < ActionController::TestCase
 
   test "librarian should update user_checkout_stat_has_user" do
     login_as :librarian1
-    put :update, :id => user_checkout_stat_has_users(:one).id, :user_checkout_stat_has_user => {:user_checkout_stat => 1, :user_id => 2}
+    put :update, :id => user_checkout_stat_has_users(:one).id, :user_checkout_stat_has_user => {:user_checkout_stat_id => 1, :user_id => 2}
     assert_redirected_to user_checkout_stat_has_user_path(assigns(:user_checkout_stat_has_user))
   end
 

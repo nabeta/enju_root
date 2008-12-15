@@ -1,14 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), @checkout_stat %></li>
-    <li><<%= link_to t('page.back'), checkout_stats_path %></li>
+    <li><%= link_to 'Back', manifestation_checkout_stats_path %></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1>Editing checkout_stat</h1>
+<h1>New manifestation_checkout_stat</h1>
 
-<% form_for(@checkout_stat) do |f| %>
+<% form_for(@manifestation_checkout_stat) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -24,7 +23,7 @@
     <%= f.text_area :note, :class => 'resource_textarea' %>
   </p>
   <p>
-    <%= f.submit t('page.update') %>
+    <%= f.submit t('page.create') %>
   </p>
 <% end %>
 

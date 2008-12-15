@@ -1,0 +1,2 @@
+module ManifestationCheckoutStatsHelper
+end

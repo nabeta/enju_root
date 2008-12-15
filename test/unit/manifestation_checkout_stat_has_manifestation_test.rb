@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CheckoutStatHasManifestationTest < ActiveSupport::TestCase
+class ManifestationCheckoutStatHasManifestationTest < ActiveSupport::TestCase
   # Replace this with your real tests.
   test "the truth" do
     assert true

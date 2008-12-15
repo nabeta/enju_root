@@ -1,6 +1,6 @@
-class CreateCheckoutStats < ActiveRecord::Migration
+class CreateManifestationCheckoutStats < ActiveRecord::Migration
   def self.up
-    create_table :checkout_stats do |t|
+    create_table :manifestation_checkout_stats do |t|
       t.datetime :from_date
       t.datetime :to_date
       t.text :note
@@ -11,6 +11,6 @@ class CreateCheckoutStats < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :checkout_stats
+    drop_table :manifestation_checkout_stats
   end
 end

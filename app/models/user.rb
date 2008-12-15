@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
   #has_one :imported_object, :as => :importable
   has_many :order_lists
   has_many :subscriptions
-  has_many :user_checkout_stat_has_uses
+  has_many :user_checkout_stat_has_users
   has_many :user_checkout_stats, :through => :user_checkout_stat_has_users
 
   restful_easy_messages

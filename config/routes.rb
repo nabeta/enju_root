@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :user_checkout_stat_has_checkouts
+  map.resources :user_checkout_stat_has_users
 
   map.resources :user_checkout_stats
 
@@ -7,9 +7,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :bookmark_stats
 
-  map.resources :checkout_stats
+  map.resources :manifestation_checkout_stats
 
-  map.resources :checkout_stat_has_manifestations
+  map.resources :manifestation_checkout_stat_has_manifestations
 
   map.resources :item_relationship_types
 
