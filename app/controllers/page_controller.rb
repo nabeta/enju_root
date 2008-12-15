@@ -39,6 +39,7 @@ class PageController < ApplicationController
   end
   
   def statistics
+    @title = ('Statistics')
   end
   
   def acquisition
@@ -46,19 +47,19 @@ class PageController < ApplicationController
   end
 
   def management
-    @title = ('Management')
+    @title = t('page.management')
   end
   
   def configuration
-    @title = ('Configuration')
+    @title = t('page.configuration')
   end
 
   def import
-    @title = ('Import')
+    @title = t('page.import')
   end
   
   def export
-    @title = ('Export')
+    @title = t('page.export')
   end
   
   def opensearch
@@ -66,7 +67,7 @@ class PageController < ApplicationController
   end
 
   def about
-    @title = ('About us')
+    @title = t('page.about_us')
   end
 
   def under_construction

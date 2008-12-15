@@ -13,7 +13,6 @@ ja:
       feeds/instance: フィード/インスタンス
       feeds/global: フィード/グローバル
       feeds/activity: フィード/活動
-      person: 人
       subject_as_object: 件名オブジェクトとして
       subject_as_place: 対象地として
       subject_has_classification: 件名と分類の関係
@@ -21,7 +20,6 @@ ja:
       language: 言語
       patron_merge_list: パトロンの併合リスト
       user: ユーザ
-      corporate_body: 団体
       resource_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       work_form: 著作形の形態
@@ -50,7 +48,7 @@ ja:
       item: 個別資料
       barcode: バーコード
       work: 著作形
-      purchase_request: 購買要求書
+      purchase_request: 購入リクエスト
       realize: 実現
       reify: Reify
       subject_as_concept: 件名概念として
@@ -63,8 +61,8 @@ ja:
       aaws_response: Aawsの応答
       patron_type: パトロンの種類
       work_merge_list: 著作形の併合リスト
-      order: 注文
-      order_list: 注文リスト
+      order: 発注
+      order_list: 発注リスト
       advertise: 広告
       event: イベント
       embody: 具体化する
@@ -435,7 +433,7 @@ ja:
       order_list:
         title: タイトル
         note: 注記
-        ordered_at: 注文時刻
+        ordered_at: 発注時刻
         deleted_at: 削除時刻
         state: 状態
       advertise:
@@ -628,4 +626,10 @@ ja:
         fixed_due_date: 固定予定日
         note: 注記
         position: 位置
+      bookmark_stat:
+        note: 注記
+      checkout_stat:
+        note: 注記
+      user_stat:
+        note: 注記
 

@@ -21,7 +21,7 @@ librarian2:
   remember_token: 
   share_bookmarks: true
   note: 
-  duedate_reminder_days: 1
+  due_date_reminder_days: 1
   login: librarian2
   library_id: 1
   answers_count: 0
@@ -53,7 +53,7 @@ user2:
   remember_token: 
   share_bookmarks: true
   note: 
-  duedate_reminder_days: 1
+  due_date_reminder_days: 1
   login: user2
   library_id: 1
   answers_count: 0
@@ -85,7 +85,7 @@ admin:
   remember_token: 
   share_bookmarks: true
   note: 
-  duedate_reminder_days: 1
+  due_date_reminder_days: 1
   login: admin
   library_id: 2
   answers_count: 0
@@ -117,7 +117,7 @@ librarian1:
   remember_token: 7f5933995655af941da1960ebbd9fe65142869e7
   share_bookmarks: true
   note: 
-  duedate_reminder_days: 1
+  due_date_reminder_days: 1
   login: librarian1
   library_id: 1
   answers_count: 0
@@ -149,7 +149,7 @@ user1:
   remember_token: 
   share_bookmarks: false
   note: 
-  duedate_reminder_days: 1
+  due_date_reminder_days: 1
   login: user1
   library_id: 2
   answers_count: 0

@@ -117,7 +117,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
 
   test "librarian should update checkout_stat_has_manifestation" do
     login_as :librarian1
-    put :update, :id => checkout_stat_has_manifestations(:one).id, :checkout_stat_has_manifestation => { }
+    put :update, :id => checkout_stat_has_manifestations(:one).id, :checkout_stat_has_manifestation => {:checkout_stat_id => 1, :manifestation_id => 2}
     assert_redirected_to checkout_stat_has_manifestation_path(assigns(:checkout_stat_has_manifestation))
   end
 

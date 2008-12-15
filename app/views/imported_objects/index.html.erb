@@ -12,7 +12,7 @@
     <td><%=h imported_object.imported_file_id -%></td>
     <td><%=h imported_object.importable_id -%></td>
     <td><%=h imported_object.importable_type -%></td>
-    <td><%= link_to 'Show', imported_object -%></td>
+    <td><%= link_to t('page.show'), imported_object -%></td>
     <td><%= link_to t('page.edit'), edit_imported_object_path(imported_object) -%></td>
     <td><%= link_to t('page.destroy'), imported_object, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

@@ -12,7 +12,7 @@
 
 <%- form_for(:subscribe) do |f| -%>
   <p>
-    <b><%= ('Subscription') -%></b><br />
+    <b><%= t('activerecord.models.subscription') -%></b><br />
     <%- if @subscription -%>
 		  <%= link_to h(@subscription.title), @subscription -%>
       <%= f.hidden_field :subscription_id, :value => @subscription.id -%>

@@ -17,23 +17,25 @@
 </p>
 
 <p>
-  <b>Note:</b>
+  <b><%= t('activerecord.attributes.bookmark_stat.note') -%>:</b>
   <%=h @bookmark_stat.note %>
 </p>
 
 <table id="index">
   <tr>
-    <th><%= 'Manifestation' %></th>
-    <th><%= 'Checkouts count' %></th>
+    <th><%= t('activerecord.models.manifestation') %></th>
+    <th><%= 'Bookmarks count' %></th>
   </tr>
   <%- @stats.each do |stat| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => stat.manifestation} -%>
       </td>
-      <td><%=h stat.checkouts_count %></td>
+      <td><%=h stat.bookmarks_count %></td>
     </tr>
   <% end -%>
 </table>
+
+<%= will_paginate(@stats) -%>
 
 </div>

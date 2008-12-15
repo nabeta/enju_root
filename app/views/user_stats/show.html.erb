@@ -1,0 +1,41 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_user_stat_path(@user_stat) %></li>
+    <li><%= link_to t('page.back'), user_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b>From date:</b>
+  <%=h @user_stat.from_date %>
+</p>
+
+<p>
+  <b>To date:</b>
+  <%=h @user_stat.to_date %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.user_stat.note') -%>:</b>
+  <%=h @user_stat.note %>
+</p>
+
+<table id="index">
+  <tr>
+    <th><%= 'Manifestation' %></th>
+    <th><%= 'Checkouts count' %></th>
+  </tr>
+  <%- @stats.each do |stat| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(stat.user.login), stat.user -%>
+      </td>
+      <td><%=h stat.users_count %></td>
+    </tr>
+  <% end -%>
+</table>
+
+<%= will_paginate(@stats) -%>
+
+</div>

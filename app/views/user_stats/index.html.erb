@@ -1,0 +1,24 @@
+<h1>Listing user_stats</h1>
+
+<table id="index">
+  <tr>
+    <th>From date</th>
+    <th>To date</th>
+    <th>Note</th>
+  </tr>
+
+<% for user_stat in @user_stats %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h user_stat.from_date %></td>
+    <td><%=h user_stat.to_date %></td>
+    <td><%=h user_stat.note %></td>
+    <td><%= link_to t('page.show'), user_stat %></td>
+    <td><%= link_to t('page.edit'), edit_user_stat_path(user_stat) %></td>
+    <td><%= link_to t('page.destroy'), user_stat, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_stat', new_user_stat_path %>

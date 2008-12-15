@@ -27,15 +27,6 @@ en:
       am: 'am'
       pm: 'pm'
 
-  reset: "Reset"
-  account: "Account"
-  password: "Password"
-  bookmark: "Bookmark"
-  request: "Request"
-  event: "Event"
-  management: "Management"
-  circulation: "Circulation"
-  message: "Message"
   page:
     user: "User"
     user_title: "{{login_name}} 's library"
@@ -111,6 +102,22 @@ en:
       other: "{{count}} users"
     back_to_search_results: "Back to search results"
     submit: "Submit"
+    management: "Management"
+    about_us: "About us"
+    order_list_at_library_group: "Order lists at {{library_group}}"
+    related_work: "Related work"
+    related_manifestation: "Related manifestation"
+    amazon_review: "Amazon review"
+    these_reviews_are_from_amazon: "These reviews are from Amazon.com."
+    video: "Video"
+    number: "Number"
+    patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
+    statistics: "Statistics"
+    request: "Request"
+    circulation: "Circulation"
+    reset: "Reset"
+    account: "Account"
+    password: "Password"
   session:
     logged_out: "You have been logged out."
   question:

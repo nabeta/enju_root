@@ -6,6 +6,9 @@ class BookmarkStat < ActiveRecord::Base
   aasm_initial_state :pending
   aasm_column :state
 
+  @@per_page = 10
+  cattr_reader :per_page
+
   def culculate_bookmarks_count
     Manifestation.find(:all, :select => :id).each do |manifestation|
       daily_count = Bookmark.manifestations_count(self.from_date, self.to_date, manifestation)

@@ -14,9 +14,9 @@
     <td><%=h manifestation_relationship_type.display_name %></td>
     <td><%=h manifestation_relationship_type.note %></td>
     <td><%=h manifestation_relationship_type.position %></td>
-    <td><%= link_to 'Show', manifestation_relationship_type %></td>
-    <td><%= link_to 'Edit', edit_manifestation_relationship_type_path(manifestation_relationship_type) %></td>
-    <td><%= link_to 'Destroy', manifestation_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.show'), manifestation_relationship_type %></td>
+    <td><%= link_to t('page.edit'), edit_manifestation_relationship_type_path(manifestation_relationship_type) %></td>
+    <td><%= link_to t('page.destroy'), manifestation_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

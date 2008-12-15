@@ -16,7 +16,7 @@
   </p>
 
   <p>
-    <b><%= t('password') -%></b><br />
+    <b><%= t('page.password') -%></b><br />
     <%- if current_user == @user -%>
       <table>
         <tr>
@@ -129,7 +129,7 @@
   <%- end -%>
   <br />
   <%= hidden_field_tag 'user[reset_url]', 'checkout_icalendar' -%>
-  <%= f.submit t('reset') -%>
+  <%= f.submit t('page.reset') -%>
 <%- end -%>
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   <%= hidden_field_tag 'user[delete_url]', 'checkout_icalendar' -%>

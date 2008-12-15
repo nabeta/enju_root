@@ -14,9 +14,9 @@
     <td><%=h work_relationship_type.display_name %></td>
     <td><%=h work_relationship_type.note %></td>
     <td><%=h work_relationship_type.position %></td>
-    <td><%= link_to 'Show', work_relationship_type %></td>
-    <td><%= link_to 'Edit', edit_work_relationship_type_path(work_relationship_type) %></td>
-    <td><%= link_to 'Destroy', work_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.show'), work_relationship_type %></td>
+    <td><%= link_to t('page.edit'), edit_work_relationship_type_path(work_relationship_type) %></td>
+    <td><%= link_to t('page.destroy'), work_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

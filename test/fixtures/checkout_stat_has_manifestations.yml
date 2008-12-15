@@ -6,6 +6,6 @@ one:
   checkouts_count: 1
 
 two:
-  checkout_stat_id: 1
+  checkout_stat_id: 2
   manifestation_id: 1
   checkouts_count: 1

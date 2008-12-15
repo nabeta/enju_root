@@ -1,0 +1,24 @@
+<h1>Editing user_stat_has_checkout</h1>
+
+<% form_for(@user_stat_has_checkout) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_stat_id %><br />
+    <%= f.text_field :user_stat_id %>
+  </p>
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :checkouts_count %><br />
+    <%= f.text_field :checkouts_count %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to t('page.show'), @user_stat_has_checkout %> |
+<%= link_to 'Back', user_stat_has_checkouts_path %>

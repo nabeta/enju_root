@@ -28,7 +28,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :questions_count, :integer, :default => 0, :null => false
       t.column :answers_count, :integer, :default => 0, :null => false
       t.column :answer_rss_token, :string
-      t.column :duedate_reminder_days, :integer, :default => 1, :null => false
+      t.column :due_date_reminder_days, :integer, :default => 1, :null => false
       t.column :note, :text
       t.column :share_bookmarks, :boolean, :default => false, :null => false
       t.column :save_search_history, :boolean, :default => false, :null => false

@@ -72,4 +72,8 @@ class Checkout < ActiveRecord::Base
   def self.manifestations_count(from_date, to_date, manifestation)
     self.completed(from_date, to_date).find(:all, :conditions => {:item_id => manifestation.items.collect(&:id)}).count
   end
+
+  def self.users_count(from_date, to_date, user)
+    self.completed(from_date, to_date).find(:all, :conditions => {:user_id => user.id}).count
+  end
 end

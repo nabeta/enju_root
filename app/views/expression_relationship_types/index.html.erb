@@ -14,9 +14,9 @@
     <td><%=h expression_relationship_type.display_name %></td>
     <td><%=h expression_relationship_type.note %></td>
     <td><%=h expression_relationship_type.position %></td>
-    <td><%= link_to 'Show', expression_relationship_type %></td>
-    <td><%= link_to 'Edit', edit_expression_relationship_type_path(expression_relationship_type) %></td>
-    <td><%= link_to 'Destroy', expression_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.show'), expression_relationship_type %></td>
+    <td><%= link_to t('page.edit'), edit_expression_relationship_type_path(expression_relationship_type) %></td>
+    <td><%= link_to t('page.destroy'), expression_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

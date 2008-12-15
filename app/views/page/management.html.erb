@@ -4,14 +4,14 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Management') -%></h1>
+<h1><%= t('page.management') -%></h1>
 
 <ul>
   <li><%= link_to t('page.import'), '/page/import' -%></li>
-  <li><%= link_to ('Attachment files'), attachment_files_path -%></li>
-  <li><%= link_to ('Bookmarked resources'), bookmarked_resources_path -%></li>
-  <li><%= link_to ('Order list'), order_lists_path -%></li>
-  <li><%= link_to ('Subscription'), subscriptions_path -%></li>
+  <li><%= link_to t('activerecord.models.attachment_file'), attachment_files_path -%></li>
+  <li><%= link_to t('activerecord.models.bookmarked_resource'), bookmarked_resources_path -%></li>
+  <li><%= link_to t('activerecord.models.order_list'), order_lists_path -%></li>
+  <li><%= link_to t('activerecord.models.subscription'), subscriptions_path -%></li>
   <li><%= link_to ('Statistics'), '/statistic' -%></li>
   <li><%= link_to t('page.configuration'), '/page/configuration' -%></li>
 </ul>

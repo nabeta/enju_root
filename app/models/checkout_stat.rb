@@ -6,7 +6,10 @@ class CheckoutStat < ActiveRecord::Base
   aasm_initial_state :pending
   aasm_column :state
 
-  def culculate_checkouts_count
+  @@per_page = 10
+  cattr_reader :per_page
+
+  def culculate_manifestations_count
     Manifestation.find(:all, :select => :id).each do |manifestation|
       daily_count = Checkout.manifestations_count(self.from_date, self.to_date, manifestation)
       #manifestation.update_attributes({:daily_checkouts_count => daily_count, :total_count => manifestation.total_count + daily_count})
@@ -16,4 +19,5 @@ class CheckoutStat < ActiveRecord::Base
       end
     end
   end
+
 end

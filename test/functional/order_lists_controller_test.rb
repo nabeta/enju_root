@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class OrderListsControllerTest < ActionController::TestCase
-  fixtures :order_lists, :users, :patrons, :patron_types, :languages, :roles
+  fixtures :order_lists, :users, :patrons, :patron_types, :languages, :roles, :library_groups
 
   def test_guest_should_get_index
     get :index

@@ -92,13 +92,13 @@
   <ul class="yui-nav">
     <li title="nctive" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
     <%- if @manifestation.related_works.size > 0 -%>
-      <li><a href="#tab3"><em><%= ('Related works') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
+      <li><a href="#tab3"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
     <%- if @manifestation.related_manifestations.size > 0 -%>
-      <li><a href="#tab4"><em><%= ('Related resources') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
+      <li><a href="#tab4"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
     <%- end -%>
     <%- unless @amazon_reviews.blank? -%>
-      <li><a href="#tab6"><em><%= ('Amazon review') -%></em></a></li>
+      <li><a href="#tab6"><em><%= t('page.amazon_review') -%></em></a></li>
     <%- end -%>
   </ul>            
   <div class="yui-content">
@@ -110,7 +110,7 @@
     <table id="manifestation_detail">
     <%- if @manifestation.youtube_id or @manifestation.nicovideo_id -%>
       <tr>
-        <td style="width: 200px"><%=h ('Video') -%>:</td>
+        <td style="width: 200px"><%=h t('page.video') -%>:</td>
         <td>
           <%- if @manifestation.youtube_id -%>
             <%= render :partial => 'youtube' -%>
@@ -130,7 +130,7 @@
         </td>
       </tr>
       <tr>
-        <td><%=h ('Number') -%>:</td>
+        <td><%= t('page.number') -%>:</td>
         <td>
           <%- unless @manifestation.volume_number.blank? -%>
             <%= ('Volume number') -%>: <%=h @manifestation.volume_number.join("/") -%>
@@ -151,7 +151,7 @@
       </td>
     </tr>
     <tr>
-      <td><%=h t('page.language') -%>:</td>
+      <td><%= t('page.language') -%>:</td>
       <td><%= language_list(@manifestation.languages) -%></td>
     </tr>
     <tr>
@@ -171,7 +171,7 @@
       <td><%= @manifestation.price -%></td>
     </tr>
     <tr>
-      <td><%=h t('page.subject') -%>:</td>
+      <td><%= t('page.subject') -%>:</td>
       <td>
         <%- for subject in @manifestation.subjects -%>
           <%= link_to h(subject.term), subject -%>
@@ -183,7 +183,7 @@
       </td>
     </tr>
     <tr>
-      <td><%=h t('page.tag') -%>:
+      <td><%= t('page.tag') -%>:
       </td>
       <td>
         <%= render :partial => 'tag_list' -%>
@@ -218,7 +218,7 @@
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
       <%- if @manifestation.bookmarks -%>
-        <h4>この資料をブックマークしているパトロン</h4>
+        <h4><%= t('page.patron_who_bookmark_this_resource') %></h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>
       <%- end -%>
     </div>
@@ -229,20 +229,20 @@
           <%- @manifestation.related_works.each do |work| -%>
             <li>
               <%- if work.serials.blank? -%>
-                [W] <%= link_to h(work.original_title), work_path(work) -%>
-                <%- work.expressions.each do |e| -%>
-                  <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                [W] <%= link_to h(work.original_title), work -%>
+                <%- work.expressions.each do |expression| -%>
+                  <%= link_to expression_form_icon(expression.expression_form), expression -%>
                 <%- end -%>
-                <%= patrons_list(work.patrons, :link => true) -%>
+                <%= patrons_list(work.patrons) -%>
                 <ul>
                   <%- work.manifestations.each do |manifestation| -%>
                       <%- unless @manifestation == manifestation -%>
                         <li>
                           [M]
-                          <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                          <%= link_to h(manifestation.original_title), manifestation -%>
                           <%= form_icon(manifestation.manifestation_form) -%>
-                          <%- manifestation.expressions.each do |e| -%>
-                            <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                          <%- manifestation.expressions.each do |expression| -%>
+                            <%= link_to expression_form_icon(expression.expression_form), expression -%>
                           <%- end -%>
                           <%= patrons_list(manifestation.authors) -%>
                           <%= patrons_list(manifestation.editors) -%>
@@ -268,15 +268,15 @@
           <%- @manifestation.related_manifestations.each do |manifestation| -%>
             <%- unless manifestation == @manifestation -%>
               <li>
-                [M] <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                [M] <%= link_to h(manifestation.original_title), manifestation -%>
                 <%= form_icon(manifestation.manifestation_form) -%>
-                <%- manifestation.expressions.each do |e| -%>
-                  <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                <%- manifestation.expressions.each do |expression| -%>
+                  <%= link_to expression_form_icon(expression.expression_form), expression -%>
                 <%- end -%>
                 <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
-                <%= patrons_list(manifestation.authors, :link => true) -%>
-                <%= patrons_list(manifestation.editors, :link => true) -%>
-                <%= patrons_list(manifestation.patrons, :link => true) -%>
+                <%= patrons_list(manifestation.authors) -%>
+                <%= patrons_list(manifestation.editors) -%>
+                <%= patrons_list(manifestation.patrons) -%>
                 <%- if manifestation.date_of_publication -%>
                   (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
                 <%- end -%>
@@ -286,11 +286,11 @@
                         <li>
                           [W]
                           <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
-                          <%= link_to h(work.original_title), work_path(work) -%>
-                          <%- work.expressions.each do |e| -%>
-                            <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+                          <%= link_to h(work.original_title), work -%>
+                          <%- work.expressions.each do |expression| -%>
+                            <%= link_to expression_form_icon(expression.expression_form), expression -%>
                           <%- end -%>
-                          <%= patrons_list(work.patrons, :link => true) -%>
+                          <%= patrons_list(work.patrons) -%>
                         </li>
                     <%- end -%>
                   </ul>
@@ -308,7 +308,7 @@
     -->
     <%- if @amazon_reviews.size > 0 -%>
       <div id="tab6">
-        <p><%= link_to ('These reviews are from Amazon.com.'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
+        <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
         <%- @amazon_reviews.each do |comment| -%>
           <div class="amazon_summary"><strong><%=h comment[:summary] -%></strong> (<%=h comment[:date] -%>)</div>
           <p><%= h(comment[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>

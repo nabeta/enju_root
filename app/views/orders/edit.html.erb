@@ -12,7 +12,7 @@
 
 <%- form_for(:order, :url => order_path(@order), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('Order list') -%></b><br />
+  <b><%= t('activerecord.models.order_list') -%></b><br />
     <%= f.text_field :order_list_id -%>
   </p>
 

@@ -12,9 +12,9 @@
     <td><%=h bookmark_stat.from_date %></td>
     <td><%=h bookmark_stat.to_date %></td>
     <td><%=h bookmark_stat.note %></td>
-    <td><%= link_to 'Show', bookmark_stat %></td>
-    <td><%= link_to 'Edit', edit_bookmark_stat_path(bookmark_stat) %></td>
-    <td><%= link_to 'Destroy', bookmark_stat, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.show'), bookmark_stat %></td>
+    <td><%= link_to t('page.edit'), edit_bookmark_stat_path(bookmark_stat) %></td>
+    <td><%= link_to t('page.destroy'), bookmark_stat, :confirm => 'Are you sure?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>

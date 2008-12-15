@@ -5,11 +5,7 @@
       <li><%= link_to t('page.edit'), edit_shelf_path(@shelf) -%></li>
       <li><%= link_to ('Add a picture'), new_library_shelf_picture_file_path(@shelf.library.short_name, @shelf) -%></li>
       <li>
-      <%- if session[:return_to] -%>
-        <%= link_to t('page.back'), session[:return_to] -%>
-      <%- else -%>
         <%= link_to t('page.back'), shelves_path -%>
-      <%- end -%>
       </li>
     </ul>
 <%- end -%>

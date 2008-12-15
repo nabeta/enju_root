@@ -7,12 +7,12 @@
 
 <div id="content_detail">
 <p>
-  <b>Name:</b>
+  <b><%= t('activerecord.attributes.checkout_type.name') %>:</b>
   <%=h @checkout_type.name -%>
 </p>
 
 <p>
-  <b>Display name:</b>
+  <b><%= t('activerecord.attributes.checkout_type.display_name') %>:</b>
   <%=h @checkout_type.display_name -%>
 </p>
 
@@ -37,7 +37,7 @@
 <p><%= link_to ('Add a manifestation form'), new_checkout_type_manifestation_form_has_checkout_type_path(@checkout_type) -%></p>
 
 <p>
-  <b>Note:</b>
+  <b><%= t('activerecord.attributes.checkout_type.note') %>:</b>
   <%=h @checkout_type.note -%>
 </p>
 

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to 'Edit', edit_checkout_stat_path(@checkout_stat) %></li>
-    <li><%= link_to 'Back', checkout_stats_path %></li>
+    <li><%= link_to t('page.edit'), edit_checkout_stat_path(@checkout_stat) %></li>
+    <li><%= link_to t('page.back'), checkout_stats_path %></li>
   </ul>
 </div>
 
@@ -17,7 +17,7 @@
 </p>
 
 <p>
-  <b>Note:</b>
+  <b><%= t('activerecord.attributes.checkout_stat.note') -%>:</b>
   <%=h @checkout_stat.note %>
 </p>
 
@@ -35,5 +35,7 @@
     </tr>
   <% end -%>
 </table>
+
+<%= will_paginate(@stats) -%>
 
 </div>

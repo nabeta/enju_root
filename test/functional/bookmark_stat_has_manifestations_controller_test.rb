@@ -117,7 +117,7 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
 
   test "librarian should update bookmark_stat_has_manifestation" do
     login_as :librarian1
-    put :update, :id => bookmark_stat_has_manifestations(:one).id, :bookmark_stat_has_manifestation => { }
+    put :update, :id => bookmark_stat_has_manifestations(:one).id, :bookmark_stat_has_manifestation => {:bookmark_stat_id => 1, :manifestation_id => 2}
     assert_redirected_to bookmark_stat_has_manifestation_path(assigns(:bookmark_stat_has_manifestation))
   end
 

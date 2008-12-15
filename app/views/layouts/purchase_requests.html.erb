@@ -13,7 +13,7 @@
       <%= auto_discovery_link_tag(:rss, formatted_purchase_requests_path(:rss), :title => ('Purchase requests')) -%>
     <%- end -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= request.protocol + request.host_with_port -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
