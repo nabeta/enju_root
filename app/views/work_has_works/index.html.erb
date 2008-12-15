@@ -16,7 +16,7 @@
     <td><%=h work_has_work.position %></td>
     <td><%= link_to t('page.show'), work_has_work %></td>
     <td><%= link_to t('page.edit'), edit_work_has_work_path(work_has_work) %></td>
-    <td><%= link_to t('page.destroy'), work_has_work, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>

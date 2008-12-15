@@ -4,7 +4,7 @@
   <tr>
     <th>From date</th>
     <th>To date</th>
-    <th>Note</th>
+    <th><%= t('activerecord.attributes.user_stat.note') -%></th>
   </tr>
 
 <% for user_stat in @user_stats %>
@@ -14,7 +14,7 @@
     <td><%=h user_stat.note %></td>
     <td><%= link_to t('page.show'), user_stat %></td>
     <td><%= link_to t('page.edit'), edit_user_stat_path(user_stat) %></td>
-    <td><%= link_to t('page.destroy'), user_stat, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.destroy'), user_stat, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>

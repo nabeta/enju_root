@@ -16,7 +16,7 @@
     <td><%=h expression_has_expression.position %></td>
     <td><%= link_to t('page.show'), expression_has_expression %></td>
     <td><%= link_to t('page.edit'), edit_expression_has_expression_path(expression_has_expression) %></td>
-    <td><%= link_to t('page.destroy'), expression_has_expression, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>

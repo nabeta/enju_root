@@ -507,9 +507,8 @@ class Manifestation < ActiveRecord::Base
       amazon_url = ""
       #@isbn = @resource.searchable.isbn.sub("urn:isbn:", "") rescue ""
       unless self.isbn.blank?
-        asin = ISBN_Tools.isbn13_to_isbn10(isbn)
         #@amazon_url = "http://#{@library_group.amazon_host}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&IdType=ASIN&ItemId=#{@resource.searchable.isbn}&ResponseGroup=Images"
-        amazon_url = "https://#{AMAZON_AWS_HOSTNAME}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&SearchIndex=Books&IdType=ISBN&ItemId=#{asin}&ResponseGroup=Images,Reviews"
+        amazon_url = "https://#{AMAZON_AWS_HOSTNAME}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&SearchIndex=Books&IdType=ISBN&ItemId=#{isbn}&ResponseGroup=Images,Reviews"
         last_response = AawsResponse.find(:first, :order => 'created_at DESC')
         unless last_response.nil?
           # 1 request per 1 second

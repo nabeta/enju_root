@@ -16,7 +16,7 @@
     <td><%=h item_relationship_type.position %></td>
     <td><%= link_to t('page.show'), item_relationship_type %></td>
     <td><%= link_to t('page.edit'), edit_item_relationship_type_path(item_relationship_type) %></td>
-    <td><%= link_to t('page.destroy'), item_relationship_type, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.destroy'), item_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>

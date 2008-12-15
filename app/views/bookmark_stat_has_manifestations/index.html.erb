@@ -14,7 +14,7 @@
     <td><%=h bookmark_stat_has_manifestation.bookmarks_count %></td>
     <td><%= link_to t('page.show'), bookmark_stat_has_manifestation %></td>
     <td><%= link_to t('page.edit'), edit_bookmark_stat_has_manifestation_path(bookmark_stat_has_manifestation) %></td>
-    <td><%= link_to t('page.destroy'), bookmark_stat_has_manifestation, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.destroy'), bookmark_stat_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>
