@@ -340,6 +340,7 @@ en:
       role:
         name: Name
         display_name: Display name
+        score: Score
         note: Note
         position: Position
       session:

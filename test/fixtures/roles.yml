@@ -3,23 +3,27 @@ role_00001:
   name: Guest
   updated_at: 
   id: 1
+  score: 1
   note: 
   created_at: 
 role_00002: 
   name: User
   updated_at: 
   id: 2
+  score: 2
   note: 
   created_at: 
 role_00003: 
   name: Librarian
   updated_at: 
   id: 3
+  score: 3
   note: 
   created_at: 
 role_00004: 
   name: Administrator
   updated_at: 
   id: 4
+  score: 4
   note: 
   created_at: 

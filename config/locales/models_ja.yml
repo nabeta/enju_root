@@ -42,7 +42,7 @@ ja:
       role: 役割
       session: セッション
       subject_broader_term: 件名広範な用語
-      subject_type: 件名を入力
+      subject_type: 件名の種類
       subscribe: 購読
       checkin: チェックイン
       item: 個別資料
@@ -52,11 +52,11 @@ ja:
       realize: 実現
       reify: Reify
       subject_as_concept: 件名概念として
-      frequency_of_issue: 周波数問題
+      frequency_of_issue: 発行頻度
       expression_merge_list: 式のリストのマージ
       use_restriction: 使用制限
       subject: 主題
-      expression_form: 表現形式
+      expression_form: 表現形の形態
       work_merge: 著作形をマージ
       aaws_response: Aawsの応答
       patron_type: パトロンの種類
@@ -83,7 +83,7 @@ ja:
       message_template: メッセージテンプレート
       patron_merge: パトロンの併合
       subject_related_term: アジ関連用語
-      library_group: ライブラリグループ
+      library_group: 図書館グループ
       imported_event_file: イベントファイルのインポート
       bookmarked_resource: ブックマークリソース
       attachment_file: 添付ファイル
@@ -93,12 +93,12 @@ ja:
       bookstore: 書店
       checkout_type: 貸出の種類
       classification_type: 分類型
-      country: 国
+      country: 国と地域
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      manifestation_form_has_checkout_type: フォームを貸出している体現形の種類
-      user_group_has_checkout_type: ユーザグループの貸出を入力している
+      manifestation_form_has_checkout_type: 体現形の種類と貸出の種類
+      user_group_has_checkout_type: ユーザグループと貸出の種類
     attributes:
       library:
         name: 名前
@@ -340,6 +340,7 @@ ja:
       role:
         name: 名前
         display_name: 表示名
+        score: 点数
         note: 注記
         position: 位置
       session:
@@ -492,7 +493,7 @@ ja:
         end_page: 最後のページ
         height: 高さ
         width: 幅
-        depth: 深さ
+        depth: 奥行き
         isbn: ISBNコード
         isbn10: 10桁のISBN
         wrong_isbn: 間違ったISBNコード
