@@ -1,3 +1,11 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_reserve_stat_path(@reserve_stat) %></li>
+    <li><%= link_to 'Back', reserve_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <p>
   <b>From date:</b>
   <%=h @reserve_stat.from_date %>
@@ -18,6 +26,4 @@
   <%=h @reserve_stat.state %>
 </p>
 
-
-<%= link_to 'Edit', edit_reserve_stat_path(@reserve_stat) %> |
-<%= link_to 'Back', reserve_stats_path %>
+</div>

@@ -5,7 +5,7 @@ class ManifestationCheckoutStatHasManifestationsController < ApplicationControll
   # GET /manifestation_checkout_stat_has_manifestations
   # GET /manifestation_checkout_stat_has_manifestations.xml
   def index
-    @manifestation_checkout_stat_has_manifestations = ManifestationCheckoutStatHasManifestation.find(:all)
+    @manifestation_checkout_stat_has_manifestations = ManifestationCheckoutStatHasManifestation.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
