@@ -219,6 +219,8 @@ ja:
     patron_management: "パトロン管理"
     total: "合計"
     sort_by: "次の項目で並べ替える"
+    bookmarklet: "ブックマークレット"
+    add_file: "ファイルを追加する"
   session:
     logged_out: "ログアウトしました。"
   question:

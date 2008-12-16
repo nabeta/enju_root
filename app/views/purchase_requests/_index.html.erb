@@ -27,7 +27,7 @@
     (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
     (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
   <%- end -%>
-  <%= ('Bookmarklet') -%>:
+  <%= t('page.bookmarklet') -%>:
   <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library purchase bookmark') -%></a>
 </p>
 

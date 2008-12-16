@@ -20,10 +20,10 @@
       <ul>
         <%- if @manifestation.bookmarked_resource -%>
           <%- if @manifestation.bookmarked_resource.bookmarked?(current_user) -%>
-            <li><%= link_to ('Delete this bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+            <li><%= link_to ('Remove from my bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
           <%- end -%>
         <%- else -%>
-          <li><%= link_to ('Add to bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
+          <li><%= link_to ('Add to my bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
         <%- end -%>
 
       <%- unless @manifestation.manifestation_form.name == 'file' -%>

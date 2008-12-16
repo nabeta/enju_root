@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @user -%>
-    <title><%=h ("%{user}\'s bookmarked resources") -%>: <%=h controller.action_name -%></title>
+  <title><%=h t('page.user_bookmark_title', :login_name => @user.login) -%>: <%=h controller.action_name -%></title>
   <%- else -%>
     <title><%=h ("Bookmarked resources") -%>: <%=h controller.action_name -%></title>
   <%- end -%>
