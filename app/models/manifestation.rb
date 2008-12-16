@@ -26,6 +26,8 @@ class Manifestation < ActiveRecord::Base
   has_many :checkout_stats, :through => :manifestation_checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
+  has_many :reserve_stat_has_manifestations
+  has_many :reserve_stats, :through => :reserve_stat_has_manifestations
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,

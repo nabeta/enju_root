@@ -1,7 +1,7 @@
 <h1><%= ('Listing answers') -%></h1>
 
 <%- if @question -%>
-  <h1><%= ('Question') -%></h1>
+  <h1><%= t('activerecord.models.question') -%></h1>
 
   <p><%= link_to textilize_without_paragraph(h(@question.body)), user_question_path(@question.user.login, @question) -%></p>
 <%- end -%>

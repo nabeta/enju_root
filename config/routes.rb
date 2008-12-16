@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :reserve_stats
+
+  map.resources :reserve_stat_has_manifestations
+
   map.resources :user_checkout_stat_has_users
 
   map.resources :user_checkout_stats

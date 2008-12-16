@@ -27,7 +27,7 @@
   </div>
 
   <p>
-    <b><%= t('page.library') -%> / <%= t('page.shelf') -%></b><br />
+    <b><%= t('page.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%= options_from_collection_for_select(@libraries, "short_name", "name", @item.shelf.library.short_name) -%>
     </select>

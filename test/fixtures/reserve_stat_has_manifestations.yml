@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  reserve_stat_id: 1
+  manifestation_id: 1
+  reserves_count: 1
+
+two:
+  reserve_stat_id: 1
+  manifestation_id: 1
+  reserves_count: 1

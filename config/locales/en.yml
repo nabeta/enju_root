@@ -131,7 +131,9 @@ en:
     sort_by: "Sort by"
     bookmarklet: "Bookmarklet"
     add_file: "Add a file"
+    telephone_number: "Telephoone number"
   session:
+    logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
   question:
     body: "Body"

@@ -1,0 +1,24 @@
+<h1>Editing reserve_stat_has_manifestation</h1>
+
+<% form_for(@reserve_stat_has_manifestation) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :reserve_stat_id %><br />
+    <%= f.text_field :reserve_stat_id %>
+  </p>
+  <p>
+    <%= f.label :manifestation_id %><br />
+    <%= f.text_field :manifestation_id %>
+  </p>
+  <p>
+    <%= f.label :reserves_count %><br />
+    <%= f.text_field :reserves_count %>
+  </p>
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @reserve_stat_has_manifestation %> |
+<%= link_to 'Back', reserve_stat_has_manifestations_path %>

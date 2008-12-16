@@ -12,7 +12,7 @@
 <%- form_for(:answer, :url => user_question_answers_path(@user.login, @question)) do |f| -%>
 
   <p>
-  <b><%= ('Question') -%></b><br />
+  <b><%= t('activerecord.models.question') -%></b><br />
     <%=h @question.body -%>
     <%= f.hidden_field :question_id, :value => @question.id -%>
   </p>

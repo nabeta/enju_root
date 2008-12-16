@@ -20,8 +20,8 @@
 
 <p>
   <%= ('Short display name') -%>: <%=h @library.short_display_name -%><br />
-  <%= ('Address') -%>: <%=h @library.address -%><br />
-  <%= ('Telephone number') -%>: <%=h @library.telephone_number_1 -%>
+  <%= t('activerecord.attributes.library.address') -%>: <%=h @library.address -%><br />
+  <%= t('page.telephone_number') -%>: <%=h @library.telephone_number_1 -%>
   <%=h @library.telephone_number_2 -%>
   FAX: <%=h @library.fax_number -%>
 </p>
@@ -36,8 +36,8 @@
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#tab1"><em><%= ('Map') -%></em></a></li>
       <li><a href="#tab2"><em><%= ('Staff') -%></em></a></li>
-      <li><a href="#tab3"><em><%= t('page.shelf') -%></em></a></li>
-      <li><a href="#tab4"><em><%= ('Event') -%></em></a></li>
+      <li><a href="#tab3"><em><%= t('activerecord.models.shelf') -%></em></a></li>
+      <li><a href="#tab4"><em><%= t('activerecord.models.event') -%></em></a></li>
       <%- if_authorized?(:destroy, @library) do -%>
         <li><a href="#tab5"><em><%= t('page.configuration') -%></em></a></li>
       <%- end -%>
@@ -79,7 +79,7 @@
 
         <table id="index">
           <tr>
-            <th><%= t('page.shelf') -%></th>
+            <th><%= t('activerecord.models.shelf') -%></th>
             <th><%= t('page.note') -%></th>
           </tr>
           <%- @library.shelves.each do |shelf| -%>

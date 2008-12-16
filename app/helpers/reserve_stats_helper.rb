@@ -1,0 +1,2 @@
+module ReserveStatsHelper
+end
