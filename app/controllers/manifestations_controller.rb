@@ -6,6 +6,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_expression
   before_filter :get_subject
   before_filter :store_location, :except => [:create, :update, :destroy]
+  before_filter :prepare_options, :only => [:new, :edit]
   after_filter :csv_convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -185,8 +186,6 @@ class ManifestationsController < ApplicationController
       end
       @manifestation = Manifestation.new
       @manifestation.set_serial_number(@expression)
-      @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-      @languages = Language.find(:all, :order => 'position')
     end
   end
 
@@ -197,7 +196,6 @@ class ManifestationsController < ApplicationController
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) rescue nil
       render :partial => 'tag_edit'
     end
-    @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -253,8 +251,7 @@ class ManifestationsController < ApplicationController
           end
         #end
       else
-        @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-        @languages = Language.find(:all, :order => 'position')
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @manifestation.errors, :status => :unprocessable_entity }
       end
@@ -273,8 +270,7 @@ class ManifestationsController < ApplicationController
         format.html { redirect_to manifestation_url(@manifestation) }
         format.xml  { head :ok }
       else
-        @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-        @languages = Language.find(:all, :order => 'position')
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @manifestation.errors, :status => :unprocessable_entity }
       end
@@ -472,6 +468,12 @@ class ManifestationsController < ApplicationController
     @count[:total] = @manifestations.size
     @count[:query_result] = @manifestations.size
     #flash[:notice] = ('Enter your search term.')
+  end
+
+  def prepare_options
+    @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
+    @languages = Language.find(:all, :order => 'position')
+    @roles = Role.find(:all, :order => 'id desc')
   end
 
 end

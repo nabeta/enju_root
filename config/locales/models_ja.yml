@@ -117,7 +117,7 @@ ja:
         deleted_at: 削除時刻
       question:
         body: 本文
-        private_question: 秘密の質問
+        private_question: 質問を公開しない
         deleted_at: 削除時刻
       imported_patron_file:
         filename: ファイル名
@@ -231,7 +231,7 @@ ja:
         remember_token_expires_at: トークンを忘れないで期限が切れる
         activation_code: 活性化コード
         activated_at: でアクティブ
-        expired_at: 期限切れ時刻
+        expired_at: 有効期限
         locked: ロック
         checkout_icalendar_token: 貸出iCalendarのトークン
         answer_rss_token: 答えはトークンのRSS
@@ -488,7 +488,7 @@ ja:
         date_of_publication: 出版日
         deleted_at: 削除時刻
         access_address: アクセスアドレス
-        start_page: スタートページ
+        start_page: 最初のページ
         end_page: 最後のページ
         height: 高さ
         width: 幅
@@ -564,7 +564,7 @@ ja:
       reserve:
         checked_out_at: 貸出時刻
         canceled_at: 取消時刻
-        expired_at: 期限切れ時刻
+        expired_at: 有効期限
         deleted_at: 削除時刻
         state: 状態
       message_queue:
@@ -628,7 +628,7 @@ ja:
         position: 位置
       bookmark_stat:
         note: 注記
-      checkout_stat:
+      manifestation_checkout_stat:
         note: 注記
       user_checkout_stat:
         note: 注記

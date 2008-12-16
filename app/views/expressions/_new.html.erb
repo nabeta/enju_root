@@ -18,7 +18,7 @@
   </p>
 
   <p>
-    <b><%= ('Title transcription') -%></b><br />
+    <b><%= t('activerecord.attributes.expression.title_transcription') -%></b><br />
     <%- if @work -%>
       <%= f.text_field :title_transcription, :value => @work.title_transcription, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>

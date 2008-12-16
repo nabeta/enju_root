@@ -13,11 +13,9 @@
   <%- end -%>
   <%= javascript_tag("$('query').focus()") -%>
 
-  <h3><%= link_to ('New resources'), :controller => 'manifestations', :mode => 'recent' -%></h3>
-
-  <%- cache(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs') do -%>
     <p><%=h t('page.number_of_manifestations', :numdocs => Manifestation.numdocs, :count => Manifestation.numdocs) -%></p>
-  <%- end -%>
+
+  <h3><%= link_to ('New resources'), :controller => 'manifestations', :mode => 'recent' -%></h3>
 
   </div>
 

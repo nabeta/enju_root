@@ -23,7 +23,7 @@
 <p><label for="user_number"><%= ('User number') -%></label><br/>
 <%= f.text_field :user_number, :value => "" -%></p>
 
-<p><label for="expired_at"><%= ('Expired at') -%></label><br/>
+<p><label for="expired_at"><%= t('activerecord.attributes.user.expired_at') -%></label><br/>
 <%= f.date_select :expired_at, :include_blank => true -%>
 </p>
 

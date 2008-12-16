@@ -1,5 +1,4 @@
-<div>
-  <h1><%= ("Listing %{user}'s bookmarked resources") -%></h1>
+<h1><%= t('page.user_bookmark_title', :login_name => @user.login) -%>
   <%- form_for :works, :url => user_bookmarked_resources_path(@user.login), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
@@ -18,5 +17,3 @@
   <%= render :partial => 'bookmarked_resources/bookmark_list' -%>
 
 <%= will_paginate(@bookmarked_resources) -%>
-
-</div>

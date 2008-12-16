@@ -1,635 +1,635 @@
 en:
   activerecord:
     models:
-      library: "Library"
-      question: "Question"
-      imported_patron_file: "Imported patron file"
-      circulation_status: "Circulation status"
-      inventory: "Inventory"
-      patron: "Patron"
-      feeds/app: フィード/アプリ
-      feeds/persistence: フィード/永続
-      feeds/shared: フィード/共有
-      feeds/instance: フィード/インスタンス
-      feeds/global: フィード/グローバル
-      feeds/activity: フィード/活動
-      subject_as_object: 件名オブジェクトとして
-      subject_as_place: 対象地として
-      subject_has_classification: 件名分類している
-      expression: "Expression"
-      language: "Language"
-      patron_merge_list: 後援者リストのマージ
-      user: "User"
-      resource_has_subject: リソースを対象としている
-      picture_file: "Picture file"
-      work_form: "Work form"
-      inter_library_loan: "Inter library loan"
-      message: "Message"
-      classification: "Classification"
-      imported_object: インポートされたオブジェクト
-      exemplify: "Exemplify"
-      own: "Own"
-      search_history: "Search history"
-      shelf: "Shelf"
-      event_category: "Event category"
-      advertisement: "Advertisement"
-      porta_response: "PORTA Response"
-      donate: "Donate"
-      basket: "Basket"
-      subject_as_event: 対象イベントとして
-      checked_item: "Checked item"
-      produce: "Produce"
-      role: "Role"
-      session: "Session"
-      subject_broader_term: 件名広範な用語
-      subject_type: "Subject type"
-      subscribe: "Subscribe"
-      checkin: "Checkin"
-      item: "Item"
-      barcode: "Barcode"
-      work: "Work"
-      purchase_request: "Purchase request"
-      realize: "Realize"
-      reify: "Reify"
-      subject_as_concept: 件名概念として
-      frequency_of_issue: 周波数問題
-      expression_merge_list: 式のリストのマージ
-      use_restriction: 使用制限
-      subject: "Subject"
-      expression_form: "Expression form"
-      work_merge: "Work merge"
-      aaws_response: Aaws応答
-      patron_type: 守護のタイプ
-      work_merge_list: 仕事リストのマージ
-      order: "Order"
-      order_list: "Order list"
-      advertise: "Advertise"
-      event: "Event"
-      embody: "Embody"
-      item_has_use_restriction: 項目を制限している
-      expression_merge: "Expression merge"
-      request_status_type: "Request status type"
-      news_feed: "News feed"
-      search_engine: "Search engine"
-      bookmark: "Bookmark"
-      create: "Create"
-      db_file: "DB file"
-      manifestation_form: "Manifestation form"
-      manifestation: "Manifestation"
-      user_group: "User group"
-      imported_resource_file: 輸入リソースファイル
-      checkout: "Checkout"
-      subscription: "Subscription"
-      message_template: メッセージテンプレート
-      patron_merge: "Patron merge"
-      subject_related_term: "Subject related term"
-      library_group: "Library group"
-      imported_event_file: イベントファイルのインポート
-      bookmarked_resource: "Bookmarked resource"
-      attachment_file: "Attachment file"
-      reserve: "Reserve"
-      message_queue: "Message queue"
-      answer: "Answer"
-      bookstore: "Bookstore"
-      checkout_type: "Checkout type"
-      classification_type: "Classification type"
-      country: "Country"
-      manifestation_api_response: "Manifestation API Response"
-      request_type: "Request type"
-      inventory_file: "Inventory file"
-      manifestation_form_has_checkout_type: "Manifestation form has checkout type"
-      user_group_has_checkout_type: "User group has checkout type"
+      library: Library
+      question: Question
+      imported_patron_file: Imported patron file
+      circulation_status: Circulation status
+      inventory: Inventory
+      patron: Patron
+      feeds/app: Feeds/App
+      feeds/persistence: Feeds/Persistence
+      feeds/shared: Feeds/Shared
+      feeds/instance: Feeds/Instance
+      feeds/global: Feeds/Global
+      feeds/activity: Feeds/Activity
+      subject_as_object: Subject as object
+      subject_as_place: Subject as place
+      subject_has_classification: Subject has classification
+      expression: Expression
+      language: Language
+      patron_merge_list: Patron merge list
+      user: User
+      resource_has_subject: Resource has subject
+      picture_file: Picture file
+      work_form: Work form
+      inter_library_loan: Inter library loan
+      message: Message
+      classification: Classification
+      imported_object: Imported object
+      exemplify: Exemplify
+      own: Own
+      search_history: Search history
+      shelf: Shelf
+      event_category: Event category
+      advertisement: Advertisement
+      porta_response: PORTA Response
+      donate: Donate
+      basket: Basket
+      subject_as_event: Subject as event
+      checked_item: Checked item
+      produce: Produce
+      role: Role
+      session: Session
+      subject_broader_term: Subject broader term
+      subject_type: Subject type
+      subscribe: Subscribe
+      checkin: Checkin
+      item: Item
+      barcode: Barcode
+      work: Work
+      purchase_request: Purchase request
+      realize: Realize
+      reify: Reify
+      subject_as_concept: Subject as concept
+      frequency_of_issue: Frequency of issue
+      expression_merge_list: Expression merge list
+      use_restriction: Use restriction
+      subject: Subject
+      expression_form: Expression form
+      work_merge: Work merge
+      aaws_response: Aaws response
+      patron_type: Patron type
+      work_merge_list: Work merge list
+      order: Order
+      order_list: Order list
+      advertise: Advertise
+      event: Event
+      embody: Embody
+      item_has_use_restriction: Item has use restriction
+      expression_merge: Expression merge
+      request_status_type: Request status type
+      news_feed: News feed
+      search_engine: Search engine
+      bookmark: Bookmark
+      create: Create
+      db_file: DB file
+      manifestation_form: Manifestation form
+      manifestation: Manifestation
+      user_group: User group
+      imported_resource_file: Imported resource file
+      checkout: Checkout
+      subscription: Subscription
+      message_template: Message template
+      patron_merge: Patron merge
+      subject_related_term: Subject related term
+      library_group: Library group
+      imported_event_file: Imported event file
+      bookmarked_resource: Bookmarked resource
+      attachment_file: Attachment file
+      reserve: Reserve
+      message_queue: Message queue
+      answer: Answer
+      bookstore: Bookstore
+      checkout_type: Checkout type
+      classification_type: Classification type
+      country: Country
+      manifestation_api_response: Manifestation API Response
+      request_type: Request type
+      inventory_file: Inventory file
+      manifestation_form_has_checkout_type: Manifestation form has checkout type
+      user_group_has_checkout_type: User group has checkout type
     attributes:
       library:
-        name: "Name"
-        short_name: "Short name"
-        short_display_name: "Short display name"
-        address: "Address"
-        telephone_number_1: "Telephone number 1"
-        telephone_number_2: "Telephone number 2"
-        fax_number: "Fax number"
-        lat: "Lat"
-        lng: "Lng"
-        note: "Note"
-        call_number_rows: "Call number rows"
-        call_number_delimiter: "Call number delimiter"
-        position: "Position"
-        deleted_at: "Deleted at"
+        name: Name
+        short_name: Short name
+        short_display_name: Short display name
+        address: Address
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number: Fax number
+        lat: Lat
+        lng: Lng
+        note: Note
+        call_number_rows: Call number rows
+        call_number_delimiter: Call number delimiter
+        position: Position
+        deleted_at: Deleted at
       question:
-        body: "Body"
-        private_question: "Private question"
-        deleted_at: "Deleted at"
+        body: Body
+        private_question: Private question
+        deleted_at: Deleted at
       imported_patron_file:
-        filename: "Filename"
-        content_type: "Content type"
-        size: "Size"
-        file_hash: "File hash"
-        note: "Note"
-        imported_at: "Imported at"
+        filename: Filename
+        content_type: Content type
+        size: Size
+        file_hash: File hash
+        note: Note
+        imported_at: Imported at
       circulation_status:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       inventory:
-        note: "Note"
+        note: Note
       patron:
-        last_name: "Last name"
-        middle_name: "Middle name"
-        first_name: "Name"
-        last_name_transcription: "Last name transcription"
-        middle_name_transcription: "Middle name transcription"
-        first_name_transcription: "First name transcription"
-        corporate_name: "Corporate name"
-        corporate_name_transcription: "Corporate name transcription"
-        full_name: "Full name"
-        full_name_transcription: "Full name transcription"
-        full_name_alternative: "Full name alternative"
-        deleted_at: "Deleted at"
-        zip_code_1: "Zip code 1"
-        zip_code_2: "Zip code 2"
-        address_1: "Address 1"
-        address_2: "Address 2"
-        address_1_note: "Address 1 note"
-        address_2_note: "Address 2 note"
-        other_designation: "Other designation"
-        place: "Place"
-        date_of_birth: "Date of birth"
-        date_of_death: "Date of death"
-        lock_version: "Lock version"
-        note: "Note"
+        last_name: Last name
+        middle_name: Middle name
+        first_name: Name
+        last_name_transcription: Last name transcription
+        middle_name_transcription: Middle name transcription
+        first_name_transcription: First name transcription
+        corporate_name: Corporate name
+        corporate_name_transcription: Corporate name transcription
+        full_name: Full name
+        full_name_transcription: Full name transcription
+        full_name_alternative: Full name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
       feeds/app:
-        source_url: ソースURL
-        title: "Title"
-        description: "Description"
-        directory_title: ディレクトリタイトル
-        title_url: 作品のURL
-        author: 著者
-        author_email: 著者のメール
-        author_affiliation: 著者略歴
-        author_location: 著者のロケーション
-        screenshot: スクリーンショット
-        thumbnail: "Thumbnail"
-        height: "Height"
-        width: "Width"
-        scaling: スケーリング
-        scrolling: スクロール
-        singleton: シングルトン
-        author_photo: 著者写真
-        author_aboutme: 著者aboutme
-        author_link: 著者名
-        author_quote: 著者引用
+        source_url: Source URL
+        title: Title
+        description: Description
+        directory_title: Directory title
+        title_url: Title URL
+        author: Author
+        author_email: Author email
+        author_affiliation: Author affiliation
+        author_location: Author location
+        screenshot: Screenshot
+        thumbnail: Thumbnail
+        height: Height
+        width: Width
+        scaling: Scaling
+        scrolling: Scrolling
+        singleton: Singleton
+        author_photo: Author photo
+        author_aboutme: Author aboutme
+        author_link: Author link
+        author_quote: Author quote
       feeds/persistence:
-        key: 鍵
-        value: 値
+        key: Key
+        value: Value
       feeds/shared:
-        key: 鍵
-        value: 値
+        key: Key
+        value: Value
       feeds/instance:
-        key: 鍵
-        value: 値
+        key: Key
+        value: Value
       feeds/global:
-        key: 鍵
-        value: 値
+        key: Key
+        value: Value
       feeds/activity:
-        title: "Title"
+        title: Title
       subject_as_object:
-        term: "Term"
+        term: Term
       subject_as_place:
-        term: "Term"
+        term: Term
       subject_has_classification:
       expression:
-        original_title: "Original title"
-        title_transcription: "Title transcription"
-        title_alternative: "Titlte alternative"
-        summarization: "Summarization"
-        context: "Context"
-        issn: "ISSN"
-        note: "Note"
-        lock_version: "Lock version"
-        deleted_at: "Deleted at"
+        original_title: Original title
+        title_transcription: Title transcription
+        title_alternative: Titlte alternative
+        summarization: Summarization
+        context: Context
+        issn: ISSN
+        note: Note
+        lock_version: Lock version
+        deleted_at: Deleted at
       language:
-        name: "Name"
-        native_name: "Native name"
-        display_name: "Display name"
-        iso_639_1: "ISO 639 1"
-        iso_639_2: "ISO 639 2"
-        iso_639_3: "ISO 639 3"
-        note: "Note"
-        position: "Position"
+        name: Name
+        native_name: Native name
+        display_name: Display name
+        iso_639_1: ISO 639 1
+        iso_639_2: ISO 639 2
+        iso_639_3: ISO 639 3
+        note: Note
+        position: Position
       patron_merge_list:
-        title: "Title"
+        title: Title
       user:
-        login: "Login"
-        name: "Name"
-        openid_url: "OpenID URL"
-        email: "Email"
-        crypted_password: "Crypted password"
-        salt: "Salt"
-        deleted_at: "Deleted at"
-        remember_token: 覚えているトークン
-        remember_token_expires_at: トークンを忘れないで期限が切れる
-        activation_code: 活性化コード
-        activated_at: でアクティブ
-        expired_at: "Expired at"
-        locked: "Locked at"
-        checkout_icalendar_token: チェックアウトiCalendarのトークン
-        answer_rss_token: 答えはトークンのRSS
-        due_date_reminder_days: "Due date reminder days"
-        note: "Note"
-        share_bookmarks: "Share bookmarks"
-        save_search_history: "Save search history"
-        save_checkout_history: "Save checkout history"
-        lock_version: "Lock version"
-        keyword_list: "Keyword list"
-        user_number: "User number"
-        state: "State"
+        login: Login
+        name: Name
+        openid_url: OpenID URL
+        email: Email
+        crypted_password: Crypted password
+        salt: Salt
+        deleted_at: Deleted at
+        remember_token: Remember token
+        remember_token_expires_at: Remember token expires at
+        activation_code: Activation code
+        activated_at: Activated at
+        expired_at: Expired at
+        locked: Locked at
+        checkout_icalendar_token: Checkout iCalendar token
+        answer_rss_token: Answer rss token
+        due_date_reminder_days: Due date reminder days
+        note: Note
+        share_bookmarks: Share bookmarks
+        save_search_history: Save search history
+        save_checkout_history: Save checkout history
+        lock_version: Lock version
+        keyword_list: Keyword list
+        user_number: User number
+        state: State
       resource_has_subject:
-        subjectable_type: Subjectableタイプ
+        subjectable_type: Subjectable type
       picture_file:
-        picture_attachable_type: 画像を添付可能なタイプ
-        size: "Size"
-        content_type: "Content type"
-        title: "Title"
-        filename: "Filename"
-        height: "Height"
-        width: "Width"
-        thumbnail: "Thumbnail"
-        file_hash: "File hash"
+        picture_attachable_type: Picture attachable type
+        size: Size
+        content_type: Content type
+        title: Title
+        filename: Filename
+        height: Height
+        width: Width
+        thumbnail: Thumbnail
+        file_hash: File hash
       work_form:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       inter_library_loan:
-        requested_at: "Requested at"
-        shipped_at: "Shipped at"
-        received_at: "Received at"
-        return_shipped_at: "Return shipped at"
-        return_received_at: "Return received at"
-        deleted_at: "Deleted at"
-        state: "State"
+        requested_at: Requested at
+        shipped_at: Shipped at
+        received_at: Received at
+        return_shipped_at: Return shipped at
+        return_received_at: Return received at
+        deleted_at: Deleted at
+        state: State
       message:
-        receiver_deleted: "Receiver deleted"
-        receiver_purged: "Receiver purged"
-        sender_deleted: "Sender deleted"
-        sender_purged: "Sender purged"
-        read_at: "Read at"
-        subject: "Subject"
-        body: "Body"
+        receiver_deleted: Receiver deleted
+        receiver_purged: Receiver purged
+        sender_deleted: Sender deleted
+        sender_purged: Sender purged
+        read_at: Read at
+        subject: Subject
+        body: Body
       classification:
-        category: "Category"
-        name: "Name"
-        note: "Note"
+        category: Category
+        name: Name
+        note: Note
       imported_object:
-        imported_file_type: インポートするファイルの種類
-        importable_type: 輸入のタイプ
+        imported_file_type: Imported file type
+        importable_type: Importable type
       exemplify:
-        position: "Position"
+        position: Position
       own:
-        position: "Position"
+        position: Position
       search_history:
-        operation: "Operation"
-        version: "Version"
-        query: "Query"
-        start_record: "Start record"
-        maximum_records: "Maximum records"
-        record_packing: レコードの梱包
-        record_schema: レコードスキーマ
-        result_set_ttl: 結果のTTL設定
-        stylesheet: "Stylesheet"
-        extra_request_data: "Extra request data"
-        number_of_records: "Number of records"
-        result_set_idle_time: 結果のアイドル時間を設定
-        records: "Records"
-        next_record_position: 次のレコードの位置
-        diagnostics: "Diagnostics"
-        extra_response_data: 余分な応答データ
-        echoed_search_retrieve_request: エコーの検索リクエストを取得
+        operation: Operation
+        version: Version
+        query: Query
+        start_record: Start record
+        maximum_records: Maximum records
+        record_packing: Record packing
+        record_schema: Record schema
+        result_set_ttl: Result set ttl
+        stylesheet: Stylesheet
+        extra_request_data: Extra request data
+        number_of_records: Number of records
+        result_set_idle_time: Result set idle time
+        records: Records
+        next_record_position: Next record position
+        diagnostics: Diagnostics
+        extra_response_data: Extra response data
+        echoed_search_retrieve_request: Echoed search retrieve request
       shelf:
-        name: "Name"
-        note: "Note"
-        position: "Position"
-        deleted_at: "Deleted at"
+        name: Name
+        note: Note
+        position: Position
+        deleted_at: Deleted at
       event_category:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       advertisement:
-        title: "Title"
-        url: "URL"
-        body: "Body"
-        note: "Note"
-        started_at: "Started at"
-        ended_at: "Ended at"
-        deleted_at: "Deleted at"
-        position: "Position"
+        title: Title
+        url: URL
+        body: Body
+        note: Note
+        started_at: Started at
+        ended_at: Ended at
+        deleted_at: Deleted at
+        position: Position
       porta_response:
-        body: "Body"
+        body: Body
       donate:
       basket:
-        note: "Note"
-        lock_version: "Lock version"
+        note: Note
+        lock_version: Lock version
       subject_as_event:
-        term: "Term"
+        term: Term
       checked_item:
-        due_date: "Due date"
+        due_date: Due date
       produce:
-        position: "Position"
+        position: Position
       role:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       session:
-        data: "Data"
+        data: Data
       subject_broader_term:
       subject_type:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       subscribe:
-        start_on: "Start on"
-        end_on: "End on"
+        start_on: Start on
+        end_on: End on
       checkin:
       item:
-        call_number: "Call number"
-        item_identifier: "Item identifier"
-        deleted_at: "Deleted at"
-        include_supplements: "Include supplements"
-        note: "Note"
-        url: "URL"
-        price: "Price"
-        lock_version: "Lock version"
+        call_number: Call number
+        item_identifier: Item identifier
+        deleted_at: Deleted at
+        include_supplements: Include supplements
+        note: Note
+        url: URL
+        price: Price
+        lock_version: Lock version
       barcode:
-        barcode_type: "Barcode type"
-        barcodable_type: "Barcodable type"
-        code_word: "Code word"
-        data: "Data"
+        barcode_type: Barcode type
+        barcodable_type: Barcodable type
+        code_word: Code word
+        data: Data
       work:
-        original_title: "Original title"
-        title_transcription: "Title transcription"
-        title_alternative: "Titlte alternative"
-        context: "Context"
-        note: "Note"
-        lock_version: "Lock version"
-        deleted_at: "Deleted at"
+        original_title: Original title
+        title_transcription: Title transcription
+        title_alternative: Titlte alternative
+        context: Context
+        note: Note
+        lock_version: Lock version
+        deleted_at: Deleted at
       purchase_request:
-        title: "Title"
-        author: "Author"
-        publisher: "Publisher"
-        isbn: "ISBN"
-        date_of_publication: "Date of publication"
-        price: "Price"
-        url: "URL"
-        note: "Note"
-        accepted_at: "Accepted at"
-        denied_at: "Denied at"
-        deleted_at: "Deleted at"
+        title: Title
+        author: Author
+        publisher: Publisher
+        isbn: ISBN
+        date_of_publication: Date of publication
+        price: Price
+        url: URL
+        note: Note
+        accepted_at: Accepted at
+        denied_at: Denied at
+        deleted_at: Deleted at
       realize:
-        position: "Position"
+        position: Position
       reify:
-        position: "Position"
+        position: Position
       subject_as_concept:
-        term: "Term"
+        term: Term
       frequency_of_issue:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       expression_merge_list:
-        title: "Title"
+        title: Title
       use_restriction:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       subject:
-        term: "Term"
-        term_transcription: "Term transcription"
-        scope_note: "Scope note"
-        note: "Note"
-        lock_version: "Lock version"
+        term: Term
+        term_transcription: Term transcription
+        scope_note: Scope note
+        note: Note
+        lock_version: Lock version
       expression_form:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       work_merge:
       aaws_response:
-        body: "Body"
+        body: Body
       patron_type:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       work_merge_list:
-        title: "Title"
+        title: Title
       order:
-        position: "Position"
-        state: "State"
+        position: Position
+        state: State
       order_list:
-        title: "Title"
-        note: "Note"
-        ordered_at: "Ordered at"
-        deleted_at: "Deleted at"
-        state: "State"
+        title: Title
+        note: Note
+        ordered_at: Ordered at
+        deleted_at: Deleted at
+        state: State
       advertise:
-        position: "Position"
+        position: Position
       event:
-        date: "Date"
-        title: "Title"
-        note: "Note"
-        started_at: "Started at"
-        ended_at: "Ended at"
-        deleted_at: "Deleted at"
+        date: Date
+        title: Title
+        note: Note
+        started_at: Started at
+        ended_at: Ended at
+        deleted_at: Deleted at
       embody:
-        position: "Position"
+        position: Position
       item_has_use_restriction:
       expression_merge:
       request_status_type:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       news_feed:
-        title: "Title"
-        url: "URL"
-        body: "Body"
-        position: "Position"
+        title: Title
+        url: URL
+        body: Body
+        position: Position
       search_engine:
-        name: "Name"
-        url: "URL"
-        base_url: "Base URL"
-        http_method: "HTTP method"
-        query_param: "Query param"
-        additional_param: "Additional param"
-        note: "Note"
-        position: "Position"
+        name: Name
+        url: URL
+        base_url: Base URL
+        http_method: HTTP method
+        query_param: Query param
+        additional_param: Additional param
+        note: Note
+        position: Position
       bookmark:
-        note: "Note"
+        note: Note
       create:
-        position: "Position"
+        position: Position
       db_file:
-        data: "Data"
+        data: Data
       manifestation_form:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       manifestation:
-        original_title: "Original title"
-        title_alternative: "Titlte alternative"
-        title_transcription: "Title transcription"
-        classification_number: "Classification number"
-        manifestation_identifier: "Manifestation identifier"
-        date_of_publication: "Date of publication"
-        deleted_at: "Deleted at"
-        access_address: "Access address"
-        start_page: "Start page"
-        end_page: "End page"
-        height: "Height"
-        width: "Width"
-        depth: "Depth"
-        isbn: "ISBN"
-        isbn10: "ISBN 10"
-        wrong_isbn: "Wrong ISBN"
-        nbn: "NBN"
-        price: "Price"
-        volume_number_list: "Volume number list"
-        issue_number_list: "Issue number list"
-        serial_number_list: "Serial number list"
-        edition: "Edition"
-        note: "Note"
-        repository_content: "Repository content"
-        lock_version: "Lock version"
+        original_title: Original title
+        title_alternative: Titlte alternative
+        title_transcription: Title transcription
+        classification_number: Classification number
+        manifestation_identifier: Manifestation identifier
+        date_of_publication: Date of publication
+        deleted_at: Deleted at
+        access_address: Access address
+        start_page: Start page
+        end_page: End page
+        height: Height
+        width: Width
+        depth: Depth
+        isbn: ISBN
+        isbn10: ISBN 10
+        wrong_isbn: Wrong ISBN
+        nbn: NBN
+        price: Price
+        volume_number_list: Volume number list
+        issue_number_list: Issue number list
+        serial_number_list: Serial number list
+        edition: Edition
+        note: Note
+        repository_content: Repository content
+        lock_version: Lock version
       user_group:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
-        deleted_at: "Deleted at"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+        deleted_at: Deleted at
       imported_resource_file:
-        filename: "Filename"
-        content_type: "Content type"
-        size: "Size"
-        file_hash: "File hash"
-        note: "Note"
-        imported_at: "Imported at"
+        filename: Filename
+        content_type: Content type
+        size: Size
+        file_hash: File hash
+        note: Note
+        imported_at: Imported at
       checkout:
-        due_date: "Due date"
-        lock_version: "Lock version"
+        due_date: Due date
+        lock_version: Lock version
       subscription:
-        title: "Title"
-        note: "Note"
-        deleted_at: "Deleted at"
+        title: Title
+        note: Note
+        deleted_at: Deleted at
       message_template:
-        status: "Status"
-        title: "Title"
-        body: "Body"
-        position: "Position"
+        status: Status
+        title: Title
+        body: Body
+        position: Position
       patron_merge:
       subject_related_term:
       library_group:
-        name: "Name"
-        display_name: "Display name"
-        short_name: "Short name"
-        email: "Email"
-        my_networks: "My networks"
-        use_dsbl: "Use DSBL"
-        note: "Note"
+        name: Name
+        display_name: Display name
+        short_name: Short name
+        email: Email
+        my_networks: My networks
+        use_dsbl: Use DSBL
+        note: Note
       imported_event_file:
-        filename: "Filename"
-        content_type: "Content type"
-        size: "Size"
-        file_hash: "File hash"
-        note: "Note"
-        imported_at: "Imported at"
+        filename: Filename
+        content_type: Content type
+        size: Size
+        file_hash: File hash
+        note: Note
+        imported_at: Imported at
       bookmarked_resource:
-        title: "Title"
-        url: "URL"
+        title: Title
+        url: URL
       attachment_file:
-        attachable_type: "Attachable type"
-        size: "Size"
-        content_type: "Content type"
-        title: "Title"
-        filename: "Filename"
-        height: "Height"
-        width: "Width"
-        thumbnail: "Thumbnail"
-        fulltext: "Fulltext"
-        file_hash: "File hash"
+        attachable_type: Attachable type
+        size: Size
+        content_type: Content type
+        title: Title
+        filename: Filename
+        height: Height
+        width: Width
+        thumbnail: Thumbnail
+        fulltext: Fulltext
+        file_hash: File hash
       reserve:
-        checked_out_at: "Checked out at"
-        canceled_at: "Canceled at"
-        expired_at: "Expired at"
-        deleted_at: "Deleted at"
-        state: "State"
+        checked_out_at: Checked out at
+        canceled_at: Canceled at
+        expired_at: Expired at
+        deleted_at: Deleted at
+        state: State
       message_queue:
-        sent_at: "Sent at"
-        deleted_at: "Deleted at"
+        sent_at: Sent at
+        deleted_at: Deleted at
       answer:
-        body: "Body"
-        deleted_at: "Deleted at"
+        body: Body
+        deleted_at: Deleted at
       bookstore:
-        name: "Name"
-        address: "Address"
-        note: "Note"
-        telephone_number: "Telephone number"
-        fax_number: "Fax number"
-        url: "URL"
-        position: "Position"
-        deleted_at: "Deleted at"
+        name: Name
+        address: Address
+        note: Note
+        telephone_number: Telephone number
+        fax_number: Fax number
+        url: URL
+        position: Position
+        deleted_at: Deleted at
       checkout_type:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       classification_type:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       country:
-        name: "Name"
-        display_name: "Display name"
-        alpha_2: "Alpha 2"
-        alpha_3: "Alpha 3"
-        numeric_3: "Numeric 3"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        alpha_2: Alpha 2
+        alpha_3: Alpha 3
+        numeric_3: Numeric 3
+        note: Note
+        position: Position
       manifestation_api_response:
-        body: "Body"
+        body: Body
       request_type:
-        name: "Name"
-        display_name: "Display name"
-        note: "Note"
-        position: "Position"
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
       inventory_file:
-        filename: "Filename"
-        content_type: "Content type"
-        size: "Size"
-        file_hash: "File hash"
-        note: "Note"
+        filename: Filename
+        content_type: Content type
+        size: Size
+        file_hash: File hash
+        note: Note
       manifestation_form_has_checkout_type:
-        note: "Note"
-        position: "Position"
+        note: Note
+        position: Position
       user_group_has_checkout_type:
-        checkout_limit: "Checkout limit"
-        checkout_period: "Checkout period"
-        checkout_renewal_limit: "Checkoit renewal limit"
-        reservation_limit: "Reservation limit"
-        reservation_expired_period: "Reservation expired period"
-        set_due_date_before_closing_day: "Set due date before closing day"
-        fixed_due_date: "Fixed due date"
-        note: "Note"
-        position: "Position"
+        checkout_limit: Checkout limit
+        checkout_period: Checkout period
+        checkout_renewal_limit: Checkoit renewal limit
+        reservation_limit: Reservation limit
+        reservation_expired_period: Reservation expired period
+        set_due_date_before_closing_day: Set due date before closing day
+        fixed_due_date: Fixed due date
+        note: Note
+        position: Position
       bookmark_stat:
-        note: 注記
-      checkout_stat:
-        note: 注記
+        note: Note
+      manifestation_checkout_stat:
+        note: Note
       user_checkout_stat:
-        note: 注記
+        note: Note
 

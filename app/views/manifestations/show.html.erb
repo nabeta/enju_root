@@ -133,7 +133,7 @@
         <td><%= t('page.number') -%>:</td>
         <td>
           <%- unless @manifestation.volume_number.blank? -%>
-            <%= ('Volume number') -%>: <%=h @manifestation.volume_number.join("/") -%>
+            <%= t('activerecord.attributes.manifestation.volume_number') -%>: <%=h @manifestation.volume_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.issue_number_list.blank? -%>
             <%= ('Issue number') -%>: <%=h @manifestation.issue_number.join("/") -%>
