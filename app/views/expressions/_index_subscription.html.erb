@@ -39,8 +39,8 @@
       [E]
       <%= link_to h(expression.original_title), subscription_expression_path(@subscription, expression) -%>
       <%= expression_form_icon(expression.expression_form) -%><br />
-      <%= patrons_list(expression.authors, :link => true) -%>
-      <%= patrons_list(expression.patrons, :link => true) -%>
+      <%= patrons_list(expression.authors) -%>
+      <%= patrons_list(expression.patrons) -%>
     </td>
     <td><%=h expression.language.display_name -%></td>
     <td>
