@@ -23,7 +23,7 @@
     <th><%= ('Login') -%></th>
     <th><%= t('page.name') -%></th>
     <th><%= t('page.checkout') -%></th>
-    <th><%= ('Reservation') -%></th>
+    <th><%= t('activerecord.models.reserve') -%></th>
   </tr>
   
 <%- @users.each_with_index do |user, i| -%>
@@ -34,7 +34,7 @@
       <%= link_to t('page.checkout'), new_basket_path(:user_id => user.id) -%>
       (<%= link_to ('Checkout history'), user_checkouts_path(user.login) -%>)
     </td>
-    <td><%= link_to ('Reservation'), user_reserves_path(user.login) -%></td>
+    <td><%= link_to t('activerecord.models.reserve'), user_reserves_path(user.login) -%></td>
     <td><%= link_to t('page.edit'), edit_user_path(user.login) -%></td>
   </tr>
 <%- end -%>

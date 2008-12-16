@@ -115,9 +115,9 @@
                         <ul>
                           <li class="yuimenuitem">
                           <%- if current_user.has_role?('Librarian') -%>
-                            <%= link_to ('Reservation'), reserves_path, :class => 'yuimenuitemlabel' -%>
+                            <%= link_to t('activerecord.models.reserve'), reserves_path, :class => 'yuimenuitemlabel' -%>
                           <%- else -%>
-                            <%= link_to ('Reservation'), user_reserves_path(current_user.login), :class => 'yuimenuitemlabel' -%>
+                            <%= link_to t('activerecord.models.reserve'), user_reserves_path(current_user.login), :class => 'yuimenuitemlabel' -%>
                           <%- end -%>
                           </li>
                           <li class="yuimenuitem"><%= link_to t('activerecord.models.purchase_request'), user_purchase_requests_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>

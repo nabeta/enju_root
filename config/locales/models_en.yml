@@ -633,4 +633,6 @@ en:
         note: Note
       user_checkout_stat:
         note: Note
+      tag:
+        name: Name
 
