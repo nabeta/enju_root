@@ -3,11 +3,9 @@
 one:
   from_item_id: 1
   to_item_id: 1
-  item_relationship_type_id: 1
   position: 1
 
 two:
   from_item_id: 1
   to_item_id: 1
-  item_relationship_type_id: 1
   position: 1

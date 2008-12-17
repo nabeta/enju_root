@@ -13,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :manifestation_checkout_stats
 
-  map.resources :manifestation_checkout_stat_has_manifestations
+  map.resources :checkout_stat_has_manifestations
 
   map.resources :item_relationship_types
 

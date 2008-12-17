@@ -4,7 +4,7 @@
   <tr>
     <th>From manifestation</th>
     <th>To manifestation</th>
-    <th>ManifestationRelationship type</th>
+    <th>Type</th>
     <th>Position</th>
   </tr>
 
@@ -12,7 +12,7 @@
   <tr>
     <td><%=h manifestation_has_manifestation.from_manifestation_id %></td>
     <td><%=h manifestation_has_manifestation.to_manifestation_id %></td>
-    <td><%=h manifestation_has_manifestation.manifestation_relationship_type_id %></td>
+    <td><%=h manifestation_has_manifestation.type %></td>
     <td><%=h manifestation_has_manifestation.position %></td>
     <td><%= link_to t('page.show'), manifestation_has_manifestation %></td>
     <td><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(manifestation_has_manifestation) %></td>

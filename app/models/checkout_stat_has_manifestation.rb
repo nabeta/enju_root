@@ -1,4 +1,4 @@
-class ManifestationCheckoutStatHasManifestation < ActiveRecord::Base
+class CheckoutStatHasManifestation < ActiveRecord::Base
   belongs_to :manfestation_checkout_stat
   belongs_to :manifestation
 

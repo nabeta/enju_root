@@ -22,8 +22,8 @@ class Manifestation < ActiveRecord::Base
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
-  has_many :manifestation_checkout_stat_has_manifestations
-  has_many :checkout_stats, :through => :manifestation_checkout_stat_has_manifestations
+  has_many :checkout_stat_has_manifestations
+  has_many :checkout_stats, :through => :checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
   has_many :reserve_stat_has_manifestations

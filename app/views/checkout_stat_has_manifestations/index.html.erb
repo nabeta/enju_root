@@ -1,0 +1,24 @@
+<h1>Listing checkout_stat_has_manifestations</h1>
+
+<table>
+  <tr>
+    <th>Checkout stat</th>
+    <th>Manifestation</th>
+    <th>Checkouts count</th>
+  </tr>
+
+<% for checkout_stat_has_manifestation in @checkout_stat_has_manifestations %>
+  <tr>
+    <td><%=h checkout_stat_has_manifestation.manifestation_checkout_stat_id %></td>
+    <td><%=h checkout_stat_has_manifestation.manifestation_id %></td>
+    <td><%=h checkout_stat_has_manifestation.checkouts_count %></td>
+    <td><%= link_to t('page.show'), checkout_stat_has_manifestation %></td>
+    <td><%= link_to t('page.edit'), edit_checkout_stat_has_manifestation_path(checkout_stat_has_manifestation) %></td>
+    <td><%= link_to t('page.destroy'), checkout_stat_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New checkout_stat_has_manifestation', new_checkout_stat_has_manifestation_path %>
