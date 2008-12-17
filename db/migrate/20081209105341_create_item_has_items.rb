@@ -3,14 +3,14 @@ class CreateItemHasItems < ActiveRecord::Migration
     create_table :item_has_items do |t|
       t.integer :from_item_id
       t.integer :to_item_id
-      t.integer :item_relationship_type_id
+      t.string :type
       t.integer :position
 
       t.timestamps
     end
     add_index :item_has_items, :from_item_id
     add_index :item_has_items, :to_item_id
-    add_index :item_has_items, :item_relationship_type_id
+    add_index :item_has_items, :type
   end
 
   def self.down

@@ -95,7 +95,12 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
   end
 
   def culculate_checkouts_count(from_date, to_date)
-    checkout_stat = CheckoutStat.create(:from_date => from_date, :to_date => to_date)
-    checkout_stat.culculate_checkouts_count
+    manifestation_stat = CheckoutStat.create(:from_date => from_date, :to_date => to_date)
+    manifestation_stat.culculate_manifestations_count
+  end
+
+  def culculate_bookmarks_count(from_date, to_date)
+    bookmark_stat = BookmarkStat.create(:from_date => from_date, :to_date => to_date)
+    bookmark_stat.culculate_bookmarks_count
   end
 end

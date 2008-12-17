@@ -1,3 +1,11 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @bookmark_stat %></li>
+    <li><%= link_to t('page.back'), bookmark_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <h1>Editing bookmark_stat</h1>
 
 <% form_for(@bookmark_stat) do |f| %>
@@ -20,5 +28,4 @@
   </p>
 <% end %>
 
-<%= link_to t('page.show'), @bookmark_stat %> |
-<%= link_to t('page.back'), bookmark_stats_path %>
+</div>

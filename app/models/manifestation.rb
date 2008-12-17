@@ -22,8 +22,8 @@ class Manifestation < ActiveRecord::Base
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
-  has_many :checkout_stat_has_manifestations
-  has_many :checkout_stats, :through => :checkout_stat_has_manifestations
+  has_many :manifestation_checkout_stat_has_manifestations
+  has_many :checkout_stats, :through => :manifestation_checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
   
@@ -239,14 +239,6 @@ class Manifestation < ActiveRecord::Base
 
   def tags
     self.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
-  end
-
-  def bookmarks
-    if self.bookmarked_resource
-      self.bookmarked_resource.bookmarks
-    else
-      []
-    end
   end
 
   def works
@@ -516,7 +508,7 @@ class Manifestation < ActiveRecord::Base
       #@isbn = @resource.searchable.isbn.sub("urn:isbn:", "") rescue ""
       unless self.isbn.blank?
         #@amazon_url = "http://#{@library_group.amazon_host}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&IdType=ASIN&ItemId=#{@resource.searchable.isbn}&ResponseGroup=Images"
-        amazon_url = "https://#{AMAZON_AWS_HOSTNAME}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&SearchIndex=Books&IdType=ISBN&ItemId=#{self.isbn}&ResponseGroup=Images,Reviews"
+        amazon_url = "https://#{AMAZON_AWS_HOSTNAME}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&SearchIndex=Books&IdType=ISBN&ItemId=#{isbn}&ResponseGroup=Images,Reviews"
         last_response = AawsResponse.find(:first, :order => 'created_at DESC')
         unless last_response.nil?
           # 1 request per 1 second
@@ -738,5 +730,17 @@ class Manifestation < ActiveRecord::Base
 
   def checkouts(from_date, to_date)
     Checkout.completed(from_date, to_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
+  end
+
+  def bookmarks(from_date = nil, to_date = nil)
+    if from_date.blank? and to_date.blank?
+      if self.bookmarked_resource
+        self.bookmarked_resource.bookmarks
+      else
+        []
+      end
+    else
+      Bookmark.bookmarked(from_date, to_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
+    end
   end
 end

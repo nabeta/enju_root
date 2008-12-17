@@ -1,4 +1,4 @@
-<h3><%= ('Form') -%></h3>
+<h3><%= t('page.form') -%></h3>
 <ul>
   <%- @manifestation_forms.each do |form| -%>
     <%- if @facet_results["formtype_f_facet"]["#{form.name}"] -%>
@@ -11,6 +11,6 @@
     <%- end -%>
   <%- end -%>
   <%- if params[:formtype] -%>
-    <li><%= link_to ('Remove this facet'), url_for(:params => params.merge(:formtype => nil, :page => nil, :view => nil)) -%></li>
+    <li><%= link_to t('page.remove_this_facet'), url_for(:params => params.merge(:formtype => nil, :page => nil, :view => nil)) -%></li>
   <%- end -%>
 </ul>

@@ -29,7 +29,7 @@
     <%= f.text_field :original_title, :value => @expression.original_title, :class => 'resource_title' -%>
   </p>
   <p>
-    <b><%= ('Title transcription') -%></b><br />
+    <b><%= t('activerecord.attributes.manifestation.title_transcription') -%></b><br />
     <%- if @expression -%>
       <%= f.text_field :title_transcription, :value => @expression.title_alternative, :class => 'resource_title' -%>
     <%- else -%>
@@ -62,7 +62,7 @@
     <%- else -%>
       <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
       <%= f.text_field :edition, :class => 'resource_integer' -%>
-      <b><%= ('Volume number') -%></b>
+      <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
       <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
     <%- end -%>
   </p>
@@ -96,7 +96,7 @@
   </p>
 
   <p>
-    <b><%= ('Access address') -%></b><br />
+    <b><%= t('activerecord.attributes.manifestation.access_address') -%></b><br />
     <%= f.text_field :access_address, :class => 'resource_url' -%>
   </p>
 
@@ -105,6 +105,11 @@
     <%= f.check_box :repository_content -%>
   </p>
   
+  <p>
+    <b><%= ('Access role') -%></b><br />
+    <%= f.select(:access_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+  </p>
+
   <p>
     <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>

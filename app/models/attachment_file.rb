@@ -13,6 +13,7 @@ class AttachmentFile < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
   
+  before_save :extract_text
   after_save :save_manifestation
   after_destroy :save_manifestation
 
@@ -38,16 +39,15 @@ class AttachmentFile < ActiveRecord::Base
   end
 
   def extract_text
-#    require 'tempfile'
-#    fulltext = ""
-#
-#    temp = Tempfile::new("attachment_file_extract_fulltext")
-#    temp.close
-#    case self.content_type
+    content = Tempfile::new("content")
+    content.puts(self.db_file.data)
+    content.close
+    fulltext = Tempfile::new("fulltext")
+    case self.content_type
 #    when "application/pdf"
 #      system("pdftotext -q -enc UTF-8 -raw #{self.full_filename} #{temp.path}")
-#    when "application/msword"
-#      system("antiword #{self.full_filename} 2> /dev/null > #{temp.path}")
+    when "application/msword"
+     system("antiword #{content.path} 2> /dev/null > #{fulltext.path}")
 #    when "application/vnd.ms-excel"
 #      system("xlhtml #{self.full_filename} 2> /dev/null > #{temp.path}")
 #    when "application/vnd.ms-powerpoint"
@@ -64,13 +64,9 @@ class AttachmentFile < ActiveRecord::Base
     #  temp.close
     #else
     #  nil
-#    end
-#
-#    open(temp.path).each do |file|
-#      fulltext = fulltext + file.chomp
-#    end
-#
-#    self.fulltext = fulltext
+    end
+
+    self.update_attribute(:fulltext, fulltext.read)
   end
 
   def digest(options = {:type => 'sha1'})

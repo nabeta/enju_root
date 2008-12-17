@@ -14,9 +14,9 @@
     <td><%=h item_has_item.to_item_id %></td>
     <td><%=h item_has_item.item_relationship_type_id %></td>
     <td><%=h item_has_item.position %></td>
-    <td><%= link_to 'Show', item_has_item %></td>
-    <td><%= link_to 'Edit', edit_item_has_item_path(item_has_item) %></td>
-    <td><%= link_to 'Destroy', item_has_item, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.show'), item_has_item %></td>
+    <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) %></td>
+    <td><%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>

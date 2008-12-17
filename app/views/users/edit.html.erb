@@ -1,4 +1,4 @@
-<h1><%=h ('Edit %{user}\'s profile') -%></h1>
+<h1><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
 
 <%= error_messages_for :user -%>
 
@@ -11,12 +11,12 @@
   <div id="left_pane">
 
   <p>
-    <b><%= ('Email') -%></b><br />
+    <b><%= t('activerecord.attributes.user.email') -%></b><br />
     <%= f.text_field :email, :class => 'resource_email' -%>
   </p>
 
   <p>
-    <b><%= t('password') -%></b><br />
+    <b><%= t('page.password') -%></b><br />
     <%- if current_user == @user -%>
       <table>
         <tr>
@@ -39,16 +39,18 @@
     <%= f.check_box :auto_generated_password -%> <%= ('Set auto-generated password') -%>
   </p>
 
-  <p><b><%= ('Expired at') -%></b><br />
+  <p><b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
     <%= f.date_select :expired_at, :blank => true -%>
   </p>
   
   <p>
+    <b><%= ('Suspended') -%></b>
     <%= f.check_box :locked -%> <%= ('Suspended') -%>
   </p>
 
-  <p><b><%= t('bookmark') -%></b><br />
-    <%= f.check_box :share_bookmarks -%> <%= ('Share bookmarks') -%>
+  <p>
+    <b><%= ('Share bookmarks') -%></b>
+    <%= f.check_box :share_bookmarks -%>
   </p>
   </div>
 
@@ -70,7 +72,7 @@
   <%- end -%>
 
     <p>
-      <b><%= ('User number') -%></b><br />
+      <b><%= t('activerecord.attributes.user.user_number') -%></b><br />
       <%- if current_user.has_role?('Librarian') -%>
         <%= f.text_field :user_number, :class => 'resource_user_number' -%>
       <%- else -%>
@@ -127,7 +129,7 @@
   <%- end -%>
   <br />
   <%= hidden_field_tag 'user[reset_url]', 'checkout_icalendar' -%>
-  <%= f.submit t('reset') -%>
+  <%= f.submit t('page.reset') -%>
 <%- end -%>
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   <%= hidden_field_tag 'user[delete_url]', 'checkout_icalendar' -%>

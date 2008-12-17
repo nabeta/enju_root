@@ -13,7 +13,6 @@ ja:
       feeds/instance: フィード/インスタンス
       feeds/global: フィード/グローバル
       feeds/activity: フィード/活動
-      person: 人
       subject_as_object: 件名オブジェクトとして
       subject_as_place: 対象地として
       subject_has_classification: 件名と分類の関係
@@ -21,11 +20,10 @@ ja:
       language: 言語
       patron_merge_list: パトロンの併合リスト
       user: ユーザ
-      corporate_body: 団体
       resource_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       work_form: 著作形の形態
-      inter_library_loan: インテルライブラリローン
+      inter_library_loan: 相互貸借
       message: メッセージ
       classification: 分類
       imported_object: インポートされたオブジェクト
@@ -33,7 +31,7 @@ ja:
       own: 所有
       search_history: 検索履歴
       shelf: 棚
-      event_category: イベントカテゴリ
+      event_category: 催し物の種類
       advertisement: 広告
       porta_response: PORTAの応答
       donate: 寄付
@@ -44,29 +42,29 @@ ja:
       role: 役割
       session: セッション
       subject_broader_term: 件名広範な用語
-      subject_type: 件名を入力
+      subject_type: 件名の種類
       subscribe: 購読
       checkin: チェックイン
       item: 個別資料
       barcode: バーコード
       work: 著作形
-      purchase_request: 購買要求書
+      purchase_request: 購入リクエスト
       realize: 実現
       reify: Reify
       subject_as_concept: 件名概念として
-      frequency_of_issue: 周波数問題
+      frequency_of_issue: 発行頻度
       expression_merge_list: 式のリストのマージ
       use_restriction: 使用制限
       subject: 主題
-      expression_form: 表現形式
+      expression_form: 表現形の形態
       work_merge: 著作形をマージ
       aaws_response: Aawsの応答
       patron_type: パトロンの種類
       work_merge_list: 著作形の併合リスト
-      order: 注文
-      order_list: 注文リスト
+      order: 発注
+      order_list: 発注リスト
       advertise: 広告
-      event: イベント
+      event: 催し物
       embody: 具体化する
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現のマージ
@@ -85,7 +83,7 @@ ja:
       message_template: メッセージテンプレート
       patron_merge: パトロンの併合
       subject_related_term: アジ関連用語
-      library_group: ライブラリグループ
+      library_group: 図書館グループ
       imported_event_file: イベントファイルのインポート
       bookmarked_resource: ブックマークリソース
       attachment_file: 添付ファイル
@@ -95,12 +93,12 @@ ja:
       bookstore: 書店
       checkout_type: 貸出の種類
       classification_type: 分類型
-      country: 国
+      country: 国と地域
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      manifestation_form_has_checkout_type: フォームを貸出している体現形の種類
-      user_group_has_checkout_type: ユーザグループの貸出を入力している
+      manifestation_form_has_checkout_type: 体現形の種類と貸出の種類
+      user_group_has_checkout_type: ユーザグループと貸出の種類
     attributes:
       library:
         name: 名前
@@ -119,7 +117,7 @@ ja:
         deleted_at: 削除時刻
       question:
         body: 本文
-        private_question: 秘密の質問
+        private_question: 質問を公開しない
         deleted_at: 削除時刻
       imported_patron_file:
         filename: ファイル名
@@ -195,31 +193,6 @@ ja:
         value: 値
       feeds/activity:
         title: タイトル
-      person:
-        last_name: 姓
-        middle_name: ミドルネーム
-        first_name: 名前
-        last_name_transcription: 最後の名前の転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前の転写
-        corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
-        full_name: 正式名称
-        full_name_transcription: フルネーム転写
-        full_name_alternative: フルネーム代替
-        deleted_at: 削除時刻
-        zip_code_1: 郵便番号1
-        zip_code_2: 郵便番号2
-        address_1: 住所1
-        address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
-        other_designation: 他の指定
-        place: 場所
-        date_of_birth: 生年月日
-        date_of_death: 没年月日
-        lock_version: ロックバージョン
-        note: 注記
       subject_as_object:
         term: 用語
       subject_as_place:
@@ -258,7 +231,7 @@ ja:
         remember_token_expires_at: トークンを忘れないで期限が切れる
         activation_code: 活性化コード
         activated_at: でアクティブ
-        expired_at: 期限切れ時刻
+        expired_at: 有効期限
         locked: ロック
         checkout_icalendar_token: 貸出iCalendarのトークン
         answer_rss_token: 答えはトークンのRSS
@@ -271,31 +244,6 @@ ja:
         keyword_list: キーワードリスト
         user_number: 利用者番号
         state: 状態
-      corporate_body:
-        last_name: 姓
-        middle_name: ミドルネーム
-        first_name: 名前
-        last_name_transcription: 最後の名前の転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前の転写
-        corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
-        full_name: 正式名称
-        full_name_transcription: フルネーム転写
-        full_name_alternative: フルネーム代替
-        deleted_at: 削除時刻
-        zip_code_1: 郵便番号1
-        zip_code_2: 郵便番号2
-        address_1: 住所1
-        address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
-        other_designation: 他の指定
-        place: 場所
-        date_of_birth: 生年月日
-        date_of_death: 死亡日
-        lock_version: ロックバージョン
-        note: 注記
       resource_has_subject:
         subjectable_type: Subjectable種類
       picture_file:
@@ -392,6 +340,7 @@ ja:
       role:
         name: 名前
         display_name: 表示名
+        score: 点数
         note: 注記
         position: 位置
       session:
@@ -485,7 +434,7 @@ ja:
       order_list:
         title: タイトル
         note: 注記
-        ordered_at: 注文時刻
+        ordered_at: 発注時刻
         deleted_at: 削除時刻
         state: 状態
       advertise:
@@ -540,11 +489,11 @@ ja:
         date_of_publication: 出版日
         deleted_at: 削除時刻
         access_address: アクセスアドレス
-        start_page: スタートページ
+        start_page: 最初のページ
         end_page: 最後のページ
         height: 高さ
         width: 幅
-        depth: 深さ
+        depth: 奥行き
         isbn: ISBNコード
         isbn10: 10桁のISBN
         wrong_isbn: 間違ったISBNコード
@@ -590,6 +539,7 @@ ja:
         short_name: 短縮名
         email: メール
         my_networks: マイネットワーク
+        use_dsbl: "DSBLを使用する"
         note: 注記
       imported_event_file:
         filename: ファイル名
@@ -615,7 +565,7 @@ ja:
       reserve:
         checked_out_at: 貸出時刻
         canceled_at: 取消時刻
-        expired_at: 期限切れ時刻
+        expired_at: 有効期限
         deleted_at: 削除時刻
         state: 状態
       message_queue:
@@ -677,4 +627,10 @@ ja:
         fixed_due_date: 固定予定日
         note: 注記
         position: 位置
+      bookmark_stat:
+        note: 注記
+      manifestation_checkout_stat:
+        note: 注記
+      user_checkout_stat:
+        note: 注記
 

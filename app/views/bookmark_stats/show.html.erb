@@ -1,3 +1,11 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_bookmark_stat_path(@bookmark_stat) %></li>
+    <li><%= link_to t('page.back'), bookmark_stats_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <p>
   <b>From date:</b>
   <%=h @bookmark_stat.from_date %>
@@ -9,24 +17,25 @@
 </p>
 
 <p>
-  <b>Note:</b>
+  <b><%= t('activerecord.attributes.bookmark_stat.note') -%>:</b>
   <%=h @bookmark_stat.note %>
 </p>
 
 <table id="index">
   <tr>
-    <th><%= 'Manifestation' %></th>
-    <th><%= 'Checkouts count' %></th>
+    <th><%= t('activerecord.models.manifestation') %></th>
+    <th><%= 'Bookmarks count' %></th>
   </tr>
   <%- @stats.each do |stat| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => stat.manifestation} -%>
       </td>
-      <td><%=h stat.checkouts_count %></td>
+      <td><%=h stat.bookmarks_count %></td>
     </tr>
   <% end -%>
 </table>
 
-<%= link_to t('page.edit'), edit_bookmark_stat_path(@bookmark_stat) %> |
-<%= link_to t('page.back'), bookmark_stats_path %>
+<%= will_paginate(@stats) -%>
+
+</div>

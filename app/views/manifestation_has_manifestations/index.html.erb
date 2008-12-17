@@ -14,9 +14,9 @@
     <td><%=h manifestation_has_manifestation.to_manifestation_id %></td>
     <td><%=h manifestation_has_manifestation.manifestation_relationship_type_id %></td>
     <td><%=h manifestation_has_manifestation.position %></td>
-    <td><%= link_to 'Show', manifestation_has_manifestation %></td>
-    <td><%= link_to 'Edit', edit_manifestation_has_manifestation_path(manifestation_has_manifestation) %></td>
-    <td><%= link_to 'Destroy', manifestation_has_manifestation, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to t('page.show'), manifestation_has_manifestation %></td>
+    <td><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(manifestation_has_manifestation) %></td>
+    <td><%= link_to t('page.destroy'), manifestation_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete %></td>
   </tr>
 <% end %>
 </table>

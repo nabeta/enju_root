@@ -6,6 +6,7 @@ class CreateRoles < ActiveRecord::Migration
       t.column :note, :text
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
+      t.integer :score, :default => 0, :null => false
       t.integer :position
     end
     

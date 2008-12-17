@@ -5,7 +5,8 @@ class ManifestationsController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   before_filter :get_subject
-  before_filter :store_location, :except => [:index, :create, :update, :destroy]
+  before_filter :store_location, :except => [:create, :update, :destroy]
+  before_filter :prepare_options, :only => [:new, :edit]
   after_filter :csv_convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -45,7 +46,6 @@ class ManifestationsController < ApplicationController
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
       session[:params][:manifestation] = params.merge(:view => nil)
-      session[:params][:bookmarked_resource] = nil
 
       @query = query
       manifestations = {}
@@ -81,27 +81,8 @@ class ManifestationsController < ApplicationController
           #@tags_count = @count[:total]
 
           if ["all_facet", "manifestation_form_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-            @facet_results = get_facet(query)
-            @facet_query = query
-            unless @facet_results.blank?
-              case params[:view]
-              when "all_facet"
-                render :partial => 'all_facet'
-                return
-              when "manifestation_form_facet"
-                render :partial => 'manifestation_form_facet'
-                return
-              when "language_facet"
-                render :partial => 'language_facet'
-                return
-              when "library_facet"
-                render :partial => 'library_facet'
-                return
-              when "subject_facet"
-                render :partial => 'subject_facet'
-                return
-              end
-            end
+            render_facet(query)
+            return
           end
 
           order = set_search_result_order(params[:sort], params[:mode])
@@ -130,20 +111,7 @@ class ManifestationsController < ApplicationController
         end
       else
         # Solrを使わない場合
-        case
-        when @patron
-          @manifestations = @patron.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['produces.id'])
-        when @expression
-          @manifestations = @expression.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['embodies.id'])
-        when @subject
-          @manifestations = @subject.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['resource_has_subjects.id'])
-        else
-          #@manifestations = Manifestation.paginate(:all, :page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['manifestations.id'])
-          @manifestations = []
-        end
-        @count[:total] = @manifestations.size
-        @count[:query_result] = @manifestations.size
-        #flash[:notice] = ('Enter your search term.')
+        get_index_without_solr
       end
 
       @startrecord = (params[:page].to_i - 1) * per_page + 1
@@ -158,7 +126,6 @@ class ManifestationsController < ApplicationController
       end
     end
 
-    store_location
     @search_engines = SearchEngine.find(:all, :order => :position)
 
     respond_to do |format|
@@ -190,27 +157,7 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
 
-    case params[:mode]
-    when 'barcode'
-      barcode = Barby::QrCode.new(@manifestation.id)
-      send_data(barcode.to_png.to_blob, :disposition => 'inline', :type => 'image/png')
-      return
-    when 'holding'
-      render :partial => 'show_holding'
-      return
-    when 'tag_edit'
-      render :partial => 'tag_edit'
-      return
-    when 'tag_list'
-      render :partial => 'tag_list'
-      return
-    when 'show_authors'
-      render :partial => 'show_authors'
-      return
-    when 'show_all_authors'
-      render :partial => 'show_authors'
-      return
-    end
+    return if render_mode(params[:mode])
 
     @reserved_count = Reserve.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
@@ -239,8 +186,6 @@ class ManifestationsController < ApplicationController
       end
       @manifestation = Manifestation.new
       @manifestation.set_serial_number(@expression)
-      @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-      @languages = Language.find(:all, :order => 'position')
     end
   end
 
@@ -251,7 +196,6 @@ class ManifestationsController < ApplicationController
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) rescue nil
       render :partial => 'tag_edit'
     end
-    @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -307,8 +251,7 @@ class ManifestationsController < ApplicationController
           end
         #end
       else
-        @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-        @languages = Language.find(:all, :order => 'position')
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @manifestation.errors, :status => :unprocessable_entity }
       end
@@ -327,8 +270,7 @@ class ManifestationsController < ApplicationController
         format.html { redirect_to manifestation_url(@manifestation) }
         format.xml  { head :ok }
       else
-        @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-        @languages = Language.find(:all, :order => 'position')
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @manifestation.errors, :status => :unprocessable_entity }
       end
@@ -470,6 +412,68 @@ class ManifestationsController < ApplicationController
     return result.facets["facet_fields"]
   rescue
     nil
+  end
+
+  def render_facet(query)
+    @facet_results = get_facet(query)
+    @facet_query = query
+    unless @facet_results.blank?
+      case params[:view]
+      when "all_facet"
+        render :partial => 'all_facet'
+      when "manifestation_form_facet"
+        render :partial => 'manifestation_form_facet'
+      when "language_facet"
+        render :partial => 'language_facet'
+      when "library_facet"
+        render :partial => 'library_facet'
+      when "subject_facet"
+        render :partial => 'subject_facet'
+      end
+    end
+  end
+
+  def render_mode(mode)
+    case mode
+    when 'barcode'
+      barcode = Barby::QrCode.new(@manifestation.id)
+      send_data(barcode.to_png.to_blob, :disposition => 'inline', :type => 'image/png')
+    when 'holding'
+      render :partial => 'show_holding'
+    when 'tag_edit'
+      render :partial => 'tag_edit'
+    when 'tag_list'
+      render :partial => 'tag_list'
+    when 'show_authors'
+      render :partial => 'show_authors'
+    when 'show_all_authors'
+      render :partial => 'show_authors'
+    else
+      false
+    end
+  end
+
+  def get_index_without_solr
+    case
+    when @patron
+      @manifestations = @patron.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['produces.id'])
+    when @expression
+      @manifestations = @expression.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['embodies.id'])
+    when @subject
+      @manifestations = @subject.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['resource_has_subjects.id'])
+    else
+      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['manifestations.id'])
+      @manifestations = []
+    end
+    @count[:total] = @manifestations.size
+    @count[:query_result] = @manifestations.size
+    #flash[:notice] = ('Enter your search term.')
+  end
+
+  def prepare_options
+    @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
+    @languages = Language.find(:all, :order => 'position')
+    @roles = Role.find(:all, :order => 'id desc')
   end
 
 end

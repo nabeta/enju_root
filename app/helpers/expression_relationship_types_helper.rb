@@ -1,2 +1,0 @@
-module ExpressionRelationshipTypesHelper
-end

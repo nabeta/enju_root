@@ -1,0 +1,24 @@
+<h1>Listing user_checkout_stats</h1>
+
+<table id="index">
+  <tr>
+    <th>From date</th>
+    <th>To date</th>
+    <th><%= t('activerecord.attributes.user_checkout_stat.note') -%></th>
+  </tr>
+
+<% for user_checkout_stat in @user_checkout_stats %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h user_checkout_stat.from_date %></td>
+    <td><%=h user_checkout_stat.to_date %></td>
+    <td><%=h user_checkout_stat.note %></td>
+    <td><%= link_to t('page.show'), user_checkout_stat %></td>
+    <td><%= link_to t('page.edit'), edit_user_checkout_stat_path(user_checkout_stat) %></td>
+    <td><%= link_to t('page.destroy'), user_checkout_stat, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_checkout_stat', new_user_checkout_stat_path %>

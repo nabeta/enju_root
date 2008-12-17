@@ -27,12 +27,12 @@
   </p>
 
   <p>
-    <b><%= ('Start at') -%></b><br />
+    <b><%= t('activerecord.attributes.event.started_at') -%></b><br />
     <%= f.date_select :started_at, :use_month_numbers => true -%>
   </p>
 
   <p>
-    <b><%= ('End at') -%></b><br />
+    <b><%= t('activerecord.attributes.event.ended_at') -%></b><br />
     <%= f.date_select :ended_at, :use_month_numbers => true -%>
   </p>
 

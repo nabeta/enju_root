@@ -23,7 +23,6 @@ class BookmarkedResourcesController < ApplicationController
     session[:bookmarked_resource_ids] = [] unless session[:bookmarked_resource_ids]
     session[:params] = {} unless session[:params]
     session[:params][:manifestation] = nil
-    session[:params][:bookmarked_resource] = params
 
     @count = {}
     query = make_query(params[:query], {:tag => params[:tag]})

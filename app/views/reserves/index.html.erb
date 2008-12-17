@@ -26,7 +26,7 @@
     <th><%= t('page.user') -%></th>
     <th><%= t('page.manifestation') -%></th>
     <th><%= ('Status') -%></th>
-    <th><%= ('Expired at') -%></th>
+    <th><%= t('activerecord.attributes.reserve.expired_at') -%></th>
   </tr>
   
 <%- @reserves.each_with_index do |reserve, i| -%>

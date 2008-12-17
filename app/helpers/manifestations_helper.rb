@@ -2,12 +2,6 @@ module ManifestationsHelper
   def back_to_manifestation_index
     if session[:params][:manifestation]
       manifestations_path(:params => session[:params][:manifestation])
-    elsif session[:params][:bookmarked_resource]
-      if current_user
-        user_bookmarked_resources_path(:params => session[:params][:bookmarked_resource])
-      else
-        bookmarked_resources_path(:params => session[:params][:bookmarked_resource])
-      end
     else
       manifestations_path
     end
@@ -43,10 +37,10 @@ module ManifestationsHelper
       current_seq = session[:manifestation_ids].index(manifestation.id)
       if current_seq
         unless manifestation.id == session[:manifestation_ids].first
-          links << link_to(('Previous'), manifestation_path(session[:manifestation_ids][current_seq - 1]))
+          links << link_to(t('page.previous'), manifestation_path(session[:manifestation_ids][current_seq - 1]))
         end
         unless manifestation.id == session[:manifestation_ids].last
-          links << link_to(('Next'), manifestation_path(session[:manifestation_ids][current_seq + 1]))
+          links << link_to(t('page.next'), manifestation_path(session[:manifestation_ids][current_seq + 1]))
         end
       end
     end

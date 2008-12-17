@@ -11,7 +11,7 @@
 
 <%- form_for(:order, :url => orders_path) do |f| -%>
   <p>
-  <b><%= ('Order list') -%></b><br />
+  <b><%= t('activerecord.models.order_list') -%></b><br />
     <%= f.select(:order_list_id, @order_lists.collect{|l| [l.title, l.id]}) -%>
   </p>
 

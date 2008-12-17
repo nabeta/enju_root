@@ -34,7 +34,7 @@
   </h1>
 
   <div>
-    <%= patrons_list(@work.patrons, :link => true) -%>
+    <%= patrons_list(@work.patrons) -%>
   </div>
 <div id="tabview">
 
@@ -54,7 +54,7 @@
       <div id="tab1">
         <table id="index">
           <tr>
-            <td><b><%= ('Title transcription') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
             <td><%=h @work.title_transcription -%></td>
           </tr>
           <tr>
@@ -95,7 +95,7 @@
           <ul>
             <%- @work.children.each do |work| -%>
               <li><%= link_to h(work.original_title), work_path(work) -%>
-              <%= patrons_list(work.patrons, :link => true) -%></li>
+              <%= patrons_list(work.patrons) -%></li>
               </li>
             <%- end -%>
           </ul>
@@ -110,8 +110,8 @@
               [E]
               <%= link_to h(expression.original_title), expression_path(expression) -%>
               <%= expression_form_icon(expression.expression_form) -%>
-              <%= patrons_list(expression.patrons, :link => true) -%>
-              <%= patrons_list(expression.work.patrons, :link => true) -%>
+              <%= patrons_list(expression.patrons) -%>
+              <%= patrons_list(expression.work.patrons) -%>
               <%- unless expression.manifestations.blank? -%>
                 <ul>
                   <%- expression.manifestations.each do |manifestation| -%>
@@ -122,9 +122,9 @@
                     <%- manifestation.expressions.each do |expression| -%>
                       <%= expression_form_icon(expression.expression_form) -%>
                     <%- end -%>
-                    <%= patrons_list(manifestation.authors, :link => true) -%> 
-                    <%= patrons_list(manifestation.editors, :link => true) -%>
-                    <%= patrons_list(manifestation.publishers, :link => true) -%>
+                    <%= patrons_list(manifestation.authors) -%> 
+                    <%= patrons_list(manifestation.editors) -%>
+                    <%= patrons_list(manifestation.publishers) -%>
                     <%- if manifestation.date_of_publication -%>
                       (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
                     <%- end -%>
@@ -147,9 +147,9 @@
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
               <%- end -%>
-              <%= patrons_list(manifestation.authors, :link => true) -%> 
-              <%= patrons_list(manifestation.editors, :link => true) -%>
-              <%= patrons_list(manifestation.publishers, :link => true) -%>
+              <%= patrons_list(manifestation.authors) -%> 
+              <%= patrons_list(manifestation.editors) -%>
+              <%= patrons_list(manifestation.publishers) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>
@@ -161,7 +161,7 @@
                       [W]
                       <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @work -%>
                       <%= link_to h(work.original_title), work_path(work) -%>
-                      <%= patrons_list(work.patrons, :link => true) -%>
+                      <%= patrons_list(work.patrons) -%>
                       </li>
                     <%- end -%>
                   <%- end -%>

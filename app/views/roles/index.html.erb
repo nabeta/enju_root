@@ -4,6 +4,7 @@
   <tr>
     <th><%= t('page.name') -%></th>
     <th><%= t('page.display_name') -%></th>
+    <th><%= t('activerecord.attributes.role.score') -%></th>
     <th><%= t('page.note') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
@@ -13,6 +14,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(role.name), role_path(role) -%></td>
     <td><%= link_to h(role.display_name), role_path(role) -%></td>
+    <td><%=h role.score -%></td>
     <td><%=h role.note -%></td>
     <td><%=h role.created_at -%></td>
     <td><%=h role.updated_at -%></td>

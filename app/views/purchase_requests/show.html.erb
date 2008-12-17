@@ -24,7 +24,7 @@
 </p>
 
 <p>
-<b><%= ('Order list') -%>:</b>
+<b><%= t('activerecord.models.order_list') -%>:</b>
   <%- if @purchase_request.order_list -%>
     <%= link_to h(@purchase_request.order_list.title), order_list_purchase_requests_path(@purchase_request.order_list) -%>
   <%- else -%>
