@@ -11,12 +11,12 @@
 
 <%- form_for(:subject, :url => subjects_path) do |f| -%>
   <p>
-  <b><%= ('Term') -%></b><br />
+  <b><%= t('activerecord.attributes.subject.term') -%></b><br />
     <%= f.text_field :term -%>
   </p>
 
   <p>
-  <b><%= ('Term transcription') -%></b><br />
+  <b><%= t('activerecord.attributes.subject.term_transcription') -%></b><br />
     <%= f.text_field :term_transcription -%>
   </p>
 

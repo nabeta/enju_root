@@ -3,11 +3,9 @@
 one:
   from_work_id: 1
   to_work_id: 1
-  work_relationship_type_id: 1
   position: 1
 
 two:
   from_work_id: 1
   to_work_id: 1
-  work_relationship_type_id: 1
   position: 1

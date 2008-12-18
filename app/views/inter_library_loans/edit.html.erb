@@ -27,13 +27,13 @@
   <%- case @inter_library_loan.state
     when 'requested' -%>
     <p>
-      <b><%= ('Requested at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
       <%=h @inter_library_loan.requested_at -%>
     </p>
 
     <%- if @inter_library_loan.item.hold?(current_user.library) -%>
       <p>
-        <b><%= ('Shipped at') -%></b><br />
+        <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%></b><br />
         <%= f.datetime_select :shipped_at -%>
       </p>
       <p>
@@ -42,18 +42,18 @@
     <%- end -%>
   <%- when 'shipped' -%>
     <p>
-      <b><%= ('Requested at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
       <%=h @inter_library_loan.requested_at -%>
     </p>
 
     <p>
-      <b><%= ('Shipped at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%></b><br />
       <%=h @inter_library_loan.shipped_at -%>
     </p>
 
     <%- if !@inter_library_loan.item.hold?(current_user.library) -%>
       <p>
-        <b><%= ('Received at') -%></b><br />
+        <b><%= t('activerecord.attributes.inter_library_loan.received_at') -%></b><br />
         <%= f.datetime_select :received_at -%>
       </p>
       <p>
@@ -62,23 +62,23 @@
     <%- end -%>
   <%- when 'received' -%>
     <p>
-      <b><%= ('Requested at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
       <%=h @inter_library_loan.requested_at -%>
     </p>
 
     <p>
-      <b><%= ('Shipped at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%></b><br />
       <%=h @inter_library_loan.shipped_at -%>
     </p>
 
     <p>
-      <b><%= ('Received at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.received_at') -%></b><br />
       <%=h @inter_library_loan.received_at -%>
     </p>
 
     <%- if !@inter_library_loan.item.hold?(current_user.library) -%>
       <p>
-        <b><%= ('Return shipped at') -%></b><br />
+        <b><%= t('activerecord.attributes.inter_library_loan.return_shippd_at') -%></b><br />
         <%= f.datetime_select :return_shipped_at -%>
       </p>
       <p>
@@ -87,28 +87,28 @@
     <%- end -%>
   <%- when 'return_shipped' -%>
     <p>
-      <b><%= ('Requested at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
       <%=h @inter_library_loan.requested_at -%>
     </p>
 
     <p>
-      <b><%= ('Shipped at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%></b><br />
       <%=h @inter_library_loan.shipped_at -%>
     </p>
 
     <p>
-      <b><%= ('Received at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.received_at') -%></b><br />
       <%=h @inter_library_loan.received_at -%>
     </p>
 
     <p>
-      <b><%= ('Return shipped at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.return_shippd_at') -%></b><br />
       <%=h @inter_library_loan.return_shipped_at -%>
     </p>
 
     <%- if @inter_library_loan.item.hold?(current_user.library) -%>
       <p>
-        <b><%= ('Return received at') -%></b><br />
+        <b><%= t('activerecord.attributes.inter_library_loan.return_received_at') -%></b><br />
         <%= f.datetime_select :return_received_at -%>
       </p>
       <p>
@@ -117,27 +117,27 @@
     <%- end -%>
   <%- when 'return_received' -%>
     <p>
-      <b><%= ('Requested at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
       <%=h @inter_library_loan.requested_at -%>
     </p>
 
     <p>
-      <b><%= ('Shipped at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%></b><br />
       <%=h @inter_library_loan.shipped_at -%>
     </p>
 
     <p>
-      <b><%= ('Received at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.received_at') -%></b><br />
       <%=h @inter_library_loan.received_at -%>
     </p>
 
     <p>
-      <b><%= ('Return shipped at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.return_shippd_at') -%></b><br />
       <%=h @inter_library_loan.return_shipped_at -%>
     </p>
 
     <p>
-      <b><%= ('Return received at') -%></b><br />
+      <b><%= t('activerecord.attributes.inter_library_loan.return_received_at') -%></b><br />
       <%=h @inter_library_loan.return_received_at -%>
     </p>
   <%- end -%>

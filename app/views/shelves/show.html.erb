@@ -11,7 +11,7 @@
 <%- end -%>
 </div>
 <div id="content_detail">
-  <h1><%= link_to h(@shelf.library.name), library_path(@shelf.library.short_name) -%>
+  <h1 id="resource_title"><%= link_to h(@shelf.library.name), library_path(@shelf.library.short_name) -%>
     <%=h @shelf.name -%></h1>
 </p>
 

@@ -27,7 +27,7 @@
 </div>
 <div id="content_detail">
   <%- cache(:id => @expression.id) do -%>
-  <h1>
+  <h1 id="resource_title">
     [E]
     <%=h @expression.original_title -%>
     <%= expression_form_icon(@expression.expression_form) -%>
@@ -45,8 +45,8 @@
       <%- unless @expression.patrons.blank? -%>
         <li><a href="#tab2"><em><%= t('page.patron') -%></em></a></li>
       <%- end -%>
-      <li><a href="#tab3"><em><%= ('Related works') -%></em></a></li>
-      <li><a href="#tab4"><em><%= ('Related resources') -%></em></a></li>
+      <li><a href="#tab3"><em><%= t('page.related_work') -%></em></a></li>
+      <li><a href="#tab4"><em><%= t('page.related_manifestation') -%></em></a></li>
     </ul>
     <div class="yui-content">
       <div id="tab1">
@@ -56,11 +56,11 @@
             <td><%=h @expression.title_transcription -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Summarization') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.expression.summarization') -%>:</b></td>
             <td><%=h @expression.summarization -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Context') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.expression.context') -%>:</b></td>
             <td><%=h @expression.context -%></td>
           </tr>
           <tr>
@@ -85,7 +85,11 @@
             </tr>
           <%- end -%>
           <tr>
-            <td><b><%= t('page.note') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.expression.feed_url') -%>:</b></td>
+            <td><%=h @expression.feed_url -%></td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.attributes.expression.note') -%>:</b></td>
             <td><%=h @expression.note -%></td>
           </tr>
           <tr>

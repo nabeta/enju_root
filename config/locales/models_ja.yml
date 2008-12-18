@@ -30,16 +30,16 @@ ja:
       exemplify: 例証
       own: 所有
       search_history: 検索履歴
-      shelf: 棚
+      shelf: 書架
       event_category: 催し物の種類
       advertisement: 広告
       porta_response: PORTAの応答
-      donate: 寄付
-      basket: バスケット
+      donate: 寄贈
+      basket: 貸出かご
       subject_as_event: 対象イベントとして
       checked_item: チェック項目
       produce: 生産
-      role: 役割
+      role: 権限
       session: セッション
       subject_broader_term: 件名広範な用語
       subject_type: 件名の種類
@@ -53,8 +53,8 @@ ja:
       reify: Reify
       subject_as_concept: 件名概念として
       frequency_of_issue: 発行頻度
-      expression_merge_list: 式のリストのマージ
-      use_restriction: 使用制限
+      expression_merge_list: 表現形の併合リスト
+      use_restriction: 利用制限
       subject: 主題
       expression_form: 表現形の形態
       work_merge: 著作形をマージ
@@ -205,6 +205,7 @@ ja:
         summarization: 要約
         context: コンテキスト
         issn: ISSN
+        feed_url: フィードURL
         note: 注記
         lock_version: ロックバージョン
         deleted_at: 削除時刻
@@ -633,4 +634,6 @@ ja:
         note: 注記
       user_checkout_stat:
         note: 注記
+      tag:
+        name: 名前
 

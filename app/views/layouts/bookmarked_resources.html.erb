@@ -5,14 +5,14 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @user -%>
-    <title><%=h ("%{user}\'s bookmarked resources") -%>: <%=h controller.action_name -%></title>
+  <title><%=h t('page.user_bookmark_title', :login_name => @user.login) -%>: <%=h controller.action_name -%></title>
   <%- else -%>
     <title><%=h ("Bookmarked resources") -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("%{user}'s bookmarked resources")) -%>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('page.user_bookmark_title', :login_name => @user.login)) -%>
     <%- else -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Bookmarked resources at %{library}") % {:library => @library_group.display_name}) -%>
     <%- end -%>

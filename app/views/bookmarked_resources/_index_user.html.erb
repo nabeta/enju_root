@@ -1,4 +1,4 @@
-<h1><%= t('page.user_bookmark_title', :login_name => @user.login) -%>
+<h1><%= t('page.user_bookmark_title', :login_name => @user.login) -%></h1>
   <%- form_for :works, :url => user_bookmarked_resources_path(@user.login), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
@@ -10,7 +10,7 @@
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>
     (<%= link_to ('RSS'), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>)
     (<%= link_to ('CSV'), formatted_user_bookmarked_resources_path(@user.login, :csv, :lang => 'ja') -%>)
-    <%= ('Bookmarklet') -%>:
+    <%= t('page.bookmarklet') -%>:
     <a href="javascript:window.location.href='<%=h new_user_bookmark_url(@user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library bookmark') -%></a>
   </p>
 

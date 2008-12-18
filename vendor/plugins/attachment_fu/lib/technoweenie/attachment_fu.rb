@@ -2,37 +2,7 @@ module Technoweenie # :nodoc:
   module AttachmentFu # :nodoc:
     @@default_processors = %w(ImageScience Rmagick MiniMagick Gd2 CoreImage)
     @@tempfile_path      = File.join(RAILS_ROOT, 'tmp', 'attachment_fu')
-    @@content_types      = [
-      'image/jpeg',
-      'image/pjpeg',
-      'image/jpg',
-      'image/gif',
-      'image/png',
-      'image/x-png',
-      'image/jpg',
-      'image/x-ms-bmp',
-      'image/bmp',
-      'image/x-bmp',
-      'image/x-bitmap',
-      'image/x-xbitmap',
-      'image/x-win-bitmap',
-      'image/x-windows-bmp',
-      'image/ms-bmp',
-      'application/bmp',
-      'application/x-bmp',
-      'application/x-win-bitmap',
-      'application/preview',
-      'image/jp_',
-      'application/jpg',
-      'application/x-jpg',
-      'image/pipeg',
-      'image/vnd.swiftview-jpeg',
-      'image/x-xbitmap',
-      'application/png',
-      'application/x-png',
-      'image/gi_',
-      'image/x-citrix-pjpeg'
-    ]
+    @@content_types      = ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/x-png', 'image/jpg']
     mattr_reader :content_types, :tempfile_path, :default_processors
     mattr_writer :tempfile_path
 
@@ -112,8 +82,8 @@ module Technoweenie # :nodoc:
           processors = Technoweenie::AttachmentFu.default_processors.dup
           begin
             if processors.any?
-              attachment_options[:processor] = processors.first
-              processor_mod = Technoweenie::AttachmentFu::Processors.const_get("#{attachment_options[:processor].to_s.classify}Processor")
+              attachment_options[:processor] = "#{processors.first}Processor"
+              processor_mod = Technoweenie::AttachmentFu::Processors.const_get(attachment_options[:processor])
               include processor_mod unless included_modules.include?(processor_mod)
             end
           rescue Object, Exception
@@ -168,7 +138,6 @@ module Technoweenie # :nodoc:
         base.after_save :after_process_attachment
         base.after_destroy :destroy_file
         base.after_validation :process_attachment
-        base.attr_accessible :uploaded_data
         if defined?(::ActiveSupport::Callbacks)
           base.define_callbacks :after_resize, :after_attachment_saved, :before_thumbnail_saved
         end
@@ -275,12 +244,12 @@ module Technoweenie # :nodoc:
       def create_or_update_thumbnail(temp_file, file_name_suffix, *size)
         thumbnailable? || raise(ThumbnailError.new("Can't create a thumbnail if the content type is not an image or there is no parent_id column"))
         returning find_or_initialize_thumbnail(file_name_suffix) do |thumb|
-          thumb.temp_paths.unshift temp_file
-          thumb.send(:'attributes=', {
+          thumb.attributes = {
             :content_type             => content_type,
             :filename                 => thumbnail_name_for(file_name_suffix),
+            :temp_path                => temp_file,
             :thumbnail_resize_options => size
-          }, false)
+          }
           callback_with_args :before_thumbnail_saved, thumb
           thumb.save!
         end
@@ -333,9 +302,9 @@ module Technoweenie # :nodoc:
         end
         if file_data.is_a?(StringIO)
           file_data.rewind
-          set_temp_data file_data.read
+          self.temp_data = file_data.read
         else
-          self.temp_paths.unshift file_data
+          self.temp_path = file_data
         end
       end
 
@@ -354,14 +323,22 @@ module Technoweenie # :nodoc:
           [] : [copy_to_temp_file(full_filename)])
       end
 
+      # Adds a new temp_path to the array.  This should take a string or a Tempfile.  This class makes no
+      # attempt to remove the files, so Tempfiles should be used.  Tempfiles remove themselves when they go out of scope.
+      # You can also use string paths for temporary files, such as those used for uploaded files in a web server.
+      def temp_path=(value)
+        temp_paths.unshift value
+        temp_path
+      end
+
       # Gets the data from the latest temp file.  This will read the file into memory.
       def temp_data
         save_attachment? ? File.read(temp_path) : nil
       end
 
       # Writes the given data to a Tempfile and adds it to the collection of temp files.
-      def set_temp_data(data)
-        temp_paths.unshift write_to_temp_file data unless data.nil?
+      def temp_data=(data)
+        self.temp_path = write_to_temp_file data unless data.nil?
       end
 
       # Copies the given file to a randomly named Tempfile.

@@ -35,7 +35,7 @@
 </p>
 
 <p>
-  <b><%= t('page.shelf') -%>:</b>
+  <b><%= t('activerecord.models.shelf') -%>:</b>
   <%= link_to h(@item.shelf.name), shelf_path(@item.shelf_id) -%>
   (<%= link_to h(@item.shelf.library.name), library_path(@item.shelf.library.short_name) -%>)
 </p>

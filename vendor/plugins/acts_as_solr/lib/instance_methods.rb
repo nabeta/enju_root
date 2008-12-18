@@ -7,30 +7,63 @@ module ActsAsSolr #:nodoc:
       "#{self.class.name}:#{record_id(self)}"
     end
 
+    def solr_indexed_fields
+      configuration[:solr_fields].map do |f|
+        f = f.first if f.respond_to?(:first)
+        f.to_s
+      end
+    end
+
+    def needs_solr_indexing?
+      return true unless respond_to?(:changed)
+      return true unless configuration.has_key?(:solr_fields)
+      return true unless configuration[:facets].blank?
+      # We can figure out if the changed fields are indexed by solr.
+      
+      changed_indexed_fields = (changed & solr_indexed_fields)
+      !changed_indexed_fields.empty?
+    end
+
     # saves to the Solr index
-    def solr_save
-      return true if indexing_disabled?
-      if evaluate_condition(:if, self) 
-        logger.debug "solr_save: #{self.class.name} : #{record_id(self)}"
-        solr_add to_solr_doc
-        solr_commit if configuration[:auto_commit]
-        true
+    def solr_save(force = false)
+      return true unless configuration[:if] 
+
+      if evaluate_condition(configuration[:if], self) 
+        return true unless needs_solr_indexing? || force  # This object does not need to be reindexed
+        begin
+          logger.debug "solr_save: #{self.class.name} : #{record_id(self)}"
+          solr_add to_solr_doc
+          solr_commit if configuration[:auto_commit]
+        rescue Exception => e
+          if configuration[:silence_failures]
+            # Just log the failure and return as if it worked
+            logger.error "Could not add document to Solr: #{$!}"
+          else
+            raise e
+          end
+        end
+        return true
+
       else
         solr_destroy
       end
     end
 
-    def indexing_disabled?
-      evaluate_condition(:offline, self) || !configuration[:if]
-    end
-
     # remove from index
     def solr_destroy
-      return true if indexing_disabled?
       logger.debug "solr_destroy: #{self.class.name} : #{record_id(self)}"
       solr_delete solr_id
       solr_commit if configuration[:auto_commit]
-      true
+      return true
+
+    rescue Exception => e
+      if configuration[:silence_failures]
+        # Just log the failure and return as if it worked
+        logger.error "Could not remove document from Solr: #{$!}"
+        return true
+      else
+        raise e
+      end
     end
 
     # convert instance to Solr document
@@ -45,11 +78,8 @@ module ActsAsSolr #:nodoc:
 
       # iterate through the fields and add them to the document,
       configuration[:solr_fields].each do |field_name, options|
-        #field_type = configuration[:facets] && configuration[:facets].include?(field) ? :facet : :text
-        
         field_boost = options[:boost] || solr_configuration[:default_boost]
         field_type = get_solr_field_type(options[:type])
-        
         value = self.send("#{field_name}_for_solr")
         value = set_value_if_nil(field_type) if value.to_s == ""
         
@@ -73,7 +103,8 @@ module ActsAsSolr #:nodoc:
       end
       
       add_includes(doc) if configuration[:include]
-      doc
+      logger.debug doc.to_xml.to_s
+      return doc
     end
     
     private
@@ -101,43 +132,28 @@ module ActsAsSolr #:nodoc:
     end
     
     def validate_boost(boost)
-      boost_value = case boost
-      when Float
-        return solr_configuration[:default_boost] if boost < 0
-        boost
-      when Proc
-        boost.call(self)
-      when Symbol
-        if self.respond_to?(boost)
-          self.send(boost)
-        end
+      if boost.class != Float || boost < 0
+        logger.warn "The boost value has to be a float and posisive, but got #{boost}. Using default boost value."
+        return solr_configuration[:default_boost]
       end
-      
-      boost_value || solr_configuration[:default_boost]
+      boost
     end
     
     def condition_block?(condition)
       condition.respond_to?("call") && (condition.arity == 1 || condition.arity == -1)
     end
     
-    def evaluate_condition(which_condition, field)
-      condition = configuration[which_condition]
+    def evaluate_condition(condition, field)
       case condition
-        when Symbol
-          field.send(condition)
-        when String
-          eval(condition, binding)
-        when FalseClass, NilClass
-          false
-        when TrueClass
-          true
+        when Symbol: field.send(condition)
+        when String: eval(condition, binding)
         else
           if condition_block?(condition)
             condition.call(field)
           else
             raise(
               ArgumentError,
-              "The :#{which_condition} option has to be either a symbol, string (to be eval'ed), proc/method, true/false, or " +
+              "The :if option has to be either a symbol, string (to be eval'ed), proc/method, or " +
               "class implementing a static validation method"
             )
           end

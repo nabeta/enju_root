@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rails_generator'
 require 'rails_generator/commands'
 require 'gettext'
-require File.join(File.dirname(__FILE__), 'lib/yaml')
+require File.join(File.dirname(__FILE__), '../i18n/lib/yaml')
 require File.join(File.dirname(__FILE__), 'lib/cldr')
 include I18nLocaleGeneratorModule
 
@@ -95,8 +95,13 @@ module I18nGenerator::Generator
             return arr.join("\n")
           end
         end
-        # hope you're all using Ruby >= 1.8.7...
-        end_row = arr.respond_to?(:rindex) ? arr.rindex {|l| l =~ /^\s*end\s*/} : arr.size - 1
+        arr.each_with_index do |l, i|
+          if l =~ /Rails::Initializer\.run do \|config\|/
+            arr[i] = "Rails::Initializer.run do |config|\n  config.i18n.default_locale = '#{locale_name}'"
+            return arr.join("\n")
+          end
+        end
+        end_row = RUBY_VERSION >= '1.8.7' ? arr.rindex {|l| l =~ /^\s*end\s*/} : arr.size - 1
         ((arr[0...end_row] << "  config.i18n.default_locale = '#{locale_name}'") + arr[end_row..-1]).join("\n")
       end
 
@@ -104,7 +109,7 @@ module I18nGenerator::Generator
         original_yml = I18n.load_path.detect {|lp| lp =~ /\/lib\/#{filename_base}\/locale\/(en|en-US)\.yml$/}
         doc = YamlDocument.new(original_yml, locale_name)
         yield doc
-        file('i18n:base.yml', "config/locale/#{filename_base}_#{locale_name}.yml") do |f|
+        file('i18n:base.yml', "config/locales/#{filename_base}_#{locale_name}.yml") do |f|
           doc.to_s
         end
       end

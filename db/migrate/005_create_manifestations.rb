@@ -11,7 +11,7 @@ class CreateManifestations < ActiveRecord::Migration
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
       t.column :deleted_at, :datetime
-      t.column :access_address, :text
+      t.column :access_address, :string
       t.column :language_id, :integer, :default => 1, :null => false
       t.column :manifestation_form_id, :integer, :default => 1, :null => false
       t.column :start_page, :integer
@@ -46,6 +46,7 @@ class CreateManifestations < ActiveRecord::Migration
     add_index :manifestations, :access_role_id
     add_index :manifestations, :isbn
     add_index :manifestations, :nbn
+    add_index :manifestations, :access_address
   end
 
   def self.down

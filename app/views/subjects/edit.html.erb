@@ -12,7 +12,7 @@
 
 <%- form_for(:subject, :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= ('Term') -%></b><br />
+  <b><%= t('activerecord.attributes.subject.term') -%></b><br />
     <%=h @subject.term -%> (<%=h @subject.term_transcription -%>)
   </p>
 

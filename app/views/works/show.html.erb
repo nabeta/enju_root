@@ -28,7 +28,7 @@
 <div id="content_detail">
 
   <%- cache(:id => @work.id) do -%>
-  <h1>
+  <h1 id="resource_title">
     [W]
     <%=h @work.original_title -%>
   </h1>
@@ -48,7 +48,7 @@
       <%- unless @work.expressions.blank? -%>
         <li><a href="#tab4"><em><%= t('page.expression') -%></em></a></li>
       <%- end -%>
-      <li><a href="#tab5"><em><%= ('Related resources') -%></em></a></li>
+      <li><a href="#tab5"><em><%= t('page.related_manifestation') -%></em></a></li>
     </ul>
     <div class="yui-content">
       <div id="tab1">
@@ -58,7 +58,7 @@
             <td><%=h @work.title_transcription -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Context') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
             <td><%=h @work.context -%></td>
           </tr>
           <tr>

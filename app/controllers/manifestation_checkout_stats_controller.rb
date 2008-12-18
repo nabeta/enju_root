@@ -17,7 +17,7 @@ class ManifestationCheckoutStatsController < ApplicationController
   # GET /manifestation_checkout_stats/1.xml
   def show
     @manifestation_checkout_stat = ManifestationCheckoutStat.find(params[:id])
-    @stats = @manifestation_checkout_stat.manifestation_checkout_stat_has_manifestations.paginate(:all, :order => 'checkouts_count DESC, manifestation_id', :page => params[:page])
+    @stats = @manifestation_checkout_stat.checkout_stat_has_manifestations.paginate(:all, :order => 'checkouts_count DESC, manifestation_id', :page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb

@@ -10,14 +10,15 @@ class Work < ActiveRecord::Base
   has_many :subjects, :through => :resource_has_subjects
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
 
-  @@per_page = 10
-  cattr_reader :per_page
-
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:access_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 
-    :if => proc{|work| work.deleted_at.blank?}, :auto_commit => false
+    :if => proc{|work| work.deleted_at.blank? and !work.restrain_indexing}, :auto_commit => false
   acts_as_paranoid
   acts_as_tree
+
+  @@per_page = 10
+  cattr_reader :per_page
+  attr_accessor :restrain_indexing
 
   validates_associated :work_form
   validates_presence_of :original_title, :work_form

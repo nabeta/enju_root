@@ -24,7 +24,7 @@
 </div>
 
 <div id="content_detail">
-  <h1>
+  <h1 id="resource_title">
     [S]
     <%=h @subject.term -%>
   </h1>
@@ -32,7 +32,7 @@
 <p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@subject.term)) -%>)</p>
 
 <p>
-<b><%= ('Term transcription') -%>:</b>
+<b><%= t('activerecord.attributes.subject.term_transcription') -%>:</b>
   <%=h @subject.term_transcription -%>
 </p>
 
@@ -82,7 +82,7 @@
 </p>
 
 <p>
-<b><%= ('Scope note') -%>:</b>
+<b><%= t('activerecord.attributes.subject.scope_note') -%>:</b>
   <%=h @subject.scope_note -%>
 </p>
 

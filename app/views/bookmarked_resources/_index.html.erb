@@ -15,7 +15,7 @@
     (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
     (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
     <%- if logged_in? -%>
-      <%= ('Bookmarklet') -%>:
+      <%= t('page.bookmarklet') -%>:
       <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library bookmark') -%></a>
     <%- end -%>
   </div>

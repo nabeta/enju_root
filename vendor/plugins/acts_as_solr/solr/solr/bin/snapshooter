@@ -74,7 +74,7 @@ then
     data_dir=${solr_root}/${data_dir}
 fi
 
-start=`date +"%s"`
+setStartTime
 
 logMessage started by $oldwhoami
 logMessage command: $0 $@
@@ -102,7 +102,16 @@ logMessage taking snapshot ${name}
 
 # take a snapshot using hard links into temporary location
 # then move it into place atomically
-cp -lr ${data_dir}/index ${temp}
+if [[ "${OS}" == "SunOS" || "${OS}" == "Darwin" ]]
+then
+  orig_dir=$(pwd)
+  mkdir ${temp}
+  cd ${data_dir}/index
+  find . -print|cpio -pdlmu ${temp} 1>/dev/null 2>&1
+  cd ${orig_dir}
+else
+  cp -lr ${data_dir}/index ${temp}
+fi
 mv ${temp} ${name}
 
 logExit ended 0

@@ -219,7 +219,11 @@ ja:
     patron_management: "パトロン管理"
     total: "合計"
     sort_by: "次の項目で並べ替える"
+    bookmarklet: "ブックマークレット"
+    add_file: "ファイルを追加する"
+    telephone_number: "電話番号"
   session:
+    logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
   question:
     body: "質問の本文"

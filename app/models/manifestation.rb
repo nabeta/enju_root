@@ -22,10 +22,12 @@ class Manifestation < ActiveRecord::Base
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
-  has_many :manifestation_checkout_stat_has_manifestations
-  has_many :checkout_stats, :through => :manifestation_checkout_stat_has_manifestations
+  has_many :checkout_stat_has_manifestations
+  has_many :checkout_stats, :through => :checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
+  has_many :reserve_stat_has_manifestations
+  has_many :reserve_stats, :through => :reserve_stat_has_manifestations
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
@@ -48,7 +50,8 @@ class Manifestation < ActiveRecord::Base
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| manifestation.deleted_at.blank? and !manifestation.serial?},
-    :if => proc{|manifestation| manifestation.deleted_at.blank?},
+    :if => proc{|manifestation| manifestation.deleted_at.blank? and !manifestation.restrain_indexing},
+    #:if => proc{|manifestation| manifestation.deleted_at.blank?},
     :auto_commit => false
   acts_as_taggable
   acts_as_paranoid
@@ -57,6 +60,7 @@ class Manifestation < ActiveRecord::Base
   @@per_page = 10
   cattr_reader :per_page
   cattr_reader :result_limit
+  attr_accessor :restrain_indexing
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
@@ -666,12 +670,9 @@ class Manifestation < ActiveRecord::Base
       author_patrons = Manifestation.import_patrons(authors.reverse)
       publisher_patrons = Manifestation.import_patrons(publishers)
 
-    #end
-
-    #Work.transaction do
       work = Work.new(:original_title => title)
       expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
-      manifestation = Manifestation.create!(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication)
+      manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication)
       work.save!
       work.patrons << author_patrons
       work.expressions << expression
@@ -742,5 +743,35 @@ class Manifestation < ActiveRecord::Base
     else
       Bookmark.bookmarked(from_date, to_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
     end
+  end
+
+  def fetch_expression_feed
+    if self.serial?
+      begin
+        rss = RSS::Parser.parse(self.serial.feed_url)
+      rescue RSS::InvalidRSSError
+        rss = RSS::Parser.parse(self.serial.feed_url, false)
+      end
+
+      # 出版日を調べる
+      /\[(.*?)\]/ =~ rss.items.first.description
+      if self.date_of_publication == Time.zone.parse($1)
+        rss.items.each do |item|
+          manifestation = Manifestation.find(:first, :conditions => {:access_address => item.link})
+          if manifestation.blank?
+            Expression.transaction do
+              work = Work.create(:original_title => item.title, :restrain_indexing => true)
+              expression = Expression.new(:original_title => item.title, :restrain_indexing => true)
+              work.expressions << expression
+              manifestation = Manifestation.new(:original_title => item.title, :access_address => item.link, :restrain_indexing => true)
+              expression.manifestations << manifestation
+              self.expressions << expression
+            end
+          end
+        end
+      end
+    end
+  rescue
+    nil
   end
 end

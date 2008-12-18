@@ -6,7 +6,7 @@ class PictureFile < ActiveRecord::Base
   validates_as_attachment
 
   validates_associated :picture_attachable
-  validates_presence_of :picture_attachable_id, :picture_attachable_type, :unless => :parent_id
+  validates_presence_of :picture_attachable_id, :picture_attachable_type, :unless => :parent_id, :on => :create
 
   cattr_reader :per_page
   @@per_page = 10

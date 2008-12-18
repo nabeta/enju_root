@@ -6,7 +6,10 @@ module I18nLocaleGeneratorModule
   class CldrDocument
     def initialize(locale_name)
       @locale_name = locale_name
-      @summaries = [load_cldr_data(locale_name.tr('-', '_')), load_cldr_data(locale_name.sub(/-.*/, ''))]
+      @summaries = [load_cldr_data(locale_name.tr('-', '_'))]
+      if locale_name =~ /^[a-zA-Z]{2}[-_][a-zA-Z]{2}$/
+        @summaries << load_cldr_data(locale_name.to(1))
+      end
     end
 
     def lookup(path)
@@ -108,10 +111,11 @@ module I18nLocaleGeneratorModule
     def search(n1, n2, g)
       pattern = Regexp.new /<tr><td>\d*<\/td><td class='[ng]'>#{Regexp.quote(n1)}<\/td><td class='[ng]'>#{Regexp.quote(n2)}<\/td><td class='[ng]'>#{Regexp.quote(g)}<\/td>/
       extract_pattern = /<td class='v'>(?:<span.*?>)?(.*?)(?:<\/span>)?<\/td><td>/
-      _, value = *extract_pattern.match(@summaries[0].grep(pattern).first)
-      return value unless value.nil?
-      _, value = *extract_pattern.match(@summaries[1].grep(pattern).first)
-      value
+      @summaries.each do |summary|
+        _, value = *extract_pattern.match(summary.grep(pattern).first)
+        return value unless value.nil?
+      end
+      nil
     end
 
     def convert_date_pattern(val)

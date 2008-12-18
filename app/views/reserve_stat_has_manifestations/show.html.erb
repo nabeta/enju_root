@@ -1,0 +1,18 @@
+<p>
+  <b>Reserve stat:</b>
+  <%=h @reserve_stat_has_manifestation.reserve_stat_id %>
+</p>
+
+<p>
+  <b>Manifestation:</b>
+  <%=h @reserve_stat_has_manifestation.manifestation_id %>
+</p>
+
+<p>
+  <b>Reserves count:</b>
+  <%=h @reserve_stat_has_manifestation.reserves_count %>
+</p>
+
+
+<%= link_to t('page.edit'), edit_reserve_stat_has_manifestation_path(@reserve_stat_has_manifestation) %> |
+<%= link_to 'Back', reserve_stat_has_manifestations_path %>

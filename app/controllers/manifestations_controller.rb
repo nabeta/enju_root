@@ -20,12 +20,12 @@ class ManifestationsController < ApplicationController
 	      @user = current_user if @user.nil?
 	    end
 
+      prepare_options
       @libraries = Library.find(:all, :order => 'position')
-      @languages = Language.find(:all, :order => 'position')
       @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
 
       @manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
-      @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
+      @search_engines = SearchEngine.find(:all, :order => :position)
 
       query = make_query(params[:query], {
         :mode => params[:mode],
@@ -125,8 +125,6 @@ class ManifestationsController < ApplicationController
         SearchHistory.create(:query => @query, :user_id => nil, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total])
       end
     end
-
-    @search_engines = SearchEngine.find(:all, :order => :position)
 
     respond_to do |format|
       format.html # index.rhtml

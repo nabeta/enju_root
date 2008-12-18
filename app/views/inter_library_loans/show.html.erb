@@ -26,27 +26,27 @@
 </p>
 
 <p>
-  <b><%= ('Requested at') -%>:</b>
+  <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%>:</b>
+  <%=h @inter_library_loan.requested_at -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%>:</b>
   <%=h @inter_library_loan.shipped_at -%>
 </p>
 
 <p>
-  <b><%= ('Shipped at') -%>:</b>
-  <%=h @inter_library_loan.shipped_at -%>
-</p>
-
-<p>
-  <b><%= ('Received at') -%>:</b>
+  <b><%= t('activerecord.attributes.inter_library_loan.received_at') -%>:</b>
   <%=h @inter_library_loan.received_at -%>
 </p>
 
 <p>
-  <b><%= ('Return shipped at') -%>:</b>
+  <b><%= t('activerecord.attributes.inter_library_loan.return_shippd_at') -%>:</b>
   <%=h @inter_library_loan.return_shipped_at -%>
 </p>
 
 <p>
-  <b><%= ('Return received at') -%>:</b>
+  <b><%= t('activerecord.attributes.inter_library_loan.return_received_at') -%>:</b>
   <%=h @inter_library_loan.return_received_at -%>
 </p>
 

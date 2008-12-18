@@ -14,8 +14,8 @@ class AttachmentFile < ActiveRecord::Base
   @@per_page = 10
   
   before_save :extract_text
-  after_save :save_manifestation
-  after_destroy :save_manifestation
+  #after_save :save_manifestation
+  #after_destroy :save_manifestation
 
   def create_resource(title)
     AttachmentFile.transaction do
@@ -29,14 +29,14 @@ class AttachmentFile < ActiveRecord::Base
     end
   end
 
-  def save_manifestation
-    if self.attachable_type == 'Manifestation'
-      manifestation = Manifestation.find(self.attachable_id)
-      manifestation.save
-    end
-  rescue
-    nil
-  end
+  #def save_manifestation
+  #  if self.attachable_type == 'Manifestation'
+  #    manifestation = Manifestation.find(self.attachable_id)
+  #    manifestation.save
+  #  end
+  #rescue
+  #  nil
+  #end
 
   def extract_text
     content = Tempfile::new("content")
@@ -67,6 +67,8 @@ class AttachmentFile < ActiveRecord::Base
     end
 
     self.update_attribute(:fulltext, fulltext.read)
+  rescue
+    nil
   end
 
   def digest(options = {:type => 'sha1'})

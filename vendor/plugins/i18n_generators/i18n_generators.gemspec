@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name     = 'i18n_generators'
-  s.version  = '0.3.1'
-  s.date     = '2008-12-08'
+  s.version  = '0.4.0'
+  s.date     = '2008-12-17'
   s.summary  = 'Generates I18n locale files for Rails 2.2'
   s.email    = 'ronnie@dio.jp'
   s.homepage = 'http://github.com/amatsuda/i18n_generators/'
@@ -14,6 +14,7 @@ README.rdoc
 Rakefile
 generators/i18n/USAGE
 generators/i18n/i18n_generator.rb
+generators/i18n/lib/yaml.rb
 generators/i18n/templates/base.yml
 generators/i18n/templates/i18n_config.rb
 generators/i18n/templates/translation.yml
@@ -21,7 +22,6 @@ generators/i18n_locale/USAGE
 generators/i18n_locale/i18n_locale_command.rb
 generators/i18n_locale/i18n_locale_generator.rb
 generators/i18n_locale/lib/cldr.rb
-generators/i18n_locale/lib/yaml.rb
 generators/i18n_scaffold/i18n_scaffold_generator.rb
 generators/i18n_scaffold/templates/controller.rb
 generators/i18n_scaffold/templates/functional_test.rb
@@ -44,6 +44,7 @@ spec/cldr_spec.rb
 spec/data/cldr/ja.html
 spec/data/yml/active_record/en-US.yml
 spec/i18n_locale_command_spec.rb
+spec/i18n_translation_command_spec.rb
 spec/translator_spec.rb
 spec/yaml_spec.rb]
   s.rubygems_version = '1.3.1'
