@@ -81,6 +81,11 @@
   <%- end -%>
 
   <p>
+    <b><%= t('activerecord.attributes.expression.feed_url') -%></b><br />
+    <%= f.text_field :feed_url, :class => 'resource_url' -%>
+  </p>
+
+  <p>
     <b><%= t('page.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>

@@ -178,6 +178,10 @@ h1{
   margin-bottom: 10px;
 }
 
+h1#resource_title{
+  line-height: 140%;
+}
+
 h2{
   font-size: 160%;
   margin-top: 10px;

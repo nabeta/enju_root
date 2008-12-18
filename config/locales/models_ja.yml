@@ -205,6 +205,7 @@ ja:
         summarization: 要約
         context: コンテキスト
         issn: ISSN
+        feed_url: フィードURL
         note: 注記
         lock_version: ロックバージョン
         deleted_at: 削除時刻

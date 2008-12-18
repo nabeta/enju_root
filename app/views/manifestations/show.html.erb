@@ -236,7 +236,8 @@
                 <%= patrons_list(work.patrons) -%>
                 <ul>
                   <%- work.manifestations.each do |manifestation| -%>
-                      <%- unless @manifestation == manifestation -%>
+                    <%- unless @manifestation == manifestation -%>
+                      <%- unless work.original_title == manifestation.original_title and work.expressions.size == 1 -%>
                         <li>
                           [M]
                           <%= link_to h(manifestation.original_title), manifestation -%>
@@ -252,6 +253,7 @@
                           <%- end -%>
                         </li>
                       <%- end -%>
+                    <%- end -%>
                   <%- end -%>
                 </ul>
               <%- end -%>
@@ -261,7 +263,7 @@
       <%- end -%>
     </div>
     <%- end -%>
-    <%- if @manifestation.related_manifestations.size > 0 -%>
+    <%- unless @manifestation.related_manifestations.blank? -%>
     <div id="tab4">
       <%- unless @manifestation.related_manifestations.blank? -%>
         <ul>
@@ -283,6 +285,7 @@
                 <%- unless manifestation.works.blank? -%>
                   <ul>
                     <%- manifestation.works.each do |work| -%>
+                      <%- unless work.original_title == manifestation.original_title -%>
                         <li>
                           [W]
                           <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
@@ -292,6 +295,7 @@
                           <%- end -%>
                           <%= patrons_list(work.patrons) -%>
                         </li>
+                      <%- end -%>
                     <%- end -%>
                   </ul>
                 <%- end -%>

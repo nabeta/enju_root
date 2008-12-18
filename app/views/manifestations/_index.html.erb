@@ -11,7 +11,7 @@
   </div>
 
 <%- unless @query.blank? -%>
-  <%- if @count[:query_result] > 0 -%>
+  <%- if @count[:query_result].to_i > 0 -%>
     <script type="text/javascript">
       window.onload = function() {
       Element.show('spinner_all_facet');

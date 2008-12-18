@@ -27,7 +27,7 @@
 </div>
 <div id="content_detail">
   <%- cache(:id => @expression.id) do -%>
-  <h1>
+  <h1 id="resource_title">
     [E]
     <%=h @expression.original_title -%>
     <%= expression_form_icon(@expression.expression_form) -%>
@@ -85,7 +85,11 @@
             </tr>
           <%- end -%>
           <tr>
-            <td><b><%= t('page.note') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.expression.feed_url') -%>:</b></td>
+            <td><%=h @expression.feed_url -%></td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.attributes.expression.note') -%>:</b></td>
             <td><%=h @expression.note -%></td>
           </tr>
           <tr>

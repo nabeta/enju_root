@@ -16,10 +16,10 @@
 </div>
 
 <div id="content_detail">
-<h1><%=h @library.name -%></h1>
+<h1 id="resource_title"><%=h @library.name -%></h1>
 
 <p>
-  <%= ('Short display name') -%>: <%=h @library.short_display_name -%><br />
+  <%= t('activerecord.attributes.library.short_display_name') -%>: <%=h @library.short_display_name -%><br />
   <%= t('activerecord.attributes.library.address') -%>: <%=h @library.address -%><br />
   <%= t('page.telephone_number') -%>: <%=h @library.telephone_number_1 -%>
   <%=h @library.telephone_number_2 -%>
@@ -93,7 +93,7 @@
         </div>
 
         <div id="tab4">
-          <h3><%= link_to ('Events'), library_events_path(@library.short_name) -%></h3>
+          <h3><%= link_to t('activerecord.models.event'), library_events_path(@library.short_name) -%></h3>
 
           <div id="library_calendar" style="text-align:left">
             <%= render :partial => 'calendar' -%>
@@ -103,12 +103,12 @@
         <div id="tab5">
           <h3><%= t('page.configuration') -%></h3>
           <p>
-            <b><%= ('Call number rows') -%>:</b>
+            <b><%= t('activerecord.attributes.library.call_number_rows') -%>:</b>
             <%=h @library.call_number_rows -%>
           </p>
 
           <p>
-            <b><%= ('Call number delimiter') -%>:</b>
+            <b><%= t('activerecord.attributes.library.call_number_delimiter') -%>:</b>
             <%=h @library.call_number_delimiter -%>
           </p>
         </div>

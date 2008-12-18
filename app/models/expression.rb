@@ -26,12 +26,13 @@ class Expression < ActiveRecord::Base
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
     {:subscription_id => :integer}, {:access_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
-    :facets => [:expression_form_id, :language_id], :if => proc{|expression| expression.deleted_at.blank?}, :auto_commit => false
+    :facets => [:expression_form_id, :language_id], :if => proc{|expression| expression.deleted_at.blank? and !expression.restrain_indexing}, :auto_commit => false
   acts_as_paranoid
   acts_as_taggable
 
   cattr_reader :per_page
   @@per_page = 10
+  attr_accessor :restrain_indexing
 
   def serial?
     return true if self.frequency_of_issue_id > 1
@@ -100,4 +101,5 @@ class Expression < ActiveRecord::Base
   rescue
     nil
   end
+
 end

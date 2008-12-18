@@ -1,3 +1,5 @@
 config/environments.rb
 config/initializers/site_keys.rb
 app/controllers/application.rb
+vendor/plugins/acts_as_solr/solr/logs
+vendor/plugins/acts_as_solr/solr/tmp

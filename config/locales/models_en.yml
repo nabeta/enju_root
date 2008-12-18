@@ -205,6 +205,7 @@ en:
         summarization: Summarization
         context: Context
         issn: ISSN
+        feed_url: Feed URL
         note: Note
         lock_version: Lock version
         deleted_at: Deleted at
