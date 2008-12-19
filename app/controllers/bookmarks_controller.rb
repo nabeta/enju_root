@@ -124,8 +124,8 @@ class BookmarksController < ApplicationController
           @bookmarked_resource.manifestation = Manifestation.new(:original_title => @bookmarked_resource.title, :access_address => url)
           @bookmarked_resource.manifestation.manifestation_form = ManifestationForm.find(:first, :conditions => {:name => 'file'})
           #@bookmarked_resource.manifestation.save!
-          work = Work.create!(:original_title => @bookmarked_resource.title)
-          expression = Expression.new(:original_title => work.original_title)
+          work = Work.create!(:original_title => @bookmarked_resource.title, :restrain_indexing => true)
+          expression = Expression.new(:original_title => work.original_title, :restrain_indexing => true)
           work.expressions << expression
         end
       else

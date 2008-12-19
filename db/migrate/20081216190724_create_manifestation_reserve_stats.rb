@@ -1,6 +1,6 @@
-class CreateReserveStats < ActiveRecord::Migration
+class CreateManifestationReserveStats < ActiveRecord::Migration
   def self.up
-    create_table :reserve_stats do |t|
+    create_table :manifestation_reserve_stats do |t|
       t.datetime :from_date
       t.datetime :to_date
       t.text :note
@@ -11,6 +11,6 @@ class CreateReserveStats < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :reserve_stats
+    drop_table :manifestation_reserve_stats
   end
 end

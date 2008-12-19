@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :reserve_stats
+  map.resources :manifestation_reserve_stats
 
   map.resources :reserve_stat_has_manifestations
 

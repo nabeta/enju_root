@@ -40,7 +40,7 @@ class Item < ActiveRecord::Base
 
   acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:access_role_id => :range_integer}],
     :facets => [:circulation_status_id],
-    :if => proc{|item| item.deleted_at.blank? and patron.restrain_indexing}, :auto_commit => false
+    :if => proc{|item| item.deleted_at.blank? and item.restrain_indexing}, :auto_commit => false
 
   cattr_reader :per_page
   @@per_page = 10

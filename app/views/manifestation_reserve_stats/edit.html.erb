@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to 'Back', reserve_stats_path %></li>
+    <li><%= link_to t('page.show'), @manifestation_reserve_stat %></li>
+    <li><%= link_to 'Back', manifestation_reserve_stats_path %></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1>New reserve_stat</h1>
+<h1>Editing manifestation_reserve_stat</h1>
 
-<% form_for(@reserve_stat) do |f| %>
+<% form_for(@manifestation_reserve_stat) do |f| %>
   <%= f.error_messages %>
 
   <p>
@@ -27,7 +28,7 @@
     <%= f.text_field :state %>
   </p>
   <p>
-    <%= f.submit "Create" %>
+    <%= f.submit "Update" %>
   </p>
 <% end %>
 

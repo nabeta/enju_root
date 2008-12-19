@@ -117,7 +117,7 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
 
   test "librarian should update reserve_stat_has_manifestation" do
     login_as :librarian1
-    put :update, :id => reserve_stat_has_manifestations(:one).id, :reserve_stat_has_manifestation => {:reserve_stat_id => 1, :manifestation_id => 2}
+    put :update, :id => reserve_stat_has_manifestations(:one).id, :reserve_stat_has_manifestation => {:manifestation_reserve_stat_id => 1, :manifestation_id => 2}
     assert_redirected_to reserve_stat_has_manifestation_path(assigns(:reserve_stat_has_manifestation))
   end
 

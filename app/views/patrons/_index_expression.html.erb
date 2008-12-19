@@ -33,10 +33,10 @@
   <tr>
     <th><%= ('Patron name') -%></th>
     <th><%= ('Type') -%></th>
-    <th><%= ('Other designation') -%></th>
+    <th><%= t('activerecord.attributes.patron.other_designation') -%></th>
     <th><%= ('Place') -%></th>
-    <th><%= ('Date of birth') -%></th>
-    <th><%= ('Date of death') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <th></th>
   </tr>
 <%- @patrons.each do |patron| -%>

@@ -1,4 +1,4 @@
-class ReserveStat < ActiveRecord::Base
+class ManifestationReserveStat < ActiveRecord::Base
   has_many :reserve_stat_has_manifestations
   has_many :manifestations, :through => :reserve_stat_has_manifestations
 

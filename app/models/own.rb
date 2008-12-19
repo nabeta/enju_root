@@ -12,18 +12,18 @@ class Own < ActiveRecord::Base
   @@per_page = 10
   attr_accessor :item_identifier
 
-  def after_save
-    if self.patron
-      self.patron.reload
-      self.patron.save
-    end
-    if self.item
-      self.item.reload
-      self.item.save
-    end
-  end
+  #def after_save
+  #  if self.patron
+  #    self.patron.reload
+  #    self.patron.save
+  #  end
+  #  if self.item
+  #    self.item.reload
+  #    self.item.save
+  #  end
+  #end
 
-  def after_destroy
-    after_save
-  end
+  #def after_destroy
+  #  after_save
+  #end
 end

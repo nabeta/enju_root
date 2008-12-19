@@ -11,18 +11,18 @@ class Realize < ActiveRecord::Base
   
   acts_as_list :scope => :expression
 
-  def after_save
-    if self.expression
-      self.expression.reload
-      self.expression.save
-    end
-    if self.patron
-      self.patron.reload
-      self.patron.save
-    end
-  end
+  #def after_save
+  #  if self.expression
+  #    self.expression.reload
+  #    self.expression.save
+  #  end
+  #  if self.patron
+  #    self.patron.reload
+  #    self.patron.save
+  #  end
+  #end
 
-  def after_destroy
-    after_save
-  end
+  #def after_destroy
+  #  after_save
+  #end
 end

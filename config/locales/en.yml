@@ -135,9 +135,8 @@ en:
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
-  question:
-    body: "Body"
-  answer:
-    body: "Body"
-  advertisement:
-    body: "Body"
+  bookmark:
+    not_bookmarked: "Not bookmarked."
+    add_to_my_bookmark: "Add to my bookmark"
+    remove_from_my_bookmark: "Remove from my bookmark"
+

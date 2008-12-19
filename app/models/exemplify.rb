@@ -11,22 +11,22 @@ class Exemplify < ActiveRecord::Base
   @@per_page = 10
   cattr_reader :per_page
 
-  def after_save
-    if self.manifestation
-      self.manifestation.reload
-      self.manifestation.save
-    end
-    if self.item
-      self.item.reload
-      if self.item.manifestation.blank?
-        self.item.destroy
-      else
-        self.item.save
-      end
-    end
-  end
+  #def after_save
+  #  if self.manifestation
+  #    self.manifestation.reload
+  #    self.manifestation.save
+  #  end
+  #  if self.item
+  #    self.item.reload
+  #    if self.item.manifestation.blank?
+  #      self.item.destroy
+  #    else
+  #      self.item.save
+  #    end
+  #  end
+  #end
 
-  def after_destroy
-    after_save
-  end
+  #def after_destroy
+  #  after_save
+  #end
 end

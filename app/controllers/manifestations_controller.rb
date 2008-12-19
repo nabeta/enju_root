@@ -427,7 +427,11 @@ class ManifestationsController < ApplicationController
         render :partial => 'library_facet'
       when "subject_facet"
         render :partial => 'subject_facet'
+      else
+        render :nothing => true
       end
+    else
+      render :nothing => true
     end
   end
 
