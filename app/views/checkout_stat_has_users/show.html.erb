@@ -1,0 +1,18 @@
+<p>
+  <b>User stat:</b>
+  <%=h @checkout_stat_has_user.user_checkout_stat_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%=h @checkout_stat_has_user.user_id %>
+</p>
+
+<p>
+  <b>Checkouts count:</b>
+  <%=h @checkout_stat_has_user.checkouts_count %>
+</p>
+
+
+<%= link_to t('page.edit'), edit_checkout_stat_has_user_path(@checkout_stat_has_user) %> |
+<%= link_to 'Back', checkout_stat_has_users_path %>

@@ -4,7 +4,7 @@
     <li>
     <%= link_to ('New reserve'), manifestations_path -%>
     <br />
-    (<%= ('Search manifestations') -%>)
+    (<%= t('page.search_manifestation') -%>)
     </li>
     <%- if current_user.has_role?('Librarian') -%>
       <li><%= link_to ('All reserves'), reserves_path -%></li>
@@ -35,7 +35,6 @@
     <td><%= link_to h(reserve.user.login), user_path(reserve.user.login) -%></td>
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
-      <div class="holding" id="holding_<%=h reserve.manifestation.id -%>"></div>
     </td>
     <td><%=h reserve.request_status_type.display_name -%></td>
     <td><%=h reserve.expired_at -%></td>
@@ -44,7 +43,7 @@
       <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.login, reserve) -%></td>
       <td>
         <%- if reserve.user.reserves.waiting.include?(reserve) -%>
-          <%= link_to ('Cancel'), user_reserve_path(reserve.user.login, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
+          <%= link_to t('page.cancel'), user_reserve_path(reserve.user.login, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
         <%- else -%>
           <%= link_to t('page.destroy'), user_reserve_path(reserve.user.login, reserve), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>

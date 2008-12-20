@@ -1,0 +1,26 @@
+<h1>Listing user_reserve_stats</h1>
+
+<table>
+  <tr>
+    <th>From date</th>
+    <th>To date</th>
+    <th>Note</th>
+    <th>State</th>
+  </tr>
+
+<% for user_reserve_stat in @user_reserve_stats %>
+  <tr>
+    <td><%=h user_reserve_stat.from_date %></td>
+    <td><%=h user_reserve_stat.to_date %></td>
+    <td><%=h user_reserve_stat.note %></td>
+    <td><%=h user_reserve_stat.state %></td>
+    <td><%= link_to 'Show', user_reserve_stat %></td>
+    <td><%= link_to 'Edit', edit_user_reserve_stat_path(user_reserve_stat) %></td>
+    <td><%= link_to 'Destroy', user_reserve_stat, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_reserve_stat', new_user_reserve_stat_path %>

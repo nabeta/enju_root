@@ -1,4 +1,4 @@
-class UserCheckoutStatHasUser < ActiveRecord::Base
+class CheckoutStatHasUser < ActiveRecord::Base
   belongs_to :user_checkout_stat
   belongs_to :user
 

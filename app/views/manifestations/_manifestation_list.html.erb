@@ -4,6 +4,7 @@
         <td><%= itemnum = @startrecord + i -%></td>
         <td>
           <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
+          <div class="holding" id="holding_<%=h manifestation.id -%>"></div>
         </td>
       </tr>
     <%- end -%>
