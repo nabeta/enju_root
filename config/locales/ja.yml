@@ -229,3 +229,5 @@ ja:
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
+  manifestation:
+    date_of_acquisition: "受入日"

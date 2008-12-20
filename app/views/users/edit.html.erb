@@ -57,7 +57,7 @@
   <div id="right_pane">
   <%- if current_user.has_role?('Librarian') -%>
     <p>
-      <b><%= ('User group') -%></b><br />
+      <b><%= t('activerecord.models.user_group') -%></b><br />
       <%= f.select(:user_group_id, @user_groups.collect{|u| [u.name, u.id]}) -%>
     </p>
   <%- end -%>
