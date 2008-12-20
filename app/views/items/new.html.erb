@@ -36,7 +36,7 @@
   </p>
 
   <p>
-    <b><%= ('Circulation status') -%></b><br />
+    <b><%= t('activerecord.models.circulation_status') -%></b><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
   </p>
 

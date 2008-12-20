@@ -16,12 +16,12 @@
 </p>
 
 <p>
-<b><%= ('Query') -%>:</b>
+<b><%= t('activerecord.attributes.search_history.query') -%>:</b>
 <%= link_to h(@search_history.query), manifestations_path(:query => @search_history.query) -%>
 </p>
 
 <p>
-<b><%= ('Start record') -%>:</b>
+<b><%= t('activerecord.attributes.search_history.start_record') -%>:</b>
   <%=h @search_history.start_record -%>
 </p>
 

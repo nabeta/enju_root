@@ -99,7 +99,7 @@
                     <div id="bookmark" class="yuimenu">
                       <div class="bd">                    
                         <ul>
-                          <li class="yuimenuitem"><%= link_to ('Add to my bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to ('Add a new resource'), works_path, :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.add_file'), attachment_files_path, :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to ('Import from networks'), '/page/import', :class => 'yuimenuitemlabel' -%></li>

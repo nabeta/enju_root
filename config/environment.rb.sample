@@ -111,6 +111,8 @@ require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'wakati'
 
+I18n.default_locale = "ja"
+
 #ActionMailer::Base.delivery_method = :smtp
 
 #ActionMailer::Base.smtp_settings = {

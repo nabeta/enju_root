@@ -7,8 +7,8 @@
 <h1><%= t('page.import') -%></h1>
 
 <ul>
-  <li><%= link_to ('Patrons'), imported_patron_files_path -%></li>
-  <li><%= link_to ('Events'), imported_event_files_path -%></li>
+  <li><%= link_to t('activerecord.models.patron'), imported_patron_files_path -%></li>
+  <li><%= link_to t('activerecord.models.event'), imported_event_files_path -%></li>
   <li><%= link_to ('ISBN'), new_manifestation_path(:mode => 'import_isbn') -%></li>
   <li><%= link_to ('Resource'), imported_resource_files_path -%></li>
 </ul>
