@@ -132,6 +132,8 @@ en:
     bookmarklet: "Bookmarklet"
     add_file: "Add a file"
     telephone_number: "Telephoone number"
+    about_this_system: "About this system"
+    report_bugs: "Report bugs"
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
@@ -141,4 +143,5 @@ en:
     remove_from_my_bookmark: "Remove from my bookmark"
   manifestation:
     date_of_acquisition: "Date of acquisition"
+    physical_description: "Physical description"
 

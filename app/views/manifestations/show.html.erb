@@ -20,7 +20,7 @@
       <ul>
         <%- if @manifestation.bookmarked_resource -%>
           <%- if @manifestation.bookmarked_resource.bookmarked?(current_user) -%>
-            <li><%= link_to ('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+            <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
           <%- end -%>
         <%- else -%>
           <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
@@ -155,12 +155,13 @@
       <td><%= language_list(@manifestation.languages) -%></td>
     </tr>
     <tr>
-      <td><%=h ('Physical description') -%>:</td>
+      <td><%=h t('manifestation.physical_description') -%>:</td>
       <td>
         <%- if @manifestation.number_of_pages -%>
           <%=h @manifestation.number_of_pages -%> p. 
           (<%=h @manifestation.start_page -%> - <%=h @manifestation.end_page -%>)
         <%- end -%>
+        <!-- TODO: センチメートル以外の単位 -->
         <%- if @manifestation.height -%>
           <%=h @manifestation.height -%> cm.
         <%- end -%>
@@ -204,7 +205,7 @@
     <%- end -%>
     <%- unless @manifestation.attachment_files.blank? -%>
       <tr>
-        <td><%= ('Attachment files') -%>:</td>
+        <td><%= t('activerecord.models.attachment_file') -%>:</td>
         <td><%= render :partial => 'attachment_files' -%></td>
       </tr>
     <%- end -%>

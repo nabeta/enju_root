@@ -222,6 +222,8 @@ ja:
     bookmarklet: "ブックマークレット"
     add_file: "ファイルを追加する"
     telephone_number: "電話番号"
+    about_this_system: "このシステムについて"
+    report_bugs: "不具合を報告する"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
@@ -231,3 +233,4 @@ ja:
     remove_from_my_bookmark: "ブックマークから削除する"
   manifestation:
     date_of_acquisition: "受入日"
+    physical_description: "大きさ"

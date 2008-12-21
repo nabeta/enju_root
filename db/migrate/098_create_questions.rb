@@ -8,6 +8,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
       t.column :deleted_at, :datetime
+      t.string :state, :default => 'pending'
     end
     add_index :questions, :user_id
   end

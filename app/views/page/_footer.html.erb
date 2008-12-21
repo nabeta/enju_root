@@ -1,12 +1,11 @@
-<%= @config -%>
 <div id="footer">
 
 <%- cache(:controller => :page, :action_suffix => 'footer') do -%>
 <div id="description">
   "<a href="http://kamata.lib.teu.ac.jp/trac/catalog/">A prototype for Project Next-L</a>",
   <%= ('open-source integrated library system') -%> |
-  <%= link_to ('About this system'), "/page/about" -%> |
-  <%= link_to ('Report bugs'), "http://kamata.lib.teu.ac.jp/trac/catalog/wiki/HowToReportBugs" -%>
+  <%= link_to t('page.about_this_system'), "/page/about" -%> |
+  <%= link_to t('page.report_bugs'), "http://kamata.lib.teu.ac.jp/trac/catalog/wiki/HowToReportBugs" -%>
   <br />
   Developed by <a href="http://kamata.lib.teu.ac.jp/~tanabe/">Kosuke Tanabe</a> and <a href="http://www.next-l.jp/">Project Next-L</a> |
   Powered by <a href="http://www.rubyonrails.org/">Ruby on Rails</a>,

@@ -25,7 +25,7 @@
     <p><%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => sprintf("%.3f", @seconds)) -%></p>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
-        <%= ('Sort by') -%>:
+        <%= t('page.sort_by') -%>:
         <%- if params[:sort].blank? -%>
           <strong><%= t('manifestation.date_of_acquisition') -%></strong>
         <%- else -%>
