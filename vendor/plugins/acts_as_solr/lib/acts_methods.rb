@@ -75,12 +75,22 @@ module ActsAsSolr #:nodoc:
     #             acts_as_solr :facets => [:category, :manufacturer]  
     #           end
     # 
-    # boost:: You can pass a boost (float) value that will be used to boost the document and/or a field:
+    # boost:: You can pass a boost (float) value that will be used to boost the document and/or a field. To specify a more
+    #         boost for the document, you can either pass a block or a symbol. The block will be called with the record
+    #         as an argument, a symbol will result in the according method being called:
     # 
     #           class Electronic < ActiveRecord::Base
     #             acts_as_solr :fields => [{:price => {:boost => 5.0}}], :boost => 10.0
     #           end
     # 
+    #           class Electronic < ActiveRecord::Base
+    #             acts_as_solr :fields => [{:price => {:boost => 5.0}}], :boost => proc {|record| record.id + 120*37}
+    #           end
+    #
+    #           class Electronic < ActiveRecord::Base
+    #             acts_as_solr :fields => [{:price => {:boost => :price_rating}}], :boost => 10.0
+    #           end
+    #
     # if:: Only indexes the record if the condition evaluated is true. The argument has to be 
     #      either a symbol, string (to be eval'ed), proc/method, or class implementing a static 
     #      validation method. It behaves the same way as ActiveRecord's :if option.
@@ -89,20 +99,24 @@ module ActsAsSolr #:nodoc:
     #          acts_as_solr :if => proc{|record| record.is_active?}
     #        end
     # 
+    # offline:: Assumes that your using an outside mechanism to explicitly trigger indexing records, e.g. you only
+    #           want to update your index through some asynchronous mechanism. Will accept either a boolean or a block
+    #           that will be evaluated before actually contacting the index for saving or destroying a document. Defaults
+    #           to false. It doesn't refer to the mechanism of an offline index in general, but just to get a centralized point
+    #           where you can control indexing. Note: This is only enabled for saving records. acts_as_solr doesn't always like
+    #           it, if you have a different number of results coming from the database and the index. This might be rectified in
+    #           another patch to support lazy loading.
+    #
+    #             class Electronic < ActiveRecord::Base
+    #               acts_as_solr :offline => proc {|record| record.automatic_indexing_disabled?}
+    #             end
+    #
     # auto_commit:: The commit command will be sent to Solr only if its value is set to true:
     # 
     #                 class Author < ActiveRecord::Base
     #                   acts_as_solr :auto_commit => false
     #                 end
     # 
-    # silence_failures:: When true a failure to save a record to solr
-    #   will *not* prevent the rest of the callbacks from running
-    #   ActiveRecord from being saved.  Default: false
-    #
-    # auto_save:: When true saving the model will also save a
-    #   corresponding record to solr, otherwise that step is skipped.
-    #   Default: true
-
     def acts_as_solr(options={}, solr_options={})
       
       extend ClassMethods
@@ -122,10 +136,8 @@ module ActsAsSolr #:nodoc:
         :facets => nil,
         :boost => nil,
         :if => "true",
-        :silence_failures => false,
-        :auto_save => true
+        :offline => false
       }  
-      
       self.solr_configuration = {
         :type_field => "type_s",
         :primary_key_field => "pk_i",
@@ -136,10 +148,10 @@ module ActsAsSolr #:nodoc:
       solr_configuration.update(solr_options) if solr_options.is_a?(Hash)
       Deprecation.validate_index(configuration)
       
-      configuration[:solr_fields] = []
+      configuration[:solr_fields] = {}
       
-      after_save(:solr_save) if self.configuration[:auto_save]
-      after_destroy(:solr_destroy)
+      after_save    :solr_save
+      after_destroy :solr_destroy
 
       if configuration[:fields].respond_to?(:each)
         process_fields(configuration[:fields])
@@ -147,28 +159,24 @@ module ActsAsSolr #:nodoc:
         process_fields(self.new.attributes.keys.map { |k| k.to_sym })
         process_fields(configuration[:additional_fields])
       end
-      
-      if configuration[:sort_fields]
-        process_fields(configuration[:sort_fields].collect {|field| {field => :sort}})
-      end
     end
     
     private
     def get_field_value(field)
-      # normalized format: [:field_name, {:type => whatever, :boost => :whatever}]
-      options = normalize_field_options(field)
-      configuration[:solr_fields] << options
-      field_name = options.first
+      field_name, options = determine_field_name_and_options(field)
+      configuration[:solr_fields][field_name] = options
       
-      unless instance_methods.include?("#{field_name}_for_solr")
-        define_method("#{field_name}_for_solr".to_sym) do
-          value = self.send(field_name.to_sym)
-
-          case options.last[:type] 
+      define_method("#{field_name}_for_solr".to_sym) do
+        begin
+          value = self[field_name] || self.instance_variable_get("@#{field_name.to_s}".to_sym) || self.send(field_name.to_sym)
+          case options[:type] 
             # format dates properly; return nil for nil dates 
-            when :date: value ? value.utc.strftime("%Y-%m-%dT%H:%M:%SZ") : nil 
+            when :date then value ? value.utc.strftime("%Y-%m-%dT%H:%M:%SZ") : nil 
             else value
           end
+        rescue
+          value = ''
+          logger.debug "There was a problem getting the value for the field '#{field_name}': #{$!}"
         end
       end
     end
@@ -179,6 +187,20 @@ module ActsAsSolr #:nodoc:
           next if configuration[:exclude_fields].include?(field)
           get_field_value(field)
         end                
+      end
+    end
+    
+    def determine_field_name_and_options(field)
+      if field.is_a?(Hash)
+        name = field.keys.first
+        options = field.values.first
+        if options.is_a?(Hash)
+          [name, {:type => type_for_field(field)}.merge(options)]
+        else
+          [name, {:type => options}]
+        end
+      else
+        [field, {:type => type_for_field(field)}]
       end
     end
     
@@ -194,20 +216,6 @@ module ActsAsSolr #:nodoc:
         end
       else
         :text
-      end
-    end
-    
-    def normalize_field_options(field)
-      if field.is_a?(Hash)
-        name = field.keys.first
-        options = field.values.first
-        if options.is_a?(Hash)
-          [name, {:type => type_for_field(field)}.merge(options)]
-        else
-          [name, {:type => options}]
-        end
-      else
-        [field, {:type => type_for_field(field)}]
       end
     end
   end

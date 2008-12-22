@@ -64,7 +64,7 @@
  
   <!--
   <p>
-  <b><%= ('Use restriction') -%></b><br />
+  <b><%= t('activerecord.models.use_restriction') -%>:</b><br />
   <%- @use_restrictions.each do |use_restriction| -%>
     <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
     <%=h use_restriction.display_name -%><br />

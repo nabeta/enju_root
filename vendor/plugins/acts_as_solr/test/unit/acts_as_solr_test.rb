@@ -2,14 +2,8 @@ require "#{File.dirname(File.expand_path(__FILE__))}/../test_helper"
 
 class Encyclopedia < ActiveRecord::Base
   set_table_name :books
-  acts_as_solr :auto_save => false
 end
 
-class Dictionary < ActiveRecord::Base
-  set_table_name :books
-  acts_as_solr :fields => [:name], :silence_failures => true
-end
- 
 class ActsAsSolrTest < Test::Unit::TestCase
   
   fixtures :books, :movies, :electronics, :postings, :authors
@@ -215,7 +209,7 @@ class ActsAsSolrTest < Test::Unit::TestCase
     Book.find(:first).solr_destroy
     assert_equal 0, Book.count_by_solr('splinter')
     
-    Book.find(:first).solr_save(true)
+    Book.find(:first).solr_save
     assert_equal 1, Book.count_by_solr('splinter')
   end
   
@@ -413,6 +407,11 @@ class ActsAsSolrTest < Test::Unit::TestCase
     assert_equal 2, movies.total
   end
   
+  def test_indexed_date_field_format_query
+    movies = Movie.find_by_solr "time_on_xml:[#{1.day.from_now} TO #{Time.zone.now}]"
+    assert_equal 2, movies.total
+  end
+  
   # Ensure solr can handle blank queries
   def test_find_by_solr_blank_query
     assert_nothing_raised {
@@ -428,96 +427,14 @@ class ActsAsSolrTest < Test::Unit::TestCase
   end
   
   def test_for_solr_method_not_generated_if_one_already_exists
-    klass = Class.new(ActiveRecord::Base) do
-      set_table_name :books
-      def name_for_solr() "Novella: #{self.name}" end
+    Encyclopedia.module_eval do
+      def name_for_solr
+        "Novella: #{self.name}"
+      end
     end
     
-    assert_equal "Novella: Something Short", klass.new(:name => "Something Short").name_for_solr
-    klass.acts_as_solr
-    assert_equal "Novella: Something Short", klass.new(:name => "Something Short").name_for_solr 
-  end
-
-  def test_should_not_stop_save_if_solr_commit_fails_when_silence_failures_is_true
-    b = Dictionary.new(:name => "test_should_not_stop_save_if_solr_commit_fails", :category_id => 1, :author => 'Peter Williams')
-    b.stubs(:solr_commit).raises(Class.new(Exception), "something bad happened")
-
-    assert_nothing_raised {
-      b.save!
-    }
-  end
-
-  def test_should_not_stop_destroy_if_solr_commit_fails_when_silence_failures_is_true
-    b = Dictionary.create!(:name => "test_should_not_stop_save_if_solr_commit_fails", :category_id => 1, :author => 'Peter Williams')
-    b.stubs(:solr_commit).raises(Class.new(Exception), "something bad happened")
-
-    assert_nothing_raised {
-      b.destroy
-    }
-  end
-
-  def test_should_stop_save_if_solr_commit_fails_when_silence_failures_is_not_specified
-    my_exception_class = Class.new(Exception)
-    b = Book.new(:name => "test_should_stop_save_if_solr_commit_fails_when_noncritical_index_is_false", :category_id => 1, :author => 'Peter Williams')
-    b.stubs(:solr_commit).raises(my_exception_class, "something bad happened")
-
-    assert_raise(my_exception_class) {
-      b.save!
-    }
-  end
-
-  def test_should_not_reindex_if_no_indexed_fields_are_changed
-    b = Dictionary.create!(:name=> "my dictionary", :author => "unknown", :category_id => 1)
-    b.expects(:solr_add).never
-
-    b.author = "me"
-    b.save!
-  end
-
-  def test_should_be_reindex_if_an_indexed_field_is_changed
-    b = Dictionary.create!(:name=> "my dictionary", :author => "unknown", :category_id => 1)
-    b.expects(:solr_add).once
-
-    b.name = "Webster's Dictionary"
-    b.save!
-  end
-
-  def test_should_handle_missing_record_from_results
-    book = Book.create!(:name => "Hello, Hello", :author => "unknown", :category_id => 1)
-    Book.delete(book.id)
-
-    assert_nothing_raised {
-      results = Book.find_by_solr 'hello'
-    }
-  end
-
-  def test_should_not_save_to_solr_when_auto_save_is_false
-    e = Encyclopedia.new(:name => 'test_should_not_save_to_solr_when_auto_save_is_false', :category_id => 1)
-    e.expects(:solr_save).never
-
-    e.save!
-  end
-
-  def test_should_save_to_solr_when_auto_save_is_not_set_explicity
-    b = Dictionary.new(:name => 'test_should_save_to_solr_when_auto_save_is_not_set_explicity', :category_id => 1)
-    b.expects(:solr_save).once
-
-    b.save!
-  end
-
-  def test_acts_as_solr_should_add_solr_save_callback
-    klass = Class.new(ActiveRecord::Base) { set_table_name :books }
-
-    assert_equal 0, klass.after_save_callback_chain.select{|c| c.method == :solr_save}.size
-    klass.acts_as_solr
-    assert_equal 1, klass.after_save_callback_chain.select{|c| c.method == :solr_save}.size
-  end
-
-  def test_acts_as_solr_should_not_add_solr_save_callback_if_auto_save_is_false
-    klass = Class.new(ActiveRecord::Base) { set_table_name :books }
-
-    assert_equal 0, klass.after_save_callback_chain.select{|c| c.method == :solr_save}.size
-    klass.acts_as_solr :auto_save => false
-    assert_equal 0, klass.after_save_callback_chain.select{|c| c.method == :solr_save}.size
+    assert_equal "Novella: Something Short", Encyclopedia.new(:name => "Something Short").name_for_solr
+    Encyclopedia.acts_as_solr
+    assert_equal "Novella: Something Short", Encyclopedia.new(:name => "Something Short").name_for_solr 
   end
 end

@@ -12,12 +12,6 @@
 
 <Configure id="Server" class="org.mortbay.jetty.Server">
 
-    <!-- Increase the maximum POST size to 1 MB to be able to handle large shard requests -->
-    <Call class="java.lang.System" name="setProperty">
-      <Arg>org.mortbay.jetty.Request.maxFormContentSize</Arg>
-      <Arg>1000000</Arg>
-    </Call>
-
     <!-- =========================================================== -->
     <!-- Server Thread Pool                                          -->
     <!-- =========================================================== -->
@@ -48,8 +42,8 @@
     <!-- =========================================================== -->
 
     <!-- Use this connector for many frequently idle connections
-         and for threadless continuations.
-    <Call name="addConnector">
+         and for threadless continuations. -->
+    <!-- <Call name="addConnector">
       <Arg>
           <New class="org.mortbay.jetty.nio.SelectChannelConnector">
             <Set name="port"><SystemProperty name="jetty.port" default="8983"/></Set>
@@ -58,8 +52,8 @@
             <Set name="confidentialPort">8443</Set>
           </New>
       </Arg>
-    </Call>
-   -->     
+    </Call> -->
+
 
     <!-- Use this connector if NIO is not available. -->
     <!-- This connector is currently being used for Solr because the
@@ -192,8 +186,7 @@
     <Ref id="RequestLog">
       <Set name="requestLog">
         <New id="RequestLogImpl" class="org.mortbay.jetty.NCSARequestLog">
-          <Arg><SystemProperty name="jetty.logs" default="./logs"/>/yyyy_mm_dd.request.log</Arg>
-          <Set name="retainDays">90</Set>
+          <Arg><SystemProperty name="jetty.logs" default="./logs"/>/jetty.request.log</Arg>
           <Set name="append">true</Set>
           <Set name="extended">false</Set>
           <Set name="LogTimeZone">GMT</Set>
