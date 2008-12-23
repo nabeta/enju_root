@@ -16,6 +16,7 @@ class CreateWorks < ActiveRecord::Migration
       t.column :updated_at, :datetime
       t.column :deleted_at, :datetime
       t.integer :access_role_id, :default => 1, :null => false
+      t.string :state
     end
     add_index :works, :work_form_id
     add_index :works, :parent_id
