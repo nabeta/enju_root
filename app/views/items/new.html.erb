@@ -41,7 +41,7 @@
   </p>
 
   <p>
-    <b><%= ('Checkout type') -%></b><br />
+    <b><%= t('activerecord.models.checkout_type') -%></b><br />
     <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name, c.id]}) -%>
   </p>
 

@@ -191,7 +191,7 @@ class ManifestationsController < ApplicationController
   def edit
     @manifestation = Manifestation.find(params[:id])
     if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) rescue nil
+      @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) if @manifestation.bookmarked_resource rescue nil
       render :partial => 'tag_edit'
     end
   rescue ActiveRecord::RecordNotFound

@@ -17,7 +17,7 @@
 </p>
 
 <p>
-<b><%= ('Checkout type') -%></b>
+<b><%= t('activerecord.models.checkout_type') -%></b>
 <ul>
   <%- @manifestation_form.manifestation_form_has_checkout_types.each do |available_checkout_type| -%>
     <li><%= link_to h(available_checkout_type.checkout_type.display_name), available_checkout_type.checkout_type -%></li>

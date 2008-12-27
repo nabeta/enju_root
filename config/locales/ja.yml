@@ -227,6 +227,7 @@ ja:
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
+    remember_me: "ウインドウを閉じてもログインしたままにする"
   bookmark:
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"

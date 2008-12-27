@@ -22,7 +22,7 @@
 </p>
 
 <p>
-<b><%= ('Checkout type') -%></b>
+<b><%= t('activerecord.models.checkout_type') -%></b>
 <ul>
   <%- @user_group.user_group_has_checkout_types.each do |available_checkout_type| -%>
     <li>

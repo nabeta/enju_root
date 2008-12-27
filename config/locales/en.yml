@@ -137,6 +137,7 @@ en:
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
+    remember_me: "Remember me"
   bookmark:
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
