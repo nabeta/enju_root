@@ -13,14 +13,8 @@
   <%- manifestation.expressions.each do |e| -%>
     <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
   <%- end -%>
-  <%- unless manifestation.items.blank? -%>
-    <%- unless manifestation.manifestation_form.name == 'file' -%>
-      (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
-    <%- end -%>
-  <%- end -%>
   <br />
   <div id="author_list_<%=h manifestation.id -%>">
     <%= render :partial => 'manifestations/show_authors', :locals => {:manifestation => manifestation} -%>
   </div>
-  <div class="holding" id="holding_<%=h manifestation.id -%>"></div>
 <%- end -%>

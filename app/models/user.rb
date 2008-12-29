@@ -47,8 +47,10 @@ class User < ActiveRecord::Base
   #has_one :imported_object, :as => :importable
   has_many :order_lists
   has_many :subscriptions
-  has_many :user_checkout_stat_has_users
-  has_many :user_checkout_stats, :through => :user_checkout_stat_has_users
+  has_many :checkout_stat_has_users
+  has_many :user_checkout_stats, :through => :checkout_stat_has_users
+  has_many :reserve_stat_has_users
+  has_many :user_reserve_stats, :through => :reserve_stat_has_users
 
   restful_easy_messages
   acts_as_tagger

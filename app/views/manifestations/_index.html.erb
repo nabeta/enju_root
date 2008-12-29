@@ -25,11 +25,11 @@
     <p><%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => sprintf("%.3f", @seconds)) -%></p>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
-        <%= ('Sort by') -%>:
+        <%= t('page.sort_by') -%>:
         <%- if params[:sort].blank? -%>
-          <strong><%= ('Date of acquisition') -%></strong>
+          <strong><%= t('manifestation.date_of_acquisition') -%></strong>
         <%- else -%>
-          <%= link_to ('Date of acquisition'), params.merge(:sort => nil) -%>
+          <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort => nil) -%>
         <%- end -%>
         <%- if params[:sort] == 'date' -%>
           <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>

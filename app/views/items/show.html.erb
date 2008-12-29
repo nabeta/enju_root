@@ -41,7 +41,7 @@
 </p>
 
 <p>
-  <b><%= ('Circulation status') -%>:</b>
+  <b><%= t('activerecord.models.circulation_status') -%>:</b>
   <%=h @item.circulation_status.display_name -%>
 </p>
 
@@ -77,7 +77,7 @@
 </p>
 
 <p>
-<b><%= ('Use restriction') -%>:</b>
+<b><%= t('activerecord.models.use_restriction') -%>:</b>
 <ul>
 <%- @item.use_restrictions.each do |use_restriction| -%>
   <li><%= link_to h(use_restriction.display_name), use_restriction_path(use_restriction) -%></li>

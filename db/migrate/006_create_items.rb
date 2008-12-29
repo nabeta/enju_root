@@ -20,6 +20,7 @@ class CreateItems < ActiveRecord::Migration
       t.decimal :price
       t.column :lock_version, :integer, :default => 0, :null => false
       t.integer :access_role_id, :default => 1, :null => false
+      t.string :state
     end
     add_index :items, :parent_id
     add_index :items, :circulation_status_id

@@ -98,7 +98,7 @@ logMessage command: $0 $@
 if [[ ! -f ${solr_root}/logs/rsyncd-enabled ]]
 then
     logMessage rsyncd disabled
-    exit 2
+    exit 1
 fi
 
 if \

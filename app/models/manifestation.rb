@@ -759,7 +759,7 @@ class Manifestation < ActiveRecord::Base
         rss.items.each do |item|
           manifestation = Manifestation.find(:first, :conditions => {:access_address => item.link})
           if manifestation.blank?
-            Expression.transaction do
+            Manifestation.transaction do
               work = Work.create(:original_title => item.title, :restrain_indexing => true)
               expression = Expression.new(:original_title => item.title, :restrain_indexing => true)
               work.expressions << expression

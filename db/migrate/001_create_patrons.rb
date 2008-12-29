@@ -37,6 +37,7 @@ class CreatePatrons < ActiveRecord::Migration
       t.column :owns_count, :integer, :default => 0, :null => false
       t.column :resource_has_subjects_count, :integer, :default => 0, :null => false
       t.column :access_role_id, :integer, :null => false
+      t.string :state
     end
     add_index :patrons, :parent_id
     add_index :patrons, :patron_type_id

@@ -40,6 +40,7 @@ class CreateManifestations < ActiveRecord::Migration
       t.column :repository_content, :boolean, :default => false, :null => false
       t.column :lock_version, :integer, :default => 0, :null => false
       t.integer :access_role_id, :default => 1, :null => false
+      t.string :state
     end
     add_index :manifestations, :parent_id
     add_index :manifestations, :manifestation_form_id

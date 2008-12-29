@@ -23,6 +23,7 @@ class CreateExpressions < ActiveRecord::Migration
       t.column :deleted_at, :datetime
       t.integer :access_role_id, :default => 1, :null => false
       t.string :feed_url
+      t.string :state
     end
     add_index :expressions, :parent_id
     add_index :expressions, :language_id

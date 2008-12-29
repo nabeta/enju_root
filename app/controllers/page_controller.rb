@@ -67,7 +67,7 @@ class PageController < ApplicationController
   end
 
   def about
-    @title = t('page.about_us')
+    @title = t('page.about_this_system')
   end
 
   def under_construction

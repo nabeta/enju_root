@@ -22,7 +22,7 @@ DTSTART;VALUE=DATE:<%=h checkout.due_date.strftime("%Y%m%d") %>
 DTEND;VALUE=DATE:<%=h checkout.due_date.strftime("%Y%m%d") %>
 UID:<%=h checkout.created_at.iso8601 %>@kamata
 <%= NKF::nkf('-Ww -f74', "SUMMARY:#{h(checkout.item.manifestation.original_title)}") -%>
-<%= NKF::nkf('-Ww -f74', ("DESCRIPTION:" + _('Due date of %{title}') % {:title => h(checkout.item.manifestation.original_title)})) -%>
+<%= NKF::nkf('-Ww -f74', ("DESCRIPTION:" + h(checkout.item.manifestation.original_title))) -%>
 END:VEVENT
 <%- end -%>
 END:VCALENDAR

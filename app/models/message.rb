@@ -18,11 +18,11 @@ class Message < ActiveRecord::Base
                         
   validates_length_of :body, 
                       :minimum => 1, 
-                      :message => ("is too short.  The mimum length is {{count}} characters. Please don't spam.")
+                      :message => ("is too short.  The mimum length is %d characters. Please don't spam.")
                       
   validates_length_of :body, 
                       :maximum => 10000, 
-                      :message => ("is too long.  No one wants to read that.  The maximum length is {{count}} characters.")
+                      :message => ("is too long.  No one wants to read that.  The maximum length is %d characters.")
 
   belongs_to :message_queue
 

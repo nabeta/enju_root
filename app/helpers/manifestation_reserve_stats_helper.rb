@@ -1,0 +1,2 @@
+module ManifestationReserveStatsHelper
+end

@@ -13,11 +13,11 @@
     <p><label for="password"><%= t('page.password') -%></label><br/>
     <%= password_field_tag 'password' -%></p>
 
-    <p><label for="remember_me"><%= ('Remember me') -%>:</label>
+    <p><label for="remember_me"><%= t('session.remember_me') -%>:</label>
     <%= check_box_tag 'remember_me' -%></p>
 
     <p><%= submit_tag t('page.login') -%></p>
   <%- end -%>
-  <%= javascript_tag("$t('page.login').focus()") -%>
+  <%= javascript_tag("$('login').focus()") -%>
 
 </div>

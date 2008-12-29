@@ -16,6 +16,7 @@ class CreatePurchaseRequests < ActiveRecord::Migration
       t.datetime :created_at
       t.datetime :updated_at
       t.datetime :deleted_at
+      t.string :state
 
       t.timestamps
     end

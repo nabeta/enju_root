@@ -13,10 +13,10 @@
 
 <table id="index">
   <tr>
-    <th><%= ('Query') -%></th>
-    <th><%= ('Number of records') -%></th>
+    <th><%= t('activerecord.attributes.search_history.query') -%></th>
+    <th><%= t('activerecord.attributes.search_history.number_of_records') -%></th>
     <%- unless params[:mode] == 'not_found' -%>
-      <th><%= ('Start record') -%></th>
+      <th><%= t('activerecord.attributes.search_history.start_record') -%></th>
     <%- end -%>
     <th><%= ('Searched at') -%></th>
   </tr>

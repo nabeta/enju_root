@@ -30,28 +30,30 @@ require File.dirname(__FILE__) + '/instance_methods'
 require File.dirname(__FILE__) + '/common_methods'
 require File.dirname(__FILE__) + '/deprecation'
 require File.dirname(__FILE__) + '/search_results'
-
+require File.dirname(__FILE__) + '/lazy_document'
 module ActsAsSolr
+  
   class Post    
     def self.execute(request)
-      if File.exists?(RAILS_ROOT+'/config/solr.yml')
-        config = YAML::load_file(RAILS_ROOT+'/config/solr.yml')
-        url = config[RAILS_ENV]['url']
-        # for backwards compatibility
-        url ||= "http://#{config[RAILS_ENV]['host']}:#{config[RAILS_ENV]['port']}/#{config[RAILS_ENV]['servlet_path']}"
-      else
-        url = "http://localhost:8982/solr"
+      begin
+        if File.exists?(RAILS_ROOT+'/config/solr.yml')
+          config = YAML::load_file(RAILS_ROOT+'/config/solr.yml')
+          url = config[RAILS_ENV]['url']
+          # for backwards compatibility
+          url ||= "http://#{config[RAILS_ENV]['host']}:#{config[RAILS_ENV]['port']}/#{config[RAILS_ENV]['servlet_path']}"
+        else
+          url = 'http://localhost:8982/solr'
+        end
+        connection = Solr::Connection.new(url)
+        return connection.send(request)
+      rescue 
+        raise "Couldn't connect to the Solr server at #{url}. #{$!}"
+        false
       end
-      connection = Solr::Connection.new(url)
-      return connection.send(request)
-    rescue Exception
-      raise "Couldn't connect to the Solr server at #{url}. #{$!}"
-      false
     end
   end
+  
 end
 
 # reopen ActiveRecord and include the acts_as_solr method
 ActiveRecord::Base.extend ActsAsSolr::ActsMethods
-
-require 'acts_as_solr/indexed_at_stamp'

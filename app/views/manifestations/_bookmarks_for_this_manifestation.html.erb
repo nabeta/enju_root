@@ -16,9 +16,9 @@
   </ul>
 <%- else -%>
   <p>
-    <%= ('Not bookmarked.') -%>
+    <%= t('bookmark.not_bookmarked') -%>
     <%- if logged_in? -%>
-      <%= link_to h(('Add to my bookmark')), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%>
+      <%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%>
     <%- end -%>
   </p>
 <%- end -%>

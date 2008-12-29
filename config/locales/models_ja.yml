@@ -256,18 +256,18 @@ ja:
         height: 高さ
         width: 幅
         thumbnail: サムネイル
-        sha1_hash: SHA1ハッシュ
+        file_hash: ファイルのハッシュ
       work_form:
         name: 名前
         display_name: 表示名
         note: 注記
         position: 位置
       inter_library_loan:
-        requested_at: で要求
-        shipped_at: で出荷
-        received_at: で受信
-        return_shipped_at: リターンで出荷
-        return_received_at: リターンで受信
+        requested_at: 依頼時刻
+        shipped_at: 発送時刻
+        received_at: 受取時刻
+        return_shipped_at: 返却発送時刻
+        return_received_at: 返却受取時刻
         deleted_at: 削除時刻
         state: 状態
       message:

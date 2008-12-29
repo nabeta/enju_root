@@ -44,14 +44,14 @@ class AttachmentFile < ActiveRecord::Base
     content.close
     fulltext = Tempfile::new("fulltext")
     case self.content_type
-#    when "application/pdf"
-#      system("pdftotext -q -enc UTF-8 -raw #{self.full_filename} #{temp.path}")
+    when "application/pdf"
+      system("pdftotext -q -enc UTF-8 -raw #{content.path} #{fulltext.path}")
     when "application/msword"
-     system("antiword #{content.path} 2> /dev/null > #{fulltext.path}")
-#    when "application/vnd.ms-excel"
-#      system("xlhtml #{self.full_filename} 2> /dev/null > #{temp.path}")
-#    when "application/vnd.ms-powerpoint"
-#      system("ppthtml #{self.full_filename} 2> /dev/null #{temp.path}")
+      system("antiword #{content.path} 2> /dev/null > #{fulltext.path}")
+    when "application/vnd.ms-excel"
+      system("xlhtml #{content.path} 2> /dev/null > #{fulltext.path}")
+    when "application/vnd.ms-powerpoint"
+      system("ppthtml #{content.path} 2> /dev/null #{fulltext.path}")
 #    when "text/html"
 #      system("elinks --dump 1 #{self.full_filename} 2> /dev/null #{temp.path}")
     #  html = open(self.full_filename).read
@@ -67,6 +67,7 @@ class AttachmentFile < ActiveRecord::Base
     end
 
     self.update_attribute(:fulltext, fulltext.read)
+    fulltext.close
   rescue
     nil
   end

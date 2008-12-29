@@ -11,18 +11,18 @@ class Embody < ActiveRecord::Base
 
   acts_as_list :scope => :manifestation
 
-  def after_save
-    if self.expression
-      self.expression.reload
-      self.manifestation.save
-    end
-    if self.manifestation
-      self.manifestation.reload
-      self.manifestation.save
-    end
-  end
+  #def after_save
+  #  if self.expression
+  #    self.expression.reload
+  #    self.manifestation.save
+  #  end
+  #  if self.manifestation
+  #    self.manifestation.reload
+  #    self.manifestation.save
+  #  end
+  #end
 
-  def after_destroy
-    after_save
-  end
+  #def after_destroy
+  #  after_save
+  #end
 end

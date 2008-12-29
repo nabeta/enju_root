@@ -222,12 +222,16 @@ ja:
     bookmarklet: "ブックマークレット"
     add_file: "ファイルを追加する"
     telephone_number: "電話番号"
+    about_this_system: "このシステムについて"
+    report_bugs: "不具合を報告する"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
-  question:
-    body: "質問の本文"
-  answer:
-    body: "回答の本文"
-  advertisement:
-    body: "広告の本文"
+    remember_me: "ウインドウを閉じてもログインしたままにする"
+  bookmark:
+    not_bookmarked: "ブックマークされていません。"
+    add_to_my_bookmark: "ブックマークに追加する"
+    remove_from_my_bookmark: "ブックマークから削除する"
+  manifestation:
+    date_of_acquisition: "受入日"
+    physical_description: "大きさ"

@@ -36,12 +36,12 @@
   </p>
 
   <p>
-    <b><%= ('Circulation status') -%></b><br />
+    <b><%= t('activerecord.models.circulation_status') -%></b><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
   </p>
 
   <p>
-    <b><%= ('Checkout type') -%></b><br />
+    <b><%= t('activerecord.models.checkout_type') -%></b><br />
     <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name, c.id]}) -%>
   </p>
 
@@ -67,7 +67,7 @@
 
 <!--
   <p>
-  <b><%= ('Use restriction') -%></b> # TODO: 互いに矛盾する利用制限を指定させない<br />
+  <b><%= t('activerecord.models.use_restriction') -%></b> # TODO: 互いに矛盾する利用制限を指定させない<br />
     <%- @use_restrictions.each do |use_restriction| -%>
       <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
       <%=h use_restriction.display_name -%><br />

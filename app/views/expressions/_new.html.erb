@@ -29,7 +29,7 @@
   </p>
 
   <p>
-    <b><%= ('Title alternative') -%></b><br />
+    <b><%= t('activerecord.attributes.expression.title_alternative') -%></b><br />
     <%- if @work -%>
       <%= f.text_field :title_alternative, :value => @work.title_alternative, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>
