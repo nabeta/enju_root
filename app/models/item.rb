@@ -29,6 +29,10 @@ class Item < ActiveRecord::Base
   has_one :barcode, :as => :barcodable, :dependent => :destroy
   has_many :inventories, :dependent => :destroy
   has_many :inventory_files, :through => :inventories
+  has_many :to_items, :foreign_key => 'from_item_id', :class_name => 'ItemHasItem', :dependent => :destroy
+  has_many :from_items, :foreign_key => 'to_item_id', :class_name => 'ItemHasItem', :dependent => :destroy
+  has_many :item_to_items, :through => :to_items, :source => :item_to_item
+  has_many :item_from_items, :through => :from_items, :source => :item_from_item
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type

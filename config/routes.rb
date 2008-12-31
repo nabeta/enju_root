@@ -202,6 +202,8 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :work_merges
     work.resources :work_merge_lists
     work.resources :resource_has_subjects
+    work.resources :work_from_works, :controller => :works
+    work.resources :work_to_works, :controller => :works
   end
   map.resources :expressions do |expression|
     expression.resource :realize
@@ -215,6 +217,8 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :expression_merge_lists
     expression.resources :resource_has_subjects
     expression.resource :subscribe
+    expression.resources :expression_from_expressions, :controller => :expressions
+    expression.resources :expression_to_expressions, :controller => :expressions
   end
   map.resources :manifestations do |manifestation|
     manifestation.resources :attachment_files
@@ -227,6 +231,8 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :expressions
     manifestation.resources :subjects
     manifestation.resources :resource_has_subjects
+    manifestation.resources :manifestation_from_manifestations, :controller => :manifestations
+    manifestation.resources :manifestation_to_manifestations, :controller => :manifestations
   end
   map.resources :items do |item|
     item.resources :owns
@@ -239,6 +245,8 @@ ActionController::Routing::Routes.draw do |map|
     item.resources :donates
     item.resource :checkout_type
     item.resource :inventory_files
+    item.resources :item_from_items, :controller => :items
+    item.resources :item_to_items, :controller => :items
   end
   map.resources :libraries do |library|
     library.resources :shelves do |shelf|

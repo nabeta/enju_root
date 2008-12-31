@@ -28,6 +28,10 @@ class Manifestation < ActiveRecord::Base
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
   has_many :reserve_stat_has_manifestations
   has_many :reserve_stats, :through => :reserve_stat_has_manifestations
+  has_many :to_manifestations, :foreign_key => 'from_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
+  has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
+  has_many :manifestation_to_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
+  has_many :manifestation_from_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
