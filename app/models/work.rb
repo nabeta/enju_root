@@ -9,6 +9,10 @@ class Work < ActiveRecord::Base
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
+  has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork', :dependent => :destroy
+  has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork', :dependent => :destroy
+  has_many :work_to_works, :through => :to_works, :source => :work_to_work
+  has_many :work_from_works, :through => :from_works, :source => :work_from_work
 
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:access_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 
