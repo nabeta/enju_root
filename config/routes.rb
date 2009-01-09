@@ -151,7 +151,7 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :manifestations
     patron.resources :items
     patron.resources :creates
-    patron.resources :reifies
+    patron.resources :realizes
     patron.resources :produces
     patron.resources :owns
     patron.resources :patron_owns_libraries
@@ -197,6 +197,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sessions
   map.resources :works do |work|
     work.resources :expressions
+    work.resources :reifies
     work.resources :patrons
     work.resources :creates
     work.resources :work_merges
