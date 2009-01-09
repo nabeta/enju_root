@@ -38,7 +38,7 @@
   </tr>
   
 <%- for expression in @expressions -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
       <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
