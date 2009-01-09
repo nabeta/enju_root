@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
   require_role 'Librarian', :except => [:index, :show]
-  before_filter :get_parent
+  #before_filter :get_parent
   before_filter :get_patron
   before_filter :get_work_merge_list
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -24,6 +24,10 @@ class WorksController < ApplicationController
       case
       when @patron
         @works = @patron.works.paginate(:page => params[:page], :per_page => @per_page, :order => 'works.id')
+      when @parent_work
+        @works = @parent_work.derived_works.paginate(:page => params[:page], :per_page => @per_page, :order => 'works.id')
+      when @derived_work
+        @works = @derived_work.parent_works.paginate(:page => params[:page], :per_page => @per_page, :order => 'works.id')
       when @work_merge_list
         @works = @work_merge_list.works.paginate(:page => params[:page], :per_page => @per_page)
       else

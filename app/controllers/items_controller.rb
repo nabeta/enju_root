@@ -65,6 +65,10 @@ class ItemsController < ApplicationController
           access_denied
           return
         end
+      when @parent_item
+        @items = @parent_item.derived_items.paginate(:page => params[:page], :per_page => @per_page, :order => 'items.id')
+      when @derived_item
+        @items = @derived_item.parent_items.paginate(:page => params[:page], :per_page => @per_page, :order => 'items.id')
       else
         @items = Item.paginate :all, :page => params[:page], :per_page => per_page, :order => order
       end

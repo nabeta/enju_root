@@ -151,7 +151,7 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :manifestations
     patron.resources :items
     patron.resources :creates
-    patron.resources :realizes
+    patron.resources :reifies
     patron.resources :produces
     patron.resources :owns
     patron.resources :patron_owns_libraries

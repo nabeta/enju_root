@@ -32,6 +32,10 @@ class ExpressionsController < ApplicationController
         @expressions = @work.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
       when @manifestation
         @expressions = @manifestation.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+      when @parent_expression
+        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :per_page => @per_page, :order => 'expressions.id')
+      when @derived_expression
+        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :per_page => @per_page, :order => 'expressions.id')
       when @subscription
         @expressions = @subscription.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
       when @expression_merge_list
