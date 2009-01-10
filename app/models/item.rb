@@ -182,8 +182,7 @@ class Item < ActiveRecord::Base
     nil
   end
 
-  #def post_to_federated_search
-  #  resource = Resource.new(:title => self.manifestation.original_title, :author => self.manifestation.author, :publisher => self.manifestation.publisher, :isbn => self.manifestation.isbn, :library => self.shelf.library.short_name)
-  #end
-
+  def post_to_federated_search
+    Resource.create(:title => self.manifestation.original_title, :library_url => "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{self.shelf.library.short_name}", :manifestation_id => self.manifestation.id, :author => self.manifestation.author, :publisher => self.manifestation.publisher)
+  end
 end

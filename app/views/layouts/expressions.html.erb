@@ -5,11 +5,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- case when @expression -%>
-    <title><%=h @expression.original_title -%> : <%= ('Expressions') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @expression.original_title -%> : <%= t('activerecord.models.expression') -%>: <%=h controller.action_name -%></title>
   <%- when @patron -%>
-    <title><%= ("%{patron}'s expressions") -%> : <%= ('Patrons') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('page.expression.patrons_expression') -%>: <%=h controller.action_name -%></title>
   <%- else -%>
-    <title><%= ('Expressions') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.expressions') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
