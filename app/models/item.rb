@@ -183,6 +183,18 @@ class Item < ActiveRecord::Base
   end
 
   def post_to_federated_search
-    Resource.create(:title => self.manifestation.original_title, :library_url => "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{self.shelf.library.short_name}", :manifestation_id => self.manifestation.id, :author => self.manifestation.author, :publisher => self.manifestation.publisher)
+    local_library = self.shelf.library
+    library_url = "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{local_library.short_name}"
+    manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
+    resource = FederatedCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn})
+    if resource.nil?
+      resource = FederatedCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id)
+    end
+
+    library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
+    if library.nil?
+      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :address => local_library.address)
+    end
+    FederatedCatalog::Own.create(:manifestation_id => resource.id, :library_id => library.id, :url => manifestation_url)
   end
 end
