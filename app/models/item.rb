@@ -51,7 +51,15 @@ class Item < ActiveRecord::Base
   attr_accessor :restrain_indexing
 
   #def after_create
-  #  post_to_federated_search
+  #  post_to_federated_catalog
+  #end
+
+  #def after_update
+  #  update_federated_catalog
+  #end
+
+  #def after_destroy
+  #  remove_from_federated_catalog
   #end
 
   def before_save
@@ -182,7 +190,7 @@ class Item < ActiveRecord::Base
     nil
   end
 
-  def post_to_federated_search
+  def post_to_federated_catalog
     local_library = self.shelf.library
     library_url = "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{local_library.short_name}"
     manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
@@ -193,8 +201,24 @@ class Item < ActiveRecord::Base
 
     library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
     if library.nil?
-      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :address => local_library.address)
+      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :address => local_library.address, :lat => local_library.lat, :lng => local_library.lng)
     end
-    FederatedCatalog::Own.create(:manifestation_id => resource.id, :library_id => library.id, :url => manifestation_url)
+    FederatedCatalog::Own.create(:manifestation_id => resource.id, :library_id => library.id, :url => manifestation_url, :library_url => library_url)
+  end
+
+  def update_federated_catalog
+    local_library = self.shelf.library
+    library_url = "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{local_library.short_name}"
+    manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
+    own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url, :library_url => library_url})
+    own.library_url = library_url
+    own.url = manifestation_url
+    own.save
+  end
+
+  def remove_from_federated_catalog
+    manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
+    own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url})
+    own.destroy
   end
 end
