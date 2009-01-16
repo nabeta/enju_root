@@ -192,8 +192,8 @@ class Item < ActiveRecord::Base
 
   def post_to_federated_catalog
     local_library = self.shelf.library
-    library_url = "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{local_library.short_name}"
-    manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
+    library_url = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}/libraries/#{local_library.short_name}").normalize.to_s
+    manifestation_url = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}#{LIBRARY_WEB_PORT_NUMBER}/manifestations/#{self.manifestation.id}").normalize.to_s
     resource = FederatedCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn})
     if resource.nil?
       resource = FederatedCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id)
@@ -208,8 +208,8 @@ class Item < ActiveRecord::Base
 
   def update_federated_catalog
     local_library = self.shelf.library
-    library_url = "http://#{LIBRARY_WEB_HOSTNAME}/libraries/#{local_library.short_name}"
-    manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
+    library_url = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}/libraries/#{local_library.short_name}").normalize.to_s
+    manifestation_url = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}#{LIBRARY_WEB_PORT_NUMBER}/manifestations/#{self.manifestation.id}").normalize.to_s
     own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url, :library_url => library_url})
     own.library_url = library_url
     own.url = manifestation_url
@@ -217,7 +217,7 @@ class Item < ActiveRecord::Base
   end
 
   def remove_from_federated_catalog
-    manifestation_url = "http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.manifestation.id}"
+    manifestation_url = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}#{LIBRARY_WEB_PORT_NUMBER}/manifestations/#{self.manifestation.id}").normalize.to_s
     own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url})
     own.destroy
   end

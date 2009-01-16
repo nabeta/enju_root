@@ -1,4 +1,5 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
+LIBRARY_WEB_PORT_NUMBER = '3000'
 AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 # AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
