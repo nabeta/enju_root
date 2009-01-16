@@ -755,5 +755,12 @@ en:
   manifestation:
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
+    edit: "Edit this manifestation"
+    add_next_issue: "Add a next issue"
+    edit_publisher: "Edit publishers"
+    edit_expression: "Edit expressions"
+    edit_item: "Edit items"
   expression:
     patrons_expression: "{{patron_name}}'s expressions"
+  item:
+    new_item: "New item"

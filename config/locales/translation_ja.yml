@@ -746,6 +746,13 @@ ja:
     remove_from_my_bookmark: "ブックマークから削除する"
   manifestation:
     date_of_acquisition: "受入日"
-    physical_description: "大きさ"
+    physical_description: "ページ数と大きさ"
+    edit: "編集"
+    add_next_issue: "次の号を追加"
+    edit_publisher: "出版者を編集"
+    edit_expression: "表現形を編集"
+    edit_item: "所蔵を編集"
   expression:
     patrons_expression: "{{patron_name}} の表現形"
+  item:
+    new_item: "所蔵を追加"
