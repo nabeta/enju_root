@@ -88,7 +88,7 @@ ja:
       bookmarked_resource: ブックマークリソース
       attachment_file: 添付ファイル
       reserve: 予約
-      message_queue: メッセージ待ち行列
+      message_queue: 送信待ちのメッセージ
       answer: 回答
       bookstore: 書店
       checkout_type: 貸出の種類
@@ -104,7 +104,7 @@ ja:
       library:
         name: 名前
         short_name: 短縮名
-        short_display_name: 短い表示名
+        short_display_name: 短縮表示名
         address: 住所
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
@@ -578,6 +578,7 @@ ja:
         deleted_at: 削除時刻
       bookstore:
         name: 名前
+        zip_code: 郵便番号
         address: 住所
         note: 注記
         telephone_number: 電話番号
@@ -745,6 +746,7 @@ ja:
     import_from_network: "ネットワークからインポート"
     no_record_found: "資料が見つかりませんでした。"
     enter_search_term: "検索語を入力してください。"
+    serial: "雑誌・定期刊行物"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
@@ -780,3 +782,7 @@ ja:
     new_item: "所蔵を追加"
   message:
     listing: "メッセージの一覧"
+  tag:
+    listing: "タグの一覧"
+    popular_tag: "人気のあるタグ"
+    my_tag: "自分のつけたタグ"

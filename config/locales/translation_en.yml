@@ -578,6 +578,7 @@ en:
         deleted_at: Deleted at
       bookstore:
         name: Name
+        zip_code: Zip code
         address: Address
         note: Note
         telephone_number: Telephone number
@@ -753,6 +754,7 @@ en:
     import_from_network: "Import from networks"
     no_record_found: "No records found."
     enter_search_term: "Enter your search term."
+    serial: "Serial"
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
@@ -787,3 +789,7 @@ en:
     new_item: "New item"
   message:
     listing: "Listing messages"
+  tag:
+    listing: "Listing tags"
+    popular_tag: "Popular tags"
+    my_tag: "My tags"

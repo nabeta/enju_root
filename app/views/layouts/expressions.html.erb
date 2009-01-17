@@ -9,7 +9,7 @@
   <%- when @patron -%>
     <title><%= t('page.expression.patrons_expression') -%>: <%=h controller.action_name -%></title>
   <%- else -%>
-    <title><%= t('activerecord.models.expressions') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.expression') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="http://<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />

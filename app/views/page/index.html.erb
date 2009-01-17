@@ -31,7 +31,7 @@
   </div>
 
   <div id="tag_cloud_box">
-    <h3><%= ('Popular tags') -%></h3>
+    <h3><%= t('tag.popular_tag') -%></h3>
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud') do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>

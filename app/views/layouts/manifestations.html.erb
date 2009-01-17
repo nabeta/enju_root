@@ -12,7 +12,7 @@
     <%- case when @patron -%>
     <title><%= t('manifestation.patrons_manifestation', :patron_name => @patron.full_name) -%></title>
     <%- when @expression -%>
-    <title><%= t('manifestation.expressions_manifestation', :expression_title => @expression.title) -%></title>
+    <title><%= t('manifestation.expressions_manifestation', :expression_title => @expression.original_title) -%></title>
     <%- when @query -%>
       <title><%=h @query -%> : <%= t('activerecord.models.manifestation') -%> - <%=h@library_group.display_name -%></title>
     <%- else -%>
