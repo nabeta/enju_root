@@ -8,19 +8,19 @@
     <th>State</th>
   </tr>
 
-<% for user_reserve_stat in @user_reserve_stats %>
+<% for user_reserve_stat in @user_reserve_stats -%>
   <tr>
-    <td><%=h user_reserve_stat.from_date %></td>
-    <td><%=h user_reserve_stat.to_date %></td>
-    <td><%=h user_reserve_stat.note %></td>
-    <td><%=h user_reserve_stat.state %></td>
-    <td><%= link_to 'Show', user_reserve_stat %></td>
-    <td><%= link_to 'Edit', edit_user_reserve_stat_path(user_reserve_stat) %></td>
-    <td><%= link_to 'Destroy', user_reserve_stat, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%=h user_reserve_stat.from_date -%></td>
+    <td><%=h user_reserve_stat.to_date -%></td>
+    <td><%=h user_reserve_stat.note -%></td>
+    <td><%=h user_reserve_stat.state -%></td>
+    <td><%= link_to 'Show', user_reserve_stat -%></td>
+    <td><%= link_to 'Edit', edit_user_reserve_stat_path(user_reserve_stat) -%></td>
+    <td><%= link_to 'Destroy', user_reserve_stat, :confirm => 'Are you sure?', :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New user_reserve_stat', new_user_reserve_stat_path %>
+<%= link_to 'New user_reserve_stat', new_user_reserve_stat_path -%>

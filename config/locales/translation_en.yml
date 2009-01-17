@@ -744,6 +744,9 @@ en:
     telephone_number: "Telephoone number"
     about_this_system: "About this system"
     report_bugs: "Report bugs"
+    new_resource: "New resources"
+    checkout_history: "Checkout history"
+    recommendation: "Recommendation"
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
@@ -764,3 +767,5 @@ en:
     patrons_expression: "{{patron_name}}'s expressions"
   item:
     new_item: "New item"
+  message:
+    listing: "Listing messages"

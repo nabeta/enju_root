@@ -79,7 +79,7 @@
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.inter_library_loan'), inter_library_loans_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('NACSIS ILL'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
-                          <li class="yuimenuitem"><%= link_to ('Checkout history'), user_checkouts_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.checkout_history'), user_checkouts_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                         </ul>
                       </div>
                     </div>
@@ -157,7 +157,7 @@
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.order_list'), order_lists_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('page.statistics'), '/page/statistics', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.search_history'), search_histories_path, :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to ('Recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                             <!--
                             <li class="yuimenuitem"><%= link_to ('Send questions and answers to CRD'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                             -->

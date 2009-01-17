@@ -8,19 +8,19 @@
     <th>Position</th>
   </tr>
 
-<% for item_has_item in @item_has_items %>
+<% for item_has_item in @item_has_items -%>
   <tr>
-    <td><%=h item_has_item.from_item_id %></td>
-    <td><%=h item_has_item.to_item_id %></td>
-    <td><%=h item_has_item.type %></td>
-    <td><%=h item_has_item.position %></td>
-    <td><%= link_to t('page.show'), item_has_item %></td>
-    <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) %></td>
-    <td><%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+    <td><%=h item_has_item.from_item_id -%></td>
+    <td><%=h item_has_item.to_item_id -%></td>
+    <td><%=h item_has_item.type -%></td>
+    <td><%=h item_has_item.position -%></td>
+    <td><%= link_to t('page.show'), item_has_item -%></td>
+    <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) -%></td>
+    <td><%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New item_has_item', new_item_has_item_path %>
+<%= link_to 'New item_has_item', new_item_has_item_path -%>

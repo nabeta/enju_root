@@ -1,23 +1,23 @@
 <h1>New reserve_stat_has_manifestation</h1>
 
-<% form_for(@reserve_stat_has_manifestation) do |f| %>
-  <%= f.error_messages %>
+<% form_for(@reserve_stat_has_manifestation) do |f| -%>
+  <%= f.error_messages -%>
 
   <p>
-    <%= f.label :manifestation_reserve_stat_id %><br />
-    <%= f.text_field :manifestation_reserve_stat_id %>
+    <%= f.label :manifestation_reserve_stat_id -%><br />
+    <%= f.text_field :manifestation_reserve_stat_id -%>
   </p>
   <p>
-    <%= f.label :manifestation_id %><br />
-    <%= f.text_field :manifestation_id %>
+    <%= f.label :manifestation_id -%><br />
+    <%= f.text_field :manifestation_id -%>
   </p>
   <p>
-    <%= f.label :reserves_count %><br />
-    <%= f.text_field :reserves_count %>
+    <%= f.label :reserves_count -%><br />
+    <%= f.text_field :reserves_count -%>
   </p>
   <p>
-    <%= f.submit "Create" %>
+    <%= f.submit "Create" -%>
   </p>
-<% end %>
+<% end -%>
 
-<%= link_to 'Back', reserve_stat_has_manifestations_path %>
+<%= link_to 'Back', reserve_stat_has_manifestations_path -%>

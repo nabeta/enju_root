@@ -736,6 +736,9 @@ ja:
     telephone_number: "電話番号"
     about_this_system: "このシステムについて"
     report_bugs: "不具合を報告する"
+    new_resource: "新着資料"
+    checkout_history: "貸出履歴"
+    recommendation: "おすすめの資料"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
@@ -752,7 +755,12 @@ ja:
     edit_publisher: "出版者を編集"
     edit_expression: "表現形を編集"
     edit_item: "所蔵を編集"
+    patrons_manifestation: "{{patron_name}} の体現形"
+    expressions_manifestation: "{{expression_title}} の体現形"
+    library_group_manifestation: "{{library_group_name}} にある体現形"
   expression:
     patrons_expression: "{{patron_name}} の表現形"
   item:
     new_item: "所蔵を追加"
+  message:
+    listing: "メッセージの一覧"
