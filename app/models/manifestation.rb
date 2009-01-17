@@ -572,6 +572,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def amazon_customer_review
+    access_amazon
     reviews = []
     doc = REXML::Document.new(self.manifestation_api_response.body)
     reviews = []

@@ -20,7 +20,7 @@
 
 <p>
   <%= t('activerecord.attributes.library.short_display_name') -%>: <%=h @library.short_display_name -%><br />
-  <%= t('activerecord.attributes.library.address') -%>: <%=h @library.address -%><br />
+  <%= t('activerecord.attributes.library.address') -%>: <%=h @library.zip_code -%> <%=h @library.address -%><br />
   <%= t('page.telephone_number') -%>: <%=h @library.telephone_number_1 -%>
   <%=h @library.telephone_number_2 -%>
   FAX: <%=h @library.fax_number -%>

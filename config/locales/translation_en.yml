@@ -105,6 +105,7 @@ en:
         name: Name
         short_name: Short name
         short_display_name: Short display name
+        zip_code: Zip code
         address: Address
         telephone_number_1: Telephone number 1
         telephone_number_2: Telephone number 2

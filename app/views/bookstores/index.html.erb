@@ -2,11 +2,11 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.name') -%></th>
+    <th><%= t('activerecord.attributes.bookstore.name') -%></th>
     <th><%= t('activerecord.attributes.bookstore.address') -%></th>
     <th><%= t('activerecord.attributes.bookstore.telephone_number') -%></th>
-    <th><%= ('Fax number') -%></th>
-    <th><%= ('Url') -%></th>
+    <th><%= t('activerecord.attributes.bookstore.fax_number') -%></th>
+    <th><%= t('activerecord.attributes.bookstore.url') -%></th>
   </tr>
 
 <%- @bookstores.each_with_index do |bookstore, i| -%>
