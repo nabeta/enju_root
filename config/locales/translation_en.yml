@@ -790,7 +790,18 @@ en:
     new_item: "New item"
   message:
     listing: "Listing messages"
+    users_message: "{{login_name}}'s messages"
   tag:
     listing: "Listing tags"
     popular_tag: "Popular tags"
     my_tag: "My tags"
+  question:
+    number_of_search_results:
+      one: "1 record found."
+      other: "{{count}} records found."
+    users_question: "{{login_name}}'s questions"
+  checkout:
+    users_checkout: "{{login_name}}'s checkouts"
+  library:
+    map: "Map"
+    staff: "Staff"

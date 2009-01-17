@@ -1,8 +1,10 @@
 <div id="footer">
 
-<%- cache(:controller => :page, :action_suffix => 'footer') do -%>
+<%-
+  # cache(:controller => :page, :action_suffix => 'footer') do
+-%>
 <div id="description">
-  <a href="http://kamata.lib.teu.ac.jp/trac/catalog/">Project Next-L prototype system "Enju"</a>,
+  <a href="http://kamata.lib.teu.ac.jp/trac/catalog/">Project Next-L "Enju"</a>,
   <%= ('open-source integrated library system') -%> |
   <%= link_to t('page.about_this_system'), "/page/about" -%> |
   <%= link_to t('page.report_bugs'), "http://kamata.lib.teu.ac.jp/trac/catalog/wiki/HowToReportBugs" -%>
@@ -12,6 +14,8 @@
   <%= database_adapter -%>
   and <a href="http://lucene.apache.org/solr/">Solr</a>
 </div>
-<%- end -%>
+<%-
+  # end
+-%>
 
 </div>

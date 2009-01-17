@@ -9,7 +9,7 @@
   <link rel="search" type="application/opensearchdescription+xml" href="http:///page/opensearch" title="<%=h @library_group.display_name -%>" />
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("%{user}'s checkouts")) -%>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('checkout.users_checkout', :login_name => @user.login)) -%>
     <%- else -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Checkouts at %{library}")) -%>
     <%- end -%>

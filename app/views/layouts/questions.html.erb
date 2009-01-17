@@ -8,7 +8,7 @@
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("%{user}'s questions")) -%>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('question.users_question', :login_name => @user.login)) -%>
     <%- else -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('activerecord.models.question')) -%>
     <%- end -%>

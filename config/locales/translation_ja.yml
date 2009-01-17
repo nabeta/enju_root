@@ -30,7 +30,7 @@ ja:
       exemplify: 例証
       own: 所有
       search_history: 検索履歴
-      shelf: 書架
+      shelf: 本棚
       event_category: 催し物の種類
       advertisement: 広告
       porta_response: PORTAの応答
@@ -651,7 +651,7 @@ ja:
     login_name: "ログイン名"
     password: "パスワード"
     library: "図書館"
-    shelf: "書架"
+    shelf: "本棚"
     language: "言語"
     subject: "件名"
     search: "検索"
@@ -783,7 +783,17 @@ ja:
     new_item: "所蔵を追加"
   message:
     listing: "メッセージの一覧"
+    users_message: "{{login_name}} さんのメッセージ"
+  expression:
   tag:
     listing: "タグの一覧"
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
+  question:
+    number_of_search_results: "{{count}} 件の資料が見つかりました。"
+    users_question: "{{login_name}} さんの質問"
+  checkout:
+    users_checkout: "{{login_name}} さんの貸出資料"
+  library:
+    map: 地図
+    staff: 職員
