@@ -123,7 +123,7 @@ ja:
       imported_patron_file:
         filename: ファイル名
         content_type: コンテンツ種類
-        size: 寸法
+        size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
@@ -250,7 +250,7 @@ ja:
         subjectable_type: Subjectable種類
       picture_file:
         picture_attachable_type: 画像を添付可能な種類
-        size: 寸法
+        size: ファイルサイズ
         content_type: コンテンツ種類
         title: タイトル
         filename: ファイル名
@@ -517,7 +517,7 @@ ja:
       imported_resource_file:
         filename: ファイル名
         content_type: コンテンツ種類
-        size: 寸法
+        size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
@@ -546,7 +546,7 @@ ja:
       imported_event_file:
         filename: ファイル名
         content_type: コンテンツ種類
-        size: 寸法
+        size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
@@ -555,7 +555,7 @@ ja:
         url: URL
       attachment_file:
         attachable_type: 添付可能な種類
-        size: 寸法
+        size: ファイルサイズ
         content_type: コンテンツ種類
         title: タイトル
         filename: ファイル名
@@ -613,7 +613,7 @@ ja:
       inventory_file:
         filename: ファイル名
         content_type: コンテンツ種類
-        size: 寸法
+        size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
       manifestation_form_has_checkout_type:
@@ -740,6 +740,9 @@ ja:
     new_resource: "新着資料"
     checkout_history: "貸出履歴"
     recommendation: "おすすめの資料"
+    add_manually: "手動で登録する"
+    import_from_file: "ファイルからインポート"
+    import_from_network: "ネットワークからインポート"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
@@ -748,6 +751,7 @@ ja:
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
+    add_to_library_bookmark: "図書館のブックマークに追加"
   work:
     patrons_work: "{{patron_name}} の著作形"
   expression:

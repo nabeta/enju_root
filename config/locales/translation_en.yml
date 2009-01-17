@@ -748,6 +748,9 @@ en:
     new_resource: "New resources"
     checkout_history: "Checkout history"
     recommendation: "Recommendation"
+    add_manually: "Add manually"
+    import_from_file: "Import from file"
+    import_from_network: "Import from networks"
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
@@ -756,6 +759,7 @@ en:
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
+    add_to_library_bookmark: "Add to library bookmark"
   work:
     patrons_work: "{{patron_name}}'s works"
   expression:

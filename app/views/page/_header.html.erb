@@ -100,9 +100,9 @@
                       <div class="bd">                    
                         <ul>
                           <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
-                          <li class="yuimenuitem"><%= link_to ('Add a new resource'), works_path, :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.add_manually'), works_path, :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.add_file'), attachment_files_path, :class => 'yuimenuitemlabel' -%></li>
-                          <li class="yuimenuitem"><%= link_to ('Import from networks'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.import_from_network'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                         </ul>
                       </div>
                     </div>                    

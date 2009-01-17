@@ -196,7 +196,7 @@ class Item < ActiveRecord::Base
     manifestation_url = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}/manifestations/#{self.manifestation.id}").normalize.to_s
     resource = FederatedCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn})
     if resource.nil?
-      resource = FederatedCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id)
+      resource = FederatedCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id, :manifestation_url => manifestation_url)
     end
 
     library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
