@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= ('Checkouts') -%>: <%=h controller.action_name -%></title>
+  <title><%= t('activerecord.models.checkout') -%>: <%=h controller.action_name -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="/page/opensearch" title="<%=h @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http:///page/opensearch" title="<%=h @library_group.display_name -%>" />
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("%{user}'s checkouts")) -%>

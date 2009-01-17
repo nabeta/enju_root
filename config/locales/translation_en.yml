@@ -99,6 +99,7 @@ en:
       inventory_file: Inventory file
       manifestation_form_has_checkout_type: Manifestation form has checkout type
       user_group_has_checkout_type: User group has checkout type
+      tag: Tag
     attributes:
       library:
         name: Name
@@ -755,6 +756,11 @@ en:
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
+  work:
+    patrons_work: "{{patron_name}}'s works"
+  expression:
+    patrons_expression: "{{patron_name}}'s expressions"
+    manifestations_expression: "Expressions in {{manifestation_title}}"
   manifestation:
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
@@ -763,8 +769,8 @@ en:
     edit_publisher: "Edit publishers"
     edit_expression: "Edit expressions"
     edit_item: "Edit items"
-  expression:
-    patrons_expression: "{{patron_name}}'s expressions"
+    expressions_manifestation: "Manifestations for {{expression_title}}"
+    library_group_manifestation: "Manifestations in {{library_group_name}}"
   item:
     new_item: "New item"
   message:

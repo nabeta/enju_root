@@ -99,6 +99,7 @@ ja:
       inventory_file: 蔵書点検ファイル
       manifestation_form_has_checkout_type: 体現形の種類と貸出の種類
       user_group_has_checkout_type: ユーザグループと貸出の種類
+      tag: タグ
     attributes:
       library:
         name: 名前
@@ -747,6 +748,11 @@ ja:
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
+  work:
+    patrons_work: "{{patron_name}} の著作形"
+  expression:
+    patrons_expression: "{{patron_name}} の表現形"
+    manifestations_expression: "{{manifestation_title}} に含まれる表現形"
   manifestation:
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
@@ -758,8 +764,6 @@ ja:
     patrons_manifestation: "{{patron_name}} の体現形"
     expressions_manifestation: "{{expression_title}} の体現形"
     library_group_manifestation: "{{library_group_name}} にある体現形"
-  expression:
-    patrons_expression: "{{patron_name}} の表現形"
   item:
     new_item: "所蔵を追加"
   message:

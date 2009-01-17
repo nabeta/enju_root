@@ -4,14 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= ('Reserves') -%>: <%=h controller.action_name -%></title>
+  <title><%= t('activerecord.models.reserve') -%>: <%=h controller.action_name -%></title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'reserves', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("%{user}'s reservations")) -%>
     <%- end -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http://<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

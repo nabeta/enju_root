@@ -5,14 +5,14 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- case when @work -%>
-    <title><%=h @work.original_title -%> : <%= ('Works') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @work.original_title -%> : <%= t('activerecord.models.work') -%>: <%=h controller.action_name -%></title>
   <%- when @patron -%>
-    <title><%= ("%{patron}'s works") -%> : <%= ('Patrons') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('patrons_work', :patron_name => @patron.full_name) -%> : <%= ('Patrons') -%>: <%=h controller.action_name -%></title>
   <%- else -%>
-    <title><%= ('Works') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.work') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http://<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

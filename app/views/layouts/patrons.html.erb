@@ -21,7 +21,7 @@
   <%- if controller.action_name == 'index' -%>
     <%= auto_discovery_link_tag(:rss, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Patron in %{library}")) if @query -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http://<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
