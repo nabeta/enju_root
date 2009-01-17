@@ -122,7 +122,7 @@ ja:
         deleted_at: 削除時刻
       imported_patron_file:
         filename: ファイル名
-        content_type: コンテンツ種類
+        content_type: Content-Type
         size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
@@ -251,7 +251,7 @@ ja:
       picture_file:
         picture_attachable_type: 画像を添付可能な種類
         size: ファイルサイズ
-        content_type: コンテンツ種類
+        content_type: Content-Type
         title: タイトル
         filename: ファイル名
         height: 高さ
@@ -516,7 +516,7 @@ ja:
         deleted_at: 削除時刻
       imported_resource_file:
         filename: ファイル名
-        content_type: コンテンツ種類
+        content_type: Content-Type
         size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
@@ -545,7 +545,7 @@ ja:
         note: 注記
       imported_event_file:
         filename: ファイル名
-        content_type: コンテンツ種類
+        content_type: Content-Type
         size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
@@ -556,7 +556,7 @@ ja:
       attachment_file:
         attachable_type: 添付可能な種類
         size: ファイルサイズ
-        content_type: コンテンツ種類
+        content_type: Content-Type
         title: タイトル
         filename: ファイル名
         height: 高さ
@@ -612,7 +612,7 @@ ja:
         position: 位置
       inventory_file:
         filename: ファイル名
-        content_type: コンテンツ種類
+        content_type: Content-Type
         size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
@@ -623,10 +623,10 @@ ja:
         checkout_limit: 貸出数の上限
         checkout_period: 貸出期間
         checkout_renewal_limit: 貸出更新回数の上限
-        reservation_limit: 予約制限
-        reservation_expired_period: 予約期間が期限切れ
-        set_due_date_before_closing_day: 締め切り日までに設定予定日
-        fixed_due_date: 固定予定日
+        reservation_limit: 予約冊数の上限
+        reservation_expired_period: 予約の期限切れまでの期間
+        set_due_date_before_closing_day: 返却日を閉館日の前日にする
+        fixed_due_date: 固定返却日
         note: 注記
         position: 位置
       bookmark_stat:
@@ -743,6 +743,8 @@ ja:
     add_manually: "手動で登録する"
     import_from_file: "ファイルからインポート"
     import_from_network: "ネットワークからインポート"
+    no_record_found: "資料が見つかりませんでした。"
+    enter_search_term: "検索語を入力してください。"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
@@ -751,13 +753,18 @@ ja:
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
+  bookmarked_resource:
     add_to_library_bookmark: "図書館のブックマークに追加"
+    library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
   work:
+    listing: "著作形の一覧"
     patrons_work: "{{patron_name}} の著作形"
   expression:
+    listing: "表現形の一覧"
     patrons_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
   manifestation:
+    listing: "体現形の一覧"
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
     edit: "編集"
@@ -769,6 +776,7 @@ ja:
     expressions_manifestation: "{{expression_title}} の体現形"
     library_group_manifestation: "{{library_group_name}} にある体現形"
   item:
+    listing: "個別資料の一覧"
     new_item: "所蔵を追加"
   message:
     listing: "メッセージの一覧"

@@ -9,4 +9,4 @@
   end -%>
   <%= link_to_remote t('page.previous'), :update => 'library_calendar', :url => library_path(@library.short_name, :date => (@date - 1.month).strftime('%Y-%m-%d')), :method => :get -%>
  <%= link_to_remote ('This month'), :update => 'library_calendar', :url => library_path(@library.short_name, :date => Time.now.strftime('%Y-%m-%d')), :method => :get -%>
- <%= link_to_remote t('page.next'), :update => 'library_calendar', :url => library_path(@library.short_name, :date => (@date + 1.month).strftime('%Y-%m-%d')), :method => :get -%>
+ <%= link_to_remote tt('page.next'), :update => 'library_calendar', :url => library_path(@library.short_name, :date => (@date + 1.month).strftime('%Y-%m-%d')), :method => :get -%>

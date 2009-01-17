@@ -9,28 +9,28 @@
 
 <div id="content_detail">
 <p>
-<b><%= ('Category') -%>:</b>
+  <b><%= t('activerecord.attributes.classification.category') -%>:</b>
   <%=h @classification.category -%>
 </p>
 
 <p>
-<b><%= t('page.note') -%>:</b>
+  <b><%= t('activerecord.attributes.classification.note') -%>:</b>
   <%=h @classification.note -%>
 </p>
 
 <p>
-<b><%= ('Type') -%>:</b>
+  <b><%= t('activerecord.models.classification_type') -%>:</b>
   <%=h @classification.classification_type.name -%>
 </p>
 
 <p>
-<b><%= t('page.subject') -%>:</b>
+  <b><%= t('activerecord.models.subject') -%>:</b>
 </p>
 <table id="index">
   <tr>
-    <th><%= ('Term') -%></th>
-    <th><%= ('Term transcription') -%></th>
-    <th><%= ('Subject type') -%></th>
+    <th><%= t('activerecord.attributes.subject.term') -%></th>
+    <th><%= t('activerecord.attributes.subject.term_transcription') -%></th>
+    <th><%= t('activerecord.models.subject_type') -%></th>
   </tr>
   <%- @classification.subjects.each do |subject| -%>
     <tr>

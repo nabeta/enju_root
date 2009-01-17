@@ -7,7 +7,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing works') -%></h1>
+<h1><%= t('work.listing') -%></h1>
 
 <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
   <p>
@@ -40,4 +40,4 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@works) -%>
+<%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

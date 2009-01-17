@@ -69,7 +69,7 @@
   <div id="content_detail">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
-        <%= paginate_id_link(@manifestation) -%>
+        <%= paginate_id_link(@manifestation, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
         <%= link_to t('page.back_to_search_results'), back_to_manifestation_index -%>
         <!--
         <%= t('page.search_term') -%>:
@@ -210,7 +210,7 @@
       </tr>
     <%- end -%>
     <tr>
-      <td><%= t('page.note') -%>:</td>
+      <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td><%= textilize_without_paragraph(h(@manifestation.note)) -%></td>
     </tr>
     </table>

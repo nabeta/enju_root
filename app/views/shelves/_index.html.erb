@@ -28,5 +28,5 @@
 </table>
 
 <br />
-<%= will_paginate(@shelves) -%>
+<%= will_paginate(@shelves, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

@@ -22,4 +22,4 @@
   <p><%= link_to ('New realize'), new_realize_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@realizes) -%>
+<%= will_paginate(@realizes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

@@ -751,6 +751,8 @@ en:
     add_manually: "Add manually"
     import_from_file: "Import from file"
     import_from_network: "Import from networks"
+    no_record_found: "No records found."
+    enter_search_term: "Enter your search term."
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
@@ -759,13 +761,18 @@ en:
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
+  bookmarked_resource:
     add_to_library_bookmark: "Add to library bookmark"
+    library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
   work:
+    listing: "Listing works"
     patrons_work: "{{patron_name}}'s works"
   expression:
+    listing: "Listing expressions"
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
   manifestation:
+    listing: "Listing manifestations"
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
     edit: "Edit this manifestation"
@@ -776,6 +783,7 @@ en:
     expressions_manifestation: "Manifestations for {{expression_title}}"
     library_group_manifestation: "Manifestations in {{library_group_name}}"
   item:
+    listing: "Listing items"
     new_item: "New item"
   message:
     listing: "Listing messages"

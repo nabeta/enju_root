@@ -31,5 +31,5 @@
 
 <br />
 
-<%= will_paginate(@embodies) -%>
+<%= will_paginate(@embodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

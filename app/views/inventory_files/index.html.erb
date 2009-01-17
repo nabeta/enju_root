@@ -3,12 +3,12 @@
 <table id="index">
   <tr>
     <th><%= ('Db file') -%> </th>
-    <th><%= ('Filename') -%> </th>
-    <th><%= ('Content type') -%> </th>
-    <th><%= ('Size') -%> </th>
-    <th><%= ('File hash') -%> </th>
-    <th><%= t('page.user') -%> </th>
-    <th><%= t('page.note') -%> </th>
+    <th><%= t('activerecord.attributes.inventory_file.filename') -%> </th>
+    <th><%= t('activerecord.attributes.inventory_file.content_tyoe') -%> </th>
+    <th><%= t('activerecord.attributes.inventory_file.size') -%> </th>
+    <th><%= t('activerecord.attributes.inventory_file.file_hash') -%> </th>
+    <th><%= t('activerecord.models.user') -%> </th>
+    <th><%= t('activerecord.attributes.inventory_file.note') -%> </th>
   </tr>
 
 <%- for inventory_file in @inventory_files -%> 
@@ -29,4 +29,4 @@
 
 <%= link_to ('New inventory_file'), new_inventory_file_path -%>
 
-<%= will_paginate(@inventory_files) -%>
+<%= will_paginate(@inventory_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

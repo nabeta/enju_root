@@ -37,7 +37,7 @@
   <p><%= ('No records found.') -%></p>
 <%- end -%>
 
-<%= will_paginate(@questions) -%>
+<%= will_paginate(@questions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 <div>
 <%- if logged_in? -%>

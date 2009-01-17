@@ -16,27 +16,27 @@
 </h1>
 
 <p>
-<b><%= ('Event category') -%>:</b>
+  <b><%= t('activerecord.models.event_category') -%>:</b>
   <%=h @event.event_category.display_name -%>
 </p>
 
 <p>
-<b><%= t('page.library') -%>:</b>
+  <b><%= t('activerecord.models.library') -%>:</b>
   <%= link_to h(@event.library.name), library_path(@event.library.short_name) -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.event.started_at') -%>:</b>
+  <b><%= t('activerecord.attributes.event.started_at') -%>:</b>
   <%=h @event.started_at -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.event.ended_at') -%>:</b>
+  <b><%= t('activerecord.attributes.event.ended_at') -%>:</b>
   <%=h @event.ended_at -%>
 </p>
 
 <p>
-<b><%= t('page.note') -%>:</b>
+  <b><%= t('activerecord.attributes.event.note') -%>:</b>
   <%=h @event.note -%>
 </p>
 

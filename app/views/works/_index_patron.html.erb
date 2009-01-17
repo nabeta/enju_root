@@ -58,6 +58,6 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@works) -%>
+<%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>

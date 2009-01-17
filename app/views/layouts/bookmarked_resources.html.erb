@@ -7,14 +7,14 @@
   <%- if @user -%>
   <title><%=h t('page.user_bookmark_title', :login_name => @user.login) -%>: <%=h controller.action_name -%></title>
   <%- else -%>
-    <title><%=h ("Bookmarked resources") -%>: <%=h controller.action_name -%></title>
+    <title><%=h t('activerecord.models.bookmarked_resource') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('page.user_bookmark_title', :login_name => @user.login)) -%>
     <%- else -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Bookmarked resources at %{library}") % {:library => @library_group.display_name}) -%>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('bookmarked_resource.library_group_bookmark', :library_group_name => @library_group.display_name)) -%>
     <%- end -%>
   <%- end -%>
 </head>

@@ -22,4 +22,4 @@
   <p><%= link_to ('New create'), new_create_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@creates) -%>
+<%= will_paginate(@creates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

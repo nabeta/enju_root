@@ -35,5 +35,5 @@
 
 <br />
 
-<%= will_paginate(@produces) -%>
+<%= will_paginate(@produces, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

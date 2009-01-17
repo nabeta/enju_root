@@ -18,14 +18,14 @@
 <h1 id="resource_title"><%= ('Bookmark') -%></h1>
 
 <p>
-  <b><%= t('page.user') -%>:</b>
+  <b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@bookmark.user.login), user_path(@bookmark.user.login) -%>
 </p>
 
 <p>
   <b><%= ('Bookmarked resource') -%>:</b>
   <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%><br />
-  (<%= link_to t('page.manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
+  (<%= link_to t('activerecord.models.manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
   (<%= link_to t('page.detail'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%>)
 </p>
 
@@ -37,7 +37,7 @@
 </p>
 
 <p>
-  <b><%= t('page.note') -%>:</b>
+  <b><%= t('activerecord.attributes.bookmark.note') -%>:</b>
   <%=h @bookmark.note -%>
 </p>
 

@@ -11,7 +11,7 @@
   <%- if @manifestation -%>
     <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
   <%- else -%>
-    <h1><%= ('Listing items') -%></h1>
+    <h1><%= t('item.listing') -%></h1>
   <%- end -%>
 
 <%- form_for :items, :url => items_path, :html => {:method => 'get'} do -%>
@@ -25,8 +25,8 @@
   <tr>
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= t('activerecord.attributes.item.call_number') -%></th>
-    <th><%= t('page.manifestation') -%></th>
-    <th><%= t('page.library') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
+    <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
   </tr>
@@ -59,5 +59,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@items) -%>
+<%= will_paginate(@items, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

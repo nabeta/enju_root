@@ -12,17 +12,17 @@
 
 <%- form_for(:shelf, :url => shelf_path(@shelf), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('page.name') -%></b><br />
-  <%= f.text_field :name, :class => 'resource_title' -%>
+    <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
+    <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-  <b><%= t('page.note') -%></b><br />
-  <%= f.text_area :note, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.shelf.note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-  <b><%= t('page.library') -%></b><br />
+    <b><%= t('activerecord.models.library') -%></b><br />
     <select name="shelf[library_id]">
       <%= options_from_collection_for_select(@libraries, "id", "name", @shelf.library_id) -%>
     </select>

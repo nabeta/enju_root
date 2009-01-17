@@ -32,5 +32,5 @@
     </tr>
   </table>
 <%- end -%>
-<%= will_paginate(@messages) -%>
+<%= will_paginate(@messages, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

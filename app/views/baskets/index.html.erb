@@ -2,8 +2,8 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.user') -%></th>
-    <th><%= t('page.note') -%></th>
+    <th><%= t('activerecord.models.user') -%></th>
+    <th><%= t('activerecord.attributes.basket.note') -%></th>
     <th><%= t('page.updated_at') -%></th>
   </tr>
 
@@ -17,7 +17,7 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@baskets) -%>
+<%= will_paginate(@baskets, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 <br />
 

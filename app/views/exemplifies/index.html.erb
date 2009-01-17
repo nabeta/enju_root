@@ -22,4 +22,4 @@
   <p><%= link_to ('New exemplify'), new_exemplify_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@exemplifies) -%>
+<%= will_paginate(@exemplifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

@@ -22,4 +22,4 @@
   <p><%= link_to ('New reify'), new_reify_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@reifies) -%>
+<%= will_paginate(@reifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

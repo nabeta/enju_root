@@ -34,6 +34,6 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@donates) -%>
+<%= will_paginate(@donates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>

@@ -32,4 +32,4 @@
   <p><%= link_to ('New own'), new_own_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@owns) -%>
+<%= will_paginate(@owns, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

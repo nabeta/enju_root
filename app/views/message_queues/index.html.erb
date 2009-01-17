@@ -36,4 +36,4 @@
   <p><%= link_to ('New message_queue'), new_message_queue_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@message_queues) -%>
+<%= will_paginate(@message_queues, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
