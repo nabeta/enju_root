@@ -1,13 +1,12 @@
 class CreateQuestions < ActiveRecord::Migration
   def self.up
     create_table :questions do |t|
-      t.column :user_id, :integer
-      t.column :body, :text
-      t.column :private_question, :boolean, :default => true, :null => false
+      t.integer :user_id
+      t.text :body
+      t.boolean :private_question, :default => true, :null => false
       t.integer :answers_count, :default => 0, :null => false
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :deleted_at, :datetime
+      t.timestamps
+      t.datetime :deleted_at
       t.string :state, :default => 'pending'
     end
     add_index :questions, :user_id

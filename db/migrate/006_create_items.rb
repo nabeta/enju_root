@@ -1,24 +1,23 @@
 class CreateItems < ActiveRecord::Migration
   def self.up
     create_table :items do |t|
-      t.column :parent_id, :integer
-      t.column :call_number, :string
-      t.column :item_identifier, :string
-      t.column :circulation_status_id, :integer, :null => false
-      t.column :checkout_type_id, :integer, :default => 1, :null => false
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :deleted_at, :datetime
-      t.column :shelf_id, :integer, :default => 1, :null => false
-      t.column :basket_id, :integer
-      t.column :include_supplements, :boolean, :default => false, :null => false
-      t.column :checkouts_count, :integer, :default => 0, :null => false
-      t.column :owns_count, :integer, :default => 0, :null => false
-      t.column :resource_has_subjects_count, :integer, :default => 0, :null => false
-      t.column :note, :text
-      t.column :url, :string
+      t.integer :parent_id
+      t.string :call_number
+      t.string :item_identifier
+      t.integer :circulation_status_id, :null => false
+      t.integer :checkout_type_id, :default => 1, :null => false
+      t.timestamps
+      t.datetime :deleted_at
+      t.integer :shelf_id, :default => 1, :null => false
+      t.integer :basket_id
+      t.boolean :include_supplements, :default => false, :null => false
+      t.integer :checkouts_count, :default => 0, :null => false
+      t.integer :owns_count, :default => 0, :null => false
+      t.integer :resource_has_subjects_count, :default => 0, :null => false
+      t.text :note
+      t.string :url
       t.decimal :price
-      t.column :lock_version, :integer, :default => 0, :null => false
+      t.integer :lock_version, :default => 0, :null => false
       t.integer :access_role_id, :default => 1, :null => false
       t.string :state
     end

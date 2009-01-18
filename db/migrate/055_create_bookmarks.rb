@@ -1,11 +1,10 @@
 class CreateBookmarks < ActiveRecord::Migration
   def self.up
     create_table :bookmarks, :force => true do |t|
-      t.column :user_id, :integer, :null => false
-      t.column :bookmarked_resource_id, :integer, :null => false
-      t.column :note, :text
-      t.column :created_at, :datetime, :null => false
-      t.column :updated_at, :datetime, :null => false
+      t.integer :user_id, :null => false
+      t.integer :bookmarked_resource_id, :null => false
+      t.text :note
+      t.timestamps
     end
 
     add_index :bookmarks, :user_id

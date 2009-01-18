@@ -1,12 +1,11 @@
 class CreateReifies < ActiveRecord::Migration
   def self.up
     create_table :reifies do |t|
-      t.column :work_id, :integer, :null => false
-      t.column :expression_id, :integer, :null => false
-      t.column :position, :integer
-      t.column :type, :string
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.integer :work_id, :null => false
+      t.integer :expression_id, :null => false
+      t.integer :position
+      t.string :type
+      t.timestamps
     end
     add_index :reifies, :work_id
     add_index :reifies, :expression_id

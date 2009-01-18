@@ -1,16 +1,15 @@
 class CreateReserves < ActiveRecord::Migration
   def self.up
     create_table :reserves do |t|
-      t.column :user_id, :integer, :null => false
-      t.column :manifestation_id, :integer, :null => false
-      t.column :item_id, :integer
-      t.column :request_status_type_id, :integer, :null => false
-      t.column :checked_out_at, :datetime
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :canceled_at, :datetime
-      t.column :expired_at, :datetime
-      t.column :deleted_at, :datetime
+      t.integer :user_id, :null => false
+      t.integer :manifestation_id, :null => false
+      t.integer :item_id
+      t.integer :request_status_type_id, :null => false
+      t.datetime :checked_out_at
+      t.timestamps
+      t.datetime :canceled_at
+      t.datetime :expired_at
+      t.datetime :deleted_at
       t.string :state, :default => 'pending', :null => false
     end
 

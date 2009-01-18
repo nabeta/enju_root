@@ -154,6 +154,9 @@ en:
         address_2: Address 2
         address_1_note: Address 1 note
         address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number: Fax number
         other_designation: Other designation
         place: Place
         date_of_birth: Date of birth

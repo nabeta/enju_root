@@ -1,14 +1,13 @@
 class CreateShelves < ActiveRecord::Migration
   def self.up
     create_table :shelves do |t|
-      t.column :name, :string
-      t.column :note, :text
-      t.column :library_id, :integer, :default => 1, :null => false
-      t.column :items_count, :integer, :default => 0, :null => false
-      t.column :position, :integer
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :deleted_at, :datetime
+      t.string :name
+      t.text :note
+      t.integer :library_id, :default => 1, :null => false
+      t.integer :items_count, :default => 0, :null => false
+      t.integer :position
+      t.timestamps
+      t.datetime :deleted_at
     end
     add_index :shelves, :library_id
   end

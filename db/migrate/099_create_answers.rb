@@ -1,12 +1,11 @@
 class CreateAnswers < ActiveRecord::Migration
   def self.up
     create_table :answers do |t|
-      t.column :user_id, :integer
-      t.column :question_id, :integer
-      t.column :body, :text
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :deleted_at, :datetime
+      t.integer :user_id
+      t.integer :question_id
+      t.text :body
+      t.timestamps
+      t.datetime :deleted_at
     end
     add_index :answers, :user_id
     add_index :answers, :question_id

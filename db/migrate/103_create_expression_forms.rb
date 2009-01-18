@@ -1,12 +1,11 @@
 class CreateExpressionForms < ActiveRecord::Migration
   def self.up
     create_table :expression_forms do |t|
-      t.column :name, :string, :null => false
-      t.column :display_name, :string
-      t.column :note, :text
-      t.column :position, :integer
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.string :name, :null => false
+      t.string :display_name
+      t.text :note
+      t.integer :position
+      t.timestamps
     end
   end
 

@@ -154,6 +154,9 @@ ja:
         address_2: 住所2
         address_1_note: 住所1注記
         address_2_note: アドレス2注記
+        telephone_number_1: 電話番号1
+        telephone_number_2: 電話番号2
+        fax_number: ファクス番号
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日

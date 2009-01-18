@@ -75,6 +75,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.patron.telephone_number_1') -%></b><br />
+    <%= f.text_field :telephone_number_1, :class => 'resource_telephone_number' -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.attributes.patron.address_1_note') -%></b><br />
     <%= f.text_area :address_1_note, :class => 'resource_textarea' -%>
   </p>
@@ -90,18 +95,13 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.patron.address_2_note') -%></b><br />
-    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.patron.telephone_number_1') -%></b><br />
-    <%= f.text_field :telephone_number_1, :class => 'resource_telephone_number' -%>
-  </p>
-
-  <p>
     <b><%= t('activerecord.attributes.patron.telephone_number_2') -%></b><br />
     <%= f.text_field :telephone_number_2, :class => 'resource_telephone_number' -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.patron.address_2_note') -%></b><br />
+    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
   </p>
 
   <p>

@@ -1,16 +1,15 @@
 class CreateCheckouts < ActiveRecord::Migration
   def self.up
     create_table :checkouts do |t|
-      t.column :user_id, :integer
-      t.column :item_id, :integer, :null => false
-      t.column :checkin_id, :integer
-      t.column :librarian_id, :integer
-      t.column :basket_id, :integer
-      t.column :due_date, :datetime
-      t.column :checkout_renewal_count, :integer, :default => 0, :null => false
-      t.column :lock_version, :integer, :default => 0, :null => false
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.integer :user_id
+      t.integer :item_id, :null => false
+      t.integer :checkin_id
+      t.integer :librarian_id
+      t.integer :basket_id
+      t.datetime :due_date
+      t.integer :checkout_renewal_count, :default => 0, :null => false
+      t.integer :lock_version, :default => 0, :null => false
+      t.timestamps
     end
     add_index :checkouts, :user_id
     add_index :checkouts, :item_id

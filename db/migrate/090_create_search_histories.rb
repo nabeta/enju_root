@@ -1,27 +1,26 @@
 class CreateSearchHistories < ActiveRecord::Migration
   def self.up
     create_table :search_histories do |t|
-      t.column :user_id, :integer
-      t.column :operation, :string, :default => 'searchRetrieve'
-      t.column :version, :float, :default => 1.2
-      t.column :query, :string
-      t.column :start_record, :integer
-      t.column :maximum_records, :integer
-      t.column :record_packing, :string
-      t.column :record_schema, :string
-      t.column :result_set_ttl, :integer
-      t.column :stylesheet, :string
-      t.column :extra_request_data, :string
-      t.column :number_of_records, :integer, :default => 0
-      t.column :result_set_id, :string
-      t.column :result_set_idle_time, :integer
-      t.column :records, :text
-      t.column :next_record_position, :integer
-      t.column :diagnostics, :text
-      t.column :extra_response_data, :text
-      t.column :echoed_search_retrieve_request, :text
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.integer :user_id
+      t.string :operation, :default => 'searchRetrieve'
+      t.float :version, :default => 1.2
+      t.string :query
+      t.integer :start_record
+      t.integer :maximum_records
+      t.string :record_packing
+      t.string :record_schema
+      t.integer :result_set_ttl
+      t.string :stylesheet
+      t.string :extra_request_data
+      t.integer :number_of_records, :default => 0
+      t.string :result_set_id
+      t.integer :result_set_idle_time
+      t.text :records
+      t.integer :next_record_position
+      t.text :diagnostics
+      t.text :extra_response_data
+      t.text :echoed_search_retrieve_request
+      t.timestamps
     end
     add_index :search_histories, :user_id
   end
