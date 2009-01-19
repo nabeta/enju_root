@@ -4,7 +4,7 @@
 
 <%- form_for(@item_has_use_restriction) do |f| -%>
   <p>
-    <b><%= t('page.item') -%></b><br />
+    <b><%= t('activerecord.models.item') -%></b><br />
     <%- if @item -%>
       <%= link_to h(@item.item_identifier), item_path(@item) -%> (<%= link_to h(@item.manifestation.original_title), manifestation_path(@item.manifestation) -%>)
       <%= f.hidden_field :item_id, :value => @item.id -%>

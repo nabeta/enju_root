@@ -17,7 +17,7 @@
 </p>
 
 <p>
-  <b><%= t('page.manifestation') -%>:</b><br />
+  <b><%= t('activerecord.models.manifestation') -%>:</b><br />
   <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
     <%= book_jacket(@reserve.manifestation) -%>
   <%- end -%>

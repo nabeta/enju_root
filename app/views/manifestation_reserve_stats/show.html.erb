@@ -7,17 +7,17 @@
 
 <div id="content_detail">
 <p>
-  <b>From date:</b>
-  <%=h @manifestation_reserve_stat.from_date -%>
+  <b><%= t('activerecord.attributes.manifestation_reserve_stat.start_date') -%>:</b>
+  <%=h @manifestation_reserve_stat.start_date -%>
 </p>
 
 <p>
-  <b>To date:</b>
-  <%=h @manifestation_reserve_stat.to_date -%>
+<b><%= t('activerecord.attributes.manifestation_reserve_stat.end_date') -%>:</b>
+  <%=h @manifestation_reserve_stat.end_date -%>
 </p>
 
 <p>
-  <b>Note:</b>
+  <b><%= t('activerecord.attributes.manifestation_reserve_stat.note') -%>:</b>
   <%=h @manifestation_reserve_stat.note -%>
 </p>
 

@@ -5,7 +5,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   before_filter :get_subject
-  before_filter :store_location, :except => [:create, :update, :destroy]
+  before_filter :store_location, :except => [:index, :create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
   after_filter :csv_convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -122,9 +122,10 @@ class ManifestationsController < ApplicationController
       #SearchHistory.create(:query => query, :user => @user, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total])
       unless @query.blank?
         check_dsbl if LibraryGroup.find(1).use_dsbl?
-        SearchHistory.create(:query => @query, :user_id => nil, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total])
+        SearchHistory.create(:query => @query, :user_id => nil, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total]) rescue nil
       end
     end
+    store_location
 
     respond_to do |format|
       format.html # index.rhtml

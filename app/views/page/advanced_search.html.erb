@@ -23,24 +23,24 @@
       <td><%= text_field_tag 'publisher' -%></td>
     </tr>
     <tr>
-      <td><label>ISBN:</label></td>
+      <td><label><%= t('activerecord.attributes.manifestation.isbn') -%>:</label></td>
       <td><%= text_field_tag 'isbn' -%></td>
     </tr>
     <tr>
-      <td><label><%= ('Date of publication') -%>:</label></td>
-      <td>from <%= text_field_tag 'pubdate_from', nil, :size => 5 -%>
-        to <%= text_field_tag 'pubdate_to', nil, :size => 5 -%></td>
+      <td><label><%= t('activerecord.attributes.manifestation.date_of_publication') -%>:</label></td>
+      <td><%= t('advanced_search.from') -%> <%= text_field_tag 'pubdate_from', nil, :size => 5 -%>
+        <%= t('advanced_search.to') -%> <%= text_field_tag 'pubdate_to', nil, :size => 5 -%></td>
     </tr>
     <tr>
-      <td><label><%= ('Number of pages') -%>:</td>
+      <td><label><%= t('page.number_of_pages') -%>:</td>
         <td>from <%= text_field_tag 'number_of_pages_at_least', nil, :size => 5 -%>
           to <%= text_field_tag 'number_of_pages_at_most', nil, :size => 5 -%></td>
     </tr>
     <tr>
-      <td><label><%= ('Holding library') -%>:</label></td>
+      <td><label><%= t('page.holding_library') -%>:</label></td>
       <td>
         <select id="library_top" name="library">
-          <option value=""><%= ('All libraries') -%></option>
+          <option value=""><%= t('advanced_search.all_libraries') -%></option>
           <%= options_from_collection_for_select(@libraries, "short_name", "name", params[:library].to_s) -%>
         </select>
       </td>

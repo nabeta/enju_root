@@ -1,7 +1,5 @@
 <div>
-  <h1><%= ('Listing bookmarks') -%></h1>
-
-  <p><%= link_to ('Most bookmarked') , bookmarked_resources_path -%></p>
+  <h1><%= t('bookmarked_resource.listing') -%></h1>
 
 <%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
   <p>
@@ -10,15 +8,15 @@
   </p>
 <%- end -%>
 
-  <div>
+  <p>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
     (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
     (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
     <%- if logged_in? -%>
       <%= t('page.bookmarklet') -%>:
-      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library bookmark') -%></a>
+      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a>
     <%- end -%>
-  </div>
+  </p>
 
 <table id="index">
   <tr>

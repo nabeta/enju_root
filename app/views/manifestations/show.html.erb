@@ -29,12 +29,12 @@
       <%- unless @manifestation.manifestation_form.name == 'file' -%>
         <li>
           <%- if current_user.has_role?('Librarian') -%>
-            <%= link_to ('Reserve this manifestation'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
+            <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
           <%- else -%>
             <%- if @manifestation.reserved?(current_user) -%>
-              <%= link_to ('Cancel reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
+              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
             <%- else -%>
-              <%= link_to ('Reserve this manifestation'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
+              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
             <%- end -%>
           <%- end -%>
           <br />

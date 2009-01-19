@@ -17,7 +17,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('New item') -%></h1>
+  <h1><%= t('item.new_item') -%></h1>
   <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
 
 <%= error_messages_for :item -%>
@@ -25,7 +25,7 @@
 <%- form_for(:item, :url => manifestation_items_path(@manifestation)) do |f| -%>
 
   <p>
-    <b><%= t('page.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
+    <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%= options_from_collection_for_select(@libraries, "short_name", "name", @library.short_name) -%>
     </select>
@@ -51,12 +51,12 @@
   </p>
 
   <p>
-  <b><%= t('page.price') -%></b><br />
+  <b><%= t('activerecord.attributes.item.price') -%></b><br />
     <%= f.text_field :price -%>
   </p>
 
   <p>
-  <b><%= ('URL') -%></b><br />
+  <b><%= t('activerecord.attributes.item.url') -%></b><br />
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
  

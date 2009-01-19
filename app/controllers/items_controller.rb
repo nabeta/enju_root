@@ -102,6 +102,11 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   def new
+    if @shelves.blank?
+      flash[:notice] = ('You should create a shelf at first.')
+      redirect_to libraries_url
+      return
+    end
     unless @manifestation
       flash[:notice] = ('Please specify manifestation id.')
       redirect_to manifestations_url
@@ -207,7 +212,7 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    @libraries = Library.find(:all, :order => :position)
+    @libraries = Library.physicals
     @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
     @shelves = Shelf.find(:all, :order => :position)
     @circulation_statuses = CirculationStatus.find(:all, :order => :position)

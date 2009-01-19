@@ -137,7 +137,7 @@
                             <li class="yuimenuitem"><%= link_to h(library.name), library_events_path(library.short_name), :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                           <%- if_authorized?(:destroy, Event) do -%>
-                            <li class="yuimenuitem"><%= link_to ('Import from file'), new_imported_event_file_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.import'), new_imported_event_file_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                         </ul>
                       </div>

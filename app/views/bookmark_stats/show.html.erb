@@ -7,13 +7,13 @@
 
 <div id="content_detail">
 <p>
-  <b>From date:</b>
-  <%=h @bookmark_stat.from_date -%>
+  <b><%= t('activerecord.attributes.bookmark_stat.start_date') -%>:</b>
+  <%=h @bookmark_stat.start_date -%>
 </p>
 
 <p>
-  <b>To date:</b>
-  <%=h @bookmark_stat.to_date -%>
+  <b><%= t('activerecord.attributes.bookmark_stat.end_date') -%>:</b>
+  <%=h @bookmark_stat.end_date -%>
 </p>
 
 <p>

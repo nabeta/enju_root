@@ -1,13 +1,13 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  from_date: 2008-12-20 11:36:28
-  to_date: 2008-12-20 11:36:28
+  start_date: 2008-12-20 11:36:28
+  end_date: 2008-12-20 11:36:28
   note: MyText
   state: MyString
 
 two:
-  from_date: 2008-12-20 11:36:28
-  to_date: 2008-12-20 11:36:28
+  start_date: 2008-12-20 11:36:28
+  end_date: 2008-12-20 11:36:28
   note: MyText
   state: MyString

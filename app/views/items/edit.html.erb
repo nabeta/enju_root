@@ -17,7 +17,7 @@
 <%= error_messages_for :item -%>
 
 <%- form_for(:item, :url => item_path(@item), :html => { :method => :put }) do |f| -%>
-  <b><%= t('page.manifestation') -%></b><br />
+  <b><%= t('activerecord.models.manifestation') -%></b><br />
   <div>
     <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
       <%- if @item.manifestation -%>

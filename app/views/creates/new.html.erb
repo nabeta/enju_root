@@ -22,7 +22,7 @@
   </p>
 
   <p>
-  <b><%= t('page.work') -%></b><br />
+  <b><%= t('activerecord.models.work') -%></b><br />
     <%- if @work -%>
 		  <%= link_to h(@work.original_title), @work -%>
       <%= f.hidden_field :work_id, :value => @work.id -%>

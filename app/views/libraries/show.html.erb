@@ -83,11 +83,13 @@
         <table id="index">
           <tr>
             <th><%= t('activerecord.models.shelf') -%></th>
+            <th><%= ('Number of items') -%></th>
             <th><%= t('activerecord.attributes.shelf.note') -%></th>
           </tr>
           <%- @library.shelves.each do |shelf| -%>
           <tr>
             <td><%= link_to h(shelf.name), library_shelf_path(@library.short_name, shelf) -%></td>
+            <td><%=h shelf.items_count -%></td>
             <td><%=h shelf.note -%></td>
           </tr>
           <%- end -%>

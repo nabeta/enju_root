@@ -7,13 +7,13 @@
 
 <div id="content_detail">
 <p>
-  <b>From date:</b>
-  <%=h @manifestation_checkout_stat.from_date -%>
+  <b><%= t('activerecord.attributes.manifestation_checkout_stat.start_date') -%>:</b>
+  <%=h @manifestation_checkout_stat.start_date -%>
 </p>
 
 <p>
-  <b>To date:</b>
-  <%=h @manifestation_checkout_stat.to_date -%>
+  <b><%= t('activerecord.attributes.manifestation_checkout_stat.end_date') -%>:</b>
+  <%=h @manifestation_checkout_stat.end_date -%>
 </p>
 
 <p>
@@ -24,7 +24,7 @@
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.manifestation') -%></th>
-    <th><%= 'Checkouts count' -%></th>
+    <th><%= ('Checkouts count') -%></th>
   </tr>
   <%- @stats.each do |stat| -%>
     <tr class="line<%= cycle("0", "1") -%>">

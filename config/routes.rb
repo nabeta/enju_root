@@ -257,6 +257,7 @@ ActionController::Routing::Routes.draw do |map|
     library.resources :events do |event|
       event.resources :picture_files
     end
+    library.resources :patrons
   end
   map.resources :user_groups do |user_group|
     user_group.resources :user_group_has_checkout_types

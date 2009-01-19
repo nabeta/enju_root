@@ -100,6 +100,11 @@ en:
       manifestation_form_has_checkout_type: Manifestation form has checkout type
       user_group_has_checkout_type: User group has checkout type
       tag: Tag
+      bookmark_stat: Bookmark stat
+      manifestation_checkout_stat: Manifestation checkout stat
+      user_checkout_stat: User checkout stat
+      manifestation_reserve_stat: Manifestation reserve stat
+      user_reserve_stat: User reserve stat
     attributes:
       library:
         name: Name
@@ -635,10 +640,24 @@ en:
         note: Note
         position: Position
       bookmark_stat:
+        start_date: Start date
+        end_date: End date
         note: Note
       manifestation_checkout_stat:
+        start_date: Start date
+        end_date: End date
         note: Note
       user_checkout_stat:
+        start_date: Start date
+        end_date: End date
+        note: Note
+      manifestation_reserve_stat:
+        start_date: Start date
+        end_date: End date
+        note: Note
+      user_reserve_stat:
+        start_date: Start date
+        end_date: End date
         note: Note
       tag:
         name: Name
@@ -759,6 +778,13 @@ en:
     no_record_found: "No records found."
     enter_search_term: "Enter your search term."
     serial: "Serial"
+    number_of_pages: "Number of pages"
+    holding_library: "Holding library"
+    resource: "Resource"
+  advanced_search:
+    from: "from"
+    to: "to"
+    all_libraries: "All libraries"
   session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
@@ -768,6 +794,7 @@ en:
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
   bookmarked_resource:
+    listing: "Listing bookmarked resource"
     add_to_library_bookmark: "Add to library bookmark"
     library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
   work:
@@ -788,9 +815,13 @@ en:
     edit_item: "Edit items"
     expressions_manifestation: "Manifestations for {{expression_title}}"
     library_group_manifestation: "Manifestations in {{library_group_name}}"
+    reserve_this: "Reserve this manifestation"
+    cancel_reservation: "Cancel this reservation"
   item:
     listing: "Listing items"
     new_item: "New item"
+  patrons:
+    listing: "Listing patrons"
   message:
     listing: "Listing messages"
     users_message: "{{login_name}}'s messages"
@@ -808,3 +839,10 @@ en:
   library:
     map: "Map"
     staff: "Staff"
+  import:
+    from_file: "from file"
+    from_isbn: "from ISBN"
+  checkout:
+    listing: "Listing checkouts"
+  checkin:
+    listing: "Listing checkins"

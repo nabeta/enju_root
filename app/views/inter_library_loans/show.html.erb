@@ -20,7 +20,7 @@
 </p>
 
 <p>
-  <b><%= t('page.item') -%>:</b>
+  <b><%= t('activerecord.models.item') -%>:</b>
   <%= link_to h(@inter_library_loan.item.item_identifier), @inter_library_loan.item -%>
   (<%= link_to h(@inter_library_loan.item.manifestation.original_title), @inter_library_loan.item.manifestation -%>)
 </p>

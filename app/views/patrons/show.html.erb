@@ -40,13 +40,13 @@
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
       <%- unless @patron.works.blank? -%>
-        <li><a href="#tab2"><em><%= t('page.work') -%></em></a></li>
+        <li><a href="#tab2"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
       <%- unless @patron.expressions.blank? -%>
-        <li><a href="#tab3"><em><%= t('page.expression') -%></em></a></li>
+        <li><a href="#tab3"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- end -%>
       <%- unless @involved_manifestations.blank? -%>
-        <li><a href="#tab4"><em><%= t('page.manifestation') -%></em></a></li>
+        <li><a href="#tab4"><em><%= t('activerecord.models.manifestation') -%></em></a></li>
       <%- end -%>
       <%- unless @patron.manifestations.blank? -%>
         <li><a href="#tab5"><em><%= ('Publication') -%></em></a></li>
@@ -95,6 +95,10 @@
               <td><%=h @patron.address_1 -%></td>
             </tr>
             <tr>
+              <td><b><%= t('activerecord.attributes.patron.telephone_number_1') -%>:</b></td>
+              <td><%=h @patron.telephone_number_1 -%></td>
+            </tr>
+            <tr>
               <td><b><%= t('activerecord.attributes.patron.address_1_note') -%>:</b></td>
               <td><%=h @patron.address_1_note -%></td>
             </tr>
@@ -107,16 +111,12 @@
               <td><%=h @patron.address_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.address_2_note') -%>:</b></td>
-              <td><%=h @patron.address_2_note -%></td>
-            </tr>
-            <tr>
-              <td><b><%= t('activerecord.attributes.patron.telephone_number_1') -%>:</b></td>
-              <td><%=h @patron.telephone_number_1 -%></td>
-            </tr>
-            <tr>
               <td><b><%= t('activerecord.attributes.patron.telephone_number_2') -%>:</b></td>
               <td><%=h @patron.telephone_number_2 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.patron.address_2_note') -%>:</b></td>
+              <td><%=h @patron.address_2_note -%></td>
             </tr>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.fax_number') -%>:</b></td>

@@ -15,7 +15,7 @@
 <b><%= t('page.title') -%>:</b>
 <%= link_to h(@bookmarked_resource.title), h(@bookmarked_resource.url) -%>
 <%- if @bookmarked_resource.manifestation -%>
-  (<%= link_to t('page.manifestation'), @bookmarked_resource.manifestation -%>)
+  (<%= link_to t('activerecord.models.manifestation'), @bookmarked_resource.manifestation -%>)
 <%- end -%>
 </p>
 

@@ -12,9 +12,9 @@
     <td><%=h reserve_stat_has_user.user_reserve_stat_id -%></td>
     <td><%=h reserve_stat_has_user.user_id -%></td>
     <td><%=h reserve_stat_has_user.reserves_count -%></td>
-    <td><%= link_to 'Show', reserve_stat_has_user -%></td>
-    <td><%= link_to 'Edit', edit_reserve_stat_has_user_path(reserve_stat_has_user) -%></td>
-    <td><%= link_to 'Destroy', reserve_stat_has_user, :confirm => 'Are you sure?', :method => :delete -%></td>
+    <td><%= link_to t('page.show'), reserve_stat_has_user -%></td>
+    <td><%= link_to t('page.edit'), edit_reserve_stat_has_user_path(reserve_stat_has_user) -%></td>
+    <td><%= link_to t('page.destroy'), reserve_stat_has_user, :confirm => 'Are you sure?', :method => :delete -%></td>
   </tr>
 <% end -%>
 </table>

@@ -100,6 +100,11 @@ ja:
       manifestation_form_has_checkout_type: 体現形の種類と貸出の種類
       user_group_has_checkout_type: ユーザグループと貸出の種類
       tag: タグ
+      bookmark_stat: ブックマーク統計
+      manifestation_checkout_stat: 資料別貸出統計
+      user_checkout_stat: 利用者別貸出統計
+      manifestation_reserve_stat: 資料別予約統計
+      user_reserve_stat: 利用者別予約統計
     attributes:
       library:
         name: 名前
@@ -635,10 +640,24 @@ ja:
         note: 注記
         position: 位置
       bookmark_stat:
+        start_date: 開始日
+        end_date: 終了日
         note: 注記
       manifestation_checkout_stat:
+        start_date: 開始日
+        end_date: 終了日
         note: 注記
       user_checkout_stat:
+        start_date: 開始日
+        end_date: 終了日
+        note: 注記
+      manifestation_reserve_stat:
+        start_date: 開始日
+        end_date: 終了日
+        note: 注記
+      user_reserve_stat:
+        start_date: 開始日
+        end_date: 終了日
         note: 注記
       tag:
         name: 名前
@@ -751,6 +770,13 @@ ja:
     no_record_found: "資料が見つかりませんでした。"
     enter_search_term: "検索語を入力してください。"
     serial: "雑誌・定期刊行物"
+    number_of_pages: "ページ数"
+    holding_library: "所蔵館"
+    resource: "資料"
+  advanced_search:
+    from: "ここから"
+    to: "ここまで"
+    all_libraries: "全ての図書館"
   session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
@@ -760,6 +786,7 @@ ja:
     add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
   bookmarked_resource:
+    listing: "ブックマークされた資料の一覧"
     add_to_library_bookmark: "図書館のブックマークに追加"
     library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
   work:
@@ -781,9 +808,13 @@ ja:
     patrons_manifestation: "{{patron_name}} の体現形"
     expressions_manifestation: "{{expression_title}} の体現形"
     library_group_manifestation: "{{library_group_name}} にある体現形"
+    reserve_this: "この資料を予約する"
+    cancel_reservation: "この資料の予約を解除する"
   item:
     listing: "個別資料の一覧"
     new_item: "所蔵を追加"
+  patrons:
+    listing: "パトロンの一覧"
   message:
     listing: "メッセージの一覧"
     users_message: "{{login_name}} さんのメッセージ"
@@ -798,5 +829,12 @@ ja:
   checkout:
     users_checkout: "{{login_name}} さんの貸出資料"
   library:
-    map: 地図
-    staff: 職員
+    map: "地図"
+    staff: "職員"
+  import:
+    from_file: "ファイルから"
+    from_isbn: "ISBNから"
+  checkout:
+    listing: "貸出資料の一覧"
+  checkin:
+    listing: "返却資料の一覧"

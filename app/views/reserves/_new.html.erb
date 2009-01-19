@@ -14,7 +14,7 @@
 
 <%- form_for(:reserve, :url => reserves_path) do |f| -%>
   <p>
-  <b><%= t('page.manifestation') -%></b><br />
+  <b><%= t('activerecord.models.manifestation') -%></b><br />
   <%- if @reserve.manifestation -%>
     <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
       <%= book_jacket(@reserve.manifestation) -%>
