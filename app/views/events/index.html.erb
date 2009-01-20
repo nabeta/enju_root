@@ -14,7 +14,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing events') -%></h1>
+<h1><%= t('event.listing') -%></h1>
 
 <p>
   <%- if @library -%>
@@ -26,7 +26,7 @@
     (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
     (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
   <%- end -%>
-  <%= link_to ('All libraries'), events_path -%>
+  <%= link_to t('event.all_libraries'), events_path -%>
 </p>
 
 <table id="index">

@@ -10,7 +10,7 @@
 </div>
 
 <div id="content_detail">
-  <h1 id="resource_title"><%= ('Messages') -%></h1>
+  <h1 id="resource_title"><%= t('activerecord.models.message') -%></h1>
 <div class="" >
   <%= flash[:notice] -%> 
   <p></p>
@@ -27,7 +27,7 @@
       </p>
     
       <p>
-        <label for="message_sent_at" ><strong><%= ('Sent at') -%>:</strong></label>
+        <label for="message_sent_at" ><strong><%= t('message.sent_at') -%>:</strong></label>
         <%=h @message.created_at -%>
       </p>
     

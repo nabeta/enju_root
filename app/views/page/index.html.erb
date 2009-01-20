@@ -1,6 +1,6 @@
 <div id="left_pane">
   <div id="user_search_form">
-    <h1><%=h ('Catalog search') -%></h1>
+    <h1><%=h t('page.catalog_search') -%></h1>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= t('page.search_term') -%>:

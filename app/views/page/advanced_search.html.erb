@@ -33,8 +33,8 @@
     </tr>
     <tr>
       <td><label><%= t('page.number_of_pages') -%>:</td>
-        <td>from <%= text_field_tag 'number_of_pages_at_least', nil, :size => 5 -%>
-          to <%= text_field_tag 'number_of_pages_at_most', nil, :size => 5 -%></td>
+        <td><%= t('advanced_search.from') -%> <%= text_field_tag 'number_of_pages_at_least', nil, :size => 5 -%>
+          <%= t('advanced_search.to') -%> <%= text_field_tag 'number_of_pages_at_most', nil, :size => 5 -%></td>
     </tr>
     <tr>
       <td><label><%= t('page.holding_library') -%>:</label></td>

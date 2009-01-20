@@ -8,60 +8,79 @@
 
   <table>
     <tr>
+      <th>Model</th>
+      <th>Number of records</th>
+      <th>Note</th>
+    </tr>
+    <tr>
       <td><%= t('activerecord.models.patron') -%></td>
       <td><%= Patron.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= link_to t('activerecord.models.user'), user_checkout_stats_path -%></td>
       <td><%= User.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.work') -%></td>
       <td><%= Work.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.expression') -%></td>
       <td><%= Expression.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.manifestation') -%></td>
       <td><%= Manifestation.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.item') -%></td>
       <td><%= Item.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.search_history') -%></td>
       <td><%= SearchHistory.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= link_to t('activerecord.models.bookmark'), bookmark_stats_path -%></td>
       <td><%= Bookmark.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('page.tag') -%></td>
       <td><%= Tag.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= link_to t('activerecord.models.checkout'), manifestation_checkout_stats_path -%></td>
       <td><%= Checkout.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.reserve') -%></td>
       <td><%= Reserve.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.purchase_request') -%></td>
       <td><%= PurchaseRequest.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.question') -%></td>
       <td><%= Question.count -%></td>
+      <td></td>
     </tr>
     <tr>
       <td><%= t('activerecord.models.answer') -%></td>
       <td><%= Answer.count -%></td>
+      <td></td>
     </tr>
   </table>
 </div>

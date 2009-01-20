@@ -672,6 +672,7 @@ ja:
     logout: "ログアウト"
     login_name: "ログイン名"
     password: "パスワード"
+    catalog_search: "資料の検索"
     library: "図書館"
     shelf: "本棚"
     language: "言語"
@@ -818,7 +819,17 @@ ja:
   message:
     listing: "メッセージの一覧"
     users_message: "{{login_name}} さんのメッセージ"
-  expression:
+    sent_at: "送信時刻"
+    inbox: "受信箱"
+    write: "メッセージを作成する"
+    outbox: "送信箱"
+    trash: "ごみ箱"
+    recipient: "受信者"
+    sender: "送信者"
+    unread: "未読"
+    deleted: "削除済み"
+    reply: "メッセージに返信する"
+    delete: "メッセージを削除する"
   tag:
     listing: "タグの一覧"
     popular_tag: "人気のあるタグ"
@@ -838,3 +849,6 @@ ja:
     listing: "貸出資料の一覧"
   checkin:
     listing: "返却資料の一覧"
+  event:
+    listing: "催し物の一覧"
+    all_libraries: "全ての図書館"

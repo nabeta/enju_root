@@ -7,8 +7,8 @@
 <h1><%= t('page.export') -%></h1>
 
 <ul>
-  <li><%= link_to ('Patrons'), formatted_patrons_path(:csv) -%></li>
-  <li><%= link_to ('Events'), formatted_events_path(:csv) -%></li>
+  <li><%= link_to t('activerecord.models.patron'), formatted_patrons_path(:csv) -%></li>
+  <li><%= link_to t('activerecord.models.event'), formatted_events_path(:csv) -%></li>
   <li><%= link_to t('activerecord.models.manifestation'), formatted_manifestations_path(:csv) -%></li>
   <li><%= link_to t('activerecord.models.item'), formatted_items_path(:csv) -%></li>
 </ul>

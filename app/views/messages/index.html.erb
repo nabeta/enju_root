@@ -10,14 +10,14 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Messages') -%></h1>
+<h1><%= t('activerecord.models.message') -%></h1>
 <%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
   <table id="index">
     <tr>
       <th></th>
       <th><%= t('page.subject') -%></th>
       <th><%= rezm_sender_or_receiver_label -%></th>
-      <th><%= ('Sent') -%></th>
+      <th><%= t('message.sent_at') -%></th>
     </tr>
   <%- for message in @messages  -%>
     <tr class="line<%= cycle("0", "1") -%>">
@@ -28,7 +28,7 @@
     </tr>
   <%- end -%>
     <tr>
-      <td colspan="4"><%= submit_tag ('Delete') -%></td>
+      <td colspan="4"><%= submit_tag t('message.delete') -%></td>
     </tr>
   </table>
 <%- end -%>

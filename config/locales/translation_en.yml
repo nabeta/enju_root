@@ -672,6 +672,7 @@ en:
     user_bookmark_title: "{{login_name}}'s bookmark"
     login_name: "Login name"
     password: "Password"
+    catalog_search: "Catalog search"
     library: "Library"
     shelf: "Shelf"
     language: "Language"
@@ -825,6 +826,17 @@ en:
   message:
     listing: "Listing messages"
     users_message: "{{login_name}}'s messages"
+    sent_at: "Sent at"
+    inbox: "Inbox"
+    write: "Write"
+    outbox: "Outbox"
+    trash: "Trash"
+    recipient: "Recipient"
+    sender: "Sender"
+    unread: "Unread"
+    deleted: "Deleted"
+    reply: "Reply"
+    delete: "Delete"
   tag:
     listing: "Listing tags"
     popular_tag: "Popular tags"
@@ -846,3 +858,6 @@ en:
     listing: "Listing checkouts"
   checkin:
     listing: "Listing checkins"
+  event:
+    listing: "Listing events"
+    all_libraries: "All libraries"
