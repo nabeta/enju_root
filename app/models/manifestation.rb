@@ -3,7 +3,7 @@ require 'wakati'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   has_many :embodies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
+  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:patrons, :expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
   has_many :items, :through => :exemplifies, :include => [:checkouts, :shelf, :circulation_status], :dependent => :destroy
   has_many :produces, :dependent => :destroy
@@ -734,19 +734,19 @@ class Manifestation < ActiveRecord::Base
     true
   end
 
-  def checkouts(from_date, to_date)
-    Checkout.completed(from_date, to_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
+  def checkouts(start_date, end_date)
+    Checkout.completed(start_date, end_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
   end
 
-  def bookmarks(from_date = nil, to_date = nil)
-    if from_date.blank? and to_date.blank?
+  def bookmarks(start_date = nil, end_date = nil)
+    if start_date.blank? and end_date.blank?
       if self.bookmarked_resource
         self.bookmarked_resource.bookmarks
       else
         []
       end
     else
-      Bookmark.bookmarked(from_date, to_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
+      Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
     end
   end
 

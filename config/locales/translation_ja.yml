@@ -835,8 +835,10 @@ ja:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
   question:
+    listing: "質問の一覧"
     number_of_search_results: "{{count}} 件の資料が見つかりました。"
     users_question: "{{login_name}} さんの質問"
+    no_record_found: "事例が見つかりませんでした。"
   checkout:
     users_checkout: "{{login_name}} さんの貸出資料"
   library:

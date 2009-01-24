@@ -1,9 +1,9 @@
 class Expression < ActiveRecord::Base
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   has_one :reify, :dependent => :destroy
-  has_one :work, :through => :reify, :include => :work_form
+  has_one :work, :through => :reify, :include => [:patrons, :work_form]
   has_many :embodies, :dependent => :destroy
-  has_many :manifestations, :through => :embodies, :include => :manifestation_form
+  has_many :manifestations, :through => :embodies, :include => [:patrons, :manifestation_form]
   belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes

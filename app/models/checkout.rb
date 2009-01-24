@@ -1,7 +1,7 @@
 class Checkout < ActiveRecord::Base
   named_scope :not_returned, :conditions => ['checkin_id IS NULL']
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
-  named_scope :completed, lambda {|from_date, to_date| {:conditions => ['created_at >= ? AND created_at < ?', from_date, to_date]}}
+  named_scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   
   belongs_to :user, :counter_cache => true #, :validate => true
   belongs_to :item, :counter_cache => true #, :validate => true
@@ -69,11 +69,11 @@ class Checkout < ActiveRecord::Base
     false
   end
 
-  def self.manifestations_count(from_date, to_date, manifestation)
-    self.completed(from_date, to_date).find(:all, :conditions => {:item_id => manifestation.items.collect(&:id)}).count
+  def self.manifestations_count(start_date, end_date, manifestation)
+    self.completed(start_date, end_date).find(:all, :conditions => {:item_id => manifestation.items.collect(&:id)}).count
   end
 
-  def self.users_count(from_date, to_date, user)
-    self.completed(from_date, to_date).find(:all, :conditions => {:user_id => user.id}).count
+  def self.users_count(start_date, end_date, user)
+    self.completed(start_date, end_date).find(:all, :conditions => {:user_id => user.id}).count
   end
 end
