@@ -3,19 +3,19 @@ require 'wakati'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   has_many :embodies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :embodies, :conditions => 'expressions.deleted_at IS NULL', :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
+  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
-  has_many :items, :through => :exemplifies, :include => [:checkouts, :shelf, :circulation_status], :dependent => :destroy, :conditions => 'items.deleted_at IS NULL'
+  has_many :items, :through => :exemplifies, :include => [:checkouts, :shelf, :circulation_status], :dependent => :destroy
   has_many :produces, :dependent => :destroy
-  has_many :patrons, :through => :produces, :conditions => "patrons.deleted_at IS NULL", :order => 'produces.position', :include => :patron_type
+  has_many :patrons, :through => :produces, :order => 'produces.position', :include => :patron_type
   has_one :manifestation_api_response, :dependent => :destroy
-  has_many :reserves, :dependent => :destroy, :conditions => 'reserves.deleted_at IS NULL'
-  has_many :reserving_users, :through => :reserves, :source => :user, :conditions => 'users.deleted_at IS NULL'
+  has_many :reserves, :dependent => :destroy
+  has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
   has_many :attachment_files, :as => :attachable, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
-  #has_many :orders, :conditions => 'orders.deleted_at IS NULL', :dependent => :destroy
+  #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
@@ -53,12 +53,11 @@ class Manifestation < ActiveRecord::Base
     {:access_role_id => :range_integer}
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
-    #:if => proc{|manifestation| manifestation.deleted_at.blank? and !manifestation.serial?},
-    :if => proc{|manifestation| manifestation.deleted_at.blank? and !manifestation.restrain_indexing},
-    #:if => proc{|manifestation| manifestation.deleted_at.blank?},
+    #:if => proc{|manifestation| !manifestation.serial?},
+    :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
   acts_as_taggable
-  acts_as_paranoid
+  acts_as_soft_deletable
   acts_as_tree
 
   @@per_page = 10

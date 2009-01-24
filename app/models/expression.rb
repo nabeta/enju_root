@@ -6,7 +6,7 @@ class Expression < ActiveRecord::Base
   has_many :manifestations, :through => :embodies, :include => :manifestation_form
   belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :realizes, :conditions => 'patrons.deleted_at IS NULL'
+  has_many :patrons, :through => :realizes
   belongs_to :language, :validate => true
   belongs_to :frequency_of_issue, :validate => true
   has_many :expression_merges, :dependent => :destroy
@@ -30,8 +30,8 @@ class Expression < ActiveRecord::Base
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
     {:subscription_id => :integer}, {:access_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
-    :facets => [:expression_form_id, :language_id], :if => proc{|expression| expression.deleted_at.blank? and !expression.restrain_indexing}, :auto_commit => false
-  acts_as_paranoid
+    :facets => [:expression_form_id, :language_id], :if => proc{|expression| !expression.restrain_indexing}, :auto_commit => false
+  acts_as_soft_deletable
   acts_as_taggable
 
   cattr_reader :per_page

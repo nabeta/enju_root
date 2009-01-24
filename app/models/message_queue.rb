@@ -8,7 +8,7 @@ class MessageQueue < ActiveRecord::Base
   validates_associated :sender, :receiver, :message_template
   validates_presence_of :sender, :receiver, :message_template
 
-  acts_as_paranoid
+  acts_as_soft_deletable
 
   @@per_page = 10
   cattr_reader :per_page

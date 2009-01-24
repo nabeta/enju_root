@@ -1,6 +1,6 @@
 class PatronMergeList < ActiveRecord::Base
   has_many :patron_merges, :dependent => :destroy
-  has_many :patrons, :through => :patron_merges, :conditions => 'patrons.deleted_at IS NULL'
+  has_many :patrons, :through => :patron_merges
   validates_presence_of :title
 
   def merge_patrons(selected_patron)

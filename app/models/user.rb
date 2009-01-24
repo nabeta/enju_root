@@ -23,16 +23,16 @@ class User < ActiveRecord::Base
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
   named_scope :locked, :conditions => {:locked => true}
   acts_as_solr :fields => [:login, :email, :patron_name, :note, {:access_role_id => :range_integer}],
-    :if => proc{|user| user.deleted_at.blank?}, :auto_commit => false
+    :auto_commit => false
   belongs_to :patron #, :validate => true
-  has_many :questions, :conditions => 'questions.deleted_at IS NULL'
-  has_many :answers, :conditions => 'answers.deleted_at IS NULL'
+  has_many :questions
+  has_many :answers
   #has_many :checkins, :dependent => :destroy
   #has_many :checkin_items, :through => :checkins
   has_many :checkouts, :dependent => :destroy
   #has_many :checkout_items, :through => :checkouts
-  has_many :reserves, :dependent => :destroy, :conditions => 'reserves.deleted_at IS NULL'
-  has_many :reserved_manifestations, :through => :reserves, :conditions => 'manifestations.deleted_at IS NULL', :source => :manifestation
+  has_many :reserves, :dependent => :destroy
+  has_many :reserved_manifestations, :through => :reserves, :source => :manifestation
   has_many :bookmarks, :dependent => :destroy
   has_many :bookmarked_resources, :through => :bookmarks
   has_many :search_histories, :dependent => :destroy
@@ -54,7 +54,7 @@ class User < ActiveRecord::Base
 
   restful_easy_messages
   acts_as_tagger
-  acts_as_paranoid
+  acts_as_soft_deletable
 
   cattr_reader :per_page
   @@per_page = 10
@@ -162,7 +162,7 @@ class User < ActiveRecord::Base
         SELECT count(item_id) FROM checkouts
           WHERE item_id IN (
             SELECT id FROM items
-              WHERE checkout_type_id = ? AND deleted_at IS NULL
+              WHERE checkout_type_id = ?
           )
           AND user_id = ? AND checkin_id IS NULL", checkout_type.id, self.id]
       )

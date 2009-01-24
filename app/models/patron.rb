@@ -1,19 +1,19 @@
 class Patron < ActiveRecord::Base
-  has_one :user, :conditions => "users.deleted_at IS NULL", :dependent => :destroy
-  has_one :library, :conditions => 'libraries.deleted_at IS NULL', :include => :library_group
+  has_one :user, :dependent => :destroy
+  has_one :library, :include => :library_group
   has_many :creates, :dependent => :destroy
-  has_many :works, :through => :creates, :conditions => 'works.deleted_at IS NULL', :include => :work_form
+  has_many :works, :through => :creates, :include => :work_form
   has_many :realizes, :dependent => :destroy
-  has_many :expressions, :through => :realizes, :include => :expression_form, :conditions => 'expressions.deleted_at IS NULL'
+  has_many :expressions, :through => :realizes, :include => :expression_form
   has_many :produces, :dependent => :destroy
-  has_many :manifestations, :through => :produces, :conditions => 'manifestations.deleted_at IS NULL', :include => :manifestation_form
+  has_many :manifestations, :through => :produces, :include => :manifestation_form
   has_many :owns, :dependent => :destroy
-  has_many :items, :through => :owns, :conditions => 'items.deleted_at IS NULL', :include => [:use_restrictions, :circulation_status]
+  has_many :items, :through => :owns, :include => [:use_restrictions, :circulation_status]
   #has_one :person
   #has_one :corporate_body
   #has_one :conference
   has_many :donates
-  has_many :donated_items, :through => :donates, :source => :item, :conditions => 'items.deleted_at IS NULL'
+  has_many :donated_items, :through => :donates, :source => :item
   belongs_to :language #, :validate => true
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
@@ -24,15 +24,15 @@ class Patron < ActiveRecord::Base
   belongs_to :patron_type #, :validate => true
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
   has_many :advertises, :dependent => :destroy
-  has_many :advertisements, :through => :advertises, :conditions => 'advertisements.deleted_at IS NOT NULL'
+  has_many :advertisements, :through => :advertises
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
 
   acts_as_solr :fields => [:name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2, :address_1_note, :address_2_note, :other_designation, {:created_at => :date}, {:updated_at => :date}, {:date_of_birth => :date}, {:date_of_death => :date},
     {:work_ids => :integer}, {:expression_ids => :integer}, {:manifestation_ids => :integer}, {:patron_type_id => :integer}, {:access_role_id => :range_integer}, {:patron_merge_list_ids => :integer}],
-    :facets => [:patron_type_id, :date_of_birth], :if => proc{|patron| patron.deleted_at.blank? and !patron.restrain_indexing}, :auto_commit => false
-  acts_as_paranoid
+    :facets => [:patron_type_id, :date_of_birth], :if => proc{|patron| !patron.restrain_indexing}, :auto_commit => false
+  acts_as_soft_deletable
   acts_as_tree
 
   cattr_reader :per_page

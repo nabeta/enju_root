@@ -1,28 +1,28 @@
 class Item < ActiveRecord::Base
   has_one :exemplify, :dependent => :destroy
-  has_one :manifestation, :through => :exemplify, :conditions => 'manifestations.deleted_at IS NULL', :include => :manifestation_form
+  has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins
-  #has_many :checkin_patrons, :through => :checkins, :conditions => 'patrons.deleted_at IS NULL'
+  #has_many :checkin_patrons, :through => :checkins
   has_many :checkouts
-  #has_many :checkout_users, :through => :checkouts, :conditions => 'users.deleted_at IS NULL'
-  has_many :reserves, :conditions => 'reserves.deleted_at IS NULL'
+  #has_many :checkout_users, :through => :checkouts
+  has_many :reserves
   has_many :reserved_patrons, :through => :reserves
   has_many :owns
-  has_many :patrons, :through => :owns, :conditions => 'patrons.deleted_at IS NULL'
+  has_many :patrons, :through => :owns
   belongs_to :shelf, :counter_cache => true, :validate => true
   has_many :checked_items, :dependent => :destroy
   has_many :baskets, :through => :checked_items
   belongs_to :circulation_status, :validate => true
   belongs_to :bookstore, :validate => true
   has_many :donates
-  has_many :donors, :through => :donates, :source => :patron, :conditions => 'patrons.deleted_at IS NULL'
+  has_many :donors, :through => :donates, :source => :patron
   #has_one :order
   has_many :item_has_use_restrictions, :dependent => :destroy
   has_many :use_restrictions, :through => :item_has_use_restrictions
   has_many :reserves
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
-  has_many :inter_library_loans, :dependent => :destroy, :conditions => 'deleted_at IS NULL'
+  has_many :inter_library_loans, :dependent => :destroy
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
   #has_one :item_has_checkout_type, :dependent => :destroy
   belongs_to :checkout_type #, :through => :item_has_checkout_type
@@ -40,11 +40,11 @@ class Item < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_nil => true
 
   acts_as_taggable
-  acts_as_paranoid
+  acts_as_soft_deletable
 
   acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:access_role_id => :range_integer}],
     :facets => [:circulation_status_id],
-    :if => proc{|item| item.deleted_at.blank? and item.restrain_indexing}, :auto_commit => false
+    :if => proc{|item| !item.restrain_indexing}, :auto_commit => false
 
   cattr_reader :per_page
   @@per_page = 10

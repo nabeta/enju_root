@@ -8,8 +8,8 @@ class CheckoutType < ActiveRecord::Base
   has_many :user_group_has_checkout_types, :dependent => :destroy
   has_many :user_groups, :through => :user_group_has_checkout_types
   #has_many :item_has_checkout_types, :dependent => :destroy
-  #has_many :items, :through => :item_has_checkout_types, :conditions => 'items.deleted_at IS NOT NULL'
-  has_many :items, :conditions => 'items.deleted_at IS NOT NULL'
+  #has_many :items, :through => :item_has_checkout_types
+  has_many :items
 
   validates_presence_of :name
 

@@ -1,8 +1,8 @@
 class Work < ActiveRecord::Base
   has_many :creates, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :creates, :conditions => 'patrons.deleted_at IS NULL', :order => 'creates.position'
+  has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :reifies, :conditions => 'expressions.deleted_at IS NULL', :include => :expression_form
+  has_many :expressions, :through => :reifies, :include => :expression_form
   belongs_to :work_form #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
@@ -16,8 +16,8 @@ class Work < ActiveRecord::Base
 
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:access_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 
-    :if => proc{|work| work.deleted_at.blank? and !work.restrain_indexing}, :auto_commit => false
-  acts_as_paranoid
+    :if => proc{|work| !work.restrain_indexing}, :auto_commit => false
+  acts_as_soft_deletable
   acts_as_tree
 
   @@per_page = 10

@@ -1,6 +1,6 @@
 class ExpressionMergeList < ActiveRecord::Base
   has_many :expression_merges, :dependent => :destroy
-  has_many :expressions, :through => :expression_merges, :conditions => 'expressions.deleted_at IS NULL'
+  has_many :expressions, :through => :expression_merges
   validates_presence_of :title
 
   def merge_expressions(selected_expression)

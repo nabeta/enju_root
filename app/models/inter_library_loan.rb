@@ -20,7 +20,7 @@ class InterLibraryLoan < ActiveRecord::Base
     end
   end
 
-  acts_as_paranoid
+  acts_as_soft_deletable
 
   @@per_page = 10
   cattr_reader :per_page

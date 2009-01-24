@@ -2,7 +2,7 @@ require 'open-uri'
 class BookmarkedResource < ActiveRecord::Base
   named_scope :manifestations, lambda {|manifestation_ids| {:conditions => {:manifestation_id => manifestation_ids}}}
   has_many :bookmarks, :dependent => :destroy, :include => :bookmarked_resource
-  has_many :users, :through => :bookmarks, :conditions => 'users.deleted_at IS NULL'
+  has_many :users, :through => :bookmarks
   belongs_to :manifestation, :validate => true
   
   validates_associated :manifestation

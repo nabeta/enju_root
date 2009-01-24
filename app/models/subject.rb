@@ -1,10 +1,10 @@
 class Subject < ActiveRecord::Base
   has_many :resource_has_subjects, :dependent => :destroy
-  has_many :works, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Work', :conditions => 'works.deleted_at IS NULL', :include => :work_form
-  has_many :expressions, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Expression', :conditions => 'works.deleted_at IS NULL', :include => :expression_form
-  has_many :manifestations, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Manifestation', :conditions => 'manifestations.deleted_at IS NULL', :include => :manifestation_form
-  has_many :items, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Item', :conditions => 'items.deleted_at IS NULL'
-  has_many :patrons, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Patron', :conditions => 'patrons.deleted_at IS NULL'
+  has_many :works, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Work', :include => :work_form
+  has_many :expressions, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Expression', :include => :expression_form
+  has_many :manifestations, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Manifestation', :include => :manifestation_form
+  has_many :items, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Item'
+  has_many :patrons, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Patron'
 
   #has_many :subject_used_for_terms, :class_name => 'SubjectUsedForTerm', :foreign_key => 'used_for_term_id'
   #has_many :used_for_terms, :through => :subject_used_for_terms, :source => :subject
