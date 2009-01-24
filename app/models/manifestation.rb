@@ -490,7 +490,7 @@ class Manifestation < ActiveRecord::Base
         end
       }
     }
-    xml.identifier("http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.id}", 'type' => 'uri')
+    xml.identifier("#{LIBRARY_WEB_URL}manifestations/#{self.id}", 'type' => 'uri')
     xml.originInfo{
       self.publishers.each do |publisher|
         xml.publisher publisher.full_name
@@ -505,7 +505,7 @@ class Manifestation < ActiveRecord::Base
     library_group = LibraryGroup.find(1)
     if Twitter::Status
       title = ERB::Util.html_escape(truncate(self.original_title))
-      status = "#{library_group.name}: #{full_title} http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.id}"
+      status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
       Twitter::Status.post(:update, :status => status)
     end
   end

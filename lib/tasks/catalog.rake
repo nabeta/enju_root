@@ -27,6 +27,10 @@ namespace :catalog do
       user.password_confirmation = $stdin.gets.chop
       system "stty echo"
       puts
+      if user.password != user.password_confirmation
+        puts "Password mismatch!"
+        exit
+      end
       puts "Saving user information..."
 
       user.user_group = UserGroup.find(1)

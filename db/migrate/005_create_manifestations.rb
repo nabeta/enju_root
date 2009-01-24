@@ -21,7 +21,7 @@ class CreateManifestations < ActiveRecord::Migration
       t.string :isbn
       t.string :isbn10
       t.string :wrong_isbn
-      t.strint :nbn
+      t.string :nbn
       t.decimal :price # TODO: 通貨単位
       #t.text :filename
       #t.string :content_type

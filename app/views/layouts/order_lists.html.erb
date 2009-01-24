@@ -7,7 +7,7 @@
   <title><%= t('activerecord.models.order_list') -%>: <%=h controller.action_name -%></title>
   <%= render :partial => 'page/include' -%>
   <%= auto_discovery_link_tag(:rss, formatted_order_lists_path(:format => :rss), :title => t('page.order_list_at_library_group', :library_group => @library_group.display_name)) -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="http://http://<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http://http://<%= LIBRARY_WEB_URL -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
