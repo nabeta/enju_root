@@ -5,6 +5,7 @@ class CreateImportedObjects < ActiveRecord::Migration
       t.string :imported_file_type
       t.integer :importable_id
       t.string :importable_type
+      t.string :state
 
       t.timestamps
     end

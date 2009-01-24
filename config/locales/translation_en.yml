@@ -861,3 +861,7 @@ en:
   event:
     listing: "Listing events"
     all_libraries: "All libraries"
+  user:
+    current_password: "Current password"
+    new_password: "New password"
+    repeat_new_password: "Repeat new password"

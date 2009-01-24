@@ -248,7 +248,7 @@ ja:
         answer_rss_token: 答えはトークンのRSS
         duedate_reminder_days: Duedateリマインダー日
         note: 注記
-        share_bookmarks: 共有ブックマーク
+        share_bookmarks: ブックマークを他のパトロンと共有する
         save_search_history: 検索履歴を保存する
         save_checkout_history: 貸出の履歴を保存する
         lock_version: ロックバージョン
@@ -852,3 +852,7 @@ ja:
   event:
     listing: "催し物の一覧"
     all_libraries: "全ての図書館"
+  user:
+    current_password: "現在のパスワード"
+    new_password: "新しいパスワード"
+    repeat_new_password: "新しいパスワード（確認のため再度入力）"
