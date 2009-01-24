@@ -5,7 +5,7 @@ class Reserve < ActiveRecord::Base
   named_scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
   named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
   named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
-  #named_scope :expired, lambda {|from_date, to_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', from_date, to_date], :order => 'expired_at'}}
+  #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
   named_scope :will_expire, lambda {|date| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state != ?', date, 'expired'], :order => 'expired_at'}}
 
   belongs_to :user, :validate => true

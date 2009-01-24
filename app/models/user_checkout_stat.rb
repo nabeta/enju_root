@@ -11,7 +11,7 @@ class UserCheckoutStat < ActiveRecord::Base
 
   def culculate_user_checkouts_count
     User.find(:all, :select => :id).each do |user|
-      daily_count = Checkout.users_count(self.from_date, self.to_date, user)
+      daily_count = Checkout.users_count(self.start_date, self.end_date, user)
       if daily_count > 0
         self.users << user
         UserCheckoutStat.find_by_sql(['UPDATE checkout_stat_has_users SET checkouts_count = ? WHERE user_checkout_stat_id = ? AND user_id = ?', daily_count, self.id, user.id])

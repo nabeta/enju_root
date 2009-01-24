@@ -2,7 +2,7 @@ class Work < ActiveRecord::Base
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :reifies, :include => :expression_form
+  has_many :expressions, :through => :reifies, :include => [:patrons, :expression_form]
   belongs_to :work_form #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
