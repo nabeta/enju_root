@@ -10,7 +10,7 @@
     <th><%= ('Message template') -%></th>
     <th><%= ('Message subject') -%></th>
     <th><%= t('page.created_at') -%></th>
-    <th><%= ('Sent at') -%></th>
+    <th><%= t('activerecord.attributes.message_queue.sent_at') -%></th>
   </tr>
 
 <%- for message_queue in @message_queues -%>
