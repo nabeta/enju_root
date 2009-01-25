@@ -5,7 +5,7 @@ class Manifestation < ActiveRecord::Base
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:patrons, :expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
-  has_many :items, :through => :exemplifies, :include => [:checkouts, :shelf, :circulation_status], :dependent => :destroy
+  has_many :items, :through => :exemplifies, :include => [:checkouts, {:shelf => :library}, :circulation_status], :dependent => :destroy
   has_many :produces, :dependent => :destroy
   has_many :patrons, :through => :produces, :order => 'produces.position', :include => :patron_type
   has_one :manifestation_api_response, :dependent => :destroy

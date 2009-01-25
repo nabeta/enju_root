@@ -245,7 +245,7 @@ ja:
         expired_at: 有効期限
         locked: ロック
         checkout_icalendar_token: 貸出iCalendarのトークン
-        answer_rss_token: 答えはトークンのRSS
+        answer_rss_token: 回答用RSSのトークン
         duedate_reminder_days: Duedateリマインダー日
         note: 注記
         share_bookmarks: ブックマークを他のパトロンと共有する
