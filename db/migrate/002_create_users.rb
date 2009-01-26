@@ -38,6 +38,7 @@ class CreateUsers < ActiveRecord::Migration
       t.text :keyword_list
       t.string :user_number
       t.string :state, :default => 'pending', :null => false
+      t.integer :required_score, :default => 0, :null => false
     end
     add_index :users, :login, :unique => true
     add_index :users, :openid_url

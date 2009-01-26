@@ -70,6 +70,7 @@ en:
       expression_merge: Expression merge
       request_status_type: Request status type
       news_feed: News feed
+      news_post: News post
       search_engine: Search engine
       bookmark: Bookmark
       create: Create
@@ -470,6 +471,14 @@ en:
         title: Title
         url: URL
         body: Body
+        note: Note
+        position: Position
+      news_post:
+        title: Title
+        body: Body
+        note: Note
+        start_date: Start date
+        End_date: End date
         position: Position
       search_engine:
         name: Name
@@ -782,6 +791,7 @@ en:
     number_of_pages: "Number of pages"
     holding_library: "Holding library"
     resource: "Resource"
+    type: "Type"
   advanced_search:
     from: "from"
     to: "to"
@@ -800,13 +810,16 @@ en:
     library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
   work:
     listing: "Listing works"
+    new: "New work"
     patrons_work: "{{patron_name}}'s works"
   expression:
     listing: "Listing expressions"
+    new: "New expression"
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
   manifestation:
     listing: "Listing manifestations"
+    new: "New manifestation"
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
     edit: "Edit this manifestation"
@@ -820,9 +833,10 @@ en:
     cancel_reservation: "Cancel this reservation"
   item:
     listing: "Listing items"
-    new_item: "New item"
-  patrons:
+    new: "New item"
+  patron:
     listing: "Listing patrons"
+    new: "New patron"
   message:
     listing: "Listing messages"
     users_message: "{{login_name}}'s messages"

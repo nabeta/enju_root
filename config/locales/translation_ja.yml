@@ -70,6 +70,7 @@ ja:
       expression_merge: 表現のマージ
       request_status_type: リクエストステータスの種類
       news_feed: ニュースフィード
+      news_post: ニュース投稿
       search_engine: 検索エンジン
       bookmark: ブックマーク
       create: 作成
@@ -470,7 +471,15 @@ ja:
         title: タイトル
         url: URL
         body: 本文
+        note: 注記
         position: 位置
+      news_post:
+        title: タイトル
+        body: 本文
+        note: 注記
+        position: 位置
+        start_date: 開始日
+        end_date: 終了日
       search_engine:
         name: 名前
         url: URL
@@ -774,6 +783,7 @@ ja:
     number_of_pages: "ページ数"
     holding_library: "所蔵館"
     resource: "資料"
+    type: "種類"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -792,13 +802,16 @@ ja:
     library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
   work:
     listing: "著作形の一覧"
+    new: "新しい著作形"
     patrons_work: "{{patron_name}} の著作形"
   expression:
     listing: "表現形の一覧"
+    new: "新しい表現形"
     patrons_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
   manifestation:
     listing: "体現形の一覧"
+    new: "新しい体現形"
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
     edit: "編集"
@@ -813,9 +826,10 @@ ja:
     cancel_reservation: "この資料の予約を解除する"
   item:
     listing: "個別資料の一覧"
-    new_item: "所蔵を追加"
-  patrons:
+    new: "新しい個別資料"
+  patron:
     listing: "パトロンの一覧"
+    new: "新しいパトロン"
   message:
     listing: "メッセージの一覧"
     users_message: "{{login_name}} さんのメッセージ"

@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_news_post_path(@news_post) -%></li>
+    <li><%= link_to t('page.back'), news_posts_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b><%= t('activerecord.attributes.news_post.title') -%>:</b>
+  <%=h @news_post.title -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.news_post.body') -%>:</b>
+  <%=h @news_post.body -%>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= link_to h(@news_post.user.login), user_path(@news_post.user.login) -%>
+</p>
+
+<p>
+  <b>Required score:</b>
+  <%=h @news_post.required_score -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.news_post.start_date') -%>:</b>
+  <%=h @news_post.start_date -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.news_post.end_date') -%>:</b>
+  <%=h @news_post.end_date -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.news_post.note') -%>:</b>
+  <%=h @news_post.note -%>
+</p>
+
+</div>

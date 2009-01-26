@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :news_posts
+
   map.resources :reserve_stat_has_users
 
   map.resources :user_reserve_stats

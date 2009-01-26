@@ -51,6 +51,7 @@ class User < ActiveRecord::Base
   has_many :user_checkout_stats, :through => :checkout_stat_has_users
   has_many :reserve_stat_has_users
   has_many :user_reserve_stats, :through => :reserve_stat_has_users
+  has_many :news_posts
 
   restful_easy_messages
   acts_as_tagger

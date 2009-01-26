@@ -4,7 +4,7 @@
   </div>
   <ul>
     <%- if_authorized?(:new, Item) do -%>
-      <li><%= link_to t('item.new_item'), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
+      <li><%= link_to t('item.new'), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
     <%- end -%>
   </ul>
 </div>

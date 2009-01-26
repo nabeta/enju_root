@@ -40,6 +40,7 @@ class CreateManifestations < ActiveRecord::Migration
       t.integer :lock_version, :default => 0, :null => false
       t.integer :access_role_id, :default => 1, :null => false
       t.string :state
+      t.integer :required_score, :default => 0, :null => false
     end
     add_index :manifestations, :parent_id
     add_index :manifestations, :manifestation_form_id

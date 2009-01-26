@@ -3,7 +3,7 @@
 <div id="submenu">
   <%- if_authorized?(:destroy, @expression) do -%>
     <ul>
-      <li><%= link_to ('New expression'), new_expression_path -%></li>
+      <li><%= link_to t('expression.new'), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
       <li><%= link_to t('page.destroy'), expression_path(@expression), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- case when @work -%>

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New patron'), new_work_patron_path(@work) -%></li>
+    <li><%= link_to t('patron.new'), new_work_patron_path(@work) -%></li>
     <li><%= link_to ('Add an expression'), work_expressions_path(@work) -%></li>
   </ul>
 </div>
@@ -32,7 +32,7 @@
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
-    <th><%= ('Type') -%></th>
+    <th><%= t('activerecord.models.patron_type') -%></th>
     <th><%= t('activerecord.attributes.patron.other_designation') -%></th>
     <th><%= t('activerecord.attributes.patron.place') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>

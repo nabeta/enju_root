@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Work) do -%>
-      <li><%= link_to ('New work'), new_patron_work_path(@patron) -%></li>
+      <li><%= link_to t('work.new'), new_patron_work_path(@patron) -%></li>
       <li><%= link_to ('Expressions'), patron_expressions_path(@patron) -%></li>
       <li><%= link_to ('Manifestations'), patron_manifestations_path(@patron) -%></li>
     <%- end -%>

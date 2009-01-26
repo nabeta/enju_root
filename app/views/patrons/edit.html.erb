@@ -12,7 +12,7 @@
 
 <%- form_for(:patron, :url => patron_path(@patron), :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= ('Type') -%></b>
+    <b><%= t('activerecord.models.patron_type') -%></b>
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
   </p>
 
