@@ -1,6 +1,6 @@
 <%- form_for(:produce, :url => produces_path) do |f| -%>
   <p>
-  <b><%= t('page.patron') -%></b><br />
+  <b><%= t('activerecord.models.patron') -%></b><br />
     <%- if @patron -%>
       <%=h @patron.full_name -%>
     <%- else -%>

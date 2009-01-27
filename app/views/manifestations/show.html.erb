@@ -219,7 +219,7 @@
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
       <%- if @manifestation.bookmarks -%>
-        <h4><%= t('page.patron_who_bookmark_this_resource') -%></h4>
+        <h4><%= t('activerecord.models.patron_who_bookmark_this_resource') -%></h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>
       <%- end -%>
     </div>

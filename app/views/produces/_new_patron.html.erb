@@ -1,6 +1,6 @@
 <%- form_for(:produce, :url => produces_path(@patron)) do |f| -%>
   <p>
-  <b><%= t('page.patron') -%></b><br />
+  <b><%= t('activerecord.models.patron') -%></b><br />
     <%=h @patron.full_name -%>
     <%= f.hidden_field :patron_id, :value => @patron.id -%>
   </p>

@@ -4,7 +4,7 @@
 
 <%- form_for(:produce, :url => produce_path(@produce), :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= t('page.patron') -%></b><br />
+    <b><%= t('activerecord.models.patron') -%></b><br />
     <%= f.text_field :patron_id -%>
   </p>
 
