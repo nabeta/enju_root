@@ -6,13 +6,13 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing event') -%></h1>
+<h1><%= t('event.editing') -%></h1>
 
 <%= error_messages_for :event -%>
 
 <%- form_for(@event) do |f| -%>
   <p>
-    <b><%= ('Event category') -%></b><br />
+    <b><%= t('activerecord.models.event_category') -%></b><br />
     <%= f.select(:event_category_id, @event_categories.collect{|e| [e.display_name, e.id]}) -%>
   </p>
 

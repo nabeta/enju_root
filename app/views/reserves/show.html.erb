@@ -1,7 +1,9 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_path(@reserve.user.login, @reserve) -%></li>
-    <li><%= link_to t('page.cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%></li>
+    <%- if ['pending', 'requested', 'retained'].index(@reserve.state) -%>
+      <li><%= link_to t('page.cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%></li>
+    <%- end -%>
     <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to t('page.back'), user_reserves_path(@reserve.user.login) -%></li>
   </ul>

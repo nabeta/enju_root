@@ -9,6 +9,7 @@ class CreateNewsPosts < ActiveRecord::Migration
       t.datetime :end_date
       t.text :note
       t.integer :position
+      t.boolean :draft, :default => false, :null => false
 
       t.timestamps
     end

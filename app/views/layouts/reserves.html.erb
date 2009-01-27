@@ -8,7 +8,11 @@
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'reserves', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("%{user}'s reservations")) -%>
+      <%= auto_discovery_link_tag(:rss, formatted_user_reserves_url(@user.login, :rss), :title => (t('reserve.user_reserve', :login_name => @user.login) + " (RSS)")) -%>
+      <%= auto_discovery_link_tag(:atom, formatted_user_reserves_url(@user.login, :atom), :title => (t('reserve.user_reserve', :login_name => @user.login) + " (Atom)")) -%>
+    <%- else -%>
+      <%= auto_discovery_link_tag(:rss, formatted_reserves_url(:rss), :title => (t('reserve.library_group_reserve', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+      <%= auto_discovery_link_tag(:atom, formatted_reserves_url(:atom), :title => (t('reserve.library_group_reserve', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
     <%- end -%>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />

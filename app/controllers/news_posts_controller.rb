@@ -5,7 +5,7 @@ class NewsPostsController < ApplicationController
   # GET /news_posts
   # GET /news_posts.xml
   def index
-    @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
+    @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page])
     @startrecord = 1
 
     respond_to do |format|

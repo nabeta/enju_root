@@ -480,6 +480,7 @@ ja:
         position: 位置
         start_date: 開始日
         end_date: 終了日
+        draft: 下書き
       search_engine:
         name: 名前
         url: URL
@@ -748,6 +749,7 @@ ja:
     submit: "送信"
     management: "管理"
     about_us: "私たちについて"
+    open_source_integrated_library_system: "オープンソース統合図書館システム"
     order_list_at_library_group: "{{library_group}} の発注リスト"
     related_work: "この資料に含まれる著作"
     related_manifestation: "この著作を含む資料"
@@ -837,7 +839,7 @@ ja:
     editing: "パトロンの編集"
   message:
     listing: "メッセージの一覧"
-    users_message: "{{login_name}} さんのメッセージ"
+    user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"
     inbox: "受信箱"
     write: "メッセージを作成する"
@@ -856,22 +858,26 @@ ja:
   question:
     listing: "質問の一覧"
     number_of_search_results: "{{count}} 件の資料が見つかりました。"
-    users_question: "{{login_name}} さんの質問"
+    user_question: "{{login_name}} さんの質問"
     no_record_found: "事例が見つかりませんでした。"
+    library_group_question: "{{library_group_name}} での質問"
   checkout:
-    users_checkout: "{{login_name}} さんの貸出資料"
+    listing: "貸出資料の一覧"
+    user_checkout: "{{login_name}} さんの貸出資料"
+    library_group_checkout: "{{library_group_name}} での貸出"
   library:
     map: "地図"
     staff: "職員"
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
-  checkout:
-    listing: "貸出資料の一覧"
   checkin:
     listing: "返却資料の一覧"
   event:
     listing: "催し物の一覧"
+    new: "新しい催し物"
+    editing: "催し物の編集"
+    library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
   user:
     current_password: "現在のパスワード"
@@ -881,3 +887,8 @@ ja:
     listing: "広告記事の一覧"
     new: "新しい広告記事"
     editing: "広告記事の編集"
+  news_post:
+    library_group_news_post: "{{library_group_name}} からのお知らせ"
+  reserve:
+    user_reserve: "{{login_name}} さんの予約資料"
+    library_group_reserve: "{{library_group_name}} での予約資料"

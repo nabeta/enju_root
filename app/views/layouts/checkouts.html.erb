@@ -9,9 +9,11 @@
   <link rel="search" type="application/opensearchdescription+xml" href="http://page/opensearch" title="<%=h @library_group.display_name -%>" />
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('checkout.users_checkout', :login_name => @user.login)) -%>
+      <%= auto_discovery_link_tag(:rss, formatted_user_checkouts_url(@user.login, :rss), :title => (t('checkout.user_checkout', :login_name => @user.login) + " (RSS)")) -%>
+      <%= auto_discovery_link_tag(:atom, formatted_user_checkouts_url(@user.login, :atom), :title => (t('checkout.user_checkout', :login_name => @user.login) + " (Atom)")) -%>
     <%- else -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Checkouts at %{library}")) -%>
+      <%= auto_discovery_link_tag(:rss, formatted_checkouts_url(:rss), :title => (t('checkout.library_group_checkout', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+      <%= auto_discovery_link_tag(:atom, formatted_checkouts_url(:atom), :title => (t('checkout.library_group_checkout', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
     <%- end -%>
   <%- end -%>
 

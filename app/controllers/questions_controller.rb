@@ -54,6 +54,7 @@ class QuestionsController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @questions.to_xml }
       format.rss  { render :layout => false }
+      format.atom
     end
   end
 

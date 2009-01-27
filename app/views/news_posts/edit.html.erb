@@ -40,6 +40,10 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
+    <%= f.label t('activerecord.attributes.news_post.draft') -%>
+    <%= f.check_box :draft -%>
+  </p>
+  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <% end -%>

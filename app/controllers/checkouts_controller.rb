@@ -64,6 +64,7 @@ class CheckoutsController < ApplicationController
       format.rss  { render :layout => false }
       format.ics  { render :layout => false }
       format.csv
+      format.atom
     end
 
   rescue ActiveRecord::RecordNotFound

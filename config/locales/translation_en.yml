@@ -477,9 +477,10 @@ en:
         title: Title
         body: Body
         note: Note
-        start_date: Start date
-        End_date: End date
         position: Position
+        start_date: Start date
+        end_date: End date
+        draft: Draft
       search_engine:
         name: Name
         url: URL
@@ -756,6 +757,7 @@ en:
     submit: "Submit"
     management: "Management"
     about_us: "About us"
+    open_source_integrated_library_system: "open-source integrated library system"
     order_list_at_library_group: "Order lists at {{library_group}}"
     related_work: "Related work"
     related_manifestation: "Related manifestation"
@@ -843,7 +845,7 @@ en:
     new: "New patron"
   message:
     listing: "Listing messages"
-    users_message: "{{login_name}}'s messages"
+    user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
     inbox: "Inbox"
     write: "Write"
@@ -864,22 +866,26 @@ en:
     number_of_search_results:
       one: "1 record found."
       other: "{{count}} records found."
-    users_question: "{{login_name}}'s questions"
+    user_question: "{{login_name}}'s questions"
     no_record_found: "No records found."
+    library_group_question: "Questions in {{library_group_name}}"
   checkout:
-    users_checkout: "{{login_name}}'s checkouts"
+    listing: "Listing checkouts"
+    user_checkout: "{{login_name}}'s checkouts"
+    library_group_checkout: "Checkouts in {{library_group_name}}"
   library:
     map: "Map"
     staff: "Staff"
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
-  checkout:
-    listing: "Listing checkouts"
   checkin:
     listing: "Listing checkins"
   event:
     listing: "Listing events"
+    new: "New event"
+    editing: "Editing event"
+    library_group_event: "Events at {{library_group_name}}"
     all_libraries: "All libraries"
   user:
     current_password: "Current password"
@@ -889,3 +895,8 @@ en:
     listing: "Listing advertisements"
     new: "New advertisement"
     editing: "Editing advertisement"
+  news_post:
+    library_group_news_post: "News from {{library_group_name}}"
+  reserve:
+    user_reserve: "{{login_name}}'s reservations"
+    library_group_reserve: "Reservations in {{library_group_name}}"
