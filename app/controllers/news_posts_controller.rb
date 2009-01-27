@@ -6,10 +6,13 @@ class NewsPostsController < ApplicationController
   # GET /news_posts.xml
   def index
     @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
+    @startrecord = 1
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @news_posts }
+      format.rss  { render :layout => false }
+      format.atom
     end
   end
 

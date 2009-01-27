@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= t('activerecord.models.checkout') -%>: <%=h controller.action_name -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="http:///page/opensearch" title="<%=h @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http://page/opensearch" title="<%=h @library_group.display_name -%>" />
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'checkouts', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('checkout.users_checkout', :login_name => @user.login)) -%>

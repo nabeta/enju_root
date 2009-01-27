@@ -811,15 +811,18 @@ en:
   work:
     listing: "Listing works"
     new: "New work"
+    edit: "Editing work"
     patrons_work: "{{patron_name}}'s works"
   expression:
     listing: "Listing expressions"
     new: "New expression"
+    edit: "Editing expression"
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
   manifestation:
     listing: "Listing manifestations"
     new: "New manifestation"
+    edit: "Editing manifestation"
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
     edit: "Edit this manifestation"
@@ -834,6 +837,7 @@ en:
   item:
     listing: "Listing items"
     new: "New item"
+    edit: "Editing item"
   patron:
     listing: "Listing patrons"
     new: "New patron"
@@ -881,3 +885,7 @@ en:
     current_password: "Current password"
     new_password: "New password"
     repeat_new_password: "Repeat new password"
+  advertisement:
+    listing: "Listing advertisements"
+    new: "New advertisement"
+    editing: "Editing advertisement"

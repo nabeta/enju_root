@@ -18,8 +18,8 @@ class Expression < ActiveRecord::Base
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
-  has_many :expression_to_expressions, :through => :to_expressions, :source => :expression_to_expression
-  has_many :expression_from_expressions, :through => :from_expressions, :source => :expression_from_expression
+  has_many :derived_expressions, :through => :to_expressions, :source => :expression_to_expression
+  has_many :original_expressions, :through => :from_expressions, :source => :expression_from_expression
   
   validates_associated :expression_form, :language, :frequency_of_issue
   validates_presence_of :expression_form, :language, :frequency_of_issue

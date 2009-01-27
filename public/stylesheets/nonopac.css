@@ -278,12 +278,12 @@ div#call_number_content{
 }
 
 div#call_number_content_left{
-  float: left
+  float: left;
   width: 20px;
 }
 
 div#call_number_content_right{
-  float: left
+  float: left;
   width: 20px;
 }
 

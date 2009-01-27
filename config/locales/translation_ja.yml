@@ -32,7 +32,7 @@ ja:
       search_history: 検索履歴
       shelf: 本棚
       event_category: 催し物の種類
-      advertisement: 広告
+      advertisement: 広告記事
       porta_response: PORTAの応答
       donate: 寄贈
       basket: 貸出かご
@@ -803,15 +803,18 @@ ja:
   work:
     listing: "著作形の一覧"
     new: "新しい著作形"
+    editing: "著作形の編集"
     patrons_work: "{{patron_name}} の著作形"
   expression:
     listing: "表現形の一覧"
     new: "新しい表現形"
+    editing: "表現形の編集"
     patrons_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
   manifestation:
     listing: "体現形の一覧"
     new: "新しい体現形"
+    editing: "体現形の編集"
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
     edit: "編集"
@@ -827,9 +830,11 @@ ja:
   item:
     listing: "個別資料の一覧"
     new: "新しい個別資料"
+    editing: "個別資料の編集"
   patron:
     listing: "パトロンの一覧"
     new: "新しいパトロン"
+    editing: "パトロンの編集"
   message:
     listing: "メッセージの一覧"
     users_message: "{{login_name}} さんのメッセージ"
@@ -872,3 +877,7 @@ ja:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"
     repeat_new_password: "新しいパスワード（確認のため再度入力）"
+  advertisement:
+    listing: "広告記事の一覧"
+    new: "新しい広告記事"
+    editing: "広告記事の編集"

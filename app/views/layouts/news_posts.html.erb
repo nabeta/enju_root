@@ -6,7 +6,8 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= t('activerecord.models.news_post') -%>: <%= controller.action_name %></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
+  <%= auto_discovery_link_tag(:rss, formatted_news_posts_url(:format => :rss), :title => t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name)) -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
