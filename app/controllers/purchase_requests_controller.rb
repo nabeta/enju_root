@@ -43,6 +43,7 @@ class PurchaseRequestsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @purchase_requests }
       format.rss  { render :layout => false }
+      format.atom
       format.csv
     end
   end

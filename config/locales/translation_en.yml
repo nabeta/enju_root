@@ -765,7 +765,6 @@ en:
     these_reviews_are_from_amazon: "These reviews are from Amazon.com."
     video: "Video"
     number: "Number"
-    patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
     statistics: "Statistics"
     request: "Request"
     circulation: "Circulation"
@@ -837,6 +836,7 @@ en:
     library_group_manifestation: "Manifestations in {{library_group_name}}"
     reserve_this: "Reserve this manifestation"
     cancel_reservation: "Cancel this reservation"
+    patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
   item:
     listing: "Listing items"
     new: "New item"
@@ -901,3 +901,6 @@ en:
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
+  purchase_request:
+    user_purchase_request: "{{login_name}} 's purchase requests"
+    library_group_purchase_request: "Purchase requests in {{library_group_name}}"

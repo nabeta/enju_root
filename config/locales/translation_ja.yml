@@ -757,7 +757,6 @@ ja:
     these_reviews_are_from_amazon: "これらのレビューは Amazon によるものです。"
     video: "動画"
     number: "巻号"
-    patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
     statistics: "統計"
     request: "依頼"
     circulation: "貸出と返却"
@@ -830,6 +829,7 @@ ja:
     library_group_manifestation: "{{library_group_name}} にある体現形"
     reserve_this: "この資料を予約する"
     cancel_reservation: "この資料の予約を解除する"
+    patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
   item:
     listing: "個別資料の一覧"
     new: "新しい個別資料"
@@ -893,3 +893,6 @@ ja:
   reserve:
     user_reserve: "{{login_name}} さんの予約資料"
     library_group_reserve: "{{library_group_name}} での予約資料"
+  purchase_request:
+    user_purchase_request: "{{login_name}} さんの購入依頼資料"
+    library_group_purchase_request: "{{library_group_name}} での購入依頼資料"
