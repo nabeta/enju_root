@@ -77,9 +77,9 @@ class NewsPostsControllerTest < ActionController::TestCase
     login_as :librarian1
     old_count = NewsPost.count
     post :create, :news_post => {:title => 'test', :body => 'test'}
-    assert_equal old_count, NewsPost.count
+    assert_equal old_count+1, NewsPost.count
     
-    assert_response :forbidden
+    assert_redirected_to news_post_url(assigns(:news_post))
   end
 
   def test_admin_should_not_create_news_post_without_title
@@ -167,9 +167,9 @@ class NewsPostsControllerTest < ActionController::TestCase
     assert_redirected_to news_post_url(assigns(:news_post))
   end
   
-  def test_admin_should_not_update_news_post_without_url
+  def test_admin_should_not_update_news_post_without_title
     login_as :admin
-    put :update, :id => 1, :news_post => {:url => ""}
+    put :update, :id => 1, :news_post => {:title => ""}
     assert_response :success
   end
   
