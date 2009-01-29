@@ -12,7 +12,7 @@
         <div class="holding" id="holding_<%=h checkout.item.manifestation.id -%>"></div>
       </td>
       <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
-      <td><%=h checkout.due_date.strftime("%Y-%m-%d") -%></td>
+      <td><%=h l(checkout.due_date, :format => :short) -%></td>
     </tr>
   <%- end -%>
 </table>

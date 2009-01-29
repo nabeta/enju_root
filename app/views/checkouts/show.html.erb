@@ -21,7 +21,7 @@
     </tr>
     <tr>
       <td><%= t('activerecord.attributes.checkout.due_date') -%></td>
-      <td><%=h @checkout.due_date.strftime('%Y-%m-%d') -%></td>
+      <td><%=h l(@checkout.due_date, :format => :short) -%></td>
     </tr>
     <%- if_authorized?(:destroy, @checkout) do -%>
       <tr>

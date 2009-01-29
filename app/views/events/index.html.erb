@@ -45,9 +45,9 @@
     <td><%=h event.note -%></td>
     <td><%= link_to h(event.library.name), library_path(event.library.short_name) -%></td>
     <td>
-      <%=h event.started_at.strftime("%Y-%m-%d") -%>
+      <%=h l(event.started_at, :format => :short) -%>
       -
-      <%=h event.ended_at.strftime("%Y-%m-%d") -%>
+      <%=h l(event.ended_at, :format => :short) -%>
     </td>
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>

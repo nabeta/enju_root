@@ -4,8 +4,8 @@ ja:
       # Use the strftime parameters for formats.
       # When no format has been given, it uses default.
       # You can provide other formats here if you like!
-      default: "%Y/%m/%d"
-      short: "%y/%m/%d"
+      default: "%Y年%m月%d日"
+      short: "%y年%m月%日"
       long: "%Y年%m月%d日%A"
       
     day_names: [日曜日, 月曜日, 火曜日, 水曜日, 木曜日, 金曜日, 土曜日]
@@ -19,8 +19,8 @@ ja:
 
   time:
     formats:
-      default: "%Y/%m/%d %H:%M:%S"
-      short: "%y/%m/%d %H:%M"
+      default: "%Y年%m月%d日 %H:%M:%S"
+      short: "%Y年%m月%d日 %H時%M分"
       long: "%Y年%m月%d日%A %H時%M分%S秒%Z"
     am: "午前"
     pm: "午後"

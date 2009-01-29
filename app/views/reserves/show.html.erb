@@ -44,12 +44,12 @@
 
 <p>
   <b><%= t('activerecord.attributes.reserve.expired_at') -%>:</b>
-  <%=h @reserve.expired_at -%>
+  <%=h l(@reserve.expired_at, :format => :default) -%>
 </p>
 
 <p>
 <b><%= ('Checked out at') -%>:</b>
-  <%=h @reserve.checked_out_at -%>
+  <%=h l(@reserve.checked_out_at, :format => :default) -%>
 </p>
 
 </div>
