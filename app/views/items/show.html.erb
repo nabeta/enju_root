@@ -24,7 +24,7 @@
 
 <div id="content_detail">
 <p>
-  <b><%= t('page.manifestation') -%>:</b>
+  <b><%= t('activerecord.models.manifestation') -%>:</b>
   <div>
     <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
       <%- if @item.manifestation -%>

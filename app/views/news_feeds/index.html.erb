@@ -22,6 +22,7 @@
 </table>
 
 <br />
+<%= will_paginate(@news_feeds, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 <%= link_to ('New news_feed'), new_news_feed_path -%>
 

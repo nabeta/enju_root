@@ -16,6 +16,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.bookstore.zip_code') -%></b><br />
+    <%= f.text_field :zip_code -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.attributes.bookstore.address') -%></b><br />
     <%= f.text_area :address, :class => 'resource_textarea' -%>
   </p>

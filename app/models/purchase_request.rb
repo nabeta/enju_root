@@ -4,7 +4,7 @@ class PurchaseRequest < ActiveRecord::Base
 
   belongs_to :user, :validate => true
   has_one :order, :dependent => :destroy
-  has_one :order_list, :through => :order, :conditions => 'order_lists.deleted_at IS NULL'
+  has_one :order_list, :through => :order
 
   validates_associated :user
   validates_presence_of :user, :title
@@ -14,7 +14,7 @@ class PurchaseRequest < ActiveRecord::Base
     errors.add(:price) unless self.price.nil? || self.price > 0.0
   end
 
-  acts_as_paranoid
+  acts_as_soft_deletable
   acts_as_solr :fields => [:title, :author, :publisher, :isbn, {:price => :range_float}, {:pubdate => :date}, :url, :note, {:user_id => :integer}, {:accepted_at => :date}, {:denied_at => :date}]
 
   cattr_reader :order_list_id

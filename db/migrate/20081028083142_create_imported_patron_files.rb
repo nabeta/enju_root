@@ -10,6 +10,7 @@ class CreateImportedPatronFiles < ActiveRecord::Migration
       t.integer :user_id
       t.text :note
       t.datetime :imported_at
+      t.string :state
 
       t.timestamps
     end

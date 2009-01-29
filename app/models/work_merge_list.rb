@@ -1,6 +1,6 @@
 class WorkMergeList < ActiveRecord::Base
   has_many :work_merges, :dependent => :destroy
-  has_many :works, :through => :work_merges, :conditions => 'works.deleted_at IS NULL'
+  has_many :works, :through => :work_merges
   validates_presence_of :title
 
   def merge_works(selected_work)

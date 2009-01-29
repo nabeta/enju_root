@@ -2,9 +2,9 @@
 
 <table id="index">
   <tr>
-    <th><%= ('Inventory file') -%> </th>
-    <th><%= t('page.item') -%> </th>
-    <th><%= t('page.note') -%> </th>
+    <th><%= t('activerecord.models.inventory_file') -%> </th>
+    <th><%= t('activerecord.models.item') -%> </th>
+    <th><%= t('activerecord.attributes.inventory.note') -%> </th>
   </tr>
 
 <%- for inventory in @inventories -%> 
@@ -21,5 +21,5 @@
 
 <%= link_to ('New inventory'), new_inventory_path -%>
 
-<%= will_paginate(@inventories) -%>
+<%= will_paginate(@inventories, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 

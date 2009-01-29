@@ -81,7 +81,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_admin_should_create_news_feed_without_url
+  def test_admin_should_not_create_news_feed_without_url
     login_as :admin
     old_count = NewsFeed.count
     post :create, :news_feed => { }
@@ -136,7 +136,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_get_edit
+  def test_librarian_should_not_get_edit
     login_as :librarian1
     get :edit, :id => 1
     assert_response :forbidden

@@ -4,12 +4,12 @@
 
 <%- form_for(:produce, :url => produce_path(@produce), :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= t('page.patron') -%></b><br />
+    <b><%= t('activerecord.models.patron') -%></b><br />
     <%= f.text_field :patron_id -%>
   </p>
 
   <p>
-    <b><%= t('page.manifestation') -%></b><br />
+    <b><%= t('activerecord.models.manifestation') -%></b><br />
     <%= f.text_field :manifestation_id -%>
   </p>
 

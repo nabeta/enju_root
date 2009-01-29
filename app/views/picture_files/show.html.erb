@@ -12,27 +12,27 @@
 </p>
 
 <p>
-  <b><%= ('Size') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.size') -%>:</b>
   <%=h @picture_file.size -%>
 </p>
 
 <p>
-  <b><%= ('Content type') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.content_type') -%>:</b>
   <%=h @picture_file.content_type -%>
 </p>
 
 <p>
-  <b><%= ('Filename') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.filename') -%>:</b>
   <%= link_to h(@picture_file.filename), formatted_picture_file_path(@picture_file, @picture_file.extname) -%>
 </p>
 
 <p>
-  <b><%= ('Height') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.height') -%>:</b>
   <%=h @picture_file.height -%>
 </p>
 
 <p>
-  <b><%= ('Width') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.width') -%>:</b>
   <%=h @picture_file.width -%>
 </p>
 
@@ -42,7 +42,7 @@
 </p>
 
 <p>
-<b><%= ('Thumbnail') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.thumbnail') -%>:</b>
   <%=h @picture_file.thumbnail -%>
 </p>
 
@@ -52,7 +52,7 @@
 </p>
 
 <p>
-  <b><%= ('File hash') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.file_hash') -%>:</b>
   <%=h @picture_file.file_hash -%>
 </p>
 

@@ -1,10 +1,10 @@
 class Question < ActiveRecord::Base
   belongs_to :user, :counter_cache => true, :validate => true
-  has_many :answers, :conditions => "answers.deleted_at IS NULL"
+  has_many :answers
 
   validates_associated :user
   validates_presence_of :user, :body
-  acts_as_paranoid
+  acts_as_soft_deletable
   acts_as_solr :fields => [:body, :answer_body, {:login => :string}, {:created_at => :date}, {:updated_at => :date}, {:private_question => :boolean}], :auto_commit => false
 
   cattr_reader :per_page

@@ -2,17 +2,20 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.name') -%></th>
+    <th><%= t('activerecord.attributes.bookstore.name') -%></th>
     <th><%= t('activerecord.attributes.bookstore.address') -%></th>
     <th><%= t('activerecord.attributes.bookstore.telephone_number') -%></th>
-    <th><%= ('Fax number') -%></th>
-    <th><%= ('Url') -%></th>
+    <th><%= t('activerecord.attributes.bookstore.fax_number') -%></th>
+    <th><%= t('activerecord.attributes.bookstore.url') -%></th>
   </tr>
 
 <%- @bookstores.each_with_index do |bookstore, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(bookstore.name), bookstore -%></td>
-    <td><%=h bookstore.address -%></td>
+    <td>
+      <%=h bookstore.zip_code -%>
+      <%=h bookstore.address -%>
+    </td>
     <td><%=h bookstore.telephone_number -%></td>
     <td><%=h bookstore.fax_number -%></td>
     <td><%= link_to h(bookstore.url), bookstore.url -%></td>

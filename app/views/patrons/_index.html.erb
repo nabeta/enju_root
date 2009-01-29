@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Listing patrons') -%></h1>
+  <h1><%= t('patron.listing') -%></h1>
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
@@ -18,16 +18,16 @@
   <tr>
     <th><%= ('Patron name') -%></th>
     <th><%= ('User name') -%></th>
-    <th><%= ('Type') -%></th>
-    <th><%= t('page.language') -%></th>
-    <th><%= ('Place') -%></th>
+    <th><%= t('activerecord.models.patron_type') -%></th>
+    <th><%= t('activerecord.models.language') -%></th>
+    <th><%= t('activerecord.attributes.patron.place') -%></th>
     <th></th>
   </tr>
   <%- @patrons.each do |patron| -%>
     <%- unless patron.nil? -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(patron.full_name), patron_path(patron) -%><br />
+        <%= link_to h(patron.full_name), patron -%><br />
         <%=h patron.full_name_transcription -%>
       </td>
       <td>
@@ -46,5 +46,5 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@patrons) -%>
+<%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

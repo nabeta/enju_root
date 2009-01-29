@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :news_posts
+
   map.resources :reserve_stat_has_users
 
   map.resources :user_reserve_stats
@@ -197,6 +199,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :sessions
   map.resources :works do |work|
     work.resources :expressions
+    work.resources :reifies
     work.resources :patrons
     work.resources :creates
     work.resources :work_merges
@@ -256,6 +259,7 @@ ActionController::Routing::Routes.draw do |map|
     library.resources :events do |event|
       event.resources :picture_files
     end
+    library.resources :patrons
   end
   map.resources :user_groups do |user_group|
     user_group.resources :user_group_has_checkout_types

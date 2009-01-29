@@ -2,11 +2,11 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.name') -%></th>
-    <th><%= t('page.display_name') -%></th>
-    <th><%= ('Alpha 2') -%></th>
-    <th><%= ('Alpha 3') -%></th>
-    <th><%= ('Numeric 3') -%></th>
+    <th><%= t('activerecord.attributes.country.name') -%></th>
+    <th><%= t('activerecord.attributes.country.display_name') -%></th>
+    <th><%= t('activerecord.attributes.country.alpha_2') -%></th>
+    <th><%= t('activerecord.attributes.country.alpha_3') -%></th>
+    <th><%= t('activerecord.attributes.country.numeric_3') -%></th>
   </tr>
 
 <%- for country in @countries -%>

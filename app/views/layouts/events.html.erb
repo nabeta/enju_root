@@ -1,19 +1,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @event and controller.action_name != 'new' -%>
-    <title><%=h @event.title -%> : <%= ('Events') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @event.title -%> : <%= t('activerecord.models.event') -%>: <%=h controller.action_name -%></title>
   <%- else -%>
-    <title><%= ('Events') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.event') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'events', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Events at %{library}")) -%>
+    <%= auto_discovery_link_tag(:rss, formatted_events_url(:rss), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+    <%= auto_discovery_link_tag(:atom, formatted_events_url(:atom), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

@@ -61,7 +61,7 @@ class CheckinsController < ApplicationController
     item_identifier = params[:checkin][:item_identifier].to_s.strip
     unless item_identifier.blank?
       #item = Item.find(:first, :conditions => {:item_identifier => item_identifier})
-      item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? AND deleted_at IS NULL LIMIT 1', item_identifier]).first
+      item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? LIMIT 1', item_identifier]).first
     end
 
     flash[:message] = []
@@ -138,7 +138,7 @@ class CheckinsController < ApplicationController
     item_identifier = params[:checkin][:item_identifier].to_s.strip
     unless item_identifier.blank?
       #item = Item.find(:first, :conditions => {:item_identifier => item_identifier})
-      item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? AND deleted_at IS NULL LIMIT 1', item_identifier]).first
+      item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? LIMIT 1', item_identifier]).first
     end
     @checkin = Checkin.find(params[:id])
     @checkin.item = item

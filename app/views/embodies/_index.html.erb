@@ -2,8 +2,8 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.expression') -%></th>
-    <th><%= t('page.manifestation') -%></th>
+    <th><%= t('activerecord.models.expression') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
   </tr>
 
 <%- for embody in @embodies -%>
@@ -28,5 +28,5 @@
   <p><%= link_to ('New embody'), new_embody_path -%></p>
 <% end -%>
 
-<%= will_paginate(@embodies) -%>
+<%= will_paginate(@embodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

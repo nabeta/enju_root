@@ -19,11 +19,14 @@
 <h1 id="resource_title"><%=h @library.name -%></h1>
 
 <p>
-  <%= t('activerecord.attributes.library.short_display_name') -%>: <%=h @library.short_display_name -%><br />
-  <%= t('activerecord.attributes.library.address') -%>: <%=h @library.address -%><br />
-  <%= t('page.telephone_number') -%>: <%=h @library.telephone_number_1 -%>
-  <%=h @library.telephone_number_2 -%>
-  FAX: <%=h @library.fax_number -%>
+  <%= t('activerecord.attributes.library.short_display_name') -%>: <%=h @library.short_display_name -%>
+<br />
+  <%= t('activerecord.attributes.library.address') -%>: <%=h @library.zip_code -%> <%=h @library.address -%>
+  <br />
+  <%= t('activerecord.attributes.library.telephone_number_1') -%>: <%=h @library.telephone_number_1 -%>
+  <%= t('activerecord.attributes.library.telephone_number_2') -%>: <%=h @library.telephone_number_2 -%>
+  <br />
+  <%= t('activerecord.attributes.library.fax_number') -%>: <%=h @library.fax_number -%>
 </p>
   <p>
     <%=h @library.note -%>
@@ -34,8 +37,8 @@
   
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#tab1"><em><%= ('Map') -%></em></a></li>
-      <li><a href="#tab2"><em><%= ('Staff') -%></em></a></li>
+      <li title="active" class="selected"><a href="#tab1"><em><%= t('library.map') -%></em></a></li>
+      <li><a href="#tab2"><em><%= t('library.staff') -%></em></a></li>
       <li><a href="#tab3"><em><%= t('activerecord.models.shelf') -%></em></a></li>
       <li><a href="#tab4"><em><%= t('activerecord.models.event') -%></em></a></li>
       <%- if_authorized?(:destroy, @library) do -%>
@@ -80,11 +83,13 @@
         <table id="index">
           <tr>
             <th><%= t('activerecord.models.shelf') -%></th>
-            <th><%= t('page.note') -%></th>
+            <th><%= ('Number of items') -%></th>
+            <th><%= t('activerecord.attributes.shelf.note') -%></th>
           </tr>
           <%- @library.shelves.each do |shelf| -%>
           <tr>
             <td><%= link_to h(shelf.name), library_shelf_path(@library.short_name, shelf) -%></td>
+            <td><%=h shelf.items_count -%></td>
             <td><%=h shelf.note -%></td>
           </tr>
           <%- end -%>
@@ -100,6 +105,7 @@
           </div>
         </div>
 
+        <%- if_authorized?(:destroy, @library) do -%>
         <div id="tab5">
           <h3><%= t('page.configuration') -%></h3>
           <p>
@@ -112,6 +118,7 @@
             <%=h @library.call_number_delimiter -%>
           </p>
         </div>
+        <%- end -%>
 
       </div>
     </div>

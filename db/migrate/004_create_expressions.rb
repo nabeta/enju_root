@@ -1,29 +1,29 @@
 class CreateExpressions < ActiveRecord::Migration
   def self.up
     create_table :expressions do |t|
-      t.column :parent_id, :integer
-      t.column :original_title, :text, :null => false
-      t.column :title_transcription, :text
-      t.column :title_alternative, :text
-      t.column :summarization, :text
-      t.column :context, :text
-      t.column :language_id, :integer, :default => 1, :null => false
-      t.column :expression_form_id, :integer, :default => 1, :null => false
-      #t.column :sequencing_pattern, :string
-      t.column :frequency_of_issue_id, :integer, :default => 1, :null => false
-      #t.column :serial, :boolean, :default => false, :null => false
-      t.column :issn, :string
-      t.column :note, :text
-      t.column :realizes_count, :integer, :default => 0, :null => false
-      t.column :embodies_count, :integer, :default => 0, :null => false
-      t.column :resource_has_subjects_count, :integer, :default => 0, :null => false
-      t.column :lock_version, :integer, :default => 0, :null => false
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :deleted_at, :datetime
+      t.integer :parent_id
+      t.text :original_title, :null => false
+      t.text :title_transcription
+      t.text :title_alternative
+      t.text :summarization
+      t.text :context
+      t.integer :language_id, :default => 1, :null => false
+      t.integer :expression_form_id, :default => 1, :null => false
+      #t.string :sequencing_pattern
+      t.integer :frequency_of_issue_id, :default => 1, :null => false
+      #t.boolean :serial, :default => false, :null => false
+      t.string :issn
+      t.text :note
+      t.integer :realizes_count, :default => 0, :null => false
+      t.integer :embodies_count, :default => 0, :null => false
+      t.integer :resource_has_subjects_count, :default => 0, :null => false
+      t.integer :lock_version, :default => 0, :null => false
+      t.timestamps
+      t.datetime :deleted_at
       t.integer :access_role_id, :default => 1, :null => false
       t.string :feed_url
       t.string :state
+      t.integer :required_score, :default => 0, :null => false
     end
     add_index :expressions, :parent_id
     add_index :expressions, :language_id

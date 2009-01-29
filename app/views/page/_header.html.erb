@@ -79,7 +79,7 @@
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.inter_library_loan'), inter_library_loans_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to ('NACSIS ILL'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
-                          <li class="yuimenuitem"><%= link_to ('Checkout history'), user_checkouts_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.checkout_history'), user_checkouts_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                         </ul>
                       </div>
                     </div>
@@ -100,9 +100,9 @@
                       <div class="bd">                    
                         <ul>
                           <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
-                          <li class="yuimenuitem"><%= link_to ('Add a new resource'), works_path, :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.add_manually'), works_path, :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.add_file'), attachment_files_path, :class => 'yuimenuitemlabel' -%></li>
-                          <li class="yuimenuitem"><%= link_to ('Import from networks'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.import_from_network'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                         </ul>
                       </div>
                     </div>                    
@@ -137,7 +137,7 @@
                             <li class="yuimenuitem"><%= link_to h(library.name), library_events_path(library.short_name), :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                           <%- if_authorized?(:destroy, Event) do -%>
-                            <li class="yuimenuitem"><%= link_to ('Import from file'), new_imported_event_file_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.import'), new_imported_event_file_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                         </ul>
                       </div>
@@ -157,7 +157,7 @@
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.order_list'), order_lists_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('page.statistics'), '/page/statistics', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.search_history'), search_histories_path, :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to ('Recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                             <!--
                             <li class="yuimenuitem"><%= link_to ('Send questions and answers to CRD'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                             -->

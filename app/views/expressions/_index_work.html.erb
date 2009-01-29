@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Add a work'), works_path -%></li>
-    <li><%= link_to ('New expression'), new_work_expression_path -%></li>
+    <li><%= link_to t('expression.new'), new_work_expression_path -%></li>
   </ul>
 </div>
 
@@ -38,7 +38,7 @@
   </tr>
   
 <%- for expression in @expressions -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
       <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
@@ -61,5 +61,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@expressions) -%>
+<%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

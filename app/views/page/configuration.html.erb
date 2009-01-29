@@ -19,6 +19,7 @@
     </li>
     <li><%= link_to t('activerecord.models.event_category'), event_categories_path -%></li>
     <li><%= link_to t('activerecord.models.bookstore'), bookstores_path -%></li>
+    <li><%= link_to t('activerecord.models.news_post'), news_posts_path -%></li>
     <li><%= link_to t('activerecord.models.news_feed'), news_feeds_path -%></li>
     <li><%= link_to t('activerecord.models.message_template'), message_templates_path -%></li>
     <li><%= link_to t('activerecord.models.message_queue'), message_queues_path -%></li>
@@ -28,7 +29,7 @@
 
 </div>
 <div id="right_pane">
-  <h1><%= ('Resource') -%></h1>
+  <h1><%= t('page.resource') -%></h1>
   <ul>
     <li><%= link_to t('activerecord.models.attachment_file'), attachment_files_path -%></li>
     <li><%= link_to t('activerecord.models.picture_file'), picture_files_path -%></li>

@@ -8,19 +8,19 @@
     <th>Position</th>
   </tr>
 
-<% for expression_has_expression in @expression_has_expressions %>
+<% for expression_has_expression in @expression_has_expressions -%>
   <tr>
-    <td><%=h expression_has_expression.from_expression_id %></td>
-    <td><%=h expression_has_expression.to_expression_id %></td>
-    <td><%=h expression_has_expression.type %></td>
-    <td><%=h expression_has_expression.position %></td>
-    <td><%= link_to t('page.show'), expression_has_expression %></td>
-    <td><%= link_to t('page.edit'), edit_expression_has_expression_path(expression_has_expression) %></td>
-    <td><%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+    <td><%=h expression_has_expression.from_expression_id -%></td>
+    <td><%=h expression_has_expression.to_expression_id -%></td>
+    <td><%=h expression_has_expression.type -%></td>
+    <td><%=h expression_has_expression.position -%></td>
+    <td><%= link_to t('page.show'), expression_has_expression -%></td>
+    <td><%= link_to t('page.edit'), edit_expression_has_expression_path(expression_has_expression) -%></td>
+    <td><%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New expression_has_expression', new_expression_has_expression_path %>
+<%= link_to 'New expression_has_expression', new_expression_has_expression_path -%>

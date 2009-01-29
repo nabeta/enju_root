@@ -9,7 +9,11 @@
 <ul>
   <li><%= link_to t('activerecord.models.patron'), imported_patron_files_path -%></li>
   <li><%= link_to t('activerecord.models.event'), imported_event_files_path -%></li>
-  <li><%= link_to ('ISBN'), new_manifestation_path(:mode => 'import_isbn') -%></li>
-  <li><%= link_to ('Resource'), imported_resource_files_path -%></li>
+  <li><%= t('page.resource') -%>
+  <ul>
+    <li><%= link_to t('import.from_isbn'), new_manifestation_path(:mode => 'import_isbn') -%></li>
+    <li><%= link_to t('import.from_file'), imported_resource_files_path -%></li>
+  </ul>
+  </li>
 </ul>
 </div>

@@ -1,10 +1,21 @@
+<div id="submenu">
+  <ul>
+    <%- if @user_group -%>
+      <li><%= link_to ('Add a checkout_type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
+    <%- else -%>
+      <li><%= link_to ('New checkout_type'), new_checkout_type_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
 <h1><%= ('Listing checkout_types') -%></h1>
 
 <table id="index">
   <tr>
-    <th><%= t('page.name') -%></th>
-    <th><%= t('page.display_name') -%></th>
-    <th><%= t('page.note') -%></th>
+    <th><%= t('activerecord.attributes.checkout_type.name') -%></th>
+    <th><%= t('activerecord.attributes.checkout_type.display_name') -%></th>
+    <th><%= t('activerecord.attributes.checkout_type.note') -%></th>
   </tr>
 
 <%- for checkout_type in @checkout_types -%>
@@ -24,11 +35,4 @@
   </tr>
 <%- end -%>
 </table>
-
-<br />
-
-<%- if @user_group -%>
-  <%= link_to ('Add a checkout_type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%>
-<%- else -%>
-  <%= link_to ('New checkout_type'), new_checkout_type_path -%>
-<%- end -%>
+</div>

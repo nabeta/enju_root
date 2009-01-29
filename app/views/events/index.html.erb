@@ -14,7 +14,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing events') -%></h1>
+<h1><%= t('event.listing') -%></h1>
 
 <p>
   <%- if @library -%>
@@ -26,15 +26,15 @@
     (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
     (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
   <%- end -%>
-  <%= link_to ('All libraries'), events_path -%>
+  <%= link_to t('event.all_libraries'), events_path -%>
 </p>
 
 <table id="index">
   <tr>
-    <th><%= ('Event category') -%></th>
-    <th><%= t('page.title') -%></th>
-    <th><%= t('page.note') -%></th>
-    <th><%= t('page.library') -%></th>
+    <th><%= t('activerecord.models.event_category') -%></th>
+    <th><%= t('activerecord.attributes.event.title') -%></th>
+    <th><%= t('activerecord.attributes.event.note') -%></th>
+    <th><%= t('activerecord.models.library') -%></th>
     <th><%= ('Date') -%></th>
   </tr>
 
@@ -59,5 +59,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@events) -%>
+<%= will_paginate(@events, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

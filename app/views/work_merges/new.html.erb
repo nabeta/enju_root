@@ -11,7 +11,7 @@
 
 <%- form_for(@work_merge) do |f| -%>
   <p>
-  <b><%= t('page.work') -%></b><br />
+  <b><%= t('activerecord.models.work') -%></b><br />
   <%- if @work -%>
     <%= link_to h(@work.original_title), work_path(@work) -%>
     <%= f.hidden_field :work_id, :value => @work.id -%>

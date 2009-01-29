@@ -7,7 +7,7 @@ class NewsFeedsController < ApplicationController
   # GET /news_feeds
   # GET /news_feeds.xml
   def index
-    @news_feeds = NewsFeed.find(:all, :order => :position)
+    @news_feeds = NewsFeed.paginate(:all, :order => :position, :page => params[:page])
     if params[:mode] == 'clear_cache'
       expire_fragment(:controller => :news_feeds, :action => :index, :action_suffix => 'list')
     end

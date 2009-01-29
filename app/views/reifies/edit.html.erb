@@ -12,12 +12,12 @@
 
 <%- form_for(:reify, :url => reify_path(@reify), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('page.work') -%></b><br />
+  <b><%= t('activerecord.models.work') -%></b><br />
     <%= f.text_field :work_id -%>
   </p>
 
   <p>
-  <b><%= t('page.expression') -%></b><br />
+  <b><%= t('activerecord.models.expression') -%></b><br />
     <%= f.text_field :expression_id -%>
   </p>
 

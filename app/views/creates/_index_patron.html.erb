@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th><%= t('page.work') -%></th>
+    <th><%= t('activerecord.models.work') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
   </tr>
@@ -24,6 +24,6 @@
 
 <br />
 
-<%= will_paginate(@creates) -%>
+<%= will_paginate(@creates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 <%= if_authorized?(:new, Create) do link_to ('New create'), new_patron_create_path(@patron) end -%>

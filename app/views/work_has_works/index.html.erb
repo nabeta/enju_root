@@ -8,19 +8,19 @@
     <th>Position</th>
   </tr>
 
-<% for work_has_work in @work_has_works %>
+<% for work_has_work in @work_has_works -%>
   <tr>
-    <td><%=h work_has_work.from_work_id %></td>
-    <td><%=h work_has_work.to_work_id %></td>
-    <td><%=h work_has_work.type %></td>
-    <td><%=h work_has_work.position %></td>
-    <td><%= link_to t('page.show'), work_has_work %></td>
-    <td><%= link_to t('page.edit'), edit_work_has_work_path(work_has_work) %></td>
-    <td><%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+    <td><%=h work_has_work.from_work_id -%></td>
+    <td><%=h work_has_work.to_work_id -%></td>
+    <td><%=h work_has_work.type -%></td>
+    <td><%=h work_has_work.position -%></td>
+    <td><%= link_to t('page.show'), work_has_work -%></td>
+    <td><%= link_to t('page.edit'), edit_work_has_work_path(work_has_work) -%></td>
+    <td><%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New work_has_work', new_work_has_work_path %>
+<%= link_to 'New work_has_work', new_work_has_work_path -%>

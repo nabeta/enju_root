@@ -12,7 +12,7 @@
   </h1>
 <table>
   <tr>
-    <th><%= t('page.expression') -%></th>
+    <th><%= t('activerecord.models.expression') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
   </tr>
@@ -29,6 +29,6 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@realizes) -%>
+<%= will_paginate(@realizes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>

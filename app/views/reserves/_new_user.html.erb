@@ -14,13 +14,13 @@
 
 <%- form_for(:reserve, :url => reserves_path) do |f| -%>
   <p>
-  <b><%= t('page.patron') -%></b><br />
+  <b><%= t('activerecord.models.patron') -%></b><br />
     <%= link_to h(@user.patron.full_name), patron_path(@user.patron) -%>
     (<%=h @user.login -%>)
   </p>
 
   <p>
-  <b><%= t('page.manifestation') -%></b><br />
+  <b><%= t('activerecord.models.manifestation') -%></b><br />
     <%- if @item -%>
       <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
         <%= book_jacket(@reserve.manifestation) -%>

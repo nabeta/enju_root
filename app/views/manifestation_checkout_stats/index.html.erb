@@ -2,23 +2,23 @@
 
 <table id="index">
   <tr>
-    <th>From date</th>
-    <th>To date</th>
+    <th><%= t('activerecord.attributes.manifestation_checkout_stat.start_date') -%></th>
+    <th><%= t('activerecord.attributes.manifestation_checkout_stat.end_date') -%></th>
     <th><%= t('activerecord.attributes.manifestation_checkout_stat.note') -%></th>
   </tr>
 
-<% for manifestation_checkout_stat in @manifestation_checkout_stats %>
+<% for manifestation_checkout_stat in @manifestation_checkout_stats -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h manifestation_checkout_stat.from_date %></td>
-    <td><%=h manifestation_checkout_stat.to_date %></td>
-    <td><%=h manifestation_checkout_stat.note %></td>
-    <td><%= link_to t('page.show'), manifestation_checkout_stat %></td>
-    <td><%= link_to t('page.edit'), edit_manifestation_checkout_stat_path(manifestation_checkout_stat) %></td>
-    <td><%= link_to t('page.destroy'), manifestation_checkout_stat, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+    <td><%=h manifestation_checkout_stat.start_date -%></td>
+    <td><%=h manifestation_checkout_stat.end_date -%></td>
+    <td><%=h manifestation_checkout_stat.note -%></td>
+    <td><%= link_to t('page.show'), manifestation_checkout_stat -%></td>
+    <td><%= link_to t('page.edit'), edit_manifestation_checkout_stat_path(manifestation_checkout_stat) -%></td>
+    <td><%= link_to t('page.destroy'), manifestation_checkout_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New manifestation_checkout_stat', new_manifestation_checkout_stat_path %>
+<%= link_to 'New manifestation_checkout_stat', new_manifestation_checkout_stat_path -%>

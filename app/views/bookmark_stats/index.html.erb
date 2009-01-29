@@ -2,23 +2,23 @@
 
 <table id="index">
   <tr>
-    <th>From date</th>
-    <th>To date</th>
+    <th><%= t('activerecord.attributes.bookmark_stat.start_date') -%></th>
+    <th><%= t('activerecord.attributes.bookmark_stat.end_date') -%></th>
     <th><%= t('activerecord.attributes.bookmark_stat.note') -%></th>
   </tr>
 
-<% for bookmark_stat in @bookmark_stats %>
+<% for bookmark_stat in @bookmark_stats -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h bookmark_stat.from_date %></td>
-    <td><%=h bookmark_stat.to_date %></td>
-    <td><%=h bookmark_stat.note %></td>
-    <td><%= link_to t('page.show'), bookmark_stat %></td>
-    <td><%= link_to t('page.edit'), edit_bookmark_stat_path(bookmark_stat) %></td>
-    <td><%= link_to t('page.destroy'), bookmark_stat, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+    <td><%=h bookmark_stat.start_date -%></td>
+    <td><%=h bookmark_stat.end_date -%></td>
+    <td><%=h bookmark_stat.note -%></td>
+    <td><%= link_to t('page.show'), bookmark_stat -%></td>
+    <td><%= link_to t('page.edit'), edit_bookmark_stat_path(bookmark_stat) -%></td>
+    <td><%= link_to t('page.destroy'), bookmark_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New bookmark_stat', new_bookmark_stat_path %>
+<%= link_to 'New bookmark_stat', new_bookmark_stat_path -%>

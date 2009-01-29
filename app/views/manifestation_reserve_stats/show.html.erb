@@ -1,29 +1,29 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.edit'), edit_manifestation_reserve_stat_path(@manifestation_reserve_stat) %></li>
-    <li><%= link_to 'Back', manifestation_reserve_stats_path %></li>
+    <li><%= link_to t('page.edit'), edit_manifestation_reserve_stat_path(@manifestation_reserve_stat) -%></li>
+    <li><%= link_to 'Back', manifestation_reserve_stats_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <p>
-  <b>From date:</b>
-  <%=h @manifestation_reserve_stat.from_date %>
+  <b><%= t('activerecord.attributes.manifestation_reserve_stat.start_date') -%>:</b>
+  <%=h @manifestation_reserve_stat.start_date -%>
 </p>
 
 <p>
-  <b>To date:</b>
-  <%=h @manifestation_reserve_stat.to_date %>
+<b><%= t('activerecord.attributes.manifestation_reserve_stat.end_date') -%>:</b>
+  <%=h @manifestation_reserve_stat.end_date -%>
 </p>
 
 <p>
-  <b>Note:</b>
-  <%=h @manifestation_reserve_stat.note %>
+  <b><%= t('activerecord.attributes.manifestation_reserve_stat.note') -%>:</b>
+  <%=h @manifestation_reserve_stat.note -%>
 </p>
 
 <p>
   <b>State:</b>
-  <%=h @manifestation_reserve_stat.state %>
+  <%=h @manifestation_reserve_stat.state -%>
 </p>
 
 </div>

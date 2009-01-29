@@ -1,16 +1,19 @@
-= Project Next-L プロトタイプ
+= Project Next-L "Enju"
 
-これは Project Next-L で開発している、図書館管理システムのプロトタイプです。
+これは Project Next-L で開発している図書館管理システムのプロトタイプです。
 
 == Project Next-L とは
 
 Project Next-L とは、日本の図書館関係者有志の手で新しい図書館管理システムを作り上げるプロジェクトです。詳細は以下のWebサイトをごらんください。
   http://www.next-l.jp/
 
+== 動作デモ
+  http://catalog.lib.teu.ac.jp/
+
 == インストール
 
 以下のWebサイトをごらんください。
-  http://kamata.lib.teu.ac.jp/trac/catalog/wiki/InstallUnstable
+  http://wiki.github.com/nabeta/next-l/121873
 
 == 連絡先
   info at next-l.jp

@@ -3,7 +3,7 @@
 <div id="submenu">
   <%- if_authorized?(:destroy, @expression) do -%>
     <ul>
-      <li><%= link_to ('New expression'), new_expression_path -%></li>
+      <li><%= link_to t('expression.new'), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
       <li><%= link_to t('page.destroy'), expression_path(@expression), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- case when @work -%>
@@ -41,9 +41,9 @@
 
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#tab1"><em><%= t('page.expression') -%></em></a></li>
+      <li title="active" class="selected"><a href="#tab1"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- unless @expression.patrons.blank? -%>
-        <li><a href="#tab2"><em><%= t('page.patron') -%></em></a></li>
+        <li><a href="#tab2"><em><%= t('activerecord.models.patron') -%></em></a></li>
       <%- end -%>
       <li><a href="#tab3"><em><%= t('page.related_work') -%></em></a></li>
       <li><a href="#tab4"><em><%= t('page.related_manifestation') -%></em></a></li>
@@ -64,11 +64,11 @@
             <td><%=h @expression.context -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.language') -%>:</b></td>
+            <td><b><%= t('activerecord.models.language') -%>:</b></td>
             <td><%=h @expression.language.display_name -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Form') -%>:</b></td>
+            <td><b><%= t('activerecord.models.expression_form') -%>:</b></td>
             <td>
               <%= expression_form_icon(@expression.expression_form) -%>
               <%=h @expression.expression_form.display_name -%>
@@ -76,11 +76,11 @@
           </tr>
           <%- if @expression.serial? -%>
             <tr>
-              <td><b><%= ('Frequency of issue') -%>:</b></td>
+              <td><b><%= t('activerecord.models.frequency_of_issue') -%>:</b></td>
               <td><%=h @expression.frequency_of_issue.display_name -%></td>
             </tr>
             <tr>
-              <td><b><%= ('ISSN') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.expression.issn') -%>:</b></td>
               <td><%=h @expression.issn -%></td>
             </tr>
           <%- end -%>

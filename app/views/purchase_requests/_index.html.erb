@@ -33,8 +33,8 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.title') -%></th>
-    <th><%= t('page.price') -%></th>
+    <th><%= t('activerecord.attributes.purchase_request.title') -%></th>
+    <th><%= t('activerecord.attributes.purchase_request.price') -%></th>
     <th><%= t('activerecord.models.order_list') -%></th>
   </tr>
 
@@ -59,6 +59,6 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@purchase_requests) -%>
+<%= will_paginate(@purchase_requests, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>

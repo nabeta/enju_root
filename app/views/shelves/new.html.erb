@@ -26,7 +26,9 @@
 
   <p>
   <b><%= t('page.library') -%></b><br />
-    <%= f.select(:library_id, @libraries.collect{|l| [l.name, l.id]}) -%>
+    <select id="library_id" name="library_id">
+      <%= options_from_collection_for_select(@libraries, "short_name", "name", @library.short_name) -%>
+    </select>
   </p>
 
   <p>

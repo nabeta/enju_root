@@ -12,9 +12,9 @@
   <tr>
     <th><%= ('Attachable') -%></th>
     <th><%= ('Attachable type') -%></th>
-    <th><%= ('Size') -%></th>
-    <th><%= ('Content type') -%></th>
-    <th><%= ('Filename') -%></th>
+    <th><%= t('activerecord.attributes.attachment_file.size') -%></th>
+    <th><%= t('activerecord.attributes.attachment_file.content_type') -%></th>
+    <th><%= t('activerecord.attributes.attachment_file.filename') -%></th>
   </tr>
 
 <%- for attachment_file in @attachment_files -%>
@@ -32,6 +32,4 @@
   </tr>
 <%- end -%>
 </table>
-
-<%= will_paginate(@attachment_files) -%>
 

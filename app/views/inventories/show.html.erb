@@ -7,17 +7,17 @@
 
 <div id="content_detail">
 <p>
-  <b><%= t('page.item') %>:</b>
+  <b><%= t('activerecord.models.item') -%>:</b>
   <%=h @inventory.item_id -%> 
 </p>
 
 <p>
-  <b><%= ('Inventory file') %>:</b>
+  <b><%= t('activerecord.models.inventory_file') -%>:</b>
   <%=h @inventory.inventory_file_id -%> 
 </p>
 
 <p>
-  <b><%= t('page.note') %>:</b>
+  <b><%= t('activerecord.attributes.inventory.note') -%>:</b>
   <%=h @inventory.note -%> 
 </p>
 

@@ -2,8 +2,8 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.patron') -%></th>
-    <th><%= t('page.manifestation') -%></th>
+    <th><%= t('activerecord.models.patron') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
   </tr>
   
 <%- for produce in @produces -%>
@@ -22,4 +22,4 @@
   <p><%= link_to ('New produce'), new_produce_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@produces) -%>
+<%= will_paginate(@produces, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

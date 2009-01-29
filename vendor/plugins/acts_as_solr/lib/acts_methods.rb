@@ -39,6 +39,20 @@ module ActsAsSolr #:nodoc:
     # 
     #          Setting the field type preserves its original type when indexed
     # 
+    #          The field may also be passed with a hash value containing options
+    #
+    #          class Author < ActiveRecord::Base
+    #            acts_as_solr :fields => [{:full_name => {:type => :text, :as => :name}}]
+    #            def full_name
+    #              self.first_name + ' ' + self.last_name
+    #            end
+    #          end
+    #
+    #          The options accepted are:
+    #
+    #          :type:: Index the field using the specified type
+    #          :as:: Index the field using the specified field name
+    #
     # additional_fields:: This option takes fields to be include in the index
     #                     in addition to those derived from the database. You
     #                     can also use this option to include custom fields 
@@ -68,6 +82,33 @@ module ActsAsSolr #:nodoc:
     #              acts_as_solr :include => [:books]
     #            end
     # 
+    #           Each association may also be specified as a hash with an option hash as a value
+    #
+    #           class Book < ActiveRecord::Base
+    #             belongs_to :author
+    #             has_many :distribution_companies
+    #             has_many :copyright_dates
+    #             has_many :media_types
+    #             acts_as_solr(
+    #               :fields => [:name, :description],
+    #               :include => [
+    #                 {:author => {:using => :fullname, :as => :name}},
+    #                 {:media_types => {:using => lambda{|media| type_lookup(media.id)}}}
+    #                 {:distribution_companies => {:as => :distributor, :multivalued => true}},
+    #                 {:copyright_dates => {:as => :copyright, :type => :date}}
+    #               ]
+    #             ]
+    #
+    #           The options accepted are:
+    #
+    #           :type:: Index the associated objects using the specified type
+    #           :as:: Index the associated objects using the specified field name
+    #           :using:: Index the associated objects using the value returned by the specified method or proc.  If a method
+    #                    symbol is supplied, it will be sent to each object to look up the value to index; if a proc is
+    #                    supplied, it will be called once for each object with the object as the only argument
+    #           :multivalued:: Index the associated objects using one field for each object rather than joining them
+    #                          all into a single field
+    #
     # facets:: This option can be used to specify the fields you'd like to
     #          index as facet fields
     # 
@@ -149,6 +190,7 @@ module ActsAsSolr #:nodoc:
       Deprecation.validate_index(configuration)
       
       configuration[:solr_fields] = {}
+      configuration[:solr_includes] = {}
       
       after_save    :solr_save
       after_destroy :solr_destroy
@@ -158,6 +200,10 @@ module ActsAsSolr #:nodoc:
       else
         process_fields(self.new.attributes.keys.map { |k| k.to_sym })
         process_fields(configuration[:additional_fields])
+      end
+
+      if configuration[:include].respond_to?(:each)
+        process_includes(configuration[:include])
       end
     end
     
@@ -190,6 +236,15 @@ module ActsAsSolr #:nodoc:
       end
     end
     
+    def process_includes(includes)
+      if includes.respond_to?(:each)
+        includes.each do |assoc|
+          field_name, options = determine_field_name_and_options(assoc)
+          configuration[:solr_includes][field_name] = options
+        end
+      end
+    end
+
     def determine_field_name_and_options(field)
       if field.is_a?(Hash)
         name = field.keys.first

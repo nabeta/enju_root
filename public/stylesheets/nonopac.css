@@ -5,7 +5,10 @@ body{
   width: 920px;
 }
 
-a:hover { color: #fff; background-color:#B3D4FF; }
+a:hover { color: #000000; background-color: #B3D4FF; }
+
+a.yuimenuitemlabel:hover { color: #000000; background-color: #B3D4FF; }
+a.yuimenubaritemlabel:hover { color: #000000; background-color: #B3D4FF; }
 
 strong{
   font-weight: bold;
@@ -278,12 +281,12 @@ div#call_number_content{
 }
 
 div#call_number_content_left{
-  float: left
+  float: left;
   width: 20px;
 }
 
 div#call_number_content_right{
-  float: left
+  float: left;
   width: 20px;
 }
 

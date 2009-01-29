@@ -19,7 +19,7 @@
 <div id="content_detail">
 
 <p>
-<b><%= t('page.user') -%>:</b>
+<b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@purchase_request.user.login), user_path(@purchase_request.user.login) -%>
 </p>
 
@@ -33,47 +33,47 @@
 </p>
 
 <p>
-<b><%= t('page.title') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.title') -%>:</b>
   <%=h @purchase_request.title -%>
 </p>
 
 <p>
-<b><%= t('page.author') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.author') -%>:</b>
   <%=h @purchase_request.author -%>
 </p>
 
 <p>
-<b><%= t('page.publisher') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.publisher') -%>:</b>
   <%=h @purchase_request.publisher -%>
 </p>
 
 <p>
-<b><%= ('Isbn') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.isbn') -%>:</b>
   <%=h @purchase_request.isbn -%>
 </p>
 
 <p>
-<b><%= ('Date of publication') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.date_of_publication') -%>:</b>
   <%=h @purchase_request.date_of_publication -%>
 </p>
 
 <p>
-<b><%= t('page.price') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.price') -%>:</b>
   <%=h @purchase_request.price -%>
 </p>
 
 <p>
-<b><%= ('Url') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.url') -%>:</b>
   <%= link_to h(@purchase_request.url), @purchase_request.url -%>
 </p>
 
 <p>
-<b><%= t('page.note') -%>:</b>
+  <b><%= t('activerecord.attributes.purchase_request.note') -%>:</b>
   <%=h @purchase_request.note -%>
 </p>
 
 <p>
-<b><%= ('Ordered at') -%>:</b>
+  <b><%= t('activerecord.attributes.order_list.ordered_at') -%>:</b>
   <%=h @purchase_request.order_list.ordered_at if @purchase_request.order_list -%>
 </p>
 

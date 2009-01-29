@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to ('Add a subscription'), subscriptions_path -%></li>
-    <li><%= link_to ('New expression'), new_subscription_expression_path -%></li>
+    <li><%= link_to t('expression.new'), new_subscription_expression_path -%></li>
   </ul>
 </div>
 
@@ -57,5 +57,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@expressions) -%>
+<%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

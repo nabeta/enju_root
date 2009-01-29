@@ -32,7 +32,7 @@
 <p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@subject.term)) -%>)</p>
 
 <p>
-<b><%= t('activerecord.attributes.subject.term_transcription') -%>:</b>
+  <b><%= t('activerecord.attributes.subject.term_transcription') -%>:</b>
   <%=h @subject.term_transcription -%>
 </p>
 
@@ -75,19 +75,19 @@
 </p>
 
 <p>
-<b><%= ('Classification') -%>:</b>
+<b><%= t('activerecord.models.classification') -%>:</b>
 <%- @subject.classifications.each do |classification| -%>
   <%= link_to h(classification.category), classification -%> (<%=h classification.classification_type.display_name -%>)
 <%- end -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.subject.scope_note') -%>:</b>
+  <b><%= t('activerecord.attributes.subject.scope_note') -%>:</b>
   <%=h @subject.scope_note -%>
 </p>
 
 <p>
-<b><%= t('page.note') -%>:</b>
+  <b><%= t('activerecord.attributes.subject.note') -%>:</b>
   <%=h @subject.note -%>
 </p>
 

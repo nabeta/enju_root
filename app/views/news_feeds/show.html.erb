@@ -7,12 +7,12 @@
 
 <div id="content_detail">
 <p>
-  <b><%= t('page.title') -%>:</b>
+  <b><%= t('activerecord.attributes.news_feed.title') -%>:</b>
   <%=h @news_feed.title -%>
 </p>
 
 <p>
-  <b><%= ('Url') -%>:</b>
+  <b><%= t('activerecord.attributes.news_feed.url') -%>:</b>
   <%= link_to h(@news_feed.url), @news_feed.url -%>
 </p>
 
@@ -24,7 +24,7 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.submit "Force reload" -%>
+    <%= f.submit t('page.force_reload') -%>
   </p>
 <%- end -%>
 

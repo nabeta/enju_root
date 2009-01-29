@@ -5,7 +5,7 @@ class Reserve < ActiveRecord::Base
   named_scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
   named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
   named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
-  #named_scope :expired, lambda {|from_date, to_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', from_date, to_date], :order => 'expired_at'}}
+  #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
   named_scope :will_expire, lambda {|date| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state != ?', date, 'expired'], :order => 'expired_at'}}
 
   belongs_to :user, :validate => true
@@ -15,10 +15,10 @@ class Reserve < ActiveRecord::Base
   has_one :inter_library_loan
   belongs_to :request_status_type
 
-  acts_as_paranoid
+  acts_as_soft_deletable
   validates_associated :user, :manifestation, :librarian, :item, :request_status_type
   validates_presence_of :user_id, :manifestation_id, :request_status_type, :expired_at
-  #validates_uniqueness_of :manifestation_id, :scope => :user_id, :if => proc{|reserve| reserve.deleted_at.nil?}
+  #validates_uniqueness_of :manifestation_id, :scope => :user_id
   validate :manifestation_must_include_item
 
   cattr_reader :per_page

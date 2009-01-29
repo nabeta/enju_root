@@ -1,7 +1,7 @@
 class UseRestriction < ActiveRecord::Base
   include DisplayName
   has_many :item_has_use_restrictions
-  has_many :items, :through => :item_has_use_restrictions, :conditions => 'items.deleted_at IS NULL'
+  has_many :items, :through => :item_has_use_restrictions
 
   validates_presence_of :name
 

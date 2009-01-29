@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Expression) do -%>
-      <li><%= link_to ('New expression'), new_expression_path -%></li>
+      <li><%= link_to t('expression.new'), new_expression_path -%></li>
     <%- end -%>
   </ul>
 </div>
   
 <div id="content_detail">
-<h1><%= ('Listing expressions') -%></h1>
+<h1><%= t('expression.listing') -%></h1>
 
 <%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
@@ -17,7 +17,7 @@
     <%- else -%>
       <%= check_box_tag 'view', 'serial' -%>
     <%- end -%>
-    <%= ('Serial') -%>
+    <%= t('page.serial') -%>
 
     <%= submit_tag t('page.search') -%>
   </p>
@@ -32,7 +32,7 @@
   <%- for expression in @expressions -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(expression.original_title), expression_path(expression) -%>
+        <%= link_to h(expression.original_title), expression -%>
         <%= expression_form_icon(expression.expression_form) -%>
         <br />
         <%= patrons_list(expression.authors, :link => true) -%>
@@ -40,12 +40,12 @@
       <td><%=h expression.language.display_name -%></td>
       <%- if_authorized?(:destroy, expression) do -%>
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
-        <td><%= link_to t('page.destroy'), expression_path(expression), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>
 </table>
 
-<%= will_paginate(@expressions) -%>
+<%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>

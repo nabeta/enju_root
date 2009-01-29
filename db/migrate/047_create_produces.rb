@@ -1,12 +1,11 @@
 class CreateProduces < ActiveRecord::Migration
   def self.up
     create_table :produces do |t|
-      t.column :patron_id, :integer, :null => false
-      t.column :manifestation_id, :integer, :null => false
-      t.column :position, :integer
-      t.column :type, :string
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.integer :patron_id, :null => false
+      t.integer :manifestation_id, :null => false
+      t.integer :position
+      t.string :type
+      t.timestamps
     end
     add_index :produces, :patron_id
     add_index :produces, :manifestation_id

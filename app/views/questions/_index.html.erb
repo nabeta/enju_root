@@ -1,4 +1,4 @@
-<h1><%=h ("Questions") -%></h1>
+<h1><%=h t('question.listing') -%></h1>
 
 <div id="result_list">
   <div id="searchform">
@@ -34,10 +34,10 @@
   <%- end -%>
   </table>
 <%- else -%>
-  <p><%= ('No records found.') -%></p>
+  <p><%= t('question.no_record_found') -%></p>
 <%- end -%>
 
-<%= will_paginate(@questions) -%>
+<%= will_paginate(@questions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 <div>
 <%- if logged_in? -%>

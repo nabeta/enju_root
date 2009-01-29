@@ -65,6 +65,10 @@ class ItemsController < ApplicationController
           access_denied
           return
         end
+      when @parent_item
+        @items = @parent_item.derived_items.paginate(:page => params[:page], :per_page => @per_page, :order => 'items.id')
+      when @derived_item
+        @items = @derived_item.parent_items.paginate(:page => params[:page], :per_page => @per_page, :order => 'items.id')
       else
         @items = Item.paginate :all, :page => params[:page], :per_page => per_page, :order => order
       end
@@ -98,12 +102,18 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   def new
+    if @shelves.blank?
+      flash[:notice] = ('You should create a shelf at first.')
+      redirect_to libraries_url
+      return
+    end
     unless @manifestation
       flash[:notice] = ('Please specify manifestation id.')
       redirect_to manifestations_url
       return
     end
     @item = Item.new
+    @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
   end
 
@@ -202,7 +212,7 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    @libraries = Library.find(:all, :order => :position)
+    @libraries = Library.physicals
     @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
     @shelves = Shelf.find(:all, :order => :position)
     @circulation_statuses = CirculationStatus.find(:all, :order => :position)

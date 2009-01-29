@@ -1,7 +1,7 @@
 class LibraryGroup < ActiveRecord::Base
   include Singleton
   include DisplayName
-  has_many :libraries, :conditions => 'libraries.deleted_at IS NULL', :order => 'position'
+  has_many :libraries, :order => 'position'
   has_many :search_engines
   has_many :news_feeds
 

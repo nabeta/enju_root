@@ -4,11 +4,11 @@ xml.rss('version' => "2.0",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     if @user
-      xml.title "#{@user.login}'s reservations at #{@library_group.name}"
-      xml.link "#{request.protocol}#{request.host_with_port}" + user_reserves_path(@user.login)
+      xml.title t('reserve.user_reserve', :login_name => @user.login)
+      xml.link formatted_user_reserves_url(@user.login, :rss)
     else
-      xml.title "Reservations at #{@library_group.name}"
-      xml.link "#{request.protocol}#{request.host_with_port}" + reserves_path
+      xml.title t('reserve.library_group_reserve', :library_group_name => @library_group.name)
+      xml.link formatted_reserves_url(:rss)
     end
     xml.description "open-source integrated library automation system developed by Kamata Library"
     xml.language "ja-jp" # TODO: 日本語以外

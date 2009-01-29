@@ -11,8 +11,8 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.name') -%></th>
-    <th><%= t('page.library') -%></th>
+    <th><%= t('activerecord.attributes.shelves.name') -%></th>
+    <th><%= t('activerecord.models.library') -%></th>
   </tr>
   
 <%- @shelves.each_with_index do |shelf, i| -%>
@@ -30,5 +30,5 @@
 </table>
 
 <br />
-<%= will_paginate(@shelves) -%>
+<%= will_paginate(@shelves, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

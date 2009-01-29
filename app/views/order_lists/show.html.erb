@@ -13,22 +13,22 @@
 </p>
 
 <p>
-  <b><%= t('page.title') -%>:</b>
+  <b><%= t('activerecord.attributes.order_list.title') -%>:</b>
   <%=h @order_list.title -%>
 </p>
 
 <p>
-  <b><%= t('page.bookstore') -%>:</b>
+  <b><%= t('activerecord.models.bookstore') -%>:</b>
   <%= link_to h(@order_list.bookstore.name), @order_list.bookstore -%>
 </p>
 
 <p>
-  <b><%= ('Ordered at') -%>:</b>
+  <b><%= t('activerecord.attributes.order_list.ordered_at') -%>:</b>
   <%=h @order_list.ordered_at -%>
 </p>
 
 <p>
-  <b><%= t('page.note') -%>:</b>
+  <b><%= t('activerecord.attributes.order_list.note') -%>:</b>
   <%=h @order_list.note -%>
 </p>
 

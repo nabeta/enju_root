@@ -29,12 +29,12 @@
       <%- unless @manifestation.manifestation_form.name == 'file' -%>
         <li>
           <%- if current_user.has_role?('Librarian') -%>
-            <%= link_to ('Reserve this manifestation'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
+            <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
           <%- else -%>
             <%- if @manifestation.reserved?(current_user) -%>
-              <%= link_to ('Cancel reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
+              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
             <%- else -%>
-              <%= link_to ('Reserve this manifestation'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
+              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
             <%- end -%>
           <%- end -%>
           <br />
@@ -46,20 +46,20 @@
       <%- if current_user.has_role?('Librarian') -%>
         <ul>
           <%- case when @expression -%>
-            <li><%= link_to ('Edit manifestations'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
+            <li><%= link_to t('manifestation.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
           <%- when @patron -%>
-            <li><%= link_to ('Edit manifestations'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
+            <li><%= link_to t('manifestation.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
           <%- else -%>
-            <li><%= link_to ('Edit manifestations'), edit_manifestation_path(@manifestation) -%></li>
+            <li><%= link_to t('manifestation.edit'), edit_manifestation_path(@manifestation) -%></li>
           <%- end -%>
           <ul>
-            <li><%= link_to ('Edit publishers'), manifestation_patrons_path(@manifestation) -%></li>
+            <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
             <%- if @manifestation.serial? -%>
-              <li><%= link_to ('Add next issue'), new_expression_manifestation_path(@manifestation.serial) -%></li>
+              <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@manifestation.serial) -%></li>
             <%- end -%>
           </ul>
-          <li><%= link_to ('Edit expressions'), manifestation_expressions_path(@manifestation) -%></li>
-          <li><%= link_to ('Edit items'), manifestation_items_path(@manifestation) -%></li>
+          <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
+          <li><%= link_to t('manifestation.edit_item'), manifestation_items_path(@manifestation) -%></li>
         </ul>
       <%- end -%>
     <%- end -%>
@@ -210,7 +210,7 @@
       </tr>
     <%- end -%>
     <tr>
-      <td><%= t('page.note') -%>:</td>
+      <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td><%= textilize_without_paragraph(h(@manifestation.note)) -%></td>
     </tr>
     </table>
@@ -219,7 +219,7 @@
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
       <%- if @manifestation.bookmarks -%>
-        <h4><%= t('page.patron_who_bookmark_this_resource') %></h4>
+        <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>
       <%- end -%>
     </div>

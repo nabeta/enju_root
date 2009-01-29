@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'rake'
 require 'rake/testtask'
+require 'rake/rdoctask'
 
 Dir["#{File.dirname(__FILE__)}/lib/tasks/**/*.rake"].sort.each { |ext| load ext }
 
@@ -42,4 +43,11 @@ namespace :test do
     t.pattern = "test/unit/*_shoulda.rb"
     t.verbose = true
   end
+end
+
+Rake::RDocTask.new do |rd|
+  rd.main = "README.rdoc"
+  rd.rdoc_dir = "rdoc"
+  rd.rdoc_files.exclude("lib/solr/**/*.rb", "lib/solr.rb")
+  rd.rdoc_files.include("README.rdoc", "lib/**/*.rb")
 end

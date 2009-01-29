@@ -12,12 +12,12 @@
 
 <%- form_for(:reserve, :url => user_reserve_path(@reserve.user.login, @reserve), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('page.patron') -%></b><br />
+  <b><%= t('activerecord.models.patron') -%></b><br />
   <%= link_to h(@reserve.user.patron.full_name), patron_path(@reserve.user.patron) -%> (<%=h @reserve.user.login -%>)
   </p>
 
   <p>
-  <b><%= t('page.manifestation') -%></b><br />
+  <b><%= t('activerecord.models.manifestation') -%></b><br />
     <%- if @reserve.manifestation -%>
       <%= link_to h(@reserve.manifestation.original_title), manifestation_path(@reserve.manifestation) -%><br />
       <%= f.hidden_field :manifestation_id -%>

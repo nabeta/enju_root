@@ -1,13 +1,12 @@
 class CreateUserGroups < ActiveRecord::Migration
   def self.up
     create_table :user_groups do |t|
-      t.column :name, :string
-      t.column :display_name, :text
-      t.column :note, :text
-      t.column :position, :integer
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
-      t.column :deleted_at, :datetime
+      t.string :name, :string
+      t.string :display_name, :string
+      t.text :note
+      t.integer :position
+      t.timestamps
+      t.datetime :deleted_at
     end
   end
 

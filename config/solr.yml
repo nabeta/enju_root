@@ -8,6 +8,9 @@ development:
   
 production:
   url: http://localhost:8983/solr
+  # 64bit版
+  # jvm_options: -server -d64 -Xmx1024M -Xms64M
+  jvm_options: -server -Xmx1024M -Xms64M
 
 test:
   url: http://localhost:8981/solr

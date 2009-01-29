@@ -1,18 +1,18 @@
 <p>
   <b>User reserve:</b>
-  <%=h @reserve_stat_has_user.user_reserve_stat_id %>
+  <%=h @reserve_stat_has_user.user_reserve_stat_id -%>
 </p>
 
 <p>
   <b>User:</b>
-  <%=h @reserve_stat_has_user.user_id %>
+  <%=h @reserve_stat_has_user.user_id -%>
 </p>
 
 <p>
   <b>Reserves count:</b>
-  <%=h @reserve_stat_has_user.reserves_count %>
+  <%=h @reserve_stat_has_user.reserves_count -%>
 </p>
 
 
-<%= link_to 'Edit', edit_reserve_stat_has_user_path(@reserve_stat_has_user) %> |
-<%= link_to 'Back', reserve_stat_has_users_path %>
+<%= link_to t('page.edit'), edit_reserve_stat_has_user_path(@reserve_stat_has_user) -%> |
+<%= link_to t('page.back'), reserve_stat_has_users_path -%>

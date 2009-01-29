@@ -2,25 +2,25 @@
 
 <table>
   <tr>
-    <th>From date</th>
-    <th>To date</th>
-    <th>Note</th>
+    <th><%= t('activerecord.attributes.user_reserve_stat.start_date') -%></th>
+    <th><%= t('activerecord.attributes.user_reserve_stat.end_date') -%></th>
+    <th><%= t('activerecord.attributes.user_reserve_stat.note') -%></th>
     <th>State</th>
   </tr>
 
-<% for user_reserve_stat in @user_reserve_stats %>
+<% for user_reserve_stat in @user_reserve_stats -%>
   <tr>
-    <td><%=h user_reserve_stat.from_date %></td>
-    <td><%=h user_reserve_stat.to_date %></td>
-    <td><%=h user_reserve_stat.note %></td>
-    <td><%=h user_reserve_stat.state %></td>
-    <td><%= link_to 'Show', user_reserve_stat %></td>
-    <td><%= link_to 'Edit', edit_user_reserve_stat_path(user_reserve_stat) %></td>
-    <td><%= link_to 'Destroy', user_reserve_stat, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%=h user_reserve_stat.start_date -%></td>
+    <td><%=h user_reserve_stat.end_date -%></td>
+    <td><%=h user_reserve_stat.note -%></td>
+    <td><%=h user_reserve_stat.state -%></td>
+    <td><%= link_to t('page.show'), user_reserve_stat -%></td>
+    <td><%= link_to t('page.edit'), edit_user_reserve_stat_path(user_reserve_stat) -%></td>
+    <td><%= link_to t('page.destroy'), user_reserve_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end %>
+<% end -%>
 </table>
 
 <br />
 
-<%= link_to 'New user_reserve_stat', new_user_reserve_stat_path %>
+<%= link_to 'New user_reserve_stat', new_user_reserve_stat_path -%>

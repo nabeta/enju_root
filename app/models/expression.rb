@@ -1,12 +1,12 @@
 class Expression < ActiveRecord::Base
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   has_one :reify, :dependent => :destroy
-  has_one :work, :through => :reify, :include => :work_form
+  has_one :work, :through => :reify, :include => [:patrons, :work_form]
   has_many :embodies, :dependent => :destroy
-  has_many :manifestations, :through => :embodies, :include => :manifestation_form
+  has_many :manifestations, :through => :embodies, :include => [:patrons, :manifestation_form]
   belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :realizes, :conditions => 'patrons.deleted_at IS NULL'
+  has_many :patrons, :through => :realizes
   belongs_to :language, :validate => true
   belongs_to :frequency_of_issue, :validate => true
   has_many :expression_merges, :dependent => :destroy
@@ -18,8 +18,8 @@ class Expression < ActiveRecord::Base
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
-  has_many :expression_to_expressions, :through => :to_expressions, :source => :expression_to_expression
-  has_many :expression_from_expressions, :through => :from_expressions, :source => :expression_from_expression
+  has_many :derived_expressions, :through => :to_expressions, :source => :expression_to_expression
+  has_many :original_expressions, :through => :from_expressions, :source => :expression_from_expression
   
   validates_associated :expression_form, :language, :frequency_of_issue
   validates_presence_of :expression_form, :language, :frequency_of_issue
@@ -30,8 +30,8 @@ class Expression < ActiveRecord::Base
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
     {:subscription_id => :integer}, {:access_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
-    :facets => [:expression_form_id, :language_id], :if => proc{|expression| expression.deleted_at.blank? and !expression.restrain_indexing}, :auto_commit => false
-  acts_as_paranoid
+    :facets => [:expression_form_id, :language_id], :if => proc{|expression| !expression.restrain_indexing}, :auto_commit => false
+  acts_as_soft_deletable
   acts_as_taggable
 
   cattr_reader :per_page

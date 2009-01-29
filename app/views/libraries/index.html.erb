@@ -11,11 +11,15 @@
 
 <table id="index">
   <tr>
-    <th><%= ('Library name') -%></th>
+    <th><%= t('activerecord.attributes.library.name') -%></th>
     <th>
-      <%= t('page.telephone_number') -%>
+      <%= t('activerecord.attributes.library.telephone_number_1') -%>
+      /
+      <%= t('activerecord.attributes.library.telephone_number_2') -%>
     </th>
-    <th><%= ('Fax number') -%></th>
+    <th>
+      <%= t('activerecord.attributes.library.fax_number') -%>
+    </th>
   </tr>
   
 <%- @libraries.each_with_index do |library, i| -%>
@@ -23,6 +27,7 @@
     <td>
       <%= link_to h(library.name), library_path(library.short_name) -%>
       <br />
+      <%=h library.zip_code -%>
       <%=h library.address -%>
     </td>
     <td>

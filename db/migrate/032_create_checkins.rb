@@ -1,11 +1,10 @@
 class CreateCheckins < ActiveRecord::Migration
   def self.up
     create_table :checkins do |t|
-      t.column :item_id, :integer, :null => false
-      t.column :librarian_id, :integer
-      t.column :basket_id, :integer
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.integer :item_id, :null => false
+      t.integer :librarian_id
+      t.integer :basket_id
+      t.timestamps
     end
     add_index :checkins, :item_id
     add_index :checkins, :librarian_id

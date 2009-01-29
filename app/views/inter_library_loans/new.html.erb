@@ -21,7 +21,7 @@
   </p>
 
   <p>
-  <b><%= t('page.item') -%></b><br />
+  <b><%= t('activerecord.models.item') -%></b><br />
     <%- if @item -%>
       <%= link_to h(@item.shelf.library.display_name), library_path(@item.shelf.library.short_name) -%>
       <%= link_to h(@item.item_identifier), @item -%>

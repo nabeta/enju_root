@@ -1,4 +1,5 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
+LIBRARY_WEB_PORT_NUMBER = '3000'
 AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 # AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
@@ -111,6 +112,7 @@ require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'wakati'
 
+LIBRARY_WEB_URL = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
 I18n.default_locale = "ja"
 
 #ActionMailer::Base.delivery_method = :smtp

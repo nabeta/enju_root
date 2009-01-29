@@ -1,27 +1,27 @@
 <h1>New item_has_item</h1>
 
-<% form_for(@item_has_item) do |f| %>
-  <%= f.error_messages %>
+<% form_for(@item_has_item) do |f| -%>
+  <%= f.error_messages -%>
 
   <p>
-    <%= f.label :from_item_id %><br />
-    <%= f.text_field :from_item_id %>
+    <%= f.label :from_item_id -%><br />
+    <%= f.text_field :from_item_id -%>
   </p>
   <p>
-    <%= f.label :to_item_id %><br />
-    <%= f.text_field :to_item_id %>
+    <%= f.label :to_item_id -%><br />
+    <%= f.text_field :to_item_id -%>
   </p>
   <p>
-    <%= f.label :type %><br />
-    <%= f.text_field :type %>
+    <%= f.label :type -%><br />
+    <%= f.text_field :type -%>
   </p>
   <p>
-    <%= f.label :position %><br />
-    <%= f.text_field :position %>
+    <%= f.label :position -%><br />
+    <%= f.text_field :position -%>
   </p>
   <p>
-    <%= f.submit "Create" %>
+    <%= f.submit "Create" -%>
   </p>
-<% end %>
+<% end -%>
 
-<%= link_to 'Back', item_has_items_path %>
+<%= link_to 'Back', item_has_items_path -%>

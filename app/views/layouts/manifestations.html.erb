@@ -1,31 +1,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if controller.action_name == 'show' and @manifestation -%>
-    <title><%=h @manifestation.original_title -%> : <%= ('Manifestations') -%> - <%=h@library_group.display_name -%></title>
+    <title><%=h @manifestation.original_title -%> : <%= t('activerecord.models.manifestation') -%> - <%=h @library_group.display_name -%></title>
   <%- elsif controller.action_name == 'index' -%>
     <%- case when @patron -%>
-      <title><%= ("%{patron}'s manifestations") -%></title>
+    <title><%= t('manifestation.patrons_manifestation', :patron_name => @patron.full_name) -%></title>
     <%- when @expression -%>
-      <title><%= ("Manifestations for %{expression}") -%></title>
+    <title><%= t('manifestation.expressions_manifestation', :expression_title => @expression.original_title) -%></title>
     <%- when @query -%>
-      <title><%=h @query -%> : <%= ('Manifestations') -%> - <%=h@library_group.display_name -%></title>
+      <title><%=h @query -%> : <%= t('activerecord.models.manifestation') -%> - <%=h@library_group.display_name -%></title>
     <%- else -%>
-      <title><%= ('Manifestations') -%>: <%=h controller.action_name -%></title>
+      <title><%= t('activerecord.models.manifestation') -%>: <%=h controller.action_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= ('Manifestations') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.manifestation') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Manifestations in %{library}")) -%>
+    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name)) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_HOSTNAME -%>/page/opensearch" title="<%=h@library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%=h @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

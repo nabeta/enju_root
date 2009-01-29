@@ -18,7 +18,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Editing manifsetation') -%></h1>
+  <h1><%= t('manifestation.editing') -%></h1>
 
 <%= error_messages_for :manifestation -%>
 
@@ -34,7 +34,7 @@
   </p>
 
   <p>
-    <b><%= ('Form') -%></b>
+    <b><%= t('activerecord.models.manifestation_form') -%></b>
     <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name, m.id]}) -%>
   </p>
 
@@ -56,7 +56,7 @@
 
   <%- unless @manifestation.serial -%>
     <p>
-      <b>ISBN</b>
+      <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
       <%= f.text_field :isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
     </p>
   <%- end -%>
@@ -79,7 +79,7 @@
   </p>
 
   <p>
-    <b><%= t('page.price') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.price') -%></b>
     <%= f.text_field :price, :class => 'resource_integer' -%>
   </p>
 
@@ -106,7 +106,7 @@
   </p>
 
   <p>
-    <b><%= t('page.note') -%></b><br />
+    <b><%= t('activerecord.attributes.manifestation.note') -%></b>
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 

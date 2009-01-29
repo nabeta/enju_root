@@ -10,7 +10,7 @@
     <th><%= ('Message template') -%></th>
     <th><%= ('Message subject') -%></th>
     <th><%= t('page.created_at') -%></th>
-    <th><%= ('Sent at') -%></th>
+    <th><%= t('activerecord.attributes.message_queue.sent_at') -%></th>
   </tr>
 
 <%- for message_queue in @message_queues -%>
@@ -36,4 +36,4 @@
   <p><%= link_to ('New message_queue'), new_message_queue_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@message_queues) -%>
+<%= will_paginate(@message_queues, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

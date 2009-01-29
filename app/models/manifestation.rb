@@ -3,19 +3,19 @@ require 'wakati'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   has_many :embodies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :embodies, :conditions => 'expressions.deleted_at IS NULL', :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
+  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:patrons, :expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
-  has_many :items, :through => :exemplifies, :include => [:checkouts, :shelf, :circulation_status], :dependent => :destroy, :conditions => 'items.deleted_at IS NULL'
+  has_many :items, :through => :exemplifies, :include => [:checkouts, {:shelf => :library}, :circulation_status], :dependent => :destroy
   has_many :produces, :dependent => :destroy
-  has_many :patrons, :through => :produces, :conditions => "patrons.deleted_at IS NULL", :order => 'produces.position', :include => :patron_type
+  has_many :patrons, :through => :produces, :order => 'produces.position', :include => :patron_type
   has_one :manifestation_api_response, :dependent => :destroy
-  has_many :reserves, :dependent => :destroy, :conditions => 'reserves.deleted_at IS NULL'
-  has_many :reserving_users, :through => :reserves, :source => :user, :conditions => 'users.deleted_at IS NULL'
+  has_many :reserves, :dependent => :destroy
+  has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
   has_many :attachment_files, :as => :attachable, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
-  #has_many :orders, :conditions => 'orders.deleted_at IS NULL', :dependent => :destroy
+  #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
@@ -30,13 +30,13 @@ class Manifestation < ActiveRecord::Base
   has_many :reserve_stats, :through => :reserve_stat_has_manifestations
   has_many :to_manifestations, :foreign_key => 'from_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
-  has_many :manifestation_to_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
-  has_many :manifestation_from_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
+  has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
+  has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
     {:isbn => :string}, {:isbn10 => :string}, {:wrong_isbn => :string},
-    {:nbn => :string}, {:issn => :string}, {:tag => :string}, #:fulltext,
+    {:nbn => :string}, {:issn => :string}, {:tag => :string}, :fulltext,
     {:formtype => :string}, {:formtype_f => :facet},
     {:library => :string}, {:library_f => :facet},
     {:lang => :string}, {:language_f => :facet},
@@ -53,12 +53,11 @@ class Manifestation < ActiveRecord::Base
     {:access_role_id => :range_integer}
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
-    #:if => proc{|manifestation| manifestation.deleted_at.blank? and !manifestation.serial?},
-    :if => proc{|manifestation| manifestation.deleted_at.blank? and !manifestation.restrain_indexing},
-    #:if => proc{|manifestation| manifestation.deleted_at.blank?},
+    #:if => proc{|manifestation| !manifestation.serial?},
+    :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
   acts_as_taggable
-  acts_as_paranoid
+  acts_as_soft_deletable
   acts_as_tree
 
   @@per_page = 10
@@ -88,6 +87,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def before_validation_on_create
+    self.isbn = self.isbn.to_s.strip.gsub('-', '')
     if self.isbn.length == 10
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
       self.isbn10 = self.isbn
@@ -489,7 +489,7 @@ class Manifestation < ActiveRecord::Base
         end
       }
     }
-    xml.identifier("http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.id}", 'type' => 'uri')
+    xml.identifier("#{LIBRARY_WEB_URL}manifestations/#{self.id}", 'type' => 'uri')
     xml.originInfo{
       self.publishers.each do |publisher|
         xml.publisher publisher.full_name
@@ -504,7 +504,7 @@ class Manifestation < ActiveRecord::Base
     library_group = LibraryGroup.find(1)
     if Twitter::Status
       title = ERB::Util.html_escape(truncate(self.original_title))
-      status = "#{library_group.name}: #{full_title} http://#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.id}"
+      status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
       Twitter::Status.post(:update, :status => status)
     end
   end
@@ -571,6 +571,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def amazon_customer_review
+    access_amazon
     reviews = []
     doc = REXML::Document.new(self.manifestation_api_response.body)
     reviews = []
@@ -733,19 +734,19 @@ class Manifestation < ActiveRecord::Base
     true
   end
 
-  def checkouts(from_date, to_date)
-    Checkout.completed(from_date, to_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
+  def checkouts(start_date, end_date)
+    Checkout.completed(start_date, end_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
   end
 
-  def bookmarks(from_date = nil, to_date = nil)
-    if from_date.blank? and to_date.blank?
+  def bookmarks(start_date = nil, end_date = nil)
+    if start_date.blank? and end_date.blank?
       if self.bookmarked_resource
         self.bookmarked_resource.bookmarks
       else
         []
       end
     else
-      Bookmark.bookmarked(from_date, to_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
+      Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
     end
   end
 

@@ -1,23 +1,23 @@
 <p>
-  <b>From date:</b>
-  <%=h @user_reserve_stat.from_date %>
+  <b><%= t('activerecord.attributes.user_reserve_stat.start_date') -%>:</b>
+  <%=h @user_reserve_stat.start_date -%>
 </p>
 
 <p>
-  <b>To date:</b>
-  <%=h @user_reserve_stat.to_date %>
+  <b><%= t('activerecord.attributes.user_reserve_stat.end_date') -%>:</b>
+  <%=h @user_reserve_stat.end_date -%>
 </p>
 
 <p>
-  <b>Note:</b>
-  <%=h @user_reserve_stat.note %>
+  <b><%= t('activerecord.attributes.user_reserve_stat.note') -%>:</b>
+  <%=h @user_reserve_stat.note -%>
 </p>
 
 <p>
   <b>State:</b>
-  <%=h @user_reserve_stat.state %>
+  <%=h @user_reserve_stat.state -%>
 </p>
 
 
-<%= link_to 'Edit', edit_user_reserve_stat_path(@user_reserve_stat) %> |
-<%= link_to 'Back', user_reserve_stats_path %>
+<%= link_to t('page.edit'), edit_user_reserve_stat_path(@user_reserve_stat) -%> |
+<%= link_to t('page,back'), user_reserve_stats_path -%>

@@ -10,10 +10,12 @@
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>
     (<%= link_to ('RSS'), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>)
     (<%= link_to ('CSV'), formatted_user_bookmarked_resources_path(@user.login, :csv, :lang => 'ja') -%>)
-    <%= t('page.bookmarklet') -%>:
-    <a href="javascript:window.location.href='<%=h new_user_bookmark_url(@user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library bookmark') -%></a>
+    <%- if logged_in? -%>
+      <%= t('page.bookmarklet') -%>:
+      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a>
+    <%- end -%>
   </p>
 
   <%= render :partial => 'bookmarked_resources/bookmark_list' -%>
 
-<%= will_paginate(@bookmarked_resources) -%>
+<%= will_paginate(@bookmarked_resources, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

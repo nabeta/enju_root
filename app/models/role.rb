@@ -4,7 +4,7 @@
 # or without any specification at all.
 class Role < ActiveRecord::Base
   include DisplayName
-  has_and_belongs_to_many :users, :conditions => 'users.deleted_at IS NULL'
+  has_and_belongs_to_many :users
   has_many :patrons, :foreign_key => 'access_role_id'
   has_many :works, :foreign_key => 'access_role_id'
   has_many :expressions, :foreign_key => 'access_role_id'

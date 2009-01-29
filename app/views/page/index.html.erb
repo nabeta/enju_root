@@ -1,19 +1,19 @@
 <div id="left_pane">
   <div id="user_search_form">
-    <h1><%=h ('Catalog search') -%></h1>
+    <h1><%=h t('page.catalog_search') -%></h1>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= t('page.search_term') -%>:
         <%= text_field_tag 'query', nil, :style => 'width: 250px' -%>
         <%= submit_tag t('page.search') -%><br />
-        <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
+        <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
       </div>
     <%- end -%>
     <%= javascript_tag("$('query').focus()") -%>
 
       <p><%=h t('page.number_of_manifestations', :numdocs => Manifestation.numdocs, :count => Manifestation.numdocs) -%></p>
 
-    <h3><%= link_to ('New resources'), :controller => 'manifestations', :mode => 'recent' -%></h3>
+    <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
   </div>
 
   <div id="news_feed_box">
@@ -31,7 +31,7 @@
   </div>
 
   <div id="tag_cloud_box">
-    <h3><%= ('Popular tags') -%></h3>
+    <h3><%= t('tag.popular_tag') -%></h3>
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud') do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>

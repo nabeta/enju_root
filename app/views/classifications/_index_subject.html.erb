@@ -20,9 +20,9 @@
         
 <table id="index">
   <tr>
-    <th><%= ('Category') -%></th>
-    <th><%= t('page.note') -%></th>
-    <th><%= ('Type') -%></th>
+    <th><%= t('activerecord.models.classification') -%></th>
+    <th><%= t('activerecord.attributes.classification.note') -%></th>
+    <th><%= t('activerecord.models.classification_type') -%></th>
   </tr>
 
 <%- for classification in @classifications -%>
@@ -36,5 +36,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@classifications) -%>
+<%= will_paginate(@classifications, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

@@ -11,7 +11,7 @@ class ManifestationCheckoutStat < ActiveRecord::Base
 
   def culculate_manifestations_count
     Manifestation.find(:all, :select => :id).each do |manifestation|
-      daily_count = Checkout.manifestations_count(self.from_date, self.to_date, manifestation)
+      daily_count = Checkout.manifestations_count(self.start_date, self.end_date, manifestation)
       #manifestation.update_attributes({:daily_checkouts_count => daily_count, :total_count => manifestation.total_count + daily_count})
       if daily_count > 0
         self.manifestations << manifestation

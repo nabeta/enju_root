@@ -49,6 +49,7 @@ module ActsAsSolr #:nodoc:
         
         field_boost = options[:boost] || solr_configuration[:default_boost]
         field_type = get_solr_field_type(options[:type])
+        solr_name = options[:as] || field_name
         
         value = self.send("#{field_name}_for_solr")
         value = set_value_if_nil(field_type) if value.to_s == ""
@@ -65,41 +66,58 @@ module ActsAsSolr #:nodoc:
           next if value.nil? || value.to_s.strip.empty?
           [value].flatten.each do |v|
             v = set_value_if_nil(suffix) if value.to_s == ""
-            field = Solr::Field.new("#{field_name}_#{suffix}" => ERB::Util.html_escape(v.to_s))
+            field = Solr::Field.new("#{solr_name}_#{suffix}" => ERB::Util.html_escape(v.to_s))
             field.boost = validate_boost(field_boost)
             doc << field
           end
         end
       end
       
-      add_includes(doc) if configuration[:include]
+      add_includes(doc)
+      logger.debug doc.to_xml
       doc
     end
     
     private
     def add_includes(doc)
-      if configuration[:include].is_a?(Array)
-        configuration[:include].each do |association|
-          data = ""
-          klass = association.to_s.singularize
+      if configuration[:solr_includes].respond_to?(:each)
+        configuration[:solr_includes].each do |association, options|
+          data = options[:multivalued] ? [] : ""
+          field_name = options[:as] || association.to_s.singularize
+          field_type = get_solr_field_type(options[:type])
+          field_boost = options[:boost] || solr_configuration[:default_boost]
+          suffix = get_solr_field_type(field_type)
           case self.class.reflect_on_association(association).macro
           when :has_many, :has_and_belongs_to_many
             records = self.send(association).to_a
             unless records.empty?
-              records.each{|r| data << r.attributes.inject([]){|k,v| k << "#{v.first}=#{ERB::Util.html_escape(v.last)}"}.join(" ")}
-              doc["#{klass}_t"] = data
+              records.each {|r| data << include_value(r, options)}
+              [data].flatten.each do |value|
+                field = Solr::Field.new("#{field_name}_#{suffix}" => value)
+                field.boost = validate_boost(field_boost)
+                doc << field
+              end
             end
           when :has_one, :belongs_to
             record = self.send(association)
             unless record.nil?
-              data = record.attributes.inject([]){|k,v| k << "#{v.first}=#{ERB::Util.html_escape(v.last)}"}.join(" ")
-              doc["#{klass}_t"] = data
+              doc["#{field_name}_#{suffix}"] = include_value(record, options)
             end
           end
         end
       end
     end
     
+    def include_value(record, options)
+      if options[:using].is_a? Proc
+        options[:using].call(record)
+      elsif options[:using].is_a? Symbol
+        record.send(options[:using])
+      else
+        record.attributes.inject([]){|k,v| k << "#{v.first}=#{ERB::Util.html_escape(v.last)}"}.join(" ")
+      end
+    end
+
     def validate_boost(boost)
       boost_value = case boost
       when Float

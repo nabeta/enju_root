@@ -3,10 +3,10 @@
 <table id="index">
   <tr>
     <th><%= ('Db file') -%></th>
-    <th><%= ('Filename') -%></th>
-    <th><%= ('Content type') -%></th>
-    <th><%= ('Size') -%></th>
-    <th><%= t('page.user') -%></th>
+    <th><%= t('activerecord.attributes.imported_resource_file.filename') -%></th>
+    <th><%= t('activerecord.attributes.imported_resource_file.content_type') -%></th>
+    <th><%= t('activerecord.attributes.imported_resource_file.size') -%></th>
+    <th><%= t('activerecord.models.user') -%></th>
   </tr>
 
 <%- for imported_resource_file in @imported_resource_files -%>
@@ -23,7 +23,7 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@imported_resource_files) -%>
+<%= will_paginate(@imported_resource_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
 <%= link_to ('New imported_resource_file'), new_imported_resource_file_path -%>

@@ -4,7 +4,7 @@
 
 <%- form_for(@checked_item, :url => user_basket_checked_items_path(@basket.user.login, @basket)) do |f| -%>
   <p>
-  <b><%= t('page.item') -%></b><br />
+  <b><%= t('activerecord.models.item') -%></b><br />
     <%= f.text_field :item_id -%>
   </p>
 

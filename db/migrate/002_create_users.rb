@@ -15,29 +15,30 @@ class CreateUsers < ActiveRecord::Migration
       t.column :activation_code, :string, :limit => 40
       t.column :activated_at, :datetime
 
-      t.column :patron_id, :integer, :null => false
-      t.column :library_id, :integer, :default => 1, :null => false
-      t.column :user_group_id, :integer, :default => 1, :null => false
-      t.column :reserves_count, :integer, :default => 0, :null => false
-      t.column :expired_at, :datetime
-      t.column :locked, :boolean, :default => true, :null => false
-      t.column :libraries_count, :integer, :default => 0, :null => false
-      t.column :bookmarks_count, :integer, :default => 0, :null => false
-      t.column :checkouts_count, :integer, :default => 0, :null => false
-      t.column :checkout_icalendar_token, :string
-      t.column :questions_count, :integer, :default => 0, :null => false
-      t.column :answers_count, :integer, :default => 0, :null => false
-      t.column :answer_rss_token, :string
-      t.column :due_date_reminder_days, :integer, :default => 1, :null => false
-      t.column :note, :text
-      t.column :share_bookmarks, :boolean, :default => false, :null => false
-      t.column :save_search_history, :boolean, :default => false, :null => false
-      t.column :save_checkout_history, :boolean, :default => false, :null => false
-      t.column :lock_version, :integer, :default => 0, :null => false
+      t.integer :patron_id, :null => false
+      t.integer :library_id, :default => 1, :null => false
+      t.integer :user_group_id, :default => 1, :null => false
+      t.integer :reserves_count, :default => 0, :null => false
+      t.datetime :expired_at
+      t.boolean :locked, :default => true, :null => false
+      t.integer :libraries_count, :default => 0, :null => false
+      t.integer :bookmarks_count, :default => 0, :null => false
+      t.integer :checkouts_count, :default => 0, :null => false
+      t.string :checkout_icalendar_token
+      t.integer :questions_count, :default => 0, :null => false
+      t.integer :answers_count, :default => 0, :null => false
+      t.string :answer_rss_token
+      t.integer :due_date_reminder_days, :default => 1, :null => false
+      t.text :note
+      t.boolean :share_bookmarks, :default => false, :null => false
+      t.boolean :save_search_history, :default => false, :null => false
+      t.boolean :save_checkout_history, :default => false, :null => false
+      t.integer :lock_version, :default => 0, :null => false
       t.integer :access_role_id, :null => false
       t.text :keyword_list
       t.string :user_number
       t.string :state, :default => 'pending', :null => false
+      t.integer :required_score, :default => 0, :null => false
     end
     add_index :users, :login, :unique => true
     add_index :users, :openid_url

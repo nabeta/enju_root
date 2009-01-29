@@ -2,15 +2,15 @@ require 'mathn'
 class Library < ActiveRecord::Base
   include DisplayName
   named_scope :physicals, :conditions => ['id != 1'], :order => :position
-  has_many :shelves, :order => "shelves.position", :conditions => "shelves.deleted_at IS NULL"
+  has_many :shelves, :order => "shelves.position"
   belongs_to :library_group, :validate => true
-  has_many :events, :conditions => "events.deleted_at IS NULL", :include => :event_category
+  has_many :events, :include => :event_category
   belongs_to :patron, :validate => true
-  has_many :inter_library_loans, :foreign_key => 'borrowing_library_id', :conditions => 'inter_library_loans.deleted_at IS NULL'
-  has_many :users, :conditions => 'users.deleted_at IS NULL'
+  has_many :inter_library_loans, :foreign_key => 'borrowing_library_id'
+  has_many :users
 
   acts_as_list
-  acts_as_paranoid
+  acts_as_soft_deletable
 
   validates_associated :library_group, :patron
   validates_presence_of :name, :short_name, :short_display_name, :library_group, :patron

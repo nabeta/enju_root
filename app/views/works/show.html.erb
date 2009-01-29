@@ -3,7 +3,7 @@
 <div>
   <%- if_authorized?(:destroy, @work) do -%>
     <ul>
-      <li><%= link_to ('New work'), new_work_path -%>
+      <li><%= link_to t('work.new'), new_work_path -%>
         <!--
         <ul>
           <li><%= link_to ('Add a child'), works_path(:parent_id => @work.id) -%></li>
@@ -43,10 +43,10 @@
       <li title="active" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
       <li><a href="#tab2"><em><%= t('page.author') -%></em></a></li>
       <%- unless @work.children.blank? -%>
-        <li><a href="#tab3"><em><%= t('page.work') -%></em></a></li>
+        <li><a href="#tab3"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
       <%- unless @work.expressions.blank? -%>
-        <li><a href="#tab4"><em><%= t('page.expression') -%></em></a></li>
+        <li><a href="#tab4"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- end -%>
       <li><a href="#tab5"><em><%= t('page.related_manifestation') -%></em></a></li>
     </ul>

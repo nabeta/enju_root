@@ -12,19 +12,19 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :title -%><br />
+    <b><%= t('activerecord.attributes.order_list.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
   <p>
-    <b><%= t('page.bookstore') -%></b><br />
+    <b><%= t('activerecord.models.bookstore') -%></b><br />
     <%= f.select(:bookstore_id, @bookstores.collect{|b| [b.name, b.id]}, :include_blank => true) -%>
   </p>
   <p>
-    <b><%= ('Ordered at') -%></b><br />
+    <b><%= t('activerecord.attributes.order_list.ordered_at') -%></b><br />
     <%= f.date_select :ordered_at -%>
   </p>
   <p>
-    <%= f.label :note -%><br />
+    <b><%= t('activerecord.attributes.order_list.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>

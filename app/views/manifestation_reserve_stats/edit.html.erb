@@ -1,35 +1,35 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), @manifestation_reserve_stat %></li>
-    <li><%= link_to 'Back', manifestation_reserve_stats_path %></li>
+    <li><%= link_to t('page.show'), @manifestation_reserve_stat -%></li>
+    <li><%= link_to 'Back', manifestation_reserve_stats_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 <h1>Editing manifestation_reserve_stat</h1>
 
-<% form_for(@manifestation_reserve_stat) do |f| %>
-  <%= f.error_messages %>
+<% form_for(@manifestation_reserve_stat) do |f| -%>
+  <%= f.error_messages -%>
 
   <p>
-    <%= f.label :from_date %><br />
-    <%= f.datetime_select :from_date %>
+    <%= f.label :start_date -%><br />
+    <%= f.datetime_select :start_date -%>
   </p>
   <p>
-    <%= f.label :to_date %><br />
-    <%= f.datetime_select :to_date %>
+    <%= f.label :end_date -%><br />
+    <%= f.datetime_select :end_date -%>
   </p>
   <p>
-    <%= f.label :note %><br />
-    <%= f.text_area :note %>
+    <%= f.label :note -%><br />
+    <%= f.text_area :note -%>
   </p>
   <p>
-    <%= f.label :state %><br />
-    <%= f.text_field :state %>
+    <%= f.label :state -%><br />
+    <%= f.text_field :state -%>
   </p>
   <p>
-    <%= f.submit "Update" %>
+    <%= f.submit "Update" -%>
   </p>
-<% end %>
+<% end -%>
 
 </div>

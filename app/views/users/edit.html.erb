@@ -20,15 +20,15 @@
     <%- if current_user == @user -%>
       <table>
         <tr>
-          <td><%= ('Current password') -%>:</td>
+          <td><%= t('user.current_password') -%>:</td>
           <td><%= password_field_tag "user[old_password]" -%></td>
         </tr>
         <tr>
-          <td><%= ('New password') -%>:</td>
+          <td><%= t('user.new_password') -%>:</td>
           <td><%= password_field_tag "user[password]" -%></td>
         </tr>
         <tr>
-          <td><%= ('Repeat new password') -%>:</td>
+          <td><%= t('user.repeat_new_password') -%>:</td>
           <td><%= password_field_tag "user[password_confirmation]" -%></td>
         </tr>
       </table>
@@ -45,11 +45,11 @@
   
   <p>
     <b><%= ('Suspended') -%></b>
-    <%= f.check_box :locked -%> <%= ('Suspended') -%>
+    <%= f.check_box :locked -%>
   </p>
 
   <p>
-    <b><%= ('Share bookmarks') -%></b>
+    <b><%= t('activerecord.attributes.user.share_bookmarks') -%></b>
     <%= f.check_box :share_bookmarks -%>
   </p>
   </div>
@@ -64,7 +64,7 @@
 
   <%- if current_user.has_role?('Administrator') -%>
     <p>
-      <b><%= ('Role') -%></b><br />
+      <b><%= t('activerecord.models.role') -%></b><br />
       <select id="user_role_id" name="user[role_id]">
       <%= options_from_collection_for_select(@roles, "id", "display_name", @user_role_id) -%>
       </select>
@@ -125,7 +125,7 @@
   <!-- TODO: iCalendarファイルはhttpsで送信するべき -->
   <%= ('Current url') -%>:
   <%- if @user.checkout_icalendar_token -%>
-    <%= link_to "http://#{LIBRARY_WEB_HOSTNAME}/icalendar/#{h(@user.checkout_icalendar_token)}.ics", url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
+    <%= link_to "http://#{LIBRARY_WEB_URL}/icalendar/#{h(@user.checkout_icalendar_token)}.ics", url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
   <%- end -%>
   <br />
   <%= hidden_field_tag 'user[reset_url]', 'checkout_icalendar' -%>

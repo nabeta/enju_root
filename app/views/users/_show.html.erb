@@ -15,12 +15,12 @@
 
     <p><%=h t('page.number_of_manifestations', :numdocs => Manifestation.numdocs, :count => Manifestation.numdocs) -%></p>
 
-  <h3><%= link_to ('New resources'), :controller => 'manifestations', :mode => 'recent' -%></h3>
+  <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
 
   </div>
 
   <div id="message_box">
-    <h3><%= link_to ('Listing messages'), user_messages_path(current_user.login) -%></h3>
+    <h3><%= link_to t('message.listing'), user_messages_path(current_user.login) -%></h3>
     <%- if logged_in? -%>
       <%- if current_user.unread_messages.size > 0 -%>
         <%= link_to t('page.number_of_unread_messages', :numdocs => current_user.unread_messages.size, :count => current_user.unread_messages.size), user_messages_path(current_user.login) -%>
@@ -45,11 +45,11 @@
   </div>
 
   <div id="tag_cloud_box">
-    <h3><%= ('Tag cloud') -%></h3>
+    <h3><%= t('tag.my_tag') -%></h3>
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.login) do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>
-    <p>(<%= link_to ('Listing tags'), tags_path -%>)</p>
+    <p>(<%= link_to t('tag.listing'), tags_path -%>)</p>
   </div>
 
 </div>

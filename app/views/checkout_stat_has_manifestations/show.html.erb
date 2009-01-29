@@ -1,18 +1,18 @@
 <p>
   <b>Manifestation checkout stat:</b>
-  <%=h @checkout_stat_has_manifestation.manifestation_checkout_stat_id %>
+  <%=h @checkout_stat_has_manifestation.manifestation_checkout_stat_id -%>
 </p>
 
 <p>
   <b>Manifestation:</b>
-  <%=h @checkout_stat_has_manifestation.manifestation_id %>
+  <%=h @checkout_stat_has_manifestation.manifestation_id -%>
 </p>
 
 <p>
   <b>Checkouts count:</b>
-  <%=h @checkout_stat_has_manifestation.checkouts_count %>
+  <%=h @checkout_stat_has_manifestation.checkouts_count -%>
 </p>
 
 
-<%= link_to t('page.edit'), edit_checkout_stat_has_manifestation_path(@checkout_stat_has_manifestation) %> |
-<%= link_to 'Back', checkout_stat_has_manifestations_path %>
+<%= link_to t('page.edit'), edit_checkout_stat_has_manifestation_path(@checkout_stat_has_manifestation) -%> |
+<%= link_to 'Back', checkout_stat_has_manifestations_path -%>

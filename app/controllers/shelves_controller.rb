@@ -49,6 +49,7 @@ class ShelvesController < ApplicationController
   # POST /shelves.xml
   def create
     @shelf = Shelf.new(params[:shelf])
+    @shelf.library = @library
 
     respond_to do |format|
       if @shelf.save
@@ -56,6 +57,7 @@ class ShelvesController < ApplicationController
         format.html { redirect_to shelf_url(@shelf) }
         format.xml  { head :created, :location => library_shelf_url(@shelf.library.short_name, @shelf) }
       else
+        @library = Library.find(:first) if @library.nil?
         format.html { render :action => "new" }
         format.xml  { render :xml => @shelf.errors.to_xml }
       end
@@ -79,6 +81,7 @@ class ShelvesController < ApplicationController
         format.html { redirect_to library_shelf_url(@shelf.library.short_name, @shelf) }
         format.xml  { head :ok }
       else
+        @library = Library.find(:first) if @library.nil?
         format.html { render :action => "edit" }
         format.xml  { render :xml => @shelf.errors.to_xml }
       end

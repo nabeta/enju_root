@@ -1,0 +1,32 @@
+en:
+  date:
+    formats:
+      # Use the strftime parameters for formats.
+      # When no format has been given, it uses default.
+      # You can provide other formats here if you like!
+      default: "%b %d, %Y"
+      short: "%m/%d/%y"
+      long: "%A, %B %d, %Y"
+      
+    day_names: [Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday]
+    abbr_day_names: [Sun, Mon, Tue, Wed, Thu, Fri, Sat]
+      
+    # Don't forget the nil at the beginning; there's no such thing as a 0th month
+    month_names: [~, January, February, March, April, May, June, July, August, September, October, November, December]
+    abbr_month_names: [~, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec]
+    # Used in date_select and datime_select.
+    order: [ :year, :month, :day ]
+
+  time:
+    formats:
+      default: "%b %d, %Y h:%M:%S a"
+      short: "%m/%d/%y h:%M a"
+      long: "%A, %B %d, %Y h:%M:%S a %Z"
+    am: "AM"
+    pm: "PM"
+      
+# Used in array.to_sentence.
+  support:
+    array:
+      sentence_connector: "and"
+      skip_last_comma: false

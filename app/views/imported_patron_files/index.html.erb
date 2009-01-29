@@ -3,9 +3,9 @@
 <table id="index">
   <tr>
     <th><%= ('Db file') -%></th>
-    <th><%= ('Filename') -%></th>
-    <th><%= ('Content type') -%></th>
-    <th><%= ('Size') -%></th>
+    <th><%= t('activerecord.attributes.imported_patron_file.filename') -%></th>
+    <th><%= t('activerecord.attributes.imported_patron_file.content_type') -%></th>
+    <th><%= t('activerecord.attributes.imported_patron_file.size') -%></th>
     <th><%= t('page.user') -%></th>
   </tr>
 
@@ -23,7 +23,7 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@imported_patron_files) -%>
+<%= will_paginate(@imported_patron_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
 <%= link_to ('New imported_patron_file'), new_imported_patron_file_path -%>

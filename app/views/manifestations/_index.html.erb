@@ -50,7 +50,7 @@
 <!--
 http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
 -->
-      <%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;") -%>
+      <%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous', :next_label => t('page.next') + " &#187;")) -%>
       <div style="margin-top: 1em">
         <%- if @manifestations and @manifestations.size > Manifestation.per_page / 2 -%>
           <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
@@ -66,7 +66,7 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
 
   <%- else -%>
     <p>
-      <%= ('No records found.') -%>
+      <%= t('page.no_record_found') -%>
       <%= ('You can search the following database.') -%>
     </p>
     <%- @search_engines.each do |search_engine| -%>
@@ -85,12 +85,12 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
     <%- end -%>
   <%- end -%>
 <%- else -%>
-  <p><%= ('Enter your search term.') -%></p>
+  <p><%= t('page.enter_search_term') -%></p>
 <%- end -%>
 
 <%- if @count[:query_result] > 0 -%>
   <div id="tag_cloud">
-    <h3><%= t('page.tag') -%></h3>
+    <h3><%= t('activerecord.models.tag') -%></h3>
     <div id="tag_cloud_list" style="display: none"></div>
     <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
       :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
@@ -105,7 +105,7 @@ http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
   <%- unless @query.blank? -%>
     <div>
       <%- if params[:library_id].blank? -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
       <%- else -%>
         <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
       <%- end -%>

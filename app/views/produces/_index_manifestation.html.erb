@@ -12,7 +12,7 @@
   <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
 <table id="index">
   <tr>
-    <th><%= t('page.patron') -%></th>
+    <th><%= t('activerecord.models.patron') -%></th>
   </tr>
   
 <%- for produce in @produces -%>
@@ -29,5 +29,5 @@
 
 <br />
 
-<%= will_paginate(@produces) -%>
+<%= will_paginate(@produces, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

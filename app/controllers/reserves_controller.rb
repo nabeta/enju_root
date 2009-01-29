@@ -30,6 +30,7 @@ class ReservesController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @reserves.to_xml }
       format.rss  { render :layout => false }
+      format.atom
     end
   end
 

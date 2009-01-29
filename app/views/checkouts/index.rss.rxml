@@ -4,11 +4,11 @@ xml.rss('version' => "2.0",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     if @user
-      xml.title "#{h(@user.login)}'s checkouts at #{@library_group.name}"
-      xml.link "#{request.protocol}#{request.host_with_port}" + user_checkouts_path(@user.login)
+      xml.title t('checkout.user_checkout', :login_name => @user.login)
+      xml.link user_checkouts_url(@user.login)
     else
-      xml.title "Checkouts at #{@library_group.name}"
-      xml.link "#{request.protocol}#{request.host_with_port}" + checkouts_path
+      xml.title t('checkout.library_group_checkout', :library_group_name => @library_group.name)
+      xml.link checkouts_url
     end
     xml.description "open-source integrated library automation system developed by Kamata Library"
     xml.language "ja-jp" # TODO: 日本語以外

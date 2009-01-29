@@ -2,7 +2,7 @@ require 'open-uri'
 class BookmarkedResource < ActiveRecord::Base
   named_scope :manifestations, lambda {|manifestation_ids| {:conditions => {:manifestation_id => manifestation_ids}}}
   has_many :bookmarks, :dependent => :destroy, :include => :bookmarked_resource
-  has_many :users, :through => :bookmarks, :conditions => 'users.deleted_at IS NULL'
+  has_many :users, :through => :bookmarks
   belongs_to :manifestation, :validate => true
   
   validates_associated :manifestation
@@ -13,8 +13,8 @@ class BookmarkedResource < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
-  attr_accessor :from_date
-  attr_accessor :to_date
+  attr_accessor :start_date
+  attr_accessor :end_date
 
   # http://d.hatena.ne.jp/zariganitosh/20061120/1163998759
   def validate
@@ -25,11 +25,11 @@ class BookmarkedResource < ActiveRecord::Base
     self.users.include?(user)
   end
 
-  def bookmarked_count(from_date = Time.zone.now.beginning_of_day, to_date = 1.day.from_now.beginning_of_day)
-    if from_date or to_date
-      from_date = Time.zone.now.beginning_of_day if from_date.blank?
-      to_date = 1.day.from_now.beginning_of_day if to_date.blank?
-      self.bookmarks.find(:all, :conditions => ['created_at >= ? AND created_at < ?', from_date, to_date]).size
+  def bookmarked_count(start_date = Time.zone.now.beginning_of_day, end_date = 1.day.from_now.beginning_of_day)
+    if start_date or end_date
+      start_date = Time.zone.now.beginning_of_day if start_date.blank?
+      end_date = 1.day.from_now.beginning_of_day if end_date.blank?
+      self.bookmarks.find(:all, :conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]).size
     else
       self.bookmarks.size
     end
