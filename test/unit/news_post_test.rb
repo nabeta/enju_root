@@ -1,8 +1,7 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class NewsPostTest < ActiveSupport::TestCase
+  fixtures :news_posts, :library_groups
+
   # Replace this with your real tests.
-  test "the truth" do
-    assert true
-  end
 end

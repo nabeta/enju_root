@@ -793,6 +793,8 @@ en:
     holding_library: "Holding library"
     resource: "Resource"
     type: "Type"
+    search_result_feed: "Search result feed"
+    force_reload: "Force reload"
   advanced_search:
     from: "from"
     to: "to"
