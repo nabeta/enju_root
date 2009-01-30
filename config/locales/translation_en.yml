@@ -874,8 +874,14 @@ en:
     library_group_question: "Questions in {{library_group_name}}"
   checkout:
     listing: "Listing checkouts"
+    editing: "Editing checkouts"
     user_checkout: "{{login_name}}'s checkouts"
     library_group_checkout: "Checkouts in {{library_group_name}}"
+    editing_due_date: "Editing due date"
+    renewal: "Renewal"
+    renewal_count: "Renewal count"
+    new_due_date: "New due date"
+    this_item_cant_be_renewed: "This item can't be renewed."
   library:
     map: "Map"
     staff: "Staff"
@@ -904,5 +910,8 @@ en:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
   purchase_request:
+    listing: "Listing purchase requests"
+    new: "New purchase request"
+    editing: "Editing purchase request"
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"

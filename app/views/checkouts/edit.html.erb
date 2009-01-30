@@ -6,21 +6,21 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing checkout') -%></h1>
+<h1><%= t('checkout.editing') -%></h1>
 
-<h1><%= ('Renewal') -%></h1>
+<h2><%= t('checkout.renewal') -%></h2>
 <%- if @checkout.checkout_renewable? -%>
   <%- form_for :checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put } do |f| -%>
-    <%= ('New due date') -%>: <%=h @renew_due_date -%>
+    <%= t('checkout.new_due_date') -%>: <%=h @renew_due_date -%>
     <%= f.hidden_field :due_date, :value => @renew_due_date -%>
     <br />
     <%= submit_tag t('page.update') -%>
   <%- end -%>
 <%- else -%>
-  <p><%= ('This item can\'t be renewed.') -%></p>
+  <p><%= t('checkout.this_item_cant_be_renewed') -%></p>
 <%- end -%>
 
-<h1><%= t('page.edit') -%></h1>
+<h2><%= t('checkout.editing_due_date') -%></h2>
 
 <%= error_messages_for :checkout -%>
 
@@ -29,9 +29,12 @@
     <%= f.hidden_field :user_id -%>
     <%= f.hidden_field :item_id -%>
     <%= f.date_select :due_date, :value => @renew_due_date  -%>
-    <br />
-    <%= ('Loan renewal count') -%>: <%= f.text_field :checkout_renewal_count, :class => 'resource_integer' -%>
-    <br />
+  </p>
+  <p>
+    <%= t('checkout.renewal_count') -%>: <%= f.text_field :checkout_renewal_count, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
     <%= submit_tag t('page.update') -%>
   </p>
 <%- end -%>

@@ -866,8 +866,14 @@ ja:
     library_group_question: "{{library_group_name}} での質問"
   checkout:
     listing: "貸出資料の一覧"
+    editing: "貸出情報の編集"
     user_checkout: "{{login_name}} さんの貸出資料"
     library_group_checkout: "{{library_group_name}} での貸出"
+    editing_due_date: "貸出期限日の編集"
+    renewal: "貸出の更新"
+    renewal_count: "更新回数"
+    new_due_date: "新しい貸出期限日"
+    this_item_cant_be_renewed: "この資料は更新できません。"
   library:
     map: "地図"
     staff: "職員"
@@ -896,5 +902,8 @@ ja:
     user_reserve: "{{login_name}} さんの予約資料"
     library_group_reserve: "{{library_group_name}} での予約資料"
   purchase_request:
+    listing: "購入依頼の一覧"
+    new: "新しい購入依頼"
+    editing: "購入依頼の編集"
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"

@@ -15,8 +15,6 @@
   <%= flash[:notice] -%> 
   <p></p>
   <fieldset>
-    <legend><%= ('View Message') -%></legend>
-	
 	    <p>
         <label for="message_receiver_name" ><strong><%= ('Receiver') -%>:</strong></label>
         <%= rezm_to_user_link(@message) -%>
@@ -37,7 +35,7 @@
       </p>
       
       <p>
-        <label for="message_body" ><strong><%= ('Message') -%>:</strong></label>  
+        <label for="message_body" ><strong><%= t('activerecord.attributes.message.body') -%>:</strong></label>  
         <%= auto_link(simple_format(@message.body)) -%>
       </p>
 
