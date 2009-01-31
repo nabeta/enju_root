@@ -99,6 +99,10 @@
               <td><%=h @patron.telephone_number_1 -%></td>
             </tr>
             <tr>
+              <td><b><%= t('activerecord.attributes.patron.fax_number_1') -%>:</b></td>
+              <td><%=h @patron.fax_number_1 -%></td>
+            </tr>
+            <tr>
               <td><b><%= t('activerecord.attributes.patron.address_1_note') -%>:</b></td>
               <td><%=h @patron.address_1_note -%></td>
             </tr>
@@ -115,12 +119,12 @@
               <td><%=h @patron.telephone_number_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.address_2_note') -%>:</b></td>
-              <td><%=h @patron.address_2_note -%></td>
+              <td><b><%= t('activerecord.attributes.patron.fax_number_2') -%>:</b></td>
+              <td><%=h @patron.fax_number_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.fax_number') -%>:</b></td>
-              <td><%=h @patron.fax_number -%></td>
+              <td><b><%= t('activerecord.attributes.patron.address_2_note') -%>:</b></td>
+              <td><%=h @patron.address_2_note -%></td>
             </tr>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.date_of_birth') -%>:</b></td>

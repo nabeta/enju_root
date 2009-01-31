@@ -84,7 +84,7 @@
 <%
   cache(:id => @manifestation.id, :action_suffix => 'detail') do
 %>
-    <%= render :partial => 'manifestation_patrons_list' -%>
+  <%= render :partial => 'manifestation_patrons_list', :locals => {:manifestation => @manifestation} -%>
 
   <div id="tabview">
 

@@ -162,7 +162,8 @@ en:
         address_2_note: Address 2 note
         telephone_number_1: Telephone number 1
         telephone_number_2: Telephone number 2
-        fax_number: Fax number
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
         other_designation: Other designation
         place: Place
         date_of_birth: Date of birth
@@ -762,7 +763,7 @@ en:
     account: "Account"
     form: "Form"
     remove_this_facet: "Remove this facet"
-    patron_management: "Patron management"
+    add_patron: "Add a patron"
     total: "Total"
     sort_by: "Sort by"
     bookmarklet: "Bookmarklet"
@@ -835,6 +836,7 @@ en:
     listing: "Listing items"
     new: "New item"
     edit: "Editing item"
+    donor: "Donors"
   patron:
     listing: "Listing patrons"
     new: "New patron"
@@ -917,3 +919,5 @@ en:
     new: "New order list"
     editing: "Editing order list"
     library_group_order_list: "Order lists in {{library_group_name}}"
+  basket:
+    new: "New basket"

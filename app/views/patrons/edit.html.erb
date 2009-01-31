@@ -36,12 +36,12 @@
 
   <p>
     <b><%= t('activerecord.attributes.patron.date_of_birth') -%></b><br />
-    <%= f.date_select :date_of_birth, :blank => true -%>
+    <%= f.date_select :date_of_birth, :include_blank => true -%>
   </p>
 
   <p>
     <b><%= t('activerecord.attributes.patron.date_of_death') -%></b><br />
-    <%= f.date_select :date_of_death, :blank => true -%>
+    <%= f.date_select :date_of_death, :include_blank => true -%>
   </p>
 
   <p>
@@ -63,7 +63,10 @@
     <b><%= t('activerecord.attributes.patron.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
+
   <%- if @patron.user -%>
+  <hr />
+
   <p>
     <b><%= t('activerecord.attributes.patron.zip_code_1') -%></b><br />
     <%= f.text_field :zip_code_1, :class => 'resource_title' -%>
@@ -80,9 +83,16 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.patron.fax_number_1') -%></b><br />
+    <%= f.text_field :fax_number_1, :class => 'resource_telephone_number' -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.attributes.patron.address_1_note') -%></b><br />
     <%= f.text_area :address_1_note, :class => 'resource_textarea' -%>
   </p>
+
+  <hr />
 
   <p>
     <b><%= t('activerecord.attributes.patron.zip_code_2') -%></b><br />
@@ -100,13 +110,13 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.patron.address_2_note') -%></b><br />
-    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.patron.fax_number_2') -%></b><br />
+    <%= f.text_field :fax_number_2, :class => 'resource_telephone_number' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.patron.fax_number') -%></b><br />
-    <%= f.text_field :fax_number, :class => 'resource_telephone_number' -%>
+    <b><%= t('activerecord.attributes.patron.address_2_note') -%></b><br />
+    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
   </p>
 
   <%- end -%>

@@ -23,16 +23,12 @@
 </div>
 
 <div id="content_detail">
-<p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <div>
-    <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
-      <%- if @item.manifestation -%>
-        <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @item.manifestation} -%>
-      <%- end -%>
-    <%- end -%>
-  </div>
-</p>
+
+<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
+  <%- if @item.manifestation -%>
+    <%= render :partial => 'manifestations/manifestation_patrons_list', :locals => {:manifestation => @item.manifestation} -%>
+  <%- end -%>
+<%- end -%>
 
 <p>
   <b><%= t('activerecord.models.shelf') -%>:</b>
@@ -58,21 +54,21 @@
 </p>
 
 <p>
-  <b><%= t('page.price') -%>:</b>
+  <b><%= t('activerecord.attributes.item.price') -%>:</b>
   <%=h @item.price -%>
 </p>
 
 <p>
-  <b><%= ('URL') -%>:</b>
+  <b><%= t('activerecord.attributes.item.url') -%>:</b>
   <%=h @item.url -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.item.include_supplements') -%>:</b>
   <%- if @item.include_supplements -%>
-    Yes
+    <%= ('Yes') -%>
   <%- else -%>
-    No
+    <%= ('No') -%>
   <%- end -%>
 </p>
 
@@ -88,7 +84,7 @@
 <%- if_authorized?(:destroy, @item) do -%>
 
   <p>
-    <b><%= ('Donors') -%>:</b>
+    <b><%= t('item.donor') -%>:</b>
     <%- @item.donors.each do |patron| -%>
       <%= link_to h(patron.full_name), patron -%>
     <%- end -%>
