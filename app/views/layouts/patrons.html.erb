@@ -19,7 +19,8 @@
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => ("Patron in %{library}")) if @query -%>
+    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+    <%= auto_discovery_link_tag(:atom, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>

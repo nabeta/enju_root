@@ -5,8 +5,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= t('activerecord.models.inter_library_loan') -%>: <%=h controller.action_name -%></title>
-  <%= auto_discovery_link_tag(:rss, formatted_inter_library_loans_path(:format => 'rss'), :title => ("Inter library loan requests at %{library}")) -%>
   <%= render :partial => 'page/include' -%>
+  <%- if controller.action_name == 'index' -%>
+    <%= auto_discovery_link_tag(:rss, formatted_inter_library_loans_url(:rss), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+    <%= auto_discovery_link_tag(:atom, formatted_inter_library_loans_url(:atom), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
+  <%- end -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

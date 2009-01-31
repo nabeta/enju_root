@@ -3,13 +3,8 @@ xml.rss('version' => "2.0",
   'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
-    if @user
-      xml.title t('question.user_question', :login_name => @user.login)
-      xml.link user_questions_url(@user.login)
-    else
-      xml.title t('question.library_group_question', :library_group_name => @library_group.display_name)
-      xml.link questions_url
-    end
+    xml.title t('order_list.library_group_order_list', :library_group_name => @library_group.display_name)
+    xml.link order_lists_url
     xml.description "open-source integrated library automation system developed by Kamata Library"
     xml.language "ja-jp" # TODO: 日本語以外
     xml.ttl "60"
@@ -22,14 +17,14 @@ xml.rss('version' => "2.0",
       xml.tag! "opensearch:itemsPerPage", @per_page
       #xml.tag! "opensearch:Query", :role => 'request', :searchTerms => params[:query], :startPage => (params[:page] || 1)
     end
-    for question in @questions
+    for order_list in @order_lists
       xml.item do
-        xml.title question.body
-        #xml.description(question.title)
+        xml.title order_list.title
+        #xml.description(order_list.title)
         # rfc822
-        xml.pubDate question.created_at.rfc2822
-        xml.link "#{request.protocol}#{request.host_with_port}" + user_question_path(question.user.login, question)
-        xml.guid "#{request.protocol}#{request.host_with_port}" + user_question_path(question.user.login, question), :isPermaLink => "true"
+        xml.pubDate order_list.created_at.rfc2822
+        xml.link "#{request.protocol}#{request.host_with_port}" + order_list_path(order_list)
+        xml.guid "#{request.protocol}#{request.host_with_port}" + order_list_path(order_list), :isPermaLink => "true"
       end
       @startrecord += 1
     end

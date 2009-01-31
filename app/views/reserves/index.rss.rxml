@@ -7,7 +7,7 @@ xml.rss('version' => "2.0",
       xml.title t('reserve.user_reserve', :login_name => @user.login)
       xml.link formatted_user_reserves_url(@user.login, :rss)
     else
-      xml.title t('reserve.library_group_reserve', :library_group_name => @library_group.name)
+      xml.title t('reserve.library_group_reserve', :library_group_name => @library_group.display_name)
       xml.link formatted_reserves_url(:rss)
     end
     xml.description "open-source integrated library automation system developed by Kamata Library"

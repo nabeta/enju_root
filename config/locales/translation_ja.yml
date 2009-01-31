@@ -755,6 +755,8 @@ ja:
     account: "アカウント"
     form: "形態"
     remove_this_facet: "この絞り込みを解除する"
+    no_subject: "件名はついていません。"
+    no_tag: "タグはついていません。"
     add_patron: "パトロンを追加する"
     total: "合計"
     sort_by: "次の項目で並べ替える"
@@ -801,12 +803,14 @@ ja:
     new: "新しい著作形"
     editing: "著作形の編集"
     patrons_work: "{{patron_name}} の著作形"
+    library_group_work: "{{library_group_name}} にある著作形"
   expression:
     listing: "表現形の一覧"
     new: "新しい表現形"
     editing: "表現形の編集"
     patrons_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
+    library_group_expression: "{{library_group_name}} にある表現形"
   manifestation:
     listing: "体現形の一覧"
     new: "新しい体現形"
@@ -824,7 +828,7 @@ ja:
     reserve_this: "この資料を予約する"
     cancel_reservation: "この資料の予約を解除する"
     patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
-    no_subject: "件名はついていません。"
+    query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
   item:
     listing: "個別資料の一覧"
     new: "新しい個別資料"
@@ -834,6 +838,7 @@ ja:
     listing: "パトロンの一覧"
     new: "新しいパトロン"
     editing: "パトロンの編集"
+    library_group_patron: "{{library_group_name}} のパトロン"
   message:
     listing: "メッセージの一覧"
     new: "新しいメッセージ"
@@ -863,6 +868,12 @@ ja:
     user_question: "{{login_name}} さんの質問"
     no_record_found: "事例が見つかりませんでした。"
     library_group_question: "{{library_group_name}} での質問"
+  answer:
+    listing: "回答の一覧"
+    new: "新しい回答"
+    editing: "回答の編集"
+    user_answer: "{{login_name}} さんの寄せた回答"
+    library_group_answer: "{{library_group_name}} の寄せた回答"
   checkout:
     listing: "貸出資料の一覧"
     editing: "貸出情報の編集"
@@ -898,6 +909,9 @@ ja:
     new: "新しい広告記事"
     editing: "広告記事の編集"
   news_post:
+    listing: "お知らせの一覧"
+    new: "新しいお知らせ"
+    editing: "お知らせの編集"
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
     user_reserve: "{{login_name}} さんの予約資料"
@@ -913,5 +927,10 @@ ja:
     new: "新しい発注リスト"
     editing: "発注リストの編集"
     library_group_order_list: "{{library_group_name}} の発注リスト"
+  inter_library_loan:
+    listing: "相互貸借の一覧"
+    new: "新しい相互貸借"
+    editing: "相互貸借の編集"
+    library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
   basket:
     new: "新しい貸出"

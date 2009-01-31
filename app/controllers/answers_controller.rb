@@ -29,6 +29,7 @@ class AnswersController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @answers.to_xml }
       format.rss  { render :layout => false }
+      format.atom
     end
   end
 

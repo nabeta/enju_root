@@ -2,8 +2,8 @@ xml.instruct! :xml, :version=>"1.0"
 xml.OpenSearchDescription(
   'xmlns' => "http://a9.com/-/spec/opensearch/1.1/",
   'xmlns:moz' => 'http://www.mozilla.org/2006/browser/search/'){
-  xml.ShortName "#{@library_group.name}"
-  xml.Description "#{@library_group.name}"
+  xml.ShortName "#{@library_group.display_name}"
+  xml.Description "#{@library_group.display_name}"
   xml.Tags 'Library Catalog'
   xml.Contact "webmaster@kamata.lib.teu.ac.jp"
   xml.Url :type => 'text/html', :template => "#{request.protocol}#{request.host_with_port}/manifestations?query={searchTerms}&pages={startPage?}"

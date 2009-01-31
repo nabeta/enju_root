@@ -22,6 +22,7 @@ class InterLibraryLoansController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @inter_library_loans }
       format.rss  { render :layout => false }
+      format.atom
     end
   end
 

@@ -763,6 +763,8 @@ en:
     account: "Account"
     form: "Form"
     remove_this_facet: "Remove this facet"
+    no_subject: "No subjects."
+    no_tag: "No tags."
     add_patron: "Add a patron"
     total: "Total"
     sort_by: "Sort by"
@@ -807,18 +809,20 @@ en:
   work:
     listing: "Listing works"
     new: "New work"
-    edit: "Editing work"
+    editing: "Editing work"
     patrons_work: "{{patron_name}}'s works"
+    library_group_work: "Works in {{library_group_name}}"
   expression:
     listing: "Listing expressions"
     new: "New expression"
-    edit: "Editing expression"
+    editing: "Editing expression"
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
+    library_group_expression: "Expressions in {{library_group_name}}"
   manifestation:
     listing: "Listing manifestations"
     new: "New manifestation"
-    edit: "Editing manifestation"
+    editing: "Editing manifestation"
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
     edit: "Edit this manifestation"
@@ -831,15 +835,17 @@ en:
     reserve_this: "Reserve this manifestation"
     cancel_reservation: "Cancel this reservation"
     patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
-    no_subject: "No subjects."
+    query_search_result: "Search results for {{query}} in {{library_group_name}}"
   item:
     listing: "Listing items"
     new: "New item"
-    edit: "Editing item"
+    editing: "Editing item"
     donor: "Donors"
+    library_group_item: "Items in {{library_group_name}}"
   patron:
     listing: "Listing patrons"
     new: "New patron"
+    editing: "Editing patron"
   message:
     listing: "Listing messages"
     user_message: "{{login_name}}'s messages"
@@ -863,12 +869,20 @@ en:
     user_tag: "{{login_name}}'s tags"
   question:
     listing: "Listing questions"
+    new: "New question"
+    editing: "Editing question"
     number_of_search_results:
       one: "1 record found."
       other: "{{count}} records found."
     user_question: "{{login_name}}'s questions"
     no_record_found: "No records found."
     library_group_question: "Questions in {{library_group_name}}"
+  answer:
+    listing: "Listing answers"
+    new: "New answer"
+    editing: "Editing answer"
+    user_answer: "{{login_name}}'s answers"
+    library_group_answer: "Answers from {{library_group_name}}"
   checkout:
     listing: "Listing checkouts"
     editing: "Editing checkouts"
@@ -904,6 +918,9 @@ en:
     new: "New advertisement"
     editing: "Editing advertisement"
   news_post:
+    listing: "Listing news posts"
+    new: "New news post"
+    editing: "Editing news post"
     library_group_news_post: "News from {{library_group_name}}"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
@@ -919,5 +936,10 @@ en:
     new: "New order list"
     editing: "Editing order list"
     library_group_order_list: "Order lists in {{library_group_name}}"
+  inter_library_loan:
+    listing: "Listing inter library loans"
+    new: "New inter library loan"
+    editing: "Editing inter library loan"
+    library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
   basket:
     new: "New basket"

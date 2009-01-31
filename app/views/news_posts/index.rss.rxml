@@ -4,7 +4,7 @@ xml.rss('version' => "2.0",
         'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
         'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
-    xml.title t('news_post.library_group_news_post', :library_group_name => @library_group.name)
+    xml.title t('news_post.library_group_news_post', :library_group_name => @library_group.display_name)
     xml.link "#{LIBRARY_WEB_URL}"
     xml.description "open-source integrated library automation system developed by Kamata Library and Project Next-L"
     xml.language "ja-jp" # TODO: 日本語以外
