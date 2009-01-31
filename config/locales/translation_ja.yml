@@ -912,6 +912,6 @@ ja:
     listing: "発注リストの一覧"
     new: "新しい発注リスト"
     editing: "発注リストの編集"
-    library_group_order_list: "{{library_group}} の発注リスト"
+    library_group_order_list: "{{library_group_name}} の発注リスト"
   basket:
     new: "新しい貸出"

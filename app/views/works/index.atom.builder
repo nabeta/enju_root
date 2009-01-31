@@ -1,5 +1,5 @@
 atom_feed(:url => formatted_works_url(:atom)) do |feed|
-  feed.title("#{@library_group.name} search results")
+  feed.title("#{@library_group.display_name} search results")
   feed.updated(@works.first ? @works.first.created_at : Time.zone.now)
 
   for work in @works

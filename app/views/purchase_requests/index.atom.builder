@@ -2,7 +2,7 @@ atom_feed(:url => formatted_purchase_requests_url(:atom)) do |feed|
   if @user
     feed.title t('purchase_request.user_purchase_request', :login_name => @user.login)
   else
-    feed.title t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.name)
+    feed.title t('purchase_request.library_group_purchase_request', :library_group.display_name => @library_group.display_name)
   end
   feed.updated(@purchase_requests.first ? @purchase_requests.first.created_at : Time.zone.now)
 

@@ -1,5 +1,5 @@
 atom_feed(:url => formatted_manifestations_url(:atom)) do |feed|
-  feed.title("#{@library_group.name} search results")
+  feed.title("#{@library_group.display_name} search results")
   feed.updated(@manifestations.first ? @manifestations.first.created_at : Time.zone.now)
 
   for manifestation in @manifestations
