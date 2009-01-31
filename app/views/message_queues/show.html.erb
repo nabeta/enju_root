@@ -8,12 +8,12 @@
 
 <div id="content_detail">
 <p>
-  <b><%= t('page.sender') -%>:</b>
+  <b><%= t('message.sender') -%>:</b>
   <%= link_to h(@message_queue.sender.login), user_path(@message_queue.sender.login) -%>
 </p>
 
 <p>
-  <b><%= ('Receiver') -%>:</b>
+  <b><%= t('message.receiver') -%>:</b>
   <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
 </p>
 
@@ -28,7 +28,7 @@
 </p>
 
 <p>
-  <b><%= ('Sent at') -%>:</b>
+  <b><%= t('activerecord.attributes.message_queue.sent_at') -%>:</b>
   <%= @message_queue.sent_at -%>
 </p>
 

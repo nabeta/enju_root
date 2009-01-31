@@ -6,29 +6,29 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing message') -%></h1>
+<h1><%= t('message.editing') -%></h1>
 
 <%= error_messages_for :message -%>
 
 <%- form_for(@message) do |f| -%>
   <p>
-    <b><%= t('page.sender') -%></b><br />
+    <b><%= t('message.sender') -%></b><br />
     <%= @message.sender.login -%>
     <%= f.hidden_field :sender_id -%>
   </p>
 
   <p>
-    <b><%= ('Receiver') -%></b><br />
+    <b><%= t('message.receiver') -%></b><br />
     <%= f.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
   </p>
 
   <p>
-    <b><%= t('page.title') -%></b><br />
-    <%= f.text_field :title, :class => 'resource_title' -%>
+    <b><%= t('activerecord.attributes.message.subject') -%></b><br />
+    <%= f.text_field :subject, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= ('Body') -%></b><br />
+    <b><%= t('activerecord.attributes.message.body') -%></b><br />
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
 

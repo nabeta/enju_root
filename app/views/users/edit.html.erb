@@ -123,9 +123,9 @@
 <b><%= ('Reset Checkout iCalendar url') -%></b><br />
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   <!-- TODO: iCalendarファイルはhttpsで送信するべき -->
-  <%= ('Current url') -%>:
+  <%= t('page.current_url') -%>:
   <%- if @user.checkout_icalendar_token -%>
-    <%= link_to "http://#{LIBRARY_WEB_URL}/icalendar/#{h(@user.checkout_icalendar_token)}.ics", url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
+    <%= link_to url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics"), url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
   <%- end -%>
   <br />
   <%= hidden_field_tag 'user[reset_url]', 'checkout_icalendar' -%>
@@ -139,7 +139,7 @@
 
 <%- if current_user.has_role?('Librarian') -%>
   <%- unless current_user == @user -%>
-    <h3><%= ('Delete this user') -%></h3>
+    <h3><%= t('user.delete_this_user') -%></h3>
     <p>
     <%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%>
     </p>
