@@ -1,11 +1,14 @@
 <div id="left_pane">
   <div id="user_box">
-    <h1><%= link_to h(@user.login), edit_user_path(@user.login) -%></h1>
+    <h1><%= link_to h(@user.login), user_path(@user.login) -%></h1>
     <%- if flash[:temporary_password] -%>
       <p><%= ('Your temporary password is') -%>: </p>
       <p style="font-size: 200%"><%=h flash[:temporary_password] -%></p>
     <%- end -%>
     <ul>
+      <%- if_authorized?(:destroy, @user) -%>
+        <li><%= link_to ('Edit profile'), edit_user_path(@user.login) -%></li>
+      <%- end -%>
       <li><%= link_to ('Send a message'), new_user_message_path(current_user.login, :recipient => @user.login) -%></li>
     </ul>
   </div>
