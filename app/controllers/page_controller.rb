@@ -1,9 +1,9 @@
 class PageController < ApplicationController
-  before_filter :store_location, :except => [:opensearch]
+  before_filter :store_location, :except => [:opensearch, :sitemap]
   before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :about, :message]
+  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message]
 
   caches_page :opensearch
 
@@ -63,6 +63,10 @@ class PageController < ApplicationController
   end
   
   def opensearch
+    render :layout => false
+  end
+
+  def sitemap
     render :layout => false
   end
 

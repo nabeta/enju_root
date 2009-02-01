@@ -730,6 +730,7 @@ en:
     feed: "Feed"
     back_to_index: "Back to index"
     import: "Import"
+    import_record: "Import records"
     export: "Export"
     detail: "Detail"
     acquisition: "Acquisition"
@@ -846,6 +847,9 @@ en:
     listing: "Listing patrons"
     new: "New patron"
     editing: "Editing patron"
+    work_patron: "Creaters of {{work_title}}"
+    expression_patron: "Realizers of {{expression_title}}"
+    manifestation_patron: "Producers of {{manifestation_title}}"
   message:
     listing: "Listing messages"
     user_message: "{{login_name}}'s messages"

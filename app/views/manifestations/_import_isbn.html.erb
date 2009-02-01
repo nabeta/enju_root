@@ -6,9 +6,9 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Import records') -%></h1>
+  <h1><%= t('page.import_record') -%></h1>
   <%- form_for(:manifestation, :url => manifestations_path(:mode => 'import_isbn')) do |f| -%>
-    <%= h('ISBN') -%>: <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+    <%= t('activerecord.attributes.manifestation.isbn') -%>: <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
     <%= submit_tag t('page.import') -%>
   <%- end -%>
   <%= javascript_tag("$('manifestation_isbn').focus()") -%>

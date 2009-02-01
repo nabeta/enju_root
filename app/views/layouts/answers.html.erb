@@ -15,7 +15,7 @@
       <%= auto_discovery_link_tag(:atom, url_for(:controller => 'answers', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('answer.library_group_answer', :library_group_name => @library_group.name) + " (Atom)")) -%>
     <%- end -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

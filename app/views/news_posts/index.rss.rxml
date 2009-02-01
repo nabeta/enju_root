@@ -5,13 +5,13 @@ xml.rss('version' => "2.0",
         'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     xml.title t('news_post.library_group_news_post', :library_group_name => @library_group.display_name)
-    xml.link "#{LIBRARY_WEB_URL}"
+    xml.link news_posts_url
     xml.description "open-source integrated library automation system developed by Kamata Library and Project Next-L"
     xml.language "ja-jp" # TODO: 日本語以外
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => formatted_news_posts_url(:format => :rss)
-    xml.tag! "atom:link", :rel => 'alternate', :href => "#{LIBRARY_WEB_URL}"
-    xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => ("#{LIBRARY_WEB_URL}" + "page/opensearch")
+    xml.tag! "atom:link", :rel => 'alternate', :href => root_url
+    xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => opensearch_url
     unless params[:query].blank?
       xml.tag! "opensearch:startIndex", @startrecord
       xml.tag! "opensearch:itemsPerPage", @per_page

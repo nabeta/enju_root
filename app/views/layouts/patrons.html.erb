@@ -12,8 +12,12 @@
     <%- else -%>
       <title><%= t('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
     <%- end -%>
+  <%- when @work -%>
+    <title><%= t('patron.work_patron', :work_title => @work.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
   <%- when @expression -%>
-    <title><%= ("Patrons for %{expression}") -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('patron.expression_patron', :expression_title => @expression.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+  <%- when @expression -%>
+    <title><%= t('patron.manifestation_patron', :manifestation_title => @manifestation.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
   <%- end -%>
@@ -22,7 +26,7 @@
     <%= auto_discovery_link_tag(:rss, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

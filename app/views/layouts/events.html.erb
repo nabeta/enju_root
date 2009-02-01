@@ -14,7 +14,7 @@
     <%= auto_discovery_link_tag(:rss, formatted_events_url(:rss), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
     <%= auto_discovery_link_tag(:atom, formatted_events_url(:atom), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

@@ -12,5 +12,5 @@ xml.OpenSearchDescription(
   xml.Language 'ja-jp'
   xml.OutputEncoding 'UTF-8'
   xml.InputEncoding 'UTF-8'
-  xml.tag! 'moz:SearchForm', "#{request.protocol}#{request.host_with_port}"
+  xml.tag! 'moz:SearchForm', root_url
 }
