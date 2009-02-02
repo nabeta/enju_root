@@ -1,0 +1,42 @@
+<%=
+  # will_paginate(@manifestations, :update => 'list', :params => {:action => :index, :list => 'partial'}, :renderer => RemoteLinkRenderer, :method => :get, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
+  # will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
+-%>
+<!-- 
+<br />
+-->
+
+  <table id="manifestation_list">
+    <%- @manifestations.each_with_index do |manifestation, i| -%>
+      <tr class="line<%= cycle("0", "1") -%>">
+        <td><%= itemnum = @startrecord + i -%></td>
+        <td>
+          <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
+          <%- unless manifestation.items.blank? -%>
+            <%- unless manifestation.manifestation_form.name == 'file' -%>
+              (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
+            <%- end -%>
+          <%- end -%>
+          <div class="holding" id="holding_<%=h manifestation.id -%>"></div>
+        </td>
+      </tr>
+    <%- end -%>
+  </table>
+
+<%=
+  # will_paginate(@manifestations, :update => 'list', :params => {:action => :index, :list => 'partial'}, :renderer => RemoteLinkRenderer, :method => :get, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
+  will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
+-%>
+<br />
+
+  <div>
+    <%- if @manifestations and @manifestations.size > Manifestation.per_page / 2 -%>
+      <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+        <p>
+          <%= t('page.search_term') -%>: <%= text_field_tag 'query', h("#{@query} #{@tag}"), {:id => 'searchform_bottom', :style => 'width: 350px'} -%>
+          <%= submit_tag t('page.search') -%>
+          <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
+        </p>
+      <%- end -%>
+    <%- end -%>
+  </div>

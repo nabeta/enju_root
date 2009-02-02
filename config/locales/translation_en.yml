@@ -790,6 +790,7 @@ en:
     search_result_feed: "Search result feed"
     force_reload: "Force reload"
     current_url: "Current URL"
+    subject_and_classification: "Subject and classification"
   advanced_search:
     from: "from"
     to: "to"
@@ -803,6 +804,9 @@ en:
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
+    invalid_url: "Invalid URL."
+    specify_title_and_url: "Specify title and URL."
+    already_bookmarked: "This resource is already bookmarked."
   bookmarked_resource:
     listing: "Listing bookmarked resource"
     add_to_library_bookmark: "Add to library bookmark"

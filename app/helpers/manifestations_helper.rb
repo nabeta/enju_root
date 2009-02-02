@@ -46,4 +46,5 @@ module ManifestationsHelper
     end
     links.join(" ")
   end
+
 end

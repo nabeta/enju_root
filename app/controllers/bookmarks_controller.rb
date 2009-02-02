@@ -42,8 +42,8 @@ class BookmarksController < ApplicationController
       access_denied
       return
     end
-    begin
-      url = URI.decode(params[:url])
+    #begin
+      url = URI.decode(params[:url]) rescue nil
       #parsed_url = URI.parse(URI.encode(url)).normalize
       #
       unless url.nil?
@@ -56,18 +56,18 @@ class BookmarksController < ApplicationController
           @title = @bookmarked_resource.title
         else
           @bookmarked_resource = BookmarkedResource.new(:url => url)
-          @title = Bookmark.get_title(URI.encode(url))
+          @title = Bookmark.get_title(URI.encode(url), root_url)
         end
-      else
-        raise
+      #else
+      #  raise
       end
-    rescue
-      url = nil
-      #parsed_url = nil
-      flash[:notice] = ("Invalid URL.")
-      redirect_to user_bookmarks_url(current_user.login)
-      return
-    end
+    #rescue
+    #  url = nil
+    #  #parsed_url = nil
+    #  flash[:notice] = t('bookmark.invalid_url')
+    #  redirect_to user_bookmarks_url(current_user.login)
+    #  return
+    #end
     #unless parsed_url.nil?
       #if parsed_url.host == LIBRARY_WEB_HOSTNAME
       #  path = parsed_url.path.split('/')
@@ -108,14 +108,14 @@ class BookmarksController < ApplicationController
           if params[:bookmark][:title]
             @bookmarked_resource.title = params[:bookmark][:title]
           else
-            @bookmarked_resource.title = Bookmark.get_title(URI.encode(url))
+            @bookmarked_resource.title = Bookmark.get_title(URI.encode(url), root_url)
           end
 
           # 自館のページをブックマークする場合
           if URI.parse(url).host == LIBRARY_WEB_HOSTNAME
             path = URI.parse(url).path.split('/')
             if path[1] == 'manifestations' and Manifestation.find(path[2])
-              @bookmarked_resource.manifestation = Manifestation.find(path[2]) rescue nil
+              @bookmarked_resource.manifestation = Manifestation.find(path[2])
             end
           end
         end
@@ -128,23 +128,19 @@ class BookmarksController < ApplicationController
           expression = Expression.new(:original_title => work.original_title)
           work.expressions << expression
         end
-      else
-        flash[:notice] = ('Specify title and url.')
-        redirect_to new_user_bookmark_path(current_user.login)
-        return
       end
     
       begin
         @bookmarked_resource.save!
         @bookmarked_resource.manifestation.expressions << expression if expression
       rescue
-        flash[:notice] = ('Specify title and url.')
+        flash[:notice] = t('bookmark.specify_title_and_url')
         redirect_to new_user_bookmark_path(current_user.login)
         return
       end
 
       if @user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @bookmarked_resource.id})
-        flash[:notice] = ('This resource is already bookmarked.')
+        flash[:notice] = t('bookmark.already_bookmarked')
         redirect_to new_user_bookmark_url(current_user.login)
         return
       end

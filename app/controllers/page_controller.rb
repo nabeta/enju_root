@@ -5,7 +5,7 @@ class PageController < ApplicationController
   before_filter :get_user # 上書き注意
   require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message]
 
-  caches_page :opensearch
+  caches_page :opensearch, :sitemap
 
   def index
     if logged_in?

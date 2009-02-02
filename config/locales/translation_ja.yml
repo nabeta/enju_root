@@ -782,6 +782,7 @@ ja:
     search_result_feed: "検索結果のフィード"
     force_reload: "強制的に再読込を行う"
     current_url: "現在のURL"
+    subject_and_classification: "件名と分類"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -795,6 +796,9 @@ ja:
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
+    invalid_url: "無効なURLです。"
+    specify_title_and_url: "タイトルとURLを指定してください。"
+    already_bookmarked: "すでにブックマークに登録されています。"
   bookmarked_resource:
     listing: "ブックマークされた資料の一覧"
     add_to_library_bookmark: "図書館のブックマークに追加"

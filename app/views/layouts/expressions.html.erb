@@ -7,7 +7,7 @@
   <%- case when @expression -%>
     <title><%=h @expression.original_title -%> : <%= t('activerecord.models.expression') -%>: <%=h controller.action_name -%></title>
   <%- when @patron -%>
-    <title><%= t('expression.patron_expression') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('expression.patron_expression', :patron_name => @patron.ful_name) -%>: <%=h controller.action_name -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.expression') -%>: <%=h controller.action_name -%></title>
   <%- end -%>

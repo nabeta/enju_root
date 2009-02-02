@@ -5,12 +5,12 @@
 
 <div id="content_detail">
 
-<h1><%= ('Request') -%></h1>
+<h1><%= t('page.request') -%></h1>
 
 <ul>
   <li><%= link_to t('activerecord.models.reserve'), user_reserves_path(current_user.login) -%></li>
-  <li><%= link_to ('Purchase request'), user_purchase_requests_path(current_user.login) -%></li>
-  <li><%= link_to ('Question'), user_questions_path(current_user.login) -%></li>
+  <li><%= link_to t('activerecord.models.purchase_request'), user_purchase_requests_path(current_user.login) -%></li>
+  <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user.login) -%></li>
 </ul>
 
 </div>

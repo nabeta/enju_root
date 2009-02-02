@@ -6,7 +6,7 @@
         <%= t('page.search_term') -%>:
         <%= text_field_tag 'query', nil, :style => 'width: 250px' -%>
         <%= submit_tag t('page.search') -%><br />
-        <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
+        (<%= link_to t('page.advanced_search'), '/page/advanced_search' -%>)
       </div>
     <%- end -%>
     <%= javascript_tag("$('query').focus()") -%>

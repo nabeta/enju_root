@@ -76,10 +76,10 @@ class Manifestation < ActiveRecord::Base
   #after_create :post_to_twitter
 
   def validate
-    unless self.date_of_publication.blank?
-      date = Time.parse(self.date_of_publication.to_s) rescue nil
-      errors.add(:date_of_publication) unless date
-    end
+    #unless self.date_of_publication.blank?
+    #  date = Time.parse(self.date_of_publication.to_s) rescue nil
+    #  errors.add(:date_of_publication) unless date
+    #end
 
     unless self.isbn.blank?
       errors.add(:isbn) unless ISBN_Tools.is_valid?(self.isbn)

@@ -128,7 +128,11 @@ class ManifestationsController < ApplicationController
     store_location
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html { # index.rhtml
+        if params[:list] == 'partial'
+          render :partial => 'list'
+        end
+      }
       format.xml  {
         if params[:oai]
           render :action => 'oai-pmh', :layout => false

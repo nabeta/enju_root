@@ -82,7 +82,7 @@
 
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail') do
+  cache(:id => @manifestation.id, :action_suffix => 'detail_1') do
 %>
   <%= render :partial => 'manifestation_patrons_list', :locals => {:manifestation => @manifestation} -%>
 
@@ -183,6 +183,9 @@
         <%- end -%>
       </td>
     </tr>
+  <%
+    end
+  -%>
     <tr>
       <td><%= t('page.tag') -%>:
       </td>
@@ -190,6 +193,9 @@
         <%= render :partial => 'tag_list' -%>
       </td>
     </tr>
+<%
+  cache(:id => @manifestation.id, :action_suffix => 'detail_2') do
+%>
     <%- unless @manifestation.serial? -%>
       <tr>
         <td>ISBN:</td>

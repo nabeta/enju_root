@@ -129,7 +129,7 @@ class BookmarkedResourcesController < ApplicationController
     @bookmarked_resource = BookmarkedResource.find(params[:id])
     unless params[:bookmarked_resource][:title]
       url = URI.parse(params[:bookmarked_resource][:url]).normalize.to_s
-      params[:bookmarked_resource][:title] = Bookmark.get_title(URI.encode(url)) if url
+      params[:bookmarked_resource][:title] = Bookmark.get_title(URI.encode(url), root_url) if url
     end
 
     respond_to do |format|
