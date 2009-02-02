@@ -9,18 +9,18 @@
 
 <%- form_for :user, :url => users_path do |f| -%>
 <%- if @patron -%>
-  <p><label for="login"><%= t('page.name') -%></label><br/>
+  <p><label for="patron"><%= t('page.name') -%></label><br/>
   <%= link_to h(@patron.full_name), patron_path(@patron) -%>
   <%= f.hidden_field :patron_id, :value => @patron.id -%></p>
 <%- end -%>
 
-<p><label for="login"><%= ('Login') -%></label><br/>
+<p><label for="login"><%= t('activerecord.attributes.user.login') -%></label><br/>
 <%= f.text_field :login, :value => "" -%></p>
 
-<p><label for="email"><%= ('Email') -%></label><br/>
+<p><label for="email"><%= t('activerecord.attributes.user.email') -%></label><br/>
 <%= f.text_field :email, :value => "" -%></p>
 
-<p><label for="user_number"><%= ('User number') -%></label><br/>
+<p><label for="user_number"><%= t('activerecord.attributes.user.user_number') -%></label><br/>
 <%= f.text_field :user_number, :value => "" -%></p>
 
 <p><label for="expired_at"><%= t('activerecord.attributes.user.expired_at') -%></label><br/>

@@ -1,11 +1,10 @@
-<h1><%= ('Listing answers') -%></h1>
+<h1><%= t('answer.listing') -%></h1>
 
 <%- if @question -%>
 
   <p><%= link_to textilize_without_paragraph(h(@question.body)), user_question_path(@question.user.login, @question) -%></p>
 <%- end -%>
 
-<h1><%= ('Answers') -%></h1>
 <table id="index">
   <tr>
     <th><%= t('page.user') -%></th>

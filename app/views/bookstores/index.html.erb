@@ -1,4 +1,4 @@
-<h1><%= ('Listing bookstores') -%></h1>
+<h1><%= t('bookstore.listing') -%></h1>
 
 <table id="index">
   <tr>
@@ -32,5 +32,5 @@
 <br />
 
 <%- if_authorized?(:new, Bookstore) do -%>
-  <%= link_to ('New bookstore'), new_bookstore_path -%>
+  <%= link_to t('bookstore.new'), new_bookstore_path -%>
 <%- end -%>

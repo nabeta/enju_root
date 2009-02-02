@@ -38,27 +38,27 @@
   </p>
 
   <p>
-  <b><%= t('activerecord.models.circulation_status') -%></b><br />
+    <b><%= t('activerecord.models.circulation_status') -%></b><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.item.call_number') -%></b><br />
+    <b><%= t('activerecord.attributes.item.call_number') -%></b><br />
     <%= f.text_field :call_number -%>
   </p>
 
   <p>
-  <b><%= t('page.price') -%></b><br />
+    <b><%= t('activerecord.attributes.item.price') -%></b><br />
     <%= f.text_field :price -%>
   </p>
 
   <p>
-  <b><%= ('URL') -%></b><br />
+    <b><%= t('activerecord.attributes.item.url') -%></b><br />
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
  
   <p>
-  <b><%= t('activerecord.attributes.item.include_supplements') -%></b>
+    <b><%= t('activerecord.attributes.item.include_supplements') -%></b>
     <%= f.check_box :include_supplements -%>
   </p>
  

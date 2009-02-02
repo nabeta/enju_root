@@ -1,9 +1,9 @@
-<h1><%= ('Listing news_feeds') -%></h1>
+<h1><%= t('news_feed.listing') -%></h1>
 
 <table id="index">
   <tr>
-    <th><%= t('page.title') -%></th>
-    <th><%= ('Url') -%></th>
+    <th><%= t('activerecord.attributes.news_feed.title') -%></th>
+    <th><%= t('activerecord.attributes.news_feed.url') -%></th>
   </tr>
 
 <%- for news_feed in @news_feeds -%>
@@ -24,6 +24,6 @@
 <br />
 <%= will_paginate(@news_feeds, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-<%= link_to ('New news_feed'), new_news_feed_path -%>
+<%= link_to t('news_feed.new'), new_news_feed_path -%>
 
-<%= link_to ('Clear cache'), news_feeds_path(:mode => 'clear_cache') -%>
+<%= link_to t('page.clear_cache'), news_feeds_path(:mode => 'clear_cache') -%>

@@ -521,9 +521,9 @@ ja:
         wrong_isbn: 間違ったISBNコード
         nbn: Nbn
         price: 価格
-        volume_number_list: 巻号一覧
-        issue_number_list: 発行番号一覧
-        serial_number_list: シリアル番号のリストを表示
+        volume_number_list: 巻号
+        issue_number_list: 号数
+        serial_number_list: 通号
         edition: 版
         note: 注記
         repository_content: リポジトリのコンテンツ
@@ -549,7 +549,7 @@ ja:
         note: 注記
         deleted_at: 削除時刻
       message_template:
-        status: 地位
+        status: 状態
         title: タイトル
         body: 本文
         position: 位置
@@ -781,8 +781,10 @@ ja:
     type: "種類"
     search_result_feed: "検索結果のフィード"
     force_reload: "強制的に再読込を行う"
+    clear_cache: "キャッシュを消去する"
     current_url: "現在のURL"
     subject_and_classification: "件名と分類"
+    you_can_search_following_database: "以下のデータベースで検索することができます。"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -834,6 +836,8 @@ ja:
     cancel_reservation: "この資料の予約を解除する"
     patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
+    issue_number: "号数"
+    serial_number: "通号"
   item:
     listing: "個別資料の一覧"
     new: "新しい個別資料"
@@ -857,11 +861,12 @@ ja:
     write: "メッセージを作成する"
     outbox: "送信箱"
     trash: "ごみ箱"
-    recipient: "受信者"
+    recipient: "宛て先"
     receiver: "受信者"
     sender: "送信者"
     unread: "未読"
     deleted: "削除済み"
+    send: "メッセージを送信する"
     reply: "メッセージに返信する"
     delete: "メッセージを削除する"
     no_new_message: "新しいメッセージはありません。"
@@ -916,6 +921,10 @@ ja:
     listing: "広告記事の一覧"
     new: "新しい広告記事"
     editing: "広告記事の編集"
+  news_feed:
+    listing: "お知らせフィードの一覧"
+    new: "新しいお知らせフィード"
+    editing: "お知らせフィードの編集"
   news_post:
     listing: "お知らせの一覧"
     new: "新しいお知らせ"
@@ -940,5 +949,9 @@ ja:
     new: "新しい相互貸借"
     editing: "相互貸借の編集"
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
+  bookstore:
+    listing: "書店の一覧"
+    new: "新しい書店"
+    editing: "書店の編集"
   basket:
     new: "新しい貸出"

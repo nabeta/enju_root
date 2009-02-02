@@ -125,7 +125,7 @@
         <td style="width: 200px"><%=h ('Serial') -%>:</td>
         <td><%= serial_title_link(@manifestation) -%>
           <%- if @manifestation.serial.issn? -%>
-            (ISSN: <%=h @manifestation.serial.issn -%>)
+            (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
           <%- end -%>
         </td>
       </tr>
@@ -136,10 +136,10 @@
             <%= t('activerecord.attributes.manifestation.volume_number_list') -%>: <%=h @manifestation.volume_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.issue_number_list.blank? -%>
-            <%= ('Issue number') -%>: <%=h @manifestation.issue_number.join("/") -%>
+            <%= t('manifestation.issue_number') -%>: <%=h @manifestation.issue_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.serial_number_list.blank? -%>
-            <%= ('Serial number') -%>: <%=h @manifestation.serial_number.join("/") -%>
+            <%= t('manifestation.serial_number') -%>: <%=h @manifestation.serial_number.join("/") -%>
           <%- end -%>
         </td>
       </tr>
@@ -168,7 +168,7 @@
       </td>
     </tr>
     <tr>
-      <td><%= t('page.price') -%></td>
+      <td><%= t('activerecord.attributes.manifestation.price') -%></td>
       <td><%= @manifestation.price -%></td>
     </tr>
     <tr>

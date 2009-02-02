@@ -7,17 +7,17 @@
 
 <div id="content_detail">
 <p>
-  <b><%= ('Status') -%>:</b>
+  <b><%= t('activerecord.attributes.message_template.status') -%>:</b>
   <%=h @message_template.status -%>
 </p>
 
 <p>
-  <b><%= t('page.title') -%>:</b>
+  <b><%= t('activerecord.attributes.message_template.title') -%>:</b>
   <%=h @message_template.title -%>
 </p>
 
 <p>
-  <b><%= ('Body') -%>:</b>
+  <b><%= t('activerecord.attributes.message_template.body') -%>:</b>
   <%= h(@message_template.body).gsub("\n", '<br />') -%>
 </p>
 </div>

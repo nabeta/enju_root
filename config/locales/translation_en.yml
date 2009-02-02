@@ -789,8 +789,10 @@ en:
     type: "Type"
     search_result_feed: "Search result feed"
     force_reload: "Force reload"
+    clear_cache: "Clear cache"
     current_url: "Current URL"
     subject_and_classification: "Subject and classification"
+    you_can_search_following_database: "You can search the following databases."
   advanced_search:
     from: "from"
     to: "to"
@@ -841,6 +843,8 @@ en:
     cancel_reservation: "Cancel this reservation"
     patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
     query_search_result: "Search results for {{query}} in {{library_group_name}}"
+    issue_number: "Issue number"
+    serial_number: "Serial number"
   item:
     listing: "Listing items"
     new: "New item"
@@ -867,6 +871,7 @@ en:
     sender: "Sender"
     unread: "Unread"
     deleted: "Deleted"
+    send: "Send message"
     reply: "Reply"
     delete: "Delete"
     no_new_message: "No new messages."
@@ -925,6 +930,10 @@ en:
     listing: "Listing advertisements"
     new: "New advertisement"
     editing: "Editing advertisement"
+  news_feed:
+    listing: "Listing news feeds"
+    new: "New news feed"
+    editing: "Editing news feed"
   news_post:
     listing: "Listing news posts"
     new: "New news post"
@@ -940,7 +949,7 @@ en:
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"
   order_list:
-    listing: "Listing order list"
+    listing: "Listing order lists"
     new: "New order list"
     editing: "Editing order list"
     library_group_order_list: "Order lists in {{library_group_name}}"
@@ -949,5 +958,13 @@ en:
     new: "New inter library loan"
     editing: "Editing inter library loan"
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
+  bookstore:
+    listing: "Listing bookstores"
+    new: "New bookstore"
+    editing: "Editing bookstore"
+  message_template:
+    listing: "Listing message templates"
+    new: "New message template"
+    editing: "Editing message template"
   basket:
     new: "New basket"

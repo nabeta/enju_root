@@ -8,7 +8,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing users') -%></h1>
+<h1><%= t('user.listing') -%></h1>
 
 <%- form_for :users, :url => users_path, :html => {:method => 'get'} do -%>
   <p>
@@ -20,7 +20,7 @@
 
 <table id="index">
   <tr>
-    <th><%= ('Login') -%></th>
+    <th><%= t('activerecord.attributes.user.login') -%></th>
     <th><%= t('page.name') -%></th>
     <th><%= t('page.checkout') -%></th>
     <th><%= t('activerecord.models.reserve') -%></th>

@@ -1,9 +1,9 @@
-<h1><%= ('Listing message_templates') -%></h1>
+<h1><%= t('message_template.listing') -%></h1>
 
 <table style="width:100%">
   <tr>
-    <th><%= ('Status') -%></th>
-    <th><%= t('page.title') -%></th>
+    <th><%= t('activerecord.attributes.message_template.status') -%></th>
+    <th><%= t('activerecord.attributes.message_template.title') -%></th>
   </tr>
 
 <%- for message_template in @message_templates -%>
@@ -23,4 +23,4 @@
 
 <br />
 
-<%= link_to ('New message_template'), new_message_template_path -%>
+<%= link_to t('message_template.new'), new_message_template_path -%>
