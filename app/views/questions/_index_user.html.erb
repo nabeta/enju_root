@@ -42,13 +42,13 @@
 <div>
 <%- if logged_in? -%>
   <%- if current_user.has_role?('Librarian') -%>
-    <%= link_to ('All questions'), questions_path -%>
+    <%= link_to t('question.all'), questions_path -%>
   <%- end -%>
 <%- end -%>
 
 <%- if_authorized?(:new, Question) do -%>
-  <%= link_to ('My questions'), user_questions_path(current_user.login) -%>
-  <%= link_to ('New question'), new_user_question_path(current_user.login) -%>
+  <%= link_to t('question.my'), user_questions_path(current_user.login) -%>
+  <%= link_to t('question.new'), new_user_question_path(current_user.login) -%>
 <%- end -%>
 </div>
 </div>

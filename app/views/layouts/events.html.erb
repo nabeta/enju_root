@@ -5,9 +5,9 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @event and controller.action_name != 'new' -%>
-    <title><%=h @event.title -%> : <%= t('activerecord.models.event') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @event.title -%> : <%= t('activerecord.models.event') -%>: <%=h title_action_name -%></title>
   <%- else -%>
-    <title><%= t('activerecord.models.event') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.event') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

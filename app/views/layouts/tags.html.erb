@@ -5,9 +5,9 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @tag -%>
-    <title><%=h @tag.name -%> : <%= t('activerecord.models.tag') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @tag.name -%> : <%= t('activerecord.models.tag') -%>: <%=h title_action_name -%></title>
   <%- else -%>
-    <title><%= t('activerecord.models.tag') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.tag') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />

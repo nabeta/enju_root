@@ -16,10 +16,10 @@
     <%- when @query -%>
       <title><%=h @query -%> : <%= t('activerecord.models.manifestation') -%> - <%=h@library_group.display_name -%></title>
     <%- else -%>
-      <title><%= t('activerecord.models.manifestation') -%>: <%=h controller.action_name -%></title>
+      <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= t('activerecord.models.manifestation') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

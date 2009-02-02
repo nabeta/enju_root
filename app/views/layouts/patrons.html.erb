@@ -8,18 +8,18 @@
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- case when @patron -%>
     <%- if @patron.full_name -%>
-      <title><%=h @patron.full_name -%> : <%= t('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+      <title><%=h @patron.full_name -%> : <%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
     <%- else -%>
-      <title><%= t('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+      <title><%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
     <%- end -%>
   <%- when @work -%>
-    <title><%= t('patron.work_patron', :work_title => @work.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('patron.work_patron', :work_title => @work.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- when @expression -%>
-    <title><%= t('patron.expression_patron', :expression_title => @expression.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('patron.expression_patron', :expression_title => @expression.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- when @expression -%>
-    <title><%= t('patron.manifestation_patron', :manifestation_title => @manifestation.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('patron.manifestation_patron', :manifestation_title => @manifestation.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- else -%>
-    <title><%= t('activerecord.models.patron') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

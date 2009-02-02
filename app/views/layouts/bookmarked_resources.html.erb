@@ -5,9 +5,9 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @user -%>
-  <title><%=h t('page.user_bookmark_title', :login_name => @user.login) -%>: <%=h controller.action_name -%></title>
+  <title><%=h t('page.user_bookmark_title', :login_name => @user.login) -%>: <%=h title_action_name -%></title>
   <%- else -%>
-    <title><%=h t('activerecord.models.bookmarked_resource') -%>: <%=h controller.action_name -%></title>
+    <title><%=h t('activerecord.models.bookmarked_resource') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

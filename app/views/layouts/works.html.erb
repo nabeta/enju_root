@@ -5,11 +5,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- case when @work -%>
-    <title><%=h @work.original_title -%> : <%= t('activerecord.models.work') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @work.original_title -%> : <%= t('activerecord.models.work') -%>: <%=h title_action_name -%></title>
   <%- when @patron -%>
-    <title><%= t('patron_work', :patron_name => @patron.full_name) -%> : <%= ('Patrons') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('patron_work', :patron_name => @patron.full_name) -%> : <%= ('Patrons') -%>: <%=h title_action_name -%></title>
   <%- else -%>
-    <title><%= t('activerecord.models.work') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.work') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />

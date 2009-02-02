@@ -10,10 +10,9 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(message_template.status), message_template -%></td>
     <td><%=h message_template.title -%></td>
-    <td><%= link_to t('page.edit'), edit_message_template_path(message_template) -%></td>
-    <td><%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- if_authorized?(:desroy, message_template) do -%>
       <td><%= link_to t('page.edit'), edit_message_template_path(message_template) -%></td>
+      <td><%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= message_template.first? ? '' : link_to('▲', {:action => 'update', :position  => (message_template.position  > 1 ? message_template.position - 1 : 1), :id => message_template.id}, :method => :put) -%></td>
       <td><%= message_template.last? ? '' : link_to('▼', {:action => 'update', :position => (message_template.position + 1), :id => message_template.id}, :method => :put) -%></td>
     <%- end -%>

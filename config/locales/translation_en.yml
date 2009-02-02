@@ -884,6 +884,8 @@ en:
     listing: "Listing questions"
     new: "New question"
     editing: "Editing question"
+    my: "My questions"
+    all: "All questions"
     number_of_search_results:
       one: "1 record found."
       other: "{{count}} records found."
@@ -940,6 +942,9 @@ en:
     editing: "Editing news post"
     library_group_news_post: "News from {{library_group_name}}"
   reserve:
+    listing: "Listing reservations"
+    new: "New reservation"
+    editing: "Editing reservation"
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
   purchase_request:

@@ -67,9 +67,6 @@ class Manifestation < ActiveRecord::Base
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
-  #validates_format_of :isbn, :with => /\A[\d]{9,12}[\dX]\Z/, :if => proc{|manifestation| !manifestation.isbn.blank?}
-  #validates_length_of :isbn, :minimum => 10, :if => proc{|manifestation| !manifestation.isbn.blank?}
-  #validates_length_of :isbn, :maximum => 13, :if => proc{|manifestation| !manifestation.isbn.blank?}
   validates_numericality_of :start_page, :end_page, :allow_nil => true
   validates_length_of :access_address, :maximum => 255, :allow_nil => true
 

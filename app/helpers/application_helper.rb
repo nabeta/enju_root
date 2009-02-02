@@ -179,4 +179,17 @@ module ApplicationHelper
       link_to 'SQLite', 'http://www.sqlite.org/'
     end
   end
+
+  def title_action_name
+    case controller.action_name
+    when 'index'
+      t('page.index')
+    when 'show'
+      t('page.show')
+    when 'new'
+      t('page.new')
+    when 'edit'
+      t('page.edit')
+    end
+  end
 end

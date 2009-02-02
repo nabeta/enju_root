@@ -28,6 +28,13 @@ class AnswersControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
+  def test_librarian_should_get_index_without_user_id
+    login_as :librarian1
+    get :index
+    assert_response :success
+    assert assigns(:answers)
+  end
+
   def test_user_should_get_my_index_without_question_id
     login_as :user1
     get :index, :user_id => users(:user1).login
@@ -146,7 +153,7 @@ class AnswersControllerTest < ActionController::TestCase
     post :create, :answer => {:user_id => users(:user1), :question_id => 1, :body => 'test'}, :user_id => users(:user1).login, :question_id => 1
     assert_equal old_count+1, Answer.count
     
-    assert_redirected_to user_question_answer_url(users(:user1).login, assigns(:answer).question, assigns(:answer))
+    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question, assigns(:answer))
   end
 
   def test_guest_should_not_show_answer
@@ -236,14 +243,14 @@ class AnswersControllerTest < ActionController::TestCase
   def test_user_should_update_my_answer
     login_as :user1
     put :update, :id => 3, :answer => { }, :user_id => users(:user1).login
-    assert_redirected_to user_question_answer_url(users(:user1).login, assigns(:answer).question, assigns(:answer))
+    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question, assigns(:answer))
   end
   
   def test_user_should_update_my_answer_with_question_id
     login_as :user1
     put :update, :id => 3, :answer => { }, :user_id => users(:user1).login, :question_id => 1
     assert assigns(:question)
-    assert_redirected_to user_question_answer_url(assigns(:answer).user.login, assigns(:answer).question, assigns(:answer))
+    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question, assigns(:answer))
     #assert_redirected_to answer_url(assigns(:answer))
   end
   
@@ -269,7 +276,7 @@ class AnswersControllerTest < ActionController::TestCase
     login_as :librarian1
     put :update, :id => 3, :answer => { }, :user_id => users(:user1).login
   #  assert_redirected_to answer_url(assigns(:answer))
-    assert_redirected_to user_question_answer_url(assigns(:answer).user.login, assigns(:answer).question, assigns(:answer))
+    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question, assigns(:answer))
   end
   
   def test_guest_should_not_destroy_answer
@@ -296,7 +303,7 @@ class AnswersControllerTest < ActionController::TestCase
     delete :destroy, :id => 3, :user_id => users(:user1).login
     assert_equal old_count-1, Answer.count
     
-    assert_redirected_to user_question_answers_url(users(:user1).login, assigns(:answer).question)
+    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question)
   end
 
   def test_user_should_not_destroy_other_answer

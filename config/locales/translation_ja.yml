@@ -699,7 +699,9 @@ ja:
     title: "タイトル"
     note: "注記"
     back: "戻る"
+    index: "一覧"
     show: "表示"
+    new: "新規作成"
     edit: "編集"
     destroy: "削除"
     create: "作成"
@@ -877,6 +879,10 @@ ja:
     user_tag: "{{login_name}} さんのタグ"
   question:
     listing: "質問の一覧"
+    new: "新しい質問"
+    editing: "質問の編集"
+    my: "自分の質問"
+    all: "全ての質問"
     number_of_search_results: "{{count}} 件の資料が見つかりました。"
     user_question: "{{login_name}} さんの質問"
     no_record_found: "事例が見つかりませんでした。"
@@ -931,6 +937,9 @@ ja:
     editing: "お知らせの編集"
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
+    listing: "予約の一覧"
+    new: "新しい予約"
+    editing: "予約の編集"
     user_reserve: "{{login_name}} さんの予約資料"
     library_group_reserve: "{{library_group_name}} での予約資料"
   purchase_request:
@@ -953,5 +962,9 @@ ja:
     listing: "書店の一覧"
     new: "新しい書店"
     editing: "書店の編集"
+  message_template:
+    listing: "メッセージテンプレートの一覧"
+    new: "新しいメッセージテンプレート"
+    editing: "メッセージテンプレートの編集"
   basket:
     new: "新しい貸出"

@@ -42,10 +42,8 @@ class BookmarksController < ApplicationController
       access_denied
       return
     end
-    #begin
+    begin
       url = URI.decode(params[:url]) rescue nil
-      #parsed_url = URI.parse(URI.encode(url)).normalize
-      #
       unless url.nil?
         if @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           if @bookmarked_resource.bookmarked?(current_user)
@@ -58,28 +56,15 @@ class BookmarksController < ApplicationController
           @bookmarked_resource = BookmarkedResource.new(:url => url)
           @title = Bookmark.get_title(URI.encode(url), root_url)
         end
-      #else
-      #  raise
+      else
+        raise
       end
-    #rescue
-    #  url = nil
-    #  #parsed_url = nil
-    #  flash[:notice] = t('bookmark.invalid_url')
-    #  redirect_to user_bookmarks_url(current_user.login)
-    #  return
-    #end
-    #unless parsed_url.nil?
-      #if parsed_url.host == LIBRARY_WEB_HOSTNAME
-      #  path = parsed_url.path.split('/')
-      #  if path[1] == 'manifestations'
-      #    manifestation = Manifestation.find(path[2]) rescue nil
-      #    if manifestation.access_address
-      #      access_url = manifestation.access_address
-      #    end
-      #  end
-      #end
-      #logger.debug "access_url: #{access_url}"
-    #end
+    rescue
+      url = nil
+      flash[:notice] = t('bookmark.invalid_url')
+      redirect_to user_bookmarks_url(current_user.login)
+      return
+    end
   rescue ActiveRecord::RecordNotFound
     not_found
   end
