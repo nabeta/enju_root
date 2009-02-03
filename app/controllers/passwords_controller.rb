@@ -1,4 +1,5 @@
 class PasswordsController < ApplicationController
+  before_filter :check_client_ip_address
 
   def new
     @password = Password.new
