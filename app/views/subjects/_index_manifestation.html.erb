@@ -7,7 +7,7 @@
 </div>
                     
 <div id="content_detail">
-  <%= render :partial => 'manifestations/title' -%>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 
 <%- form_for :subjects, :url => manifestation_subjects_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>

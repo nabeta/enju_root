@@ -18,7 +18,7 @@
 
 <div id="content_detail">
   <h1><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
-  <%= render :partial => 'manifestations/title' -%>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 
 <%= error_messages_for :item -%>
 

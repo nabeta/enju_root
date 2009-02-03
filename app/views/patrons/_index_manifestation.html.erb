@@ -12,7 +12,7 @@
 
 <div id="content_detail">
 
-  <%= render :partial => 'manifestations/title' -%>
+<%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 
 <%- form_for :patrons, :url => manifestation_patrons_path(@manifestation), :html => {:method => 'get'} do -%>
 <p>

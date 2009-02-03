@@ -34,6 +34,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.manifestation.title_alternative') -%></b><br />
+    <%= f.text_field :title_alternative, :class => 'resource_title', :class => 'resource_title' -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.models.manifestation_form') -%></b>
     <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name, m.id]}) -%>
   </p>
@@ -106,7 +111,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.manifestation.note') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 

@@ -11,7 +11,7 @@
 <div id="content_detail">
 <h1><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
 
-<%= render :partial => 'manifestations/title' -%>
+<%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 
 <table id="index">
   <tr>

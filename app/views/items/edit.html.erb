@@ -17,7 +17,6 @@
 <%= error_messages_for :item -%>
 
 <%- form_for(:item, :url => item_path(@item), :html => { :method => :put }) do |f| -%>
-  <b><%= t('activerecord.models.manifestation') -%></b><br />
   <div>
     <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
       <%- if @item.manifestation -%>
@@ -27,7 +26,7 @@
   </div>
 
   <p>
-    <b><%= t('page.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
+    <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%= options_from_collection_for_select(@libraries, "short_name", "name", @item.shelf.library.short_name) -%>
     </select>
