@@ -7,7 +7,7 @@
 <div id="content_detail">
   <h1>
     [E]
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+    <%= link_to h(@expression.original_title), @expression -%>
   </h1>
   <p>
     <%= patrons_list(@expression.authors) -%>

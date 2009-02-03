@@ -798,6 +798,7 @@ ja:
     new: "{{model}}の新規作成"
     editing: "{{model}}の編集"
     patron_management: "パトロンの管理"
+    back_to: "{{model}}の一覧に戻る"
   controller:
     successfully_created: "{{model}}は正常に作成されました。"
     successfully_updated: "{{model}}は正常に更新されました。"

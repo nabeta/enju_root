@@ -3,11 +3,11 @@
     <%- if_authorized?(:destroy, @subject) do -%>
       <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
       <li>
-        <%= link_to ('Manifestations'), subject_manifestations_path(@subject) -%>
+        <%= link_to t('activerecord.models.manifestation'), subject_manifestations_path(@subject) -%>
         (<%=h @subject.manifestations.size -%>)
       </li>
       <li>
-        <%= link_to ('Classifications'), subject_classifications_path(@subject) -%>
+        <%= link_to t('activerecord.models.classification'), subject_classifications_path(@subject) -%>
         (<%=h @subject.classifications.size -%>)
       </li>
       <!--
@@ -37,7 +37,7 @@
 </p>
 
 <p>
-<b><%= ('Subject type') -%>:</b>
+<b><%= t('activerecord.models.subject_type') -%>:</b>
   <%=h @subject.subject_type.display_name -%>
 </p>
 
@@ -97,7 +97,7 @@
 </p>
 
 <p>
-<b><%= ('Tags') -%>:</b>
+<b><%= t('activerecord.models.tag') -%>:</b>
 <%- @subject.tags.each do |tag| -%>
   <%= link_to h(tag.name), tag_path(tag.name) -%>
 <%- end -%>

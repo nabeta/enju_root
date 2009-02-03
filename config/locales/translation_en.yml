@@ -806,6 +806,7 @@ en:
     new: "New {{model}}"
     editing: "Editing {{model}}"
     patron_management: "Patron management"
+    back_to: "Back to {{model}} index"
   title:
     index: "index"
     show: "show"

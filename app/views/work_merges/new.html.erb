@@ -13,7 +13,7 @@
   <p>
   <b><%= t('activerecord.models.work') -%></b><br />
   <%- if @work -%>
-    <%= link_to h(@work.original_title), work_path(@work) -%>
+    <%= link_to h(@work.original_title), @work -%>
     <%= f.hidden_field :work_id, :value => @work.id -%>
   <%- else -%>
     <%= f.text_field :work_id, :value => params[:work_id] -%>
@@ -23,7 +23,7 @@
   <p>
   <b><%= t('activerecord.models.work_merge_list') -%></b><br />
   <%- if @work_merge_list -%>
-    <%= link_to h(@work_merge_list.title), work_merge_list_path(@work_merge_list) -%>
+    <%= link_to h(@work_merge_list.title), @work_merge_list -%>
     <%= f.hidden_field :work_merge_list_id, :value => @work_merge_list.id -%>
   <%- else -%>
     <%= f.text_field :work_merge_list_id, :value => params[:work_merge_list_id] -%>
