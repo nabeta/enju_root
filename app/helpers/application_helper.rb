@@ -183,13 +183,13 @@ module ApplicationHelper
   def title_action_name
     case controller.action_name
     when 'index'
-      t('page.index')
+      t('title.index')
     when 'show'
-      t('page.show')
+      t('title.show')
     when 'new'
-      t('page.new')
+      t('title.new')
     when 'edit'
-      t('page.edit')
+      t('title.edit')
     end
   end
 end

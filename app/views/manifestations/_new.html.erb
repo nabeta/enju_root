@@ -11,7 +11,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('manifsetation.new') -%></h1>
+  <h1><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
   <p>
     <b><%= ('Expression title') -%></b><br />
     <%= link_to h(@expression.original_title), @expression -%>

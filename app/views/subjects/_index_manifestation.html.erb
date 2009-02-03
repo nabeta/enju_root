@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Subject) do -%>
-      <li><%= link_to ('New subject'), new_subject_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path -%></li>
     <%- end -%>
   </ul>
 </div>
                     
 <div id="content_detail">
-  <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+  <%= render :partial => 'manifestations/title' -%>
 
 <%- form_for :subjects, :url => manifestation_subjects_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
@@ -30,7 +30,7 @@
   <tr>
     <th><%= t('activerecord.attributes.subject.term') -%></th>
     <th><%= t('activerecord.attributes.subject.term_transcription') -%></th>
-    <th><%= ('Subject type') -%></th>
+    <th><%= t('activerecord.models.subject_type') -%></th>
     <th><%= ('Count') -%></th>
     <th></th>
   </tr>

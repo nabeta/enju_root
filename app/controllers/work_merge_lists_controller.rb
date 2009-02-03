@@ -48,7 +48,7 @@ class WorkMergeListsController < ApplicationController
 
     respond_to do |format|
       if @work_merge_list.save
-        flash[:notice] = ('WorkMergeList was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_merge_list'))
         format.html { redirect_to(@work_merge_list) }
         format.xml  { render :xml => @work_merge_list, :status => :created, :location => @work_merge_list }
       else
@@ -75,7 +75,7 @@ class WorkMergeListsController < ApplicationController
             return
           end
         else
-          flash[:notice] = ('WorkMergeList was successfully updated.')
+          flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_merge_list'))
         end
         format.html { redirect_to(@work_merge_list) }
         format.xml  { head :ok }

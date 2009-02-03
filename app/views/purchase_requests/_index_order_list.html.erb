@@ -7,7 +7,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('purchase_request.listing') -%>: <%=h @order_list.title -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
   <p><%= ('Ordered at') -%> <%=h @order_list.ordered_at -%></p>
 
 <p>
@@ -16,13 +16,13 @@
   (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
 
   <%= t('page.bookmarklet') -%>:
-  <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= ('Add to library purchase bookmark') -%></a>
+  <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('purchase_request.add_to_purchase_request') -%></a>
 </p>
 
 <table id="index">
   <tr>
-    <th><%= t('page.title') -%></th>
-    <th><%= t('page.price') -%></th>
+    <th><%= t('activerecord.attributes.purchase_request.title') -%></th>
+    <th><%= t('activerecord.attributes.purchase_request.price') -%></th>
   </tr>
 
   <%- @purchase_requests.each_with_index do |purchase_request, i| -%>

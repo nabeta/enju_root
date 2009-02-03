@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1>New bookmark_stat</h1>
+<h1><%= t('page.new', :model => t('activerecord.models.bookmark_stat')) -%></h1>
 
 <% form_for(@bookmark_stat) do |f| -%>
   <%= f.error_messages -%>
@@ -23,7 +23,7 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.submit t("page.create") -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <% end -%>
 

@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('patron.new') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.patron')) -%></h1>
 
 <%= error_messages_for :patron -%>
 
@@ -123,7 +123,7 @@
     <%= hidden_field_tag 'expression_id', @expression.id if @expression -%>
     <%= hidden_field_tag 'manifestation_id', @manifestation.id if @manifestation -%>
     <%= hidden_field_tag 'item_id', @item.id if @item -%>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

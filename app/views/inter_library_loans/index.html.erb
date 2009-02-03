@@ -1,4 +1,4 @@
-<h1><%= t('inter_library_loan.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
 
 <table id="index">
   <tr>
@@ -32,5 +32,5 @@
 <br />
 
 <%- if_authorized?(:new, InterLibraryLoan) do -%>
-  <%= link_to t('inter_library_loan.new'), new_inter_library_loan_path -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.inter_library_loans')), new_inter_library_loan_path -%>
 <%- end -%>

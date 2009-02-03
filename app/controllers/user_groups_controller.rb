@@ -48,7 +48,7 @@ class UserGroupsController < ApplicationController
 
     respond_to do |format|
       if @user_group.save
-        flash[:notice] = ('UserGroup was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.user_group'))
         format.html { redirect_to user_group_url(@user_group) }
         format.xml  { head :created, :location => user_group_url(@user_group) }
       else
@@ -65,7 +65,7 @@ class UserGroupsController < ApplicationController
 
     respond_to do |format|
       if @user_group.update_attributes(params[:user_group])
-        flash[:notice] = ('UserGroup was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user_group'))
         format.html { redirect_to user_group_url(@user_group) }
         format.xml  { head :ok }
       else

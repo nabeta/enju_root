@@ -71,7 +71,7 @@ class InterLibraryLoansController < ApplicationController
     respond_to do |format|
       if @inter_library_loan.save
         @inter_library_loan.aasm_request!
-        flash[:notice] = ('InterLibraryLoan was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.inter_library_loan'))
         format.html { redirect_to(@inter_library_loan) }
         format.xml  { render :xml => @inter_library_loan, :status => :created, :location => @inter_library_loan }
       else
@@ -103,7 +103,7 @@ class InterLibraryLoansController < ApplicationController
 
     respond_to do |format|
       if @inter_library_loan.update_attributes(params[:inter_library_loan])
-        flash[:notice] = ('InterLibraryLoan was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.inter_library_loan'))
         format.html { redirect_to(@inter_library_loan) }
         format.xml  { head :ok }
       else

@@ -68,7 +68,7 @@ class ResourceHasSubjectsController < ApplicationController
 
     respond_to do |format|
       if @resource_has_subject.save
-        flash[:notice] = ('ResourceHasSubject was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.resource_has_subject'))
         format.html { redirect_to(@resource_has_subject) }
         format.xml  { render :xml => @resource_has_subject, :status => :created, :location => @resource_has_subject }
       else
@@ -85,7 +85,7 @@ class ResourceHasSubjectsController < ApplicationController
 
     respond_to do |format|
       if @resource_has_subject.update_attributes(params[:resource_has_subject])
-        flash[:notice] = ('ResourceHasSubject was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.resource_has_subject'))
         format.html { redirect_to(@resource_has_subject) }
         format.xml  { head :ok }
       else

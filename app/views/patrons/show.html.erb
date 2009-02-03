@@ -9,7 +9,7 @@
       <li><%= link_to ('Add a picture'), new_patron_attachment_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
       <li><%= link_to t('page.back'), back_to_patron_index -%></li>
-      <li><%= link_to t('patron.new'), new_patron_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
       <li><%= link_to t('page.destroy'), patron_path(@patron), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>

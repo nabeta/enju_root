@@ -86,7 +86,7 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.save
-        flash[:notice] = ('Subject was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.subject'))
         format.html { redirect_to subject_url(@subject) }
         format.xml  { head :created, :location => subject_url(@subject) }
       else
@@ -107,7 +107,7 @@ class SubjectsController < ApplicationController
 
     respond_to do |format|
       if @subject.update_attributes(params[:subject])
-        flash[:notice] = ('Subject was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.subject'))
         format.html { redirect_to subject_url(@subject) }
         format.xml  { head :ok }
       else

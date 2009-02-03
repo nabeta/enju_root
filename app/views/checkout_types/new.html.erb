@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New checkout_type') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.checkout_type')) -%></h1>
 
 <%- form_for(@checkout_type) do |f| -%>
   <%= f.error_messages -%>

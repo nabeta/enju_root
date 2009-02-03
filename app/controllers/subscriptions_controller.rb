@@ -54,7 +54,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.save
-        flash[:notice] = ('Subscription was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.subscription'))
         format.html { redirect_to(@subscription) }
         format.xml  { render :xml => @subscription, :status => :created, :location => @subscription }
       else
@@ -71,7 +71,7 @@ class SubscriptionsController < ApplicationController
 
     respond_to do |format|
       if @subscription.update_attributes(params[:subscription])
-        flash[:notice] = ('Subscription was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.subscription'))
         format.html { redirect_to(@subscription) }
         format.xml  { head :ok }
       else

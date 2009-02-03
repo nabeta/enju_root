@@ -6,13 +6,13 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing work_merge_list') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.work_merge_list')) -%></h1>
 
 <%= error_messages_for :work_merge_list -%>
 
 <%- form_for(@work_merge_list) do |f| -%>
   <p>
-  <b><%= t('page.title') -%></b><br />
+  <b><%= t('activerecord.attributes.work_merge_list.title') -%></b><br />
     <%= f.text_field :title -%>
   </p>
 

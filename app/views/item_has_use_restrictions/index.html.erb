@@ -1,11 +1,11 @@
-<h1><%= ('Listing item_has_use_restrictions') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.item_has_use_restrictions')) -%></h1>
 
 <table>
   <tr>
     <th><%= t('activerecord.models.item') -%></th>
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
-    <th><%= ('Use restriction') -%></th>
+    <th><%= t('activerecord.models.use_restriction') -%></th>
   </tr>
 
 <%- for item_has_use_restriction in @item_has_use_restrictions -%>
@@ -25,8 +25,8 @@
 <br />
 
 <%- if @item -%>
-  <%= link_to ('New item_has_use_restriction'), new_item_item_has_use_restriction_path(@item) -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.item_has_use_restriction')), new_item_item_has_use_restriction_path(@item) -%>
 <%- else -%>
-  <%= link_to ('New item_has_use_restriction'), new_item_has_use_restriction_path -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.item_has_use_restriction')), new_item_has_use_restriction_path -%>
 <%- end -%>
 

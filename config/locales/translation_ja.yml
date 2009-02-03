@@ -106,6 +106,13 @@ ja:
       user_checkout_stat: 利用者別貸出統計
       manifestation_reserve_stat: 資料別予約統計
       user_reserve_stat: 利用者別予約統計
+      work_has_work: 著作形間の関係
+      expression_has_expression: 表現形間の関係
+      manifestation_has_manifestation: 体現形間の関係
+      item_has_item: 個別資料間の関係
+      bookmark_stat_has_manifestation: ブックマーク統計と体現形の関係
+      reserve_stat_has_manifestation: 予約統計と体現形の関係
+      reserve_stat_has_user: 予約統計とユーザの関係
     attributes:
       library:
         name: 名前
@@ -672,6 +679,7 @@ ja:
         note: 注記
       tag:
         name: 名前
+        synonym: 同義語
 
   page:
     user: "ユーザ"
@@ -699,9 +707,7 @@ ja:
     title: "タイトル"
     note: "注記"
     back: "戻る"
-    index: "一覧"
     show: "表示"
-    new: "新規作成"
     edit: "編集"
     destroy: "削除"
     create: "作成"
@@ -732,6 +738,7 @@ ja:
     acquisition: "資料の受入"
     configuration: "設定"
     search_resource: "資料を検索する"
+    search_manifestation: "体現形を検索する"
     search_bookmark: "ブックマークを検索する"
     search_question: "質問を検索する"
     search_patron: "パトロンを検索する"
@@ -787,6 +794,18 @@ ja:
     current_url: "現在のURL"
     subject_and_classification: "件名と分類"
     you_can_search_following_database: "以下のデータベースで検索することができます。"
+    listing: "{{model}}の一覧"
+    new: "{{model}}の新規作成"
+    editing: "{{model}}の編集"
+    patron_management: "パトロンの管理"
+  controller:
+    successfully_created: "{{model}}は正常に作成されました。"
+    successfully_updated: "{{model}}は正常に更新されました。"
+  title:
+    index: "一覧"
+    show: "表示"
+    new: "新規作成"
+    edit: "編集"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -795,6 +814,7 @@ ja:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"
+    your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
@@ -804,29 +824,18 @@ ja:
     specify_title_and_url: "タイトルとURLを指定してください。"
     already_bookmarked: "すでにブックマークに登録されています。"
   bookmarked_resource:
-    listing: "ブックマークされた資料の一覧"
     add_to_library_bookmark: "図書館のブックマークに追加"
     library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
   work:
-    listing: "著作形の一覧"
-    new: "新しい著作形"
-    editing: "著作形の編集"
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"
   expression:
-    listing: "表現形の一覧"
-    new: "新しい表現形"
-    editing: "表現形の編集"
     patron_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
     library_group_expression: "{{library_group_name}} にある表現形"
   manifestation:
-    listing: "体現形の一覧"
-    new: "新しい体現形"
-    editing: "体現形の編集"
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
-    edit: "編集"
     add_next_issue: "次の号を追加"
     edit_publisher: "出版者を編集"
     edit_expression: "表現形を編集"
@@ -841,22 +850,13 @@ ja:
     issue_number: "号数"
     serial_number: "通号"
   item:
-    listing: "個別資料の一覧"
-    new: "新しい個別資料"
-    editing: "個別資料の編集"
     donor: "寄贈者"
   patron:
-    listing: "パトロンの一覧"
-    new: "新しいパトロン"
-    editing: "パトロンの編集"
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
     expression_patron: "{{expression_title}} の編者"
     manifestation_patron: "{{manifestation_title}} の出版者"
   message:
-    listing: "メッセージの一覧"
-    new: "新しいメッセージ"
-    editing: "メッセージの編集"
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"
     inbox: "受信箱"
@@ -873,14 +873,10 @@ ja:
     delete: "メッセージを削除する"
     no_new_message: "新しいメッセージはありません。"
   tag:
-    listing: "タグの一覧"
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
     user_tag: "{{login_name}} さんのタグ"
   question:
-    listing: "質問の一覧"
-    new: "新しい質問"
-    editing: "質問の編集"
     my: "自分の質問"
     all: "全ての質問"
     number_of_search_results: "{{count}} 件の資料が見つかりました。"
@@ -888,33 +884,23 @@ ja:
     no_record_found: "事例が見つかりませんでした。"
     library_group_question: "{{library_group_name}} での質問"
   answer:
-    listing: "回答の一覧"
-    new: "新しい回答"
-    editing: "回答の編集"
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
   checkout:
-    listing: "貸出資料の一覧"
-    editing: "貸出情報の編集"
     user_checkout: "{{login_name}} さんの貸出資料"
     library_group_checkout: "{{library_group_name}} での貸出"
-    editing_due_date: "貸出期限日の編集"
     renewal: "貸出の更新"
     renewal_count: "更新回数"
     new_due_date: "新しい貸出期限日"
     this_item_cant_be_renewed: "この資料は更新できません。"
+    listing_overdue_item: "貸出期限切れの資料の一覧"
   library:
     map: "地図"
     staff: "職員"
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
-  checkin:
-    listing: "返却資料の一覧"
   event:
-    listing: "催し物の一覧"
-    new: "新しい催し物"
-    editing: "催し物の編集"
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
   user:
@@ -923,48 +909,17 @@ ja:
     repeat_new_password: "新しいパスワード（確認のため再度入力）"
     delete_this_user: "このユーザを削除する"
     your_temporary_password_is: "仮パスワードは次のとおりです"
-  advertisement:
-    listing: "広告記事の一覧"
-    new: "新しい広告記事"
-    editing: "広告記事の編集"
-  news_feed:
-    listing: "お知らせフィードの一覧"
-    new: "新しいお知らせフィード"
-    editing: "お知らせフィードの編集"
+    sign_up: "サインアップ"
   news_post:
-    listing: "お知らせの一覧"
-    new: "新しいお知らせ"
-    editing: "お知らせの編集"
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
-    listing: "予約の一覧"
-    new: "新しい予約"
-    editing: "予約の編集"
     user_reserve: "{{login_name}} さんの予約資料"
     library_group_reserve: "{{library_group_name}} での予約資料"
   purchase_request:
-    listing: "購入依頼の一覧"
-    new: "新しい購入依頼"
-    editing: "購入依頼の編集"
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"
+    add_to_purchase_request: "図書館の購入依頼に追加"
   order_list:
-    listing: "発注リストの一覧"
-    new: "新しい発注リスト"
-    editing: "発注リストの編集"
     library_group_order_list: "{{library_group_name}} の発注リスト"
   inter_library_loan:
-    listing: "相互貸借の一覧"
-    new: "新しい相互貸借"
-    editing: "相互貸借の編集"
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
-  bookstore:
-    listing: "書店の一覧"
-    new: "新しい書店"
-    editing: "書店の編集"
-  message_template:
-    listing: "メッセージテンプレートの一覧"
-    new: "新しいメッセージテンプレート"
-    editing: "メッセージテンプレートの編集"
-  basket:
-    new: "新しい貸出"

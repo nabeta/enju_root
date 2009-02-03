@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New expression_merge_list'), new_expression_merge_list_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.expression_merge_list')), new_expression_merge_list_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing expression_merge_lists') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.expression_merge_lists')) -%></h1>
 
 <table id="index">
   <tr>

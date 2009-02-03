@@ -5,14 +5,14 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing overdue items') -%></h1>
+<h1><%= t('checkout.listing_overdue_item') -%></h1>
 
   <%- form_for(:checkouts, :url => checkouts_path, :html => {:method => 'get'}) do -%>
     <div>
       <%= ('Number of days overdue') -%>:
       <%= text_field_tag 'days_overdue', h(@days_overdue), :class => 'resource_integer' -%>
       <%= hidden_field_tag 'view', 'overdue' -%>
-      <%= submit_tag ('Submit') -%>
+      <%= submit_tag t('page.submit') -%>
     </div>
   <%- end -%>
 

@@ -108,7 +108,7 @@ class BookmarkedResourcesController < ApplicationController
 
     respond_to do |format|
       if @bookmarked_resource.save
-        flash[:notice] = ('BookmarkedResource was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmarked_resource'))
         if @user
           format.html { redirect_to(user_bookmarked_resource_url(@user.login, @bookmarked_resource)) }
           format.xml  { render :xml => @bookmarked_resource, :status => :created, :location => @bookmarked_resource }
@@ -134,7 +134,7 @@ class BookmarkedResourcesController < ApplicationController
 
     respond_to do |format|
       if @bookmarked_resource.update_attributes(params[:bookmarked_resource])
-        flash[:notice] = ('BookmarkedResource was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmarked_resource'))
         if @user
           format.html { redirect_to(user_bookmarked_resource_url(@user.login, @bookmarked_resource)) }
           format.xml  { head :ok }

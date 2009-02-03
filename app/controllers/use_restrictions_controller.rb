@@ -49,7 +49,7 @@ class UseRestrictionsController < ApplicationController
 
     respond_to do |format|
       if @use_restriction.save
-        flash[:notice] = ('UseRestriction was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.use_restriction'))
         format.html { redirect_to(@use_restriction) }
         format.xml  { render :xml => @use_restriction, :status => :created, :location => @use_restriction }
       else
@@ -66,7 +66,7 @@ class UseRestrictionsController < ApplicationController
 
     respond_to do |format|
       if @use_restriction.update_attributes(params[:use_restriction])
-        flash[:notice] = ('UseRestriction was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.use_restriction'))
         format.html { redirect_to(@use_restriction) }
         format.xml  { head :ok }
       else

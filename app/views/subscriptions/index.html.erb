@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New subscription'), new_subscription_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.subscription')), new_subscription_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing subscriptions') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.subscription')) -%></h1>
 
 <table id="index">
   <tr>

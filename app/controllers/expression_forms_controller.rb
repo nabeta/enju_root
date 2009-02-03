@@ -41,7 +41,7 @@ class ExpressionFormsController < ApplicationController
 
     respond_to do |format|
       if @expression_form.save
-        flash[:notice] = ('ExpressionForm was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_form'))
         format.html { redirect_to expression_form_url(@expression_form) }
         format.xml  { head :created, :location => expression_form_url(@expression_form) }
       else
@@ -64,7 +64,7 @@ class ExpressionFormsController < ApplicationController
 
     respond_to do |format|
       if @expression_form.update_attributes(params[:expression_form])
-        flash[:notice] = ('ExpressionForm was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_form'))
         format.html { redirect_to expression_form_url(@expression_form) }
         format.xml  { head :ok }
       else

@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Embody) do -%>
-      <li><%= link_to ('New embody'), expression_manifestations_path(@expression) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), expression_manifestations_path(@expression) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing embodies') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
 
 <h3><%= link_to h(@expression.original_title), @expression -%></h3>
 

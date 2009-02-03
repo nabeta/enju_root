@@ -152,7 +152,7 @@ class ReservesController < ApplicationController
         #end
         @reserve.send_message('accepted')
 
-        flash[:notice] = ('Reserve was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reserve'))
         #format.html { redirect_to reserve_url(@reserve) }
         format.html { redirect_to user_reserve_url(user.login, @reserve) }
         format.xml  { head :created, :location => user_reserve_url(user.login, @reserve) }
@@ -205,7 +205,7 @@ class ReservesController < ApplicationController
           flash[:notice] = ('Reserve was canceled.')
           @reserve.send_message('canceled')
         else
-          flash[:notice] = ('Reserve was successfully updated.')
+          flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reserve'))
         end
         format.html { redirect_to user_reserve_url(user.login, @reserve) }
         format.xml  { head :ok }

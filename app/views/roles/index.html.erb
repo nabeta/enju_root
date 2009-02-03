@@ -1,4 +1,4 @@
-<h1><%= ('Listing roles') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.role')) -%></h1>
 
 <table id="index">
   <tr>
@@ -27,4 +27,4 @@
 
 <br />
 
-<%= link_to ('New role'), new_role_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.role')), new_role_path -%>

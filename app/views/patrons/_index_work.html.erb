@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('patron.new'), new_work_patron_path(@work) -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_work_patron_path(@work) -%></li>
     <li><%= link_to ('Add an expression'), work_expressions_path(@work) -%></li>
   </ul>
 </div>

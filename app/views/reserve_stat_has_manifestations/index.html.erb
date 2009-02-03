@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th>Reserve stat</th>
-    <th>Manifestation</th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
     <th>Reserves count</th>
   </tr>
 
@@ -21,4 +21,4 @@
 
 <br />
 
-<%= link_to 'New reserve_stat_has_manifestation', new_reserve_stat_has_manifestation_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.reserve_stat_has_manifestation')), new_reserve_stat_has_manifestation_path -%>

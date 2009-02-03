@@ -47,7 +47,7 @@ class CirculationStatusesController < ApplicationController
 
     respond_to do |format|
       if @circulation_status.save
-        flash[:notice] = ('CirculationStatus was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.circulation_status'))
         format.html { redirect_to(@circulation_status) }
         format.xml  { render :xml => @circulation_status, :status => :created, :location => @circulation_status }
       else
@@ -70,7 +70,7 @@ class CirculationStatusesController < ApplicationController
 
     respond_to do |format|
       if @circulation_status.update_attributes(params[:circulation_status])
-        flash[:notice] = ('CirculationStatus was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.circulation_status'))
         format.html { redirect_to(@circulation_status) }
         format.xml  { head :ok }
       else

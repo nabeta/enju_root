@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('checkout.editing') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.checkout')) -%></h1>
 
 <h2><%= t('checkout.renewal') -%></h2>
 <%- if @checkout.checkout_renewable? -%>

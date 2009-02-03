@@ -91,10 +91,12 @@ class Reserve < ActiveRecord::Base
   #end
 
   def retain
+    # TODO: 「取り置き中」の状態を正しく表す
+    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'In Process'}), :checked_out_at => Time.zone.now})
   end
 
   def expire
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Expired'})})
+    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Expired'}), :canceled_at => Time.zone.now})
   end
 
   def cancel

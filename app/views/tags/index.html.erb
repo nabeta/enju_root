@@ -4,7 +4,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing tags') -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.tag')) -%></h1>
 
 <p><%= t('page.sort_by') -%>:
   <%= link_to t('activerecord.attributes.tag.name'), tags_path(:order => 'name') -%>

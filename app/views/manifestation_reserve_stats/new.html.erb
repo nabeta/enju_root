@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to 'Back', manifestation_reserve_stats_path -%></li>
+    <li><%= link_to t('page.back'), manifestation_reserve_stats_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1>New manifestation_reserve_stat</h1>
+<h1><%= t('page.new', :model => t('activerecord.models.manifestation_reserve_stat')) -%></h1>
 
 <% form_for(@manifestation_reserve_stat) do |f| -%>
   <%= f.error_messages -%>
@@ -27,7 +27,7 @@
     <%= f.text_field :state -%>
   </p>
   <p>
-    <%= f.submit "Create" -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <% end -%>
 

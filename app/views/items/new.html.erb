@@ -17,8 +17,8 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('item.new') -%></h1>
-  <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+  <h1><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
+  <%= render :partial => 'manifestations/title' -%>
 
 <%= error_messages_for :item -%>
 
@@ -81,7 +81,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

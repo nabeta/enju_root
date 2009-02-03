@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Editing message_queue') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.message_queue')) -%></h1>
 
 <%- form_for(@message_queue) do |f| -%>
   <%= f.error_messages -%>
@@ -24,11 +24,11 @@
     <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
   </p>
   <p>
-    <%= f.label :subject -%><br />
+    <%= f.label t('activerecord.attributes.message_queue.subject') -%><br />
     <%=h @message_queue.subject -%>
   </p>
   <p>
-    <%= f.label :body -%><br />
+    <%= f.label t('activerecord.attributes.message_queue.body') -%><br />
     <%= textilize(h(@message_queue.body)) -%>
   </p>
   <p>

@@ -1,4 +1,4 @@
-<h1><%= ('Listing creates') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.create')) -%></h1>
 
 <table id="index">
   <tr>
@@ -19,7 +19,7 @@
 </table>
 
 <%- if_authorized?(:new, Create) do -%>
-  <p><%= link_to ('New create'), new_create_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.create')), new_create_path -%></p>
 <%- end -%>
 
 <%= will_paginate(@creates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

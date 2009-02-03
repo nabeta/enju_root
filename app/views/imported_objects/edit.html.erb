@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Editing imported_object') -%></h1>
+  <h1><%= t('page.editing', :model => t('activerecord.models.imported_object')) -%></h1>
 
 <%- form_for(@imported_object) do |f| -%>
   <%= f.error_messages -%>

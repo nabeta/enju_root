@@ -48,7 +48,7 @@ class UserReserveStatsController < ApplicationController
 
     respond_to do |format|
       if @user_reserve_stat.save
-        flash[:notice] = 'UserReserveStat was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.user_reserve_stat'))
         format.html { redirect_to(@user_reserve_stat) }
         format.xml  { render :xml => @user_reserve_stat, :status => :created, :location => @user_reserve_stat }
       else
@@ -65,7 +65,7 @@ class UserReserveStatsController < ApplicationController
 
     respond_to do |format|
       if @user_reserve_stat.update_attributes(params[:user_reserve_stat])
-        flash[:notice] = 'UserReserveStat was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user_reserve_stat'))
         format.html { redirect_to(@user_reserve_stat) }
         format.xml  { head :ok }
       else

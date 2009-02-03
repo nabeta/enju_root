@@ -20,7 +20,7 @@
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => @user.login) do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>
-    <p>(<%= link_to t('tag.listing'), tags_path -%>)</p>
+    <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>
   </div>
 
 </div>

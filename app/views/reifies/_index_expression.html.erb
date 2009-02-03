@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Realize) do -%>
-      <li><%= link_to ('New reify'), new_expression_reify_path(@expression) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_expression_reify_path(@expression) -%></li>
       <li><%= link_to t('page.back'), expression_patrons_path(@expression) -%></li>
     <%- end -%>
   </ul>

@@ -8,7 +8,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('message.new') -%></h1>
+  <h1><%= t('page.new', :model => t('activerecord.models.message')) -%></h1>
 <div class="" >
 <%= error_messages_for 'message' -%>
   <p></p>
@@ -35,7 +35,7 @@
         <%= form.text_area :body, :class => 'resource_textarea' -%>
       </p>
 
-      <%= submit_tag t('message.send') -%>
+      <%= f.submit t('message.send') -%>
 
     <%- end -%>
   </fieldset>

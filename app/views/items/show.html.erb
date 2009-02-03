@@ -17,7 +17,7 @@
     <li><%= link_to t('page.destroy'), item_path(@item), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to ('Inter library loan index'), item_inter_library_loans_path(@item) -%></li>
     <%- if @item.inter_library_loans.blank? -%>
-      <li><%= link_to ('New inter library loan'), new_item_inter_library_loan_path(@item) -%></li>
+      <li><%= link_to t('page.new', :models => t('activerecord.models.inter_library_loan')), new_item_inter_library_loan_path(@item) -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -26,7 +26,7 @@
 
 <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
   <%- if @item.manifestation -%>
-    <%= render :partial => 'manifestations/manifestation_patrons_list', :locals => {:manifestation => @item.manifestation} -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
 <%- end -%>
 

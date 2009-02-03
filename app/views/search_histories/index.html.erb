@@ -5,7 +5,7 @@
     <%= link_to ('All histories'), search_histories_path -%>
   </p>
 <%- else -%>
-  <h1><%= ('Listing search_histories') -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
   <p>
     <%= link_to ('Failed search'), search_histories_path(:mode => 'not_found') -%>
   </p>

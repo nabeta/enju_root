@@ -1,4 +1,4 @@
-<h1><%= ('Listing message_queues') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.message_queue')) -%></h1>
 
 <table id="index">
   <tr>
@@ -33,7 +33,7 @@
 </table>
 
 <%- if_authorized?(:new, MessageQueue) do -%>
-  <p><%= link_to ('New message_queue'), new_message_queue_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.message_queue')), new_message_queue_path -%></p>
 <%- end -%>
 
 <%= will_paginate(@message_queues, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

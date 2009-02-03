@@ -51,7 +51,7 @@ class TagsController < ApplicationController
 
     respond_to do |format|
       if @tag.update_attributes(params[:tag])
-        flash[:notice] = ('Tag was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.tag'))
         format.html { redirect_to tag_url(@tag.name) }
         format.xml  { head :ok }
       else

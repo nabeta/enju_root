@@ -1,15 +1,15 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New patron_merge_list'), new_patron_merge_list_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron_merge_list')), new_patron_merge_list_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing patron_merge_lists') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.patron_merge_lists')) -%></h1>
 
 <table id="index">
   <tr>
-    <td><%= t('page.title') -%></td>
+    <td><%= t('activerecord.attributes.patron_merge_list.title') -%></td>
     <td><%= t('page.created_at') -%></td>
   </tr>
 

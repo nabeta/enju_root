@@ -11,7 +11,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New produce') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.produce')) -%></h1>
 
 <%= error_messages_for :produce -%>
 
@@ -37,7 +37,7 @@
   </p>
 
   <p>
-  <%= submit_tag t('page.create') -%>
+  <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

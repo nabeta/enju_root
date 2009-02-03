@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Library) do -%>
-      <li><%= link_to ('New library'), new_library_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.library')), new_library_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing libraries') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.library')) -%></h1>
 
 <table id="index">
   <tr>

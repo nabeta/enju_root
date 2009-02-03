@@ -240,7 +240,7 @@ class ManifestationsController < ApplicationController
             @manifestation.patrons << last_issue.patrons if last_issue
           end
         end
-        flash[:notice] = ('Manifestation was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
@@ -269,7 +269,7 @@ class ManifestationsController < ApplicationController
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
-        flash[:notice] = ('Manifestation was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to manifestation_url(@manifestation) }
         format.xml  { head :ok }
       else

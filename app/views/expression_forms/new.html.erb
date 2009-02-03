@@ -5,28 +5,28 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New expression_form') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.expression_form')) -%></h1>
 
 <%= error_messages_for :expression_form -%>
 
 <%- form_for(:expression_form, :url => expression_forms_path) do |f| -%>
   <p>
-  <b><%= t('page.name') -%></b><br />
+  <b><%= t('activerecord.attributes.expression_form.name') -%></b><br />
   <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-  <b><%= t('page.display_name') -%></b><br />
+  <b><%= t('activerecord.attributes.expression_form.display_name') -%></b><br />
   <%= f.text_field :display_name, :class => 'resource_title' -%>
   </p>
 
   <p>
-  <b><%= t('page.note') -%></b><br />
+  <b><%= t('activerecord.attributes.expression_form.note') -%></b><br />
   <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

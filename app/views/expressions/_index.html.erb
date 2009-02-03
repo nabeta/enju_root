@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Expression) do -%>
-      <li><%= link_to t('expression.new'), new_expression_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
     <%- end -%>
   </ul>
 </div>
   
 <div id="content_detail">
-<h1><%= t('expression.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 
 <%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>

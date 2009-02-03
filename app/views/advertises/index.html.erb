@@ -1,4 +1,4 @@
-<h1><%= ('Listing advertises') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.advertise')) -%></h1>
 
 <table id="index">
   <tr>
@@ -19,4 +19,4 @@
 
 <br />
 
-<%= link_to ('New advertise'), new_advertise_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.advertise')), new_advertise_path -%>

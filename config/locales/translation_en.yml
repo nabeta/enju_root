@@ -106,6 +106,13 @@ en:
       user_checkout_stat: User checkout stat
       manifestation_reserve_stat: Manifestation reserve stat
       user_reserve_stat: User reserve stat
+      work_has_work: Work-to-work relationship
+      expression_has_expression: Expression-to-expression relationship
+      manifestation_has_manifestation: Manifestation-to-manifestation relationship
+      item_has_item: Item-to-item relationship
+      bookmark_stat_has_manifestation: Bookmark stat-to-manifestation relationship
+      reserve_stat_has_manifestation: Reserve stat-to-manifestation relationship
+      reserve_stat_has_user: Reserve stat-to-user relationship
     attributes:
       library:
         name: Name
@@ -672,6 +679,7 @@ en:
         note: Note
       tag:
         name: Name
+        synonym: Synonym
 
   page:
     user: "User"
@@ -736,6 +744,7 @@ en:
     acquisition: "Acquisition"
     configuration: "Configuration"
     search_resource: "Search resources"
+    search_manifestation: "Search manifestations"
     search_bookmark: "Search bookmarks"
     search_question: "Search questions"
     search_patron: "Search patrons"
@@ -793,6 +802,18 @@ en:
     current_url: "Current URL"
     subject_and_classification: "Subject and classification"
     you_can_search_following_database: "You can search the following databases."
+    listing: "Listing {{model}}"
+    new: "New {{model}}"
+    editing: "Editing {{model}}"
+    patron_management: "Patron management"
+  title:
+    index: "index"
+    show: "show"
+    new: "new"
+    edit: "edit"
+  controller:
+    successfully_created: "{{model}} was successfully created."
+    successfully_updated: "{{model}} was successfully updated."
   advanced_search:
     from: "from"
     to: "to"
@@ -801,6 +822,7 @@ en:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
     remember_me: "Remember me"
+    your_account_is_suspended: "Your account is suspended, Tell the library staffs."
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
@@ -810,26 +832,16 @@ en:
     specify_title_and_url: "Specify title and URL."
     already_bookmarked: "This resource is already bookmarked."
   bookmarked_resource:
-    listing: "Listing bookmarked resource"
     add_to_library_bookmark: "Add to library bookmark"
     library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
   work:
-    listing: "Listing works"
-    new: "New work"
-    editing: "Editing work"
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"
   expression:
-    listing: "Listing expressions"
-    new: "New expression"
-    editing: "Editing expression"
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
     library_group_expression: "Expressions in {{library_group_name}}"
   manifestation:
-    listing: "Listing manifestations"
-    new: "New manifestation"
-    editing: "Editing manifestation"
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
     edit: "Edit this manifestation"
@@ -846,20 +858,13 @@ en:
     issue_number: "Issue number"
     serial_number: "Serial number"
   item:
-    listing: "Listing items"
-    new: "New item"
-    editing: "Editing item"
     donor: "Donors"
     library_group_item: "Items in {{library_group_name}}"
   patron:
-    listing: "Listing patrons"
-    new: "New patron"
-    editing: "Editing patron"
     work_patron: "Creaters of {{work_title}}"
     expression_patron: "Realizers of {{expression_title}}"
     manifestation_patron: "Producers of {{manifestation_title}}"
   message:
-    listing: "Listing messages"
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
     inbox: "Inbox"
@@ -876,14 +881,10 @@ en:
     delete: "Delete"
     no_new_message: "No new messages."
   tag:
-    listing: "Listing tags"
     popular_tag: "Popular tags"
     my_tag: "My tags"
     user_tag: "{{login_name}}'s tags"
   question:
-    listing: "Listing questions"
-    new: "New question"
-    editing: "Editing question"
     my: "My questions"
     all: "All questions"
     number_of_search_results:
@@ -893,33 +894,23 @@ en:
     no_record_found: "No records found."
     library_group_question: "Questions in {{library_group_name}}"
   answer:
-    listing: "Listing answers"
-    new: "New answer"
-    editing: "Editing answer"
     user_answer: "{{login_name}}'s answers"
     library_group_answer: "Answers from {{library_group_name}}"
   checkout:
-    listing: "Listing checkouts"
-    editing: "Editing checkouts"
     user_checkout: "{{login_name}}'s checkouts"
     library_group_checkout: "Checkouts in {{library_group_name}}"
-    editing_due_date: "Editing due date"
     renewal: "Renewal"
     renewal_count: "Renewal count"
     new_due_date: "New due date"
     this_item_cant_be_renewed: "This item can't be renewed."
+    listing_overdue_item: "Listing overdue items"
   library:
     map: "Map"
     staff: "Staff"
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
-  checkin:
-    listing: "Listing checkins"
   event:
-    listing: "Listing events"
-    new: "New event"
-    editing: "Editing event"
     library_group_event: "Events at {{library_group_name}}"
     all_libraries: "All libraries"
   user:
@@ -928,48 +919,16 @@ en:
     repeat_new_password: "Repeat new password"
     delete_this_user: "Delete this user"
     your_temporary_password_is: "Your temporary password is"
-  advertisement:
-    listing: "Listing advertisements"
-    new: "New advertisement"
-    editing: "Editing advertisement"
-  news_feed:
-    listing: "Listing news feeds"
-    new: "New news feed"
-    editing: "Editing news feed"
-  news_post:
-    listing: "Listing news posts"
-    new: "New news post"
-    editing: "Editing news post"
     library_group_news_post: "News from {{library_group_name}}"
+    sign_up: "Sign up"
   reserve:
-    listing: "Listing reservations"
-    new: "New reservation"
-    editing: "Editing reservation"
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
   purchase_request:
-    listing: "Listing purchase requests"
-    new: "New purchase request"
-    editing: "Editing purchase request"
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"
+    add_to_purchase_request: "Add to purchase request"
   order_list:
-    listing: "Listing order lists"
-    new: "New order list"
-    editing: "Editing order list"
     library_group_order_list: "Order lists in {{library_group_name}}"
   inter_library_loan:
-    listing: "Listing inter library loans"
-    new: "New inter library loan"
-    editing: "Editing inter library loan"
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
-  bookstore:
-    listing: "Listing bookstores"
-    new: "New bookstore"
-    editing: "Editing bookstore"
-  message_template:
-    listing: "Listing message templates"
-    new: "New message template"
-    editing: "Editing message template"
-  basket:
-    new: "New basket"

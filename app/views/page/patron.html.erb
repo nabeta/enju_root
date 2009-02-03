@@ -1,9 +1,14 @@
-<h1><%= ('Patron management') -%></h1>
+<div id="submenu">
+</div>
+
+<div id="content_detail">
+<h1><%= t('page.patron_management') -%></h1>
 
 <ul>
-  <li><%= link_to ('Search patrons'), patrons_path -%></li>
-  <li><%= link_to ('New patron'), new_patron_path -%></li>
-  <li><%= link_to ('New user'), new_user_path -%></li>
+  <li><%= link_to t('page.search_patron'), patrons_path -%></li>
+  <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
+  <li><%= link_to t('page.new', :model => t('activerecord.models.user')), new_user_path -%></li>
   <li><%= link_to ('Merge patrons'), new_patron_merge_list_path -%></li>
 </ul>
 
+</div>

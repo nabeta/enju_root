@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New request_type'), new_request_type_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.request_type')), new_request_type_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing request_types') -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.request_type')) -%></h1>
 
 <table id="index">
   <tr>

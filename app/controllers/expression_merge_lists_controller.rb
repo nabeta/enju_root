@@ -48,7 +48,7 @@ class ExpressionMergeListsController < ApplicationController
 
     respond_to do |format|
       if @expression_merge_list.save
-        flash[:notice] = ('ExpressionMergeList was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_merge_list'))
         format.html { redirect_to(@expression_merge_list) }
         format.xml  { render :xml => @expression_merge_list, :status => :created, :location => @expression_merge_list }
       else
@@ -76,7 +76,7 @@ class ExpressionMergeListsController < ApplicationController
             return
           end
         else
-          flash[:notice] = ('ExpressionMergeList was successfully updated.')
+          flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_merge_list'))
         end
         format.html { redirect_to(@expression_merge_list) }
         format.xml  { head :ok }

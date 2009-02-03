@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New work_merge') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.work_merge')) -%></h1>
 
 <%= error_messages_for :work_merge -%>
 
@@ -21,7 +21,7 @@
   </p>
 
   <p>
-  <b><%= ('Work merge list') -%></b><br />
+  <b><%= t('activerecord.models.work_merge_list') -%></b><br />
   <%- if @work_merge_list -%>
     <%= link_to h(@work_merge_list.title), work_merge_list_path(@work_merge_list) -%>
     <%= f.hidden_field :work_merge_list_id, :value => @work_merge_list.id -%>

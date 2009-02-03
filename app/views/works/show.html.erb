@@ -3,7 +3,7 @@
 <div>
   <%- if_authorized?(:destroy, @work) do -%>
     <ul>
-      <li><%= link_to t('work.new'), new_work_path -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%>
         <!--
         <ul>
           <li><%= link_to ('Add a child'), works_path(:parent_id => @work.id) -%></li>

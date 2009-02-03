@@ -60,7 +60,7 @@ class SearchHistoriesController < ApplicationController
   #
   #  respond_to do |format|
   #    if @search_history.save
-  #      flash[:notice] = ('SearchHistory was successfully created.')
+  #      flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.search_history'))
   #      format.html { redirect_to search_history_url(@search_history) }
   #      format.xml  { head :created, :location => search_history_url(@search_history) }
   #    else
@@ -79,7 +79,7 @@ class SearchHistoriesController < ApplicationController
   #
   #  respond_to do |format|
   #    if @search_history.update_attributes(params[:search_history])
-  #      flash[:notice] = ('SearchHistory was successfully updated.')
+  #      flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.search_history'))
   #      format.html { redirect_to user_search_history_url(@user, @search_history) }
   #      format.xml  { head :ok }
   #    else

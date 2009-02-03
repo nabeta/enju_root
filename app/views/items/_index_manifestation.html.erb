@@ -4,7 +4,7 @@
   </div>
   <ul>
     <%- if_authorized?(:new, Item) do -%>
-      <li><%= link_to t('item.new'), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -12,9 +12,9 @@
 <div id="content_detail">
 
   <%- if @manifestation -%>
-    <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+    <%= render :partial => 'manifestations/title' -%>
   <%- else -%>
-    <h1><%= ('Listing items') -%></h1>
+    <h1><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
 
 <table id="index">

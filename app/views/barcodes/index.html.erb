@@ -1,4 +1,4 @@
-<h1><%= ('Listing barcodes') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.barcode')) -%></h1>
 
 <table id="index">
   <tr>
@@ -22,4 +22,4 @@
 <%= will_paginate(@barcodes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
-<%= link_to ('New barcode'), new_barcode_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.barcode')), new_barcode_path -%>

@@ -47,7 +47,7 @@ class PatronTypesController < ApplicationController
 
     respond_to do |format|
       if @patron_type.save
-        flash[:notice] = ('PatronType was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron_type'))
         format.html { redirect_to(@patron_type) }
         format.xml  { render :xml => @patron_type, :status => :created, :location => @patron_type }
       else
@@ -64,7 +64,7 @@ class PatronTypesController < ApplicationController
 
     respond_to do |format|
       if @patron_type.update_attributes(params[:patron_type])
-        flash[:notice] = ('PatronType was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron_type'))
         format.html { redirect_to(@patron_type) }
         format.xml  { head :ok }
       else

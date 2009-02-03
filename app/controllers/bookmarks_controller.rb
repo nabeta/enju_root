@@ -143,7 +143,7 @@ class BookmarksController < ApplicationController
         unless @bookmark.shelved?
           @bookmark.create_bookmark_item
         end
-        flash[:notice] = ('Bookmark was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
         if params[:tag_edit] == 'manifestation'
           format.html { redirect_to manifestation_url(@bookmarked_resource.manifestation) }
           format.xml  { head :ok }
@@ -178,7 +178,7 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])
-        flash[:notice] = ('Bookmark was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
         @manifestation = @bookmark.bookmarked_resource.manifestation
         @manifestation.save
         if params[:tag_edit] == 'manifestation'

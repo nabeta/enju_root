@@ -1,4 +1,4 @@
-<h1><%= ('Listing exemplifies') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.exemplify')) -%></h1>
 
 <table id="index">
   <tr>
@@ -19,7 +19,7 @@
 </table>
 
 <%- if_authorized?(:new, Exemplify) do -%>
-  <p><%= link_to ('New exemplify'), new_exemplify_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.exemplify')), new_exemplify_path -%></p>
 <%- end -%>
 
 <%= will_paginate(@exemplifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

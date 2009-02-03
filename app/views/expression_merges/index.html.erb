@@ -7,7 +7,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing expression_merges') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.expression_merges')) -%></h1>
 
 <%- if @expression_merge_list -%>
   <p><%= ('Expressions in %{expression_merge_list}') -%></p>
@@ -16,7 +16,7 @@
 <table id="index">
   <tr>
     <td><%= t('activerecord.models.expression') -%></td>
-    <td><%= ('Expression merge list') -%></td>
+    <td><%= t('activerecord.attributes.expression_merge_list') -%></td>
   </tr>
 
 <%- for expression_merge in @expression_merges -%>

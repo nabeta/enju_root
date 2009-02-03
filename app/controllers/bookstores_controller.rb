@@ -48,7 +48,7 @@ class BookstoresController < ApplicationController
 
     respond_to do |format|
       if @bookstore.save
-        flash[:notice] = ('Bookstore was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookstore'))
         format.html { redirect_to(@bookstore) }
         format.xml  { render :xml => @bookstore, :status => :created, :location => @bookstore }
       else
@@ -71,7 +71,7 @@ class BookstoresController < ApplicationController
 
     respond_to do |format|
       if @bookstore.update_attributes(params[:bookstore])
-        flash[:notice] = ('Bookstore was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookstore'))
         format.html { redirect_to(@bookstore) }
         format.xml  { head :ok }
       else

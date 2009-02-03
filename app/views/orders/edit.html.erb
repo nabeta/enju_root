@@ -6,18 +6,18 @@
 </div>
 
 <div id="submenu">
-<h1><%= ('Editing order') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.order')) -%></h1>
 
 <%= error_messages_for :order -%>
 
 <%- form_for(:order, :url => order_path(@order), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.order_list') -%></b><br />
+    <b><%= t('activerecord.models.order_list') -%></b><br />
     <%= f.text_field :order_list_id -%>
   </p>
 
   <p>
-  <b><%= ('Purchase request') -%></b><br />
+    <b><%= t('activerecord.models.purchase_request') -%></b><br />
     <%= f.text_field :purchase_request_id -%>
   </p>
 

@@ -53,7 +53,7 @@ class UserGroupHasCheckoutTypesController < ApplicationController
 
     respond_to do |format|
       if @user_group_has_checkout_type.save
-        flash[:notice] = ('UserGroupHasCheckoutType was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.user_group_has_checkout_type'))
         format.html { redirect_to(@user_group_has_checkout_type) }
         format.xml  { render :xml => @user_group_has_checkout_type, :status => :created, :location => @user_group_has_checkout_type }
       else
@@ -72,7 +72,7 @@ class UserGroupHasCheckoutTypesController < ApplicationController
 
     respond_to do |format|
       if @user_group_has_checkout_type.update_attributes(params[:user_group_has_checkout_type])
-        flash[:notice] = ('UserGroupHasCheckoutType was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user_group_has_checkout_type'))
         format.html { redirect_to(@user_group_has_checkout_type) }
         format.xml  { head :ok }
       else

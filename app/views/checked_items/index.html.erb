@@ -13,7 +13,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing checked_items') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.checked_item')) -%></h1>
 
 <div id="checked_item_list">
   <%= render :partial => 'list' -%>

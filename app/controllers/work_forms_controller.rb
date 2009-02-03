@@ -47,7 +47,7 @@ class WorkFormsController < ApplicationController
 
     respond_to do |format|
       if @work_form.save
-        flash[:notice] = ('WorkForm was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_form'))
         format.html { redirect_to(@work_form) }
         format.xml  { render :xml => @work_form, :status => :created, :location => @work_form }
       else
@@ -64,7 +64,7 @@ class WorkFormsController < ApplicationController
 
     respond_to do |format|
       if @work_form.update_attributes(params[:work_form])
-        flash[:notice] = ('WorkForm was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_form'))
         format.html { redirect_to(@work_form) }
         format.xml  { head :ok }
       else

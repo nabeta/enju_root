@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, WorkForm) do -%>
-      <li><%= link_to ('New work_form'), new_work_form_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work_form')), new_work_form_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing work_forms') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.work_form')) -%></h1>
 
 <table id="index">
   <tr>

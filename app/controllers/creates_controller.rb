@@ -59,7 +59,7 @@ class CreatesController < ApplicationController
 
     respond_to do |format|
       if @create.save
-        flash[:notice] = ('Create was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.create'))
         if @patron
           format.html { redirect_to patron_works_url(@patron) }
           format.xml  { head :created, :location => patron_works_url(@patron) }
@@ -91,7 +91,7 @@ class CreatesController < ApplicationController
 
     respond_to do |format|
       if @create.update_attributes(params[:create])
-        flash[:notice] = ('Create was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.create'))
         if @patron
           format.html { redirect_to patron_works_url(@patron) }
           format.xml  { head :ok }

@@ -5,13 +5,13 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('bookstore.new') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.bookstore')) -%></h1>
 
 <%= error_messages_for :bookstore -%>
 
 <%- form_for(@bookstore) do |f| -%>
   <p>
-    <b><%= t('page.name') -%></b><br />
+    <b><%= t('activerecord.attributes.bookstore.name') -%></b><br />
     <%= f.text_field :name -%>
   </p>
 
@@ -31,7 +31,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.bookstore.e_number') -%></b><br />
+    <b><%= t('activerecord.attributes.bookstore.fax_number') -%></b><br />
     <%= f.text_field :fax_number -%>
   </p>
 

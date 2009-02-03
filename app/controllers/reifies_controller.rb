@@ -48,7 +48,7 @@ class ReifiesController < ApplicationController
 
     respond_to do |format|
       if @reify.save
-        flash[:notice] = ('Reify was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reify'))
         format.html { redirect_to reify_url(@reify) }
         format.xml  { head :created, :location => reify_url(@reify) }
       else
@@ -72,7 +72,7 @@ class ReifiesController < ApplicationController
 
     respond_to do |format|
       if @reify.update_attributes(params[:reify])
-        flash[:notice] = ('Reify was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reify'))
         format.html { redirect_to reify_url(@reify) }
         format.xml  { head :ok }
       else

@@ -42,7 +42,7 @@ class LibraryGroupsController < ApplicationController
   #
   #  respond_to do |format|
   #    if @library_group.save
-  #      flash[:notice] = ('LibraryGroup was successfully created.')
+  #      flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.library_group'))
   #      format.html { redirect_to library_group_url(@library_group) }
   #      format.xml  { head :created, :location => library_group_url(@library_group) }
   #    else
@@ -60,7 +60,7 @@ class LibraryGroupsController < ApplicationController
     respond_to do |format|
       if @library_group.update_attributes(params[:library_group])
         expire_page '/page/opensearch'
-        flash[:notice] = ('LibraryGroup was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.library_group'))
         format.html { redirect_to library_group_url(@library_group) }
         format.xml  { head :ok }
       else

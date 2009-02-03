@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Realize) do -%>
-      <li><%= link_to ('New realize'), new_patron_realize_path(@patron) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.realize')), new_patron_realize_path(@patron) -%></li>
     <%- end -%>
   </ul>
 </div>

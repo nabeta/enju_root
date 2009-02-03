@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
 
       if self.current_user.locked?
         cookies.delete :auth_token
-        flash[:notice] = ('Your account is locked out. Tell the library staffs.')
+        flash[:notice] = t('session.your_account_is_suspended')
         redirect_back_or_default('/')
         return
       end

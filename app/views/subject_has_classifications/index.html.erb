@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New subject_has_classification'), new_subject_has_classification_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.subject_has_classification')), new_subject_has_classification_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing subject_has_classifications') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.subject_has_classifications')) -%></h1>
 
 <table>
   <tr>

@@ -1,4 +1,4 @@
-<h1><%= ('Listing owns') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.own')) -%></h1>
 
 <table id="index">
   <tr>
@@ -29,7 +29,7 @@
 </table>
 
 <%- if_authorized?(:new, Own) do -%>
-  <p><%= link_to ('New own'), new_own_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.own')), new_own_path -%></p>
 <%- end -%>
 
 <%= will_paginate(@owns, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

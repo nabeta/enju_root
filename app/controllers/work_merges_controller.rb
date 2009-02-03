@@ -55,7 +55,7 @@ class WorkMergesController < ApplicationController
 
     respond_to do |format|
       if @work_merge.save
-        flash[:notice] = ('WorkMerge was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_merge'))
         format.html { redirect_to(@work_merge) }
         format.xml  { render :xml => @work_merge, :status => :created, :location => @work_merge }
       else
@@ -72,7 +72,7 @@ class WorkMergesController < ApplicationController
 
     respond_to do |format|
       if @work_merge.update_attributes(params[:work_merge])
-        flash[:notice] = ('WorkMerge was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_merge'))
         format.html { redirect_to(@work_merge) }
         format.xml  { head :ok }
       else

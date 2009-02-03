@@ -5,19 +5,24 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New frequency_of_issue') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.frequency_of_issue')) -%></h1>
 
 <%= error_messages_for :frequency_of_issue -%>
 
 <%- form_for(@frequency_of_issue) do |f| -%>
   <p>
-    <b><%= t('page.name') -%></b><br />
+    <b><%= t('activerecord.attributes.frequency_of_issue.name') -%></b><br />
     <%= f.text_field :name -%>
   </p>
 
   <p>
-    <b><%= t('page.display_name') -%></b><br />
+    <b><%= t('activerecord.attributes.frequency_of_issue.display_name') -%></b><br />
     <%= f.text_field :display_name -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.frequency_of_issue.note') -%></b><br />
+    <%= f.text_field :note -%>
   </p>
 
   <p>

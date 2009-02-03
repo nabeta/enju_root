@@ -1,4 +1,4 @@
-<h1><%= ('Listing languages') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.language')) -%></h1>
 
 <table id="index">
   <tr>
@@ -27,4 +27,4 @@
 <%- end -%>
 </table>
 
-<%= link_to ('New language'), new_language_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.language')), new_user_language_path -%>

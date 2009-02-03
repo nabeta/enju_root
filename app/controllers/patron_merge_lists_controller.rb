@@ -48,7 +48,7 @@ class PatronMergeListsController < ApplicationController
 
     respond_to do |format|
       if @patron_merge_list.save
-        flash[:notice] = ('PatronMergeList was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron_merge_list'))
         format.html { redirect_to(@patron_merge_list) }
         format.xml  { render :xml => @patron_merge_list, :status => :created, :location => @patron_merge_list }
       else
@@ -76,7 +76,7 @@ class PatronMergeListsController < ApplicationController
             return
           end
         else
-          flash[:notice] = ('PatronMergeList was successfully updated.')
+          flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron_merge_list'))
         end
         format.html { redirect_to(@patron_merge_list) }
         format.xml  { head :ok }

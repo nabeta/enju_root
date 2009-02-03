@@ -1,4 +1,4 @@
-<h1><%= t('message_template.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.message_template')) -%></h1>
 
 <table style="width:100%">
   <tr>
@@ -22,4 +22,4 @@
 
 <br />
 
-<%= link_to t('message_template.new'), new_message_template_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.message_template')), new_message_template_path -%>

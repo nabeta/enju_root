@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Classification) do -%>
-      <li><%= link_to ('New classification'), new_classification_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing classifications') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.classification')) -%></h1>
 
 <%- form_for :classifications, :url => classifications_path, :html => {:method => 'get'} do -%>
   <p>

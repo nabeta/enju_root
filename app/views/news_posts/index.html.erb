@@ -1,4 +1,4 @@
-<h1><%= t('news_post.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.news_post')) -%></h1>
 
 <table id="index">
   <tr>
@@ -30,4 +30,4 @@
 <br />
 <%= will_paginate(@news_posts, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-<%= link_to 'New news_post', new_news_post_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.news_post')), new_news_post_path -%>

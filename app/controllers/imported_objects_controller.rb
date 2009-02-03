@@ -47,7 +47,7 @@ class ImportedObjectsController < ApplicationController
 
     respond_to do |format|
       if @imported_object.save
-        flash[:notice] = ('ImportedObject was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imported_object'))
         format.html { redirect_to(@imported_object) }
         format.xml  { render :xml => @imported_object, :status => :created, :location => @imported_object }
       else
@@ -64,7 +64,7 @@ class ImportedObjectsController < ApplicationController
 
     respond_to do |format|
       if @imported_object.update_attributes(params[:imported_object])
-        flash[:notice] = ('ImportedObject was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.imported_object'))
         format.html { redirect_to(@imported_object) }
         format.xml  { head :ok }
       else

@@ -1,18 +1,18 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Order) do -%>
-      <li><%= link_to ('New order'), new_order_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.order')), new_order_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing orders') -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.order')) -%></h1>
 
 <table>
   <tr>
     <th><%= t('activerecord.models.order_list') -%></th>
-    <th><%= ('Purchase request') -%></th>
+    <th><%= t('activerecord.models.purchase_request') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
   </tr>

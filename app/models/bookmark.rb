@@ -1,5 +1,6 @@
 class Bookmark < ActiveRecord::Base
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
   belongs_to :user #, :counter_cache => true, :validate => true
   validates_presence_of :user, :bookmarked_resource_id, :title

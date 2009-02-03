@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Produce) do -%>
-      <li><%= link_to ('New produce'), new_manifestation_produce_path(@manifestation) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_manifestation_produce_path(@manifestation) -%></li>
       <li><%= link_to t('page.back'), manifestation_patrons_path(@manifestation) -%></li>
       <li><%= link_to ('Show manifestation'), @manifestation -%></li>
     <%- end -%>
@@ -9,7 +9,7 @@
 </div>
   
 <div id="content_detail">
-  <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+  <%= render :partial => 'manifestations/title' -%>
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.patron') -%></th>

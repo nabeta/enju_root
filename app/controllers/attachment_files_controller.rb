@@ -81,7 +81,7 @@ class AttachmentFilesController < ApplicationController
         end
         @attachment_file.save
 
-        flash[:notice] = ('AttachmentFile was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
         format.xml  { render :xml => @attachment_file, :status => :created, :location => @attachment_file }
       else
@@ -100,7 +100,7 @@ class AttachmentFilesController < ApplicationController
     respond_to do |format|
       if @attachment_file.update_attributes(params[:attachment_file])
         @attachment_file.extract_text
-        flash[:notice] = ('AttachmentFile was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
         format.xml  { head :ok }
       else

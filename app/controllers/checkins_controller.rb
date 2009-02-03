@@ -76,7 +76,7 @@ class CheckinsController < ApplicationController
 
       respond_to do |format|
         if @checkin.save
-          flash[:message] << ('Checkin was successfully created.')
+          flash[:message] << t('controller.successfully_created', :model => t('activerecord.models.checkin'))
           Checkin.transaction do
             checkout = Checkout.find(:first, :conditions => {:item_id => @checkin.item.id})
             # TODO: 貸出されていない本の処理
@@ -145,7 +145,7 @@ class CheckinsController < ApplicationController
 
     respond_to do |format|
       if @checkin.update_attributes(params[:checkin])
-        flash[:notice] = ('Checkin was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checkin'))
         format.html { redirect_to checkin_url(@checkin) }
         format.xml  { head :ok }
       else

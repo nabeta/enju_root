@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Embody) do -%>
-      <li><%= link_to ('New embody'), manifestation_expressions_path(@manifestation) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), manifestation_expressions_path(@manifestation) -%></li>
       <li><%= link_to ('Show manifestation'), @manifestation -%></li>
       <li><%= link_to ('Edit manifestation'), edit_manifestation_path(@manifestation) -%></li>
     <%- end -%>
@@ -9,9 +9,9 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing embodies') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
 
-<%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+<%= render :partial => 'manifestations/title' -%>
 
 <table id="index">
   <tr>

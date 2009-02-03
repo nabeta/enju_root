@@ -46,11 +46,11 @@
       <%- if current_user.has_role?('Librarian') -%>
         <ul>
           <%- case when @expression -%>
-            <li><%= link_to t('manifestation.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
+            <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
           <%- when @patron -%>
-            <li><%= link_to t('manifestation.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
+            <li><%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
           <%- else -%>
-            <li><%= link_to t('manifestation.edit'), edit_manifestation_path(@manifestation) -%></li>
+            <li><%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%></li>
           <%- end -%>
           <ul>
             <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
@@ -84,7 +84,7 @@
 <%
   cache(:id => @manifestation.id, :action_suffix => 'detail_1') do
 %>
-  <%= render :partial => 'manifestation_patrons_list', :locals => {:manifestation => @manifestation} -%>
+  <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 
   <div id="tabview">
 

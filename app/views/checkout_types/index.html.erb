@@ -3,13 +3,13 @@
     <%- if @user_group -%>
       <li><%= link_to ('Add a checkout_type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
     <%- else -%>
-      <li><%= link_to ('New checkout_type'), new_checkout_type_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.checkout_type')), new_checkout_type_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing checkout_types') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.checkout_type')) -%></h1>
 
 <table id="index">
   <tr>

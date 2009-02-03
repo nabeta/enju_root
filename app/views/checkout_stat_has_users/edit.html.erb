@@ -1,4 +1,4 @@
-<h1>Editing checkout_stat_has_user</h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.checkout_stat_has_user')) -%></h1>
 
 <% form_for(@checkout_stat_has_user) do |f| -%>
   <%= f.error_messages -%>
@@ -16,9 +16,9 @@
     <%= f.text_field :checkouts_count -%>
   </p>
   <p>
-    <%= f.submit "Update" -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <% end -%>
 
 <%= link_to t('page.show'), @checkout_stat_has_user -%> |
-<%= link_to 'Back', checkout_stat_has_users_path -%>
+<%= link_to t('page.back'), checkout_stat_has_users_path -%>

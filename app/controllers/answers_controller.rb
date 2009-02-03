@@ -86,7 +86,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.save
-        flash[:notice] = ('Answer was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.answer'))
         format.html { redirect_to user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
         format.xml  { head :created, :location => user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
       else
@@ -103,7 +103,7 @@ class AnswersController < ApplicationController
 
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
-        flash[:notice] = ('Answer was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.answer'))
         format.html { redirect_to user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
         format.xml  { head :ok }
       else

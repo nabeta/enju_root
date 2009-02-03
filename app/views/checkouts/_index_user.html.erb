@@ -17,7 +17,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('checkout.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.checkout')) -%></h1>
 
 <p>
   <%- if params[:view] == 'overdue' -%>

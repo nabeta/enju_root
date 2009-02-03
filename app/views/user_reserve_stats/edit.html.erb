@@ -1,4 +1,4 @@
-<h1>Editing user_reserve_stat</h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.user_reserve_stat')) -%></h1>
 
 <% form_for(@user_reserve_stat) do |f| -%>
   <%= f.error_messages -%>
@@ -20,9 +20,9 @@
     <%= f.text_field :state -%>
   </p>
   <p>
-    <%= f.submit "Update" -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <% end -%>
 
-<%= link_to 'Show', @user_reserve_stat -%> |
-<%= link_to 'Back', user_reserve_stats_path -%>
+<%= link_to t('page.show'), @user_reserve_stat -%> |
+<%= link_to t('page.back'), user_reserve_stats_path -%>

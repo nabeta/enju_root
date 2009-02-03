@@ -1,4 +1,4 @@
-<h1><%= ('Listing items') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 
 <%- case params[:inventory] when 'not_on_shelf' -%>
   <h2><%= ('Not on shelf') -%></h2>

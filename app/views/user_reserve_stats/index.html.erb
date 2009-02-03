@@ -1,4 +1,4 @@
-<h1>Listing user_reserve_stats</h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.user_reserve_stat')) -%></h1>
 
 <table>
   <tr>
@@ -23,4 +23,4 @@
 
 <br />
 
-<%= link_to 'New user_reserve_stat', new_user_reserve_stat_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.user_reserve_stat')), new_user_reserve_stat_path -%>

@@ -6,18 +6,18 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Editing subject_has_classification') -%></h1>
+  <h1><%= t('page.editing', :model => t('activerecord.models.subject_has_classification')) -%></h1>
 
 <%= error_messages_for :subject_has_classification -%>
 
 <%- form_for(@subject_has_classification) do |f| -%>
   <p>
-    <b><%= t('page.subject') -%></b><br />
+    <b><%= t('activerecord.models.subject') -%></b><br />
     <%= f.text_field :subject_id -%>
   </p>
 
   <p>
-    <b><%= ('Classification') -%></b><br />
+    <b><%= t('activerecord.models.classification') -%></b><br />
     <%= f.text_field :classification_id -%>
   </p>
 

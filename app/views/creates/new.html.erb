@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New create') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.create')) -%></h1>
 
 <%= error_messages_for :create -%>
 
@@ -32,7 +32,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

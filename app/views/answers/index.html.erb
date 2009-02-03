@@ -1,4 +1,4 @@
-<h1><%= t('answer.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.answer')) -%></h1>
 
 <%- if @question -%>
 
@@ -31,5 +31,5 @@
 <br />
 
 <%- if @question -%>
-  <%= link_to ('New answer'), new_user_question_answer_path(@user.login, @question) -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.answer')), new_user_question_answer_path(@user.login, @question) -%>
 <%- end -%>

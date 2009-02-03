@@ -1,4 +1,4 @@
-<h1><%= ('Editing checked_item') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.checked_item')) -%></h1>
 
 <%= error_messages_for :checked_item -%>
 
@@ -9,7 +9,7 @@
   </p>
 
   <p>
-    <b><%= ('Basket') -%></b><br />
+    <b><%= t('activerecord.models.basket') -%></b><br />
     <%= f.text_field :basket_id -%>
   </p>
 

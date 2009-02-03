@@ -47,7 +47,7 @@ class FrequencyOfIssuesController < ApplicationController
 
     respond_to do |format|
       if @frequency_of_issue.save
-        flash[:notice] = ('FrequencyOfIssue was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.frequency_of_issue'))
         format.html { redirect_to(@frequency_of_issue) }
         format.xml  { render :xml => @frequency_of_issue, :status => :created, :location => @frequency_of_issue }
       else
@@ -70,7 +70,7 @@ class FrequencyOfIssuesController < ApplicationController
 
     respond_to do |format|
       if @frequency_of_issue.update_attributes(params[:frequency_of_issue])
-        flash[:notice] = ('FrequencyOfIssue was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.frequency_of_issue'))
         format.html { redirect_to(@frequency_of_issue) }
         format.xml  { head :ok }
       else

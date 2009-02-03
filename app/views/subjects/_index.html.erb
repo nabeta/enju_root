@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Subject) do -%>
-      <li><%= link_to ('New subject'), new_subject_path if current_user.has_role?('Administrator') -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path if current_user.has_role?('Administrator') -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing subjects') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
 
 <%- form_for :subjects, :url => subjects_path, :html => {:method => 'get'} do -%>
   <p>

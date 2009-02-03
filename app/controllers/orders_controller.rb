@@ -70,7 +70,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.save
-        flash[:notice] = ('Order was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.order'))
         if @purchase_request
           format.html { redirect_to purchase_request_order_url(@order.purchase_request, @order) }
           format.xml  { render :xml => @order, :status => :created, :location => @order }
@@ -93,7 +93,7 @@ class OrdersController < ApplicationController
 
     respond_to do |format|
       if @order.update_attributes(params[:order])
-        flash[:notice] = ('Order was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.order'))
         if @purchase_request
           format.html { redirect_to purchase_request_order_url(@order.purchase_request, @order) }
           format.xml  { head :ok }

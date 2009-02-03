@@ -111,7 +111,7 @@ class PurchaseRequestsController < ApplicationController
     respond_to do |format|
       if @purchase_request.save
         @order_list.purchase_requests << @purchase_request if @order_list
-        flash[:notice] = ('PurchaseRequest was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.purchase_request'))
         format.html { redirect_to user_purchase_request_url(@purchase_request.user.login, @purchase_request) }
         format.xml  { render :xml => @purchase_request, :status => :created, :location => @purchase_request }
       else
@@ -133,7 +133,7 @@ class PurchaseRequestsController < ApplicationController
     respond_to do |format|
       if @purchase_request.update_attributes(params[:purchase_request])
         @order_list.purchase_requests << @purchase_request if @order_list
-        flash[:notice] = ('PurchaseRequest was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.purchase_request'))
         format.html { redirect_to user_purchase_request_url(@purchase_request.user.login, @purchase_request) }
         format.xml  { head :ok }
       else

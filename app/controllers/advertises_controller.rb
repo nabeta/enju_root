@@ -48,7 +48,7 @@ class AdvertisesController < ApplicationController
 
     respond_to do |format|
       if @advertise.save
-        flash[:notice] = ('Advertise was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.advertise'))
         format.html { redirect_to(@advertise) }
         format.xml  { render :xml => @advertise, :status => :created, :location => @advertise }
       else
@@ -65,7 +65,7 @@ class AdvertisesController < ApplicationController
 
     respond_to do |format|
       if @advertise.update_attributes(params[:advertise])
-        flash[:notice] = ('Advertise was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.advertise'))
         format.html { redirect_to(@advertise) }
         format.xml  { head :ok }
       else

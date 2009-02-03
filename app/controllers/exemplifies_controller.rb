@@ -49,7 +49,7 @@ class ExemplifiesController < ApplicationController
 
     respond_to do |format|
       if @exemplify.save
-        flash[:notice] = ('Exemplify was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.exemplify'))
         format.html { redirect_to(@exemplify) }
         format.xml  { render :xml => @exemplify, :status => :created, :location => @exemplify }
       else
@@ -66,7 +66,7 @@ class ExemplifiesController < ApplicationController
 
     respond_to do |format|
       if @exemplify.update_attributes(params[:exemplify])
-        flash[:notice] = ('Exemplify was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.exemplify'))
         case when @manifestation
           format.html { redirect_to manifestation_items_path(@exemplify.manifestation) }
           format.xml  { head :ok }

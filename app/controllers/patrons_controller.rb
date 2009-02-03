@@ -130,7 +130,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       if @patron.save
-        flash[:notice] = ('Patron was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron'))
         case
         when @work
           @work.patrons << @patron
@@ -170,7 +170,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
-        flash[:notice] = ('Patron was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron'))
         format.html { redirect_to patron_url(@patron) }
         format.xml  { head :ok }
       else

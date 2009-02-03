@@ -26,4 +26,4 @@
 
 <%= will_paginate(@creates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-<%= if_authorized?(:new, Create) do link_to ('New create'), new_patron_create_path(@patron) end -%>
+<%= if_authorized?(:new, Create) do link_to t('page.new', :model => t('activerecord.models.create')), new_patron_create_path(@patron) end -%>

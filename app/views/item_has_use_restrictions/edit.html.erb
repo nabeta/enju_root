@@ -1,20 +1,20 @@
-<h1><%= ('Editing item_has_use_restriction') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.item_has_use_restriction')) -%></h1>
 
 <%= error_messages_for :item_has_use_restriction -%>
 
 <%- form_for(@item_has_use_restriction) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.item') -%></b><br />
-  <%- if @item_has_use_restriction.item -%>
-    <%= link_to h(@item_has_use_restriction.item.item_identifier), item_path(@item_has_use_restriction.item) -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), manifestation_path(@item_has_use_restriction.item.manifestation) -%>)
-    <%= f.hidden_field :item_id -%>
-  <%- else -%>
-    <%= f.text_field :item_id -%>
-  <%- end -%>
+    <b><%= t('activerecord.models.item') -%></b><br />
+    <%- if @item_has_use_restriction.item -%>
+      <%= link_to h(@item_has_use_restriction.item.item_identifier), item_path(@item_has_use_restriction.item) -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), manifestation_path(@item_has_use_restriction.item.manifestation) -%>)
+      <%= f.hidden_field :item_id -%>
+    <%- else -%>
+      <%= f.text_field :item_id -%>
+    <%- end -%>
   </p>
 
   <p>
-    <b><%= ('Use restriction') -%></b><br />
+    <b><%= t('activerecord.models.use_restriction') -%></b><br />
     <%= f.select(:use_restriction_id, @use_restrictions.collect{|u| [u.name, u.id]}) -%>
   </p>
 

@@ -9,7 +9,7 @@
 
 <%- form_for :user, :url => users_path do |f| -%>
 <%- if @patron -%>
-  <p><label for="patron"><%= t('page.name') -%></label><br/>
+  <p><label for="patron"><%= t('activerecord.attributes.user.name') -%></label><br/>
   <%= link_to h(@patron.full_name), patron_path(@patron) -%>
   <%= f.hidden_field :patron_id, :value => @patron.id -%></p>
 <%- end -%>
@@ -30,6 +30,6 @@
 <p><label for="user_group"><%= t('activerecord.models.user_group') -%></label><br/>
 <%= f.select(:user_group_id, @user_groups.collect{|u| [u.name, u.id]}) -%>
 
-<p><%= submit_tag ('Sign up') -%></p>
+<p><%= f.submit t('user.sign_up') -%></p>
 <%- end -%>
 </div>

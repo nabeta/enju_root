@@ -79,7 +79,7 @@ class LibrariesController < ApplicationController
 
     respond_to do |format|
       if @library.save
-        flash[:notice] = ('Library was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.library'))
         format.html { redirect_to library_url(@library.short_name) }
         format.xml  { head :created, :location => library_url(@library.short_name) }
       else
@@ -103,7 +103,7 @@ class LibrariesController < ApplicationController
 
     respond_to do |format|
       if @library.update_attributes(params[:library])
-        flash[:notice] = ('Library was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.library'))
         format.html { redirect_to library_url(@library.short_name) }
         format.xml  { head :ok }
       else

@@ -1,4 +1,4 @@
-<h1><%=h t('question.listing') -%></h1>
+<h1><%=h t('page.listing', :models => t('activerecord.models.question') -%></h1>
 
 <div id="result_list">
   <div id="searchform">
@@ -16,7 +16,7 @@
       <th><%= ('Id') -%></th>
       <th><%= t('page.user') -%></th>
       <th><%= t('activerecord.attributes.question.body') -%></th>
-      <th><%= ('Answers') -%></th>
+      <th><%= t('activerecord.models.answer') -%></th>
       <th><%= t('page.updated_at') -%></th>
     </tr>
   
@@ -48,7 +48,7 @@
 
 <%- if_authorized?(:new, Question) do -%>
   <%= link_to t('question.my'), user_questions_path(current_user.login) -%>
-  <%= link_to t('question.new'), new_user_question_path(current_user.login) -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.question')), new_user_question_path(current_user.login) -%>
 <%- end -%>
 </div>
 </div>

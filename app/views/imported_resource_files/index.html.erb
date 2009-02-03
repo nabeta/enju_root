@@ -1,4 +1,4 @@
-<h1><%= ('Listing imported_resource_files') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.imported_resource_files')) -%></h1>
 
 <table id="index">
   <tr>
@@ -26,4 +26,4 @@
 <%= will_paginate(@imported_resource_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
-<%= link_to ('New imported_resource_file'), new_imported_resource_file_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.imported_resource_file')), new_imported_resource_file_path -%>

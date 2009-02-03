@@ -48,7 +48,7 @@ class DonatesController < ApplicationController
 
     respond_to do |format|
       if @donate.save
-        flash[:notice] = ('Donate was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.donate'))
         format.html { redirect_to(@donate) }
         format.xml  { render :xml => @donate, :status => :created, :location => @donate }
       else
@@ -65,7 +65,7 @@ class DonatesController < ApplicationController
 
     respond_to do |format|
       if @donate.update_attributes(params[:donate])
-        flash[:notice] = ('Donate was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.donate'))
         format.html { redirect_to(@donate) }
         format.xml  { head :ok }
       else

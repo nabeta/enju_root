@@ -72,7 +72,7 @@ class ImportedEventFilesController < ApplicationController
 
     respond_to do |format|
       if @imported_event_file.update_attributes(params[:imported_event_file])
-        flash[:notice] = ('ImportedEventFile was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.imported_event_file'))
         format.html { redirect_to(@imported_event_file) }
         format.xml  { head :ok }
       else

@@ -19,7 +19,7 @@ class PageController < ApplicationController
   end
 
   def patron
-    @title = t('activerecord.models.patron')
+    @title = t('page.patron_management')
   end
   
   def advanced_search
@@ -84,4 +84,3 @@ class PageController < ApplicationController
   end
   
 end
-
