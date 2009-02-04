@@ -23,7 +23,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.frequency_of_issue.note') -%></b><br />
-    <%= f.text_field :note -%>
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>

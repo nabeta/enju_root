@@ -15,6 +15,7 @@
     </td>
     <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
     <td><%=h l(checkout.due_date, :format => :short) -%></td>
+    <td><%= link_to t('page.show'), user_checkout_path(checkout.user.login, checkout) -%>
     <td>
       <%= if_authorized?(:edit, checkout) do link_to t('page.edit'), edit_user_checkout_path(checkout.user.login, checkout) end -%>
     </td>

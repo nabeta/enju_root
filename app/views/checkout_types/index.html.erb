@@ -23,7 +23,6 @@
     <td><%= link_to h(checkout_type.name), checkout_type -%></td>
     <td><%= link_to h(checkout_type.display_name), checkout_type -%></td>
     <td><%=h checkout_type.note -%></td>
-    <td><%= link_to t('page.show'), checkout_type -%></td>
     <td><%= link_to t('page.edit'), edit_checkout_type_path(checkout_type) -%></td>
     <td><%= link_to t('page.destroy'), checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- unless @user_group -%>

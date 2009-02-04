@@ -15,9 +15,8 @@
 
 <%- for request_type in @request_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h request_type.name -%></td>
-    <td><%=h request_type.display_name -%></td>
-    <td><%= link_to t('page.show'), request_type -%></td>
+    <td><%= link_to h(request_type.name), request_type -%></td>
+    <td><%= link_to h(request_type.display_name), request_type -%></td>
     <td><%= link_to t('page.edit'), edit_request_type_path(request_type) -%></td>
     <td><%= link_to t('page.destroy'), request_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

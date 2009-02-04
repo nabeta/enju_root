@@ -68,7 +68,7 @@ ja:
       embody: 具体化する
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現のマージ
-      request_status_type: リクエストステータスの種類
+      request_status_type: 依頼の状態の種類
       news_feed: ニュースフィード
       news_post: ニュース投稿
       search_engine: 検索エンジン
@@ -83,7 +83,7 @@ ja:
       subscription: 購読
       message_template: メッセージテンプレート
       patron_merge: パトロンの併合
-      subject_related_term: アジ関連用語
+      subject_related_term: 件名の関連語
       library_group: 図書館グループ
       imported_event_file: イベントファイルのインポート
       bookmarked_resource: ブックマークリソース
@@ -893,6 +893,7 @@ ja:
     renewal: "貸出の更新"
     renewal_count: "更新回数"
     new_due_date: "新しい貸出期限日"
+    editing_due_date: "貸出期限日の編集"
     this_item_cant_be_renewed: "この資料は更新できません。"
     listing_overdue_item: "貸出期限切れの資料の一覧"
   library:
