@@ -1,9 +1,5 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@manifestation) -%>
-    <%- end -%>
-  </div>
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
     <li><%= link_to t('page.show'), manifestation_path(@manifestation) -%></li>
     <li><%= link_to t('page.destroy'), manifestation_path(@manifestation), :confirm => t('page.are_you_sure'), :method => :delete -%></li>

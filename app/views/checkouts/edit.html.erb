@@ -1,4 +1,5 @@
 <div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} -%>
   <ul>
     <li><%= link_to t('page.show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
     <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
@@ -6,9 +7,12 @@
 </div>
 
 <div id="content_detail">
+  
 <h1><%= t('page.editing', :model => t('activerecord.models.checkout')) -%></h1>
 
-<h2><%= t('checkout.renewal') -%></h2>
+  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @checkout.item.manifestation} -%>
+  
+<h3><%= t('checkout.renewal') -%></h3>
 <%- if @checkout.checkout_renewable? -%>
   <%- form_for :checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put } do |f| -%>
     <%= t('checkout.new_due_date') -%>: <%=h @renew_due_date -%>
@@ -20,7 +24,7 @@
   <p><%= t('checkout.this_item_cant_be_renewed') -%></p>
 <%- end -%>
 
-<h2><%= t('checkout.editing_due_date') -%></h2>
+<h3><%= t('checkout.editing_due_date') -%></h3>
 
 <%= error_messages_for :checkout -%>
 

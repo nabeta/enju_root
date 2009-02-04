@@ -1,0 +1,5 @@
+<div id="manifestation_book_jacket">
+  <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => 'book_jacket') do -%>
+    <%= book_jacket(manifestation) -%>
+  <%- end -%>
+</div>

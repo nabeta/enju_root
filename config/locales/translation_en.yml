@@ -859,6 +859,7 @@ en:
     issue_number: "Issue number"
     serial_number: "Serial number"
   item:
+    current_checkout: "Current checkout"
     donor: "Donors"
     library_group_item: "Items in {{library_group_name}}"
   patron:
@@ -906,6 +907,7 @@ en:
     editing_due_date: "Editing due date"
     this_item_cant_be_renewed: "This item can't be renewed."
     listing_overdue_item: "Listing overdue items"
+    current_user: "Current user"
   library:
     map: "Map"
     staff: "Staff"

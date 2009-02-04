@@ -1,9 +1,5 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@reserve.manifestation) -%>
-    <%- end -%>
-  </div>
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to ('Back to reservations'), user_reserves_path(@user.login) -%></li>
     <%- if @manifestation -%>

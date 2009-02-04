@@ -1,10 +1,5 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@manifestation) -%>
-    <%- end -%>
-  </div>
-
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <%- if logged_in? -%>
     <div id="call_number_content">
       <%- for item in @manifestation.items -%>
