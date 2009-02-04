@@ -162,7 +162,7 @@ class ManifestationsController < ApplicationController
 
     return if render_mode(params[:mode])
 
-    @reserved_count = Reserve.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
+    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     @amazon_reviews = @manifestation.amazon_customer_review

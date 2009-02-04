@@ -35,9 +35,9 @@ class MessageQueue < ActiveRecord::Base
     manifestation_message = []
     case self.message_template.status
     when "reservation_accepted"
-      reserves = self.receiver.reserves.not_hold
+      reserves = self.receiver.reserves.not_hold.waiting
     when "item_received"
-      reserves = self.receiver.reserves.hold
+      reserves = self.receiver.reserves.hold.waiting
     when "reservation_expired_for_library"
       reserves = Reserve.will_expire(Time.zone.now.beginning_of_day)
     when "reservation_expired_for_patron"
