@@ -2,7 +2,7 @@
   <ul>
     <li><%= link_to t('page.edit'), edit_message_queue_path(@message_queue) -%></li>
     <li><%= link_to t('page.back'), message_queues_path -%></li>
-    <li><%= link_to ('Send message'), new_user_message_path(current_user.login, :message_queue_id => @message_queue.id) -%></li>
+    <li><%= link_to t('message.send'), new_user_message_path(current_user.login, :message_queue_id => @message_queue.id) -%></li>
   </ul>
 </div>
 
@@ -33,7 +33,7 @@
 </p>
 
 <p>
-  <b><%= ('Message template') -%>:</b>
+  <b><%= t('activerecord.models.message_template') -%>:</b>
   <%= link_to h(@message_queue.message_template.status), message_template_path( @message_queue.message_template) -%>
 </p>
 

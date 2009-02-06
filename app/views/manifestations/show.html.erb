@@ -166,6 +166,9 @@
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
       <td><%= @manifestation.price -%></td>
     </tr>
+  <%
+    end
+  -%>
     <tr>
       <td><%= t('page.subject') -%>:</td>
       <td>
@@ -173,14 +176,8 @@
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
-        <%- if logged_in? and current_user.has_role?('Librarian') -%>
-          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
-        <%- end -%>
       </td>
     </tr>
-  <%
-    end
-  -%>
     <tr>
       <td><%= t('page.tag') -%>:
       </td>

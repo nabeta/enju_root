@@ -1,23 +1,25 @@
-<h1><%= t('page.new', :model => t('activerecord.models.place')) -%></h1>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), concepts_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1><%= t('page.new', :model => t('activerecord.models.concept')) -%></h1>
 
 <% form_for(@concept) do |f| %>
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :term %><br />
+    <%= f.label t('activerecord.attributes.concept.term') %><br />
     <%= f.text_area :term %>
   </p>
   <p>
-    <%= f.label :note %><br />
+    <%= f.label t('activerecord.attributes.concept.note') %><br />
     <%= f.text_area :note %>
-  </p>
-  <p>
-    <%= f.label :required_score %><br />
-    <%= f.text_field :required_score %>
   </p>
   <p>
     <%= f.submit t('page.create') %>
   </p>
 <% end %>
-
-<%= link_to t('page.back'), concepts_path %>
+</div>

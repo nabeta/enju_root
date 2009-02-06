@@ -3,6 +3,7 @@ class CreatePlaces < ActiveRecord::Migration
     create_table :places do |t|
       t.text :term
       t.text :note
+      t.integer :resource_has_subjects_count, :default => 0, :null => false
       t.string :state
       t.integer :required_score
 

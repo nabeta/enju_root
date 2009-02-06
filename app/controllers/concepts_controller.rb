@@ -6,7 +6,16 @@ class ConceptsController < ApplicationController
   # GET /concepts
   # GET /concepts.xml
   def index
-    @concepts = Concept.paginate(:all, :page => params[:page])
+    if params[:query]
+      @query = params[:query]
+      flash[:query] = @query
+    end
+
+    if @query.blank?
+      @concepts = Concept.paginate(:all, :page => params[:page])
+    else
+      @concepts = Concept.paginate_by_solr(@query, :page => params[:page], :per_page => @per_page)
+    end
 
     respond_to do |format|
       format.html # index.html.erb

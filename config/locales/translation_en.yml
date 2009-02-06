@@ -115,6 +115,8 @@ en:
       reserve_stat_has_user: Reserve stat-to-user relationship
       concept: Concept
       place: Place
+      work_has_concept: Work-to-concept relationship
+      work_has_place: Work-to-place relationship
     attributes:
       library:
         name: Name
@@ -685,6 +687,11 @@ en:
       concept:
         term: Term
         note: Note
+        required_score: Required score
+      place:
+        term: Term
+        note: Note
+        required_score: Required score
 
   page:
     user: "User"
@@ -930,6 +937,7 @@ en:
     your_temporary_password_is: "Your temporary password is"
     library_group_news_post: "News from {{library_group_name}}"
     sign_up: "Sign up"
+    edit_profile: "Edit profile"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

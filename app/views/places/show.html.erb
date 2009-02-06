@@ -1,3 +1,16 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_place_path(@place) -%></li>
+    <li><%= link_to t('page.destroy'), place_path(@place), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    <%- if flash[:query] -%>
+      <li><%= link_to t('page.back'), places_path(:query => flash[:query]) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.back'), places_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
 <p>
   <b><%= t('activerecord.attributes.place.term') -%>:</b>
   <%=h @place.term %>
@@ -7,7 +20,4 @@
   <b><%= t('activerecord.attributes.place.note') -%>:</b>
   <%=h @place.note %>
 </p>
-
-
-<%= link_to t('page.edit'), edit_place_path(@place) %> |
-<%= link_to t('page.back'), places_path %>
+</div>

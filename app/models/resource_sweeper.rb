@@ -1,5 +1,5 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
-  observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify, Create, Realize, Produce, Own, BookmarkedResource, Bookmark, Tag, Subject, Patron, Library
+  observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify, Create, Realize, Produce, Own, BookmarkedResource, Bookmark, Tag, Patron, Library
   def after_save(record)
     case
     when record.is_a?(Patron)
@@ -18,10 +18,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.tagged.each do |bookmark|
         expire_manifestation_fragment(bookmark.bookmarked_resource.manifestation)
       end
-    when record.is_a?(Subject)
-      record.manifestations.each do |manifestation|
-        expire_manifestation_fragment(manifestation)
-      end
+    #when record.is_a?(Subject)
+    #  record.manifestations.each do |manifestation|
+    #    expire_manifestation_fragment(manifestation)
+    #  end
     when record.is_a?(Create)
       expire_fragment(:controller => :patrons, :action => :show, :id => record.patron_id)
       expire_fragment(:controller => :works, :action => :show, :id => record.work_id)

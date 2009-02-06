@@ -13,6 +13,6 @@ patron_type_00002:
 
 patron_type_00003:
   id: 3
-  name: Conference
-  display_name: Conference
+  name: Family
+  display_name: Family
   note: 

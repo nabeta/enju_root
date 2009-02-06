@@ -1,22 +1,38 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.concept')) -%></h1>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.concept')), new_concept_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= t('page.listing', :model => t('activerecord.models.concept')) -%></h1>
+<%- form_for :concepts, :url => concepts_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+<%- end -%>
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.place.term') -%></th>
-    <th><%= t('activerecord.attributes.place.term') -%></th>
+    <th><%= t('activerecord.attributes.concept.term') -%></th>
+    <th><%= t('activerecord.attributes.concept.note') -%></th>
+    <th></th>
   </tr>
-
-<% for concept in @concepts %>
-  <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(concept.term), concept %></td>
-    <td><%=h concept.note %></td>
-    <td><%= link_to t('page.edit'), edit_concept_path(concept) %></td>
-    <td><%= link_to t('page.destroy'), concept, :confirm => t('page.are_you_sure'), :method => :delete %></td>
-  </tr>
-<% end %>
+  <%- @concepts.each do |concept| -%>
+    <%- unless concept.nil? -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= link_to h(concept.term), concept -%></td>
+      <td><%= concept.note -%></td>
+      <td>
+        <%- if_authorized?(:destroy, concept) do -%>
+          <%= link_to t('page.edit'), edit_concept_path(concept) -%>
+        <%- end -%>
+      </td>
+    </tr>
+    <%- end -%>
+  <%- end -%>
 </table>
 
 <%= will_paginate(@concepts, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
-
-<%= link_to t('page.new', :model => t('activerecord.models.concept')), new_concept_path %>
+</div>

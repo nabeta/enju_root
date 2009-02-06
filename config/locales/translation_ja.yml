@@ -115,6 +115,8 @@ ja:
       reserve_stat_has_user: 予約統計とユーザの関係
       concept: 概念
       place: 場所
+      work_has_concept: 著作形と概念の関係
+      work_has_place: 著作形と場所の関係
     attributes:
       library:
         name: 名前
@@ -685,9 +687,11 @@ ja:
       concept:
         term: 用語
         note: 注記
+        required_score: 必要スコア
       place:
         term: 用語
         note: 注記
+        required_score: 必要スコア
 
   page:
     user: "ユーザ"
@@ -923,6 +927,7 @@ ja:
     delete_this_user: "このユーザを削除する"
     your_temporary_password_is: "仮パスワードは次のとおりです"
     sign_up: "サインアップ"
+    edit_profile: "プロフィールの編集"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:

@@ -7,9 +7,9 @@
     <%- end -%>
     <ul>
       <%- if_authorized?(:destroy, @user) do -%>
-        <li><%= link_to ('Edit profile'), edit_user_path(@user.login) -%></li>
+        <li><%= link_to t('user.edit_profile'), edit_user_path(@user.login) -%></li>
       <%- end -%>
-      <li><%= link_to ('Send a message'), new_user_message_path(current_user.login, :recipient => @user.login) -%></li>
+      <li><%= link_to t('message.send'), new_user_message_path(current_user.login, :recipient => @user.login) -%></li>
     </ul>
   </div>
 </div>

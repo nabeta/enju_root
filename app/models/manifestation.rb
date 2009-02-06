@@ -17,8 +17,8 @@ class Manifestation < ActiveRecord::Base
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
@@ -422,6 +422,10 @@ class Manifestation < ActiveRecord::Base
 
   def patron_ids
     self.patrons.collect(&:id)
+  end
+
+  def subjects
+    self.works.collect(&:subjects).flatten
   end
 
   def subject_ids

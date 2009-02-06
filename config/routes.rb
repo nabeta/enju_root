@@ -1,7 +1,12 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :places
 
-  map.resources :concepts
+  map.resources :places do |place|
+    place.resources :works
+  end
+
+  map.resources :concepts do |concept|
+    concept.resources :works
+  end
 
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
@@ -114,12 +119,12 @@ ActionController::Routing::Routes.draw do |map|
     classification.resources :subject_has_classifications
   end
 
-  map.resources :subjects do |subject|
-    subject.resources :manifestations
-    subject.resources :resource_has_subjects
-    subject.resources :classifications
-    subject.resources :subject_has_classifications
-  end
+  #map.resources :subjects do |subject|
+  #  subject.resources :manifestations
+  #  subject.resources :resource_has_subjects
+  #  subject.resources :classifications
+  #  subject.resources :subject_has_classifications
+  #end
 
   map.resources :patron_merge_lists do |patron_merge_list|
     patron_merge_list.resources :patrons
@@ -215,6 +220,8 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :resource_has_subjects
     work.resources :work_from_works, :controller => :works
     work.resources :work_to_works, :controller => :works
+    work.resources :concepts
+    work.resources :places
   end
   map.resources :expressions do |expression|
     expression.resource :realize
