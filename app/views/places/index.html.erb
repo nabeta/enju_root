@@ -1,0 +1,22 @@
+<h1><%= t('page.listing', :model => t('activerecord.models.place')) -%></h1>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.place.term') -%></th>
+    <th><%= t('activerecord.attributes.place.note') -%></th>
+  </tr>
+
+<% for place in @places %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(place.term), place %></td>
+    <td><%=h place.note %></td>
+    <td><%= link_to t('page.edit'), edit_place_path(place) %></td>
+    <td><%= link_to t('page.destroy'), place, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate(@places, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<br />
+
+<%= link_to t('page.new', :model => t('activerecord.models.place')), new_place_path %>

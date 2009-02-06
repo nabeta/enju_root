@@ -338,7 +338,7 @@ input.year_field, input.month_field, input.day_field{
   ime-mode: disabled;
 }
 
-textarea.resource_textarea{
+textarea{
   width: 40em;
   height: 10em;
 }

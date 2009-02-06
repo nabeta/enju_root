@@ -113,6 +113,8 @@ ja:
       bookmark_stat_has_manifestation: ブックマーク統計と体現形の関係
       reserve_stat_has_manifestation: 予約統計と体現形の関係
       reserve_stat_has_user: 予約統計とユーザの関係
+      concept: 概念
+      place: 場所
     attributes:
       library:
         name: 名前
@@ -680,6 +682,12 @@ ja:
       tag:
         name: 名前
         synonym: 同義語
+      concept:
+        term: 用語
+        note: 注記
+      place:
+        term: 用語
+        note: 注記
 
   page:
     user: "ユーザ"

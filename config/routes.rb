@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :places
+
+  map.resources :concepts
+
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
   map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
   map.resources :passwords

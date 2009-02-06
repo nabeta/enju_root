@@ -91,6 +91,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Library)
       expire_fragment(:controller => :libraries, :action => :index, :action_suffix => 'menu')
+    when record.is_a?(Concept)
+      expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
+    when record.is_a?(Place)
+      expire_fragment(:controller => :places, :action => :show, :id => record.id)
     end
   end
 

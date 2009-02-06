@@ -1,0 +1,23 @@
+<h1><%= t('page.new', :model => t('activerecord.models.place')) -%></h1>
+
+<% form_for(@concept) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :term %><br />
+    <%= f.text_area :term %>
+  </p>
+  <p>
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
+  </p>
+  <p>
+    <%= f.label :required_score %><br />
+    <%= f.text_field :required_score %>
+  </p>
+  <p>
+    <%= f.submit t('page.create') %>
+  </p>
+<% end %>
+
+<%= link_to t('page.back'), concepts_path %>

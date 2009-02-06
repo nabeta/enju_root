@@ -1,0 +1,13 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  term: MyText
+  note: MyText
+  state: MyString
+  required_score: 1
+
+two:
+  term: MyText
+  note: MyText
+  state: MyString
+  required_score: 1

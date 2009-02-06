@@ -1,0 +1,13 @@
+<p>
+  <b><%= t('activerecord.attributes.place.term') -%>:</b>
+  <%=h @concept.term %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.place.note') -%>:</b>
+  <%=h @concept.note %>
+</p>
+
+
+<%= link_to t('page.edit'), edit_concept_path(@concept) %> |
+<%= link_to t('page.back'), concepts_path %>

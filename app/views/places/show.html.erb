@@ -1,0 +1,13 @@
+<p>
+  <b><%= t('activerecord.attributes.place.term') -%>:</b>
+  <%=h @place.term %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.place.note') -%>:</b>
+  <%=h @place.note %>
+</p>
+
+
+<%= link_to t('page.edit'), edit_place_path(@place) %> |
+<%= link_to t('page.back'), places_path %>

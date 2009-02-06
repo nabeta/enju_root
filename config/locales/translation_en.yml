@@ -113,6 +113,8 @@ en:
       bookmark_stat_has_manifestation: Bookmark stat-to-manifestation relationship
       reserve_stat_has_manifestation: Reserve stat-to-manifestation relationship
       reserve_stat_has_user: Reserve stat-to-user relationship
+      concept: Concept
+      place: Place
     attributes:
       library:
         name: Name
@@ -680,6 +682,9 @@ en:
       tag:
         name: Name
         synonym: Synonym
+      concept:
+        term: Term
+        note: Note
 
   page:
     user: "User"

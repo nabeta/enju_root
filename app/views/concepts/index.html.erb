@@ -1,0 +1,22 @@
+<h1><%= t('page.listing', :model => t('activerecord.models.concept')) -%></h1>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.place.term') -%></th>
+    <th><%= t('activerecord.attributes.place.term') -%></th>
+  </tr>
+
+<% for concept in @concepts %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(concept.term), concept %></td>
+    <td><%=h concept.note %></td>
+    <td><%= link_to t('page.edit'), edit_concept_path(concept) %></td>
+    <td><%= link_to t('page.destroy'), concept, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate(@concepts, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<br />
+
+<%= link_to t('page.new', :model => t('activerecord.models.concept')), new_concept_path %>
