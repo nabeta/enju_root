@@ -1,0 +1,47 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Add a person'), new_person_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= t('page.listing', :model => t('activerecord.models.person')) -%></h1>
+<%- form_for :people, :url => people_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+<%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= ('Patron name') -%></th>
+    <th><%= ('User name') -%></th>
+    <th><%= t('activerecord.models.language') -%></th>
+    <th><%= t('activerecord.attributes.person.place') -%></th>
+    <th></th>
+  </tr>
+  <%- @people.each do |person| -%>
+    <%- unless person.nil? -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(person.full_name), person -%><br />
+        <%=h person.full_name_transcription -%>
+      </td>
+      <td>
+        <%= link_to h(person.user.login), edit_user_path(person.user.login) if person.user -%>
+      </td>
+      <td><%=h person.language.display_name -%></td>
+      <td><%=h person.place -%></td>
+      <td>
+        <%- if_authorized?(:destroy, person) do -%>
+          <%= link_to t('page.edit'), edit_person_path(person) -%>
+        <%- end -%>
+      </td>
+    </tr>
+    <%- end -%>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@people, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

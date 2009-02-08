@@ -1,0 +1,65 @@
+<div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
+  <ul>
+    <li><%= link_to ('Back to manifestations'), manifestations_path -%></li>
+    <li><%= link_to ('Add an expression'), manifestation_expressions_path(@manifestation) -%></li>
+    <li><%= link_to ('Add an item'), manifestation_items_path(@manifestation) -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.corporate_body')), new_manifestation_corporate_body_path(@manifestation) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+<%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+
+<%- form_for :corporate_bodies, :url => manifestation_corporate_bodies_path(@manifestation), :html => {:method => 'get'} do -%>
+<p>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%- if_authorized?(:destroy, @manifestation) do -%>
+    <%- if params[:mode] == 'add' -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+    <%- else -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+    <%- end -%>
+  <%- end -%>
+  <%= submit_tag t('page.search') -%>
+  <%= link_to t('page.back_to_index'), manifestation_corporate_bodies_path(@manifestation) -%>
+</p>
+<%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.corporate_body.full_name') -%></th>
+    <th><%= t('activerecord.models.corporate_body_type') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.other_designation') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.place') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.date_of_death') -%></th>
+    <th></th>
+  </tr>
+  <%- @corporate_bodies.each do |corporate_body| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= link_to h(corporate_body.full_name), corporate_body -%></td>
+      <td><%=h corporate_body.corporate_body_type.display_name -%></td>
+      <td><%=h corporate_body.other_designation -%></td>
+      <td><%=h corporate_body.place -%></td>
+      <td><%=h corporate_body.date_of_birth -%></td>
+      <td><%=h corporate_body.date_of_death -%></td>
+      <td>
+        <%- if_authorized?(:destroy, corporate_body) do -%>
+          <%- if params[:mode] == 'add' -%>
+            <%= link_to t('page.add'), new_manifestation_produce_path(@manifestation, :corporate_body_id => corporate_body.id) unless @manifestation.corporate_bodies.include?(corporate_body) -%>
+          <%- else -%>
+            <%- produce = @manifestation.produces.find_by_corporate_body_id(corporate_body.id) -%>
+            <%= link_to t('page.destroy'), manifestation_produce_path(@manifestation, produce), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%- end -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@corporate_bodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

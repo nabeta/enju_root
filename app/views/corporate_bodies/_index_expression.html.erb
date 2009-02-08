@@ -1,0 +1,65 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.corporate_body')), new_expression_corporate_body_path(@expression) -%></li>
+    <li><%= link_to ('Add a manifestation'), expression_manifestations_path(@expression) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <h1>
+    [E]
+    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+  </h1>
+
+<%- form_for :corporate_bodies, :url => expression_corporate_bodies_path(@expression), :html => {:method => 'get'} do -%>
+<p>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%- if_authorized?(:destroy, @expression) do -%>
+    <%- if params[:mode] == 'add' -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+    <%- else -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+    <%- end -%>
+  <%- end -%>
+  <%= submit_tag t('page.search') -%>
+  <%= link_to t('page.back_to_index'), expression_corporate_bodies_path(@expression) -%>
+</p>
+<%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.corporate_body.full_name') -%></th>
+    <th><%= t('activerecord.models.corporate_body_type') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.other_designation') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.place') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.corporate_body.date_of_death') -%></th>
+    <th></th>
+  </tr>
+<%- @corporate_bodies.each do |corporate_body| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(corporate_body.full_name), corporate_body -%></td>
+    <td><%=h corporate_body.corporate_body_type.display_name -%></td>
+    <td><%=h corporate_body.other_designation -%></td>
+    <td><%=h corporate_body.place -%></td>
+    <td><%=h corporate_body.date_of_birth -%></td>
+    <td><%=h corporate_body.date_of_death -%></td>
+    <td>
+      <%- if_authorized?(:destroy, corporate_body) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= link_to t('page.add'), new_expression_realize_path(@expression, :corporate_body_id => corporate_body.id) unless @expression.corporate_bodies.include?(corporate_body) -%>
+        <%- else -%>
+          <%- realize = @expression.realizes.find_by_corporate_body_id(corporate_body.id) -%>
+          <%= link_to t('page.destroy'), expression_realize_path(@expression, realize), :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@corporate_bodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

@@ -1,0 +1,11 @@
+<%- case when @work -%>
+  <%= render :partial => 'index_work' -%>
+<%- when @expression -%>
+  <%= render :partial => 'index_expression' -%>
+<%- when @manifestation -%>
+  <%= render :partial => 'index_manifestation' -%>
+<%- when @family_merge_list -%>
+  <%= render :partial => 'index_family_merge_list' -%>
+<%- else -%>
+  <%= render :partial => 'index' -%>
+<%- end -%>

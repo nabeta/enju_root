@@ -117,6 +117,9 @@ ja:
       place: 場所
       work_has_concept: 著作形と概念の関係
       work_has_place: 著作形と場所の関係
+      person: 人
+      corporate_body: 団体
+      family: 家族
     attributes:
       library:
         name: 名前
@@ -692,6 +695,71 @@ ja:
         term: 用語
         note: 注記
         required_score: 必要スコア
+      person:
+        last_name: 姓
+        middle_name: ミドルネーム
+        first_name: 名前
+        last_name_transcription: 最後の名前の転写
+        middle_name_transcription: ミドルネーム転写
+        first_name_transcription: 最初の名前の転写
+        corporate_name: 会社名
+        corporate_name_transcription: 企業名転写
+        full_name: 正式名称
+        full_name_transcription: フルネーム転写
+        full_name_alternative: フルネーム代替
+        deleted_at: 削除時刻
+        zip_code_1: 郵便番号1
+        zip_code_2: 郵便番号2
+        address_1: 住所1
+        address_2: 住所2
+        address_1_note: 住所1注記
+        address_2_note: アドレス2注記
+        telephone_number_1: 電話番号1
+        telephone_number_2: 電話番号2
+        fax_number_1: ファクス番号1
+        fax_number_2: ファクス番号2
+        other_designation: 他の指定
+        place: 場所
+        date_of_birth: 生年月日
+        note: 注記
+      corporate_body:
+        name: 名前
+        name_transcription: 名前の転写
+        name_alternative: 代替の名前
+        deleted_at: 削除時刻
+        zip_code_1: 郵便番号1
+        zip_code_2: 郵便番号2
+        address_1: 住所1
+        address_2: 住所2
+        address_1_note: 住所1注記
+        address_2_note: アドレス2注記
+        telephone_number_1: 電話番号1
+        telephone_number_2: 電話番号2
+        fax_number_1: ファクス番号1
+        fax_number_2: ファクス番号2
+        other_designation: 他の指定
+        place: 場所
+        date_of_birth: 生年月日
+        note: 注記
+      family:
+        name: 名前
+        name_transcription: 名前の転写
+        name_alternative: 代替の名前
+        deleted_at: 削除時刻
+        zip_code_1: 郵便番号1
+        zip_code_2: 郵便番号2
+        address_1: 住所1
+        address_2: 住所2
+        address_1_note: 住所1注記
+        address_2_note: アドレス2注記
+        telephone_number_1: 電話番号1
+        telephone_number_2: 電話番号2
+        fax_number_1: ファクス番号1
+        fax_number_2: ファクス番号2
+        other_designation: 他の指定
+        place: 場所
+        date_of_birth: 生年月日
+        note: 注記
 
   page:
     user: "ユーザ"

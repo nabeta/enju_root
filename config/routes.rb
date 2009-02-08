@@ -1,6 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :people
+  map.resources :corporate_bodies
+  map.resources :families
   map.resources :subject_heading_type_has_subjects
-
 
   map.resources :words
 
@@ -117,14 +119,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :message_templates
 
   map.resources :subject_heading_types do |subject_heading_type|
-    subject_heading_type.resources :subjects
-    subject_heading_type.resources :subject_heading_type_has_subjects
+    subject_heading_type.resources :concepts
+    subject_heading_type.resources :places
   end
 
   map.resources :classification_types
 
   map.resources :classifications do |classification|
-    classification.resources :subjects
+    classification.resources :concepts
+    classification.resources :places
     classification.resources :subject_has_classifications
   end
 
@@ -256,7 +259,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :exemplifies
     manifestation.resources :items
     manifestation.resources :expressions
-    manifestation.resources :subjects
+    #manifestation.resources :subjects
     manifestation.resources :resource_has_subjects
     manifestation.resources :manifestation_from_manifestations, :controller => :manifestations
     manifestation.resources :manifestation_to_manifestations, :controller => :manifestations
@@ -330,7 +333,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :roles
   map.resources :library_groups
   map.resources :user_groups
-  map.resources :subjects
   map.resources :checkins
   map.resources :resource_has_subjects
   map.resources :reifies
@@ -358,7 +360,7 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
-  map.term '/term/:term', :controller => 'subjects', :action => 'show'
+  #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.icalendar '/icalendar/:icalendar_token.:format', :controller => 'checkouts', :action => 'index', :format => :ics
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
   map.sitemap 'sitemap.xml', :controller => 'page', :action => 'sitemap'

@@ -117,6 +117,9 @@ en:
       place: Place
       work_has_concept: Work-to-concept relationship
       work_has_place: Work-to-place relationship
+      person: Person
+      corporate_body: Corporate body
+      Family: Family
     attributes:
       library:
         name: Name
@@ -692,6 +695,77 @@ en:
         term: Term
         note: Note
         required_score: Required score
+      person:
+        last_name: Last name
+        middle_name: Middle name
+        first_name: Name
+        last_name_transcription: Last name transcription
+        middle_name_transcription: Middle name transcription
+        first_name_transcription: First name transcription
+        corporate_name: Corporate name
+        corporate_name_transcription: Corporate name transcription
+        full_name: Full name
+        full_name_transcription: Full name transcription
+        full_name_alternative: Full name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
+      corporate_body:
+        name: Name
+        name_transcription: Name transcription
+        name_alternative: Name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
+      family:
+        name: Name
+        name_transcription: Name transcription
+        name_alternative: Name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
 
   page:
     user: "User"

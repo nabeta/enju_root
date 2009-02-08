@@ -1,0 +1,66 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_work_patron_path(@work) -%></li>
+    <li><%= link_to ('Add an expression'), work_expressions_path(@work) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <h1>
+    [W]
+    <%= link_to h(@work.original_title), @work -%>
+  </h1>
+
+<%- form_for :patrons, :url => work_patrons_path(@work), :html => {:method => 'get'} do -%>
+<p>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%- if_authorized?(:destroy, @work) do -%>
+    <%- if params[:mode] == 'add' -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+    <%- else -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+    <%- end -%>
+  <%- end -%>
+  <%= submit_tag t('page.search') -%>
+  <%= link_to t('page.back_to_index'), work_patrons_path(@work) -%>
+</p>
+<%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.patron.full_name') -%></th>
+    <th><%= t('activerecord.models.patron_type') -%></th>
+    <th><%= t('activerecord.attributes.patron.other_designation') -%></th>
+    <th><%= t('activerecord.attributes.patron.place') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
+    <th></th>
+  </tr>
+  
+<%- @patrons.each do |patron| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(patron.full_name), patron -%></td>
+    <td><%=h patron.patron_type.display_name -%></td>
+    <td><%=h patron.other_designation -%></td>
+    <td><%=h patron.place -%></td>
+    <td><%=h patron.date_of_birth -%></td>
+    <td><%=h patron.date_of_death -%></td>
+    <td>
+      <%- if_authorized?(:destroy, patron) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= link_to t('page.add'), new_work_create_path(@work, :patron_id => patron.id) unless @work.patrons.include?(patron) -%>
+        <%- else -%>
+          <%- create = @work.creates.find_by_patron_id(patron) -%>
+          <%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

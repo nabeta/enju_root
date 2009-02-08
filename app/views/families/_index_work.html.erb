@@ -1,0 +1,66 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.family')), new_work_family_path(@work) -%></li>
+    <li><%= link_to ('Add an expression'), work_expressions_path(@work) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+
+  <h1>
+    [W]
+    <%= link_to h(@work.original_title), @work -%>
+  </h1>
+
+<%- form_for :families, :url => work_families_path(@work), :html => {:method => 'get'} do -%>
+<p>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%- if_authorized?(:destroy, @work) do -%>
+    <%- if params[:mode] == 'add' -%>
+      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+    <%- else -%>
+      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+    <%- end -%>
+  <%- end -%>
+  <%= submit_tag t('page.search') -%>
+  <%= link_to t('page.back_to_index'), work_families_path(@work) -%>
+</p>
+<%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.family.full_name') -%></th>
+    <th><%= t('activerecord.models.family_type') -%></th>
+    <th><%= t('activerecord.attributes.family.other_designation') -%></th>
+    <th><%= t('activerecord.attributes.family.place') -%></th>
+    <th><%= t('activerecord.attributes.family.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.family.date_of_death') -%></th>
+    <th></th>
+  </tr>
+  
+<%- @families.each do |family| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(family.full_name), family -%></td>
+    <td><%=h family.family_type.display_name -%></td>
+    <td><%=h family.other_designation -%></td>
+    <td><%=h family.place -%></td>
+    <td><%=h family.date_of_birth -%></td>
+    <td><%=h family.date_of_death -%></td>
+    <td>
+      <%- if_authorized?(:destroy, family) do -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= link_to t('page.add'), new_work_create_path(@work, :family_id => family.id) unless @work.families.include?(family) -%>
+        <%- else -%>
+          <%- create = @work.creates.find_by_family_id(family) -%>
+          <%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@families, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
