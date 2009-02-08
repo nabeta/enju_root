@@ -7,16 +7,16 @@
 <div id="content_detail">
 <h1><%= t('page.listing', :model => t('activerecord.models.subject_has_classification')) -%></h1>
 
-<table>
+<table id="index">
   <tr>
     <th><%= t('page.subject') -%></th>
-    <th><%= ('Classification') -%></th>
+    <th><%= t('activerecord.models.classification') -%></th>
   </tr>
 
 <%- for subject_has_classification in @subject_has_classifications -%>
-  <tr>
-    <td><%=h subject_has_classification.subject_id -%></td>
-    <td><%=h subject_has_classification.classification_id -%></td>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(subject_has_classification.subject.term), subject_has_classification.subject -%></td>
+    <td><%= link_to h(subject_has_classification.classification.category), subject_has_classification.classification -%></td>
     <td><%= link_to t('page.show'), subject_has_classification -%></td>
     <td><%= link_to t('page.edit'), edit_subject_has_classification_path(subject_has_classification) -%></td>
     <td><%= link_to t('page.destroy'), subject_has_classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -24,4 +24,5 @@
 <%- end -%>
 </table>
 
+<%= will_paginate(@subject_has_classifications, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>

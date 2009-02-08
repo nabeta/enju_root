@@ -19,6 +19,7 @@
 <% end -%>
 </table>
 
+<%= will_paginate(@user_checkout_stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
 <%= link_to t('page.new', :model => t('activerecord.models.user_checkout_stat')), new_user_checkout_stat_path -%>

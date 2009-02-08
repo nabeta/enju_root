@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'subject_has_classifications_controller'
 
 class SubjectHasClassificationsControllerTest < ActionController::TestCase
-  fixtures :subject_has_classifications, :classifications, :subjects, :users
+  fixtures :subject_has_classifications, :classifications, :concepts, :places, :users
 
   def test_guest_should_get_index
     get :index

@@ -49,6 +49,8 @@ class ProducesController < ApplicationController
       return
     else
       @produce = Produce.new
+      @produce.patron = @patron
+      @produce.manifestation = @manifestation
     end
   end
 

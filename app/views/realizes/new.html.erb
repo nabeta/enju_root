@@ -1,7 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to patrons'), expression_patrons_path(@expression) if @expression -%>
-    <li><%= link_to ('Back to expressions'), patron_expressions_path(@patron) if @patron -%>
+    <%- if @realize.patron -%>
+    <li><%= link_to ('Back to expressions'), patron_expressions_path(@realize.patron) -%></li>
+    <%- end -%>
+    <%- if @realize.work -%>
+    <li><%= link_to ('Back to patrons'), expression_patrons_path(@realize.expression) -%></li>
+    <%- end -%>
   </ul>
 </div>
 
@@ -13,21 +17,21 @@
 <%- form_for(:realize, :url => realizes_path) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron') -%></b><br />
-    <%- if @patron -%>
-		  <%= link_to h(@patron.full_name), @patron -%>
-      <%= f.hidden_field :patron_id, :value => @patron.id -%>
+    <%- if @realize.patron -%>
+		  <%= link_to h(@realize.patron.full_name), @realize.patron -%>
+      <%= f.hidden_field :patron_id -%>
     <%- else -%>
-      <%= f.text_field :patron_id, :value => params[:patron_id] -%>
+      <%= f.text_field :patron_id -%>
     <%- end -%>
   </p>
 
   <p>
     <b><%= t('activerecord.models.expression') -%></b><br />
-    <%- if @expression -%>
-		  <%= link_to h(@expression.original_title), expression_path(@expression) -%>
-      <%= f.hidden_field :expression_id, :value => @expression.id -%>
+    <%- if @realize.expression -%>
+		  <%= link_to h(@realize.expression.original_title), @realize.expression -%>
+      <%= f.hidden_field :expression_id -%>
     <%- else -%>
-      <%= f.text_field :expression_id, :value => params[:expression_id] -%>
+      <%= f.text_field :expression_id -%>
     <%- end -%>
   </p>
 

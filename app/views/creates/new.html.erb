@@ -1,7 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to patrons'), work_patrons_path(@work) if @work -%></li>
-    <li><%= link_to ('Back to works'), patron_works_path(@patron) if @patron -%></li>
+    <%- if @create.patron -%>
+    <li><%= link_to ('Back to works'), patron_works_path(@create.patron) -%></li>
+    <%- end -%>
+    <%- if @create.work -%>
+    <li><%= link_to ('Back to patrons'), work_patrons_path(@create.work) -%></li>
+    <%- end -%>
   </ul>
 </div>
 
@@ -13,21 +17,21 @@
 <%- form_for(:create, :url => creates_path) do |f| -%>
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
-    <%- if @patron -%>
-		  <%= link_to h(@patron.full_name), @patron -%>
-      <%= f.hidden_field :patron_id, :value => @patron.id -%>
+    <%- if @create.patron -%>
+		  <%= link_to h(@create.patron.full_name), @create.patron -%>
+      <%= f.hidden_field :patron_id -%>
     <%- else -%>
-      <%= f.text_field :patron_id, :value => params[:patron_id] -%>
+      <%= f.text_field :patron_id -%>
     <%- end -%>
   </p>
 
   <p>
   <b><%= t('activerecord.models.work') -%></b><br />
-    <%- if @work -%>
-		  <%= link_to h(@work.original_title), @work -%>
-      <%= f.hidden_field :work_id, :value => @work.id -%>
+    <%- if @create.work -%>
+		  <%= link_to h(@work.original_title), @create.work -%>
+      <%= f.hidden_field :work_id -%>
     <%- else -%>
-      <%= f.text_field :work_id, :value => params[:work_id] -%>
+      <%= f.text_field :work_id -%>
     <%- end -%>
   </p>
 

@@ -42,7 +42,7 @@ ja:
       role: 権限
       session: セッション
       subject_broader_term: 件名広範な用語
-      subject_type: 件名の種類
+      subject_heading_type: 件名標目の種類
       subscribe: 購読
       checkin: 返却
       item: 個別資料
@@ -50,7 +50,7 @@ ja:
       work: 著作形
       purchase_request: 購入リクエスト
       realize: 実現
-      reify: Reify
+      reify: 具体化
       subject_as_concept: 件名概念として
       frequency_of_issue: 発行頻度
       expression_merge_list: 表現形の併合リスト
@@ -370,7 +370,7 @@ ja:
       session:
         data: データ
       subject_broader_term:
-      subject_type:
+      subject_heading_type:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -755,6 +755,7 @@ ja:
     search_question: "質問を検索する"
     search_patron: "パトロンを検索する"
     search_user: "ユーザを検索する"
+    search_subject: "件名を検索する"
     show_all: "全てを表示"
     hide: "隠す"
     overdue: "延滞"

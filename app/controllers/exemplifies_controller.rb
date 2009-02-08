@@ -30,6 +30,8 @@ class ExemplifiesController < ApplicationController
   # GET /exemplifies/new.xml
   def new
     @exemplify = Exemplify.new
+    @exemplify.manifestation = @manifestation
+    @exemplify.item = @item
 
     respond_to do |format|
       format.html # new.html.erb

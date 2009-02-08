@@ -34,6 +34,8 @@ class ReifiesController < ApplicationController
   # GET /reifies/new
   def new
     @reify = Reify.new
+    @reify.work = @work
+    @reify.expression = @expression
   end
 
   # GET /reifies/1;edit

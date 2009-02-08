@@ -1,11 +1,17 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :subject_heading_type_has_subjects
+
+
+  map.resources :words
 
   map.resources :places do |place|
     place.resources :works
+    place.resources :subject_heading_types
   end
 
   map.resources :concepts do |concept|
     concept.resources :works
+    concept.resources :subject_heading_types
   end
 
   map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
@@ -110,7 +116,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :message_templates
 
-  map.resources :subject_types
+  map.resources :subject_heading_types do |subject_heading_type|
+    subject_heading_type.resources :subjects
+    subject_heading_type.resources :subject_heading_type_has_subjects
+  end
 
   map.resources :classification_types
 

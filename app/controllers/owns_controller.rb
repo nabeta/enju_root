@@ -42,6 +42,8 @@ class OwnsController < ApplicationController
       return
     else
       @own = Own.new
+      @own.item = @item
+      @own.patron = @patron
     end
   end
 

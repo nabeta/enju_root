@@ -50,6 +50,10 @@ class PageController < ApplicationController
     @title = t('page.management')
   end
   
+  def subject
+    @title = t('page.subject')
+  end
+  
   def configuration
     @title = t('page.configuration')
   end

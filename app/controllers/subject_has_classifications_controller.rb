@@ -1,14 +1,14 @@
 class SubjectHasClassificationsController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :login_required, :except => [:index, :show]
-  before_filter :get_subject
+  #before_filter :get_subject
   before_filter :get_classification
   require_role 'Librarian', :except => [:index, :show]
 
   # GET /subject_has_classifications
   # GET /subject_has_classifications.xml
   def index
-    @subject_has_classifications = SubjectHasClassification.find(:all)
+    @subject_has_classifications = SubjectHasClassification.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

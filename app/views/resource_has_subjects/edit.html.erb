@@ -12,16 +12,16 @@
   <%= f.error_messages -%>
 
   <p>
+    <%= f.label :work_id -%><br />
+    <%= f.text_field :work_id -%>
+  </p>
+  <p>
     <%= f.label :subject_id -%><br />
     <%= f.text_field :subject_id -%>
   </p>
   <p>
-    <%= f.label :subjectable_id -%><br />
-    <%= f.text_field :subjectable_id -%>
-  </p>
-  <p>
-    <%= f.label :subjectable_type -%><br />
-    <%= f.text_field :subjectable_type -%>
+    <%= f.label :subject_type -%><br />
+    <%= f.text_field :subject_type -%>
   </p>
   <p>
     <%= f.submit t('page.update') -%>

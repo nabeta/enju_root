@@ -42,7 +42,7 @@ en:
       role: Role
       session: Session
       subject_broader_term: Subject broader term
-      subject_type: Subject type
+      subject_heading_type: Subject heading type
       subscribe: Subscribe
       checkin: Checkin
       item: Item
@@ -370,7 +370,7 @@ en:
       session:
         data: Data
       subject_broader_term:
-      subject_type:
+      subject_heading_type:
         name: Name
         display_name: Display name
         note: Note
@@ -761,6 +761,7 @@ en:
     search_question: "Search questions"
     search_patron: "Search patrons"
     search_user: "Search users"
+    search_subject: "Search subjects"
     show_all: "Show all"
     hide: "Hide"
     overdue: "Overdue"

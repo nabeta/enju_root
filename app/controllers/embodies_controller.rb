@@ -37,6 +37,8 @@ class EmbodiesController < ApplicationController
   # GET /embodies/new.xml
   def new
     @embody = Embody.new
+    @embody.expression = @expression
+    @embody.manifestation = @manifestation
 
     respond_to do |format|
       format.html # new.html.erb

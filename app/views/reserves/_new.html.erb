@@ -2,8 +2,8 @@
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to ('Back to reservations'), reserves_path -%></li>
-    <%- if @manifestation -%>
-      <li><%= link_to ('Back to manifestation'), @manifestation -%></li>
+    <%- if @reserve.manifestation -%>
+      <li><%= link_to ('Back to manifestation'), @reserve.manifestation -%></li>
     <%- end -%>
   </ul>
 </div>

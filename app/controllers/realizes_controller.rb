@@ -44,6 +44,8 @@ class RealizesController < ApplicationController
       return
     else
       @realize = Realize.new
+      @realize.expression = @expression
+      @realize.patron = @patron
     end
   end
 

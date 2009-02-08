@@ -1,6 +1,6 @@
 class ClassificationsController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
-  before_filter :get_subject
+  #before_filter :get_subject
   require_role 'Administrator', :except => [:index, :show]
 
   # GET /classifications

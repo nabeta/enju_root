@@ -5,17 +5,13 @@
 
 <div id="content_detail">
 <p>
-  <b><%= t('page.subject') -%>:</b>
-  <%= link_to h(@resource_has_subject.subject.term), @resource_has_subject.subject -%>
+  <b><%= t('activerecord.models.work') -%>:</b>
+  <%= link_to h(@resource_has_subject.work.original_title), @resource_has_subject.work if @resource_has_subject.work -%>
 </p>
 
 <p>
-  <b><%= ('Subjectable') -%>:</b>
-  <%- if @resource_has_subject.subjectable_type == 'Manifestation' -%>
-    <%= link_to h(@resource_has_subject.subjectable.original_title), @resource_has_subject.subjectable -%>
-  <%- else -%>
-    <%= link_to h(@resource_has_subject.subjectable.title), @resource_has_subject.subjectable -%>
-  <%- end -%>
+  <b><%= t('page.subject') -%>:</b>
+  <%= link_to h(@resource_has_subject.subject.term), @resource_has_subject.subject -%>
 </p>
 
 </div>

@@ -44,6 +44,8 @@ class CreatesController < ApplicationController
       return
     else
       @create = Create.new
+      @create.patron = @patron
+      @create.work = @work
     end
   end
 

@@ -1,7 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to work'), expression_work_path(@expression) if @expression -%>
-    <li><%= link_to ('Back to expressions'), work_expressions_path(@work) if @work -%>
+    <%- if @reify.expression -%>
+    <li><%= link_to ('Back to work'), expression_work_path(@reify.expression) -%></li>
+    <%- end -%>
+    <%- if @reify.work -%>
+    <li><%= link_to ('Back to expressions'), work_expressions_path(@reify.work) -%></li>
+    <%- end -%>
   </ul>
 </div>
 
@@ -13,21 +17,21 @@
 <%- form_for(:reify, :url => reifies_path) do |f| -%>
   <p>
     <b><%= t('activerecord.models.work') -%></b><br />
-    <%- if @work -%>
-		  <%= link_to h(@work.original_title), @work -%>
-      <%= f.hidden_field :work_id, :value => @work.id -%>
+    <%- if @reify.work -%>
+		  <%= link_to h(@reify.work.original_title), @reify.work -%>
+      <%= f.hidden_field :work_id -%>
     <%- else -%>
-      <%= f.text_field :work_id, :value => params[:work_id] -%>
+      <%= f.text_field :work_id -%>
     <%- end -%>
   </p>
 
   <p>
     <b><%= t('activerecord.models.expression') -%></b><br />
-    <%- if @expression -%>
-		  <%= link_to h(@expression.original_title), @expression -%>
-      <%= f.hidden_field :expression_id, :value => @expression.id -%>
+    <%- if @reify.expression -%>
+		  <%= link_to h(@reify.expression.original_title), @reify.expression -%>
+      <%= f.hidden_field :expression_id -%>
     <%- else -%>
-      <%= f.text_field :expression_id, :value => params[:expression_id] -%>
+      <%= f.text_field :expression_id -%>
     <%- end -%>
   </p>
 
