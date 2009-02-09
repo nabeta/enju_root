@@ -141,6 +141,7 @@ module ApplicationHelper
   end
 
   def book_jacket(manifestation)
+    return nil if manifestation.nil?
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket['asin'].blank?
       link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :border => 0), "http://www.amazon.co.jp/dp/#{book_jacket['asin']}"

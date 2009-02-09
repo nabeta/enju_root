@@ -20,8 +20,8 @@ class Item < ActiveRecord::Base
   has_many :item_has_use_restrictions, :dependent => :destroy
   has_many :use_restrictions, :through => :item_has_use_restrictions
   has_many :reserves
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   has_many :inter_library_loans, :dependent => :destroy
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
   #has_one :item_has_checkout_type, :dependent => :destroy

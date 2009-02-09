@@ -2,7 +2,7 @@ class PeopleController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
   require_role 'Librarian', :only => [:new, :create, :destroy]
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
-  before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
+  #before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
   before_filter :store_location
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
@@ -73,15 +73,15 @@ class PeopleController < ApplicationController
   # GET /people/1
   # GET /people/1.xml
   def show
-    #@person = Person.find(params[:id])
+    @person = Person.find(params[:id])
 
     unless @person.check_access_role(current_user)
       access_denied
       return
     end
 
-    @involved_manifestations = @person.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    @publications = @person.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @person.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@publications = @person.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml
@@ -91,17 +91,18 @@ class PeopleController < ApplicationController
 
   # GET /people/new
   def new
+    prepare_options
     @person = Person.new
     unless @person.check_access_role(current_user)
       access_denied
       return
     end
-    prepare_options
   end
 
   # GET /people/1;edit
   def edit
-    #@person = Person.find(params[:id])
+    prepare_options
+    @person = Person.find(params[:id])
     unless current_user.has_role?('Librarian')
       unless @person.check_access_role(current_user)
         access_denied
@@ -112,7 +113,6 @@ class PeopleController < ApplicationController
       access_denied
       return
     end
-    prepare_options
   end
 
   # POST /people
@@ -151,7 +151,7 @@ class PeopleController < ApplicationController
   # PUT /people/1
   # PUT /people/1.xml
   def update
-    #@person = Person.find(params[:id])
+    @person = Person.find(params[:id])
     unless @person.check_access_role(current_user)
       access_denied
       return
@@ -173,7 +173,7 @@ class PeopleController < ApplicationController
   # DELETE /people/1
   # DELETE /people/1.xml
   def destroy
-    #@person = Person.find(params[:id])
+    @person = Person.find(params[:id])
     unless @person.check_access_role(current_user)
       access_denied
       return

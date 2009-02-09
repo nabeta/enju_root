@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 require 'subject_heading_types_controller'
 
-class SubjectTypesControllerTest < ActionController::TestCase
+class SubjectHeadingTypesControllerTest < ActionController::TestCase
   fixtures :subject_heading_types, :users
 
   def test_guest_should_not_get_index
@@ -55,45 +55,45 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_subject_heading_type
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_redirected_to new_session_url
   end
 
   def test_user_should_not_create_subject_heading_type
     login_as :user1
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_subject_heading_type
     login_as :librarian1
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_subject_heading_type_without_name
     login_as :admin
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_response :success
   end
 
   def test_admin_should_create_subject_heading_type
     login_as :admin
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => {:name => 'test'}
-    assert_equal old_count+1, SubjectType.count
+    assert_equal old_count+1, SubjectHeadingType.count
     
     assert_redirected_to subject_heading_type_url(assigns(:subject_heading_type))
   end
@@ -175,36 +175,36 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_destroy_subject_heading_type
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     delete :destroy, :id => 1
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_redirected_to new_session_url
   end
 
   def test_user_should_not_destroy_subject_heading_type
     login_as :user1
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     delete :destroy, :id => 1
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_subject_heading_type
     login_as :librarian1
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     delete :destroy, :id => 1
-    assert_equal old_count, SubjectType.count
+    assert_equal old_count, SubjectHeadingType.count
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_subject_heading_type
     login_as :admin
-    old_count = SubjectType.count
+    old_count = SubjectHeadingType.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, SubjectType.count
+    assert_equal old_count-1, SubjectHeadingType.count
     
     assert_redirected_to subject_heading_types_url
   end

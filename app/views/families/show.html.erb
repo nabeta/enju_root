@@ -1,14 +1,8 @@
 <div id="submenu">
   <%- if_authorized?(:destroy, @family) do -%>
     <ul>
-      <%- if @family.user.blank? -%>
-        <li><%= link_to ('Activate as an user'), new_user_path(:family_id => @family.id) -%></li>
-      <%- else -%>
-        <li><%= link_to ('Deactivate this user'), edit_user_path(@family.user.login) -%></li>
-      <%- end -%>
-      <li><%= link_to ('Add a picture'), new_family_attachment_file_path(@family) -%></li>
       <li><%= link_to t('page.edit'), edit_family_path(@family) -%></li>
-      <li><%= link_to t('page.back'), back_to_family_index -%></li>
+      <li><%= link_to t('page.back'), families_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.family')), new_family_path -%></li>
       <li><%= link_to t('page.destroy'), family_path(@family), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
@@ -29,10 +23,10 @@
   <%- cache(:id => @family.id) do -%>
   <h1 id="resource_title">
     [P]
-    <%=h @family.full_name -%>
+    <%=h @family.name -%>
   </h1>
 
-<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@family.full_name_without_space)) -%>)</p>
+<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@family.name)) -%>)</p>
 
 <div id="tabview">
 
@@ -57,11 +51,11 @@
         <table id="index">
           <tr>
             <td><b><%= ('Patron name') -%>:</b></td>
-            <td><%=h @family.full_name -%></td>
+            <td><%=h @family.name -%></td>
           </tr>
           <tr>
             <td><b><%= ('Patron name transcription') -%>:</b></td>
-            <td><%=h @family.full_name_transcription -%></td>
+            <td><%=h @family.name_transcription -%></td>
           </tr>
           <%- if @family.user -%>
             <tr>
@@ -271,7 +265,7 @@
             </li>
           <%- end -%>
         </ul>
-        <p><%= link_to ('All publications'), manifestations_path(:publisher => @family.full_name) -%></p>
+        <p><%= link_to ('All publications'), manifestations_path(:publisher => @family.name) -%></p>
       </div>
     <%- end -%>
     </div>

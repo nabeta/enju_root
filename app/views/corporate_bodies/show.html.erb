@@ -1,14 +1,8 @@
 <div id="submenu">
   <%- if_authorized?(:destroy, @corporate_body) do -%>
     <ul>
-      <%- if @corporate_body.user.blank? -%>
-        <li><%= link_to ('Activate as an user'), new_user_path(:corporate_body_id => @corporate_body.id) -%></li>
-      <%- else -%>
-        <li><%= link_to ('Deactivate this user'), edit_user_path(@corporate_body.user.login) -%></li>
-      <%- end -%>
-      <li><%= link_to ('Add a picture'), new_corporate_body_attachment_file_path(@corporate_body) -%></li>
       <li><%= link_to t('page.edit'), edit_corporate_body_path(@corporate_body) -%></li>
-      <li><%= link_to t('page.back'), back_to_corporate_body_index -%></li>
+      <li><%= link_to t('page.back'), corporate_bodies_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.corporate_body')), new_corporate_body_path -%></li>
       <li><%= link_to t('page.destroy'), corporate_body_path(@corporate_body), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
@@ -29,10 +23,10 @@
   <%- cache(:id => @corporate_body.id) do -%>
   <h1 id="resource_title">
     [P]
-    <%=h @corporate_body.full_name -%>
+    <%=h @corporate_body.name -%>
   </h1>
 
-<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@corporate_body.full_name_without_space)) -%>)</p>
+<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@corporate_body.name)) -%>)</p>
 
 <div id="tabview">
 
@@ -57,11 +51,11 @@
         <table id="index">
           <tr>
             <td><b><%= ('Patron name') -%>:</b></td>
-            <td><%=h @corporate_body.full_name -%></td>
+            <td><%=h @corporate_body.name -%></td>
           </tr>
           <tr>
             <td><b><%= ('Patron name transcription') -%>:</b></td>
-            <td><%=h @corporate_body.full_name_transcription -%></td>
+            <td><%=h @corporate_body.name_transcription -%></td>
           </tr>
           <%- if @corporate_body.user -%>
             <tr>
@@ -271,7 +265,7 @@
             </li>
           <%- end -%>
         </ul>
-        <p><%= link_to ('All publications'), manifestations_path(:publisher => @corporate_body.full_name) -%></p>
+        <p><%= link_to ('All publications'), manifestations_path(:publisher => @corporate_body.name) -%></p>
       </div>
     <%- end -%>
     </div>

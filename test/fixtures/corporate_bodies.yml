@@ -2,6 +2,9 @@
 
 one:
   name: MyText
+  access_role_id: 1
 
 two:
   name: MyText
+  access_role_id: 1
+

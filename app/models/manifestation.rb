@@ -471,7 +471,7 @@ class Manifestation < ActiveRecord::Base
         self.languages.each do |language|
           xml.tag!('oai_dc:lang', language.name)
         end
-        subjects.each do |subject|
+        self.subjects.each do |subject|
           xml.tag!('oai_dc:subject', subject.term)
         end
     end

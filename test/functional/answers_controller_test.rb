@@ -303,7 +303,7 @@ class AnswersControllerTest < ActionController::TestCase
     delete :destroy, :id => 3, :user_id => users(:user1).login
     assert_equal old_count-1, Answer.count
     
-    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question)
+    assert_redirected_to user_question_answers_url(assigns(:answer).question.user.login, assigns(:answer).question)
   end
 
   def test_user_should_not_destroy_other_answer

@@ -1,14 +1,8 @@
 <div id="submenu">
   <%- if_authorized?(:destroy, @person) do -%>
     <ul>
-      <%- if @person.user.blank? -%>
-        <li><%= link_to ('Activate as an user'), new_user_path(:person_id => @person.id) -%></li>
-      <%- else -%>
-        <li><%= link_to ('Deactivate this user'), edit_user_path(@person.user.login) -%></li>
-      <%- end -%>
-      <li><%= link_to ('Add a picture'), new_person_attachment_file_path(@person) -%></li>
       <li><%= link_to t('page.edit'), edit_person_path(@person) -%></li>
-      <li><%= link_to t('page.back'), back_to_person_index -%></li>
+      <li><%= link_to t('page.back'), people_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.person')), new_person_path -%></li>
       <li><%= link_to t('page.destroy'), person_path(@person), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
@@ -32,7 +26,7 @@
     <%=h @person.full_name -%>
   </h1>
 
-<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@person.full_name_without_space)) -%>)</p>
+<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@person.full_name)) -%>)</p>
 
 <div id="tabview">
 

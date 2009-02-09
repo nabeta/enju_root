@@ -7,8 +7,8 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- case when @family -%>
-    <%- if @family.full_name -%>
-      <title><%=h @family.full_name -%> : <%= t('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+    <%- if @family.name -%>
+      <title><%=h @family.name -%> : <%= t('activerecord.models.family') -%>: <%=h title_action_name -%></title>
     <%- else -%>
       <title><%= t('activerecord.models.family') -%>: <%=h title_action_name -%></title>
     <%- end -%>

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class SubjectHeadingTypeHasSubjectsControllerTest < ActionController::TestCase
-  fixtures :subject_heading_type_has_subjects
+  fixtures :subject_heading_type_has_subjects, :concepts, :places
 
   test "should get index" do
     get :index

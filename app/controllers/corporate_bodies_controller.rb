@@ -2,7 +2,7 @@ class CorporateBodiesController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
   require_role 'Librarian', :only => [:new, :create, :destroy]
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
-  before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
+  #before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
   before_filter :store_location
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
@@ -73,15 +73,15 @@ class CorporateBodiesController < ApplicationController
   # GET /corporate_bodies/1
   # GET /corporate_bodies/1.xml
   def show
-    #@corporate_body = CorporateBody.find(params[:id])
+    @corporate_body = CorporateBody.find(params[:id])
 
     unless @corporate_body.check_access_role(current_user)
       access_denied
       return
     end
 
-    @involved_manifestations = @corporate_body.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    @publications = @corporate_body.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @corporate_body.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@publications = @corporate_body.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml
@@ -91,17 +91,18 @@ class CorporateBodiesController < ApplicationController
 
   # GET /corporate_bodies/new
   def new
+    prepare_options
     @corporate_body = CorporateBody.new
     unless @corporate_body.check_access_role(current_user)
       access_denied
       return
     end
-    prepare_options
   end
 
   # GET /corporate_bodies/1;edit
   def edit
-    #@corporate_body = CorporateBody.find(params[:id])
+    prepare_options
+    @corporate_body = CorporateBody.find(params[:id])
     unless current_user.has_role?('Librarian')
       unless @corporate_body.check_access_role(current_user)
         access_denied
@@ -112,7 +113,6 @@ class CorporateBodiesController < ApplicationController
       access_denied
       return
     end
-    prepare_options
   end
 
   # POST /corporate_bodies
@@ -151,7 +151,7 @@ class CorporateBodiesController < ApplicationController
   # PUT /corporate_bodies/1
   # PUT /corporate_bodies/1.xml
   def update
-    #@corporate_body = CorporateBody.find(params[:id])
+    @corporate_body = CorporateBody.find(params[:id])
     unless @corporate_body.check_access_role(current_user)
       access_denied
       return
@@ -173,7 +173,7 @@ class CorporateBodiesController < ApplicationController
   # DELETE /corporate_bodies/1
   # DELETE /corporate_bodies/1.xml
   def destroy
-    #@corporate_body = CorporateBody.find(params[:id])
+    @corporate_body = CorporateBody.find(params[:id])
     unless @corporate_body.check_access_role(current_user)
       access_denied
       return

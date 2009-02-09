@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PeopleControllerTest < ActionController::TestCase
+  fixtures :people
+
   test "should get index" do
     get :index
     assert_response :success
@@ -20,7 +22,7 @@ class PeopleControllerTest < ActionController::TestCase
     assert_redirected_to person_path(assigns(:person))
   end
 
-  test "should show person" do
+  test "guest should show person" do
     get :show, :id => people(:one).id
     assert_response :success
   end

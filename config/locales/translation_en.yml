@@ -910,7 +910,7 @@ en:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
     remember_me: "Remember me"
-    your_account_is_suspended: "Your account is suspended, Tell the library staffs."
+    your_account_is_suspended: "Your account is suspended. Tell the library staffs."
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."

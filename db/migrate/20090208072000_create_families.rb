@@ -30,7 +30,7 @@ class CreateFamilies < ActiveRecord::Migration
       t.integer :produces_count, :default => 0, :null => false
       t.integer :owns_count, :default => 0, :null => false
       t.integer :resource_has_subjects_count, :default => 0, :null => false
-      t.integer :access_role_id, :null => false
+      t.integer :access_role_id, :default => 1, :null => false
       t.integer :required_score, :default => 0, :null => false
       t.string :state
     end

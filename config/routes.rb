@@ -1,7 +1,25 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :people
-  map.resources :corporate_bodies
-  map.resources :families
+  map.resources :people do |person|
+    person.resources :works
+    person.resources :expressions
+    person.resources :manifestations
+    person.resources :items
+  end
+
+  map.resources :corporate_bodies do |corporate_body|
+    corporate_body.resources :works
+    corporate_body.resources :expressions
+    corporate_body.resources :manifestations
+    corporate_body.resources :items
+  end
+
+  map.resources :families do |family|
+    family.resources :works
+    family.resources :expressions
+    family.resources :manifestations
+    family.resources :items
+  end
+
   map.resources :subject_heading_type_has_subjects
 
   map.resources :words
@@ -352,6 +370,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :messages
   map.resources :inter_library_loans
   map.resources :orders
+  map.resources :families
 
   #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.calendar '/calendar/:date', :controller => 'events', :action => 'index'

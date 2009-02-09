@@ -2,10 +2,10 @@
 
 one:
   subject_id: 1
-  subject_type: MyString
+  subject_type: Concept
   subject_heading_type_id: 1
 
 two:
   subject_id: 1
-  subject_type: MyString
+  subject_type: Place
   subject_heading_type_id: 1

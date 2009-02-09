@@ -28,7 +28,7 @@
   <p>
   <b><%= t('activerecord.models.work') -%></b><br />
     <%- if @create.work -%>
-		  <%= link_to h(@work.original_title), @create.work -%>
+		  <%= link_to h(@create.work.original_title), @create.work -%>
       <%= f.hidden_field :work_id -%>
     <%- else -%>
       <%= f.text_field :work_id -%>

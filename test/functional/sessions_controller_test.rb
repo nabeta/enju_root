@@ -78,7 +78,7 @@ class SessionsControllerTest < Test::Unit::TestCase
   def test_user_should_not_login_when_locked
     users(:user1).lock
     post :create, :login => 'user1', :password => 'user1password'
-    assert_equal 'Your account is locked out. Tell the library staffs.', flash[:notice]
+    assert_equal 'Your account is suspended. Tell the library staffs.', flash[:notice]
     assert_redirected_to "/"
   end
 

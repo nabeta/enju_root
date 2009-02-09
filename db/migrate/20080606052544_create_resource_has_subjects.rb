@@ -2,7 +2,7 @@ class CreateResourceHasSubjects < ActiveRecord::Migration
   def self.up
     create_table :resource_has_subjects do |t|
       t.integer :subject_id
-      t.integer :subject_type
+      t.string :subject_type
       t.integer :work_id, :null => false
 
       t.timestamps
