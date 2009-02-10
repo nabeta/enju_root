@@ -45,7 +45,7 @@ class WorksController < ApplicationController
   # GET /works/1
   # GET /works/1.xml
   def show
-    @work = Work.find(params[:id], :include => [:patrons])
+    @work = Work.find(params[:id])
     if @patron
       created = @work.patrons.find(@patron) rescue nil
       if created.blank?

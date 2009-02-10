@@ -6,6 +6,6 @@ one:
   position: 1
 
 two:
-  from_item_id: 1
+  from_item_id: 2
   to_item_id: 1
-  position: 1
+  position: 2

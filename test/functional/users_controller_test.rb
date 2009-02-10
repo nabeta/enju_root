@@ -7,7 +7,8 @@ class UsersControllerTest < ActionController::TestCase
   include AuthenticatedTestHelper
 
   fixtures :users, :roles, :roles_users, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements,
-    :manifestations, :manifestation_forms, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces
+    :manifestations, :manifestation_forms, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces,
+    :people, :corporate_bodies, :families
 
   def setup
     @controller = UsersController.new
@@ -312,7 +313,7 @@ class UsersControllerTest < ActionController::TestCase
   protected
     def create_user(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00006' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :patron_type => 'Person', :user_number => '00006' }.merge(options)
     end
 
     def create_user_without_patron_id(options = {})

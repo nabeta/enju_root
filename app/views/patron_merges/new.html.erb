@@ -13,7 +13,7 @@
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
   <%- if @patron -%>
-    <%= link_to h(@patron.full_name), patron_path(@patron) -%>
+    <%= link_to h(@patron.full_name), @patron -%>
     <%= f.hidden_field :patron_id, :value => @patron.id -%>
   <%- else -%>
     <%= f.text_field :patron_id, :value => params[:patron_id] -%>

@@ -203,7 +203,7 @@ class NewsPostsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, NewsPost.count
     
-    assert_response :forbidden
+    assert_redirected_to news_posts_url
   end
   
   def test_admin_should_destroy_news_post

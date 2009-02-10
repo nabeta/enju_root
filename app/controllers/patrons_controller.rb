@@ -215,15 +215,15 @@ class PatronsController < ApplicationController
   def get_patron
     case
     when @work
-      @patron = @work.patrons.find(params[:id], :include => :patron_type)
+      @patron = @work.patrons.find(params[:id])
     when @expression
-      @patron = @expression.patrons.find(params[:id], :include => :patron_type)
+      @patron = @expression.patrons.find(params[:id])
     when @manifestation
-      @patron = @manifestation.patrons.find(params[:id], :include => :patron_type)
+      @patron = @manifestation.patrons.find(params[:id])
     when @item
-      @patron = @item.patrons.find(params[:id], :include => :patron_type)
+      @patron = @item.patrons.find(params[:id])
     else
-      @patron = Patron.find(params[:id], :include => :patron_type)
+      @patron = Patron.find(params[:id])
     end
   rescue ActiveRecord::RecordNotFound
     not_found

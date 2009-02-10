@@ -195,13 +195,13 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
     assert_redirected_to subject_has_classifications_url
   end
 
-  def test_librarian_should_destroy_subject_has_classification_with_subject_id
+  def test_librarian_should_destroy_subject_has_classification_with_concept_id
     login_as :librarian1
     old_count = SubjectHasClassification.count
-    delete :destroy, :id => 1, :subject_id => 1
+    delete :destroy, :id => 1, :concept_id => 1
     assert_equal old_count-1, SubjectHasClassification.count
     
-    assert_redirected_to subject_subject_has_classifications_url(subjects(:subject_00001))
+    assert_redirected_to concept_subject_has_classifications_url(concepts(:one))
   end
 
   def test_librarian_should_destroy_subject_has_classification_with_classification_id

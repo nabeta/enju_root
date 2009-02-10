@@ -1,7 +1,7 @@
 class CreateRealizes < ActiveRecord::Migration
   def self.up
     create_table :realizes do |t|
-      t.integer :patron_id, :null => false
+      t.references :patron, :polymorphic => true
       t.integer :expression_id, :null => false
       t.integer :position
       t.string :type

@@ -3,15 +3,18 @@
 advertise_00001:
   id: 1
   patron_id: 1
+  patron_type: Person
   advertisement_id: 1
   position: 1
 advertise_00002:
   id: 2
   patron_id: 1
+  patron_type: Person
   advertisement_id: 2
   position: 1
 advertise_00003:
   id: 3
   patron_id: 2
+  patron_type: Person
   advertisement_id: 1
   position: 2

@@ -5,8 +5,8 @@ class CheckinsControllerTest < ActionController::TestCase
   fixtures :checkins, :checkouts, :reserves, :baskets
   fixtures :items, :circulation_statuses, :manifestations, :shelves
   fixtures :exemplifies, :manifestation_forms, :expressions, :expression_forms, :languages
-  fixtures :message_templates
-  fixtures :users, :roles
+  fixtures :message_templates, :users, :roles,
+    :people, :corporate_bodies, :families
 
   def test_guest_should_not_get_index
     get :index

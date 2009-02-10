@@ -146,7 +146,7 @@
               <li>
                 [W]
                 <%= link_to h(work.original_title), work_path(work) -%>
-                <%= persons_list(work.persons) -%>
+                <%= patrons_list(work.patrons) -%>
                 <%- unless work.manifestations.blank? -%>
                   <ul>
                     <%- work.manifestations.each do |manifestation| -%>
@@ -157,8 +157,8 @@
                       <%- manifestation.expressions.each do |expression| -%>
                         <%= expression_form_icon(expression.expression_form) -%>
                       <%- end -%>
-                      <%= persons_list(manifestation.authors) -%>
-                      <%= persons_list(manifestation.persons) -%>
+                      <%= patrons_list(manifestation.authors) -%>
+                      <%= patrons_list(manifestation.patrons) -%>
                       <%- if manifestation.date_of_publication -%>
                         (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
                       <%- end -%>
@@ -179,8 +179,8 @@
             [E]
             <%= link_to h(expression.original_title), expression_path(expression) -%>
             <%= expression_form_icon(expression.expression_form) -%>
-            <%= persons_list(expression.work.persons) -%>
-            <%= persons_list(expression.persons) -%>
+            <%= patrons_list(expression.work.people) -%>
+            <%= patrons_list(expression.people) -%>
               <ul>
                 <%- expression.manifestations.each do |manifestation| -%>
                   <li>
@@ -190,8 +190,8 @@
                   <%- manifestation.expressions.each do |expression| -%>
                     <%= expression_form_icon(expression.expression_form) -%>
                   <%- end -%>
-                  <%= persons_list(manifestation.authors) -%>
-                  <%= persons_list(manifestation.persons) -%>
+                  <%= patrons_list(manifestation.authors) -%>
+                  <%= patrons_list(manifestation.people) -%>
                   <%- if manifestation.date_of_publication -%>
                     (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
                   <%- end -%>
@@ -214,30 +214,30 @@
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
               <%- end -%>
-              <%= persons_list(manifestation.authors) -%>
-              <%= persons_list(manifestation.persons) -%>
+              <%= patrons_list(manifestation.authors) -%>
+              <%= patrons_list(manifestation.people) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>
               <%- unless manifestation.works.blank? -%>
                 <ul>
                   <%- manifestation.works.each do |work| -%>
-                    <%- if work.persons.include?(@person) -%>
+                    <%- if work.people.include?(@person) -%>
                       <li>
                       [W]
                       <%= link_to h(work.original_title), work_path(work) -%>
-                      <%= persons_list(work.persons) -%>
+                      <%= patrons_list(work.people) -%>
                       </li>
                     <%- end -%>
                   <%- end -%>
                   <%- manifestation.expressions.each do |expression| -%>
-                    <%- if expression.persons.include?(@person) -%>
+                    <%- if expression.people.include?(@person) -%>
                       <li>
                       [E]
                       <%= link_to h(expression.original_title), expression_path(expression) -%>
                       <%= expression_form_icon(expression.expression_form) -%>
-                      <%= persons_list(expression.work.persons) -%>
-                      <%= persons_list(expression.persons) -%>
+                      <%= patrons_list(expression.work.people) -%>
+                      <%= patrons_list(expression.people) -%>
                       </li>
                     <%- end -%>
                   <%- end -%>
@@ -257,8 +257,8 @@
               [M]
               <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
               <%= form_icon(manifestation.manifestation_form) -%>
-              <%= persons_list(manifestation.authors) -%>
-              <%= persons_list(manifestation.persons) -%>
+              <%= patrons_list(manifestation.authors) -%>
+              <%= patrons_list(manifestation.people) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>

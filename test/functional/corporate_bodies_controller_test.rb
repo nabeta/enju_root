@@ -3,7 +3,7 @@ require 'test_helper'
 class CorporateBodiesControllerTest < ActionController::TestCase
   fixtures :corporate_bodies, :users
 
-  test "should get index" do
+  test "guest should get index" do
     get :index
     assert_response :success
     assert_not_nil assigns(:corporate_bodies)
@@ -47,7 +47,7 @@ class CorporateBodiesControllerTest < ActionController::TestCase
   test "librarian should create corporate_body" do
     login_as :librarian1
     assert_difference('CorporateBody.count') do
-      post :create, :corporate_body => { }
+      post :create, :corporate_body => {:full_name => 'hoge'}
     end
 
     assert_redirected_to corporate_body_path(assigns(:corporate_body))

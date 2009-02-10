@@ -24,7 +24,8 @@ class User < ActiveRecord::Base
   named_scope :locked, :conditions => {:locked => true}
   acts_as_solr :fields => [:login, :email, :patron_name, :note, {:access_role_id => :range_integer}],
     :auto_commit => false
-  belongs_to :patron #, :validate => true
+  #belongs_to :patron #, :validate => true
+  belongs_to :patron, :polymorphic => true
   has_many :questions
   has_many :answers
   #has_many :checkins, :dependent => :destroy

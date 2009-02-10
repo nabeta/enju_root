@@ -1,6 +1,4 @@
 class Place < ActiveRecord::Base
-  #has_many :work_has_places
-  #has_many :works, :through => :work_has_places
   has_many :works, :as => :subjects
   has_many :classifications, :as => :subjects
 

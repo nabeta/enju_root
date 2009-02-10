@@ -2,9 +2,9 @@ class CreateFamilies < ActiveRecord::Migration
   def self.up
     create_table :families do |t|
       t.integer :parent_id
-      t.string :name
-      t.string :name_transcription
-      t.text :name_alternative
+      t.string :full_name
+      t.string :full_name_transcription
+      t.text :full_name_alternative
       t.timestamps
       t.datetime :deleted_at
       t.string :zip_code_1
@@ -38,7 +38,7 @@ class CreateFamilies < ActiveRecord::Migration
     add_index :families, :language_id
     add_index :families, :country_id
     add_index :families, :access_role_id
-    add_index :families, :name
+    add_index :families, :full_name
   end
 
   def self.down

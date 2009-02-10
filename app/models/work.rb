@@ -1,8 +1,8 @@
 class Work < ActiveRecord::Base
-  has_many :creates, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :creates, :order => 'creates.position'
+  #has_many :creates, :dependent => :destroy, :order => :position
+  #has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :reifies, :include => [:patrons, :expression_form]
+  has_many :expressions, :through => :reifies, :include => [:expression_form]
   belongs_to :work_form #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
@@ -18,6 +18,7 @@ class Work < ActiveRecord::Base
   #has_many :work_has_places, :dependent => :destroy
   #has_many :places, :through => :work_has_places
   has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :resource_has_subjects
+  has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
 
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:access_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 

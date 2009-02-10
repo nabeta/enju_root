@@ -108,7 +108,7 @@
           <%- @expression.patrons.each do |patron| -%>
             <li>
               [P]
-              <%= link_to h(patron.full_name), patron_path(patron) -%>
+              <%= link_to h(patron.full_name), patron -%>
               (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + h(patron.full_name_without_space) -%>)
             </li>
           <%- end -%>

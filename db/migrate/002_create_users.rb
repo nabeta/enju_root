@@ -15,7 +15,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :activation_code, :string, :limit => 40
       t.column :activated_at, :datetime
 
-      t.integer :patron_id, :null => false
+      t.references :patron, :polymorphic => true
       t.integer :library_id, :default => 1, :null => false
       t.integer :user_group_id, :default => 1, :null => false
       t.integer :reserves_count, :default => 0, :null => false

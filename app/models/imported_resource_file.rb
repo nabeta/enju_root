@@ -64,7 +64,7 @@ class ImportedResourceFile < ActiveRecord::Base
             item = Item.new
             item.manifestation = manifestation
             if item.save!
-              item.patrons << library.patron
+              item.patrons << library.holding_patron
               imported_object= ImportedObject.new
               imported_object.importable = item
               self.imported_objects << imported_object

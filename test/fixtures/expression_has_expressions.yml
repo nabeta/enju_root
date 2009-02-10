@@ -6,6 +6,6 @@ one:
   position: 1
 
 two:
-  from_expression_id: 1
+  from_expression_id: 2
   to_expression_id: 1
-  position: 1
+  position: 2

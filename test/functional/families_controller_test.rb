@@ -47,7 +47,7 @@ class FamiliesControllerTest < ActionController::TestCase
   test "librarian should create family" do
     login_as :librarian1
     assert_difference('Family.count') do
-      post :create, :family => { }
+      post :create, :family => {:full_name => 'hoge'}
     end
 
     assert_redirected_to family_path(assigns(:family))

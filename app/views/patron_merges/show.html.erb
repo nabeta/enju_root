@@ -11,12 +11,12 @@
 <div id="content_detail">
 <p>
 <b><%= t('activerecord.models.patron') -%>:</b>
-<%= link_to h(@patron_merge.patron.full_name), patron_path(@patron_merge.patron) -%>
+<%= link_to h(@patron_merge.patron.full_name), @patron_merge.patron -%>
 </p>
 
 <p>
 <b><%= ('Patron merge list') -%>:</b>
-<%= link_to h(@patron_merge.patron_merge_list.title), patron_merge_list_path(@patron_merge.patron_merge_list_id) -%>
+<%= link_to h(@patron_merge.patron_merge_list.title), patron_merge_list_path(@patron_merge.patron_merge_list) -%>
 </p>
 
 </div>

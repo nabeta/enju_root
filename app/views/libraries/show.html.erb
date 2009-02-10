@@ -69,7 +69,7 @@
         <ul>
           <%- @library.users.librarians.each do |librarian| -%>
             <li>
-              <%= link_to h(librarian.login), patron_path(librarian.patron) -%>
+              <%= link_to h(librarian.login), librarian.patron -%>
               <%- unless librarian.note.blank? -%>
                 <br />
                 <%=h librarian.note -%>

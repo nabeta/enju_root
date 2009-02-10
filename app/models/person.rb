@@ -1,5 +1,7 @@
 class Person < ActiveRecord::Base
+  belongs_to :country
   belongs_to :language
+  has_one :user, :dependent => :destroy, :as => :patron
   has_many :works
   has_many :expressions
   has_many :manifestations
@@ -11,5 +13,9 @@ class Person < ActiveRecord::Base
 
   def check_access_role(user)
     true
+  end
+
+  def full_name_without_space
+    full_name
   end
 end

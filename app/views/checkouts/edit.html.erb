@@ -1,5 +1,5 @@
 <div id="submenu">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} -%>
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} if @checkout.item -%>
   <ul>
     <li><%= link_to t('page.show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
     <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
@@ -10,7 +10,7 @@
   
 <h1><%= t('page.editing', :model => t('activerecord.models.checkout')) -%></h1>
 
-  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @checkout.item.manifestation} -%>
+  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @checkout.item.manifestation} if @checkout.item -%>
   
 <h3><%= t('checkout.renewal') -%></h3>
 <%- if @checkout.checkout_renewable? -%>

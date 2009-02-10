@@ -723,9 +723,9 @@ ja:
         date_of_birth: 生年月日
         note: 注記
       corporate_body:
-        name: 名前
-        name_transcription: 名前の転写
-        name_alternative: 代替の名前
+        full_name: 名前
+        full_name_transcription: 名前の転写
+        full_name_alternative: 代替の名前
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
@@ -742,9 +742,9 @@ ja:
         date_of_birth: 生年月日
         note: 注記
       family:
-        name: 名前
-        name_transcription: 名前の転写
-        name_alternative: 代替の名前
+        full_name: 名前
+        full_name_transcription: 名前の転写
+        full_name_alternative: 代替の名前
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2

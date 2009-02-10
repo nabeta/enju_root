@@ -12,7 +12,7 @@
      </li>
       <li><%= link_to t('page.edit'), edit_work_path(@work) -%></li>
       <li><%= link_to t('page.back'), works_path -%></li>
-      <li><%= link_to t('page.destroy'), work_path(@work), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.destroy'), @work, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>
       <ul>
@@ -76,7 +76,7 @@
           <%- @work.patrons.each do |patron| -%>
             <li>
               [P]
-              <%= link_to h(patron.full_name), patron_path(patron) -%>
+              <%= link_to h(patron.full_name), patron -%>
               (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(patron.full_name_without_space)) -%>)
             </li>
           <%- end -%>

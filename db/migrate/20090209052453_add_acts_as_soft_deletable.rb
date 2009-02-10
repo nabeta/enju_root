@@ -19,6 +19,11 @@ class AddActsAsSoftDeletable < ActiveRecord::Migration
     OrderList::Deleted.create_table
     Subscription::Deleted.create_table
     Event::Deleted.create_table
+    Concept::Deleted.create_table
+    Place::Deleted.create_table
+    CorporateBody::Deleted.create_table
+    Family::Deleted.create_table
+    Person::Deleted.create_table
   end
 
   def self.down

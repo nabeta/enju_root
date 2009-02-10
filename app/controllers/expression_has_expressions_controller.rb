@@ -1,4 +1,7 @@
 class ExpressionHasExpressionsController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+  require_role 'Librarian', :except => [:index, :show]
+
   # GET /expression_has_expressions
   # GET /expression_has_expressions.xml
   def index

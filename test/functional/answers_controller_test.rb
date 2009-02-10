@@ -2,7 +2,8 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'answers_controller'
 
 class AnswersControllerTest < ActionController::TestCase
-  fixtures :answers, :questions, :languages, :patrons, :user_groups, :users, :roles, :roles, :roles_users, :library_groups, :libraries, :patron_types, :countries
+  fixtures :answers, :questions, :languages, :patrons, :patron_types, :user_groups, :users, :roles, :roles_users, :library_groups, :libraries, :countries,
+    :people, :corporate_bodies, :families
 
   def test_guest_should_not_get_index
     get :index

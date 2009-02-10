@@ -1,5 +1,5 @@
 class Own < ActiveRecord::Base
-  belongs_to :patron, :counter_cache => true #, :validate => true
+  belongs_to :patron, :polymorphic => true, :counter_cache => true #, :validate => true
   belongs_to :item, :counter_cache => true #, :validate => true
 
   validates_associated :patron, :item

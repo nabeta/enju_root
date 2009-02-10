@@ -6,6 +6,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     :works, :work_forms, :embodies, :realizes, :reifies,
     :manifestations, :manifestation_forms, :embodies,
     :patrons, :users, :languages
+  fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
     get :index

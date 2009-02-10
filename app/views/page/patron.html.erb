@@ -6,7 +6,9 @@
 
 <ul>
   <li><%= link_to t('page.search_patron'), patrons_path -%></li>
-  <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
+  <li><%= link_to t('page.new', :model => t('activerecord.models.person')), new_person_path -%></li>
+  <li><%= link_to t('page.new', :model => t('activerecord.models.corporate_body')), new_corporate_body_path -%></li>
+  <li><%= link_to t('page.new', :model => t('activerecord.models.family')), new_family_path -%></li>
   <li><%= link_to t('page.new', :model => t('activerecord.models.user')), new_user_path -%></li>
   <li><%= link_to ('Merge patrons'), new_patron_merge_list_path -%></li>
 </ul>
