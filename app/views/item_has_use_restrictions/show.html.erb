@@ -1,16 +1,16 @@
 <p>
 <b><%= t('activerecord.models.item') -%>:</b>
-  <%= link_to h(@item_has_use_restriction.item_id), item_path(@item_has_use_restriction.item_id) -%>
+  <%= link_to h(@item_has_use_restriction.item.item_identifier), @item_has_use_restriction.item -%>
 </p>
 
 <p>
 <b><%= t('activerecord.attributes.item.item_identifier') -%>:</b>
-  <%= link_to h(@item_has_use_restriction.item.item_identifier), item_path(@item_has_use_restriction.item_id) -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), manifestation_path(@item_has_use_restriction.item.manifestation) -%>)
+  <%= link_to h(@item_has_use_restriction.item.item_identifier), @item_has_use_restriction.item -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), @item_has_use_restriction.item.manifestation -%>)
 </p>
 
 <p>
 <b><%= ('Use restriction') -%>:</b>
-  <%= link_to h(@item_has_use_restriction.use_restriction.display_name), use_restriction_path(@item_has_use_restriction.use_restriction_id) -%>
+  <%= link_to h(@item_has_use_restriction.use_restriction.display_name), @item_has_use_restriction.use_restriction -%>
 </p>
 
 

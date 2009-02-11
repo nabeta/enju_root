@@ -6,8 +6,8 @@ class Manifestation < ActiveRecord::Base
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
   has_many :items, :through => :exemplifies, :include => [:checkouts, {:shelf => :library}, :circulation_status], :dependent => :destroy
-  #has_many :produces, :dependent => :destroy
-  #has_many :patrons, :through => :produces, :order => 'produces.position', :include => :patron_type
+  has_many :produces, :dependent => :destroy
+  has_many :patrons, :through => :produces, :order => 'produces.position', :include => :patron_type
   has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user
@@ -32,7 +32,7 @@ class Manifestation < ActiveRecord::Base
   has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
   has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
-  has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
+  #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,

@@ -10,8 +10,8 @@
   <%= form_icon(manifestation.manifestation_form) -%>
   <%= image_tag('/icons/newspaper.png', :size => '16x16', :alt => ('Serial')) if manifestation.serial -%>
   <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), manifestation.access_address unless manifestation.access_address.blank? -%>
-  <%- manifestation.expressions.each do |e| -%>
-    <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+  <%- manifestation.expressions.each do |expression| -%>
+    <%= link_to expression_form_icon(expression.expression_form), expression -%>
   <%- end -%>
   <br />
   <div id="author_list_<%=h manifestation.id -%>">

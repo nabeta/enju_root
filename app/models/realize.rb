@@ -1,6 +1,6 @@
 class Realize < ActiveRecord::Base
   belongs_to :expression, :counter_cache => true #, :validate => true
-  belongs_to :patron, :polymorphic => true, :counter_cache => true #, :validate => true
+  belongs_to :patron, :counter_cache => true #, :polymorphic => true, :validate => true
 
   validates_associated :expression, :patron
   validates_presence_of :expression, :patron

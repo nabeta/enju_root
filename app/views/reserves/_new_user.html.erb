@@ -27,7 +27,7 @@
       <%= f.hidden_field :manifestation_id, :value => @item.manifestation.id -%>
       <%= f.hidden_field :item_id, :value => @item.id -%>
     <%- elsif @manifestation -%>
-      <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
+      <%= link_to h(@manifestation.original_title), @manifestation -%>
       <%= f.hidden_field :manifestation_id -%>
     <%- else -%>
       <%= f.text_field :manifestation_id -%>

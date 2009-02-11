@@ -155,14 +155,14 @@
             <%- @patron.works.each do |work| -%>
               <li>
                 [W]
-                <%= link_to h(work.original_title), work_path(work) -%>
+                <%= link_to h(work.original_title), work -%>
                 <%= patrons_list(work.patrons) -%>
                 <%- unless work.manifestations.blank? -%>
                   <ul>
                     <%- work.manifestations.each do |manifestation| -%>
                       <li>
                       [M]
-                      <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                      <%= link_to h(manifestation.original_title), manifestation -%>
                       <%= form_icon(manifestation.manifestation_form) -%>
                       <%- manifestation.expressions.each do |expression| -%>
                         <%= expression_form_icon(expression.expression_form) -%>
@@ -187,7 +187,7 @@
           <%- @patron.expressions.each do |expression| -%>
             <li>
             [E]
-            <%= link_to h(expression.original_title), expression_path(expression) -%>
+            <%= link_to h(expression.original_title), expression -%>
             <%= expression_form_icon(expression.expression_form) -%>
             <%= patrons_list(expression.work.patrons) -%>
             <%= patrons_list(expression.patrons) -%>
@@ -195,7 +195,7 @@
                 <%- expression.manifestations.each do |manifestation| -%>
                   <li>
                   [M]
-                  <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                  <%= link_to h(manifestation.original_title), manifestation -%>
                   <%= form_icon(manifestation.manifestation_form) -%>
                   <%- manifestation.expressions.each do |expression| -%>
                     <%= expression_form_icon(expression.expression_form) -%>
@@ -219,7 +219,7 @@
           <%- @involved_manifestations.each do |manifestation| -%>
             <li>
               [M]
-              <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+              <%= link_to h(manifestation.original_title), manifestation -%>
               <%= form_icon(manifestation.manifestation_form) -%>
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
@@ -235,7 +235,7 @@
                     <%- if work.patrons.include?(@patron) -%>
                       <li>
                       [W]
-                      <%= link_to h(work.original_title), work_path(work) -%>
+                      <%= link_to h(work.original_title), work -%>
                       <%= patrons_list(work.patrons) -%>
                       </li>
                     <%- end -%>
@@ -244,7 +244,7 @@
                     <%- if expression.patrons.include?(@patron) -%>
                       <li>
                       [E]
-                      <%= link_to h(expression.original_title), expression_path(expression) -%>
+                      <%= link_to h(expression.original_title), expression -%>
                       <%= expression_form_icon(expression.expression_form) -%>
                       <%= patrons_list(expression.work.patrons) -%>
                       <%= patrons_list(expression.patrons) -%>
@@ -265,7 +265,7 @@
           <%- @publications.each do |manifestation| -%>
             <li>
               [M]
-              <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+              <%= link_to h(manifestation.original_title), manifestation -%>
               <%= form_icon(manifestation.manifestation_form) -%>
               <%= patrons_list(manifestation.authors) -%>
               <%= patrons_list(manifestation.patrons) -%>

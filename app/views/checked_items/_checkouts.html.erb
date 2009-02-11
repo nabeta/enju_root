@@ -11,7 +11,7 @@
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => checkout.item.manifestation} -%>
         <div class="holding" id="holding_<%=h checkout.item.manifestation.id -%>"></div>
       </td>
-      <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
+      <td><%= link_to h(checkout.item.item_identifier), checkout.item -%></td>
       <td><%=h l(checkout.due_date, :format => :short) -%></td>
     </tr>
   <%- end -%>

@@ -9,7 +9,7 @@
 
   <h1>
     [E]
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+    <%= link_to h(@expression.original_title), @expression -%>
   </h1>
 
 <%- form_for :families, :url => expression_families_path(@expression), :html => {:method => 'get'} do -%>

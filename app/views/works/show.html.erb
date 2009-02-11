@@ -94,7 +94,7 @@
           <h3><%= ('Children') -%></h3>
           <ul>
             <%- @work.children.each do |work| -%>
-              <li><%= link_to h(work.original_title), work_path(work) -%>
+              <li><%= link_to h(work.original_title), work -%>
               <%= patrons_list(work.patrons) -%></li>
               </li>
             <%- end -%>
@@ -108,7 +108,7 @@
           <%- @work.expressions.each do |expression| -%>
             <li>
               [E]
-              <%= link_to h(expression.original_title), expression_path(expression) -%>
+              <%= link_to h(expression.original_title), expression -%>
               <%= expression_form_icon(expression.expression_form) -%>
               <%= patrons_list(expression.patrons) -%>
               <%= patrons_list(expression.work.patrons) -%>
@@ -117,7 +117,7 @@
                   <%- expression.manifestations.each do |manifestation| -%>
                     <li>
                     [M]
-                    <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                    <%= link_to h(manifestation.original_title), manifestation -%>
                     <%= form_icon(manifestation.manifestation_form) -%>
                     <%- manifestation.expressions.each do |expression| -%>
                       <%= expression_form_icon(expression.expression_form) -%>
@@ -142,7 +142,7 @@
           <%- @work.manifestations.each do |manifestation| -%>
             <li>
               [M]
-              <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+              <%= link_to h(manifestation.original_title), manifestation -%>
               <%= form_icon(manifestation.manifestation_form) -%>
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
@@ -160,7 +160,7 @@
                       <li>
                       [W]
                       <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @work -%>
-                      <%= link_to h(work.original_title), work_path(work) -%>
+                      <%= link_to h(work.original_title), work -%>
                       <%= patrons_list(work.patrons) -%>
                       </li>
                     <%- end -%>

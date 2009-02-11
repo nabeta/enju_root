@@ -9,7 +9,7 @@
 
 <div id="content_detail">
   <h1>
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+    <%= link_to h(@expression.original_title), @expression -%>
   </h1>
 
 <table id="index">
@@ -20,7 +20,7 @@
 <%- for realize in @realizes -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(realize.expression.original_title), expression_path(realize.expression) -%>
+      <%= link_to h(realize.expression.original_title), realize.expression -%>
       <%= expression_form_icon(@expression.expression_form) -%>
       <br />
       <%= patrons_list(@expression.authors) -%>

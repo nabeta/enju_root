@@ -1,7 +1,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
   <ul>
-    <li><%= link_to t('page.show'), item_path(@item) -%></li>
+    <li><%= link_to t('page.show'), @item -%></li>
     <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
   </ul>
 </div>

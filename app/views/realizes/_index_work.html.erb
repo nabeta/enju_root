@@ -19,7 +19,7 @@
 
 <%- for realize in @realizes -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(realize.expression.original_title), expression_path(realize.expression) -%></td>
+    <td><%= link_to h(realize.expression.original_title), realize.expression -%></td>
     <td><%=h realize.created_at -%></td>
     <td><%=h realize.updated_at -%></td>
     <%- if_authorized?(:destroy, realize) do -%>

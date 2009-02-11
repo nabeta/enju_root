@@ -4,7 +4,7 @@
       <li><%= link_to t('page.edit'), edit_person_path(@person) -%></li>
       <li><%= link_to t('page.back'), people_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.person')), new_person_path -%></li>
-      <li><%= link_to t('page.destroy'), person_path(@person), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.destroy'), @person, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>
     <ul>
@@ -145,14 +145,14 @@
             <%- @person.works.each do |work| -%>
               <li>
                 [W]
-                <%= link_to h(work.original_title), work_path(work) -%>
+                <%= link_to h(work.original_title), work -%>
                 <%= patrons_list(work.patrons) -%>
                 <%- unless work.manifestations.blank? -%>
                   <ul>
                     <%- work.manifestations.each do |manifestation| -%>
                       <li>
                       [M]
-                      <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                      <%= link_to h(manifestation.original_title), manifestation -%>
                       <%= form_icon(manifestation.manifestation_form) -%>
                       <%- manifestation.expressions.each do |expression| -%>
                         <%= expression_form_icon(expression.expression_form) -%>
@@ -177,7 +177,7 @@
           <%- @person.expressions.each do |expression| -%>
             <li>
             [E]
-            <%= link_to h(expression.original_title), expression_path(expression) -%>
+            <%= link_to h(expression.original_title), expression -%>
             <%= expression_form_icon(expression.expression_form) -%>
             <%= patrons_list(expression.work.people) -%>
             <%= patrons_list(expression.people) -%>
@@ -185,7 +185,7 @@
                 <%- expression.manifestations.each do |manifestation| -%>
                   <li>
                   [M]
-                  <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                  <%= link_to h(manifestation.original_title), manifestation -%>
                   <%= form_icon(manifestation.manifestation_form) -%>
                   <%- manifestation.expressions.each do |expression| -%>
                     <%= expression_form_icon(expression.expression_form) -%>
@@ -209,7 +209,7 @@
           <%- @involved_manifestations.each do |manifestation| -%>
             <li>
               [M]
-              <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+              <%= link_to h(manifestation.original_title), manifestation -%>
               <%= form_icon(manifestation.manifestation_form) -%>
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
@@ -225,7 +225,7 @@
                     <%- if work.people.include?(@person) -%>
                       <li>
                       [W]
-                      <%= link_to h(work.original_title), work_path(work) -%>
+                      <%= link_to h(work.original_title), work -%>
                       <%= patrons_list(work.people) -%>
                       </li>
                     <%- end -%>
@@ -234,7 +234,7 @@
                     <%- if expression.people.include?(@person) -%>
                       <li>
                       [E]
-                      <%= link_to h(expression.original_title), expression_path(expression) -%>
+                      <%= link_to h(expression.original_title), expression -%>
                       <%= expression_form_icon(expression.expression_form) -%>
                       <%= patrons_list(expression.work.people) -%>
                       <%= patrons_list(expression.people) -%>
@@ -255,7 +255,7 @@
           <%- @publications.each do |manifestation| -%>
             <li>
               [M]
-              <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+              <%= link_to h(manifestation.original_title), manifestation -%>
               <%= form_icon(manifestation.manifestation_form) -%>
               <%= patrons_list(manifestation.authors) -%>
               <%= patrons_list(manifestation.people) -%>

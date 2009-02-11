@@ -2,8 +2,8 @@
       [M]
       <%= link_to h(manifestation.original_title), manifestation -%>
       <%= form_icon(manifestation.manifestation_form) -%>
-      <%- manifestation.expressions.each do |e| -%>
-        <%= link_to expression_form_icon(e.expression_form), expression_path(e) -%>
+      <%- manifestation.expressions.each do |expression| -%>
+        <%= link_to expression_form_icon(expression.expression_form), expression -%>
       <%- end -%>
     </h1>
     <p>
