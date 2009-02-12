@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'manifestations_controller'
 
 class ManifestationsControllerTest < ActionController::TestCase
-  fixtures :manifestations, :manifestation_forms, :resource_has_subjects, :languages, :concepts, :places
+  fixtures :manifestations, :manifestation_forms, :resource_has_subjects, :languages, :concepts, :places, :subjects, :subject_types
   fixtures :works, :work_forms, :realizes
   fixtures :expressions, :expression_forms, :frequency_of_issues
   fixtures :items, :libraries, :shelves, :languages, :exemplifies

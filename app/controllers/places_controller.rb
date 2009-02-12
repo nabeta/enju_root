@@ -3,8 +3,8 @@ class PlacesController < ApplicationController
   require_role 'Librarian', :except => [:index, :show]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
-  # GET /subjects
-  # GET /subjects.xml
+  # GET /places
+  # GET /places.xml
   def index
     if params[:query]
       @query = params[:query]
@@ -12,86 +12,86 @@ class PlacesController < ApplicationController
     end
 
     if @query.blank?
-      @subjects = Place.paginate(:all, :page => params[:page])
+      @places = Place.paginate(:all, :page => params[:page])
     else
-      @subjects = Place.paginate_by_solr(@query, :page => params[:page], :per_page => @per_page)
+      @places = Place.paginate_by_solr(@query, :page => params[:page], :per_page => @per_page)
     end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @subjects }
+      format.xml  { render :xml => @places }
     end
   end
 
-  # GET /subjects/1
-  # GET /subjects/1.xml
+  # GET /places/1
+  # GET /places/1.xml
   def show
-    @subject = Place.find(params[:id])
+    @place = Place.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @subject }
+      format.xml  { render :xml => @place }
     end
   end
 
-  # GET /subjects/new
-  # GET /subjects/new.xml
+  # GET /places/new
+  # GET /places/new.xml
   def new
-    @subject = Place.new
+    @place = Place.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @subject }
+      format.xml  { render :xml => @place }
     end
   end
 
-  # GET /subjects/1/edit
+  # GET /places/1/edit
   def edit
-    @subject = Place.find(params[:id])
+    @place = Place.find(params[:id])
   end
 
-  # POST /subjects
-  # POST /subjects.xml
+  # POST /places
+  # POST /places.xml
   def create
-    @subject = Place.new(params[:subject])
+    @place = Place.new(params[:place])
 
     respond_to do |format|
-      if @subject.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.subject'))
-        format.html { redirect_to(@subject) }
-        format.xml  { render :xml => @subject, :status => :created, :location => @subject }
+      if @place.save
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.place'))
+        format.html { redirect_to(@place) }
+        format.xml  { render :xml => @place, :status => :created, :location => @place }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @subject.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @place.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # PUT /subjects/1
-  # PUT /subjects/1.xml
+  # PUT /places/1
+  # PUT /places/1.xml
   def update
-    @subject = Place.find(params[:id])
+    @place = Place.find(params[:id])
 
     respond_to do |format|
-      if @subject.update_attributes(params[:subject])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.subject'))
-        format.html { redirect_to(@subject) }
+      if @place.update_attributes(params[:place])
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.place'))
+        format.html { redirect_to(@place) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @subject.errors, :status => :unprocessable_entity }
+        format.xml  { render :xml => @place.errors, :status => :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /subjects/1
-  # DELETE /subjects/1.xml
+  # DELETE /places/1
+  # DELETE /places/1.xml
   def destroy
-    @subject = Place.find(params[:id])
-    @subject.destroy
+    @place = Place.find(params[:id])
+    @place.destroy
 
     respond_to do |format|
-      format.html { redirect_to(subjects_url) }
+      format.html { redirect_to(places_url) }
       format.xml  { head :ok }
     end
   end

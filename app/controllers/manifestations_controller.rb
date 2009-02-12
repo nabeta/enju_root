@@ -462,10 +462,10 @@ class ManifestationsController < ApplicationController
       @manifestations = @patron.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['produces.id'])
     when @expression
       @manifestations = @expression.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['embodies.id'])
-      when @parent_manifestation
-        @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
-      when @derived_manifestation
-        @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
+    when @parent_manifestation
+      @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
+    when @derived_manifestation
+      @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
     when @subject
       @manifestations = @subject.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else

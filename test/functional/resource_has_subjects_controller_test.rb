@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'resource_has_subjects_controller'
 
 class ResourceHasSubjectsControllerTest < ActionController::TestCase
-  fixtures :resource_has_subjects, :manifestations, :concepts, :places, :subject_heading_types, :users
+  fixtures :resource_has_subjects, :manifestations, :concepts, :places, :subject_heading_types, :users, :subjects, :subject_types
 
   def test_guest_should_get_index
     get :index
