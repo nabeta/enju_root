@@ -3,7 +3,8 @@ class Advertisement < ActiveRecord::Base
   named_scope :previous_ads, :conditions => ['ended_at <= ?', Time.zone.now], :order => :id
 
   has_many :advertises, :dependent => :destroy
-  has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :advertises
+  has_many :patrons, :through => :advertises
+  #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :advertises
 
   validates_presence_of :title, :body, :started_at, :ended_at
   validates_length_of :url, :maximum => 255, :allow_nil => true

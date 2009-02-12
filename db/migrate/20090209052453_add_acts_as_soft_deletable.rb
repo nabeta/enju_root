@@ -46,5 +46,10 @@ class AddActsAsSoftDeletable < ActiveRecord::Migration
     OrderList::Deleted.drop_table
     Subscription::Deleted.drop_table
     Event::Deleted.drop_table
+    Concept::Deleted.drop_table
+    Place::Deleted.drop_table
+    CorporateBody::Deleted.drop_table
+    Family::Deleted.drop_table
+    Person::Deleted.drop_table
   end
 end

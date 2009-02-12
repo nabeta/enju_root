@@ -5,15 +5,17 @@ class Library < ActiveRecord::Base
   has_many :shelves, :order => "shelves.position"
   belongs_to :library_group, :validate => true
   has_many :events, :include => :event_category
-  belongs_to :holding_patron, :polymorphic => true, :validate => true
+  #belongs_to :holding_patron, :polymorphic => true, :validate => true
+  belongs_to :patron, :validate => true
   has_many :inter_library_loans, :foreign_key => 'borrowing_library_id'
   has_many :users
 
   acts_as_list
   acts_as_soft_deletable
 
-  validates_associated :library_group, :holding_patron
-  validates_presence_of :name, :short_name, :short_display_name, :library_group, :holding_patron
+  #validates_associated :library_group, :holding_patron
+  validates_associated :library_group, :patron
+  validates_presence_of :name, :short_name, :short_display_name, :library_group, :patron
   validates_uniqueness_of :name, :short_name, :short_display_name
   validates_format_of :short_name, :with => /^[a-z][0-9a-z]{2,254}$/
 

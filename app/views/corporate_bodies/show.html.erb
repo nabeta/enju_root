@@ -7,15 +7,6 @@
       <li><%= link_to t('page.destroy'), @corporate_body, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>
-    <ul>
-      <li><%= link_to ('Add a work'), corporate_body_works_path(@corporate_body) -%></li>
-    </ul>
-    <ul>
-      <li><%= link_to ('Add an expression'), corporate_body_expressions_path(@corporate_body) -%></li>
-    </ul>
-    <ul>
-      <li><%= link_to ('Add a manifestation'), corporate_body_manifestations_path(@corporate_body) -%></li>
-    </ul>
 </div>
 
 <div id="content_detail">
@@ -25,8 +16,6 @@
     [P]
     <%=h @corporate_body.full_name -%>
   </h1>
-
-<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@corporate_body.full_name)) -%>)</p>
 
 <div id="tabview">
 

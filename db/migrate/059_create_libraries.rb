@@ -1,7 +1,7 @@
 class CreateLibraries < ActiveRecord::Migration
   def self.up
     create_table :libraries do |t|
-      t.references :holding_patron, :polymorphic => true
+      t.references :patron, :polymorphic => true
       t.text :name, :null => false
       t.string :short_name, :null => false
       t.string :short_display_name, :null => false
@@ -22,7 +22,7 @@ class CreateLibraries < ActiveRecord::Migration
       t.timestamps
       t.datetime :deleted_at
     end
-    add_index :libraries, :holding_patron_id, :unique => true
+    add_index :libraries, :patron_id, :unique => true
     add_index :libraries, :library_group_id
     add_index :libraries, :short_name, :unique => true
   end

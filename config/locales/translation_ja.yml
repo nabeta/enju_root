@@ -42,6 +42,7 @@ ja:
       role: 権限
       session: セッション
       subject_broader_term: 件名広範な用語
+      subject_type: 件名の種類
       subject_heading_type: 件名標目の種類
       subscribe: 購読
       checkin: 返却
@@ -449,6 +450,11 @@ ja:
       aaws_response:
         body: 本文
       patron_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      subject_type:
         name: 名前
         display_name: 表示名
         note: 注記

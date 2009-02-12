@@ -11,8 +11,8 @@ class Expression < ActiveRecord::Base
   belongs_to :frequency_of_issue, :validate => true
   has_many :expression_merges, :dependent => :destroy
   has_many :expression_merge_lists, :through => :expression_merges
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  has_many :subjects, :through => :resource_has_subjects
   has_one :subscribe, :dependent => :destroy
   has_one :subscription, :through => :subscribe
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true

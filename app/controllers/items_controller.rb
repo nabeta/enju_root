@@ -142,7 +142,7 @@ class ItemsController < ApplicationController
           @item.reload
 
           if @item.shelf
-            @item.shelf.library.holding_patron.items << @item
+            @item.shelf.library.patron.items << @item
           end
           if @item.manifestation.reserved?
             #ReservationNotifier.deliver_reserved(@item.manifestation.next_reservation.user)

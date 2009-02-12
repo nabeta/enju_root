@@ -1,0 +1,31 @@
+--- 
+subject_00001: 
+  updated_at: 2008-03-02 03:19:58.534251 +09:00
+  term: next-l
+  scope_note: 
+  subject_type_id: 1
+  term_transcription: next-l
+  id: 1
+  note: 
+  parent_id: 
+  created_at: 2008-03-01 17:53:06.118389 +09:00
+subject_00002: 
+  updated_at: 2008-03-02 03:19:57.946759 +09:00
+  term: ACP-Group
+  scope_note: 
+  subject_type_id: 1
+  term_transcription: ACP-Group
+  id: 2
+  note: 
+  parent_id: 
+  created_at: 2008-03-01 17:50:34.658349 +09:00
+subject_00003: 
+  updated_at: 2008-03-02 03:19:58.048475 +09:00
+  term: PRT
+  scope_note: 
+  subject_type_id: 1
+  term_transcription: PRT
+  id: 3
+  note: 
+  parent_id: 
+  created_at: 2008-03-01 17:51:39.448430 +09:00

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'subject_has_classifications_controller'
 
 class SubjectHasClassificationsControllerTest < ActionController::TestCase
-  fixtures :subject_has_classifications, :classifications, :concepts, :places, :users
+  fixtures :subject_has_classifications, :classifications, :concepts, :places, :users, :subjects
 
   def test_guest_should_get_index
     get :index
@@ -195,13 +195,13 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
     assert_redirected_to subject_has_classifications_url
   end
 
-  def test_librarian_should_destroy_subject_has_classification_with_concept_id
+  def test_librarian_should_destroy_subject_has_classification_with_subject_id
     login_as :librarian1
     old_count = SubjectHasClassification.count
-    delete :destroy, :id => 1, :concept_id => 1
+    delete :destroy, :id => 1, :subject_id => 1
     assert_equal old_count-1, SubjectHasClassification.count
     
-    assert_redirected_to concept_subject_has_classifications_url(concepts(:one))
+    assert_redirected_to subject_subject_has_classifications_url(subjects(:subject_00001))
   end
 
   def test_librarian_should_destroy_subject_has_classification_with_classification_id

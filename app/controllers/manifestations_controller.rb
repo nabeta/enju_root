@@ -4,7 +4,7 @@ class ManifestationsController < ApplicationController
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
-  #before_filter :get_subject
+  before_filter :get_subject
   before_filter :store_location, :except => [:index, :create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
   after_filter :csv_convert_charset, :only => :index
@@ -22,7 +22,7 @@ class ManifestationsController < ApplicationController
 
       prepare_options
       @libraries = Library.find(:all, :order => 'position')
-      #@subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
+      @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
 
       @manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
       @search_engines = SearchEngine.find(:all, :order => :position)
@@ -66,7 +66,7 @@ class ManifestationsController < ApplicationController
         end
         # 内部的なクエリ
         query = add_query(query, @manifestation_form) unless @manifestation_form.blank?
-        #query = add_query(query, @subject_by_term) unless @subject_by_term.blank?
+        query = add_query(query, @subject_by_term) unless @subject_by_term.blank?
         unless params[:library].blank?
           library_list = params[:library].split.uniq.join(' ')
           query = "#{query} library: (#{library_list})"
@@ -398,8 +398,8 @@ class ManifestationsController < ApplicationController
       query = "#{query} formtype: #{object.name}"
     when 'Language'
       query = "#{query} lang: #{object.name}"
-    #when 'Subject'
-    #  query = "#{query} subject_ids: #{object.id}"
+    when 'Subject'
+      query = "#{query} subject_ids: #{object.id}"
     when 'Library'
       query = "#{query} library: #{object.short_name}"
     end

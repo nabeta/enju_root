@@ -22,7 +22,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :subject_heading_type_has_subjects
 
-  map.resources :words
+  map.resources :subject_headings
+  map.resources :subject_types
 
   map.resources :places do |place|
     place.resources :works
@@ -149,12 +150,12 @@ ActionController::Routing::Routes.draw do |map|
     classification.resources :subject_has_classifications
   end
 
-  #map.resources :subjects do |subject|
-  #  subject.resources :manifestations
-  #  subject.resources :resource_has_subjects
-  #  subject.resources :classifications
-  #  subject.resources :subject_has_classifications
-  #end
+  map.resources :subjects do |subject|
+    subject.resources :manifestations
+    subject.resources :resource_has_subjects
+    subject.resources :classifications
+    subject.resources :subject_has_classifications
+  end
 
   map.resources :patron_merge_lists do |patron_merge_list|
     patron_merge_list.resources :patrons
