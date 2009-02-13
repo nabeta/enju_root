@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'questions_controller'
+require 'test_helper'
 
 class QuestionsControllerTest < ActionController::TestCase
   fixtures :questions, :users, :user_groups, :roles, :roles_users, :patrons, :libraries

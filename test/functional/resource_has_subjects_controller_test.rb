@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'resource_has_subjects_controller'
+require 'test_helper'
 
 class ResourceHasSubjectsControllerTest < ActionController::TestCase
   fixtures :resource_has_subjects, :manifestations, :concepts, :places, :subject_heading_types, :users, :subjects, :subject_types
@@ -90,7 +89,8 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_resource_has_subject_already_created
     login_as :librarian1
     old_count = ResourceHasSubject.count
-    post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1, :subject_type => 'Place' }
+    post :create, :resource_has_subject => {:subject_id => 1, :subjectable_id => 1, :subjectable_type => 'Manifestation'}
+    #post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1, :subject_type => 'Place' }
     assert_equal old_count, ResourceHasSubject.count
     
     assert_response :success
@@ -99,7 +99,8 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   def test_librarian_should_create_resource_has_subject_not_created_yet
     login_as :librarian1
     old_count = ResourceHasSubject.count
-    post :create, :resource_has_subject => {:subject_id => 2, :work_id => 1, :subject_type => 'Place'}
+    post :create, :resource_has_subject => {:subject_id => 2, :subjectable_id => 1, :subjectable_id => 'Manifestation'}
+    #post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1, :subject_type => 'Place' }
     assert_equal old_count+1, ResourceHasSubject.count
     
     assert_redirected_to resource_has_subject_url(assigns(:resource_has_subject))
@@ -157,11 +158,11 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def test_librarian_should_not_update_resource_has_subject_without_work_id
-    login_as :librarian1
-    put :update, :id => 1, :resource_has_subject => {:work_id => nil}
-    assert_response :success
-  end
+  #def test_librarian_should_not_update_resource_has_subject_without_work_id
+  #  login_as :librarian1
+  #  put :update, :id => 1, :resource_has_subject => {:work_id => nil}
+  #  assert_response :success
+  #end
   
   def test_librarian_should_update_resource_has_subject
     login_as :librarian1

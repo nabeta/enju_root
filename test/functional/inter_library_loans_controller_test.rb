@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'inter_library_loans_controller'
+require 'test_helper'
 
 class InterLibraryLoansControllerTest < ActionController::TestCase
   fixtures :inter_library_loans

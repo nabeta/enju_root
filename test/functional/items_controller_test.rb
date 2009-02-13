@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'items_controller'
+require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
   fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :manifestation_forms, :languages, :reserves

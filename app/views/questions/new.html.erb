@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), user_questions_path(@user.login) -%></li>
+    <li><%= link_to t('page.back'), user_questions_path(@question.user.login) -%></li>
   </ul>
 </div>
 
@@ -9,10 +9,10 @@
 
 <%= error_messages_for :question -%>
 
-<%- form_for(:question, :url => user_questions_path(@user.login)) do |f| -%>
+<%- form_for(:question, :url => user_questions_path(@question.user.login)) do |f| -%>
   <p>
   <b><%= t('page.user') -%></b><br />
-    <%= link_to h(@user.login), user_path(@user.login) -%>
+    <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
     <%= f.hidden_field :user_id -%>
   </p>
 
@@ -22,8 +22,8 @@
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.question.private_question') -%></b>
-    <%= f.check_box :private_question -%>
+  <b><%= t('activerecord.attributes.question.shared') -%></b>
+    <%= f.check_box :shared -%>
   </p>
 
   <p>

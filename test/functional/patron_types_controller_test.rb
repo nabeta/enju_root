@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'patron_types_controller'
+require 'test_helper'
 
 class PatronTypesControllerTest < ActionController::TestCase
   fixtures :patron_types, :users

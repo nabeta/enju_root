@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class MessageQueuesControllerTest < ActionController::TestCase
   fixtures :message_queues, :users, :user_groups, :patrons, :message_templates

@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'produces_controller'
+require 'test_helper'
 
 class ProducesControllerTest < ActionController::TestCase
   fixtures :produces, :manifestations, :patrons, :users

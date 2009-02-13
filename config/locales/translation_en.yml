@@ -140,7 +140,7 @@ en:
         deleted_at: Deleted at
       question:
         body: Body
-        private_question: Private question
+        share_question: Share question
         deleted_at: Deleted at
       imported_patron_file:
         filename: Filename
@@ -616,6 +616,7 @@ en:
       answer:
         body: Body
         deleted_at: Deleted at
+        share_answer: Share answer
       bookstore:
         name: Name
         zip_code: Zip code
@@ -951,6 +952,9 @@ en:
     query_search_result: "Search results for {{query}} in {{library_group_name}}"
     issue_number: "Issue number"
     serial_number: "Serial number"
+    invalid_isbn: "Invalid ISBN."
+    already_imported: "This manifestation is already imporeted."
+    record_not_found: "Record not found."
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
@@ -975,6 +979,8 @@ en:
     reply: "Reply"
     delete: "Delete"
     no_new_message: "No new messages."
+    too_short: "Message is too short. The minimum length is {{count}} characters."
+    too_long: "Message is too long. The maximum length is {{count}} characters."
   tag:
     popular_tag: "Popular tags"
     my_tag: "My tags"

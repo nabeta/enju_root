@@ -1,8 +1,8 @@
 class Classification < ActiveRecord::Base
-  #has_many :subject_has_classifications, :dependent => :destroy
-  #has_many :subjects, :through => :subject_has_classifications, :include => :subject_type
+  has_many :subject_has_classifications, :dependent => :destroy
+  has_many :subjects, :through => :subject_has_classifications, :include => :subject_type
   belongs_to :classification_type, :validate => true
-  has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_has_classifications
+  #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_has_classifications
 
   validates_associated :classification_type
   validates_presence_of :category, :name, :classification_type

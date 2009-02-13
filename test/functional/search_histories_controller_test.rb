@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'search_histories_controller'
+require 'test_helper'
 
 class SearchHistoriesControllerTest < ActionController::TestCase
   fixtures :search_histories, :users

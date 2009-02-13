@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'reifies_controller'
+require 'test_helper'
 
 class ReifiesControllerTest < ActionController::TestCase
   fixtures :reifies, :expressions, :works, :patrons, :users

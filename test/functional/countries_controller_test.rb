@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'countries_controller'
+require 'test_helper'
 
 class CountriesControllerTest < ActionController::TestCase
   fixtures :countries, :users

@@ -140,7 +140,7 @@ ja:
         deleted_at: 削除時刻
       question:
         body: 本文
-        private_question: 質問を公開しない
+        share_question: 質問を公開する
         deleted_at: 削除時刻
       imported_patron_file:
         filename: ファイル名
@@ -616,6 +616,7 @@ ja:
       answer:
         body: 本文
         deleted_at: 削除時刻
+        share_answer: 回答を公開する
       bookstore:
         name: 名前
         zip_code: 郵便番号
@@ -937,6 +938,9 @@ ja:
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
     issue_number: "号数"
     serial_number: "通号"
+    invalid_isbn: "無効なISBNです。"
+    already_imported: "すでにインポートされています。"
+    record_not_found: "資料が見つかりませんでした。"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
@@ -962,6 +966,8 @@ ja:
     reply: "メッセージに返信する"
     delete: "メッセージを削除する"
     no_new_message: "新しいメッセージはありません。"
+    too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
+    too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
   tag:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"

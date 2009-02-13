@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'creates_controller'
+require 'test_helper'
 
 class CreatesControllerTest < ActionController::TestCase
   fixtures :creates, :works, :patrons, :users, :work_forms, :languages

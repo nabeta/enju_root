@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'languages_controller'
+require 'test_helper'
 
 class LanguagesControllerTest < ActionController::TestCase
   fixtures :languages, :users

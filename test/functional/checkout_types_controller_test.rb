@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'checkout_types_controller'
+require 'test_helper'
 
 class CheckoutTypesControllerTest < ActionController::TestCase
   fixtures :checkout_types, :users, :user_groups

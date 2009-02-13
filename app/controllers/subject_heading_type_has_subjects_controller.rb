@@ -1,4 +1,7 @@
 class SubjectHeadingTypeHasSubjectsController < ApplicationController
+  before_filter :login_required, :except => [:index, :show]
+  require_role 'Administrator', :except => [:index, :show]
+
   # GET /subject_heading_type_has_subjects
   # GET /subject_heading_type_has_subjects.xml
   def index

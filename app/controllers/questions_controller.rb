@@ -68,7 +68,7 @@ class QuestionsController < ApplicationController
       return
     end
 
-    if @question.private_question?
+    if @question.shared?
       if logged_in?
         unless @question.user == current_user or current_user.has_role?('Librarian')
           access_denied

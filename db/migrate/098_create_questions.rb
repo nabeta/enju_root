@@ -3,7 +3,7 @@ class CreateQuestions < ActiveRecord::Migration
     create_table :questions do |t|
       t.integer :user_id
       t.text :body
-      t.boolean :private_question, :default => true, :null => false
+      t.boolean :shared, :default => true, :null => false
       t.integer :answers_count, :default => 0, :null => false
       t.timestamps
       t.datetime :deleted_at

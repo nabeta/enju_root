@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'works_controller'
+require 'test_helper'
 
 class WorksControllerTest < ActionController::TestCase
   fixtures :works, :work_forms, :expressions, :realizes, :creates, :produces, :reifies

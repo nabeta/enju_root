@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'classification_types_controller'
+require 'test_helper'
 
 class ClassificationTypesControllerTest < ActionController::TestCase
   fixtures :classification_types, :users

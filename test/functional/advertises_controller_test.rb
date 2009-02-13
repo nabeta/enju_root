@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'advertises_controller'
+require 'test_helper'
 
 class AdvertisesControllerTest < ActionController::TestCase
   fixtures :advertises, :advertisements, :users, :patrons,

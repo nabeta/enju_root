@@ -208,11 +208,11 @@ class ManifestationsController < ApplicationController
       rescue Exception => e
         case e.message
         when 'invalid ISBN'
-          flash[:notice] = ('Invalid ISBN.')
+          flash[:notice] = t('manifestation.invalid_isbn')
         when 'already imported'
-          flash[:notice] = ('This manifestation is already imported.')
+          flash[:notice] = t('manifestation.already_imported')
         else
-          flash[:notice] = ('Record not found.')
+          flash[:notice] = t('manifestation.record_not_found')
         end
         redirect_to new_manifestation_url(:mode => 'import_isbn')
         return

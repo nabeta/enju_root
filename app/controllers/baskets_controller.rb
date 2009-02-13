@@ -30,6 +30,7 @@ class BasketsController < ApplicationController
   # GET /baskets/new.xml
   def new
     @basket = Basket.new
+    @basket.user_number = params[:user_number]
 
     respond_to do |format|
       format.html # new.html.erb

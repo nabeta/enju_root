@@ -3,7 +3,7 @@ class CreateResourceHasSubjects < ActiveRecord::Migration
     create_table :resource_has_subjects do |t|
       t.references :subject, :polymorphic => true
       t.references :subjectable, :polymorphic => true
-      t.integer :work_id, :null => false
+      t.integer :work_id #, :null => false
 
       t.timestamps
     end

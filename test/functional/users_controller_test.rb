@@ -1,12 +1,11 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'users_controller'
+require 'test_helper'
 
 class UsersControllerTest < ActionController::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
   # Then, you can remove it from this and the units test.
   include AuthenticatedTestHelper
 
-  fixtures :users, :roles, :roles_users, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements,
+  fixtures :users, :roles, :roles_users, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements, :tags, :taggings,
     :manifestations, :manifestation_forms, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces,
     :people, :corporate_bodies, :families
 

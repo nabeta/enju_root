@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'frequency_of_issues_controller'
+require 'test_helper'
 
 class FrequencyOfIssuesControllerTest < ActionController::TestCase
   fixtures :frequency_of_issues, :users

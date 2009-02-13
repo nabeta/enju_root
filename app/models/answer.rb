@@ -1,4 +1,6 @@
 class Answer < ActiveRecord::Base
+  named_scope :public_answers, :conditions => {:shared => true}
+  named_scope :private_answers, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
   belongs_to :question, :counter_cache => true, :validate => true
 

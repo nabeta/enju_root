@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'news_posts_controller'
+require 'test_helper'
 
 class NewsPostsControllerTest < ActionController::TestCase
   fixtures :news_posts, :users

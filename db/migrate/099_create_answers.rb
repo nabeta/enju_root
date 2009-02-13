@@ -6,6 +6,8 @@ class CreateAnswers < ActiveRecord::Migration
       t.text :body
       t.timestamps
       t.datetime :deleted_at
+      t.boolean :shared, :default => true, :null => false
+      t.string :state, :default => 'pending'
     end
     add_index :answers, :user_id
     add_index :answers, :question_id

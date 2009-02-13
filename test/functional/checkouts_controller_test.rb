@@ -1,6 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'checkouts_controller'
-require 'users_controller'
+require 'test_helper'
 
 class CheckoutsControllerTest < ActionController::TestCase
   fixtures :checkouts, :users, :patrons, :roles, :roles_users, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,

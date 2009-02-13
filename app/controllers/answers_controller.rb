@@ -1,21 +1,21 @@
 class AnswersController < ApplicationController
   before_filter :login_required
   before_filter :get_user_if_nil
-  before_filter :get_question, :except => [:destroy]
-  before_filter :authorized_content
+  before_filter :get_question, :only => [:new]
+  before_filter :authorized_content, :except => [:index, :show]
 
   # GET /answers
   # GET /answers.xml
   def index
     @count = {}
-    if @question
-      @answers = @question.answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
-    else
+    if logged_in? and librarian_authorized?
       if @user
         @answers = @user.answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
       else
         @answers = Answer.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
       end
+    else
+      @answers = Answer.public_answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
     end
     @count[:query_result] = @answers.size
 
@@ -35,13 +35,17 @@ class AnswersController < ApplicationController
   # GET /answers/1
   # GET /answers/1.xml
   def show
-    if @question
-      @answer = @question.answers.find(params[:id])
-    else
+    if logged_in? and librarian_authorized?
       if @user
         @answer = @user.answers.find(params[:id])
       else
         @answer = Answer.find(params[:id])
+      end
+    else
+      if @user
+        @answer = @user.answers.public_answers.find(params[:id])
+      else
+        @answer = Answer.public_answers.find(params[:id])
       end
     end
 
@@ -66,13 +70,17 @@ class AnswersController < ApplicationController
 
   # GET /answers/1;edit
   def edit
-    if @question
-      @answer = @question.answers.find(params[:id])
-    else
+    if logged_in? and librarian_authorized?
       if @user
         @answer = @user.answers.find(params[:id])
       else
         @answer = Answer.find(params[:id])
+      end
+    else
+      if @user
+        @answer = @user.answers.public_answers.find(params[:id])
+      else
+        @answer = Answer.public_answers.find(params[:id])
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -83,6 +91,10 @@ class AnswersController < ApplicationController
   # POST /answers.xml
   def create
     @answer = current_user.answers.new(params[:answer])
+    unless @answer.question
+      redirect_to questions_url
+      return
+    end
 
     respond_to do |format|
       if @answer.save
@@ -99,7 +111,19 @@ class AnswersController < ApplicationController
   # PUT /answers/1
   # PUT /answers/1.xml
   def update
-    @answer = @user.answers.find(params[:id])
+    if logged_in? and librarian_authorized?
+      if @user
+        @answer = @user.answers.find(params[:id])
+      else
+        @answer = Answer.find(params[:id])
+      end
+    else
+      if @user
+        @answer = @user.answers.public_answers.find(params[:id])
+      else
+        @answer = Answer.public_answers.find(params[:id])
+      end
+    end
 
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
@@ -118,13 +142,17 @@ class AnswersController < ApplicationController
   # DELETE /answers/1
   # DELETE /answers/1.xml
   def destroy
-    if @question
-      @answer = @question.answers.find(params[:id])
-    else
+    if logged_in? and librarian_authorized?
       if @user
         @answer = @user.answers.find(params[:id])
       else
         @answer = Answer.find(params[:id])
+      end
+    else
+      if @user
+        @answer = @user.answers.public_answers.find(params[:id])
+      else
+        @answer = Answer.public_answers.find(params[:id])
       end
     end
     @answer.destroy

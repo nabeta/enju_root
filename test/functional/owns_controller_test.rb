@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'owns_controller'
+require 'test_helper'
 
 class OwnsControllerTest < ActionController::TestCase
   fixtures :owns, :users, :manifestations, :patrons

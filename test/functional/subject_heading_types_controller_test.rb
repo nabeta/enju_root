@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'subject_heading_types_controller'
+require 'test_helper'
 
 class SubjectHeadingTypesControllerTest < ActionController::TestCase
   fixtures :subject_heading_types, :users

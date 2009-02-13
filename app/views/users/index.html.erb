@@ -31,7 +31,7 @@
     <td><%= link_to h(user.login), user_path(user.login) -%></td>
     <td><%=h user.patron.full_name if current_user.has_role?('Librarian')%></td>
     <td>
-      <%= link_to t('activerecord.models.checkout'), new_basket_path(:user_id => user.id) -%>
+      <%= link_to t('activerecord.models.checkout'), new_basket_path(:user_number => user.user_number) unless user.user_number.blank? -%>
       (<%= link_to t('page.checkout_history'), user_checkouts_path(user.login) -%>)
     </td>
     <td><%= link_to t('activerecord.models.reserve'), user_reserves_path(user.login) -%></td>

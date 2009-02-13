@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'subjects_controller'
+require 'test_helper'
 
 class SubjectsControllerTest < ActionController::TestCase
   fixtures :subjects, :users, :manifestations, :resource_has_subjects

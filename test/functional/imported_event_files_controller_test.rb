@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'imported_event_files_controller'
+require 'test_helper'
 
 class ImportedEventFilesControllerTest < ActionController::TestCase
   fixtures :imported_event_files, :users, :roles, :patrons, :db_files,

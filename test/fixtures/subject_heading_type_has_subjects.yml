@@ -6,6 +6,6 @@ one:
   subject_heading_type_id: 1
 
 two:
-  subject_id: 1
+  subject_id: 2
   subject_type: Place
   subject_heading_type_id: 1
