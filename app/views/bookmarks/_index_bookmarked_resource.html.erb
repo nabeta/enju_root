@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Bookmark) do -%>
-      <li><%= link_to ('New bookmark'), new_bookmarked_resource_bookmark_path(@bookmarked_resource) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.bookmarked_resource')), new_bookmarked_resource_bookmark_path(@bookmarked_resource) -%></li>
     <%- end -%>
   </ul>
 </div>

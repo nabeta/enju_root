@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing subscribe') -%></h1>
+  <h1><%= t('page.editing', :model => t('activerecord.models.subscribe')) -%></h1>
 
 <%- form_for(@subscribe) do |f| -%>
   <%= f.error_messages -%>

@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'page_controller'
+require 'test_helper'
 
 class PageControllerTest < ActionController::TestCase
   fixtures :users

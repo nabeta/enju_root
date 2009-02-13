@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Realize) do -%>
-      <li><%= link_to ('New reify'), new_expression_reify_path(@expression) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_expression_reify_path(@expression) -%></li>
       <li><%= link_to t('page.back'), expression_patrons_path(@expression) -%></li>
     <%- end -%>
   </ul>
@@ -9,7 +9,7 @@
 
 <div id="content_detail">
   <h1>
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+    <%= link_to h(@expression.original_title), @expression -%>
   </h1>
 
 <table id="index">
@@ -20,7 +20,7 @@
 <%- for reify in @reifies -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(reify.expression.original_title), expression_path(reify.expression) -%>
+      <%= link_to h(reify.expression.original_title), reify.expression -%>
       <%= expression_form_icon(@expression.expression_form) -%>
       <br />
       <%= patrons_list(@expression.authors) -%>

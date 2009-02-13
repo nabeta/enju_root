@@ -44,30 +44,14 @@
       </p>
     <%- end -%>
 
-    <div class="autopagerize_page_element">
-      <%= render :partial => 'manifestation_list' -%>
-
-<!--
-http://www.quarkruby.com/2007/8/12/acts_as_solr-for-search-and-faceting#paginate
--->
-      <%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous', :next_label => t('page.next') + " &#187;")) -%>
-      <div style="margin-top: 1em">
-        <%- if @manifestations and @manifestations.size > Manifestation.per_page / 2 -%>
-          <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
-            <p>
-              <%= t('page.search_term') -%>: <%= text_field_tag 'query', h("#{@query} #{@tag}"), {:id => 'searchform_bottom', :style => 'width: 350px'} -%>
-              <%= submit_tag t('page.search') -%>
-              <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
-            </p>
-          <%- end -%>
-        <%- end -%>
-      </div>
+    <div class="autopagerize_page_element" id="list">
+      <%= render :partial => 'list', :locals => {:manifestations => @manifestation} -%>
     </div>
 
   <%- else -%>
     <p>
       <%= t('page.no_record_found') -%>
-      <%= ('You can search the following database.') -%>
+      <%= t('page.you_can_search_following_database') -%>
     </p>
     <%- @search_engines.each do |search_engine| -%>
       <p>

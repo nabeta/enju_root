@@ -1,23 +1,17 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @item.manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@item.manifestation) -%>
-    <%- end -%>
-  </div>
-
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
   <ul>
-    <li><%= link_to t('page.show'), item_path(@item) -%></li>
+    <li><%= link_to t('page.show'), @item -%></li>
     <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('item.editing') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.item')) -%></h1>
 
 <%= error_messages_for :item -%>
 
 <%- form_for(:item, :url => item_path(@item), :html => { :method => :put }) do |f| -%>
-  <b><%= t('activerecord.models.manifestation') -%></b><br />
   <div>
     <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
       <%- if @item.manifestation -%>
@@ -27,7 +21,7 @@
   </div>
 
   <p>
-    <b><%= t('page.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
+    <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%= options_from_collection_for_select(@libraries, "short_name", "name", @item.shelf.library.short_name) -%>
     </select>
@@ -38,27 +32,27 @@
   </p>
 
   <p>
-  <b><%= t('activerecord.models.circulation_status') -%></b><br />
+    <b><%= t('activerecord.models.circulation_status') -%></b><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.item.call_number') -%></b><br />
+    <b><%= t('activerecord.attributes.item.call_number') -%></b><br />
     <%= f.text_field :call_number -%>
   </p>
 
   <p>
-  <b><%= t('page.price') -%></b><br />
+    <b><%= t('activerecord.attributes.item.price') -%></b><br />
     <%= f.text_field :price -%>
   </p>
 
   <p>
-  <b><%= ('URL') -%></b><br />
+    <b><%= t('activerecord.attributes.item.url') -%></b><br />
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
  
   <p>
-  <b><%= t('activerecord.attributes.item.include_supplements') -%></b>
+    <b><%= t('activerecord.attributes.item.include_supplements') -%></b>
     <%= f.check_box :include_supplements -%>
   </p>
  
@@ -78,7 +72,7 @@
   </p>
  
   <p>
-    <%= submit_tag t('page.update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 </div>

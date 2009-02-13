@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, ManifestationForm) do -%>
-      <li><%= link_to ('New manifestation_form'), new_manifestation_form_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation_form')), new_manifestation_form_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing manifestation_forms') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.manifestation_form')) -%></h1>
 
 <table id="index">
   <tr>

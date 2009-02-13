@@ -1,14 +1,14 @@
 <div id="submenu">
   <ul>
     <%- if logged_in? && current_user.has_role?('Librarian') -%>
-      <li><%= link_to ('New user'), new_user_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.user')), new_user_path -%></li>
     <%- end -%>
-    <li><%= link_to ('Search patrons'), patrons_path -%></li>
+    <li><%= link_to t('page.search_patron'), patrons_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing users') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.user')) -%></h1>
 
 <%- form_for :users, :url => users_path, :html => {:method => 'get'} do -%>
   <p>
@@ -20,9 +20,9 @@
 
 <table id="index">
   <tr>
-    <th><%= ('Login') -%></th>
-    <th><%= t('page.name') -%></th>
-    <th><%= t('page.checkout') -%></th>
+    <th><%= t('activerecord.attributes.user.login') -%></th>
+    <th><%= t('activerecord.attributes.patron.full_name') -%></th>
+    <th><%= t('activerecord.models.checkout') -%></th>
     <th><%= t('activerecord.models.reserve') -%></th>
   </tr>
   
@@ -31,8 +31,8 @@
     <td><%= link_to h(user.login), user_path(user.login) -%></td>
     <td><%=h user.patron.full_name if current_user.has_role?('Librarian')%></td>
     <td>
-      <%= link_to t('page.checkout'), new_basket_path(:user_id => user.id) -%>
-      (<%= link_to ('Checkout history'), user_checkouts_path(user.login) -%>)
+      <%= link_to t('activerecord.models.checkout'), new_basket_path(:user_number => user.user_number) unless user.user_number.blank? -%>
+      (<%= link_to t('page.checkout_history'), user_checkouts_path(user.login) -%>)
     </td>
     <td><%= link_to t('activerecord.models.reserve'), user_reserves_path(user.login) -%></td>
     <td><%= link_to t('page.edit'), edit_user_path(user.login) -%></td>

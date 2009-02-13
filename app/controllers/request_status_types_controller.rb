@@ -49,7 +49,7 @@ class RequestStatusTypesController < ApplicationController
 
     respond_to do |format|
       if @request_status_type.save
-        flash[:notice] = ('RequestStatusType was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.request_status_type'))
         format.html { redirect_to(@request_status_type) }
         format.xml  { render :xml => @request_status_type, :status => :created, :location => @request_status_type }
       else
@@ -66,7 +66,7 @@ class RequestStatusTypesController < ApplicationController
 
     respond_to do |format|
       if @request_status_type.update_attributes(params[:request_status_type])
-        flash[:notice] = ('RequestStatusType was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.request_status_type'))
         format.html { redirect_to(@request_status_type) }
         format.xml  { head :ok }
       else

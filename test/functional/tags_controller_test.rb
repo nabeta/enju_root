@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'tags_controller'
+require 'test_helper'
 
 class TagsControllerTest < ActionController::TestCase
   fixtures :tags, :users

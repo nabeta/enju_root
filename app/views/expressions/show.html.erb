@@ -3,9 +3,9 @@
 <div id="submenu">
   <%- if_authorized?(:destroy, @expression) do -%>
     <ul>
-      <li><%= link_to t('expression.new'), new_expression_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
-      <li><%= link_to t('page.destroy'), expression_path(@expression), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- case when @work -%>
         <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
       <%- when @patron -%>
@@ -108,7 +108,7 @@
           <%- @expression.patrons.each do |patron| -%>
             <li>
               [P]
-              <%= link_to h(patron.full_name), patron_path(patron) -%>
+              <%= link_to h(patron.full_name), patron -%>
               (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + h(patron.full_name_without_space) -%>)
             </li>
           <%- end -%>
@@ -120,14 +120,14 @@
           <ul>
             <li>
               [W]
-              <%= link_to h(@expression.work.original_title), work_path(@expression.work) if @expression.work -%>
+              <%= link_to h(@expression.work.original_title), @expression.work if @expression.work -%>
               <%= patrons_list(@expression.work.patrons) -%>
               <%- unless @expression.manifestations.blank? -%>
                 <ul>
                   <%- @expression.manifestations.each do |manifestation| -%>
                     <li>
                     [M]
-                    <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+                    <%= link_to h(manifestation.original_title), manifestation -%>
                     <%= form_icon(manifestation.manifestation_form) -%>
                     <%- manifestation.expressions.each do |expression| -%>
                       <%= expression_form_icon(expression.expression_form) -%>
@@ -151,7 +151,7 @@
           <%- @expression.manifestations.each do |manifestation| -%>
             <li>
             [M]
-            <%= link_to h(manifestation.original_title), manifestation_path(manifestation) -%>
+            <%= link_to h(manifestation.original_title), manifestation -%>
             <%= form_icon(manifestation.manifestation_form) -%>
             <%- manifestation.expressions.each do |expression| -%>
               <%= expression_form_icon(expression.expression_form) -%>
@@ -168,7 +168,7 @@
                     <li>
                     [W]
                     <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @expression.work -%>
-                    <%= link_to h(work.original_title), work_path(work) -%>
+                    <%= link_to h(work.original_title), work -%>
                     <%= patrons_list(work.patrons) -%>
                     </li>
                   <%- end -%>

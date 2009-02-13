@@ -105,7 +105,7 @@ class CheckoutsController < ApplicationController
   #
   #  respond_to do |format|
   #    if @checkout.id
-  #      flash[:notice] = ('Checkout was successfully created.')
+  #      flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checkout'))
   #      format.html { redirect_to user_checkouts_url(@user) }
   #      format.xml  { head :created, :location => checkout_url(@checkout) }
   #    else
@@ -144,7 +144,7 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.update_attributes(params[:checkout])
-        flash[:notice] = ('Checkout was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checkout'))
         format.html { redirect_to user_checkout_url(@checkout.user.login, @checkout) }
         format.xml  { head :ok }
       else

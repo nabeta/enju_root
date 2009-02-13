@@ -33,6 +33,7 @@ class Item < ActiveRecord::Base
   has_many :from_items, :foreign_key => 'to_item_id', :class_name => 'ItemHasItem', :dependent => :destroy
   has_many :derived_items, :through => :to_items, :source => :item_to_item
   has_many :original_items, :through => :from_items, :source => :item_from_item
+  #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :owns
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type

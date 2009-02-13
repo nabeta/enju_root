@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'search_engines_controller'
+require 'test_helper'
 
 class SearchEnginesControllerTest < ActionController::TestCase
   fixtures :search_engines, :library_groups, :users

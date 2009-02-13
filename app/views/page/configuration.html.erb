@@ -1,7 +1,7 @@
 <h1><%= t('page.configuration') -%></h1>
 
 <div id="left_pane">
-  <h1><%= t('page.library') -%></h1>
+  <h2><%= t('page.library') -%></h2>
   <ul>
     <li><%= link_to t('activerecord.models.library_group'), library_groups_path -%></li>
     <li><%= link_to t('activerecord.models.library'), libraries_path -%>
@@ -29,7 +29,7 @@
 
 </div>
 <div id="right_pane">
-  <h1><%= t('page.resource') -%></h1>
+  <h2><%= t('page.resource') -%></h2>
   <ul>
     <li><%= link_to t('activerecord.models.attachment_file'), attachment_files_path -%></li>
     <li><%= link_to t('activerecord.models.picture_file'), picture_files_path -%></li>
@@ -41,7 +41,7 @@
     <li><%= link_to t('activerecord.models.expression_merge_list'), expression_merge_lists_path -%></li>
   </ul>
 
-  <h1><%= ('Subject and classification') -%></h1>
+  <h2><%= t('page.subject_and_classification') -%></h2>
   <ul>
     <li><%= link_to t('activerecord.models.subject'), subjects_path -%></li>
     <li><%= link_to t('activerecord.models.subject_type'), subject_types_path -%></li>
@@ -49,7 +49,7 @@
     <li><%= link_to t('activerecord.models.classification_type'), classification_types_path -%></li>
   </ul>
 
-  <h1><%= t('page.form') -%></h1>
+  <h2><%= t('page.form') -%></h2>
   <ul>
     <li><%= link_to t('activerecord.models.work_form'), work_forms_path -%></li>
     <li><%= link_to t('activerecord.models.expression_form'), expression_forms_path -%></li>

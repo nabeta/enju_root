@@ -6,17 +6,17 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= ('Editing subscription') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.subscription')) -%></h1>
 
 <%- form_for(@subscription) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :title -%><br />
+    <%= f.label t('activerecord.attributes.subscription.title') -%><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
   <p>
-    <%= f.label :note -%><br />
+    <%= f.label t('activerecord.attributes.subscription.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>

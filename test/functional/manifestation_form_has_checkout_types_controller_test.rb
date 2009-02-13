@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'manifestation_form_has_checkout_types_controller'
+require 'test_helper'
 
 class ManifestationFormHasCheckoutTypesControllerTest < ActionController::TestCase
   fixtures :manifestation_form_has_checkout_types, :users, :manifestation_forms, :checkout_types

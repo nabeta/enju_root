@@ -11,23 +11,23 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing bookmarked_resource') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
 
 <%= error_messages_for :bookmarked_resource -%>
 
 <%- form_for(@bookmarked_resource) do |f| -%>
   <p>
-  <b><%= t('page.title') -%></b><br />
+    <b><%= t('activerecord.attributes.bookmarked_resource.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
   <p>
-  <b><%= ('Url') -%></b><br />
+    <b><%= t('activerecord.attributes.bookmarked_resource.url') -%></b><br />
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.models.manifestation') -%></b><br />
+    <b><%= t('activerecord.models.manifestation') -%></b><br />
     <%= link_to h(@bookmarked_resource.manifestation.original_title), @bookmarked_resource.manifestation -%>
     <%= f.hidden_field :manifestation_id -%>
   </p>

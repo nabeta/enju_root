@@ -24,10 +24,12 @@ class MessageQueue < ActiveRecord::Base
   end
 
   def body
-    library_group = LibraryGroup.find(1)
-    message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
-    message = message.gsub("{reserved_manifestations}", self.message_body)
-    message = message.gsub("{library_system_name}", library_group.name)
+    unless self.message_body.blank?
+      library_group = LibraryGroup.find(1)
+      message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
+      message = message.gsub("{reserved_manifestations}", self.message_body)
+      message = message.gsub("{library_system_name}", library_group.name)
+    end
   end
 
   def message_body
@@ -35,16 +37,16 @@ class MessageQueue < ActiveRecord::Base
     manifestation_message = []
     case self.message_template.status
     when "reservation_accepted"
-      reserves = self.receiver.reserves.not_hold
+      reserves = self.receiver.reserves.not_hold.waiting
     when "item_received"
-      reserves = self.receiver.reserves.hold
+      reserves = self.receiver.reserves.hold.waiting
     when "reservation_expired_for_library"
       reserves = Reserve.will_expire(Time.zone.now.beginning_of_day)
     when "reservation_expired_for_patron"
       reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day)
     end
 
-    if reserves
+    unless reserves.blank?
       reserves.each do |reserve|
         manifestation_message << reserve.manifestation.original_title
         manifestation_message << "\r\n"

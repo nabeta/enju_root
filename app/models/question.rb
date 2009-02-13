@@ -1,11 +1,13 @@
 class Question < ActiveRecord::Base
+  named_scope :public_questions, :conditions => {:shared => true}
+  named_scope :private_questions, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
   has_many :answers
 
   validates_associated :user
   validates_presence_of :user, :body
   acts_as_soft_deletable
-  acts_as_solr :fields => [:body, :answer_body, {:login => :string}, {:created_at => :date}, {:updated_at => :date}, {:private_question => :boolean}], :auto_commit => false
+  acts_as_solr :fields => [:body, :answer_body, {:login => :string}, {:created_at => :date}, {:updated_at => :date}, {:shared => :boolean}], :auto_commit => false
 
   cattr_reader :per_page
   @@per_page = 10

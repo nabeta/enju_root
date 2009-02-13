@@ -53,7 +53,7 @@ class BarcodesController < ApplicationController
 
     respond_to do |format|
       if @barcode.save
-        flash[:notice] = ('Barcode was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.barcode'))
         format.html { redirect_to(@barcode) }
         format.xml  { render :xml => @barcode, :status => :created, :location => @barcode }
       else
@@ -70,7 +70,7 @@ class BarcodesController < ApplicationController
 
     respond_to do |format|
       if @barcode.update_attributes(params[:barcode])
-        flash[:notice] = ('Barcode was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.barcode'))
         format.html { redirect_to(@barcode) }
         format.xml  { head :ok }
       else

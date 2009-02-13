@@ -1,43 +1,43 @@
 <div id="submenu">
   <ul>
-    <%- case when @patron -%>
-      <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
-    <%- when @manifestation -%>
-      <li><%= link_to t('page.back'), manifestation_patrons_path(@manifestation) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), produces_path -%></li>
+    <%- if @produce.patron -%>
+      <li><%= link_to ('Back to patrons'), patron_manifestations_path(@produce.patron) -%></li>
     <%- end -%>
+    <%- if @produce.manifestation -%>
+      <li><%= link_to ('Back to manifestations'), manifestation_patrons_path(@produce.manifestation) -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.back'), produces_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('New produce') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.produce')) -%></h1>
 
 <%= error_messages_for :produce -%>
 
 <%- form_for(:produce, :url => produces_path) do |f| -%>
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
-  <%- if @patron -%>
-    <%= link_to h(@patron.full_name), patron_path(@patron) -%>
-    <%= f.hidden_field :patron_id, :value => @patron.id -%>
+  <%- if @produce.patron -%>
+    <%= link_to h(@produce.patron.full_name), @produce.patron -%>
+    <%= f.hidden_field :patron_id -%>
   <%- else -%>
-    <%= f.text_field :patron_id, :value => params[:patron_id] -%>
+    <%= f.text_field :patron_id -%>
   <%- end -%>
   </p>
 
   <p>
   <b><%= t('activerecord.models.manifestation') -%></b><br />
-  <%- if @manifestation -%>
-    <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
-    <%= f.hidden_field :manifestation_id, :value => @manifestation.id -%>
+  <%- if @produce.manifestation -%>
+    <%= link_to h(@produce.manifestation.original_title), @produce.manifestation -%>
+    <%= f.hidden_field :manifestation_id -%>
   <%- else -%>
-    <%= f.text_field :manifestation_id, :value => params[:manifestation_id] -%>
+    <%= f.text_field :manifestation_id -%>
   <%- end -%>
   </p>
 
   <p>
-  <%= submit_tag t('page.create') -%>
+  <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

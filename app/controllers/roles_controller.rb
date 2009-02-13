@@ -43,7 +43,7 @@ class RolesController < ApplicationController
   #
   #  respond_to do |format|
   #    if @role.save
-  #      flash[:notice] = ('Role was successfully created.')
+  #      flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.role'))
   #      format.html { redirect_to role_url(@role) }
   #      format.xml  { head :created, :location => role_url(@role) }
   #    else
@@ -60,7 +60,7 @@ class RolesController < ApplicationController
 
     respond_to do |format|
       if @role.update_attributes(params[:role])
-        flash[:notice] = ('Role was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.role'))
         format.html { redirect_to role_url(@role) }
         format.xml  { head :ok }
       else

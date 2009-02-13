@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class PictureFilesControllerTest < ActionController::TestCase
   fixtures :picture_files, :manifestations, :manifestation_forms, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries

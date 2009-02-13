@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'embodies_controller'
+require 'test_helper'
 
 class EmbodiesControllerTest < ActionController::TestCase
   fixtures :embodies, :expressions, :manifestations, :expression_forms, :manifestation_forms, :languages, :frequency_of_issues

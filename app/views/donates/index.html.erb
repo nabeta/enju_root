@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Donate) do -%>
-      <li><%= link_to ('New donate'), new_donate_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.donate')), new_donate_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing donates') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.donate')) -%></h1>
 
 <table id="index">
   <tr>

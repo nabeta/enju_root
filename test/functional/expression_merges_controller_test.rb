@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class ExpressionMergesControllerTest < ActionController::TestCase
   fixtures :expression_merges, :expressions, :expression_merge_lists, :users

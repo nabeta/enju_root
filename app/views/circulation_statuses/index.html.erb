@@ -1,26 +1,24 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, CirculationStatus) do -%>
-      <li><%= link_to ('New circulation_status'), new_circulation_status_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.circulation_status')), new_circulation_status_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing circulation_statuses') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.circulation_status')) -%></h1>
 
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.circulation_status.name') -%></th>
     <th><%= t('activerecord.attributes.circulation_status.display_name') -%></th>
-    <th><%= t('activerecord.attributes.circulation_status.note') -%></th>
   </tr>
 
 <%- for circulation_status in @circulation_statuses -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(circulation_status.name), circulation_status -%></td>
-    <td><%=h circulation_status.display_name -%></td>
-    <td><%=h circulation_status.note -%></td>
+    <td><%= link_to h(circulation_status.display_name), circulation_status -%></td>
     <%- if_authorized?(:destroy, circulation_status) do -%>
       <td><%= link_to t('page.edit'), edit_circulation_status_path(circulation_status) -%></td>
       <td><%= link_to t('page.destroy'), circulation_status, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

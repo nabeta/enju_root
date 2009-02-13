@@ -7,12 +7,12 @@
 <div id="content_detail">
 <p>
 <b><%= t('activerecord.models.expression') -%>:</b>
-  <%= link_to h(@embody.expression.original_title), expression_path(@embody.expression) -%>
+  <%= link_to h(@embody.expression.original_title), @embody.expression -%>
 </p>
 
 <p>
 <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <%= link_to h(@embody.manifestation.original_title), manifestation_path(@embody.manifestation) -%>
+  <%= link_to h(@embody.manifestation.original_title), @embody.manifestation -%>
 </p>
 
 </div>

@@ -8,12 +8,12 @@
 <div id="content_detail">
 <p>
   <b><%= t('activerecord.models.work') -%>:</b>
-  <%= link_to h(@reify.work.original_title), work_path(@reify.work) -%>
+  <%= link_to h(@reify.work.original_title), @reify.work -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.expression') -%>:</b>
-  <%= link_to h(@reify.expression.original_title), expression_path(@reify.expression) -%>
+  <%= link_to h(@reify.expression.original_title), @reify.expression -%>
 </p>
 
 </div>

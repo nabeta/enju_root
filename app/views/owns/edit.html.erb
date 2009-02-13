@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing own') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.own')) -%></h1>
 
 <%= error_messages_for :own -%>
 
@@ -22,7 +22,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('page.update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

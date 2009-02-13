@@ -26,6 +26,8 @@ class Subject < ActiveRecord::Base
   has_many :subject_has_classifications, :dependent => :destroy
   has_many :classifications, :through => :subject_has_classifications, :include => :classification_type
   belongs_to :subject_type, :validate => true
+  has_many :subject_heading_type_has_subjects
+  has_many :subject_heading_types, :through => :subject_heading_type_has_subjects
 
   validates_associated :use_term, :subject_type
   validates_presence_of :term, :subject_type

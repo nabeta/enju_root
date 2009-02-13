@@ -1,4 +1,4 @@
-<h1><%= ('Listing inventories') -%> </h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.inventory')) -%></h1>
 
 <table id="index">
   <tr>
@@ -19,7 +19,7 @@
 <%- end -%> 
 </table>
 
-<%= link_to ('New inventory'), new_inventory_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.inventory')), new_inventory_path -%>
 
 <%= will_paginate(@inventories, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 

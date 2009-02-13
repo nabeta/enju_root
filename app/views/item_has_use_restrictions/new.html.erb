@@ -1,4 +1,4 @@
-<h1><%= ('New item_has_use_restriction') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.item_has_use_restriction')) -%></h1>
 
 <%= error_messages_for :item_has_use_restriction -%>
 
@@ -6,7 +6,7 @@
   <p>
     <b><%= t('activerecord.models.item') -%></b><br />
     <%- if @item -%>
-      <%= link_to h(@item.item_identifier), item_path(@item) -%> (<%= link_to h(@item.manifestation.original_title), manifestation_path(@item.manifestation) -%>)
+      <%= link_to h(@item.item_identifier), @item -%> (<%= link_to h(@item.manifestation.original_title), @item.manifestation -%>)
       <%= f.hidden_field :item_id, :value => @item.id -%>
     <%- else -%>
       <%= f.text_field :item_id -%>

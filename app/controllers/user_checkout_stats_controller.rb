@@ -48,7 +48,7 @@ class UserCheckoutStatsController < ApplicationController
 
     respond_to do |format|
       if @user_checkout_stat.save
-        flash[:notice] = 'UserCheckoutStat was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.user_checkout_stat'))
         format.html { redirect_to(@user_checkout_stat) }
         format.xml  { render :xml => @user_checkout_stat, :status => :created, :location => @user_checkout_stat }
       else
@@ -65,7 +65,7 @@ class UserCheckoutStatsController < ApplicationController
 
     respond_to do |format|
       if @user_checkout_stat.update_attributes(params[:user_checkout_stat])
-        flash[:notice] = 'UserCheckoutStat was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user_checkout_stat'))
         format.html { redirect_to(@user_checkout_stat) }
         format.xml  { head :ok }
       else

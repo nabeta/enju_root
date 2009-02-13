@@ -1,0 +1,265 @@
+<div id="submenu">
+  <%- if_authorized?(:destroy, @person) do -%>
+    <ul>
+      <li><%= link_to t('page.edit'), edit_person_path(@person) -%></li>
+      <li><%= link_to t('page.back'), people_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.person')), new_person_path -%></li>
+      <li><%= link_to t('page.destroy'), @person, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    </ul>
+  <%- end -%>
+</div>
+
+<div id="content_detail">
+
+  <%- cache(:id => @person.id) do -%>
+  <h1 id="resource_title">
+    [P]
+    <%=h @person.full_name -%>
+  </h1>
+
+<div id="tabview">
+
+  <div id="demo" class="yui-navset yui-navset-top">
+    <ul class="yui-nav">
+      <li title="active" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
+      <%- unless @person.works.blank? -%>
+        <li><a href="#tab2"><em><%= t('activerecord.models.work') -%></em></a></li>
+      <%- end -%>
+      <%- unless @person.expressions.blank? -%>
+        <li><a href="#tab3"><em><%= t('activerecord.models.expression') -%></em></a></li>
+      <%- end -%>
+      <%- unless @involved_manifestations.blank? -%>
+        <li><a href="#tab4"><em><%= t('activerecord.models.manifestation') -%></em></a></li>
+      <%- end -%>
+      <%- unless @person.manifestations.blank? -%>
+        <li><a href="#tab5"><em><%= ('Publication') -%></em></a></li>
+      <%- end -%>
+    </ul>
+    <div class="yui-content">
+      <div id="tab1">
+        <table id="index">
+          <tr>
+            <td><b><%= ('Patron name') -%>:</b></td>
+            <td><%=h @person.full_name -%></td>
+          </tr>
+          <tr>
+            <td><b><%= ('Patron name transcription') -%>:</b></td>
+            <td><%=h @person.full_name_transcription -%></td>
+          </tr>
+          <%- if @person.user -%>
+            <tr>
+              <td><b><%= ('User name') -%>:</b></td>
+              <td><%= link_to h(@person.user.login), edit_user_path(@person.user.login) -%></td>
+            </tr>
+          <%- end -%>
+          <tr>
+            <td><b><%= t('activerecord.attributes.person.other_designation') -%>:</b></td>
+            <td><%=h @person.other_designation -%></td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.attributes.person.place') -%>:</b></td>
+            <td><%=h @person.place -%></td>
+          </tr>
+          <tr>
+            <td><b><%= t('page.language') -%>:</b></td>
+            <td><%=h @person.language.display_name -%></td>
+          </tr>
+          <%- if_authorized?(:destroy, @person) do -%>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.zip_code_1') -%>:</b></td>
+              <td><%=h @person.zip_code_1 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.address_1') -%>:</b></td>
+              <td><%=h @person.address_1 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.telephone_number_1') -%>:</b></td>
+              <td><%=h @person.telephone_number_1 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.fax_number_1') -%>:</b></td>
+              <td><%=h @person.fax_number_1 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.address_1_note') -%>:</b></td>
+              <td><%=h @person.address_1_note -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.zip_code_2') -%>:</b></td>
+              <td><%=h @person.zip_code_2 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.address_2') -%>:</b></td>
+              <td><%=h @person.address_2 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.telephone_number_2') -%>:</b></td>
+              <td><%=h @person.telephone_number_2 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.fax_number_2') -%>:</b></td>
+              <td><%=h @person.fax_number_2 -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.address_2_note') -%>:</b></td>
+              <td><%=h @person.address_2_note -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.date_of_birth') -%>:</b></td>
+              <td><%=h @person.date_of_birth -%></td>
+            </tr>
+            <tr>
+              <td><b><%= t('activerecord.attributes.person.date_of_death') -%>:</b></td>
+              <td><%=h @person.date_of_death -%></td>
+            </tr>
+          <%- end -%>
+          <tr>
+            <td><b><%= t('activerecord.attributes.person.note') -%>:</b></td>
+            <td><%=h @person.note -%></td>
+          </tr>
+          <tr>
+            <td><b><%= t('page.created_at') -%>:</b></td>
+            <td><%=h @person.created_at -%></td>
+          </tr>
+          <tr>
+            <td><b><%= t('page.updated_at') -%>:</b></td>
+            <td><%=h @person.updated_at -%></td>
+          </tr>
+        </table>
+      </div>
+      <%- unless @person.works.blank? -%>
+        <div id="tab2">
+          <ul>
+            <%- @person.works.each do |work| -%>
+              <li>
+                [W]
+                <%= link_to h(work.original_title), work -%>
+                <%= patrons_list(work.patrons) -%>
+                <%- unless work.manifestations.blank? -%>
+                  <ul>
+                    <%- work.manifestations.each do |manifestation| -%>
+                      <li>
+                      [M]
+                      <%= link_to h(manifestation.original_title), manifestation -%>
+                      <%= form_icon(manifestation.manifestation_form) -%>
+                      <%- manifestation.expressions.each do |expression| -%>
+                        <%= expression_form_icon(expression.expression_form) -%>
+                      <%- end -%>
+                      <%= patrons_list(manifestation.authors) -%>
+                      <%= patrons_list(manifestation.patrons) -%>
+                      <%- if manifestation.date_of_publication -%>
+                        (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                      <%- end -%>
+                      </li>
+                    <%- end -%>
+                  </ul>
+                <%- end -%>
+              </li>
+            <%- end -%>
+          </ul>
+        </div>
+    <%- end -%>
+    <%- unless @person.expressions.blank? -%>
+      <div id="tab3">
+        <ul>
+          <%- @person.expressions.each do |expression| -%>
+            <li>
+            [E]
+            <%= link_to h(expression.original_title), expression -%>
+            <%= expression_form_icon(expression.expression_form) -%>
+            <%= patrons_list(expression.work.people) -%>
+            <%= patrons_list(expression.people) -%>
+              <ul>
+                <%- expression.manifestations.each do |manifestation| -%>
+                  <li>
+                  [M]
+                  <%= link_to h(manifestation.original_title), manifestation -%>
+                  <%= form_icon(manifestation.manifestation_form) -%>
+                  <%- manifestation.expressions.each do |expression| -%>
+                    <%= expression_form_icon(expression.expression_form) -%>
+                  <%- end -%>
+                  <%= patrons_list(manifestation.authors) -%>
+                  <%= patrons_list(manifestation.people) -%>
+                  <%- if manifestation.date_of_publication -%>
+                    (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                  <%- end -%>
+                  </li>
+                <%- end -%>
+              </ul>
+            </li>
+          <%- end -%>
+        </ul>
+      </div>
+    <%- end -%>
+    <%- unless @involved_manifestations.blank? -%>
+      <div id="tab4">
+        <ul>
+          <%- @involved_manifestations.each do |manifestation| -%>
+            <li>
+              [M]
+              <%= link_to h(manifestation.original_title), manifestation -%>
+              <%= form_icon(manifestation.manifestation_form) -%>
+              <%- manifestation.expressions.each do |expression| -%>
+                <%= expression_form_icon(expression.expression_form) -%>
+              <%- end -%>
+              <%= patrons_list(manifestation.authors) -%>
+              <%= patrons_list(manifestation.people) -%>
+              <%- if manifestation.date_of_publication -%>
+                (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+              <%- end -%>
+              <%- unless manifestation.works.blank? -%>
+                <ul>
+                  <%- manifestation.works.each do |work| -%>
+                    <%- if work.people.include?(@person) -%>
+                      <li>
+                      [W]
+                      <%= link_to h(work.original_title), work -%>
+                      <%= patrons_list(work.people) -%>
+                      </li>
+                    <%- end -%>
+                  <%- end -%>
+                  <%- manifestation.expressions.each do |expression| -%>
+                    <%- if expression.people.include?(@person) -%>
+                      <li>
+                      [E]
+                      <%= link_to h(expression.original_title), expression -%>
+                      <%= expression_form_icon(expression.expression_form) -%>
+                      <%= patrons_list(expression.work.people) -%>
+                      <%= patrons_list(expression.people) -%>
+                      </li>
+                    <%- end -%>
+                  <%- end -%>
+                </ul>
+              <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+      </div>
+    <%- end -%>
+    <%- unless @publications.blank? -%>
+      <div id="tab5">
+        <h3><%= ('Recent publications') -%></h3>
+        <ul>
+          <%- @publications.each do |manifestation| -%>
+            <li>
+              [M]
+              <%= link_to h(manifestation.original_title), manifestation -%>
+              <%= form_icon(manifestation.manifestation_form) -%>
+              <%= patrons_list(manifestation.authors) -%>
+              <%= patrons_list(manifestation.people) -%>
+              <%- if manifestation.date_of_publication -%>
+                (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+              <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+        <p><%= link_to ('All publications'), manifestations_path(:publisher => @person.full_name) -%></p>
+      </div>
+    <%- end -%>
+    </div>
+  </div>
+</div>
+<%= render :partial => 'page/tabview' -%>
+<%- end -%>
+</div>

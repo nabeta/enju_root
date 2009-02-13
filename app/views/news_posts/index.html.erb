@@ -1,26 +1,21 @@
-<h1>Listing news_posts</h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.news_post')) -%></h1>
 
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.news_post.title') -%></th>
-    <th><%= t('activerecord.attributes.news_post.body') -%></th>
-    <th>User</th>
+    <th><%= t('activerecord.models.user') -%></th>
     <th>Required score</th>
     <th><%= t('activerecord.attributes.news_post.start_date') -%></th>
     <th><%= t('activerecord.attributes.news_post.end_date') -%></th>
-    <th><%= t('activerecord.attributes.news_post.note') -%></th>
   </tr>
 
 <% for news_post in @news_posts -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h news_post.title -%></td>
-    <td><%=h news_post.body -%></td>
+    <td><%= link_to h(news_post.title), news_post -%></td>
     <td><%= link_to h(news_post.user.login), user_path(news_post.user.login) -%></td>
     <td><%=h news_post.required_score -%></td>
     <td><%=h news_post.start_date -%></td>
     <td><%=h news_post.end_date -%></td>
-    <td><%=h news_post.note -%></td>
-    <td><%= link_to t('page.show'), news_post -%></td>
     <td><%= link_to t('page.edit'), edit_news_post_path(news_post) -%></td>
     <td><%= link_to t('page.destroy'), news_post, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
@@ -30,4 +25,4 @@
 <br />
 <%= will_paginate(@news_posts, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-<%= link_to 'New news_post', new_news_post_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.news_post')), new_news_post_path -%>

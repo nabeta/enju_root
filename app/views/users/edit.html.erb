@@ -99,7 +99,7 @@
    <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
   </p>
 
-  <p><b><%= t('page.note') -%></b><br />
+  <p><b><%= t('activerecord.attributes.user.note') -%></b><br />
    <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
@@ -115,7 +115,7 @@
   -->
 
   <p>
-  <%= submit_tag t('page.update'), :confirm => t('page.are_you_sure') -%>
+  <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
   </p>
 
 <%- end -%>
@@ -123,9 +123,9 @@
 <b><%= ('Reset Checkout iCalendar url') -%></b><br />
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   <!-- TODO: iCalendarファイルはhttpsで送信するべき -->
-  <%= ('Current url') -%>:
+  <%= t('page.current_url') -%>:
   <%- if @user.checkout_icalendar_token -%>
-    <%= link_to "http://#{LIBRARY_WEB_URL}/icalendar/#{h(@user.checkout_icalendar_token)}.ics", url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
+    <%= link_to url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics"), url_for("/icalendar/#{h(@user.checkout_icalendar_token)}.ics") -%>
   <%- end -%>
   <br />
   <%= hidden_field_tag 'user[reset_url]', 'checkout_icalendar' -%>
@@ -139,7 +139,7 @@
 
 <%- if current_user.has_role?('Librarian') -%>
   <%- unless current_user == @user -%>
-    <h3><%= ('Delete this user') -%></h3>
+    <h3><%= t('user.delete_this_user') -%></h3>
     <p>
     <%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%>
     </p>

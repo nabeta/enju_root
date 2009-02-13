@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('checkout.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.checkout')) -%></h1>
 
   <div>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_checkouts_path(:rss, :view => 'overdue') -%>

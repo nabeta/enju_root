@@ -1,9 +1,9 @@
 class Expression < ActiveRecord::Base
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   has_one :reify, :dependent => :destroy
-  has_one :work, :through => :reify, :include => [:patrons, :work_form]
+  has_one :work, :through => :reify, :include => [:work_form]
   has_many :embodies, :dependent => :destroy
-  has_many :manifestations, :through => :embodies, :include => [:patrons, :manifestation_form]
+  has_many :manifestations, :through => :embodies, :include => [:manifestation_form]
   belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes
@@ -20,6 +20,7 @@ class Expression < ActiveRecord::Base
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :derived_expressions, :through => :to_expressions, :source => :expression_to_expression
   has_many :original_expressions, :through => :from_expressions, :source => :expression_from_expression
+  #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   
   validates_associated :expression_form, :language, :frequency_of_issue
   validates_presence_of :expression_form, :language, :frequency_of_issue

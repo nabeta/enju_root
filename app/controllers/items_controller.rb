@@ -150,7 +150,7 @@ class ItemsController < ApplicationController
             @item.retain(current_user)
           end
         end
-        flash[:notice] = ('Item was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
         format.html { redirect_to item_url(@item) }
         format.xml  { head :created, :location => item_url(@item) }
       else
@@ -178,7 +178,7 @@ class ItemsController < ApplicationController
         use_restrictions = UseRestriction.find(:all, :conditions => ['id IN (?)', params[:use_restriction_id]])
         ItemHasUseRestriction.delete_all(['item_id = ?', @item.id])
         @item.use_restrictions << use_restrictions
-        flash[:notice] = ('Item was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item'))
         format.html { redirect_to item_url(@item) }
         format.xml  { head :ok }
       else

@@ -1,20 +1,22 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), user_question_answers_path(@user.login, @question) -%></li>
+    <%- if @answer.question -%>
+      <li><%= link_to t('page.back'), user_question_answers_path(@answer.question.user.login, @answer.question) -%></li>
+    <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('New answer') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.answer')) -%></h1>
 
 <%= error_messages_for :answer -%>
 
-<%- form_for(:answer, :url => user_question_answers_path(@user.login, @question)) do |f| -%>
+<%- form_for(:answer, :url => user_question_answers_path(@user.login, @answer.question)) do |f| -%>
 
   <p>
-  <b><%= t('activerecord.models.question') -%></b><br />
-    <%=h @question.body -%>
-    <%= f.hidden_field :question_id, :value => @question.id -%>
+    <b><%= t('activerecord.models.question') -%></b><br />
+    <%=h @answer.question.body -%>
+    <%= f.hidden_field :question_id, :value => @answer.question.id -%>
   </p>
 
   <p>
@@ -23,7 +25,7 @@
   </p>
 
   <p>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

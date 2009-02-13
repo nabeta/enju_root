@@ -1,15 +1,15 @@
-<h1><%= ('Listing resource_has_subjects') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.resource_has_subject')) -%></h1>
 
 <table id="index">
   <tr>
     <th><%= t('page.subject') -%></th>
-    <th><%= ('Subjectable type') -%></th>
+    <th><%= ('Subject type') -%></th>
   </tr>
 
 <%- for resource_has_subject in @resource_has_subjects -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(resource_has_subject.subject.term), resource_has_subject.subject -%></td>
-    <td><%= link_to h(resource_has_subject.subjectable_type), resource_has_subject.subjectable -%></td>
+    <td><%= h(resource_has_subject.subject.class.to_s) -%></td>
     <td><%= link_to t('page.show'), resource_has_subject -%></td>
     <td><%= link_to t('page.edit'), edit_resource_has_subject_path(resource_has_subject) -%></td>
     <td><%= link_to t('page.destroy'), resource_has_subject, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -20,4 +20,4 @@
 <%= will_paginate(@resource_has_subjects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
-<%= link_to ('New resource_has_subject'), new_resource_has_subject_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.resource_has_subject')), new_resource_has_subject_path -%>

@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New inventory') -%> </h1>
+<h1><%= t('page.new', :model => t('activerecord.models.inventory')) -%> </h1>
 
 <%- form_for(@inventory) do |f| -%> 
   <%= f.error_messages -%> 

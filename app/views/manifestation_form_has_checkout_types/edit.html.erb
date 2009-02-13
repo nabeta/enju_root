@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing manifestation_form_has_checkout_type') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.manifestation_form_has_checkout_type')) -%></h1>
 
 <%- form_for(@manifestation_form_has_checkout_type) do |f| -%>
   <%= f.error_messages -%>

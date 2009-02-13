@@ -1,4 +1,4 @@
-<h1><%= ('Listing countries') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.country')) -%></h1>
 
 <table id="index">
   <tr>
@@ -25,4 +25,4 @@
 <%- end -%>
 </table>
 
-<%= link_to ('New country'), new_country_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.country')), new_country_path -%>

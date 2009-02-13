@@ -1,9 +1,9 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'works_controller'
+require 'test_helper'
 
 class WorksControllerTest < ActionController::TestCase
-  fixtures :works, :work_forms, :expressions, :realizes
+  fixtures :works, :work_forms, :expressions, :realizes, :creates, :produces, :reifies
   fixtures :patrons, :users, :roles
+  fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
     get :index

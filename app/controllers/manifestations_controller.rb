@@ -128,7 +128,7 @@ class ManifestationsController < ApplicationController
     store_location
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html
       format.xml  {
         if params[:oai]
           render :action => 'oai-pmh', :layout => false
@@ -158,7 +158,7 @@ class ManifestationsController < ApplicationController
 
     return if render_mode(params[:mode])
 
-    @reserved_count = Reserve.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
+    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     @amazon_reviews = @manifestation.amazon_customer_review
@@ -208,11 +208,11 @@ class ManifestationsController < ApplicationController
       rescue Exception => e
         case e.message
         when 'invalid ISBN'
-          flash[:notice] = ('Invalid ISBN.')
+          flash[:notice] = t('manifestation.invalid_isbn')
         when 'already imported'
-          flash[:notice] = ('This manifestation is already imported.')
+          flash[:notice] = t('manifestation.already_imported')
         else
-          flash[:notice] = ('Record not found.')
+          flash[:notice] = t('manifestation.record_not_found')
         end
         redirect_to new_manifestation_url(:mode => 'import_isbn')
         return
@@ -236,7 +236,7 @@ class ManifestationsController < ApplicationController
             @manifestation.patrons << last_issue.patrons if last_issue
           end
         end
-        flash[:notice] = ('Manifestation was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
@@ -265,7 +265,7 @@ class ManifestationsController < ApplicationController
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
-        flash[:notice] = ('Manifestation was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to manifestation_url(@manifestation) }
         format.xml  { head :ok }
       else
@@ -462,10 +462,10 @@ class ManifestationsController < ApplicationController
       @manifestations = @patron.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['produces.id'])
     when @expression
       @manifestations = @expression.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['embodies.id'])
-      when @parent_manifestation
-        @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
-      when @derived_manifestation
-        @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
+    when @parent_manifestation
+      @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
+    when @derived_manifestation
+      @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
     when @subject
       @manifestations = @subject.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else

@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('patron.listing') -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>

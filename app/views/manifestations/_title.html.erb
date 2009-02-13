@@ -1,0 +1,27 @@
+    <h1 id="resource_title">
+      [M]
+      <%= link_to h(manifestation.original_title), manifestation -%>
+      <%= form_icon(manifestation.manifestation_form) -%>
+      <%- manifestation.expressions.each do |expression| -%>
+        <%= link_to expression_form_icon(expression.expression_form), expression -%>
+      <%- end -%>
+    </h1>
+    <p>
+      <%- unless manifestation.authors.blank? -%>
+        <%= t('page.author') -%>: <%= patrons_list(manifestation.authors) -%>
+      <%- end -%>
+      <%- unless manifestation.editors.blank? -%>
+        <%= ('Editor') -%>: <%= patrons_list(manifestation.editors) -%>
+      <%- end -%>
+      <%- unless manifestation.publishers.blank? -%>
+        <%= t('page.publisher') -%>: <%= patrons_list(manifestation.publishers) -%>
+        <%- if manifestation.date_of_publication -%>
+          (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+        <%- end -%>
+      <%- end -%>
+      <%- unless manifestation.access_address.blank? -%>
+        <br />
+        <%= link_to h(manifestation.access_address), h(manifestation.access_address) -%>
+        <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) -%>
+      <%- end -%>
+    </p>

@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New order_list'), new_order_list_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.order_list')), new_order_list_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing order_lists') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.order_list')) -%></h1>
 
 <table id="index">
   <tr>

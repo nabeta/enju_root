@@ -43,9 +43,7 @@ class BookmarksController < ApplicationController
       return
     end
     begin
-      url = URI.decode(params[:url])
-      #parsed_url = URI.parse(URI.encode(url)).normalize
-      #
+      url = URI.decode(params[:url]) rescue nil
       unless url.nil?
         if @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           if @bookmarked_resource.bookmarked?(current_user)
@@ -56,30 +54,17 @@ class BookmarksController < ApplicationController
           @title = @bookmarked_resource.title
         else
           @bookmarked_resource = BookmarkedResource.new(:url => url)
-          @title = Bookmark.get_title(URI.encode(url))
+          @title = Bookmark.get_title(URI.encode(url), root_url)
         end
       else
         raise
       end
     rescue
       url = nil
-      #parsed_url = nil
-      flash[:notice] = ("Invalid URL.")
+      flash[:notice] = t('bookmark.invalid_url')
       redirect_to user_bookmarks_url(current_user.login)
       return
     end
-    #unless parsed_url.nil?
-      #if parsed_url.host == LIBRARY_WEB_HOSTNAME
-      #  path = parsed_url.path.split('/')
-      #  if path[1] == 'manifestations'
-      #    manifestation = Manifestation.find(path[2]) rescue nil
-      #    if manifestation.access_address
-      #      access_url = manifestation.access_address
-      #    end
-      #  end
-      #end
-      #logger.debug "access_url: #{access_url}"
-    #end
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -108,14 +93,14 @@ class BookmarksController < ApplicationController
           if params[:bookmark][:title]
             @bookmarked_resource.title = params[:bookmark][:title]
           else
-            @bookmarked_resource.title = Bookmark.get_title(URI.encode(url))
+            @bookmarked_resource.title = Bookmark.get_title(URI.encode(url), root_url)
           end
 
           # 自館のページをブックマークする場合
           if URI.parse(url).host == LIBRARY_WEB_HOSTNAME
             path = URI.parse(url).path.split('/')
             if path[1] == 'manifestations' and Manifestation.find(path[2])
-              @bookmarked_resource.manifestation = Manifestation.find(path[2]) rescue nil
+              @bookmarked_resource.manifestation = Manifestation.find(path[2])
             end
           end
         end
@@ -128,23 +113,19 @@ class BookmarksController < ApplicationController
           expression = Expression.new(:original_title => work.original_title)
           work.expressions << expression
         end
-      else
-        flash[:notice] = ('Specify title and url.')
-        redirect_to new_user_bookmark_path(current_user.login)
-        return
       end
     
       begin
         @bookmarked_resource.save!
         @bookmarked_resource.manifestation.expressions << expression if expression
       rescue
-        flash[:notice] = ('Specify title and url.')
+        flash[:notice] = t('bookmark.specify_title_and_url')
         redirect_to new_user_bookmark_path(current_user.login)
         return
       end
 
       if @user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @bookmarked_resource.id})
-        flash[:notice] = ('This resource is already bookmarked.')
+        flash[:notice] = t('bookmark.already_bookmarked')
         redirect_to new_user_bookmark_url(current_user.login)
         return
       end
@@ -162,7 +143,7 @@ class BookmarksController < ApplicationController
         unless @bookmark.shelved?
           @bookmark.create_bookmark_item
         end
-        flash[:notice] = ('Bookmark was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
         if params[:tag_edit] == 'manifestation'
           format.html { redirect_to manifestation_url(@bookmarked_resource.manifestation) }
           format.xml  { head :ok }
@@ -197,7 +178,7 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])
-        flash[:notice] = ('Bookmark was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
         @manifestation = @bookmark.bookmarked_resource.manifestation
         @manifestation.save
         if params[:tag_edit] == 'manifestation'

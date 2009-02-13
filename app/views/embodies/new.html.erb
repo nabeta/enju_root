@@ -1,26 +1,26 @@
 <div id="submenu">
   <ul>
-    <%- if @manifestation -%>
-      <li><%= link_to ('Back to expressions'), manifestation_expressions_path(@manifestation) -%></li>
+    <%- if @embody.manifestation -%>
+      <li><%= link_to ('Back to expressions'), manifestation_expressions_path(@embody.manifestation) -%></li>
     <%- end -%>
-    <%- if @expression -%>
-      <li><%= link_to ('Back to manifestations'), expression_manifestations_path(@expression) -%></li>
+    <%- if @embody.expression -%>
+      <li><%= link_to ('Back to manifestations'), expression_manifestations_path(@embody.expression) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back_to_index'), embodies_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('New embody') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
 
 <%= error_messages_for :embody -%>
 
 <%- form_for(@embody) do |f| -%>
   <p>
   <b><%= t('activerecord.models.expression') -%></b><br />
-  <%- if @expression -%>
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
-    <%= f.hidden_field :expression_id, :value => @expression.id -%>
+  <%- if @embody.expression -%>
+    <%= link_to h(@embody.expression.original_title), @embody.expression -%>
+    <%= f.hidden_field :expression_id -%>
   <%- else -%>
     <%= f.text_field :expression_id -%>
   <%- end -%>
@@ -28,9 +28,9 @@
 
   <p>
   <b><%= t('activerecord.models.manifestation') -%></b><br />
-  <%- if @manifestation -%>
-    <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
-    <%= f.hidden_field :manifestation_id, :value => @manifestation.id -%>
+  <%- if @embody.manifestation -%>
+    <%= link_to h(@embody.manifestation.original_title), @embody.manifestation -%>
+    <%= f.hidden_field :manifestation_id -%>
   <%- else -%>
     <%= f.text_field :manifestation_id -%>
   <%- end -%>

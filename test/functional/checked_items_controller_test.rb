@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'checked_items_controller'
+require 'test_helper'
 
 class CheckedItemsControllerTest < ActionController::TestCase
   fixtures :checked_items, :baskets, :items, :manifestations, :exemplifies,

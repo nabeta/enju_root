@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'shelves_controller'
+require 'test_helper'
 
 class ShelvesControllerTest < ActionController::TestCase
   fixtures :shelves, :users

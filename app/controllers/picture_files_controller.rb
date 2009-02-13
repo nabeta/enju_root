@@ -79,7 +79,7 @@ class PictureFilesController < ApplicationController
         #@picture_file.sha1_hash = @picture_file.digest(:type => 'sha1')
         #@picture_file.save
 
-        flash[:notice] = ('PictureFile was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.picture_file'))
         #format.html { redirect_to(@picture_file) }
         format.html { redirect_to(@picture_file) }
         format.xml  { render :xml => @picture_file, :status => :created, :location => @picture_file }
@@ -97,7 +97,7 @@ class PictureFilesController < ApplicationController
 
     respond_to do |format|
       if @picture_file.update_attributes(params[:picture_file])
-        flash[:notice] = ('PictureFile was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.picture_file'))
         format.html { redirect_to(@picture_file) }
         format.xml  { head :ok }
       else

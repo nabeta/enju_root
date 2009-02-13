@@ -27,12 +27,12 @@
 
 <p>
   <b><%= t('activerecord.attributes.event.started_at') -%>:</b>
-  <%=h @event.started_at -%>
+  <%=h l(@event.started_at, :format => :short) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.event.ended_at') -%>:</b>
-  <%=h @event.ended_at -%>
+  <%=h l(@event.ended_at, :format => :short) -%>
 </p>
 
 <p>

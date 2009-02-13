@@ -7,6 +7,7 @@
 <h1><%= t('page.management') -%></h1>
 
 <ul>
+  <li><%= link_to t('activerecord.models.patron'), patrons_path -%></li>
   <li><%= link_to t('page.import'), '/page/import' -%></li>
   <li><%= link_to t('activerecord.models.attachment_file'), attachment_files_path -%></li>
   <li><%= link_to t('activerecord.models.bookmarked_resource'), bookmarked_resources_path -%></li>

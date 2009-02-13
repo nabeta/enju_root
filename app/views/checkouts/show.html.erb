@@ -1,4 +1,5 @@
 <div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} -%>
   <ul>
     <li><%= link_to t('page.edit'), edit_user_checkout_path(@checkout.user.login, @checkout) -%></li>
     <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
@@ -10,24 +11,19 @@
 
 
 <div id="content_detail">
-  <table id="index">
-    <tr>
-      <td><%= t('page.title') -%></td>
-      <td><%= link_to h(@checkout.item.manifestation.original_title), @checkout.item.manifestation -%></td>
-    </tr>
-    <tr>
-      <td><%= t('activerecord.attributes.item.item_identifier') -%></td>
-      <td><%= link_to h(@checkout.item.item_identifier), @checkout.item -%></td>
-    </tr>
-    <tr>
-      <td><%= t('activerecord.attributes.checkout.due_date') -%></td>
-      <td><%=h @checkout.due_date.strftime('%Y-%m-%d') -%></td>
-    </tr>
-    <%- if_authorized?(:destroy, @checkout) do -%>
-      <tr>
-        <td><%= ('Checked out by') -%></td>
-        <td><%=h @checkout.user.login -%></td>
-      </tr>
-    <%- end -%>
-  </table>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @checkout.item.manifestation} -%>
+  <p>
+    <b><%= t('activerecord.attributes.item.item_identifier') -%></b><br />
+    <%= link_to h(@checkout.item.item_identifier), @checkout.item -%>
+  </p>
+  <p>
+    <b><%= t('activerecord.attributes.checkout.due_date') -%></b><br />
+    <%=h l(@checkout.due_date, :format => :short) -%>
+  </p>
+  <%- if_authorized?(:destroy, @checkout) do -%>
+    <p>
+      <b><%= t('checkout.current_user') -%></b><br />
+      <%= link_to h(@checkout.user.login), user_path(@checkout.user.login) -%>
+    </p>
+  <%- end -%>
 </div>

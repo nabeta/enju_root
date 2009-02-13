@@ -52,7 +52,7 @@ class ManifestationFormHasCheckoutTypesController < ApplicationController
 
     respond_to do |format|
       if @manifestation_form_has_checkout_type.save
-        flash[:notice] = ('ManifestationFormHasCheckoutType was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_form_has_checkout_type'))
         format.html { redirect_to(@manifestation_form_has_checkout_type) }
         format.xml  { render :xml => @manifestation_form_has_checkout_type, :status => :created, :location => @manifestation_form_has_checkout_type }
       else
@@ -70,7 +70,7 @@ class ManifestationFormHasCheckoutTypesController < ApplicationController
 
     respond_to do |format|
       if @manifestation_form_has_checkout_type.update_attributes(params[:manifestation_form_has_checkout_type])
-        flash[:notice] = ('ManifestationFormHasCheckoutType was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation_form_has_checkout_type'))
         format.html { redirect_to(@manifestation_form_has_checkout_type) }
         format.xml  { head :ok }
       else

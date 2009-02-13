@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing work_merge') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.work_merge')) -%></h1>
 
 <%= error_messages_for :work_merge -%>
 
@@ -18,7 +18,7 @@
   </p>
 
   <p>
-  <b><%= ('Work merge list') -%></b><br />
+  <b><%= t('activerecord.models.work_merge_list') -%></b><br />
   <%= f.text_field :work_merge_list_id, :value => @work_merge.work_merge_list_id -%>
   </p>
 

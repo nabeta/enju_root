@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Produce) do -%>
-      <li><%= link_to ('New produce'), new_manifestation_produce_path(@manifestation) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_manifestation_produce_path(@manifestation) -%></li>
       <li><%= link_to t('page.back'), manifestation_patrons_path(@manifestation) -%></li>
       <li><%= link_to ('Show manifestation'), @manifestation -%></li>
     <%- end -%>
@@ -9,7 +9,7 @@
 </div>
   
 <div id="content_detail">
-  <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.patron') -%></th>
@@ -17,7 +17,7 @@
   
 <%- for produce in @produces -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(produce.patron.full_name), patron_path(produce.patron) -%></td>
+    <td><%= link_to h(produce.patron.full_name), produce.patron -%></td>
     <%- if_authorized?(:destroy, produce) do -%>
       <td><%= link_to t('page.destroy'), manifestation_produce_path(produce.manifestation, produce), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= produce.first? ? '' : link_to('▲', {:action => 'update', :position => (produce.position  > 1 ? produce.position - 1 : 1), :id => produce.id, :manifestation_id => @manifestation.id}, :method => :put) -%></td>

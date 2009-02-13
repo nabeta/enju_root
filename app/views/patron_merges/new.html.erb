@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New patron_merge') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.patron_merge')) -%></h1>
 
 <%= error_messages_for :patron_merge -%>
 
@@ -13,7 +13,7 @@
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
   <%- if @patron -%>
-    <%= link_to h(@patron.full_name), patron_path(@patron) -%>
+    <%= link_to h(@patron.full_name), @patron -%>
     <%= f.hidden_field :patron_id, :value => @patron.id -%>
   <%- else -%>
     <%= f.text_field :patron_id, :value => params[:patron_id] -%>

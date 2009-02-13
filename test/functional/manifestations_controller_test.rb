@@ -1,13 +1,13 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'manifestations_controller'
+require 'test_helper'
 
 class ManifestationsControllerTest < ActionController::TestCase
-  fixtures :manifestations, :manifestation_forms, :resource_has_subjects, :languages, :subjects
+  fixtures :manifestations, :manifestation_forms, :resource_has_subjects, :languages, :concepts, :places, :subjects, :subject_types
   fixtures :works, :work_forms, :realizes
   fixtures :expressions, :expression_forms, :frequency_of_issues
   fixtures :items, :libraries, :shelves, :languages, :exemplifies
   fixtures :embodies
   fixtures :patrons, :user_groups, :users, :bookmarks, :bookmarked_resources, :roles
+  fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
     old_search_history_count = SearchHistory.count

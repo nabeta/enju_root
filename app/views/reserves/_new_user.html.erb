@@ -1,4 +1,5 @@
 <div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to ('Back to reservations'), user_reserves_path(@user.login) -%></li>
     <%- if @manifestation -%>
@@ -8,32 +9,25 @@
 </div>
               
 <div id="content_detail">
-<h1><%= ('New reservation') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
 
 <%= error_messages_for :reserve -%>
 
 <%- form_for(:reserve, :url => reserves_path) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.patron') -%></b><br />
-    <%= link_to h(@user.patron.full_name), patron_path(@user.patron) -%>
+    <b><%= t('activerecord.models.patron') -%></b><br />
+    <%= link_to h(@user.patron.full_name), @user.patron -%>
     (<%=h @user.login -%>)
   </p>
 
   <p>
-  <b><%= t('activerecord.models.manifestation') -%></b><br />
     <%- if @item -%>
-      <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
-        <%= book_jacket(@reserve.manifestation) -%>
-      <%- end -%>
-      <br />
-      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @reserve.manifestation} -%>
-      (<%= link_to h(@item.item_identifier), item_path(@item.item_identifier) -%>)
+      <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
+      (<%= link_to h(@item.item_identifier), @item -%>)
       <%= f.hidden_field :manifestation_id, :value => @item.manifestation.id -%>
       <%= f.hidden_field :item_id, :value => @item.id -%>
     <%- elsif @manifestation -%>
-      <%= book_jacket(@manifestation) -%>
-      <br />
-      <%= link_to h(@manifestation.original_title), manifestation_path(@manifestation) -%>
+      <%= link_to h(@manifestation.original_title), @manifestation -%>
       <%= f.hidden_field :manifestation_id -%>
     <%- else -%>
       <%= f.text_field :manifestation_id -%>

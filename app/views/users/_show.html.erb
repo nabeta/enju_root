@@ -20,12 +20,12 @@
   </div>
 
   <div id="message_box">
-    <h3><%= link_to t('message.listing'), user_messages_path(current_user.login) -%></h3>
+    <h3><%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.login) -%></h3>
     <%- if logged_in? -%>
       <%- if current_user.unread_messages.size > 0 -%>
         <%= link_to t('page.number_of_unread_messages', :numdocs => current_user.unread_messages.size, :count => current_user.unread_messages.size), user_messages_path(current_user.login) -%>
       <%- else -%>
-        <%= ('No message.') -%>
+        <%= t('message.no_new_message') -%>
       <%- end -%>
     <%- end -%>
   </div>
@@ -49,7 +49,7 @@
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.login) do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>
-    <p>(<%= link_to t('tag.listing'), tags_path -%>)</p>
+    <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>
   </div>
 
 </div>

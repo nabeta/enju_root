@@ -5,16 +5,16 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- if @event and controller.action_name != 'new' -%>
-    <title><%=h @event.title -%> : <%= t('activerecord.models.event') -%>: <%=h controller.action_name -%></title>
+    <title><%=h @event.title -%> : <%= t('activerecord.models.event') -%>: <%=h title_action_name -%></title>
   <%- else -%>
-    <title><%= t('activerecord.models.event') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.event') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%= auto_discovery_link_tag(:rss, formatted_events_url(:rss), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
     <%= auto_discovery_link_tag(:atom, formatted_events_url(:atom), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

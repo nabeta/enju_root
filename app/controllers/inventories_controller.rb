@@ -47,7 +47,7 @@ class InventoriesController < ApplicationController
 
     respond_to do |format|
       if @inventory.save
-        flash[:notice] = ('Inventory was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.inventory'))
         format.html { redirect_to(@inventory) }
         format.xml  { render :xml => @inventory, :status => :created, :location => @inventory }
       else
@@ -64,7 +64,7 @@ class InventoriesController < ApplicationController
 
     respond_to do |format|
       if @inventory.update_attributes(params[:inventory])
-        flash[:notice] = ('Inventory was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.inventory'))
         format.html { redirect_to(@inventory) }
         format.xml  { head :ok }
       else

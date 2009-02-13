@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'imported_patron_files_controller'
+require 'test_helper'
 
 class ImportedPatronFilesControllerTest < ActionController::TestCase
   fixtures :imported_patron_files, :users, :roles, :patrons, :db_files,

@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'circulation_statuses_controller'
+require 'test_helper'
 
 class CirculationStatusesControllerTest < ActionController::TestCase
   fixtures :circulation_statuses, :users

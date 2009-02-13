@@ -5,42 +5,47 @@
 </div>
 
 <div id="conttent_detail">
-<h1><%= ('New library_group') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.library_group')) -%></h1>
 
 <%= error_messages_for :library_group -%>
 
 <%- form_for(:library_group, :url => library_groups_path) do |f| -%>
   <p>
-    <b><%= t('page.name') -%></b><br />
+    <b><%= t('activerecord.attributes.library_group.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('page.display_name') -%></b><br />
+    <b><%= t('activerecord.attributes.library_group.display_name') -%></b><br />
     <%= f.text_field :display_name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('page.short_name') -%></b><br />
+    <b><%= t('activerecord.attributes.library_group.short_name') -%></b><br />
     <%= f.text_field :short_name -%>
   </p>
 
   <p>
-    <b><%= ('Email') -%></b><br />
+    <b><%= t('activerecord.attributes.library_group.email') -%></b><br />
     <%= f.text_field :email, :class => 'resource_email' -%>
   </p>
 
   <p>
-    <b><%= t('page.note') -%></b><br />
-    <%= f.text_area :note, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <b><%= ('My networks') -%></b><br />
+    <b><%= t('activerecord.attributes.library_group.my_networks') -%></b><br />
     <%= f.text_area :my_networks, :class => 'resource_textarea' -%>
   </p>
 
-  <%= submit_tag t('page.create') -%>
+  <p>
+    <b><%= t('activerecord.attributes.library_group.use_dsbl') -%></b>
+    <%= f.check_box :use_dsbl -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.library_group.note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <%= f.submit t('page.create') -%>
 <%- end -%>
 
 </div>

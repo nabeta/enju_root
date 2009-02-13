@@ -1,4 +1,4 @@
-<h1><%= ('Listing realizes') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.realize')) -%></h1>
 
 <table id="index">
   <tr>
@@ -8,8 +8,8 @@
 
 <%- for realize in @realizes -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(realize.patron.full_name), patron_path(realize.patron) -%></td>
-    <td><%= link_to h(realize.expression.original_title), expression_path(realize.expression) -%></td>
+    <td><%= link_to h(realize.patron.full_name), realize.patron -%></td>
+    <td><%= link_to h(realize.expression.original_title), realize.expression -%></td>
     <%- if_authorized?(:destroy, realize) do -%>
       <td><%= link_to t('page.show'), realize -%></td>
       <td><%= link_to t('page.destroy'), realize, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -19,7 +19,7 @@
 </table>
 
 <%- if_authorized?(:new, Realize) do -%>
-  <p><%= link_to ('New realize'), new_realize_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.realize')), new_realize_path -%></p>
 <%- end -%>
 
 <%= will_paginate(@realizes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

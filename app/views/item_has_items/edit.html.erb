@@ -1,4 +1,4 @@
-<h1>Editing item_has_item</h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.item_has_item')) -%></h1>
 
 <% form_for(@item_has_item) do |f| -%>
   <%= f.error_messages -%>
@@ -20,9 +20,9 @@
     <%= f.text_field :position -%>
   </p>
   <p>
-    <%= f.submit "Update" -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <% end -%>
 
 <%= link_to t('page.show'), @item_has_item -%> |
-<%= link_to 'Back', item_has_items_path -%>
+<%= link_to t('page.back'), item_has_items_path -%>

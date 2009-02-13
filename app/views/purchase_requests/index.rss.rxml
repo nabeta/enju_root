@@ -3,7 +3,7 @@ xml.rss('version' => "2.0",
   'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
-    xml.title "#{@user.login}'s purchase requests at #{@library_group.name}"
+    xml.title "#{@user.login}'s purchase requests at #{@library_group.display_name}"
     xml.link "#{request.protocol}#{request.host_with_port}" + user_purchase_requests_path(@user.login)
     xml.description "open-source integrated library automation system developed by Kamata Library"
     xml.language "ja-jp" # TODO: 日本語以外

@@ -1,45 +1,35 @@
 <div id="submenu">
   <ul>
-    <%- if @manifestation -%>
-      <li><%= link_to ('Back to subjects'), manifestation_subjects_path(@manifestation) -%></li>
+    <%- if @work -%>
+      <li><%= link_to ('Back to subjects'), work_subjects_path(@work) -%></li>
     <%- else -%>
-      <li><%= link_to t('page.back_to_index'), subjects_path -%></li>
+      <li><%= link_to t('page.back_to_index'), resource_has_subjects_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1>New resource_has_subject</h1>
+<h1><%= t('page.new', :model => t('activerecord.models.resource_has_subject')) -%></h1>
 
 <%- form_for(@resource_has_subject) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
+    <%= f.label :work_id -%><br />
+    <%- if @work -%>
+      <%= link_to h(@work.original_title), @work -%>
+      <%= f.hidden_field :work_id, :value => @work.id -%>
+    <%- else -%>
+      <%= f.text_field :work_id -%>
+    <%- end -%>
+  </p>
+  <p>
     <%= f.label :subject_id -%><br />
-    <%- if @subject -%>
-      <%= link_to h(@subject.term), @subject -%>
-      <%= f.hidden_field :subject_id, :value => @subject.id -%>
-    <%- else -%>
-      <%= f.text_field :subject_id -%>
-    <%- end -%>
+    <%= f.text_field :subject_id -%>
   </p>
   <p>
-    <%= f.label :subjectable_id -%><br />
-    <%- if @manifestation -%>
-      <%= link_to h(@manifestation.original_title), @manifestation -%>
-      <%= f.hidden_field :subjectable_id, :value => @manifestation.id -%>
-    <%- else -%>
-      <%= f.text_field :subjectable_id -%>
-    <%- end -%>
-  </p>
-  <p>
-    <%= f.label :subjectable_type -%><br />
-    <%- if @manifestation -%>
-      <%=h @manifestation.class -%>
-      <%= f.hidden_field :subjectable_type, :value => @manifestation.class -%>
-    <%- else -%>
-      <%= f.text_field :subjectable_type -%>
-    <%- end -%>
+    <%= f.label :subject_type -%><br />
+    <%= f.hidden_field :subject_type -%>
   </p>
   <p>
     <%= f.submit t('page.create') -%>

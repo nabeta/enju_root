@@ -1,12 +1,8 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@manifestation) -%>
-    <%- end -%>
-  </div>
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
-    <li><%= link_to t('page.show'), manifestation_path(@manifestation) -%></li>
-    <li><%= link_to t('page.destroy'), manifestation_path(@manifestation), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    <li><%= link_to t('page.show'), @manifestation -%></li>
+    <li><%= link_to t('page.destroy'), @manifestation, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- case when @expression -%>
     <li><%= link_to t('page.back'), expression_manifestations_path(@expression) -%></li>
     <%- when @patron -%>
@@ -18,7 +14,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('manifestation.editing') -%></h1>
+  <h1><%= t('page.editing', :model => t('activerecord.models.manifestation')) -%></h1>
 
 <%= error_messages_for :manifestation -%>
 
@@ -31,6 +27,11 @@
   <p>
     <b><%= t('activerecord.attributes.manifestation.title_transcription') -%></b><br />
     <%= f.text_field :title_transcription, :class => 'resource_title', :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.manifestation.title_alternative') -%></b><br />
+    <%= f.text_field :title_alternative, :class => 'resource_title', :class => 'resource_title' -%>
   </p>
 
   <p>
@@ -106,12 +107,12 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.manifestation.note') -%></b>
+    <b><%= t('activerecord.attributes.manifestation.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= submit_tag t('page.update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 

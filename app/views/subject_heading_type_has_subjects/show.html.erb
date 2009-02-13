@@ -1,0 +1,23 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_subject_heading_type_has_subject_path(@subject_heading_type_has_subject) %></li>
+    <li><%= link_to t('page.back'), subject_heading_type_has_subjects_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<p>
+  <b>Subject:</b>
+  <%= link_to h(@subject_heading_type_has_subject.subject.term), @subject_heading_type_has_subject.subject %>
+</p>
+
+<p>
+  <b>Subject type:</b>
+  <%=h @subject_heading_type_has_subject.subject_type %>
+</p>
+
+<p>
+  <b>Subject heading type:</b>
+  <%= link_to h(@subject_heading_type_has_subject.subject_heading_type.display_name), @subject_heading_type_has_subject.subject_heading_type %>
+</p>
+</div>

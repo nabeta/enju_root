@@ -3,9 +3,9 @@
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <%- if @library -%>
-          <li><%= link_to ('New event'), new_library_event_path(@library.short_name, :date => params[:date]) -%></li>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.short_name, :date => params[:date]) -%></li>
         <%- else -%>
-          <li><%= link_to ('New event'), new_event_path(:date => params[:date]) -%></li>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
         <%- end -%>
         <li><%= link_to ('Import events'), imported_event_files_path -%></li>
       <%- end -%>
@@ -14,7 +14,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('event.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
 
 <p>
   <%- if @library -%>
@@ -45,9 +45,9 @@
     <td><%=h event.note -%></td>
     <td><%= link_to h(event.library.name), library_path(event.library.short_name) -%></td>
     <td>
-      <%=h event.started_at.strftime("%Y-%m-%d") -%>
+      <%=h l(event.started_at, :format => :short) -%>
       -
-      <%=h event.ended_at.strftime("%Y-%m-%d") -%>
+      <%=h l(event.ended_at, :format => :short) -%>
     </td>
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>

@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Work) do -%>
-      <li><%= link_to t('work.new'), new_work_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('work.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
 
 <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
   <p>
@@ -26,7 +26,7 @@
   <%- for work in @works -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(work.original_title), work_path(work) -%>
+        <%= link_to h(work.original_title), work -%>
         <br />
         <%= patrons_list(work.patrons) -%>
       </td>

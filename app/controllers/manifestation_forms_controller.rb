@@ -42,7 +42,7 @@ class ManifestationFormsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_form.save
-        flash[:notice] = ('ManifestationForm was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_form'))
         format.html { redirect_to manifestation_form_url(@manifestation_form) }
         format.xml  { head :created, :location => manifestation_form_url(@manifestation_form) }
       else
@@ -59,7 +59,7 @@ class ManifestationFormsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_form.update_attributes(params[:manifestation_form])
-        flash[:notice] = ('ManifestationForm was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation_form'))
         format.html { redirect_to manifestation_form_url(@manifestation_form) }
         format.xml  { head :ok }
       else

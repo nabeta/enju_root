@@ -42,6 +42,8 @@ class OwnsController < ApplicationController
       return
     else
       @own = Own.new
+      @own.item = @item
+      @own.patron = @patron
     end
   end
 
@@ -57,7 +59,7 @@ class OwnsController < ApplicationController
 
     respond_to do |format|
       if @own.save
-        flash[:notice] = ('Own was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.own'))
         format.html { redirect_to own_url(@own) }
         format.xml  { head :created, :location => own_url(@own) }
       else
@@ -80,7 +82,7 @@ class OwnsController < ApplicationController
 
     respond_to do |format|
       if @own.update_attributes(params[:own])
-        flash[:notice] = ('Own was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.own'))
         format.html { redirect_to own_url(@own) }
         format.xml  { head :ok }
       else

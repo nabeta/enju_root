@@ -47,7 +47,7 @@ class EventCategoriesController < ApplicationController
 
     respond_to do |format|
       if @event_category.save
-        flash[:notice] = ('EventCategory was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.event_category'))
         format.html { redirect_to(@event_category) }
         format.xml  { render :xml => @event_category, :status => :created, :location => @event_category }
       else
@@ -70,7 +70,7 @@ class EventCategoriesController < ApplicationController
 
     respond_to do |format|
       if @event_category.update_attributes(params[:event_category])
-        flash[:notice] = ('EventCategory was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.event_category'))
         format.html { redirect_to(@event_category) }
         format.xml  { head :ok }
       else

@@ -74,7 +74,7 @@ class ImportedResourceFilesController < ApplicationController
 
     respond_to do |format|
       if @imported_resource_file.update_attributes(params[:imported_resource_file])
-        flash[:notice] = ('ImportedResourceFile was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.imported_resource_file'))
         format.html { redirect_to(@imported_resource_file) }
         format.xml  { head :ok }
       else

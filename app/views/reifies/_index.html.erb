@@ -1,4 +1,4 @@
-<h1><%= ('Listing reifies') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.reify')) -%></h1>
 
 <table id="index">
   <tr>
@@ -8,8 +8,8 @@
 
 <%- for reify in @reifies -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(reify.work.original_title), work_path(reify.work) -%></td>
-    <td><%= link_to h(reify.expression.original_title), expression_path(reify.expression) -%></td>
+    <td><%= link_to h(reify.work.original_title), reify.work -%></td>
+    <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
     <%- if_authorized?(:destroy, reify) do -%>
       <td><%= link_to t('page.show'), reify -%></td>
       <td><%= link_to t('page.destroy'), reify, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -19,7 +19,7 @@
 </table>
 
 <% if_authorized?(:new, Reify) do -%>
-  <p><%= link_to ('New reify'), new_reify_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_reify_path -%></p>
 <%- end -%>
 
 <%= will_paginate(@reifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

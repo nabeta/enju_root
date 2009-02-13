@@ -1,9 +1,9 @@
 <div>
-  <h1><%= t('bookmarked_resource.listing') -%></h1>
+  <h1><%= t('page.listing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
 
 <%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= text_field_tag 'query', @query -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>

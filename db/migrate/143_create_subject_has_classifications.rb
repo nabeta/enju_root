@@ -1,7 +1,7 @@
 class CreateSubjectHasClassifications < ActiveRecord::Migration
   def self.up
     create_table :subject_has_classifications do |t|
-      t.integer :subject_id, :null => false
+      t.references :subject, :polymorphic => true
       t.integer :classification_id, :null => false
 
       t.timestamps

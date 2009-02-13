@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing search_engine') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.search_engine')) -%></h1>
 
 <%- form_for(@search_engine) do |f| -%>
   <%= f.error_messages -%>

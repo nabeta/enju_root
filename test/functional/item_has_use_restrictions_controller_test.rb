@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
   fixtures :item_has_use_restrictions, :use_restrictions, :users

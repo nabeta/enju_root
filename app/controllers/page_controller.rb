@@ -1,11 +1,11 @@
 class PageController < ApplicationController
-  before_filter :store_location, :except => [:opensearch]
+  before_filter :store_location, :except => [:opensearch, :sitemap]
   before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :about, :message]
+  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message]
 
-  caches_page :opensearch
+  caches_page :opensearch, :sitemap
 
   def index
     if logged_in?
@@ -19,7 +19,7 @@ class PageController < ApplicationController
   end
 
   def patron
-    @title = t('activerecord.models.patron')
+    @title = t('page.patron_management')
   end
   
   def advanced_search
@@ -50,6 +50,10 @@ class PageController < ApplicationController
     @title = t('page.management')
   end
   
+  def subject
+    @title = t('page.subject')
+  end
+  
   def configuration
     @title = t('page.configuration')
   end
@@ -63,6 +67,10 @@ class PageController < ApplicationController
   end
   
   def opensearch
+    render :layout => false
+  end
+
+  def sitemap
     render :layout => false
   end
 
@@ -80,4 +88,3 @@ class PageController < ApplicationController
   end
   
 end
-

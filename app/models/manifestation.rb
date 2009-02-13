@@ -3,7 +3,7 @@ require 'wakati'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   has_many :embodies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:patrons, :expression_form, :language]
+  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
   has_many :items, :through => :exemplifies, :include => [:checkouts, {:shelf => :library}, :circulation_status], :dependent => :destroy
   has_many :produces, :dependent => :destroy
@@ -32,6 +32,7 @@ class Manifestation < ActiveRecord::Base
   has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
   has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
+  #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
@@ -67,19 +68,16 @@ class Manifestation < ActiveRecord::Base
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
-  #validates_format_of :isbn, :with => /\A[\d]{9,12}[\dX]\Z/, :if => proc{|manifestation| !manifestation.isbn.blank?}
-  #validates_length_of :isbn, :minimum => 10, :if => proc{|manifestation| !manifestation.isbn.blank?}
-  #validates_length_of :isbn, :maximum => 13, :if => proc{|manifestation| !manifestation.isbn.blank?}
   validates_numericality_of :start_page, :end_page, :allow_nil => true
   validates_length_of :access_address, :maximum => 255, :allow_nil => true
 
   #after_create :post_to_twitter
 
   def validate
-    unless self.date_of_publication.blank?
-      date = Time.parse(self.date_of_publication.to_s) rescue nil
-      errors.add(:date_of_publication) unless date
-    end
+    #unless self.date_of_publication.blank?
+    #  date = Time.parse(self.date_of_publication.to_s) rescue nil
+    #  errors.add(:date_of_publication) unless date
+    #end
 
     unless self.isbn.blank?
       errors.add(:isbn) unless ISBN_Tools.is_valid?(self.isbn)
@@ -427,6 +425,10 @@ class Manifestation < ActiveRecord::Base
     self.patrons.collect(&:id)
   end
 
+  #def subjects
+  #  self.works.collect(&:subjects).flatten
+  #end
+
   def subject_ids
     self.subjects.collect(&:id)
   end
@@ -470,7 +472,7 @@ class Manifestation < ActiveRecord::Base
         self.languages.each do |language|
           xml.tag!('oai_dc:lang', language.name)
         end
-        subjects.each do |subject|
+        self.subjects.each do |subject|
           xml.tag!('oai_dc:subject', subject.term)
         end
     end

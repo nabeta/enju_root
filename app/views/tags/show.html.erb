@@ -2,9 +2,9 @@
   <ul>
     <li><%= link_to t('page.back'), back_to_tag_index -%></li>
     <li><%= link_to t('page.edit'), edit_tag_path(@tag.name) -%></li>
-    <li><%= link_to ('Search manifestations'), manifestations_path(:tag => h(@tag.name)) -%></li>
+    <li><%= link_to t('page.search_manifestation'), manifestations_path(:tag => h(@tag.name)) -%></li>
     <%- if logged_in? -%>
-      <li><%= link_to ('Search bookmarks'), user_bookmarked_resources_path(current_user.login, :tag => h(@tag.name)) -%></li>
+      <li><%= link_to t('page.search_bookmark'), user_bookmarked_resources_path(current_user.login, :tag => h(@tag.name)) -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -28,14 +28,14 @@
 </p>
 
 <p>
-  <b><%= ('Synonym') -%>:</b>
+  <b><%= t('activerecord.attributes.tag.synonym') -%>:</b>
   <%- @tag.synonym.to_s.split.each do |word| -%>
     <%= link_to h(word), :controller => :tags, :action => :show, :id => h(word) -%>
   <%- end -%>
 </p>
 
 <p>
-  <b><%= t('page.subject') -%>:</b>
+  <b><%= t('activerecord.models.subject') -%>:</b>
   <%- @tag.subjects.each do |subject| -%>
     <%= link_to h(subject.term), subject -%>
   <%- end -%>

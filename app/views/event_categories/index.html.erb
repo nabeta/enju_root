@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, EventCategory) do -%>
-      <li><%= link_to ('New event_category'), new_event_category_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.event_category')), new_event_category_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing event_categories') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.event_category')) -%></h1>
 
 <table id="index">
   <tr>

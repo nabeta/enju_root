@@ -1,7 +1,7 @@
 class CreateAdvertises < ActiveRecord::Migration
   def self.up
     create_table :advertises do |t|
-      t.integer :patron_id, :null => false
+      t.references :patron, :polymorphic => true
       t.integer :advertisement_id, :null => false
       t.integer :position
 

@@ -2,7 +2,7 @@
 <div id="submenu">
   <ul>
     <li>
-    <%= link_to ('New reserve'), manifestations_path -%>
+    <%= link_to t('page.new', :model => t('activerecord.models.reserve')), manifestations_path -%>
     <br />
     (<%= t('page.search_resource') -%>)
     </li>
@@ -18,7 +18,7 @@
 
 <div id="content_detail">
 
-<h1><%= ('Listing reserves') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.reserve')) -%></h1>
 
 <table id="index">
   <tr>

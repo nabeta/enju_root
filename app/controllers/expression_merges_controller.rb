@@ -55,7 +55,7 @@ class ExpressionMergesController < ApplicationController
 
     respond_to do |format|
       if @expression_merge.save
-        flash[:notice] = ('ExpressionMerge was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_merge'))
         format.html { redirect_to(@expression_merge) }
         format.xml  { render :xml => @expression_merge, :status => :created, :location => @expression_merge }
       else
@@ -72,7 +72,7 @@ class ExpressionMergesController < ApplicationController
 
     respond_to do |format|
       if @expression_merge.update_attributes(params[:expression_merge])
-        flash[:notice] = ('ExpressionMerge was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_merge'))
         format.html { redirect_to(@expression_merge) }
         format.xml  { head :ok }
       else

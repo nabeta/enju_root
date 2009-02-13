@@ -1,38 +1,34 @@
 <div id="submenu">
   <ul>
-    <%- if @library -%>
-      <li><%= link_to t('page.back'), library_shelves_path(@library.short_name) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), shelves_path -%></li>
-    <%- end -%>
+    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.short_name) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('New shelf') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.shelf')) -%></h1>
 
 <%= error_messages_for :shelf -%>
 
 <%- form_for(:shelf, :url => shelves_path) do |f| -%>
   <p>
-  <b><%= t('page.name') -%></b><br />
+  <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
   <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-  <b><%= t('page.note') -%></b><br />
+  <b><%= t('activerecord.attributes.shelf.note') -%></b><br />
   <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
   <b><%= t('page.library') -%></b><br />
     <select id="library_id" name="library_id">
-      <%= options_from_collection_for_select(@libraries, "short_name", "name", @library.short_name) -%>
+      <%= options_from_collection_for_select(@libraries, "short_name", "name", @shelf.library.short_name) -%>
     </select>
   </p>
 
   <p>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 </div>

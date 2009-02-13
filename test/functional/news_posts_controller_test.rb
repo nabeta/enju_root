@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'news_posts_controller'
+require 'test_helper'
 
 class NewsPostsControllerTest < ActionController::TestCase
   fixtures :news_posts, :users
@@ -203,7 +202,7 @@ class NewsPostsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, NewsPost.count
     
-    assert_response :forbidden
+    assert_redirected_to news_posts_url
   end
   
   def test_admin_should_destroy_news_post

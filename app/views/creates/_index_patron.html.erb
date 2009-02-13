@@ -1,4 +1,4 @@
-<p>Creation for <%= link_to h(@patron.full_name), patron_path(@patron) -%></p>
+<p>Creation for <%= link_to h(@patron.full_name), @patron -%></p>
 
 <table>
   <tr>
@@ -9,7 +9,7 @@
 
 <%- for create in @creates -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(create.work.original_title), work_path(create.work) -%></td>
+    <td><%= link_to h(create.work.original_title), create.work -%></td>
     <td><%=h create.created_at -%></td>
     <td><%=h create.updated_at -%></td>
     <%- if_authorized?(:destroy, create) do -%>
@@ -26,4 +26,4 @@
 
 <%= will_paginate(@creates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-<%= if_authorized?(:new, Create) do link_to ('New create'), new_patron_create_path(@patron) end -%>
+<%= if_authorized?(:new, Create) do link_to t('page.new', :model => t('activerecord.models.create')), new_patron_create_path(@patron) end -%>

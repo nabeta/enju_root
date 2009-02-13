@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New picture_file') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.picture_file')) -%></h1>
 
 <%= error_messages_for :picture_file -%>
 <%- case when @manifestation -%>

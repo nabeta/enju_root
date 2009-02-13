@@ -4,13 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <%- if @subject -%>
-    <title><%=h @subject.term -%> : <%= t('activerecord.models.subject') -%>: <%=h controller.action_name -%></title>
-  <%- else -%>
-    <title><%= t('activerecord.models.subject') -%>: <%=h controller.action_name -%></title>
-  <%- end -%>
+  <title><%= t('activerecord.models.subject') -%>: <%=h title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%= @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
@@ -18,7 +13,7 @@
 
 <div id="content">
 
-<div style="color: green"><%= flash[:notice] -%></div>
+<p style="color: green"><%= flash[:notice] -%></p>
 
 <%= yield  -%>
 

@@ -1,0 +1,43 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to ('Add a family'), new_family_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= t('page.listing', :model => t('activerecord.models.family')) -%></h1>
+<%- form_for :families, :url => families_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+<%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= ('Patron name') -%></th>
+    <th><%= t('activerecord.models.language') -%></th>
+    <th><%= t('activerecord.attributes.family.place') -%></th>
+    <th></th>
+  </tr>
+  <%- @families.each do |family| -%>
+    <%- unless family.nil? -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(family.full_name), family -%><br />
+        <%=h family.full_name_transcription -%>
+      </td>
+      <td><%=h family.language.display_name -%></td>
+      <td><%=h family.place -%></td>
+      <td>
+        <%- if_authorized?(:destroy, family) do -%>
+          <%= link_to t('page.edit'), edit_family_path(family) -%>
+        <%- end -%>
+      </td>
+    </tr>
+    <%- end -%>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@families, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

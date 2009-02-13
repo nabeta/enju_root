@@ -1,0 +1,25 @@
+<h1>Listing subject_heading_type_has_subjects</h1>
+
+<table id="index">
+  <tr>
+    <th>Subject</th>
+    <th>Subject type</th>
+    <th>Subject heading type</th>
+  </tr>
+
+<% for subject_heading_type_has_subject in @subject_heading_type_has_subjects %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(subject_heading_type_has_subject.subject.term), subject_heading_type_has_subject.subject %></td>
+    <td><%=h subject_heading_type_has_subject.subject_type %></td>
+    <td><%= link_to h(subject_heading_type_has_subject.subject_heading_type.display_name), subject_heading_type_has_subject.subject_heading_type %></td>
+    <td><%= link_to 'Show', subject_heading_type_has_subject %></td>
+    <td><%= link_to 'Edit', edit_subject_heading_type_has_subject_path(subject_heading_type_has_subject) %></td>
+    <td><%= link_to 'Destroy', subject_heading_type_has_subject, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate(@subject_heading_type_has_subjects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<br />
+
+<%= link_to 'New subject_heading_type_has_subject', new_subject_heading_type_has_subject_path %>

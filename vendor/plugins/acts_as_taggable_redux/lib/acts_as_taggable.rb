@@ -8,7 +8,7 @@ module ActiveRecord
       module ClassMethods
         def acts_as_taggable(options = {})
           has_many :taggings, :as => :taggable, :dependent => :destroy, :include => :tag
-          has_many :tags, :through => :taggings, :order => 'name', :select => "DISTINCT tags.*"
+          has_many :tags, :through => :taggings, :order => 'name asc', :select => "DISTINCT tags.*"
 
           after_save :update_tags
 

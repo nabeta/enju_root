@@ -1,4 +1,4 @@
-<h1><%= ('Listing embodies') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
 
 <table id="index">
   <tr>
@@ -25,7 +25,7 @@
 </table>
 
 <%- if_authorized?(:new, Embody) do -%>
-  <p><%= link_to ('New embody'), new_embody_path -%></p>
+  <p><%= link_to t('page.new', :model => t('activerecord.models.embody')), new_embody_path -%></p>
 <% end -%>
 
 <%= will_paginate(@embodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

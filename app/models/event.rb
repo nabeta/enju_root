@@ -32,4 +32,8 @@ class Event < ActiveRecord::Base
       end
     end
   end
+
+  def term
+    title
+  end
 end

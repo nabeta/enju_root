@@ -1,10 +1,8 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%= book_jacket(@manifestation) -%>
-  </div>
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
     <%- if_authorized?(:new, Item) do -%>
-      <li><%= link_to t('item.new'), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -12,9 +10,9 @@
 <div id="content_detail">
 
   <%- if @manifestation -%>
-    <%= render :partial => 'manifestations/manifestation_patrons_list' -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- else -%>
-    <h1><%= ('Listing items') -%></h1>
+    <h1><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
 
 <table id="index">
@@ -35,7 +33,7 @@
     <td><%=h item.circulation_status.display_name -%></td>
     <%- if_authorized?(:destroy, item) do -%>
       <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
-      <td><%= link_to t('page.destroy'), item_path(item), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

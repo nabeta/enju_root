@@ -36,7 +36,7 @@ class UsersController < ApplicationController
     session[:params] = nil
     @user = User.find(:first, :conditions => {:login => params[:id]})
     raise ActiveRecord::RecordNotFound unless @user
-    @tags = @user.tags.find(:all, :order => 'taggings_count DESC')
+    @tags = @user.tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
     @news_feeds = LibraryGroup.find(:first).news_feeds.find(:all, :order => :position) rescue nil
@@ -147,7 +147,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        flash[:notice] = ('User was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
         flash[:temporary_password] = @user.temporary_password if @user.temporary_password
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
@@ -190,7 +190,7 @@ class UsersController < ApplicationController
         @user.roles << Role.find(:first, :conditions => {:name => 'User'})
         @user.activate # TODO: すぐにアクティベーションするかは要検討
         #self.current_user = @user
-        flash[:notice] = ("User was successfully created.")
+        flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
       else

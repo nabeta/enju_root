@@ -10,6 +10,9 @@ class Tag < ActiveRecord::Base
     # first, pull out the quoted tags
     list.gsub!(/\"(.*?)\"\s*/) { tag_names << $1; "" }
 
+    # 全角スペースを半角スペースに変換
+    list.gsub!(/　/, " ")
+
     # then, replace all commas with a space
     list.gsub!(/,/, " ")
 

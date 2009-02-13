@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Produce) do -%>
-      <li><%= link_to ('New produce'), new_patron_produce_path(@patron) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_patron_produce_path(@patron) -%></li>
       <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
     <%- end -%>
   </ul>

@@ -40,6 +40,7 @@
                         <%- if_authorized?(:destroy, User) do -%>
                           <li class="yuimenuitem"><%= link_to t('page.search_user'), users_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
+                        <li class="yuimenuitem"><%= link_to t('page.search_subject'), '/page/subject', :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
                   </div>                    
@@ -151,7 +152,7 @@
                       <div id="management" class="yuimenu">
                         <div class="bd">                    
                           <ul>
-                            <li class="yuimenuitem"><%= link_to t('page.patron_management'), new_patron_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.patron_management'), patrons_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('page.import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('page.export'), '/page/export', :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('activerecord.models.order_list'), order_lists_path, :class => 'yuimenuitemlabel' -%></li>

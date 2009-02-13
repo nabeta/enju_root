@@ -51,7 +51,7 @@ class AdvertisementsController < ApplicationController
       if @advertisement.save
         # TODO: パトロンからの受付
         @advertisement.patrons << current_user.patron
-        flash[:notice] = ('Advertisement was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.advertisement'))
         format.html { redirect_to(@advertisement) }
         format.xml  { render :xml => @advertisement, :status => :created, :location => @advertisement }
       else
@@ -68,7 +68,7 @@ class AdvertisementsController < ApplicationController
 
     respond_to do |format|
       if @advertisement.update_attributes(params[:advertisement])
-        flash[:notice] = ('Advertisement was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.advertisement'))
         format.html { redirect_to(@advertisement) }
         format.xml  { head :ok }
       else

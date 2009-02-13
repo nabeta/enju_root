@@ -1,7 +1,38 @@
-<%- if @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- elsif @classification -%>
-  <%= render :partial => 'index_classification' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+  <h1><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
+<%- form_for :subjects, :url => subjects_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
 <%- end -%>
+
+<table id="index">
+  <tr>
+    <th><%= t('activerecord.attributes.subject.term') -%></th>
+    <th><%= t('activerecord.attributes.subject.note') -%></th>
+    <th></th>
+  </tr>
+  <%- @subjects.each do |subject| -%>
+    <%- unless subject.nil? -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= link_to h(subject.term), subject -%></td>
+      <td><%= subject.note -%></td>
+      <td>
+        <%- if_authorized?(:destroy, subject) do -%>
+          <%= link_to t('page.edit'), edit_subject_path(subject) -%>
+        <%- end -%>
+      </td>
+    </tr>
+    <%- end -%>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@subjects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

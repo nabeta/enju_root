@@ -24,19 +24,15 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.models.subject') -%>:</b>
+  <b><%= t('page.subject') -%>:</b>
 </p>
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.subject.term') -%></th>
-    <th><%= t('activerecord.attributes.subject.term_transcription') -%></th>
-    <th><%= t('activerecord.models.subject_type') -%></th>
   </tr>
   <%- @classification.subjects.each do |subject| -%>
     <tr>
       <td><%= link_to h(subject.term), subject -%></td>
-      <td><%= link_to h(subject.term_transcription), subject -%></td>
-      <td><%=h subject.subject_type.name -%></td>
     </tr>
   <%- end -%>
 </table>

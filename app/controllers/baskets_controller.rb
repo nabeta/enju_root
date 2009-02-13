@@ -30,6 +30,7 @@ class BasketsController < ApplicationController
   # GET /baskets/new.xml
   def new
     @basket = Basket.new
+    @basket.user_number = params[:user_number]
 
     respond_to do |format|
       format.html # new.html.erb
@@ -54,7 +55,7 @@ class BasketsController < ApplicationController
 
     respond_to do |format|
       if @basket.save
-        flash[:notice] = ('Basket was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.basket'))
         format.html { redirect_to user_basket_checked_items_url(@user.login, @basket) }
         format.xml  { render :xml => @basket, :status => :created, :location => @basket }
       else

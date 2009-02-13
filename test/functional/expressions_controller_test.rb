@@ -1,11 +1,11 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'expressions_controller'
+require 'test_helper'
 
 class ExpressionsControllerTest < ActionController::TestCase
   fixtures :expressions, :expression_forms, :languages, :frequency_of_issues,
     :works, :work_forms, :embodies, :realizes, :reifies,
     :manifestations, :manifestation_forms, :embodies,
     :patrons, :users, :languages
+  fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
     get :index

@@ -68,7 +68,7 @@ class CheckoutTypesController < ApplicationController
 
     respond_to do |format|
       if @checkout_type.save
-        flash[:notice] = ('CheckoutType was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checkout_type'))
         format.html { redirect_to(@checkout_type) }
         format.xml  { render :xml => @checkout_type, :status => :created, :location => @checkout_type }
       else
@@ -95,7 +95,7 @@ class CheckoutTypesController < ApplicationController
 
     respond_to do |format|
       if @checkout_type.update_attributes(params[:checkout_type])
-        flash[:notice] = ('CheckoutType was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checkout_type'))
         format.html { redirect_to(@checkout_type) }
         format.xml  { head :ok }
       else

@@ -50,7 +50,7 @@ class MessageQueuesController < ApplicationController
 
     respond_to do |format|
       if @message_queue.save
-        flash[:notice] = ('MessageQueue was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.message_queue'))
         format.html { redirect_to(@message_queue) }
         format.xml  { render :xml => @message_queue, :status => :created, :location => @message_queue }
       else
@@ -68,7 +68,7 @@ class MessageQueuesController < ApplicationController
 
     respond_to do |format|
       if @message_queue.update_attributes(params[:message_queue])
-        flash[:notice] = ('MessageQueue was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.message_queue'))
         format.html { redirect_to(@message_queue) }
         format.xml  { head :ok }
       else

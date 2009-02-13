@@ -5,7 +5,7 @@ class ManifestationCheckoutStatsController < ApplicationController
   # GET /manifestation_checkout_stats
   # GET /manifestation_checkout_stats.xml
   def index
-    @manifestation_checkout_stats = ManifestationCheckoutStat.find(:all)
+    @manifestation_checkout_stats = ManifestationCheckoutStat.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,7 +48,7 @@ class ManifestationCheckoutStatsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_checkout_stat.save
-        flash[:notice] = 'ManifestationCheckoutStat was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_checkout_stat'))
         format.html { redirect_to(@manifestation_checkout_stat) }
         format.xml  { render :xml => @manifestation_checkout_stat, :status => :created, :location => @manifestation_checkout_stat }
       else
@@ -65,7 +65,7 @@ class ManifestationCheckoutStatsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_checkout_stat.update_attributes(params[:manifestation_checkout_stat])
-        flash[:notice] = 'ManifestationCheckoutStat was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation_checkout_stat'))
         format.html { redirect_to(@manifestation_checkout_stat) }
         format.xml  { head :ok }
       else

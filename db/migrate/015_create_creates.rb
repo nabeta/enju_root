@@ -1,7 +1,7 @@
 class CreateCreates < ActiveRecord::Migration
   def self.up
     create_table :creates do |t|
-      t.integer :patron_id, :null => false
+      t.references :patron, :polymorphic => true
       t.integer :work_id, :null => false
       t.integer :position
       t.string :type

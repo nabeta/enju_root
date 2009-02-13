@@ -1,33 +1,29 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), subjects_path -%></li>
+    <li><%= link_to t('page.back'), subjects_path %></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('New subject') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.subject')) -%></h1>
 
-<%= error_messages_for :subject -%>
-
-<%- form_for(:subject, :url => subjects_path) do |f| -%>
+<% form_for(@subject) do |f| %>
+  <%= f.error_messages %>
   <p>
-  <b><%= t('activerecord.attributes.subject.term') -%></b><br />
-    <%= f.text_field :term -%>
+    <b><%= t('activerecord.models.subject_type') -%></b>
+    <%= f.select(:subject_type_id, @subject_types.collect{|p| [p.display_name, p.id]}) -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.subject.term_transcription') -%></b><br />
-    <%= f.text_field :term_transcription -%>
+    <%= f.label t('activerecord.attributes.subject.term') %><br />
+    <%= f.text_area :term %>
   </p>
-
   <p>
-  <b><%= ('Subject type') -%></b><br />
-    <%= f.text_field :subject_type_id -%>
+    <%= f.label t('activerecord.attributes.subject.note') %><br />
+    <%= f.text_area :note %>
   </p>
-
   <p>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') %>
   </p>
-<%- end -%>
-
+<% end %>
 </div>

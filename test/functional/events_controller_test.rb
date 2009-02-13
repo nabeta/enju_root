@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'events_controller'
+require 'test_helper'
 
 class EventsControllerTest < ActionController::TestCase
   fixtures :events, :event_categories, :libraries

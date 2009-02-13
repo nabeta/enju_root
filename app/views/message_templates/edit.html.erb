@@ -6,23 +6,23 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing message_template') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.message_template')) -%></h1>
 
 <%= error_messages_for :message_template -%>
 
 <%- form_for(@message_template) do |f| -%>
   <p>
-    <b><%= ('Status') -%></b><br />
+    <b><%= t('activerecord.attributes.message_template.status') -%></b><br />
     <%= f.text_field :status, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('page.title') -%></b><br />
+    <b><%= t('activerecord.attributes.message_template.title') -%></b><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= ('Body') -%></b><br />
+    <b><%= t('activerecord.attributes.message_template.body') -%></b><br />
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
 

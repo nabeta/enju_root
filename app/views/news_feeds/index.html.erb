@@ -1,16 +1,15 @@
-<h1><%= ('Listing news_feeds') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.news_feed')) -%></h1>
 
 <table id="index">
   <tr>
-    <th><%= t('page.title') -%></th>
-    <th><%= ('Url') -%></th>
+    <th><%= t('activerecord.attributes.news_feed.title') -%></th>
+    <th><%= t('activerecord.attributes.news_feed.url') -%></th>
   </tr>
 
 <%- for news_feed in @news_feeds -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(news_feed.title), news_feed -%></td>
     <td><%= link_to h(news_feed.url), news_feed.url -%></td>
-    <td><%= link_to t('page.show'), news_feed -%></td>
     <td><%= link_to t('page.edit'), edit_news_feed_path(news_feed) -%></td>
     <td><%= link_to t('page.destroy'), news_feed, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- if_authorized?(:desroy, news_feed) do -%>
@@ -24,6 +23,6 @@
 <br />
 <%= will_paginate(@news_feeds, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-<%= link_to ('New news_feed'), new_news_feed_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.news_feed')), new_news_feed_path -%>
 
-<%= link_to ('Clear cache'), news_feeds_path(:mode => 'clear_cache') -%>
+<%= link_to t('page.clear_cache'), news_feeds_path(:mode => 'clear_cache') -%>

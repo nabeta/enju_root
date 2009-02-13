@@ -1,8 +1,8 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'advertisements_controller'
+require 'test_helper'
 
 class AdvertisementsControllerTest < ActionController::TestCase
-  fixtures :advertisements, :users, :user_groups, :advertises, :patrons, :patron_types, :roles, :roles_users, :library_groups, :libraries, :countries, :languages
+  fixtures :advertisements, :users, :user_groups, :advertises, :patrons, :patron_types, :roles, :roles_users, :library_groups, :libraries, :countries, :languages,
+    :people, :corporate_bodies, :families
 
   def test_guest_should_not_get_index
     get :index

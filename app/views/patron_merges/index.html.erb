@@ -7,7 +7,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing patron_merges') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.patron_merge')) -%></h1>
 
 <%- if @patron_merge_list -%>
   <p><%= ('Patrons in %{patron_merge_list}') -%></p>
@@ -16,12 +16,12 @@
 <table id="index">
   <tr>
     <td><%= t('activerecord.models.patron') -%></td>
-    <td><%= ('Patron merge list') -%></td>
+    <td><%= t('activerecord.models.patron_merge_list') -%></td>
   </tr>
 
 <%- for patron_merge in @patron_merges -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(patron_merge.patron.full_name), patron_path(patron_merge.patron) -%></td>
+    <td><%= link_to h(patron_merge.patron.full_name), patron_merge.patron -%></td>
     <td><%= link_to h(patron_merge.patron_merge_list.title), patron_merge_list_path(patron_merge.patron_merge_list) -%></td>
     <td><%= link_to t('page.show'), patron_merge -%></td>
     <td><%= link_to t('page.edit'), edit_patron_merge_path(patron_merge) -%></td>

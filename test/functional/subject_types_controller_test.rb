@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'subject_types_controller'
+require 'test_helper'
 
 class SubjectTypesControllerTest < ActionController::TestCase
   fixtures :subject_types, :users
@@ -8,20 +7,20 @@ class SubjectTypesControllerTest < ActionController::TestCase
     get :index
     assert_response :redirect
     assert_redirected_to new_session_url
+    assert_nil assigns(:subject_types)
   end
 
   def test_user_should_get_index
     login_as :user1
     get :index
-    assert_response :success
-    assert assigns(:subject_types)
+    assert_response :forbidden
+    assert_nil assigns(:subject_types)
   end
 
   def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :success
-    assert assigns(:subject_types)
+    assert_response :forbidden
   end
 
   def test_admin_should_get_index
@@ -107,13 +106,13 @@ class SubjectTypesControllerTest < ActionController::TestCase
   def test_user_should_show_subject_type
     login_as :user1
     get :show, :id => 1
-    assert_response :success
+    assert_response :forbidden
   end
 
   def test_librarian_should_show_subject_type
     login_as :librarian1
     get :show, :id => 1
-    assert_response :success
+    assert_response :forbidden
   end
 
   def test_admin_should_show_subject_type

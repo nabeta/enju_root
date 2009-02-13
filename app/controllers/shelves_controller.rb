@@ -49,15 +49,15 @@ class ShelvesController < ApplicationController
   # POST /shelves.xml
   def create
     @shelf = Shelf.new(params[:shelf])
-    @shelf.library = @library
+    #@shelf.library = @library
 
     respond_to do |format|
       if @shelf.save
-        flash[:notice] = ('Shelf was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.shelf'))
         format.html { redirect_to shelf_url(@shelf) }
         format.xml  { head :created, :location => library_shelf_url(@shelf.library.short_name, @shelf) }
       else
-        @library = Library.find(:first) if @library.nil?
+        @library = Library.find(:first) if @shelf.library.nil?
         format.html { render :action => "new" }
         format.xml  { render :xml => @shelf.errors.to_xml }
       end
@@ -77,7 +77,7 @@ class ShelvesController < ApplicationController
 
     respond_to do |format|
       if @shelf.update_attributes(params[:shelf])
-        flash[:notice] = ('Shelf was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.shelf'))
         format.html { redirect_to library_shelf_url(@shelf.library.short_name, @shelf) }
         format.xml  { head :ok }
       else

@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to 'Back', manifestation_checkout_stats_path -%></li>
+    <li><%= link_to t('page.back'), manifestation_checkout_stats_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1>New manifestation_checkout_stat</h1>
+<h1><%= t('page.new', :model => t('activerecord.models.manifestation_checkout_stat')) -%></h1>
 
 <% form_for(@manifestation_checkout_stat) do |f| -%>
   <%= f.error_messages -%>

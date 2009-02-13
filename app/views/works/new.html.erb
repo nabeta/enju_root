@@ -9,7 +9,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('work.new') -%></h1>
+<h1><%= t('page.new', :model => t('activerecord.models.work')) -%></h1>
 
 <%= error_messages_for :work -%>
 
@@ -43,7 +43,7 @@
 
   <p>
     <%= f.hidden_field :parent_id, :value => @parent.id, :class => 'resource_textarea' if @parent -%>
-    <%= submit_tag t('page.create') -%>
+    <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
 

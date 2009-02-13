@@ -3,8 +3,8 @@ xml.rss('version' => "2.0",
   'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
-    xml.title "#{@user.login}'s answers at #{@library_group.name}"
-    xml.link "#{request.protocol}#{request.host_with_port}" + user_question_answers_path(@question.user.login, @question)
+    xml.title t('answer.user_answer', :login_name => @user.login)
+    xml.link "#{request.protocol}#{request.host_with_port}" + user_answers_path(@user.login)
     xml.description "open-source integrated library automation system developed by Kamata Library"
     xml.language "ja-jp" # TODO: 日本語以外
     xml.ttl "60"
@@ -23,8 +23,8 @@ xml.rss('version' => "2.0",
         #xml.description(answer.title)
         # rfc822
         xml.pubDate answer.created_at.rfc2822
-        xml.link "#{request.protocol}#{request.host_with_port}" + user_question_answer_path(answer.question.user.login, answer.question, answer)
-        xml.guid "#{request.protocol}#{request.host_with_port}" + user_question_answer_path(answer.question.user.login, answer.question, answer), :isPermaLink => "true"
+        xml.link "#{request.protocol}#{request.host_with_port}" + user_answer_path(@user.login, answer)
+        xml.guid "#{request.protocol}#{request.host_with_port}" + user_answer_path(answer.user.login, answer), :isPermaLink => "true"
       end
       @startrecord += 1
     end

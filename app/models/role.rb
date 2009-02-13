@@ -6,6 +6,9 @@ class Role < ActiveRecord::Base
   include DisplayName
   has_and_belongs_to_many :users
   has_many :patrons, :foreign_key => 'access_role_id'
+  has_many :people, :foreign_key => 'access_role_id'
+  has_many :corporate_bodies, :foreign_key => 'access_role_id'
+  has_many :families, :foreign_key => 'access_role_id'
   has_many :works, :foreign_key => 'access_role_id'
   has_many :expressions, :foreign_key => 'access_role_id'
   has_many :manifestations, :foreign_key => 'access_role_id'

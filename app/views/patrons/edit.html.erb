@@ -1,21 +1,22 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), patron_path(@patron) -%></li>
+    <li><%= link_to t('page.show'), @patron -%></li>
     <li><%= link_to t('page.back'), patrons_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('patron.editing') -%></h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.patron')) -%></h1>
 
 <%= error_messages_for :patron -%>
 
-<%- form_for(:patron, :url => patron_path(@patron), :html => { :method => :put }) do |f| -%>
+<%- form_for(:patron, :url => @patron, :html => { :method => :put }) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron_type') -%></b>
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
   </p>
 
+  <p>
     <b><%= t('activerecord.attributes.patron.full_name') -%></b><br />
     <%= f.text_field :full_name, :class => 'resource_title' -%><br />
     <%= t('activerecord.attributes.patron.full_name_transcription') -%><br />
@@ -36,12 +37,12 @@
 
   <p>
     <b><%= t('activerecord.attributes.patron.date_of_birth') -%></b><br />
-    <%= f.date_select :date_of_birth, :blank => true -%>
+    <%= f.date_select :date_of_birth, :include_blank => true -%>
   </p>
 
   <p>
     <b><%= t('activerecord.attributes.patron.date_of_death') -%></b><br />
-    <%= f.date_select :date_of_death, :blank => true -%>
+    <%= f.date_select :date_of_death, :include_blank => true -%>
   </p>
 
   <p>
@@ -63,7 +64,10 @@
     <b><%= t('activerecord.attributes.patron.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
+
   <%- if @patron.user -%>
+  <hr />
+
   <p>
     <b><%= t('activerecord.attributes.patron.zip_code_1') -%></b><br />
     <%= f.text_field :zip_code_1, :class => 'resource_title' -%>
@@ -80,9 +84,16 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.patron.fax_number_1') -%></b><br />
+    <%= f.text_field :fax_number_1, :class => 'resource_telephone_number' -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.attributes.patron.address_1_note') -%></b><br />
     <%= f.text_area :address_1_note, :class => 'resource_textarea' -%>
   </p>
+
+  <hr />
 
   <p>
     <b><%= t('activerecord.attributes.patron.zip_code_2') -%></b><br />
@@ -100,19 +111,19 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.patron.address_2_note') -%></b><br />
-    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.patron.fax_number_2') -%></b><br />
+    <%= f.text_field :fax_number_2, :class => 'resource_telephone_number' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.patron.fax_number') -%></b><br />
-    <%= f.text_field :fax_number, :class => 'resource_telephone_number' -%>
+    <b><%= t('activerecord.attributes.patron.address_2_note') -%></b><br />
+    <%= f.text_area :address_2_note, :class => 'resource_textarea' -%>
   </p>
 
   <%- end -%>
 
   <p>
-    <%= submit_tag t('page.update') -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 </div>

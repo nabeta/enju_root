@@ -49,6 +49,8 @@ class ProducesController < ApplicationController
       return
     else
       @produce = Produce.new
+      @produce.patron = @patron
+      @produce.manifestation = @manifestation
     end
   end
 
@@ -64,7 +66,7 @@ class ProducesController < ApplicationController
 
     respond_to do |format|
       if @produce.save
-        flash[:notice] = ('Produce was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.produce'))
         if @patron
           format.html { redirect_to patron_manifestations_url(@patron) }
           format.xml  { head :created, :location => patron_manifestations_url(@patron) }
@@ -95,7 +97,7 @@ class ProducesController < ApplicationController
 
     respond_to do |format|
       if @produce.update_attributes(params[:produce])
-        flash[:notice] = ('Produce was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.produce'))
         if @patron
           format.html { redirect_to patron_manifestations_url(@patron) }
           format.xml  { head :ok }

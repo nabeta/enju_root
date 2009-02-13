@@ -43,6 +43,7 @@ en:
       session: Session
       subject_broader_term: Subject broader term
       subject_type: Subject type
+      subject_heading_type: Subject heading type
       subscribe: Subscribe
       checkin: Checkin
       item: Item
@@ -106,6 +107,20 @@ en:
       user_checkout_stat: User checkout stat
       manifestation_reserve_stat: Manifestation reserve stat
       user_reserve_stat: User reserve stat
+      work_has_work: Work-to-work relationship
+      expression_has_expression: Expression-to-expression relationship
+      manifestation_has_manifestation: Manifestation-to-manifestation relationship
+      item_has_item: Item-to-item relationship
+      bookmark_stat_has_manifestation: Bookmark stat-to-manifestation relationship
+      reserve_stat_has_manifestation: Reserve stat-to-manifestation relationship
+      reserve_stat_has_user: Reserve stat-to-user relationship
+      concept: Concept
+      place: Place
+      work_has_concept: Work-to-concept relationship
+      work_has_place: Work-to-place relationship
+      person: Person
+      corporate_body: Corporate body
+      Family: Family
     attributes:
       library:
         name: Name
@@ -125,7 +140,7 @@ en:
         deleted_at: Deleted at
       question:
         body: Body
-        private_question: Private question
+        share_question: Share question
         deleted_at: Deleted at
       imported_patron_file:
         filename: Filename
@@ -162,7 +177,8 @@ en:
         address_2_note: Address 2 note
         telephone_number_1: Telephone number 1
         telephone_number_2: Telephone number 2
-        fax_number: Fax number
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
         other_designation: Other designation
         place: Place
         date_of_birth: Date of birth
@@ -358,7 +374,7 @@ en:
       session:
         data: Data
       subject_broader_term:
-      subject_type:
+      subject_heading_type:
         name: Name
         display_name: Display name
         note: Note
@@ -434,6 +450,11 @@ en:
       aaws_response:
         body: Body
       patron_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      subject_type:
         name: Name
         display_name: Display name
         note: Note
@@ -595,6 +616,7 @@ en:
       answer:
         body: Body
         deleted_at: Deleted at
+        share_answer: Share answer
       bookstore:
         name: Name
         zip_code: Zip code
@@ -671,6 +693,86 @@ en:
         note: Note
       tag:
         name: Name
+        synonym: Synonym
+      concept:
+        term: Term
+        note: Note
+        required_score: Required score
+      place:
+        term: Term
+        note: Note
+        required_score: Required score
+      person:
+        last_name: Last name
+        middle_name: Middle name
+        first_name: Name
+        last_name_transcription: Last name transcription
+        middle_name_transcription: Middle name transcription
+        first_name_transcription: First name transcription
+        corporate_name: Corporate name
+        corporate_name_transcription: Corporate name transcription
+        full_name: Full name
+        full_name_transcription: Full name transcription
+        full_name_alternative: Full name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
+      corporate_body:
+        name: Name
+        name_transcription: Name transcription
+        name_alternative: Name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
+      family:
+        name: Name
+        name_transcription: Name transcription
+        name_alternative: Name alternative
+        deleted_at: Deleted at
+        zip_code_1: Zip code 1
+        zip_code_2: Zip code 2
+        address_1: Address 1
+        address_2: Address 2
+        address_1_note: Address 1 note
+        address_2_note: Address 2 note
+        telephone_number_1: Telephone number 1
+        telephone_number_2: Telephone number 2
+        fax_number_1: Fax number 1
+        fax_number_2: Fax number 2
+        other_designation: Other designation
+        place: Place
+        date_of_birth: Date of birth
+        date_of_death: Date of death
+        lock_version: Lock version
+        note: Note
 
   page:
     user: "User"
@@ -684,7 +786,6 @@ en:
     password: "Password"
     catalog_search: "Catalog search"
     library: "Library"
-    shelf: "Shelf"
     language: "Language"
     subject: "Subject"
     search: "Search"
@@ -700,11 +801,6 @@ en:
       other: "{{count}} records found from {{numdocs}} records in {{seconds}} seconds."
     tag: "Tag"
     call_number: "Call number"
-    work: "Work"
-    expression: "Expression"
-    manifestation: "Manifestation"
-    item: "Item"
-    language: "Language"
     holding: "Holding"
     advanced_search: "Advanced search"
     title: "Title"
@@ -724,8 +820,6 @@ en:
     checkout: "Checkout"
     checkin: "Checkin"
     name: "Name"
-    display_name: "Display name"
-    short_name: "Short name"
     patron: "Patron"
     are_you_sure: "Are you sure?"
     previous: "Previous"
@@ -737,16 +831,18 @@ en:
     feed: "Feed"
     back_to_index: "Back to index"
     import: "Import"
+    import_record: "Import records"
     export: "Export"
     detail: "Detail"
     acquisition: "Acquisition"
     configuration: "Configuration"
-    sender: "Sender"
     search_resource: "Search resources"
+    search_manifestation: "Search manifestations"
     search_bookmark: "Search bookmarks"
     search_question: "Search questions"
     search_patron: "Search patrons"
     search_user: "Search users"
+    search_subject: "Search subjects"
     show_all: "Show all"
     hide: "Hide"
     overdue: "Overdue"
@@ -758,7 +854,6 @@ en:
     management: "Management"
     about_us: "About us"
     open_source_integrated_library_system: "open-source integrated library system"
-    order_list_at_library_group: "Order lists at {{library_group}}"
     related_work: "Related work"
     related_manifestation: "Related manifestation"
     amazon_review: "Amazon review"
@@ -772,7 +867,9 @@ en:
     account: "Account"
     form: "Form"
     remove_this_facet: "Remove this facet"
-    patron_management: "Patron management"
+    no_subject: "No subjects."
+    no_tag: "No tags."
+    add_patron: "Add a patron"
     total: "Total"
     sort_by: "Sort by"
     bookmarklet: "Bookmarklet"
@@ -795,6 +892,23 @@ en:
     type: "Type"
     search_result_feed: "Search result feed"
     force_reload: "Force reload"
+    clear_cache: "Clear cache"
+    current_url: "Current URL"
+    subject_and_classification: "Subject and classification"
+    you_can_search_following_database: "You can search the following databases."
+    listing: "Listing {{model}}"
+    new: "New {{model}}"
+    editing: "Editing {{model}}"
+    patron_management: "Patron management"
+    back_to: "Back to {{model}} index"
+  title:
+    index: "index"
+    show: "show"
+    new: "new"
+    edit: "edit"
+  controller:
+    successfully_created: "{{model}} was successfully created."
+    successfully_updated: "{{model}} was successfully updated."
   advanced_search:
     from: "from"
     to: "to"
@@ -803,30 +917,26 @@ en:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
     remember_me: "Remember me"
+    your_account_is_suspended: "Your account is suspended. Tell the library staffs."
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
+    invalid_url: "Invalid URL."
+    specify_title_and_url: "Specify title and URL."
+    already_bookmarked: "This resource is already bookmarked."
   bookmarked_resource:
-    listing: "Listing bookmarked resource"
     add_to_library_bookmark: "Add to library bookmark"
     library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
   work:
-    listing: "Listing works"
-    new: "New work"
-    edit: "Editing work"
     patrons_work: "{{patron_name}}'s works"
+    library_group_work: "Works in {{library_group_name}}"
   expression:
-    listing: "Listing expressions"
-    new: "New expression"
-    edit: "Editing expression"
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
+    library_group_expression: "Expressions in {{library_group_name}}"
   manifestation:
-    listing: "Listing manifestations"
-    new: "New manifestation"
-    edit: "Editing manifestation"
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
     edit: "Edit this manifestation"
@@ -839,15 +949,21 @@ en:
     reserve_this: "Reserve this manifestation"
     cancel_reservation: "Cancel this reservation"
     patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
+    query_search_result: "Search results for {{query}} in {{library_group_name}}"
+    issue_number: "Issue number"
+    serial_number: "Serial number"
+    invalid_isbn: "Invalid ISBN."
+    already_imported: "This manifestation is already imporeted."
+    record_not_found: "Record not found."
   item:
-    listing: "Listing items"
-    new: "New item"
-    edit: "Editing item"
+    current_checkout: "Current checkout"
+    donor: "Donors"
+    library_group_item: "Items in {{library_group_name}}"
   patron:
-    listing: "Listing patrons"
-    new: "New patron"
+    work_patron: "Creaters of {{work_title}}"
+    expression_patron: "Realizers of {{expression_title}}"
+    manifestation_patron: "Producers of {{manifestation_title}}"
   message:
-    listing: "Listing messages"
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
     inbox: "Inbox"
@@ -855,54 +971,68 @@ en:
     outbox: "Outbox"
     trash: "Trash"
     recipient: "Recipient"
+    receiver: "Receiver"
     sender: "Sender"
     unread: "Unread"
     deleted: "Deleted"
+    send: "Send message"
     reply: "Reply"
     delete: "Delete"
+    no_new_message: "No new messages."
+    too_short: "Message is too short. The minimum length is {{count}} characters."
+    too_long: "Message is too long. The maximum length is {{count}} characters."
   tag:
-    listing: "Listing tags"
     popular_tag: "Popular tags"
     my_tag: "My tags"
+    user_tag: "{{login_name}}'s tags"
   question:
-    listing: "Listing questions"
+    my: "My questions"
+    all: "All questions"
     number_of_search_results:
       one: "1 record found."
       other: "{{count}} records found."
     user_question: "{{login_name}}'s questions"
     no_record_found: "No records found."
     library_group_question: "Questions in {{library_group_name}}"
+  answer:
+    user_answer: "{{login_name}}'s answers"
+    library_group_answer: "Answers from {{library_group_name}}"
   checkout:
-    listing: "Listing checkouts"
     user_checkout: "{{login_name}}'s checkouts"
     library_group_checkout: "Checkouts in {{library_group_name}}"
+    renewal: "Renewal"
+    renewal_count: "Renewal count"
+    new_due_date: "New due date"
+    editing_due_date: "Editing due date"
+    this_item_cant_be_renewed: "This item can't be renewed."
+    listing_overdue_item: "Listing overdue items"
+    current_user: "Current user"
   library:
     map: "Map"
     staff: "Staff"
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
-  checkin:
-    listing: "Listing checkins"
   event:
-    listing: "Listing events"
-    new: "New event"
-    editing: "Editing event"
     library_group_event: "Events at {{library_group_name}}"
     all_libraries: "All libraries"
   user:
     current_password: "Current password"
     new_password: "New password"
     repeat_new_password: "Repeat new password"
-  advertisement:
-    listing: "Listing advertisements"
-    new: "New advertisement"
-    editing: "Editing advertisement"
-  news_post:
+    delete_this_user: "Delete this user"
+    your_temporary_password_is: "Your temporary password is"
     library_group_news_post: "News from {{library_group_name}}"
+    sign_up: "Sign up"
+    edit_profile: "Edit profile"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
   purchase_request:
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"
+    add_to_purchase_request: "Add to purchase request"
+  order_list:
+    library_group_order_list: "Order lists in {{library_group_name}}"
+  inter_library_loan:
+    library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"

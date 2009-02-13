@@ -13,9 +13,16 @@ class OrderListsController < ApplicationController
       @order_lists = OrderList.paginate(:all, :page => params[:page], :per_page => @per_page)
     end
 
+    @startrecord = (params[:page].to_i - 1) * OrderList.per_page + 1
+    if @startrecord < 1
+      @startrecord = 1
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @order_lists }
+      format.rss  { render :layout => false }
+      format.atom
     end
   end
 
@@ -56,7 +63,7 @@ class OrderListsController < ApplicationController
 
     respond_to do |format|
       if @order_list.save
-        flash[:notice] = ('OrderList was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.order_list'))
         format.html { redirect_to(@order_list) }
         format.xml  { render :xml => @order_list, :status => :created, :location => @order_list }
       else
@@ -74,7 +81,7 @@ class OrderListsController < ApplicationController
 
     respond_to do |format|
       if @order_list.update_attributes(params[:order_list])
-        flash[:notice] = ('OrderList was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.order_list'))
         format.html { redirect_to(@order_list) }
         format.xml  { head :ok }
       else

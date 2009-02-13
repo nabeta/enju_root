@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th>Bookmark stat</th>
-    <th>Manifestation</th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
     <th>Bookmarks count</th>
   </tr>
 
@@ -21,4 +21,4 @@
 
 <br />
 
-<%= link_to 'New bookmark_stat_has_manifestation', new_bookmark_stat_has_manifestation_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.bookmark_stat_has_manifestation')), new_bookmark_stat_has_manifestation_path -%>

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class WorkMergesControllerTest < ActionController::TestCase
   fixtures :work_merges, :works, :work_merge_lists, :users

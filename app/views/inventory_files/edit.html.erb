@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing inventory_file') -%> </h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.inventory_file')) -%> </h1>
 
 <%- form_for(@inventory_file) do |f| -%> 
   <%= f.error_messages -%> 

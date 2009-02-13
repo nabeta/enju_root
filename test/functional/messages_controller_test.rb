@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'messages_controller'
+require 'test_helper'
 
 class MessagesControllerTest < ActionController::TestCase
   #include AuthenticatedTestHelper

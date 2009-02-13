@@ -11,7 +11,7 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('manifsetation.new') -%></h1>
+  <h1><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
   <p>
     <b><%= ('Expression title') -%></b><br />
     <%= link_to h(@expression.original_title), @expression -%>
@@ -31,15 +31,14 @@
   <p>
     <b><%= t('activerecord.attributes.manifestation.title_transcription') -%></b><br />
     <%- if @expression -%>
-      <%= f.text_field :title_transcription, :value => @expression.title_alternative, :class => 'resource_title' -%>
+      <%= f.text_field :title_transcription, :value => @expression.title_transcription, :class => 'resource_title' -%>
     <%- else -%>
       <%= f.text_field :title_transcription, :class => 'resource_title' -%>
-      <%= ('Transcription') -%>
     <%- end -%>
   </p>
   <p>
+    <b><%= t('activerecord.attributes.manifestation.title_alternative') -%></b><br />
     <%- if @expression -%>
-      <b><%= t('activerecord.attributes.manifestation.title_alternative') -%></b><br />
       <%= f.text_field :title_alternative, :value => @expression.title_alternative, :class => 'resource_title' -%>
     <%- else -%>
       <%= f.text_field :title_alternative, :class => 'resource_title' -%>
@@ -47,7 +46,7 @@
   </p>
   
   <p>
-  <b><%= t('activerecord.models.manifestation_form') -%></b>
+    <b><%= t('activerecord.models.manifestation_form') -%></b>
     <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name, m.id]}) -%>
   </p>
 

@@ -47,7 +47,7 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       if @country.save
-        flash[:notice] = ('Country was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.country'))
         format.html { redirect_to(@country) }
         format.xml  { render :xml => @country, :status => :created, :location => @country }
       else
@@ -70,7 +70,7 @@ class CountriesController < ApplicationController
 
     respond_to do |format|
       if @country.update_attributes(params[:country])
-        flash[:notice] = ('Country was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.country'))
         format.html { redirect_to(@country) }
         format.xml  { head :ok }
       else

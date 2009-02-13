@@ -1,4 +1,44 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :people do |person|
+    person.resources :works
+    person.resources :expressions
+    person.resources :manifestations
+    person.resources :items
+  end
+
+  map.resources :corporate_bodies do |corporate_body|
+    corporate_body.resources :works
+    corporate_body.resources :expressions
+    corporate_body.resources :manifestations
+    corporate_body.resources :items
+  end
+
+  map.resources :families do |family|
+    family.resources :works
+    family.resources :expressions
+    family.resources :manifestations
+    family.resources :items
+  end
+
+  map.resources :subject_heading_type_has_subjects
+
+  map.resources :subject_headings
+  map.resources :subject_types
+
+  map.resources :places do |place|
+    place.resources :works
+    place.resources :subject_heading_types
+  end
+
+  map.resources :concepts do |concept|
+    concept.resources :works
+    concept.resources :subject_heading_types
+  end
+
+  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
+  map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
+  map.resources :passwords
+
   map.resources :news_posts
 
   map.resources :reserve_stat_has_users
@@ -97,12 +137,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :message_templates
 
-  map.resources :subject_types
+  map.resources :subject_heading_types do |subject_heading_type|
+    subject_heading_type.resources :concepts
+    subject_heading_type.resources :places
+  end
 
   map.resources :classification_types
 
   map.resources :classifications do |classification|
-    classification.resources :subjects
+    classification.resources :concepts
+    classification.resources :places
     classification.resources :subject_has_classifications
   end
 
@@ -207,6 +251,8 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :resource_has_subjects
     work.resources :work_from_works, :controller => :works
     work.resources :work_to_works, :controller => :works
+    work.resources :concepts
+    work.resources :places
   end
   map.resources :expressions do |expression|
     expression.resource :realize
@@ -232,7 +278,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :exemplifies
     manifestation.resources :items
     manifestation.resources :expressions
-    manifestation.resources :subjects
+    #manifestation.resources :subjects
     manifestation.resources :resource_has_subjects
     manifestation.resources :manifestation_from_manifestations, :controller => :manifestations
     manifestation.resources :manifestation_to_manifestations, :controller => :manifestations
@@ -306,7 +352,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :roles
   map.resources :library_groups
   map.resources :user_groups
-  map.resources :subjects
   map.resources :checkins
   map.resources :resource_has_subjects
   map.resources :reifies
@@ -326,6 +371,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :messages
   map.resources :inter_library_loans
   map.resources :orders
+  map.resources :families
 
   #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.calendar '/calendar/:date', :controller => 'events', :action => 'index'
@@ -334,8 +380,10 @@ ActionController::Routing::Routes.draw do |map|
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
-  map.term '/term/:term', :controller => 'subjects', :action => 'show'
+  #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.icalendar '/icalendar/:icalendar_token.:format', :controller => 'checkouts', :action => 'index', :format => :ics
+  map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
+  map.sitemap 'sitemap.xml', :controller => 'page', :action => 'sitemap'
 
   # The priority is based upon order of creation: first created -> highest priority.
   
@@ -347,17 +395,14 @@ ActionController::Routing::Routes.draw do |map|
   # map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
   # This route can be invoked with purchase_url(:id => product.id)
 
-  # You can have the root of your site routed by hooking up '' 
-  # -- just remember to delete public/index.html.
-  # map.connect '', :controller => "welcome"
+  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
+  map.root :controller => "page", :action => 'index'
 
-  # Allow downloading Web Service WSDL as a file with an extension
-  # instead of a file named 'wsdl'
-  
-  map.connect '', :controller => "page", :action => 'index'
-  map.connect ':controller/service.wsdl', :action => 'wsdl'
+  # See how all your routes lay out with "rake routes"
 
-  # Install the default route as the lowest priority.
-  map.connect ':controller/:action/:id.:format'
+  # Install the default routes as the lowest priority.
+  # Note: These default routes make all actions in every controller accessible via GET requests. You should
+  # consider removing the them or commenting them out if you're using named routes and resources.
   map.connect ':controller/:action/:id'
+  map.connect ':controller/:action/:id.:format'
 end

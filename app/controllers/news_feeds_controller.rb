@@ -52,7 +52,7 @@ class NewsFeedsController < ApplicationController
 
     respond_to do |format|
       if @news_feed.save
-        flash[:notice] = ('NewsFeed was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.news_feed'))
         format.html { redirect_to(@news_feed) }
         format.xml  { render :xml => @news_feed, :status => :created, :location => @news_feed }
       else
@@ -78,7 +78,7 @@ class NewsFeedsController < ApplicationController
 
     respond_to do |format|
       if @news_feed.update_attributes(params[:news_feed])
-        flash[:notice] = ('NewsFeed was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.news_feed'))
         format.html { redirect_to(@news_feed) }
         format.xml  { head :ok }
       else

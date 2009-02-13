@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'manifestation_forms_controller'
+require 'test_helper'
 
 class ManifestationFormsControllerTest < ActionController::TestCase
   fixtures :manifestation_forms, :users

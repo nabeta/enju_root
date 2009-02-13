@@ -1,12 +1,7 @@
 <div style="color: red"><%=h flash[:message] -%></div>
 
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @item.manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@item.manifestation) -%>
-    <%- end -%>
-  </div>
-
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
   <ul>
     <%- if @shelf -%>
       <li><%= link_to t('page.edit'), edit_library_shelf_item_path(@shelf.library, @shelf, @item) -%></li>
@@ -14,25 +9,21 @@
       <li><%= link_to t('page.edit'), edit_item_path(@item) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), items_path -%></li>
-    <li><%= link_to t('page.destroy'), item_path(@item), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    <li><%= link_to t('page.destroy'), @item, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to ('Inter library loan index'), item_inter_library_loans_path(@item) -%></li>
     <%- if @item.inter_library_loans.blank? -%>
-      <li><%= link_to ('New inter library loan'), new_item_inter_library_loan_path(@item) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.inter_library_loan')), new_item_inter_library_loan_path(@item) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <div>
-    <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
-      <%- if @item.manifestation -%>
-        <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @item.manifestation} -%>
-      <%- end -%>
-    <%- end -%>
-  </div>
-</p>
+
+<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
+  <%- if @item.manifestation -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
+  <%- end -%>
+<%- end -%>
 
 <p>
   <b><%= t('activerecord.models.shelf') -%>:</b>
@@ -43,6 +34,13 @@
 <p>
   <b><%= t('activerecord.models.circulation_status') -%>:</b>
   <%=h @item.circulation_status.display_name -%>
+  <%- if logged_in? -%>
+    <%- if current_user.has_role?('Librarian') -%>
+      <%- unless @item.checkouts.not_returned.blank? -%>
+        (<%= link_to t('item.current_checkout'), user_checkout_path(@item.checkouts.not_returned.first.user.login, @item.checkouts.not_returned.first) -%>)
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
 </p>
 
 <p>
@@ -58,37 +56,39 @@
 </p>
 
 <p>
-  <b><%= t('page.price') -%>:</b>
+  <b><%= t('activerecord.attributes.item.price') -%>:</b>
   <%=h @item.price -%>
 </p>
 
 <p>
-  <b><%= ('URL') -%>:</b>
+  <b><%= t('activerecord.attributes.item.url') -%>:</b>
   <%=h @item.url -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.item.include_supplements') -%>:</b>
   <%- if @item.include_supplements -%>
-    Yes
+    <%= ('Yes') -%>
   <%- else -%>
-    No
+    <%= ('No') -%>
   <%- end -%>
 </p>
 
+<!--
 <p>
-<b><%= t('activerecord.models.use_restriction') -%>:</b>
-<ul>
-<%- @item.use_restrictions.each do |use_restriction| -%>
-  <li><%= link_to h(use_restriction.display_name), use_restriction_path(use_restriction) -%></li>
-<%- end -%>
-</ul>
+  <b><%= t('activerecord.models.use_restriction') -%>:</b>
+  <ul>
+    <%- @item.use_restrictions.each do |use_restriction| -%>
+      <li><%= link_to h(use_restriction.display_name), use_restriction_path(use_restriction) -%></li>
+    <%- end -%>
+  </ul>
 </p>
+-->
 
 <%- if_authorized?(:destroy, @item) do -%>
 
   <p>
-    <b><%= ('Donors') -%>:</b>
+    <b><%= t('item.donor') -%>:</b>
     <%- @item.donors.each do |patron| -%>
       <%= link_to h(patron.full_name), patron -%>
     <%- end -%>

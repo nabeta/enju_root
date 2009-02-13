@@ -141,6 +141,7 @@ module ApplicationHelper
   end
 
   def book_jacket(manifestation)
+    return nil if manifestation.nil?
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket['asin'].blank?
       link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :border => 0), "http://www.amazon.co.jp/dp/#{book_jacket['asin']}"
@@ -177,6 +178,19 @@ module ApplicationHelper
       link_to 'MySQL', 'http://www.mysql.org/'
     when 'sqlite3'
       link_to 'SQLite', 'http://www.sqlite.org/'
+    end
+  end
+
+  def title_action_name
+    case controller.action_name
+    when 'index'
+      t('title.index')
+    when 'show'
+      t('title.show')
+    when 'new'
+      t('title.new')
+    when 'edit'
+      t('title.edit')
     end
   end
 end

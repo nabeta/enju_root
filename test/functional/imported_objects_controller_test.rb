@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class ImportedObjectsControllerTest < ActionController::TestCase
   fixtures :imported_objects, :users, :patrons, :events,

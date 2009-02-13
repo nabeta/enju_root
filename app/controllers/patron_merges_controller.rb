@@ -55,7 +55,7 @@ class PatronMergesController < ApplicationController
 
     respond_to do |format|
       if @patron_merge.save
-        flash[:notice] = ('PatronMerge was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron_merge'))
         format.html { redirect_to(@patron_merge) }
         format.xml  { render :xml => @patron_merge, :status => :created, :location => @patron_merge }
       else
@@ -81,7 +81,7 @@ class PatronMergesController < ApplicationController
 
     respond_to do |format|
       if @patron_merge.update_attributes(params[:patron_merge])
-        flash[:notice] = ('PatronMerge was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron_merge'))
         format.html { redirect_to(@patron_merge) }
         format.xml  { head :ok }
       else

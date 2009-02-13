@@ -1,12 +1,11 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'checkouts_controller'
-require 'users_controller'
+require 'test_helper'
 
 class CheckoutsControllerTest < ActionController::TestCase
   fixtures :checkouts, :users, :patrons, :roles, :roles_users, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,
     :user_group_has_checkout_types, :manifestation_form_has_checkout_types,
     :manifestations, :manifestation_forms,
-    :items, :circulation_statuses, :exemplifies
+    :items, :circulation_statuses, :exemplifies,
+    :people, :corporate_bodies, :families
 
   def test_guest_should_not_get_index
     get :index, :user_id => users(:admin).login

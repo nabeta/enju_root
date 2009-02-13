@@ -1,7 +1,7 @@
 class CreateLibraries < ActiveRecord::Migration
   def self.up
     create_table :libraries do |t|
-      t.integer :patron_id
+      t.references :patron, :polymorphic => true
       t.text :name, :null => false
       t.string :short_name, :null => false
       t.string :short_display_name, :null => false

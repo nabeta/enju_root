@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class BookstoresControllerTest < ActionController::TestCase
   fixtures :bookstores, :users, :patrons, :patron_types, :roles, :languages,

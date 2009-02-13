@@ -1,8 +1,7 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'libraries_controller'
+require 'test_helper'
 
 class LibrariesControllerTest < ActionController::TestCase
-  fixtures :libraries, :users
+  fixtures :libraries, :users, :corporate_bodies
 
   def test_guest_should_get_index
     get :index

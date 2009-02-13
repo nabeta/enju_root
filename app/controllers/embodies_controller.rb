@@ -37,6 +37,8 @@ class EmbodiesController < ApplicationController
   # GET /embodies/new.xml
   def new
     @embody = Embody.new
+    @embody.expression = @expression
+    @embody.manifestation = @manifestation
 
     respond_to do |format|
       format.html # new.html.erb
@@ -56,7 +58,7 @@ class EmbodiesController < ApplicationController
 
     respond_to do |format|
       if @embody.save
-        flash[:notice] = ('Embody was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.embody'))
         format.html { redirect_to(@embody) }
         format.xml  { render :xml => @embody, :status => :created, :location => @embody }
       else
@@ -73,7 +75,7 @@ class EmbodiesController < ApplicationController
 
     respond_to do |format|
       if @embody.update_attributes(params[:embody])
-        flash[:notice] = ('Embody was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.embody'))
         format.html { redirect_to(@embody) }
         format.xml  { head :ok }
       else

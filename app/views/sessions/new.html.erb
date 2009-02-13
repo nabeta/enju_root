@@ -1,20 +1,20 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to h(@library_group.name), LIBRARY_WEB_URL -%></li>
+    <li><%= link_to h(@library_group.name), root_url -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
 
   <%- form_tag(sessions_path, :name => 'login_form') do -%>
-    <p><label for="login"><%= t('page.login_name') -%></label><br/>
+    <p><%= label_tag t('page.login_name') -%><br/>
     <%= text_field_tag 'login' -%></p>
 
-    <p><label for="password"><%= t('page.password') -%></label><br/>
-    <%= password_field_tag 'password' -%></p>
+    <p><%= label_tag t('page.password') -%><br/>
+    <%= password_field_tag 'password', nil -%></p>
 
-    <p><label for="remember_me"><%= t('session.remember_me') -%>:</label>
-    <%= check_box_tag 'remember_me' -%></p>
+    <p><%= label_tag t('session.remember_me') -%>
+    <%= check_box_tag 'remember_me', '1', @remember_me -%></p>
 
     <p><%= submit_tag t('page.login') -%></p>
   <%- end -%>

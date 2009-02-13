@@ -1,0 +1,30 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @subject_heading_type_has_subject %></li>
+    <li><%= link_to t('page.back'), subject_heading_type_has_subjects_path %></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1>Editing subject_heading_type_has_subject</h1>
+
+<% form_for(@subject_heading_type_has_subject) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :subject_id %><br />
+    <%= f.text_field :subject_id %>
+  </p>
+  <p>
+    <%= f.label :subject_type %><br />
+    <%= f.text_field :subject_type %>
+  </p>
+  <p>
+    <%= f.label :subject_heading_type_id %><br />
+    <%= f.text_field :subject_heading_type_id %>
+  </p>
+  <p>
+    <%= f.submit t('page.update') %>
+  </p>
+<% end %>
+</div>

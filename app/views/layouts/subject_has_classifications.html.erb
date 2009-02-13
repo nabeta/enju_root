@@ -4,14 +4,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>SubjectHasClassifications: <%=h controller.action_name -%></title>
+  <title><%= t('activerecord.models.subject_has_classification') -%>: <%=h title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
+<%= render :partial => 'page/header' -%>
+
+<div id="content">
+
 <p style="color: green"><%= flash[:notice] -%></p>
 
 <%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
 
 </body>
 </html>

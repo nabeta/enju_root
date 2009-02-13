@@ -7,7 +7,7 @@ xml.rss('version' => "2.0",
       xml.title t('checkout.user_checkout', :login_name => @user.login)
       xml.link user_checkouts_url(@user.login)
     else
-      xml.title t('checkout.library_group_checkout', :library_group_name => @library_group.name)
+      xml.title t('checkout.library_group_checkout', :library_group_name => @library_group.display_name)
       xml.link checkouts_url
     end
     xml.description "open-source integrated library automation system developed by Kamata Library"

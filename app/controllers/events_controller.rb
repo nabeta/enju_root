@@ -97,7 +97,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        flash[:notice] = ('Event was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.event'))
         format.html { redirect_to(@event) }
         format.xml  { render :xml => @event, :status => :created, :location => @event }
       else
@@ -116,7 +116,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update_attributes(params[:event])
 
-        flash[:notice] = ('Event was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.event'))
         format.html { redirect_to(@event) }
         format.xml  { head :ok }
       else

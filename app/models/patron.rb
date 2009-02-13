@@ -2,7 +2,7 @@ class Patron < ActiveRecord::Base
   has_one :user, :dependent => :destroy
   has_one :library, :include => :library_group
   has_many :creates, :dependent => :destroy
-  has_many :works, :through => :creates, :include => :work_form
+  has_many :works, :through => :creates, :include => :work_form, :as => :creators
   has_many :realizes, :dependent => :destroy
   has_many :expressions, :through => :realizes, :include => :expression_form
   has_many :produces, :dependent => :destroy
@@ -18,13 +18,14 @@ class Patron < ActiveRecord::Base
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   has_many :attachment_files, :as => :attachable, :dependent => :destroy
   belongs_to :patron_type #, :validate => true
   belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
   has_many :advertises, :dependent => :destroy
   has_many :advertisements, :through => :advertises
+  #has_many :works_as_subjects, :through => :resource_has_subjects, :as => :subjects
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country

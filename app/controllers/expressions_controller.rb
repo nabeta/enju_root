@@ -128,7 +128,7 @@ class ExpressionsController < ApplicationController
           end
         end
 
-        flash[:notice] = ('Expression was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
         if @expression.patrons.blank?
           format.html { redirect_to expression_patrons_url(@expression) }
           format.xml  { head :created, :location => patron_expression_url(@patron, @expression) }
@@ -154,7 +154,7 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
-        flash[:notice] = ('Expression was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
       else

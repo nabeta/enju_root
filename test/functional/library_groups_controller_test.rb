@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'library_groups_controller'
+require 'test_helper'
 
 class LibraryGroupsControllerTest < ActionController::TestCase
   fixtures :library_groups, :users, :libraries

@@ -10,22 +10,23 @@
     <title><%=h @manifestation.original_title -%> : <%= t('activerecord.models.manifestation') -%> - <%=h @library_group.display_name -%></title>
   <%- elsif controller.action_name == 'index' -%>
     <%- case when @patron -%>
-    <title><%= t('manifestation.patrons_manifestation', :patron_name => @patron.full_name) -%></title>
+    <title><%= t('manifestation.patron_manifestation', :patron_name => @patron.full_name) -%></title>
     <%- when @expression -%>
     <title><%= t('manifestation.expressions_manifestation', :expression_title => @expression.original_title) -%></title>
     <%- when @query -%>
       <title><%=h @query -%> : <%= t('activerecord.models.manifestation') -%> - <%=h@library_group.display_name -%></title>
     <%- else -%>
-      <title><%= t('activerecord.models.manifestation') -%>: <%=h controller.action_name -%></title>
+      <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= t('activerecord.models.manifestation') -%>: <%=h controller.action_name -%></title>
+    <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name)) -%>
+    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+    <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= LIBRARY_WEB_URL -%>page/opensearch" title="<%=h @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%=h @library_group.display_name -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

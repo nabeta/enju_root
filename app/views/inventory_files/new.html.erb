@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New inventory_file') -%> </h1>
+<h1><%= t('page.new', :model => t('activerecord.models.inventory_file')) -%> </h1>
 
 <%- form_for(@inventory_file, :html => {:multipart => true}) do |f| -%> 
   <%= f.error_messages -%> 

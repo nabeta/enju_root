@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'inventory_files_controller'
+require 'test_helper'
 
 class InventoryFilesControllerTest < ActionController::TestCase
   fixtures :inventory_files, :users, :roles, :patrons, :db_files,

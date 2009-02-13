@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class MessageTemplatesControllerTest < ActionController::TestCase
   fixtures :message_templates, :users

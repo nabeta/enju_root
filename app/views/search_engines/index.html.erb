@@ -1,4 +1,4 @@
-<h1><%= ('Listing search_engines') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.search_engine')) -%></h1>
 
 <table id="index">
   <tr>
@@ -21,4 +21,4 @@
 
 <br />
 
-<%= link_to ('New search_engine'), new_search_engine_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.search_engine')), new_search_engine_path -%>

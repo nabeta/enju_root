@@ -9,7 +9,7 @@
 <%- for produce in @produces -%>
   <tr>
     <td><%=h produce.patron_id -%></td>
-    <td><%= link_to h(produce.manifestation.original_title), manifestation_path(produce.manifestation) -%></td>
+    <td><%= link_to h(produce.manifestation.original_title), produce.manifestation -%></td>
     <td><%=h produce.created_at -%></td>
     <td><%=h produce.updated_at -%></td>
     <td><%= link_to t('page.show'), produce_path(produce) -%></td>

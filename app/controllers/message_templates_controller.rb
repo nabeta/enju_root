@@ -48,7 +48,7 @@ class MessageTemplatesController < ApplicationController
 
     respond_to do |format|
       if @message_template.save
-        flash[:notice] = ('MessageTemplate was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.message_template'))
         format.html { redirect_to(@message_template) }
         format.xml  { render :xml => @message_template, :status => :created, :location => @message_template }
       else
@@ -71,7 +71,7 @@ class MessageTemplatesController < ApplicationController
 
     respond_to do |format|
       if @message_template.update_attributes(params[:message_template])
-        flash[:notice] = ('MessageTemplate was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.message_template'))
         format.html { redirect_to(@message_template) }
         format.xml  { head :ok }
       else

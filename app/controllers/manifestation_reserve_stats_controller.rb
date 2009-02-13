@@ -47,6 +47,7 @@ class ManifestationReserveStatsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_reserve_stat.save
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_reserve_stat'))
         flash[:notice] = 'ManifestationReserveStat was successfully created.'
         format.html { redirect_to(@manifestation_reserve_stat) }
         format.xml  { render :xml => @manifestation_reserve_stat, :status => :created, :location => @manifestation_reserve_stat }
@@ -64,7 +65,7 @@ class ManifestationReserveStatsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_reserve_stat.update_attributes(params[:manifestation_reserve_stat])
-        flash[:notice] = 'ManifestationReserveStat was successfully updated.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_reserve_stat'))
         format.html { redirect_to(@manifestation_reserve_stat) }
         format.xml  { head :ok }
       else

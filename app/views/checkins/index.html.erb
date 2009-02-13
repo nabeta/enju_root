@@ -5,7 +5,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('checkin.listing') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.checkin')) -%></h1>
 
   <div id="checkin_list">
     <%= render :partial => 'list' -%>

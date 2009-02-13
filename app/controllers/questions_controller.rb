@@ -68,7 +68,7 @@ class QuestionsController < ApplicationController
       return
     end
 
-    if @question.private_question?
+    if @question.shared?
       if logged_in?
         unless @question.user == current_user or current_user.has_role?('Librarian')
           access_denied
@@ -104,7 +104,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.save
-        flash[:notice] = ('Question was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.question'))
         format.html { redirect_to user_question_url(@question.user.login, @question) }
         format.xml  { head :created, :location => user_question_url(@question.user.login, @question) }
       else
@@ -121,7 +121,7 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       if @question.update_attributes(params[:question])
-        flash[:notice] = ('Question was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.question'))
         format.html { redirect_to user_question_url(@question.user.login, @question) }
         format.xml  { head :ok }
       else

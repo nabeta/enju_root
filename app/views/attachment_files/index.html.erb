@@ -1,11 +1,11 @@
-<h1><%= ('Listing attachment_files') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.attachment_file')) -%></h1>
 
 <%- if @manifestation -%>
   <p>Attachment files for <%= link_to h(@manifestation.original_title), @manifestation -%></p>
 <%- end -%>
 
 <%- if_authorized?(:new, AttachmentFile) do -%>
-  <%= link_to ('New attachment_file'), new_attachment_file_path -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.attachment_file')), new_attachment_file_path -%>
 <%- end -%>
 
 <table id="index">

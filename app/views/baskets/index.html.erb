@@ -1,4 +1,4 @@
-<h1><%= ('Listing baskets') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.basket')) -%></h1>
 
 <table id="index">
   <tr>
@@ -21,4 +21,4 @@
 
 <br />
 
-<%= link_to ('New basket'), new_user_basket_path(@user.login) -%>
+<%= link_to t('page.new', :model => t('activerecord.models.basket')), new_user_basket_path(@user.login) -%>

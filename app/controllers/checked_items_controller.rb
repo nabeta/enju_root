@@ -124,7 +124,7 @@ class CheckedItemsController < ApplicationController
         if @checked_item.item.include_supplements
           flash[:message] << ('This item include supplements.')
         end
-        flash[:notice] = ('CheckedItem was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checked_item'))
 
         if params[:mode] == 'list'
           redirect_to(user_basket_checked_items_url(@basket.user.login, @basket, :mode => 'list'))
@@ -168,7 +168,7 @@ class CheckedItemsController < ApplicationController
 
     respond_to do |format|
       if @checked_item.update_attributes(params[:checked_item])
-        flash[:notice] = ('CheckedItem was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checked_item'))
         format.html { redirect_to(@checked_item) }
         format.xml  { head :ok }
       else

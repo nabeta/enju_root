@@ -7,9 +7,9 @@
     </li>
   <%- end -%>
   <%- if @subject_by_term -%>
-    <li><%= link_to ('Remove this facet'), params.merge(:subject => nil, :page => nil, :view => nil) -%></li>
+    <li><%= link_to t('page.remove_this_facet'), params.merge(:subject => nil, :page => nil, :view => nil) -%></li>
   <%- end -%>
 </ul>
 <%- else -%>
-  <p><%= ('No subjects.') -%></p>
+  <p><%= t('page.no_subject') -%></p>
 <%- end -%>

@@ -63,7 +63,7 @@ class ClassificationsController < ApplicationController
 
     respond_to do |format|
       if @classification.save
-        flash[:notice] = ('Classification was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.classification'))
         format.html { redirect_to(@classification) }
         format.xml  { render :xml => @classification, :status => :created, :location => @classification }
       else
@@ -81,7 +81,7 @@ class ClassificationsController < ApplicationController
 
     respond_to do |format|
       if @classification.update_attributes(params[:classification])
-        flash[:notice] = ('Classification was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.classification'))
         format.html { redirect_to(@classification) }
         format.xml  { head :ok }
       else

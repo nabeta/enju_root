@@ -19,9 +19,9 @@ en:
 
   time:
     formats:
-      default: "%b %d, %Y h:%M:%S a"
-      short: "%m/%d/%y h:%M a"
-      long: "%A, %B %d, %Y h:%M:%S a %Z"
+      default: "%b %d, %Y %H:%M:%S"
+      short: "%m/%d/%y %H:%M"
+      long: "%A, %B %d, %Y %H:%M:%S %Z"
     am: "AM"
     pm: "PM"
       

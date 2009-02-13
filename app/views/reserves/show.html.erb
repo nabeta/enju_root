@@ -1,4 +1,5 @@
 <div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_path(@reserve.user.login, @reserve) -%></li>
     <%- if ['pending', 'requested', 'retained'].index(@reserve.state) -%>
@@ -13,23 +14,17 @@
 </div>
 
 <div id="content_detail">
+  
+<%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
+
 <p>
-<b><%= t('activerecord.models.patron') -%>:</b>
+  <b><%= t('activerecord.models.patron') -%>:</b>
   <%= link_to h(@reserve.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b><br />
-  <%- cache(:controller => :manifestations, :action => :show, :id => @reserve.manifestation.id, :action_suffix => 'book_jacket') do -%>
-    <%= book_jacket(@reserve.manifestation) -%>
-  <%- end -%>
-  <br />
-  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @reserve.manifestation} -%>
-</p>
-
-<p>
-  <b><%= ('Request status type') -%>:</b>
-  <%=h @reserve.request_status_type.name -%>
+  <b><%= t('activerecord.models.request_status_type') -%>:</b>
+  <%=h @reserve.request_status_type.display_name -%>
 </p>
 
 <p>
@@ -48,7 +43,7 @@
 </p>
 
 <p>
-<b><%= ('Checked out at') -%>:</b>
+<b><%= t('activerecord.attributes.reserve.checked_out_at') -%>:</b>
   <%=h @reserve.checked_out_at -%>
 </p>
 

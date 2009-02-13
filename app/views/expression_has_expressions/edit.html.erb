@@ -1,4 +1,4 @@
-<h1>Editing expression_has_expression</h1>
+<h1><%= t('page.editing', :model => t('activerecord.models.expression_has_expression')) -%></h1>
 
 <% form_for(@expression_has_expression) do |f| -%>
   <%= f.error_messages -%>
@@ -20,9 +20,9 @@
     <%= f.text_field :position -%>
   </p>
   <p>
-    <%= f.submit "Update" -%>
+    <%= f.submit t('page.update') -%>
   </p>
 <% end -%>
 
 <%= link_to t('page.show'), @expression_has_expression -%> |
-<%= link_to 'Back', expression_has_expressions_path -%>
+<%= link_to t('page.back'), expression_has_expressions_path -%>

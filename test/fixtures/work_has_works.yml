@@ -6,6 +6,6 @@ one:
   position: 1
 
 two:
-  from_work_id: 1
+  from_work_id: 2
   to_work_id: 1
-  position: 1
+  position: 2

@@ -45,7 +45,7 @@ class WorksController < ApplicationController
   # GET /works/1
   # GET /works/1.xml
   def show
-    @work = Work.find(params[:id], :include => [:patrons])
+    @work = Work.find(params[:id])
     if @patron
       created = @work.patrons.find(@patron) rescue nil
       if created.blank?
@@ -78,7 +78,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        flash[:notice] = ('Work was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
         if @patron
           @patron.works << @work
           format.html { redirect_to work_url(@work) }
@@ -101,7 +101,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.update_attributes(params[:work])
-        flash[:notice] = ('Work was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
         format.xml  { head :ok }
       else

@@ -8,12 +8,12 @@
 <div id='content_detail'>
 <p>
   <b><%= t('activerecord.models.subscription') -%>:</b>
-  <%= link_to h(@subscribe.subscription.title), subscription_path(@subscribe.subscription) -%>
+  <%= link_to h(@subscribe.subscription.title), @subscribe.subscription -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.expression') -%>:</b>
-  <%= link_to h(@subscribe.expression.original_title), expression_path(@subscribe.expression) -%>
+  <%= link_to h(@subscribe.expression.original_title), @subscribe.expression -%>
 </p>
 
 <p>

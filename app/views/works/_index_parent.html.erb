@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Work) do -%>
-      <li><%= link_to t('work.new'), new_work_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
     <%- end -%>
   </ul>
 </div>

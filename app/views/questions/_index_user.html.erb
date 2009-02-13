@@ -1,4 +1,4 @@
-<h1><%=h t('question.listing') -%></h1>
+<h1><%=h t('page.listing', :model => t('activerecord.models.question')) -%></h1>
 
 <div id="result_list">
   <div id="searchform">
@@ -42,13 +42,13 @@
 <div>
 <%- if logged_in? -%>
   <%- if current_user.has_role?('Librarian') -%>
-    <%= link_to ('All questions'), questions_path -%>
+    <%= link_to t('question.all'), questions_path -%>
   <%- end -%>
 <%- end -%>
 
 <%- if_authorized?(:new, Question) do -%>
-  <%= link_to ('My questions'), user_questions_path(current_user.login) -%>
-  <%= link_to ('New question'), new_user_question_path(current_user.login) -%>
+  <%= link_to t('question.my'), user_questions_path(current_user.login) -%>
+  <%= link_to t('page.new', :model => t('activerecord.models.question')), new_user_question_path(current_user.login) -%>
 <%- end -%>
 </div>
 </div>

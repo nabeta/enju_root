@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New request_status_type'), new_request_status_type_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.request_status_type')), new_request_status_type_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing request_status_types') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.request_status_type')) -%></h1>
 
 <table id="index">
   <tr>
@@ -15,9 +15,8 @@
 
 <%- for request_status_type in @request_status_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h request_status_type.name -%></td>
-    <td><%=h request_status_type.display_name -%></td>
-    <td><%= link_to t('page.show'), request_status_type -%></td>
+    <td><%= link_to h(request_status_type.name), request_status_type -%></td>
+    <td><%= link_to h(request_status_type.display_name), request_status_type -%></td>
     <td><%= link_to t('page.edit'), edit_request_status_type_path(request_status_type) -%></td>
     <td><%= link_to t('page.destroy'), request_status_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

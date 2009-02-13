@@ -7,7 +7,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Listing work_merges') -%></h1>
+<h1><%= t('page.listing', :model => t('activerecord.models.work_merge')) -%></h1>
 
 <%- if @work_merge_list -%>
   <p><%= ('Works in %{work_merge_list}') -%></p>

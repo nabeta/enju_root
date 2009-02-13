@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if_authorized?(:new, Bookmark) do -%>
-      <li><%= link_to ('New bookmark'), new_user_bookmark_path(@user) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_user_bookmark_path(@user) -%></li>
     <%- end -%>
   </ul>
 </div>
@@ -12,7 +12,7 @@
   </h1>
 <table id="index">
   <tr>
-    <th><%= ('Bookmarked resource') -%></th>
+    <th><%= t('activerecord.models.bookmarked_resource') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
   </tr>

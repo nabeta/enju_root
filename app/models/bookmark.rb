@@ -1,5 +1,6 @@
 class Bookmark < ActiveRecord::Base
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
   belongs_to :user #, :counter_cache => true, :validate => true
   validates_presence_of :user, :bookmarked_resource_id, :title
@@ -39,17 +40,20 @@ class Bookmark < ActiveRecord::Base
   end
 
   # エンコード済みのURLを渡す
-  def self.get_title(url)
+  def self.get_title(url, root_url)
     return if url.blank?
     #requested_url = URI.parse(URI.escape(url))
     requested_url = URI.parse(url)
-    if requested_url.host == LIBRARY_WEB_HOSTNAME
+    server_url = URI.parse(root_url)
+    if requested_url.host == server_url.host 
     # TODO: ホスト名の扱い
       if requested_url.host == 'localhost' and requested_url.port == 3000
-        access_url = requested_url.normalize.to_s.gsub('localhost:3000', 'localhost:3001')
+        requested_url.port = 3001
       else
-        access_url = requested_url.normalize.to_s.gsub("#{LIBRARY_WEB_HOSTNAME}", 'localhost:3001')
+        requested_url.host = 'localhost'
+        requested_url.port = 3001
       end
+      access_url = requested_url.normalize.to_s
     else
       access_url = url
     end

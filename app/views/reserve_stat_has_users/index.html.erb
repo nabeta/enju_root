@@ -3,7 +3,7 @@
 <table>
   <tr>
     <th>User reserve</th>
-    <th>User</th>
+    <th><%= t('activerecord.models.user') -%></th>
     <th>Reserves count</th>
   </tr>
 
@@ -21,4 +21,4 @@
 
 <br />
 
-<%= link_to 'New reserve_stat_has_user', new_reserve_stat_has_user_path -%>
+<%= link_to t('page.new', :model => t('activerecord.models.reserve_stat_has_user')), new_reserve_stat_has_user_path -%>

@@ -1,4 +1,5 @@
 <div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} if @checkout.item -%>
   <ul>
     <li><%= link_to t('page.show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
     <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
@@ -6,21 +7,24 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('Editing checkout') -%></h1>
+  
+<h1><%= t('page.editing', :model => t('activerecord.models.checkout')) -%></h1>
 
-<h1><%= ('Renewal') -%></h1>
+  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @checkout.item.manifestation} if @checkout.item -%>
+  
+<h3><%= t('checkout.renewal') -%></h3>
 <%- if @checkout.checkout_renewable? -%>
   <%- form_for :checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put } do |f| -%>
-    <%= ('New due date') -%>: <%=h @renew_due_date -%>
+    <%= t('checkout.new_due_date') -%>: <%=h @renew_due_date -%>
     <%= f.hidden_field :due_date, :value => @renew_due_date -%>
     <br />
-    <%= submit_tag t('page.update') -%>
+    <%= f.submit t('page.update') -%>
   <%- end -%>
 <%- else -%>
-  <p><%= ('This item can\'t be renewed.') -%></p>
+  <p><%= t('checkout.this_item_cant_be_renewed') -%></p>
 <%- end -%>
 
-<h1><%= t('page.edit') -%></h1>
+<h3><%= t('checkout.editing_due_date') -%></h3>
 
 <%= error_messages_for :checkout -%>
 
@@ -29,10 +33,13 @@
     <%= f.hidden_field :user_id -%>
     <%= f.hidden_field :item_id -%>
     <%= f.date_select :due_date, :value => @renew_due_date  -%>
-    <br />
-    <%= ('Loan renewal count') -%>: <%= f.text_field :checkout_renewal_count, :class => 'resource_integer' -%>
-    <br />
-    <%= submit_tag t('page.update') -%>
+  </p>
+  <p>
+    <%= t('checkout.renewal_count') -%>: <%= f.text_field :checkout_renewal_count, :class => 'resource_integer' -%>
+  </p>
+
+  <p>
+    <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 </div>

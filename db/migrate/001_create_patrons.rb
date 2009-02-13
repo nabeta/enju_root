@@ -23,7 +23,8 @@ class CreatePatrons < ActiveRecord::Migration
       t.text :address_2_note
       t.string :telephone_number_1
       t.string :telephone_number_2
-      t.string :fax_number
+      t.string :fax_number_1
+      t.string :fax_number_2
       t.text :other_designation
       t.text :place
       t.datetime :date_of_birth

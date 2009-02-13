@@ -44,6 +44,8 @@ class RealizesController < ApplicationController
       return
     else
       @realize = Realize.new
+      @realize.expression = @expression
+      @realize.patron = @patron
     end
   end
 
@@ -59,7 +61,7 @@ class RealizesController < ApplicationController
 
     respond_to do |format|
       if @realize.save
-        flash[:notice] = ('Realize was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.realize'))
         format.html { redirect_to realize_url(@realize) }
         format.xml  { head :created, :location => realize_url(@realize) }
       else
@@ -83,7 +85,7 @@ class RealizesController < ApplicationController
 
     respond_to do |format|
       if @realize.update_attributes(params[:realize])
-        flash[:notice] = ('Realize was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.realize'))
         format.html { redirect_to realize_url(@realize) }
         format.xml  { head :ok }
       else

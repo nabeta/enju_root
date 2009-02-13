@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('New manifestation'), new_expression_manifestation_path(@expression) -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_expression_manifestation_path(@expression) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
   <h1>
     [E]
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+    <%= link_to h(@expression.original_title), @expression -%>
   </h1>
   <p>
     <%= patrons_list(@expression.authors) -%>

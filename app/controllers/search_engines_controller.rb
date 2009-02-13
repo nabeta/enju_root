@@ -47,7 +47,7 @@ class SearchEnginesController < ApplicationController
 
     respond_to do |format|
       if @search_engine.save
-        flash[:notice] = ('SearchEngine was successfully created.')
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.search_engine'))
         format.html { redirect_to(@search_engine) }
         format.xml  { render :xml => @search_engine, :status => :created, :location => @search_engine }
       else
@@ -70,7 +70,7 @@ class SearchEnginesController < ApplicationController
 
     respond_to do |format|
       if @search_engine.update_attributes(params[:search_engine])
-        flash[:notice] = ('SearchEngine was successfully updated.')
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.search_engine'))
         format.html { redirect_to(@search_engine) }
         format.xml  { head :ok }
       else

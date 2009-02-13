@@ -1,5 +1,5 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
-  observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify, Create, Realize, Produce, Own, BookmarkedResource, Bookmark, Tag, Subject, Patron, Library
+  observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify, Create, Realize, Produce, Own, BookmarkedResource, Bookmark, Tag, Patron, Library
   def after_save(record)
     case
     when record.is_a?(Patron)
@@ -91,6 +91,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Library)
       expire_fragment(:controller => :libraries, :action => :index, :action_suffix => 'menu')
+    when record.is_a?(Concept)
+      expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
+    when record.is_a?(Place)
+      expire_fragment(:controller => :places, :action => :show, :id => record.id)
     end
   end
 
@@ -99,7 +103,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_manifestation_fragment(manifestation)
-    fragments = %w[detail pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags]
+    fragments = %w[detail_1 detail_2 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags]
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
       expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment) if manifestation

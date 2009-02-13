@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-script-type" content="text/javascript" />
+  <%- case when @family -%>
+    <%- if @family.name -%>
+      <title><%=h @family.name -%> : <%= t('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+    <%- else -%>
+      <title><%= t('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+    <%- end -%>
+  <%- when @work -%>
+    <title><%= t('family.work_family', :work_title => @work.original_title) -%> : <%= ('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+  <%- when @expression -%>
+    <title><%= t('family.expression_family', :expression_title => @expression.original_title) -%> : <%= ('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+  <%- when @expression -%>
+    <title><%= t('family.manifestation_family', :manifestation_title => @manifestation.original_title) -%> : <%= ('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+  <%- else -%>
+    <title><%= t('activerecord.models.family') -%>: <%=h title_action_name -%></title>
+  <%- end -%>
+  <%= render :partial => 'page/include' -%>
+  <%- if controller.action_name == 'index' -%>
+    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'families', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('family.library_group_family', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+    <%= auto_discovery_link_tag(:atom, url_for(:controller => 'families', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('family.library_group_family', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
+  <%- end -%>
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
+</head>
+<body class="yui-skin-sam" id="yahoo-com">
+
+<%= render :partial => 'page/header' -%>
+
+<div id="content">
+
+<div style="color: green"><%= flash[:notice] -%></div>
+
+<%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
+
+</body>
+</html>

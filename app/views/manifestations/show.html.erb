@@ -1,10 +1,5 @@
 <div id="submenu">
-  <div id="manifestation_book_jacket">
-    <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
-      <%= book_jacket(@manifestation) -%>
-    <%- end -%>
-  </div>
-
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <%- if logged_in? -%>
     <div id="call_number_content">
       <%- for item in @manifestation.items -%>
@@ -46,11 +41,11 @@
       <%- if current_user.has_role?('Librarian') -%>
         <ul>
           <%- case when @expression -%>
-            <li><%= link_to t('manifestation.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
+            <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
           <%- when @patron -%>
-            <li><%= link_to t('manifestation.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
+            <li><%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
           <%- else -%>
-            <li><%= link_to t('manifestation.edit'), edit_manifestation_path(@manifestation) -%></li>
+            <li><%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%></li>
           <%- end -%>
           <ul>
             <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
@@ -82,9 +77,9 @@
 
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail') do
+  cache(:id => @manifestation.id, :action_suffix => 'detail_1') do
 %>
-    <%= render :partial => 'manifestation_patrons_list' -%>
+  <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 
   <div id="tabview">
 
@@ -125,7 +120,7 @@
         <td style="width: 200px"><%=h ('Serial') -%>:</td>
         <td><%= serial_title_link(@manifestation) -%>
           <%- if @manifestation.serial.issn? -%>
-            (ISSN: <%=h @manifestation.serial.issn -%>)
+            (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
           <%- end -%>
         </td>
       </tr>
@@ -136,10 +131,10 @@
             <%= t('activerecord.attributes.manifestation.volume_number_list') -%>: <%=h @manifestation.volume_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.issue_number_list.blank? -%>
-            <%= ('Issue number') -%>: <%=h @manifestation.issue_number.join("/") -%>
+            <%= t('manifestation.issue_number') -%>: <%=h @manifestation.issue_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.serial_number_list.blank? -%>
-            <%= ('Serial number') -%>: <%=h @manifestation.serial_number.join("/") -%>
+            <%= t('manifestation.serial_number') -%>: <%=h @manifestation.serial_number.join("/") -%>
           <%- end -%>
         </td>
       </tr>
@@ -168,18 +163,18 @@
       </td>
     </tr>
     <tr>
-      <td><%= t('page.price') -%></td>
+      <td><%= t('activerecord.attributes.manifestation.price') -%></td>
       <td><%= @manifestation.price -%></td>
     </tr>
+  <%
+    end
+  -%>
     <tr>
       <td><%= t('page.subject') -%>:</td>
       <td>
         <%- for subject in @manifestation.subjects -%>
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
-        <%- end -%>
-        <%- if logged_in? and current_user.has_role?('Librarian') -%>
-          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
         <%- end -%>
       </td>
     </tr>
@@ -190,6 +185,9 @@
         <%= render :partial => 'tag_list' -%>
       </td>
     </tr>
+<%
+  cache(:id => @manifestation.id, :action_suffix => 'detail_2') do
+%>
     <%- unless @manifestation.serial? -%>
       <tr>
         <td>ISBN:</td>
