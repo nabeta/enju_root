@@ -1025,6 +1025,10 @@ en:
     library_group_news_post: "News from {{library_group_name}}"
     sign_up: "Sign up"
     edit_profile: "Edit profile"
+    already_activated: "Already activated."
+    specify_patron: "Specify the patron."
+    wrong_password: "Wrong password."
+    password_mismatch: "Password mismatch."
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

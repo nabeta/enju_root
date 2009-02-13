@@ -52,20 +52,20 @@ class UsersController < ApplicationController
   def new
     #@user = User.new
     @patron = Patron.find(params[:patron_id])
-    @user_groups = UserGroup.find(:all)
+    @user_groups = UserGroup.find(:all, :order => :position)
     if @patron.user
       redirect_to patron_url(@patron)
-      flash[:notice] = ('Already activated.')
+      flash[:notice] = t('page.already_activated')
       return
     end
   rescue
-    flash[:notice] = ('Specify patron id.')
+    flash[:notice] = t('user.specify_patron')
     redirect_to patrons_url
   end
 
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user_groups = UserGroup.find(:all)
+    @user_groups = UserGroup.find(:all, :order => :position)
     @roles = Role.find(:all, :order => 'id desc')
     @libraries = Library.find(:all, :order => 'id')
     @user_role_id = @user.roles.first.id rescue nil
@@ -107,12 +107,12 @@ class UsersController < ApplicationController
             #  return
             #end
             unless @user.password == @user.password_confirmation
-              flash[:notice] = ('Password mismatch.') unless @user.password == @user.password_confirmation
+              flash[:notice] = t('user.password_mismatch') unless @user.password == @user.password_confirmation
               redirect_to edit_user_url(@user.login)
               return
             end
           else
-            flash[:notice] = ('Wrong password.')
+            flash[:notice] = t('user.wrong_password')
             redirect_to edit_user_url(@user.login)
             return
           end
@@ -154,7 +154,7 @@ class UsersController < ApplicationController
       else
         @roles = Role.find(:all, :order => 'id desc')
         @libraries = Library.find(:all, :order => 'id')
-        @user_groups = UserGroup.find(:all)
+        @user_groups = UserGroup.find(:all, :order => :position)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -194,7 +194,7 @@ class UsersController < ApplicationController
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
       else
-        @user_groups = UserGroup.find(:all)
+        @user_groups = UserGroup.find(:all, :order => :position)
         #flash[:notice] = ('The record is invalid.')
         flash[:error] = ("We couldn't set up that account, sorry.  Please try again, or contact an admin.")
         format.html { render :action => "new" }

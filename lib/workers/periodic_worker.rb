@@ -19,8 +19,8 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     app.host = LIBRARY_WEB_HOSTNAME
     NewsFeed.find(:all).each do |news_feed|
       news_feed.force_reload
-      app.get "news_feeds?mode=clear_cache"
     end
+    app.get('/news_feeds?mode=clear_cache')
     logger.info "#{Time.zone.now} feeds reloaded!"
   rescue
     logger.info "#{Time.zone.now} reloading feeds failed!"

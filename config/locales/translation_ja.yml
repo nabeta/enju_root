@@ -1009,6 +1009,10 @@ ja:
     your_temporary_password_is: "仮パスワードは次のとおりです"
     sign_up: "サインアップ"
     edit_profile: "プロフィールの編集"
+    already_activated: "すでにユーザとして登録されています。"
+    specify_patron: "パトロンを指定してください。"
+    wrong_password: "パスワードが間違っています。"
+    password_mismatch: "パスワードが一致しません。"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
