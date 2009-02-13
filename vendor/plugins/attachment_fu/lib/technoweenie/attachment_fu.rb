@@ -103,7 +103,11 @@ module Technoweenie # :nodoc:
         end
         attachment_options[:path_prefix]   = attachment_options[:path_prefix][1..-1] if options[:path_prefix].first == '/'
 
-        with_options :foreign_key => 'parent_id' do |m|
+        association_options = { :foreign_key => 'parent_id' }
+        if attachment_options[:association_options]
+          association_options.merge!(attachment_options[:association_options])
+        end
+        with_options(association_options) do |m|
           m.has_many   :thumbnails, :class_name => "::#{attachment_options[:thumbnail_class]}"
           m.belongs_to :parent, :class_name => "::#{base_class}" unless options[:thumbnails].empty?
         end
@@ -418,11 +422,7 @@ module Technoweenie # :nodoc:
         def attachment_attributes_valid?
           [:size, :content_type].each do |attr_name|
             enum = attachment_options[attr_name]
-            if Object.const_defined?(:I18n) # Rails >= 2.2
-              I18n.translate("activerecord.errors.messages.inclusion", attr_name => enum)
-            else
-              errors.add attr_name, ActiveRecord::Errors.default_error_messages[:inclusion] unless enum.nil? || enum.include?(send(attr_name))
-            end
+            errors.add attr_name, ActiveRecord::Errors.default_error_messages[:inclusion] unless enum.nil? || enum.include?(send(attr_name))
           end
         end
 

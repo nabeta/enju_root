@@ -52,15 +52,18 @@ namespace :catalog do
     end
   end
 
+  desc 'Expire sessions.'
+  task :expire_session do
+    expire_sessions(1.week.from_now)
+    puts "expired sessions!"
+  end
+
   private
 
   def send_messages(args = nil)
     MessageQueue.not_sent.each do |queue|
       queue.send_message
     end
-    logger.info "#{Time.zone.now} sent messages!"
-  rescue
-    logger.info "#{Time.zone.now} sending messages failed!"
   end
 
   def fetch_feeds(args = nil)
@@ -71,16 +74,10 @@ namespace :catalog do
       news_feed.force_reload
       app.get "news_feeds?mode=clear_cache"
     end
-    logger.info "#{Time.zone.now} feeds reloaded!"
-  rescue
-    logger.info "#{Time.zone.now} reloading feeds failed!"
   end
 
   def expire_aaws_responses(args = nil)
     AawsResponse.delete_all(['created_at < ?', 30.days.from_now])
-    logger.info "#{Time.zone.now} aaws responses expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring aaws responses failed!"
   end
 
   def expire_reservations(args = nil)
@@ -90,47 +87,32 @@ namespace :catalog do
       reserve.send_message('expired')
     end
     Reserve.send_message_to_patrons('expired') unless reservations.blank?
-    logger.info "#{Time.zone.now} reservations expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring reservations failed!"
   end
 
   def expire_baskets(args = nil)
     Basket.will_expire(Time.zone.now.beginning_of_day).destroy_all
-    logger.info "#{Time.zone.now} baskets expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring baskets failed!"
   end
 
   def expire_sessions(date)
     Session.sweep(date)
-    logger.info "#{Time.zone.now} sessions expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring sessions failed!"
   end
 
   def import_patrons
     ImportedPatronFile.not_imported.each do |file|
       file.import
     end
-  rescue
-    logger.info "#{Time.zone.now} importing patrons failed!"
   end
 
   def import_events
     ImportedEventFile.not_imported.each do |file|
       file.import
     end
-  rescue
-    logger.info "#{Time.zone.now} importing events failed!"
   end
 
   def import_resources
     ImportedResourceFile.not_imported.each do |file|
       file.import
     end
-  rescue
-    logger.info "#{Time.zone.now} importing resources failed!"
   end
 
   def culculate_checkouts_count(from_date, to_date)
