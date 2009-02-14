@@ -901,6 +901,7 @@ en:
     editing: "Editing {{model}}"
     patron_management: "Patron management"
     back_to: "Back to {{model}} index"
+    add_picture: "Add a picture"
   title:
     index: "index"
     show: "show"
@@ -964,9 +965,13 @@ en:
     library_group_item: "Items in {{library_group_name}}"
     add: "Add an item"
   patron:
+    library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"
     expression_patron: "Realizers of {{expression_title}}"
     manifestation_patron: "Producers of {{manifestation_title}}"
+    activate_as_user: "Activate as an user"
+    deactivate: "Deactivate this user"
+    add: "Add a patron"
   message:
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"

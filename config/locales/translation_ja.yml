@@ -887,6 +887,7 @@ ja:
     editing: "{{model}}の編集"
     patron_management: "パトロンの管理"
     back_to: "{{model}}の一覧に戻る"
+    add_picture: "画像を追加する"
   controller:
     successfully_created: "{{model}}は正常に作成されました。"
     successfully_updated: "{{model}}は正常に更新されました。"
@@ -954,6 +955,9 @@ ja:
     work_patron: "{{work_title}} の著作者"
     expression_patron: "{{expression_title}} の編者"
     manifestation_patron: "{{manifestation_title}} の出版者"
+    activate_as_user: "ユーザとして登録する"
+    deactivate: "ユーザ登録を解除する"
+    add: "パトロンを追加する"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"

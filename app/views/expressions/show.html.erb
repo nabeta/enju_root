@@ -16,10 +16,10 @@
     </ul>
   <%- end -%>
     <ul>
-      <li><%= link_to ('Add a translator'), expression_patrons_path(@expression) -%></li>
+      <li><%= link_to t('patron.add'), expression_patrons_path(@expression) -%></li>
     </ul>
     <ul>
-      <li><%= link_to ('Add a new manifestation'), expression_manifestations_path(@expression) -%></li>
+      <li><%= link_to t('manifestation.add'), expression_manifestations_path(@expression) -%></li>
       <%- if @expression.serial? -%>
         <li><%= link_to ('Add next issue'), new_expression_manifestation_path(@expression) -%></li>
       <%- end -%>

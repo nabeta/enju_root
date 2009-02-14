@@ -5,7 +5,7 @@ class CheckoutStatHasUsersController < ApplicationController
   # GET /checkout_stat_has_users
   # GET /checkout_stat_has_users.xml
   def index
-    @checkout_stat_has_users = CheckoutStatHasUser.find(:all)
+    @checkout_stat_has_users = CheckoutStatHasUser.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

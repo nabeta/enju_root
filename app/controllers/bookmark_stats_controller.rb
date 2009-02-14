@@ -5,7 +5,7 @@ class BookmarkStatsController < ApplicationController
   # GET /bookmark_stats
   # GET /bookmark_stats.xml
   def index
-    @bookmark_stats = BookmarkStat.find(:all)
+    @bookmark_stats = BookmarkStat.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
