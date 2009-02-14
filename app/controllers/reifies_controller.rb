@@ -51,8 +51,8 @@ class ReifiesController < ApplicationController
     respond_to do |format|
       if @reify.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reify'))
-        format.html { redirect_to reify_url(@reify) }
-        format.xml  { head :created, :location => reify_url(@reify) }
+        format.html { redirect_to(@reify) }
+        format.xml  { render :xml => @reify, :status => :created, :location => @reify }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @reify.errors, :status => :unprocessable_entity }

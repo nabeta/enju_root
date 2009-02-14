@@ -90,7 +90,7 @@ class SubjectsController < ApplicationController
       if @subject.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.subject'))
         format.html { redirect_to subject_url(@subject) }
-        format.xml  { head :created, :location => subject_url(@subject) }
+        format.xml  { render :xml => @subject, :status => :created, :location => @subject }
       else
         @subject_types = SubjectType.find(:all, :order => :position)
         format.html { render :action => "new" }

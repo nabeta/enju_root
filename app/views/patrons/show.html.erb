@@ -8,19 +8,19 @@
       <%- end -%>
       <li><%= link_to ('Add a picture'), new_patron_attachment_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
-      <li><%= link_to t('page.back'), back_to_patron_index -%></li>
+      <li><%= link_to t('page.back'), patrons_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
       <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>
     <ul>
-      <li><%= link_to ('Add a work'), patron_works_path(@patron) -%></li>
+      <li><%= link_to t('work.add'), patron_works_path(@patron) -%></li>
     </ul>
     <ul>
-      <li><%= link_to ('Add an expression'), patron_expressions_path(@patron) -%></li>
+      <li><%= link_to t('expression.add'), patron_expressions_path(@patron) -%></li>
     </ul>
     <ul>
-      <li><%= link_to ('Add a manifestation'), patron_manifestations_path(@patron) -%></li>
+      <li><%= link_to t('manifestation.add'), patron_manifestations_path(@patron) -%></li>
     </ul>
 </div>
 

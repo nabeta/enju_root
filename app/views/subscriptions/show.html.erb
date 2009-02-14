@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_subscription_path(@subscription) -%></li>
-    <li><%= link_to ('Add an expression'), subscription_expressions_path(@subscription) -%></li>
+    <li><%= link_to t('expression.add'), subscription_expressions_path(@subscription) -%></li>
     <li><%= link_to t('page.back'), subscriptions_path -%></li>
   </ul>
 </div>

@@ -5,7 +5,7 @@ class SearchEnginesController < ApplicationController
   # GET /search_engines
   # GET /search_engines.xml
   def index
-    @search_engines = SearchEngine.find(:all, :order => :position)
+    @search_engines = SearchEngine.paginate(:all, :page => params[:page], :order => :position)
 
     respond_to do |format|
       format.html # index.html.erb

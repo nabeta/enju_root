@@ -50,7 +50,7 @@ class UserGroupsController < ApplicationController
       if @user_group.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.user_group'))
         format.html { redirect_to user_group_url(@user_group) }
-        format.xml  { head :created, :location => user_group_url(@user_group) }
+        format.xml  { render :xml => @user_group, :status => :created, :location => @user_group }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @user_group.errors.to_xml }

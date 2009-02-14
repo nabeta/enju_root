@@ -932,10 +932,12 @@ en:
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"
+    add: "Add a work"
   expression:
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
     library_group_expression: "Expressions in {{library_group_name}}"
+    add: "Add an expression"
   manifestation:
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
@@ -955,10 +957,12 @@ en:
     invalid_isbn: "Invalid ISBN."
     already_imported: "This manifestation is already imporeted."
     record_not_found: "Record not found."
+    add: "Add a manifestation"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
     library_group_item: "Items in {{library_group_name}}"
+    add: "Add an item"
   patron:
     work_patron: "Creaters of {{work_title}}"
     expression_patron: "Realizers of {{expression_title}}"
@@ -1032,6 +1036,8 @@ en:
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
+    my_reservation: "My reservations"
+    all_reservation: "All reservations"
   purchase_request:
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"

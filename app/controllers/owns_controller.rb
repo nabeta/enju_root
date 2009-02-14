@@ -61,7 +61,7 @@ class OwnsController < ApplicationController
       if @own.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.own'))
         format.html { redirect_to own_url(@own) }
-        format.xml  { head :created, :location => own_url(@own) }
+        format.xml  { render :xml => @own, :status => :created, :location => @own }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @own.errors, :status => :unprocessable_entity }

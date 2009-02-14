@@ -110,7 +110,7 @@ class CheckinsController < ApplicationController
             return
           else
             format.html { redirect_to user_basket_checkins_url(@checkin.basket.user.login, @checkin.basket) }
-            format.xml  { head :created, :location => user_basket_checkin_url(@checkin.basket.user.login, @checkin.basket, @checkin) }
+            format.xml  { render :xml => @checkin, :status => :created, :location => user_basket_checkin_url(@checkin.basket.user.login, @checkin.basket, @checkin) }
           end
         else
           if params[:mode] == 'list'

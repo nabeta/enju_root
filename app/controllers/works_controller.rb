@@ -82,10 +82,10 @@ class WorksController < ApplicationController
         if @patron
           @patron.works << @work
           format.html { redirect_to work_url(@work) }
-          format.xml  { head :created, :location => work_url(@work) }
+          format.xml  { render :xml => @work, :status => :created, :location => @work }
         else
           format.html { redirect_to work_patrons_url(@work) }
-          format.xml  { head :created, :location => work_url(@work) }
+          format.xml  { render :xml => @work, :status => :created, :location => @work }
         end
       else
         format.html { render :action => "new" }

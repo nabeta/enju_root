@@ -918,10 +918,12 @@ ja:
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"
+    add: "著作形を追加する"
   expression:
     patron_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
     library_group_expression: "{{library_group_name}} にある表現形"
+    add: "表現形を追加する"
   manifestation:
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
@@ -941,10 +943,12 @@ ja:
     invalid_isbn: "無効なISBNです。"
     already_imported: "すでにインポートされています。"
     record_not_found: "資料が見つかりませんでした。"
+    add: "体現形を追加する"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
     library_group_item: "{{library_group_name}}にある個別資料"
+    add: "個別資料を追加する"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
@@ -1018,6 +1022,8 @@ ja:
   reserve:
     user_reserve: "{{login_name}} さんの予約資料"
     library_group_reserve: "{{library_group_name}} での予約資料"
+    my_reservation: "自分の予約"
+    all_reservation: "全ての予約"
   purchase_request:
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"

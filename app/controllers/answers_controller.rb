@@ -100,7 +100,7 @@ class AnswersController < ApplicationController
       if @answer.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.answer'))
         format.html { redirect_to user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
-        format.xml  { head :created, :location => user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
+        format.xml  { render :xml => @answer, :status => :created, :location => user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @answer.errors.to_xml }

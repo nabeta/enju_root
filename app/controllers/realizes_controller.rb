@@ -62,8 +62,8 @@ class RealizesController < ApplicationController
     respond_to do |format|
       if @realize.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.realize'))
-        format.html { redirect_to realize_url(@realize) }
-        format.xml  { head :created, :location => realize_url(@realize) }
+        format.html { redirect_to(@realize) }
+        format.xml  { render :xml => @realize, :status => :created, :location => @realize }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @realize.errors, :status => :unprocessable_entity }

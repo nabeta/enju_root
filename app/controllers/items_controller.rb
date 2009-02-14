@@ -151,8 +151,8 @@ class ItemsController < ApplicationController
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
-        format.html { redirect_to item_url(@item) }
-        format.xml  { head :created, :location => item_url(@item) }
+        format.html { redirect_to(@item) }
+        format.xml  { render :xml => @item, :status => :created, :location => @item }
       else
         prepare_options
         format.html { render :action => "new" }

@@ -63,7 +63,7 @@ class ReservesController < ApplicationController
       @reserve = @user.reserves.new
     else
       if current_user.has_role?('Librarian')
-        @reserve = Reserve.new if current_user.has_role?('Librarian')
+        @reserve = Reserve.new
       else
         access_denied
         return
@@ -116,17 +116,17 @@ class ReservesController < ApplicationController
 
     @manifestation = Manifestation.find(params[:reserve][:manifestation_id]) rescue nil
 
-    if user and @manifestation
+    if @reserve.user and @manifestation
       begin
-        unless @manifestation.reservable?(user)
+        unless @manifestation.reservable?(@reserve.user)
           flash[:notice] = ('This manifestation is already reserved.')
           raise
         end
-        if user.reached_reservation_limit?(@manifestation)
+        if @reserve.user.reached_reservation_limit?(@manifestation)
           flash[:notice] = ('Excessed reservation limit.')
           raise
         end
-        expired_period = @manifestation.reservation_expired_period(user)
+        expired_period = @manifestation.reservation_expired_period(@reserve.user)
         if expired_period.nil?
           flash[:notice] = ('This patron can\'t reserve this manifestation.')
           raise
@@ -154,8 +154,8 @@ class ReservesController < ApplicationController
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reserve'))
         #format.html { redirect_to reserve_url(@reserve) }
-        format.html { redirect_to user_reserve_url(user.login, @reserve) }
-        format.xml  { head :created, :location => user_reserve_url(user.login, @reserve) }
+        format.html { redirect_to user_reserve_url(@reserve.user.login, @reserve) }
+        format.xml  { render :xml => @reserve, :status => :created, :location => user_reserve_url(@reserve.user.login, @reserve) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @reserve.errors.to_xml }

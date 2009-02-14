@@ -5,6 +5,7 @@ class ExpressionsController < ApplicationController
   before_filter :get_patron
   before_filter :get_work, :get_manifestation, :get_subscription
   before_filter :get_expression_merge_list
+  before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /expressions
@@ -89,18 +90,12 @@ class ExpressionsController < ApplicationController
       redirect_to works_path
       return
     end
-    @languages = Language.find(:all, :order => :id)
-    @expression_forms = ExpressionForm.find(:all)
     @parent_expression = Expression.find(params[:parent_id]) rescue nil
-    @frequency_of_issues = FrequencyOfIssue.find(:all)
     @expression = Expression.new
   end
 
   # GET /expressions/1;edit
   def edit
-    @languages = Language.find(:all, :order => :id)
-    @expression_forms = ExpressionForm.find(:all)
-    @frequency_of_issues = FrequencyOfIssue.find(:all)
     @parent = Expression.find(params[:parent_id]) rescue nil
     
     @expression = Expression.find(params[:id])
@@ -131,15 +126,13 @@ class ExpressionsController < ApplicationController
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
         if @expression.patrons.blank?
           format.html { redirect_to expression_patrons_url(@expression) }
-          format.xml  { head :created, :location => patron_expression_url(@patron, @expression) }
+          format.xml  { render :xml => @expression, :status => :created, :location => @expression }
         else
           format.html { redirect_to work_expression_url(@work, @expression) }
-          format.xml  { head :created, :location => work_expression_url(@work, @expression) }
+          format.xml  { render :xml => @expression, :status => :created, :location => work_expression_url(@work, @expression) }
         end
       else
-        @languages = Language.find(:all, :order => :id)
-        @frequency_of_issues = FrequencyOfIssue.find(:all)
-        @expression_forms = ExpressionForm.find(:all)
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @expression.errors, :status => :unprocessable_entity }
       end
@@ -158,9 +151,7 @@ class ExpressionsController < ApplicationController
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
       else
-        @languages = Language.find(:all, :order => :id)
-        @frequency_of_issues = FrequencyOfIssue.find(:all)
-        @expression_forms = ExpressionForm.find(:all)
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @expression.errors, :status => :unprocessable_entity }
       end
@@ -177,5 +168,12 @@ class ExpressionsController < ApplicationController
       format.html { redirect_to expressions_url }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @languages = Language.find(:all, :order => :position)
+    @frequency_of_issues = FrequencyOfIssue.find(:all, :order => :position)
+    @expression_forms = ExpressionForm.find(:all, :order => :position)
   end
 end

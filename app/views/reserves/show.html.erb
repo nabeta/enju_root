@@ -18,8 +18,8 @@
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
 
 <p>
-  <b><%= t('activerecord.models.patron') -%>:</b>
-  <%= link_to h(@reserve.user.login) -%>
+  <b><%= t('activerecord.models.user') -%>:</b>
+  <%= link_to h(@reserve.user.login), user_path(@reserve.user.login) -%>
 </p>
 
 <p>

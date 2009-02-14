@@ -43,7 +43,7 @@ class ExpressionFormsController < ApplicationController
       if @expression_form.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_form'))
         format.html { redirect_to expression_form_url(@expression_form) }
-        format.xml  { head :created, :location => expression_form_url(@expression_form) }
+        format.xml  { render :xml => @expression_form, :status => :created, :location => @expression_form }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @expression_form.errors.to_xml }

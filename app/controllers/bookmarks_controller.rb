@@ -149,7 +149,7 @@ class BookmarksController < ApplicationController
           format.xml  { head :ok }
         else
           format.html { redirect_to user_bookmarked_resource_url(@bookmark.user.login, @bookmark.bookmarked_resource) }
-          format.xml  { head :created, :location => bookmark_url(@bookmark.user.login, @bookmark) }
+          format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
         end
       else
         respond_to do |format|
