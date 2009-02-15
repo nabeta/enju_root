@@ -181,7 +181,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     get :new
     assert_response :redirect
     assert_redirected_to expressions_url
-    assert_equal 'Please specify expression id.', flash[:notice]
+    assert_equal 'Specify the expression.', flash[:notice]
   end
   
   def test_admin_should_get_new_with_expression_id
@@ -215,7 +215,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to expressions_url
-    assert_equal 'Please specify expression id.', flash[:notice]
+    assert_equal 'Specify the expression.', flash[:notice]
   end
 
   def test_librarian_should_not_create_manifestation_without_title

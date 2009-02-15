@@ -71,7 +71,7 @@ class EventsController < ApplicationController
         date = Time.parse(params[:date])
       rescue
         date = Time.zone.now.beginning_of_day
-        flash[:notice] = ('Invalid date.')
+        flash[:notice] = t('page.invalid_date')
       end
     else
       date = Time.zone.now.beginning_of_day

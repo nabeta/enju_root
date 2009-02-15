@@ -92,19 +92,19 @@ class Reserve < ActiveRecord::Base
 
   def retain
     # TODO: 「取り置き中」の状態を正しく表す
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'In Process'}), :checked_out_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'In Process'}), :checked_out_at => Time.zone.now})
   end
 
   def expire
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Expired'}), :canceled_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Expired'}), :canceled_at => Time.zone.now})
   end
 
   def cancel
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Cannot Fulfill Request'}), :canceled_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Cannot Fulfill Request'}), :canceled_at => Time.zone.now})
   end
 
   def checkout
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Available For Pickup'}), :checked_out_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Available For Pickup'}), :checked_out_at => Time.zone.now})
   end
 
   def send_message(status)

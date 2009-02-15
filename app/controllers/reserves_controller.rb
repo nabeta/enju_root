@@ -75,7 +75,7 @@ class ReservesController < ApplicationController
       if @user
         @reserve.expired_at = @manifestation.reservation_expired_period(@user).days.from_now.end_of_day
         unless @manifestation.reservable?(@user)
-          flash[:notice] = ('This manifestation is already reserved.')
+          flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           redirect_to @manifestation
           return
         end
@@ -119,16 +119,16 @@ class ReservesController < ApplicationController
     if @reserve.user and @manifestation
       begin
         unless @manifestation.reservable?(@reserve.user)
-          flash[:notice] = ('This manifestation is already reserved.')
+          flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           raise
         end
         if @reserve.user.reached_reservation_limit?(@manifestation)
-          flash[:notice] = ('Excessed reservation limit.')
+          flash[:notice] = t('reserve.excessed_reservation_limit')
           raise
         end
         expired_period = @manifestation.reservation_expired_period(@reserve.user)
         if expired_period.nil?
-          flash[:notice] = ('This patron can\'t reserve this manifestation.')
+          flash[:notice] = t('reserve.this_patron_cannot_reserve')
           raise
         end
         if @reserve.expired_at
@@ -202,7 +202,7 @@ class ReservesController < ApplicationController
     respond_to do |format|
       if @reserve.update_attributes(params[:reserve])
         if @reserve.state == 'canceled'
-          flash[:notice] = ('Reserve was canceled.')
+          flash[:notice] = t('reserve.reservation_was_canceled')
           @reserve.send_message('canceled')
         else
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reserve'))
@@ -232,13 +232,13 @@ class ReservesController < ApplicationController
       end
     end
     @reserve.destroy
-    flash[:notice] = ('Reserve was canceled.')
+    #flash[:notice] = t('reserve.reservation_was_canceled')
 
     if @reserve.manifestation.reserved?
       if @reserve.item
         retain = @reserve.item.retain(User.find(1)) # TODO: システムからの送信ユーザの設定
         if retain.nil?
-          flash[:message] = ('This item is not reserved.')
+          flash[:message] = t('reserve.this_item_is_not_reserved')
         end
       end
     end

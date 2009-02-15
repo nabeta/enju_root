@@ -68,7 +68,7 @@ class CheckinsController < ApplicationController
     unless item.blank?
       if @basket.checkins.collect(&:item).include?(item)
         redirect_to user_basket_checkins_url(@basket.user.login, @basket, :mode => 'list')
-        flash[:message] << ('This item is already checked in.')
+        flash[:message] << t('checkin.already_checked_in')
         return
       end
       @checkin = @basket.checkins.new(params[:checkin])
@@ -85,19 +85,19 @@ class CheckinsController < ApplicationController
             @checkin.checkout = checkout if checkout
 
             unless checkout.other_library_resource?(current_user.library)
-              flash[:message] << ('This item is other library\'s resource!')
+              flash[:message] << t('checkin.other_library_item')
             end
             #unless checkout.user.save_checkout_history
             #  checkout.user = nil
             #end
             if @checkin.item.reserved?
               # TODO: もっと目立たせるために別画面を表示するべき？
-              flash[:message] << ('This item is reserved!')
+              flash[:message] << t('item.this_item_is_reserved')
               @checkin.item.retain(current_user)
             end
 
             if @checkin.item.include_supplements?
-              flash[:message] << ('This item includes supplements.')
+              flash[:message] << t('item.this_item_include_supplement')
             end
 
             # メールとメッセージの送信
@@ -123,7 +123,7 @@ class CheckinsController < ApplicationController
         end
       end
     else
-      flash[:message] << ('Enter item identifier.')
+      flash[:message] << t('checkin.enter_item_identifier')
       if params[:mode] == 'list'
         redirect_to user_basket_checkins_url(@basket.user.login, @basket, :mode => 'list')
       else

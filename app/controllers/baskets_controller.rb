@@ -80,7 +80,7 @@ class BasketsController < ApplicationController
     respond_to do |format|
       if @basket.update_attributes({})
         # 貸出完了時
-        flash[:notice] = ('Checkout completed.')
+        flash[:notice] = t('basket.checkout_completed')
         format.html { redirect_to(user_checkouts_url(@basket.user.login)) }
         format.xml  { head :ok }
       else

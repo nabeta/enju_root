@@ -86,7 +86,7 @@ class ExpressionsController < ApplicationController
   # GET /expressions/new
   def new
     unless @work
-      flash[:notice] = ('Specify work id.')
+      flash[:notice] = t('expression.specify_work')
       redirect_to works_path
       return
     end
@@ -107,7 +107,7 @@ class ExpressionsController < ApplicationController
   # POST /expressions.xml
   def create
     unless @work
-      flash[:notice] = ('Specify work id.')
+      flash[:notice] = t('expression.specify_work')
       redirect_to works_path
       return
     end

@@ -45,7 +45,7 @@ class MessagesController < ApplicationController
     
     respond_to do |format|
       if @message.save
-        flash[:notice] = ('Message was sent successfully.')
+        flash[:notice] = t('message.sent_successfully')
         format.html { redirect_to outbox_user_messages_path }
       else
         format.html { render :action => "new" }

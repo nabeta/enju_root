@@ -179,7 +179,7 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.new
     else
       unless @expression
-        flash[:notice] = ('Please specify expression id.')
+        flash[:notice] = t('manifestation.specify_expression')
         redirect_to expressions_url
         return
       end
@@ -219,7 +219,7 @@ class ManifestationsController < ApplicationController
       end
     else
       unless @expression
-        flash[:notice] = ('Please specify expression id.')
+        flash[:notice] = t('manifestation.specify_expression')
         redirect_to expressions_url
         return
       end

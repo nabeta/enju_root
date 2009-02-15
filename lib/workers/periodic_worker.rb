@@ -51,7 +51,7 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
       reserve.send_message('expired')
     end
     Reserve.send_message_to_patrons('expired') unless reservations.blank?
-    logger.info "#{Time.zone.now} reservations expired!"
+    logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
   rescue
     logger.info "#{Time.zone.now} expiring reservations failed!"
   end

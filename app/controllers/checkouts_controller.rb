@@ -123,19 +123,21 @@ class CheckoutsController < ApplicationController
   def update
     @checkout = @user.checkouts.find(params[:id])
     if @checkout.reserved?
-      flash[:notice] = ('This item is reserved.')
+      flash[:notice] = t('checkout.this_item_is_reserved')
       redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
       return
     end
     if @checkout.over_checkout_renewal_limit?
-      flash[:notice] = ('Excessed checkout renewal limit.')
+      flash[:notice] = t('checkout.excessed_renewal_limit')
       redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
       return
     end
     if @checkout.overdue?
-      flash[:notice] = ('You have overdue items.')
-      redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
-      return
+      flash[:notice] = t('checkout.you_have_overdue_item')
+      #unless current_user.has_role?('Librarian')
+        redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
+        return
+      #end
     end
     # もう一度取得しないとvalidationが有効にならない？
     #@checkout = @user.checkouts.find(params[:id])

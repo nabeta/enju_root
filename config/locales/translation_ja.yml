@@ -891,6 +891,7 @@ ja:
   controller:
     successfully_created: "{{model}}は正常に作成されました。"
     successfully_updated: "{{model}}は正常に更新されました。"
+    successfully_deleted: "{{model}}は正常に削除されました。"
   title:
     index: "一覧"
     show: "表示"
@@ -925,6 +926,8 @@ ja:
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
     library_group_expression: "{{library_group_name}} にある表現形"
     add: "表現形を追加する"
+    specify_work: "著作形を指定してください。"
+    specify_manifestation: "体現形を指定してください。"
   manifestation:
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
@@ -945,11 +948,16 @@ ja:
     already_imported: "すでにインポートされています。"
     record_not_found: "資料が見つかりませんでした。"
     add: "体現形を追加する"
+    specify_expression: "表現形を指定してください。"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
     library_group_item: "{{library_group_name}}にある個別資料"
     add: "個別資料を追加する"
+    specify_manifestation: "体現形を指定してください。"
+    this_item_is_reserved: "この資料は予約されています！"
+    create_shelf_first: "最初に書棚を作成してください。"
+    this_item_include_supplement: "この資料は付録を含んでいます。"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
@@ -973,6 +981,7 @@ ja:
     send: "メッセージを送信する"
     reply: "メッセージに返信する"
     delete: "メッセージを削除する"
+    sent_successfully: "メッセージは正しく送信されました。"
     no_new_message: "新しいメッセージはありません。"
     too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
     too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
@@ -990,6 +999,9 @@ ja:
   answer:
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
+    specify_question: "質問を指定してください。"
+  basket:
+    checkout_completed: "貸出が完了しました。"
   checkout:
     user_checkout: "{{login_name}} さんの貸出資料"
     library_group_checkout: "{{library_group_name}} での貸出"
@@ -1000,6 +1012,9 @@ ja:
     this_item_cant_be_renewed: "この資料は更新できません。"
     listing_overdue_item: "貸出期限切れの資料の一覧"
     current_user: "現在の貸出ユーザ"
+    this_item_is_reserved: "この資料は予約されています。"
+    you_have_overdue_item: "貸出期限を過ぎている資料があります。"
+    excessed_renewal_limit: "貸出更新回数の上限を超えています。"
   library:
     map: "地図"
     staff: "職員"
@@ -1009,6 +1024,7 @@ ja:
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
+    invalid_date: "無効な日付です。"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"
@@ -1021,6 +1037,11 @@ ja:
     specify_patron: "パトロンを指定してください。"
     wrong_password: "パスワードが間違っています。"
     password_mismatch: "パスワードが一致しません。"
+    cannot_destroy_myself: "自分自身を削除することはできません。"
+    last_administrator: "このユーザはシステム上の最後の管理者です。"
+    last_librarian: "このユーザはシステム上の最後の図書館員です。"
+    only_administrator_can_destroy: "このユーザは管理者でなければ削除できません。"
+    this_user_has_checked_out_item: "このユーザは貸出中の資料があります。"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
@@ -1028,6 +1049,11 @@ ja:
     library_group_reserve: "{{library_group_name}} での予約資料"
     my_reservation: "自分の予約"
     all_reservation: "全ての予約"
+    this_manifestation_is_already_reserved: "この資料はすでに予約されています。"
+    excessed_reservation_limit: "予約できる資料数の上限を超えています。"
+    this_patron_cannot_reserve: "このパトロンはこの資料を予約できません。"
+    reservation_was_canceled: "予約は取り消されました。"
+    this_item_is_not_reserved: "この資料は予約されていません。"
   purchase_request:
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"
@@ -1036,3 +1062,10 @@ ja:
     library_group_order_list: "{{library_group_name}} の発注リスト"
   inter_library_loan:
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
+  checked_item:
+    item_not_found: "資料が見つかりません。"
+    not_available_for_checkout: "この資料の貸出はできません。"
+  checkin:
+    enter_item_identifier: "個別資料番号を入力してください。"
+    other_library_item: "この資料は他の図書館のものです！"
+    already_checked_in: "この資料はすでに返却されています。"

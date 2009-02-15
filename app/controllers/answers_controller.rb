@@ -63,7 +63,7 @@ class AnswersController < ApplicationController
       @answer = current_user.answers.new
       @answer.question = @question
     else
-      flash[:notice] = ('Specify question id.')
+      flash[:notice] = t('answer.specify_question')
       redirect_to user_questions_url(@user.login)
     end
   end

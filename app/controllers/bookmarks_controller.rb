@@ -47,7 +47,7 @@ class BookmarksController < ApplicationController
       unless url.nil?
         if @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           if @bookmarked_resource.bookmarked?(current_user)
-            flash[:notice] = ('This resource is already bookmarked.')
+            flash[:notice] = t('bookmark.already_bookmarked')
             redirect_to manifestation_url(@bookmarked_resource.manifestation)
             return
           end
@@ -208,7 +208,7 @@ class BookmarksController < ApplicationController
     
     if @bookmark.user == @user
       @bookmark.destroy
-      flash[:notice] = ('Bookmark was successfully deleted.')
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.bookmark'))
     end
 
     if @user
