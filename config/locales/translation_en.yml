@@ -473,7 +473,6 @@ en:
       advertise:
         position: Position
       event:
-        date: Date
         title: Title
         note: Note
         started_at: Started at
@@ -903,6 +902,8 @@ en:
     back_to: "Back to {{model}} index"
     add_picture: "Add a picture"
     invalid_date: "Invalid date."
+    current_status: "Current status"
+    date: "Date"
   title:
     index: "index"
     show: "show"
@@ -1077,6 +1078,7 @@ en:
     library_group_order_list: "Order lists in {{library_group_name}}"
   inter_library_loan:
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
+    borrowing_library: "Borrowing library"
   checked_item:
     item_not_found: "Item not found."
     not_available_for_checkout: "This item is not available for checkout."

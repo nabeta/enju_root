@@ -47,7 +47,7 @@ class ReserveStatHasUsersController < ApplicationController
 
     respond_to do |format|
       if @reserve_stat_has_user.save
-        flash[:notice] = 'ReserveStatHasUser was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reserve_stat_has_user'))
         format.html { redirect_to(@reserve_stat_has_user) }
         format.xml  { render :xml => @reserve_stat_has_user, :status => :created, :location => @reserve_stat_has_user }
       else
@@ -64,7 +64,7 @@ class ReserveStatHasUsersController < ApplicationController
 
     respond_to do |format|
       if @reserve_stat_has_user.update_attributes(params[:reserve_stat_has_user])
-        flash[:notice] = 'ReserveStatHasUser was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reserve_stat_has_user'))
         format.html { redirect_to(@reserve_stat_has_user) }
         format.xml  { head :ok }
       else

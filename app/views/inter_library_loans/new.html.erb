@@ -11,7 +11,7 @@
 
 <%- form_for(@inter_library_loan) do |f| -%>
   <p>
-    <b><%= ('Borrowing library') -%></b><br />
+    <b><%= t('inter_library_loan.borrowing_library') -%></b><br />
     <%= f.select(:borrowing_library_id, @libraries.collect{|l| [l.display_name, l.id]}) -%>
   </p>
 

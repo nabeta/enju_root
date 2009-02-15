@@ -473,7 +473,6 @@ ja:
       advertise:
         position: 位置
       event:
-        date: 日付
         title: タイトル
         note: 注記
         started_at: 開始時刻
@@ -888,6 +887,9 @@ ja:
     patron_management: "パトロンの管理"
     back_to: "{{model}}の一覧に戻る"
     add_picture: "画像を追加する"
+    invalid_date: "無効な日付です。"
+    current_status: "現在の状態"
+    date: "日時"
   controller:
     successfully_created: "{{model}}は正常に作成されました。"
     successfully_updated: "{{model}}は正常に更新されました。"
@@ -1024,7 +1026,6 @@ ja:
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
-    invalid_date: "無効な日付です。"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"
@@ -1062,6 +1063,7 @@ ja:
     library_group_order_list: "{{library_group_name}} の発注リスト"
   inter_library_loan:
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
+    borrowing_library: "借受館"
   checked_item:
     item_not_found: "資料が見つかりません。"
     not_available_for_checkout: "この資料の貸出はできません。"

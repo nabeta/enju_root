@@ -47,7 +47,7 @@ class CheckoutStatHasManifestationsController < ApplicationController
 
     respond_to do |format|
       if @checkout_stat_has_manifestation.save
-        flash[:notice] = 'CheckoutStatHasManifestation was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checkout_stat_has_manifestation'))
         format.html { redirect_to(@checkout_stat_has_manifestation) }
         format.xml  { render :xml => @checkout_stat_has_manifestation, :status => :created, :location => @checkout_stat_has_manifestation }
       else
@@ -64,7 +64,7 @@ class CheckoutStatHasManifestationsController < ApplicationController
 
     respond_to do |format|
       if @checkout_stat_has_manifestation.update_attributes(params[:checkout_stat_has_manifestation])
-        flash[:notice] = 'CheckoutStatHasManifestation was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checkout_stat_has_manifestation'))
         format.html { redirect_to(@checkout_stat_has_manifestation) }
         format.xml  { head :ok }
       else
