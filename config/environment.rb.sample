@@ -55,6 +55,8 @@ Rails::Initializer.run do |config|
 #  config.gem "jpmobile"
   config.gem "prawn"
   config.gem "rscribd"
+  config.gem "flickr_fu"
+  config.gem "opensearch"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

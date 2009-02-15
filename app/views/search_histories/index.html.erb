@@ -7,7 +7,7 @@
 <%- else -%>
   <h1><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
   <p>
-    <%= link_to t('search_hisotry.failed_search'), search_histories_path(:mode => 'not_found') -%>
+    <%= link_to t('search_history.failed_search'), search_histories_path(:mode => 'not_found') -%>
   </p>
 <%- end -%>
 

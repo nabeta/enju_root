@@ -3,7 +3,7 @@
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <%- if @library -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.short_name, :date => params[:date]) -%></li>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.short_name) -%></li>
         <%- else -%>
           <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
         <%- end -%>

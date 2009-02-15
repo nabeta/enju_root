@@ -39,6 +39,8 @@ class PurchaseRequestsController < ApplicationController
       @startrecord = 1
     end
 
+    flash[:page] = params[:page].to_i if params[:page]
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @purchase_requests }

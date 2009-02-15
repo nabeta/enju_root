@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
-    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login) -%></li>
+    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login, :page => flash[:page]) -%></li>
   </ul>
 </div>
 

@@ -1,10 +1,10 @@
 <div style="color: red"><%= flash[:message].to_s -%></div>
 
 <%- remote_form_for @checked_item, :html => {:method => :post}, :update => :checked_item_list, :url => user_basket_checked_items_path(@basket.user.login, @basket, :mode => 'list') do |f| -%>
-  <div>
+  <p>
     <%= t('activerecord.attributes.item.item_identifier') -%>: <%= f.text_field :item_identifier -%>
     <%= submit_tag t('page.create') -%>
-  </div>
+  </p>
 <%- end -%>
 <%= javascript_tag("$('checked_item_item_identifier').focus()") -%>
 <table id="index">
@@ -29,6 +29,6 @@
 
 <%- form_for(:basket, :url => {:controller => 'baskets', :action => 'update', :id => @basket.id}, :html => { :method => :put }) do |f| -%>
   <div>
-    <%= f.submit 'Checkout' -%>
+    <%= f.submit t('activerecord.models.checkout') -%>
   </div>
 <%- end -%>

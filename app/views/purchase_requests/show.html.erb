@@ -6,13 +6,13 @@
       <li><%= link_to ('Add to order list'), new_purchase_request_order_path(@purchase_request) -%></li>
     <%- end -%>
     <%- if @user -%>
-      <li><%= link_to ('New purchase_request'), new_user_purchase_request_path(@user.login) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(@user.login)%></li>
     <%- end -%>
     <li><%= link_to t('page.edit'), edit_user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
     <%- if current_user.has_role?('Librarian') -%>
       <li><%= link_to t('page.destroy'), user_purchase_request_path(@purchase_request.user.login, @purchase_request), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>
-    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login) -%></li>
+    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login, :page => flash[:page]) -%></li>
   </ul>
 </div>
 
