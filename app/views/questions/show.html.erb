@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Answer this question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
+    <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
     <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
     <li><%= link_to t('page.back'), back_to_question_index -%></li>
   </ul>

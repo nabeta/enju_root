@@ -142,6 +142,7 @@ en:
         body: Body
         share_question: Share question
         deleted_at: Deleted at
+        shared: Shared
       imported_patron_file:
         filename: Filename
         content_type: Content type
@@ -615,7 +616,7 @@ en:
       answer:
         body: Body
         deleted_at: Deleted at
-        share_answer: Share answer
+        shared: Shared
       bookstore:
         name: Name
         zip_code: Zip code
@@ -974,6 +975,7 @@ en:
     this_item_is_reserved: "This item is reserved!"
     create_shelf_first: "You should create a shelf first."
     this_item_include_supplement: "This item includes supplements."
+    all_item: "All items"
   patron:
     library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"
@@ -982,6 +984,7 @@ en:
     activate_as_user: "Activate as an user"
     deactivate: "Deactivate this user"
     add: "Add a patron"
+    all_publication: "All publications"
   message:
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
@@ -1014,6 +1017,7 @@ en:
     user_question: "{{login_name}}'s questions"
     no_record_found: "No records found."
     library_group_question: "Questions in {{library_group_name}}"
+    answer_question: "Answer this question"
   answer:
     user_answer: "{{login_name}}'s answers"
     library_group_answer: "Answers from {{library_group_name}}"
@@ -1033,6 +1037,7 @@ en:
     this_item_is_reserved: "This item is reserved."
     you_have_overdue_item: "You have overdue items."
     excessed_renewal_limit: "Excessed checkout renewal limit."
+    all_checkout: "All checkouts"
   library:
     map: "Map"
     staff: "Staff"
@@ -1074,8 +1079,12 @@ en:
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"
     add_to_purchase_request: "Add to purchase request"
+    all_request: "All requests"
+    ordered: "Ordered"
+    not_ordered: "Not ordered"
   order_list:
     library_group_order_list: "Order lists in {{library_group_name}}"
+    total_price: "Total price"
   inter_library_loan:
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
     borrowing_library: "Borrowing library"
@@ -1086,3 +1095,7 @@ en:
     enter_item_identifier: "Enter item identifier."
     other_library_item: "This item is other library's item!"
     already_checked_in: "This item is already checked in."
+  search_history:
+    all_history: "All search history"
+    failed_search: "Failed searches"
+    searched_at: "Searched at"

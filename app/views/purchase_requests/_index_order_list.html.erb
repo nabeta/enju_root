@@ -1,14 +1,14 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Order'), edit_order_list_path(@order_list, :mode => 'order') -%></li>
-    <li><%= link_to ('All purchase request'), purchase_requests_path -%></li>
-    <li><%= ('Total price') -%>: <%=h @order_list.total_price -%></li>
+    <li><%= link_to t('activerecord.models.order'), edit_order_list_path(@order_list, :mode => 'order') -%></li>
+    <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
+    <li><%= t('order_list.total_price') -%>: <%=h @order_list.total_price -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
   <h1><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
-  <p><%= ('Ordered at') -%> <%=h @order_list.ordered_at -%></p>
+  <p><%= t('activerecord.attributes.order_lists.ordered_at') -%> <%=h @order_list.ordered_at -%></p>
 
 <p>
   <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>

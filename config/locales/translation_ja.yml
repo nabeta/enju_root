@@ -140,7 +140,7 @@ ja:
         deleted_at: 削除時刻
       question:
         body: 本文
-        share_question: 質問を公開する
+        shared: 質問を公開する
         deleted_at: 削除時刻
       imported_patron_file:
         filename: ファイル名
@@ -615,7 +615,7 @@ ja:
       answer:
         body: 本文
         deleted_at: 削除時刻
-        share_answer: 回答を公開する
+        shared: 回答を公開する
       bookstore:
         name: 名前
         zip_code: 郵便番号
@@ -960,6 +960,7 @@ ja:
     this_item_is_reserved: "この資料は予約されています！"
     create_shelf_first: "最初に書棚を作成してください。"
     this_item_include_supplement: "この資料は付録を含んでいます。"
+    all_item: "全ての個別資料"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
@@ -968,6 +969,7 @@ ja:
     activate_as_user: "ユーザとして登録する"
     deactivate: "ユーザ登録を解除する"
     add: "パトロンを追加する"
+    all_publication: "全ての出版物"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"
@@ -998,6 +1000,7 @@ ja:
     user_question: "{{login_name}} さんの質問"
     no_record_found: "事例が見つかりませんでした。"
     library_group_question: "{{library_group_name}} での質問"
+    answer_question: "この質問に答える"
   answer:
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
@@ -1017,6 +1020,7 @@ ja:
     this_item_is_reserved: "この資料は予約されています。"
     you_have_overdue_item: "貸出期限を過ぎている資料があります。"
     excessed_renewal_limit: "貸出更新回数の上限を超えています。"
+    all_checkout: "全ての貸出"
   library:
     map: "地図"
     staff: "職員"
@@ -1059,8 +1063,12 @@ ja:
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"
     add_to_purchase_request: "図書館の購入依頼に追加"
+    all_request: "全ての購入依頼"
+    ordered: "発注済み"
+    not_ordered: "未発注"
   order_list:
     library_group_order_list: "{{library_group_name}} の発注リスト"
+    total_price: "合計価格"
   inter_library_loan:
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
     borrowing_library: "借受館"
@@ -1071,3 +1079,7 @@ ja:
     enter_item_identifier: "個別資料番号を入力してください。"
     other_library_item: "この資料は他の図書館のものです！"
     already_checked_in: "この資料はすでに返却されています。"
+  search_history:
+    all_history: "全ての検索履歴"
+    failed_search: "失敗した検索"
+    searched_at: "検索時刻"

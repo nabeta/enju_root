@@ -275,7 +275,7 @@
             </li>
           <%- end -%>
         </ul>
-        <p><%= link_to ('All publications'), manifestations_path(:publisher => @patron.full_name) -%></p>
+        <p><%= link_to t('patron.all_publication'), manifestations_path(:publisher => @patron.full_name) -%></p>
       </div>
     <%- end -%>
     </div>

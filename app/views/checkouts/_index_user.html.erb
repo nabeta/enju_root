@@ -11,7 +11,7 @@
     <li><%= link_to 'iCalendar', ('/icalendar/' + h(@user.checkout_icalendar_token) + '.ics') -%></li>
     <li><%= link_to t('activerecord.models.reserve'), user_reserves_path(@user.login) -%></li>
     <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to ('All checkouts'), checkouts_path -%></li>
+      <li><%= link_to t('checkout.all_checkout'), checkouts_path -%></li>
     <%- end -%>
   </ul>
 </div>
