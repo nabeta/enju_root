@@ -94,11 +94,11 @@
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>
-            <td><%=h @expression.created_at -%></td>
+            <td><%= l(@expression.created_at) -%></td>
           </tr>
           <tr>
             <td><b><%= t('page.updated_at') -%>:</b></td>
-            <td><%=h @expression.updated_at -%></td>
+            <td><%= l(@expression.updated_at) -%></td>
           </tr>
         </table>
       </div>

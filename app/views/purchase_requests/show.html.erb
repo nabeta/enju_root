@@ -79,12 +79,12 @@
 
 <p>
 <b><%= t('page.created_at') -%>:</b>
-  <%=h @purchase_request.created_at -%>
+  <%= l(@purchase_request.created_at) -%>
 </p>
 
 <p>
 <b><%= t('page.updated_at') -%>:</b>
-  <%=h @purchase_request.updated_at -%>
+  <%= l(@purchase_request.updated_at) -%>
 </p>
 
 </div>

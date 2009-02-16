@@ -17,7 +17,7 @@
 </p>
 
 <p>
-  <b>User:</b>
+  <b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@news_post.user.login), user_path(@news_post.user.login) -%>
 </p>
 
@@ -28,12 +28,12 @@
 
 <p>
   <b><%= t('activerecord.attributes.news_post.start_date') -%>:</b>
-  <%=h @news_post.start_date -%>
+  <%= l(@news_post.start_date) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.news_post.end_date') -%>:</b>
-  <%=h @news_post.end_date -%>
+  <%= l(@news_post.end_date) -%>
 </p>
 
 <p>

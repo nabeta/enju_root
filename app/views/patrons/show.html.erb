@@ -141,11 +141,11 @@
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>
-            <td><%=h @patron.created_at -%></td>
+            <td><%= l(@patron.created_at) -%></td>
           </tr>
           <tr>
             <td><b><%= t('page.updated_at') -%>:</b></td>
-            <td><%=h @patron.updated_at -%></td>
+            <td><%= l(@patron.updated_at) -%></td>
           </tr>
         </table>
       </div>

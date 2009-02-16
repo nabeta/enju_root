@@ -22,13 +22,13 @@
 </p>
 
 <p>
-<b><%= t('page.created_at') -%>:</b>
-  <%=h @answer.created_at -%>
+  <b><%= t('page.created_at') -%>:</b>
+  <%= l(@answer.created_at) -%>
 </p>
 
 <p>
-<b><%= t('page.updated_at') -%>:</b>
-  <%=h @answer.updated_at -%>
+  <b><%= t('page.updated_at') -%>:</b>
+  <%= l(@answer.updated_at) -%>
 </p>
 
 </div>
