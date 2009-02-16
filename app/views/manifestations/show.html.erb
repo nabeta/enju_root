@@ -103,15 +103,11 @@
     <%- end -%>
 
     <table id="manifestation_detail">
-    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id -%>
+    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or @manifestation.flickr -%>
       <tr>
         <td style="width: 200px"><%=h t('page.video') -%>:</td>
         <td>
-          <%- if @manifestation.youtube_id -%>
-            <%= render :partial => 'youtube' -%>
-          <%- elsif @manifestation.nicovideo_id -%>
-            <%= render :partial => 'nicovideo' -%>
-          <%- end -%>
+          <%= embed_content(@manifestation) -%>
         </td>
       </tr>
     <%- end -%>
@@ -175,6 +171,9 @@
         <%- for subject in @manifestation.subjects -%>
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
+        <%- end -%>
+        <%- if_authorized?(:new, ResourceHasSubject) do -%>
+          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
         <%- end -%>
       </td>
     </tr>

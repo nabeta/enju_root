@@ -47,4 +47,15 @@ module ManifestationsHelper
     links.join(" ")
   end
 
+  def embed_content(manifestation)
+    case
+    when manifestation.youtube_id
+      render :partial => 'youtube', :locals => {:manifestation => manifestation}
+    when manifestation.nicovideo_id
+      render :partial => 'nicovideo', :locals => {:manifestation => manifestation}
+    when manifestation.flickr[:set_id]
+      render :partial => 'flickr', :locals => {:manifestation => manifestation}
+    end
+  end
+
 end
