@@ -919,6 +919,8 @@ ja:
   bookmarked_resource:
     add_to_library_bookmark: "図書館のブックマークに追加"
     library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
+    number_of_bookmark: "ブックマーク数"
+    bookmark_count: "{{count}} 回"
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"

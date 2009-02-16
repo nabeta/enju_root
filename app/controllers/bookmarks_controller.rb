@@ -43,7 +43,8 @@ class BookmarksController < ApplicationController
       return
     end
     begin
-      url = URI.decode(params[:url]) rescue nil
+      #url = URI.decode(params[:url])
+      url = URI.parse(params[:url]).normalize.to_s
       unless url.nil?
         if @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           if @bookmarked_resource.bookmarked?(current_user)
@@ -54,16 +55,18 @@ class BookmarksController < ApplicationController
           @title = @bookmarked_resource.title
         else
           @bookmarked_resource = BookmarkedResource.new(:url => url)
-          @title = Bookmark.get_title(URI.encode(url), root_url)
+          #@title = Bookmark.get_title(URI.encode(url), root_url)
+          @title = Bookmark.get_title(url, root_url)
         end
       else
+        logger.warn "Failed to bookmark: #{params[:url]}"
         raise
       end
     rescue
-      url = nil
       flash[:notice] = t('bookmark.invalid_url')
-      redirect_to user_bookmarks_url(current_user.login)
-      return
+      logger.warn "Failed to bookmark: #{url}"
+      #redirect_to user_bookmarks_url(current_user.login)
+      #return
     end
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -144,13 +147,13 @@ class BookmarksController < ApplicationController
           @bookmark.create_bookmark_item
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
-        if params[:tag_edit] == 'manifestation'
-          format.html { redirect_to manifestation_url(@bookmarked_resource.manifestation) }
-          format.xml  { head :ok }
-        else
-          format.html { redirect_to user_bookmarked_resource_url(@bookmark.user.login, @bookmark.bookmarked_resource) }
+        #if params[:tag_edit] == 'manifestation'
+        #  format.html { redirect_to manifestation_url(@bookmarked_resource.manifestation) }
+        #  format.xml  { head :ok }
+        #else
+          format.html { redirect_to manifestation_url(@bookmark.bookmarked_resource.manifestation) }
           format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
-        end
+        #end
       else
         respond_to do |format|
           @user = User.find(:first, :conditions => {:login => params[:user_id]})

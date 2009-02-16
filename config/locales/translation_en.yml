@@ -934,6 +934,10 @@ en:
   bookmarked_resource:
     add_to_library_bookmark: "Add to library bookmark"
     library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
+    number_of_bookmark: "the number bookmarks"
+    bookmark_count:
+      one: "1 bookmarks"
+      other: "{{count}} bookmarks"
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"
