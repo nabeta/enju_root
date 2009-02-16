@@ -5,7 +5,7 @@ class BarcodesController < ApplicationController
   # GET /barcodes
   # GET /barcodes.xml
   def index
-    @barcodes = Barcode.paginate(:all, :page => params[:page], :per_page => 30)
+    @barcodes = Barcode.paginate(:all, :page => params[:page])
 
     if params[:mode] == 'barcode'
       render :action => 'barcode', :layout => false

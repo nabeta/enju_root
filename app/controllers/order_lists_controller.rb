@@ -8,9 +8,9 @@ class OrderListsController < ApplicationController
   # GET /order_lists.xml
   def index
     if @bookstore
-      @order_lists = @bookstore.order_lists.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @order_lists = @bookstore.order_lists.paginate(:all, :page => params[:page])
     else
-      @order_lists = OrderList.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @order_lists = OrderList.paginate(:all, :page => params[:page])
     end
 
     @startrecord = (params[:page].to_i - 1) * OrderList.per_page + 1

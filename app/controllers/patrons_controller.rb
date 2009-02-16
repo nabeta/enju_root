@@ -49,15 +49,15 @@ class PatronsController < ApplicationController
     else
       case
       when @work
-        @patrons = @work.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @work.patrons.paginate(:page => params[:page])
       when @expression
-        @patrons = @expression.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @expression.patrons.paginate(:page => params[:page])
       when @manifestation
-        @patrons = @manifestation.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @manifestation.patrons.paginate(:page => params[:page])
       when @patron_merge_list
-        @patrons = @patron_merge_list.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @patron_merge_list.patrons.paginate(:page => params[:page])
       else
-        @patrons = Patron.paginate(:all, :page => params[:page], :per_page => @per_page)
+        @patrons = Patron.paginate(:all, :page => params[:page])
       end
 
     end

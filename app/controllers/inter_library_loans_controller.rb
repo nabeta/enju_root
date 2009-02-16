@@ -3,14 +3,15 @@ class InterLibraryLoansController < ApplicationController
   before_filter :login_required
   require_role 'Librarian'
   before_filter :get_item
+  before_filter :store_page, :only => :index
 
   # GET /inter_library_loans
   # GET /inter_library_loans.xml
   def index
     if @item
-      @inter_library_loans = @item.inter_library_loans.paginate(:page => params[:page], :per_page => @per_page)
+      @inter_library_loans = @item.inter_library_loans.paginate(:page => params[:page])
     else
-      @inter_library_loans = InterLibraryLoan.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @inter_library_loans = InterLibraryLoan.paginate(:all, :page => params[:page])
     end
 
     @startrecord = (params[:page].to_i - 1) * InterLibraryLoan.per_page + 1

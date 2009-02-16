@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       @count[:query_result] = @users.total_entries
       @query = query
     else
-      @users = User.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @users = User.paginate(:all, :page => params[:page])
       @count[:query_result] = User.count_by_solr("[* TO *]")
     end
     

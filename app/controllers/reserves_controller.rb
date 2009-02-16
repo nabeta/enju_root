@@ -5,19 +5,20 @@ class ReservesController < ApplicationController
   #, :only => [:show, :edit, :create, :update, :destroy]
   before_filter :get_manifestation, :only => [:new]
   before_filter :get_item, :only => [:new]
+  before_filter :store_page, :only => :index
 
   # GET /reserves
   # GET /reserves.xml
   def index
     if params[:mode] == 'hold' and current_user.has_role?('Librarian')
-      @reserves = Reserve.hold.paginate(:page => params[:page], :per_page => @per_page, :order => ['reserves.created_at DESC'])
+      @reserves = Reserve.hold.paginate(:page => params[:page], :order => ['reserves.created_at DESC'])
     else
       if @user
         # 一般ユーザ
-        @reserves = @user.reserves.paginate(:page => params[:page], :per_page => @per_page, :order => ['reserves.expired_at DESC'])
+        @reserves = @user.reserves.paginate(:page => params[:page], :order => ['reserves.expired_at DESC'])
       else
         # 管理者
-        @reserves = Reserve.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['reserves.expired_at DESC'])
+        @reserves = Reserve.paginate(:all, :page => params[:page], :order => ['reserves.expired_at DESC'])
       end
     end
 

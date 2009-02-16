@@ -9,9 +9,9 @@ class ReifiesController < ApplicationController
   # GET /reifies.xml
   def index
     if @work
-      @reifies = @work.reifies.paginate(:page => params[:page], :per_page => @per_page)
+      @reifies = @work.reifies.paginate(:page => params[:page])
     else
-      @reifies = Reify.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @reifies = Reify.paginate(:all, :page => params[:page])
     end
 
     respond_to do |format|

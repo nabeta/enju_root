@@ -6,7 +6,7 @@ class MessageQueuesController < ApplicationController
   # GET /message_queues
   # GET /message_queues.xml
   def index
-    @message_queues = MessageQueue.paginate(:all, :page => params[:page], :per_page => @per_page)
+    @message_queues = MessageQueue.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -10,12 +10,12 @@ class AnswersController < ApplicationController
     @count = {}
     if logged_in? and librarian_authorized?
       if @user
-        @answers = @user.answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
+        @answers = @user.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
       else
-        @answers = Answer.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
+        @answers = Answer.paginate(:all, :page => params[:page], :order => ['answers.id'])
       end
     else
-      @answers = Answer.public_answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
+      @answers = Answer.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
     end
     @count[:query_result] = @answers.size
 

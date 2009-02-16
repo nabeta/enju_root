@@ -10,11 +10,11 @@ class ProducesController < ApplicationController
   def index
     case
     when @patron
-      @produces = @patron.produces.paginate(:page => params[:page], :per_page => @per_page, :order => ['position'])
+      @produces = @patron.produces.paginate(:page => params[:page], :order => ['position'])
     when @manifestation
-      @produces = @manifestation.produces.paginate(:page => params[:page], :per_page => @per_page, :order => ['position'])
+      @produces = @manifestation.produces.paginate(:page => params[:page], :order => ['position'])
     else
-      @produces = Produce.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['position'])
+      @produces = Produce.paginate(:all, :page => params[:page], :order => ['position'])
     end
       
     respond_to do |format|

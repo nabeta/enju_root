@@ -28,22 +28,22 @@ class ExpressionsController < ApplicationController
     else
       case
       when @patron
-        @expressions = @patron.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @patron.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @work
-        @expressions = @work.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @work.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @manifestation
-        @expressions = @manifestation.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @manifestation.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @parent_expression
-        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :per_page => @per_page, :order => 'expressions.id')
+        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id')
       when @derived_expression
-        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :per_page => @per_page, :order => 'expressions.id')
+        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :order => 'expressions.id')
       when @subscription
-        @expressions = @subscription.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @subscription.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @expression_merge_list
-        @expressions = @expression_merge_list.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @expression_merge_list.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       else
         raise ActiveRecord::RecordNotFound if params[:patron_id] or params[:manifestation_id]
-        @expressions = Expression.paginate(:all, :page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = Expression.paginate(:all, :page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       end
     end
 

@@ -11,7 +11,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks
   # GET /bookmarks.xml
   def index
-    @bookmarks = Bookmark.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['id DESC'])
+    @bookmarks = Bookmark.paginate(:all, :page => params[:page], :order => ['id DESC'])
     
     respond_to do |format|
       format.html # index.rhtml

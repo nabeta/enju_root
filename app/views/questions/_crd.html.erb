@@ -18,7 +18,7 @@
         <li><%= link_to h(truncate(resource[:title])), resource[:link] -%></li>
       <%- end -%>
     </ul>
-    <%= will_paginate(@crd_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :crd_page) -%>
+    <%= will_paginate(@crd_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :crd_page, :class => 'ajax_pagination') -%>
   <%- else -%>
     <p>You can search <a href="http://crd.ndl.go.jp/">レファレンス協同データベース</a>.</p>
   <%- end -%>

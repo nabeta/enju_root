@@ -76,7 +76,7 @@ class MessagesController < ApplicationController
   # Displays all new and read and undeleted messages in the User's inbox
   def inbox
     session[:mail_box] = "inbox"
-    @messages = rezm_user.inbox_messages.paginate(:page => params[:page], :per_page => @per_page)
+    @messages = rezm_user.inbox_messages.paginate(:page => params[:page])
     @rezm_user = rezm_user
     
     respond_to do |format|
@@ -90,7 +90,7 @@ class MessagesController < ApplicationController
   # Displays all messages sent by the user
   def outbox
     session[:mail_box] = "outbox"
-    @messages = rezm_user.outbox_messages.paginate(:page => params[:page], :per_page => @per_page)
+    @messages = rezm_user.outbox_messages.paginate(:page => params[:page])
     
     respond_to do |format|
       format.html { render :action => "index" }
@@ -101,7 +101,7 @@ class MessagesController < ApplicationController
   # Displays all messages deleted from the user's inbox
   def trashbin
     session[:mail_box] = "trashbin"
-    @messages = rezm_user.trashbin_messages.paginate(:page => params[:page], :per_page => @per_page)
+    @messages = rezm_user.trashbin_messages.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html { render :action => "index" }

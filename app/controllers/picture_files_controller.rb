@@ -11,13 +11,13 @@ class PictureFilesController < ApplicationController
   def index
     case
     when @manifestation
-      @picture_files = @manifestation.picture_files.paginate(:page => params[:page], :per_page => @per_page, :order => ['picture_files.id'])
+      @picture_files = @manifestation.picture_files.paginate(:page => params[:page], :order => ['picture_files.id'])
     when @event
-      @picture_files = @event.picture_files.paginate(:page => params[:page], :per_page => @per_page, :order => ['picture_files.id'])
+      @picture_files = @event.picture_files.paginate(:page => params[:page], :order => ['picture_files.id'])
     when @shelf
-      @picture_files = @shelf.picture_files.paginate(:page => params[:page], :per_page => @per_page, :order => ['picture_files.id'])
+      @picture_files = @shelf.picture_files.paginate(:page => params[:page], :order => ['picture_files.id'])
     else
-      @picture_files = PictureFile.paginate(:all, :page => params[:page], :per_page => @per_page, :order => :id)
+      @picture_files = PictureFile.paginate(:all, :page => params[:page], :order => :id)
     end
 
     respond_to do |format|

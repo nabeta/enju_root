@@ -10,11 +10,11 @@ class RealizesController < ApplicationController
   def index
     case
     when @patron
-      @realizes = @patron.realizes.paginate(:page => params[:page], :per_page => @per_page)
+      @realizes = @patron.realizes.paginate(:page => params[:page])
     when @expression
-      @realizes = @expression.realizes.paginate(:order =>'position', :page => params[:page], :per_page => @per_page)
+      @realizes = @expression.realizes.paginate(:order =>'position', :page => params[:page])
     else
-      @realizes = Realize.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @realizes = Realize.paginate(:all, :page => params[:page])
     end
 
     respond_to do |format|

@@ -12,7 +12,7 @@ class ResourceHasSubjectsController < ApplicationController
   # GET /resource_has_subjects
   # GET /resource_has_subjects.xml
   def index
-    @resource_has_subjects = ResourceHasSubject.paginate(:all, :page => params[:page], :per_page => ResourceHasSubject.per_page)
+    @resource_has_subjects = ResourceHasSubject.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

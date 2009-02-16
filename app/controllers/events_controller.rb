@@ -14,9 +14,9 @@ class EventsController < ApplicationController
     @count = {}
     if params[:date]
       if @library
-        @events = @library.events.paginate(:conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page], :per_page => @per_page)
+        @events = @library.events.paginate(:conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
       else
-        @events = Event.paginate(:all, :conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page], :per_page => @per_page)
+        @events = Event.paginate(:all, :conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
       end
     elsif params[:tag]
       query = "#{query} tag_list: #{params[:tag]}"
@@ -30,9 +30,9 @@ class EventsController < ApplicationController
       @events = Event.paginate_by_solr(query, :page => params[:page], :per_page => @per_page)
     else
       if @library
-        @events = @library.events.paginate(:page => params[:page], :per_page => @per_page, :order => ['started_at DESC'])
+        @events = @library.events.paginate(:page => params[:page], :order => ['started_at DESC'])
       else
-        @events = Event.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['started_at DESC'])
+        @events = Event.paginate(:all, :page => params[:page], :order => ['started_at DESC'])
       end
       @count[:query_result] = @events.size
     end

@@ -17,7 +17,7 @@ class QuestionsController < ApplicationController
     if @startrecord < 1
       @startrecord = 1
     end
-    crd_startrecord = (params[:crd_page].to_i - 1) * Question.per_page + 1
+    crd_startrecord = (params[:crd_page].to_i - 1) * Question.crd_per_page + 1
     if crd_startrecord < 1
       crd_startrecord = 1
     end
@@ -32,7 +32,7 @@ class QuestionsController < ApplicationController
         end
       end
 
-      @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
+      @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc', :per_page => @per_page).compact
       refkyo_resources = Question.refkyo_search(params[:query], crd_startrecord)
       @resources = refkyo_resources[:resources]
       if params[:crd_page]
@@ -41,7 +41,12 @@ class QuestionsController < ApplicationController
         crd_page = 1
       end
       @refkyo_count = refkyo_resources[:total_count]
-      @crd_results = WillPaginate::Collection.create(crd_page, Question.per_page, @refkyo_count) do |pager| pager.replace(@resources) end
+      if @refkyo_count > 1000
+        crd_total_count = 1000
+      else
+        crd_total_count = @refkyo_count
+      end
+      @crd_results = WillPaginate::Collection.create(crd_page, Question.crd_per_page, crd_total_count) do |pager| pager.replace(@resources) end
     else
       if @user
         @questions = @user.questions.paginate(:all, :page => params[:page], :order => ['questions.updated_at DESC'])

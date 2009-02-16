@@ -20,11 +20,11 @@ class SubjectsController < ApplicationController
       case
       when @manifestation
       #@subjects = Subject.find(:all)
-        @subjects = @manifestation.subjects.paginate(:page => params[:page], :per_page => @per_page, :order => 'subjects.id')
+        @subjects = @manifestation.subjects.paginate(:page => params[:page], :order => 'subjects.id')
       when @classification
-        @subjects = @classification.subjects.paginate(:page => params[:page], :per_page => @per_page, :order => 'subjects.id')
+        @subjects = @classification.subjects.paginate(:page => params[:page], :order => 'subjects.id')
       else
-        @subjects = Subject.paginate(:all, :page => params[:page], :per_page => @per_page, :order => 'subjects.id')
+        @subjects = Subject.paginate(:all, :page => params[:page], :order => 'subjects.id')
       end
     end
     session[:params] = {} unless session[:params]
