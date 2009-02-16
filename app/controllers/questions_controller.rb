@@ -17,6 +17,10 @@ class QuestionsController < ApplicationController
     if @startrecord < 1
       @startrecord = 1
     end
+    crd_startrecord = (params[:crd_page].to_i - 1) * Question.per_page + 1
+    if crd_startrecord < 1
+      crd_startrecord = 1
+    end
 
     query = params[:query].to_s.strip
     unless query.blank?
@@ -28,20 +32,21 @@ class QuestionsController < ApplicationController
         end
       end
 
-      @questions = Question.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
-      refkyo_resources = Question.refkyo_search(params[:query], @startrecord)
+      @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
+      refkyo_resources = Question.refkyo_search(params[:query], crd_startrecord)
       @resources = refkyo_resources[:resources]
-      if params[:page]
-        @page = params[:page].to_i
+      if params[:crd_page]
+        crd_page = params[:crd_page].to_i
       else
-        @page = 1
+        crd_page = 1
       end
       @refkyo_count = refkyo_resources[:total_count]
+      @crd_results = WillPaginate::Collection.create(crd_page, Question.per_page, @refkyo_count) do |pager| pager.replace(@resources) end
     else
       if @user
-        @questions = @user.questions.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['questions.updated_at DESC'])
+        @questions = @user.questions.paginate(:all, :page => params[:page], :order => ['questions.updated_at DESC'])
       else
-        @questions = Question.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['questions.updated_at DESC'])
+        @questions = Question.paginate(:all, :page => params[:page], :order => ['questions.updated_at DESC'])
       end
     end
 
@@ -55,6 +60,11 @@ class QuestionsController < ApplicationController
       format.xml  { render :xml => @questions.to_xml }
       format.rss  { render :layout => false }
       format.atom
+      format.js {
+        render :update do |page|
+          page.replace 'sidebar', :partial => 'crd' if params[:crd_page]
+        end
+      }
     end
   end
 

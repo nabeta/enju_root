@@ -146,7 +146,7 @@
       </td>
     </tr>
     <tr>
-      <td><%= t('page.language') -%>:</td>
+      <td><%= t('activerecord.models.language') -%>:</td>
       <td><%= language_list(@manifestation.languages) -%></td>
     </tr>
     <tr>
@@ -170,7 +170,7 @@
     end
   -%>
     <tr>
-      <td><%= t('page.subject') -%>:</td>
+      <td><%= t('activerecord.models.subject') -%>:</td>
       <td>
         <%- for subject in @manifestation.subjects -%>
           <%= link_to h(subject.term), subject -%>
@@ -179,7 +179,7 @@
       </td>
     </tr>
     <tr>
-      <td><%= t('page.tag') -%>:
+      <td><%= t('activerecord.models.tag') -%>:
       </td>
       <td>
         <%= render :partial => 'tag_list' -%>
@@ -312,9 +312,9 @@
     <%- if @amazon_reviews.size > 0 -%>
       <div id="tab6">
         <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
-        <%- @amazon_reviews.each do |comment| -%>
-          <div class="amazon_summary"><strong><%=h comment[:summary] -%></strong> (<%=h comment[:date] -%>)</div>
-          <p><%= h(comment[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
+        <%- @amazon_reviews.each do |review| -%>
+          <div class="amazon_summary"><strong><%=h review[:summary] -%></strong> (<%=h review[:date] -%>)</div>
+          <p><%= h(review[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
         <%- end -%>
       </div>
     <%- end -%>

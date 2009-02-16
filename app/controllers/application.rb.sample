@@ -237,12 +237,21 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
+  def get_concept
+    @concept = Concept.find(params[:concept_id]) if params[:concept_id]
+  rescue ActiveRecord::RecordNotFound
+    not_found
+  end
+
+  def get_subject
+    @subject = Subject.find(params[:subject_id]) if params[:subject_id]
+  rescue ActiveRecord::RecordNotFound
+    not_found
+  end
+
   # 本人と図書館員のみが参照できる
   def authorized_content
-    user = get_user_if_nil
-    return true if user == current_user
-    return true if current_user.has_role?('Librarian')
-    access_denied
+    access_denied unless librarian_authorized?
   end
 
   # ユーザを指定すれば誰でも参照できる
@@ -256,6 +265,14 @@ class ApplicationController < ActionController::Base
     user = get_user
     return true if user == current_user
     access_denied unless performed?
+  end
+
+  def librarian_authorized?
+    return false unless logged_in?
+    user = get_user_if_nil
+    return true if user == current_user
+    return true if current_user.has_role?('Librarian')
+    false
   end
 
   def csv_convert_charset
@@ -284,6 +301,10 @@ class ApplicationController < ActionController::Base
     rescue SocketError
       nil
     end
+  end
+
+  def store_page
+    flash[:page] = params[:page].to_i if params[:page]
   end
 
   def profile

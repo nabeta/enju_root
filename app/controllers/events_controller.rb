@@ -6,6 +6,7 @@ class EventsController < ApplicationController
   require_role 'Librarian', :except => [:index, :show]
   before_filter :prepare_options
   after_filter :csv_convert_charset, :only => :index
+  before_filter :store_page, :only => :index
 
   # GET /events
   # GET /events.xml
@@ -41,8 +42,6 @@ class EventsController < ApplicationController
     if @startrecord < 1
       @startrecord = 1
     end
-
-    flash[:page] = params[:page].to_i if params[:page]
 
     respond_to do |format|
       format.html # index.html.erb

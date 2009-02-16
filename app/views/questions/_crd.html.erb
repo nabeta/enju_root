@@ -1,6 +1,6 @@
 <div id="sidebar">
   <%- if @resources -%>
-    <h4><a href="http://crd.ndl.go.jp/">レファレンス協同データベース</a></h4>
+  <h4><a href="http://crd.ndl.go.jp/">レファレンス協同データベース</a></h4>
     <p><%= t('question.number_of_search_results', :count => @refkyo_count) -%><br />
     <%- if @refkyo_count > 0 -%>
       <!--
@@ -18,14 +18,7 @@
         <li><%= link_to h(truncate(resource[:title])), resource[:link] -%></li>
       <%- end -%>
     </ul>
-    <%- if @refkyo_count > Question.per_page -%>
-      <%- if @startrecord > Question.per_page -%>
-        <%= link_to "&#171;" + t('page.previous'), params.merge(:page => @page - 1) -%>
-      <%- end -%>
-      <%- if @refkyo_count >= Question.per_page * (@page) -%>
-        <%= link_to t('page.next') + "&#187;", params.merge(:page => @page + 1) -%>
-      <%- end -%>
-    <%- end -%>
+    <%= will_paginate(@crd_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :crd_page) -%>
   <%- else -%>
     <p>You can search <a href="http://crd.ndl.go.jp/">レファレンス協同データベース</a>.</p>
   <%- end -%>

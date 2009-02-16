@@ -33,7 +33,6 @@
   <tr>
     <th><%= t('activerecord.models.event_category') -%></th>
     <th><%= t('activerecord.attributes.event.title') -%></th>
-    <th><%= t('activerecord.attributes.event.note') -%></th>
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('page.date') -%></th>
   </tr>
@@ -42,7 +41,6 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h event.event_category.display_name -%></td>
     <td><%= link_to h(event.title), event -%></td>
-    <td><%=h event.note -%></td>
     <td><%= link_to h(event.library.name), library_path(event.library.short_name) -%></td>
     <td>
       <%=h l(event.started_at, :format => :short) -%>

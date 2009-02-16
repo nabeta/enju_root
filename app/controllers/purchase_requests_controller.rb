@@ -4,6 +4,7 @@ class PurchaseRequestsController < ApplicationController
   before_filter :authorized_content
   before_filter :get_order_list
   after_filter :csv_convert_charset, :only => :index
+  before_filter :store_page, :only => :index
  
   # GET /purchase_requests
   # GET /purchase_requests.xml
@@ -38,8 +39,6 @@ class PurchaseRequestsController < ApplicationController
     if @startrecord < 1
       @startrecord = 1
     end
-
-    flash[:page] = params[:page].to_i if params[:page]
 
     respond_to do |format|
       format.html # index.html.erb

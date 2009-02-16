@@ -2,10 +2,11 @@
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_path(@reserve.user.login, @reserve) -%></li>
-    <%- if ['pending', 'requested', 'retained'].index(@reserve.state) -%>
+    <%- if @reserve.user.reserves.waiting.include?(@reserve) -%>
       <li><%= link_to t('page.cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>
-    <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to t('page.back'), user_reserves_path(@reserve.user.login) -%></li>
   </ul>
   <!--
