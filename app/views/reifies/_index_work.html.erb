@@ -20,8 +20,8 @@
 <%- for reify in @reifies -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
-    <td><%=h reify.created_at -%></td>
-    <td><%=h reify.updated_at -%></td>
+    <td><%= l(reify.created_at) -%></td>
+    <td><%= l(reify.updated_at) -%></td>
     <%- if_authorized?(:destroy, reify) do -%>
       <td><%= link_to t('page.destroy'), work_reify_path(@work, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

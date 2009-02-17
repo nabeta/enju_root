@@ -28,7 +28,7 @@
     <%- unless params[:mode] == 'not_found' -%>
       <td><%=h search_history.start_record -%></td>
     <%- end -%>
-    <td><%=h search_history.created_at -%></td>
+    <td><%= l(search_history.created_at) -%></td>
     <%- if_authorized?(:destroy, search_history) do -%>
       <td><%= link_to t('page.show'), search_history -%></td>
       <td><%= link_to t('page.edit'), edit_search_history_path(search_history) -%></td>
