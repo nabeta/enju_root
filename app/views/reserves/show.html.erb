@@ -30,22 +30,22 @@
 
 <p>
   <b><%= t('page.created_at') -%>:</b>
-  <%=h @reserve.created_at -%>
+  <%= l(@reserve.created_at) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.reserve.canceled_at') -%>:</b>
-  <%=h @reserve.canceled_at -%>
+  <%= l(@reserve.canceled_at) if @reserve.canceled_at -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.reserve.expired_at') -%>:</b>
-  <%=h @reserve.expired_at -%>
+  <%= l(@reserve.expired_at) if @reserve.expired_at -%>
 </p>
 
 <p>
 <b><%= t('activerecord.attributes.reserve.checked_out_at') -%>:</b>
-  <%=h @reserve.checked_out_at -%>
+  <%= l(@reserve.checked_out_at) if @reserve.checked_out_at -%>
 </p>
 
 </div>

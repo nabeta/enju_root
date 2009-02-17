@@ -890,15 +890,16 @@ ja:
     invalid_date: "無効な日付です。"
     current_status: "現在の状態"
     date: "日時"
-  controller:
-    successfully_created: "{{model}}は正常に作成されました。"
-    successfully_updated: "{{model}}は正常に更新されました。"
-    successfully_deleted: "{{model}}は正常に削除されました。"
+    this_month: "今月"
   title:
     index: "一覧"
     show: "表示"
     new: "新規作成"
     edit: "編集"
+  controller:
+    successfully_created: "{{model}}は正常に作成されました。"
+    successfully_updated: "{{model}}は正常に更新されました。"
+    successfully_deleted: "{{model}}は正常に削除されました。"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -971,6 +972,8 @@ ja:
     activate_as_user: "ユーザとして登録する"
     deactivate: "ユーザ登録を解除する"
     add: "パトロンを追加する"
+    publication: "出版物"
+    recent_publication: "最近の出版物"
     all_publication: "全ての出版物"
   message:
     user_message: "{{login_name}} さんのメッセージ"
@@ -1003,6 +1006,8 @@ ja:
     no_record_found: "事例が見つかりませんでした。"
     library_group_question: "{{library_group_name}} での質問"
     answer_question: "この質問に答える"
+    crd: "国会図書館レファレンス協同データベース"
+    you_can_search_crd: "国立国会図書館のレファレンス協同データベースを検索することができます。"
   answer:
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
@@ -1023,9 +1028,12 @@ ja:
     you_have_overdue_item: "貸出期限を過ぎている資料があります。"
     excessed_renewal_limit: "貸出更新回数の上限を超えています。"
     all_checkout: "全ての貸出"
+    no_checkout: "貸出中の資料はありません。"
+    number_of_day_overdue: "延滞日数"
   library:
     map: "地図"
     staff: "職員"
+    number_of_item: "所蔵冊数"
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
@@ -1068,6 +1076,8 @@ ja:
     all_request: "全ての購入依頼"
     ordered: "発注済み"
     not_ordered: "未発注"
+    add_to_order_list: "発注リストに追加する"
+    remove_from_order_list: "発注リストから削除する"
   order_list:
     library_group_order_list: "{{library_group_name}} の発注リスト"
     total_price: "合計価格"

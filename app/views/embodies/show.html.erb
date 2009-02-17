@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to expressions'), manifestation_expressions_path(@embody.manifestation) -%></li>
-    <li><%= link_to ('Back to manifestations'), expression_manifestations_path(@embody.expression) -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@embody.expression) -%></li>
 </div>
 
 <div id="content_detail">

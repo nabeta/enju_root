@@ -16,8 +16,13 @@ document.observe("dom:loaded", function() {
 
     container.observe('click', function(e) {
       var el = e.element()
-      if (el.match('.ajax_pagination a')) {
-        el.up('.ajax_pagination').insert(createSpinner())
+      if (el.match('.content_pagination a')) {
+        el.up('.content_pagination').insert(createSpinner())
+        new Ajax.Request(el.href, { method: 'get' })
+        e.stop()
+      }
+      if (el.match('.sidebar_pagination a')) {
+        el.up('.sidebar_pagination').insert(createSpinner())
         new Ajax.Request(el.href, { method: 'get' })
         e.stop()
       }

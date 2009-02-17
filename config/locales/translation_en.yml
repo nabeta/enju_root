@@ -905,6 +905,7 @@ en:
     invalid_date: "Invalid date."
     current_status: "Current status"
     date: "Date"
+    this_month: "This month"
   title:
     index: "index"
     show: "show"
@@ -988,6 +989,8 @@ en:
     activate_as_user: "Activate as an user"
     deactivate: "Deactivate this user"
     add: "Add a patron"
+    publication: "Publications"
+    recent_publication: "Recent publications"
     all_publication: "All publications"
   message:
     user_message: "{{login_name}}'s messages"
@@ -1022,6 +1025,8 @@ en:
     no_record_found: "No records found."
     library_group_question: "Questions in {{library_group_name}}"
     answer_question: "Answer this question"
+    crd: "NDL Collaborative Reference Database"
+    you_can_search_crd: "You can search within NDL Collaborative Reference Database."
   answer:
     user_answer: "{{login_name}}'s answers"
     library_group_answer: "Answers from {{library_group_name}}"
@@ -1042,9 +1047,12 @@ en:
     you_have_overdue_item: "You have overdue items."
     excessed_renewal_limit: "Excessed checkout renewal limit."
     all_checkout: "All checkouts"
+    no_checkout: "No checkouts."
+    number_of_day_overdue: "Number of days overdue"
   library:
     map: "Map"
     staff: "Staff"
+    number_of_item: "Number of items"
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
@@ -1086,6 +1094,8 @@ en:
     all_request: "All requests"
     ordered: "Ordered"
     not_ordered: "Not ordered"
+    add_to_order_list: "Add to order list"
+    remove_from_order_list: "Remove from order list"
   order_list:
     library_group_order_list: "Order lists in {{library_group_name}}"
     total_price: "Total price"

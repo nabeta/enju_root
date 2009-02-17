@@ -6,7 +6,7 @@
       <li><%= link_to t('page.edit'), edit_bookmarked_resource_path(@bookmarked_resource) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), bookmarked_resources_path -%></li>
-    <li><%= link_to ('Back to search results'), back_to_bookmarked_resource_index(@user) -%></li>
+    <li><%= link_to t('page.back_to_search_results'), back_to_bookmarked_resource_index(@user) -%></li>
   </ul>
 </div>
 

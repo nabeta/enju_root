@@ -67,6 +67,7 @@ class QuestionsController < ApplicationController
       format.atom
       format.js {
         render :update do |page|
+          page.replace 'result_index', :partial => 'list' if params[:page]
           page.replace 'sidebar', :partial => 'crd' if params[:crd_page]
         end
       }

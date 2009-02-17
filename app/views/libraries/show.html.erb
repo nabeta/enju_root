@@ -54,16 +54,6 @@
           <%= @map.div(:width => 600, :height => 400) -%>
         <%- end -%>
 
-        <p>
-          <b><%= t('page.created_at') -%>:</b>
-          <%=h @library.created_at -%>
-        </p>
-
-        <p>
-          <b><%= t('page.updated_at') -%>:</b>
-          <%=h @library.updated_at -%>
-        </p>
-
       </div>
       <div id="tab2">
         <ul>
@@ -83,7 +73,7 @@
         <table id="index">
           <tr>
             <th><%= t('activerecord.models.shelf') -%></th>
-            <th><%= ('Number of items') -%></th>
+            <th><%= t('library.number_of_item') -%></th>
             <th><%= t('activerecord.attributes.shelf.note') -%></th>
           </tr>
           <%- @library.shelves.each do |shelf| -%>

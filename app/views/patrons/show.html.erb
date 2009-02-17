@@ -49,7 +49,7 @@
         <li><a href="#tab4"><em><%= t('activerecord.models.manifestation') -%></em></a></li>
       <%- end -%>
       <%- unless @patron.manifestations.blank? -%>
-        <li><a href="#tab5"><em><%= ('Publication') -%></em></a></li>
+        <li><a href="#tab5"><em><%= t('patron.publication') -%></em></a></li>
       <%- end -%>
     </ul>
     <div class="yui-content">
@@ -260,7 +260,7 @@
     <%- end -%>
     <%- unless @publications.blank? -%>
       <div id="tab5">
-        <h3><%= ('Recent publications') -%></h3>
+        <h3><%= t('patron.recent_publication') -%></h3>
         <ul>
           <%- @publications.each do |manifestation| -%>
             <li>

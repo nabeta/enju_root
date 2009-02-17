@@ -8,7 +8,7 @@
 
 <div id="content_detail">
   <h1><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
-  <p><%= t('activerecord.attributes.order_lists.ordered_at') -%> <%=h @order_list.ordered_at -%></p>
+  <p><%= t('activerecord.attributes.order_list.ordered_at') -%> <%=h @order_list.ordered_at -%></p>
 
 <p>
   <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
