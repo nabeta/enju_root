@@ -260,7 +260,7 @@ ja:
         activation_code: 活性化コード
         activated_at: でアクティブ
         expired_at: 有効期限
-        locked: ロック
+        suspended: アカウントの停止
         checkout_icalendar_token: 貸出iCalendarのトークン
         answer_rss_token: 回答用RSSのトークン
         duedate_reminder_days: Duedateリマインダー日
@@ -954,6 +954,7 @@ ja:
     record_not_found: "資料が見つかりませんでした。"
     add: "体現形を追加する"
     specify_expression: "表現形を指定してください。"
+    pickup: "ピックアップ"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
@@ -1057,6 +1058,9 @@ ja:
     last_librarian: "このユーザはシステム上の最後の図書館員です。"
     only_administrator_can_destroy: "このユーザは管理者でなければ削除できません。"
     this_user_has_checked_out_item: "このユーザは貸出中の資料があります。"
+    patron_profile: "パトロンのプロフィール"
+    set_auto_generated_password: "自動生成したパスワードを設定する"
+    suspended: "アカウントの停止"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:

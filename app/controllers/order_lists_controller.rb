@@ -81,6 +81,7 @@ class OrderListsController < ApplicationController
 
     respond_to do |format|
       if @order_list.update_attributes(params[:order_list])
+        @order_list.aasm_order! if params[:mode] == 'order'
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.order_list'))
         format.html { redirect_to(@order_list) }
         format.xml  { head :ok }

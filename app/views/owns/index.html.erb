@@ -1,3 +1,12 @@
+<div id="submenu">
+  <ul>
+    <%- if_authorized?(:new, Own) do -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.own')), new_own_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
 <h1><%= t('page.listing', :model => t('activerecord.models.own')) -%></h1>
 
 <table id="index">
@@ -28,8 +37,5 @@
 <%- end -%>
 </table>
 
-<%- if_authorized?(:new, Own) do -%>
-  <p><%= link_to t('page.new', :model => t('activerecord.models.own')), new_own_path -%></p>
-<%- end -%>
-
 <%= will_paginate(@owns, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>

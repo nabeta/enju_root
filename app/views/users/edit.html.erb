@@ -3,7 +3,7 @@
 <%= error_messages_for :user -%>
 
 <p>
- <%= link_to ('Patron profile'), @user.patron -%>
+ <%= link_to t('user.patron_profile'), @user.patron -%>
 </p>
 
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
@@ -36,7 +36,7 @@
   </p>
 
   <p>
-    <%= f.check_box :auto_generated_password -%> <%= ('Set auto-generated password') -%>
+    <%= f.check_box :auto_generated_password -%> <%= t('page.set_auto_generated_password') -%>
   </p>
 
   <p><b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
@@ -44,8 +44,8 @@
   </p>
   
   <p>
-    <b><%= ('Suspended') -%></b>
-    <%= f.check_box :locked -%>
+    <b><%= t('activerecord.attributes.user.suspended') -%></b>
+    <%= f.check_box :suspended -%>
   </p>
 
   <p>
@@ -95,7 +95,7 @@
   </div>
 
 <p style="clear: both">
-  <p><b><%= ('Keyword list') -%></b><br />
+  <p><b><%= t('activerecord.attributes.user.keyword_list') -%></b><br />
    <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
   </p>
 

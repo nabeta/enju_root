@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   #before_filter :reset_params_session
   before_filter :login_required
   require_role 'Librarian', :only => [:index, :new, :create, :destroy]
-  before_filter :locked?
+  before_filter :suspended?
   before_filter :authorized_content, :only => [:edit, :update] # 上書き注意
   before_filter :store_location, :except => [:create, :update, :destroy]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       @user.share_bookmarks = params[:user][:share_bookmarks] if params[:user][:share_bookmarks]
       #@user.update_attributes(params[:user])
       if current_user.has_role?('Librarian')
-        @user.locked = params[:user][:locked] || false
+        @user.suspended = params[:user][:suspended] || false
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
@@ -272,8 +272,8 @@ class UsersController < ApplicationController
   end
 
   private
-  def locked?
-    if logged_in? and current_user.locked?
+  def suspended?
+    if logged_in? and current_user.suspended?
       cookies.delete :auth_token
       reset_session
       access_denied

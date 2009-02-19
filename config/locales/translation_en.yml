@@ -261,7 +261,7 @@ en:
         activation_code: Activation code
         activated_at: Activated at
         expired_at: Expired at
-        locked: Locked at
+        suspended: Suspended
         checkout_icalendar_token: Checkout iCalendar token
         answer_rss_token: Answer rss token
         due_date_reminder_days: Due date reminder days
@@ -971,6 +971,7 @@ en:
     record_not_found: "Record not found."
     add: "Add a manifestation"
     specify_expression: "Specify the expression."
+    pickup: "Pick up"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
@@ -1077,6 +1078,9 @@ en:
     last_librarian: "This user is the last librarian in this system."
     only_administrator_can_destroy: "Only administrators can destroy this user."
     this_user_has_checked_out_item: "This user has checked-out items."
+    patron_profile: "Patron profile"
+    set_auto_generated_password: "Set auto-generated password"
+    suspended: "Suspended"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

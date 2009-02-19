@@ -20,7 +20,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :user_group_id, :default => 1, :null => false
       t.integer :reserves_count, :default => 0, :null => false
       t.datetime :expired_at
-      t.boolean :locked, :default => true, :null => false
+      t.boolean :suspended, :default => true, :null => false
       t.integer :libraries_count, :default => 0, :null => false
       t.integer :bookmarks_count, :default => 0, :null => false
       t.integer :checkouts_count, :default => 0, :null => false

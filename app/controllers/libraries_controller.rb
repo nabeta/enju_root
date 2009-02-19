@@ -7,7 +7,7 @@ class LibrariesController < ApplicationController
   # GET /libraries
   # GET /libraries.xml
   def index
-    @libraries = Library.find(:all, :order => 'position')
+    @libraries = Library.paginate(:all, :page => params[:page], :order => 'position')
 
     respond_to do |format|
       format.html # index.rhtml
