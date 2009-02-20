@@ -3,23 +3,23 @@
 <%- case params[:inventory] when 'not_on_shelf' -%>
   <h2><%= ('Not on shelf') -%></h2>
   <p>
-    <%= link_to ('Inventory file'), @inventory_file -%>
-    <%= link_to ('All items'), inventory_file_items_path(@inventory_file) -%>
+    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
+    <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
     <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
     (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_on_shelf', :lang => 'ja') -%>)
   </p>
 <%- when 'not_in catalog' -%>
   <h2><%= ('Not in catalog') -%></h2>
   <p>
-    <%= link_to ('Inventory file'), @inventory_file -%>
-    <%= link_to ('All items'), inventory_file_items_path(@inventory_file) -%>
+    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
+    <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
     <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
     (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_in_catalog', :lang => 'ja') -%>)
   </p>
 <%- else -%>
-  <h2><%= ('All items') -%></h2>
+  <h2><%= t('item.all_item') -%></h2>
   <p>
-    <%= link_to ('Inventory file'), @inventory_file -%>
+    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
     <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
     <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
     (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :lang => 'ja') -%>)
@@ -31,7 +31,7 @@
     <th><%= t('activerecord.models.manifestation') -%></th>
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= t('activerecord.attributes.item.call_number') -%></th>
-    <th><%= t('page.library') -%></th>
+    <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
   </tr>

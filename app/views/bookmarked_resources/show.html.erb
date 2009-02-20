@@ -6,7 +6,7 @@
       <li><%= link_to t('page.edit'), edit_bookmarked_resource_path(@bookmarked_resource) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), bookmarked_resources_path -%></li>
-    <li><%= link_to ('Back to search results'), back_to_bookmarked_resource_index(@user) -%></li>
+    <li><%= link_to t('page.back_to_search_results'), back_to_bookmarked_resource_index(@user) -%></li>
   </ul>
 </div>
 
@@ -20,19 +20,19 @@
 </p>
 
 <p>
-<b><%= ('Url') -%>:</b>
+  <b><%= t('activerecord.attributes.bookmarked_resource.url') -%>:</b>
   <%= link_to h(@bookmarked_resource.url), h(@bookmarked_resource.url) -%>
 </p>
 
 <p>
-<b><%= ('Tags') -%>:</b><br />
+  <b><%= t('activerecord.models.tag') -%>:</b><br />
 <%- @bookmarked_resource.tags.each do |tag| -%>
   <%= link_to h(tag.name), tag_path(tag.name) -%>
 <%- end -%>
 </p>
 
 <p>
-<b><%= ('Bookmarked user(s)') -%>:</b> <%= h(@bookmarked_resource.bookmarks_count) -%>
+  <b><%= t('bookmarked_resource.number_of_bookmark') -%>:</b> <%= t('bookmarked_resource.bookmark_count', :count => @bookmarked_resource.bookmarks_count) -%>
 </p>
 <ul>
   <%- @bookmarked_resource.bookmarks.each do |bookmark| -%>

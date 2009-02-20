@@ -8,9 +8,9 @@ class ShelvesController < ApplicationController
   # GET /shelves.xml
   def index
     if @library
-      @shelves = @library.shelves.paginate(:page => params[:page], :per_page => @per_page, :include => :library, :order => ['shelves.position'])
+      @shelves = @library.shelves.paginate(:page => params[:page], :include => :library, :order => ['shelves.position'])
     else
-      @shelves = Shelf.paginate(:all, :page => params[:page], :per_page => @per_page, :include => :library, :order => ['shelves.position'])
+      @shelves = Shelf.paginate(:all, :page => params[:page], :include => :library, :order => ['shelves.position'])
     end
     if params[:select]
       render :partial => 'select_form'
@@ -55,7 +55,7 @@ class ShelvesController < ApplicationController
       if @shelf.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.shelf'))
         format.html { redirect_to shelf_url(@shelf) }
-        format.xml  { head :created, :location => library_shelf_url(@shelf.library.short_name, @shelf) }
+        format.xml  { render :xml => @shelf, :status => :created, :location => library_shelf_url(@shelf.library.short_name, @shelf) }
       else
         @library = Library.find(:first) if @shelf.library.nil?
         format.html { render :action => "new" }

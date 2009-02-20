@@ -24,7 +24,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.order_list.ordered_at') -%>:</b>
-  <%=h @order_list.ordered_at -%>
+  <%= l(@order_list.ordered_at) if @order_list.ordered_at -%>
 </p>
 
 <p>

@@ -1,13 +1,13 @@
 <%- if params[:mode] == 'not_found' -%>
-  <h1><%= ('Failed search') -%></h1>
+  <h1><%= t('search_history.failed_search') -%></h1>
   <%= reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
   <p>
-    <%= link_to ('All histories'), search_histories_path -%>
+    <%= link_to t('search_history.all_history'), search_histories_path -%>
   </p>
 <%- else -%>
   <h1><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
   <p>
-    <%= link_to ('Failed search'), search_histories_path(:mode => 'not_found') -%>
+    <%= link_to t('search_history.failed_search'), search_histories_path(:mode => 'not_found') -%>
   </p>
 <%- end -%>
 
@@ -18,7 +18,7 @@
     <%- unless params[:mode] == 'not_found' -%>
       <th><%= t('activerecord.attributes.search_history.start_record') -%></th>
     <%- end -%>
-    <th><%= ('Searched at') -%></th>
+    <th><%= t('search_history.searched_at') -%></th>
   </tr>
   
 <%- @search_histories.each_with_index do |search_history, i| -%>
@@ -28,7 +28,7 @@
     <%- unless params[:mode] == 'not_found' -%>
       <td><%=h search_history.start_record -%></td>
     <%- end -%>
-    <td><%=h search_history.created_at -%></td>
+    <td><%= l(search_history.created_at) -%></td>
     <%- if_authorized?(:destroy, search_history) do -%>
       <td><%= link_to t('page.show'), search_history -%></td>
       <td><%= link_to t('page.edit'), edit_search_history_path(search_history) -%></td>

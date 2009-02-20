@@ -16,7 +16,7 @@
   </p>
 
   <p>
-    <b><%= ('Purchase request') -%></b><br />
+    <b><%= t('activerecord.models.purchase_request') -%></b><br />
     <%- if @purchase_request -%>
       <%= link_to h(@purchase_request.title), @purchase_request -%>
       <%= f.hidden_field :purchase_request_id, :value => @purchase_request.id -%>

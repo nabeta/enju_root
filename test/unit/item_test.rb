@@ -5,7 +5,7 @@ class ItemTest < Test::Unit::TestCase
     :creates, :realizes, :produces, :owns,
     :languages, :libraries, :users, :patrons, :user_groups, :reserves,
     :expressions, :expression_forms, :reifies, :works, :work_forms, :embodies, :library_groups, :bookstores, :patron_types,
-    :message_templates, :message_queues, :barcodes
+    :message_templates, :message_queues, :barcodes, :request_status_types
 
   # Replace this with your real tests.
   def test_item_is_rent

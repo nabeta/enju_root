@@ -5,6 +5,7 @@ class ExpressionsController < ApplicationController
   before_filter :get_patron
   before_filter :get_work, :get_manifestation, :get_subscription
   before_filter :get_expression_merge_list
+  before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /expressions
@@ -27,22 +28,22 @@ class ExpressionsController < ApplicationController
     else
       case
       when @patron
-        @expressions = @patron.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @patron.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @work
-        @expressions = @work.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @work.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @manifestation
-        @expressions = @manifestation.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @manifestation.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @parent_expression
-        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :per_page => @per_page, :order => 'expressions.id')
+        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id')
       when @derived_expression
-        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :per_page => @per_page, :order => 'expressions.id')
+        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :order => 'expressions.id')
       when @subscription
-        @expressions = @subscription.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @subscription.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @expression_merge_list
-        @expressions = @expression_merge_list.expressions.paginate(:page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = @expression_merge_list.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       else
         raise ActiveRecord::RecordNotFound if params[:patron_id] or params[:manifestation_id]
-        @expressions = Expression.paginate(:all, :page => params[:page], :per_page => @per_page, :include => [:expression_form, :language], :order => 'expressions.id')
+        @expressions = Expression.paginate(:all, :page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       end
     end
 
@@ -85,22 +86,16 @@ class ExpressionsController < ApplicationController
   # GET /expressions/new
   def new
     unless @work
-      flash[:notice] = ('Specify work id.')
+      flash[:notice] = t('expression.specify_work')
       redirect_to works_path
       return
     end
-    @languages = Language.find(:all, :order => :id)
-    @expression_forms = ExpressionForm.find(:all)
     @parent_expression = Expression.find(params[:parent_id]) rescue nil
-    @frequency_of_issues = FrequencyOfIssue.find(:all)
     @expression = Expression.new
   end
 
   # GET /expressions/1;edit
   def edit
-    @languages = Language.find(:all, :order => :id)
-    @expression_forms = ExpressionForm.find(:all)
-    @frequency_of_issues = FrequencyOfIssue.find(:all)
     @parent = Expression.find(params[:parent_id]) rescue nil
     
     @expression = Expression.find(params[:id])
@@ -112,7 +107,7 @@ class ExpressionsController < ApplicationController
   # POST /expressions.xml
   def create
     unless @work
-      flash[:notice] = ('Specify work id.')
+      flash[:notice] = t('expression.specify_work')
       redirect_to works_path
       return
     end
@@ -131,15 +126,13 @@ class ExpressionsController < ApplicationController
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
         if @expression.patrons.blank?
           format.html { redirect_to expression_patrons_url(@expression) }
-          format.xml  { head :created, :location => patron_expression_url(@patron, @expression) }
+          format.xml  { render :xml => @expression, :status => :created, :location => @expression }
         else
           format.html { redirect_to work_expression_url(@work, @expression) }
-          format.xml  { head :created, :location => work_expression_url(@work, @expression) }
+          format.xml  { render :xml => @expression, :status => :created, :location => work_expression_url(@work, @expression) }
         end
       else
-        @languages = Language.find(:all, :order => :id)
-        @frequency_of_issues = FrequencyOfIssue.find(:all)
-        @expression_forms = ExpressionForm.find(:all)
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @expression.errors, :status => :unprocessable_entity }
       end
@@ -158,9 +151,7 @@ class ExpressionsController < ApplicationController
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
       else
-        @languages = Language.find(:all, :order => :id)
-        @frequency_of_issues = FrequencyOfIssue.find(:all)
-        @expression_forms = ExpressionForm.find(:all)
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @expression.errors, :status => :unprocessable_entity }
       end
@@ -177,5 +168,12 @@ class ExpressionsController < ApplicationController
       format.html { redirect_to expressions_url }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @languages = Language.find(:all, :order => :position)
+    @frequency_of_issues = FrequencyOfIssue.find(:all, :order => :position)
+    @expression_forms = ExpressionForm.find(:all, :order => :position)
   end
 end

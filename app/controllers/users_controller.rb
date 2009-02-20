@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   #before_filter :reset_params_session
   before_filter :login_required
   require_role 'Librarian', :only => [:index, :new, :create, :destroy]
-  before_filter :locked?
+  before_filter :suspended?
   before_filter :authorized_content, :only => [:edit, :update] # 上書き注意
   before_filter :store_location, :except => [:create, :update, :destroy]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       @count[:query_result] = @users.total_entries
       @query = query
     else
-      @users = User.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @users = User.paginate(:all, :page => params[:page])
       @count[:query_result] = User.count_by_solr("[* TO *]")
     end
     
@@ -52,20 +52,20 @@ class UsersController < ApplicationController
   def new
     #@user = User.new
     @patron = Patron.find(params[:patron_id])
-    @user_groups = UserGroup.find(:all)
+    @user_groups = UserGroup.find(:all, :order => :position)
     if @patron.user
       redirect_to patron_url(@patron)
-      flash[:notice] = ('Already activated.')
+      flash[:notice] = t('page.already_activated')
       return
     end
   rescue
-    flash[:notice] = ('Specify patron id.')
+    flash[:notice] = t('user.specify_patron')
     redirect_to patrons_url
   end
 
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user_groups = UserGroup.find(:all)
+    @user_groups = UserGroup.find(:all, :order => :position)
     @roles = Role.find(:all, :order => 'id desc')
     @libraries = Library.find(:all, :order => 'id')
     @user_role_id = @user.roles.first.id rescue nil
@@ -107,12 +107,12 @@ class UsersController < ApplicationController
             #  return
             #end
             unless @user.password == @user.password_confirmation
-              flash[:notice] = ('Password mismatch.') unless @user.password == @user.password_confirmation
+              flash[:notice] = t('user.password_mismatch') unless @user.password == @user.password_confirmation
               redirect_to edit_user_url(@user.login)
               return
             end
           else
-            flash[:notice] = ('Wrong password.')
+            flash[:notice] = t('user.wrong_password')
             redirect_to edit_user_url(@user.login)
             return
           end
@@ -123,7 +123,7 @@ class UsersController < ApplicationController
         begin
           expired_at = Time.mktime(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"])
         rescue
-          flash[:notice] = ('Invalid date.')
+          flash[:notice] = t('page.invalid_date')
           redirect_to edit_user_url(@user.login)
           return
         end
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       @user.share_bookmarks = params[:user][:share_bookmarks] if params[:user][:share_bookmarks]
       #@user.update_attributes(params[:user])
       if current_user.has_role?('Librarian')
-        @user.locked = params[:user][:locked] || false
+        @user.suspended = params[:user][:suspended] || false
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
@@ -154,7 +154,7 @@ class UsersController < ApplicationController
       else
         @roles = Role.find(:all, :order => 'id desc')
         @libraries = Library.find(:all, :order => 'id')
-        @user_groups = UserGroup.find(:all)
+        @user_groups = UserGroup.find(:all, :order => :position)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -194,7 +194,7 @@ class UsersController < ApplicationController
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
       else
-        @user_groups = UserGroup.find(:all)
+        @user_groups = UserGroup.find(:all, :order => :position)
         #flash[:notice] = ('The record is invalid.')
         flash[:error] = ("We couldn't set up that account, sorry.  Please try again, or contact an admin.")
         format.html { render :action => "new" }
@@ -226,20 +226,20 @@ class UsersController < ApplicationController
     # 自分自身を削除しようとした
     if current_user == @user
       raise
-      flash[:notice] = ('You can\'t destroy yourself.')
+      flash[:notice] = t('user.cannot_destroy_myself')
     end
 
     # 未返却の資料のあるユーザを削除しようとした
     if @user.checkouts.count > 0
       raise
-      flash[:notice] = ('This user has items not checked in.')
+      flash[:notice] = t('user.this_user_has_checked_out_item')
     end
 
     # 管理者以外のユーザが図書館員を削除しようとした。図書館員の削除は管理者しかできない
     if @user.has_role?('Librarian')
       unless current_user.has_role?('Administrator')
         raise
-        flash[:notice] = ('Only administrators can destroy this user.')
+        flash[:notice] = t('user.only_administrator_can_destroy')
       end
     end
 
@@ -247,7 +247,7 @@ class UsersController < ApplicationController
     if @user.has_role?('Librarian')
       if Role.find(:first, :conditions => {:name => 'Librarian'}).users.size == 1
         raise
-        flash[:notice] = ('This user is the last librarian in this system.')
+        flash[:notice] = t('user.last_librarian')
       end
     end
 
@@ -255,7 +255,7 @@ class UsersController < ApplicationController
     if @user.has_role?('Administrator')
       if Role.find(:first, :conditions => {:name => 'Administrator'}).users.size == 1
         raise
-        flash[:notice] = ('This user is the last administrator in this system.')
+        flash[:notice] = t('user.last_administrator')
       end
     end
 
@@ -272,8 +272,8 @@ class UsersController < ApplicationController
   end
 
   private
-  def locked?
-    if logged_in? and current_user.locked?
+  def suspended?
+    if logged_in? and current_user.suspended?
       cookies.delete :auth_token
       reset_session
       access_denied

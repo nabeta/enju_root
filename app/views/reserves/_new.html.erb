@@ -23,10 +23,12 @@
   <%- end -%>
   </p>
 
+  <!--
   <p>
     <b><%= t('activerecord.attributes.reserve.expired_at') -%></b><br />
-    <%= f.date_select :expired_at, :blank => true -%>
+    <%= f.date_select :expired_at, :include_blank => true -%>
   </p>
+  -->
 
   <p>
     <b><%= t('activerecord.attributes.user.user_number') -%></b><br />

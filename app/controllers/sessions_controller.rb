@@ -19,7 +19,7 @@ class SessionsController < ApplicationController
       self.current_user = user
       session[:return_to] = return_to
 
-      if self.current_user.locked?
+      if self.current_user.suspended?
         cookies.delete :auth_token
         flash[:notice] = t('session.your_account_is_suspended')
         redirect_back_or_default('/')

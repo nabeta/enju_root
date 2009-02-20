@@ -278,7 +278,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :exemplifies
     manifestation.resources :items
     manifestation.resources :expressions
-    #manifestation.resources :subjects
+    manifestation.resources :subjects
     manifestation.resources :resource_has_subjects
     manifestation.resources :manifestation_from_manifestations, :controller => :manifestations
     manifestation.resources :manifestation_to_manifestations, :controller => :manifestations

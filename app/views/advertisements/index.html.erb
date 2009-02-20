@@ -25,6 +25,7 @@
 <%- end -%>
 </table>
 
+<%= will_paginate(@advertisements, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
 <%= link_to t('page.new', :model => t('activerecord.models.advertisement')), new_advertisement_path -%>

@@ -5,6 +5,7 @@ class PatronsController < ApplicationController
   before_filter :get_patron_merge_list
   before_filter :get_patron, :except => [:index, :new, :create]
   before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
+  before_filter :prepare_options, :only => [:new, :edit]
   before_filter :store_location
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
@@ -48,15 +49,15 @@ class PatronsController < ApplicationController
     else
       case
       when @work
-        @patrons = @work.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @work.patrons.paginate(:page => params[:page])
       when @expression
-        @patrons = @expression.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @expression.patrons.paginate(:page => params[:page])
       when @manifestation
-        @patrons = @manifestation.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @manifestation.patrons.paginate(:page => params[:page])
       when @patron_merge_list
-        @patrons = @patron_merge_list.patrons.paginate(:page => params[:page], :per_page => @per_page)
+        @patrons = @patron_merge_list.patrons.paginate(:page => params[:page])
       else
-        @patrons = Patron.paginate(:all, :page => params[:page], :per_page => @per_page)
+        @patrons = Patron.paginate(:all, :page => params[:page])
       end
 
     end
@@ -98,10 +99,7 @@ class PatronsController < ApplicationController
       access_denied
       return
     end
-    @patron_types = PatronType.find(:all, :order => :position)
-    @languages = Language.find(:all, :order => :position)
-    @countries = Country.find(:all, :order => :position)
-    @roles = Role.find(:all)
+    prepare_options
   end
 
   # GET /patrons/1;edit
@@ -117,10 +115,7 @@ class PatronsController < ApplicationController
       access_denied
       return
     end
-    @patron_types = PatronType.find(:all, :order => :position)
-    @languages = Language.find(:all, :order => :position)
-    @countries = Country.find(:all, :order => :position)
-    @roles = Role.find(:all)
+    prepare_options
   end
 
   # POST /patrons
@@ -145,14 +140,11 @@ class PatronsController < ApplicationController
           format.html { redirect_to patron_manifestation_url(@patron, @manifestation) }
           format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
         else
-          format.html { redirect_to patron_url(@patron) }
-          format.xml  { head :created, :location => patron_url(@patron) }
+          format.html { redirect_to(@patron) }
+          format.xml  { render :xml => @patron, :status => :created, :location => @patron }
         end
       else
-        @patron_types = PatronType.find(:all, :order => :position)
-        @languages = Language.find(:all, :order => :position)
-        @countries = Country.find(:all, :order => :position)
-        @roles = Role.find(:all)
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @patron.errors, :status => :unprocessable_entity }
       end
@@ -174,10 +166,7 @@ class PatronsController < ApplicationController
         format.html { redirect_to patron_url(@patron) }
         format.xml  { head :ok }
       else
-        @patron_types = PatronType.find(:all, :order => :position)
-        @languages = Language.find(:all, :order => :position)
-        @countries = Country.find(:all, :order => :position)
-        @roles = Role.find(:all)
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @patron.errors, :status => :unprocessable_entity }
       end
@@ -236,5 +225,12 @@ class PatronsController < ApplicationController
         return
       end
     end
+  end
+
+  def prepare_options
+    @patron_types = PatronType.find(:all, :order => :position)
+    @languages = Language.find(:all, :order => :position)
+    @countries = Country.find(:all, :order => :position)
+    @roles = Role.find(:all)
   end
 end

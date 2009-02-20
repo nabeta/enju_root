@@ -53,7 +53,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_get_new_without_manifestation_id
+  def test_librarian_should_get_new_without_manifestation_id
     login_as :librarian1
     get :new
     assert_response :success

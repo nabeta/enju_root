@@ -10,11 +10,11 @@ class ProducesController < ApplicationController
   def index
     case
     when @patron
-      @produces = @patron.produces.paginate(:page => params[:page], :per_page => @per_page, :order => ['position'])
+      @produces = @patron.produces.paginate(:page => params[:page], :order => ['position'])
     when @manifestation
-      @produces = @manifestation.produces.paginate(:page => params[:page], :per_page => @per_page, :order => ['position'])
+      @produces = @manifestation.produces.paginate(:page => params[:page], :order => ['position'])
     else
-      @produces = Produce.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['position'])
+      @produces = Produce.paginate(:all, :page => params[:page], :order => ['position'])
     end
       
     respond_to do |format|
@@ -67,16 +67,8 @@ class ProducesController < ApplicationController
     respond_to do |format|
       if @produce.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.produce'))
-        if @patron
-          format.html { redirect_to patron_manifestations_url(@patron) }
-          format.xml  { head :created, :location => patron_manifestations_url(@patron) }
-        elsif @manifestation
-          format.html { redirect_to manifestation_patrons_url(@manifestation) }
-          format.xml  { head :created, :location => manifestation_patrons_url(@manifestation) }
-        else
-          format.html { redirect_to produce_url(@produce) }
-          format.xml  { head :created, :location => produce_url(@produce) }
-        end
+        format.html { redirect_to(@produce) }
+        format.xml  { render :xml => @produce, :status => :created, :location => @produce }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @produce.errors, :status => :unprocessable_entity }

@@ -5,7 +5,7 @@ class ImportedObjectsController < ApplicationController
   # GET /imported_objects
   # GET /imported_objects.xml
   def index
-    @imported_objects = ImportedObject.find(:all)
+    @imported_objects = ImportedObject.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

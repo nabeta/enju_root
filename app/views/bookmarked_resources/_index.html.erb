@@ -35,7 +35,7 @@
           <%= link_to h(tag.name), tag_path(tag.name) -%>
         <%- end -%>
       </td>
-      <td><%=h manifestation.created_at -%></td>
+      <td><%= l(manifestation.created_at) -%></td>
       <td><%= link_to t('page.show'), bookmarked_resource_path(manifestation.bookmarked_resource) -%></td>
     </tr>
   <%- end -%>

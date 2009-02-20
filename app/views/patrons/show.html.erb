@@ -2,25 +2,25 @@
   <%- if_authorized?(:destroy, @patron) do -%>
     <ul>
       <%- if @patron.user.blank? -%>
-        <li><%= link_to ('Activate as an user'), new_user_path(:patron_id => @patron.id) -%></li>
+        <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
       <%- else -%>
-        <li><%= link_to ('Deactivate this user'), edit_user_path(@patron.user.login) -%></li>
+        <li><%= link_to t('patron.deactivate'), edit_user_path(@patron.user.login) -%></li>
       <%- end -%>
-      <li><%= link_to ('Add a picture'), new_patron_attachment_file_path(@patron) -%></li>
+      <li><%= link_to t('page.add_picture'), new_patron_attachment_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
-      <li><%= link_to t('page.back'), back_to_patron_index -%></li>
+      <li><%= link_to t('page.back'), patrons_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
       <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>
     <ul>
-      <li><%= link_to ('Add a work'), patron_works_path(@patron) -%></li>
+      <li><%= link_to t('work.add'), patron_works_path(@patron) -%></li>
     </ul>
     <ul>
-      <li><%= link_to ('Add an expression'), patron_expressions_path(@patron) -%></li>
+      <li><%= link_to t('expression.add'), patron_expressions_path(@patron) -%></li>
     </ul>
     <ul>
-      <li><%= link_to ('Add a manifestation'), patron_manifestations_path(@patron) -%></li>
+      <li><%= link_to t('manifestation.add'), patron_manifestations_path(@patron) -%></li>
     </ul>
 </div>
 
@@ -49,23 +49,23 @@
         <li><a href="#tab4"><em><%= t('activerecord.models.manifestation') -%></em></a></li>
       <%- end -%>
       <%- unless @patron.manifestations.blank? -%>
-        <li><a href="#tab5"><em><%= ('Publication') -%></em></a></li>
+        <li><a href="#tab5"><em><%= t('patron.publication') -%></em></a></li>
       <%- end -%>
     </ul>
     <div class="yui-content">
       <div id="tab1">
         <table id="index">
           <tr>
-            <td><b><%= ('Patron name') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.patron.full_name') -%>:</b></td>
             <td><%=h @patron.full_name -%></td>
           </tr>
           <tr>
-            <td><b><%= ('Patron name transcription') -%>:</b></td>
+            <td><b><%= t('activerecord.attributes.patron.full_name_transcription') -%>:</b></td>
             <td><%=h @patron.full_name_transcription -%></td>
           </tr>
           <%- if @patron.user -%>
             <tr>
-              <td><b><%= ('User name') -%>:</b></td>
+              <td><b><%= t('activerecord.attributes.user.login') -%>:</b></td>
               <td><%= link_to h(@patron.user.login), edit_user_path(@patron.user.login) -%></td>
             </tr>
           <%- end -%>
@@ -141,11 +141,11 @@
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>
-            <td><%=h @patron.created_at -%></td>
+            <td><%= l(@patron.created_at) -%></td>
           </tr>
           <tr>
             <td><b><%= t('page.updated_at') -%>:</b></td>
-            <td><%=h @patron.updated_at -%></td>
+            <td><%= l(@patron.updated_at) -%></td>
           </tr>
         </table>
       </div>
@@ -260,7 +260,7 @@
     <%- end -%>
     <%- unless @publications.blank? -%>
       <div id="tab5">
-        <h3><%= ('Recent publications') -%></h3>
+        <h3><%= t('patron.recent_publication') -%></h3>
         <ul>
           <%- @publications.each do |manifestation| -%>
             <li>
@@ -275,7 +275,7 @@
             </li>
           <%- end -%>
         </ul>
-        <p><%= link_to ('All publications'), manifestations_path(:publisher => @patron.full_name) -%></p>
+        <p><%= link_to t('patron.all_publication'), manifestations_path(:publisher => @patron.full_name) -%></p>
       </div>
     <%- end -%>
     </div>

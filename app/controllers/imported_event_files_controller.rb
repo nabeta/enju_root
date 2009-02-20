@@ -6,7 +6,7 @@ class ImportedEventFilesController < ApplicationController
   # GET /imported_event_files
   # GET /imported_event_files.xml
   def index
-    @imported_event_files = ImportedEventFile.paginate(:all, :page => params[:page], :per_page => @per_page)
+    @imported_event_files = ImportedEventFile.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

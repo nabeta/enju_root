@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add a patron'), new_patron_path -%></li>
+    <li><%= link_to t('patron.add'), new_patron_path -%></li>
     <li><%= link_to ('Merge patrons'), patron_merge_lists_path -%></li>
   </ul>
 </div>
@@ -16,8 +16,8 @@
 
 <table id="index">
   <tr>
-    <th><%= ('Patron name') -%></th>
-    <th><%= ('User name') -%></th>
+    <th><%= t('activerecord.attributes.patron.full_name') -%></th>
+    <th><%= t('activerecord.attributes.user.login') -%></th>
     <th><%= t('activerecord.models.patron_type') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
     <th><%= t('activerecord.attributes.patron.place') -%></th>

@@ -19,8 +19,8 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     app.host = LIBRARY_WEB_HOSTNAME
     NewsFeed.find(:all).each do |news_feed|
       news_feed.force_reload
-      app.get "news_feeds?mode=clear_cache"
     end
+    app.get('/news_feeds?mode=clear_cache')
     logger.info "#{Time.zone.now} feeds reloaded!"
   rescue
     logger.info "#{Time.zone.now} reloading feeds failed!"
@@ -51,7 +51,7 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
       reserve.send_message('expired')
     end
     Reserve.send_message_to_patrons('expired') unless reservations.blank?
-    logger.info "#{Time.zone.now} reservations expired!"
+    logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
   rescue
     logger.info "#{Time.zone.now} expiring reservations failed!"
   end

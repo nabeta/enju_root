@@ -8,7 +8,7 @@
       <%= t('message.receiver') -%>
     </th>
     <th><%= t('activerecord.models.message_template') -%></th>
-    <th><%= ('Subject') -%></th>
+    <th><%= t('activerecord.attributes.message.subject') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('activerecord.attributes.message_queue.sent_at') -%></th>
   </tr>
@@ -23,8 +23,8 @@
     </td>
     <td><%= link_to h(message_queue.message_template.status), message_template_path(message_queue.message_template) -%></td>
     <td><%=h message_queue.subject -%></td>
-    <td><%=h message_queue.created_at -%></td>
-    <td><%=h message_queue.sent_at -%></td>
+    <td><%= l(message_queue.created_at) -%></td>
+    <td><%= l(message_queue.sent_at) if message_queue.sent_at -%></td>
     <td><%= link_to t('page.show'), message_queue -%></td>
     <td><%= link_to t('page.edit'), edit_message_queue_path(message_queue) -%></td>
     <td><%= link_to t('page.destroy'), message_queue, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -32,8 +32,10 @@
 <%- end -%>
 </table>
 
+<%= will_paginate(@message_queues, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+
+<br />
 <%- if_authorized?(:new, MessageQueue) do -%>
   <p><%= link_to t('page.new', :model => t('activerecord.models.message_queue')), new_message_queue_path -%></p>
 <%- end -%>
 
-<%= will_paginate(@message_queues, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

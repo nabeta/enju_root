@@ -17,8 +17,8 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(answer.user.login), user_path(answer.user.login) -%></td>
     <td><%= link_to truncate(h(answer.body), :length => 20), user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
-    <td><%=h answer.created_at -%></td>
-    <td><%=h answer.updated_at -%></td>
+    <td><%= l(answer.created_at) -%></td>
+    <td><%= l(answer.updated_at) -%></td>
     <%- if_authorized?(:destroy, answer) do -%>
       <td><%= link_to t('page.show'), user_question_answer_path(answer.user.login, answer.question, answer) -%></td>
       <td><%= link_to t('page.edit'), edit_user_question_answer_path(answer.user.login, answer.question, answer) -%></td>

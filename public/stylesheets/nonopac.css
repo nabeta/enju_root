@@ -107,8 +107,9 @@ div#search_footer{
 
 div#submenu{
   width: 216px;
+  margin-left: -216px;
   padding-top: 1em;
-  float: left;
+  float: right;
 }
 
 div#manifestation_book_jacket{

@@ -95,12 +95,12 @@ class CheckedItemsController < ApplicationController
     end
 
     if item.blank?
-      flash[:message] << ('Item not found.')
+      flash[:message] << t('checked_item.item_not_found')
       raise ActiveRecord::RecordNotFound
     end
 
     unless item.available_for_checkout?
-      flash[:message] << ('This item is not available for check out.')
+      flash[:message] << t('checked_item.not_available_for_checkout')
       raise
     end
 
@@ -114,7 +114,7 @@ class CheckedItemsController < ApplicationController
       if @checked_item.save
         flash[:message] << @checked_item.check_item_status
         if @checked_item.item.reserved?
-          flash[:message] << ('This item is reserved!')
+          flash[:message] << t('item.this_item_is_reserved')
           if @checked_item.item.manifestation.reserved?(@basket.user)
             reserve = Reserve.find(:first, :conditions => {:user_id => @basket.user.id, :manifestation_id => @checked_item.item.manifestation.id})
             reserve.destroy
@@ -122,7 +122,7 @@ class CheckedItemsController < ApplicationController
         end
 
         if @checked_item.item.include_supplements
-          flash[:message] << ('This item include supplements.')
+          flash[:message] << t('item.this_item_include_supplement')
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checked_item'))
 

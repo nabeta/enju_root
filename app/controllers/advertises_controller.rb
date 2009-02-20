@@ -6,7 +6,7 @@ class AdvertisesController < ApplicationController
   # GET /advertises
   # GET /advertises.xml
   def index
-    @advertises = Advertise.find(:all)
+    @advertises = Advertise.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

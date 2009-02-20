@@ -6,7 +6,7 @@ class OAI::Provider::ActiveRecordWrapper
     sql << "#{timestamp_field} >= ?" << "#{timestamp_field} < ?"
     sql << "set = ?" if opts[:set]
     esc_values = [sql.join(" AND ")]
-    esc_values << Time.parse(opts[:from].to_s) << Time.parse(opts[:until].to_s)
+    esc_values << Time.zone.parse(opts[:from].to_s) << Time.zone.parse(opts[:until].to_s)
     esc_values << opts[:set] if opts[:set]
 
     return esc_values

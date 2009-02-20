@@ -128,7 +128,7 @@ class UsersControllerTest < ActionController::TestCase
     login_as :user1
     put :update, :id => users(:user1).login, :user => {:email => 'user1@library.example.jp', :old_password => 'user1password', :password => 'new_user1', :password_confirmation => 'new_user1'}
     assert_redirected_to user_url(assigns(:user).login)
-    assert_equal flash[:notice], 'User was successfully updated.'
+    assert_equal 'User was successfully updated.', flash[:notice]
   end
 
   def test_user_should_not_update_my_password_without_current_password

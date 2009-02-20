@@ -8,11 +8,11 @@ class OwnsController < ApplicationController
   # GET /owns.xml
   def index
     if @patron
-      @owns = @patron.owns.paginate(:page => params[:page], :per_page => @per_page, :order => ['owns.position'])
+      @owns = @patron.owns.paginate(:page => params[:page], :order => ['owns.position'])
     elsif @item
-      @owns = @item.owns.paginate(:page => params[:page], :per_page => @per_page, :order => ['owns.position'])
+      @owns = @item.owns.paginate(:page => params[:page], :order => ['owns.position'])
     else
-      @owns = Own.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['owns.position'])
+      @owns = Own.paginate(:all, :page => params[:page], :order => ['owns.position'])
     end
 
     respond_to do |format|
@@ -61,7 +61,7 @@ class OwnsController < ApplicationController
       if @own.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.own'))
         format.html { redirect_to own_url(@own) }
-        format.xml  { head :created, :location => own_url(@own) }
+        format.xml  { render :xml => @own, :status => :created, :location => @own }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @own.errors, :status => :unprocessable_entity }

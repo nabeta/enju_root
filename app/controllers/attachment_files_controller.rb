@@ -11,13 +11,13 @@ class AttachmentFilesController < ApplicationController
   def index
     case
     when @manifestation
-      @attachment_files = @manifestation.attachment_files.paginate(:page => params[:page], :per_page => @per_page, :order => ['attachment_files.id'])
+      @attachment_files = @manifestation.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
     when @event
-      @attachment_files = @event.attachment_files.paginate(:page => params[:page], :per_page => @per_page, :order => ['attachment_files.id'])
+      @attachment_files = @event.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
     when @shelf
-      @attachment_files = @shelf.attachment_files.paginate(:page => params[:page], :per_page => @per_page, :order => ['attachment_files.id'])
+      @attachment_files = @shelf.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
     else
-      @attachment_files = AttachmentFile.paginate(:all, :page => params[:page], :per_page => @per_page, :order => :id)
+      @attachment_files = AttachmentFile.paginate(:all, :page => params[:page], :order => :id)
     end
 
     respond_to do |format|

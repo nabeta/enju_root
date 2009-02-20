@@ -103,15 +103,11 @@
     <%- end -%>
 
     <table id="manifestation_detail">
-    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id -%>
+    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or @manifestation.flickr -%>
       <tr>
         <td style="width: 200px"><%=h t('page.video') -%>:</td>
         <td>
-          <%- if @manifestation.youtube_id -%>
-            <%= render :partial => 'youtube' -%>
-          <%- elsif @manifestation.nicovideo_id -%>
-            <%= render :partial => 'nicovideo' -%>
-          <%- end -%>
+          <%= embed_content(@manifestation) -%>
         </td>
       </tr>
     <%- end -%>
@@ -146,7 +142,7 @@
       </td>
     </tr>
     <tr>
-      <td><%= t('page.language') -%>:</td>
+      <td><%= t('activerecord.models.language') -%>:</td>
       <td><%= language_list(@manifestation.languages) -%></td>
     </tr>
     <tr>
@@ -170,16 +166,19 @@
     end
   -%>
     <tr>
-      <td><%= t('page.subject') -%>:</td>
+      <td><%= t('activerecord.models.subject') -%>:</td>
       <td>
         <%- for subject in @manifestation.subjects -%>
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
+        <%- if_authorized?(:new, ResourceHasSubject) do -%>
+          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
+        <%- end -%>
       </td>
     </tr>
     <tr>
-      <td><%= t('page.tag') -%>:
+      <td><%= t('activerecord.models.tag') -%>:
       </td>
       <td>
         <%= render :partial => 'tag_list' -%>
@@ -312,9 +311,9 @@
     <%- if @amazon_reviews.size > 0 -%>
       <div id="tab6">
         <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
-        <%- @amazon_reviews.each do |comment| -%>
-          <div class="amazon_summary"><strong><%=h comment[:summary] -%></strong> (<%=h comment[:date] -%>)</div>
-          <p><%= h(comment[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
+        <%- @amazon_reviews.each do |review| -%>
+          <div class="amazon_summary"><strong><%=h review[:summary] -%></strong> (<%=h review[:date] -%>)</div>
+          <p><%= h(review[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
         <%- end -%>
       </div>
     <%- end -%>

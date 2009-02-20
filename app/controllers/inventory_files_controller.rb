@@ -5,7 +5,7 @@ class InventoryFilesController < ApplicationController
   # GET /inventory_files
   # GET /inventory_files.xml
   def index
-    @inventory_files = InventoryFile.paginate(:all, :page => params[:page], :per_page => @per_page)
+    @inventory_files = InventoryFile.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

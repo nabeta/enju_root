@@ -11,9 +11,9 @@ class ClassificationsController < ApplicationController
       @classifications = Classification.paginate_by_solr(query, :page => params[:page], :per_page => @per_page).compact
     else
       if @subject
-        @classifications = @subject.classifications.paginate(:page => params[:page], :per_page => @per_page)
+        @classifications = @subject.classifications.paginate(:page => params[:page])
       else
-        @classifications = Classification.paginate(:all, :page => params[:page], :per_page => @per_page)
+        @classifications = Classification.paginate(:all, :page => params[:page])
       end
     end
 

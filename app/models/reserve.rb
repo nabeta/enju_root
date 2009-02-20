@@ -17,7 +17,7 @@ class Reserve < ActiveRecord::Base
 
   acts_as_soft_deletable
   validates_associated :user, :manifestation, :librarian, :item, :request_status_type
-  validates_presence_of :user_id, :manifestation_id, :request_status_type, :expired_at
+  validates_presence_of :user_id, :manifestation_id, :request_status_type #, :expired_at
   #validates_uniqueness_of :manifestation_id, :scope => :user_id
   validate :manifestation_must_include_item
 
@@ -92,19 +92,19 @@ class Reserve < ActiveRecord::Base
 
   def retain
     # TODO: 「取り置き中」の状態を正しく表す
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'In Process'}), :checked_out_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'In Process'}), :checked_out_at => Time.zone.now})
   end
 
   def expire
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Expired'}), :canceled_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Expired'}), :canceled_at => Time.zone.now})
   end
 
   def cancel
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Cannot Fulfill Request'}), :canceled_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Cannot Fulfill Request'}), :canceled_at => Time.zone.now})
   end
 
   def checkout
-    self.update_attributes({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Available For Pickup'}), :checked_out_at => Time.zone.now})
+    self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Available For Pickup'}), :checked_out_at => Time.zone.now})
   end
 
   def send_message(status)

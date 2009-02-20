@@ -11,6 +11,8 @@ class Question < ActiveRecord::Base
 
   cattr_reader :per_page
   @@per_page = 10
+  cattr_reader :crd_per_page
+  @@crd_per_page = 5
 
   def answer_body
     text = ""
@@ -30,7 +32,7 @@ class Question < ActiveRecord::Base
     if startrecord < 1
       startrecord = 1
     end
-    url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=refkyo&any=#{URI.escape(query)}&cnt=#{Manifestation.per_page}&idx=#{startrecord}"
+    url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=refkyo&any=#{URI.escape(query)}&cnt=#{Question.crd_per_page}&idx=#{startrecord}"
     open(url){|f|
       doc = REXML::Document.new(f)
     }

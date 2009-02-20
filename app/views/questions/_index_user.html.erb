@@ -1,56 +1,19 @@
+<div id="content_detail">
 <h1><%=h t('page.listing', :model => t('activerecord.models.question')) -%></h1>
 
-<div id="result_list">
   <div id="searchform">
     <%- form_for :questions, :url => user_questions_path(@user.login), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:style => 'width: 350px'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
   <%- end -%>
   </div>
 
-<%- if @count[:query_result] > 0 -%>
-  <table id="index">
-    <tr>
-      <th><%= ('Id') -%></th>
-      <th><%= t('page.user') -%></th>
-      <th><%= t('activerecord.attributes.question.body') -%></th>
-      <th><%= t('activerecord.models.answer') -%></th>
-      <th><%= t('page.updated_at') -%></th>
-    </tr>
-  
-  <%- @questions.each_with_index do |question, i| -%>
-    <tr class="line<%= cycle("0", "1") -%>">
-      <td><%=h question.id -%></td>
-      <td><%= link_to h(question.user.login), user_path(question.user.login) -%></td>
-      <td><%= link_to h(truncate(question.body, :length => 60)), user_question_path(question.user.login,question) -%></td>
-      <td><%=h question.answers.size -%></td>
-      <td><%=h question.updated_at -%></td>
-      <%- if_authorized?(:destroy, question) do -%>
-        <td><%= link_to t('page.destroy'), user_question_path(question.user.login, question), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <%- end -%>
-    </tr>
-  <%- end -%>
-  </table>
-<%- else -%>
-  <p><%= t('question.no_record_found') -%></p>
-<%- end -%>
+  <%= render :partial => 'list' -%>
 
-<%= will_paginate(@questions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-
-<div>
-<%- if logged_in? -%>
-  <%- if current_user.has_role?('Librarian') -%>
-    <%= link_to t('question.all'), questions_path -%>
-  <%- end -%>
-<%- end -%>
-
-<%- if_authorized?(:new, Question) do -%>
-  <%= link_to t('question.my'), user_questions_path(current_user.login) -%>
-  <%= link_to t('page.new', :model => t('activerecord.models.question')), new_user_question_path(current_user.login) -%>
-<%- end -%>
-</div>
 </div>
 
-<%= render :partial => 'crd' -%>
+<div id="submenu">
+  <%= render :partial => 'crd' -%>
+</div>

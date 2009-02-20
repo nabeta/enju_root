@@ -108,7 +108,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
-    assert flash[:message].index('This item is not available for check out.')
+    assert flash[:message].index('This item is not available for checkout.')
   end
 
   def test_everyone_should_not_create_checked_item_without_basket_id
@@ -154,7 +154,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     assert_equal old_count+1, CheckedItem.count
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket)
-    assert flash[:message].index('This item include supplements.')
+    assert flash[:message].index('This item includes supplements.')
   end
   
   def test_librarian_should_not_create_checked_item_when_over_checkout_limit

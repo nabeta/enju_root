@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Answer this question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
+    <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
     <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
     <li><%= link_to t('page.back'), back_to_question_index -%></li>
   </ul>
@@ -23,13 +23,13 @@
 </p>
 
 <p>
-<b><%= t('page.created_at') -%>:</b>
-  <%=h @question.created_at -%>
+  <b><%= t('page.created_at') -%>:</b>
+  <%= l(@question.created_at) -%>
 </p>
 
 <p>
-<b><%= t('page.updated_at') -%>:</b>
-  <%=h @question.updated_at -%>
+  <b><%= t('page.updated_at') -%>:</b>
+  <%= l(@question.updated_at) -%>
 </p>
 
 <p>

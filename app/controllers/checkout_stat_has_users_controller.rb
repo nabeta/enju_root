@@ -5,7 +5,7 @@ class CheckoutStatHasUsersController < ApplicationController
   # GET /checkout_stat_has_users
   # GET /checkout_stat_has_users.xml
   def index
-    @checkout_stat_has_users = CheckoutStatHasUser.find(:all)
+    @checkout_stat_has_users = CheckoutStatHasUser.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -47,7 +47,7 @@ class CheckoutStatHasUsersController < ApplicationController
 
     respond_to do |format|
       if @checkout_stat_has_user.save
-        flash[:notice] = 'CheckoutStatHasUser was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checkout_stat_has_user'))
         format.html { redirect_to(@checkout_stat_has_user) }
         format.xml  { render :xml => @checkout_stat_has_user, :status => :created, :location => @checkout_stat_has_user }
       else
@@ -64,7 +64,7 @@ class CheckoutStatHasUsersController < ApplicationController
 
     respond_to do |format|
       if @checkout_stat_has_user.update_attributes(params[:checkout_stat_has_user])
-        flash[:notice] = 'CheckoutStatHasUser was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checkout_stat_has_user'))
         format.html { redirect_to(@checkout_stat_has_user) }
         format.xml  { head :ok }
       else

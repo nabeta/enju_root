@@ -6,7 +6,7 @@ class ImportedResourceFilesController < ApplicationController
   # GET /imported_resource_files
   # GET /imported_resource_files.xml
   def index
-    @imported_resource_files = ImportedResourceFile.paginate(:all, :page => params[:page], :per_page => @per_page)
+    @imported_resource_files = ImportedResourceFile.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

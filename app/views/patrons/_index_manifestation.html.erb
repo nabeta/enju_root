@@ -2,8 +2,8 @@
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
     <li><%= link_to ('Back to manifestations'), manifestations_path -%></li>
-    <li><%= link_to ('Add an expression'), manifestation_expressions_path(@manifestation) -%></li>
-    <li><%= link_to ('Add an item'), manifestation_items_path(@manifestation) -%></li>
+    <li><%= link_to t('expression.add'), manifestation_expressions_path(@manifestation) -%></li>
+    <li><%= link_to t('item.add'), manifestation_items_path(@manifestation) -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_manifestation_patron_path(@manifestation) -%></li>
   </ul>
 </div>

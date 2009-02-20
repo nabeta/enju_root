@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   
   named_scope :administrators, :include => ['roles'], :conditions => ['roles.name = ?', 'Administrator']
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
-  named_scope :locked, :conditions => {:locked => true}
+  named_scope :suspended, :conditions => {:suspended => true}
   acts_as_solr :fields => [:login, :email, :patron_name, :note, {:access_role_id => :range_integer}],
     :auto_commit => false
 
@@ -72,8 +72,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
-  validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
-  validates_length_of       :name,     :maximum => 255
+  #validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
+  #validates_length_of       :name,     :maximum => 255
 
   #validates_presence_of     :email
   validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}
@@ -117,7 +117,7 @@ class User < ActiveRecord::Base
     end
     lock = true if self.user_number.blank?
 
-    self.locked = true if lock
+    self.suspended = true if lock
   end
   
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -143,17 +143,17 @@ class User < ActiveRecord::Base
   end
 
   def lock
-    self.locked = true
+    self.suspended = true
     save(false)
   end
 
-  def locked?
-    return true if self.locked
+  def suspended?
+    return true if self.suspended
     false
   end
 
   def activate
-    self.locked = false
+    self.suspended = false
     save!
   end
 

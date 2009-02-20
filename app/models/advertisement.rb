@@ -12,6 +12,9 @@ class Advertisement < ActiveRecord::Base
   acts_as_solr :fields => [:title, :body, {:url => :string}, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
   acts_as_soft_deletable
 
+  @@per_page = 10
+  cattr_reader :per_page
+
   def validate
     if self.started_at and self.ended_at
       if self.started_at > self.ended_at

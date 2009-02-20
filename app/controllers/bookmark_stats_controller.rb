@@ -5,7 +5,7 @@ class BookmarkStatsController < ApplicationController
   # GET /bookmark_stats
   # GET /bookmark_stats.xml
   def index
-    @bookmark_stats = BookmarkStat.find(:all)
+    @bookmark_stats = BookmarkStat.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -48,7 +48,7 @@ class BookmarkStatsController < ApplicationController
 
     respond_to do |format|
       if @bookmark_stat.save
-        flash[:notice] = 'BookmarkStat was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark_stat'))
         format.html { redirect_to(@bookmark_stat) }
         format.xml  { render :xml => @bookmark_stat, :status => :created, :location => @bookmark_stat }
       else
@@ -65,7 +65,7 @@ class BookmarkStatsController < ApplicationController
 
     respond_to do |format|
       if @bookmark_stat.update_attributes(params[:bookmark_stat])
-        flash[:notice] = 'BookmarkStat was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark_stat'))
         format.html { redirect_to(@bookmark_stat) }
         format.xml  { head :ok }
       else

@@ -47,7 +47,7 @@ class BookmarkStatHasManifestationsController < ApplicationController
 
     respond_to do |format|
       if @bookmark_stat_has_manifestation.save
-        flash[:notice] = 'BookmarkStatHasManifestation was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark_stat_has_manifestation'))
         format.html { redirect_to(@bookmark_stat_has_manifestation) }
         format.xml  { render :xml => @bookmark_stat_has_manifestation, :status => :created, :location => @bookmark_stat_has_manifestation }
       else
@@ -64,7 +64,7 @@ class BookmarkStatHasManifestationsController < ApplicationController
 
     respond_to do |format|
       if @bookmark_stat_has_manifestation.update_attributes(params[:bookmark_stat_has_manifestation])
-        flash[:notice] = 'BookmarkStatHasManifestation was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark_stat_has_manifestation'))
         format.html { redirect_to(@bookmark_stat_has_manifestation) }
         format.xml  { head :ok }
       else

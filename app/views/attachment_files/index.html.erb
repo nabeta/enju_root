@@ -33,3 +33,4 @@
 <%- end -%>
 </table>
 
+<%= will_paginate(@attachment_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

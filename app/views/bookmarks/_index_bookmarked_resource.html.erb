@@ -20,8 +20,8 @@
 <%- for bookmark in @bookmarks -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(bookmark.user.login), user_path(bookmark.user.login) -%></td>
-    <td><%=h bookmark.created_at -%></td>
-    <td><%=h bookmark.updated_at -%></td>
+    <td><%= l(bookmark.created_at) -%></td>
+    <td><%= l(bookmark.updated_at) -%></td>
     <%- if_authorized?(:destroy, bookmark) do -%>
       <td><%= link_to t('page.destroy'), bookmarked_resource_bookmark_path(@bookmark.bookmarked_resource, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

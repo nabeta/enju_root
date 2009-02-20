@@ -72,8 +72,8 @@ namespace :catalog do
     app.host = LIBRARY_WEB_HOSTNAME
     NewsFeed.find(:all).each do |news_feed|
       news_feed.force_reload
-      app.get "news_feeds?mode=clear_cache"
     end
+    app.get "/news_feeds?mode=clear_cache"
   end
 
   def expire_aaws_responses(args = nil)

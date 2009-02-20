@@ -43,8 +43,8 @@ class ManifestationFormsController < ApplicationController
     respond_to do |format|
       if @manifestation_form.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_form'))
-        format.html { redirect_to manifestation_form_url(@manifestation_form) }
-        format.xml  { head :created, :location => manifestation_form_url(@manifestation_form) }
+        format.html { redirect_to(@manifestation_form) }
+        format.xml  { render :xml => @manifestation_form, :status => :created, :location => @manifestation_form }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @manifestation_form.errors.to_xml }

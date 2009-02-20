@@ -11,7 +11,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks
   # GET /bookmarks.xml
   def index
-    @bookmarks = Bookmark.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['id DESC'])
+    @bookmarks = Bookmark.paginate(:all, :page => params[:page], :order => ['id DESC'])
     
     respond_to do |format|
       format.html # index.rhtml
@@ -43,27 +43,30 @@ class BookmarksController < ApplicationController
       return
     end
     begin
-      url = URI.decode(params[:url]) rescue nil
+      #url = URI.decode(params[:url])
+      url = URI.parse(params[:url]).normalize.to_s
       unless url.nil?
         if @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           if @bookmarked_resource.bookmarked?(current_user)
-            flash[:notice] = ('This resource is already bookmarked.')
+            flash[:notice] = t('bookmark.already_bookmarked')
             redirect_to manifestation_url(@bookmarked_resource.manifestation)
             return
           end
           @title = @bookmarked_resource.title
         else
           @bookmarked_resource = BookmarkedResource.new(:url => url)
-          @title = Bookmark.get_title(URI.encode(url), root_url)
+          #@title = Bookmark.get_title(URI.encode(url), root_url)
+          @title = Bookmark.get_title(url, root_url)
         end
       else
+        logger.warn "Failed to bookmark: #{params[:url]}"
         raise
       end
     rescue
-      url = nil
       flash[:notice] = t('bookmark.invalid_url')
-      redirect_to user_bookmarks_url(current_user.login)
-      return
+      logger.warn "Failed to bookmark: #{url}"
+      #redirect_to user_bookmarks_url(current_user.login)
+      #return
     end
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -144,13 +147,13 @@ class BookmarksController < ApplicationController
           @bookmark.create_bookmark_item
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
-        if params[:tag_edit] == 'manifestation'
-          format.html { redirect_to manifestation_url(@bookmarked_resource.manifestation) }
-          format.xml  { head :ok }
-        else
-          format.html { redirect_to user_bookmarked_resource_url(@bookmark.user.login, @bookmark.bookmarked_resource) }
-          format.xml  { head :created, :location => bookmark_url(@bookmark.user.login, @bookmark) }
-        end
+        #if params[:tag_edit] == 'manifestation'
+        #  format.html { redirect_to manifestation_url(@bookmarked_resource.manifestation) }
+        #  format.xml  { head :ok }
+        #else
+          format.html { redirect_to manifestation_url(@bookmark.bookmarked_resource.manifestation) }
+          format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
+        #end
       else
         respond_to do |format|
           @user = User.find(:first, :conditions => {:login => params[:user_id]})
@@ -208,7 +211,7 @@ class BookmarksController < ApplicationController
     
     if @bookmark.user == @user
       @bookmark.destroy
-      flash[:notice] = ('Bookmark was successfully deleted.')
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.bookmark'))
     end
 
     if @user

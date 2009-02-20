@@ -16,10 +16,10 @@
     </ul>
   <%- end -%>
       <ul>
-        <li><%= link_to ('Add an author'), work_patrons_path(@work) -%></li>
+        <li><%= link_to t('patron.add'), work_patrons_path(@work) -%></li>
       </ul>
       <ul>
-        <li><%= link_to ('Add an expression'), work_expressions_path(@work) -%></li>
+        <li><%= link_to t('expression.add'), work_expressions_path(@work) -%></li>
       </ul>
 </div>
 
@@ -63,11 +63,11 @@
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>
-            <td><%=h @work.created_at -%></td>
+            <td><%= l(@work.created_at) -%></td>
           </tr>
           <tr>
             <td><b><%= t('page.updated_at') -%>:</b></td>
-            <td><%=h @work.updated_at -%></td>
+            <td><%= l(@work.updated_at) -%></td>
           </tr>
         </table>
       </div>

@@ -2,14 +2,14 @@
   <ul>
     <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(current_user.login)%></li>
     <%- case params[:mode] when 'not_ordered' -%>
-      <li><%= link_to ('Ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
-      <li><%= link_to ('All requests'), purchase_requests_path -%></li>
+      <li><%= link_to t('purchase_request.ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
+      <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
     <%- when 'ordered' -%>
-      <li><%= link_to ('Not ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
-      <li><%= link_to ('All requests'), purchase_requests_path -%></li>
+      <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
+      <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
     <%- else -%>
-      <li><%= link_to ('Ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
-      <li><%= link_to ('Not ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
+      <li><%= link_to t('purchase_request.ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
+      <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
     <%- end -%>
   </ul>
 </div>

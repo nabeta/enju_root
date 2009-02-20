@@ -2,10 +2,11 @@
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_path(@reserve.user.login, @reserve) -%></li>
-    <%- if ['pending', 'requested', 'retained'].index(@reserve.state) -%>
+    <%- if @reserve.user.reserves.waiting.include?(@reserve) -%>
       <li><%= link_to t('page.cancel'), user_reserve_path(@reserve.user.login, @reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>
-    <li><%= link_to t('page.destroy'), user_reserve_path(@reserve.user.login, @reserve), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to t('page.back'), user_reserves_path(@reserve.user.login) -%></li>
   </ul>
   <!--
@@ -18,8 +19,8 @@
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
 
 <p>
-  <b><%= t('activerecord.models.patron') -%>:</b>
-  <%= link_to h(@reserve.user.login) -%>
+  <b><%= t('activerecord.models.user') -%>:</b>
+  <%= link_to h(@reserve.user.login), user_path(@reserve.user.login) -%>
 </p>
 
 <p>
@@ -29,22 +30,22 @@
 
 <p>
   <b><%= t('page.created_at') -%>:</b>
-  <%=h @reserve.created_at -%>
+  <%= l(@reserve.created_at) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.reserve.canceled_at') -%>:</b>
-  <%=h @reserve.canceled_at -%>
+  <%= l(@reserve.canceled_at) if @reserve.canceled_at -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.reserve.expired_at') -%>:</b>
-  <%=h @reserve.expired_at -%>
+  <%= l(@reserve.expired_at) if @reserve.expired_at -%>
 </p>
 
 <p>
 <b><%= t('activerecord.attributes.reserve.checked_out_at') -%>:</b>
-  <%=h @reserve.checked_out_at -%>
+  <%= l(@reserve.checked_out_at) if @reserve.checked_out_at -%>
 </p>
 
 </div>

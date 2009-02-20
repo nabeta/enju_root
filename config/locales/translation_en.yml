@@ -142,6 +142,7 @@ en:
         body: Body
         share_question: Share question
         deleted_at: Deleted at
+        shared: Shared
       imported_patron_file:
         filename: Filename
         content_type: Content type
@@ -260,7 +261,7 @@ en:
         activation_code: Activation code
         activated_at: Activated at
         expired_at: Expired at
-        locked: Locked at
+        suspended: Suspended
         checkout_icalendar_token: Checkout iCalendar token
         answer_rss_token: Answer rss token
         due_date_reminder_days: Due date reminder days
@@ -473,7 +474,6 @@ en:
       advertise:
         position: Position
       event:
-        date: Date
         title: Title
         note: Note
         started_at: Started at
@@ -616,7 +616,7 @@ en:
       answer:
         body: Body
         deleted_at: Deleted at
-        share_answer: Share answer
+        shared: Shared
       bookstore:
         name: Name
         zip_code: Zip code
@@ -901,6 +901,11 @@ en:
     editing: "Editing {{model}}"
     patron_management: "Patron management"
     back_to: "Back to {{model}} index"
+    add_picture: "Add a picture"
+    invalid_date: "Invalid date."
+    current_status: "Current status"
+    date: "Date"
+    this_month: "This month"
   title:
     index: "index"
     show: "show"
@@ -909,6 +914,7 @@ en:
   controller:
     successfully_created: "{{model}} was successfully created."
     successfully_updated: "{{model}} was successfully updated."
+    successfully_deleted: "{{model}} was successfully deleted."
   advanced_search:
     from: "from"
     to: "to"
@@ -929,13 +935,21 @@ en:
   bookmarked_resource:
     add_to_library_bookmark: "Add to library bookmark"
     library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
+    number_of_bookmark: "the number bookmarks"
+    bookmark_count:
+      one: "1 bookmarks"
+      other: "{{count}} bookmarks"
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"
+    add: "Add a work"
   expression:
     patrons_expression: "{{patron_name}}'s expressions"
     manifestations_expression: "Expressions in {{manifestation_title}}"
     library_group_expression: "Expressions in {{library_group_name}}"
+    add: "Add an expression"
+    specify_work: "Specify the work."
+    specify_manifestation: "Specify the manifestation."
   manifestation:
     date_of_acquisition: "Date of acquisition"
     physical_description: "Physical description"
@@ -955,14 +969,30 @@ en:
     invalid_isbn: "Invalid ISBN."
     already_imported: "This manifestation is already imporeted."
     record_not_found: "Record not found."
+    add: "Add a manifestation"
+    specify_expression: "Specify the expression."
+    pickup: "Pick up"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
     library_group_item: "Items in {{library_group_name}}"
+    add: "Add an item"
+    specify_manifestation: "Specify the manifestation."
+    this_item_is_reserved: "This item is reserved!"
+    create_shelf_first: "You should create a shelf first."
+    this_item_include_supplement: "This item includes supplements."
+    all_item: "All items"
   patron:
+    library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"
     expression_patron: "Realizers of {{expression_title}}"
     manifestation_patron: "Producers of {{manifestation_title}}"
+    activate_as_user: "Activate as an user"
+    deactivate: "Deactivate this user"
+    add: "Add a patron"
+    publication: "Publications"
+    recent_publication: "Recent publications"
+    all_publication: "All publications"
   message:
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
@@ -978,6 +1008,7 @@ en:
     send: "Send message"
     reply: "Reply"
     delete: "Delete"
+    sent_successfully: "Message was sent successfully."
     no_new_message: "No new messages."
     too_short: "Message is too short. The minimum length is {{count}} characters."
     too_long: "Message is too long. The maximum length is {{count}} characters."
@@ -994,9 +1025,15 @@ en:
     user_question: "{{login_name}}'s questions"
     no_record_found: "No records found."
     library_group_question: "Questions in {{library_group_name}}"
+    answer_question: "Answer this question"
+    crd: "NDL Collaborative Reference Database"
+    you_can_search_crd: "You can search within NDL Collaborative Reference Database."
   answer:
     user_answer: "{{login_name}}'s answers"
     library_group_answer: "Answers from {{library_group_name}}"
+    specify_question: "Specify the question."
+  basket:
+    checkout_completed: "Checkout completed."
   checkout:
     user_checkout: "{{login_name}}'s checkouts"
     library_group_checkout: "Checkouts in {{library_group_name}}"
@@ -1007,9 +1044,16 @@ en:
     this_item_cant_be_renewed: "This item can't be renewed."
     listing_overdue_item: "Listing overdue items"
     current_user: "Current user"
+    this_item_is_reserved: "This item is reserved."
+    you_have_overdue_item: "You have overdue items."
+    excessed_renewal_limit: "Excessed checkout renewal limit."
+    all_checkout: "All checkouts"
+    no_checkout: "No checkouts."
+    number_of_day_overdue: "Number of days overdue"
   library:
     map: "Map"
     staff: "Staff"
+    number_of_item: "Number of items"
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
@@ -1025,14 +1069,51 @@ en:
     library_group_news_post: "News from {{library_group_name}}"
     sign_up: "Sign up"
     edit_profile: "Edit profile"
+    already_activated: "Already activated."
+    specify_patron: "Specify the patron."
+    wrong_password: "Wrong password."
+    password_mismatch: "Password mismatch."
+    cannot_destroy_myself: "You can't destroy yourself."
+    last_administrator: "This user is the last administrator in this system."
+    last_librarian: "This user is the last librarian in this system."
+    only_administrator_can_destroy: "Only administrators can destroy this user."
+    this_user_has_checked_out_item: "This user has checked-out items."
+    patron_profile: "Patron profile"
+    set_auto_generated_password: "Set auto-generated password"
+    suspended: "Suspended"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
+    my_reservation: "My reservations"
+    all_reservation: "All reservations"
+    this_manifestation_is_already_reserved: "This manifestation is already reserved."
+    excessed_reservation_limit: "Excessed reservation limit."
+    this_patron_cannot_reserve: "This patron can't reserve this manifestation."
+    reservation_was_canceled: "Reservation was canceled."
+    this_item_is_not_reserved: "This item is not reserved."
   purchase_request:
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"
     add_to_purchase_request: "Add to purchase request"
+    all_request: "All requests"
+    ordered: "Ordered"
+    not_ordered: "Not ordered"
+    add_to_order_list: "Add to order list"
+    remove_from_order_list: "Remove from order list"
   order_list:
     library_group_order_list: "Order lists in {{library_group_name}}"
+    total_price: "Total price"
   inter_library_loan:
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
+    borrowing_library: "Borrowing library"
+  checked_item:
+    item_not_found: "Item not found."
+    not_available_for_checkout: "This item is not available for checkout."
+  checkin:
+    enter_item_identifier: "Enter item identifier."
+    other_library_item: "This item is other library's item!"
+    already_checked_in: "This item is already checked in."
+  search_history:
+    all_history: "All search history"
+    failed_search: "Failed searches"
+    searched_at: "Searched at"

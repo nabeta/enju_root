@@ -7,8 +7,8 @@
     (<%= t('page.search_resource') -%>)
     </li>
     <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to ('All reserves'), reserves_path -%></li>
-      <li><%= link_to ('My reserves'), user_reserves_path(current_user.login) -%></li>
+      <li><%= link_to t('reserve.all_reservation'), reserves_path -%></li>
+      <li><%= link_to t('reserve.my_reservation'), user_reserves_path(current_user.login) -%></li>
     <%- end -%>
     <%- if @user -%>
       <li><%= link_to t('page.checkout'), user_checkouts_path(@user.login) -%></li>
@@ -25,7 +25,7 @@
     <th><%= ('Id') -%></th>
     <th><%= t('page.user') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
-    <th><%= ('Status') -%></th>
+    <th><%= t('activerecord.models.request_status_type') -%></th>
     <th><%= t('activerecord.attributes.reserve.expired_at') -%></th>
   </tr>
   
@@ -37,7 +37,7 @@
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
     </td>
     <td><%=h reserve.request_status_type.display_name -%></td>
-    <td><%=h reserve.expired_at -%></td>
+    <td><%= l(reserve.expired_at, :format => :short) -%></td>
     <%- if_authorized?(:destroy, reserve) do -%>
       <td><%= link_to t('page.show'), user_reserve_path(reserve.user.login, reserve) -%></td>
       <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.login, reserve) -%></td>

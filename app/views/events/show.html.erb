@@ -1,11 +1,11 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_event_path(@event) -%></li>
-    <li><%= link_to t('page.back'), events_path -%></li>
+    <li><%= link_to t('page.back'), events_path(:page => flash[:page]) -%></li>
   </ul>
 <%- if logged_in? -%>
   <ul>
-    <li><%= link_to ('Add to bookmark'), new_user_bookmark_path(current_user.login, :url => request.url) -%></li>
+    <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url) -%></li>
   </ul>
 <%- end -%>
 </div>

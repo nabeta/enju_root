@@ -102,7 +102,7 @@ class CheckinsControllerTest < ActionController::TestCase
     old_count = Checkin.count
     post :create, :checkin => {:item_identifier => '00009'}, :basket_id => 9
     assert_equal old_count+1, Checkin.count
-    assert flash[:message].index('This item is other library\'s resource!')
+    assert flash[:message].index('This item is other library\'s item!')
     
     assert_redirected_to user_basket_checkins_url(assigns(:basket).user.login, assigns(:basket))
   end

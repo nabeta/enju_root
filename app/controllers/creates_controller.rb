@@ -10,11 +10,11 @@ class CreatesController < ApplicationController
   def index
     case
     when @patron
-      @creates = @patron.creates.paginate(:page => params[:page], :per_page => @per_page, :order => ['position'])
+      @creates = @patron.creates.paginate(:page => params[:page], :order => ['position'])
     when @work
-      @creates = @work.creates.paginate(:page => params[:page], :per_page => @per_page, :order => ['position'])
+      @creates = @work.creates.paginate(:page => params[:page], :order => ['position'])
     else
-      @creates = Create.paginate(:all, :page => params[:page], :per_page => @per_page, :order => :id)
+      @creates = Create.paginate(:all, :page => params[:page], :order => :id)
     end
 
     respond_to do |format|
@@ -62,16 +62,8 @@ class CreatesController < ApplicationController
     respond_to do |format|
       if @create.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.create'))
-        if @patron
-          format.html { redirect_to patron_works_url(@patron) }
-          format.xml  { head :created, :location => patron_works_url(@patron) }
-        elsif @work
-          format.html { redirect_to work_patrons_url(@work) }
-          format.xml  { head :created, :location => work_patrons_url(@work) }
-        else
-          format.html { redirect_to create_url(@create) }
-          format.xml  { head :created, :location => create_url(@create) }
-        end
+        format.html { redirect_to(@create) }
+        format.xml  { render :xml => @create, :status => :created, :location => @create }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @create.errors, :status => :unprocessable_entity }

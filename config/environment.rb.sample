@@ -55,6 +55,8 @@ Rails::Initializer.run do |config|
 #  config.gem "jpmobile"
   config.gem "prawn"
   config.gem "rscribd"
+  config.gem "flickr_fu"
+  config.gem "opensearch"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -102,6 +104,8 @@ Rails::Initializer.run do |config|
   # config.active_record.observers = :cacher, :garbage_collector
 end
 
+#I18n.default_locale = "ja"
+
 #require 'jasper-rails'
 require 'solr_modified'
 require 'tag_modified'
@@ -113,7 +117,6 @@ require 'barby/outputter/png_outputter'
 require 'wakati'
 
 LIBRARY_WEB_URL = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
-I18n.default_locale = "ja"
 
 #ActionMailer::Base.delivery_method = :smtp
 

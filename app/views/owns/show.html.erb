@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to patrons'), item_patrons_path(@own.item) -%></li>
-    <li><%= link_to ('Back to items'), patron_items_path(@own.patron) -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.patron')), item_patrons_path(@own.item) -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.item')), patron_items_path(@own.patron) -%></li>
   </ul>
 </div>
 

@@ -9,11 +9,11 @@ class SearchHistoriesController < ApplicationController
   # GET /search_histories
   # GET /search_histories.xml
   def index
-    #@search_histories = @user.search_histories.paginate(:page => params[:page], :per_page => @per_page, :order => ['created_at DESC'])
+    #@search_histories = @user.search_histories.paginate(:page => params[:page], :order => ['created_at DESC'])
     if params[:mode] == 'not_found'
-      @search_histories = SearchHistory.not_found.paginate(:page => params[:page], :per_page => @per_page, :order => ['created_at DESC'])
+      @search_histories = SearchHistory.not_found.paginate(:page => params[:page], :order => ['created_at DESC'])
     else
-      @search_histories = SearchHistory.paginate(:page => params[:page], :per_page => @per_page, :order => ['created_at DESC'])
+      @search_histories = SearchHistory.paginate(:page => params[:page], :order => ['created_at DESC'])
     end
 
     respond_to do |format|

@@ -4,7 +4,7 @@
     <li><%= link_to t('page.edit'), edit_user_checkout_path(@checkout.user.login, @checkout) -%></li>
     <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
     <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to ('Back to checkout index'), checkouts_path -%></li>
+      <li><%= link_to t('page.back_to', :model => t('activerecord.models.checkout')), checkouts_path -%></li>
     <%- end -%>
   </ul>
 </div>

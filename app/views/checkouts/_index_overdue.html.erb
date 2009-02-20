@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to checkout index'), checkouts_path -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.checkout')), checkouts_path -%></li>
   </ul>
 </div>
 
@@ -9,7 +9,7 @@
 
   <%- form_for(:checkouts, :url => checkouts_path, :html => {:method => 'get'}) do -%>
     <div>
-      <%= ('Number of days overdue') -%>:
+      <%= t('checkout.number_of_day_overdue') -%>:
       <%= text_field_tag 'days_overdue', h(@days_overdue), :class => 'resource_integer' -%>
       <%= hidden_field_tag 'view', 'overdue' -%>
       <%= submit_tag t('page.submit') -%>
@@ -25,7 +25,7 @@
 <%= render :partial => 'list' -%>
 
 <%- if @checkouts.size == 0 -%>
-  <p><%= ('No checkouts.') -%></p>
+  <p><%= t('checkout.no_checkout') -%></p>
 <%- end -%>
 
 </div>

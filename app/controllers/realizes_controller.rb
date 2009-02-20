@@ -10,11 +10,11 @@ class RealizesController < ApplicationController
   def index
     case
     when @patron
-      @realizes = @patron.realizes.paginate(:page => params[:page], :per_page => @per_page)
+      @realizes = @patron.realizes.paginate(:page => params[:page])
     when @expression
-      @realizes = @expression.realizes.paginate(:order =>'position', :page => params[:page], :per_page => @per_page)
+      @realizes = @expression.realizes.paginate(:order =>'position', :page => params[:page])
     else
-      @realizes = Realize.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @realizes = Realize.paginate(:all, :page => params[:page])
     end
 
     respond_to do |format|
@@ -62,8 +62,8 @@ class RealizesController < ApplicationController
     respond_to do |format|
       if @realize.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.realize'))
-        format.html { redirect_to realize_url(@realize) }
-        format.xml  { head :created, :location => realize_url(@realize) }
+        format.html { redirect_to(@realize) }
+        format.xml  { render :xml => @realize, :status => :created, :location => @realize }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @realize.errors, :status => :unprocessable_entity }

@@ -6,7 +6,7 @@ class MessageTemplatesController < ApplicationController
   # GET /message_templates
   # GET /message_templates.xml
   def index
-    @message_templates = MessageTemplate.find(:all, :order => :position)
+    @message_templates = MessageTemplate.paginate(:all, :page => params[:page], :order => :position)
 
     respond_to do |format|
       format.html # index.html.erb

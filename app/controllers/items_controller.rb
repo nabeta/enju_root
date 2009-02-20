@@ -103,12 +103,12 @@ class ItemsController < ApplicationController
   # GET /items/new
   def new
     if @shelves.blank?
-      flash[:notice] = ('You should create a shelf at first.')
+      flash[:notice] = t('item.create_shelf_first')
       redirect_to libraries_url
       return
     end
     unless @manifestation
-      flash[:notice] = ('Please specify manifestation id.')
+      flash[:notice] = t('item.specify_manifestation')
       redirect_to manifestations_url
       return
     end
@@ -128,7 +128,7 @@ class ItemsController < ApplicationController
   # POST /items.xml
   def create
     unless @manifestation
-      flash[:notice] = ('Please specify manifestation id.')
+      flash[:notice] = t('item.specify_manifestation')
       redirect_to manifestations_url
       return
     end
@@ -146,13 +146,13 @@ class ItemsController < ApplicationController
           end
           if @item.manifestation.reserved?
             #ReservationNotifier.deliver_reserved(@item.manifestation.next_reservation.user)
-            flash[:message] = ('This item is reserved!')
+            flash[:message] = t('item.this_item_is_reserved')
             @item.retain(current_user)
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
-        format.html { redirect_to item_url(@item) }
-        format.xml  { head :created, :location => item_url(@item) }
+        format.html { redirect_to(@item) }
+        format.xml  { render :xml => @item, :status => :created, :location => @item }
       else
         prepare_options
         format.html { render :action => "new" }

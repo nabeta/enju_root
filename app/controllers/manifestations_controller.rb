@@ -179,7 +179,7 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.new
     else
       unless @expression
-        flash[:notice] = ('Please specify expression id.')
+        flash[:notice] = t('manifestation.specify_expression')
         redirect_to expressions_url
         return
       end
@@ -219,7 +219,7 @@ class ManifestationsController < ApplicationController
       end
     else
       unless @expression
-        flash[:notice] = ('Please specify expression id.')
+        flash[:notice] = t('manifestation.specify_expression')
         redirect_to expressions_url
         return
       end
@@ -242,11 +242,11 @@ class ManifestationsController < ApplicationController
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
         #else
           unless @manifestation.patrons.blank?
-            format.html { redirect_to manifestation_url(@manifestation) }
-            format.xml  { head :created, :location => manifestation_url(@manifestation) }
+            format.html { redirect_to(@manifestation) }
+            format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
           else
             format.html { redirect_to manifestation_patrons_url(@manifestation) }
-            format.xml  { head :created, :location => manifestation_url(@manifestation) }
+            format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
           end
         #end
       else

@@ -86,7 +86,7 @@ ja:
       patron_merge: パトロンの併合
       subject_related_term: 件名の関連語
       library_group: 図書館グループ
-      imported_event_file: イベントファイルのインポート
+      imported_event_file: 催し物ファイルのインポート
       bookmarked_resource: ブックマークリソース
       attachment_file: 添付ファイル
       reserve: 予約
@@ -140,7 +140,7 @@ ja:
         deleted_at: 削除時刻
       question:
         body: 本文
-        share_question: 質問を公開する
+        shared: 質問を公開する
         deleted_at: 削除時刻
       imported_patron_file:
         filename: ファイル名
@@ -260,7 +260,7 @@ ja:
         activation_code: 活性化コード
         activated_at: でアクティブ
         expired_at: 有効期限
-        locked: ロック
+        suspended: アカウントの停止
         checkout_icalendar_token: 貸出iCalendarのトークン
         answer_rss_token: 回答用RSSのトークン
         duedate_reminder_days: Duedateリマインダー日
@@ -473,7 +473,6 @@ ja:
       advertise:
         position: 位置
       event:
-        date: 日付
         title: タイトル
         note: 注記
         started_at: 開始時刻
@@ -616,7 +615,7 @@ ja:
       answer:
         body: 本文
         deleted_at: 削除時刻
-        share_answer: 回答を公開する
+        shared: 回答を公開する
       bookstore:
         name: 名前
         zip_code: 郵便番号
@@ -887,14 +886,20 @@ ja:
     editing: "{{model}}の編集"
     patron_management: "パトロンの管理"
     back_to: "{{model}}の一覧に戻る"
-  controller:
-    successfully_created: "{{model}}は正常に作成されました。"
-    successfully_updated: "{{model}}は正常に更新されました。"
+    add_picture: "画像を追加する"
+    invalid_date: "無効な日付です。"
+    current_status: "現在の状態"
+    date: "日時"
+    this_month: "今月"
   title:
     index: "一覧"
     show: "表示"
     new: "新規作成"
     edit: "編集"
+  controller:
+    successfully_created: "{{model}}は正常に作成されました。"
+    successfully_updated: "{{model}}は正常に更新されました。"
+    successfully_deleted: "{{model}}は正常に削除されました。"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -915,13 +920,19 @@ ja:
   bookmarked_resource:
     add_to_library_bookmark: "図書館のブックマークに追加"
     library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
+    number_of_bookmark: "ブックマーク数"
+    bookmark_count: "{{count}} 回"
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"
+    add: "著作形を追加する"
   expression:
     patron_expression: "{{patron_name}} の表現形"
     manifestations_expression: "{{manifestation_title}} に含まれる表現形"
     library_group_expression: "{{library_group_name}} にある表現形"
+    add: "表現形を追加する"
+    specify_work: "著作形を指定してください。"
+    specify_manifestation: "体現形を指定してください。"
   manifestation:
     date_of_acquisition: "受入日"
     physical_description: "ページ数と大きさ"
@@ -941,15 +952,30 @@ ja:
     invalid_isbn: "無効なISBNです。"
     already_imported: "すでにインポートされています。"
     record_not_found: "資料が見つかりませんでした。"
+    add: "体現形を追加する"
+    specify_expression: "表現形を指定してください。"
+    pickup: "ピックアップ"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
     library_group_item: "{{library_group_name}}にある個別資料"
+    add: "個別資料を追加する"
+    specify_manifestation: "体現形を指定してください。"
+    this_item_is_reserved: "この資料は予約されています！"
+    create_shelf_first: "最初に書棚を作成してください。"
+    this_item_include_supplement: "この資料は付録を含んでいます。"
+    all_item: "全ての個別資料"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
     expression_patron: "{{expression_title}} の編者"
     manifestation_patron: "{{manifestation_title}} の出版者"
+    activate_as_user: "ユーザとして登録する"
+    deactivate: "ユーザ登録を解除する"
+    add: "パトロンを追加する"
+    publication: "出版物"
+    recent_publication: "最近の出版物"
+    all_publication: "全ての出版物"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"
@@ -965,6 +991,7 @@ ja:
     send: "メッセージを送信する"
     reply: "メッセージに返信する"
     delete: "メッセージを削除する"
+    sent_successfully: "メッセージは正しく送信されました。"
     no_new_message: "新しいメッセージはありません。"
     too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
     too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
@@ -979,9 +1006,15 @@ ja:
     user_question: "{{login_name}} さんの質問"
     no_record_found: "事例が見つかりませんでした。"
     library_group_question: "{{library_group_name}} での質問"
+    answer_question: "この質問に答える"
+    crd: "国会図書館レファレンス協同データベース"
+    you_can_search_crd: "国立国会図書館のレファレンス協同データベースを検索することができます。"
   answer:
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
+    specify_question: "質問を指定してください。"
+  basket:
+    checkout_completed: "貸出が完了しました。"
   checkout:
     user_checkout: "{{login_name}} さんの貸出資料"
     library_group_checkout: "{{library_group_name}} での貸出"
@@ -992,9 +1025,16 @@ ja:
     this_item_cant_be_renewed: "この資料は更新できません。"
     listing_overdue_item: "貸出期限切れの資料の一覧"
     current_user: "現在の貸出ユーザ"
+    this_item_is_reserved: "この資料は予約されています。"
+    you_have_overdue_item: "貸出期限を過ぎている資料があります。"
+    excessed_renewal_limit: "貸出更新回数の上限を超えています。"
+    all_checkout: "全ての貸出"
+    no_checkout: "貸出中の資料はありません。"
+    number_of_day_overdue: "延滞日数"
   library:
     map: "地図"
     staff: "職員"
+    number_of_item: "所蔵冊数"
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
@@ -1009,16 +1049,53 @@ ja:
     your_temporary_password_is: "仮パスワードは次のとおりです"
     sign_up: "サインアップ"
     edit_profile: "プロフィールの編集"
+    already_activated: "すでにユーザとして登録されています。"
+    specify_patron: "パトロンを指定してください。"
+    wrong_password: "パスワードが間違っています。"
+    password_mismatch: "パスワードが一致しません。"
+    cannot_destroy_myself: "自分自身を削除することはできません。"
+    last_administrator: "このユーザはシステム上の最後の管理者です。"
+    last_librarian: "このユーザはシステム上の最後の図書館員です。"
+    only_administrator_can_destroy: "このユーザは管理者でなければ削除できません。"
+    this_user_has_checked_out_item: "このユーザは貸出中の資料があります。"
+    patron_profile: "パトロンのプロフィール"
+    set_auto_generated_password: "自動生成したパスワードを設定する"
+    suspended: "アカウントの停止"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
     user_reserve: "{{login_name}} さんの予約資料"
     library_group_reserve: "{{library_group_name}} での予約資料"
+    my_reservation: "自分の予約"
+    all_reservation: "全ての予約"
+    this_manifestation_is_already_reserved: "この資料はすでに予約されています。"
+    excessed_reservation_limit: "予約できる資料数の上限を超えています。"
+    this_patron_cannot_reserve: "このパトロンはこの資料を予約できません。"
+    reservation_was_canceled: "予約は取り消されました。"
+    this_item_is_not_reserved: "この資料は予約されていません。"
   purchase_request:
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"
     add_to_purchase_request: "図書館の購入依頼に追加"
+    all_request: "全ての購入依頼"
+    ordered: "発注済み"
+    not_ordered: "未発注"
+    add_to_order_list: "発注リストに追加する"
+    remove_from_order_list: "発注リストから削除する"
   order_list:
     library_group_order_list: "{{library_group_name}} の発注リスト"
+    total_price: "合計価格"
   inter_library_loan:
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
+    borrowing_library: "借受館"
+  checked_item:
+    item_not_found: "資料が見つかりません。"
+    not_available_for_checkout: "この資料の貸出はできません。"
+  checkin:
+    enter_item_identifier: "個別資料番号を入力してください。"
+    other_library_item: "この資料は他の図書館のものです！"
+    already_checked_in: "この資料はすでに返却されています。"
+  search_history:
+    all_history: "全ての検索履歴"
+    failed_search: "失敗した検索"
+    searched_at: "検索時刻"

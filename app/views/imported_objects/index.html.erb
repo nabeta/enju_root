@@ -19,6 +19,7 @@
 <%- end -%>
 </table>
 
+<%= will_paginate(@imported_objects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 <br />
 
 <%= link_to 'New imported_object', new_imported_object_path -%>

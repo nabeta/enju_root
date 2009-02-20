@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Works'), patron_works_path(@patron) -%></li>
-    <li><%= link_to ('Manifestations'), patron_manifestations_path(@patron) -%></li>
+    <li><%= link_to t('activerecord.models.work'), patron_works_path(@patron) -%></li>
+    <li><%= link_to t('activerecord.models.manifestation'), patron_manifestations_path(@patron) -%></li>
   </ul>
 </div>
 

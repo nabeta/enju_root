@@ -4,6 +4,7 @@ class PurchaseRequestsController < ApplicationController
   before_filter :authorized_content
   before_filter :get_order_list
   after_filter :csv_convert_charset, :only => :index
+  before_filter :store_page, :only => :index
  
   # GET /purchase_requests
   # GET /purchase_requests.xml
@@ -72,9 +73,10 @@ class PurchaseRequestsController < ApplicationController
       @purchase_request = PurchaseRequest.new
     end
     begin
-      url = URI.decode(params[:url])
+      #url = URI.decode(params[:url])
+      url = URI.parse(params[:url]).normalize.to_s
       #parsed_url = URI.parse(URI.encode(url)).normalize
-      title = Bookmark.get_title(URI.encode(url), root_url)
+      title = Bookmark.get_title(url, root_url)
     rescue
       url = nil
       title = nil

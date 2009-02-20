@@ -23,15 +23,15 @@ class WorksController < ApplicationController
     else
       case
       when @patron
-        @works = @patron.works.paginate(:page => params[:page], :per_page => @per_page, :order => 'works.id')
+        @works = @patron.works.paginate(:page => params[:page], :order => 'works.id')
       when @parent_work
-        @works = @parent_work.derived_works.paginate(:page => params[:page], :per_page => @per_page, :order => 'works.id')
+        @works = @parent_work.derived_works.paginate(:page => params[:page], :order => 'works.id')
       when @derived_work
-        @works = @derived_work.parent_works.paginate(:page => params[:page], :per_page => @per_page, :order => 'works.id')
+        @works = @derived_work.parent_works.paginate(:page => params[:page], :order => 'works.id')
       when @work_merge_list
-        @works = @work_merge_list.works.paginate(:page => params[:page], :per_page => @per_page)
+        @works = @work_merge_list.works.paginate(:page => params[:page])
       else
-        @works = Work.paginate(:all, :page => params[:page], :per_page => @per_page, :order => 'works.id')
+        @works = Work.paginate(:all, :page => params[:page], :order => 'works.id')
       end
     end
 
@@ -82,10 +82,10 @@ class WorksController < ApplicationController
         if @patron
           @patron.works << @work
           format.html { redirect_to work_url(@work) }
-          format.xml  { head :created, :location => work_url(@work) }
+          format.xml  { render :xml => @work, :status => :created, :location => @work }
         else
           format.html { redirect_to work_patrons_url(@work) }
-          format.xml  { head :created, :location => work_url(@work) }
+          format.xml  { render :xml => @work, :status => :created, :location => @work }
         end
       else
         format.html { render :action => "new" }

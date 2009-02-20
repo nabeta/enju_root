@@ -13,7 +13,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.advertisement.url') -%>:</b>
-  <%=h @advertisement.url -%>
+  <%= link_to h(@advertisement.url), @advertisement.url -%>
 </p>
 
 <p>

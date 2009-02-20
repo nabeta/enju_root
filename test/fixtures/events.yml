@@ -7,7 +7,6 @@ event_00001:
     5LuV5LqL5aeL44KB
 
   deleted_at: 
-  date: 2008-01-05 09:00:00 +09:00
   started_at: 2008-01-13 02:54:00 +09:00
   id: 1
   note: !binary |
@@ -23,7 +22,6 @@ event_00002:
     44OG44K544OI
 
   deleted_at: 
-  date: 2008-01-01 20:54:00 +09:00
   started_at: 2008-01-13 02:54:00 +09:00
   id: 2
   note: !binary |
@@ -39,7 +37,6 @@ event_00003:
     44Of44O844OG44Kj44Oz44Kw
 
   deleted_at: 
-  date: 
   started_at: 2008-01-13 00:00:00 +09:00
   id: 3
   note: ""
@@ -53,7 +50,6 @@ event_00004:
     44OG44K544OI
 
   deleted_at: 
-  date: 
   started_at: 2008-02-05 00:00:00 +09:00
   id: 4
   note: !binary |
@@ -67,7 +63,6 @@ event_00005:
   ended_at: 2008-02-08 00:00:00 +09:00
   title: test
   deleted_at: 
-  date: 
   started_at: 2008-02-05 00:00:00 +09:00
   id: 5
   note: ""
@@ -81,7 +76,6 @@ event_00006:
     44Gq44KT44Go44GL44GL44KT44Go44GL
 
   deleted_at: 
-  date: 
   started_at: 2008-02-05 00:00:00 +09:00
   id: 6
   note: ""
@@ -93,7 +87,6 @@ event_00007:
   ended_at: 2008-02-08 00:00:00 +09:00
   title: test
   deleted_at: 
-  date: 
   started_at: 2008-02-05 00:00:00 +09:00
   id: 7
   note: test

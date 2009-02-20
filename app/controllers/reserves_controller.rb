@@ -5,19 +5,20 @@ class ReservesController < ApplicationController
   #, :only => [:show, :edit, :create, :update, :destroy]
   before_filter :get_manifestation, :only => [:new]
   before_filter :get_item, :only => [:new]
+  before_filter :store_page, :only => :index
 
   # GET /reserves
   # GET /reserves.xml
   def index
     if params[:mode] == 'hold' and current_user.has_role?('Librarian')
-      @reserves = Reserve.hold.paginate(:page => params[:page], :per_page => @per_page, :order => ['reserves.created_at DESC'])
+      @reserves = Reserve.hold.paginate(:page => params[:page], :order => ['reserves.created_at DESC'])
     else
       if @user
         # 一般ユーザ
-        @reserves = @user.reserves.paginate(:page => params[:page], :per_page => @per_page, :order => ['reserves.expired_at DESC'])
+        @reserves = @user.reserves.paginate(:page => params[:page], :order => ['reserves.expired_at DESC'])
       else
         # 管理者
-        @reserves = Reserve.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['reserves.expired_at DESC'])
+        @reserves = Reserve.paginate(:all, :page => params[:page], :order => ['reserves.expired_at DESC'])
       end
     end
 
@@ -63,7 +64,7 @@ class ReservesController < ApplicationController
       @reserve = @user.reserves.new
     else
       if current_user.has_role?('Librarian')
-        @reserve = Reserve.new if current_user.has_role?('Librarian')
+        @reserve = Reserve.new
       else
         access_denied
         return
@@ -75,7 +76,7 @@ class ReservesController < ApplicationController
       if @user
         @reserve.expired_at = @manifestation.reservation_expired_period(@user).days.from_now.end_of_day
         unless @manifestation.reservable?(@user)
-          flash[:notice] = ('This manifestation is already reserved.')
+          flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           redirect_to @manifestation
           return
         end
@@ -116,19 +117,19 @@ class ReservesController < ApplicationController
 
     @manifestation = Manifestation.find(params[:reserve][:manifestation_id]) rescue nil
 
-    if user and @manifestation
+    if @reserve.user and @manifestation
       begin
-        unless @manifestation.reservable?(user)
-          flash[:notice] = ('This manifestation is already reserved.')
+        unless @manifestation.reservable?(@reserve.user)
+          flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           raise
         end
-        if user.reached_reservation_limit?(@manifestation)
-          flash[:notice] = ('Excessed reservation limit.')
+        if @reserve.user.reached_reservation_limit?(@manifestation)
+          flash[:notice] = t('reserve.excessed_reservation_limit')
           raise
         end
-        expired_period = @manifestation.reservation_expired_period(user)
+        expired_period = @manifestation.reservation_expired_period(@reserve.user)
         if expired_period.nil?
-          flash[:notice] = ('This patron can\'t reserve this manifestation.')
+          flash[:notice] = t('reserve.this_patron_cannot_reserve')
           raise
         end
         if @reserve.expired_at
@@ -154,8 +155,8 @@ class ReservesController < ApplicationController
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reserve'))
         #format.html { redirect_to reserve_url(@reserve) }
-        format.html { redirect_to user_reserve_url(user.login, @reserve) }
-        format.xml  { head :created, :location => user_reserve_url(user.login, @reserve) }
+        format.html { redirect_to user_reserve_url(@reserve.user.login, @reserve) }
+        format.xml  { render :xml => @reserve, :status => :created, :location => user_reserve_url(@reserve.user.login, @reserve) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @reserve.errors.to_xml }
@@ -202,7 +203,7 @@ class ReservesController < ApplicationController
     respond_to do |format|
       if @reserve.update_attributes(params[:reserve])
         if @reserve.state == 'canceled'
-          flash[:notice] = ('Reserve was canceled.')
+          flash[:notice] = t('reserve.reservation_was_canceled')
           @reserve.send_message('canceled')
         else
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reserve'))
@@ -232,13 +233,13 @@ class ReservesController < ApplicationController
       end
     end
     @reserve.destroy
-    flash[:notice] = ('Reserve was canceled.')
+    #flash[:notice] = t('reserve.reservation_was_canceled')
 
     if @reserve.manifestation.reserved?
       if @reserve.item
         retain = @reserve.item.retain(User.find(1)) # TODO: システムからの送信ユーザの設定
         if retain.nil?
-          flash[:message] = ('This item is not reserved.')
+          flash[:message] = t('reserve.this_item_is_not_reserved')
         end
       end
     end

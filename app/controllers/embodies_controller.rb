@@ -9,11 +9,11 @@ class EmbodiesController < ApplicationController
   def index
     case 
     when @manifestation
-      @embodies = @manifestation.embodies.paginate(:page => params[:page], :per_page => @per_page, :order => ['embodies.id'])
+      @embodies = @manifestation.embodies.paginate(:page => params[:page], :order => ['embodies.id'])
     when @expression
-      @embodies = @expression.embodies.paginate(:page => params[:page], :per_page => @per_page, :order => ['embodies.id'])
+      @embodies = @expression.embodies.paginate(:page => params[:page], :order => ['embodies.id'])
     else
-      @embodies = Embody.paginate(:all, :page => params[:page], :per_page => @per_page, :order => :id)
+      @embodies = Embody.paginate(:all, :page => params[:page], :order => :id)
     end
 
     respond_to do |format|

@@ -295,7 +295,7 @@ class ReservesControllerTest < ActionController::TestCase
     login_as :user1
     old_message_queues_count = MessageQueue.count
     put :update, :id => 3, :user_id => users(:user1).login, :reserve => {:user_number => users(:user1).user_number}, :mode => 'cancel'
-    assert_equal 'Reserve was canceled.', flash[:notice]
+    assert_equal 'Reservation was canceled.', flash[:notice]
     assert_equal 'canceled', assigns(:reserve).state
     assert_equal old_message_queues_count + 2, MessageQueue.count
     assert_redirected_to user_reserve_url(users(:user1).login, assigns(:reserve))
@@ -329,7 +329,7 @@ class ReservesControllerTest < ActionController::TestCase
     login_as :librarian1
     old_message_queues_count = MessageQueue.count
     put :update, :id => 3, :user_id => users(:user1).login, :reserve => {:user_number => users(:user1).user_number}, :mode => 'cancel'
-    assert_equal 'Reserve was canceled.', flash[:notice]
+    assert_equal 'Reservation was canceled.', flash[:notice]
     assert_equal 'canceled', assigns(:reserve).state
     assert_equal old_message_queues_count + 2, MessageQueue.count
     assert_redirected_to user_reserve_url(users(:user1).login, assigns(:reserve))

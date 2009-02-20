@@ -7,7 +7,7 @@ class LibrariesController < ApplicationController
   # GET /libraries
   # GET /libraries.xml
   def index
-    @libraries = Library.find(:all, :order => 'position')
+    @libraries = Library.paginate(:all, :page => params[:page], :order => 'position')
 
     respond_to do |format|
       format.html # index.rhtml
@@ -81,7 +81,7 @@ class LibrariesController < ApplicationController
       if @library.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.library'))
         format.html { redirect_to library_url(@library.short_name) }
-        format.xml  { head :created, :location => library_url(@library.short_name) }
+        format.xml  { render :xml => @library, :status => :created, :location => library_url(@library.short_name) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }

@@ -5,7 +5,7 @@ class CountriesController < ApplicationController
   # GET /countries
   # GET /countries.xml
   def index
-    @countries = Country.find(:all, :order => 'position')
+    @countries = Country.paginate(:all, :order => 'position', :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -40,7 +40,10 @@
                         <%- if_authorized?(:destroy, User) do -%>
                           <li class="yuimenuitem"><%= link_to t('page.search_user'), users_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
+
+                        <!--
                         <li class="yuimenuitem"><%= link_to t('page.search_subject'), '/page/subject', :class => 'yuimenuitemlabel' -%></li>
+                        -->
                       </ul>
                     </div>
                   </div>                    

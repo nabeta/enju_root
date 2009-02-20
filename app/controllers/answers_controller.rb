@@ -10,12 +10,12 @@ class AnswersController < ApplicationController
     @count = {}
     if logged_in? and librarian_authorized?
       if @user
-        @answers = @user.answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
+        @answers = @user.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
       else
-        @answers = Answer.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
+        @answers = Answer.paginate(:all, :page => params[:page], :order => ['answers.id'])
       end
     else
-      @answers = Answer.public_answers.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['answers.id'])
+      @answers = Answer.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
     end
     @count[:query_result] = @answers.size
 
@@ -63,7 +63,7 @@ class AnswersController < ApplicationController
       @answer = current_user.answers.new
       @answer.question = @question
     else
-      flash[:notice] = ('Specify question id.')
+      flash[:notice] = t('answer.specify_question')
       redirect_to user_questions_url(@user.login)
     end
   end
@@ -100,7 +100,7 @@ class AnswersController < ApplicationController
       if @answer.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.answer'))
         format.html { redirect_to user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
-        format.xml  { head :created, :location => user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
+        format.xml  { render :xml => @answer, :status => :created, :location => user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @answer.errors.to_xml }

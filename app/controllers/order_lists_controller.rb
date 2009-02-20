@@ -8,9 +8,9 @@ class OrderListsController < ApplicationController
   # GET /order_lists.xml
   def index
     if @bookstore
-      @order_lists = @bookstore.order_lists.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @order_lists = @bookstore.order_lists.paginate(:all, :page => params[:page])
     else
-      @order_lists = OrderList.paginate(:all, :page => params[:page], :per_page => @per_page)
+      @order_lists = OrderList.paginate(:all, :page => params[:page])
     end
 
     @startrecord = (params[:page].to_i - 1) * OrderList.per_page + 1
@@ -81,6 +81,7 @@ class OrderListsController < ApplicationController
 
     respond_to do |format|
       if @order_list.update_attributes(params[:order_list])
+        @order_list.aasm_order! if params[:mode] == 'order'
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.order_list'))
         format.html { redirect_to(@order_list) }
         format.xml  { head :ok }
