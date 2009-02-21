@@ -519,8 +519,8 @@ class Manifestation < ActiveRecord::Base
   # TODO: 投稿は非同期で行う
   def post_to_twitter
     if RAILS_ENV == 'production'
-      library_group = LibraryGroup.find(1)
       if Twitter::Status
+        library_group = LibraryGroup.find(1)
         title = ERB::Util.html_escape(truncate(self.original_title))
         status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
         Twitter::Status.post(:update, :status => status)
