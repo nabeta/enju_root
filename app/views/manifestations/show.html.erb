@@ -85,7 +85,7 @@
 
 <div id="demo" class="yui-navset yui-navset-top">
   <ul class="yui-nav">
-    <li title="nctive" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
+    <li class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
     <%- if @manifestation.related_works.size > 0 -%>
       <li><a href="#tab3"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
@@ -103,7 +103,7 @@
     <%- end -%>
 
     <table id="manifestation_detail">
-    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or @manifestation.flickr -%>
+    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or !@manifestation.flickr.blank? -%>
       <tr>
         <td style="width: 200px"><%=h t('page.video') -%>:</td>
         <td>

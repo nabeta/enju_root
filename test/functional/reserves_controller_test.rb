@@ -119,7 +119,7 @@ class ReservesControllerTest < ActionController::TestCase
   def test_user_should_create_my_reserve
     login_as :user1
     old_count = Reserve.count
-    post :create, :user_id => users(:user1).login, :reserve => {:user_number => users(:user1).user_number, :manifestation_id => 5}
+    post :create, :reserve => {:user_number => users(:user1).user_number, :manifestation_id => 5}
     assert_equal old_count+1, Reserve.count
     assert assigns(:reserve).expired_at
     

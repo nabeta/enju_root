@@ -24,7 +24,7 @@
       <td><%= rezm_delete_check_box(message) -%></td>
       <td><%= rezm_link_to_message(message) -%></td>
       <td><%= rezm_sender_or_receiver(message) -%></td>
-      <td><%= rezm_sent_at(message) -%></td>  
+      <td><%= l(message.created_at) -%></td>  
     </tr>
   <%- end -%>
     <tr>

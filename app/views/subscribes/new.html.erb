@@ -10,7 +10,7 @@
 
 <%= error_messages_for :subscribe -%>
 
-<%- form_for(:subscribe) do |f| -%>
+<%- form_for(@subscribe) do |f| -%>
   <p>
     <b><%= t('activerecord.models.subscription') -%></b><br />
     <%- if @subscription -%>

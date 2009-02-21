@@ -13,7 +13,7 @@
 
 <%= error_messages_for :work -%>
 
-<%- form_for(:work, :url => works_path) do |f| -%>
+<%- form_for(@work) do |f| -%>
   <p>
     <b><%= t('page.title') -%></b><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>

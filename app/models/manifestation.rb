@@ -71,7 +71,7 @@ class Manifestation < ActiveRecord::Base
   validates_numericality_of :start_page, :end_page, :allow_nil => true
   validates_length_of :access_address, :maximum => 255, :allow_nil => true
 
-  #after_create :post_to_twitter
+  after_create :post_to_twitter
 
   def validate
     #unless self.date_of_publication.blank?
@@ -518,11 +518,13 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: 投稿は非同期で行う
   def post_to_twitter
-    library_group = LibraryGroup.find(1)
-    if Twitter::Status
-      title = ERB::Util.html_escape(truncate(self.original_title))
-      status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
-      Twitter::Status.post(:update, :status => status)
+    if RAILS_ENV == 'production'
+      library_group = LibraryGroup.find(1)
+      if Twitter::Status
+        title = ERB::Util.html_escape(truncate(self.original_title))
+        status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
+        Twitter::Status.post(:update, :status => status)
+      end
     end
   end
 
