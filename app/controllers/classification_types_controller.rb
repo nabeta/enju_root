@@ -1,6 +1,5 @@
 class ClassificationTypesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
   before_filter :has_permission?
 
   # GET /classification_types

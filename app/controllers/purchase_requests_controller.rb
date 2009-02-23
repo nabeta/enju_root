@@ -1,7 +1,6 @@
 class PurchaseRequestsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
-  #before_filter :authorized_content
   before_filter :get_order_list
   after_filter :csv_convert_charset, :only => :index
   before_filter :store_page, :only => :index

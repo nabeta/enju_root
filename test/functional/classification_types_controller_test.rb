@@ -5,8 +5,8 @@ class ClassificationTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_index
     get :index
-    assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_response :success
+    assert assigns(:classification_types)
   end
 
   def test_user_should_get_index
@@ -99,8 +99,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_show_classification_type
     get :show, :id => 1
-    assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_response :success
   end
 
   def test_user_should_show_classification_type

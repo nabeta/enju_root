@@ -1,8 +1,6 @@
 class ReservesController < ApplicationController
   before_filter :has_permission?
-  #before_filter :login_required
   before_filter :get_user_if_nil
-  #before_filter :authorized_content, :except => [:create]
   #, :only => [:show, :edit, :create, :update, :destroy]
   before_filter :get_manifestation, :only => [:new]
   before_filter :get_item, :only => [:new]

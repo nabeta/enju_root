@@ -254,19 +254,6 @@ class ApplicationController < ActionController::Base
     access_denied unless librarian_authorized?
   end
 
-  # ユーザを指定すれば誰でも参照できる
-  def public_content
-    return true if user = get_user
-    access_denied
-  end
-
-  # 本人のみが参照できる
-  def private_content
-    user = get_user
-    return true if user == current_user
-    access_denied unless performed?
-  end
-
   def librarian_authorized?
     return false unless logged_in?
     user = get_user_if_nil

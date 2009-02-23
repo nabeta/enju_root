@@ -9,8 +9,8 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
       queue.send_message
     end
     logger.info "#{Time.zone.now} sent messages!"
-  rescue
-    logger.info "#{Time.zone.now} sending messages failed!"
+  #rescue
+  #  logger.info "#{Time.zone.now} sending messages failed!"
   end
 
   def fetch_feeds(args = nil)
@@ -48,12 +48,13 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
     reservations.each do |reserve|
       reserve.aasm_expire!
+      #reserve.expire
       reserve.send_message('expired')
     end
     Reserve.send_message_to_patrons('expired') unless reservations.blank?
     logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring reservations failed!"
+  #rescue
+  #  logger.info "#{Time.zone.now} expiring reservations failed!"
   end
 
   def expire_baskets(args = nil)
