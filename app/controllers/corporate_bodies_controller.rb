@@ -1,8 +1,6 @@
 class CorporateBodiesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :only => [:new, :create, :destroy]
+  before_filter :has_permission?
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
-  #before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
   before_filter :store_location
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
@@ -213,15 +211,6 @@ class CorporateBodiesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     not_found
-  end
-
-  def authorized_content
-    unless current_user.has_role?('Librarian')
-      unless @corporate_body.user == current_user
-        access_denied
-        return
-      end
-    end
   end
 
   def prepare_options

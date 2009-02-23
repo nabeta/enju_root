@@ -235,30 +235,4 @@ class BookmarksController < ApplicationController
     not_found
   end
 
-  def authorized_content
-    @user = get_user_if_nil
-    if logged_in?
-      if current_user.has_role?('Librarian')
-        if @user
-          user = @user
-        else
-          user = current_user
-        end
-      else
-        user = current_user
-      end
-    end
-    
-    if user.nil?
-      access_denied
-      return
-    end
-
-    unless current_user.has_role?('Librarian')
-      access_denied unless user == @user
-      return
-    end
-
-  end
-
 end

@@ -1,6 +1,5 @@
 class PlacesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /places

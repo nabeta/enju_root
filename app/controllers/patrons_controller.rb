@@ -214,15 +214,4 @@ class PatronsController < ApplicationController
     @roles = Role.find(:all)
   end
 
-  def authorized_content
-    access_denied unless authorized?
-  end
-
-  def authorized?(action = action_name, resource = nil)
-    if logged_in?
-      true if current_user.has_role?('Librarian') || @patron.user == current_user
-    end
-  rescue
-    nil
-  end
 end

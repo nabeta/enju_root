@@ -78,13 +78,13 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
 
-  def test_user_should_not_create_purchase_request_without_user_id
+  def test_user_should_create_purchase_request_without_user_id
     login_as :user1
-    assert_no_difference('PurchaseRequest.count') do
-      post :create, :purchase_request => { }
+    assert_difference('PurchaseRequest.count') do
+      post :create, :purchase_request => {:title => 'test', :user_id => users(:user1).id}
     end
 
-    assert_response :forbidden
+    assert_redirected_to user_purchase_request_url(users(:user1).login, assigns(:purchase_request))
   end
 
   def test_user_should_not_create_purchase_request_without_title

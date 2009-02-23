@@ -1,4 +1,5 @@
 class Checkout < ActiveRecord::Base
+  include LibrarianOwnerRequired
   named_scope :not_returned, :conditions => ['checkin_id IS NULL']
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
   named_scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
