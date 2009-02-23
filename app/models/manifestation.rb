@@ -1,5 +1,6 @@
 require 'open-uri'
 require 'wakati'
+require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   include OnlyLibrarianCanModify
@@ -519,12 +520,18 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: 投稿は非同期で行う
   def post_to_twitter
-    if RAILS_ENV == 'production'
+    if RAILS_ENV == 'production' and LibraryGroup.find(1).config[:post_to_twitter?]
       if Twitter::Status
         library_group = LibraryGroup.find(1)
         title = ERB::Util.html_escape(truncate(self.original_title))
         status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
-        Twitter::Status.post(:update, :status => status)
+        begin
+          timeout(5){
+            Twitter::Status.post(:update, :status => status)
+          }
+        rescue Timeout::Error
+          Twitter.logger.warn 'post timeout!'
+        end
       end
     end
   end
