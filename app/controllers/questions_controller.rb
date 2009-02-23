@@ -1,8 +1,9 @@
 class QuestionsController < ApplicationController
   before_filter :login_required, :except => [:index, :show]
-  before_filter :get_user_if_nil, :only => [:index, :show]
-  before_filter :get_user, :except => [:index, :show]
-  before_filter :authorized_content, :except => [:index, :show]
+  before_filter :get_user_if_nil, :except => [:edit]
+  #before_filter :get_user, :except => [:index, :show]
+  #before_filter :authorized_content, :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /questions
   # GET /questions.xml
@@ -80,17 +81,7 @@ class QuestionsController < ApplicationController
     if @user
       @question = @user.questions.find(params[:id])
     else
-      access_denied
-      return
-    end
-
-    if @question.shared?
-      if logged_in?
-        unless @question.user == current_user or current_user.has_role?('Librarian')
-          access_denied
-          return
-        end
-      end
+      @question = Question.find(params[:id])
     end
 
     respond_to do |format|
@@ -103,12 +94,16 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
-    @question = @user.questions.new
+    @question = current_user.questions.new
   end
 
   # GET /questions/1;edit
   def edit
-    @question = @user.questions.find(params[:id])
+    if @user
+      @question = @user.questions.find(params[:id])
+    else
+      @question = Question.find(params[:id])
+    end
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -116,7 +111,7 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.xml
   def create
-    @question = @user.questions.new(params[:question])
+    @question = current_user.questions.new(params[:question])
 
     respond_to do |format|
       if @question.save
@@ -152,7 +147,11 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   # DELETE /questions/1.xml
   def destroy
-    @question = @user.questions.find(params[:id])
+    if @user
+      @question = @user.questions.find(params[:id])
+    else
+      @question = Question.find(params[:id])
+    end
     @question.destroy
 
     respond_to do |format|

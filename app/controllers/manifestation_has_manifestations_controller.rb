@@ -1,6 +1,5 @@
 class ManifestationHasManifestationsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /manifestation_has_manifestations
   # GET /manifestation_has_manifestations.xml

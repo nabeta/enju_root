@@ -1,4 +1,5 @@
 class Order < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :order_list, :validate => true
   belongs_to :purchase_request, :validate => true
 

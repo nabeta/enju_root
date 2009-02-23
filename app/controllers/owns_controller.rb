@@ -1,6 +1,5 @@
 class OwnsController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_patron, :get_item
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 

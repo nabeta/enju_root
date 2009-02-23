@@ -1,6 +1,5 @@
 class PictureFilesController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
   before_filter :get_manifestation, :only => [:index, :new]
   before_filter :get_patron, :only => [:index, :new, :create]
   before_filter :get_event, :only => [:index, :new, :create]

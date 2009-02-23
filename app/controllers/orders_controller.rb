@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
   before_filter :get_order_list
   before_filter :get_purchase_request
 

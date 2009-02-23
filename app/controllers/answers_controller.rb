@@ -1,18 +1,45 @@
 class AnswersController < ApplicationController
-  before_filter :login_required
-  before_filter :get_user_if_nil
+  before_filter :has_permission?
+  before_filter :get_user_if_nil, :except => [:edit]
   before_filter :get_question, :only => [:new]
-  before_filter :authorized_content, :except => [:index, :show]
 
   # GET /answers
   # GET /answers.xml
   def index
+    begin
+      if !current_user.has_role?('Librarian')
+        raise unless @user.share_bookmarks? or current_user == @user
+      end
+    rescue
+      access_denied; return
+    end
+
     @count = {}
-    if logged_in? and librarian_authorized?
-      if @user
-        @answers = @user.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+    if logged_in?
+      if current_user.has_role?('Librarian')
+        if @question
+          @answers = @question.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+        elsif @user
+          @answers = @user.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+        else
+          @answers = Answer.paginate(:all, :page => params[:page], :order => ['answers.id'])
+        end
       else
-        @answers = Answer.paginate(:all, :page => params[:page], :order => ['answers.id'])
+        if @question
+          if @question.user == current_user
+            @answers = @question.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+          else
+            @answers = @question.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+          end
+        elsif @user
+          if @user == current_user
+            @answers = @user.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+          else
+            @answers = @user.answers.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+          end
+        else
+          @answers = Answer.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+        end
       end
     else
       @answers = Answer.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
@@ -35,18 +62,12 @@ class AnswersController < ApplicationController
   # GET /answers/1
   # GET /answers/1.xml
   def show
-    if logged_in? and librarian_authorized?
-      if @user
-        @answer = @user.answers.find(params[:id])
-      else
-        @answer = Answer.find(params[:id])
-      end
+    if @question
+      @answer = @question.answers.find(params[:id])
+    elsif @user
+      @answer = @user.answers.find(params[:id])
     else
-      if @user
-        @answer = @user.answers.public_answers.find(params[:id])
-      else
-        @answer = Answer.public_answers.find(params[:id])
-      end
+      @answer = Answer.find(params[:id])
     end
 
     respond_to do |format|
@@ -64,24 +85,18 @@ class AnswersController < ApplicationController
       @answer.question = @question
     else
       flash[:notice] = t('answer.specify_question')
-      redirect_to user_questions_url(@user.login)
+      redirect_to questions_url
     end
   end
 
   # GET /answers/1;edit
   def edit
-    if logged_in? and librarian_authorized?
-      if @user
-        @answer = @user.answers.find(params[:id])
-      else
-        @answer = Answer.find(params[:id])
-      end
+    if @question
+      @answer = @question.answers.find(params[:id])
+    elsif @user
+      @answer = @user.answers.find(params[:id])
     else
-      if @user
-        @answer = @user.answers.public_answers.find(params[:id])
-      else
-        @answer = Answer.public_answers.find(params[:id])
-      end
+      @answer = Answer.find(params[:id])
     end
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -111,18 +126,12 @@ class AnswersController < ApplicationController
   # PUT /answers/1
   # PUT /answers/1.xml
   def update
-    if logged_in? and librarian_authorized?
-      if @user
-        @answer = @user.answers.find(params[:id])
-      else
-        @answer = Answer.find(params[:id])
-      end
+    if @question
+      @answer = @question.answers.find(params[:id])
+    elsif @user
+      @answer = @user.answers.find(params[:id])
     else
-      if @user
-        @answer = @user.answers.public_answers.find(params[:id])
-      else
-        @answer = Answer.public_answers.find(params[:id])
-      end
+      @answer = Answer.find(params[:id])
     end
 
     respond_to do |format|
@@ -142,18 +151,12 @@ class AnswersController < ApplicationController
   # DELETE /answers/1
   # DELETE /answers/1.xml
   def destroy
-    if logged_in? and librarian_authorized?
-      if @user
-        @answer = @user.answers.find(params[:id])
-      else
-        @answer = Answer.find(params[:id])
-      end
+    if @question
+      @answer = @question.answers.find(params[:id])
+    elsif @user
+      @answer = @user.answers.find(params[:id])
     else
-      if @user
-        @answer = @user.answers.public_answers.find(params[:id])
-      else
-        @answer = Answer.public_answers.find(params[:id])
-      end
+      @answer = Answer.find(params[:id])
     end
     @answer.destroy
 

@@ -1,4 +1,5 @@
 class NewsPost < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   named_scope :published, :conditions => ['draft IS false']
   belongs_to :user
 

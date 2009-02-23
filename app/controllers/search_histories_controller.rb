@@ -1,10 +1,8 @@
 class SearchHistoriesController < ApplicationController
   before_filter :access_denied, :except => [:index, :show]
   # index, show以外は外部からは呼び出されないはず
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
   #before_filter :get_user
-  #before_filter :private_content
 
   # GET /search_histories
   # GET /search_histories.xml

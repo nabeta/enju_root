@@ -1,4 +1,5 @@
 class Advertisement < ActiveRecord::Base
+  include AdministratorRequired
   named_scope :current_ads, :conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id
   named_scope :previous_ads, :conditions => ['ended_at <= ?', Time.zone.now], :order => :id
 

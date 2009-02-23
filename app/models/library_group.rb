@@ -1,6 +1,7 @@
 class LibraryGroup < ActiveRecord::Base
   include Singleton
   include DisplayName
+  include OnlyAdministratorCanModify
   has_many :libraries, :order => 'position'
   has_many :search_engines
   has_many :news_feeds

@@ -373,6 +373,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders
   map.resources :families
 
+  map.error '/error', :controller => 'sessions', :action => 'new'
+  map.denied '/denied', :controller => 'sessions', :action => 'new'
   #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.calendar '/calendar/:date', :controller => 'events', :action => 'index'
   map.signup '/signup', :controller => 'users', :action => 'new'

@@ -1,4 +1,5 @@
 class BookmarkStatHasManifestation < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :bookmark_stat
   belongs_to :manifestation
 

@@ -1,4 +1,5 @@
 class Subscribe < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :subscription, :counter_cache => true, :validate => true
   belongs_to :expression, :validate => true
 

@@ -17,10 +17,11 @@ class ManifestationFormHasCheckoutTypesControllerTest < ActionController::TestCa
     assert_nil assigns(:manifestation_form_has_checkout_types)
   end
 
-  def test_librarian_should_not_get_index
+  def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :forbidden
+    assert_response :success
+    assert assigns(:manifestation_form_has_checkout_types)
   end
 
   def test_admin_should_get_index
@@ -109,10 +110,10 @@ class ManifestationFormHasCheckoutTypesControllerTest < ActionController::TestCa
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_show_manifestation_form_has_checkout_type
+  def test_librarian_should_show_manifestation_form_has_checkout_type
     login_as :librarian1
     get :show, :id => 1
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_show_manifestation_form_has_checkout_type

@@ -1,6 +1,5 @@
 class NewsPostsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /news_posts
   # GET /news_posts.xml

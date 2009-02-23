@@ -1,8 +1,6 @@
 class ReifiesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
-  before_filter :get_work
-  before_filter :get_expression
+  before_filter :has_permission?
+  before_filter :get_work, :get_expression
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /reifies

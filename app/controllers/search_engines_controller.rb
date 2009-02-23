@@ -1,6 +1,5 @@
 class SearchEnginesController < ApplicationController
-  before_filter :login_required
-  require_role 'Administrator'
+  before_filter :has_permission?
 
   # GET /search_engines
   # GET /search_engines.xml

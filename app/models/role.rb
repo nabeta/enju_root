@@ -4,6 +4,7 @@
 # or without any specification at all.
 class Role < ActiveRecord::Base
   include DisplayName
+  include AdministratorRequired
   has_and_belongs_to_many :users
   has_many :patrons, :foreign_key => 'access_role_id'
   has_many :people, :foreign_key => 'access_role_id'

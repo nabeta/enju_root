@@ -1,7 +1,6 @@
 class RolesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Administrator'
+  before_filter :has_permission?
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
 
   # GET /roles

@@ -1,4 +1,5 @@
 class Bookstore < ActiveRecord::Base
+  include AdministratorRequired
   has_many :items
   has_many :order_lists
   

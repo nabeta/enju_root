@@ -1,16 +1,23 @@
 class BookmarksController < ApplicationController
-  #before_filter :login_required, :except => :new
-  before_filter :login_required
-  before_filter :authorized_content
+  before_filter :has_permission?
   before_filter :get_user, :only => :new
   before_filter :get_user_if_nil, :except => :new
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
-  require_role 'Librarian', :only => [:index, :show, :edit]
 
   # GET /bookmarks
   # GET /bookmarks.xml
   def index
+    if logged_in?
+      begin
+        if !current_user.has_role?('Librarian')
+          raise unless @user.share_bookmarks? or current_user == @user
+        end
+      rescue
+        access_denied; return
+      end
+    end
+
     @bookmarks = Bookmark.paginate(:all, :page => params[:page], :order => ['id DESC'])
     
     respond_to do |format|
@@ -133,8 +140,7 @@ class BookmarksController < ApplicationController
         return
       end
 
-      params[:bookmark][:user_id] = current_user.id
-      @bookmark = Bookmark.new(params[:bookmark])
+      @bookmark = current_user.bookmarks.new(params[:bookmark])
       @bookmark.bookmarked_resource = @bookmarked_resource
 
       @bookmarked_resource.manifestation.reload

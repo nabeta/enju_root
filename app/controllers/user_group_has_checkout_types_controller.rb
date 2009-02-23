@@ -1,7 +1,6 @@
 class UserGroupHasCheckoutTypesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Administrator'
+  before_filter :has_permission?
   before_filter :get_user_group
   before_filter :get_checkout_type
   before_filter :prepare_options, :only => [:new, :edit]

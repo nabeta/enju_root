@@ -1,6 +1,5 @@
 class UserCheckoutStatsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /user_checkout_stats
   # GET /user_checkout_stats.xml

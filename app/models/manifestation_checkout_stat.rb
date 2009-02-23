@@ -1,5 +1,6 @@
 class ManifestationCheckoutStat < ActiveRecord::Base
   include AASM
+  include OnlyLibrarianCanModify
   has_many :checkout_stat_has_manifestations
   has_many :manifestations, :through => :checkout_stat_has_manifestations
 

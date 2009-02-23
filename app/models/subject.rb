@@ -1,4 +1,5 @@
 class Subject < ActiveRecord::Base
+  include OnlyAdministratorCanModify
   has_many :resource_has_subjects, :dependent => :destroy
   has_many :works, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Work', :include => :work_form
   has_many :expressions, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Expression', :include => :expression_form

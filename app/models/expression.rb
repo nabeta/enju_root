@@ -1,4 +1,5 @@
 class Expression < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify, :include => [:work_form]

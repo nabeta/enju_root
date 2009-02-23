@@ -1,4 +1,7 @@
 class Tag
+  include OnlyLibrarianCanModify
+  has_friendly_id :name
+
   def subjects
     Manifestation.find_by_solr("tag: #{self.name}", :limit => taggings_count).results.collect(&:subjects).flatten
   end
@@ -11,5 +14,4 @@ class Tag
     #self.tagged.each do |b| b.bookmarked_resource.manifestation.save end
     self.tagged.each do |b| b.save end
   end
-
 end

@@ -1,9 +1,8 @@
 class EventsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :has_permission?, :except => :index
   before_filter :get_library
   before_filter :get_libraries, :except => [:index, :destroy]
   #before_filter :get_patron, :only => [:index]
-  require_role 'Librarian', :except => [:index, :show]
   before_filter :prepare_options
   after_filter :csv_convert_charset, :only => :index
   before_filter :store_page, :only => :index

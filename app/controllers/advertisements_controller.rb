@@ -1,8 +1,6 @@
 class AdvertisementsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Administrator', :except => [:index, :show]
-  require_role 'Librarian', :only => [:index, :show]
+  before_filter :has_permission?
 
   # GET /advertisements
   # GET /advertisements.xml

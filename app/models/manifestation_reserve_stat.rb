@@ -1,5 +1,6 @@
 class ManifestationReserveStat < ActiveRecord::Base
   include AASM
+  include OnlyLibrarianCanModify
   has_many :reserve_stat_has_manifestations
   has_many :manifestations, :through => :reserve_stat_has_manifestations
 

@@ -1,6 +1,5 @@
 class ItemsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_patron, :only => [:index]
   before_filter :get_manifestation, :get_inventory_file

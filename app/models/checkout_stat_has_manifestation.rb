@@ -1,4 +1,5 @@
 class CheckoutStatHasManifestation < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :manfestation_checkout_stat
   belongs_to :manifestation
 

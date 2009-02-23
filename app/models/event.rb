@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   named_scope :closing_days, :include => :event_category, :conditions => ['event_categories.name = ?', 'closed']
   named_scope :on, lambda {|datetime| {:conditions => ['started_at >= ? AND ended_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day]}}
 

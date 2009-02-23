@@ -1,6 +1,5 @@
 class CheckoutTypesController < ApplicationController
-  before_filter :login_required
-  require_role 'Administrator'
+  before_filter :has_permission?
   before_filter :get_user_group
 
   # GET /checkout_types

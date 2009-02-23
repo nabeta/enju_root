@@ -1,10 +1,7 @@
 class PatronsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :only => [:new, :create, :destroy]
+  before_filter :has_permission?
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
   before_filter :get_patron_merge_list
-  before_filter :get_patron, :except => [:index, :new, :create]
-  before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :store_location
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -76,11 +73,17 @@ class PatronsController < ApplicationController
   # GET /patrons/1
   # GET /patrons/1.xml
   def show
-    #@patron = Patron.find(params[:id])
-
-    unless @patron.check_access_role(current_user)
-      access_denied
-      return
+    case
+    when @work
+      @patron = @work.patrons.find(params[:id])
+    when @expression
+      @patron = @expression.patrons.find(params[:id])
+    when @manifestation
+      @patron = @manifestation.patrons.find(params[:id])
+    when @item
+      @patron = @item.patrons.find(params[:id])
+    else
+      @patron = Patron.find(params[:id])
     end
 
     @involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
@@ -90,32 +93,22 @@ class PatronsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @patron }
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # GET /patrons/new
   def new
     @patron = Patron.new
-    unless @patron.check_access_role(current_user)
-      access_denied
-      return
-    end
     prepare_options
   end
 
   # GET /patrons/1;edit
   def edit
-    #@patron = Patron.find(params[:id])
-    unless current_user.has_role?('Librarian')
-      unless @patron.check_access_role(current_user)
-        access_denied
-        return
-      end
-    end
-    unless @patron.check_access_role(current_user)
-      access_denied
-      return
-    end
+    @patron = Patron.find(params[:id])
     prepare_options
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # POST /patrons
@@ -154,11 +147,7 @@ class PatronsController < ApplicationController
   # PUT /patrons/1
   # PUT /patrons/1.xml
   def update
-    #@patron = Patron.find(params[:id])
-    unless @patron.check_access_role(current_user)
-      access_denied
-      return
-    end
+    @patron = Patron.find(params[:id])
 
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
@@ -171,16 +160,14 @@ class PatronsController < ApplicationController
         format.xml  { render :xml => @patron.errors, :status => :unprocessable_entity }
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # DELETE /patrons/1
   # DELETE /patrons/1.xml
   def destroy
-    #@patron = Patron.find(params[:id])
-    unless @patron.check_access_role(current_user)
-      access_denied
-      return
-    end
+    @patron = Patron.find(params[:id])
 
     if @patron.user
       if @patron.user.has_role?('Librarian')
@@ -197,6 +184,8 @@ class PatronsController < ApplicationController
       format.html { redirect_to patrons_url }
       format.xml  { head :ok }
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   private
@@ -218,19 +207,22 @@ class PatronsController < ApplicationController
     not_found
   end
 
-  def authorized_content
-    unless current_user.has_role?('Librarian')
-      unless @patron.user == current_user
-        access_denied
-        return
-      end
-    end
-  end
-
   def prepare_options
     @patron_types = PatronType.find(:all, :order => :position)
     @languages = Language.find(:all, :order => :position)
     @countries = Country.find(:all, :order => :position)
     @roles = Role.find(:all)
+  end
+
+  def authorized_content
+    access_denied unless authorized?
+  end
+
+  def authorized?(action = action_name, resource = nil)
+    if logged_in?
+      true if current_user.has_role?('Librarian') || @patron.user == current_user
+    end
+  rescue
+    nil
   end
 end

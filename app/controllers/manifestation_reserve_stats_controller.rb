@@ -1,6 +1,5 @@
 class ManifestationReserveStatsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /manifestation_reserve_stats
   # GET /manifestation_reserve_stats.xml

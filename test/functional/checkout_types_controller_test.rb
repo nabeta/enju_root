@@ -17,10 +17,10 @@ class CheckoutTypesControllerTest < ActionController::TestCase
     assert_nil assigns(:checkout_types)
   end
 
-  def test_librarian_should_not_get_index
+  def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_get_index
@@ -125,10 +125,10 @@ class CheckoutTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_show_checkout_type
+  def test_librarian_should_show_checkout_type
     login_as :librarian1
     get :show, :id => 1
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_show_checkout_type

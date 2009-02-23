@@ -1,4 +1,5 @@
 class PatronMerge < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :patron, :validate => true
   belongs_to :patron_merge_list, :validate => true
   validates_presence_of :patron, :patron_merge_list

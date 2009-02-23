@@ -1,4 +1,5 @@
 class SearchEngine < ActiveRecord::Base
+  include AdministratorRequired
   acts_as_list
   belongs_to :library_group, :validate => true
 

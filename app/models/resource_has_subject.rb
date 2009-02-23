@@ -1,4 +1,5 @@
 class ResourceHasSubject < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   belongs_to :subject, :counter_cache => true, :validate => true
   belongs_to :subjectable, :polymorphic => true, :counter_cache => true, :validate => true
   belongs_to :work, :counter_cache => true #, :validate => true

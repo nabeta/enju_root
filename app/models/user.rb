@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
   restful_easy_messages
   acts_as_tagger
   acts_as_soft_deletable
+  has_friendly_id :login
 
   cattr_reader :per_page
   @@per_page = 10
@@ -184,6 +185,30 @@ class User < ActiveRecord::Base
 
   def highest_role
     self.roles.find(:first, :order => ['id DESC'])
+  end
+
+  def is_admin?
+    true if self.has_role?('Administrator')
+  end
+
+  def self.is_indexable_by(user, parent = nil)
+    true
+  end
+
+  def self.is_creatable_by(user, parent = nil)
+    true if user.has_role?('Librarian')
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if user == self || user.has_role?('Librarian')
+  end
+
+  def is_updatable_by(user, parent = nil)
+    true if user == self || user.has_role?('Librarian')
+  end
+
+  def is_deletable_by(user, parent = nil)
+    true if user == self || user.has_role?('Librarian')
   end
 
   protected

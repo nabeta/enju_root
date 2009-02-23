@@ -1,4 +1,5 @@
 class Checkin < ActiveRecord::Base
+  include LibrarianRequired
   has_one :checkout
   belongs_to :item #, :validate => true
   belongs_to :librarian, :class_name => 'User' #, :validate => true

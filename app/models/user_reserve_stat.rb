@@ -1,5 +1,6 @@
 class UserReserveStat < ActiveRecord::Base
   include AASM
+  include OnlyLibrarianCanModify
   has_many :reserve_stat_has_users
   has_many :users, :through => :reserve_stat_has_users
 

@@ -15,10 +15,10 @@ class RolesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_get_index
+  def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_get_index
@@ -103,16 +103,17 @@ class RolesControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
 
-  def test_user_should_not_show_role
-    login_as :librarian1
+  def test_user_should_show_role
+    login_as :user1
     get :show, :id => 1
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_show_role
+  def test_librarian_should_show_role
     login_as :librarian1
     get :show, :id => 1
-    assert_response :forbidden
+    assert_response :success
+    assert assigns(:role)
   end
 
   def test_admin_should_show_role
@@ -122,18 +123,18 @@ class RolesControllerTest < ActionController::TestCase
     assert assigns(:role)
   end
 
-  def test_guest_should_get_edit
+  def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_redirected_to new_session_url
   end
   
-  def test_user_should_get_edit
+  def test_user_should_not_get_edit
     login_as :user1
     get :edit, :id => 1
     assert_response :forbidden
   end
   
-  def test_librarian_should_get_edit
+  def test_librarian_should_not_get_edit
     login_as :librarian1
     get :edit, :id => 1
     assert_response :forbidden

@@ -1,6 +1,5 @@
 class LanguagesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /languages
   # GET /languages.xml

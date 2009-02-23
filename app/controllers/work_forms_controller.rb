@@ -1,6 +1,5 @@
 class WorkFormsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /work_forms
   # GET /work_forms.xml

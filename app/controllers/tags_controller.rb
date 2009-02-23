@@ -1,6 +1,5 @@
 class TagsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :only => [:edit, :update, :destroy]
+  before_filter :has_permission?
   before_filter :get_user_if_nil
 
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]

@@ -1,4 +1,5 @@
 class Work < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position

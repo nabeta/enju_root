@@ -1,4 +1,5 @@
 class Basket < ActiveRecord::Base
+  include LibrarianRequired
   named_scope :will_expire, lambda {|date| {:conditions => ['created_at < ?', date]}}
   belongs_to :user, :validate => true
   has_many :checked_items, :dependent => :destroy

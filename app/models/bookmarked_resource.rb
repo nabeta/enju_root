@@ -1,5 +1,6 @@
 require 'open-uri'
 class BookmarkedResource < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   named_scope :manifestations, lambda {|manifestation_ids| {:conditions => {:manifestation_id => manifestation_ids}}}
   has_many :bookmarks, :dependent => :destroy, :include => :tags
   has_many :users, :through => :bookmarks

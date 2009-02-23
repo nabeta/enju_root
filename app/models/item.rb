@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins

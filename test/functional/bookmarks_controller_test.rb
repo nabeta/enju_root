@@ -34,16 +34,23 @@ class BookmarksControllerTest < ActionController::TestCase
     assert assigns(:bookmarks)
   end
 
-  def test_user_should_not_get_my_index
+  def test_user_should_get_my_index
     login_as :user1
     get :index, :user_id => users(:user1).login
-    assert_response :forbidden
-    assert_nil assigns(:bookmarks)
+    assert_response :success
+    assert assigns(:bookmarks)
   end
 
-  def test_user_should_not_get_other_index
+  def test_user_should_get_other_public_index
     login_as :user1
     get :index, :user_id => users(:admin).login
+    assert_response :success
+    assert assigns(:bookmarks)
+  end
+
+  def test_user_should_not_get_other_private_index
+    login_as :user2
+    get :index, :user_id => users(:user1).login
     assert_response :forbidden
     assert_nil assigns(:bookmarks)
   end
@@ -108,11 +115,13 @@ class BookmarksControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_other_users_bookmark
     login_as :user1
-    old_count = Bookmark.count
-    post :create, :bookmark => {:user_id => users(:user2).id, :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user2).login
-    assert_equal old_count, Bookmark.count
+    assert_difference('BookmarkedResource.count') do
+      post :create, :bookmark => {:user_id => users(:user2).id, :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user2).login
+    end
     
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
+    assert_equal users(:user1), assigns(:bookmark).user
   end
 
   def test_user_should_create_bookmark_with_tag_list
@@ -207,10 +216,10 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_user_should_not_get_edit
+  def test_user_should_get_edit
     login_as :user1
     get :edit, :id => 3, :user_id => users(:user1).login
-    assert_response :forbidden
+    assert_response :success
   end
   
   def test_librarian_should_get_edit
@@ -230,10 +239,11 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
   
-  def test_user_should_not_update_bookmark_without_user_id
+  def test_user_should_update_my_bookmark_without_user_id
     login_as :user1
     put :update, :id => 3, :bookmark => { }
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
   end
 
   def test_user_should_not_update_other_user_bookmark
@@ -257,6 +267,7 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_update_bookmark
     login_as :user1
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => { }
+    assert_response :redirect
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
   end
   

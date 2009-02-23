@@ -1,7 +1,5 @@
 class ManifestationFormsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
-  #require_role 'Librarian', :only => [:index, :show]
+  before_filter :has_permission?
 
   # GET /manifestation_forms
   # GET /manifestation_forms.xml

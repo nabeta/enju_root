@@ -1,9 +1,9 @@
 class SubjectHasClassificationsController < ApplicationController
+  include OnlyLibrarianCanModify
   before_filter :check_client_ip_address
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_subject
   before_filter :get_classification
-  require_role 'Librarian', :except => [:index, :show]
 
   # GET /subject_has_classifications
   # GET /subject_has_classifications.xml

@@ -1,7 +1,6 @@
 class NewsFeedsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
   cache_sweeper :news_feed_sweeper, :only => [:create, :update, :destroy]
 
   # GET /news_feeds

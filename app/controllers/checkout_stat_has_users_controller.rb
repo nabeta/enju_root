@@ -1,6 +1,5 @@
 class CheckoutStatHasUsersController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /checkout_stat_has_users
   # GET /checkout_stat_has_users.xml

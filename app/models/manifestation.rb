@@ -2,6 +2,7 @@ require 'open-uri'
 require 'wakati'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
+  include OnlyLibrarianCanModify
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy

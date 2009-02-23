@@ -1,4 +1,5 @@
 class MessageTemplate < ActiveRecord::Base
+  include LibrarianRequired
   has_many :message_queues
 
   validates_uniqueness_of :status

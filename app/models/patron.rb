@@ -1,4 +1,5 @@
 class Patron < ActiveRecord::Base
+  include LibrarianOwnerRequired
   has_one :user, :dependent => :destroy
   has_one :library, :include => :library_group
   has_many :creates, :dependent => :destroy
@@ -144,4 +145,31 @@ class Patron < ActiveRecord::Base
     self.patron_merge_lists.collect(&:id)
   end
 
+  def self.is_creatable_by(user, parent = nil)
+    #true if user.has_role?('Administrator')
+    true if user.has_role?('Librarian')
+  rescue
+    false
+  end
+
+  def is_readable_by(user, parent = nil)
+    # TODO: role id を使わない制御
+    true if self.access_role.id == 1 || user.highest_role.id >= self.access_role.id || user == self.user
+  rescue
+    false
+  end
+
+  def is_updatable_by(user, parent = nil)
+    if user == self.user || user.has_role?('Librarian')
+      true unless self.user.has_role?('Administrator')
+    end
+  rescue
+    false
+  end
+
+  def is_deletable_by(user, parent = nil)
+    true if user.has_role?('Librarian')
+  rescue
+    false
+  end
 end

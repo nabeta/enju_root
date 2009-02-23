@@ -1,6 +1,5 @@
 class BookmarkStatHasManifestationsController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /bookmark_stat_has_manifestations
   # GET /bookmark_stat_has_manifestations.xml

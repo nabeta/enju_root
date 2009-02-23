@@ -1,7 +1,5 @@
 class BookstoresController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian', :only => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /bookstores
   # GET /bookstores.xml

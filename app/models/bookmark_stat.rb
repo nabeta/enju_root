@@ -1,5 +1,6 @@
 class BookmarkStat < ActiveRecord::Base
   include AASM
+  include OnlyLibrarianCanModify
   has_many :bookmark_stat_has_manifestations
   has_many :manifestations, :through => :bookmark_stat_has_manifestations
 

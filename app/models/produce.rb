@@ -1,4 +1,5 @@
 class Produce < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   belongs_to :patron, :counter_cache => true #,:polymorphic => true, :validate => true
   belongs_to :manifestation, :counter_cache => true #, :validate => true
 

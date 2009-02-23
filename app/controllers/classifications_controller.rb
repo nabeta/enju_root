@@ -1,7 +1,6 @@
 class ClassificationsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_subject
-  require_role 'Administrator', :except => [:index, :show]
 
   # GET /classifications
   # GET /classifications.xml

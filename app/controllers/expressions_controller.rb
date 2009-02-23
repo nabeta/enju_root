@@ -1,6 +1,5 @@
 class ExpressionsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?, :except => :show
   before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_work, :get_manifestation, :get_subscription

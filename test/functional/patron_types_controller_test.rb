@@ -20,7 +20,8 @@ class PatronTypesControllerTest < ActionController::TestCase
   def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :forbidden
+    assert_response :success
+    assert assigns(:patron_types)
   end
 
   def test_admin_should_get_index
@@ -97,13 +98,13 @@ class PatronTypesControllerTest < ActionController::TestCase
     assert_redirected_to patron_type_url(assigns(:patron_type))
   end
 
-  def test_guest_should_show_patron_type
+  def test_guest_should_not_show_patron_type
     get :show, :id => 1
     assert_response :redirect
     assert_redirected_to new_session_url
   end
 
-  def test_user_should_show_patron_type
+  def test_user_should_not_show_patron_type
     login_as :user1
     get :show, :id => 1
     assert_response :forbidden
@@ -112,7 +113,7 @@ class PatronTypesControllerTest < ActionController::TestCase
   def test_librarian_should_show_patron_type
     login_as :librarian1
     get :show, :id => 1
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_show_patron_type

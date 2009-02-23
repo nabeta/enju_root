@@ -1,6 +1,5 @@
 class ResourceHasSubjectsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show] 
-  require_role 'Librarian', :except => [:index, :show] 
+  before_filter :has_permission?
   before_filter :get_subject
   before_filter :get_patron
   before_filter :get_work

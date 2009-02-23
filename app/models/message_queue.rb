@@ -1,4 +1,5 @@
 class MessageQueue < ActiveRecord::Base
+  include LibrarianRequired
   named_scope :not_sent, :conditions => {:sent_at => nil}
   belongs_to :message_template, :validate => true
   belongs_to :sender, :class_name => "User", :foreign_key => "sender_id", :validate => true
