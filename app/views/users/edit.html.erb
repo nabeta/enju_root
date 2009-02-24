@@ -87,8 +87,8 @@
     </p>
 
     <p>
-      <b><%= ('Access role') -%></b><br />
-      <%= f.select(:access_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+      <b><%= t('role.required_role') -%></b>
+      <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
     </p>
   <%- end -%>
 

@@ -6,15 +6,15 @@ class Role < ActiveRecord::Base
   include DisplayName
   include AdministratorRequired
   has_and_belongs_to_many :users
-  has_many :patrons, :foreign_key => 'access_role_id'
-  has_many :people, :foreign_key => 'access_role_id'
-  has_many :corporate_bodies, :foreign_key => 'access_role_id'
-  has_many :families, :foreign_key => 'access_role_id'
-  has_many :works, :foreign_key => 'access_role_id'
-  has_many :expressions, :foreign_key => 'access_role_id'
-  has_many :manifestations, :foreign_key => 'access_role_id'
-  has_many :items, :foreign_key => 'access_role_id'
-  #has_many :access_users, :class_name => 'User', :foreign_key => 'access_role_id'
+  has_many :patrons, :foreign_key => 'required_role_id'
+  has_many :people, :foreign_key => 'required_role_id'
+  has_many :corporate_bodies, :foreign_key => 'required_role_id'
+  has_many :families, :foreign_key => 'required_role_id'
+  has_many :works, :foreign_key => 'required_role_id'
+  has_many :expressions, :foreign_key => 'required_role_id'
+  has_many :manifestations, :foreign_key => 'required_role_id'
+  has_many :items, :foreign_key => 'required_role_id'
+  #has_many :access_users, :class_name => 'User', :foreign_key => 'required_role_id'
   validates_presence_of :name
 
   acts_as_list

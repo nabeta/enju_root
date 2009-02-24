@@ -5,6 +5,9 @@
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
+      <%- if @expression.serial? -%>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%></li>
+      <%- end -%>
       <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- case when @work -%>
         <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
@@ -21,7 +24,7 @@
     <ul>
       <li><%= link_to t('manifestation.add'), expression_manifestations_path(@expression) -%></li>
       <%- if @expression.serial? -%>
-        <li><%= link_to ('Add next issue'), new_expression_manifestation_path(@expression) -%></li>
+        <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@expression) -%></li>
       <%- end -%>
     </ul>
 </div>

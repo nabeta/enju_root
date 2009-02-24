@@ -14,13 +14,13 @@ class CreateWorks < ActiveRecord::Migration
       t.integer :lock_version, :default => 0, :null => false
       t.timestamps
       t.datetime :deleted_at
-      t.integer :access_role_id, :default => 1, :null => false
+      t.integer :required_role_id, :default => 1, :null => false
       t.string :state
       t.integer :required_score, :default => 0, :null => false
     end
     add_index :works, :work_form_id
     add_index :works, :parent_id
-    add_index :works, :access_role_id
+    add_index :works, :required_role_id
   end
 
   def self.down

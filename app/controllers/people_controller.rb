@@ -23,10 +23,10 @@ class PeopleController < ApplicationController
     query = @query.to_s.strip
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " access_role_id: [* TO 2]"
+        query += " required_role_id: [* TO 2]"
       end
     else
-      query += " access_role_id: 1"
+      query += " required_role_id: 1"
     end
 
     unless query.blank?
@@ -73,7 +73,7 @@ class PeopleController < ApplicationController
   def show
     @person = Person.find(params[:id])
 
-    unless @person.check_access_role(current_user)
+    unless @person.check_required_role(current_user)
       access_denied
       return
     end
@@ -91,7 +91,7 @@ class PeopleController < ApplicationController
   def new
     prepare_options
     @person = Person.new
-    unless @person.check_access_role(current_user)
+    unless @person.check_required_role(current_user)
       access_denied
       return
     end
@@ -102,12 +102,12 @@ class PeopleController < ApplicationController
     prepare_options
     @person = Person.find(params[:id])
     unless current_user.has_role?('Librarian')
-      unless @person.check_access_role(current_user)
+      unless @person.check_required_role(current_user)
         access_denied
         return
       end
     end
-    unless @person.check_access_role(current_user)
+    unless @person.check_required_role(current_user)
       access_denied
       return
     end
@@ -150,7 +150,7 @@ class PeopleController < ApplicationController
   # PUT /people/1.xml
   def update
     @person = Person.find(params[:id])
-    unless @person.check_access_role(current_user)
+    unless @person.check_required_role(current_user)
       access_denied
       return
     end
@@ -172,7 +172,7 @@ class PeopleController < ApplicationController
   # DELETE /people/1.xml
   def destroy
     @person = Person.find(params[:id])
-    unless @person.check_access_role(current_user)
+    unless @person.check_required_role(current_user)
       access_denied
       return
     end

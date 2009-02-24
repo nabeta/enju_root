@@ -23,10 +23,10 @@ class FamiliesController < ApplicationController
     query = @query.to_s.strip
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " access_role_id: [* TO 2]"
+        query += " required_role_id: [* TO 2]"
       end
     else
-      query += " access_role_id: 1"
+      query += " required_role_id: 1"
     end
 
     unless query.blank?
@@ -73,7 +73,7 @@ class FamiliesController < ApplicationController
   def show
     @family = Family.find(params[:id])
 
-    unless @family.check_access_role(current_user)
+    unless @family.check_required_role(current_user)
       access_denied
       return
     end
@@ -91,7 +91,7 @@ class FamiliesController < ApplicationController
   def new
     prepare_options
     @family = Family.new
-    unless @family.check_access_role(current_user)
+    unless @family.check_required_role(current_user)
       access_denied
       return
     end
@@ -102,12 +102,12 @@ class FamiliesController < ApplicationController
     prepare_options
     @family = Family.find(params[:id])
     unless current_user.has_role?('Librarian')
-      unless @family.check_access_role(current_user)
+      unless @family.check_required_role(current_user)
         access_denied
         return
       end
     end
-    unless @family.check_access_role(current_user)
+    unless @family.check_required_role(current_user)
       access_denied
       return
     end
@@ -150,7 +150,7 @@ class FamiliesController < ApplicationController
   # PUT /families/1.xml
   def update
     @family = Family.find(params[:id])
-    unless @family.check_access_role(current_user)
+    unless @family.check_required_role(current_user)
       access_denied
       return
     end
@@ -172,7 +172,7 @@ class FamiliesController < ApplicationController
   # DELETE /families/1.xml
   def destroy
     @family = Family.find(params[:id])
-    unless @family.check_access_role(current_user)
+    unless @family.check_required_role(current_user)
       access_denied
       return
     end

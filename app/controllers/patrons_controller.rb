@@ -25,10 +25,10 @@ class PatronsController < ApplicationController
     query = @query.to_s.strip
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " access_role_id: [* TO 2]"
+        query += " required_role_id: [* TO 2]"
       end
     else
-      query += " access_role_id: 1"
+      query += " required_role_id: 1"
     end
 
     unless query.blank?

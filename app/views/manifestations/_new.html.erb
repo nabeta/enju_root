@@ -17,7 +17,10 @@
     <%= link_to h(@expression.original_title), @expression -%>
     <%- if @expression.serial? and !@expression.subscribed? -%>
       <br />
-      <spam class="error_message"><%= ('This subscription is expired!') -%></span>
+      <span class="error_message">
+        <%= t('subscribe.this_subscription_is_expired') -%>
+        <%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%>
+      </span>
     <%- end -%>
   </p>
 
@@ -105,8 +108,8 @@
   </p>
   
   <p>
-    <b><%= ('Access role') -%></b><br />
-    <%= f.select(:access_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+    <b><%= t('role.required_role') -%></b>
+    <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
   </p>
 
   <p>

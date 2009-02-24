@@ -23,10 +23,10 @@ class CorporateBodiesController < ApplicationController
     query = @query.to_s.strip
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " access_role_id: [* TO 2]"
+        query += " required_role_id: [* TO 2]"
       end
     else
-      query += " access_role_id: 1"
+      query += " required_role_id: 1"
     end
 
     unless query.blank?
@@ -73,7 +73,7 @@ class CorporateBodiesController < ApplicationController
   def show
     @corporate_body = CorporateBody.find(params[:id])
 
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -91,7 +91,7 @@ class CorporateBodiesController < ApplicationController
   def new
     prepare_options
     @corporate_body = CorporateBody.new
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -102,12 +102,12 @@ class CorporateBodiesController < ApplicationController
     prepare_options
     @corporate_body = CorporateBody.find(params[:id])
     unless current_user.has_role?('Librarian')
-      unless @corporate_body.check_access_role(current_user)
+      unless @corporate_body.check_required_role(current_user)
         access_denied
         return
       end
     end
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -150,7 +150,7 @@ class CorporateBodiesController < ApplicationController
   # PUT /corporate_bodies/1.xml
   def update
     @corporate_body = CorporateBody.find(params[:id])
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -172,7 +172,7 @@ class CorporateBodiesController < ApplicationController
   # DELETE /corporate_bodies/1.xml
   def destroy
     @corporate_body = CorporateBody.find(params[:id])
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end

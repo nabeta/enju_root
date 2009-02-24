@@ -568,6 +568,7 @@ en:
         title: Title
         note: Note
         deleted_at: Deleted at
+        subscribes_count: Count
       message_template:
         status: Status
         title: Title
@@ -964,6 +965,8 @@ en:
     cancel_reservation: "Cancel this reservation"
     patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
     query_search_result: "Search results for {{query}} in {{library_group_name}}"
+    serial: "Serial"
+    number: "Number"
     issue_number: "Issue number"
     serial_number: "Serial number"
     invalid_isbn: "Invalid ISBN."
@@ -1117,3 +1120,7 @@ en:
     all_history: "All search history"
     failed_search: "Failed searches"
     searched_at: "Searched at"
+  subscribe:
+    this_subscription_is_expired: "This subscription is expired!"
+  role:
+    required_role: "Required role"

@@ -2,9 +2,9 @@
 
 one:
   full_name: MyText
-  access_role_id: 1
+  required_role_id: 1
 
 two:
   full_name: MyText
-  access_role_id: 1
+  required_role_id: 1
 

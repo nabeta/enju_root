@@ -138,7 +138,7 @@ class UsersController < ApplicationController
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
-        @user.access_role_id = params[:user][:access_role_id] ||= 1
+        @user.required_role_id = params[:user][:required_role_id] ||= 1
         @user.expired_at = expired_at
         @user.keyword_list = params[:user][:keyword_list]
         @user.user_number = params[:user][:user_number]
@@ -176,7 +176,7 @@ class UsersController < ApplicationController
     @user.note = params[:user][:note]
     @user.user_group_id = params[:user][:user_group_id] ||= 1
     @user.library_id = params[:user][:library_id] ||= 1
-    #@user.access_role_id = params[:user][:access_role_id] ||= 1
+    #@user.required_role_id = params[:user][:required_role_id] ||= 1
     @user.expired_at = expired_at
     @user.keyword_list = params[:user][:keyword_list]
     @user.user_number = params[:user][:user_number]

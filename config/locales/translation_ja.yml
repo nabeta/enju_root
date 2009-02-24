@@ -567,6 +567,7 @@ ja:
         title: タイトル
         note: 注記
         deleted_at: 削除時刻
+        subscribes_count: 購読数
       message_template:
         status: 状態
         title: タイトル
@@ -947,6 +948,8 @@ ja:
     cancel_reservation: "この資料の予約を解除する"
     patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
+    serial: "定期刊行物"
+    number: "巻号"
     issue_number: "号数"
     serial_number: "通号"
     invalid_isbn: "無効なISBNです。"
@@ -1099,3 +1102,7 @@ ja:
     all_history: "全ての検索履歴"
     failed_search: "失敗した検索"
     searched_at: "検索時刻"
+  subscribe:
+    this_subscription_is_expired: "購読期間が過ぎています。"
+  role:
+    required_role: "参照に必要な権限"

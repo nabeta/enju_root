@@ -18,7 +18,7 @@ class CreateItems < ActiveRecord::Migration
       t.string :url
       t.decimal :price
       t.integer :lock_version, :default => 0, :null => false
-      t.integer :access_role_id, :default => 1, :null => false
+      t.integer :required_role_id, :default => 1, :null => false
       t.string :state
       t.integer :required_score, :default => 0, :null => false
     end
@@ -27,7 +27,7 @@ class CreateItems < ActiveRecord::Migration
     add_index :items, :checkout_type_id
     add_index :items, :shelf_id
     add_index :items, :item_identifier
-    add_index :items, :access_role_id
+    add_index :items, :required_role_id
   end
 
   def self.down

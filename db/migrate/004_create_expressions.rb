@@ -20,7 +20,7 @@ class CreateExpressions < ActiveRecord::Migration
       t.integer :lock_version, :default => 0, :null => false
       t.timestamps
       t.datetime :deleted_at
-      t.integer :access_role_id, :default => 1, :null => false
+      t.integer :required_role_id, :default => 1, :null => false
       t.string :feed_url
       t.string :state
       t.integer :required_score, :default => 0, :null => false
@@ -29,7 +29,7 @@ class CreateExpressions < ActiveRecord::Migration
     add_index :expressions, :language_id
     add_index :expressions, :expression_form_id
     add_index :expressions, :frequency_of_issue_id
-    add_index :expressions, :access_role_id
+    add_index :expressions, :required_role_id
     add_index :expressions, :issn
   end
 

@@ -24,10 +24,16 @@ class RequestTypesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:request_types)
   end
 
+  def test_admin_should_get_index
+    login_as :admin
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:request_types)
+  end
+
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
   end
 
   def test_user_should_not_get_new
@@ -42,7 +48,7 @@ class RequestTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_administrator_should_get_new
+  def test_admin_should_get_new
     login_as :admin
     get :new
     assert_response :success
@@ -111,6 +117,12 @@ class RequestTypesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_admin_should_not_show_request_type
+    login_as :admin
+    get :show, :id => request_types(:request_type_00001).id
+    assert_response :success
+  end
+
   def test_guest_should_not_get_edit
     get :edit, :id => request_types(:request_type_00001).id
     assert_response :redirect
@@ -153,7 +165,7 @@ class RequestTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_admin_should_update_request_type_without_name
+  def test_admin_should_not_update_request_type_without_name
     login_as :admin
     put :update, :id => request_types(:request_type_00001).id, :request_type => {:name => ""}
     assert_response :success

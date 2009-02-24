@@ -3,20 +3,20 @@
 one:
   id: 1
   full_name: MyText
-  access_role_id: 1
+  required_role_id: 1
 
 two:
   id: 2
   full_name: MyText
-  access_role_id: 1
+  required_role_id: 1
 
 three:
   id: 3
   full_name: MyText
-  access_role_id: 1
+  required_role_id: 1
 
 four:
   id: 4
   full_name: MyText
-  access_role_id: 1
+  required_role_id: 1
 

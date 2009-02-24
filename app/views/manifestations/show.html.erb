@@ -113,7 +113,7 @@
     <%- end -%>
     <%- if @manifestation.serial -%>
       <tr>
-        <td style="width: 200px"><%=h ('Serial') -%>:</td>
+        <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
         <td><%= serial_title_link(@manifestation) -%>
           <%- if @manifestation.serial.issn? -%>
             (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
@@ -189,7 +189,7 @@
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
-        <td>ISBN:</td>
+        <td><%= t('activerecord.attributes.manifestation.isbn') -%>:</td>
         <td>
           <%- if @manifestation.isbn -%>
             <%=h @manifestation.isbn -%>
@@ -310,11 +310,7 @@
     -->
     <%- if @amazon_reviews.size > 0 -%>
       <div id="tab6">
-        <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
-        <%- @amazon_reviews.each do |review| -%>
-          <div class="amazon_summary"><strong><%=h review[:summary] -%></strong> (<%=h review[:date] -%>)</div>
-          <p><%= h(review[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
-        <%- end -%>
+        <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
       </div>
     <%- end -%>
   </div>

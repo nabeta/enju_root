@@ -1,13 +1,13 @@
 class SubscriptionsController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?
-  before_filter :get_subscription
+  before_filter :get_expression
 
   # GET /subscriptions
   # GET /subscriptions.xml
   def index
-    if @subscription_list
-      @subscriptions = @subscription_list.subscriptions.paginate(:page => params[:page])
+    if @expression
+      @subscriptions = @expression.subscriptions.paginate(:page => params[:page])
     else
       @subscriptions = Subscription.paginate(:all, :page => params[:page])
     end

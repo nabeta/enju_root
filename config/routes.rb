@@ -265,7 +265,8 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :expression_merges
     expression.resources :expression_merge_lists
     expression.resources :resource_has_subjects
-    expression.resource :subscribe
+    expression.resources :subscribe
+    expression.resources :subscriptions
     expression.resources :expression_from_expressions, :controller => :expressions
     expression.resources :expression_to_expressions, :controller => :expressions
   end

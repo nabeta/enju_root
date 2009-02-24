@@ -34,7 +34,7 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :save_search_history, :default => false, :null => false
       t.boolean :save_checkout_history, :default => false, :null => false
       t.integer :lock_version, :default => 0, :null => false
-      t.integer :access_role_id, :null => false
+      t.integer :required_role_id, :null => false
       t.text :keyword_list
       t.string :user_number
       t.string :state, :default => 'pending', :null => false
@@ -45,7 +45,7 @@ class CreateUsers < ActiveRecord::Migration
 
     add_index :users, :patron_id, :unique => true
     add_index :users, :user_group_id
-    add_index :users, :access_role_id
+    add_index :users, :required_role_id
     add_index :users, :user_number, :unique => true
     add_index :users, :checkout_icalendar_token, :unique => true
     add_index :users, :answer_rss_token, :unique => true

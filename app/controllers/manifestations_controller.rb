@@ -120,8 +120,10 @@ class ManifestationsController < ApplicationController
 
       #SearchHistory.create(:query => query, :user => @user, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total])
       unless @query.blank?
-        check_dsbl if LibraryGroup.find(1).use_dsbl?
-        SearchHistory.create(:query => @query, :user_id => nil, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total]) rescue nil
+        #check_dsbl if LibraryGroup.find(1).use_dsbl?
+        if logged_in?
+          SearchHistory.create(:query => @query, :user_id => nil, :start_record => @startrecord, :maximum_records => nil, :number_of_records => @count[:total])
+        end
       end
     end
     store_location

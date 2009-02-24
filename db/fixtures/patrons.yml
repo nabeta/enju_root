@@ -7,7 +7,7 @@ patron_00001:
   address_1: 
   language_id: 1
   patron_type_id: 1
-  access_role_id: 1
+  required_role_id: 1
 patron_00002: 
   place: ""
   full_name: Your Library
@@ -16,4 +16,4 @@ patron_00002:
   address_1: 
   language_id: 1
   patron_type_id: 2
-  access_role_id: 1
+  required_role_id: 1

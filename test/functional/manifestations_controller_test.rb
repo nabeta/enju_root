@@ -10,35 +10,37 @@ class ManifestationsControllerTest < ActionController::TestCase
   fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
-    old_search_history_count = SearchHistory.count
+    assert_no_difference('SearchHistory.count') do
+      get :index, :format => 'xml'
+    end
     get :index
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count, SearchHistory.count
   end
 
   def test_guest_should_get_index_xml
-    old_search_history_count = SearchHistory.count
-    get :index, :format => 'xml'
+    assert_no_difference('SearchHistory.count') do
+      get :index, :format => 'xml'
+    end
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count, SearchHistory.count
   end
 
   def test_guest_should_get_index_csv
-    old_search_history_count = SearchHistory.count
-    get :index, :format => 'csv'
+    assert_no_difference('SearchHistory.count') do
+      get :index, :format => 'csv'
+    end
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count, SearchHistory.count
   end
 
-  def test_guest_should_create_search_history
-    old_search_history_count = SearchHistory.count
-    get :index, :query => 'test'
+  def test_user_should_create_search_history
+    login_as :user1
+    assert_difference('SearchHistory.count') do
+      get :index, :query => 'test'
+    end
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count + 1, SearchHistory.count
   end
 
   def test_guest_should_get_index_with_patron_id
