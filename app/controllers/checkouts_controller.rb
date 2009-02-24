@@ -49,11 +49,6 @@ class CheckoutsController < ApplicationController
       return
     end
 
-     @startrecord = (params[:page].to_i - 1) * Checkout.per_page + 1
-     if @startrecord < 1
-       @startrecord = 1
-     end
-
      @days_overdue = params[:days_overdue] ||= 1
 
     respond_to do |format|

@@ -12,9 +12,6 @@ class OrderListsController < ApplicationController
       @order_lists = OrderList.paginate(:all, :page => params[:page])
     end
 
-    @startrecord = (params[:page].to_i - 1) * OrderList.per_page + 1
-    @startrecord = 1 if @startrecord < 1
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @order_lists }

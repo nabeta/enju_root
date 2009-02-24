@@ -42,9 +42,6 @@ class PurchaseRequestsController < ApplicationController
     end
     @count[:query_result] = @purchase_requests.size
 
-    @startrecord = (params[:page].to_i - 1) * PurchaseRequest.per_page + 1
-    @startrecord = 1 if @startrecord < 1
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @purchase_requests }

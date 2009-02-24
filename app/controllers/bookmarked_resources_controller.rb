@@ -59,11 +59,6 @@ class BookmarkedResourcesController < ApplicationController
     #end
     #raise query
 
-    @startrecord = (params[:page].to_i - 1) * BookmarkedResource.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
-
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @bookmarked_resources }

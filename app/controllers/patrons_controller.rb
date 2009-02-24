@@ -59,9 +59,6 @@ class PatronsController < ApplicationController
 
     end
 
-    @startrecord = (params[:page].to_i - 1) * Patron.per_page + 1
-    @startrecord = 1 if @startrecord < 1
-
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @patrons }

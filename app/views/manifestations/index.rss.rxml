@@ -14,8 +14,8 @@ xml.rss('version' => "2.0",
     xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "#{request.protocol}#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?
       xml.tag! "opensearch:totalResults", @count[:query_result]
-      xml.tag! "opensearch:startIndex", @startrecord
-      xml.tag! "opensearch:itemsPerPage", @per_page
+      xml.tag! "opensearch:startIndex", @manifestations.offset + 1
+      xml.tag! "opensearch:itemsPerPage", @manifestations.per_page
       xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
     end
     if @manifestations
@@ -33,7 +33,6 @@ xml.rss('version' => "2.0",
           xml.tag! "dc:Identifier", manifestation.isbn
         end
       end
-      @startrecord += 1
     end
   }
 }

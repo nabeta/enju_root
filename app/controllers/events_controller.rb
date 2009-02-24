@@ -40,9 +40,6 @@ class EventsController < ApplicationController
     end
     @query = query
 
-    @startrecord = (params[:page].to_i - 1) * Event.per_page + 1
-    @startrecord = 1 if @startrecord < 1
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @events }
