@@ -32,7 +32,6 @@
     <%=h @library.note -%>
   </p>
 
-<%- unless @library.web? -%>
 <div id="tabview">
   
   <div id="demo" class="yui-navset yui-navset-top">
@@ -114,5 +113,4 @@
     </div>
   </div>
   <%= render :partial => 'page/tabview' -%>
-<%- end -%>
 </div>

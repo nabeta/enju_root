@@ -30,9 +30,7 @@ class ReservesController < ApplicationController
     end
 
     @startrecord = (params[:page].to_i - 1) * Reserve.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
+    @startrecord = 1 if @startrecord < 1
 
     respond_to do |format|
       format.html # index.rhtml

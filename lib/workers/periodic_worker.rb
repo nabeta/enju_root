@@ -45,14 +45,16 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
   end
 
   def expire_reservations(args = nil)
-    reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
-    reservations.each do |reserve|
-      reserve.aasm_expire!
-      #reserve.expire
-      reserve.send_message('expired')
+    Reserve.transaction do
+      reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
+      Reserve.send_message_to_patrons('expired') unless reservations.blank?
+      reservations.each do |reserve|
+        reserve.send_message('expired')
+        reserve.aasm_expire!
+        #reserve.expire
+      end
+      logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end
-    Reserve.send_message_to_patrons('expired') unless reservations.blank?
-    logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
   #rescue
   #  logger.info "#{Time.zone.now} expiring reservations failed!"
   end

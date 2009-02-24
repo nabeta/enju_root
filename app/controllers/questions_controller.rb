@@ -12,9 +12,8 @@ class QuestionsController < ApplicationController
     @count = {}
     @refkyo_count = 0
     @startrecord = (params[:page].to_i - 1) * Question.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
+    @startrecord = 1 if @startrecord < 1
+
     crd_startrecord = (params[:crd_page].to_i - 1) * Question.crd_per_page + 1
     if crd_startrecord < 1
       crd_startrecord = 1

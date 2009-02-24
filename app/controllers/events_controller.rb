@@ -11,24 +11,27 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
     @count = {}
-    if params[:date]
-      if @library
+    if params[:date].present?
+      if @library.present?
         @events = @library.events.paginate(:conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
       else
         @events = Event.paginate(:all, :conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
       end
-    elsif params[:tag]
+    elsif params[:tag].present?
+      if @library.present?
+        query = params[:query] + " library_id: #{@library.id}"
+      end
       query = "#{query} tag_list: #{params[:tag]}"
       @events = Event.paginate_by_solr(query, :page => params[:page], :per_page => @per_page)
-    elsif params[:query]
-      if @library
+    elsif params[:query].present?
+      if @library.present?
         query = params[:query] + " library_id: #{@library.id}"
       else
         query = params[:query]
       end
       @events = Event.paginate_by_solr(query, :page => params[:page], :per_page => @per_page)
     else
-      if @library
+      if @library.present?
         @events = @library.events.paginate(:page => params[:page], :order => ['started_at DESC'])
       else
         @events = Event.paginate(:all, :page => params[:page], :order => ['started_at DESC'])
@@ -38,9 +41,7 @@ class EventsController < ApplicationController
     @query = query
 
     @startrecord = (params[:page].to_i - 1) * Event.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
+    @startrecord = 1 if @startrecord < 1
 
     respond_to do |format|
       format.html # index.html.erb
@@ -141,7 +142,6 @@ class EventsController < ApplicationController
 
   private
   def prepare_options
-    @library = Library.find(:first, :order => :id) if @library.nil?
     @event_categories = EventCategory.find(:all, :order => :position)
   end
 

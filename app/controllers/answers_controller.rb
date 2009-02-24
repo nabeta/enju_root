@@ -47,9 +47,7 @@ class AnswersController < ApplicationController
     @count[:query_result] = @answers.size
 
     @startrecord = (params[:page].to_i - 1) * Answer.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
+    @startrecord = 1 if @startrecord < 1
 
     respond_to do |format|
       format.html # index.rhtml
