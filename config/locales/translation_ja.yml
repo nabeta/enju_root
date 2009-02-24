@@ -1044,6 +1044,7 @@ ja:
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
+    import_event: "催し物のインポート"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"

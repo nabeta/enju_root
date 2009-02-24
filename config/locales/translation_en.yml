@@ -1063,6 +1063,7 @@ en:
   event:
     library_group_event: "Events at {{library_group_name}}"
     all_libraries: "All libraries"
+    import_event: "Import events"
   user:
     current_password: "Current password"
     new_password: "New password"
