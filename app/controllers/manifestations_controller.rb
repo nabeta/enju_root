@@ -60,12 +60,12 @@ class ManifestationsController < ApplicationController
 
       unless query.blank?
         unless params[:mode] == "add"
-          query = add_query(query, @expression) unless @expression.blank?
-          query = add_query(query, @patron) unless @patron.blank?
+          query.add_query!(@expression) unless @expression.blank?
+          query.add_query!(@patron) unless @patron.blank?
         end
         # 内部的なクエリ
         query = add_query(query, @manifestation_form) unless @manifestation_form.blank?
-        query = add_query(query, @subject_by_term) unless @subject_by_term.blank?
+        query.add_query!(@subject_by_term) unless @subject_by_term.blank?
         unless params[:library].blank?
           library_list = params[:library].split.uniq.join(' ')
           query = "#{query} library: (#{library_list})"
@@ -385,18 +385,10 @@ class ManifestationsController < ApplicationController
 
   def add_query(query, object)
     case object.class.to_s
-    when 'Expression'
-      query = "#{query} expression_ids: #{object.id}"
-    when 'Patron'
-      query = "#{query} patron_ids: #{object.id}"
     when 'ManifestationForm'
       query = "#{query} formtype: #{object.name}"
     when 'Language'
       query = "#{query} lang: #{object.name}"
-    when 'Subject'
-      query = "#{query} subject_ids: #{object.id}"
-    when 'Library'
-      query = "#{query} library: #{object.short_name}"
     end
     return query
   end

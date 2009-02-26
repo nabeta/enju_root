@@ -32,9 +32,9 @@ class CorporateBodiesController < ApplicationController
     unless query.blank?
 
       unless params[:mode] == 'add'
-        query += " work_ids: #{@work.id}" if @work
-        query += " expression_ids: #{@expression.id}" if @expression
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
+        query.add_query!(@work)
+        query.add_query!(@expression)
+        query.add_query!(@manifestation)
         query += " corporate_body_merge_list_ids: #{@corporate_body_merge_list.id}" if @corporate_body_merge_list
       end
 

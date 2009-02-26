@@ -25,9 +25,7 @@ class BookmarkedResourcesController < ApplicationController
     @count = {}
     query = make_query(params[:query], {:tag => params[:tag]})
     @query = query
-    if @user
-      query = "#{query} user: #{@user.login}"
-    end
+    query.add_query!(@user) if @user
 
     unless query.blank?
       @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact

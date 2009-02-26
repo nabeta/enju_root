@@ -16,9 +16,9 @@ class ExpressionsController < ApplicationController
       query = @query
       query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
       unless params[:mode] == 'add'
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
-        query += " patron_ids: #{@patron.id}" if @patron
-        query += " work_id: #{@work.id}" if @work
+        query.add_query!(@manifestation) if @manifestation
+        query.add_query!(@patron) if @patron
+        query.add_query!(@work) if @work
         query += " subscription_id: #{@subscription.id}" if @subscription
         query += " expression_merge_list_ids: #{@expression_merge_list.id}" if @expression_merge_list
       end

@@ -29,8 +29,8 @@ class ItemsController < ApplicationController
       @count = {}
       query = @query
       unless params[:mode] == 'add'
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
-        query += " patron_ids: #{@patron.id}" if @patron
+        query.add_query!(@manifestation) if @manifestation
+        query.add_query!(@patron) if @patron
       end
       @items = Item.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:holding_library]}, :page => params[:page], :per_page => per_page).compact
       @count[:total] = @items.total_entries

@@ -116,6 +116,7 @@ require 'csv'
 require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'wakati'
+require 'search_query'
 
 LIBRARY_WEB_URL = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
 

@@ -13,7 +13,7 @@ class WorksController < ApplicationController
       @count = {}
       query = @query
       unless params[:mode] == 'add'
-        query += " patron_ids: #{@patron.id}" if @patron
+        query.add_query!(@patron) if @patron
         query += " parent_id: #{@parent.id}" if @parent
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
