@@ -27,7 +27,9 @@
 
 <div id="content_detail">
 
-  <%- cache(:id => @work.id) do -%>
+  <%-
+    cache(:id => @work.id) do
+  -%>
   <h1 id="resource_title">
     [W]
     <%=h @work.original_title -%>
@@ -55,7 +57,9 @@
         <table id="index">
           <tr>
             <td><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
-            <td><%=h @work.title_transcription -%></td>
+            <td>
+              <%=h @work.title_transcription -%>
+            </td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
@@ -175,5 +179,7 @@
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
-<%- end -%>
+<%-
+  end
+-%>
 </div>

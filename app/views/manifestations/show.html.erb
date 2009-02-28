@@ -102,6 +102,7 @@
       <%= render :partial => 'google_book_search' -%>
     <%- end -%>
 
+  <div id="<%= dom_id @manifestation -%>">
     <table id="manifestation_detail">
     <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or !@manifestation.flickr.blank? -%>
       <tr>
@@ -161,11 +162,7 @@
     <tr>
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
       <td>
-        <div id="<%= dom_id @manifestation -%>">
-          <span class="rest_in_place" attribute="price">
-            <%= @manifestation.price -%>
-          </span>
-        </div>
+        <span class="rest_in_place" attribute="price"><%= @manifestation.price -%></span>
       </td>
     </tr>
   <%
@@ -215,14 +212,11 @@
     <tr>
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td>
-        <div id="<%= dom_id @manifestation -%>">
-          <span class="rest_in_place" attribute="note">
-            <%= textilize_without_paragraph(h(@manifestation.note)) -%>
-          </span>
-        </div>
+        <span class="rest_in_place" attribute="note"><%= textilize_without_paragraph(h(@manifestation.note)) -%></span>
       </td>
     </tr>
     </table>
+  </div>
 
     <%- unless @manifestation.items_on_shelves.blank? -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>

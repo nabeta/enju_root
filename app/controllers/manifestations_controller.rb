@@ -160,8 +160,8 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.js   { render :json => @manifestation }# show.rhtml
       format.xml  { render :xml => @manifestation }
+      format.json { render :json => @manifestation }
       #format.xml  { render :action => 'mods', :layout => false }
     end
   rescue ActiveRecord::RecordNotFound
@@ -272,11 +272,12 @@ class ManifestationsController < ApplicationController
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }
-        format.js   { redirect_to @manifestation, :status => :see_other }
+        format.json { redirect_to @manifestation, :status => :see_other }
       else
         prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @manifestation.errors, :status => :unprocessable_entity }
+        format.json { render :json => @manifestation, :status => :unprocessable_entity }
       end
     end
   rescue ActiveRecord::RecordNotFound

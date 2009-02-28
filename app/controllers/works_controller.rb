@@ -56,6 +56,7 @@ class WorksController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @work }
+      format.json   { render :json => @work }
     end
   end
 
@@ -103,9 +104,11 @@ class WorksController < ApplicationController
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
         format.xml  { head :ok }
+        format.json { render :json => @work }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @work.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work, :status => :unprocessable_entity }
       end
     end
   end
