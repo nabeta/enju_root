@@ -12,17 +12,18 @@ class PatronsController < ApplicationController
     session[:params] = {} unless session[:params]
     session[:params][:patron] = params
     # 最近追加されたパトロン
-    if params[:recent]
-      @query = "[* TO *] created_at:[#{1.month.ago.utc.iso8601} TO #{Time.zone.now.iso8601}]"
-    elsif params[:query]
-      #@query = params[:query] ||= "[* TO *]"
-      @query = params[:query].to_s.strip
+    #@query = params[:query] ||= "[* TO *]"
+    query = params[:query].to_s.strip
+
+    if params[:mode] == 'recent'
+      query = "#{query} created_at: [NOW-1MONTH TO NOW]"
     end
+    @query = query
+
     browse = nil
     order = nil
     @count = {}
 
-    query = @query.to_s.strip
     if logged_in?
       unless current_user.has_role?('Librarian')
         query += " required_role_id: [* TO 2]"

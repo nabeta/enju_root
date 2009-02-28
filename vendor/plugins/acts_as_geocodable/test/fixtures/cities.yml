@@ -1,0 +1,12 @@
+holland:
+  id: 1 
+  name: Holland
+  zip: 49423
+chicago:
+  id: 2
+  name: Chicago
+  zip: 
+nowhere:
+  id: 3
+  name: Nowhere
+  zip: ""

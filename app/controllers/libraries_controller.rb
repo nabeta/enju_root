@@ -27,18 +27,6 @@ class LibrariesController < ApplicationController
       @date = Time.zone.now
     end
 
-    begin
-      if @library.lat and @library.lng
-        coord = [@library.lat, @library.lng]
-        @map = GMap.new("map_div")
-        @map.control_init(:large_map => true,:map_type => true)
-        @map.center_zoom_init(coord, 15)
-        @map.overlay_init(GMarker.new(coord, :title => @library.name))
-      end
-    rescue
-      nil
-    end
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @library }

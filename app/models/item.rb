@@ -205,7 +205,7 @@ class Item < ActiveRecord::Base
 
     library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
     if library.nil?
-      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.zip_code, :address => local_library.address, :lat => local_library.lat, :lng => local_library.lng)
+      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.zip_code, :address => local_library.address, :lat => local_library.geocode.latitude, :lng => local_library.geocode.longitude)
     end
 
     resource_url = URI.parse("http://#{FederatedCatalog.site.host}:#{FederatedCatalog.site.port}/manifestations/#{resource.id}").normalize.to_s

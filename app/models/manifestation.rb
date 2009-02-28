@@ -73,7 +73,9 @@ class Manifestation < ActiveRecord::Base
   validates_numericality_of :start_page, :end_page, :allow_nil => true
   validates_length_of :access_address, :maximum => 255, :allow_nil => true
 
-  after_create :post_to_twitter
+  # tsvなどでのインポート時に大量にpostされないようにするため、
+  # コントローラで処理する
+  #after_create :post_to_twitter
 
   def validate
     #unless self.date_of_publication.blank?

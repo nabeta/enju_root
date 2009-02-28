@@ -15,8 +15,8 @@ class CreatePeople < ActiveRecord::Migration
       t.text :full_name_alternative
       t.timestamps
       t.datetime :deleted_at
-      t.string :zip_code_1
-      t.string :zip_code_2
+      t.string :postal_code_1
+      t.string :postal_code_2
       t.text :address_1
       t.text :address_2
       t.text :address_1_note

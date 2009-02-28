@@ -126,8 +126,10 @@ ja:
         name: 名前
         short_name: 短縮名
         short_display_name: 短縮表示名
-        zip_code: 郵便番号
-        address: 住所
+        postal_code: 郵便番号
+        region: 都道府県
+        locality: 市区町村
+        street: 番地
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
         fax_number: ファクス番号
@@ -1038,6 +1040,7 @@ ja:
     map: "地図"
     staff: "職員"
     number_of_item: "所蔵冊数"
+    address: "住所"
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"

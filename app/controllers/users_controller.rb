@@ -121,7 +121,7 @@ class UsersController < ApplicationController
       
       unless @user.expired_at.blank?
         begin
-          expired_at = Time.mktime(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"])
+          expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"])
         rescue
           flash[:notice] = t('page.invalid_date')
           redirect_to edit_user_url(@user.login)
@@ -167,7 +167,7 @@ class UsersController < ApplicationController
     #@user = current_user
     #logout_keeping_session!
     #cookies.delete :auth_token
-    expired_at = Time.mktime(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
+    expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
     @user = User.new(params[:user])
     @user.login = params[:user][:login]
     @user.email = params[:user][:email]

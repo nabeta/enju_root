@@ -21,7 +21,7 @@
 <p>
   <%= t('activerecord.attributes.library.short_display_name') -%>: <%=h @library.short_display_name -%>
 <br />
-  <%= t('activerecord.attributes.library.address') -%>: <%=h @library.zip_code -%> <%=h @library.address -%>
+  <%= t('library.address') -%>: <%=h @library.postal_code -%> <%=h @library.address -%>
   <br />
   <%= t('activerecord.attributes.library.telephone_number_1') -%>: <%=h @library.telephone_number_1 -%>
   <%= t('activerecord.attributes.library.telephone_number_2') -%>: <%=h @library.telephone_number_2 -%>
@@ -46,13 +46,7 @@
     </ul>
     <div class="yui-content">
       <div id="tab1">
-
-        <%- if @map -%>
-          <%= GMap.header -%>
-          <%= @map.to_html -%>
-          <%= @map.div(:width => 600, :height => 400) -%>
-        <%- end -%>
-
+      <%= render :partial => 'libraries/map', :locals => {:library => @library} if @library.geocode -%>
       </div>
       <div id="tab2">
         <ul>

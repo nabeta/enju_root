@@ -126,8 +126,10 @@ en:
         name: Name
         short_name: Short name
         short_display_name: Short display name
-        zip_code: Zip code
-        address: Address
+        postal_code: Postal code
+        region: Region
+        locality: Locality
+        street: Street
         telephone_number_1: Telephone number 1
         telephone_number_2: Telephone number 2
         fax_number: Fax number
@@ -1057,6 +1059,7 @@ en:
     map: "Map"
     staff: "Staff"
     number_of_item: "Number of items"
+    address: "Address"
   import:
     from_file: "from file"
     from_isbn: "from ISBN"

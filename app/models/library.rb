@@ -14,6 +14,7 @@ class Library < ActiveRecord::Base
   acts_as_list
   acts_as_soft_deletable
   has_friendly_id :short_name
+  acts_as_geocodable
 
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
@@ -24,8 +25,6 @@ class Library < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
-  before_save :geocode_address
-
   def closed?(date)
     events.closing_days.collect{|c| c.started_at.beginning_of_day}.include?(date.beginning_of_day)
   end
@@ -35,12 +34,10 @@ class Library < ActiveRecord::Base
     false
   end
 
-  private
-
-  def geocode_address
-    if self.address
-      geo = Geocoding::get(self.address)
-      self.lat, self.lng = geo[0].latitude, geo[0].longitude if geo.status == Geocoding::GEO_SUCCESS
-    end
+  def address
+    self.region + self.locality + " " + self.street
+  rescue
+    nil
   end
+
 end

@@ -231,6 +231,11 @@ class ManifestationsController < ApplicationController
             @manifestation.patrons << last_issue.patrons if last_issue
           end
         end
+
+        # tsvなどでのインポート時に大量にpostされないようにするため、
+        # コントローラで処理する
+        @manifestation.post_to_twitter
+
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
@@ -310,10 +315,6 @@ class ManifestationsController < ApplicationController
     #  query = "#{query} lang: #{options[:language]}"
     #end
 
-    #unless options[:subject].blank?
-    #  query = "#{query} subject: #{options[:subject]}"
-    #end
-
     unless options[:tag].blank?
       query = "#{query} tag: #{options[:tag]}"
     end
@@ -329,30 +330,29 @@ class ManifestationsController < ApplicationController
     unless options[:publisher].blank?
       query = "#{query} publisher: #{options[:publisher]}"
     end
+
     unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
       number_of_pages = {}
       number_of_pages['at_least'] = options[:number_of_pages_at_least].to_i
       number_of_pages['at_most'] = options[:number_of_pages_at_most].to_i
-      if number_of_pages['at_least'] == 0
-        number_of_pages['at_least'] = "*"
-      end
-      if number_of_pages['at_most'] == 0
-        number_of_pages['at_most'] = "*"
-      end
+      number_of_pages['at_least'] = "*" if number_of_pages['at_least'] == 0
+      number_of_pages['at_most'] = "*" if number_of_pages['at_most'] == 0
+
       query = "#{query} number_of_pages: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
     end
+
     unless options[:pubdate_from].blank? and options[:pubdate_to].blank?
       pubdate = {}
       if options[:pubdate_from].blank?
         pubdate['from'] = "*"
       else
-        pubdate['from'] = Time.mktime(options[:pubdate_from]).utc.iso8601
+        pubdate['from'] = Time.zone.local(options[:pubdate_from]).utc.iso8601
       end
 
       if options[:pubdate_to].blank?
         pubdate['to'] = "*"
       else
-        pubdate['to'] = Time.mktime(options[:pubdate_to]).utc.iso8601
+        pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
       end
       query = "#{query} pubdate: [#{pubdate['from']} TO #{pubdate['to']}]"
     end
@@ -446,15 +446,15 @@ class ManifestationsController < ApplicationController
   def get_index_without_solr
     case
     when @patron
-      @manifestations = @patron.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['produces.id'])
+      @manifestations = @patron.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['produces.id'])
     when @expression
-      @manifestations = @expression.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['embodies.id'])
+      @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['embodies.id'])
     when @parent_manifestation
-      @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
+      @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
     when @derived_manifestation
-      @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :per_page => @per_page, :order => 'manifestations.id')
+      @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
     when @subject
-      @manifestations = @subject.manifestations.paginate(:page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['resource_has_subjects.id'])
+      @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else
       #@manifestations = Manifestation.paginate(:all, :page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['manifestations.id'])
       @manifestations = []

@@ -7,10 +7,11 @@ library_00001:
   updated_at: 
   telephone_number_1: 
   telephone_number_2: 
-  lng: 
   id: 1
-  lat: 
-  address: 
+  postal_code: 
+  region: 
+  locality: 
+  street: 
   created_at: 
   library_group_id: 1
   patron_id: 1
@@ -25,10 +26,11 @@ library_00002:
   updated_at: 2007-08-31 00:18:06.662349 +09:00
   telephone_number_1: 81-3-3732-5111
   telephone_number_2: ""
-  lng: 139.715606
   id: 2
-  lat: 35.565284
-  address: Tokyo
+  postal_code: 144-8535
+  region: Tokyo
+  locality: 
+  street: 
   created_at: 2007-08-13 18:10:00 +09:00
   library_group_id: 1
   patron_id: 2
@@ -43,10 +45,11 @@ library_00003:
   updated_at: 2007-08-31 00:18:16.188285 +09:00
   telephone_number_1: 042-637-2033
   telephone_number_2: ""
-  lng: 139.340303
   id: 3
-  lat: 35.62601
-  address: Hachioji
+  postal_code: 192-0982
+  region: Tokyo
+  locality: Hachioji
+  street: 
   created_at: 2007-08-14 16:37:00 +09:00
   library_group_id: 1
   patron_id: 3
@@ -61,10 +64,11 @@ library_00004:
   updated_at: 2007-08-31 00:18:20.043951 +09:00
   telephone_number_1: ""
   telephone_number_2: ""
-  lng: 139.742699
   id: 4
-  lat: 35.64865
-  address: Tokyo
+  postal_code: 108-8345
+  region: Tokyo
+  locality: Minato
+  street: 
   created_at: 2007-08-23 19:51:00 +09:00
   library_group_id: 1
   patron_id: 4
