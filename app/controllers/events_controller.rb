@@ -11,6 +11,9 @@ class EventsController < ApplicationController
   # GET /events.xml
   def index
     @count = {}
+    query = params[:query].to_s.strip
+    @query = query.dup
+
     if params[:date].present?
       if @library.present?
         @events = @library.events.paginate(:conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
@@ -38,7 +41,6 @@ class EventsController < ApplicationController
       end
       @count[:query_result] = @events.size
     end
-    @query = query
 
     respond_to do |format|
       format.html # index.html.erb

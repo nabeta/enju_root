@@ -13,7 +13,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
   def index
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
     if logged_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
@@ -25,9 +25,9 @@ class ItemsController < ApplicationController
     end
     per_page = Item.per_page if per_page.nil?
 
-    unless @query.blank?
+    unless query.blank?
       @count = {}
-      query = @query
+      @query = query.dup
       unless params[:mode] == 'add'
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@patron) if @patron

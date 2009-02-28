@@ -19,10 +19,10 @@
     </ul>
   <%- end -%>
     <ul>
-      <li><%= link_to t('patron.add'), expression_patrons_path(@expression) -%></li>
+      <li><%= link_to t('page.editing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
     </ul>
     <ul>
-      <li><%= link_to t('manifestation.add'), expression_manifestations_path(@expression) -%></li>
+      <li><%= link_to t('page.editing', :model => t('activerecord.models.manifestations')), expression_manifestations_path(@expression) -%></li>
       <%- if @expression.serial? -%>
         <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@expression) -%></li>
       <%- end -%>

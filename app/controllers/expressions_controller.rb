@@ -10,10 +10,10 @@ class ExpressionsController < ApplicationController
   # GET /expressions
   # GET /expressions.xml
   def index
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
     unless @query.blank?
       @count = {}
-      query = @query
+      @query = query.dup
       query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
       unless params[:mode] == 'add'
         query.add_query!(@manifestation) if @manifestation
@@ -84,13 +84,14 @@ class ExpressionsController < ApplicationController
 
   # GET /expressions/new
   def new
-    unless @work
-      flash[:notice] = t('expression.specify_work')
-      redirect_to works_path
-      return
-    end
+    #unless @work
+    #  flash[:notice] = t('expression.specify_work')
+    #  redirect_to works_path
+    #  return
+    #end
     @parent_expression = Expression.find(params[:parent_id]) rescue nil
     @expression = Expression.new
+    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
   end
 
   # GET /expressions/1;edit

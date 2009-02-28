@@ -56,7 +56,7 @@ ja:
       frequency_of_issue: 発行頻度
       expression_merge_list: 表現形の併合リスト
       use_restriction: 利用制限
-      subject: 主題
+      subject: 件名
       expression_form: 表現形の形態
       work_merge: 著作形をマージ
       aaws_response: Aawsの応答
@@ -93,14 +93,14 @@ ja:
       message_queue: 送信待ちのメッセージ
       answer: 回答
       bookstore: 書店
-      checkout_type: 貸出の種類
+      checkout_type: 貸出ルール
       classification_type: 分類型
       country: 国と地域
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      manifestation_form_has_checkout_type: 体現形の種類と貸出の種類
-      user_group_has_checkout_type: ユーザグループと貸出の種類
+      manifestation_form_has_checkout_type: 体現形の種類と貸出ルールの関係
+      user_group_has_checkout_type: ユーザグループと貸出ルールの関係
       tag: タグ
       bookmark_stat: ブックマーク統計
       manifestation_checkout_stat: 資料別貸出統計
@@ -392,7 +392,7 @@ ja:
         include_supplements: 付録を含む
         note: 注記
         url: URL
-        price: 価格
+        price: 購入価格
         lock_version: ロックバージョン
       barcode:
         barcode_type: バーコード種類
@@ -970,6 +970,7 @@ ja:
     create_shelf_first: "最初に書棚を作成してください。"
     this_item_include_supplement: "この資料は付録を含んでいます。"
     all_item: "全ての個別資料"
+    add_new_copy: "複本を追加"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"

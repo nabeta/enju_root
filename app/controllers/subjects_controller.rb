@@ -7,9 +7,9 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.xml
   def index
-    @query = params[:query].to_s.strip
-    unless @query.blank?
-      query = @query
+    query = params[:query].to_s.strip
+    unless query.blank?
+      @query = query.dup
       unless params[:mode] == 'add'
         query += " manifestation_ids: #{@manifestation.id}" if @manifestation
         query += " classification_ids: #{@classification.id}" if @classification

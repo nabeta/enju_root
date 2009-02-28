@@ -19,7 +19,7 @@ class QuestionsController < ApplicationController
 
     query = params[:query].to_s.strip
     unless query.blank?
-      @query = query
+      @query = query.dup
 
       if @user
         if logged_in?

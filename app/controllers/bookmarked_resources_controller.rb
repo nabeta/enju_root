@@ -24,7 +24,7 @@ class BookmarkedResourcesController < ApplicationController
 
     @count = {}
     query = make_query(params[:query], {:tag => params[:tag]})
-    @query = query
+    @query = query.dup
     query.add_query!(@user) if @user
 
     unless query.blank?

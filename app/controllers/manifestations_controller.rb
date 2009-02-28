@@ -46,7 +46,7 @@ class ManifestationsController < ApplicationController
       session[:params] = {} unless session[:params]
       session[:params][:manifestation] = params.merge(:view => nil)
 
-      @query = query
+      @query = query.dup
       manifestations = {}
       @count = {}
       if params[:format] == 'csv'
@@ -172,6 +172,7 @@ class ManifestationsController < ApplicationController
   def new
     if params[:mode] == 'import_isbn'
       @manifestation = Manifestation.new
+      @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
     else
       unless @expression
         flash[:notice] = t('manifestation.specify_expression')
@@ -213,12 +214,12 @@ class ManifestationsController < ApplicationController
         return
       end
     else
-      unless @expression
-        flash[:notice] = t('manifestation.specify_expression')
-        redirect_to expressions_url
-        return
-      end
-      last_issue = @expression.last_issue
+      #unless @expression
+      #  flash[:notice] = t('manifestation.specify_expression')
+      #  redirect_to expressions_url
+      #  return
+      #end
+      last_issue = @expression.last_issue if @expression
       @manifestation = Manifestation.new(params[:manifestation])
     end
 

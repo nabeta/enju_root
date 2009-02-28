@@ -15,8 +15,10 @@ class MessageQueue < ActiveRecord::Base
   cattr_reader :per_page
 
   def send_message
-    Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
-    self.update_attributes({:sent_at => Time.zone.now})
+    if self.body
+      Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
+      self.update_attributes({:sent_at => Time.zone.now})
+    end
     #self.destroy
   end
   

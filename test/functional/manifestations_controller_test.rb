@@ -165,11 +165,17 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_not_get_new_without_expression_id
+  #def test_librarian_should_not_get_new_without_expression_id
+  #  login_as :librarian1
+  #  get :new
+  #  assert_response :redirect
+  #  assert_redirected_to expressions_url
+  #end
+  
+  def test_librarian_should_get_new_without_expression_id
     login_as :librarian1
     get :new
-    assert_response :redirect
-    assert_redirected_to expressions_url
+    assert_response :success
   end
   
   def test_librarian_should_get_new_with_expression_id
@@ -181,9 +187,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_admin_should_get_new_without_expression_id
     login_as :admin
     get :new
-    assert_response :redirect
-    assert_redirected_to expressions_url
-    assert_equal 'Specify the expression.', flash[:notice]
+    assert_response :success
   end
   
   def test_admin_should_get_new_with_expression_id
@@ -209,15 +213,27 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_create_manifestation_without_expression
+  #def test_librarian_should_not_create_manifestation_without_expression
+  #  login_as :librarian1
+  #  old_count = Manifestation.count
+  #  post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
+  #  assert_equal old_count, Manifestation.count
+  #  
+  #  assert_response :redirect
+  #  assert_redirected_to expressions_url
+  #  assert_equal 'Specify the expression.', flash[:notice]
+  #end
+
+  def test_librarian_should_create_manifestation_without_expression
     login_as :librarian1
     old_count = Manifestation.count
     post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
-    assert_equal old_count, Manifestation.count
+    assert_equal old_count + 1, Manifestation.count
     
     assert_response :redirect
-    assert_redirected_to expressions_url
-    assert_equal 'Specify the expression.', flash[:notice]
+    assert assigns(:manifestation)
+    assert assigns(:manifestation).embodies
+    assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
   end
 
   def test_librarian_should_not_create_manifestation_without_title

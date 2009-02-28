@@ -16,10 +16,10 @@
     </ul>
   <%- end -%>
       <ul>
-        <li><%= link_to t('patron.add'), work_patrons_path(@work) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.patron')), work_patrons_path(@work) -%></li>
       </ul>
       <ul>
-        <li><%= link_to t('expression.add'), work_expressions_path(@work) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
       </ul>
 </div>
 

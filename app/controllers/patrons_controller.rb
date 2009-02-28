@@ -9,8 +9,8 @@ class PatronsController < ApplicationController
   # GET /patrons
   # GET /patrons.xml
   def index
-    session[:params] = {} unless session[:params]
-    session[:params][:patron] = params
+    #session[:params] = {} unless session[:params]
+    #session[:params][:patron] = params
     # 最近追加されたパトロン
     #@query = params[:query] ||= "[* TO *]"
     query = params[:query].to_s.strip
@@ -18,7 +18,7 @@ class PatronsController < ApplicationController
     if params[:mode] == 'recent'
       query = "#{query} created_at: [NOW-1MONTH TO NOW]"
     end
-    @query = query
+    @query = query.dup
 
     browse = nil
     order = nil
@@ -33,7 +33,6 @@ class PatronsController < ApplicationController
     end
 
     unless query.blank?
-
       unless params[:mode] == 'add'
         query.add_query!(@work) if @work
         query.add_query!(@expression) if @expression

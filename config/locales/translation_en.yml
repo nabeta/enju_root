@@ -987,6 +987,7 @@ en:
     create_shelf_first: "You should create a shelf first."
     this_item_include_supplement: "This item includes supplements."
     all_item: "All items"
+    add_new_copy: "Add a new copy"
   patron:
     library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"
