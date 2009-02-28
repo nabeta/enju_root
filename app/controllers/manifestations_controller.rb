@@ -300,11 +300,6 @@ class ManifestationsController < ApplicationController
 
   def make_query(query, options = {})
     query = query.to_s.strip
-    #if query.blank?
-    #  if params[:advanced_search]
-    #    query = "[* TO *]"
-    #  end
-    #end
     if options[:mode] == 'recent'
       query = "#{query} created_at: [NOW-1MONTH TO NOW]"
     end
