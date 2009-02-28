@@ -194,7 +194,4 @@ module ApplicationHelper
     end
   end
 
-  def authencity_token
-    render :partial => 'page/authencity_token'
-  end
 end

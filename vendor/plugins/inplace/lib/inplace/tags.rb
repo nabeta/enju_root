@@ -39,7 +39,7 @@ module Inplace
         put_params = protect_against_forgery? ?  "&authenticity_token=#{form_authenticity_token}" : ''
         tg += <<-EOJS
           <script type="text/javascript">\n
-            new Ajax.InPlaceEditor(
+            new Ajax.InPlaceEditorWithEmptyText(
               "#{element_options[:id]}",
               "#{url}", 
               { 

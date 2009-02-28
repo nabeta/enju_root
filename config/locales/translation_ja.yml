@@ -894,6 +894,8 @@ ja:
     current_status: "現在の状態"
     date: "日時"
     this_month: "今月"
+    click_to_edit: "クリックで編集開始"
+    saving: "保存しています..."
   title:
     index: "一覧"
     show: "表示"

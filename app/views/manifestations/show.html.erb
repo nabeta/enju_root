@@ -162,7 +162,7 @@
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
       <td>
         <%- if @manifestation.is_updatable_by(current_user) -%>
-          <%= editable_content_tag(:span, @manifestation, 'price', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+          <%= editable_content_tag(:span, @manifestation, 'price', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving')}) %>
         <%- else -%>
           <%=h @manifestation.price -%>
         <%- end -%>
@@ -217,7 +217,7 @@
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td>
         <%- if @manifestation.is_updatable_by(current_user) -%>
-          <%= editable_content_tag(:span, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+          <%= editable_content_tag(:span, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2}) %>
         <%- else -%>
           <%=h @manifestation.note -%>
         <%- end -%>
