@@ -1,0 +1,27 @@
+Inplace
+=======
+
+= What is it
+Inplace is a simple RESTful in place editor.
+
+= Installation
+script plugin/install ...
+
+= Usage
+In your View:
+<%= editable_content_tag(:span, @artist, 'name', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+
+In your Controller:
+
+if @artist.update_attributes(params[:artist])
+    format.html { redirect_to(@artist) }
+    format.json { render :json => @artist }
+else
+    format.html { render :action => "edit" }
+    format.json { render :json => @artist, :status => SOMETHINGELSE_THAN_200}
+end
+
+Based on work by Rick: http://www.bizmeetsdev.com/articles/2008/02/09/editable_content_tag
+Thanks a lot!
+
+Copyright (c) 2008 [Simplificator GmbH -  www.simplificator.com], released under the MIT license

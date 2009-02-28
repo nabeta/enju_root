@@ -272,7 +272,7 @@ class ManifestationsController < ApplicationController
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }
-        format.json { redirect_to @manifestation, :status => :see_other }
+        format.json { render :json => @manifestation }
       else
         prepare_options
         format.html { render :action => "edit" }

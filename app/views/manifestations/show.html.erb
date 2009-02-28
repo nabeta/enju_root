@@ -77,7 +77,7 @@
 
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail_1') do
+  cache(:id => @manifestation.id, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 
@@ -102,7 +102,6 @@
       <%= render :partial => 'google_book_search' -%>
     <%- end -%>
 
-  <div id="<%= dom_id @manifestation -%>">
     <table id="manifestation_detail">
     <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or !@manifestation.flickr.blank? -%>
       <tr>
@@ -162,7 +161,11 @@
     <tr>
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
       <td>
-        <span class="rest_in_place" attribute="price"><%= @manifestation.price -%></span>
+        <%- if @manifestation.is_updatable_by(current_user) -%>
+          <%= editable_content_tag(:span, @manifestation, 'price', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+        <%- else -%>
+          <%=h @manifestation.price -%>
+        <%- end -%>
       </td>
     </tr>
   <%
@@ -188,7 +191,7 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail_2') do
+  cache(:id => @manifestation.id, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
@@ -212,11 +215,14 @@
     <tr>
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td>
-        <span class="rest_in_place" attribute="note"><%= textilize_without_paragraph(h(@manifestation.note)) -%></span>
+        <%- if @manifestation.is_updatable_by(current_user) -%>
+          <%= editable_content_tag(:span, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+        <%- else -%>
+          <%=h @manifestation.note -%>
+        <%- end -%>
       </td>
     </tr>
     </table>
-  </div>
 
     <%- unless @manifestation.items_on_shelves.blank? -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
@@ -323,9 +329,9 @@
 </div>
 <%= render :partial => 'page/tabview' -%>
 <!-- cache end -->
-    <%
-      end
-    -%>
+  <%
+    end
+  -%>
 </div>
 
 </div>

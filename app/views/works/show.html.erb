@@ -63,7 +63,9 @@
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
-            <td><%=h @work.context -%></td>
+            <td>
+              <%= editable_content_tag(:span, @work, 'context', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+            </td>
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>

@@ -72,6 +72,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       expire_manifestation_fragment(record)
       record.expressions.each do |expression|
         expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
+        expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
       end
     when record.is_a?(Item)
       expire_fragment(:controller => :items, :action => :show, :id => record.id)
@@ -106,8 +107,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     fragments = %w[detail_1 detail_2 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags]
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
-      expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment) if manifestation
+      if manifestation
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true)
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false)
+      end
     end
   end
-
 end

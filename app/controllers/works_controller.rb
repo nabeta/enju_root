@@ -56,7 +56,7 @@ class WorksController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @work }
-      format.json   { render :json => @work }
+      format.json { render :json => @work }
     end
   end
 
