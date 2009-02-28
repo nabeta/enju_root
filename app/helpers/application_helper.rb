@@ -193,4 +193,8 @@ module ApplicationHelper
       t('title.edit')
     end
   end
+
+  def authencity_token
+    render :partial => 'page/authencity_token'
+  end
 end

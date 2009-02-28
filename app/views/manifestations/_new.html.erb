@@ -14,22 +14,24 @@
   <h1><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
   <p>
     <b><%= t('activerecord.models.expression') -%></b><br />
-    <%= link_to h(@expression.original_title), @expression -%>
-    <%- if @expression.serial? and !@expression.subscribed? -%>
-      <br />
-      <span class="error_message">
-        <%= t('subscribe.this_subscription_is_expired') -%>
-        <%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%>
-      </span>
+    <%- if @expression -%>
+      <%= link_to h(@expression.original_title), @expression -%>
+      <%- if @expression.serial? and !@expression.subscribed? -%>
+        <br />
+        <span class="error_message">
+          <%= t('subscribe.this_subscription_is_expired') -%>
+          <%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%>
+        </span>
+      <%- end -%>
     <%- end -%>
   </p>
 
 <%= error_messages_for :manifestation -%>
 
-<%- form_for(:manifestation, :url => expression_manifestations_path(@expression)) do |f| -%>
+<%- form_for(@manifestation) do |f| -%>
   <p>
     <b><%= t('page.title') -%></b><br />
-    <%= f.text_field :original_title, :value => @expression.original_title, :class => 'resource_title' -%>
+    <%= f.text_field :original_title, :class => 'resource_title' -%>
   </p>
   <p>
     <b><%= t('activerecord.attributes.manifestation.title_transcription') -%></b><br />
@@ -58,22 +60,23 @@
     <%= f.date_select :date_of_publication, :blank => true -%>
   </p>
 
-  <p>
-    <%- if @expression.serial? -%>
-      <%= render :partial => 'new_serial', :locals => {:f => f} -%>
-    <%- else -%>
-      <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
-      <%= f.text_field :edition, :class => 'resource_integer' -%>
-      <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
-      <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
-    <%- end -%>
-  </p>
-
-  <%- unless @expression.serial? -%>
+  <%- if @expression -%>
     <p>
-      <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
-      <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+      <%- if @expression.serial? -%>
+        <%= render :partial => 'new_serial', :locals => {:f => f} -%>
+      <%- else -%>
+        <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
+        <%= f.text_field :edition, :class => 'resource_integer' -%>
+        <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
+        <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
+      <%- end -%>
     </p>
+    <%- unless @expression.serial? -%>
+      <p>
+        <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
+        <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+      </p>
+    <%- end -%>
   <%- end -%>
 
   <p>
@@ -119,7 +122,6 @@
 
   <p>
     <%= hidden_field_tag :expression_id, @expression.id if @expression -%>
-    <%= hidden_field_tag :item_id, @item.id if @item -%>
     <%= hidden_field_tag :patron_id, @patron.id if @patron -%>
     <%= submit_tag t('page.create') -%>
   </p>

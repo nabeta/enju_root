@@ -160,7 +160,13 @@
     </tr>
     <tr>
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
-      <td><%= @manifestation.price -%></td>
+      <td>
+        <div id="<%= dom_id @manifestation -%>">
+          <span class="rest_in_place" attribute="price">
+            <%= @manifestation.price -%>
+          </span>
+        </div>
+      </td>
     </tr>
   <%
     end
@@ -208,7 +214,13 @@
     <%- end -%>
     <tr>
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
-      <td><%= textilize_without_paragraph(h(@manifestation.note)) -%></td>
+      <td>
+        <div id="<%= dom_id @manifestation -%>">
+          <span class="rest_in_place" attribute="note">
+            <%= textilize_without_paragraph(h(@manifestation.note)) -%>
+          </span>
+        </div>
+      </td>
     </tr>
     </table>
 

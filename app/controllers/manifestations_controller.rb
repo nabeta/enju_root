@@ -160,7 +160,7 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      #format.json { render :json => @manifestation.to_json }# show.rhtml
+      format.js   { render :json => @manifestation }# show.rhtml
       format.xml  { render :xml => @manifestation }
       #format.xml  { render :action => 'mods', :layout => false }
     end
@@ -172,16 +172,19 @@ class ManifestationsController < ApplicationController
   def new
     if params[:mode] == 'import_isbn'
       @manifestation = Manifestation.new
-      @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
     else
-      unless @expression
-        flash[:notice] = t('manifestation.specify_expression')
-        redirect_to expressions_url
-        return
-      end
+      #unless @expression
+      #  flash[:notice] = t('manifestation.specify_expression')
+      #  redirect_to expressions_url
+      #  return
+      #end
       @manifestation = Manifestation.new
-      @manifestation.set_serial_number(@expression)
+      if @expression
+        @manifestation.original_title = @expression.original_title
+        @manifestation.set_serial_number(@expression)
+      end
     end
+    @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
   end
 
   # GET /manifestations/1;edit
@@ -267,8 +270,9 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
-        format.html { redirect_to manifestation_url(@manifestation) }
+        format.html { redirect_to @manifestation }
         format.xml  { head :ok }
+        format.js   { redirect_to @manifestation, :status => :see_other }
       else
         prepare_options
         format.html { render :action => "edit" }

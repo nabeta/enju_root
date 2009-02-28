@@ -1,5 +1,6 @@
 <%- cache do -%>
-<%= javascript_include_tag 'jquery' -%>
+<%= javascript_include_tag 'jquery-1.3.2.min' -%>
+<%= javascript_include_tag 'jquery.rest_in_place' -%>
 <script type="text/javascript">
     jQuery.noConflict();
 </script>
@@ -13,14 +14,18 @@
     'yui/build/tabview/tabview-min',
     'yui/build/treeview/treeview-min',
     'yui/build/history/history-min',
-    'yui/build/menu/menu-min'
-%>
+    'yui/build/menu/menu-min',
+    :cache => true
+-%>
 <%= stylesheet_link_tag 'yui/build/reset-fonts-grids/reset-fonts-grids',
     'yui/build/fonts/fonts-min',
     'yui/build/base/base-min',
-    'yui/build/assets/skins/sam/tabview',
+    :cache => true
+-%>
+<%= stylesheet_link_tag 'yui/build/assets/skins/sam/tabview',
     'yui/build/assets/skins/sam/treeview',
-    'yui/build/assets/skins/sam/menu' -%>
+    'yui/build/assets/skins/sam/menu'
+-%>
 <%= stylesheet_link_tag 'thickbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet' -%>
 <%= calendar_date_select_includes -%>
 <script type="text/javascript">
