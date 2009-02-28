@@ -29,7 +29,9 @@
     </ul>
 </div>
 <div id="content_detail">
-  <%- cache(:id => @expression.id) do -%>
+  <%-
+    cache(:id => @expression.id, :editable => @expression.is_updatable_by(current_user)) do
+  -%>
   <h1 id="resource_title">
     [E]
     <%=h @expression.original_title -%>
