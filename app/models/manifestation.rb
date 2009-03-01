@@ -330,6 +330,7 @@ class Manifestation < ActiveRecord::Base
 
   def sortable_title
     # 並べ替えの順番に使う項目を指定する
+    # TODO: 読みが入力されていない資料
     self.title_transcription
   end
 

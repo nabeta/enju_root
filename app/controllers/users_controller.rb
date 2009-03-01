@@ -51,16 +51,20 @@ class UsersController < ApplicationController
 
   def new
     #@user = User.new
-    @patron = Patron.find(params[:patron_id])
     @user_groups = UserGroup.find(:all, :order => :position)
-    if @patron.user
-      redirect_to patron_url(@patron)
-      flash[:notice] = t('page.already_activated')
-      return
+    begin
+      @patron = Patron.find(params[:patron_id])
+      if @patron.user
+        redirect_to patron_url(@patron)
+        flash[:notice] = t('page.already_activated')
+        return
+      end
+    rescue
+      nil
     end
-  rescue
-    flash[:notice] = t('user.specify_patron')
-    redirect_to patrons_url
+  #rescue
+    #flash[:notice] = t('user.specify_patron')
+    #redirect_to patrons_url
   end
 
   def edit
@@ -180,8 +184,11 @@ class UsersController < ApplicationController
     @user.expired_at = expired_at
     @user.keyword_list = params[:user][:keyword_list]
     @user.user_number = params[:user][:user_number]
-    @patron = Patron.find(params[:user][:patron_id])
-    @user.patron = @patron
+    patron = Patron.find(params[:user][:patron_id]) rescue nil
+    unless patron
+      patron = Patron.create!(:full_name => @user.login)
+    end
+    @user.patron = patron
     success = @user && @user.save
 
     respond_to do |format|
