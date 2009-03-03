@@ -271,6 +271,12 @@ div#tag_cloud_box{
   border: 1px solid #5970B2;
 }
 
+div.config_box{
+  padding: 10px;
+  border: 1px solid #5970B2;
+  margin-bottom: 10px;
+}
+
 img{
   border: 0;
 }
@@ -368,5 +374,9 @@ div.holding{
 
 label{
   font-weight: bold;
+}
+
+table.calendar{
+  width: 100%;
 }
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

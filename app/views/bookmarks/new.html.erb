@@ -5,7 +5,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.bookmark')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.bookmark')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :bookmark -%>
 
@@ -17,7 +18,7 @@
   </p>
   
   <p>
-  <b><%= ('Url') -%></b><br />
+  <b><%= t('activerecord.attributes.bookmarked_resource.url') -%></b><br />
   <%- if params[:url] -%>
     <%= link_to h(params[:url]), h(params[:url]) -%>
     <%= f.hidden_field :url, :value => h(params[:url]), :class => 'resource_url' -%>
@@ -42,4 +43,5 @@
   <%- end -%>
   <%= javascript_tag("$('bookmark_tag_list').focus()") -%>
 <%- end -%>
+</div>
 </div>

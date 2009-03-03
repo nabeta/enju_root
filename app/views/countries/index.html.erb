@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.country')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.country')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -26,6 +28,11 @@
 </table>
 
 <%= will_paginate(@countries, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.country')), new_country_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.country')), new_country_path -%></li>
+  </ul>
+</div>

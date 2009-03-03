@@ -6,7 +6,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.subscribe')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.subscribe')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :subscribe -%>
 
@@ -31,11 +32,11 @@
     <%- end -%>
   </p>
   <p>
-    <%= f.label :start_on -%><br />
+    <%= f.label t('activerecord.attributes.subscribe.start_on') -%><br />
     <%= f.date_select :start_on -%>
   </p>
   <p>
-    <%= f.label :end_on -%><br />
+    <%= f.label t('activerecord.attributes.subscribe.end_on') -%><br />
     <%= f.date_select :end_on -%>
   </p>
 
@@ -44,4 +45,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

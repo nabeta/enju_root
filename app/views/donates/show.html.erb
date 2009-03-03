@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.patron') -%>:</b>
   <%= link_to h(@donate.patron.full_name), @donate.patron -%>
@@ -17,4 +18,5 @@
   (<%= link_to h(@donate.item.item_identifier), @donate.item -%>)
 </p>
 
+</div>
 </div>

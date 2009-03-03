@@ -6,11 +6,11 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.editing', :model => t('activerecord.models.reiify')) -%></h1>
+  <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.reiify')) -%></h1>
 
 <%= error_messages_for :reify -%>
 
-<%- form_for(:reify, :url => reify_path(@reify), :html => { :method => :put }) do |f| -%>
+<%- form_for(@reify, :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('activerecord.models.work') -%></b><br />
     <%= f.text_field :work_id -%>

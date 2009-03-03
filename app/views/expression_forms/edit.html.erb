@@ -6,11 +6,12 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.editing', :model => t('activerecord.models.expression_form')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression_form')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :expression_form -%>
 
-<%- form_for(:expression_form, :url => expression_form_path(@expression_form), :html => { :method => :put }) do |f| -%>
+<%- form_for(@expression_form, :html => { :method => :put }) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.expression_form.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
@@ -31,4 +32,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

@@ -10,6 +10,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
   <h1 id="resource_title">
     [T]
     <%=h @tag.name -%>
@@ -18,7 +19,7 @@
 <p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@tag.name)) -%>)</p>
 
 <p>
-  <b><%= ('Taggings count') -%>:</b>
+  <b><%= t('activerecord.attributes.tag.taggings_count') -%>:</b>
     <%= link_to h(@tag.taggings_count), manifestations_path(:tag => h(@tag.name)) -%>
 </p>
 
@@ -41,4 +42,5 @@
   <%- end -%>
 </p>
 
+</div>
 </div>

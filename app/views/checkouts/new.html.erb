@@ -1,8 +1,8 @@
-<h1><%= t('page.new', :model => t('activerecord.models.checkouts')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.checkouts')) -%></h1>
 
 <%= error_messages_for :checkout -%>
 
-<%- form_for(:checkout, :url => checkins_path) do |f| -%>
+<%- form_for(@checkout) do |f| -%>
   <p>
     <b><%= t('activerecord.models.user') -%></b><br />
     <%= f.text_field :user_id -%>

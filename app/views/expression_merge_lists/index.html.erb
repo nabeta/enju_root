@@ -5,17 +5,19 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.expression_merge_list')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression_merge_list')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.expression_merge_list.title') -%></th>
-    <th></th>
+    <td><%= t('page.created_at') -%></td>
   </tr>
 
 <%- for expression_merge_list in @expression_merge_lists -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(expression_merge_list.title), expression_merge_list -%></td>
+    <td><%= l(expression_merge_list.created_at) -%></td>
     <td><%= link_to t('page.show'), expression_merge_list -%></td>
     <td><%= link_to t('page.edit'), edit_expression_merge_list_path(expression_merge_list) -%></td>
     <td><%= link_to t('page.destroy'), expression_merge_list, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -23,4 +25,5 @@
 <%- end -%>
 </table>
 
+</div>
 </div>

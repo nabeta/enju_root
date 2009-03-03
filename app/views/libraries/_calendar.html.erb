@@ -6,8 +6,12 @@
 <%= calendar(:year => @date.year, :month => @date.month) do |date|
   cal_text = (link_to h(date.mday), "/calendar/" + date.strftime("%Y-%m-%d")) + "<br />"
   events = @library.events.on(date.to_s)
-  events.each do |event|
-    cal_text += (link_to h(event.title), event)  + "<br />"
+  if events.present?
+    events.each do |event|
+      cal_text += (link_to h(event.title), event)  + "<br />"
+    end
+    [cal_text, {:class => 'specialDay'}]
+  else
+    [cal_text, {:class => 'day'}]
   end
-  [cal_text, {:class => 'specialDay'}]
 end -%>

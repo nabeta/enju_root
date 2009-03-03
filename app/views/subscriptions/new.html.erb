@@ -5,7 +5,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.subscription')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.subscription')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@subscription) do |f| -%>
   <%= f.error_messages -%>
@@ -23,4 +24,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

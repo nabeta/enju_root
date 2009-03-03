@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= ('Attachable') -%>:</b>
   <%= link_to h("#{@attachment_file.attachable_type}/#{@attachment_file.attachable_id}"), @attachment_file.attachable -%>
@@ -61,4 +62,5 @@
   <%=h @attachment_file.fulltext -%>
 </p>
 
+</div>
 </div>

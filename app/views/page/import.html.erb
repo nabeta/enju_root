@@ -4,7 +4,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.import') -%></h1>
+<h1 class="title"><%= t('page.import') -%></h1>
+<div id="content_list">
 
 <ul>
   <li><%= link_to t('activerecord.models.patron'), imported_patron_files_path -%></li>
@@ -16,4 +17,5 @@
   </ul>
   </li>
 </ul>
+</div>
 </div>

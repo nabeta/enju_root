@@ -7,9 +7,10 @@
 </div>
 
 <div id="content_detail">
-  <h1>
+  <h1 class="title">
     <%= link_to h(@user.original_title), @user -%>
   </h1>
+<div id="content_list">
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.bookmarked_resource') -%></th>
@@ -31,4 +32,5 @@
 
 <%= will_paginate(@bookmarks, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

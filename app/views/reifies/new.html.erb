@@ -10,11 +10,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :reify -%>
 
-<%- form_for(:reify, :url => reifies_path) do |f| -%>
+<%- form_for(@reify) do |f| -%>
   <p>
     <b><%= t('activerecord.models.work') -%></b><br />
     <%- if @reify.work -%>
@@ -40,4 +41,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

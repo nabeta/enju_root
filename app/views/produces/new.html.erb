@@ -11,11 +11,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.produce')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :produce -%>
 
-<%- form_for(:produce, :url => produces_path) do |f| -%>
+<%- form_for(@produce) do |f| -%>
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
   <%- if @produce.patron -%>
@@ -40,4 +41,5 @@
   <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

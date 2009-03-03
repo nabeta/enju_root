@@ -10,11 +10,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.realize')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.realize')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :realize -%>
 
-<%- form_for(:realize, :url => realizes_path) do |f| -%>
+<%- form_for(@realize) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron') -%></b><br />
     <%- if @realize.patron -%>
@@ -40,4 +41,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

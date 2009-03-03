@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -18,8 +20,14 @@
 <%- end -%>
 </table>
 
-<%- if_authorized?(:new, Produce) do -%>
-  <p><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_produce_path -%></p>
-<%- end -%>
-
 <%= will_paginate(@produces, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <%- if Produce.is_creatable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_realize_path -%></li>
+    </ul>
+  <%- end -%>
+</div>

@@ -1,6 +1,8 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.message_template')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.message_template')) -%></h1>
+<div id="content_list">
 
-<table style="width:100%">
+<table id="index">
   <tr>
     <th><%= t('activerecord.attributes.message_template.status') -%></th>
     <th><%= t('activerecord.attributes.message_template.title') -%></th>
@@ -21,6 +23,11 @@
 </table>
 
 <%= will_paginate(@message_templates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
 
-<br />
-<%= link_to t('page.new', :model => t('activerecord.models.message_template')), new_message_template_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.message_template')), new_message_template_path -%></li>
+  </ul>
+</div>

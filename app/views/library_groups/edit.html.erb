@@ -5,7 +5,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.library_group')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.library_group')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :library_group -%>
 
@@ -48,4 +49,5 @@
 
   <%= f.submit t('page.update') -%>
 <%- end -%>
+</div>
 </div>

@@ -5,11 +5,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.shelf')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.shelf')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :shelf -%>
 
-<%- form_for(:shelf, :url => shelves_path) do |f| -%>
+<%- form_for(@shelf) do |f| -%>
   <p>
   <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
   <%= f.text_field :name, :class => 'resource_title' -%>
@@ -31,4 +32,5 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

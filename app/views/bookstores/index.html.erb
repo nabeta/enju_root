@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.bookstore')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookstore')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -29,8 +31,14 @@
 <%- end -%>
 </table>
 
-<br />
+<%= will_paginate(@bookstores, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
 
-<%- if_authorized?(:new, Bookstore) do -%>
-  <%= link_to t('page.new', :model => t('activerecord.models.bookstore')), new_bookstore_path -%>
-<%- end -%>
+<div id="submenu">
+  <%- if Bookstore.is_creatable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.bookstore')), new_bookstore_path -%></li>
+    </ul>
+  <%- end -%>
+</div>

@@ -6,11 +6,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.patron')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.patron')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :patron -%>
 
-<%- form_for(:patron, :url => @patron, :html => { :method => :put }) do |f| -%>
+<%- form_for(@patron, :html => { :method => :put }) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron_type') -%></b>
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
@@ -126,4 +127,5 @@
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
+</div>
 </div>

@@ -7,7 +7,7 @@
     <th><%= t('activerecord.attributes.advertisement.title') -%></th>
     <th><%= t('activerecord.attributes.advertisement.url') -%></th>
     <th><%= t('activerecord.attributes.advertisement.body') -%></th>
-    <th><%= ('Period') -%></th>
+    <th><%= t('advertisement.period') -%></th>
   </tr>
 
 <%- for advertisement in @advertisements -%>
@@ -16,9 +16,9 @@
     <td><%= link_to h(advertisement.url), advertisement.url -%></td>
     <td><%=h advertisement.body -%></td>
     <td>
-      <%=h advertisement.started_at.strftime("%Y-%m-%d") -%>
+      <%= l(advertisement.started_at) -%>
       -
-      <%=h advertisement.ended_at.strftime("%Y-%m-%d") -%>
+      <%= l(advertisement.ended_at) -%>
     </td>
     <td><%= link_to t('page.show'), advertisement -%></td>
     <td><%= link_to t('page.edit'), edit_advertisement_path(advertisement) -%></td>

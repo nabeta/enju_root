@@ -6,10 +6,11 @@
 
 <div id="content_detail">
 <h1><%= t('page.new', :model => t('activerecord.models.attachment_file')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :attachment_file -%>
 
-<%- form_for(:attachment_file, :url => attachment_files_path, :html => { :multipart => true, :method => :post }) do |f| -%>
+<%- form_for(@attachment_file, :html => { :multipart => true, :method => :post }) do |f| -%>
   <p>
     <b><%= t('page.file') -%></b><br />
     <%= f.file_field :uploaded_data -%>
@@ -29,4 +30,5 @@
   </p>
 
 <%- end -%>
+</div>
 </div>

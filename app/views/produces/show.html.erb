@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.patron') -%>:</b>
   <%=link_to h(@produce.patron.full_name), @produce.patron -%>
@@ -16,4 +17,5 @@
   <%= link_to h(@produce.manifestation.original_title), @produce.manifestation -%>
 </p>
 
+</div>
 </div>

@@ -6,25 +6,25 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.editing', :model => t('activerecord.models.subscribe')) -%></h1>
+  <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.subscribe')) -%></h1>
 
 <%- form_for(@subscribe) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :subscription_id -%><br />
+    <%= f.label t('activerecord.models.subscription') -%><br />
     <%= f.text_field :subscription_id -%>
   </p>
   <p>
-    <%= f.label :expression_id -%><br />
+    <%= f.label t('activerecord.models.expression') -%><br />
     <%= f.text_field :expression_id -%>
   </p>
   <p>
-    <%= f.label :start_on -%><br />
+    <%= f.label t('activerecord.attributes.subscribe.start_on') -%><br />
     <%= f.date_select :start_on -%>
   </p>
   <p>
-    <%= f.label :end_on -%><br />
+    <%= f.label t('activerecord.attributes.subscribe.end_on') -%><br />
     <%= f.date_select :end_on -%>
   </p>
   <p>

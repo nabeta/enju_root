@@ -96,7 +96,7 @@
         <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
       <%- end -%>
     </div>
-    <h1><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h1>
+    <h3><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h3>
     <p>
     <%- if @count[:query_result] > 0 -%>
 

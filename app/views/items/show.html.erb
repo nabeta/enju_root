@@ -19,7 +19,8 @@
 
 <div id="content_detail">
 
-<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
+<div id="content_list">
+<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index', :editbale => false) do -%>
   <%- if @item.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
@@ -104,4 +105,5 @@
   <b><%= t('page.updated_at') -%>:</b>
   <%= l(@item.updated_at) -%>
 </p>
+</div>
 </div>

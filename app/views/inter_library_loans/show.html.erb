@@ -9,6 +9,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('page.library') -%>:</b>
   <%= link_to h(@inter_library_loan.item.shelf.library.name), library_path(@inter_library_loan.item.shelf.library.short_name) -%>
@@ -50,4 +51,5 @@
   <%= l(@inter_library_loan.return_received_at) if @inter_library_loan.return_received_at -%>
 </p>
 
+</div>
 </div>

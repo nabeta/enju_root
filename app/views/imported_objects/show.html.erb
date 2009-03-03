@@ -1,3 +1,5 @@
+<div id="content_detail">
+<div id="content_list">
 <p>
   <b>Imported file:</b>
   <%=h @imported_object.imported_file_id -%>
@@ -13,6 +15,12 @@
   <%=h @imported_object.importable_type -%>
 </p>
 
+</div>
+</div>
 
-<%= link_to t('page.edit'), edit_imported_object_path(@imported_object) -%> |
-<%= link_to t('page.back'), imported_objects_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_imported_object_path(@imported_object) -%></li>
+    <li><%= link_to t('page.back'), imported_objects_path -%></li>
+  </ul>
+</div>

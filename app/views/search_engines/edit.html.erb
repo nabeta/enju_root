@@ -6,7 +6,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.search_engine')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.search_engine')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@search_engine) do |f| -%>
   <%= f.error_messages -%>
@@ -44,4 +45,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

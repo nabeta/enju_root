@@ -15,6 +15,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
   
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
 
@@ -48,4 +49,5 @@
   <%= l(@reserve.checked_out_at) if @reserve.checked_out_at -%>
 </p>
 
+</div>
 </div>

@@ -8,13 +8,13 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
-
-<%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
+<div id="content_list">
+  <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
     <%= submit_tag t('page.search') -%>
    </p>
-<%- end -%>
+  <%- end -%>
 
 <table id="index">
   <tr>
@@ -41,4 +41,5 @@
 </table>
 
 <%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

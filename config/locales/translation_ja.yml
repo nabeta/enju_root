@@ -696,6 +696,7 @@ ja:
       tag:
         name: 名前
         synonym: 同義語
+        taggings_count: このタグのついている回数
       concept:
         term: 用語
         note: 注記
@@ -898,6 +899,8 @@ ja:
     click_to_edit: "クリックで編集開始"
     saving: "保存しています..."
     news: "お知らせ"
+    model: "モデル"
+    number_of_record: "レコード数"
   title:
     index: "一覧"
     show: "表示"
@@ -1053,6 +1056,7 @@ ja:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
     import_event: "催し物のインポート"
+    all: "全ての催し物"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"
@@ -1072,7 +1076,7 @@ ja:
     this_user_has_checked_out_item: "この利用者は貸出中の資料があります。"
     patron_profile: "パトロンのプロフィール"
     set_auto_generated_password: "自動生成したパスワードを設定する"
-    suspended: "アカウントの停止"
+    history: "履歴"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
@@ -1115,3 +1119,5 @@ ja:
     this_subscription_is_expired: "購読期間が過ぎています。"
   role:
     required_role: "参照に必要な権限"
+  advertisement:
+    period: "期間"

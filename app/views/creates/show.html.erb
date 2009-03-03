@@ -6,14 +6,16 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
-<b><%= t('activerecord.models.patron') -%>:</b>
+  <b><%= t('activerecord.models.patron') -%>:</b>
   <%= link_to h(@create.patron.full_name), @create.patron -%>
 </p>
 
 <p>
-<b><%= t('activerecord.models.work') -%>:</b>
+  <b><%= t('activerecord.models.work') -%>:</b>
   <%= link_to h(@create.work.original_title), @create.work -%>
 </p>
 
+</div>
 </div>

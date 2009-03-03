@@ -14,7 +14,7 @@
 
 <%= error_messages_for :reserve -%>
 
-<%- form_for(:reserve, :url => reserves_path) do |f| -%>
+<%- form_for(@reserve) do |f| -%>
   <p>
   <% if @reserve.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>

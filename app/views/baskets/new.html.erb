@@ -7,11 +7,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.basket')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.basket')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :basket -%>
 
-<%- form_for(:basket, :url => baskets_path, :html => {:name => 'basket_form'}) do |f| -%>
+<%- form_for(@basket, :html => {:name => 'basket_form'}) do |f| -%>
   <p>
     <b><%= t('page.user') -%></b><br />
     <%= f.text_field :user_number, :class => 'resource_user_number' -%>
@@ -26,4 +27,5 @@
   </p>
   <%= javascript_tag("$('basket_user_number').focus()") -%>
 <%- end -%>
+</div>
 </div>

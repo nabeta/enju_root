@@ -4,7 +4,7 @@ class BookstoresController < ApplicationController
   # GET /bookstores
   # GET /bookstores.xml
   def index
-    @bookstores = Bookstore.find(:all, :order => :position)
+    @bookstores = Bookstore.paginate(:all, :order => :position, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

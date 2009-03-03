@@ -1,4 +1,6 @@
-<h1><%= t('page.user_bookmark_title', :login_name => @user.login) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.user_bookmark_title', :login_name => @user.login) -%></h1>
+<div id="content_list">
   <%- form_for :works, :url => user_bookmarked_resources_path(@user.login), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
@@ -17,3 +19,8 @@
   </p>
 
   <%= render :partial => 'bookmarked_resources/list', :locals => {:manifestations => @bookmarked_resources} -%>
+</div>
+</div>
+
+<div id="submenu">
+</div>

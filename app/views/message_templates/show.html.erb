@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.message_template.status') -%>:</b>
   <%=h @message_template.status -%>
@@ -20,4 +21,5 @@
   <b><%= t('activerecord.attributes.message_template.body') -%>:</b><br />
   <%= h(@message_template.body).gsub("\n", '<br />') -%>
 </p>
+</div>
 </div>

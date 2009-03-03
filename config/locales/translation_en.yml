@@ -697,6 +697,7 @@ en:
       tag:
         name: Name
         synonym: Synonym
+        taggings_count: Taggings count
       concept:
         term: Term
         note: Note
@@ -913,6 +914,8 @@ en:
     click_to_edit: "click to edit..."
     saving: "Saving..."
     news: "News"
+    model: "Model"
+    number_of_record: "Number of record"
   title:
     index: "index"
     show: "show"
@@ -1072,6 +1075,7 @@ en:
     library_group_event: "Events at {{library_group_name}}"
     all_libraries: "All libraries"
     import_event: "Import events"
+    all: "All events"
   user:
     current_password: "Current password"
     new_password: "New password"
@@ -1092,7 +1096,7 @@ en:
     this_user_has_checked_out_item: "This user has checked-out items."
     patron_profile: "Patron profile"
     set_auto_generated_password: "Set auto-generated password"
-    suspended: "Suspended"
+    history: "History"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
@@ -1133,3 +1137,5 @@ en:
     this_subscription_is_expired: "This subscription is expired!"
   role:
     required_role: "Required role"
+  advertisement:
+    period: "Period"

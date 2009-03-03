@@ -106,7 +106,7 @@
                           <%- if current_user.has_role?('Librarian') -%>
                             <li class="yuimenuitem"><%= link_to t('page.add_manually'), works_path, :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('page.add_file'), attachment_files_path, :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to t('page.import_from_network'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                         </ul>
                       </div>
@@ -138,6 +138,7 @@
                       <%- unless @library_group.physical_libraries.blank? -%>
                       <div class="bd">
                         <ul>
+                          <li class="yuimenuitem"><%= link_to t('event.all'), events_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- @library_group.physical_libraries.each do |library| -%>
                             <li class="yuimenuitem"><%= link_to h(library.name), library_events_path(library.short_name), :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>

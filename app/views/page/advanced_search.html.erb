@@ -3,9 +3,10 @@
 
 <div id="content_detail">
 <h1><%= t('page.advanced_search') -%></h1>
+<div id="content_list">
 
 <%- form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
-  <table>
+  <table style="border: none">
     <tr>
       <td><label><%= t('page.search_term') -%>:</label></td>
       <td><%= text_field_tag 'query' -%></td>
@@ -54,4 +55,5 @@
     </tr>
   </table>
 <%- end -%>
+</div>
 </div>

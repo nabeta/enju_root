@@ -1,4 +1,4 @@
-<h1><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
+<h1 class="title"><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
 
 <%= error_messages_for :user -%>
 
@@ -104,7 +104,7 @@
   </p>
 
   <!--
-  <h1><%= ('History') -%></h1>
+  <h1 class="title"><%= t('page.history') -%></h1>
   <p>
     <%= f.check_box :save_search_history -%> <%= ('Save search history') -%>
   </p>

@@ -26,6 +26,7 @@
 
 <div id="content_detail">
 
+<div id="content_list">
   <%-
     cache(:id => @patron.id, :editable => @patron.is_updatable_by(current_user)) do
   -%>
@@ -288,4 +289,5 @@
 </div>
 <%= render :partial => 'page/tabview' -%>
 <%- end -%>
+</div>
 </div>

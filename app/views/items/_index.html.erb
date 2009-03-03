@@ -11,7 +11,7 @@
   <%- if @manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- else -%>
-    <h1><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
+    <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
 <div id="content_list">
 

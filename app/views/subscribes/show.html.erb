@@ -6,6 +6,7 @@
 </div>
 
 <div id='content_detail'>
+<div id='content_list'>
 <p>
   <b><%= t('activerecord.models.subscription') -%>:</b>
   <%= link_to h(@subscribe.subscription.title), @subscribe.subscription -%>
@@ -17,13 +18,14 @@
 </p>
 
 <p>
-  <b><%= ('Start on') -%>:</b>
-  <%= @subscribe.start_on -%>
+  <b><%= t('activerecord.attributes.subscribe.start_on') -%>:<b>
+  <%=l @subscribe.start_on -%>
 </p>
 
 <p>
-  <b><%= ('End on') -%>:</b>
-  <%=h @subscribe.end_on -%>
+  <b><%= t('activerecord.attributes.subscribe.end_on') -%>:<b>
+  <%=l @subscribe.end_on -%>
 </p>
 
+</div>
 </div>

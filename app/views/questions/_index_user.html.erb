@@ -1,5 +1,5 @@
 <div id="content_detail">
-<h1><%=h t('page.listing', :model => t('activerecord.models.question')) -%></h1>
+<h1 class="title"><%=h t('page.listing', :model => t('activerecord.models.question')) -%></h1>
 
   <div id="searchform">
     <%- form_for :questions, :url => user_questions_path(@user.login), :html => {:method => 'get'} do -%>

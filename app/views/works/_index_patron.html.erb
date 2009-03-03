@@ -9,9 +9,10 @@
 </div>
 
 <div id="content_detail">
-  <h1>
+  <h1 class="title">
     <%= link_to h(@patron.full_name), @patron -%>
   </h1>
+<div id="content_list">
 
 <%- form_for :works, :url => patron_works_path(@patron), :html => {:method => 'get'} do -%>
   <p>
@@ -60,4 +61,5 @@
 
 <%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>
