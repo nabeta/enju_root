@@ -24,10 +24,16 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:request_status_types)
   end
 
+  def test_admin_should_get_index
+    login_as :admin
+    get :index
+    assert_response :success
+    assert_not_nil assigns(:request_status_types)
+  end
+
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
   end
 
   def test_user_should_not_get_new
@@ -107,6 +113,12 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
 
   def test_librarian_should_show_request_status_type
     login_as :librarian1
+    get :show, :id => request_status_types(:request_status_type_00001).id
+    assert_response :success
+  end
+
+  def test_admin_should_not_show_request_status_type
+    login_as :admin
     get :show, :id => request_status_types(:request_status_type_00001).id
     assert_response :success
   end

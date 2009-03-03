@@ -1,7 +1,6 @@
 class OrderListsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
   before_filter :get_bookstore
 
   # GET /order_lists
@@ -11,11 +10,6 @@ class OrderListsController < ApplicationController
       @order_lists = @bookstore.order_lists.paginate(:all, :page => params[:page])
     else
       @order_lists = OrderList.paginate(:all, :page => params[:page])
-    end
-
-    @startrecord = (params[:page].to_i - 1) * OrderList.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
     end
 
     respond_to do |format|

@@ -1,7 +1,5 @@
 class BookmarkedResourcesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :only => [:update]
-  require_role 'Administrator', :only => [:destroy]
+  before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_manifestation, :only => [:new]
   before_filter :store_location, :except => [:create, :update, :destroy]
@@ -13,12 +11,12 @@ class BookmarkedResourcesController < ApplicationController
   # GET /bookmarked_resources.xml
   def index
     if logged_in?
-      unless current_user.has_role?('Librarian')
-        share_bookmarks
+      if !current_user.has_role?('Librarian') and @user
+        if !@user.share_bookmarks? and current_user != @user
+          access_denied; return
+        end
       end
     end
-
-    return if performed?
 
     session[:bookmarked_resource_ids] = [] unless session[:bookmarked_resource_ids]
     session[:params] = {} unless session[:params]
@@ -26,45 +24,38 @@ class BookmarkedResourcesController < ApplicationController
 
     @count = {}
     query = make_query(params[:query], {:tag => params[:tag]})
-    @query = query
-    if @user
-      query = "#{query} user: #{@user.login}"
-    end
+    @query = query.dup
+    query.add_query!(@user) if @user
 
-    #begin
-      unless query.blank?
-        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc')
+    unless query.blank?
+      @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+    else
+      if @user
+        #query = "user: #{@user.login}"
+        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
       else
-          if @user
-            query = "user: #{@user.login}"
-            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc')
+        if logged_in?
+          if current_user.has_role?('Librarian')
+            query = "user: [* TO *]"
+            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
           else
-            if logged_in?
-              if current_user.has_role?('Librarian')
-                query = "user: [* TO *]"
-                @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc')
-              else
-                redirect_to user_bookmarks_url(current_user.login)
-                return
-              end
-            else
-              access_denied
-              return
-            end
+            redirect_to user_bookmarks_url(current_user.login)
+            return
           end
+        else
+          access_denied
+          return
         end
-      bookmarked_resource_ids = Manifestation.find_id_by_solr(query, :order => 'updated_at desc', :limit => Manifestation.numdocs).results
-      @count[:query_result] = @bookmarked_resources.total_entries
-      session[:bookmarked_resource_ids] = bookmarked_resource_ids
+      end
+    end
+    bookmarked_resource_ids = Manifestation.find_id_by_solr(query, :order => 'updated_at desc', :limit => Manifestation.numdocs).results.compact
+    @count[:query_result] = @bookmarked_resources.total_entries
+    session[:bookmarked_resource_ids] = bookmarked_resource_ids
     #rescue
     #  @bookmarked_resources = []
     #  @count[:query_result] = 0
     #end
-
-    @startrecord = (params[:page].to_i - 1) * BookmarkedResource.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
+    #raise query
 
     respond_to do |format|
       format.html # index.rhtml
@@ -167,11 +158,9 @@ class BookmarkedResourcesController < ApplicationController
   end
 
   private
-  def share_bookmarks
+  def share_bookmarks?
     if @user
-      private_content unless @user.share_bookmarks 
-    elsif @bookmark
-      access_denied unless @bookmark.user.share_bookmarks
+      @user.share_bookmarks?
     end
   end
 

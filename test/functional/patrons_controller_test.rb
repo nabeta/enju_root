@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PatronsControllerTest < ActionController::TestCase
-  fixtures :patrons, :users, :patron_types, :manifestations, :manifestation_forms, :expressions, :works, :embodies,
+  fixtures :patrons, :users, :patron_types, :manifestations, :manifestation_forms, :expressions, :works, :embodies, :roles, :roles_users,
     :creates, :realizes, :produces, :owns, :languages, :countries
 
   def test_guest_should_get_index
@@ -96,7 +96,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_show_patron
-    get :show, :id => 2
+    get :show, :id => 1
     assert_response :success
   end
 
@@ -107,17 +107,17 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_show_patron_with_work
-    get :show, :id => 2, :work_id => 1
+    get :show, :id => 1, :work_id => 1
     assert_response :success
   end
 
   def test_guest_should_show_patron_with_expression
-    get :show, :id => 2, :expression_id => 2
+    get :show, :id => 1, :expression_id => 1
     assert_response :success
   end
 
   def test_guest_should_show_patron_with_manifestation
-    get :show, :id => 2, :manifestation_id => 2
+    get :show, :id => 1, :manifestation_id => 1
     assert_response :success
   end
 
@@ -152,8 +152,8 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_show_patron_when_required_role_is_admin
-    login_as :librarian1
-    get :show, :id => users(:admin).patron
+    login_as :librarian2
+    get :show, :id => users(:librarian1).patron
     assert_response :forbidden
   end
 
@@ -219,19 +219,19 @@ class PatronsControllerTest < ActionController::TestCase
   
   def test_user_should_update_myself
     login_as :user1
-    put :update, :id => users(:user1).patron, :patron => { :full_name => 'test' }
+    put :update, :id => users(:user1).patron.id, :patron => { :full_name => 'test' }
     assert_redirected_to patron_url(assigns(:patron))
   end
   
   def test_user_should_not_update_myself_without_name
     login_as :user1
-    put :update, :id => users(:user1).patron, :patron => { :full_name => '' }
+    put :update, :id => users(:user1).patron.id, :patron => { :full_name => '' }
     assert_response :success
   end
   
   def test_user_should_not_update_other_patron
     login_as :user1
-    put :update, :id => users(:user2).patron, :patron => { :full_name => 'test' }
+    put :update, :id => users(:user2).patron.id, :patron => { :full_name => 'test' }
     assert_response :forbidden
   end
   

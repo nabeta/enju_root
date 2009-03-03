@@ -5,13 +5,13 @@ class CreateLibraries < ActiveRecord::Migration
       t.text :name, :null => false
       t.string :short_name, :null => false
       t.string :short_display_name, :null => false
-      t.string :zip_code
-      t.text :address
+      t.string :postal_code
+      t.text :street
+      t.text :locality
+      t.text :region
       t.string :telephone_number_1
       t.string :telephone_number_2
       t.string :fax_number
-      t.float :lat
-      t.float :lng
       t.text :note
       t.integer :call_number_rows, :default => 1, :null => false
       t.string :call_number_delimiter, :default => "|", :null => false

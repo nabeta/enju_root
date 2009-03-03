@@ -1,5 +1,6 @@
 class ManifestationForm < ActiveRecord::Base
   include DisplayName
+  include OnlyAdministratorCanModify
   has_many :manifestations
   #has_many :available_manifestation_forms
   #has_many :user_groups, :through => :available_manifestation_forms

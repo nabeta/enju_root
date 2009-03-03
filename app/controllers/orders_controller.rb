@@ -1,7 +1,6 @@
 class OrdersController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
   before_filter :get_order_list
   before_filter :get_purchase_request
 
@@ -16,10 +15,6 @@ class OrdersController < ApplicationController
     end
     @count = {}
     @count[:query_result] = @orders.size
-    @startrecord = (params[:page].to_i - 1) * Order.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
 
     respond_to do |format|
       format.html # index.html.erb

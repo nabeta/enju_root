@@ -28,13 +28,23 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.library.zip_code') -%></b><br />
-    <%= f.text_field :zip_code -%>
+    <b><%= t('activerecord.attributes.library.postal_code') -%></b><br />
+    <%= f.text_field :postal_code -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.library.address') -%></b><br />
-    <%= f.text_area :address, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.library.region') -%></b><br />
+    <%= f.text_field :region -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.library.locality') -%></b><br />
+    <%= f.text_field :locality -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.library.street') -%></b><br />
+    <%= f.text_area :street, :class => 'resource_textarea' -%>
   </p>
 
   <p>

@@ -1,10 +1,9 @@
 class AttachmentFilesController < ApplicationController
-  before_filter :login_required
+  before_filter :has_permission?
   before_filter :get_manifestation, :only => [:index, :new]
   before_filter :get_patron, :only => [:index, :new]
   before_filter :get_event, :only => [:index, :new]
   before_filter :get_shelf, :only => [:index, :new]
-  require_role 'Librarian'
 
   # GET /attachment_files
   # GET /attachment_files.xml

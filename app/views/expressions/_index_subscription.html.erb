@@ -12,7 +12,7 @@
 
   <%- form_for :expressions, :url => subscription_expressions_path(@subscription), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
       <%- if_authorized?(:destroy, @subscription) do -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -34,7 +34,7 @@
   </tr>
   
 <%- for expression in @expressions -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
       <%= link_to h(expression.original_title), subscription_expression_path(@subscription, expression) -%>

@@ -1,6 +1,5 @@
 class ItemHasItemsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /item_has_items
   # GET /item_has_items.xml

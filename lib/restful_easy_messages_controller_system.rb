@@ -12,8 +12,7 @@ module RestfulEasyMessagesControllerSystem
   # requiring a user to be loggefd in if you are not using Restful_Authentication.
   def rezm_login_required
     # Provide your version of login_required here if not using Restful_authentication
-    #login_required
-    private_content
+    login_required
   end
   
   # Inclusion hook to make #rezm_user

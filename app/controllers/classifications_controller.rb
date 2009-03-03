@@ -1,13 +1,13 @@
 class ClassificationsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_subject
-  require_role 'Administrator', :except => [:index, :show]
 
   # GET /classifications
   # GET /classifications.xml
   def index
     unless params[:query].blank?
       query = params[:query].to_s.strip
+      @query = query.dup
       @classifications = Classification.paginate_by_solr(query, :page => params[:page], :per_page => @per_page).compact
     else
       if @subject
@@ -17,7 +17,6 @@ class ClassificationsController < ApplicationController
       end
     end
 
-    @query = params[:query]
     session[:params] = {} unless session[:params]
     session[:params][:classification] = params
 

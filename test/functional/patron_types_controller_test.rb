@@ -20,7 +20,8 @@ class PatronTypesControllerTest < ActionController::TestCase
   def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :forbidden
+    assert_response :success
+    assert assigns(:patron_types)
   end
 
   def test_admin_should_get_index
@@ -54,156 +55,157 @@ class PatronTypesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_patron_type
-    old_count = PatronType.count
-    post :create, :patron_type => { }
-    assert_equal old_count, PatronType.count
+    assert_no_difference('PatronType.count') do
+      post :create, :patron_type => { }
+    end
     
     assert_redirected_to new_session_url
   end
 
   def test_user_should_not_create_patron_type
     login_as :user1
-    old_count = PatronType.count
-    post :create, :patron_type => { }
-    assert_equal old_count, PatronType.count
+    assert_no_difference('PatronType.count') do
+      post :create, :patron_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_patron_type
     login_as :librarian1
-    old_count = PatronType.count
+    assert_no_difference('PatronType.count') do
+      post :create, :patron_type => { }
+    end
     post :create, :patron_type => { }
-    assert_equal old_count, PatronType.count
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_patron_type_without_name
     login_as :admin
-    old_count = PatronType.count
-    post :create, :patron_type => { }
-    assert_equal old_count, PatronType.count
+    assert_no_difference('PatronType.count') do
+      post :create, :patron_type => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_patron_type
     login_as :admin
-    old_count = PatronType.count
-    post :create, :patron_type => {:name => 'test'}
-    assert_equal old_count+1, PatronType.count
+    assert_difference('PatronType.count') do
+      post :create, :patron_type => {:name => 'test'}
+    end
     
     assert_redirected_to patron_type_url(assigns(:patron_type))
   end
 
-  def test_guest_should_show_patron_type
-    get :show, :id => 1
+  def test_guest_should_not_show_patron_type
+    get :show, :id => patron_types(:patron_type_00001)
     assert_response :redirect
     assert_redirected_to new_session_url
   end
 
-  def test_user_should_show_patron_type
+  def test_user_should_not_show_patron_type
     login_as :user1
-    get :show, :id => 1
+    get :show, :id => patron_types(:patron_type_00001)
     assert_response :forbidden
   end
 
   def test_librarian_should_show_patron_type
     login_as :librarian1
-    get :show, :id => 1
-    assert_response :forbidden
+    get :show, :id => patron_types(:patron_type_00001)
+    assert_response :success
   end
 
   def test_admin_should_show_patron_type
     login_as :admin
-    get :show, :id => 1
+    get :show, :id => patron_types(:patron_type_00001)
     assert_response :success
   end
 
   def test_guest_should_not_get_edit
-    get :edit, :id => 1
+    get :edit, :id => patron_types(:patron_type_00001)
     assert_redirected_to new_session_url
   end
   
   def test_user_should_not_get_edit
     login_as :user1
-    get :edit, :id => 1
+    get :edit, :id => patron_types(:patron_type_00001)
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
     login_as :librarian1
-    get :edit, :id => 1
+    get :edit, :id => patron_types(:patron_type_00001)
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
     login_as :admin
-    get :edit, :id => 1
+    get :edit, :id => patron_types(:patron_type_00001)
     assert_response :success
   end
   
   def test_guest_should_not_update_patron_type
-    put :update, :id => 1, :patron_type => { }
+    put :update, :id => patron_types(:patron_type_00001), :patron_type => { }
     assert_redirected_to new_session_url
   end
   
   def test_user_should_not_update_patron_type
     login_as :user1
-    put :update, :id => 1, :patron_type => { }
+    put :update, :id => patron_types(:patron_type_00001), :patron_type => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_patron_type
     login_as :librarian1
-    put :update, :id => 1, :patron_type => { }
+    put :update, :id => patron_types(:patron_type_00001), :patron_type => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_patron_type_without_name
     login_as :admin
-    put :update, :id => 1, :patron_type => {:name => ""}
+    put :update, :id => patron_types(:patron_type_00001), :patron_type => {:name => ""}
     assert_response :success
   end
   
   def test_admin_should_update_patron_type
     login_as :admin
-    put :update, :id => 1, :patron_type => { }
+    put :update, :id => patron_types(:patron_type_00001), :patron_type => { }
     assert_redirected_to patron_type_url(assigns(:patron_type))
   end
   
   def test_guest_should_not_destroy_patron_type
-    old_count = PatronType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, PatronType.count
+    assert_no_difference('PatronType.count') do
+      delete :destroy, :id => patron_types(:patron_type_00001)
+    end
     
     assert_redirected_to new_session_url
   end
 
   def test_user_should_not_destroy_patron_type
     login_as :user1
-    old_count = PatronType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, PatronType.count
+    assert_no_difference('PatronType.count') do
+      delete :destroy, :id => patron_types(:patron_type_00001)
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_patron_type
     login_as :librarian1
-    old_count = PatronType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, PatronType.count
+    assert_no_difference('PatronType.count') do
+      delete :destroy, :id => patron_types(:patron_type_00001)
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_patron_type
     login_as :admin
-    old_count = PatronType.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, PatronType.count
+    assert_difference('PatronType.count', -1) do
+      delete :destroy, :id => patron_types(:patron_type_00001)
+    end
     
     assert_redirected_to patron_types_url
   end

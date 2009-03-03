@@ -26,7 +26,9 @@
 
 <div id="content_detail">
 
-  <%- cache(:id => @patron.id) do -%>
+  <%-
+    cache(:id => @patron.id, :editable => @patron.is_updatable_by(current_user)) do
+  -%>
   <h1 id="resource_title">
     [P]
     <%=h @patron.full_name -%>

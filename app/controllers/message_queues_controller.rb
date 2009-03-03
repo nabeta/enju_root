@@ -1,7 +1,6 @@
 class MessageQueuesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /message_queues
   # GET /message_queues.xml

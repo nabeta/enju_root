@@ -1,7 +1,6 @@
 class ExpressionMergeListsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /expression_merge_lists
   # GET /expression_merge_lists.xml

@@ -1,7 +1,6 @@
 class SubjectHeadingTypesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /subject_heading_types
   # GET /subject_heading_types.xml

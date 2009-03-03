@@ -7,8 +7,8 @@ class CreateFamilies < ActiveRecord::Migration
       t.text :full_name_alternative
       t.timestamps
       t.datetime :deleted_at
-      t.string :zip_code_1
-      t.string :zip_code_2
+      t.string :postal_code_1
+      t.string :postal_code_2
       t.text :address_1
       t.text :address_2
       t.text :address_1_note
@@ -30,14 +30,14 @@ class CreateFamilies < ActiveRecord::Migration
       t.integer :produces_count, :default => 0, :null => false
       t.integer :owns_count, :default => 0, :null => false
       t.integer :resource_has_subjects_count, :default => 0, :null => false
-      t.integer :access_role_id, :default => 1, :null => false
+      t.integer :required_role_id, :default => 1, :null => false
       t.integer :required_score, :default => 0, :null => false
       t.string :state
     end
     add_index :families, :parent_id
     add_index :families, :language_id
     add_index :families, :country_id
-    add_index :families, :access_role_id
+    add_index :families, :required_role_id
     add_index :families, :full_name
   end
 

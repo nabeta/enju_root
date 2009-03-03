@@ -1,6 +1,5 @@
 class LibrariesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
 
@@ -26,18 +25,6 @@ class LibrariesController < ApplicationController
       return
     else
       @date = Time.zone.now
-    end
-
-    begin
-      if @library.lat and @library.lng
-        coord = [@library.lat, @library.lng]
-        @map = GMap.new("map_div")
-        @map.control_init(:large_map => true,:map_type => true)
-        @map.center_zoom_init(coord, 15)
-        @map.overlay_init(GMarker.new(coord, :title => @library.name))
-      end
-    rescue
-      nil
     end
 
     respond_to do |format|

@@ -1,4 +1,5 @@
 class CheckedItem < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :item #, :validate => true
   belongs_to :basket #, :validate => true
 

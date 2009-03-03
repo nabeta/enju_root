@@ -1,4 +1,5 @@
 class ImportedEventFile < ActiveRecord::Base
+  include LibrarianRequired
   named_scope :not_imported, :conditions => {:imported_at => nil}
 
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']

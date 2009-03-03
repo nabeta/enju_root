@@ -1,7 +1,6 @@
 class ReservesController < ApplicationController
-  before_filter :login_required
+  before_filter :has_permission?
   before_filter :get_user_if_nil
-  before_filter :authorized_content
   #, :only => [:show, :edit, :create, :update, :destroy]
   before_filter :get_manifestation, :only => [:new]
   before_filter :get_item, :only => [:new]
@@ -10,6 +9,14 @@ class ReservesController < ApplicationController
   # GET /reserves
   # GET /reserves.xml
   def index
+    begin
+      if !current_user.has_role?('Librarian')
+        raise unless current_user == @user
+      end
+    rescue
+      access_denied; return
+    end
+
     if params[:mode] == 'hold' and current_user.has_role?('Librarian')
       @reserves = Reserve.hold.paginate(:page => params[:page], :order => ['reserves.created_at DESC'])
     else
@@ -20,11 +27,6 @@ class ReservesController < ApplicationController
         # 管理者
         @reserves = Reserve.paginate(:all, :page => params[:page], :order => ['reserves.expired_at DESC'])
       end
-    end
-
-    @startrecord = (params[:page].to_i - 1) * Reserve.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
     end
 
     respond_to do |format|
@@ -60,14 +62,22 @@ class ReservesController < ApplicationController
 
   # GET /reserves/new
   def new
-    if @user
-      @reserve = @user.reserves.new
+    begin
+      if !current_user.has_role?('Librarian')
+        raise unless current_user == @user
+      end
+    rescue
+      access_denied; return
+    end
+
+    if current_user.has_role?('Librarian')
+      @reserve = Reserve.new
+      @reserve.user = @user
     else
-      if current_user.has_role?('Librarian')
-        @reserve = Reserve.new
+      if @user == current_user
+        @reserve = current_user.reserves.new
       else
-        access_denied
-        return
+        access_denied; return
       end
     end
 

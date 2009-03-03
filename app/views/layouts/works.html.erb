@@ -7,7 +7,7 @@
   <%- case when @work -%>
     <title><%=h @work.original_title -%> : <%= t('activerecord.models.work') -%>: <%=h title_action_name -%></title>
   <%- when @patron -%>
-    <title><%= t('work.patron_work', :patron_name => @patron.full_name) -%> : <%= ('Patrons') -%>: <%=h title_action_name -%></title>
+    <title><%= t('work.patron_work', :patron_name => @patron.full_name) -%> : <%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.work') -%>: <%=h title_action_name -%></title>
   <%- end -%>

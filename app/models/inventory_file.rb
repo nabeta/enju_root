@@ -1,4 +1,5 @@
 class InventoryFile < ActiveRecord::Base
+  include LibrarianRequired
   has_many :inventories, :dependent => :destroy
   has_many :items, :through => :inventories
   belongs_to :user

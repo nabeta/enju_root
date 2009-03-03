@@ -14,7 +14,7 @@
 
 <%- form_for :patrons, :url => manifestation_patrons_path(@manifestation), :html => {:method => 'get'} do -%>
 <p>
-  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
   <%- if_authorized?(:destroy, @manifestation) do -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>

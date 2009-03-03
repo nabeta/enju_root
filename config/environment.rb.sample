@@ -1,9 +1,10 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
 LIBRARY_WEB_PORT_NUMBER = '3000'
-AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 # AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
 AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
+AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
+GOOGLE_APPLICATION_ID = 'REPLACE_WITH_YOUR_GOOGLE_APPLICATION_ID'
 
 # Be sure to restart your server when you modify this file
 
@@ -57,6 +58,8 @@ Rails::Initializer.run do |config|
   config.gem "rscribd"
   config.gem "flickr_fu"
   config.gem "opensearch"
+  config.gem "friendly_id"
+  config.gem "graticule"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -106,6 +109,8 @@ end
 
 #I18n.default_locale = "ja"
 
+Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
+
 #require 'jasper-rails'
 require 'solr_modified'
 require 'tag_modified'
@@ -115,6 +120,7 @@ require 'csv'
 require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'wakati'
+require 'search_query'
 
 LIBRARY_WEB_URL = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
 

@@ -77,7 +77,7 @@
 
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail_1') do
+  cache(:id => @manifestation.id, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 
@@ -85,7 +85,7 @@
 
 <div id="demo" class="yui-navset yui-navset-top">
   <ul class="yui-nav">
-    <li title="nctive" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
+    <li class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
     <%- if @manifestation.related_works.size > 0 -%>
       <li><a href="#tab3"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
@@ -103,7 +103,7 @@
     <%- end -%>
 
     <table id="manifestation_detail">
-    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or @manifestation.flickr -%>
+    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or !@manifestation.flickr.blank? -%>
       <tr>
         <td style="width: 200px"><%=h t('page.video') -%>:</td>
         <td>
@@ -113,7 +113,7 @@
     <%- end -%>
     <%- if @manifestation.serial -%>
       <tr>
-        <td style="width: 200px"><%=h ('Serial') -%>:</td>
+        <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
         <td><%= serial_title_link(@manifestation) -%>
           <%- if @manifestation.serial.issn? -%>
             (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
@@ -160,11 +160,18 @@
     </tr>
     <tr>
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
-      <td><%= @manifestation.price -%></td>
+      <td>
+        <%- if @manifestation.is_updatable_by(current_user) -%>
+          <%= editable_content_tag(:span, @manifestation, 'price', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving')}) %>
+        <%- else -%>
+          <%=h @manifestation.price -%>
+        <%- end -%>
+      </td>
     </tr>
   <%
     end
   -%>
+   <!-- TODO: タグ表示のフラグメントキャッシュ -->
     <tr>
       <td><%= t('activerecord.models.subject') -%>:</td>
       <td>
@@ -185,11 +192,11 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail_2') do
+  cache(:id => @manifestation.id, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
-        <td>ISBN:</td>
+        <td><%= t('activerecord.attributes.manifestation.isbn') -%>:</td>
         <td>
           <%- if @manifestation.isbn -%>
             <%=h @manifestation.isbn -%>
@@ -208,7 +215,13 @@
     <%- end -%>
     <tr>
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
-      <td><%= textilize_without_paragraph(h(@manifestation.note)) -%></td>
+      <td>
+        <%- if @manifestation.is_updatable_by(current_user) -%>
+          <%= editable_content_tag(:span, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2}) %>
+        <%- else -%>
+          <%=h @manifestation.note -%>
+        <%- end -%>
+      </td>
     </tr>
     </table>
 
@@ -310,20 +323,16 @@
     -->
     <%- if @amazon_reviews.size > 0 -%>
       <div id="tab6">
-        <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.co.jp/dp/#{@manifestation.amazon_book_jacket['asin']}" -%></p>
-        <%- @amazon_reviews.each do |review| -%>
-          <div class="amazon_summary"><strong><%=h review[:summary] -%></strong> (<%=h review[:date] -%>)</div>
-          <p><%= h(review[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
-        <%- end -%>
+        <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
       </div>
     <%- end -%>
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
 <!-- cache end -->
-    <%
-      end
-    -%>
+  <%
+    end
+  -%>
 </div>
 
 </div>

@@ -30,7 +30,7 @@ librarian2:
   email: librarian2@library.example.jp
   created_at: 2008-01-18 12:24:04.222344 +09:00
   save_search_history: false
-  access_role_id: 1
+  required_role_id: 1
   user_number: "00004"
 user2: 
   salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
@@ -63,7 +63,7 @@ user2:
   email: user2@library.example.jp
   created_at: 2008-01-18 13:29:06.922728 +09:00
   save_search_history: false
-  access_role_id: 2
+  required_role_id: 2
   user_number: "00005"
 admin: 
   salt: 3e113e7ed6a655f2e0824661362965cc84ba057b
@@ -96,7 +96,7 @@ admin:
   email: tanabe@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:32.111941 +09:00
   save_search_history: true
-  access_role_id: 4
+  required_role_id: 4
   user_number: "00001"
 librarian1: 
   salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
@@ -129,7 +129,7 @@ librarian1:
   email: librarian1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:33.172441 +09:00
   save_search_history: false
-  access_role_id: 1
+  required_role_id: 1
   user_number: "00002"
 user1: 
   salt: 04f8a5895162043979444830de2b9d0a021255c6
@@ -162,6 +162,6 @@ user1:
   email: user1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
-  access_role_id: 3
+  required_role_id: 3
   checkout_icalendar_token: e3e0277cbba03183c3a12d2b740f3eabebd7df0d
   user_number: "00003"

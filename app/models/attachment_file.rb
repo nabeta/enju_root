@@ -1,4 +1,5 @@
 class AttachmentFile < ActiveRecord::Base
+  include LibrarianRequired
   #include ExtractContent
   belongs_to :attachable, :polymorphic => true, :validate => true
   has_one :db_file

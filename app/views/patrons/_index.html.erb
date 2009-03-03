@@ -1,7 +1,9 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('patron.add'), new_patron_path -%></li>
-    <li><%= link_to ('Merge patrons'), patron_merge_lists_path -%></li>
+    <%- if_authorized?(:create, Patron) do -%>
+      <li><%= link_to t('patron.add'), new_patron_path -%></li>
+      <li><%= link_to ('Merge patrons'), patron_merge_lists_path -%></li>
+    <%- end -%>
   </ul>
 </div>
 
@@ -9,7 +11,7 @@
   <h1><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
     <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>

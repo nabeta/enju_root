@@ -1,6 +1,5 @@
 class ImportedObjectsController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /imported_objects
   # GET /imported_objects.xml

@@ -1,4 +1,5 @@
 class Expression < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify, :include => [:work_form]
@@ -13,9 +14,9 @@ class Expression < ActiveRecord::Base
   has_many :expression_merge_lists, :through => :expression_merges
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
-  has_one :subscribe, :dependent => :destroy
-  has_one :subscription, :through => :subscribe
-  belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscriptions, :through => :subscribes
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :derived_expressions, :through => :to_expressions, :source => :expression_to_expression
@@ -29,7 +30,7 @@ class Expression < ActiveRecord::Base
   acts_as_solr :fields => [:title, {:issn => :string}, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
     {:work_id => :integer}, {:manifestation_ids => :integer},
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
-    {:subscription_id => :integer}, {:access_role_id => :range_integer},
+    {:subscription_id => :integer}, {:required_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
     :facets => [:expression_form_id, :language_id], :if => proc{|expression| !expression.restrain_indexing}, :auto_commit => false
   acts_as_soft_deletable

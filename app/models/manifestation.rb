@@ -1,7 +1,9 @@
 require 'open-uri'
 require 'wakati'
+require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
+  include OnlyLibrarianCanModify
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
@@ -21,7 +23,7 @@ class Manifestation < ActiveRecord::Base
   has_many :subjects, :through => :resource_has_subjects
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
-  belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :checkout_stat_has_manifestations
   has_many :checkout_stats, :through => :checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
@@ -51,7 +53,7 @@ class Manifestation < ActiveRecord::Base
     {:subject_ids => :integer},
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
-    {:access_role_id => :range_integer}
+    {:required_role_id => :range_integer}
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
@@ -71,6 +73,8 @@ class Manifestation < ActiveRecord::Base
   validates_numericality_of :start_page, :end_page, :allow_nil => true
   validates_length_of :access_address, :maximum => 255, :allow_nil => true
 
+  # tsvなどでのインポート時に大量にpostされないようにするため、
+  # コントローラで処理する
   #after_create :post_to_twitter
 
   def validate
@@ -518,11 +522,19 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: 投稿は非同期で行う
   def post_to_twitter
-    library_group = LibraryGroup.find(1)
-    if Twitter::Status
-      title = ERB::Util.html_escape(truncate(self.original_title))
-      status = "#{library_group.name}: #{full_title} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
-      Twitter::Status.post(:update, :status => status)
+    if RAILS_ENV == 'production' and LibraryGroup.find(1).config[:post_to_twitter?]
+      if Twitter::Status
+        library_group = LibraryGroup.find(1)
+        title = ERB::Util.html_escape(truncate(self.original_title))
+        status = "#{title}: #{note} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
+        begin
+          timeout(5){
+            Twitter::Status.post(:update, :status => status)
+          }
+        rescue Timeout::Error
+          Twitter.logger.warn 'post timeout!'
+        end
+      end
     end
   end
 
@@ -635,7 +647,7 @@ class Manifestation < ActiveRecord::Base
     patron_lists.each do |patron_list|
       unless patron = Patron.find(:first, :conditions => {:full_name => patron_list}) rescue nil
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.access_role = Role.find(:first, :conditions => {:name => 'Guest'})
+        patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
       patrons << patron

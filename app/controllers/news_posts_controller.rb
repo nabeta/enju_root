@@ -1,12 +1,10 @@
 class NewsPostsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /news_posts
   # GET /news_posts.xml
   def index
     @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page])
-    @startrecord = 1
 
     respond_to do |format|
       format.html # index.html.erb

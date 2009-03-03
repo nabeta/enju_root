@@ -1,7 +1,6 @@
 class InterLibraryLoansController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
   before_filter :get_item
   before_filter :store_page, :only => :index
 
@@ -12,11 +11,6 @@ class InterLibraryLoansController < ApplicationController
       @inter_library_loans = @item.inter_library_loans.paginate(:page => params[:page])
     else
       @inter_library_loans = InterLibraryLoan.paginate(:all, :page => params[:page])
-    end
-
-    @startrecord = (params[:page].to_i - 1) * InterLibraryLoan.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
     end
 
     respond_to do |format|

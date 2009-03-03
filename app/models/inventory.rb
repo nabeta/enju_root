@@ -1,4 +1,5 @@
 class Inventory < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :item
   belongs_to :inventory_file
 

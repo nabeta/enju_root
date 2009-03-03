@@ -14,17 +14,6 @@
   <%- if @resources -%>
   <h4><%= link_to t('question.crd'), "http://crd.ndl.go.jp/" -%></h4>
     <p><%= t('question.number_of_search_results', :count => @refkyo_count) -%><br />
-    <%- if @refkyo_count > 0 -%>
-      <!--
-      Displaying <%=h @startrecord -%> to 
-      <%- if @refkyo_count < @startrecord + Question.per_page - 1 -%>
-        <%=h @refkyo_count -%>
-      <%- else -%>
-        <%=h @startrecord + Question.per_page - 1 -%>
-      <%- end -%>
-      .</p>
-      -->
-    <%- end -%>
     <ul>
       <%- @resources.each do |resource| -%>
         <li><%= link_to h(truncate(resource[:title])), resource[:link] -%></li>

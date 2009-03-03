@@ -1,6 +1,17 @@
-=== ???
+=== 0.3.2 / 2008-11-03
 
-* Fixed bug where passed ID for day cell would throw error on missing class name.
+* Added available class names for styling (prevMonth, nextMonth, and firstDay) [moorage]
+
+=== 0.3.1 / 2008-06-19
+
+* Fixed month_name_text with non-default month [jaggederest]
+
+=== 0.3.0 / 2008-06-11
+
+* Forked plugin
+* Removed gem spec to be just a plugin.
+* Removed requirement for month and year. Defaults to current month and year.
+* Added option for :month_name_text to override presentation of month name.
 
 === 0.2.2 / 2007-08-29
 

@@ -27,6 +27,10 @@ class CreatePatrons < ActiveRecord::Migration
       t.string :fax_number_2
       t.text :other_designation
       t.text :place
+      t.string :postal_code
+      t.text :street
+      t.text :locality
+      t.text :region
       t.datetime :date_of_birth
       t.datetime :date_of_death
       t.integer :language_id, :default => 1, :null => false
@@ -39,7 +43,7 @@ class CreatePatrons < ActiveRecord::Migration
       t.integer :produces_count, :default => 0, :null => false
       t.integer :owns_count, :default => 0, :null => false
       t.integer :resource_has_subjects_count, :default => 0, :null => false
-      t.integer :access_role_id, :null => false
+      t.integer :required_role_id, :null => false
       t.integer :required_score, :default => 0, :null => false
       t.string :state
     end
@@ -47,7 +51,7 @@ class CreatePatrons < ActiveRecord::Migration
     add_index :patrons, :patron_type_id
     add_index :patrons, :language_id
     add_index :patrons, :country_id
-    add_index :patrons, :access_role_id
+    add_index :patrons, :required_role_id
     add_index :patrons, :full_name
   end
 

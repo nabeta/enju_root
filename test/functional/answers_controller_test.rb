@@ -84,28 +84,16 @@ class AnswersControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
   
-  def test_user_should_not_get_new_without_user_id
+  def test_user_should_get_new_without_question_id
     login_as :user1
-    get :new, :question_id => 1
-    assert_response :forbidden
-  end
-  
-  def test_user_should_not_get_new_without_question_id
-    login_as :user1
-    get :new, :user_id => users(:user1).login
+    get :new
     assert_response :redirect
-    assert_redirected_to user_questions_url(users(:user1).login)
+    assert_redirected_to questions_url
   end
   
-  def test_user_should_not_get_other_new
+  def test_user_should_get_new
     login_as :user1
     get :new, :user_id => users(:user2).login, :question_id => 1
-    assert_response :forbidden
-  end
-  
-  def test_user_should_get_my_new
-    login_as :user1
-    get :new, :user_id => users(:user1).login, :question_id => 1
     assert_response :success
   end
   
@@ -117,45 +105,41 @@ class AnswersControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
 
-  def test_user_should_not_create_answer_without_user_id
+  def test_user_should_create_answer_without_user_id
     login_as :user1
     old_count = Answer.count
-    post :create, :answer => {:body => 'hoge'}, :question_id => 1
-    assert_equal old_count, Answer.count
+    post :create, :answer => {:question_id => 1, :body => 'hoge'}
+    assert_equal old_count+1, Answer.count
     
-    assert_response :forbidden
+    assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question, assigns(:answer))
   end
 
   def test_user_should_not_create_answer_without_question_id
     login_as :user1
     old_count = Answer.count
-    post :create, :answer => {:body => 'hoge'}, :user_id => users(:user1).login
+    post :create, :answer => {:body => 'hoge'}
     assert_equal old_count, Answer.count
     
     assert_response :redirect
     assert_redirected_to questions_url
   end
 
-  def test_user_should_not_create_answer_with_other_user_id
+  def test_user_should_create_answer_with_question_id
     login_as :user1
     old_count = Answer.count
-    post :create, :answer => {:body => 'hoge'}, :user_id => users(:user2).login, :question_id => 1
-    assert_equal old_count, Answer.count
-    
-    assert_response :forbidden
-  end
-
-  def test_user_should_create_answer_with_my_user_id
-    login_as :user1
-    old_count = Answer.count
-    post :create, :answer => {:user_id => users(:user1), :question_id => 1, :body => 'test'}, :user_id => users(:user1).login, :question_id => 1
+    post :create, :answer => {:question_id => 1, :body => 'hoge'}
     assert_equal old_count+1, Answer.count
     
     assert_redirected_to user_question_answer_url(assigns(:answer).question.user.login, assigns(:answer).question, assigns(:answer))
   end
 
-  def test_guest_should_not_show_answer
-    get :show, :id => 1, :user_id => users(:user1).login, :question_id => 1
+  def test_guest_should_show_public_answer
+    get :show, :id => 1, :question_id => 1
+    assert_response :success
+  end
+
+  def test_guest_should_not_show_private_answer
+    get :show, :id => 4, :question_id => 1
     assert_response :redirect
     assert_redirected_to new_session_url
   end
@@ -187,8 +171,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_user_should_not_show_private_answer
     login_as :user1
     get :show, :id => 4, :user_id => users(:user1).login
-    #assert_response :forbidden
-    assert_response :missing
+    assert_response :forbidden
   end
 
   def test_user_should_not_show_missing_answer
@@ -209,15 +192,21 @@ class AnswersControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
   
-  def test_user_should_not_get_edit_without_user_id
+  def test_user_should_get_my_edit_without_user_id
     login_as :user1
     get :edit, :id => 3, :question_id => 1
+    assert_response :success
+  end
+  
+  def test_user_should_not_get_other_edit_without_user_id
+    login_as :user1
+    get :edit, :id => 4, :question_id => 1
     assert_response :forbidden
   end
   
-  def test_user_should_not_get_edit_without_question_id
+  def test_user_should_get_edit_without_question_id
     login_as :user1
-    get :edit, :id => 3, :user_id => users(:user1).login
+    get :edit, :id => 3 , :user_id => users(:user1).login
     assert_response :success
   end
   

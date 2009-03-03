@@ -1,5 +1,6 @@
 class Country < ActiveRecord::Base
   include DisplayName
+  include OnlyAdministratorCanModify
   has_many :patrons
   has_many :people
   has_many :corporate_bodies

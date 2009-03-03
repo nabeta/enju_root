@@ -1,7 +1,6 @@
 class ImportedResourceFilesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /imported_resource_files
   # GET /imported_resource_files.xml

@@ -6,6 +6,29 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.manifestations.each do |manifestation|
         expire_manifestation_fragment(manifestation)
       end
+    when record.is_a?(Work)
+      expire_editable_fragment(record)
+      record.expressions.each do |expression|
+        expire_editable_fragment(expression)
+        expression.manifestations.each do |manifestation|
+          expire_manifestation_fragment(manifestation)
+        end
+      end
+    when record.is_a?(Expression)
+      expire_editable_fragment(record)
+      record.manifestations.each do |manifestation|
+        expire_manifestation_fragment(manifestation)
+      end
+    when record.is_a?(Manifestation)
+      expire_manifestation_fragment(record)
+      record.expressions.each do |expression|
+        expire_editable_fragment(expression)
+      end
+    when record.is_a?(Item)
+      expire_editable_fragment(record)
+      expire_manifestation_fragment(record.manifestation)
+    when record.is_a?(Library)
+      expire_fragment(:controller => :libraries, :action => :index, :action_suffix => 'menu')
     when record.is_a?(Bookmark)
       # Not supported by Memcache
       # expire_fragment(%r{manifestations/\d*})
@@ -22,79 +45,56 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.manifestations.each do |manifestation|
         expire_manifestation_fragment(manifestation)
       end
+    when record.is_a?(Concept)
+      expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
+    when record.is_a?(Place)
+      expire_fragment(:controller => :places, :action => :show, :id => record.id)
     when record.is_a?(Create)
-      expire_fragment(:controller => :patrons, :action => :show, :id => record.patron_id)
-      expire_fragment(:controller => :works, :action => :show, :id => record.work_id)
+      expire_editable_fragment(record.patron)
+      expire_editable_fragment(record.work)
       record.work.expressions.each do |expression|
-        expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
+        expire_editable_fragment(expression)
         expression.manifestations.each do |manifestation|
           expire_manifestation_fragment(manifestation)
         end
       end
     when record.is_a?(Realize)
-      expire_fragment(:controller => :patrons, :action => :show, :id => record.patron_id)
-      expire_fragment(:controller => :expressions, :action => :show, :id => record.expression_id)
+      expire_editable_fragment(record.patron)
+      expire_editable_fragment(record.expression)
       record.expression.manifestations.each do |manifestation|
         expire_manifestation_fragment(manifestation)
       end
     when record.is_a?(Produce)
-      expire_fragment(:controller => :patrons, :action => :show, :id => record.patron_id)
+      expire_editable_fragment(record.patron)
       expire_manifestation_fragment(record.manifestation)
       record.manifestation.expressions.each do |expression|
-        expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
+        expire_editable_fragment(expression)
         expression.manifestations.each do |manifestation|
           expire_manifestation_fragment(manifestation)
         end
       end
     when record.is_a?(Own)
-      expire_fragment(:controller => :patrons, :action => :show, :id => record.patron_id)
-      expire_fragment(:controller => :items, :action => :show, :id => record.item_id)
+      expire_editable_fragment(record.patron)
+      expire_editable_fragment(record.item)
       expire_manifestation_fragment(record.item.manifestation)
     when record.is_a?(Reify)
-      expire_fragment(:controller => :works, :action => :show, :id => record.work_id)
-      expire_fragment(:controller => :expressions, :action => :show, :id => record.expression_id)
+      expire_editable_fragment(record.work)
+      expire_editable_fragment(record.expression)
       record.expression.manifestations.each do |manifestation|
         expire_manifestation_fragment(manifestation)
       end
     when record.is_a?(Embody)
-      expire_fragment(:controller => :expressions, :action => :show, :id => record.expression_id)
+      expire_editable_fragment(record.expression)
       expire_manifestation_fragment(record.manifestation)
       record.manifestation.expressions.each do |expression|
-        expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
+        expire_editable_fragment(expression)
       end
       record.expression.manifestations.each do |manifestation|
         expire_manifestation_fragment(manifestation)
       end
     when record.is_a?(Exemplify)
       expire_manifestation_fragment(record.manifestation)
-      expire_fragment(:controller => :items, :action => :show, :id => record.item_id)
-    when record.is_a?(Manifestation)
-      expire_manifestation_fragment(record)
-      record.expressions.each do |expression|
-        expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
-      end
-    when record.is_a?(Item)
-      expire_fragment(:controller => :items, :action => :show, :id => record.id)
-      expire_manifestation_fragment(record.manifestation)
-    when record.is_a?(Expression)
-      expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
-      record.manifestations.each do |manifestation|
-        expire_manifestation_fragment(manifestation)
-      end
-    when record.is_a?(Work)
-      expire_fragment(:controller => :works, :action => :show, :id => record.id)
-      record.expressions.each do |expression|
-        expire_fragment(:controller => :expressions, :action => :show, :id => record.id)
-        expression.manifestations.each do |manifestation|
-          expire_manifestation_fragment(manifestation)
-        end
-      end
-    when record.is_a?(Library)
-      expire_fragment(:controller => :libraries, :action => :index, :action_suffix => 'menu')
-    when record.is_a?(Concept)
-      expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
-    when record.is_a?(Place)
-      expire_fragment(:controller => :places, :action => :show, :id => record.id)
+      expire_editable_fragment(record.item)
     end
   end
 
@@ -102,12 +102,31 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     after_save(record)
   end
 
+  def expire_editable_fragment(record)
+    case
+    when record.is_a?(Patron)
+      expire_fragment(:controller => :patrons, :action => :show, :id => record.id, :editable => true)
+      expire_fragment(:controller => :patrons, :action => :show, :id => record.id, :editable => false)
+    when record.is_a?(Work)
+      expire_fragment(:controller => :works, :action => :show, :id => record.id, :editable => true)
+      expire_fragment(:controller => :works, :action => :show, :id => record.id, :editable => false)
+    when record.is_a?(Expression)
+      expire_fragment(:controller => :expressions, :action => :show, :id => record.id, :editable => true)
+      expire_fragment(:controller => :expressions, :action => :show, :id => record.id, :editable => false)
+    when record.is_a?(Item)
+      expire_fragment(:controller => :items, :action => :show, :id => record.id, :editable => true)
+      expire_fragment(:controller => :items, :action => :show, :id => record.id, :editable => false)
+    end
+  end
+
   def expire_manifestation_fragment(manifestation)
     fragments = %w[detail_1 detail_2 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags]
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
-      expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment) if manifestation
+      if manifestation
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true)
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false)
+      end
     end
   end
-
 end

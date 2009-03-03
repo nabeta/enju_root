@@ -1,7 +1,6 @@
 class SubjectTypesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :login_required
-  require_role 'Administrator'
+  before_filter :has_permission?
 
   # GET /subject_types
   # GET /subject_types.xml

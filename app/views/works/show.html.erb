@@ -16,10 +16,10 @@
     </ul>
   <%- end -%>
       <ul>
-        <li><%= link_to t('patron.add'), work_patrons_path(@work) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.patron')), work_patrons_path(@work) -%></li>
       </ul>
       <ul>
-        <li><%= link_to t('expression.add'), work_expressions_path(@work) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
       </ul>
 </div>
 
@@ -27,7 +27,9 @@
 
 <div id="content_detail">
 
-  <%- cache(:id => @work.id) do -%>
+  <%-
+    cache(:id => @work.id, :editable => @work.is_updatable_by(current_user)) do
+  -%>
   <h1 id="resource_title">
     [W]
     <%=h @work.original_title -%>
@@ -55,11 +57,15 @@
         <table id="index">
           <tr>
             <td><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
-            <td><%=h @work.title_transcription -%></td>
+            <td>
+              <%=h @work.title_transcription -%>
+            </td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
-            <td><%=h @work.context -%></td>
+            <td>
+              <%= editable_content_tag(:span, @work, 'context', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+            </td>
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>
@@ -175,5 +181,7 @@
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
-<%- end -%>
+<%-
+  end
+-%>
 </div>

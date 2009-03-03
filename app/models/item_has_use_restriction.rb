@@ -1,4 +1,5 @@
 class ItemHasUseRestriction < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :item, :validate => true
   belongs_to :use_restriction, :validate => true
   cattr_reader :per_page

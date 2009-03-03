@@ -5,6 +5,9 @@
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
+      <%- if @expression.serial? -%>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%></li>
+      <%- end -%>
       <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- case when @work -%>
         <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
@@ -16,17 +19,19 @@
     </ul>
   <%- end -%>
     <ul>
-      <li><%= link_to t('patron.add'), expression_patrons_path(@expression) -%></li>
+      <li><%= link_to t('page.editing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
     </ul>
     <ul>
-      <li><%= link_to t('manifestation.add'), expression_manifestations_path(@expression) -%></li>
+      <li><%= link_to t('page.editing', :model => t('activerecord.models.manifestations')), expression_manifestations_path(@expression) -%></li>
       <%- if @expression.serial? -%>
-        <li><%= link_to ('Add next issue'), new_expression_manifestation_path(@expression) -%></li>
+        <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@expression) -%></li>
       <%- end -%>
     </ul>
 </div>
 <div id="content_detail">
-  <%- cache(:id => @expression.id) do -%>
+  <%-
+    cache(:id => @expression.id, :editable => @expression.is_updatable_by(current_user)) do
+  -%>
   <h1 id="resource_title">
     [E]
     <%=h @expression.original_title -%>

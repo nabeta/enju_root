@@ -15,8 +15,8 @@ class CreatePeople < ActiveRecord::Migration
       t.text :full_name_alternative
       t.timestamps
       t.datetime :deleted_at
-      t.string :zip_code_1
-      t.string :zip_code_2
+      t.string :postal_code_1
+      t.string :postal_code_2
       t.text :address_1
       t.text :address_2
       t.text :address_1_note
@@ -38,14 +38,14 @@ class CreatePeople < ActiveRecord::Migration
       t.integer :produces_count, :default => 0, :null => false
       t.integer :owns_count, :default => 0, :null => false
       t.integer :resource_has_subjects_count, :default => 0, :null => false
-      t.integer :access_role_id, :default => 0, :null => false
+      t.integer :required_role_id, :default => 0, :null => false
       t.integer :required_score, :default => 0, :null => false
       t.string :state
     end
     add_index :people, :parent_id
     add_index :people, :language_id
     add_index :people, :country_id
-    add_index :people, :access_role_id
+    add_index :people, :required_role_id
     add_index :people, :full_name
   end
 

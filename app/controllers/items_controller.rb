@@ -1,6 +1,5 @@
 class ItemsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_patron, :only => [:index]
   before_filter :get_manifestation, :get_inventory_file
@@ -14,7 +13,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.xml
   def index
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
     if logged_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
@@ -26,12 +25,12 @@ class ItemsController < ApplicationController
     end
     per_page = Item.per_page if per_page.nil?
 
-    unless @query.blank?
+    unless query.blank?
       @count = {}
-      query = @query
+      @query = query.dup
       unless params[:mode] == 'add'
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
-        query += " patron_ids: #{@patron.id}" if @patron
+        query.add_query!(@manifestation) if @manifestation
+        query.add_query!(@patron) if @patron
       end
       @items = Item.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:holding_library]}, :page => params[:page], :per_page => per_page).compact
       @count[:total] = @items.total_entries

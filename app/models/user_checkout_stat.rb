@@ -1,5 +1,6 @@
 class UserCheckoutStat < ActiveRecord::Base
   include AASM
+  include OnlyLibrarianCanModify
   has_many :checkout_stat_has_users
   has_many :users, :through => :checkout_stat_has_users
 

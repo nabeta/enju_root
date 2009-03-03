@@ -1,4 +1,5 @@
 class Bookmark < ActiveRecord::Base
+  include LibrarianOwnerRequired
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
@@ -92,5 +93,29 @@ class Bookmark < ActiveRecord::Base
     else
       0
     end
+  end
+
+  def self.is_indexable_by(user, parent = nil)
+    true if user.has_role?('User')
+  rescue
+    false
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if user.has_role?('Librarian')
+  rescue
+    false
+  end
+
+  #def is_updatable_by(user, parent = nil)
+  #  true if user.has_role?('Librarian')
+  #rescue
+  #  false
+  #end
+
+  def is_deletable_by(user, parent = nil)
+    true if user == self.user || user.has_role?('Librarian')
+  rescue
+    false
   end
 end

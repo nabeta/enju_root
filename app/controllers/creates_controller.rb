@@ -1,8 +1,7 @@
 class CreatesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_patron
   before_filter :get_work
-  require_role 'Librarian', :except => [:index, :show]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /creates

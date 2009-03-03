@@ -1,6 +1,5 @@
 class ReserveStatHasManifestationsController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /reserve_stat_has_manifestations
   # GET /reserve_stat_has_manifestations.xml

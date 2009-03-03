@@ -20,6 +20,7 @@
 <%- end -%>
 </table>
 
-<br />
+<%= will_paginate(@message_templates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+<br />
 <%= link_to t('page.new', :model => t('activerecord.models.message_template')), new_message_template_path -%>

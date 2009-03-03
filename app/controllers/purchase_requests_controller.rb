@@ -1,7 +1,6 @@
 class PurchaseRequestsController < ApplicationController
-  before_filter :login_required
+  before_filter :has_permission?
   before_filter :get_user_if_nil
-  before_filter :authorized_content
   before_filter :get_order_list
   after_filter :csv_convert_charset, :only => :index
   before_filter :store_page, :only => :index
@@ -9,6 +8,14 @@ class PurchaseRequestsController < ApplicationController
   # GET /purchase_requests
   # GET /purchase_requests.xml
   def index
+    begin
+      if !current_user.has_role?('Librarian')
+        raise unless current_user == @user
+      end
+    rescue
+      access_denied; return
+    end
+
     @count = {}
     @per_page = 65534 if params[:format] == 'csv'
     case
@@ -34,11 +41,6 @@ class PurchaseRequestsController < ApplicationController
       end
     end
     @count[:query_result] = @purchase_requests.size
-
-    @startrecord = (params[:page].to_i - 1) * PurchaseRequest.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -67,6 +69,14 @@ class PurchaseRequestsController < ApplicationController
   # GET /purchase_requests/new
   # GET /purchase_requests/new.xml
   def new
+    begin
+      if !current_user.has_role?('Librarian')
+        raise unless current_user == @user
+      end
+    rescue
+      access_denied; return
+    end
+
     if @user
       @purchase_request = @user.purchase_requests.new
     else

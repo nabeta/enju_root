@@ -1,5 +1,6 @@
 class Language < ActiveRecord::Base
   include DisplayName
+  include OnlyAdministratorCanModify
 
   # If you wish to change the field names for brevity, feel free to enable/modify these.
   # alias_attribute :iso1, :iso_639_1

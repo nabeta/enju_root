@@ -10,35 +10,37 @@ class ManifestationsControllerTest < ActionController::TestCase
   fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
-    old_search_history_count = SearchHistory.count
+    assert_no_difference('SearchHistory.count') do
+      get :index, :format => 'xml'
+    end
     get :index
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count, SearchHistory.count
   end
 
   def test_guest_should_get_index_xml
-    old_search_history_count = SearchHistory.count
-    get :index, :format => 'xml'
+    assert_no_difference('SearchHistory.count') do
+      get :index, :format => 'xml'
+    end
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count, SearchHistory.count
   end
 
   def test_guest_should_get_index_csv
-    old_search_history_count = SearchHistory.count
-    get :index, :format => 'csv'
+    assert_no_difference('SearchHistory.count') do
+      get :index, :format => 'csv'
+    end
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count, SearchHistory.count
   end
 
-  def test_guest_should_create_search_history
-    old_search_history_count = SearchHistory.count
-    get :index, :query => 'test'
+  def test_user_should_create_search_history
+    login_as :user1
+    assert_difference('SearchHistory.count') do
+      get :index, :query => 'test'
+    end
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal old_search_history_count + 1, SearchHistory.count
   end
 
   def test_guest_should_get_index_with_patron_id
@@ -163,11 +165,17 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_not_get_new_without_expression_id
+  #def test_librarian_should_not_get_new_without_expression_id
+  #  login_as :librarian1
+  #  get :new
+  #  assert_response :redirect
+  #  assert_redirected_to expressions_url
+  #end
+  
+  def test_librarian_should_get_new_without_expression_id
     login_as :librarian1
     get :new
-    assert_response :redirect
-    assert_redirected_to expressions_url
+    assert_response :success
   end
   
   def test_librarian_should_get_new_with_expression_id
@@ -179,9 +187,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_admin_should_get_new_without_expression_id
     login_as :admin
     get :new
-    assert_response :redirect
-    assert_redirected_to expressions_url
-    assert_equal 'Specify the expression.', flash[:notice]
+    assert_response :success
   end
   
   def test_admin_should_get_new_with_expression_id
@@ -207,15 +213,27 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_create_manifestation_without_expression
+  #def test_librarian_should_not_create_manifestation_without_expression
+  #  login_as :librarian1
+  #  old_count = Manifestation.count
+  #  post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
+  #  assert_equal old_count, Manifestation.count
+  #  
+  #  assert_response :redirect
+  #  assert_redirected_to expressions_url
+  #  assert_equal 'Specify the expression.', flash[:notice]
+  #end
+
+  def test_librarian_should_create_manifestation_without_expression
     login_as :librarian1
     old_count = Manifestation.count
     post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
-    assert_equal old_count, Manifestation.count
+    assert_equal old_count + 1, Manifestation.count
     
     assert_response :redirect
-    assert_redirected_to expressions_url
-    assert_equal 'Specify the expression.', flash[:notice]
+    assert assigns(:manifestation)
+    assert assigns(:manifestation).embodies
+    assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
   end
 
   def test_librarian_should_not_create_manifestation_without_title

@@ -1,6 +1,5 @@
 class WorksController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
   #before_filter :get_parent
   before_filter :get_patron
   before_filter :get_work_merge_list
@@ -9,12 +8,12 @@ class WorksController < ApplicationController
   # GET /works
   # GET /works.xml
   def index
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
     unless @query.blank?
       @count = {}
-      query = @query
+      @query = query.dup
       unless params[:mode] == 'add'
-        query += " patron_ids: #{@patron.id}" if @patron
+        query.add_query!(@patron) if @patron
         query += " parent_id: #{@parent.id}" if @parent
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
@@ -57,6 +56,7 @@ class WorksController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @work }
+      format.json { render :json => @work }
     end
   end
 
@@ -104,9 +104,11 @@ class WorksController < ApplicationController
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
         format.xml  { head :ok }
+        format.json { render :json => @work }
       else
         format.html { render :action => "edit" }
         format.xml  { render :xml => @work.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work, :status => :unprocessable_entity }
       end
     end
   end
@@ -129,4 +131,5 @@ class WorksController < ApplicationController
   rescue
     nil
   end
+
 end

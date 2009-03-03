@@ -9,10 +9,10 @@ class CorporateBody < ActiveRecord::Base
   #has_one :library, :as => :holding_patron
 
   validates_presence_of :full_name
-  acts_as_solr :fields => [:name, {:access_role_id => :integer}]
+  acts_as_solr :fields => [:name, {:required_role_id => :integer}]
   acts_as_soft_deletable
 
-  def check_access_role(user)
+  def check_required_role(user)
     true
   end
 

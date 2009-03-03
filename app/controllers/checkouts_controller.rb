@@ -1,10 +1,8 @@
 class CheckoutsController < ApplicationController
   before_filter :access_denied, :only => [:new, :create]
-  before_filter :login_required, :except => :index
+  before_filter :has_permission?
   before_filter :get_user_if_nil, :only => :index
   before_filter :get_user, :except => :index
-  #before_filter :private_content, :except => :index
-  before_filter :authorized_content, :except => :index
   before_filter :get_item
   after_filter :csv_convert_charset, :only => :index
   
@@ -50,11 +48,6 @@ class CheckoutsController < ApplicationController
       access_denied
       return
     end
-
-     @startrecord = (params[:page].to_i - 1) * Checkout.per_page + 1
-     if @startrecord < 1
-       @startrecord = 1
-     end
 
      @days_overdue = params[:days_overdue] ||= 1
 

@@ -1,4 +1,5 @@
 class CheckoutStatHasUser < ActiveRecord::Base
+  include LibrarianRequired
   belongs_to :user_checkout_stat
   belongs_to :user
 

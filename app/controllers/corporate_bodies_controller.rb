@@ -1,8 +1,6 @@
 class CorporateBodiesController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :only => [:new, :create, :destroy]
+  before_filter :has_permission?
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
-  #before_filter :authorized_content, :only => [:edit, :create, :update, :destroy]
   before_filter :store_location
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
@@ -25,18 +23,18 @@ class CorporateBodiesController < ApplicationController
     query = @query.to_s.strip
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " access_role_id: [* TO 2]"
+        query += " required_role_id: [* TO 2]"
       end
     else
-      query += " access_role_id: 1"
+      query += " required_role_id: 1"
     end
 
     unless query.blank?
 
       unless params[:mode] == 'add'
-        query += " work_ids: #{@work.id}" if @work
-        query += " expression_ids: #{@expression.id}" if @expression
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
+        query.add_query!(@work)
+        query.add_query!(@expression)
+        query.add_query!(@manifestation)
         query += " corporate_body_merge_list_ids: #{@corporate_body_merge_list.id}" if @corporate_body_merge_list
       end
 
@@ -59,9 +57,6 @@ class CorporateBodiesController < ApplicationController
 
     end
 
-    @startrecord = (params[:page].to_i - 1) * CorporateBody.per_page + 1
-    @startrecord = 1 if @startrecord < 1
-
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @corporate_bodies }
@@ -75,7 +70,7 @@ class CorporateBodiesController < ApplicationController
   def show
     @corporate_body = CorporateBody.find(params[:id])
 
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -93,7 +88,7 @@ class CorporateBodiesController < ApplicationController
   def new
     prepare_options
     @corporate_body = CorporateBody.new
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -104,12 +99,12 @@ class CorporateBodiesController < ApplicationController
     prepare_options
     @corporate_body = CorporateBody.find(params[:id])
     unless current_user.has_role?('Librarian')
-      unless @corporate_body.check_access_role(current_user)
+      unless @corporate_body.check_required_role(current_user)
         access_denied
         return
       end
     end
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -152,7 +147,7 @@ class CorporateBodiesController < ApplicationController
   # PUT /corporate_bodies/1.xml
   def update
     @corporate_body = CorporateBody.find(params[:id])
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -174,7 +169,7 @@ class CorporateBodiesController < ApplicationController
   # DELETE /corporate_bodies/1.xml
   def destroy
     @corporate_body = CorporateBody.find(params[:id])
-    unless @corporate_body.check_access_role(current_user)
+    unless @corporate_body.check_required_role(current_user)
       access_denied
       return
     end
@@ -213,15 +208,6 @@ class CorporateBodiesController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     not_found
-  end
-
-  def authorized_content
-    unless current_user.has_role?('Librarian')
-      unless @corporate_body.user == current_user
-        access_denied
-        return
-      end
-    end
   end
 
   def prepare_options

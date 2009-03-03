@@ -1,4 +1,5 @@
 class Answer < ActiveRecord::Base
+  include LibrarianOwnerRequired
   named_scope :public_answers, :conditions => {:shared => true}
   named_scope :private_answers, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
@@ -16,4 +17,17 @@ class Answer < ActiveRecord::Base
   def save_questions
     self.question.save
   end
+
+  def self.is_indexable_by(user, parent = nil)
+    true if user.has_role?('User')
+  rescue
+    false
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if user == self.user || self.shared? || user.has_role?('Librarian')
+  rescue
+    false
+  end
+
 end

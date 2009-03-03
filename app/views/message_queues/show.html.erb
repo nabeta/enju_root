@@ -29,7 +29,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.message_queue.sent_at') -%>:</b>
-  <%= @message_queue.sent_at -%>
+  <%= l(@message_queue.sent_at) if @message_queue.sent_at -%>
 </p>
 
 <p>

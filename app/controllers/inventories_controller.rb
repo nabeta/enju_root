@@ -1,6 +1,5 @@
 class InventoriesController < ApplicationController
-  before_filter :login_required
-  require_role 'Librarian'
+  before_filter :has_permission?
 
   # GET /inventories
   # GET /inventories.xml

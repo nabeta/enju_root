@@ -20,7 +20,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   def test_librarian_should_get_index
     login_as :librarian1
     get :index
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_get_index
@@ -112,7 +112,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   def test_librarian_should_show_search_engine
     login_as :librarian1
     get :show, :id => 1
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_admin_should_show_search_engine

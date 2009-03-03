@@ -265,7 +265,8 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :expression_merges
     expression.resources :expression_merge_lists
     expression.resources :resource_has_subjects
-    expression.resource :subscribe
+    expression.resources :subscribe
+    expression.resources :subscriptions
     expression.resources :expression_from_expressions, :controller => :expressions
     expression.resources :expression_to_expressions, :controller => :expressions
   end
@@ -373,6 +374,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders
   map.resources :families
 
+  map.error '/error', :controller => 'sessions', :action => 'new'
+  map.denied '/denied', :controller => 'sessions', :action => 'new'
   #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.calendar '/calendar/:date', :controller => 'events', :action => 'index'
   map.signup '/signup', :controller => 'users', :action => 'new'

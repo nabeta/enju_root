@@ -1,6 +1,5 @@
 class UserReserveStatsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?
 
   # GET /user_reserve_stats
   # GET /user_reserve_stats.xml

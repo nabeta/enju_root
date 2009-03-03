@@ -1,4 +1,5 @@
 class Item < ActiveRecord::Base
+  include OnlyLibrarianCanModify
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins
@@ -23,7 +24,7 @@ class Item < ActiveRecord::Base
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
   has_many :inter_library_loans, :dependent => :destroy
-  belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id', :validate => true
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   #has_one :item_has_checkout_type, :dependent => :destroy
   belongs_to :checkout_type #, :through => :item_has_checkout_type
   has_one :barcode, :as => :barcodable, :dependent => :destroy
@@ -43,7 +44,7 @@ class Item < ActiveRecord::Base
   acts_as_taggable
   acts_as_soft_deletable
 
-  acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:access_role_id => :range_integer}],
+  acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:required_role_id => :range_integer}],
     :facets => [:circulation_status_id],
     :if => proc{|item| !item.restrain_indexing}, :auto_commit => false
 
@@ -75,11 +76,12 @@ class Item < ActiveRecord::Base
     end
   end
 
-  #def after_save
+  def after_save
   #  unless self.item_identifier.blank?
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
   #  end
-  #end
+    self.manifestation.save if self.manifestation
+  end
 
   def before_validation_on_create
     self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'}) if self.circulation_status.nil?
@@ -203,7 +205,7 @@ class Item < ActiveRecord::Base
 
     library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
     if library.nil?
-      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.zip_code, :address => local_library.address, :lat => local_library.lat, :lng => local_library.lng)
+      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.zip_code, :address => local_library.address, :lat => local_library.geocode.latitude, :lng => local_library.geocode.longitude)
     end
 
     resource_url = URI.parse("http://#{FederatedCatalog.site.host}:#{FederatedCatalog.site.port}/manifestations/#{resource.id}").normalize.to_s

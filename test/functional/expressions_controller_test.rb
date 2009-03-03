@@ -79,11 +79,17 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_not_get_new_without_work_id
+  #def test_librarian_should_not_get_new_without_work_id
+  #  login_as :librarian1
+  #  get :new
+  #  assert_response :redirect
+  #  assert_redirected_to works_path
+  #end
+  
+  def test_librarian_should_get_new_without_work_id
     login_as :librarian1
     get :new
-    assert_response :redirect
-    assert_redirected_to works_path
+    assert_response :success
   end
   
   def test_librarian_should_get_new_with_work_id

@@ -11,7 +11,7 @@
 
 <%= error_messages_for :answer -%>
 
-<%- form_for(:answer, :url => user_question_answers_path(@user.login, @answer.question)) do |f| -%>
+<%- form_for(:answer, :url => user_question_answers_path(@answer.question.user.login, @answer.question)) do |f| -%>
 
   <p>
     <b><%= t('activerecord.models.question') -%></b><br />

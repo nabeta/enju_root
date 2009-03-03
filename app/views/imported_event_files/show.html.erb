@@ -37,9 +37,9 @@
       <td><%= link_to h(object.importable.title), object.importable -%></td>
       <td><%= link_to h(object.importable.library.name), object.importable.library -%></td>
       <td>
-        <%=h object.importable.started_at -%>
+        <%= l(object.importable.started_at) -%>
         -
-        <%=h object.importable.ended_at -%>
+        <%= l(object.importable.ended_at) -%>
 
       </td>
     </tr>

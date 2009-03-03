@@ -1,6 +1,5 @@
 class BarcodesController < ApplicationController
-  before_filter :login_required, :except => :show
-  require_role 'Librarian', :except => :show
+  before_filter :has_permission?
 
   # GET /barcodes
   # GET /barcodes.xml

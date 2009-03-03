@@ -1,5 +1,6 @@
 class Reserve < ActiveRecord::Base
   include AASM
+  include LibrarianOwnerRequired
   named_scope :hold, :conditions => ['item_id IS NOT NULL']
   named_scope :not_hold, :conditions => ['item_id IS NULL']
   named_scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
@@ -147,4 +148,9 @@ class Reserve < ActiveRecord::Base
     true
   end
 
+  def self.is_indexable_by(user, parent = nil)
+    true if user.has_role?('User')
+  rescue
+    false
+  end
 end

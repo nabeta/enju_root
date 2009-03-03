@@ -1,8 +1,6 @@
 class QuestionsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  before_filter :get_user_if_nil, :only => [:index, :show]
-  before_filter :get_user, :except => [:index, :show]
-  before_filter :authorized_content, :except => [:index, :show]
+  before_filter :has_permission?
+  before_filter :get_user_if_nil, :except => [:edit]
 
   # GET /questions
   # GET /questions.xml
@@ -13,10 +11,7 @@ class QuestionsController < ApplicationController
 
     @count = {}
     @refkyo_count = 0
-    @startrecord = (params[:page].to_i - 1) * Question.per_page + 1
-    if @startrecord < 1
-      @startrecord = 1
-    end
+
     crd_startrecord = (params[:crd_page].to_i - 1) * Question.crd_per_page + 1
     if crd_startrecord < 1
       crd_startrecord = 1
@@ -24,7 +19,7 @@ class QuestionsController < ApplicationController
 
     query = params[:query].to_s.strip
     unless query.blank?
-      @query = query
+      @query = query.dup
 
       if @user
         if logged_in?
@@ -57,9 +52,6 @@ class QuestionsController < ApplicationController
 
     @count[:query_result] = @questions.size
 
-    @startrecord = (params[:page].to_i - 1) * Question.per_page + 1
-    @startrecord = 1 if @startrecord < 1
-
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @questions.to_xml }
@@ -80,17 +72,7 @@ class QuestionsController < ApplicationController
     if @user
       @question = @user.questions.find(params[:id])
     else
-      access_denied
-      return
-    end
-
-    if @question.shared?
-      if logged_in?
-        unless @question.user == current_user or current_user.has_role?('Librarian')
-          access_denied
-          return
-        end
-      end
+      @question = Question.find(params[:id])
     end
 
     respond_to do |format|
@@ -103,12 +85,16 @@ class QuestionsController < ApplicationController
 
   # GET /questions/new
   def new
-    @question = @user.questions.new
+    @question = current_user.questions.new
   end
 
   # GET /questions/1;edit
   def edit
-    @question = @user.questions.find(params[:id])
+    if @user
+      @question = @user.questions.find(params[:id])
+    else
+      @question = Question.find(params[:id])
+    end
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -116,7 +102,7 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.xml
   def create
-    @question = @user.questions.new(params[:question])
+    @question = current_user.questions.new(params[:question])
 
     respond_to do |format|
       if @question.save
@@ -152,7 +138,11 @@ class QuestionsController < ApplicationController
   # DELETE /questions/1
   # DELETE /questions/1.xml
   def destroy
-    @question = @user.questions.find(params[:id])
+    if @user
+      @question = @user.questions.find(params[:id])
+    else
+      @question = Question.find(params[:id])
+    end
     @question.destroy
 
     respond_to do |format|

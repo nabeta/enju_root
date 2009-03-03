@@ -1,6 +1,5 @@
 class SubjectsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Administrator', :except => [:index, :show]
+  before_filter :has_permission?
   before_filter :get_manifestation
   before_filter :get_classification
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -8,9 +7,9 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.xml
   def index
-    @query = params[:query].to_s.strip
-    unless @query.blank?
-      query = @query
+    query = params[:query].to_s.strip
+    unless query.blank?
+      @query = query.dup
       unless params[:mode] == 'add'
         query += " manifestation_ids: #{@manifestation.id}" if @manifestation
         query += " classification_ids: #{@classification.id}" if @classification

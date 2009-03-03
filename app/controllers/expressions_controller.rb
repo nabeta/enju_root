@@ -1,6 +1,5 @@
 class ExpressionsController < ApplicationController
-  before_filter :login_required, :except => [:index, :show]
-  require_role 'Librarian', :except => [:index, :show]
+  before_filter :has_permission?, :except => :show
   before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_work, :get_manifestation, :get_subscription
@@ -11,15 +10,15 @@ class ExpressionsController < ApplicationController
   # GET /expressions
   # GET /expressions.xml
   def index
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
     unless @query.blank?
       @count = {}
-      query = @query
+      @query = query.dup
       query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
       unless params[:mode] == 'add'
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
-        query += " patron_ids: #{@patron.id}" if @patron
-        query += " work_id: #{@work.id}" if @work
+        query.add_query!(@manifestation) if @manifestation
+        query.add_query!(@patron) if @patron
+        query.add_query!(@work) if @work
         query += " subscription_id: #{@subscription.id}" if @subscription
         query += " expression_merge_list_ids: #{@expression_merge_list.id}" if @expression_merge_list
       end
@@ -85,13 +84,14 @@ class ExpressionsController < ApplicationController
 
   # GET /expressions/new
   def new
-    unless @work
-      flash[:notice] = t('expression.specify_work')
-      redirect_to works_path
-      return
-    end
+    #unless @work
+    #  flash[:notice] = t('expression.specify_work')
+    #  redirect_to works_path
+    #  return
+    #end
     @parent_expression = Expression.find(params[:parent_id]) rescue nil
     @expression = Expression.new
+    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
   end
 
   # GET /expressions/1;edit

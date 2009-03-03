@@ -1,4 +1,5 @@
 class Question < ActiveRecord::Base
+  include LibrarianOwnerRequired
   named_scope :public_questions, :conditions => {:shared => true}
   named_scope :private_questions, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
@@ -52,6 +53,12 @@ class Question < ActiveRecord::Base
     results[:total_count] = total_count
     results[:resources] = refkyo_resources
     return results
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if user == self.user || self.shared? || user.has_role?('Librarian')
+  rescue
+    false
   end
 
 end

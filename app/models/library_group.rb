@@ -1,11 +1,15 @@
 class LibraryGroup < ActiveRecord::Base
   include Singleton
   include DisplayName
+  include OnlyAdministratorCanModify
+  include Configurator
   has_many :libraries, :order => 'position'
   has_many :search_engines
   has_many :news_feeds
 
   validates_presence_of :name, :short_name, :email
+
+  default_configuration :post_to_twitter? => false
 
   def physical_libraries
     # 物理的な図書館 = IDが1以外

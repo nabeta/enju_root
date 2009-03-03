@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   named_scope :administrators, :include => ['roles'], :conditions => ['roles.name = ?', 'Administrator']
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
   named_scope :suspended, :conditions => {:suspended => true}
-  acts_as_solr :fields => [:login, :email, :patron_name, :note, {:access_role_id => :range_integer}],
+  acts_as_solr :fields => [:login, :email, :patron_name, :note, {:required_role_id => :range_integer}],
     :auto_commit => false
 
   belongs_to :patron #, :validate => true
@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   has_many :purchase_requests
   belongs_to :library, :counter_cache => true, :validate => true
   has_many :imported_files
-  belongs_to :access_role, :class_name => 'Role', :foreign_key => 'access_role_id' #, :validate => true
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :imported_resources
   #has_one :imported_object, :as => :importable
   has_many :order_lists
@@ -58,6 +58,7 @@ class User < ActiveRecord::Base
   restful_easy_messages
   acts_as_tagger
   acts_as_soft_deletable
+  has_friendly_id :login
 
   cattr_reader :per_page
   @@per_page = 10
@@ -97,7 +98,7 @@ class User < ActiveRecord::Base
   attr_accessible
   
   def before_validation_on_create
-    self.access_role = Role.find_by_name('Librarian')
+    self.required_role = Role.find_by_name('Librarian')
     set_auto_generated_password
   end
 
@@ -184,6 +185,30 @@ class User < ActiveRecord::Base
 
   def highest_role
     self.roles.find(:first, :order => ['id DESC'])
+  end
+
+  def is_admin?
+    true if self.has_role?('Administrator')
+  end
+
+  def self.is_indexable_by(user, parent = nil)
+    true
+  end
+
+  def self.is_creatable_by(user, parent = nil)
+    true if user.has_role?('Librarian')
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if user == self || user.has_role?('Librarian')
+  end
+
+  def is_updatable_by(user, parent = nil)
+    true if user == self || user.has_role?('Librarian')
+  end
+
+  def is_deletable_by(user, parent = nil)
+    true if user == self || user.has_role?('Librarian')
   end
 
   protected

@@ -1,6 +1,10 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.subscription')), new_subscription_path -%></li>
+    <%- if @expression -%>
+      <li><%= link_to t('page.add', :model => t('activerecord.models.expression')), subscriptions_path -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.subscription')), new_subscription_path -%></li>
+    <%- end -%>
   </ul>
 </div>
 
@@ -10,8 +14,7 @@
 <table id="index">
   <tr>
     <th><%= t('page.title') -%></th>
-    <th><%= ('Subscription term') -%></th>
-    <th><%= ('Count') -%></th>
+    <th><%= t('activerecord.attributes.subscription.subscribes_count') -%></th>
   </tr>
 
 <%- for subscription in @subscriptions -%>

@@ -56,7 +56,7 @@ ja:
       frequency_of_issue: 発行頻度
       expression_merge_list: 表現形の併合リスト
       use_restriction: 利用制限
-      subject: 主題
+      subject: 件名
       expression_form: 表現形の形態
       work_merge: 著作形をマージ
       aaws_response: Aawsの応答
@@ -93,14 +93,14 @@ ja:
       message_queue: 送信待ちのメッセージ
       answer: 回答
       bookstore: 書店
-      checkout_type: 貸出の種類
+      checkout_type: 貸出ルール
       classification_type: 分類型
       country: 国と地域
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      manifestation_form_has_checkout_type: 体現形の種類と貸出の種類
-      user_group_has_checkout_type: ユーザグループと貸出の種類
+      manifestation_form_has_checkout_type: 体現形の種類と貸出ルールの関係
+      user_group_has_checkout_type: ユーザグループと貸出ルールの関係
       tag: タグ
       bookmark_stat: ブックマーク統計
       manifestation_checkout_stat: 資料別貸出統計
@@ -126,8 +126,10 @@ ja:
         name: 名前
         short_name: 短縮名
         short_display_name: 短縮表示名
-        zip_code: 郵便番号
-        address: 住所
+        postal_code: 郵便番号
+        region: 都道府県
+        locality: 市区町村
+        street: 番地
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
         fax_number: ファクス番号
@@ -390,7 +392,7 @@ ja:
         include_supplements: 付録を含む
         note: 注記
         url: URL
-        price: 価格
+        price: 購入価格
         lock_version: ロックバージョン
       barcode:
         barcode_type: バーコード種類
@@ -567,6 +569,7 @@ ja:
         title: タイトル
         note: 注記
         deleted_at: 削除時刻
+        subscribes_count: 購読数
       message_template:
         status: 状態
         title: タイトル
@@ -891,6 +894,8 @@ ja:
     current_status: "現在の状態"
     date: "日時"
     this_month: "今月"
+    click_to_edit: "クリックで編集開始"
+    saving: "保存しています..."
   title:
     index: "一覧"
     show: "表示"
@@ -947,6 +952,8 @@ ja:
     cancel_reservation: "この資料の予約を解除する"
     patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
+    serial: "定期刊行物"
+    number: "巻号"
     issue_number: "号数"
     serial_number: "通号"
     invalid_isbn: "無効なISBNです。"
@@ -965,6 +972,7 @@ ja:
     create_shelf_first: "最初に書棚を作成してください。"
     this_item_include_supplement: "この資料は付録を含んでいます。"
     all_item: "全ての個別資料"
+    add_new_copy: "複本を追加"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
@@ -1035,12 +1043,14 @@ ja:
     map: "地図"
     staff: "職員"
     number_of_item: "所蔵冊数"
+    address: "住所"
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
+    import_event: "催し物のインポート"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"
@@ -1099,3 +1109,7 @@ ja:
     all_history: "全ての検索履歴"
     failed_search: "失敗した検索"
     searched_at: "検索時刻"
+  subscribe:
+    this_subscription_is_expired: "購読期間が過ぎています。"
+  role:
+    required_role: "参照に必要な権限"

@@ -1,4 +1,5 @@
 class UserGroupHasCheckoutType < ActiveRecord::Base
+  include AdministratorRequired
   named_scope :available_for_manifestation_form, lambda {|manifestation_form| {:include => {:checkout_type => :manifestation_forms}, :conditions => ['manifestation_forms.id = ?', manifestation_form.id]}}
   named_scope :available_for_item, lambda {|item| {:conditions => {:checkout_type_id => item.checkout_type.id}}}
   named_scope :available_for_manifestation, lambda {|manifestation| {:conditions => {:checkout_type_id => manifestation.items.collect(&:checkout_type_id)}}}

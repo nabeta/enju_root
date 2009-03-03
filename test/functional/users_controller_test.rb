@@ -1,4 +1,8 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
+require 'users_controller'
+
+# Re-raise errors caught by the controller.
+class UsersController; def rescue_action(e) raise e end; end
 
 class UsersControllerTest < ActionController::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
@@ -8,12 +12,6 @@ class UsersControllerTest < ActionController::TestCase
   fixtures :users, :roles, :roles_users, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements, :tags, :taggings,
     :manifestations, :manifestation_forms, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces,
     :people, :corporate_bodies, :families
-
-  def setup
-    @controller = UsersController.new
-    @request    = ActionController::TestRequest.new
-    @response   = ActionController::TestResponse.new
-  end
 
   #def test_should_allow_signup
   #  assert_difference 'User.count' do

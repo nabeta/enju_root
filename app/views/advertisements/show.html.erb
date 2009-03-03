@@ -23,12 +23,12 @@
 
 <p>
   <b><%= t('activerecord.attributes.advertisement.started_at') -%>:</b>
-  <%=h @advertisement.started_at -%>
+  <%= l(@advertisement.started_at) if @advertisement.started_at -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.advertisement.ended_at') -%>:</b>
-  <%=h @advertisement.ended_at -%>
+  <%= l(@advertisement.ended_at) if @advertisement.ended_at -%>
 </p>
 
 <p>

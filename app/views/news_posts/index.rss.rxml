@@ -13,8 +13,8 @@ xml.rss('version' => "2.0",
     xml.tag! "atom:link", :rel => 'alternate', :href => root_url
     xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => opensearch_url
     unless params[:query].blank?
-      xml.tag! "opensearch:startIndex", @startrecord
-      xml.tag! "opensearch:itemsPerPage", @per_page
+      xml.tag! "opensearch:startIndex", @news_posts.offset + 1
+      xml.tag! "opensearch:itemsPerPage", @news_posts.per_page
     end
     if @news_posts
       for news_post in @news_posts
@@ -27,7 +27,6 @@ xml.rss('version' => "2.0",
           xml.guid news_post_url(news_post), :isPermaLink => "true"
         end
       end
-      @startrecord += 1
     end
   }
 }

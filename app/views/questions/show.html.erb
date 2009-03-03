@@ -1,8 +1,10 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
-    <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
-    <li><%= link_to t('page.back'), back_to_question_index -%></li>
+    <%- if updatable(@question) -%>
+      <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.back'), questions_path -%></li>
   </ul>
 </div>
 

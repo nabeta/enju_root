@@ -17,9 +17,9 @@ class UsersController < ApplicationController
     order = nil
     @count = {}
     unless query.blank?
+      @query = query.dup
       @users = User.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
       @count[:query_result] = @users.total_entries
-      @query = query
     else
       @users = User.paginate(:all, :page => params[:page])
       @count[:query_result] = User.count_by_solr("[* TO *]")
@@ -121,7 +121,7 @@ class UsersController < ApplicationController
       
       unless @user.expired_at.blank?
         begin
-          expired_at = Time.mktime(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"])
+          expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"])
         rescue
           flash[:notice] = t('page.invalid_date')
           redirect_to edit_user_url(@user.login)
@@ -138,7 +138,7 @@ class UsersController < ApplicationController
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
-        @user.access_role_id = params[:user][:access_role_id] ||= 1
+        @user.required_role_id = params[:user][:required_role_id] ||= 1
         @user.expired_at = expired_at
         @user.keyword_list = params[:user][:keyword_list]
         @user.user_number = params[:user][:user_number]
@@ -167,7 +167,7 @@ class UsersController < ApplicationController
     #@user = current_user
     #logout_keeping_session!
     #cookies.delete :auth_token
-    expired_at = Time.mktime(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
+    expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
     @user = User.new(params[:user])
     @user.login = params[:user][:login]
     @user.email = params[:user][:email]
@@ -176,7 +176,7 @@ class UsersController < ApplicationController
     @user.note = params[:user][:note]
     @user.user_group_id = params[:user][:user_group_id] ||= 1
     @user.library_id = params[:user][:library_id] ||= 1
-    #@user.access_role_id = params[:user][:access_role_id] ||= 1
+    #@user.required_role_id = params[:user][:required_role_id] ||= 1
     @user.expired_at = expired_at
     @user.keyword_list = params[:user][:keyword_list]
     @user.user_number = params[:user][:user_number]

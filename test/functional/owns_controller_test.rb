@@ -4,10 +4,10 @@ class OwnsControllerTest < ActionController::TestCase
   fixtures :owns, :users, :manifestations, :patrons
   fixtures :people, :corporate_bodies, :families
 
-  def test_guest_should_not_get_index
+  def test_guest_should_get_index
     get :index
-    assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_response :success
+    assert assigns(:owns)
   end
 
   def test_user_should_get_index
@@ -101,10 +101,9 @@ class OwnsControllerTest < ActionController::TestCase
     assert_redirected_to own_url(assigns(:own))
   end
 
-  def test_guest_should_not_show_own
+  def test_guest_should_show_own
     get :show, :id => 1
-    assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_response :success
   end
 
   def test_user_should_show_own
