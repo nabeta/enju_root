@@ -7,7 +7,8 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.listing', :model => t('activerecord.models.shelf')) -%></h1>
+  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.shelf')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -27,6 +28,6 @@
 <%- end -%>
 </table>
 
-<br />
 <%= will_paginate(@shelves, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

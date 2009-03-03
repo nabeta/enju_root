@@ -67,8 +67,10 @@ class User < ActiveRecord::Base
   attr_accessor :password
   attr_accessor :temporary_password
   attr_reader :auto_generated_password
+  attr_accessor :first_name, :middle_name, :last_name, :full_name
+  attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note
 
-  validates_presence_of     :login, :user_number
+  validates_presence_of     :login, :user_number, :full_name
   validates_length_of       :login,    :within => 3..40
   validates_uniqueness_of   :login,    :case_sensitive => false
   validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
@@ -91,6 +93,11 @@ class User < ActiveRecord::Base
   validates_length_of :openid_url, :maximum => 255, :allow_nil => true
 
   before_create :reset_checkout_icalendar_token, :reset_answer_rss_token
+
+  def before_validation
+    self.full_name = self.patron.full_name if self.patron
+  end
+
   def after_save
     self.patron.save
   end

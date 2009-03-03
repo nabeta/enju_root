@@ -10,6 +10,7 @@
   </ul>
 </div>
 
+<%- cache(:id => @subject.id, :editable => @subject.is_updatable_by(current_user)) do -%>
 <div id="content_detail">
 <p>
   <b><%= t('activerecord.attributes.subject.term') -%>:</b>
@@ -34,3 +35,4 @@
   <%- end -%>
 </table>
 </div>
+<%- end -%>

@@ -1,5 +1,7 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
 
+<div id="content_list">
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.item') -%></th>
@@ -30,8 +32,13 @@
 </table>
 
 <%= will_paginate(@inter_library_loans, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
+<div id="submenu">
 <%- if_authorized?(:new, InterLibraryLoan) do -%>
-  <%= link_to t('page.new', :model => t('activerecord.models.inter_library_loan')), new_inter_library_loan_path -%>
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.inter_library_loan')), new_inter_library_loan_path -%></li>
+  </ul>
 <%- end -%>
+</div>

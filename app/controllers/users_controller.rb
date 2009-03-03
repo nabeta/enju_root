@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    #@user = User.new
+    @user = User.new
     @user_groups = UserGroup.find(:all, :order => :position)
     begin
       @patron = Patron.find(params[:patron_id])
@@ -62,6 +62,8 @@ class UsersController < ApplicationController
     rescue
       nil
     end
+    @user.patron = @patron
+    @user.expired_at = 5.year.from_now
   #rescue
     #flash[:notice] = t('user.specify_patron')
     #redirect_to patrons_url
@@ -79,6 +81,7 @@ class UsersController < ApplicationController
 
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user.full_name = @user.patron.full_name
     User.transaction do
       if params[:user][:reset_url] == 'checkout_icalendar'
         @user.reset_checkout_icalendar_token
@@ -185,8 +188,27 @@ class UsersController < ApplicationController
     @user.keyword_list = params[:user][:keyword_list]
     @user.user_number = params[:user][:user_number]
     patron = Patron.find(params[:user][:patron_id]) rescue nil
-    unless patron
-      patron = Patron.create!(:full_name => @user.login)
+    if patron
+      @user.full_name = patron.full_name
+    else
+      @user.first_name = params[:user][:first_name]
+      @user.middle_name = params[:user][:middle_name]
+      @user.zip_code = params[:user][:zip_code]
+      @user.address = params[:user][:address]
+      @user.telephone_number = params[:user][:telephone_number]
+      @user.fax_number = params[:user][:fax_number]
+      @user.address_note = params[:user][:address_note]
+      # TODO: 日本人以外の姓と名の順序
+      @user.full_name = @user.last_name.to_s + @user.first_name.to_s
+      patron = Patron.create(:first_name => @user.first_name,
+                             :middle_name => @user.middle_name,
+                             :last_name => @user.last_name,
+                             :full_name => @user.full_name,
+                             :zip_code_1 => @user.zip_code,
+                             :address_1 => @user.address,
+                             :telephone_number_1 => @user.telephone_number,
+                             :fax_number_1 => @user.fax_number,
+                             :address_1_note => @user.address_note)
     end
     @user.patron = patron
     success = @user && @user.save
@@ -194,8 +216,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if success && @user.errors.empty?
         flash[:temporary_password] = @user.temporary_password
-        @user.roles << Role.find(:first, :conditions => {:name => 'User'})
-        @user.activate # TODO: すぐにアクティベーションするかは要検討
+        User.transaction do
+          @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+          @user.activate # TODO: すぐにアクティベーションするかは要検討
+        end
         #self.current_user = @user
         flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
         format.html { redirect_to user_url(@user.login) }

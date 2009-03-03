@@ -1,4 +1,5 @@
-<div id="result_list">
+<div id="content_detail">
+<div id="content_list">
   <div id="searchform">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
@@ -84,8 +85,9 @@
     </div>
 
 </div>
+</div>
 
-<div id="sidebar">
+<div id="submenu">
   <%- unless @query.blank? -%>
     <div>
       <%- if params[:library_id].blank? -%>

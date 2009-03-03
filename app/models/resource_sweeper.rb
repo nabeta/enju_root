@@ -42,8 +42,17 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_manifestation_fragment(bookmark.bookmarked_resource.manifestation)
       end
     when record.is_a?(Subject)
+      expire_editable_fragment(record)
       record.manifestations.each do |manifestation|
         expire_manifestation_fragment(manifestation)
+      end
+      record.manifestations.each do |classification|
+        expire_manifestation_fragment(classification)
+      end
+    when record.is_a?(Classification)
+      expire_editable_fragment(record)
+      record.subjects.each do |subject|
+        expire_manifestation_fragment(subject)
       end
     when record.is_a?(Concept)
       expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
@@ -103,20 +112,8 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_editable_fragment(record)
-    case
-    when record.is_a?(Patron)
-      expire_fragment(:controller => :patrons, :action => :show, :id => record.id, :editable => true)
-      expire_fragment(:controller => :patrons, :action => :show, :id => record.id, :editable => false)
-    when record.is_a?(Work)
-      expire_fragment(:controller => :works, :action => :show, :id => record.id, :editable => true)
-      expire_fragment(:controller => :works, :action => :show, :id => record.id, :editable => false)
-    when record.is_a?(Expression)
-      expire_fragment(:controller => :expressions, :action => :show, :id => record.id, :editable => true)
-      expire_fragment(:controller => :expressions, :action => :show, :id => record.id, :editable => false)
-    when record.is_a?(Item)
-      expire_fragment(:controller => :items, :action => :show, :id => record.id, :editable => true)
-      expire_fragment(:controller => :items, :action => :show, :id => record.id, :editable => false)
-    end
+    expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => true)
+    expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => false)
   end
 
   def expire_manifestation_fragment(manifestation)

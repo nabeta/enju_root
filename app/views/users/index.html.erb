@@ -9,6 +9,7 @@
 
 <div id="content_detail">
 <h1><%= t('page.listing', :model => t('activerecord.models.user')) -%></h1>
+<div id="content_list">
 
 <%- form_for :users, :url => users_path, :html => {:method => 'get'} do -%>
   <p>
@@ -43,4 +44,5 @@
 <br />
 <%= will_paginate(@users, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

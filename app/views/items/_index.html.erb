@@ -13,6 +13,7 @@
   <%- else -%>
     <h1><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
+<div id="content_list">
 
 <%- form_for :items, :url => items_path, :html => {:method => 'get'} do -%>
   <p>
@@ -60,4 +61,5 @@
 </table>
 
 <%= will_paginate(@items, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

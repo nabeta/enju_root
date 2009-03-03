@@ -9,7 +9,8 @@
 </div>
               
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :reserve -%>
 
@@ -44,4 +45,5 @@
     <%= submit_tag t('page.create'), :confirm => t('page.are_you_sure') -%>
   </p>
 <%- end -%>
+</div>
 </div>

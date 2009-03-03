@@ -18,6 +18,7 @@
 <div id="content_detail">
 <h1 id="resource_title"><%=h @library.name -%></h1>
 
+<div id="content_list">
 <p>
   <%= t('activerecord.attributes.library.short_display_name') -%>: <%=h @library.short_display_name -%>
 <br />
@@ -107,4 +108,5 @@
     </div>
   </div>
   <%= render :partial => 'page/tabview' -%>
+</div>
 </div>

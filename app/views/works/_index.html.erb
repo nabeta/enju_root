@@ -7,7 +7,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
 
 <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
   <p>

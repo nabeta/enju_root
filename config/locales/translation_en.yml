@@ -903,6 +903,7 @@ en:
     new: "New {{model}}"
     editing: "Editing {{model}}"
     patron_management: "Patron management"
+    user_management: "User management"
     back_to: "Back to {{model}} index"
     add_picture: "Add a picture"
     invalid_date: "Invalid date."

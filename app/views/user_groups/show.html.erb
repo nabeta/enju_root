@@ -32,6 +32,6 @@
   <%- end -%>
 </ul>
 
-<p><%= link_to ('Add a checkout type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></p>
+<p><%= link_to t('page.add', :model => t('activerecord.models.checkout_type')), new_user_group_user_group_has_checkout_type_path(@user_group) -%></p>
 
 </div>

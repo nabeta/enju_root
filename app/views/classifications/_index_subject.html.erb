@@ -7,9 +7,10 @@
 </div>
                      
 <div id="content_detail">
-  <h1>
+  <h1 title="class">
     <%= link_to h(@subject.term), @subject -%>
   </h1>
+<div id="content_list">
 
   <%- form_for :classifications, :url => subject_classifications_path(@subject), :html => {:method => 'get'} do -%>
     <p>
@@ -37,4 +38,5 @@
 </table>
 
 <%= will_paginate(@classifications, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

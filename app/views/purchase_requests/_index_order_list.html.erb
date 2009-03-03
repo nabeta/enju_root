@@ -7,7 +7,8 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
+  <h1 clsas="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
+<div id="content_list">
   <p><%= t('activerecord.attributes.order_list.ordered_at') -%> <%=h @order_list.ordered_at -%></p>
 
 <p>
@@ -52,4 +53,5 @@
 
 <%= will_paginate(@purchase_requests, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

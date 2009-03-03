@@ -5,7 +5,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('checkout.listing_overdue_item') -%></h1>
+<h1 class="title"><%= t('checkout.listing_overdue_item') -%></h1>
+<div id="content_list">
 
   <%- form_for(:checkouts, :url => checkouts_path, :html => {:method => 'get'}) do -%>
     <div>
@@ -28,4 +29,5 @@
   <p><%= t('checkout.no_checkout') -%></p>
 <%- end -%>
 
+</div>
 </div>

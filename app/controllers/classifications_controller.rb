@@ -1,6 +1,7 @@
 class ClassificationsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_subject
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /classifications
   # GET /classifications.xml

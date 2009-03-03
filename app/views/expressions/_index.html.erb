@@ -7,7 +7,8 @@
 </div>
   
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
 
 <%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
@@ -48,4 +49,5 @@
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>
