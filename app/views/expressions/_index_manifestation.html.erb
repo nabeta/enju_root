@@ -1,10 +1,11 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('work.add'), works_path -%></li>
+    <li><%= link_to t('expression.add'), expressions_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<div id="content_list">
   <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   
   <%- form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
@@ -51,4 +52,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

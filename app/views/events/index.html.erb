@@ -10,7 +10,19 @@
         <li><%= link_to t('event.import_event'), imported_event_files_path -%></li>
       <%- end -%>
     <%- end -%>
+    <li><%= link_to t('event.all_libraries'), events_path -%></li>
   </ul>
+  <p>
+    <%- if @library -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_library_events_path(@library.short_name, :rss) -%>
+      (<%= link_to ('RSS'), formatted_library_events_path(@library.short_name, :rss) -%>)
+      (<%= link_to ('CSV'), formatted_library_events_path(@library.short_name, :csv, :lang => 'ja') -%>)
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_events_path(:rss) -%>
+      (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
+      (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
+    <%- end -%>
+  </p>
   <%= render :partial => 'page/login' unless logged_in? -%>
 </div>
 
@@ -18,18 +30,6 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
 
 <div id="content_list">
-<p>
-  <%- if @library -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_library_events_path(@library.short_name, :rss) -%>
-    (<%= link_to ('RSS'), formatted_library_events_path(@library.short_name, :rss) -%>)
-    (<%= link_to ('CSV'), formatted_library_events_path(@library.short_name, :csv, :lang => 'ja') -%>)
-  <%- else -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_events_path(:rss) -%>
-    (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
-    (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
-  <%- end -%>
-  <%= link_to t('event.all_libraries'), events_path -%>
-</p>
 
 <table id="index">
   <tr>

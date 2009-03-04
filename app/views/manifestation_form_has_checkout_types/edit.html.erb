@@ -13,15 +13,15 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :manifestation_form_id -%><br />
+    <%= f.label t('activerecord.models.manifestation_form') -%><br />
     <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name, m.id]}) -%>
   </p>
   <p>
-    <%= f.label :checkout_type_id -%><br />
+    <%= f.label t('activerecord.models.checkout_type') -%><br />
     <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name, c.id]}) -%>
   </p>
   <p>
-    <%= f.label :note -%><br />
+    <%= f.label t('activerecord.attributes.manifestation_form_has_checkout_types.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>

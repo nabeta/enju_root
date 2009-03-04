@@ -7,6 +7,18 @@
       </li>
     <%- end -%>
   </ul>
+  <p>
+    <%- if params[:view] == 'overdue' -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>
+      (<%= link_to ('RSS'), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>)
+      (<%= link_to ('CSV'), formatted_user_checkouts_path(@user.login, :csv, :view => 'overdue', :lang => 'ja') -%>)
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss) -%>
+      (<%= link_to ('RSS'), formatted_user_checkouts_path(@user.login, :rss) -%>)
+      (<%= link_to ('CSV'), formatted_user_checkouts_path(@user.login, :csv, :lang => 'ja') -%>)
+    <%- end -%>
+  </p>
+
   <ul>
     <li><%= link_to 'iCalendar', ('/icalendar/' + h(@user.checkout_icalendar_token) + '.ics') -%></li>
     <li><%= link_to t('activerecord.models.reserve'), user_reserves_path(@user.login) -%></li>
@@ -19,18 +31,6 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.checkout')) -%></h1>
 <div id="content_list">
-
-<p>
-  <%- if params[:view] == 'overdue' -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>
-    (<%= link_to ('RSS'), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>)
-    (<%= link_to ('CSV'), formatted_user_checkouts_path(@user.login, :csv, :view => 'overdue', :lang => 'ja') -%>)
-  <%- else -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss) -%>
-    (<%= link_to ('RSS'), formatted_user_checkouts_path(@user.login, :rss) -%>)
-    (<%= link_to ('CSV'), formatted_user_checkouts_path(@user.login, :csv, :lang => 'ja') -%>)
-  <%- end -%>
-</p>
 
 <%= render :partial => 'list' -%>
 

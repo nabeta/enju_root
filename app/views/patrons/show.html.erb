@@ -37,7 +37,9 @@
 
   <p>
   (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@patron.full_name_without_space)) -%>)
-  (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) unless @patron.user -%>)
+  <%- unless @patron.user -%>
+    (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
+  <%- end -%>
   </p>
 
 <div id="tabview">
@@ -91,7 +93,7 @@
             <td><b><%= t('page.language') -%>:</b></td>
             <td><%=h @patron.language.display_name -%></td>
           </tr>
-          <%- if_authorized?(:destroy, @patron) do -%>
+          <%- if deletable(@patron) -%>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.zip_code_1') -%>:</b></td>
               <td><%=h @patron.zip_code_1 -%></td>

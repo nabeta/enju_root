@@ -5,6 +5,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>Patron(s) for <%= link_to h(@work_merge_list.title), work_merge_list_path(@work_merge_list) -%></p>
 
 <%- form_for :works, :url => work_merge_list_works_path(@work_merge_list), :html => {:method => 'get'} do -%>
@@ -53,4 +54,5 @@
 </table>
 
 <%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

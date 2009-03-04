@@ -1,14 +1,12 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :user -%>
 
-<p>
- <%= link_to t('user.patron_profile'), @user.patron -%>
-</p>
-
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   
-  <div id="left_pane">
+  <div id="left_pane_detail">
 
   <p>
     <b><%= t('activerecord.attributes.user.email') -%></b><br />
@@ -54,7 +52,7 @@
   </p>
   </div>
 
-  <div id="right_pane">
+  <div id="right_pane_detail">
   <%- if current_user.has_role?('Librarian') -%>
     <p>
       <b><%= t('activerecord.models.user_group') -%></b><br />
@@ -87,7 +85,7 @@
     </p>
 
     <p>
-      <b><%= t('role.required_role') -%></b>
+      <b><%= t('role.required_role') -%></b><br />
       <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
     </p>
   <%- end -%>
@@ -137,11 +135,16 @@
 <%- end -%>
 </p>
 
-<%- if current_user.has_role?('Librarian') -%>
-  <%- unless current_user == @user -%>
-    <h3><%= t('user.delete_this_user') -%></h3>
-    <p>
-    <%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%>
-    </p>
-  <%- end -%>
-<%- end -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('user.patron_profile'), @user.patron -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <%- unless current_user == @user -%>
+        <li><%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <%- end -%>
+    <%- end -%>
+  </ul>
+</div>

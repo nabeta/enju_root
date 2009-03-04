@@ -6,7 +6,8 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
+<div id="content_list">
+  <h1>
     [W]
     <%= link_to h(@work.original_title), @work -%>
   </h1>
@@ -62,4 +63,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

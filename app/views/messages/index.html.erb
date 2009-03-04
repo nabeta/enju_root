@@ -11,6 +11,7 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
+<div id="content_list">
 <%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
   <table id="index">
     <tr>
@@ -33,4 +34,5 @@
   </table>
 <%- end -%>
 <%= will_paginate(@messages, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

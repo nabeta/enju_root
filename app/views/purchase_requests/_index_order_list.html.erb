@@ -4,21 +4,21 @@
     <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
     <li><%= t('order_list.total_price') -%>: <%=h @order_list.total_price -%></li>
   </ul>
+  <p>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
+    (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
+    (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
+  </p>
+  <h4><%= t('page.bookmarklet') -%></h4>
+  <p>
+    <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('purchase_request.add_to_purchase_request') -%></a>
+  </p>
 </div>
 
 <div id="content_detail">
-  <h1 clsas="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%>: <%=h @order_list.title -%></h1>
 <div id="content_list">
-  <p><%= t('activerecord.attributes.order_list.ordered_at') -%> <%=h @order_list.ordered_at -%></p>
-
-<p>
-  <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
-  (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
-  (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
-
-  <%= t('page.bookmarklet') -%>:
-  <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('purchase_request.add_to_purchase_request') -%></a>
-</p>
+  <p><%= t('activerecord.attributes.order_list.ordered_at') -%> <%= l(@order_list.ordered_at) if @order_list.ordered_at -%></p>
 
 <table id="index">
   <tr>

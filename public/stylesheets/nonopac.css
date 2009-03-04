@@ -152,17 +152,32 @@ div#body{
 }
 
 div#left_pane{
-  margin-top: 1em;
+  margin-top: 5px;
   float: left;
   width: 456px;
   word-break: break-all;
 }
 
 div#right_pane{
-  margin-top: 1em;
+  margin-top: 5px;
   float: left;
   margin-left: 10px;
   width: 456px;
+  word-break: break-all;
+}
+
+div#left_pane_detail{
+  margin-top: 5px;
+  float: left;
+  width: 340px;
+  word-break: break-all;
+}
+
+div#right_pane_detail{
+  margin-top: 5px;
+  float: left;
+  margin-left: 10px;
+  width: 340px;
   word-break: break-all;
 }
 

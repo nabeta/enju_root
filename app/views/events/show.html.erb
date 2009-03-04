@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_event_path(@event) -%></li>
-    <li><%= link_to t('page.back'), events_path(:page => flash[:page]) -%></li>
+    <li><%= link_to t('page.back'), events_path(:page => flash[:page] ||= nil) -%></li>
   </ul>
 <%- if logged_in? -%>
   <ul>
