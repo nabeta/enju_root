@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.user_group') -%>:</b>
   <%= link_to h(@user_group_has_checkout_type.user_group.display_name), @user_group_has_checkout_type.user_group -%>
@@ -56,4 +57,5 @@
   <%=h @user_group_has_checkout_type.set_due_date_before_closing_day -%>
 </p>
 
+</div>
 </div>

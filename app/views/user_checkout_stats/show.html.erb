@@ -6,14 +6,15 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.user_checkout_stat.start_date') -%>:</b>
-  <%=h @user_checkout_stat.start_date -%>
+  <%= l(@user_checkout_stat.start_date) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.user_checkout_stat.end_date') -%>:</b>
-  <%=h @user_checkout_stat.end_date -%>
+  <%= l(@user_checkout_stat.end_date) -%>
 </p>
 
 <p>
@@ -38,4 +39,5 @@
 
 <%= will_paginate(@stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

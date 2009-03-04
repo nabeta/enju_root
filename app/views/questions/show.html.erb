@@ -9,13 +9,14 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
-<b><%= t('page.user') -%>:</b>
+  <b><%= t('page.user') -%>:</b>
   <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.question.body') -%>:</b>
+  <b><%= t('activerecord.attributes.question.body') -%>:</b>
   <%= textilize_without_paragraph(h(@question.body)) -%>
 </p>
 
@@ -44,4 +45,5 @@
 <%- end -%>
 </ul>
 
+</div>
 </div>

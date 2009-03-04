@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.user_reserve_stat')) -%></h1>
+<div id="content_list">
 
 <table>
   <tr>
@@ -22,6 +24,11 @@
 </table>
 
 <%= will_paginate(@user_reserve_stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.user_reserve_stat')), new_user_reserve_stat_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.user_reserve_stat')), new_user_reserve_stat_path -%></li>
+  </ul>
+</div>

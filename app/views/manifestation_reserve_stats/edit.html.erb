@@ -7,6 +7,7 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.manifestation_reserve_stat')) -%></h1>
+<div id="content_list">
 
 <% form_for(@manifestation_reserve_stat) do |f| -%>
   <%= f.error_messages -%>
@@ -32,4 +33,5 @@
   </p>
 <% end -%>
 
+</div>
 </div>

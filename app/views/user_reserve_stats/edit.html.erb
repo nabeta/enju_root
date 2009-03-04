@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.user_reserve_stat')) -%></h1>
+<div id="content_list">
 
 <% form_for(@user_reserve_stat) do |f| -%>
   <%= f.error_messages -%>
@@ -24,5 +26,12 @@
   </p>
 <% end -%>
 
-<%= link_to t('page.show'), @user_reserve_stat -%> |
-<%= link_to t('page.back'), user_reserve_stats_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @user_reserve_stat -%></li>
+    <li><%= link_to t('page.back'), user_reserve_stats_path -%></li>
+  </ul>
+</div>

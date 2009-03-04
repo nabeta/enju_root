@@ -1,6 +1,8 @@
+<div id="content_detail">
 <h1 class="title">Listing bookmark_stat_has_manifestations</h1>
+<div id="content_list">
 
-<table>
+<table id="index">
   <tr>
     <th>Bookmark stat</th>
     <th><%= t('activerecord.models.manifestation') -%></th>
@@ -19,6 +21,12 @@
 <% end -%>
 </table>
 
-<br />
+<%= will_paginate(@bookmark_stat_has_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.bookmark_stat_has_manifestation')), new_bookmark_stat_has_manifestation_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark_stat_has_manifestation')), new_bookmark_stat_has_manifestation_path -%></li>
+  </ul>
+</div>

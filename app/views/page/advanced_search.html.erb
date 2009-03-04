@@ -2,11 +2,11 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.advanced_search') -%></h1>
+<h1 class="title"><%= t('page.advanced_search') -%></h1>
 <div id="content_list">
 
 <%- form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
-  <table style="border: none">
+  <table style="width: 50%">
     <tr>
       <td><label><%= t('page.search_term') -%>:</label></td>
       <td><%= text_field_tag 'query' -%></td>

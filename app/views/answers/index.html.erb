@@ -1,7 +1,8 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.answer')) -%></h1>
+<div id="content_list">
 
 <%- if @question -%>
-
   <p><%= link_to textilize_without_paragraph(h(@question.body)), user_question_path(@question.user.login, @question) -%></p>
 <%- end -%>
 
@@ -28,8 +29,14 @@
 <%- end -%>
 </table>
 
-<br />
+<%= will_paginate(@answers, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
 
-<%- if @question -%>
-  <%= link_to t('page.new', :model => t('activerecord.models.answer')), new_user_question_answer_path(@user.login, @question) -%>
-<%- end -%>
+<div id="submenu">
+  <%- if @question -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.answer')), new_user_question_answer_path(@user.login, @question) -%></li>
+    </ul>
+  <%- end -%>
+</div>

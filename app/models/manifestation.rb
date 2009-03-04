@@ -91,8 +91,9 @@ class Manifestation < ActiveRecord::Base
   def before_validation_on_create
     self.isbn = self.isbn.to_s.strip.gsub('-', '')
     if self.isbn.length == 10
+      isbn10 = self.isbn.dup
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
-      self.isbn10 = self.isbn
+      self.isbn10 = isbn10
     end
   rescue
     nil

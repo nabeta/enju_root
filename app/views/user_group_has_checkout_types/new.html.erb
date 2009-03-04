@@ -6,6 +6,7 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@user_group_has_checkout_type) do |f| -%>
   <%= f.error_messages -%>
@@ -62,4 +63,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

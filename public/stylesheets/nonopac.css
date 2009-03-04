@@ -87,9 +87,8 @@ div#search_footer{
 
 div#submenu{
   margin-top: 5px;
-  margin-left: 10px;
-  width: 188px;
-  margin-left: -188px;
+  width: 193px;
+  margin-left: -193px;
   padding: 5px;
   float: right;
   border: 1px solid #5970B2;
@@ -117,7 +116,7 @@ div#manifestation_bookmark_buttons{
 div#content_detail{
   width: 710px;
   float: left;
-  margin-bottom: 1em;
+  margin-bottom: 5px;
   margin-top: 5px;
   border: 1px solid #5970B2;
 }
@@ -168,8 +167,8 @@ div#right_pane{
 }
 
 div#footer{
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 5px;
+  padding-bottom: 5px;
   margin-left: 0em;
   margin-right: 0em;
   clear: both;
@@ -177,7 +176,7 @@ div#footer{
 
 h1{
   font-size: 180%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 
@@ -187,13 +186,13 @@ h1#resource_title{
 
 h2{
   font-size: 160%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 
 h3{
   font-size: 150%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 
