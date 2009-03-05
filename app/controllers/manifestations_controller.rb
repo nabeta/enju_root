@@ -430,15 +430,15 @@ class ManifestationsController < ApplicationController
       barcode = Barby::QrCode.new(@manifestation.id)
       send_data(barcode.to_png.to_blob, :disposition => 'inline', :type => 'image/png')
     when 'holding'
-      render :partial => 'show_holding'
+      render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation}
     when 'tag_edit'
-      render :partial => 'tag_edit'
+      render :partial => 'manifestations/tag_edit'
     when 'tag_list'
-      render :partial => 'tag_list'
+      render :partial => 'manifestations/tag_list'
     when 'show_authors'
-      render :partial => 'show_authors'
+      render :partial => 'manifestations/show_authors'
     when 'show_all_authors'
-      render :partial => 'show_authors'
+      render :partial => 'manifestations/show_authors'
     else
       false
     end

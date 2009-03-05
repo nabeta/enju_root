@@ -224,7 +224,9 @@ h1.title, h2.title, h3.title, h4.title{
   margin: 0px;
 }
 
-a.title:hover { color: #000000; background-color: #B3D4FF; }
+a.title { color: white; }
+a.title:hover { color: white; }
+a.title:visited { color: white; }
 
 form{
   padding: 0;
