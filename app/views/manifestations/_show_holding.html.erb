@@ -41,3 +41,13 @@
     <%- end -%>
   <%- end -%>
 </table>
+
+<%- if item.shelf.picture_files.present? -%>
+  <script type="text/javascript" language="JavaScript">
+    jQuery(document).ready(function(){
+      tb_init('a.thickbox, area.thickbox, input.thickbox');
+      imgLoader = new Image();
+      imgLoader.src = tb_pathToImage;
+    });
+  </script>
+<%- end -%>
