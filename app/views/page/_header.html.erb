@@ -31,19 +31,17 @@
                   <div id="search" class="yuimenu">
                     <div class="bd">                    
                       <ul>
-                        <li class="yuimenuitem"><%= link_to t('page.search_resource'), manifestations_path, :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('page.resource')), manifestations_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- if Bookmark.is_indexable_by(current_user) -%>
-                          <li class="yuimenuitem"><%= link_to t('page.search_bookmark'), user_bookmarked_resources_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.bookmark')), user_bookmarked_resources_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
-                        <li class="yuimenuitem"><%= link_to t('page.search_question'), questions_path, :class => 'yuimenuitemlabel' -%></li>
-                        <li class="yuimenuitem"><%= link_to t('page.search_patron'), patrons_path, :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.question')), questions_path, :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.patron')), patrons_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- if User.is_indexable_by(current_user) -%>
-                          <li class="yuimenuitem"><%= link_to t('page.search_user'), users_path, :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.user')), users_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
 
-                        <!--
-                        <li class="yuimenuitem"><%= link_to t('page.search_subject'), '/page/subject', :class => 'yuimenuitemlabel' -%></li>
-                        -->
+                        <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.subject')), subjects_path, :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
                   </div>                    
@@ -102,12 +100,12 @@
                     <div id="bookmark" class="yuimenu">
                       <div class="bd">                    
                         <ul>
-                          <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
                           <%- if current_user.has_role?('Librarian') -%>
-                            <li class="yuimenuitem"><%= link_to t('page.add_manually'), works_path, :class => 'yuimenuitemlabel' -%></li>
-                            <li class="yuimenuitem"><%= link_to t('page.add_file'), attachment_files_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_manifestation_path(:mode => 'import_isbn'), :class => 'yuimenuitemlabel' -%></li>
                             <li class="yuimenuitem"><%= link_to t('page.import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('page.add_file'), attachment_files_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
+                          <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
                         </ul>
                       </div>
                     </div>                    

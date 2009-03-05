@@ -13,5 +13,9 @@
     <%= submit_tag t('page.import') -%>
   <%- end -%>
   <%= javascript_tag("$('manifestation_isbn').focus()") -%>
+
+  <p>
+    <%= link_to t('work.add'), works_path -%>
+  </p>
 </div>
 </div>

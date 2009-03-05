@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), users_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.user')), users_path -%></li>
   </ul>
 </div>
 
@@ -18,10 +18,14 @@
   <%= f.hidden_field :patron_id -%></p>
 <%- else -%>
   <p>
-    <%= f.label t('activerecord.attributes.patron.last_name') -%><br />
-    <%= f.text_field :last_name, :class => 'resource_title' -%><br />
-    <%= f.label t('activerecord.attributes.patron.first_name') -%><br />
-    <%= f.text_field :first_name, :class => 'resource_title' -%><br />
+    <%= f.label t('activerecord.attributes.patron.last_name') -%>
+    <%= f.text_field :last_name -%>
+    <%= f.label t('activerecord.attributes.patron.last_name_transcription') -%>
+    <%= f.text_field :last_name_transcription -%><br />
+    <%= f.label t('activerecord.attributes.patron.first_name') -%>
+    <%= f.text_field :first_name -%>
+    <%= f.label t('activerecord.attributes.patron.first_name_transcription') -%>
+    <%= f.text_field :first_name_transcription -%><br />
   </p>
 <%- end -%>
 

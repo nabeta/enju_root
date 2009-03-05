@@ -162,13 +162,13 @@ ja:
         last_name: 姓
         middle_name: ミドルネーム
         first_name: 名
-        last_name_transcription: 最後の名前の転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前の転写
+        last_name_transcription: 姓（よみ）
+        middle_name_transcription: ミドルネーム（よみ）
+        first_name_transcription: 名（よみ）
         corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
+        corporate_name_transcription: 企業名（よみ）
         full_name: 正式名称
-        full_name_transcription: フルネーム転写
+        full_name_transcription: フルネーム（よみ）
         full_name_alternative: フルネーム代替
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
@@ -827,13 +827,7 @@ ja:
     detail: "詳細"
     acquisition: "資料の受入"
     configuration: "設定"
-    search_resource: "資料を検索する"
-    search_manifestation: "体現形を検索する"
-    search_bookmark: "ブックマークを検索する"
-    search_question: "質問を検索する"
-    search_patron: "パトロンを検索する"
-    search_user: "利用者を検索する"
-    search_subject: "件名を検索する"
+    search_resource: "{{model}}を検索する"
     show_all: "全てを表示"
     hide: "隠す"
     overdue: "延滞"
@@ -891,6 +885,7 @@ ja:
     patron_management: "パトロンの管理"
     user_management: "利用者の管理"
     back_to: "{{model}}の一覧に戻る"
+    picture: "画像"
     add_picture: "画像を追加する"
     invalid_date: "無効な日付です。"
     current_status: "現在の状態"
@@ -901,6 +896,7 @@ ja:
     news: "お知らせ"
     model: "モデル"
     number_of_record: "レコード数"
+    facet: "属性による絞り込み"
   title:
     index: "一覧"
     show: "表示"
@@ -922,7 +918,7 @@ ja:
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
-    add_to_my_bookmark: "ブックマークに追加する"
+    add_to_my_bookmark: "Webページを登録する"
     remove_from_my_bookmark: "ブックマークから削除する"
     invalid_url: "無効なURLです。"
     specify_title_and_url: "タイトルとURLを指定してください。"
@@ -978,6 +974,7 @@ ja:
     this_item_include_supplement: "この資料は付録を含んでいます。"
     all_item: "全ての個別資料"
     add_new_copy: "複本を追加"
+    no_number: "番号なし"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
@@ -1057,6 +1054,8 @@ ja:
     all_libraries: "全ての図書館"
     import_event: "催し物のインポート"
     all: "全ての催し物"
+    past: "過去の催し物"
+    upcoming: "今後の催し物"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"

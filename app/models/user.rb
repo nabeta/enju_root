@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
   attr_accessor :password
   attr_accessor :temporary_password
   attr_reader :auto_generated_password
-  attr_accessor :first_name, :middle_name, :last_name, :full_name
+  attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
   attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note
 
   validates_presence_of     :login, :user_number, :full_name

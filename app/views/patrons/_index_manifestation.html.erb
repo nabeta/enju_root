@@ -1,7 +1,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
-    <li><%= link_to ('Back to manifestations'), manifestations_path -%></li>
+    <li><%= link_to t('activerecord.models.manifestation'), manifestations_path -%></li>
     <li><%= link_to t('expression.add'), manifestation_expressions_path(@manifestation) -%></li>
     <li><%= link_to t('item.add'), manifestation_items_path(@manifestation) -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_manifestation_patron_path(@manifestation) -%></li>
@@ -9,8 +9,10 @@
 </div>
 
 <div id="content_detail">
-
-<%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+<div id="content_list">
+<%- cache(:id => @manifestation.id, :action => :show, :action_suffix => 'title', :editable => false) do -%>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+<%- end -%>
 
 <%- form_for :patrons, :url => manifestation_patrons_path(@manifestation), :html => {:method => 'get'} do -%>
 <p>
@@ -62,4 +64,5 @@
 </table>
 
 <%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

@@ -1,5 +1,5 @@
 <div id="content_detail">
-<h1 class="title"><%= t('page.search_resource') -%></h1>
+<h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
   <div id="searchform">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
@@ -90,18 +90,11 @@
 
 <div id="submenu">
   <%- unless @query.blank? -%>
-    <div>
-      <%- if params[:library_id].blank? -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
-      <%- else -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
-      <%- end -%>
-    </div>
     <h3><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h3>
-    <p>
     <%- if @count[:query_result] > 0 -%>
 
       <div id="all_facet_box">
+        <h3><%= t('page.facet') -%></h3>
         <div id="all_facet_list" style="display: none"></div>
         <%= image_tag 'spinner.gif', :id => 'spinner_all_facet',
           :style => 'margin-top: 10px; margin-left: 40px; display: none' -%>
@@ -112,4 +105,11 @@
     <!-- Replace with your message -->
     <p>This catalog is developed by <a href="http://kamata.lib.teu.ac.jp/">Kamata Library</a> and <a href="http://www.next-l.jp/">Project Next-L</a>.</p>
   <%- end -%>
+    <div>
+      <%- if params[:library_id].blank? -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
+      <%- else -%>
+        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to ('Search result RSS feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
+      <%- end -%>
+    </div>
 </div>

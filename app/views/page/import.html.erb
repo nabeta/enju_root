@@ -8,7 +8,9 @@
 <div id="content_list">
 
 <ul>
-  <li><%= link_to t('activerecord.models.patron'), imported_patron_files_path -%></li>
+  <li><%= link_to t('activerecord.models.patron'), imported_patron_files_path -%>
+  (<%= t('activerecord.models.user') -%>)</li>
+
   <li><%= link_to t('activerecord.models.event'), imported_event_files_path -%></li>
   <li><%= t('page.resource') -%>
   <ul>

@@ -190,9 +190,14 @@ class UsersController < ApplicationController
     patron = Patron.find(params[:user][:patron_id]) rescue nil
     if patron
       @user.full_name = patron.full_name
+      @user.full_name_transcription = patron.full_name_transcription
     else
       @user.first_name = params[:user][:first_name]
       @user.middle_name = params[:user][:middle_name]
+      @user.last_name = params[:user][:last_name]
+      @user.first_name_transcription = params[:user][:first_name_transcription]
+      @user.middle_name_transcription = params[:user][:middle_name_transcription]
+      @user.last_name_transcription = params[:user][:last_name_transcription]
       @user.zip_code = params[:user][:zip_code]
       @user.address = params[:user][:address]
       @user.telephone_number = params[:user][:telephone_number]
@@ -200,10 +205,15 @@ class UsersController < ApplicationController
       @user.address_note = params[:user][:address_note]
       # TODO: 日本人以外の姓と名の順序
       @user.full_name = @user.last_name.to_s + @user.first_name.to_s
+      @user.full_name_transcription = @user.last_name_transcription.to_s + @user.first_name_transcription.to_s
       patron = Patron.create(:first_name => @user.first_name,
                              :middle_name => @user.middle_name,
                              :last_name => @user.last_name,
                              :full_name => @user.full_name,
+                             :first_name_transcription => @user.first_name_transcription,
+                             :middle_name_transcription => @user.middle_name_transcription,
+                             :last_name_transcription => @user.last_name_transcription,
+                             :full_name_transcription => @user.full_name_transcription,
                              :zip_code_1 => @user.zip_code,
                              :address_1 => @user.address,
                              :telephone_number_1 => @user.telephone_number,

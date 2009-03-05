@@ -10,17 +10,12 @@
   </ul>
 </div>
 
-<%- cache(:id => @subject.id, :editable => @subject.is_updatable_by(current_user)) do -%>
 <div id="content_detail">
-<p>
-  <b><%= t('activerecord.attributes.subject.term') -%>:</b>
+<div id="content_list">
+<%- cache(:id => @subject.id, :editable => @subject.is_updatable_by(current_user)) do -%>
+<h1>
   <%=h @subject.term %>
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.subject.note') -%>:</b>
-  <%=h @subject.note %>
-</p>
+</h1>
 
 <table id="index">
   <tr>
@@ -34,5 +29,12 @@
   </tr>
   <%- end -%>
 </table>
-</div>
+
+<p>
+  <b><%= t('activerecord.attributes.subject.note') -%>:</b>
+  <%=h @subject.note %>
+</p>
+
 <%- end -%>
+</div>
+</div>
