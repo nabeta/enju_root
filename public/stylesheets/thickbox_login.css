@@ -1,13 +1,11 @@
-div#content{
-  width: 300px;
+div#login_content{
+  padding-left: 4px;
+  padding-right: 4px;
+  clear: both;
+  width: 480px;
 }
 
-div#submenu{
+div#login_submenu{
   float: left;
   width: 100px;
-}
-
-div#content_detail{
-  float: left;
-  width: 180px;
 }

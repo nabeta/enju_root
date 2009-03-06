@@ -5,6 +5,9 @@ class SessionsController < ApplicationController
 
   # render new.rhtml
   def new
+    if params[:login] == 'true'
+      render :partial => 'sessions/new_login'
+    end
   end
 
   def create
