@@ -1,16 +1,12 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   #include AuthenticatedSystem
-  #before_filter :login_required, :except => [:activate, :create]
   #before_filter :reset_params_session
-  before_filter :login_required
-  require_role 'Librarian', :only => [:index, :new, :create, :destroy]
+  before_filter :has_permission?
   before_filter :suspended?
-  before_filter :authorized_content, :only => [:edit, :update] # 上書き注意
   before_filter :store_location, :except => [:create, :update, :destroy]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
 
-  # render new.rhtml
   def index
     query = params[:query] ||= nil
     #browse = nil
@@ -34,8 +30,9 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.find(:first, :conditions => {:login => params[:id]})
-    raise ActiveRecord::RecordNotFound unless @user
+    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @user.blank?
     @tags = @user.tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
@@ -71,6 +68,9 @@ class UsersController < ApplicationController
 
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @user.blank?
+
     @user_groups = UserGroup.find(:all, :order => :position)
     @roles = Role.find(:all, :order => 'id desc')
     @libraries = Library.find(:all, :order => 'id')
@@ -81,6 +81,8 @@ class UsersController < ApplicationController
 
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @user.blank?
     @user.full_name = @user.patron.full_name
     User.transaction do
       if params[:user][:reset_url] == 'checkout_icalendar'
@@ -256,13 +258,8 @@ class UsersController < ApplicationController
   #end
 
   def destroy
-    # idが1のユーザは削除できない
-    raise if params[:id] == 1
-
-    # ユーザ削除には図書館員以上の権限が必要
-    raise unless current_user.has_role?('Librarian')
-
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
 
     # 自分自身を削除しようとした
     if current_user == @user
@@ -286,7 +283,7 @@ class UsersController < ApplicationController
 
     # 最後の図書館員を削除しようとした
     if @user.has_role?('Librarian')
-      if Role.find(:first, :conditions => {:name => 'Librarian'}).users.size == 1
+      if @user.is_last_librarian?
         raise
         flash[:notice] = t('user.last_librarian')
       end
@@ -321,13 +318,4 @@ class UsersController < ApplicationController
     end
   end
 
-  def authorized_content
-    @user = User.find(:first, :conditions => {:login => params[:id]})
-    raise ActiveRecord::RecordNotFound if @user.nil?
-    return true if current_user == @user
-    return true if current_user.has_role?('Librarian')
-    access_denied; return
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
 end

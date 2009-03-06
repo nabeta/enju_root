@@ -198,7 +198,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_show_user
-    get :show, :id => 1
+    get :show, :id => users(:user1).login
     assert_response :redirect
     assert_redirected_to new_session_url
   end

@@ -199,23 +199,41 @@ class User < ActiveRecord::Base
   end
 
   def self.is_indexable_by(user, parent = nil)
-    true
+    true if user.has_role?('Librarian')
+  rescue
+    false
   end
 
   def self.is_creatable_by(user, parent = nil)
     true if user.has_role?('Librarian')
+  rescue
+    false
   end
 
   def is_readable_by(user, parent = nil)
-    true if user == self || user.has_role?('Librarian')
+    true if user.has_role?('User')
+  rescue
+    false
   end
 
   def is_updatable_by(user, parent = nil)
     true if user == self || user.has_role?('Librarian')
+  rescue
+    false
   end
 
   def is_deletable_by(user, parent = nil)
+    raise if self.id == 1 or self.checkouts.size > 0 or self.is_last_librarian?
     true if user == self || user.has_role?('Librarian')
+  rescue
+    false
+  end
+
+  def is_last_librarian?
+    if self.has_role?('Librarian')
+      role = Role.find(:first, :conditions => {:name => 'Librarian'})
+      true if role.users.size == 1
+    end
   end
 
   protected
