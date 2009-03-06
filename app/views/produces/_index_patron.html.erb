@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Produce) do -%>
+    <%- if Produce.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_patron_produce_path(@patron) -%></li>
       <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
     <%- end -%>
@@ -26,7 +26,7 @@
       <%= patrons_list(produce.manifestation.editors) -%>
       <%= patrons_list(produce.manifestation.patrons) -%>
     </td>
-    <%- if_authorized?(:destroy, produce) do -%>
+    <%- if produce.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), patron_produce_path(produce.patron, produce), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>

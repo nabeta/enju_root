@@ -30,7 +30,7 @@
       <td><%=h search_history.start_record -%></td>
     <%- end -%>
     <td><%= l(search_history.created_at) -%></td>
-    <%- if_authorized?(:destroy, search_history) do -%>
+    <%- if search_history.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), search_history -%></td>
       <td><%= link_to t('page.destroy'), search_history, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Realize) do -%>
+    <%- if Realize.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_expression_reify_path(@expression) -%></li>
       <li><%= link_to t('page.back'), expression_patrons_path(@expression) -%></li>
     <%- end -%>
@@ -26,7 +26,7 @@
       <%= patrons_list(@expression.authors) -%>
       <%= patrons_list(@expression.patrons) -%>
     </td>
-    <%- if_authorized?(:destroy, reify) do -%>
+    <%- if reify.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), expression_reify_path(@expression, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= reify.first? ? '' : link_to('▲', {:action => 'update', :position => (reify.position > 1 ? reify.position - 1 : 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%></td>
       <td><%= reify.last? ? '' : link_to('▼', {:action => 'update', :position => (reify.position + 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%></td>

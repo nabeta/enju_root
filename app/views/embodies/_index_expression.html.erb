@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Embody) do -%>
+    <%- if Embody.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), expression_manifestations_path(@expression) -%></li>
     <%- end -%>
   </ul>
@@ -22,7 +22,7 @@
       <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
       <%= form_icon(embody.manifestation.manifestation_form) -%>
     </td>
-    <%- if_authorized?(:destroy, embody) do -%>
+    <%- if embody.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), embody, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>

@@ -6,7 +6,7 @@
       <p style="font-size: 200%"><%=h flash[:temporary_password] -%></p>
     <%- end -%>
     <ul>
-      <%- if_authorized?(:destroy, @user) do -%>
+      <%- if @user.is_deletable_by(current_user) -%>
         <li><%= link_to t('user.edit_profile'), edit_user_path(@user.login) -%></li>
       <%- end -%>
       <li><%= link_to t('message.send'), new_user_message_path(current_user.login, :recipient => @user.login) -%></li>

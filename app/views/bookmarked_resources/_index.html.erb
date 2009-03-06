@@ -9,16 +9,6 @@
   </p>
 <%- end -%>
 
-  <p>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
-    (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
-    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
-    <%- if logged_in? -%>
-      <%= t('page.bookmarklet') -%>:
-      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a>
-    <%- end -%>
-  </p>
-
 <table id="index">
   <tr>
     <th></th>
@@ -48,4 +38,15 @@
 </div>
 
 <div id="submenu">
+  <p>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
+    (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
+    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
+  </p>
+  <%- if logged_in? -%>
+    <h4><%= t('page.bookmarklet') -%></h4>
+    <ul>
+      <li><a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a></li>
+    </ul>
+  <%- end -%>
 </div>

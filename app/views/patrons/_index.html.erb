@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:create, Patron) do -%>
+    <%- if Patron.is_creatable_by(current_user) -%>
       <li><%= link_to t('patron.add'), new_patron_path -%></li>
       <li><%= link_to ('Merge patrons'), patron_merge_lists_path -%></li>
     <%- end -%>
@@ -40,7 +40,7 @@
       <td><%=h patron.language.display_name -%></td>
       <td><%=h patron.place -%></td>
       <td>
-        <%- if_authorized?(:destroy, patron) do -%>
+        <%- if patron.is_deletable_by(current_user) -%>
           <%= link_to t('page.edit'), edit_patron_path(patron) -%>
         <%- end -%>
       </td>

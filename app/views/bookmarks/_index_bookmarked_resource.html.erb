@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Bookmark) do -%>
+    <%- if Bookmark.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.bookmarked_resource')), new_bookmarked_resource_bookmark_path(@bookmarked_resource) -%></li>
     <%- end -%>
   </ul>
@@ -23,7 +23,7 @@
     <td><%= link_to h(bookmark.user.login), user_path(bookmark.user.login) -%></td>
     <td><%= l(bookmark.created_at) -%></td>
     <td><%= l(bookmark.updated_at) -%></td>
-    <%- if_authorized?(:destroy, bookmark) do -%>
+    <%- if bookmark.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), bookmarked_resource_bookmark_path(@bookmark.bookmarked_resource, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>

@@ -22,7 +22,7 @@
     <td><%= link_to h(expression_form.name), expression_form -%></td>
     <td><%= link_to h(expression_form.display_name), expression_form -%></td>
     <td><%=h expression_form.note -%></td>
-    <%- if_authorized?(:destroy, expression_form) do -%>
+    <%- if expression_form.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_expression_form_path(expression_form) -%></td>
       <td><%= link_to t('page.destroy'), expression_form_path(expression_form), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= expression_form.first? ? '' : link_to('▲', {:action => 'update', :positin  => (expression_form.position > 1 ? expression_form.position - 1 : 1), :id => expression_form.id}, :method => :put) -%></td>

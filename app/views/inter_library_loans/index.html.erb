@@ -22,7 +22,7 @@
     <td><%= link_to h(inter_library_loan.borrowing_library.name), library_path(inter_library_loan.borrowing_library.short_name) -%></td>
     <td><%= l(inter_library_loan.shipped_at) if inter_library_loan.shipped_at -%></td>
     <td><%= l(inter_library_loan.received_at) if inter_library_loan.received_at -%></td>
-    <%- if_authorized?(:destroy, inter_library_loan) do -%>
+    <%- if inter_library_loan.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), inter_library_loan -%></td>
       <td><%= link_to t('page.edit'), edit_inter_library_loan_path(inter_library_loan) -%></td>
       <td><%= link_to t('page.destroy'), inter_library_loan, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -36,9 +36,9 @@
 </div>
 
 <div id="submenu">
-<%- if_authorized?(:new, InterLibraryLoan) do -%>
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.inter_library_loan')), new_inter_library_loan_path -%></li>
+    <%- if InterLibraryLoan.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.inter_library_loan')), new_inter_library_loan_path -%></li>
+    <%- end -%>
   </ul>
-<%- end -%>
 </div>

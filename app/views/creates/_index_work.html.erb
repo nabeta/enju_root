@@ -1,3 +1,5 @@
+<div id="content_detail">
+<div id="content_list">
 <p>Creation for <%= link_to h(@work.original_title), @work -%></p>
 
 <table>
@@ -12,7 +14,7 @@
     <td><%= link_to h(create.patron.full_name), create.patron -%></td>
     <td><%= l(create.created_at) -%></td>
     <td><%= l(create.updated_at) -%></td>
-    <%- if_authorized?(:destroy, create) do -%>
+    <%- if create.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), work_create_path(@work, create) -%></td>
       <td><%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= create.first? ? '' : link_to('▲', {:action => 'update', :position => (create.position > 1 ? create.position - 1 : 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
@@ -22,8 +24,14 @@
 <%- end -%>
 </table>
 
-<br />
-
 <%= will_paginate(@creates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
 
-<%= if_authorized?(:new, Create) do link_to t('page.new', :model => t('activerecord.models.create')), new_work_create_path(@work) end -%>
+<div id="submenu">
+  <ul>
+    <%- if Create.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.create')), new_work_create_path(@work) -%></li>
+    <%- end -%>
+  </ul>
+</div>

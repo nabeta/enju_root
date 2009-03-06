@@ -26,7 +26,7 @@
     <td><%= link_to h(picture_file.filename), picture_file -%></td>
     <td><%=h picture_file.height -%></td>
     <td><%=h picture_file.width -%></td>
-    <%- if_authorized?(:destroy, picture_file) do -%>
+    <%- if picture_file.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), picture_file -%></td>
       <td><%= link_to t('page.edit'), edit_picture_file_path(picture_file) -%></td>
       <td><%= link_to t('page.destroy'), picture_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

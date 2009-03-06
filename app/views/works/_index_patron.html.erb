@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Work) do -%>
+    <%- if Work.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_patron_work_path(@patron) -%></li>
       <li><%= link_to t('activerecord.models.expression'), patron_expressions_path(@patron) -%></li>
       <li><%= link_to t('activerecord.models.manifestation'), patron_manifestations_path(@patron) -%></li>
@@ -17,7 +17,7 @@
 <%- form_for :works, :url => patron_works_path(@patron), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
-    <%- if_authorized?(:destroy, @patron) do -%>
+    <%- if @patron.is_deletable_by(current_user) -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -46,7 +46,7 @@
       </td>
       <td><%=h work.context -%></td>
       <td>
-        <%- if_authorized?(:destroy, work) do -%>
+        <%- if work.is_deletable_by(current_user) -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_patron_create_path(@patron, :work_id => work.id) -%>
           <%- else -%>

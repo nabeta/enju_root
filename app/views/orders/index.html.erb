@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Order) do -%>
+    <%- if Order.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.order')), new_order_path -%></li>
     <%- end -%>
   </ul>
@@ -23,7 +23,7 @@
     <td><%= link_to h(order.purchase_request.title), purchase_request_path(order.purchase_request) -%></td>
     <td><%= l(order.created_at) -%></td>
     <td><%= l(order.updated_at) -%></td>
-    <%- if_authorized?(:destroy, order) do -%>
+    <%- if order.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), order_path(order) -%></td>
       <td><%= link_to t('page.edit'), edit_order_path(order) -%></td>
       <td><%= link_to t('page.destroy'), order_path(order), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

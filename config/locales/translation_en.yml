@@ -897,6 +897,7 @@ en:
     listing: "Listing {{model}}"
     new: "New {{model}}"
     editing: "Editing {{model}}"
+    showing: "Showing {{model}}"
     patron_management: "Patron management"
     user_management: "User management"
     back_to: "Back to {{model}} index"

@@ -13,7 +13,7 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), :id => 'searchform_top', :size => 40 -%>
-      <%- if_authorized?(:destroy, @subject) do -%>
+      <%- if @subject.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -47,7 +47,7 @@
       <%= patrons_list(manifestation.patrons) -%>
     </td>
     <td>
-      <%- if_authorized?(:destroy, manifestation) do -%>
+      <%- if manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_subject_resource_has_subject_path(@subject, :manifestation_id => manifestation.id) -%>
         <%- else -%>

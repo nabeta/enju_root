@@ -17,7 +17,7 @@
 <%- form_for :patrons, :url => manifestation_patrons_path(@manifestation), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
-  <%- if_authorized?(:destroy, @manifestation) do -%>
+  <%- if @manifestation.is_deletable_by(current_user) -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -50,7 +50,7 @@
       <td><%=h patron.date_of_birth -%></td>
       <td><%=h patron.date_of_death -%></td>
       <td>
-        <%- if_authorized?(:destroy, patron) do -%>
+        <%- if patron.is_deletable_by(current_user) -%>
           <%- if params[:mode] == 'add' -%>
             <%= link_to t('page.add'), new_manifestation_produce_path(@manifestation, :patron_id => patron.id) unless @manifestation.patrons.include?(patron) -%>
           <%- else -%>

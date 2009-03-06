@@ -882,6 +882,7 @@ ja:
     listing: "{{model}}の一覧"
     new: "{{model}}の新規作成"
     editing: "{{model}}の編集"
+    showing: "{{model}}の表示"
     patron_management: "パトロンの管理"
     user_management: "利用者の管理"
     back_to: "{{model}}の一覧に戻る"

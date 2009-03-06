@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, ClassificationType) do -%>
+    <%- if ClassificationType.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.classification_type')), new_classification_type_path -%></li>
     <%- end -%>
   </ul>
@@ -22,7 +22,7 @@
     <td><%= link_to h(classification_type.name), classification_type -%></td>
     <td><%=h classification_type.display_name -%></td>
     <td><%=h classification_type.note -%></td>
-    <%- if_authorized?(:destroy, classification_type) do -%>
+    <%- if classification_type.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_classification_type_path(classification_type) -%></td>
       <td><%= link_to t('page.destroy'), classification_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

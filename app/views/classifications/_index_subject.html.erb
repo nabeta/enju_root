@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Classification) do -%>
+    <%- if Classification.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_path -%></li>
     <%- end -%>
   </ul>

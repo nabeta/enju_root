@@ -1,5 +1,5 @@
 <div id="submenu">
-  <%- if_authorized?(:destroy, @shelf) do -%>
+  <%- if @shelf.is_deletable_by(current_user) -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.shelf')), new_shelf_path -%></li>
       <li><%= link_to t('page.edit'), edit_shelf_path(@shelf) -%></li>

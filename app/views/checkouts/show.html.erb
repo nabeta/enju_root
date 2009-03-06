@@ -20,7 +20,7 @@
     <b><%= t('activerecord.attributes.checkout.due_date') -%></b><br />
     <%=h l(@checkout.due_date, :format => :short) -%>
   </p>
-  <%- if_authorized?(:destroy, @checkout) do -%>
+  <%- if @checkout.is_deletable_by(current_user) -%>
     <p>
       <b><%= t('checkout.current_user') -%></b><br />
       <%= link_to h(@checkout.user.login), user_path(@checkout.user.login) -%>

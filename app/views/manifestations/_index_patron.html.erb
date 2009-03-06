@@ -20,7 +20,7 @@
       <!--
       <%= link_to h(t('page.advanced_search')), :controller => :page, :action => :advanced_search, :patron_id => h(@patron.id) -%>
       -->
-      <%- if_authorized?(:destroy, @patron) do -%>
+      <%- if @patron.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
         <%- else -%>
@@ -56,7 +56,7 @@
       <%= patrons_list(manifestation.patrons) -%>
     </td>
     <td>
-      <%- if_authorized?(:destroy, manifestation) do -%>
+      <%- if manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_patron_produce_path(@patron, :manifestation_id => manifestation.id) -%>
         <%- else -%>

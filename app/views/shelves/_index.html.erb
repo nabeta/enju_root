@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Shelf) do -%>
+    <%- if Shelf.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.shelf')), new_shelf_path -%></li>
     <%- end -%>
   </ul>
@@ -20,7 +20,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(shelf.name), shelf_path(shelf) -%></td>
     <td><%= link_to h(shelf.library.name), library_path(shelf.library.short_name) -%></td>
-    <%- if_authorized?(:destroy, shelf) do -%>
+    <%- if shelf.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_shelf_path(shelf) -%></td>
       <td><%= link_to t('page.destroy'), shelf_path(shelf), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

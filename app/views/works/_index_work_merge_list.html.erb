@@ -11,7 +11,7 @@
 <%- form_for :works, :url => work_merge_list_works_path(@work_merge_list), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
-  <%- if_authorized?(:destroy, @work_merge_list) do -%>
+  <%- if @work_merge_list.is_deletable_by(current_user) -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -40,7 +40,7 @@
     </td>
     <td><%=h work.context -%></td>
     <td>
-      <%- if_authorized?(:destroy, work) do -%>
+      <%- if work.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_work_merge_list_work_merge_path(@work_merge_list, :work_id => work.id) unless @work_merge_list.works.include?(work) -%>
         <%- else -%>
