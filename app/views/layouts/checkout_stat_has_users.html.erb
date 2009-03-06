@@ -5,13 +5,22 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= t('activerecord.models.checkout_stat_has_user') -%>: <%=h title_action_name -%></title>
-  <%= stylesheet_link_tag 'scaffold' -%>
+  <%= render :partial => 'page/include' -%>
 </head>
-<body>
+<body class="yui-skin-sam" id="yahoo-com">
 
+<%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
+
+<div id="content">
+  
 <div style="color: green"><%= flash[:notice] -%></div>
-
+  
 <%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
 
 </body>
 </html>

@@ -10,9 +10,11 @@
 
 <body class="yui-skin-sam" id="yahoo-com">
 
-<div style="color: green"><%= flash[:notice] -%></div>
+<%= render :partial => 'page/header' -%>
 
 <div id="content">
+  
+<div style="color: green"><%= flash[:notice] -%></div>
 
 <%= yield  -%>
 
