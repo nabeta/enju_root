@@ -42,7 +42,7 @@
   <%- end -%>
 </table>
 
-<%- if item.shelf.picture_files.present? -%>
+<%- if item.shelf.picture_files.present? and request.xhr? -%>
   <script type="text/javascript" language="JavaScript">
     jQuery(document).ready(function(){
       tb_init('a.thickbox, area.thickbox, input.thickbox');

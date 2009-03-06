@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to subscription'), subscription_path(@subscription) if @subscription -%>
-    <li><%= link_to ('Back to expressions'), subscription_expressions_path(@subscription) if @subscription -%>
+    <li><%= link_to t('activerecord.models.subscription'), subscription_path(@subscription) if @subscription -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), subscription_expressions_path(@subscription) if @subscription -%>
   </ul>
 </div>
 

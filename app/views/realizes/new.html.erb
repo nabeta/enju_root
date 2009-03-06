@@ -1,10 +1,10 @@
 <div id="submenu">
   <ul>
     <%- if @realize.patron -%>
-    <li><%= link_to ('Back to expressions'), patron_expressions_path(@realize.patron) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@realize.patron) -%></li>
     <%- end -%>
     <%- if @realize.expression -%>
-    <li><%= link_to ('Back to patrons'), expression_patrons_path(@realize.expression) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@realize.expression) -%></li>
     <%- end -%>
   </ul>
 </div>

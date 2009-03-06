@@ -12,23 +12,23 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :sender_id -%><br />
+    <%= f.label t('message.sender') -%><br />
     <%= link_to h(@message_queue.sender.login), user_path(@message_queue.sender.login) -%>
   </p>
   <p>
-    <%= f.label :receiver_id -%><br />
+    <%= f.label t('message.receiver') -%><br />
     <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
   </p>
   <p>
-    <%= f.label :message_template_id -%><br />
+    <%= f.label t('activerecord.models.message_template') -%><br />
     <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
   </p>
   <p>
-    <%= f.label t('activerecord.attributes.message_queue.subject') -%><br />
+    <%= f.label t('activerecord.attributes.message.subject') -%><br />
     <%=h @message_queue.subject -%>
   </p>
   <p>
-    <%= f.label t('activerecord.attributes.message_queue.body') -%><br />
+    <%= f.label t('activerecord.attributes.message.body') -%><br />
     <%= textilize(h(@message_queue.body)) -%>
   </p>
   <p>

@@ -1,7 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add an expression'), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
-    <li><%= link_to ('Edit a list'), expression_merge_list_expression_merges_path(@expression_merge_list) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
     <li><%= link_to t('page.edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
     <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
   </ul>

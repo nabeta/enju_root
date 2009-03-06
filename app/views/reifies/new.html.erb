@@ -1,10 +1,10 @@
 <div id="submenu">
   <ul>
     <%- if @reify.expression -%>
-    <li><%= link_to ('Back to work'), expression_work_path(@reify.expression) -%></li>
+    <li><%= link_to t('activerecord.models.work'), expression_work_path(@reify.expression) -%></li>
     <%- end -%>
     <%- if @reify.work -%>
-    <li><%= link_to ('Back to expressions'), work_expressions_path(@reify.work) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@reify.work) -%></li>
     <%- end -%>
   </ul>
 </div>

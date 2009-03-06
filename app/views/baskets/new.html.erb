@@ -1,8 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.checkin'), checkins_path -%></li>
-    <li><%= link_to t('page.search_user'), users_path -%></li>
-    <li><%= link_to t('page.back'), '/' -%></li>
+    <li><%= link_to t('activerecord.models.checkin'), checkins_path -%></li>
+    <li><%= link_to t('page.search_resource', :model => t('activerecord.models.user')), users_path -%></li>
   </ul>
 </div>
 
@@ -25,7 +24,7 @@
   -->
     <%= f.submit t('page.submit') -%>
   </p>
-  <%= javascript_tag("$('basket_user_number').focus()") -%>
 <%- end -%>
+<%= javascript_tag("$('basket_user_number').focus()") -%>
 </div>
 </div>

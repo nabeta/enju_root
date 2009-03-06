@@ -49,8 +49,13 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
-
 <div id="content_list">
+
+<%- if @library -%>
+  <h2><%= link_to h(@library.display_name), library_path(@library.short_name) -%></h2>
+<%- else -%>
+  <h2><%= t('event.all_libraries') -%></h2>
+<%- end -%>
 
 <table id="index">
   <tr>

@@ -1,9 +1,9 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
-    <li><%= link_to ('Back to reservations'), reserves_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%></li>
     <%- if @reserve.manifestation -%>
-      <li><%= link_to ('Back to manifestation'), @reserve.manifestation -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), @reserve.manifestation -%></li>
     <%- end -%>
   </ul>
 </div>

@@ -5,17 +5,18 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title"><%= t('page.new', :model => t('activerecord.models.patron_type')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.patron_type')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@patron_type) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :name -%><br />
+    <%= f.label t('activerecord.attributes.patron_type.name') -%><br />
     <%= f.text_field :name -%>
   </p>
   <p>
-    <%= f.label :display_name -%><br />
+    <%= f.label t('activerecord.attributes.patron_type.display_name') -%><br />
     <%= f.text_field :display_name -%>
   </p>
   <p>
@@ -27,4 +28,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

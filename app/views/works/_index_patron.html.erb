@@ -9,10 +9,11 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
-    <%= link_to h(@patron.full_name), @patron -%>
-  </h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
+  <h2>
+    <%= link_to h(@patron.full_name), @patron -%>
+  </h2>
 
 <%- form_for :works, :url => patron_works_path(@patron), :html => {:method => 'get'} do -%>
   <p>

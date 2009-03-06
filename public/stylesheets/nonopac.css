@@ -380,6 +380,11 @@ textarea{
   height: 10em;
 }
 
+textarea#message_body{
+  width: 40em;
+  height: 20em;
+}
+
 th.checked_item_title{
   width: 400px;
 }

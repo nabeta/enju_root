@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.barcode')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@barcode) do |f| -%>
   <%= f.error_messages -%>
@@ -16,13 +18,16 @@
     <%= f.text_field :barcodable_type -%>
   </p>
   <p>
-    <%= f.label :data -%><br />
-    <%= f.text_field :data -%>
-  </p>
-  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
-<%= link_to t('page.show'), @barcode -%> |
-<%= link_to t('page.back'), barcodes_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @barcode -%></li>
+    <li><%= link_to t('page.back'), barcodes_path -%></li>
+  </ul>
+</div>

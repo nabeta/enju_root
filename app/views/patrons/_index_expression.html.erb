@@ -1,17 +1,20 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_expression_patron_path(@expression) -%></li>
-    <li><%= link_to t('manifestation.add'), expression_manifestations_path(@expression) -%></li>
+    <%- if Patron.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_expression_patron_path(@expression) -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
 
-  <h1>
+  <h2>
     [E]
     <%= link_to h(@expression.original_title), @expression -%>
-  </h1>
+  </h2>
 
 <%- form_for :patrons, :url => expression_patrons_path(@expression), :html => {:method => 'get'} do -%>
 <p>

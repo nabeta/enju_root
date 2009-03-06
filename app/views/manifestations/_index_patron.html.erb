@@ -7,10 +7,11 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
-    <%= link_to h(@patron.full_name), @patron -%>
-  </h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
+  <h2>
+    <%= link_to h(@patron.full_name), @patron -%>
+  </h2>
 
   <%- form_for :manifestations, :url => patron_manifestations_path(@patron), :html => {:method => 'get'} do -%>
 

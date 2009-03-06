@@ -9,7 +9,7 @@
         <%= link_to_remote image_tag('/icons/cancel.png', :alt => t('page.cancel')), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'show', :id => @manifestation.id, :mode => 'tag_list'}, :method => :get -%>
         (<%= link_to_remote t('page.cancel'), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'show', :id => @manifestation.id, :mode => 'tag_list'}, :method => :get -%>)
         <br />
-        半角スペースで区切ってください。
+        <%= t('tag.use_space_as_delimiter') -%>
       </div>
     <%- end -%>
     <%= javascript_tag("$('bookmark_tag_list').focus()") -%>
@@ -24,7 +24,7 @@
         <%= link_to_remote image_tag('/icons/cancel.png', :alt => t('page.cancel')), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'show', :id => @manifestation.id, :mode => 'tag_list'}, :method => :get -%>
         <%= link_to_remote t('page.cancel'), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'show', :id => @manifestation.id, :mode => 'tag_list'}, :method => :get -%>
         <br />
-        半角スペースで区切ってください。
+        <%= t('tag.use_space_as_delimiter') -%>
       </div>
     <%- end -%>
     <%= javascript_tag("$('bookmark_tag_list').focus()") -%>

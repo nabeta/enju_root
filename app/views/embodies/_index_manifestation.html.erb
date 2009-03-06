@@ -2,8 +2,8 @@
   <ul>
     <%- if Embody.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), manifestation_expressions_path(@manifestation) -%></li>
-      <li><%= link_to ('Show manifestation'), @manifestation -%></li>
-      <li><%= link_to ('Edit manifestation'), edit_manifestation_path(@manifestation) -%></li>
+      <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
+      <li><%= link_to t('page.editing', :model => t('activerecord.models.manifestation')), edit_manifestation_path(@manifestation) -%></li>
     <%- end -%>
   </ul>
 </div>

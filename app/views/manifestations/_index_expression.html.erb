@@ -5,11 +5,12 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
-  <h1>
+  <h2>
     [E]
     <%= link_to h(@expression.original_title), @expression -%>
-  </h1>
+  </h2>
   <p>
     <%= patrons_list(@expression.authors) -%>
     <%= patrons_list(@expression.patrons) -%>

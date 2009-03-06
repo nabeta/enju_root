@@ -7,9 +7,11 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@work.original_title), @work -%>
-  </h1>
+  </h2>
 <table>
   <tr>
     <th><%= t('activerecord.models.expression') -%></th>
@@ -30,5 +32,5 @@
 </table>
 
 <%= will_paginate(@reifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-
+</div>
 </div>

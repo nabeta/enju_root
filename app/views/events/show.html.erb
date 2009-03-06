@@ -11,10 +11,11 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.event')) -%></h1>
 <div id="content_list">
-<h1 id="resource_title">
+<h2 id="resource_title">
   <%=h @event.title -%>
-</h1>
+</h2>
 
 <p>
   <b><%= t('activerecord.models.event_category') -%>:</b>

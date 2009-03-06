@@ -4,7 +4,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.management') -%></h1>
+<h1 class="title"><%= t('page.management') -%></h1>
+<div id="content_list">
 
 <ul>
   <li><%= link_to t('activerecord.models.patron'), patrons_path -%></li>
@@ -16,4 +17,5 @@
   <li><%= link_to t('page.statistics'), '/page/statistics' -%></li>
   <li><%= link_to t('page.configuration'), '/page/configuration' -%></li>
 </ul>
+</div>
 </div>

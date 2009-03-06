@@ -11,8 +11,9 @@ class SubjectsController < ApplicationController
     unless query.blank?
       @query = query.dup
       unless params[:mode] == 'add'
-        query += " manifestation_ids: #{@manifestation.id}" if @manifestation
-        query += " classification_ids: #{@classification.id}" if @classification
+        query.add_query!(@manifestation) if @manifestation
+        query.add_query!(@classification) if @classification
+        query.add_query!(@subject_heading_type) if @subject_heading_type
       end
       @subjects = Subject.paginate_by_solr(query, :page => params[:page], :per_page => @per_page).compact
     else
@@ -22,6 +23,8 @@ class SubjectsController < ApplicationController
         @subjects = @manifestation.subjects.paginate(:page => params[:page], :order => 'subjects.id')
       when @classification
         @subjects = @classification.subjects.paginate(:page => params[:page], :order => 'subjects.id')
+      when @subject_heading_type
+        @subjects = @subject_heading_type.subjects.paginate(:page => params[:page], :order => 'subjects.id')
       else
         @subjects = Subject.paginate(:all, :page => params[:page], :order => 'subjects.id')
       end

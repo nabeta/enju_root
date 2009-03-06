@@ -99,7 +99,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   def test_librarian_should_create_resource_has_subject_not_created_yet
     login_as :librarian1
     old_count = ResourceHasSubject.count
-    post :create, :resource_has_subject => {:subject_id => 2, :subjectable_id => 1, :subjectable_id => 'Manifestation'}
+    post :create, :resource_has_subject => {:subject_id => 2, :subjectable_id => 2, :subjectable_type => 'Manifestation'}
     #post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1, :subject_type => 'Place' }
     assert_equal old_count+1, ResourceHasSubject.count
     

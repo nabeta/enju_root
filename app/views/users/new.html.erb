@@ -11,10 +11,10 @@
 <%= error_messages_for :user -%>
 <%- form_for(@user) do |f| -%>
 <%- if @patron -%>
-  <h1 id="resource_title">
+  <h2 id="resource_title">
     [P]
     <%= link_to h(@patron.full_name), @patron -%>
-  </h1>
+  </h2>
   <%= f.hidden_field :patron_id -%></p>
 <%- else -%>
   <p>

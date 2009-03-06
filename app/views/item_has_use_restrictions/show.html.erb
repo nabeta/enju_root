@@ -1,18 +1,26 @@
+<div id="content_detail">
+<div id="content_list">
 <p>
-<b><%= t('activerecord.models.item') -%>:</b>
+  <b><%= t('activerecord.models.item') -%>:</b>
   <%= link_to h(@item_has_use_restriction.item.item_identifier), @item_has_use_restriction.item -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.item.item_identifier') -%>:</b>
+  <b><%= t('activerecord.attributes.item.item_identifier') -%>:</b>
   <%= link_to h(@item_has_use_restriction.item.item_identifier), @item_has_use_restriction.item -%> (<%= link_to h(@item_has_use_restriction.item.manifestation.original_title), @item_has_use_restriction.item.manifestation -%>)
 </p>
 
 <p>
-<b><%= ('Use restriction') -%>:</b>
+  <b><%= t('activerecord.models.use_restriction') -%>:</b>
   <%= link_to h(@item_has_use_restriction.use_restriction.display_name), @item_has_use_restriction.use_restriction -%>
 </p>
 
+</div>
+</div>
 
-<%= link_to t('page.edit'), edit_item_has_use_restriction_path(@item_has_use_restriction) -%> |
-<%= link_to t('page.back'), item_has_use_restrictions_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_item_has_use_restriction_path(@item_has_use_restriction) -%></li>
+    <li><%= link_to t('page.back'), item_has_use_restrictions_path -%></li>
+  </ul>
+</div>

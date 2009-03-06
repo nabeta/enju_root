@@ -107,20 +107,21 @@ en:
       user_checkout_stat: User checkout stat
       manifestation_reserve_stat: Manifestation reserve stat
       user_reserve_stat: User reserve stat
-      work_has_work: Work-to-work relationship
-      expression_has_expression: Expression-to-expression relationship
-      manifestation_has_manifestation: Manifestation-to-manifestation relationship
-      item_has_item: Item-to-item relationship
-      bookmark_stat_has_manifestation: Bookmark stat-to-manifestation relationship
-      reserve_stat_has_manifestation: Reserve stat-to-manifestation relationship
-      reserve_stat_has_user: Reserve stat-to-user relationship
+      work_has_work: Work to work relationship
+      expression_has_expression: Expression to expression relationship
+      manifestation_has_manifestation: Manifestation to manifestation relationship
+      item_has_item: Item to item relationship
+      bookmark_stat_has_manifestation: Bookmark stat to manifestation relationship
+      reserve_stat_has_manifestation: Reserve stat to manifestation relationship
+      reserve_stat_has_user: Reserve stat to user relationship
       concept: Concept
       place: Place
-      work_has_concept: Work-to-concept relationship
-      work_has_place: Work-to-place relationship
+      work_has_concept: Work to concept relationship
+      work_has_place: Work to place relationship
       person: Person
       corporate_body: Corporate body
-      Family: Family
+      family: Family
+      subject_heading_type_has_subject: Subject heading type to subject relationship
     attributes:
       library:
         name: Name
@@ -913,6 +914,10 @@ en:
     model: "Model"
     number_of_record: "Number of record"
     facet: "Facet"
+    number_of_days:
+      one: "{{count}} day"
+      other: "{{count}} days"
+    require_login_as_librarian: "You should login as a librarian to create and edit resources."
   title:
     index: "index"
     show: "show"
@@ -1027,6 +1032,7 @@ en:
     popular_tag: "Popular tags"
     my_tag: "My tags"
     user_tag: "{{login_name}}'s tags"
+    use_space_as_delimiter: "Use space as a delimiter."
   question:
     my: "My questions"
     all: "All questions"

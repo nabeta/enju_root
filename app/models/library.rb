@@ -35,7 +35,7 @@ class Library < ActiveRecord::Base
   end
 
   def address
-    self.region + self.locality + " " + self.street
+    self.region.to_s + self.locality.to_s + " " + self.street.to_s
   rescue
     nil
   end

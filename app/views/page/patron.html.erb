@@ -2,7 +2,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.patron_management') -%></h1>
+<h1 class="title"><%= t('page.patron_management') -%></h1>
+<div id="content_list">
 
 <ul>
   <li><%= link_to t('page.search_patron'), patrons_path -%></li>
@@ -16,4 +17,5 @@
   <li><%= link_to ('Merge patrons'), new_patron_merge_list_path -%></li>
 </ul>
 
+</div>
 </div>

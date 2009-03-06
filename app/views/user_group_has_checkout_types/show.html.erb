@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_group_has_checkout_type')) -%></h1>
 <div id="content_list">
 <p>
   <b><%= t('activerecord.models.user_group') -%>:</b>
@@ -49,7 +50,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.user_group_has_checkout_type.fixed_due_date') -%>:</b>
-  <%=h @user_group_has_checkout_type.fixed_due_date -%>
+  <%= l(@user_group_has_checkout_type.fixed_due_date) if @user_group_has_checkout_type.fixed_due_date -%>
 </p>
 
 <p>

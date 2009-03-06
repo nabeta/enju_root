@@ -1,16 +1,18 @@
 <div id="submenu">
   <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), patron_manifestations_path(@patron) -%></li>
     <%- if Produce.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_patron_produce_path(@patron) -%></li>
-      <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@patron.full_name), @patron -%>
-  </h1>
+  </h2>
 
 <table id="index">
   <tr>
@@ -33,7 +35,6 @@
 <%- end -%>
 </table>
 
-<br />
-
 <%= will_paginate(@produces, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

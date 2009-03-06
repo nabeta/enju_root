@@ -2,10 +2,13 @@
   <ul>
     <li><%= link_to t('page.edit'), edit_checkout_type_path(@checkout_type) -%></li>
     <li><%= link_to t('page.back'), checkout_types_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')), new_checkout_type_user_group_has_checkout_type_path(@checkout_type) -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation_form_has_checkout_type')), new_checkout_type_manifestation_form_has_checkout_type_path(@checkout_type) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_type')) -%></h1>
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.checkout_type.name') -%>:</b>
@@ -25,8 +28,6 @@
   <%- end -%>
 </ul>
 
-<p><%= link_to ('Add a user group'), new_checkout_type_user_group_has_checkout_type_path(@checkout_type) -%></p>
-
 <p>
 <b><%= t('activerecord.models.manifestation_form') -%></b>
 <ul>
@@ -34,8 +35,6 @@
     <li><%= link_to h(available_manifestation_form.manifestation_form.display_name), available_manifestation_form.manifestation_form -%></li>
   <%- end -%>
 </ul>
-
-<p><%= link_to ('Add a manifestation form'), new_checkout_type_manifestation_form_has_checkout_type_path(@checkout_type) -%></p>
 
 <p>
   <b><%= t('activerecord.attributes.checkout_type.note') -%>:</b>

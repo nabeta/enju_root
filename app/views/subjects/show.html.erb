@@ -1,22 +1,25 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
-    <li><%= link_to t('page.destroy'), subject_path(@subject), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- if flash[:query] -%>
       <li><%= link_to t('page.back'), subjects_path(:query => flash[:query]) -%></li>
     <%- else -%>
       <li><%= link_to t('page.back'), subjects_path -%></li>
     <%- end -%>
+    <%- if SubjectHasClassification.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
+      <li><%= link_to t('page.destroy'), subject_path(@subject), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.classification')), subject_classifications_path(@subject) -%></li>
+    <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h2 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h2>
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
 <%- cache(:id => @subject.id, :editable => @subject.is_updatable_by(current_user)) do -%>
-<h1>
+<h2>
   <%=h @subject.term %>
-</h1>
+</h2>
 
 <table id="index">
   <tr>

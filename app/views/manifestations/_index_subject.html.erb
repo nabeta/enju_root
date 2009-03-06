@@ -5,9 +5,11 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@subject.term), @subject -%>
-  </h1>
+  </h2>
 
   <%- form_for :manifestations, :url => subject_manifestations_path(@subject), :html => {:method => 'get'} do -%>
     <p>
@@ -62,4 +64,5 @@
 </table>
 
 <%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

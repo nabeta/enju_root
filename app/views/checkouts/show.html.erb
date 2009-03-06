@@ -11,6 +11,8 @@
 
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout')) -%></h1>
+<div id="content_list">
   <%= render :partial => 'manifestations/title', :locals => {:manifestation => @checkout.item.manifestation} -%>
   <p>
     <b><%= t('activerecord.attributes.item.item_identifier') -%></b><br />
@@ -26,4 +28,5 @@
       <%= link_to h(@checkout.user.login), user_path(@checkout.user.login) -%>
     </p>
   <%- end -%>
+</div>
 </div>

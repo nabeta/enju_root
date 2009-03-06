@@ -7,10 +7,9 @@
 </div>
                      
 <div id="content_detail">
-  <h1 title="class">
-    <%= link_to h(@subject.term), @subject -%>
-  </h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.classification')) -%></h1>
 <div id="content_list">
+  <h2><%= link_to h(@subject.term), @subject -%></h2>
 
   <%- form_for :classifications, :url => subject_classifications_path(@subject), :html => {:method => 'get'} do -%>
     <p>

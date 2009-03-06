@@ -6,11 +6,12 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-  <h1>
+  <h2>
     [W]
     <%= link_to h(@work.original_title), @work -%>
-  </h1>
+  </h2>
   <p>
     <%= patrons_list(@work.patrons) -%>
   </p>

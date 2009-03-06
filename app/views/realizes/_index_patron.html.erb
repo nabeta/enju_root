@@ -7,9 +7,11 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.realize')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@patron.full_name), @patron -%>
-  </h1>
+  </h2>
 <table>
   <tr>
     <th><%= t('activerecord.models.expression') -%></th>
@@ -31,4 +33,5 @@
 
 <%= will_paginate(@realizes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

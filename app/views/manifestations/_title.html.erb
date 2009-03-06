@@ -1,11 +1,11 @@
-    <h1 id="resource_title">
+    <h2 id="resource_title">
       [M]
       <%= link_to h(manifestation.original_title), manifestation -%>
       <%= form_icon(manifestation.manifestation_form) -%>
       <%- manifestation.expressions.each do |expression| -%>
         <%= link_to expression_form_icon(expression.expression_form), expression -%>
       <%- end -%>
-    </h1>
+    </h2>
     <p>
       <%- unless manifestation.authors.blank? -%>
         <%= t('page.author') -%>: <%= patrons_list(manifestation.authors) -%>

@@ -30,7 +30,7 @@
       
       <p>
         <label for="message_body"><%= t('activerecord.attributes.message.body') -%>:</label><br />
-        <%= form.text_area :body, :class => 'resource_textarea' -%>
+        <%= form.text_area :body, :id => 'message_body' -%>
       </p>
 
       <%= submit_tag t('message.send') -%>

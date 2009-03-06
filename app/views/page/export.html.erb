@@ -4,7 +4,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.export') -%></h1>
+<h1 class="title"><%= t('page.export') -%></h1>
+<div id="content_list">
 
 <ul>
   <li>
@@ -24,4 +25,5 @@
     (<%= link_to 'CSV', formatted_items_path(:csv) -%>)
   </li>
 </ul>
+</div>
 </div>

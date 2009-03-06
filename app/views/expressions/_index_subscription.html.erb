@@ -1,14 +1,16 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add a subscription'), subscriptions_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subscription')), subscriptions_path -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_subscription_expression_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@subscription.title), @subscription -%>
-  </h1>
+  </h2>
 
   <%- form_for :expressions, :url => subscription_expressions_path(@subscription), :html => {:method => 'get'} do -%>
     <p>
@@ -58,4 +60,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

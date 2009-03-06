@@ -121,6 +121,7 @@ ja:
       person: 人
       corporate_body: 団体
       family: 家族
+      subject_heading_type_has_subject: 件名標目と件名の関係
     attributes:
       library:
         name: 名前
@@ -132,7 +133,7 @@ ja:
         street: 番地
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number: ファクス番号
+        fax_number: ファックス番号
         lat: 緯度
         lng: 経度
         note: 注記
@@ -175,12 +176,12 @@ ja:
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
@@ -229,7 +230,7 @@ ja:
       subject_has_classification:
       expression:
         original_title: 原題
-        title_transcription: タイトル転写
+        title_transcription: タイトルよみ
         title_alternative: 代替タイトル
         summarization: 要約
         context: コンテキスト
@@ -253,14 +254,14 @@ ja:
         login: ログイン
         name: 名前
         openid_url: OpenIDのURL
-        email: メール
+        email: メールアドレス
         crypted_password: 暗号化パスワード
         salt: ソルト
         deleted_at: 削除時刻
         remember_token: 覚えているトークン
         remember_token_expires_at: トークンを忘れないで期限が切れる
         activation_code: 活性化コード
-        activated_at: でアクティブ
+        activated_at: 登録時刻
         expired_at: 有効期限
         suspended: アカウントの停止
         checkout_icalendar_token: 貸出iCalendarのトークン
@@ -401,7 +402,7 @@ ja:
         data: データ
       work:
         original_title: 原題
-        title_transcription: タイトル転写
+        title_transcription: タイトルよみ
         title_alternative: 代替タイトル
         context: コンテキスト
         note: 注記
@@ -439,7 +440,7 @@ ja:
         position: 位置
       subject:
         term: 用語
-        term_transcription: 用語転写
+        term_transcription: 用語よみ
         scope_note: スコープ注記
         note: 注記
         lock_version: ロックバージョン
@@ -526,7 +527,7 @@ ja:
       manifestation:
         original_title: 原題
         title_alternative: 代替タイトル
-        title_transcription: タイトル転写
+        title_transcription: タイトルよみ
         classification_number: 分類番号
         manifestation_identifier: 体現形の識別子
         date_of_publication: 出版日
@@ -625,7 +626,7 @@ ja:
         address: 住所
         note: 注記
         telephone_number: 電話番号
-        fax_number: ファクス番号
+        fax_number: ファックス番号
         url: URL
         position: 位置
         deleted_at: 削除時刻
@@ -709,63 +710,63 @@ ja:
         last_name: 姓
         middle_name: ミドルネーム
         first_name: 名前
-        last_name_transcription: 最後の名前の転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前の転写
+        last_name_transcription: 最後の名前のよみ
+        middle_name_transcription: ミドルネームよみ
+        first_name_transcription: 最初の名前のよみ
         corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
+        corporate_name_transcription: 企業名よみ
         full_name: 正式名称
-        full_name_transcription: フルネーム転写
+        full_name_transcription: フルネームよみ
         full_name_alternative: フルネーム代替
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
         note: 注記
       corporate_body:
         full_name: 名前
-        full_name_transcription: 名前の転写
+        full_name_transcription: 名前のよみ
         full_name_alternative: 代替の名前
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
         note: 注記
       family:
         full_name: 名前
-        full_name_transcription: 名前の転写
+        full_name_transcription: 名前のよみ
         full_name_alternative: 代替の名前
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
@@ -898,6 +899,8 @@ ja:
     model: "モデル"
     number_of_record: "レコード数"
     facet: "属性による絞り込み"
+    number_of_days: "{{count}} 日"
+    require_login_as_librarian: "操作を進めるには、図書館員としてログインする必要があります。"
   title:
     index: "一覧"
     show: "表示"
@@ -1010,6 +1013,7 @@ ja:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
     user_tag: "{{login_name}} さんのタグ"
+    use_space_as_delimiter: "半角スペースで区切ってください。"
   question:
     my: "自分の質問"
     all: "全ての質問"

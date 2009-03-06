@@ -1,15 +1,17 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.subject_has_classification')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :subject_has_classification -%>
 
 <%- form_for(@subject_has_classification) do |f| -%>
   <p>
-    <b>Subject</b><br />
+    <b><%= t('activerecord.models.subject') -%></b><br />
     <%= f.text_field :subject_id -%>
   </p>
 
   <p>
-    <b>Decimal classification</b><br />
+    <b><%= t('activerecord.models.classification') -%></b><br />
     <%= f.text_field :classification_id -%>
   </p>
 
@@ -18,4 +20,11 @@
   </p>
 <%- end -%>
 
-<%= link_to t('page.back'), subject_has_classifications_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), subject_has_classifications_path -%></li>
+  </ul>
+</div>

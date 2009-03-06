@@ -7,10 +7,11 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title">
-    <%= link_to h(@bookmarked_resource.title), @bookmarked_resource -%>
-  </h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmark')) -%></h1>
 <div id="content_list">
+  <h2>
+    <%= link_to h(@bookmarked_resource.title), @bookmarked_resource -%>
+  </h2>
 <table id="index">
   <tr>
     <th><%= t('page.user') -%></th>

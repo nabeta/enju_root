@@ -10,11 +10,12 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.tag')) -%></h1>
 <div id="content_list">
-  <h1 id="resource_title">
+  <h2 id="resource_title">
     [T]
     <%=h @tag.name -%>
-  </h1>
+  </h2>
 
 <p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@tag.name)) -%>)</p>
 

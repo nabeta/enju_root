@@ -4,10 +4,11 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.acquisition') -%></h1>
+<h1 class="title"><%= t('page.acquisition') -%></h1>
+<div id="content_list">
 
 <ul>
-  <li><%= link_to ('Add a new resource'), works_path -%></li>
+  <li><%= link_to t('page.add', :model => t('page.resource')), works_path -%></li>
   <!--
   <li><%= link_to t('activerecord.models.patron'), patrons_path -%></li>
   <li><%= link_to t('activerecord.models.work'), works_path -%></li>
@@ -27,4 +28,5 @@
   -->
   <li><%= link_to ('ISBN'), new_manifestation_path(:mode => 'import_isbn') -%></li>
 </ul>
+</div>
 </div>

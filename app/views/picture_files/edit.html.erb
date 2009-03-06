@@ -23,42 +23,42 @@
   </p>
 
   <p>
-  <b><%= ('Size') -%></b><br />
+    <b><%= t('activerecord.attributes.picture_file.size') -%></b><br />
     <%= f.text_field :size -%>
   </p>
 
   <p>
-  <b>Content type</b><br />
+    <b><%= t('activerecord.attributes.picture_file.content_type') -%></b><br />
     <%= f.text_field :content_type -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.picture_file.filename') -%></b><br />
+    <b><%= t('activerecord.attributes.picture_file.filename') -%></b><br />
     <%= f.text_field :filename -%>
   </p>
 
   <p>
-  <b><%= ('Height') -%></b><br />
-    <%= f.text_field :height -%>
-  </p>
-
-  <p>
-  <b><%= ('Width') -%></b><br />
+    <b><%= t('activerecord.attributes.picture_file.width') -%></b><br />
     <%= f.text_field :width -%>
   </p>
 
   <p>
-  <b><%= ('Parent') -%></b><br />
+    <b><%= t('activerecord.attributes.picture_file.height') -%></b><br />
+    <%= f.text_field :height -%>
+  </p>
+
+  <p>
+    <b><%= ('Parent') -%></b><br />
     <%= f.text_field :parent_id -%>
   </p>
 
   <p>
-  <b><%= ('Thumbnail') -%></b><br />
+    <b><%= t('activerecord.attributes.picture_file.thumbnail') -%></b><br />
     <%= f.text_field :thumbnail -%>
   </p>
 
   <p>
-    <b>Db file</b><br />
+    <b><%= t('activerecord.models.db_file') -%></b><br />
     <%= f.text_field :db_file_id -%>
   </p>
 

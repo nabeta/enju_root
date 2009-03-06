@@ -1,10 +1,10 @@
 <div id="submenu">
   <ul>
     <%- if @create.patron -%>
-    <li><%= link_to ('Back to works'), patron_works_path(@create.patron) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), patron_works_path(@create.patron) -%></li>
     <%- end -%>
     <%- if @create.work -%>
-    <li><%= link_to ('Back to patrons'), work_patrons_path(@create.work) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), work_patrons_path(@create.work) -%></li>
     <%- end -%>
   </ul>
 </div>

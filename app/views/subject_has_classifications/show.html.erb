@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject_has_classification')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.subject') -%>:</b>
   <%= link_to h(@subject_has_classification.subject.term), @subject_has_classification.subject -%>
@@ -16,4 +18,5 @@
   <%= link_to h(@subject_has_classification.classification.category), @subject_has_classification.classification -%>
 </p>
 
+</div>
 </div>

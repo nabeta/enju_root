@@ -6,18 +6,21 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject_heading_type_has_subject')) -%></h1>
+<div id="content_list">
 <p>
-  <b>Subject:</b>
+  <b><%= t('activerecord.models.subject') %></b>
   <%= link_to h(@subject_heading_type_has_subject.subject.term), @subject_heading_type_has_subject.subject %>
 </p>
 
 <p>
-  <b>Subject type:</b>
+  <b><%= t('activerecord.models.subject_type') %></b>
   <%=h @subject_heading_type_has_subject.subject_type %>
 </p>
 
 <p>
-  <b>Subject heading type:</b>
+  <b><%= t('activerecord.models.subject_heading_type') %></b>
   <%= link_to h(@subject_heading_type_has_subject.subject_heading_type.display_name), @subject_heading_type_has_subject.subject_heading_type %>
 </p>
+</div>
 </div>

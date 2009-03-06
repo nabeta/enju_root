@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if @user_group -%>
-      <li><%= link_to ('Add a checkout_type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
     <%- else -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.checkout_type')), new_checkout_type_path -%></li>
     <%- end -%>

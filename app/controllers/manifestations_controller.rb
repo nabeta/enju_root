@@ -64,7 +64,7 @@ class ManifestationsController < ApplicationController
           query.add_query!(@patron) unless @patron.blank?
         end
         # 内部的なクエリ
-        query = add_query(query, @manifestation_form) unless @manifestation_form.blank?
+        query = add_query!(query, @manifestation_form) unless @manifestation_form.blank?
         query.add_query!(@subject_by_term) unless @subject_by_term.blank?
         unless params[:library].blank?
           library_list = params[:library].split.uniq.join(' ')

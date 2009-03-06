@@ -7,6 +7,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= t('message.sender') -%>:</b>
   <%= link_to h(@message_queue.sender.login), user_path(@message_queue.sender.login) -%>
@@ -38,13 +39,15 @@
 </p>
 
 <p>
+  <b><%= t('activerecord.attributes.message.subject') -%>:</b>
   <b><%= t('page.subject') -%>:</b>
   <%=h @message_queue.subject -%>
 </p>
 
 <p>
-  <b><%= ('Body') -%>:</b>
+  <b><%= t('activerecord.attributes.message.body') -%>:</b>
   <%= auto_link(textilize(@message_queue.body)) -%>
 </p>
 
+</div>
 </div>

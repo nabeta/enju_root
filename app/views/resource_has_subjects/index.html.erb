@@ -1,15 +1,20 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.resource_has_subject')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.subject') -%></th>
     <th><%= t('activerecord.models.subject_type') -%></th>
+    <th><%= ('Subjectable') -%></th>
   </tr>
 
 <%- for resource_has_subject in @resource_has_subjects -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(resource_has_subject.subject.term), resource_has_subject.subject -%></td>
     <td><%= h(resource_has_subject.subject.class.to_s) -%></td>
+    <!-- TODO: Manifestation以外 -->
+    <td><%= link_to h(resource_has_subject.subjectable.original_title), resource_has_subject.subjectable -%></td>
     <td><%= link_to t('page.show'), resource_has_subject -%></td>
     <td><%= link_to t('page.edit'), edit_resource_has_subject_path(resource_has_subject) -%></td>
     <td><%= link_to t('page.destroy'), resource_has_subject, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -18,6 +23,11 @@
 </table>
 
 <%= will_paginate(@resource_has_subjects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.resource_has_subject')), new_resource_has_subject_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.resource_has_subject')), new_resource_has_subject_path -%></li>
+  </ul>
+</div>

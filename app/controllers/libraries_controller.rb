@@ -107,8 +107,8 @@ class LibrariesController < ApplicationController
   # DELETE /libraries/1.xml
   def destroy
     @library = Library.find(:first, :conditions => {:short_name => params[:id]})
-    raise ActiveRecord::RecordNotFound if @library.nil?
-    raise if @library.id == 1
+    raise ActiveRecord::RecordNotFound if @library.blank?
+    raise if @library.web?
 
     @library.destroy
 
