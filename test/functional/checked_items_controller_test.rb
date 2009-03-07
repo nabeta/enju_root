@@ -85,8 +85,8 @@ class CheckedItemsControllerTest < ActionController::TestCase
     post :create, :checked_item => { }, :basket_id => 1
     assert_equal old_count, CheckedItem.count
     
-    assert_response :redirect
-    assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
+    assert_response :success
+    #assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
   end
 
   def test_everyone_should_not_create_checked_item_with_missing_item
@@ -95,9 +95,9 @@ class CheckedItemsControllerTest < ActionController::TestCase
     post :create, :checked_item => {:item_identifier => 'not found'}, :basket_id => 1
     assert_equal old_count, CheckedItem.count
     
-    assert_response :redirect
-    assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
-    assert flash[:message].index('Item not found.')
+    assert_response :success
+    #assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
+    assert_equal assigns(:checked_item).errors["base"], 'Item not found.'
   end
 
   def test_everyone_should_not_create_checked_item_with_item_not_for_checkout
@@ -106,9 +106,10 @@ class CheckedItemsControllerTest < ActionController::TestCase
     post :create, :checked_item => {:item_identifier => '00017'}, :basket_id => 1
     assert_equal old_count, CheckedItem.count
     
-    assert_response :redirect
-    assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
-    assert flash[:message].index('This item is not available for checkout.')
+    assert_response :success
+    #assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
+    #assert flash[:message].include?('This item is not available for checkout.')
+    assert assigns(:checked_item).errors["base"].include?('This item is not available for checkout.')
   end
 
   def test_everyone_should_not_create_checked_item_without_basket_id
@@ -155,15 +156,16 @@ class CheckedItemsControllerTest < ActionController::TestCase
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket)
     assert flash[:message].index('This item includes supplements.')
+    #assert_nil assigns(:checked_item).errors
   end
   
   def test_librarian_should_not_create_checked_item_when_over_checkout_limit
     login_as :librarian1
     post :create, :checked_item => {:item_identifier => '00004'}, :basket_id => 1
     
-    assert_response :redirect
-    assert_redirected_to user_basket_checked_items_path(assigns(:basket).user.login, assigns(:basket))
-    assert flash[:message].index('Excessed checkout limit.')
+    assert_response :success
+    #assert_redirected_to user_basket_checked_items_path(assigns(:basket).user.login, assigns(:basket))
+    assert assigns(:checked_item).errors["base"].include?('Excessed checkout limit.')
   end
 
   def test_guest_should_not_show_checked_item
@@ -242,6 +244,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     login_as :librarian1
     put :update, :id => 4, :checked_item => { }, :basket_id => 8
     assert_redirected_to checked_item_url(assigns(:checked_item))
+    #assert_nil assigns(:checked_item).errors
   end
 
   def test_guest_should_not_destroy_checked_item

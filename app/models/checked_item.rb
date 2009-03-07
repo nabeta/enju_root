@@ -6,49 +6,52 @@ class CheckedItem < ActiveRecord::Base
   validates_associated :item, :basket
   validates_presence_of :item, :basket
   validates_uniqueness_of :item_id, :scope => :basket_id
+  validate_on_create :available_for_checkout?
   
   before_create :set_due_date
 
   attr_accessor :item_identifier
 
-  def item_checkout_type
-    self.basket.user.user_group.user_group_has_checkout_types.available_for_item(self.item).first
-  end
-
-  def check_item_status
-    messages = []
+  def available_for_checkout?
+    if self.item.blank?
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
+      return
+    end
+    unless self.item.available_for_checkout?
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
+    end
     if self.item_checkout_type.nil?
-      messages << ('This user group can\'t checkout this item.')
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.this_group_cannot_checkout'))
     end
-
     if self.item.use_restrictions.detect{|r| r.name == 'Not For Loan'}
-      messages << ('This item is not for checkout.')
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
     end
-
     if self.item.rent?
-      messages << ('This item may be already checked out.')
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.already_checked_out'))
     end
     
     if self.item.reserved?
       reserving_user = self.item.manifestation.reserving_users.find(:first, :conditions => {:id => user.id}, :order => :created_at) rescue nil
       unless reserving_user
         #errors.add_to_base(('Reserved item included!'))
-        messages << ('Reserved item included!')
+        errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.reserved_item_included'))
       end
     end
-    
+
     checkout_count = self.basket.user.checked_item_count
     CheckoutType.find(:all).each do |checkout_type|
       manifestation_form = self.item.manifestation.manifestation_form
       if checkout_count[:"#{checkout_type.name}"] > self.item_checkout_type.checkout_limit
         #errors.add_to_base(('Excessed checkout limit.'))
-        messages << ('Excessed checkout limit.')
+        errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.excessed_checkout_limit'))
       end
     end
-    
-    return messages unless messages.empty?
   end
-  
+
+  def item_checkout_type
+    self.basket.user.user_group.user_group_has_checkout_types.available_for_item(self.item).first
+  end
+
   def set_due_date
     if self.item_checkout_type.nil?
       return nil

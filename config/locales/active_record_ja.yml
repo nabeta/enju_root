@@ -24,6 +24,15 @@ ja:
         odd: "は奇数にしてください。"
         even: "は偶数にしてください。"
         # Append your own errors here or at the model/attributes scope.
+        checked_item:
+          not_available_for_checkout: "この資料の貸出はできません。"
+          this_group_cannot_checkout: "この利用者種別でのこの資料の貸出はできません。"
+          item_not_found: "資料が見つかりません。"
+          already_checked_out: "この資料はすでに貸し出されています。"
+          reserved_item_included: "予約されている資料が含まれています！"
+          excessed_checkout_limit: "貸出数の上限を超えています。"
+        checkin:
+          already_checked_out: "この資料はすでに貸し出されています。"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -37,7 +46,7 @@ ja:
       #           blank: "This is a custom blank message for User login"
       # Will define custom blank validation message for User model and 
       # custom blank validation message for login attribute of User model.
-      models:
+      #models:
         
     # Translate model names. Used in Model.human_name().
     #models:
@@ -51,3 +60,4 @@ ja:
       #   user:
       #     login: "Handle"
       # will translate User attribute "login" as "Handle"
+      #attributes:

@@ -93,27 +93,11 @@ class CheckedItemsController < ApplicationController
       item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? LIMIT 1', item_identifier]).first
     end
 
-    if item.blank?
-      flash[:message] << t('checked_item.item_not_found')
-      raise ActiveRecord::RecordNotFound
-    end
-
-    unless item.available_for_checkout?
-      flash[:message] << t('checked_item.not_available_for_checkout')
-      raise
-    end
-
     @checked_item.item = item unless item.blank?
-    unless @checked_item.check_item_status.blank?
-      flash[:message] += @checked_item.check_item_status
-      raise ActiveRecord::RecordNotFound
-    end
 
     respond_to do |format|
       if @checked_item.save
-        flash[:message] << @checked_item.check_item_status
         if @checked_item.item.reserved?
-          flash[:message] << t('item.this_item_is_reserved')
           if @checked_item.item.manifestation.reserved?(@basket.user)
             reserve = Reserve.find(:first, :conditions => {:user_id => @basket.user.id, :manifestation_id => @checked_item.item.manifestation.id})
             reserve.destroy
@@ -129,11 +113,15 @@ class CheckedItemsController < ApplicationController
           redirect_to(user_basket_checked_items_url(@basket.user.login, @basket, :mode => 'list'))
           return
         else
+          flash[:message] << @checked_item.errors["base"]
           format.html { redirect_to(user_basket_checked_items_url(@basket.user.login, @basket)) }
           format.xml  { render :xml => @checked_item, :status => :created, :location => @checked_item }
         end
       else
+        flash[:message] << @checked_item.errors["base"]
         if params[:mode] == 'list'
+          #format.html { render :action => "new" }
+          #format.xml  { render :xml => @checked_item.errors, :status => :unprocessable_entity }
           redirect_to(user_basket_checked_items_url(@basket.user.login, @basket, :mode => 'list'))
           return
         else
@@ -141,17 +129,6 @@ class CheckedItemsController < ApplicationController
           format.xml  { render :xml => @checked_item.errors, :status => :unprocessable_entity }
         end
       end
-    end
-  rescue
-    #not_found
-    if @basket
-      if params[:mode] == 'list'
-        redirect_to(user_basket_checked_items_url(@basket.user.login, @basket, :mode => 'list'))
-      else
-        redirect_to user_basket_checked_items_url(@basket.user.login, @basket)
-      end
-    else
-      redirect_to new_basket_url
     end
   end
 

@@ -22,6 +22,7 @@ en:
       default: "%b %d, %Y %H:%M:%S"
       short: "%m/%d/%y %H:%M"
       long: "%A, %B %d, %Y %H:%M:%S %Z"
+      only_date: "%b %d, %Y"
     am: "AM"
     pm: "PM"
       

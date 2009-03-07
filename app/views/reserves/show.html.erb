@@ -42,7 +42,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.reserve.expired_at') -%>:</b>
-  <%= l(@reserve.expired_at) if @reserve.expired_at -%>
+  <%= l(@reserve.expired_at, :format => :only_date) if @reserve.expired_at -%>
 </p>
 
 <p>

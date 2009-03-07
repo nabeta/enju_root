@@ -360,6 +360,7 @@ ja:
         body: 本文
       donate:
       basket:
+        user: 利用者
         note: 注記
         lock_version: ロックバージョン
       subject_as_event:
@@ -610,7 +611,7 @@ ja:
       reserve:
         checked_out_at: 貸出時刻
         canceled_at: 取消時刻
-        expired_at: 有効期限
+        expired_at: 有効期限（この日以降は不要）
         deleted_at: 削除時刻
         state: 状態
       message_queue:
@@ -901,6 +902,7 @@ ja:
     facet: "属性による絞り込み"
     number_of_days: "{{count}} 日"
     require_login_as_librarian: "操作を進めるには、図書館員としてログインする必要があります。"
+    read: "読み込み"
   title:
     index: "一覧"
     show: "表示"
@@ -922,7 +924,7 @@ ja:
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
-    add_to_my_bookmark: "Webページを登録する"
+    add_to_my_bookmark: "ブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
     invalid_url: "無効なURLです。"
     specify_title_and_url: "タイトルとURLを指定してください。"
@@ -1111,10 +1113,14 @@ ja:
   checked_item:
     item_not_found: "資料が見つかりません。"
     not_available_for_checkout: "この資料の貸出はできません。"
+    previous_checkout: "現在貸出中の資料"
+    checkout: "上記の資料を貸し出す"
   checkin:
+    item_not_found: "資料が見つかりません。"
     enter_item_identifier: "個別資料番号を入力してください。"
     other_library_item: "この資料は他の図書館のものです！"
     already_checked_in: "この資料はすでに返却されています。"
+    checkin: "返却（取り消しはできません）"
   search_history:
     all_history: "全ての検索履歴"
     failed_search: "失敗した検索"

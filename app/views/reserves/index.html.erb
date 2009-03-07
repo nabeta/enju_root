@@ -48,7 +48,7 @@
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
     </td>
     <td><%=h reserve.request_status_type.display_name -%></td>
-    <td><%= l(reserve.expired_at, :format => :short) -%></td>
+    <td><%= l(reserve.expired_at, :format => :only_date) -%></td>
     <%- if reserve.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), user_reserve_path(reserve.user.login, reserve) -%></td>
       <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.login, reserve) -%></td>

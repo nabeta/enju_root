@@ -361,6 +361,7 @@ en:
         body: Body
       donate:
       basket:
+        user: User
         note: Note
         lock_version: Lock version
       subject_as_event:
@@ -918,6 +919,7 @@ en:
       one: "{{count}} day"
       other: "{{count}} days"
     require_login_as_librarian: "You should login as a librarian to create and edit resources."
+    read: "Read"
   title:
     index: "index"
     show: "show"
@@ -1131,10 +1133,14 @@ en:
   checked_item:
     item_not_found: "Item not found."
     not_available_for_checkout: "This item is not available for checkout."
+    previous_checkout: "Previous checkouts"
+    checkout: "Checkout!"
   checkin:
+    item_not_found: "Item not found."
     enter_item_identifier: "Enter item identifier."
     other_library_item: "This item is other library's item!"
     already_checked_in: "This item is already checked in."
+    checkin: "Checkin!"
   search_history:
     all_history: "All search history"
     failed_search: "Failed searches"

@@ -153,4 +153,17 @@ class Reserve < ActiveRecord::Base
   rescue
     false
   end
+
+  def self.is_creatable_by(user, parent = nil)
+    true if user.has_role?('User')
+  rescue
+    false
+  end
+
+  def is_updatable_by(user, parent = nil)
+    raise if ['completed', 'canceled', 'expired'].include?(self.state)
+    true if user == self.user || user.has_role?('Librarian')
+  rescue
+    false
+  end
 end

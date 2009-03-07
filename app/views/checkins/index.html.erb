@@ -9,7 +9,7 @@
 <div id="content_list">
 
   <div id="checkin_list">
-    <%= render :partial => 'list' -%>
+    <%= render :partial => 'checkins/list', :locals => {:checkins => @checkins} -%>
   </div>
 
 </div>

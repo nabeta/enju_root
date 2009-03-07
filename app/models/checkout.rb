@@ -10,15 +10,23 @@ class Checkout < ActiveRecord::Base
   belongs_to :librarian, :class_name => 'User' #, :validate => true
   belongs_to :basket #, :validate => true
 
-  validates_associated :user, :item, :librarian, :checkin, :basket
+  validates_associated :user, :item, :librarian, :checkin #, :basket
   # TODO: 貸出履歴を保存しない場合は、ユーザ名を削除する
   #validates_presence_of :user, :item, :basket
-  validates_presence_of :item, :basket
+  validates_presence_of :item_id, :basket_id
   validates_uniqueness_of :item_id, :scope => [:basket_id, :user_id]
+  validate :is_not_checked?
 
   cattr_reader :renew_due_date
   cattr_reader :per_page
   @@per_page = 10
+
+  def is_not_checked?
+    checkout = Checkout.not_returned.find(self.item) rescue nil
+    if checkout.nil?
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checkin.already_checked_out'))
+    end
+  end
 
   def checkout_renewable?
     return false if self.overdue?
