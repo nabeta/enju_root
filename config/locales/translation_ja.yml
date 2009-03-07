@@ -609,6 +609,7 @@ ja:
         fulltext: 全文
         file_hash: ファイルのハッシュ
       reserve:
+        user: 利用者
         checked_out_at: 貸出時刻
         canceled_at: 取消時刻
         expired_at: 有効期限（この日以降は不要）

@@ -610,6 +610,7 @@ en:
         fulltext: Fulltext
         file_hash: File hash
       reserve:
+        user: User
         checked_out_at: Checked out at
         canceled_at: Canceled at
         expired_at: Expired at

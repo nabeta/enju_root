@@ -300,7 +300,7 @@ class ApplicationController < ActionController::Base
     printer = RubyProf::GraphPrinter.new(result)
     out = StringIO.new
     printer.print(out, 0)
-    response.body.resubject out.string
+    response.body.replace out.string
     response.content_type = "text/plain"
   end
 
