@@ -16,11 +16,11 @@
 
   <ul>
     <%- @expression_merge_list.expressions.each do |expression| -%>
-      <li><%= radio_button_tag 'selected_expression_id', expression.id -%><%= link_to h(expression.original_title), expression_path(expression) -%></li>
+      <li><%= radio_button_tag 'selected_expression_id', expression.id -%><%= link_to h(expression.original_title), expression -%></li>
     <%- end -%>
   </ul>
   <%- if @expression_merge_list.expressions.size > 1 -%>
-    <%= f.submit "Merge", :confirm => t('page.are_you_sure') -%>
+    <%= f.submit t('page.merge'), :confirm => t('page.are_you_sure') -%>
   <%- end -%>
 <%- end -%>
 

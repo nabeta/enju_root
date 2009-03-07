@@ -1,9 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add a work'), work_merge_list_works_path(@work_merge_list) -%></li>
-    <li><%= link_to ('Edit a list'), work_merge_list_work_merges_path(@work_merge_list) -%></li>
-  </ul>
-  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), work_merge_list_works_path(@work_merge_list) -%></li>
     <li><%= link_to t('page.edit'), edit_work_merge_list_path(@work_merge_list) -%></li>
     <li><%= link_to t('page.back'), work_merge_lists_path -%></li>
   </ul>
@@ -19,11 +16,11 @@
 
   <ul>
     <%- @work_merge_list.works.each do |work| -%>
-      <li><%= radio_button_tag 'selected_work_id', work.id -%><%= link_to h(work.original_title), work_path(work) -%></li>
+      <li><%= radio_button_tag 'selected_work_id', work.id -%><%= link_to h(work.original_title), work -%></li>
     <%- end -%>
   </ul>
   <%- if @work_merge_list.works.size > 1 -%>
-    <%= f.submit "Merge", :confirm => t('page.are_you_sure') -%>
+    <%= f.submit t('page.merge'), :confirm => t('page.are_you_sure') -%>
   <%- end -%>
 <%- end -%>
 

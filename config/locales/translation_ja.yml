@@ -35,7 +35,7 @@ ja:
       advertisement: 広告記事
       porta_response: PORTAの応答
       donate: 寄贈
-      basket: 貸出かご
+      basket: 貸出セッション
       subject_as_event: 対象イベントとして
       checked_item: 貸出資料
       produce: 生産
@@ -313,8 +313,10 @@ ja:
         name: 名前
         note: 注記
       imported_object:
-        imported_file_type: インポートするファイルの種類
-        importable_type: インポートの種類
+        imported_file: インポート用ファイル
+        imported_file_type: インポート用ファイルの種類
+        importable: インポートされた資料
+        importable_type: インポートされた資料の種類
       exemplify:
         position: 位置
       own:
@@ -904,6 +906,8 @@ ja:
     number_of_days: "{{count}} 日"
     require_login_as_librarian: "操作を進めるには、図書館員としてログインする必要があります。"
     read: "読み込み"
+    merge: "併合する（取り消しはできません）"
+    merge_resource: "{{model}}を併合する"
   title:
     index: "一覧"
     show: "表示"
@@ -1057,6 +1061,7 @@ ja:
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
+    will_be_impoted: "{{minute}} 分以内にインポートされます。"
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
@@ -1122,6 +1127,7 @@ ja:
     other_library_item: "この資料は他の図書館のものです！"
     already_checked_in: "この資料はすでに返却されています。"
     checkin: "返却（取り消しはできません）"
+    successfully_checked_in: "資料は正常に返却されました。"
   search_history:
     all_history: "全ての検索履歴"
     failed_search: "失敗した検索"
@@ -1132,7 +1138,5 @@ ja:
     required_role: "参照に必要な権限"
   advertisement:
     period: "期間"
-  import:
-    will_be_impoted: "{{minute}} 分以内にインポートされます。"
   attachment_file:
     invalid_file: "無効なファイルです。"

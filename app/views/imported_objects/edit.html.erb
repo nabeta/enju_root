@@ -13,15 +13,19 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :imported_file_id -%><br />
+    <%= f.label t('activerecord.attributes.imported_object.imported_file') -%><br />
     <%= f.text_field :imported_file_id -%>
   </p>
   <p>
-    <%= f.label :importable_id -%><br />
+    <%= f.label t('activerecord.attributes.imported_object.imported_file_type') -%><br />
+    <%= f.text_field :imported_file_type -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.imported_object.importable') -%><br />
     <%= f.text_field :importable_id -%>
   </p>
   <p>
-    <%= f.label :importable_type -%><br />
+    <%= f.label t('activerecord.attributes.imported_object.importable_type') -%><br />
     <%= f.text_field :importable_type -%>
   </p>
   <p>

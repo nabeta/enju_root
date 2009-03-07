@@ -3,6 +3,7 @@ class CheckinsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_basket
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
   # GET /checkins
   # GET /checkins.xml
@@ -77,13 +78,17 @@ class CheckinsController < ApplicationController
 
       respond_to do |format|
         if @checkin.save
-          flash[:message] << t('controller.successfully_created', :model => t('activerecord.models.checkin'))
+          #flash[:message] << t('controller.successfully_created', :model => t('activerecord.models.checkin'))
+          flash[:message] << t('checkin.successfully_checked_in', :model => t('activerecord.models.checkin'))
           Checkin.transaction do
             checkout = Checkout.not_returned.find(:first, :conditions => {:item_id => @checkin.item.id})
             # TODO: 貸出されていない本の処理
             # TODO: ILL時の処理
             @checkin.item.checkin!
-            @checkin.checkout = checkout if checkout
+            if checkout
+              checkout.checkin = @checkin
+              checkout.save!
+            end
 
             unless checkout.other_library_resource?(current_user.library)
               flash[:message] << t('checkin.other_library_item')

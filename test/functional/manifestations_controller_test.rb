@@ -261,8 +261,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     login_as :librarian1
     old_count = Manifestation.count
     post :create, :manifestation => { :isbn => '4820403303' }, :mode => 'import_isbn'
-    #assert_equal old_count+1, Manifestation.count
-    assert_nil flash[:notice]
+    assert_equal old_count+1, Manifestation.count
     
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies

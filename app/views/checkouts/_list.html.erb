@@ -4,6 +4,7 @@
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= t('activerecord.attributes.checkout.due_date') -%></th>
     <th></th>
+    <th></th>
   </tr>
   
 <%- if @checkouts -%>
@@ -14,7 +15,7 @@
       <div class="holding" id="holding_<%=h checkout.item.manifestation.id -%>"></div>
     </td>
     <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
-    <td><%=h l(checkout.due_date, :format => :short) -%></td>
+    <td><%=h l(checkout.due_date, :format => :only_date) -%></td>
     <td><%= link_to t('page.show'), user_checkout_path(checkout.user.login, checkout) -%>
     <td>
       <%- if checkout.is_updatable_by(current_user) -%>

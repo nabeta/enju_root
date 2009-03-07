@@ -15,7 +15,7 @@ class Checkout < ActiveRecord::Base
   #validates_presence_of :user, :item, :basket
   validates_presence_of :item_id, :basket_id
   validates_uniqueness_of :item_id, :scope => [:basket_id, :user_id]
-  validate :is_not_checked?
+  validate_on_create :is_not_checked?
 
   cattr_reader :renew_due_date
   cattr_reader :per_page
@@ -23,7 +23,7 @@ class Checkout < ActiveRecord::Base
 
   def is_not_checked?
     checkout = Checkout.not_returned.find(self.item) rescue nil
-    if checkout.nil?
+    unless checkout.nil?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checkin.already_checked_out'))
     end
   end

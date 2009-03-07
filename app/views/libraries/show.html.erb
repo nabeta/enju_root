@@ -68,7 +68,12 @@
           </tr>
           <%- @library.shelves.each do |shelf| -%>
           <tr>
-            <td><%= link_to h(shelf.name), library_shelf_path(@library.short_name, shelf) -%></td>
+            <td>
+              <%= link_to h(shelf.name), library_shelf_path(@library.short_name, shelf) -%>
+              <%- if shelf.picture_files.present? -%>
+                (<%= link_to t('page.picture'), formatted_picture_file_path(shelf.picture_files.first, shelf.picture_files.first.extname), :class => "thickbox" -%>)
+              <%- end -%>
+            </td>
             <td><%=h shelf.items_count -%></td>
             <td><%=h shelf.note -%></td>
           </tr>

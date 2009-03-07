@@ -7,6 +7,13 @@
       </li>
     <%- end -%>
   </ul>
+  <ul>
+    <li><%= link_to t('activerecord.models.reserve'), user_reserves_path(@user.login) -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= link_to t('checkout.all_checkout'), checkouts_path -%></li>
+    <%- end -%>
+    <li><%= link_to 'iCalendar', ('/icalendar/' + h(@user.checkout_icalendar_token) + '.ics') -%></li>
+  </ul>
   <p>
     <%- if params[:view] == 'overdue' -%>
       <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_user_checkouts_path(@user.login, :rss, :view => 'overdue') -%>
@@ -19,13 +26,6 @@
     <%- end -%>
   </p>
 
-  <ul>
-    <li><%= link_to 'iCalendar', ('/icalendar/' + h(@user.checkout_icalendar_token) + '.ics') -%></li>
-    <li><%= link_to t('activerecord.models.reserve'), user_reserves_path(@user.login) -%></li>
-    <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to t('checkout.all_checkout'), checkouts_path -%></li>
-    <%- end -%>
-  </ul>
 </div>
 
 <div id="content_detail">

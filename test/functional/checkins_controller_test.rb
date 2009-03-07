@@ -83,6 +83,7 @@ class CheckinsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Checkin.count
     
     assert_equal 'Available On Shelf', assigns(:checkin).item.circulation_status.name
+    assert_not_nil assigns(:checkin).checkout
     assert_redirected_to user_basket_checkins_url(assigns(:basket).user.login, assigns(:basket))
   end
 
