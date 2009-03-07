@@ -2,7 +2,8 @@ require 'test_helper'
 
 class ImportedObjectsControllerTest < ActionController::TestCase
   fixtures :imported_objects, :users, :patrons, :events,
-    :languages, :user_groups, :libraries, :library_groups, :patron_types
+    :languages, :user_groups, :libraries, :library_groups, :patron_types,
+    :imported_event_files, :imported_patron_files, :imported_resource_files
 
   def test_should_get_index
     login_as :librarian1

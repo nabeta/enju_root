@@ -5,7 +5,8 @@ class ImportedEventFile < ActiveRecord::Base
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
   belongs_to :user, :validate => true
-  has_many :imported_objects, :as => :imported_file, :dependent => :destroy
+  has_many :imported_objects, :as => :importable, :dependent => :destroy
+  has_one :imported_object, :as => :imported_file, :dependent => :destroy
 
   def import_events
     self.reload
@@ -20,13 +21,19 @@ class ImportedEventFile < ActiveRecord::Base
       event.note = data['note'].to_s.chomp
       event.started_at = data['started_at'].to_s.chomp
       event.ended_at = data['ended_at'].to_s.chomp
+      category = data['category'].to_s.chomp
       library = Library.find(:first, :conditions => {:short_name => data['library_short_name'].to_s.chomp})
       library = Library.find(1) if library.blank?
       event.library = library
+      if category == "closed"
+        event.event_category = EventCagetory.find(:first, :conditions => {:name => 'closed'})
+      end
+
       if event.save!
         imported_object = ImportedObject.new
         imported_object.importable = event
-        self.imported_objects << imported_object
+        imported_object.imported_file = self
+        imported_object.save
         num[:success] += 1
         GC.start if num[:success] % 50 == 0
       else

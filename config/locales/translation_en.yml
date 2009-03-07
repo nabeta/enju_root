@@ -1152,3 +1152,9 @@ en:
     required_role: "Required role"
   advertisement:
     period: "Period"
+  import:
+    will_be_impoted:
+      one: "Resource will be impored in a {{minute}} minute."
+      other: "Resource will be impored in {{minute}} minutes."
+  attachment_file:
+    invalid_file: "Invalid file."

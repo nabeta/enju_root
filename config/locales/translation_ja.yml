@@ -1132,3 +1132,7 @@ ja:
     required_role: "参照に必要な権限"
   advertisement:
     period: "期間"
+  import:
+    will_be_impoted: "{{minute}} 分以内にインポートされます。"
+  attachment_file:
+    invalid_file: "無効なファイルです。"

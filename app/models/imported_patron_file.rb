@@ -6,6 +6,7 @@ class ImportedPatronFile < ActiveRecord::Base
   validates_as_attachment
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :importable, :dependent => :destroy
+  has_one :imported_object, :as => :imported_file, :dependent => :destroy
 
   validates_associated :user
   validates_presence_of :user
@@ -24,7 +25,8 @@ class ImportedPatronFile < ActiveRecord::Base
         if patron.save!
           imported_object = ImportedObject.new
           imported_object.importable = patron
-          self.imported_objects << imported_object
+          imported_object.imported_file = self
+          imported_object.save
           num[:success] += 1
           GC.start if num[:success] % 50 == 0
         end

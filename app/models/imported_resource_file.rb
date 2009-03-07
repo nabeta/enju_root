@@ -6,6 +6,7 @@ class ImportedResourceFile < ActiveRecord::Base
   validates_as_attachment
   belongs_to :user
   has_many :imported_objects, :as => :importable, :dependent => :destroy
+  has_one :imported_object, :as => :imported_file, :dependent => :destroy
 
   def import
     self.reload
@@ -35,40 +36,48 @@ class ImportedResourceFile < ActiveRecord::Base
             publisher_patrons = Manifestation.import_patrons(publishers)
 
             work = Work.new
+            work.restrain_indexing = true
             work.original_title = data['title'].chomp
             if work.save!
               work.patrons << author_patrons
-              imported_object= ImportedObject.new
+              imported_object = ImportedObject.new
               imported_object.importable = work
-              self.imported_objects << imported_object
+              imported_object.import_file = self
+              imported_object.save
             end
 
             expression = Expression.new
+            expression.restrain_indexing = true
             expression.original_title = work.original_title
             expression.work = work
             if expression.save!
-              imported_object= ImportedObject.new
+              imported_object = ImportedObject.new
               imported_object.importable = expression
-              self.imported_objects << imported_object
+              imported_object.import_file = self
+              imported_object.save
             end
 
             manifestation = Manifestation.new
+            manifestation.restrain_indexing = true
             manifestation.original_title = expression.original_title
             manifestation.expressions << expression
             if manifestation.save!
               manifestation.patrons << author_patrons
               imported_object= ImportedObject.new
               imported_object.importable = manifestation
-              self.imported_objects << imported_object
+              imported_object.import_file = self
+              imported_object.save
             end
 
             item = Item.new
+            item.restrain_indexing = true
             item.manifestation = manifestation
             if item.save!
               item.patrons << library.patron
               imported_object= ImportedObject.new
               imported_object.importable = item
-              self.imported_objects << imported_object
+              imported_object.import_file = self
+              imported_object.save
             end
 
             num += 1
@@ -100,22 +109,31 @@ class ImportedResourceFile < ActiveRecord::Base
     for record in reader
       work = Work.new(:title => record['245']['a'])
       work.work_form = WorkForm.find(1)
+      work.restrain_indexing = true
       work.save
 
       expression = Expression.new(:title => work.original_title)
       expression.expression_form = ExpressionForm.find(1)
       expression.language = Language.find(1)
       expression.frequency_of_issue = FrequencyOfIssue.find(1)
+      expression.restrain_indexing = true
       expression.save
       work.expressions << expression
 
       manifestation = Manifestation.new(:title => expression.original_title)
       manifestation.manifestation_form = ManifestationForm.find(1)
       manifestation.language = Language.find(1)
+      manifestation.restrain_indexing = true
       manifestation.save
       expression.manifestations << manifestation
 
-      publisher = Patron.find_by_corporate_name(record['700']['a'])
+      full_name = record['700']['a']
+      publisher = Patron.find_by_full_name(record['700']['a'])
+      if publisher.blank?
+        publisher = Patron.new(:full_name => full_name)
+        publisher.restrain_indexing = true
+        publisher.save
+      end
       manifestation.patrons << publisher
     end
   end

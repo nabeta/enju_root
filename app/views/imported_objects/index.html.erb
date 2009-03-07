@@ -2,18 +2,16 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.imported_object')) -%></h1>
 <div id="content_list">
 
-<table>
+<table id="index">
   <tr>
     <th>Imported file</th>
     <th>Importable</th>
-    <th>Importable type</th>
   </tr>
 
 <%- for imported_object in @imported_objects -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h imported_object.imported_file_id -%></td>
-    <td><%=h imported_object.importable_id -%></td>
-    <td><%=h imported_object.importable_type -%></td>
+    <td><%= link_to h("#{imported_object.imported_file_type} / #{imported_object.imported_file_id}"), imported_object.imported_file -%></td>
+    <td><%= link_to h("#{imported_object.importable_type} / #{imported_object.importable_id}"), imported_object.importable -%></td>
     <td><%= link_to t('page.show'), imported_object -%></td>
     <td><%= link_to t('page.edit'), edit_imported_object_path(imported_object) -%></td>
     <td><%= link_to t('page.destroy'), imported_object, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -27,6 +25,8 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to 'New imported_object', new_imported_object_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_patron_file')), new_imported_patron_file_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_resource_file')), new_imported_resource_file_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_event_file')), new_imported_event_file_path -%></li>
   </ul>
 </div>

@@ -649,6 +649,7 @@ class Manifestation < ActiveRecord::Base
     patron_lists.each do |patron_list|
       unless patron = Patron.find(:first, :conditions => {:full_name => patron_list}) rescue nil
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
+        patron.restrain_indexing
         patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
@@ -668,17 +669,7 @@ class Manifestation < ActiveRecord::Base
       raise 'already imported'
     end
 
-    server = ["api.porta.ndl.go.jp", 210, "zomoku"]
-    result = z3950query(isbn, server[0], server[1], server[2])
-    if result.nil?
-      if isbn.length == 10
-        isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
-      elsif isbn.length == 13
-        isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
-      end
-      result = z3950query(isbn, server[0], server[1], server[2])
-    end
-
+    result = search_z3950(isbn)
     raise "not found" if result.nil?
 
     title, title_transcription, date_of_publication, language = nil, nil, nil, nil
@@ -709,6 +700,9 @@ class Manifestation < ActiveRecord::Base
       work = Work.new(:original_title => title)
       expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
       manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication)
+      work.restrain_indexing = true
+      expression.restrain_indexing = true
+      manifestation.restrain_indexing = true
       work.save!
       work.patrons << author_patrons
       work.expressions << expression
@@ -735,6 +729,20 @@ class Manifestation < ActiveRecord::Base
     rescue Exception => e
       return nil
     end
+  end
+
+  def self.search_z3950(isbn)
+    server = ["api.porta.ndl.go.jp", 210, "zomoku"]
+    result = z3950query(isbn, server[0], server[1], server[2])
+    if result.nil?
+      if isbn.length == 10
+        isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
+      elsif isbn.length == 13
+        isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
+      end
+      result = z3950query(isbn, server[0], server[1], server[2])
+    end
+    return result
   end
 
   def set_serial_number(expression)
