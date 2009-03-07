@@ -16,13 +16,14 @@ Date.parseFormattedString = function (string) {
   if (d[3]) { date.setMonth(d[3] - 1); }
   if (d[5]) { date.setDate(d[5]); }
   if (d[7]) {
-    hours = parseInt(d[7]);
+    hours = parseInt(d[7], 10);
     offset=0;
-    is_pm = (d[9].toLowerCase()=="pm")
-    if (is_pm && hours <= 11) hours+=12;
-    if (!is_pm && hours == 12) hours=0;
+    if (d[9]) {
+        is_pm = (d[9].toLowerCase()=="pm");
+        if (is_pm && hours <= 11) hours+=12;
+        if (!is_pm && hours == 12) hours=0;
+    }
     date.setHours(hours); 
-    
   }
   if (d[8]) { date.setMinutes(d[8]); }
   if (d[10]) { date.setSeconds(d[10]); }
