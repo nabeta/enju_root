@@ -6,13 +6,14 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.imported_resource_file')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.imported_resource_file')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@imported_resource_file) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :filename -%><br />
+    <%= f.label t('activerecord.attributes.imported_resource_file.filename') -%><br />
     <%= f.text_field :filename -%>
   </p>
   <p>
@@ -20,4 +21,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

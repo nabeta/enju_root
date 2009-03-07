@@ -1,8 +1,10 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.imported_patron_file')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.imported_patron_file')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
-    <th><%= ('Db file') -%></th>
+    <th><%= t('activerecord.models.db_file') -%></th>
     <th><%= t('activerecord.attributes.imported_patron_file.filename') -%></th>
     <th><%= t('activerecord.attributes.imported_patron_file.content_type') -%></th>
     <th><%= t('activerecord.attributes.imported_patron_file.size') -%></th>
@@ -24,6 +26,11 @@
 </table>
 
 <%= will_paginate(@imported_patron_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.imported_patron_file')), new_imported_patron_file_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_patron_file')), new_imported_patron_file_path -%></li>
+  </ul>
+</div>

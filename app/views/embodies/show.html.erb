@@ -5,14 +5,17 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_list">
 <p>
-<b><%= t('activerecord.models.expression') -%>:</b>
+  <b><%= t('activerecord.models.expression') -%>:</b>
   <%= link_to h(@embody.expression.original_title), @embody.expression -%>
 </p>
 
 <p>
-<b><%= t('activerecord.models.manifestation') -%>:</b>
+  <b><%= t('activerecord.models.manifestation') -%>:</b>
   <%= link_to h(@embody.manifestation.original_title), @embody.manifestation -%>
 </p>
 
+</div>
 </div>

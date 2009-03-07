@@ -1,17 +1,17 @@
 <div id="submenu">
   <ul>
     <%- if @embody.manifestation -%>
-      <li><%= link_to ('Back to expressions'), manifestation_expressions_path(@embody.manifestation) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>
     <%- end -%>
     <%- if @embody.expression -%>
-      <li><%= link_to ('Back to manifestations'), expression_manifestations_path(@embody.expression) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@embody.expression) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back_to_index'), embodies_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
 
 <%= error_messages_for :embody -%>
 

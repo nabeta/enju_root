@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_event_path(@event) -%></li>
-    <li><%= link_to t('page.back'), events_path(:page => flash[:page]) -%></li>
+    <li><%= link_to t('page.back'), events_path(:page => flash[:page] ||= nil) -%></li>
   </ul>
 <%- if logged_in? -%>
   <ul>
@@ -11,9 +11,11 @@
 </div>
 
 <div id="content_detail">
-<h1 id="resource_title">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.event')) -%></h1>
+<div id="content_list">
+<h2 id="resource_title">
   <%=h @event.title -%>
-</h1>
+</h2>
 
 <p>
   <b><%= t('activerecord.models.event_category') -%>:</b>
@@ -49,4 +51,5 @@
 </p>
 -->
 
+</div>
 </div>

@@ -1,39 +1,32 @@
 <div id="submenu">  
-
-<div>
-  <%- if_authorized?(:destroy, @work) do -%>
-    <ul>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%>
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), works_path -%></li>
+    <%- if @work.is_deletable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
         <!--
-        <ul>
           <li><%= link_to ('Add a child'), works_path(:parent_id => @work.id) -%></li>
-        </ul>
         -->
-     </li>
       <li><%= link_to t('page.edit'), edit_work_path(@work) -%></li>
-      <li><%= link_to t('page.back'), works_path -%></li>
       <li><%= link_to t('page.destroy'), @work, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-    </ul>
-  <%- end -%>
-      <ul>
-        <li><%= link_to t('page.editing', :model => t('activerecord.models.patron')), work_patrons_path(@work) -%></li>
-      </ul>
-      <ul>
-        <li><%= link_to t('page.editing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
-      </ul>
-</div>
-
+    <%- end -%>
+  </ul>
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), work_patrons_path(@work) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
+  </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.country')) -%></h1>
+<div id="content_list">
 
   <%-
     cache(:id => @work.id, :editable => @work.is_updatable_by(current_user)) do
   -%>
-  <h1 id="resource_title">
+  <h2 id="resource_title">
     [W]
     <%=h @work.original_title -%>
-  </h1>
+  </h2>
 
   <div>
     <%= patrons_list(@work.patrons) -%>
@@ -184,4 +177,5 @@
 <%-
   end
 -%>
+</div>
 </div>

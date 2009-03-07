@@ -1,4 +1,6 @@
-<h1><%= t('page.user_bookmark_title', :login_name => @user.login) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.user_bookmark_title', :login_name => @user.login) -%></h1>
+<div id="content_list">
   <%- form_for :works, :url => user_bookmarked_resources_path(@user.login), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
@@ -6,14 +8,22 @@
     </p>
   <%- end -%>
 
+  </p>
+
+  <%= render :partial => 'bookmarked_resources/list', :locals => {:manifestations => @bookmarked_resources} -%>
+</div>
+</div>
+
+<div id="submenu">
   <p>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>
     (<%= link_to ('RSS'), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>)
     (<%= link_to ('CSV'), formatted_user_bookmarked_resources_path(@user.login, :csv, :lang => 'ja') -%>)
-    <%- if logged_in? -%>
-      <%= t('page.bookmarklet') -%>:
-      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a>
-    <%- end -%>
   </p>
-
-  <%= render :partial => 'bookmarked_resources/list', :locals => {:manifestations => @bookmarked_resources} -%>
+  <%- if logged_in? -%>
+    <h4><%= t('page.bookmarklet') -%></h4>
+    <ul>
+      <li><a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a></li>
+    </ul>
+  <%- end -%>
+</div>

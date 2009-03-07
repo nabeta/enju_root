@@ -1,14 +1,15 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:create, Patron) do -%>
+    <%- if Patron.is_creatable_by(current_user) -%>
       <li><%= link_to t('patron.add'), new_patron_path -%></li>
-      <li><%= link_to ('Merge patrons'), patron_merge_lists_path -%></li>
+      <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
+<div id="content_list">
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
@@ -39,7 +40,7 @@
       <td><%=h patron.language.display_name -%></td>
       <td><%=h patron.place -%></td>
       <td>
-        <%- if_authorized?(:destroy, patron) do -%>
+        <%- if patron.is_deletable_by(current_user) -%>
           <%= link_to t('page.edit'), edit_patron_path(patron) -%>
         <%- end -%>
       </td>
@@ -49,4 +50,5 @@
 </table>
 
 <%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

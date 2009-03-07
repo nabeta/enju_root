@@ -13,13 +13,13 @@
     <title><%= t('manifestation.patron_manifestation', :patron_name => @patron.full_name) -%></title>
     <%- when @expression -%>
     <title><%= t('manifestation.expressions_manifestation', :expression_title => @expression.original_title) -%></title>
-    <%- when @query -%>
+    <%- when @query.present? -%>
       <title><%=h @query -%> : <%= t('activerecord.models.manifestation') -%> - <%=h@library_group.display_name -%></title>
     <%- else -%>
-      <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
+      <title><%= t('page.search_resource', :model => t('page.resource')) -%> : <%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
+    <title><%= t('page.search_resource', :model => t('page.resource')) -%> : <%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
@@ -31,6 +31,7 @@
 <body class="yui-skin-sam" id="yahoo-com">
 
 <%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
 
 <div id="content">
 

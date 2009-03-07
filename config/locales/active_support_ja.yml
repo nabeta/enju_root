@@ -22,6 +22,7 @@ ja:
       default: "%Y年%m月%d日 %H:%M:%S"
       short: "%Y年%m月%d日 %H時%M分"
       long: "%Y年%m月%d日%A %H時%M分%S秒%Z"
+      only_date: "%Y年%m月%d日"
     am: "午前"
     pm: "午後"
       

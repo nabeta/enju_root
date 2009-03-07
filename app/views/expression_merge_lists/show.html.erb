@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add an expression'), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
-    <li><%= link_to ('Edit a list'), expression_merge_list_expression_merges_path(@expression_merge_list) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
     <li><%= link_to t('page.edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
     <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <%- form_for(:expression_merge_list, :url => expression_merge_list_path(@expression_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.title') -%>:</b>
@@ -16,12 +16,13 @@
 
   <ul>
     <%- @expression_merge_list.expressions.each do |expression| -%>
-      <li><%= radio_button_tag 'selected_expression_id', expression.id -%><%= link_to h(expression.original_title), expression_path(expression) -%></li>
+      <li><%= radio_button_tag 'selected_expression_id', expression.id -%><%= link_to h(expression.original_title), expression -%></li>
     <%- end -%>
   </ul>
   <%- if @expression_merge_list.expressions.size > 1 -%>
-    <%= f.submit "Merge", :confirm => t('page.are_you_sure') -%>
+    <%= f.submit t('page.merge'), :confirm => t('page.are_you_sure') -%>
   <%- end -%>
 <%- end -%>
 
+</div>
 </div>

@@ -6,14 +6,15 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.reserve')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.reserve')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :reservation -%>
 
 <%- form_for(:reserve, :url => user_reserve_path(@reserve.user.login, @reserve), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.patron') -%></b><br />
-  <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%=h @reserve.user.login -%>)
+    <b><%= t('activerecord.models.patron') -%></b><br />
+    <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%=h @reserve.user.login -%>)
   </p>
 
   <p>
@@ -36,4 +37,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

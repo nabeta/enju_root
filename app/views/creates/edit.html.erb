@@ -6,11 +6,11 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.create')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.create')) -%></h1>
 
 <%= error_messages_for :create -%>
 
-<%- form_for(:create, :url => create_path(@create), :html => { :method => :put }) do |f| -%>
+<%- form_for(@create, :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
     <%= f.text_field :patron_id -%>

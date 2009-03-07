@@ -4,13 +4,14 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.statistics') -%></h1>
+<h1 class="title"><%= t('page.statistics') -%></h1>
 
-  <table>
+<div id="content_list">
+  <table id="index">
     <tr>
-      <th>Model</th>
-      <th>Number of records</th>
-      <th>Note</th>
+      <th><%= t('page.model') -%></th>
+      <th><%= t('page.number_of_record') -%></th>
+      <th><%= t('page.note') -%></th>
     </tr>
     <tr>
       <td><%= t('activerecord.models.patron') -%></td>
@@ -83,4 +84,5 @@
       <td></td>
     </tr>
   </table>
+</div>
 </div>

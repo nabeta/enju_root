@@ -6,10 +6,8 @@ library_00001:
   fax_number: 
   telephone_number_1: 
   telephone_number_2: 
-  lng: 
   id: 1
-  lat: 
-  address: 
+  region: 
   library_group_id: 1
   patron_id: 1
   call_number_delimiter: "|"
@@ -21,10 +19,8 @@ library_00002:
   fax_number: 
   telephone_number_1: 
   telephone_number_2: 
-  lng: 
   id: 2
-  lat: 
-  address: somewhere
+  region: somewhere
   library_group_id: 1
   patron_id: 2
   call_number_delimiter: "|"

@@ -3,7 +3,8 @@ require 'test_helper'
 class ImportedEventFilesControllerTest < ActionController::TestCase
   fixtures :imported_event_files, :users, :roles, :patrons, :db_files,
     :user_groups, :libraries, :library_groups, :patron_types, :languages,
-    :events, :event_categories
+    :events, :event_categories,
+    :imported_objects
 
   def test_guest_should_not_get_index
     get :index

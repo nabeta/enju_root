@@ -34,6 +34,7 @@ class ResourceHasSubjectsController < ApplicationController
   # GET /resource_has_subjects/new.xml
   def new
     @resource_has_subject = ResourceHasSubject.new
+    @resource_has_subject.subject = @subject
 
     respond_to do |format|
       format.html # new.html.erb
@@ -50,20 +51,13 @@ class ResourceHasSubjectsController < ApplicationController
   # POST /resource_has_subjects.xml
   def create
     @resource_has_subject = ResourceHasSubject.new(params[:resource_has_subject])
-    #case
-    #when @patron
-    #  object = @patron
-    #when @work
-    #  object = @work
-    #when @expression
-    #  object = @expression
-    #when @manifestation
-    #  object = @manifestation
-    #when @item
-    #  object = @item
-    #end
-
-    #@resource_has_subject.subjectable = object
+    begin
+      klass = params[:resource_has_subject][:subjectable_type].to_s.constantize
+      object = klass.find(params[:resource_has_subject][:subjectable_id])
+      @resource_has_subject.subjectable = object
+    rescue
+      nil
+    end
 
     respond_to do |format|
       if @resource_has_subject.save

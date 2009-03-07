@@ -3,16 +3,18 @@ require 'test_helper'
 class PictureFilesControllerTest < ActionController::TestCase
   fixtures :picture_files, :manifestations, :manifestation_forms, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries
 
-  def test_guest_should_not_get_index
+  def test_guest_should_get_index
     get :index
-    assert_response :redirect
-    assert_redirected_to new_session_url
+    #assert_response :redirect
+    #assert_redirected_to new_session_url
+    assert_response :success
   end
 
-  def test_user_should_not_get_index
+  def test_user_should_get_index
     login_as :user1
     get :index
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :success
   end
 
   def test_librarian_should_get_index
@@ -132,16 +134,18 @@ class PictureFilesControllerTest < ActionController::TestCase
     assert_redirected_to picture_file_url(assigns(:picture_file))
   end
 
-  def test_guest_should_not_show_picture_file
+  def test_guest_should_show_picture_file
     get :show, :id => picture_files(:picture_file_00001)
-    assert_response :redirect
-    assert_redirected_to new_session_url
+    #assert_response :redirect
+    #assert_redirected_to new_session_url
+    assert_response :success
   end
 
-  def test_user_should_not_show_picture_file
+  def test_user_should_show_picture_file
     login_as :user1
     get :show, :id => picture_files(:picture_file_00001)
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :success
   end
 
   def test_librarian_should_show_picture_file

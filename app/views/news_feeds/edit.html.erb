@@ -6,7 +6,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.news_feed')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.news_feed')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@news_feed) do |f| -%>
   <%= f.error_messages -%>
@@ -24,4 +25,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

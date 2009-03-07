@@ -1,5 +1,5 @@
 class PictureFile < ActiveRecord::Base
-  include LibrarianRequired
+  include OnlyLibrarianCanModify
   belongs_to :picture_attachable, :polymorphic => true, :validate => true
 
   has_attachment :content_type => :image, #:resize_to => [800,800],

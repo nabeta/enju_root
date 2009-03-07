@@ -1,4 +1,5 @@
 class ImportedObjectsController < ApplicationController
+  before_filter :access_denied, :except => [:index, :show]
   before_filter :has_permission?
 
   # GET /imported_objects

@@ -8,7 +8,13 @@ class SubjectHasClassificationsController < ApplicationController
   # GET /subject_has_classifications
   # GET /subject_has_classifications.xml
   def index
-    @subject_has_classifications = SubjectHasClassification.paginate(:all, :page => params[:page])
+    case when @subject
+      @subject_has_classifications = @subject.subject_has_classifications.paginate(:all, :page => params[:page])
+    when @classification
+      @subject_has_classifications = @classification.subject_has_classifications.paginate(:all, :page => params[:page])
+    else
+      @subject_has_classifications = SubjectHasClassification.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -31,6 +37,8 @@ class SubjectHasClassificationsController < ApplicationController
   # GET /subject_has_classifications/new.xml
   def new
     @subject_has_classification = SubjectHasClassification.new
+    @subject_has_classification.subject = @subject
+    @subject_has_classification.classification = @classification
 
     respond_to do |format|
       format.html # new.html.erb

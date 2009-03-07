@@ -1,13 +1,17 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.work')), works_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.resource_has_subject')), resource_has_subjects_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject')), subjects_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.resource_has_subject')) -%></h1>
+<div id="content_list">
 <p>
-  <b><%= t('activerecord.models.work') -%>:</b>
-  <%= link_to h(@resource_has_subject.work.original_title), @resource_has_subject.work if @resource_has_subject.work -%>
+  <b><%= ('Subjectable') -%>:</b>
+  <!-- TODO: Manifestation以外 -->
+  <%= link_to h(@resource_has_subject.subjectable.original_title), @resource_has_subject.subjectable if @resource_has_subject.subjectable -%>
 </p>
 
 <p>
@@ -15,4 +19,5 @@
   <%= link_to h(@resource_has_subject.subject.term), @resource_has_subject.subject -%>
 </p>
 
+</div>
 </div>

@@ -4,7 +4,8 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.listing', :model => t('activerecord.models.tag')) -%></h1>
+  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.tag')) -%></h1>
+<div id="content_list">
 
 <p><%= t('page.sort_by') -%>:
   <%= link_to t('activerecord.attributes.tag.name'), tags_path(:order => 'name') -%>
@@ -38,4 +39,5 @@
 </table>
 
 <%= will_paginate(@tags, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

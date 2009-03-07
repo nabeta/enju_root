@@ -12,11 +12,6 @@
       <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
     <%- end -%>
   </ul>
-</div>
-
-<div id="content_detail">
-  <h1><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%></h1>
-
 <p>
   <%- if @user -%>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
@@ -27,9 +22,18 @@
     (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
     (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => 'ja') -%>)
   <%- end -%>
-  <%= t('page.bookmarklet') -%>:
-  <a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('purchase_request.add_to_purchase_request') -%></a>
 </p>
+
+<h4><%= t('page.bookmarklet') -%></h4>
+<ul>
+  <li><a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
+</ul>
+</div>
+
+<div id="content_detail">
+  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%></h1>
+
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -61,4 +65,5 @@
 
 <%= will_paginate(@purchase_requests, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

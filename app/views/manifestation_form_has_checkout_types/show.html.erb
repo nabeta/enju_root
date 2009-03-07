@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_form_has_checkout_type')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.manifestation_form') -%>:</b>
   <%= link_to h(@manifestation_form_has_checkout_type.manifestation_form.display_name), @manifestation_form_has_checkout_type.manifestation_form -%>
@@ -21,4 +23,5 @@
   <%=h @manifestation_form_has_checkout_type.note -%>
 </p>
 
+</div>
 </div>

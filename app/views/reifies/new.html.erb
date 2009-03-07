@@ -1,20 +1,21 @@
 <div id="submenu">
   <ul>
     <%- if @reify.expression -%>
-    <li><%= link_to ('Back to work'), expression_work_path(@reify.expression) -%></li>
+    <li><%= link_to t('activerecord.models.work'), expression_work_path(@reify.expression) -%></li>
     <%- end -%>
     <%- if @reify.work -%>
-    <li><%= link_to ('Back to expressions'), work_expressions_path(@reify.work) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@reify.work) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :reify -%>
 
-<%- form_for(:reify, :url => reifies_path) do |f| -%>
+<%- form_for(@reify) do |f| -%>
   <p>
     <b><%= t('activerecord.models.work') -%></b><br />
     <%- if @reify.work -%>
@@ -40,4 +41,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

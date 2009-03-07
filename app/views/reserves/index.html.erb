@@ -4,7 +4,7 @@
     <li>
     <%= link_to t('page.new', :model => t('activerecord.models.reserve')), manifestations_path -%>
     <br />
-    (<%= t('page.search_resource') -%>)
+    (<%= t('page.search_resource', :model => t('page.resource')) -%>)
     </li>
     <%- if current_user.has_role?('Librarian') -%>
       <li><%= link_to t('reserve.all_reservation'), reserves_path -%></li>
@@ -14,12 +14,23 @@
       <li><%= link_to t('page.checkout'), user_checkouts_path(@user.login) -%></li>
     <%- end -%>
   </ul>
+  <p>
+    <%- if @user -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
+      (<%= link_to ('RSS'), formatted_user_reserves_path(@user.login, :rss) -%>)
+      (<%= link_to ('CSV'), formatted_user_reserves_path(@user.login, :csv, :lang => 'ja') -%>)
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
+      (<%= link_to ('RSS'), formatted_reserves_path(:rss) -%>)
+      (<%= link_to ('CSV'), formatted_reserves_path(:csv, :lang => 'ja') -%>)
+    <%- end -%>
+  </p>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.reserve')) -%></h1>
 
-<h1><%= t('page.listing', :model => t('activerecord.models.reserve')) -%></h1>
-
+<div id="content_list">
 <table id="index">
   <tr>
     <th><%= ('Id') -%></th>
@@ -37,8 +48,8 @@
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
     </td>
     <td><%=h reserve.request_status_type.display_name -%></td>
-    <td><%= l(reserve.expired_at, :format => :short) -%></td>
-    <%- if_authorized?(:destroy, reserve) do -%>
+    <td><%= l(reserve.expired_at, :format => :only_date) -%></td>
+    <%- if reserve.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), user_reserve_path(reserve.user.login, reserve) -%></td>
       <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.login, reserve) -%></td>
       <td>
@@ -55,4 +66,5 @@
 
 <%= will_paginate(@reserves, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

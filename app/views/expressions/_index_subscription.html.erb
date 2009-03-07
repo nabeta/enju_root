@@ -1,19 +1,21 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add a subscription'), subscriptions_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subscription')), subscriptions_path -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_subscription_expression_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-  <h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@subscription.title), @subscription -%>
-  </h1>
+  </h2>
 
   <%- form_for :expressions, :url => subscription_expressions_path(@subscription), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
-      <%- if_authorized?(:destroy, @subscription) do -%>
+      <%- if @subscription.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -44,7 +46,7 @@
     </td>
     <td><%=h expression.language.display_name -%></td>
     <td>
-      <%- if_authorized?(:destroy, expression) do -%>
+      <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :expression_id => expression.id, :mode => 'add') -%>
         <%- else -%>
@@ -58,4 +60,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

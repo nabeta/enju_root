@@ -6,7 +6,8 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.editing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
+  <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :inter_library_loan -%>
 
@@ -144,4 +145,5 @@
 
 <%- end -%>
 
+</div>
 </div>

@@ -6,11 +6,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.realize')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.realize')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :realize -%>
 
-<%- form_for(:realize, :url => realize_path(@realize), :html => { :method => :put }) do |f| -%>
+<%- form_for(@realize, :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
     <%= f.text_field :patron_id -%>
@@ -26,4 +27,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

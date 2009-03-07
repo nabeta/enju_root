@@ -6,8 +6,9 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
-  <b><%= ('Db file') -%> :</b>
+  <b><%= t('activerecord.models.db_file') -%> :</b>
   <%=h @inventory_file.db_file_id -%> 
 </p>
 
@@ -41,4 +42,5 @@
   <%=h @inventory_file.note -%> 
 </p>
 
+</div>
 </div>

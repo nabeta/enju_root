@@ -7,9 +7,13 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @user -%>
-  <title><%= t('page.user_title', :login_name => @user.login) -%> - <%= "#{@library_group.display_name}" -%></title>
+    <%- if @user.login -%>
+      <title><%= t('page.user_title', :login_name => @user.login) -%> - <%= "#{@library_group.display_name}" -%></title>
+    <%- else -%>
+      <title><%= t('activerecord.models.user') -%>: <%=h title_action_name -%></title>
+    <%- end -%>
   <%- else -%>
-    <title><%= @library_group.display_name -%></title>
+    <title><%= t('activerecord.models.user') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
@@ -17,6 +21,7 @@
 <body class="yui-skin-sam" id="yahoo-com">
 
 <%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
 
 <div id="content">
 

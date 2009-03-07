@@ -138,15 +138,17 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :message_templates
 
   map.resources :subject_heading_types do |subject_heading_type|
-    subject_heading_type.resources :concepts
-    subject_heading_type.resources :places
+    #subject_heading_type.resources :concepts
+    #subject_heading_type.resources :places
+    subject_heading_type.resources :subjects
   end
 
   map.resources :classification_types
 
   map.resources :classifications do |classification|
-    classification.resources :concepts
-    classification.resources :places
+    #classification.resources :concepts
+    #classification.resources :places
+    classification.resources :subjects
     classification.resources :subject_has_classifications
   end
 
@@ -253,6 +255,7 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :work_to_works, :controller => :works
     work.resources :concepts
     work.resources :places
+    work.resources :subjects
   end
   map.resources :expressions do |expression|
     expression.resource :realize

@@ -1,7 +1,9 @@
 class Event < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :closing_days, :include => :event_category, :conditions => ['event_categories.name = ?', 'closed']
-  named_scope :on, lambda {|datetime| {:conditions => ['started_at >= ? AND ended_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day]}}
+  named_scope :on, lambda {|datetime| {:conditions => ['started_at >= ? AND ended_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day + 1]}}
+  named_scope :past, lambda {|datetime| {:conditions => ['ended_at <= ?', Time.zone.parse(datetime).beginning_of_day]}}
+  named_scope :upcoming, lambda {|datetime| {:conditions => ['started_at >= ?', Time.zone.parse(datetime).beginning_of_day]}}
 
   belongs_to :event_category, :validate => true
   belongs_to :library, :validate => true
@@ -28,7 +30,7 @@ class Event < ActiveRecord::Base
 
   def validate
     if self.started_at and self.ended_at
-      if self.started_at > self.ended_at
+      if self.started_at >= self.ended_at
         errors.add(:started_at)
         errors.add(:ended_at)
       end

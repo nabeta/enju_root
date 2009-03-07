@@ -1,11 +1,13 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.advertisement')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.advertisement')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.advertisement.title') -%></th>
     <th><%= t('activerecord.attributes.advertisement.url') -%></th>
     <th><%= t('activerecord.attributes.advertisement.body') -%></th>
-    <th><%= ('Period') -%></th>
+    <th><%= t('advertisement.period') -%></th>
   </tr>
 
 <%- for advertisement in @advertisements -%>
@@ -14,9 +16,9 @@
     <td><%= link_to h(advertisement.url), advertisement.url -%></td>
     <td><%=h advertisement.body -%></td>
     <td>
-      <%=h advertisement.started_at.strftime("%Y-%m-%d") -%>
+      <%= l(advertisement.started_at) -%>
       -
-      <%=h advertisement.ended_at.strftime("%Y-%m-%d") -%>
+      <%= l(advertisement.ended_at) -%>
     </td>
     <td><%= link_to t('page.show'), advertisement -%></td>
     <td><%= link_to t('page.edit'), edit_advertisement_path(advertisement) -%></td>
@@ -26,6 +28,11 @@
 </table>
 
 <%= will_paginate(@advertisements, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.advertisement')), new_advertisement_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.advertisement')), new_advertisement_path -%></li>
+  </ul>
+</div>

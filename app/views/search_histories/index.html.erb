@@ -1,11 +1,12 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
+<div id="content_list">
 <%- if params[:mode] == 'not_found' -%>
-  <h1><%= t('search_history.failed_search') -%></h1>
   <%= reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
   <p>
     <%= link_to t('search_history.all_history'), search_histories_path -%>
   </p>
 <%- else -%>
-  <h1><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
   <p>
     <%= link_to t('search_history.failed_search'), search_histories_path(:mode => 'not_found') -%>
   </p>
@@ -29,9 +30,8 @@
       <td><%=h search_history.start_record -%></td>
     <%- end -%>
     <td><%= l(search_history.created_at) -%></td>
-    <%- if_authorized?(:destroy, search_history) do -%>
+    <%- if search_history.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), search_history -%></td>
-      <td><%= link_to t('page.edit'), edit_search_history_path(search_history) -%></td>
       <td><%= link_to t('page.destroy'), search_history, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
@@ -39,3 +39,8 @@
 </table>
 
 <%= will_paginate(@search_histories, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+</div>

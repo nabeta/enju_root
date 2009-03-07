@@ -6,7 +6,7 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.message')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.message')) -%></h1>
 
 <%= error_messages_for :message -%>
 
@@ -29,7 +29,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.message.body') -%></b><br />
-    <%= f.text_area :body, :class => 'resource_textarea' -%>
+    <%= f.text_area :body, :id => 'message_body' -%>
   </p>
 
   <p>

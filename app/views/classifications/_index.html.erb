@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Classification) do -%>
+    <%- if Classification.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.classification')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.classification')) -%></h1>
+<div id="content_list">
 
 <%- form_for :classifications, :url => classifications_path, :html => {:method => 'get'} do -%>
   <p>
@@ -30,7 +31,7 @@
     <!-- <td><%= link_to h(classification.name), classification -%></td> -->
     <td><%=h classification.note -%></td>
     <td><%=h classification.classification_type.display_name -%></td>
-    <%- if_authorized?(:destroy, classification) do -%>
+    <%- if classification.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_classification_path(classification) -%></td>
       <td><%= link_to t('page.destroy'), classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -40,4 +41,5 @@
 
 <%= will_paginate(@classifications, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

@@ -1,4 +1,4 @@
-<h3><%= t('activerecord.models.subject') -%></h3>
+<h4><%= t('activerecord.models.subject') -%></h4>
 <%- unless @facet_results["subject_f_facet"].blank? -%>
 <ul>
   <%- @facet_results["subject_f_facet"].sort{|a,b| (b[1] <=> a[1]) * 2 + (a[0] <=> b[0]) }[0..20].each do |subject| -%>

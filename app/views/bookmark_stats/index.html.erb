@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.bookmark_stat')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmark_stat')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -9,8 +11,8 @@
 
 <% for bookmark_stat in @bookmark_stats -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h bookmark_stat.start_date -%></td>
-    <td><%=h bookmark_stat.end_date -%></td>
+    <td><%= l(bookmark_stat.start_date) -%></td>
+    <td><%= l(bookmark_stat.end_date) -%></td>
     <td><%=h bookmark_stat.note -%></td>
     <td><%= link_to t('page.show'), bookmark_stat -%></td>
     <td><%= link_to t('page.edit'), edit_bookmark_stat_path(bookmark_stat) -%></td>
@@ -20,6 +22,11 @@
 </table>
 
 <%= will_paginate(@bookmark_stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.bookmark_stat')), new_bookmark_stat_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark_stat')), new_bookmark_stat_path -%></li>
+  </ul>
+</div>

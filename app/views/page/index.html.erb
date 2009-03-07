@@ -1,6 +1,6 @@
 <div id="left_pane">
+  <h1 class="title"><%=h t('page.catalog_search') -%></h1>
   <div id="user_search_form">
-    <h1><%=h t('page.catalog_search') -%></h1>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= t('page.search_term') -%>:
@@ -16,6 +16,7 @@
     <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
   </div>
 
+  <h3 class="title"><%= t('page.news') -%></h3>
   <div id="news_feed_box">
     <%- cache(:controller => :news_feeds, :action => :index, :action_suffix => 'list') do -%>
       <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
@@ -25,13 +26,13 @@
 </div>
 
 <div id="right_pane">
+  <h3 class="title"><%= t('manifestation.pickup') -%></h3>
   <div id="picked_up_box">
-    <h3><%= t('manifestation.pickup') -%></h3>
     <%= render :partial => 'manifestations/pickup', :locals => {:picked_up => @picked_up} -%>
   </div>
 
+  <h3 class="title"><%= t('tag.popular_tag') -%></h3>
   <div id="tag_cloud_box">
-    <h3><%= t('tag.popular_tag') -%></h3>
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud') do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>

@@ -5,7 +5,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.bookstore')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.bookstore')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :bookstore -%>
 
@@ -50,4 +51,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

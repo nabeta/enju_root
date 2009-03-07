@@ -4,7 +4,7 @@ class EventCategoriesController < ApplicationController
   # GET /event_categories
   # GET /event_categories.xml
   def index
-    @event_categories = EventCategory.find(:all, :order => :position)
+    @event_categories = EventCategory.paginate(:all, :page => params[:page], :order => :position)
 
     respond_to do |format|
       format.html # index.html.erb

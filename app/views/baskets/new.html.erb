@@ -1,19 +1,19 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.checkin'), checkins_path -%></li>
-    <li><%= link_to t('page.search_user'), users_path -%></li>
-    <li><%= link_to t('page.back'), '/' -%></li>
+    <li><%= link_to t('activerecord.models.checkin'), checkins_path -%></li>
+    <li><%= link_to t('page.search_resource', :model => t('activerecord.models.user')), users_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.basket')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.basket')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :basket -%>
 
-<%- form_for(:basket, :url => baskets_path, :html => {:name => 'basket_form'}) do |f| -%>
+<%- form_for(@basket, :html => {:name => 'basket_form'}) do |f| -%>
   <p>
-    <b><%= t('page.user') -%></b><br />
+    <b><%= t('activerecord.attributes.user.user_number') -%></b>
     <%= f.text_field :user_number, :class => 'resource_user_number' -%>
 
   <!--
@@ -22,8 +22,9 @@
   <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   -->
-    <%= f.submit t('page.submit') -%>
+    <%= f.submit t('page.read') -%>
   </p>
-  <%= javascript_tag("$('basket_user_number').focus()") -%>
 <%- end -%>
+<%= javascript_tag("$('basket_user_number').focus()") -%>
+</div>
 </div>

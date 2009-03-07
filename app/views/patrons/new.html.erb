@@ -5,11 +5,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.patron')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.patron')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :patron -%>
 
-<%- form_for(:patron, :url => patrons_path) do |f| -%>
+<%- form_for(@patron) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron_type') -%></b>
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
@@ -22,11 +23,6 @@
     <%= f.text_field :full_name_transcription, :class => 'resource_title' -%><br />
     <%= t('activerecord.attributes.patron.full_name_alternative') -%><br />
     <%= f.text_area :full_name_alternative, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.patron.other_designation') -%></b><br />
-    <%= f.text_area :other_designation, :class => 'resource_textarea' -%>
   </p>
 
   <p>
@@ -57,6 +53,11 @@
   <p>
     <b><%= t('role.required_role') -%></b>
     <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.patron.other_designation') -%></b><br />
+    <%= f.text_area :other_designation, :class => 'resource_textarea' -%>
   </p>
 
   <p>
@@ -126,4 +127,5 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

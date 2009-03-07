@@ -1,17 +1,14 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.attachment_file')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.attachment_file')) -%></h1>
+<div id="content_list">
 
 <%- if @manifestation -%>
   <p>Attachment files for <%= link_to h(@manifestation.original_title), @manifestation -%></p>
 <%- end -%>
 
-<%- if_authorized?(:new, AttachmentFile) do -%>
-  <%= link_to t('page.new', :model => t('activerecord.models.attachment_file')), new_attachment_file_path -%>
-<%- end -%>
-
 <table id="index">
   <tr>
     <th><%= ('Attachable') -%></th>
-    <th><%= ('Attachable type') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.size') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.content_type') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.filename') -%></th>
@@ -19,12 +16,11 @@
 
 <%- for attachment_file in @attachment_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h attachment_file.attachable_id -%></td>
-    <td><%= link_to h(attachment_file.attachable_type), attachment_file.attachable -%></td>
+    <td><%= link_to "#{h(attachment_file.attachable_type)}/#{h(attachment_file.attachable_id)}", attachment_file.attachable -%></td>
     <td><%=h attachment_file.size -%></td>
     <td><%=h attachment_file.content_type -%></td>
     <td><%= link_to h(attachment_file.filename), formatted_attachment_file_path(attachment_file, :download) -%></td>
-    <%- if_authorized?(:destroy, attachment_file) do -%>
+    <%- if deletable(attachment_file) -%>
       <td><%= link_to t('page.show'), attachment_file -%></td>
       <td><%= link_to t('page.edit'), edit_attachment_file_path(attachment_file) -%></td>
       <td><%= link_to t('page.destroy'), attachment_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -34,3 +30,14 @@
 </table>
 
 <%= will_paginate(@attachment_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+
+</div>
+</div>
+
+<div id="submenu">
+  <%- if AttachmentFile.is_creatable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.attachment_file')), new_attachment_file_path -%></li>
+    </ul>
+  <%- end -%>
+</div>

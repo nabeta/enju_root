@@ -1,16 +1,18 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Back to merge list'), @patron_merge_list -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron_merge_list')), @patron_merge_list -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
+<div id="content_list">
 <p>Patron(s) for <%= link_to h(@patron_merge_list.title), patron_merge_list_path(@patron_merge_list) -%></p>
 
 <%- form_for :patrons, :url => patron_merge_list_patrons_path(@patron_merge_list), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
-  <%- if_authorized?(:destroy, @patron_merge_list) do -%>
+  <%- if @patron_merge_list.is_deletable_by(current_user) -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -43,7 +45,7 @@
     <td><%=h patron.date_of_birth -%></td>
     <td><%=h patron.date_of_death -%></td>
     <td>
-      <%- if_authorized?(:destroy, patron) do -%>
+      <%- if patron.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_patron_merge_list_patron_merge_path(@patron_merge_list, :patron_id => patron.id) unless @patron_merge_list.patrons.include?(patron) -%>
         <%- else -%>
@@ -57,4 +59,5 @@
 </table>
 
 <%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

@@ -1,15 +1,17 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Bookmark) do -%>
+    <%- if Bookmark.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_user_bookmark_path(@user) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-  <h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmark')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@user.original_title), @user -%>
-  </h1>
+  </h2>
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.bookmarked_resource') -%></th>
@@ -22,7 +24,7 @@
     <td><%= link_to h(bookmark.bookmarked_resource.title), bookmark.bookmarked_resource -%></td>
     <td><%= l(bookmark.created_at) -%></td>
     <td><%= l(bookmark.updated_at) -%></td>
-    <%- if_authorized?(:destroy, bookmark) do -%>
+    <%- if bookmarked.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), user_bookmark_path(@bookmark.user, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
@@ -31,4 +33,5 @@
 
 <%= will_paginate(@bookmarks, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

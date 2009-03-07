@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_event_file')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.imported_event_file.filename') -%>:</b>
   <%=h @imported_event_file.filename -%>
@@ -46,4 +48,5 @@
   <%- end -%>
 </table>
 
+</div>
 </div>

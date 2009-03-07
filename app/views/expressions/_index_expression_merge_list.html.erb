@@ -5,12 +5,13 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>Patron(s) for <%= link_to h(@expression_merge_list.title), expression_merge_list_path(@expression_merge_list) -%></p>
 
 <%- form_for :expressions, :url => expression_merge_list_expressions_path(@expression_merge_list), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
-  <%- if_authorized?(:destroy, @expression_merge_list) do -%>
+  <%- if @expression_merge_list.is_deletable_by(current_user) -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -40,7 +41,7 @@
     </td>
     <td><%=h expression.language.display_name -%></td>
     <td>
-      <%- if_authorized?(:destroy, expression) do -%>
+      <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_expression_merge_list_expression_merge_path(@expression_merge_list, :expression_id => expression.id) unless @expression_merge_list.expressions.include?(expression) -%>
         <%- else -%>
@@ -54,4 +55,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

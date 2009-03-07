@@ -13,7 +13,8 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
+  <h1 class="title"><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
+<div id="content_list">
   <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 
 <%= error_messages_for :item -%>
@@ -80,4 +81,5 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

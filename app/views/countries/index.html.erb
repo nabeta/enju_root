@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.country')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.country')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -16,7 +18,7 @@
     <td><%=h country.alpha_2 -%></td>
     <td><%=h country.alpha_3 -%></td>
     <td><%=h country.numeric_3 -%></td>
-    <%- if_authorized?(:desroy, country) do -%>
+    <%- if country.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_country_path(country) -%></td>
       <td><%= country.first? ? '' : link_to('▲', {:action => 'update', :position  => (country.position  > 1 ? country.position - 1 : 1), :id => country.id}, :method => :put) -%></td>
       <td><%= country.last? ? '' : link_to('▼', {:action => 'update', :position => (country.position + 1), :id => country.id}, :method => :put) -%></td>
@@ -26,6 +28,11 @@
 </table>
 
 <%= will_paginate(@countries, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.country')), new_country_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.country')), new_country_path -%></li>
+  </ul>
+</div>

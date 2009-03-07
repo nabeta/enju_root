@@ -62,6 +62,8 @@
   </div>
 
   <div id="content_detail">
+  <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
+  <div id="content_list">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= paginate_id_link(@manifestation) -%>
@@ -179,7 +181,7 @@
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
-        <%- if_authorized?(:new, ResourceHasSubject) do -%>
+        <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
           (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
         <%- end -%>
       </td>
@@ -335,4 +337,5 @@
   -%>
 </div>
 
+</div>
 </div>

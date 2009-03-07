@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= ('Attachable') -%>:</b>
   <%= link_to h("#{@attachment_file.attachable_type}/#{@attachment_file.attachable_id}"), @attachment_file.attachable -%>
@@ -47,7 +48,7 @@
 </p>
 
 <p>
-  <b><%= ('Db file') -%>:</b>
+  <b><%= t('activerecord.models.db_file') -%>:</b>
   <%= link_to h(@attachment_file.filename), formatted_attachment_file_path(@attachment_file, :download) -%>
 </p>
 
@@ -61,4 +62,5 @@
   <%=h @attachment_file.fulltext -%>
 </p>
 
+</div>
 </div>

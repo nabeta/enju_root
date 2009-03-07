@@ -12,19 +12,4 @@ class Produce < ActiveRecord::Base
   cattr_reader :per_page
   @@per_page = 10
 
-  #def after_save
-  #  if self.patron
-  #    self.patron.reload
-  #    self.patron.save
-  #  end
-  #  if self.manifestation
-  #    self.manifestation.reload
-  #    self.manifestation.save
-  #  end
-  #end
-
-  #def after_destroy
-  #  after_save
-  #end
-
 end

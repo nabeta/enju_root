@@ -1,16 +1,12 @@
 class UsersController < ApplicationController
   # Be sure to include AuthenticationSystem in Application Controller instead
   #include AuthenticatedSystem
-  #before_filter :login_required, :except => [:activate, :create]
   #before_filter :reset_params_session
-  before_filter :login_required
-  require_role 'Librarian', :only => [:index, :new, :create, :destroy]
+  before_filter :has_permission?
   before_filter :suspended?
-  before_filter :authorized_content, :only => [:edit, :update] # 上書き注意
   before_filter :store_location, :except => [:create, :update, :destroy]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
 
-  # render new.rhtml
   def index
     query = params[:query] ||= nil
     #browse = nil
@@ -34,8 +30,9 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.find(:first, :conditions => {:login => params[:id]})
-    raise ActiveRecord::RecordNotFound unless @user
+    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @user.blank?
     @tags = @user.tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
@@ -50,21 +47,30 @@ class UsersController < ApplicationController
   end
 
   def new
-    #@user = User.new
-    @patron = Patron.find(params[:patron_id])
+    @user = User.new
     @user_groups = UserGroup.find(:all, :order => :position)
-    if @patron.user
-      redirect_to patron_url(@patron)
-      flash[:notice] = t('page.already_activated')
-      return
+    begin
+      @patron = Patron.find(params[:patron_id])
+      if @patron.user
+        redirect_to patron_url(@patron)
+        flash[:notice] = t('page.already_activated')
+        return
+      end
+    rescue
+      nil
     end
-  rescue
-    flash[:notice] = t('user.specify_patron')
-    redirect_to patrons_url
+    @user.patron = @patron
+    @user.expired_at = 5.year.from_now
+  #rescue
+    #flash[:notice] = t('user.specify_patron')
+    #redirect_to patrons_url
   end
 
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @user.blank?
+
     @user_groups = UserGroup.find(:all, :order => :position)
     @roles = Role.find(:all, :order => 'id desc')
     @libraries = Library.find(:all, :order => 'id')
@@ -75,6 +81,9 @@ class UsersController < ApplicationController
 
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
+    raise ActiveRecord::RecordNotFound if @user.blank?
+    @user.full_name = @user.patron.full_name
     User.transaction do
       if params[:user][:reset_url] == 'checkout_icalendar'
         @user.reset_checkout_icalendar_token
@@ -180,15 +189,49 @@ class UsersController < ApplicationController
     @user.expired_at = expired_at
     @user.keyword_list = params[:user][:keyword_list]
     @user.user_number = params[:user][:user_number]
-    @patron = Patron.find(params[:user][:patron_id])
-    @user.patron = @patron
+    patron = Patron.find(params[:user][:patron_id]) rescue nil
+    if patron
+      @user.full_name = patron.full_name
+      @user.full_name_transcription = patron.full_name_transcription
+    else
+      @user.first_name = params[:user][:first_name]
+      @user.middle_name = params[:user][:middle_name]
+      @user.last_name = params[:user][:last_name]
+      @user.first_name_transcription = params[:user][:first_name_transcription]
+      @user.middle_name_transcription = params[:user][:middle_name_transcription]
+      @user.last_name_transcription = params[:user][:last_name_transcription]
+      @user.zip_code = params[:user][:zip_code]
+      @user.address = params[:user][:address]
+      @user.telephone_number = params[:user][:telephone_number]
+      @user.fax_number = params[:user][:fax_number]
+      @user.address_note = params[:user][:address_note]
+      # TODO: 日本人以外の姓と名の順序
+      @user.full_name = @user.last_name.to_s + @user.first_name.to_s
+      @user.full_name_transcription = @user.last_name_transcription.to_s + @user.first_name_transcription.to_s
+      patron = Patron.create(:first_name => @user.first_name,
+                             :middle_name => @user.middle_name,
+                             :last_name => @user.last_name,
+                             :full_name => @user.full_name,
+                             :first_name_transcription => @user.first_name_transcription,
+                             :middle_name_transcription => @user.middle_name_transcription,
+                             :last_name_transcription => @user.last_name_transcription,
+                             :full_name_transcription => @user.full_name_transcription,
+                             :zip_code_1 => @user.zip_code,
+                             :address_1 => @user.address,
+                             :telephone_number_1 => @user.telephone_number,
+                             :fax_number_1 => @user.fax_number,
+                             :address_1_note => @user.address_note)
+    end
+    @user.patron = patron
     success = @user && @user.save
 
     respond_to do |format|
       if success && @user.errors.empty?
         flash[:temporary_password] = @user.temporary_password
-        @user.roles << Role.find(:first, :conditions => {:name => 'User'})
-        @user.activate # TODO: すぐにアクティベーションするかは要検討
+        User.transaction do
+          @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+          @user.activate # TODO: すぐにアクティベーションするかは要検討
+        end
         #self.current_user = @user
         flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
         format.html { redirect_to user_url(@user.login) }
@@ -215,13 +258,8 @@ class UsersController < ApplicationController
   #end
 
   def destroy
-    # idが1のユーザは削除できない
-    raise if params[:id] == 1
-
-    # ユーザ削除には図書館員以上の権限が必要
-    raise unless current_user.has_role?('Librarian')
-
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.find(params[:id])
 
     # 自分自身を削除しようとした
     if current_user == @user
@@ -245,7 +283,7 @@ class UsersController < ApplicationController
 
     # 最後の図書館員を削除しようとした
     if @user.has_role?('Librarian')
-      if Role.find(:first, :conditions => {:name => 'Librarian'}).users.size == 1
+      if @user.is_last_librarian?
         raise
         flash[:notice] = t('user.last_librarian')
       end
@@ -280,13 +318,4 @@ class UsersController < ApplicationController
     end
   end
 
-  def authorized_content
-    @user = User.find(:first, :conditions => {:login => params[:id]})
-    raise ActiveRecord::RecordNotFound if @user.nil?
-    return true if current_user == @user
-    return true if current_user.has_role?('Librarian')
-    access_denied; return
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
 end

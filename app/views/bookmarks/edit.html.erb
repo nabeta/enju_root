@@ -1,13 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Edit bookmarked_resource'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%></li>
+    <li><%= link_to t('page.showing', :model => t('activerecord.models.bookmarked_resource')), bookmarked_resource_path(@bookmark.bookmarked_resource) -%></li>
     <li><%= link_to t('page.show'), user_bookmark_path(@bookmark.user.login, @bookmark) -%></li>
     <li><%= link_to t('page.back'), user_bookmarks_path(@bookmark.user.login) -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.bookmark')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.bookmark')) -%></h1>
 
 <%= error_messages_for :bookmark -%>
 

@@ -1,4 +1,6 @@
-<h1><%= t('page.editing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :embody -%>
 
@@ -17,6 +19,12 @@
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
+</div>
+</div>
 
-<%= link_to t('page.show'), @embody -%> |
-<%= link_to t('page.back'), embodies_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @embody -%></li>
+    <li><%= link_to t('page.back'), embodies_path -%></li>
+  </ul>
+</div>

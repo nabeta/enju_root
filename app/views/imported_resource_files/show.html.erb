@@ -6,23 +6,25 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_resource_file')) -%></h1>
+<div id="content_list">
 <p>
-  <b><%= ('activerecord.attributes.imported_resource_file.filename') -%>:</b>
+  <b><%= t('activerecord.attributes.imported_resource_file.filename') -%>:</b>
   <%=h @imported_resource_file.filename -%>
 </p>
 
 <p>
-  <b><%= ('Content type') -%>:</b>
+  <b><%= t('activerecord.attributes.imported_resource_file.content_type') -%>:</b>
   <%=h @imported_resource_file.content_type -%>
 </p>
 
 <p>
-  <b><%= ('Size') -%>:</b>
+  <b><%= t('activerecord.attributes.imported_resource_file.size') -%>:</b>
   <%=h @imported_resource_file.size -%>
 </p>
 
 <p>
-  <b><%= ('File hash') -%>:</b>
+  <b><%= t('activerecord.attributes.imported_resource_file.file_hash') -%>:</b>
   <%=h @imported_resource_file.file_hash -%>
 </p>
 
@@ -46,4 +48,5 @@
   <%- end -%>
 </table>
 
+</div>
 </div>

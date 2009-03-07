@@ -1,20 +1,21 @@
 <div id="submenu">
   <ul>
     <%- if @realize.patron -%>
-    <li><%= link_to ('Back to expressions'), patron_expressions_path(@realize.patron) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@realize.patron) -%></li>
     <%- end -%>
     <%- if @realize.expression -%>
-    <li><%= link_to ('Back to patrons'), expression_patrons_path(@realize.expression) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@realize.expression) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.realize')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.realize')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :realize -%>
 
-<%- form_for(:realize, :url => realizes_path) do |f| -%>
+<%- form_for(@realize) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron') -%></b><br />
     <%- if @realize.patron -%>
@@ -40,4 +41,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

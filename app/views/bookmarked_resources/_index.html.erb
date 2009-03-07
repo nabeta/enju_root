@@ -1,6 +1,7 @@
-<div>
-  <h1><%= t('page.listing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
+<div id="content_detail">
+  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
 
+  <div id="content_list">
 <%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
@@ -8,29 +9,19 @@
   </p>
 <%- end -%>
 
-  <p>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
-    (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
-    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
-    <%- if logged_in? -%>
-      <%= t('page.bookmarklet') -%>:
-      <a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a>
-    <%- end -%>
-  </p>
-
 <table id="index">
   <tr>
     <th></th>
     <th><%= t('page.title') -%></th>
-    <th><%= t('page.tag') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th></th>
   </tr>
   <%- @bookmarked_resources.each_with_index do |manifestation, i| -%>
     <tr class="line<%= cycle("0", "1") -%>">
-      <td><%= itemnum = @bookmarked_resource.offset + 1 + i -%></td>
-      <td><%= link_to h(manifestation.original_title), manifestation -%></td>
+      <td><%= itemnum = @bookmarked_resources.offset + 1 + i -%></td>
       <td>
+        <%= link_to h(manifestation.original_title), manifestation -%>
+        <br />
         <%- manifestation.tags.each do |tag| -%>
           <%= link_to h(tag.name), tag_path(tag.name) -%>
         <%- end -%>
@@ -43,4 +34,19 @@
 
 <%= will_paginate(@bookmarked_resources, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+  </div>
+</div>
+
+<div id="submenu">
+  <p>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
+    (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
+    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
+  </p>
+  <%- if logged_in? -%>
+    <h4><%= t('page.bookmarklet') -%></h4>
+    <ul>
+      <li><a href="javascript:window.location.href='<%=h new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a></li>
+    </ul>
+  <%- end -%>
 </div>

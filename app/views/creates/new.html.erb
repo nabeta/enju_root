@@ -1,20 +1,21 @@
 <div id="submenu">
   <ul>
     <%- if @create.patron -%>
-    <li><%= link_to ('Back to works'), patron_works_path(@create.patron) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), patron_works_path(@create.patron) -%></li>
     <%- end -%>
     <%- if @create.work -%>
-    <li><%= link_to ('Back to patrons'), work_patrons_path(@create.work) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), work_patrons_path(@create.work) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.create')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.create')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :create -%>
 
-<%- form_for(:create, :url => creates_path) do |f| -%>
+<%- form_for(@create) do |f| -%>
   <p>
   <b><%= t('activerecord.models.patron') -%></b><br />
     <%- if @create.patron -%>
@@ -40,4 +41,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

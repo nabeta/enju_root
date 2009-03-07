@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <%- if @user_group -%>
-      <li><%= link_to ('Add a checkout_type'), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
     <%- else -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.checkout_type')), new_checkout_type_path -%></li>
     <%- end -%>
@@ -9,7 +9,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.checkout_type')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.checkout_type')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -26,7 +27,7 @@
     <td><%= link_to t('page.edit'), edit_checkout_type_path(checkout_type) -%></td>
     <td><%= link_to t('page.destroy'), checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- unless @user_group -%>
-      <%- if_authorized?(:desroy, checkout_type) do -%>
+      <%- if checkout_type.is_deletable_by(current_user) -%>
         <td><%= checkout_type.first? ? '' : link_to('▲', {:action => 'update', :position  => (checkout_type.position  > 1 ? checkout_type.position - 1 : 1), :id => checkout_type.id}, :method => :put) -%></td>
         <td><%= checkout_type.last? ? '' : link_to('▼', {:action => 'update', :position => (checkout_type.position + 1), :id => checkout_type.id}, :method => :put) -%></td>
       <%- end -%>
@@ -34,4 +35,7 @@
   </tr>
 <%- end -%>
 </table>
+
+<%= will_paginate(@checkout_types, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

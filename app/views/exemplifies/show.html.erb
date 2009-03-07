@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.exemplify')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.manifestation') -%>:</b>
   <%= link_to h(@exemplify.manifestation.original_title), @exemplify.manifestation -%>
@@ -16,4 +18,5 @@
   <%= link_to h(@exemplify.item.item_identifier), @exemplify.item -%>
 </p>
 
+</div>
 </div>

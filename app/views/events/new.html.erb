@@ -9,7 +9,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.event')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.event')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :event -%>
 
@@ -31,12 +32,12 @@
 
   <p>
     <b><%= t('activerecord.attributes.event.started_at') -%></b><br />
-    <%= f.date_select :started_at, :use_month_numbers => true -%>
+    <%= f.datetime_select :started_at, :use_month_numbers => true -%>
   </p>
 
   <p>
     <b><%= t('activerecord.attributes.event.ended_at') -%></b><br />
-    <%= f.date_select :ended_at, :use_month_numbers => true -%>
+    <%= f.datetime_select :ended_at, :use_month_numbers => true -%>
   </p>
 
   <p>
@@ -55,4 +56,5 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_form')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.manifestation_form.name') -%>:</b>
   <%=h @manifestation_form.name -%>
@@ -29,4 +31,5 @@
   <%=h @manifestation_form.note -%>
 </p>
 
+</div>
 </div>

@@ -18,8 +18,9 @@
 </div>
 
 <div id="content_detail">
-
-<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.item')) -%></h1>
+<div id="content_list">
+<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index', :editbale => false) do -%>
   <%- if @item.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
@@ -85,7 +86,7 @@
 </p>
 -->
 
-<%- if_authorized?(:destroy, @item) do -%>
+<%- if @item.is_deletable_by(current_user) -%>
 
   <p>
     <b><%= t('item.donor') -%>:</b>
@@ -104,4 +105,5 @@
   <b><%= t('page.updated_at') -%>:</b>
   <%= l(@item.updated_at) -%>
 </p>
+</div>
 </div>

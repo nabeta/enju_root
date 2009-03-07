@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.user_group_has_checkout_type')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.user_group_has_checkout_type')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -19,6 +21,11 @@
 <%- end -%>
 </table>
 
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')), new_user_group_has_checkout_type_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')), new_user_group_has_checkout_type_path -%></li>
+  </ul>
+</div>

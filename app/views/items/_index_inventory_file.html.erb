@@ -1,30 +1,14 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
-
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
+<div id="content_list">
 <%- case params[:inventory] when 'not_on_shelf' -%>
   <h2><%= ('Not on shelf') -%></h2>
-  <p>
-    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
-    <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
-    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
-    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_on_shelf', :lang => 'ja') -%>)
-  </p>
 <%- when 'not_in catalog' -%>
   <h2><%= ('Not in catalog') -%></h2>
-  <p>
-    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
-    <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
-    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
-    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_in_catalog', :lang => 'ja') -%>)
-  </p>
 <%- else -%>
   <h2><%= t('item.all_item') -%></h2>
-  <p>
-    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
-    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
-    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
-    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :lang => 'ja') -%>)
-  </p>
 <%- end -%>
+</div>
 
 <table id="index">
   <tr>
@@ -46,7 +30,7 @@
     <td><%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name) -%></td>
     <td><%= link_to h(item.shelf.name), item.shelf -%></td>
     <td><%=h item.circulation_status.display_name -%></td>
-    <%- if_authorized?(:destroy, item) do -%>
+    <%- if item.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
       <td><%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -55,3 +39,30 @@
 </table>
 
 <%= will_paginate(@items, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+<%- case params[:inventory] when 'not_on_shelf' -%>
+  <p>
+    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
+    <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
+    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
+    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_on_shelf', :lang => 'ja') -%>)
+  </p>
+<%- when 'not_in catalog' -%>
+  <p>
+    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
+    <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
+    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
+    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_in_catalog', :lang => 'ja') -%>)
+  </p>
+<%- else -%>
+  <p>
+    <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
+    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
+    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
+    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :lang => 'ja') -%>)
+  </p>
+<%- end -%>
+</div>

@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.realize')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.realize')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -10,7 +12,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(realize.patron.full_name), realize.patron -%></td>
     <td><%= link_to h(realize.expression.original_title), realize.expression -%></td>
-    <%- if_authorized?(:destroy, realize) do -%>
+    <%- if realize.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), realize -%></td>
       <td><%= link_to t('page.destroy'), realize, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -18,8 +20,14 @@
 <%- end -%>
 </table>
 
-<%- if_authorized?(:new, Realize) do -%>
-  <p><%= link_to t('page.new', :model => t('activerecord.models.realize')), new_realize_path -%></p>
-<%- end -%>
-
 <%= will_paginate(@realizes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <%- if Realize.is_creatable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.realize')), new_realize_path -%></li>
+    </ul>
+  <%- end -%>
+</div>

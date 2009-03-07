@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_patron_file')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.imported_patron_file.filename') -%>:</b>
   <%=h @imported_patron_file.filename -%>
@@ -40,4 +42,5 @@
   <%- end -%>
 </table>
 
+</div>
 </div>

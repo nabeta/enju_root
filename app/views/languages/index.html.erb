@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.language')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.language')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -18,7 +20,7 @@
     <td><%=h language.iso_639_1 -%></td>
     <td><%=h language.iso_639_2 -%></td>
     <td><%=h language.iso_639_3 -%></td>
-    <%- if_authorized?(:desroy, language) do -%>
+    <%- if language.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_language_path(language) -%></td>
       <td><%= language.first? ? '' : link_to('▲', {:action => 'update', :position  => (language.position  > 1 ? language.position - 1 : 1), :id => language.id}, :method => :put) -%></td>
       <td><%= language.last? ? '' : link_to('▼', {:action => 'update', :position => (language.position + 1), :id => language.id}, :method => :put) -%></td>
@@ -27,4 +29,13 @@
 <%- end -%>
 </table>
 
-<%= link_to t('page.new', :model => t('activerecord.models.language')), new_language_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <%- if Country.is_creatable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.language')), new_language_path -%></li>
+    </ul>
+  <%- end -%>
+</div>

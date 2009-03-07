@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, WorkForm) do -%>
+    <%- if WorkForm.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work_form')), new_work_form_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.work_form')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work_form')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -21,7 +22,7 @@
     <td><%= link_to h(work_form.name), work_form -%></td>
     <td><%= link_to h(work_form.display_name), work_form -%></td>
     <td><%=h work_form.note -%></td>
-    <%- if_authorized?(:destroy, work_form) do -%>
+    <%- if work_form.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_work_form_path(work_form) -%></td>
       <td><%= link_to t('page.destroy'), work_form, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -29,4 +30,5 @@
 <%- end -%>
 </table>
 
+</div>
 </div>

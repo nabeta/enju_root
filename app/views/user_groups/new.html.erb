@@ -5,11 +5,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.user_group')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.user_group')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :user_group -%>
 
-<%- form_for(:user_group, :url => user_groups_path) do |f| -%>
+<%- form_for(@user_group) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.user.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
@@ -30,4 +31,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

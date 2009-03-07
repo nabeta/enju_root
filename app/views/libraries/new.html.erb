@@ -5,11 +5,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.library')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.library')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :library -%>
 
-<%- form_for(:library, :url => libraries_path) do |f| -%>
+<%- form_for(@library) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.library.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
@@ -80,4 +81,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

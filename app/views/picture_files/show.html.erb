@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <p>
   <b><%= ('Attachable') -%>:</b>
   <%= link_to h(@picture_file.picture_attachable_type), @picture_file.picture_attachable -%>
@@ -27,17 +28,17 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.height') -%>:</b>
-  <%=h @picture_file.height -%>
-</p>
-
-<p>
   <b><%= t('activerecord.attributes.picture_file.width') -%>:</b>
   <%=h @picture_file.width -%>
 </p>
 
 <p>
-<b><%= ('Parent') -%>:</b>
+  <b><%= t('activerecord.attributes.picture_file.height') -%>:</b>
+  <%=h @picture_file.height -%>
+</p>
+
+<p>
+  <b><%= ('Parent') -%>:</b>
   <%=h @picture_file.parent_id -%>
 </p>
 
@@ -47,7 +48,7 @@
 </p>
 
 <p>
-  <b>Db file:</b>
+  <b><%= t('activerecord.models.db_file') -%>:</b>
   <%=h @picture_file.db_file_id -%>
 </p>
 
@@ -56,4 +57,5 @@
   <%=h @picture_file.file_hash -%>
 </p>
 
+</div>
 </div>

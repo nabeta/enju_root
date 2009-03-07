@@ -1,18 +1,22 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_object')) -%></h1>
+<div id="content_list">
 <p>
-  <b>Imported file:</b>
-  <%=h @imported_object.imported_file_id -%>
+  <b><%= t('activerecord.attributes.imported_object.imported_file') -%></b>
+  <%= link_to h("#{@imported_object.imported_file_type} / #{@imported_object.imported_file_id}"), @imported_object.imported_file -%>
 </p>
 
 <p>
-  <b>Importable:</b>
-  <%=h @imported_object.importable_id -%>
+  <b><%= t('activerecord.attributes.imported_object.importable') -%></b>
+  <%= link_to h("#{@imported_object.importable_type} / #{@imported_object.importable_id}"), @imported_object.importable -%>
 </p>
 
-<p>
-  <b>Importable type:</b>
-  <%=h @imported_object.importable_type -%>
-</p>
+</div>
+</div>
 
-
-<%= link_to t('page.edit'), edit_imported_object_path(@imported_object) -%> |
-<%= link_to t('page.back'), imported_objects_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_imported_object_path(@imported_object) -%></li>
+    <li><%= link_to t('page.back'), imported_objects_path -%></li>
+  </ul>
+</div>

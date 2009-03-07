@@ -1,15 +1,17 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Realize) do -%>
+    <%- if Reify.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_work_reify_path(@work) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-  <h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@work.original_title), @work -%>
-  </h1>
+  </h2>
 <table>
   <tr>
     <th><%= t('activerecord.models.expression') -%></th>
@@ -22,7 +24,7 @@
     <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
     <td><%= l(reify.created_at) -%></td>
     <td><%= l(reify.updated_at) -%></td>
-    <%- if_authorized?(:destroy, reify) do -%>
+    <%- if reify.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), work_reify_path(@work, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
@@ -30,5 +32,5 @@
 </table>
 
 <%= will_paginate(@reifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-
+</div>
 </div>

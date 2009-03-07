@@ -8,13 +8,15 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.answer')) -%></h1>
+<div id="content_list">
 <p>
-<b><%= t('page.user') -%>:</b>
+  <b><%= t('page.user') -%>:</b>
   <%= link_to h(@answer.user.login), user_path(@answer.user.login) -%>
 </p>
 
 <p>
-<b><%= t('activerecord.models.question') -%>:</b>
+  <b><%= t('activerecord.models.question') -%>:</b>
   <%=h @answer.question.body -%>
 </p>
 
@@ -33,4 +35,5 @@
   <%= l(@answer.updated_at) -%>
 </p>
 
+</div>
 </div>

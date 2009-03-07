@@ -1,21 +1,26 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
-    <li><%= link_to ('Back to manifestations'), manifestations_path -%></li>
-    <li><%= link_to t('expression.add'), manifestation_expressions_path(@manifestation) -%></li>
-    <li><%= link_to t('item.add'), manifestation_items_path(@manifestation) -%></li>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_manifestation_patron_path(@manifestation) -%></li>
+    <li><%= link_to t('activerecord.models.manifestation'), manifestations_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), manifestation_expressions_path(@manifestation) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.item')), manifestation_items_path(@manifestation) -%></li>
+    <%- if Patron.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_manifestation_patron_path(@manifestation) -%></li>
+    <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-
-<%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
+<div id="content_list">
+<%- cache(:id => @manifestation.id, :action => :show, :action_suffix => 'title', :editable => false) do -%>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+<%- end -%>
 
 <%- form_for :patrons, :url => manifestation_patrons_path(@manifestation), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
-  <%- if_authorized?(:destroy, @manifestation) do -%>
+  <%- if @manifestation.is_deletable_by(current_user) -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -48,7 +53,7 @@
       <td><%=h patron.date_of_birth -%></td>
       <td><%=h patron.date_of_death -%></td>
       <td>
-        <%- if_authorized?(:destroy, patron) do -%>
+        <%- if patron.is_deletable_by(current_user) -%>
           <%- if params[:mode] == 'add' -%>
             <%= link_to t('page.add'), new_manifestation_produce_path(@manifestation, :patron_id => patron.id) unless @manifestation.patrons.include?(patron) -%>
           <%- else -%>
@@ -62,4 +67,5 @@
 </table>
 
 <%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

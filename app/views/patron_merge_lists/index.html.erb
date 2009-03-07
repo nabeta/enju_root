@@ -5,18 +5,19 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.patron_merge_list')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron_merge_list')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
-    <td><%= t('activerecord.attributes.patron_merge_list.title') -%></td>
-    <td><%= t('page.created_at') -%></td>
+    <th><%= t('activerecord.attributes.patron_merge_list.title') -%></th>
+    <th><%= t('page.created_at') -%></th>
   </tr>
 
 <%- for patron_merge_list in @patron_merge_lists -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(patron_merge_list.title), patron_merge_list -%></td>
-    <td><%=h patron_merge_list.created_at -%></td>
+    <td><%= l(patron_merge_list.created_at) -%></td>
     <td><%= link_to t('page.show'), patron_merge_list -%></td>
     <td><%= link_to t('page.edit'), edit_patron_merge_list_path(patron_merge_list) -%></td>
     <td><%= link_to t('page.destroy'), patron_merge_list, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -24,4 +25,5 @@
 <%- end -%>
 </table>
 
+</div>
 </div>

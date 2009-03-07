@@ -5,26 +5,28 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.new', :model => t('activerecord.models.message_queue')) -%></h1>
+  <h1 class="title"><%= t('page.new', :model => t('activerecord.models.message_queue')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@message_queue) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :sender_id -%><br />
+    <%= f.label t('message.sender') -%><br />
     <%= link_to h(current_user.login), user_path(current_user.login) -%>
     <%= f.hidden_field :sender_id -%>
   </p>
   <p>
-    <%= f.label :receiver_id -%><br />
+    <%= f.label t('message.receiver') -%><br />
     <%= f.text_field :receiver_id -%>
   </p>
   <p>
-    <%= f.label :message_template_id -%><br />
+    <%= f.label t('activerecord.models.message_template') -%><br />
     <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
   </p>
   <p>
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

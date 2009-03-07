@@ -5,15 +5,17 @@
 </div>
 
 <div id="content_detail">
-  <h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@subject.term), @subject -%>
-  </h1>
+  </h2>
 
   <%- form_for :manifestations, :url => subject_manifestations_path(@subject), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), :id => 'searchform_top', :size => 40 -%>
-      <%- if_authorized?(:destroy, @subject) do -%>
+      <%- if @subject.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -47,7 +49,7 @@
       <%= patrons_list(manifestation.patrons) -%>
     </td>
     <td>
-      <%- if_authorized?(:destroy, manifestation) do -%>
+      <%- if manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_subject_resource_has_subject_path(@subject, :manifestation_id => manifestation.id) -%>
         <%- else -%>
@@ -62,4 +64,5 @@
 </table>
 
 <%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

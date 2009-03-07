@@ -6,14 +6,16 @@
 </div>
 
 <div id="content_detail">
-  <h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
+  <h2>
     <%= link_to h(@patron.full_name), @patron -%>
-  </h1>
+  </h2>
 
   <%- form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
-      <%- if_authorized?(:destroy, @patron) do -%>
+      <%- if @patron.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
         <%- else -%>
@@ -41,7 +43,7 @@
     </td>
     <td><%=h expression.language.display_name -%></td>
     <td>
-      <%- if_authorized?(:destroy, expression) do -%>
+      <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_patron_realize_path(@patron, :expression_id => expression.id) -%>
         <%- else -%>
@@ -55,4 +57,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Library) do -%>
+    <%- if Library.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.library')), new_library_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.library')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.library')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -36,9 +37,9 @@
       <%=h library.telephone_number_2 -%>
     </td>
     <td><%=h library.fax_number -%></td>
-    <%- if_authorized?(:destroy, library) do -%>
+    <%- if library.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_library_path(library.short_name) -%></td>
-      <td><%= link_to t('page.destroy'), library_path(library.short_name), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), library_path(library.short_name), :confirm => t('page.are_you_sure'), :method => :delete unless library.web? -%></td>
       <td><%= library.first? ? '' : link_to('▲', {:action => 'update', :position => (library.position  > 1 ? library.position - 1 : 1), :id => library.short_name}, :method => :put) -%></td>
       <td><%= library.last? ? '' : link_to('▼', {:action => 'update', :position => (library.position + 1), :id => library.short_name}, :method => :put) -%></td>
     <%- end -%>
@@ -46,4 +47,5 @@
 <%- end -%>
 </table>
 
+</div>
 </div>

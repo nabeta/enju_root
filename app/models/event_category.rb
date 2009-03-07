@@ -4,4 +4,7 @@ class EventCategory < ActiveRecord::Base
   validates_presence_of :name
 
   acts_as_list
+
+  @@per_page = 10
+  cattr_reader :per_page
 end

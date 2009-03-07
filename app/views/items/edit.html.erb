@@ -7,18 +7,17 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.editing', :model => t('activerecord.models.item')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.item')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :item -%>
 
-<%- form_for(:item, :url => item_path(@item), :html => { :method => :put }) do |f| -%>
-  <div>
-    <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
-      <%- if @item.manifestation -%>
-        <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @item.manifestation} -%>
-      <%- end -%>
+<%- form_for(@item, :html => { :method => :put }) do |f| -%>
+  <%- if @item.manifestation -%>
+    <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'title', :editable => false) do -%>
+      <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
     <%- end -%>
-  </div>
+  <%- end -%>
 
   <p>
     <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
@@ -75,4 +74,5 @@
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
+</div>
 </div>

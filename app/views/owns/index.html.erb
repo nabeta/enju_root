@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, Own) do -%>
+    <%- if Own.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.own')), new_own_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.own')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.own')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -29,7 +30,7 @@
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => own.item.manifestation} -%>
     </td>
-    <%- if_authorized?(:destroy, own) do -%>
+    <%- if own.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), own -%></td>
       <td><%= link_to t('page.destroy'), own, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -38,4 +39,5 @@
 </table>
 
 <%= will_paginate(@owns, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

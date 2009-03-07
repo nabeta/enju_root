@@ -34,7 +34,8 @@ class Subject < ActiveRecord::Base
   validates_presence_of :term, :subject_type
 
   acts_as_solr :fields => [:term, :term_transcription, :note, :tags,
-    {:manifestation_ids => :integer}, {:classification_ids => :integer}],
+    {:manifestation_ids => :integer}, {:classification_ids => :integer},
+    {:subject_heading_type_ids => :integer}],
     :auto_commit => false
   acts_as_tree
   @@per_page = 10
@@ -50,6 +51,10 @@ class Subject < ActiveRecord::Base
 
   def classification_ids
     self.classifications.collect(&:id)
+  end
+
+  def subject_heading_type_ids
+    self.subject_heading_types.collect(&:id)
   end
 
 end

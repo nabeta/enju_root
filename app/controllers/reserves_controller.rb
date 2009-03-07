@@ -62,30 +62,26 @@ class ReservesController < ApplicationController
 
   # GET /reserves/new
   def new
-    begin
-      if !current_user.has_role?('Librarian')
-        raise unless current_user == @user
+    user = get_user_number ||= get_user_if_nil
+
+    unless current_user.has_role?('Librarian')
+      if user.blank? or user != current_user
+        access_denied
+        return
       end
-    rescue
-      access_denied; return
     end
 
-    if current_user.has_role?('Librarian')
-      @reserve = Reserve.new
-      @reserve.user = @user
+    if user
+      @reserve = user.reserves.new
     else
-      if @user == current_user
-        @reserve = current_user.reserves.new
-      else
-        access_denied; return
-      end
+      @reserve = Reserve.new
     end
 
     if @manifestation
       @reserve.manifestation = @manifestation
-      if @user
-        @reserve.expired_at = @manifestation.reservation_expired_period(@user).days.from_now.end_of_day
-        unless @manifestation.reservable?(@user)
+      if user
+        #@reserve.expired_at = @manifestation.reservation_expired_period(user).days.from_now.end_of_day
+        unless @manifestation.reservable?(user)
           flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           redirect_to @manifestation
           return
@@ -99,12 +95,7 @@ class ReservesController < ApplicationController
     if @user
       @reserve = @user.reserves.find(params[:id])
     else
-      if current_user.has_role?('Librarian')
-        @reserve = Reserve.find(params[:id])
-      else
-        access_denied
-        return
-      end
+      @reserve = Reserve.find(params[:id])
     end
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -142,11 +133,7 @@ class ReservesController < ApplicationController
           flash[:notice] = t('reserve.this_patron_cannot_reserve')
           raise
         end
-        if @reserve.expired_at
-          if @reserve.expired_at > expired_period.days.from_now.end_of_day
-            @reserve.expired_at = expired_period.days.from_now.end_of_day
-          end
-        end
+
         @reserve.manifestation = @manifestation
       rescue
         flash[:notice] = ('An error occurred.') if flash[:notice].nil?
@@ -181,7 +168,7 @@ class ReservesController < ApplicationController
   def update
     user = get_user_number
     if user.blank?
-      user = get_user
+      user = get_user_if_nil
     end
 
     if user.blank?
@@ -189,21 +176,10 @@ class ReservesController < ApplicationController
       return
     end
 
-    #unless current_user.has_role?('Librarian')
-    #  unless current_user == user
-    #    access_denied
-    #    return
-    #  end
-    #end
-    if @user
-      @reserve = @user.reserves.find(params[:id])
+    if user
+      @reserve = user.reserves.find(params[:id])
     else
-      if current_user.has_role?('Librarian')
-        @reserve = Reserve.find(params[:id])
-      else
-        access_denied
-        return
-      end
+      @reserve = Reserve.find(params[:id])
     end
 
     if params[:mode] == 'cancel'
@@ -235,12 +211,7 @@ class ReservesController < ApplicationController
     if @user
       @reserve = @user.reserves.find(params[:id])
     else
-      if current_user.has_role?('Librarian')
-        @reserve = Reserve.find(params[:id])
-      else
-        access_denied
-        return
-      end
+      @reserve = Reserve.find(params[:id])
     end
     @reserve.destroy
     #flash[:notice] = t('reserve.reservation_was_canceled')

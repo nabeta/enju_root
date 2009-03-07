@@ -1,8 +1,8 @@
-<h1><%= t('page.new', :model => t('activerecord.models.checkin')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.checkin')) -%></h1>
 
 <%= error_messages_for :checkin -%>
 
-<%- form_for(:checkin, :url => checkins_path) do |f| -%>
+<%- form_for(@checkin) do |f| -%>
   <p>
     <b><%= t('activerecord.models.item') -%></b><br />
     <%= f.text_field :item_id -%>

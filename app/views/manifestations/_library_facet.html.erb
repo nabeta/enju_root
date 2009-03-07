@@ -1,4 +1,4 @@
-<h3><%= t('page.library') -%></h3>
+<h4><%= t('page.library') -%></h4>
 <ul>
   <%- libraries = params[:library].to_s.split -%>
   <%- @libraries.each do |library| -%>
@@ -12,6 +12,6 @@
     <%- end -%>
   <%- end -%>
   <%- if params[:library] -%>
-    <li><%= link_to ('Remove this facet'), url_for(:params => params.merge(:library => nil, :page => nil, :view => nil)) -%></li>
+    <li><%= link_to t('page.remove_this_facet'), url_for(:params => params.merge(:library => nil, :page => nil, :view => nil)) -%></li>
   <%- end -%>
 </ul>

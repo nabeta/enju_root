@@ -5,26 +5,16 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <title><%= t('page.login') -%>: <%=h @library_group.display_name -%></title>
-  <%= javascript_include_tag 'jquery' -%>
-  <script type="text/javascript">
-      jQuery.noConflict();
-  </script>
-  <%= javascript_include_tag :defaults -%>
-  <%= javascript_include_tag 'thickbox' -%>
-  <%= stylesheet_link_tag 'thickbox' -%>
-  <%- if params[:mode] == 'thickbox' -%>
-    <%= stylesheet_link_tag 'thickbox_login' -%>
-  <%- else -%>
-    <%= stylesheet_link_tag 'scaffold' -%>
-    <%= stylesheet_link_tag 'nonopac' -%>
-  <%- end -%>
+  <%= render :partial => 'page/include' -%>
 </head>
 
 <body class="yui-skin-sam" id="yahoo-com">
 
-<div style="color: green"><%= flash[:notice] -%></div>
+<%= render :partial => 'page/header' -%>
 
 <div id="content">
+  
+<div style="color: green"><%= flash[:notice] -%></div>
 
 <%= yield  -%>
 

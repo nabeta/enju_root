@@ -7,4 +7,7 @@ class Bookstore < ActiveRecord::Base
   acts_as_soft_deletable
   validates_presence_of :name
   validates_length_of :url, :maximum => 255, :allow_nil => true
+
+  cattr_reader :per_page
+  @@per_page = 10
 end

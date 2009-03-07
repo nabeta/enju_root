@@ -1,7 +1,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
-    <li><%= link_to ('Back to manifestations'), manifestations_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), manifestations_path -%></li>
     <li><%= link_to ('Add an expression'), manifestation_expressions_path(@manifestation) -%></li>
     <li><%= link_to ('Add an item'), manifestation_items_path(@manifestation) -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_manifestation_patron_path(@manifestation) -%></li>

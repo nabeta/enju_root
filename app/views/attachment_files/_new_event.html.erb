@@ -5,7 +5,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= ('New attachment_file') -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.attachment_file')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :attachment_file -%>
 
@@ -26,4 +27,5 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+</div>
 </div>

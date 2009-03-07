@@ -6,21 +6,26 @@
 </div>
 
 <div id="content_detail">
-  <h1><%= t('page.editing', :model => t('activerecord.models.imported_object')) -%></h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.imported_object')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@imported_object) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :imported_file_id -%><br />
+    <%= f.label t('activerecord.attributes.imported_object.imported_file') -%><br />
     <%= f.text_field :imported_file_id -%>
   </p>
   <p>
-    <%= f.label :importable_id -%><br />
+    <%= f.label t('activerecord.attributes.imported_object.imported_file_type') -%><br />
+    <%= f.text_field :imported_file_type -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.imported_object.importable') -%><br />
     <%= f.text_field :importable_id -%>
   </p>
   <p>
-    <%= f.label :importable_type -%><br />
+    <%= f.label t('activerecord.attributes.imported_object.importable_type') -%><br />
     <%= f.text_field :importable_type -%>
   </p>
   <p>
@@ -28,4 +33,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_group_has_checkout_type')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.user_group') -%>:</b>
   <%= link_to h(@user_group_has_checkout_type.user_group.display_name), @user_group_has_checkout_type.user_group -%>
@@ -48,7 +50,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.user_group_has_checkout_type.fixed_due_date') -%>:</b>
-  <%=h @user_group_has_checkout_type.fixed_due_date -%>
+  <%= l(@user_group_has_checkout_type.fixed_due_date) if @user_group_has_checkout_type.fixed_due_date -%>
 </p>
 
 <p>
@@ -56,4 +58,5 @@
   <%=h @user_group_has_checkout_type.set_due_date_before_closing_day -%>
 </p>
 
+</div>
 </div>

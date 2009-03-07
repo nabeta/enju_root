@@ -2,7 +2,6 @@ class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table "users", :force => true do |t|
       t.column :login,                     :string, :null => false
-      t.column :name,                      :string, :limit => 100, :default => '', :null => true
       t.column :openid_url,                :string
       t.column :email,                     :string
       t.column :crypted_password,          :string, :limit => 40

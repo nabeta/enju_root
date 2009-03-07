@@ -1,3 +1,5 @@
+<h3><%= t('checked_item.previous_checkout') -%></h3>
+
 <table id="index">
   <tr>
     <th class="checked_item_title"><%= t('page.title') -%></th>
@@ -12,8 +14,7 @@
         <div class="holding" id="holding_<%=h checkout.item.manifestation.id -%>"></div>
       </td>
       <td><%= link_to h(checkout.item.item_identifier), checkout.item -%></td>
-      <td><%=h l(checkout.due_date, :format => :short) -%></td>
+      <td><%=h l(checkout.due_date, :format => :only_date) -%></td>
     </tr>
   <%- end -%>
 </table>
-

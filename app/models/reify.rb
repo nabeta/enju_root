@@ -12,19 +12,4 @@ class Reify < ActiveRecord::Base
   
   acts_as_list :scope => :work
 
-  #def after_save
-  #  if self.work
-  #    self.work.reload
-  #    self.work.save
-  #  end
-  #  if self.expression
-  #    self.expression.reload
-  #    self.expression.save
-  #  end
-  #end
-
-  #def after_destroy
-  #  after_save
-  #end
-
 end

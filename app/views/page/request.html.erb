@@ -5,7 +5,8 @@
 
 <div id="content_detail">
 
-<h1><%= t('page.request') -%></h1>
+<h1 class="title"><%= t('page.request') -%></h1>
+<div id="content_list">
 
 <ul>
   <li><%= link_to t('activerecord.models.reserve'), user_reserves_path(current_user.login) -%></li>
@@ -13,4 +14,5 @@
   <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user.login) -%></li>
 </ul>
 
+</div>
 </div>

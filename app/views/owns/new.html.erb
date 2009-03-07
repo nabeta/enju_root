@@ -5,11 +5,12 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.own')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.own')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :own -%>
 
-<%- form_for(:own, :url => owns_path) do |f| -%>
+<%- form_for(@own) do |f| -%>
   <p>
     <b><%= t('page.library') -%></b><br />
     <%= f.text_field :patron_id -%>
@@ -25,4 +26,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

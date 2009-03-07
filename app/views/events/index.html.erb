@@ -10,24 +10,52 @@
         <li><%= link_to t('event.import_event'), imported_event_files_path -%></li>
       <%- end -%>
     <%- end -%>
+    <li><%= link_to t('event.all_libraries'), events_path -%></li>
+    <%- case params[:mode] when 'all' -%>
+      <%- if @library -%>
+        <li><%= link_to t('event.past'), library_events_path(@library.short_name, :mode => 'past') -%></li>
+        <li><%= link_to t('event.upcoming'), library_events_path(@library.short_name, :mode => 'upcoming') -%></li>
+      <%- else -%>
+        <li><%= link_to t('event.past'), events_path(:mode => 'past') -%>
+        <li><%= link_to t('event.upcoming'), events_path(:mode => 'upcoming') -%></li>
+      <%- end -%>
+    <%- when 'past' -%>
+      <%- if @library -%>
+        <li><%= link_to t('event.upcoming'), library_events_path(@library, :mode => 'upcoming') -%></li>
+      <%- else -%>
+        <li><%= link_to t('event.upcoming'), events_path(:mode => 'upcoming') -%></li>
+      <%- end -%>
+    <%- else -%>
+      <%- if @library -%>
+        <li><%= link_to t('event.past'), library_events_path(@library, :mode => 'past') -%></li>
+      <%- else -%>
+        <li><%= link_to t('event.past'), events_path(:mode => 'past') -%></li>
+      <%- end -%>
+    <%- end -%>
   </ul>
+  <p>
+    <%- if @library -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_library_events_path(@library.short_name, :rss) -%>
+      (<%= link_to ('RSS'), formatted_library_events_path(@library.short_name, :rss) -%>)
+      (<%= link_to ('CSV'), formatted_library_events_path(@library.short_name, :csv, :lang => 'ja') -%>)
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_events_path(:rss) -%>
+      (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
+      (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
+    <%- end -%>
+  </p>
+  <%= render :partial => 'page/login' unless logged_in? -%>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
+<div id="content_list">
 
-<p>
-  <%- if @library -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_library_events_path(@library.short_name, :rss) -%>
-    (<%= link_to ('RSS'), formatted_library_events_path(@library.short_name, :rss) -%>)
-    (<%= link_to ('CSV'), formatted_library_events_path(@library.short_name, :csv, :lang => 'ja') -%>)
-  <%- else -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_events_path(:rss) -%>
-    (<%= link_to ('RSS'), formatted_events_path(:rss) -%>)
-    (<%= link_to ('CSV'), formatted_events_path(:csv, :lang => 'ja') -%>)
-  <%- end -%>
-  <%= link_to t('event.all_libraries'), events_path -%>
-</p>
+<%- if @library -%>
+  <h2><%= link_to h(@library.display_name), library_path(@library.short_name) -%></h2>
+<%- else -%>
+  <h2><%= t('event.all_libraries') -%></h2>
+<%- end -%>
 
 <table id="index">
   <tr>
@@ -58,4 +86,5 @@
 </table>
 
 <%= will_paginate(@events, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

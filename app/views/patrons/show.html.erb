@@ -1,5 +1,5 @@
 <div id="submenu">
-  <%- if_authorized?(:destroy, @patron) do -%>
+  <%- if @patron.is_deletable_by(current_user) -%>
     <ul>
       <%- if @patron.user.blank? -%>
         <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
@@ -13,28 +13,34 @@
       <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     </ul>
   <%- end -%>
-    <ul>
-      <li><%= link_to t('work.add'), patron_works_path(@patron) -%></li>
-    </ul>
-    <ul>
-      <li><%= link_to t('expression.add'), patron_expressions_path(@patron) -%></li>
-    </ul>
-    <ul>
-      <li><%= link_to t('manifestation.add'), patron_manifestations_path(@patron) -%></li>
-    </ul>
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), patron_works_path(@patron) -%></li>
+  </ul>
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
+  </ul>
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), patron_manifestations_path(@patron) -%></li>
+  </ul>
 </div>
 
 <div id="content_detail">
-
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron')) -%></h1>
+<div id="content_list">
   <%-
     cache(:id => @patron.id, :editable => @patron.is_updatable_by(current_user)) do
   -%>
-  <h1 id="resource_title">
+  <h2 id="resource_title">
     [P]
     <%=h @patron.full_name -%>
-  </h1>
+  </h2>
 
-<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@patron.full_name_without_space)) -%>)</p>
+  <p>
+  (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@patron.full_name_without_space)) -%>)
+  <%- unless @patron.user -%>
+    (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
+  <%- end -%>
+  </p>
 
 <div id="tabview">
 
@@ -87,7 +93,7 @@
             <td><b><%= t('page.language') -%>:</b></td>
             <td><%=h @patron.language.display_name -%></td>
           </tr>
-          <%- if_authorized?(:destroy, @patron) do -%>
+          <%- if deletable(@patron) -%>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.zip_code_1') -%>:</b></td>
               <td><%=h @patron.zip_code_1 -%></td>
@@ -285,4 +291,5 @@
 </div>
 <%= render :partial => 'page/tabview' -%>
 <%- end -%>
+</div>
 </div>

@@ -1,7 +1,7 @@
 <div id="left_pane">
 
+  <h1 class="title"><%=h t('page.user_title', :login_name => @user.login) -%></h1>
   <div id="user_search_form">  
-    <h1><%=h t('page.user_title', :login_name => @user.login) -%></h1>
 
   <%- form_tag({:controller => 'manifestations'}, {:method => 'get', :name => 'searchform'}) do -%>
     <div>
@@ -19,17 +19,19 @@
 
   </div>
 
+  <h3 class="title"><%= t('activerecord.models.message') -%></h3>
   <div id="message_box">
-    <h3><%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.login) -%></h3>
     <%- if logged_in? -%>
       <%- if current_user.unread_messages.size > 0 -%>
         <%= link_to t('page.number_of_unread_messages', :numdocs => current_user.unread_messages.size, :count => current_user.unread_messages.size), user_messages_path(current_user.login) -%>
       <%- else -%>
         <%= t('message.no_new_message') -%>
+        (<%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.login) -%>)
       <%- end -%>
     <%- end -%>
   </div>
 
+  <h3 class="title"><%= t('page.news') -%></h3>
   <div id="news_feed_box">
     <%- cache(:controller => :news_feeds, :action => :index, :action_suffix => 'list') do -%>
       <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
@@ -39,13 +41,13 @@
 </div>
 
 <div id="right_pane">
+  <h3 class="title"><%= t('manifestation.pickup') -%></h3>
   <div id="picked_up_box">
-    <h3><%= t('manifestation.pickup') -%></h3>
     <%= render :partial => 'manifestations/pickup' -%>
   </div>
 
+  <h3 class="title"><%= t('tag.my_tag') -%></h3>
   <div id="tag_cloud_box">
-    <h3><%= t('tag.my_tag') -%></h3>
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.login) do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
     <%- end -%>

@@ -10,15 +10,17 @@
 </div>
 
 <div id="content_detail">
-  <h1 id="resource_title">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.tag')) -%></h1>
+<div id="content_list">
+  <h2 id="resource_title">
     [T]
     <%=h @tag.name -%>
-  </h1>
+  </h2>
 
 <p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@tag.name)) -%>)</p>
 
 <p>
-  <b><%= ('Taggings count') -%>:</b>
+  <b><%= t('activerecord.attributes.tag.taggings_count') -%>:</b>
     <%= link_to h(@tag.taggings_count), manifestations_path(:tag => h(@tag.name)) -%>
 </p>
 
@@ -41,4 +43,5 @@
   <%- end -%>
 </p>
 
+</div>
 </div>

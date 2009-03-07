@@ -9,7 +9,8 @@
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.purchase_request')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.purchase_request')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :purchase_request -%>
 
@@ -68,4 +69,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

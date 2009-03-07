@@ -1,12 +1,13 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Add a patron'), patron_merge_list_patrons_path(@patron_merge_list) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), patron_merge_list_patrons_path(@patron_merge_list) -%></li>
     <li><%= link_to t('page.edit'), edit_patron_merge_list_path(@patron_merge_list) -%></li>
     <li><%= link_to t('page.back'), patron_merge_lists_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<div id="content_list">
 <%- form_for(:patron_merge_list, :url => patron_merge_list_path(@patron_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.title') -%>:</b>
@@ -19,8 +20,9 @@
     <%- end -%>
   </ul>
   <%- if @patron_merge_list.patrons.size > 1 -%>
-    <%= f.submit "Merge", :confirm => t('page.are_you_sure') -%>
+    <%= f.submit t('page.merge'), :confirm => t('page.are_you_sure') -%>
   <%- end -%>
 <%- end -%>
 
+</div>
 </div>

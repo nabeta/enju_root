@@ -64,7 +64,7 @@ class ManifestationsController < ApplicationController
           query.add_query!(@patron) unless @patron.blank?
         end
         # 内部的なクエリ
-        query = add_query(query, @manifestation_form) unless @manifestation_form.blank?
+        query = add_query!(query, @manifestation_form) unless @manifestation_form.blank?
         query.add_query!(@subject_by_term) unless @subject_by_term.blank?
         unless params[:library].blank?
           library_list = params[:library].split.uniq.join(' ')
@@ -430,15 +430,15 @@ class ManifestationsController < ApplicationController
       barcode = Barby::QrCode.new(@manifestation.id)
       send_data(barcode.to_png.to_blob, :disposition => 'inline', :type => 'image/png')
     when 'holding'
-      render :partial => 'show_holding'
+      render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation}
     when 'tag_edit'
-      render :partial => 'tag_edit'
+      render :partial => 'manifestations/tag_edit'
     when 'tag_list'
-      render :partial => 'tag_list'
+      render :partial => 'manifestations/tag_list'
     when 'show_authors'
-      render :partial => 'show_authors'
+      render :partial => 'manifestations/show_authors'
     when 'show_all_authors'
-      render :partial => 'show_authors'
+      render :partial => 'manifestations/show_authors'
     else
       false
     end

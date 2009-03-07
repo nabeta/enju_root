@@ -1,4 +1,6 @@
-<h1><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -16,7 +18,7 @@
       <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
       <%= expression_form_icon(embody.expression.expression_form) -%>
     </td>
-    <%- if_authorized?(:destroy, embody) do -%>
+    <%- if embody.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), embody_path(embody) -%></td>
       <td><%= link_to t('page.destroy'), embody_path(embody), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -24,9 +26,14 @@
 <%- end -%>
 </table>
 
-<%- if_authorized?(:new, Embody) do -%>
-  <p><%= link_to t('page.new', :model => t('activerecord.models.embody')), new_embody_path -%></p>
-<% end -%>
-
 <%= will_paginate(@embodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Embody.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), new_embody_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

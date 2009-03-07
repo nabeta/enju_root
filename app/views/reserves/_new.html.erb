@@ -1,19 +1,20 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
-    <li><%= link_to ('Back to reservations'), reserves_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%></li>
     <%- if @reserve.manifestation -%>
-      <li><%= link_to ('Back to manifestation'), @reserve.manifestation -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), @reserve.manifestation -%></li>
     <%- end -%>
   </ul>
 </div>
               
 <div id="content_detail">
-<h1><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :reserve -%>
 
-<%- form_for(:reserve, :url => reserves_path) do |f| -%>
+<%- form_for(@reserve) do |f| -%>
   <p>
   <% if @reserve.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
@@ -40,4 +41,5 @@
   </p>
 <%- end -%>
 <%= javascript_tag("$('reserve_user_number').focus()") -%>
+</div>
 </div>

@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.donate')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.patron') -%>:</b>
   <%= link_to h(@donate.patron.full_name), @donate.patron -%>
@@ -17,4 +19,5 @@
   (<%= link_to h(@donate.item.item_identifier), @donate.item -%>)
 </p>
 
+</div>
 </div>

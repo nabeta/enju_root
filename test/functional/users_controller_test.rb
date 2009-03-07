@@ -28,11 +28,28 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_librarian_should_not_allow_signup_without_patron_id
+  #def test_librarian_should_not_allow_signup_without_patron_id
+  #  login_as :librarian1
+  #  assert_no_difference 'User.count' do
+  #    create_user_without_patron_id
+  #    assert_response :missing
+  #  end
+  #end
+
+  def test_librarian_should_not_allow_signup_without_patron_id_and_name
     login_as :librarian1
     assert_no_difference 'User.count' do
+      create_user_without_patron_id_and_name
+      assert_response :success
+    end
+  end
+
+  def test_librarian_should_allow_signup_without_patron_id
+    login_as :librarian1
+    assert_difference 'User.count' do
       create_user_without_patron_id
-      assert_response :missing
+      assert_response :redirect
+      assert_redirected_to user_url(assigns(:user).login)
     end
   end
 
@@ -162,11 +179,10 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to new_session_url
   end
 
-  def test_everyone_should_not_get_new_without_patron_id
-    login_as :admin
+  def test_librarian_should_get_new_without_patron_id
+    login_as :librarian1
     get :new
-    assert_response :redirect
-    assert_redirected_to patrons_url
+    assert_response :success
   end
 
   def test_user_should_not_get_new
@@ -182,7 +198,7 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_show_user
-    get :show, :id => 1
+    get :show, :id => users(:user1).login
     assert_response :redirect
     assert_redirected_to new_session_url
   end
@@ -313,8 +329,13 @@ class UsersControllerTest < ActionController::TestCase
         :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :patron_type => 'Person', :user_number => '00006' }.merge(options)
     end
 
-    def create_user_without_patron_id(options = {})
+    def create_user_without_patron_id_and_name(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
         :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00006' }.merge(options)
+    end
+
+    def create_user_without_patron_id(options = {})
+      post :create, :user => { :login => 'quire', :email => 'quire@example.com',
+        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00006', :first_name => 'quire', :last_name => 'quire' }.merge(options)
     end
 end

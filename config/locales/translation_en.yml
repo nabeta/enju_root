@@ -107,20 +107,21 @@ en:
       user_checkout_stat: User checkout stat
       manifestation_reserve_stat: Manifestation reserve stat
       user_reserve_stat: User reserve stat
-      work_has_work: Work-to-work relationship
-      expression_has_expression: Expression-to-expression relationship
-      manifestation_has_manifestation: Manifestation-to-manifestation relationship
-      item_has_item: Item-to-item relationship
-      bookmark_stat_has_manifestation: Bookmark stat-to-manifestation relationship
-      reserve_stat_has_manifestation: Reserve stat-to-manifestation relationship
-      reserve_stat_has_user: Reserve stat-to-user relationship
+      work_has_work: Work to work relationship
+      expression_has_expression: Expression to expression relationship
+      manifestation_has_manifestation: Manifestation to manifestation relationship
+      item_has_item: Item to item relationship
+      bookmark_stat_has_manifestation: Bookmark stat to manifestation relationship
+      reserve_stat_has_manifestation: Reserve stat to manifestation relationship
+      reserve_stat_has_user: Reserve stat to user relationship
       concept: Concept
       place: Place
-      work_has_concept: Work-to-concept relationship
-      work_has_place: Work-to-place relationship
+      work_has_concept: Work to concept relationship
+      work_has_place: Work to place relationship
       person: Person
       corporate_body: Corporate body
-      Family: Family
+      family: Family
+      subject_heading_type_has_subject: Subject heading type to subject relationship
     attributes:
       library:
         name: Name
@@ -313,7 +314,9 @@ en:
         name: Name
         note: Note
       imported_object:
+        imported_file: Imported file
         imported_file_type: Imported file type
+        importable: Imported resource
         importable_type: Importable type
       exemplify:
         position: Position
@@ -360,6 +363,7 @@ en:
         body: Body
       donate:
       basket:
+        user: User
         note: Note
         lock_version: Lock version
       subject_as_event:
@@ -608,6 +612,7 @@ en:
         fulltext: Fulltext
         file_hash: File hash
       reserve:
+        user: User
         checked_out_at: Checked out at
         canceled_at: Canceled at
         expired_at: Expired at
@@ -697,6 +702,7 @@ en:
       tag:
         name: Name
         synonym: Synonym
+        taggings_count: Taggings count
       concept:
         term: Term
         note: Note
@@ -839,13 +845,7 @@ en:
     detail: "Detail"
     acquisition: "Acquisition"
     configuration: "Configuration"
-    search_resource: "Search resources"
-    search_manifestation: "Search manifestations"
-    search_bookmark: "Search bookmarks"
-    search_question: "Search questions"
-    search_patron: "Search patrons"
-    search_user: "Search users"
-    search_subject: "Search subjects"
+    search_resource: "Search {{model}}"
     show_all: "Show all"
     hide: "Hide"
     overdue: "Overdue"
@@ -902,8 +902,11 @@ en:
     listing: "Listing {{model}}"
     new: "New {{model}}"
     editing: "Editing {{model}}"
+    showing: "Showing {{model}}"
     patron_management: "Patron management"
+    user_management: "User management"
     back_to: "Back to {{model}} index"
+    picture: "Picture"
     add_picture: "Add a picture"
     invalid_date: "Invalid date."
     current_status: "Current status"
@@ -911,6 +914,17 @@ en:
     this_month: "This month"
     click_to_edit: "click to edit..."
     saving: "Saving..."
+    news: "News"
+    model: "Model"
+    number_of_record: "Number of record"
+    facet: "Facet"
+    number_of_days:
+      one: "{{count}} day"
+      other: "{{count}} days"
+    require_login_as_librarian: "You should login as a librarian to create and edit resources."
+    read: "Read"
+    merge: "Merge!"
+    merge_resource: "Merge {{model}}"
   title:
     index: "index"
     show: "show"
@@ -990,6 +1004,7 @@ en:
     this_item_include_supplement: "This item includes supplements."
     all_item: "All items"
     add_new_copy: "Add a new copy"
+    no_number: "No number"
   patron:
     library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"
@@ -1024,6 +1039,7 @@ en:
     popular_tag: "Popular tags"
     my_tag: "My tags"
     user_tag: "{{login_name}}'s tags"
+    use_space_as_delimiter: "Use space as a delimiter."
   question:
     my: "My questions"
     all: "All questions"
@@ -1066,10 +1082,16 @@ en:
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
+    will_be_impoted:
+      one: "Resource will be impored in a {{minute}} minute."
+      other: "Resource will be impored in {{minute}} minutes."
   event:
     library_group_event: "Events at {{library_group_name}}"
     all_libraries: "All libraries"
     import_event: "Import events"
+    all: "All events"
+    past: "Past events"
+    upcoming: "Upcoming events"
   user:
     current_password: "Current password"
     new_password: "New password"
@@ -1090,7 +1112,7 @@ en:
     this_user_has_checked_out_item: "This user has checked-out items."
     patron_profile: "Patron profile"
     set_auto_generated_password: "Set auto-generated password"
-    suspended: "Suspended"
+    history: "History"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
@@ -1119,10 +1141,15 @@ en:
   checked_item:
     item_not_found: "Item not found."
     not_available_for_checkout: "This item is not available for checkout."
+    previous_checkout: "Previous checkouts"
+    checkout: "Checkout!"
   checkin:
+    item_not_found: "Item not found."
     enter_item_identifier: "Enter item identifier."
     other_library_item: "This item is other library's item!"
     already_checked_in: "This item is already checked in."
+    checkin: "Checkin!"
+    successfully_checked_in: "This items was successfully checked in."
   search_history:
     all_history: "All search history"
     failed_search: "Failed searches"
@@ -1131,3 +1158,7 @@ en:
     this_subscription_is_expired: "This subscription is expired!"
   role:
     required_role: "Required role"
+  advertisement:
+    period: "Period"
+  attachment_file:
+    invalid_file: "Invalid file."

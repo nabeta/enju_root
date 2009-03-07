@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, FrequencyOfIssue) do -%>
+    <%- if FrequencyOfIssue.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.frequency_of_issue')), new_frequency_of_issue_path -%></li>
     <%- end -%>
  </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.frequency_of_issue')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.frequency_of_issue')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -19,7 +20,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(frequency_of_issue.name), frequency_of_issue -%></td>
     <td><%= link_to h(frequency_of_issue.display_name), frequency_of_issue -%></td>
-    <%- if_authorized?(:destroy, frequency_of_issue) do -%>
+    <%- if frequency_of_issue.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_frequency_of_issue_path(frequency_of_issue) -%></td>
       <td><%= link_to t('page.destroy'), frequency_of_issue, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= frequency_of_issue.first? ? '' : link_to('▲', {:action => 'update', :position  => (frequency_of_issue.position  > 1 ? frequency_of_issue.position - 1 : 1), :id => frequency_of_issue.id}, :method => :put) -%></td>
@@ -28,4 +29,6 @@
   </tr>
 <%- end -%>
 </table>
+
+</div>
 </div>

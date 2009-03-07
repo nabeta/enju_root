@@ -5,7 +5,8 @@
 
 
 <div id="content_detail">
-<h1><%= t('page.circulation') -%></h1>
+<h1 class="title"><%= t('page.circulation') -%></h1>
+<div id="content_list">
 
 <ul>
   <li><%= link_to t('page.checkout'), new_basket_path -%>
@@ -13,8 +14,9 @@
 </ul>
 
 <ul>
-  <li><%= link_to ('Checkout index'), checkouts_path -%>
+  <li><%= link_to t('activerecord.models.checkout'), checkouts_path -%>
   <li><%= link_to t('page.overdue'), checkouts_path(:view => 'overdue') -%>
 </ul>
 
+</div>
 </div>

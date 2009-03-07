@@ -19,7 +19,7 @@ ja:
       expression: 表現形
       language: 言語
       patron_merge_list: パトロンの併合リスト
-      user: ユーザ
+      user: 利用者
       resource_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       work_form: 著作形の形態
@@ -35,9 +35,9 @@ ja:
       advertisement: 広告記事
       porta_response: PORTAの応答
       donate: 寄贈
-      basket: 貸出かご
+      basket: 貸出セッション
       subject_as_event: 対象イベントとして
-      checked_item: チェック項目
+      checked_item: 貸出資料
       produce: 生産
       role: 権限
       session: セッション
@@ -78,8 +78,8 @@ ja:
       db_file: データベースのファイル
       manifestation_form: 体現形の形態
       manifestation: 体現形
-      user_group: ユーザグループ
-      imported_resource_file: 輸入リソースファイル
+      user_group: 利用者グループ
+      imported_resource_file: インポートされる資料のファイル
       checkout: 貸出
       subscription: 購読
       message_template: メッセージテンプレート
@@ -87,7 +87,7 @@ ja:
       subject_related_term: 件名の関連語
       library_group: 図書館グループ
       imported_event_file: 催し物ファイルのインポート
-      bookmarked_resource: ブックマークリソース
+      bookmarked_resource: ブックマークされた資料
       attachment_file: 添付ファイル
       reserve: 予約
       message_queue: 送信待ちのメッセージ
@@ -100,7 +100,7 @@ ja:
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
       manifestation_form_has_checkout_type: 体現形の種類と貸出ルールの関係
-      user_group_has_checkout_type: ユーザグループと貸出ルールの関係
+      user_group_has_checkout_type: 利用者グループと貸出ルールの関係
       tag: タグ
       bookmark_stat: ブックマーク統計
       manifestation_checkout_stat: 資料別貸出統計
@@ -113,7 +113,7 @@ ja:
       item_has_item: 個別資料間の関係
       bookmark_stat_has_manifestation: ブックマーク統計と体現形の関係
       reserve_stat_has_manifestation: 予約統計と体現形の関係
-      reserve_stat_has_user: 予約統計とユーザの関係
+      reserve_stat_has_user: 予約統計と利用者の関係
       concept: 概念
       place: 場所
       work_has_concept: 著作形と概念の関係
@@ -121,6 +121,7 @@ ja:
       person: 人
       corporate_body: 団体
       family: 家族
+      subject_heading_type_has_subject: 件名標目と件名の関係
     attributes:
       library:
         name: 名前
@@ -132,7 +133,7 @@ ja:
         street: 番地
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number: ファクス番号
+        fax_number: ファックス番号
         lat: 緯度
         lng: 経度
         note: 注記
@@ -161,26 +162,26 @@ ja:
       patron:
         last_name: 姓
         middle_name: ミドルネーム
-        first_name: 名前
-        last_name_transcription: 最後の名前の転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前の転写
+        first_name: 名
+        last_name_transcription: 姓（よみ）
+        middle_name_transcription: ミドルネーム（よみ）
+        first_name_transcription: 名（よみ）
         corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
+        corporate_name_transcription: 企業名（よみ）
         full_name: 正式名称
-        full_name_transcription: フルネーム転写
+        full_name_transcription: フルネーム（よみ）
         full_name_alternative: フルネーム代替
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
@@ -229,7 +230,7 @@ ja:
       subject_has_classification:
       expression:
         original_title: 原題
-        title_transcription: タイトル転写
+        title_transcription: タイトルよみ
         title_alternative: 代替タイトル
         summarization: 要約
         context: コンテキスト
@@ -253,14 +254,14 @@ ja:
         login: ログイン
         name: 名前
         openid_url: OpenIDのURL
-        email: メール
+        email: メールアドレス
         crypted_password: 暗号化パスワード
         salt: ソルト
         deleted_at: 削除時刻
         remember_token: 覚えているトークン
         remember_token_expires_at: トークンを忘れないで期限が切れる
         activation_code: 活性化コード
-        activated_at: でアクティブ
+        activated_at: 登録時刻
         expired_at: 有効期限
         suspended: アカウントの停止
         checkout_icalendar_token: 貸出iCalendarのトークン
@@ -312,8 +313,10 @@ ja:
         name: 名前
         note: 注記
       imported_object:
-        imported_file_type: インポートするファイルの種類
-        importable_type: インポートの種類
+        imported_file: インポート用ファイル
+        imported_file_type: インポート用ファイルの種類
+        importable: インポートされた資料
+        importable_type: インポートされた資料の種類
       exemplify:
         position: 位置
       own:
@@ -359,6 +362,7 @@ ja:
         body: 本文
       donate:
       basket:
+        user: 利用者
         note: 注記
         lock_version: ロックバージョン
       subject_as_event:
@@ -401,7 +405,7 @@ ja:
         data: データ
       work:
         original_title: 原題
-        title_transcription: タイトル転写
+        title_transcription: タイトルよみ
         title_alternative: 代替タイトル
         context: コンテキスト
         note: 注記
@@ -439,7 +443,7 @@ ja:
         position: 位置
       subject:
         term: 用語
-        term_transcription: 用語転写
+        term_transcription: 用語よみ
         scope_note: スコープ注記
         note: 注記
         lock_version: ロックバージョン
@@ -526,7 +530,7 @@ ja:
       manifestation:
         original_title: 原題
         title_alternative: 代替タイトル
-        title_transcription: タイトル転写
+        title_transcription: タイトルよみ
         classification_number: 分類番号
         manifestation_identifier: 体現形の識別子
         date_of_publication: 出版日
@@ -607,9 +611,10 @@ ja:
         fulltext: 全文
         file_hash: ファイルのハッシュ
       reserve:
+        user: 利用者
         checked_out_at: 貸出時刻
         canceled_at: 取消時刻
-        expired_at: 有効期限
+        expired_at: 有効期限（この日以降は不要）
         deleted_at: 削除時刻
         state: 状態
       message_queue:
@@ -625,7 +630,7 @@ ja:
         address: 住所
         note: 注記
         telephone_number: 電話番号
-        fax_number: ファクス番号
+        fax_number: ファックス番号
         url: URL
         position: 位置
         deleted_at: 削除時刻
@@ -696,6 +701,7 @@ ja:
       tag:
         name: 名前
         synonym: 同義語
+        taggings_count: このタグのついている回数
       concept:
         term: 用語
         note: 注記
@@ -708,70 +714,70 @@ ja:
         last_name: 姓
         middle_name: ミドルネーム
         first_name: 名前
-        last_name_transcription: 最後の名前の転写
-        middle_name_transcription: ミドルネーム転写
-        first_name_transcription: 最初の名前の転写
+        last_name_transcription: 最後の名前のよみ
+        middle_name_transcription: ミドルネームよみ
+        first_name_transcription: 最初の名前のよみ
         corporate_name: 会社名
-        corporate_name_transcription: 企業名転写
+        corporate_name_transcription: 企業名よみ
         full_name: 正式名称
-        full_name_transcription: フルネーム転写
+        full_name_transcription: フルネームよみ
         full_name_alternative: フルネーム代替
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
         note: 注記
       corporate_body:
         full_name: 名前
-        full_name_transcription: 名前の転写
+        full_name_transcription: 名前のよみ
         full_name_alternative: 代替の名前
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
         note: 注記
       family:
         full_name: 名前
-        full_name_transcription: 名前の転写
+        full_name_transcription: 名前のよみ
         full_name_alternative: 代替の名前
         deleted_at: 削除時刻
         zip_code_1: 郵便番号1
         zip_code_2: 郵便番号2
         address_1: 住所1
         address_2: 住所2
-        address_1_note: 住所1注記
-        address_2_note: アドレス2注記
+        address_1_note: 住所1の注記
+        address_2_note: 住所2の注記
         telephone_number_1: 電話番号1
         telephone_number_2: 電話番号2
-        fax_number_1: ファクス番号1
-        fax_number_2: ファクス番号2
+        fax_number_1: ファックス番号1
+        fax_number_2: ファックス番号2
         other_designation: 他の指定
         place: 場所
         date_of_birth: 生年月日
         note: 注記
 
   page:
-    user: "ユーザ"
+    user: "利用者"
     user_title: "{{login_name}} さんの図書館"
     logged_in_as: "{{login_name}} としてログイン"
     edit_user_profile: "{{login_name}} さんのプロフィールの編集"
@@ -826,13 +832,7 @@ ja:
     detail: "詳細"
     acquisition: "資料の受入"
     configuration: "設定"
-    search_resource: "資料を検索する"
-    search_manifestation: "体現形を検索する"
-    search_bookmark: "ブックマークを検索する"
-    search_question: "質問を検索する"
-    search_patron: "パトロンを検索する"
-    search_user: "ユーザを検索する"
-    search_subject: "件名を検索する"
+    search_resource: "{{model}}を検索する"
     show_all: "全てを表示"
     hide: "隠す"
     overdue: "延滞"
@@ -887,8 +887,11 @@ ja:
     listing: "{{model}}の一覧"
     new: "{{model}}の新規作成"
     editing: "{{model}}の編集"
+    showing: "{{model}}の表示"
     patron_management: "パトロンの管理"
+    user_management: "利用者の管理"
     back_to: "{{model}}の一覧に戻る"
+    picture: "画像"
     add_picture: "画像を追加する"
     invalid_date: "無効な日付です。"
     current_status: "現在の状態"
@@ -896,6 +899,15 @@ ja:
     this_month: "今月"
     click_to_edit: "クリックで編集開始"
     saving: "保存しています..."
+    news: "お知らせ"
+    model: "モデル"
+    number_of_record: "レコード数"
+    facet: "属性による絞り込み"
+    number_of_days: "{{count}} 日"
+    require_login_as_librarian: "操作を進めるには、図書館員としてログインする必要があります。"
+    read: "読み込み"
+    merge: "併合する（取り消しはできません）"
+    merge_resource: "{{model}}を併合する"
   title:
     index: "一覧"
     show: "表示"
@@ -973,13 +985,14 @@ ja:
     this_item_include_supplement: "この資料は付録を含んでいます。"
     all_item: "全ての個別資料"
     add_new_copy: "複本を追加"
+    no_number: "番号なし"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
     expression_patron: "{{expression_title}} の編者"
     manifestation_patron: "{{manifestation_title}} の出版者"
-    activate_as_user: "ユーザとして登録する"
-    deactivate: "ユーザ登録を解除する"
+    activate_as_user: "利用者として登録する"
+    deactivate: "利用者登録を解除する"
     add: "パトロンを追加する"
     publication: "出版物"
     recent_publication: "最近の出版物"
@@ -1007,6 +1020,7 @@ ja:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
     user_tag: "{{login_name}} さんのタグ"
+    use_space_as_delimiter: "半角スペースで区切ってください。"
   question:
     my: "自分の質問"
     all: "全ての質問"
@@ -1032,7 +1046,7 @@ ja:
     editing_due_date: "貸出期限日の編集"
     this_item_cant_be_renewed: "この資料は更新できません。"
     listing_overdue_item: "貸出期限切れの資料の一覧"
-    current_user: "現在の貸出ユーザ"
+    current_user: "現在の貸出利用者"
     this_item_is_reserved: "この資料は予約されています。"
     you_have_overdue_item: "貸出期限を過ぎている資料があります。"
     excessed_renewal_limit: "貸出更新回数の上限を超えています。"
@@ -1047,30 +1061,34 @@ ja:
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
+    will_be_impoted: "{{minute}} 分以内にインポートされます。"
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
     import_event: "催し物のインポート"
+    all: "全ての催し物"
+    past: "過去の催し物"
+    upcoming: "今後の催し物"
   user:
     current_password: "現在のパスワード"
     new_password: "新しいパスワード"
     repeat_new_password: "新しいパスワード（確認のため再度入力）"
-    delete_this_user: "このユーザを削除する"
+    delete_this_user: "この利用者を削除する"
     your_temporary_password_is: "仮パスワードは次のとおりです"
-    sign_up: "サインアップ"
+    sign_up: "利用者を登録する（取り消しはできません）"
     edit_profile: "プロフィールの編集"
-    already_activated: "すでにユーザとして登録されています。"
+    already_activated: "すでに利用者として登録されています。"
     specify_patron: "パトロンを指定してください。"
     wrong_password: "パスワードが間違っています。"
     password_mismatch: "パスワードが一致しません。"
     cannot_destroy_myself: "自分自身を削除することはできません。"
-    last_administrator: "このユーザはシステム上の最後の管理者です。"
-    last_librarian: "このユーザはシステム上の最後の図書館員です。"
-    only_administrator_can_destroy: "このユーザは管理者でなければ削除できません。"
-    this_user_has_checked_out_item: "このユーザは貸出中の資料があります。"
+    last_administrator: "この利用者はシステム上の最後の管理者です。"
+    last_librarian: "この利用者はシステム上の最後の図書館員です。"
+    only_administrator_can_destroy: "この利用者は管理者でなければ削除できません。"
+    this_user_has_checked_out_item: "この利用者は貸出中の資料があります。"
     patron_profile: "パトロンのプロフィール"
     set_auto_generated_password: "自動生成したパスワードを設定する"
-    suspended: "アカウントの停止"
+    history: "履歴"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
@@ -1101,10 +1119,15 @@ ja:
   checked_item:
     item_not_found: "資料が見つかりません。"
     not_available_for_checkout: "この資料の貸出はできません。"
+    previous_checkout: "現在貸出中の資料"
+    checkout: "上記の資料を貸し出す"
   checkin:
+    item_not_found: "資料が見つかりません。"
     enter_item_identifier: "個別資料番号を入力してください。"
     other_library_item: "この資料は他の図書館のものです！"
     already_checked_in: "この資料はすでに返却されています。"
+    checkin: "返却（取り消しはできません）"
+    successfully_checked_in: "資料は正常に返却されました。"
   search_history:
     all_history: "全ての検索履歴"
     failed_search: "失敗した検索"
@@ -1113,3 +1136,7 @@ ja:
     this_subscription_is_expired: "購読期間が過ぎています。"
   role:
     required_role: "参照に必要な権限"
+  advertisement:
+    period: "期間"
+  attachment_file:
+    invalid_file: "無効なファイルです。"

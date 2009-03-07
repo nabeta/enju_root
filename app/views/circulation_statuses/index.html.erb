@@ -1,13 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if_authorized?(:new, CirculationStatus) do -%>
+    <%- if CirculationStatus.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.circulation_status')), new_circulation_status_path -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1><%= t('page.listing', :model => t('activerecord.models.circulation_status')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.circulation_status')) -%></h1>
+<div id="content_list">
 
 <table id="index">
   <tr>
@@ -19,7 +20,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(circulation_status.name), circulation_status -%></td>
     <td><%= link_to h(circulation_status.display_name), circulation_status -%></td>
-    <%- if_authorized?(:destroy, circulation_status) do -%>
+    <%- if circulation_status.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_circulation_status_path(circulation_status) -%></td>
       <td><%= link_to t('page.destroy'), circulation_status, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <td><%= circulation_status.first? ? '' : link_to('▲', {:action => 'update', :position  => (circulation_status.position  > 1 ? circulation_status.position - 1 : 1), :id => circulation_status.id}, :method => :put) -%></td>
@@ -29,4 +30,5 @@
 <%- end -%>
 </table>
 
+</div>
 </div>

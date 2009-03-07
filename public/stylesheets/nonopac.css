@@ -2,7 +2,6 @@ body{
   margin-left: 5px;
   margin-right: 5px;
   text-align: left;
-  width: 920px;
 }
 
 a:hover { color: #000000; background-color: #B3D4FF; }
@@ -44,28 +43,9 @@ div#navibar{
 
 div#content{
   padding-left: 4px;
+  padding-right: 4px;
   clear: both;
   width: 922px;
-}
-
-div#result_list{
-  width: 700px;
-  float: left;
-  padding-left: 5px;
-  padding-right: 5px;
-  border: 1px solid #5970B2;
-  margin-top: 5px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-div#sidebar{
-  margin-left: 10px;
-  width: 188px;
-  float: left;
-  padding: 5px;
-  border: 1px solid #5970B2;
-  margin-top: 5px;
 }
 
 div#header{
@@ -106,10 +86,21 @@ div#search_footer{
 }
 
 div#submenu{
-  width: 216px;
-  margin-left: -216px;
-  padding-top: 1em;
+  margin-top: 5px;
+  width: 193px;
+  margin-left: -193px;
+  padding: 5px;
   float: right;
+  border: 1px solid #5970B2;
+}
+
+div#sidebar{
+  margin-left: 10px;
+  width: 188px;
+  float: left;
+  padding: 5px;
+  border: 1px solid #5970B2;
+  margin-top: 5px;
 }
 
 div#manifestation_book_jacket{
@@ -123,11 +114,18 @@ div#manifestation_bookmark_buttons{
 }
 
 div#content_detail{
-  width: 700px;
+  width: 710px;
   float: left;
-  margin-bottom: 1em;
-  padding-left: 6px;
-  padding-top: 1em;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  border: 1px solid #5970B2;
+}
+
+div#content_list{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
 div#manifestation_footer{
@@ -149,28 +147,39 @@ div#patron_content{
   padding-left: 2em;
 }
 
-div#body{
-  margin-top: 1em;
-}
-
 div#left_pane{
-  margin-top: 1em;
+  margin-top: 5px;
   float: left;
   width: 456px;
   word-break: break-all;
 }
 
 div#right_pane{
-  margin-top: 1em;
+  margin-top: 5px;
   float: left;
   margin-left: 10px;
   width: 456px;
   word-break: break-all;
 }
 
+div#left_pane_detail{
+  margin-top: 5px;
+  float: left;
+  width: 340px;
+  word-break: break-all;
+}
+
+div#right_pane_detail{
+  margin-top: 5px;
+  float: left;
+  margin-left: 10px;
+  width: 340px;
+  word-break: break-all;
+}
+
 div#footer{
-  padding-top: 1em;
-  padding-bottom: 1em;
+  padding-top: 5px;
+  padding-bottom: 5px;
   margin-left: 0em;
   margin-right: 0em;
   clear: both;
@@ -178,7 +187,7 @@ div#footer{
 
 h1{
   font-size: 180%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 
@@ -188,15 +197,32 @@ h1#resource_title{
 
 h2{
   font-size: 160%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
 
 h3{
   font-size: 150%;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 10px;
 }
+
+h4{
+  font-size: 120%;
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+h1.title, h2.title, h3.title, h4.title{
+  color: white;
+  background-color: #5970B2;
+  padding: 5px;
+  margin: 0px;
+}
+
+a.title { color: white; }
+a.title:hover { color: white; }
+a.title:visited { color: white; }
 
 form{
   padding: 0;
@@ -263,6 +289,12 @@ div#picked_up_box{
 div#tag_cloud_box{
   padding: 10px;
   border: 1px solid #5970B2;
+}
+
+div.config_box{
+  padding: 10px;
+  border: 1px solid #5970B2;
+  margin-bottom: 10px;
 }
 
 img{
@@ -344,6 +376,11 @@ textarea{
   height: 10em;
 }
 
+textarea#message_body{
+  width: 40em;
+  height: 20em;
+}
+
 th.checked_item_title{
   width: 400px;
 }
@@ -358,5 +395,13 @@ div#description{
 
 div.holding{
   margin-top: 10px;
+}
+
+label{
+  font-weight: bold;
+}
+
+table.calendar{
+  width: 100%;
 }
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

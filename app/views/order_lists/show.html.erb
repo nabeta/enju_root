@@ -1,12 +1,14 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to ('Purchase requests'), order_list_purchase_requests_path(@order_list) -%></li>
+    <li><%= link_to t('activerecord.models.purchase_request'), order_list_purchase_requests_path(@order_list) -%></li>
     <li><%= link_to t('page.edit'), edit_order_list_path(@order_list) -%></li>
     <li><%= link_to t('page.back'), order_lists_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.order_list')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('page.user') -%>:</b>
   <%= link_to h(@order_list.user.login), user_path(@order_list.user.login) -%>
@@ -32,4 +34,5 @@
   <%=h @order_list.note -%>
 </p>
 
+</div>
 </div>

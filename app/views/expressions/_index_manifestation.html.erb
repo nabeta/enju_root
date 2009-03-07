@@ -1,16 +1,20 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('work.add'), works_path -%></li>
+    <li><%= link_to t('expression.add'), expressions_path -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
-  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
+  <%- cache(:id => @manifestation.id, :action => :show, :action_suffix => 'title', :editable => false) do -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+  <%- end -%>
   
   <%- form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
-      <%- if_authorized?(:destroy, @manifestation) do -%>
+      <%- if @manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -37,7 +41,7 @@
     <%= expression_form_icon(expression.expression_form) -%></td>
     <td><%=h expression.language.display_name -%></td>
     <td>
-      <%- if_authorized?(:destroy, expression) do -%>
+      <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) unless @manifestation.expressions.include?(expression) -%>
         <%- else -%>
@@ -51,4 +55,5 @@
 </table>
 
 <%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
 </div>

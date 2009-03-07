@@ -16,7 +16,7 @@
       <td><%= link_to h(truncate(question.body, :length => 60)), user_question_path(question.user.login, question) -%></td>
       <td><%=h question.answers.size -%></td>
       <td><%= l(question.updated_at) -%></td>
-      <%- if_authorized?(:destroy, question) do -%>
+      <%- if question.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.destroy'), user_question_path(question.user.login, question), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
     </tr>

@@ -15,10 +15,11 @@ class EventsController < ApplicationController
     @query = query.dup
 
     if params[:date].present?
+      date = params[:date].to_s
       if @library.present?
-        @events = @library.events.paginate(:conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
+        @events = @library.events.on(date).paginate(:all, :page => params[:page])
       else
-        @events = Event.paginate(:all, :conditions => ['started_at <= ? AND ended_at >= ?', params[:date], params[:date]], :page => params[:page])
+        @events = Event.on(date).paginate(:all, :page => params[:page])
       end
     elsif params[:tag].present?
       if @library.present?
@@ -34,10 +35,26 @@ class EventsController < ApplicationController
       end
       @events = Event.paginate_by_solr(query, :page => params[:page], :per_page => @per_page)
     else
-      if @library.present?
-        @events = @library.events.paginate(:page => params[:page], :order => ['started_at DESC'])
+      case params[:mode]
+      when 'all'
+        if @library.present?
+          @events = @library.events.paginate(:page => params[:page], :order => ['started_at DESC'])
+        else
+          @events = Event.upcoming.paginate(:all, :page => params[:page], :order => ['started_at DESC'])
+        end
+      when 'past'
+        if @library.present?
+          @events = @library.events.past(Time.zone.now.to_s).paginate(:page => params[:page], :order => ['started_at DESC'])
+        else
+          @events = Event.past(Time.zone.now.to_s).paginate(:all, :page => params[:page], :order => ['started_at DESC'])
+        end
       else
-        @events = Event.paginate(:all, :page => params[:page], :order => ['started_at DESC'])
+        # デフォルトでは未来のもののみ表示
+        if @library.present?
+          @events = @library.events.upcoming(Time.zone.now.to_s).paginate(:page => params[:page], :order => ['started_at DESC'])
+        else
+          @events = Event.upcoming(Time.zone.now.to_s).paginate(:all, :page => params[:page], :order => ['started_at DESC'])
+        end
       end
       @count[:query_result] = @events.size
     end
@@ -68,7 +85,7 @@ class EventsController < ApplicationController
      prepare_options
     if params[:date]
       begin
-        date = Time.parse(params[:date])
+        date = Time.zone.parse(params[:date])
       rescue
         date = Time.zone.now.beginning_of_day
         flash[:notice] = t('page.invalid_date')

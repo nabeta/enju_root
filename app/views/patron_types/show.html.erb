@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron_type')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.patron_type.name') -%>:</b>
   <%=h @patron_type.name -%>
@@ -21,4 +23,5 @@
   <%=h @patron_type.note -%>
 </p>
 
+</div>
 </div>
