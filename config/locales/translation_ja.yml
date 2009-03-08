@@ -775,6 +775,12 @@ ja:
         place: 場所
         date_of_birth: 生年月日
         note: 注記
+      checkout_stat_has_user:
+        checkouts_count: 貸出回数
+      reserve_stat_has_user:
+        reserves_count: 予約回数
+      bookmark_stat_has_manifestation:
+        bookmarks_count: ブックマーク回数
 
   page:
     user: "利用者"

@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_checkout_stat')) -%></h1>
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.user_checkout_stat.start_date') -%>:</b>
@@ -25,7 +26,7 @@
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.user') -%></th>
-    <th><%= ('Checkouts count') -%></th>
+    <th><%= t('activerecord.attributes.checkout_stat_has_user.checkouts_count') -%></th>
   </tr>
   <%- @stats.each do |stat| -%>
     <tr class="line<%= cycle("0", "1") -%>">
