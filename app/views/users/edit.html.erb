@@ -37,8 +37,13 @@
     <%= f.check_box :auto_generated_password -%> <%= t('user.set_auto_generated_password') -%>
   </p>
 
-  <p><b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
-    <%= f.date_select :expired_at, :blank => true -%>
+  <p>
+    <b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
+    <%- if current_user.has_role?('Librarian') -%>
+      <%= f.date_select :expired_at, :blank => true -%>
+    <%- else -%>
+      <%= l(@user.expired_at) if @user.expired_at -%>
+    <%- end -%>
   </p>
   
   <p>
@@ -118,7 +123,7 @@
 
 <%- end -%>
 
-<b><%= ('Reset Checkout iCalendar url') -%></b><br />
+<b><%= t('user.reset_checkout_icalendar_url') -%></b><br />
 <%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
   <!-- TODO: iCalendarファイルはhttpsで送信するべき -->
   <%= t('page.current_url') -%>:

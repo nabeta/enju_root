@@ -1123,6 +1123,7 @@ en:
     set_auto_generated_password: "Set auto-generated password"
     history: "History"
     account_management: "Account management"
+    reset_checkout_icalendar_url: "Reset checkout iCalendar URL"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

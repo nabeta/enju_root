@@ -1099,6 +1099,7 @@ ja:
     set_auto_generated_password: "自動生成したパスワードを設定する"
     history: "履歴"
     account_management: "アカウント管理"
+    reset_checkout_icalendar_url: "貸出期限通知用のiCalendarファイルのURLをリセットする"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
