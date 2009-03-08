@@ -53,7 +53,7 @@ class Manifestation < ActiveRecord::Base
     {:subject_ids => :integer},
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
-    {:required_role_id => :range_integer}
+    {:required_role_id => :range_integer}, {:reservable => :boolean}
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
@@ -138,16 +138,16 @@ class Manifestation < ActiveRecord::Base
     available_checkout_types(user).collect(&:reservation_expired_period).max
   end
   
-  def reserved?(user = nil)
-    if user
-      self.reserving_users.collect{|r|
-        return true if  r.id == user.id
-      }
-    else
-      return true unless self.reserves.blank?
-    end
-    return false
-  end
+  #def reserved?(user = nil)
+  #  if user
+  #    self.reserving_users.collect{|r|
+  #      return true if  r.id == user.id
+  #    }
+  #  else
+  #    return true unless self.reserves.blank?
+  #  end
+  #  return false
+  #end
 
   def embodies?(expression)
     expression.manifestations.detect{|manifestation| manifestation == self} rescue nil
@@ -768,8 +768,17 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
-  def reservable?(user)
-    return false if Reserve.waiting.find(:first, :conditions => {:user_id => user.id, :manifestation_id => self.id})
+  def is_reserved_by(user = nil)
+    if user
+      return true if Reserve.waiting.find(:first, :conditions => {:user_id => user.id, :manifestation_id => self.id})
+    else
+      return true if self.reserves.present?
+    end
+    false
+  end
+
+  def reservable
+    return false if self.items.not_for_checkout.present?
     true
   end
 

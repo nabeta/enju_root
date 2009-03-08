@@ -98,7 +98,7 @@ class CheckedItemsController < ApplicationController
     respond_to do |format|
       if @checked_item.save
         if @checked_item.item.reserved?
-          if @checked_item.item.manifestation.reserved?(@basket.user)
+          if @checked_item.item.manifestation.is_reserved_by(@basket.user)
             reserve = Reserve.find(:first, :conditions => {:user_id => @basket.user.id, :manifestation_id => @checked_item.item.manifestation.id})
             reserve.destroy
           end

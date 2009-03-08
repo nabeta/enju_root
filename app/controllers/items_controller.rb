@@ -114,6 +114,11 @@ class ItemsController < ApplicationController
     @item = Item.new
     @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @item }
+    end
   end
 
   # GET /items/1;edit
@@ -143,7 +148,7 @@ class ItemsController < ApplicationController
           if @item.shelf
             @item.shelf.library.patron.items << @item
           end
-          if @item.manifestation.reserved?
+          if @item.reserved?
             #ReservationNotifier.deliver_reserved(@item.manifestation.next_reservation.user)
             flash[:message] = t('item.this_item_is_reserved')
             @item.retain(current_user)

@@ -130,19 +130,20 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {:tag_list => 'search', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
-    assert_redirected_to bookmarked_resource_url(assigns(:bookmark).bookmarked_resource)
     assert_equal 'search', assigns(:bookmark).tag_list
+    assert_nil assigns(:bookmark).bookmarked_resource.manifestation.items.first.item_identifier
     #assert_equal 1, assigns(:bookmark).bookmarked_resource.manifestation.items.size
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
   end
 
-  def test_user_should_create_bookmark_with_tag_list
+  def test_user_should_create_bookmark_with_tag_list_include_wide_space
     login_as :user1
     old_count = Bookmark.count
     post :create, :bookmark => {:tag_list => 'タグの　テスト', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
     assert_equal 'タグの テスト', assigns(:bookmark).tag_list
+    assert_nil assigns(:bookmark).bookmarked_resource.manifestation.items.first.item_identifier
     assert_equal 1, assigns(:bookmark).bookmarked_resource.manifestation.items.size
     #assert_redirected_to user_bookmarked_resource_url(users(:user1).login, assigns(:bookmark).bookmarked_resource)
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)

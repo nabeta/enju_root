@@ -15,7 +15,7 @@
   <li><%= t('page.resource') -%>
   <ul>
     <li><%= link_to t('import.from_isbn'), new_manifestation_path(:mode => 'import_isbn') -%></li>
-    <li><%= link_to t('import.from_file'), imported_resource_files_path -%></li>
+    <li><%= link_to t('import.from_file'), new_imported_resource_file_path -%> (MARC, TSV)</li>
   </ul>
   </li>
 </ul>

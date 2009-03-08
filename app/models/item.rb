@@ -1,5 +1,6 @@
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
+  named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins
@@ -38,8 +39,8 @@ class Item < ActiveRecord::Base
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type
-  validates_uniqueness_of :item_identifier, :allow_nil => true, :if => proc{|item| !item.item_identifier.blank?}
-  validates_length_of :url, :maximum => 255, :allow_nil => true
+  validates_uniqueness_of :item_identifier, :allow_blank => true, :if => proc{|item| !item.item_identifier.blank?}
+  validates_length_of :url, :maximum => 255, :allow_blank => true
 
   acts_as_taggable
   acts_as_soft_deletable
@@ -85,6 +86,10 @@ class Item < ActiveRecord::Base
 
   def before_validation_on_create
     self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'}) if self.circulation_status.nil?
+  end
+
+  def before_validation
+    self.item_identifier = nil if self.item_identifier.blank?
   end
 
   def checkout_status(user)

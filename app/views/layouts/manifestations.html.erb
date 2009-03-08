@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
-  <%- if controller.action_name == 'show' and @manifestation -%>
+  <%- if !['index', 'new'].include?(controller.action_name) and @manifestation -%>
     <title><%=h @manifestation.original_title -%> : <%= t('activerecord.models.manifestation') -%> - <%=h @library_group.display_name -%></title>
   <%- elsif controller.action_name == 'index' -%>
     <%- case when @patron -%>
@@ -19,7 +19,7 @@
       <title><%= t('page.search_resource', :model => t('page.resource')) -%> : <%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= t('page.search_resource', :model => t('page.resource')) -%> : <%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
+    <title><%= t('activerecord.models.manifestation') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

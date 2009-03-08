@@ -94,15 +94,6 @@ div#submenu{
   border: 1px solid #5970B2;
 }
 
-div#sidebar{
-  margin-left: 10px;
-  width: 188px;
-  float: left;
-  padding: 5px;
-  border: 1px solid #5970B2;
-  margin-top: 5px;
-}
-
 div#manifestation_book_jacket{
   text-align: center;
   margin-top: 2em;

@@ -1,12 +1,11 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to h(@library_group.name), root_url -%></li>
-  </ul>
+<div id="content_detail">
+<h1 class="title">Project Next-L "Enju"</h1>
+<div id="content_list">
+  <p>このシステムは、Project Next-L が開発している図書館システム Project Next-L "Enju"です。</p>
+</div>
 </div>
 
-<div id="content_detail">
-  <div id="content_list">
-
+<div id="submenu">
   <%- form_tag(sessions_path, :name => 'login_form') do -%>
     <p><%= label_tag t('page.login_name') -%><br/>
     <%= text_field_tag 'login' -%></p>
@@ -20,6 +19,4 @@
     <p><%= submit_tag t('page.login') -%></p>
   <%- end -%>
   <%= javascript_tag("$('login').focus()") -%>
-
-  </div>
 </div>

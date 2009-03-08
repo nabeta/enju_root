@@ -152,6 +152,14 @@
                         </ul>
                       </div>
                     </div>                    
+                  <%- else -%>
+                    <div id="management" class="yuimenu">
+                      <div class="bd">                    
+                        <ul>
+                          <li class="yuimenuitem"><%= link_to t('user.account_management'), edit_user_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                        </ul>
+                      </div>
+                    </div>
                   <%- end -%>
                 <%- end -%>
               </li>

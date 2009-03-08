@@ -18,4 +18,15 @@ class Shelf < ActiveRecord::Base
     false
   end
 
+  def self.web
+    Shelf.find(1)
+  end
+
+  def is_deletable_by(user, parent = nil)
+    raise if self.id == 1
+    true if user.has_role?('Administrator')
+  rescue
+    false
+  end
+
 end
