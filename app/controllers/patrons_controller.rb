@@ -98,6 +98,11 @@ class PatronsController < ApplicationController
   def new
     @patron = Patron.new
     prepare_options
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @patron }
+    end
   end
 
   # GET /patrons/1;edit

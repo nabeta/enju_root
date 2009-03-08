@@ -11,11 +11,11 @@ class ManifestationTest < Test::Unit::TestCase
   end
 
   def test_reserved
-    assert manifestations(:manifestation_00007).reserved?(users(:admin))
+    assert manifestations(:manifestation_00007).is_reserved_by(users(:admin))
   end
 
   def test_not_reserved
-    assert_equal false, manifestations(:manifestation_00007).reserved?(users(:user1))
+    assert_equal false, manifestations(:manifestation_00007).is_reserved_by(users(:user1))
   end
 
   def test_manifestation_should_show_languages

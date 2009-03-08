@@ -45,6 +45,9 @@ class ManifestationsController < ApplicationController
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
       session[:params][:manifestation] = params.merge(:view => nil)
+      if params[:reservable] == "true"
+        @reservable = "true"
+      end
 
       @query = query.dup
       manifestations = {}
@@ -64,7 +67,10 @@ class ManifestationsController < ApplicationController
           query.add_query!(@patron) unless @patron.blank?
         end
         # 内部的なクエリ
-        query = add_query!(query, @manifestation_form) unless @manifestation_form.blank?
+        if @reservable
+          query = "#{query} reservable: true"
+        end
+        query.add_query!(@manifestation_form) unless @manifestation_form.blank?
         query.add_query!(@subject_by_term) unless @subject_by_term.blank?
         unless params[:library].blank?
           library_list = params[:library].split.uniq.join(' ')
@@ -185,6 +191,11 @@ class ManifestationsController < ApplicationController
       end
     end
     @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @manifestation }
+    end
   end
 
   # GET /manifestations/1;edit

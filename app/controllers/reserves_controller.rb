@@ -81,7 +81,7 @@ class ReservesController < ApplicationController
       @reserve.manifestation = @manifestation
       if user
         #@reserve.expired_at = @manifestation.reservation_expired_period(user).days.from_now.end_of_day
-        unless @manifestation.reservable?(user)
+        if @manifestation.is_reserved_by(user)
           flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           redirect_to @manifestation
           return
@@ -120,7 +120,7 @@ class ReservesController < ApplicationController
 
     if @reserve.user and @manifestation
       begin
-        unless @manifestation.reservable?(@reserve.user)
+        if @manifestation.is_reserved_by(@reserve.user)
           flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           raise
         end
@@ -216,7 +216,7 @@ class ReservesController < ApplicationController
     @reserve.destroy
     #flash[:notice] = t('reserve.reservation_was_canceled')
 
-    if @reserve.manifestation.reserved?
+    if @reserve.manifestation.is_reserved_by
       if @reserve.item
         retain = @reserve.item.retain(User.find(1)) # TODO: システムからの送信ユーザの設定
         if retain.nil?

@@ -92,6 +92,11 @@ class ExpressionsController < ApplicationController
     @parent_expression = Expression.find(params[:parent_id]) rescue nil
     @expression = Expression.new
     @expression.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @expression }
+    end
   end
 
   # GET /expressions/1;edit

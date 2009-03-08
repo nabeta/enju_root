@@ -64,6 +64,11 @@ class WorksController < ApplicationController
   def new
     @work = Work.new
     @patron = Patron.find(params[:patron_id]) rescue nil
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @work }
+    end
   end
 
   # GET /works/1;edit

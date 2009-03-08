@@ -980,6 +980,8 @@ ja:
     add: "体現形を追加する"
     specify_expression: "表現形を指定してください。"
     pickup: "ピックアップ"
+    showing_reservable_record: "予約可能な資料のみを表示しています。"
+    all_result: "すべての検索結果"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
@@ -1059,6 +1061,7 @@ ja:
     all_checkout: "全ての貸出"
     no_checkout: "貸出中の資料はありません。"
     number_of_day_overdue: "延滞日数"
+    extend: "貸出期間の延長"
   library:
     map: "地図"
     staff: "職員"
@@ -1095,6 +1098,7 @@ ja:
     patron_profile: "パトロンのプロフィール"
     set_auto_generated_password: "自動生成したパスワードを設定する"
     history: "履歴"
+    account_management: "アカウント管理"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
@@ -1133,7 +1137,7 @@ ja:
     other_library_item: "この資料は他の図書館のものです！"
     already_checked_in: "この資料はすでに返却されています。"
     checkin: "返却（取り消しはできません）"
-    successfully_checked_in: "資料は正常に返却されました。"
+    successfully_checked_in: "この資料は正常に返却されました。"
   search_history:
     all_history: "全ての検索履歴"
     failed_search: "失敗した検索"

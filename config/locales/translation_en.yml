@@ -999,6 +999,8 @@ en:
     add: "Add a manifestation"
     specify_expression: "Specify the expression."
     pickup: "Pick up"
+    showing_reservable_record: "Showing reservable records."
+    all_result: "All results"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
@@ -1080,6 +1082,7 @@ en:
     all_checkout: "All checkouts"
     no_checkout: "No checkouts."
     number_of_day_overdue: "Number of days overdue"
+    extend: "Extend"
   library:
     map: "Map"
     staff: "Staff"
@@ -1119,6 +1122,7 @@ en:
     patron_profile: "Patron profile"
     set_auto_generated_password: "Set auto-generated password"
     history: "History"
+    account_management: "Account management"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

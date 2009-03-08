@@ -1,7 +1,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserves')), user_reserves_path(@user.login) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(@user.login) -%></li>
     <%- if @manifestation -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
     <%- end -%>
@@ -16,7 +16,7 @@
 
 <%- form_for(@reserve) do |f| -%>
   <p>
-    <b><%= t('activerecord.models.patron') -%></b><br />
+    <b><%= t('activerecord.models.user') -%></b><br />
     <%= link_to h(@user.patron.full_name), @user.patron -%>
     (<%=h @user.login -%>)
   </p>

@@ -12,7 +12,7 @@ module OnlyAdministratorCanModify
     def is_creatable_by(user, parent = nil)
       true if user.has_role?('Administrator')
     rescue
-      nil
+      false
     end
   end
 
@@ -24,13 +24,13 @@ module OnlyAdministratorCanModify
     def is_updatable_by(user, parent = nil)
       true if user.has_role?('Administrator')
     rescue
-      nil
+      false
     end
 
     def is_deletable_by(user, parent = nil)
       true if user.has_role?('Administrator')
     rescue
-      nil
+      false
     end
   end
 end

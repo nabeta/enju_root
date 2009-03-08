@@ -29,4 +29,11 @@ class LibraryGroup < ActiveRecord::Base
     end
     return false
   end
+
+  def is_deletable_by(user, parent = nil)
+    raise if self.id == 1
+    true if user.has_role?('Administrator')
+  rescue
+    false
+  end
 end

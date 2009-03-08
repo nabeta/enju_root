@@ -67,6 +67,11 @@ class SubjectsController < ApplicationController
   def new
     @subject = Subject.new
     @subject_types = SubjectType.find(:all, :order => :position)
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.xml  { render :xml => @subject }
+    end
   end
 
   # GET /subjects/1;edit

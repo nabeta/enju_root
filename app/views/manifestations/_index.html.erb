@@ -6,6 +6,7 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
+      <%= hidden_field_tag 'reservable', h(@reservable) -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
@@ -24,7 +25,14 @@
     }
     </script>
 
-    <p><%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => sprintf("%.3f", @seconds)) -%></p>
+    <p>
+      <%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
+      <%- if @reservable -%>
+        <br />
+        <%= t('manifestation.showing_reservable_record') -%>
+        (<%= link_to t('manifestation.all_result'), params.merge(:reservable => nil) -%>)
+      <%- end -%>
+    </p>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
         <%= t('page.sort_by') -%>:
@@ -72,6 +80,7 @@
   <%- end -%>
 <%- else -%>
   <p><%= t('page.enter_search_term') -%></p>
+  <%= javascript_tag("$('searchform_top').focus()") -%>
 <%- end -%>
 
 <%- if @count[:query_result] > 0 -%>
