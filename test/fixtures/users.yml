@@ -15,7 +15,6 @@ librarian2:
   activation_code: 
   reserves_count: 0
   patron_id: 4
-  patron_type: Person
   id: 4
   bookmarks_count: 0
   remember_token: 
@@ -47,7 +46,6 @@ user2:
   activation_code: a17e827f61c65db3f6204e784233ccf5964eebef
   reserves_count: 0
   patron_id: 5
-  patron_type: Person
   id: 5
   bookmarks_count: 0
   remember_token: 
@@ -79,7 +77,6 @@ admin:
   activation_code: 
   reserves_count: 2
   patron_id: 1
-  patron_type: Person
   id: 1
   bookmarks_count: 0
   remember_token: 
@@ -111,7 +108,6 @@ librarian1:
   activation_code: 
   reserves_count: 0
   patron_id: 2
-  patron_type: Person
   id: 2
   bookmarks_count: 0
   remember_token: 7f5933995655af941da1960ebbd9fe65142869e7
@@ -143,7 +139,6 @@ user1:
   activation_code: 
   reserves_count: 0
   patron_id: 3
-  patron_type: Person
   id: 3
   bookmarks_count: 0
   remember_token: 

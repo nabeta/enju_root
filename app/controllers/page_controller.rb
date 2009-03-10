@@ -45,8 +45,8 @@ class PageController < ApplicationController
   def acquisition
     @title = t('page.acquisition')
     #@resource = Resource.new
-    @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-    @languages = Language.find(:all, :order => 'position')
+    #@manifestation_forms = ManifestationForm.find(:all, :order => 'position')
+    #@languages = Language.find(:all, :order => 'position')
   end
 
   def management

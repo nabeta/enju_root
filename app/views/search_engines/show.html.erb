@@ -34,7 +34,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.search_engine.additional_param') -%>:</b>
-  <%= textilize(h(@search_engine.additional_param)) -%>
+  <%= simple_format(h(@search_engine.additional_param)) -%>
 </p>
 
 <p>

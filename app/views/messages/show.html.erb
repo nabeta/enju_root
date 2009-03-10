@@ -36,7 +36,7 @@
       
       <p>
         <label for="message_body" ><strong><%= t('activerecord.attributes.message.body') -%>:</strong></label>  
-        <%= auto_link(simple_format(@message.body)) -%>
+        <%= auto_link(simple_format(h(@message.body))) -%>
       </p>
 
   </fieldset>

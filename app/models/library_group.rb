@@ -9,8 +9,6 @@ class LibraryGroup < ActiveRecord::Base
 
   validates_presence_of :name, :short_name, :email
 
-  default_configuration :post_to_twitter? => false
-
   def physical_libraries
     # 物理的な図書館 = IDが1以外
     self.libraries.find(:all, :conditions => ['id != 1'], :order => :position)

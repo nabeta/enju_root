@@ -588,8 +588,11 @@ en:
         short_name: Short name
         email: Email
         my_networks: My networks
-        use_dsbl: Use DSBL
+        use_dsbl: use DSBL
+        dsbl_list: DSBL list
         note: Note
+        login_banner: Login banner
+        post_to_union_catalog: Post to union catalog
       imported_event_file:
         filename: Filename
         content_type: Content type

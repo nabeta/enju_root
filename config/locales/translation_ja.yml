@@ -586,9 +586,12 @@ ja:
         display_name: 表示名
         short_name: 短縮名
         email: メール
-        my_networks: マイネットワーク
-        use_dsbl: "DSBLを使用する"
+        my_networks: LANとして扱うネットワーク
+        use_dsbl: DSBLを使用する
+        dsbl_list: DSBLの一覧
         note: 注記
+        login_banner: ログイン画面でのメッセージ
+        post_to_union_catalog: 総合目録に登録する
       imported_event_file:
         filename: ファイル名
         content_type: Content-Type

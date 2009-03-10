@@ -6,6 +6,7 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.library_group')) -%></h1>
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.library_group.name') -%>:</b>
@@ -27,9 +28,29 @@
   <%=h @library_group.email -%>
 </p>
 
+<div>
+  <b><%= t('activerecord.attributes.library_group.login_banner') -%>:</b>
+  <%= textilize(@library_group.login_banner) -%>
+</div>
+
+<p>
+  <b><%= t('activerecord.attributes.library_group.post_to_union_catalog') -%>:</b>
+  <%=h @library_group.post_to_union_catalog -%>
+</p>
+
 <p>
   <b><%= t('activerecord.attributes.library_group.my_networks') -%>:</b>
   <%=h @library_group.my_networks -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.library_group.use_dsbl') -%>:</b>
+  <%=h @library_group.use_dsbl -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.library_group.dsbl_list') -%>:</b>
+  <%= simple_format(h(@library_group.dsbl_list)) -%>
 </p>
 
 <p>

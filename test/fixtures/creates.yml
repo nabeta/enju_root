@@ -2,7 +2,6 @@
 create_00001: 
   updated_at: 2007-12-13 19:56:07.002082 +09:00
   patron_id: 1
-  patron_type: Person
   id: 1
   work_id: 1
   position: 1
@@ -10,7 +9,6 @@ create_00001:
 create_00002: 
   updated_at: 2007-12-13 19:56:48.538796 +09:00
   patron_id: 1
-  patron_type: Person
   id: 2
   work_id: 2
   position: 1
@@ -18,7 +16,6 @@ create_00002:
 create_00003: 
   updated_at: 2007-12-13 19:56:48.538796 +09:00
   patron_id: 2
-  patron_type: Person
   id: 3
   work_id: 1
   position: 2

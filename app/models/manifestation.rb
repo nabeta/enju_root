@@ -524,7 +524,7 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: 投稿は非同期で行う
   def post_to_twitter
-    if RAILS_ENV == 'production' and LibraryGroup.find(1).config[:post_to_twitter?]
+    if RAILS_ENV == 'production'
       if Twitter::Status
         library_group = LibraryGroup.find(1)
         title = ERB::Util.html_escape(truncate(self.original_title))
