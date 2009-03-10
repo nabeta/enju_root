@@ -34,7 +34,7 @@ namespace :catalog do
       puts "Saving user information..."
 
       user.user_group = UserGroup.find(1)
-      user.library = Library.find(1)
+      user.library = Library.web
       user.user_number = '0'
       user.roles << Role.find_by_name('Administrator')
 

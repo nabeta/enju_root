@@ -12,7 +12,7 @@
     <li><%= link_to t('page.destroy'), @item, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.inter_library_loan')), item_inter_library_loans_path(@item) -%></li>
     <%- if @item.inter_library_loans.blank? -%>
-      <li><%= link_to t('item.add_new_copy'), new_item_inter_library_loan_path(@item) -%></li>
+      <li><%= link_to t('item.add_new_copy'), new_manifestation_item_path(@item.manifestation) -%></li>
     <%- end -%>
   </ul>
 </div>

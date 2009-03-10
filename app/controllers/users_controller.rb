@@ -30,8 +30,8 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user = User.find(params[:id])
+    @user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     @tags = @user.tags.find(:all, :order => 'tags.taggings_count DESC')
 

@@ -40,7 +40,7 @@
   <p>
     <b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
     <%- if current_user.has_role?('Librarian') -%>
-      <%= f.date_select :expired_at, :blank => true -%>
+      <%= f.date_select :expired_at, :include_blank => true -%>
     <%- else -%>
       <%= l(@user.expired_at) if @user.expired_at -%>
     <%- end -%>

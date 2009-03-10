@@ -43,6 +43,12 @@ class Patron < ActiveRecord::Base
 
   def before_validation_on_create
     self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
+    if self.full_name.blank?
+      self.full_name = [last_name, middle_name, first_name].split(" ").to_s
+    end
+    if self.full_name_transcription.blank?
+      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s
+    end
   end
 
   #def full_name_generate

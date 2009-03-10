@@ -108,7 +108,7 @@
     <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or !@manifestation.flickr.blank? -%>
       <tr>
         <td style="width: 200px"><%=h t('page.video') -%>:</td>
-        <td>
+        <td style="width: 500px">
           <%= embed_content(@manifestation) -%>
         </td>
       </tr>
@@ -116,7 +116,7 @@
     <%- if @manifestation.serial -%>
       <tr>
         <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
-        <td><%= serial_title_link(@manifestation) -%>
+        <td style="width: 500px"><%= serial_title_link(@manifestation) -%>
           <%- if @manifestation.serial.issn? -%>
             (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
           <%- end -%>
@@ -139,7 +139,7 @@
     <%- end -%>
     <tr>
       <td style="width: 200px"><%=h t('page.form') -%>:</td>
-      <td>
+      <td style="width: 500px">
         <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name -%>
       </td>
     </tr>
@@ -219,7 +219,7 @@
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td>
         <%- if @manifestation.is_updatable_by(current_user) -%>
-          <%= editable_content_tag(:span, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2}) %>
+          <%= editable_content_tag(:span, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2, :cols => 40}) %>
         <%- else -%>
           <%=h @manifestation.note -%>
         <%- end -%>

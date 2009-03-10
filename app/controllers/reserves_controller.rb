@@ -146,7 +146,7 @@ class ReservesController < ApplicationController
       if @reserve.save
         # 予約受付のメール送信
         #unless user.email.blank?
-        #  ReserveNotifier.deliver_accepted(user, @reserve.manifestation)
+        #  ReservationNotifier.deliver_accepted(user, @reserve.manifestation)
         #end
         @reserve.send_message('accepted')
 

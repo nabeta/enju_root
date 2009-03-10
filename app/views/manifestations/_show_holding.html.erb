@@ -14,8 +14,8 @@
         </td>
         <td>
           <%= link_to h(item.shelf.name), shelf_path(item.shelf) -%>
-          <%- if item.shelf.picture_files.present? -%>
-            (<%= link_to t('page.picture'), formatted_picture_file_path(item.shelf.picture_files.first, item.shelf.picture_files.first.extname), :class => "thickbox" -%>)
+          <%- item.shelf.picture_files.each do |picture_file| -%>
+            <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), formatted_picture_file_path(picture_file, picture_file.extname), :class => "thickbox", :rel => "item_#{h(item.id)}_manifestation_#{h(manifestation.id)}" -%>
           <%- end -%>
         </td>
         <td>
@@ -42,12 +42,13 @@
   <%- end -%>
 </table>
 
-<%- if item.shelf.picture_files.present? and request.xhr? -%>
-  <script type="text/javascript" language="JavaScript">
-    jQuery(document).ready(function(){
-      tb_init('a.thickbox, area.thickbox, input.thickbox');
-      imgLoader = new Image();
-      imgLoader.src = tb_pathToImage;
-    });
-  </script>
-<%- end -%>
+    <%- if request.xhr? -%>
+      <script type="text/javascript" language="JavaScript">
+        jQuery(document).ready(function(){
+          tb_init('a.thickbox, area.thickbox, input.thickbox');
+          imgLoader = new Image();
+          imgLoader.src = tb_pathToImage;
+        });
+      </script>
+    <%- end -%>
+

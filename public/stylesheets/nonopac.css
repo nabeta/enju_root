@@ -59,8 +59,8 @@ div#header_left, div#navibar_left{
   float: left;
   padding-left: 2px;
   padding-right: 2px;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 div#header_advertisement{
@@ -182,7 +182,7 @@ h1{
   margin-bottom: 10px;
 }
 
-h1#resource_title{
+#resource_title{
   line-height: 140%;
 }
 
@@ -395,4 +395,17 @@ label{
 table.calendar{
   width: 100%;
 }
+
+input.editable_text_field{
+  width: 100%;
+}
+
+form.inplaceeditor-form input[type="text"]{
+  width: 100%;
+}
+
+form.inplaceeditor-form textarea{
+  width: 100%;
+}
+
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

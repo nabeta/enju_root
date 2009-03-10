@@ -55,7 +55,7 @@ class ImportedPatronFilesController < ApplicationController
         #flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imported_patron_file'))
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imporeted_patron_file'))
         flash[:notice] += t('imported_patron_file.will_be_imported', :minute => 60) # TODO: インポートまでの時間表記
-        @imported_patron_file.import
+        #@imported_patron_file.import
         format.html { redirect_to(@imported_patron_file) }
         format.xml  { render :xml => @imported_patron_file, :status => :created, :location => @imported_patron_file }
       else
@@ -63,9 +63,9 @@ class ImportedPatronFilesController < ApplicationController
         format.xml  { render :xml => @imported_patron_file.errors, :status => :unprocessable_entity }
       end
     end
-  rescue
-    flash[:notice] = ('Invalid file.')
-    redirect_to new_imported_resource_file_url
+  #rescue
+  #  flash[:notice] = ('Invalid file.')
+  #  redirect_to new_imported_resource_file_url
   end
 
   # PUT /imported_patron_files/1

@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
+  named_scope :exclude_web, :conditions => ['shelf_id != 1']
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins
@@ -199,6 +200,8 @@ class Item < ActiveRecord::Base
   end
 
   def post_to_federated_catalog
+    return false if self.item_identifier.blank?
+    self.reload
     local_library = self.shelf.library
     library_url = URI.parse("#{LIBRARY_WEB_URL}libraries/#{local_library.short_name}").normalize.to_s
     manifestation_url = URI.parse("#{LIBRARY_WEB_URL}manifestations/#{self.manifestation.id}").normalize.to_s
@@ -210,7 +213,7 @@ class Item < ActiveRecord::Base
 
     library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
     if library.nil?
-      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.zip_code, :address => local_library.address, :lat => local_library.geocode.latitude, :lng => local_library.geocode.longitude)
+      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.postal_code, :address => local_library.address, :lat => local_library.geocode.latitude, :lng => local_library.geocode.longitude)
     end
 
     resource_url = URI.parse("http://#{FederatedCatalog.site.host}:#{FederatedCatalog.site.port}/manifestations/#{resource.id}").normalize.to_s
@@ -219,6 +222,7 @@ class Item < ActiveRecord::Base
   end
 
   def update_federated_catalog
+    return false if self.item_identifier.blank?
     local_library = self.shelf.library
     library_url = URI.parse("#{LIBRARY_WEB_URL}libraries/#{local_library.short_name}").normalize.to_s
     manifestation_url = URI.parse("#{LIBRARY_WEB_URL}manifestations/#{self.manifestation.id}").normalize.to_s
@@ -229,8 +233,10 @@ class Item < ActiveRecord::Base
   end
 
   def remove_from_federated_catalog
+    return false if self.item_identifier.blank?
     manifestation_url = URI.parse("#{LIBRARY_WEB_URL}manifestations/#{self.manifestation.id}").normalize.to_s
     own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url})
     own.destroy
   end
+
 end

@@ -23,6 +23,7 @@
   <tr>
     <th><%= t('activerecord.attributes.user.login') -%></th>
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
+    <th><%= t('activerecord.attributes.user.user_number') -%></th>
     <th><%= t('activerecord.models.checkout') -%></th>
     <th><%= t('activerecord.models.reserve') -%></th>
   </tr>
@@ -30,7 +31,8 @@
 <%- @users.each_with_index do |user, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(user.login), user_path(user.login) -%></td>
-    <td><%=h user.patron.full_name if current_user.has_role?('Librarian')%></td>
+    <td><%=h user.patron.full_name if current_user.has_role?('Librarian') -%></td>
+    <td><%=h user.user_number -%></td>
     <td>
       <%= link_to t('activerecord.models.checkout'), new_basket_path(:user_number => user.user_number) unless user.user_number.blank? -%>
       (<%= link_to t('page.checkout_history'), user_checkouts_path(user.login) -%>)

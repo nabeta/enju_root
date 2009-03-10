@@ -12,15 +12,14 @@ class ImportedResourceFile < ActiveRecord::Base
     self.reload
     reader = CSV::Reader.create(self.db_file.data, "\t")
     header = reader.shift
-    num = 0
+    num = {:success => 0, :failure => 0}
+    record = 2
     reader.each do |row|
       data = {}
       row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
-      begin
-        library = Library.find(:first, :conditions => {:short_name => data['library_short_name'].chomp})
-      rescue
-        library = Library.find(1) if library.nil?
-      end
+      data.each_value{|v| v.chomp!.to_s}
+      library = Library.find(:first, :conditions => {:short_name => data['library_short_name']})
+      library = Library.web if library.nil?
 
       # ISBNが入力してあればそれを優先する
       if data['isbn']
@@ -37,7 +36,7 @@ class ImportedResourceFile < ActiveRecord::Base
 
             work = Work.new
             work.restrain_indexing = true
-            work.original_title = data['title'].chomp
+            work.original_title = data['title']
             if work.save!
               work.patrons << author_patrons
               imported_object = ImportedObject.new
@@ -78,15 +77,17 @@ class ImportedResourceFile < ActiveRecord::Base
               imported_object.importable = item
               imported_object.import_file = self
               imported_object.save
+              num[:success] += 1
             end
 
-            num += 1
             GC.start if num % 50 == 0
           rescue
-            nil
+            Rails.logger.info("resource import failed: column #{record}")
+            num[:failure] += 1
           end
         end
       end
+      record += 1
     end
     return num
   end

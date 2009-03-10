@@ -8,37 +8,43 @@ class ImportedEventFile < ActiveRecord::Base
   has_many :imported_objects, :as => :importable, :dependent => :destroy
   has_one :imported_object, :as => :imported_file, :dependent => :destroy
 
-  def import_events
+  def import
     self.reload
     reader = CSV::Reader.create(self.db_file.data, "\t")
     header = reader.shift
     num = {:success => 0, :failure => 0}
+    record = 2
     reader.each do |row|
       data = {}
       row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
+      data.each_value{|v| v.chomp!.to_s}
       event = Event.new
-      event.title = data['title'].to_s.chomp
-      event.note = data['note'].to_s.chomp
-      event.started_at = data['started_at'].to_s.chomp
-      event.ended_at = data['ended_at'].to_s.chomp
-      category = data['category'].to_s.chomp
-      library = Library.find(:first, :conditions => {:short_name => data['library_short_name'].to_s.chomp})
-      library = Library.find(1) if library.blank?
+      event.title = data['title']
+      event.note = data['note']
+      event.started_at = data['started_at']
+      event.ended_at = data['ended_at']
+      category = data['category']
+      library = Library.find(:first, :conditions => {:short_name => data['library_short_name']})
+      library = Library.web if library.blank?
       event.library = library
       if category == "closed"
         event.event_category = EventCagetory.find(:first, :conditions => {:name => 'closed'})
       end
 
-      if event.save!
-        imported_object = ImportedObject.new
-        imported_object.importable = event
-        imported_object.imported_file = self
-        imported_object.save
-        num[:success] += 1
-        GC.start if num[:success] % 50 == 0
-      else
+      begin
+        if event.save!
+          imported_object = ImportedObject.new
+          imported_object.importable = event
+          imported_object.imported_file = self
+          imported_object.save
+          num[:success] += 1
+          GC.start if num[:success] % 50 == 0
+        end
+      rescue
+        Rails.logger.info("event import failed: column #{record}")
         num[:failure] += 1
       end
+      record += 1
     end
     return num
   end

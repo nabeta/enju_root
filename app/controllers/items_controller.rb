@@ -112,6 +112,7 @@ class ItemsController < ApplicationController
       return
     end
     @item = Item.new
+    @item.manifestation = @manifestation
     @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
 
@@ -144,6 +145,7 @@ class ItemsController < ApplicationController
         Item.transaction do
           @manifestation.items << @item
           @item.reload
+          @item.post_to_federated_catalog
 
           if @item.shelf
             @item.shelf.library.patron.items << @item

@@ -340,6 +340,7 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :shelves do |shelf|
     shelf.resources :items
+    shelf.resources :picture_files
   end
   map.resources :frequency_of_issues
   map.resources :embodies
