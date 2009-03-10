@@ -4,6 +4,9 @@ class PatronMergeList < ActiveRecord::Base
   has_many :patrons, :through => :patron_merges
   validates_presence_of :title
 
+  cattr_reader :per_page
+  @@per_page = 10
+
   def merge_patrons(selected_patron)
     self.patrons.each do |patron|
       Create.update_all(['patron_id = ?', selected_patron.id], ['patron_id = ?', patron.id])

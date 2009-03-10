@@ -63,6 +63,7 @@ Rails::Initializer.run do |config|
   config.gem "calendar_date_select"
   config.gem 'mdarby-scribd_fu', :lib => 'scribd_fu'
   #config.gem "mdarby-restful_acl", :lib => 'restful_acl_controller'
+  config.gem "shuber-attr_encrypted", :lib => 'attr_encrypted'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.

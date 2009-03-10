@@ -1,20 +1,12 @@
 class AttachmentFilesController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_manifestation, :only => [:index, :new]
-  before_filter :get_patron, :only => [:index, :new]
-  before_filter :get_event, :only => [:index, :new]
-  before_filter :get_shelf, :only => [:index, :new]
+  before_filter :get_attachable, :only => [:index, :new]
 
   # GET /attachment_files
   # GET /attachment_files.xml
   def index
-    case
-    when @manifestation
-      @attachment_files = @manifestation.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
-    when @event
-      @attachment_files = @event.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
-    when @shelf
-      @attachment_files = @shelf.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
+    if @attachable
+      @attachment_files = @attachable.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
     else
       @attachment_files = AttachmentFile.paginate(:all, :page => params[:page], :order => :id)
     end
@@ -42,6 +34,7 @@ class AttachmentFilesController < ApplicationController
   def new
     #raise unless @event or @manifestation or @shelf or @patron
     @attachment_file = AttachmentFile.new
+    @attachment_file.attachable = @attachable
 
     respond_to do |format|
       format.html # new.html.erb
@@ -71,14 +64,14 @@ class AttachmentFilesController < ApplicationController
         @attachment_file.extract_text
         #@attachment_file.file_hash = @attachment_file.digest(:type => 'sha1')
 
-        case @attachment_file.attachable_type
-        when 'Work'
-        when 'Expression'
-        when 'Manifestation'
-        when 'Item'
-        when 'Patron'
-        end
-        @attachment_file.save
+        #case @attachment_file.attachable_type
+        #when 'Work'
+        #when 'Expression'
+        #when 'Manifestation'
+        #when 'Item'
+        #when 'Patron'
+        #end
+        #@attachment_file.save
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
@@ -121,4 +114,10 @@ class AttachmentFilesController < ApplicationController
     end
   end
 
+  def get_attachable
+    @attachable = get_manifestation
+    @attachable = get_patron unless @attachable
+    @attachable = get_event unless @attachable
+    @attachable = get_shelf unless @attachable
+  end
 end

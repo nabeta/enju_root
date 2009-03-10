@@ -2,13 +2,13 @@
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.picture_file')) -%></h1>
 <div id="content_list">
 
-<%- if @manifestation -%>
-  <p>Attachment files for <%= link_to h(@manifestation.original_title), @manifestation -%></p>
+<%- if @shelf -%>
+  <h2><%= link_to h(@shelf.name), @shelf -%></h2>
 <%- end -%>
 
 <table id="index">
   <tr>
-    <th><%= ('Attachable') -%></th>
+    <th><%= t('page.attachable') -%></th>
     <th><%= t('activerecord.attributes.picture_file.size') -%></th>
     <th><%= t('activerecord.attributes.picture_file.content_type') -%></th>
     <th><%= t('activerecord.attributes.picture_file.filename') -%></th>

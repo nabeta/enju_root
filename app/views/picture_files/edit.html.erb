@@ -13,12 +13,12 @@
 
 <%- form_for(@picture_file) do |f| -%>
   <p>
-    <b>Attachable</b><br />
+    <b><%= t('page.attachable') -%></b><br />
     <%= f.text_field :picture_attachable_id -%>
   </p>
 
   <p>
-    <b>Attachable type</b><br />
+    <b><%= t('activerecord.attributes.picture_file.picture_attachable_type') -%></b><br />
     <%= f.text_field :picture_attachable_type -%>
   </p>
 

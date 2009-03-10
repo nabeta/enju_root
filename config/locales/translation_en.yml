@@ -588,7 +588,7 @@ en:
         short_name: Short name
         email: Email
         my_networks: My networks
-        use_dsbl: use DSBL
+        use_dsbl: Use DSBL
         dsbl_list: DSBL list
         note: Note
         login_banner: Login banner
@@ -934,6 +934,7 @@ en:
     read: "Read"
     merge: "Merge!"
     merge_resource: "Merge {{model}}"
+    attachable: "Attachable"
   title:
     index: "index"
     show: "show"

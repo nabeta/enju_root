@@ -12,10 +12,10 @@
 
 <%- form_for(:attachment_file, :url => manifestation_attachment_files_path(@manifestation), :html => { :multipart => true, :method => :post }) do |f| -%>
   <p>
-    <b><%= ('Attachable') -%></b><br />
+    <b><%= t('page.attachable') -%></b><br />
     <%= link_to h(@manifestation.original_title), @manifestation -%>
     <%= f.hidden_field :attachable_id, :value => h(@manifestation.id) -%>
-    <%= f.hidden_field :attachable_type, :value => h(@manifestation.class) -%>
+    <%= f.hidden_field :attachable_type, :value => h(@manifestation.class.to_s) -%>
   </p>
 
   <p>

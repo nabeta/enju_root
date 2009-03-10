@@ -26,6 +26,7 @@ class ApplicationController < ActionController::Base
 
   #before_filter :login_from_cookie
   before_filter :get_library_group, :get_user_role
+  #before_filter :has_permission?
   #session :session_key => '_catalog_session_id'
 
   def get_library_group
@@ -62,7 +63,7 @@ class ApplicationController < ActionController::Base
       end
       # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
       # you may want to change format.any to e.g. format.any(:js, :xml)
-      format.any do
+      format.any(:json, :xml) do
         request_http_basic_authentication 'Web Password'
       end
     end
@@ -135,7 +136,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}, :include => :user_group) if params[:user_id]
+    @user = User.find(params[:user_id], :include => :user_group) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     return @user
 
@@ -155,7 +156,7 @@ class ApplicationController < ActionController::Base
   end
                     
   def get_library
-    @library = Library.find(:first, :conditions => {:short_name => params[:library_id]}) if params[:library_id]
+    @library = Library.find(params[:library_id]) if params[:library_id]
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -165,7 +166,6 @@ class ApplicationController < ActionController::Base
   end
 
   def get_library_group
-    #@library_group = LibraryGroup.find(params[:library_group_id]) if params[:library_gruop_id]
     @library_group = LibraryGroup.find(1)
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -279,12 +279,16 @@ class ApplicationController < ActionController::Base
   end
 
   def check_dsbl
-    return true if LibraryGroup.find(1).my_networks?(request.remote_ip)
+    @library_group = LibraryGroup.find(1)
+    return true if @library_group.my_networks?(request.remote_ip)
     begin
+      dsbl_hosts = @library_group.dsbl_list.split.compact
       reversed_address = request.remote_ip.split(/\./).reverse.join(".")
-      result = Socket.gethostbyname("#{reversed_address}.niku.2ch.net.").last.unpack("C4").join(".")
-      raise SocketError unless result =~ /^127\.0\.0\./
-      access_denied
+      dsbl_hosts.each do |dsbl_host|
+        result = Socket.gethostbyname("#{reversed_address}.#{dsbl_host}.").last.unpack("C4").join(".")
+        raise SocketError unless result =~ /^127\.0\.0\./
+        access_denied
+      end
     rescue SocketError
       nil
     end

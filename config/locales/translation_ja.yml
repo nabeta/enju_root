@@ -917,6 +917,7 @@ ja:
     read: "読み込み"
     merge: "併合する（取り消しはできません）"
     merge_resource: "{{model}}を併合する"
+    attachable: 添付先
   title:
     index: "一覧"
     show: "表示"
