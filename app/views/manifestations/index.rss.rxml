@@ -6,7 +6,7 @@ xml.rss('version' => "2.0",
   xml.channel{
     xml.title t('manifestation.query_search_result', :query => @query, :library_group_name => @library_group.display_name)
     xml.link "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => nil))}"
-    xml.description "open-source integrated library automation system developed by Kamata Library and Project Next-L"
+    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language "ja-jp" # TODO: 日本語以外の資料
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"

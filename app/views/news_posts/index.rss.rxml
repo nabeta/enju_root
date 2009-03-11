@@ -6,7 +6,7 @@ xml.rss('version' => "2.0",
   xml.channel{
     xml.title t('news_post.library_group_news_post', :library_group_name => @library_group.display_name)
     xml.link news_posts_url
-    xml.description "open-source integrated library automation system developed by Kamata Library and Project Next-L"
+    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language "ja-jp" # TODO: 日本語以外
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => formatted_news_posts_url(:format => :rss)

@@ -14,9 +14,7 @@
         </td>
         <td>
           <%= link_to h(item.shelf.name), shelf_path(item.shelf) -%>
-          <%- item.shelf.picture_files.each do |picture_file| -%>
-            <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), formatted_picture_file_path(picture_file, picture_file.extname), :class => "thickbox", :rel => "item_#{h(item.id)}_manifestation_#{h(manifestation.id)}" -%>
-          <%- end -%>
+          <%= render :partial => 'items/shelf_picture', :locals => {:item => item} -%>
         </td>
         <td>
           <%=h item.call_number -%>
