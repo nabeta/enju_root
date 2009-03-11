@@ -2,6 +2,11 @@
   <ul>
     <li><%= link_to t('page.back_to', :model => t('activerecord.models.checkout')), checkouts_path -%></li>
   </ul>
+  <p>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_checkouts_path(:rss, :view => 'overdue') -%>
+    (<%= link_to ('RSS'), formatted_checkouts_path(:rss, :view => 'overdue') -%>)
+    (<%= link_to ('CSV'), formatted_checkouts_path(:csv, :view => 'overdue', :lang => 'ja') -%>)
+  </p>
 </div>
 
 <div id="content_detail">
@@ -9,19 +14,13 @@
 <div id="content_list">
 
   <%- form_for(:checkouts, :url => checkouts_path, :html => {:method => 'get'}) do -%>
-    <div>
+    <p>
       <%= t('checkout.number_of_day_overdue') -%>:
       <%= text_field_tag 'days_overdue', h(@days_overdue), :class => 'resource_integer' -%>
       <%= hidden_field_tag 'view', 'overdue' -%>
       <%= submit_tag t('page.submit') -%>
-    </div>
+    </p>
   <%- end -%>
-
-  <div>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_checkouts_path(:rss, :view => 'overdue') -%>
-    (<%= link_to ('RSS'), formatted_checkouts_path(:rss, :view => 'overdue') -%>)
-    (<%= link_to ('CSV'), formatted_checkouts_path(:csv, :view => 'overdue', :lang => 'ja') -%>)
-  </div>
 
 <%= render :partial => 'list' -%>
 

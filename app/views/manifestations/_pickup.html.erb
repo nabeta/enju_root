@@ -24,7 +24,7 @@
     <div style="clear: both"></div>
     <div style="margin-top: 5px">
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @picked_up} -%>
+      <%= render :partial => 'manifestations/holding', :locals => {:manifestation => @picked_up} -%>
     </div>
-   <div class="holding" id="holding_<%=h @picked_up.id -%>"></div>
   <%- end -%>
 <%- end -%>
