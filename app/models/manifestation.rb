@@ -526,7 +526,7 @@ class Manifestation < ActiveRecord::Base
   def post_to_twitter
     if RAILS_ENV == 'production'
       if Twitter::Status
-        library_group = LibraryGroup.find(1)
+        library_group = LibraryGroup.config
         title = ERB::Util.html_escape(truncate(self.original_title))
         status = "#{title}: #{note} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
         begin

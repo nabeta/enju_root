@@ -4,7 +4,7 @@ module ApplicationHelper
   include UsersHelper
 
   def library_system_name
-    h(LibraryGroup.find(1).name)
+    h(LibraryGroup.config.name)
   end
   
   def form_icon(manifestation_form)
@@ -128,16 +128,6 @@ module ApplicationHelper
       manifestations_link << link_to(h(manifestation.original_title), manifestation)
     end
     return manifestations_link.join(" ")
-  end
-
-  def duedate_check(checkout)
-    if checkout.is_today_due_date?
-      "duedate_is_today"
-    elsif checkout.overdue?
-      "overdue"
-    else
-      "in_checkout"
-    end
   end
 
   def book_jacket(manifestation)

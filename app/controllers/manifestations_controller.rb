@@ -482,7 +482,7 @@ class ManifestationsController < ApplicationController
   end
 
   def save_search_history(query, offset = 0, total = 0)
-    check_dsbl if LibraryGroup.find(1).use_dsbl
+    check_dsbl if LibraryGroup.config.use_dsbl
     if logged_in?
       SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end

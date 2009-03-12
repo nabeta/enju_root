@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
   #session :session_key => '_catalog_session_id'
 
   def get_library_group
-    @library_group = LibraryGroup.find(1)
+    @library_group = LibraryGroup.config
   end
 
   def get_user_role
@@ -166,7 +166,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_library_group
-    @library_group = LibraryGroup.find(1)
+    @library_group = LibraryGroup.config
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -274,12 +274,12 @@ class ApplicationController < ActionController::Base
   end
 
   def check_client_ip_address
-    return true if LibraryGroup.find(1).my_networks?(request.remote_ip)
+    return true if LibraryGroup.config.my_networks?(request.remote_ip)
     access_denied
   end
 
   def check_dsbl
-    @library_group = LibraryGroup.find(1)
+    @library_group = LibraryGroup.config
     return true if @library_group.my_networks?(request.remote_ip)
     begin
       dsbl_hosts = @library_group.dsbl_list.split.compact
