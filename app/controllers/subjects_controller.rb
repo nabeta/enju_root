@@ -10,6 +10,7 @@ class SubjectsController < ApplicationController
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
+      query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@classification) if @classification

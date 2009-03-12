@@ -14,11 +14,12 @@ class PatronsController < ApplicationController
     # 最近追加されたパトロン
     #@query = params[:query] ||= "[* TO *]"
     query = params[:query].to_s.strip
+    @query = query.dup
+    query = query.gsub('　', ' ')
 
     if params[:mode] == 'recent'
       query = "#{query} created_at: [NOW-1MONTH TO NOW]"
     end
-    @query = query.dup
 
     browse = nil
     order = nil

@@ -11,9 +11,10 @@ class ExpressionsController < ApplicationController
   # GET /expressions.xml
   def index
     query = params[:query].to_s.strip
-    unless @query.blank?
+    unless query.blank?
       @count = {}
       @query = query.dup
+      query = query.gsub('　', ' ')
       query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
       unless params[:mode] == 'add'
         query.add_query!(@manifestation) if @manifestation

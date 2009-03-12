@@ -59,6 +59,7 @@ class ManifestationsController < ApplicationController
       end
 
       # 絞り込みを行わない状態のクエリ
+      query = query.gsub('　', ' ')
       total_query = query
 
       unless query.blank?

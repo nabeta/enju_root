@@ -13,6 +13,7 @@ class EventsController < ApplicationController
     @count = {}
     query = params[:query].to_s.strip
     @query = query.dup
+    query = query.gsub('　', ' ')
 
     if params[:date].present?
       date = params[:date].to_s

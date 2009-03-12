@@ -9,9 +9,10 @@ class WorksController < ApplicationController
   # GET /works.xml
   def index
     query = params[:query].to_s.strip
-    unless @query.blank?
+    unless query.blank?
       @count = {}
       @query = query.dup
+      query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@patron) if @patron
         query += " parent_id: #{@parent.id}" if @parent
