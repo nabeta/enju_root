@@ -1,0 +1,11 @@
+<div id="patron">
+  <ul>
+    <%- @expression.patrons.each do |patron| -%>
+      <li>
+        [P]
+        <%= link_to h(patron.full_name), patron -%>
+        (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(patron.full_name_without_space)) -%>)
+      </li>
+    <%- end -%>
+  </ul>
+</div>

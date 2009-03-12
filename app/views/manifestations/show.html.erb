@@ -87,19 +87,19 @@
 
 <div id="demo" class="yui-navset yui-navset-top">
   <ul class="yui-nav">
-    <li class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
+    <li class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
     <%- if @manifestation.related_works.size > 0 -%>
-      <li><a href="#tab3"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
+      <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
     <%- if @manifestation.related_manifestations.size > 0 -%>
-      <li><a href="#tab4"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
+      <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
     <%- end -%>
     <%- unless @amazon_reviews.blank? -%>
-      <li><a href="#tab6"><em><%= t('page.amazon_review') -%></em></a></li>
+      <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
     <%- end -%>
   </ul>            
   <div class="yui-content">
-    <div id="tab1">
+    <div id="detail">
     <%- if @manifestation.isbn -%>
       <%= render :partial => 'google_book_search' -%>
     <%- end -%>
@@ -236,97 +236,17 @@
       <%- end -%>
     </div>
     <%- if @manifestation.related_works.size > 0 -%>
-      <div id="tab3">
-      <%- unless @manifestation.related_works.blank? -%>
-        <ul>
-          <%- @manifestation.related_works.each do |work| -%>
-            <li>
-              <%- if work.serials.blank? -%>
-                [W] <%= link_to h(work.original_title), work -%>
-                <%- work.expressions.each do |expression| -%>
-                  <%= link_to expression_form_icon(expression.expression_form), expression -%>
-                <%- end -%>
-                <%= patrons_list(work.patrons) -%>
-                <ul>
-                  <%- work.manifestations.each do |manifestation| -%>
-                    <%- unless @manifestation == manifestation -%>
-                      <%- unless work.original_title == manifestation.original_title and work.expressions.size == 1 -%>
-                        <li>
-                          [M]
-                          <%= link_to h(manifestation.original_title), manifestation -%>
-                          <%= form_icon(manifestation.manifestation_form) -%>
-                          <%- manifestation.expressions.each do |expression| -%>
-                            <%= link_to expression_form_icon(expression.expression_form), expression -%>
-                          <%- end -%>
-                          <%= patrons_list(manifestation.authors) -%>
-                          <%= patrons_list(manifestation.editors) -%>
-                          <%= patrons_list(manifestation.patrons) -%>
-                          <%- if manifestation.date_of_publication -%>
-                            (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
-                          <%- end -%>
-                        </li>
-                      <%- end -%>
-                    <%- end -%>
-                  <%- end -%>
-                </ul>
-              <%- end -%>
-            </li>
-          <%- end -%>
-        </ul>
-      <%- end -%>
-    </div>
+      <%= render :partial => 'manifestations/work_list' -%>
     <%- end -%>
     <%- unless @manifestation.related_manifestations.blank? -%>
-    <div id="tab4">
-      <%- unless @manifestation.related_manifestations.blank? -%>
-        <ul>
-          <%- @manifestation.related_manifestations.each do |manifestation| -%>
-            <%- unless manifestation == @manifestation -%>
-              <li>
-                [M] <%= link_to h(manifestation.original_title), manifestation -%>
-                <%= form_icon(manifestation.manifestation_form) -%>
-                <%- manifestation.expressions.each do |expression| -%>
-                  <%= link_to expression_form_icon(expression.expression_form), expression -%>
-                <%- end -%>
-                <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
-                <%= patrons_list(manifestation.authors) -%>
-                <%= patrons_list(manifestation.editors) -%>
-                <%= patrons_list(manifestation.patrons) -%>
-                <%- if manifestation.date_of_publication -%>
-                  (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
-                <%- end -%>
-                <%- unless manifestation.works.blank? -%>
-                  <ul>
-                    <%- manifestation.works.each do |work| -%>
-                      <%- unless work.original_title == manifestation.original_title -%>
-                        <li>
-                          [W]
-                          <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
-                          <%= link_to h(work.original_title), work -%>
-                          <%- work.expressions.each do |expression| -%>
-                            <%= link_to expression_form_icon(expression.expression_form), expression -%>
-                          <%- end -%>
-                          <%= patrons_list(work.patrons) -%>
-                        </li>
-                      <%- end -%>
-                    <%- end -%>
-                  </ul>
-                <%- end -%>
-              </li>
-            <%- end -%>
-          <%- end -%>
-        </ul>
-      <%- end -%>
-    </div>
+      <%= render :partial => 'manifestations/manifestation_list' -%>
     <%- end -%>
     <!--
     <div id="tab5">
     </div>
     -->
     <%- if @amazon_reviews.size > 0 -%>
-      <div id="tab6">
-        <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
-      </div>
+      <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
     <%- end -%>
   </div>
 </div>

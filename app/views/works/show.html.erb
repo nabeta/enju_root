@@ -35,21 +35,25 @@
 
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#tab1"><em><%= t('page.detail') -%></em></a></li>
-      <li><a href="#tab2"><em><%= t('page.author') -%></em></a></li>
+      <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
+      <%- unless @work.patrons.blank? -%>
+        <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
+      <%- end -%>
       <%- unless @work.children.blank? -%>
-        <li><a href="#tab3"><em><%= t('activerecord.models.work') -%></em></a></li>
+        <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
       <%- unless @work.expressions.blank? -%>
-        <li><a href="#tab4"><em><%= t('activerecord.models.expression') -%></em></a></li>
+        <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- end -%>
-      <li><a href="#tab5"><em><%= t('page.related_manifestation') -%></em></a></li>
+      <%- unless @work.manifestations.blank? -%>
+        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
+      <%- end -%>
     </ul>
     <div class="yui-content">
-      <div id="tab1">
+      <div id="detail">
         <table id="index">
           <tr>
-            <td><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
+            <td style="width: 200px"><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
             <td>
               <%=h @work.title_transcription -%>
             </td>
@@ -57,7 +61,7 @@
           <tr>
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
             <td>
-              <%= editable_content_tag(:span, @work, 'context', true, nil, {:style => 'border: 1px solid grey;'}, {:okText => 'save it'}) %>
+              <%= editable_content_tag(:span, @work, 'context', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2, :cols => 40}) %>
             </td>
           </tr>
           <tr>
@@ -70,19 +74,11 @@
           </tr>
         </table>
       </div>
-      <div id="tab2">
-        <ul>
-          <%- @work.patrons.each do |patron| -%>
-            <li>
-              [P]
-              <%= link_to h(patron.full_name), patron -%>
-              (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(patron.full_name_without_space)) -%>)
-            </li>
-          <%- end -%>
-        </ul>
-      </div>
+      <%- unless @work.patrons.blank? -%>
+        <%= render :partial => 'works/patron_list' -%>
+      <%- end -%>
       <%- unless @work.children.blank? -%>
-      <div id="tab3">
+      <div id="work">
         <%- if @work.parent -%>
           <h3><%= ('Parent') -%></h3>
           <ul>
@@ -102,80 +98,15 @@
       </div>
       <%- end -%>
       <%- unless @work.expressions.blank? -%>
-      <div id="tab4">
-        <ul>
-          <%- @work.expressions.each do |expression| -%>
-            <li>
-              [E]
-              <%= link_to h(expression.original_title), expression -%>
-              <%= expression_form_icon(expression.expression_form) -%>
-              <%= patrons_list(expression.patrons) -%>
-              <%= patrons_list(expression.work.patrons) -%>
-              <%- unless expression.manifestations.blank? -%>
-                <ul>
-                  <%- expression.manifestations.each do |manifestation| -%>
-                    <li>
-                    [M]
-                    <%= link_to h(manifestation.original_title), manifestation -%>
-                    <%= form_icon(manifestation.manifestation_form) -%>
-                    <%- manifestation.expressions.each do |expression| -%>
-                      <%= expression_form_icon(expression.expression_form) -%>
-                    <%- end -%>
-                    <%= patrons_list(manifestation.authors) -%> 
-                    <%= patrons_list(manifestation.editors) -%>
-                    <%= patrons_list(manifestation.publishers) -%>
-                    <%- if manifestation.date_of_publication -%>
-                      (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
-                    <%- end -%>
-                    </li>
-                  <%- end -%>
-                </ul>
-              <%- end -%>
-            </li>
-          <%- end -%>
-        </ul>
-      </div>
-    <%- end -%>
-      <div id="tab5">
-        <ul>
-          <%- @work.manifestations.each do |manifestation| -%>
-            <li>
-              [M]
-              <%= link_to h(manifestation.original_title), manifestation -%>
-              <%= form_icon(manifestation.manifestation_form) -%>
-              <%- manifestation.expressions.each do |expression| -%>
-                <%= expression_form_icon(expression.expression_form) -%>
-              <%- end -%>
-              <%= patrons_list(manifestation.authors) -%> 
-              <%= patrons_list(manifestation.editors) -%>
-              <%= patrons_list(manifestation.publishers) -%>
-              <%- if manifestation.date_of_publication -%>
-                (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
-              <%- end -%>
-              <%- unless manifestation.works.blank? -%>
-                <ul>
-                  <%- manifestation.works.each do |work| -%>
-                    <%- unless work.expressions.first.serial? -%>
-                      <li>
-                      [W]
-                      <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @work -%>
-                      <%= link_to h(work.original_title), work -%>
-                      <%= patrons_list(work.patrons) -%>
-                      </li>
-                    <%- end -%>
-                  <%- end -%>
-                </ul>
-              <%- end -%>
-            </li>
-          <%- end -%>
-        </ul>
-      </div>
+        <%= render :partial => 'works/expression_list' -%>
+      <%- end -%>
+      <%- unless @work.manifestations.blank? -%>
+        <%= render :partial => 'works/expression_list' -%>
+      <%- end -%>
     </div>
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
-<%-
-  end
--%>
+<%- end -%>
 </div>
 </div>
