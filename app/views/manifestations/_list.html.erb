@@ -11,7 +11,6 @@
   </table>
 
 <%=
-  # will_paginate(@manifestations, :update => 'list', :params => {:action => :index, :list => 'partial'}, :renderer => RemoteLinkRenderer, :method => :get, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
   will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
 -%>
 <br />

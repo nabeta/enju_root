@@ -3,7 +3,6 @@
 <%-
    cache(:controller => :page, :action_suffix => 'footer') do
 -%>
-<div id="description">
   <a href="http://wiki.github.com/nabeta/next-l">Project Next-L "Enju"</a>,
   <%= t('page.open_source_integrated_library_system') -%> |
   <%= link_to t('page.about_this_system'), "/page/about" -%> |
@@ -13,7 +12,6 @@
   Powered by <a href="http://www.rubyonrails.org/">Ruby on Rails</a>,
   <%= database_adapter -%>
   and <a href="http://lucene.apache.org/solr/">Solr</a>
-</div>
 <%-
    end
 -%>

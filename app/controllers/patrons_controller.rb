@@ -65,6 +65,7 @@ class PatronsController < ApplicationController
       format.xml  { render :xml => @patrons }
       format.rss  { render :layout => false }
       format.atom
+      format.json
     end
   end
 
@@ -84,12 +85,21 @@ class PatronsController < ApplicationController
       @patron = Patron.find(params[:id])
     end
 
-    @involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    @publications = @patron.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    @works = @patron.works.paginate(:page => params[:work_list_page], :per_page => 10)
+    @expressions = @patron.expressions.paginate(:page => params[:expression_list_page], :per_page => 10)
+    @manifestations = @patron.manifestations.paginate(:page => params[:manifestation_list_page], :per_page => 10, :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @patron }
+      format.js {
+        render :update do |page|
+          page.replace_html 'work', :partial => 'work_list', :locals => {:works => @works} if params[:work_list_page]
+          page.replace_html 'expression', :partial => 'expression_list', :locals => {:expressions => @expressions} if params[:expression_list_page]
+          page.replace_html 'manifestation', :partial => 'manifestation_list', :locals => {:manifestations => @manifestations} if params[:manifestation_list_page]
+        end
+      }
     end
   rescue ActiveRecord::RecordNotFound
     not_found

@@ -1,0 +1,32 @@
+<div id="expression">
+  <ul>
+    <%- expressions.each do |expression| -%>
+      <li>
+      [E]
+      <%= link_to h(expression.original_title), expression -%>
+      <%= expression_form_icon(expression.expression_form) -%>
+      <%= patrons_list(expression.work.patrons) -%>
+      <%= patrons_list(expression.patrons) -%>
+        <ul>
+          <%- expression.manifestations.each do |manifestation| -%>
+            <li>
+            [M]
+            <%= link_to h(manifestation.original_title), manifestation -%>
+            <%= form_icon(manifestation.manifestation_form) -%>
+            <%- manifestation.expressions.each do |expression| -%>
+              <%= expression_form_icon(expression.expression_form) -%>
+            <%- end -%>
+            <%= patrons_list(manifestation.authors) -%>
+            <%= patrons_list(manifestation.patrons) -%>
+            <%- if manifestation.date_of_publication -%>
+              (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+            <%- end -%>
+            </li>
+          <%- end -%>
+        </ul>
+      </li>
+    <%- end -%>
+  </ul>
+  <%= will_paginate(expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :expression_list_page, :class => 'content_pagination') -%>
+</div>
+

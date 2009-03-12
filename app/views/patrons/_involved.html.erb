@@ -1,0 +1,46 @@
+<%- unless @involved_manifestations.blank? -%>
+  <div id="involved_manifestation">
+    <ul>
+      <%- @involved_manifestations.each do |manifestation| -%>
+        <li>
+          [M]
+          <%= link_to h(manifestation.original_title), manifestation -%>
+          <%= form_icon(manifestation.manifestation_form) -%>
+          <%- manifestation.expressions.each do |expression| -%>
+            <%= expression_form_icon(expression.expression_form) -%>
+          <%- end -%>
+          <%= patrons_list(manifestation.authors) -%>
+          <%= patrons_list(manifestation.patrons) -%>
+          <%- if manifestation.date_of_publication -%>
+            (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+          <%- end -%>
+          <%- unless manifestation.works.blank? -%>
+            <ul>
+              <%- manifestation.works.each do |work| -%>
+                <%- if work.patrons.include?(@patron) -%>
+                  <li>
+                  [W]
+                  <%= link_to h(work.original_title), work -%>
+                  <%= patrons_list(work.patrons) -%>
+                  </li>
+                <%- end -%>
+              <%- end -%>
+              <%- manifestation.expressions.each do |expression| -%>
+                <%- if expression.patrons.include?(@patron) -%>
+                  <li>
+                  [E]
+                  <%= link_to h(expression.original_title), expression -%>
+                  <%= expression_form_icon(expression.expression_form) -%>
+                  <%= patrons_list(expression.work.patrons) -%>
+                  <%= patrons_list(expression.patrons) -%>
+                  </li>
+                <%- end -%>
+              <%- end -%>
+            </ul>
+          <%- end -%>
+        </li>
+      <%- end -%>
+    </ul>
+  </div>
+<%- end -%>
+

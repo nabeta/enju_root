@@ -120,11 +120,8 @@ class ManifestationsController < ApplicationController
         get_index_without_solr
       end
 
-      unless @query.blank?
-        check_dsbl if LibraryGroup.find(1).use_dsbl
-        if logged_in?
-          SearchHistory.create(:query => @query, :user_id => nil, :start_record => @manifestations.offset + 1, :maximum_records => nil, :number_of_records => @count[:total])
-        end
+      unless query.blank?
+        save_search_history(@query, @manifestations.offset, @count[:total])
       end
     end
     store_location
@@ -141,6 +138,7 @@ class ManifestationsController < ApplicationController
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
       format.atom
+      format.json
     end
   end
 
@@ -204,7 +202,7 @@ class ManifestationsController < ApplicationController
     @manifestation = Manifestation.find(params[:id])
     if params[:mode] == 'tag_edit'
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) if @manifestation.bookmarked_resource rescue nil
-      render :partial => 'tag_edit'
+      render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -483,4 +481,10 @@ class ManifestationsController < ApplicationController
     @roles = Role.find(:all, :order => 'id desc')
   end
 
+  def save_search_history(query, offset = 0, total = 0)
+    check_dsbl if LibraryGroup.find(1).use_dsbl
+    if logged_in?
+      SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+    end
+  end
 end

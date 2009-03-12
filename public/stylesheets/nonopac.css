@@ -376,10 +376,6 @@ th.checked_item_title{
   width: 400px;
 }
 
-div#description{
-  margin-left: 1em;
-}
-
 .error_message{
   color: red;
 }
