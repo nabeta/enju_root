@@ -8,7 +8,6 @@ class TagsController < ApplicationController
     session[:params] ={} unless session[:params]
     session[:params][:tag] = params
 
-    @per_page = 10
     if params[:order] == 'name'
       order = 'name'
     elsif params[:order] == 'taggings_count'
@@ -17,9 +16,9 @@ class TagsController < ApplicationController
       order = 'created_at desc'
     end
     if @user
-      @tags = @user.tags.paginate(:all, :page => params[:page], :per_page => @per_page, :order => order, :conditions => ['taggings_count > 0'])
+      @tags = @user.tags.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
     else
-      @tags = Tag.paginate(:all, :page => params[:page], :per_page => @per_page, :order => order, :conditions => ['taggings_count > 0'])
+      @tags = Tag.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
     end
     respond_to do |format|
       format.html # index.html.erb

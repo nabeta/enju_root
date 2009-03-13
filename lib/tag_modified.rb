@@ -2,6 +2,9 @@ class Tag
   include OnlyLibrarianCanModify
   has_friendly_id :name
 
+  @@per_page = 10
+  cattr_reader :per_page
+
   def subjects
     Manifestation.find_by_solr("tag: #{self.name}", :limit => taggings_count).results.collect(&:subjects).flatten
   end

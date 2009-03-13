@@ -787,7 +787,11 @@ en:
         note: Note
       checkout_stat_has_user:
         checkouts_count: Checkout count
+      checkout_stat_has_manifestation:
+        checkouts_count: Checkout count
       reserve_stat_has_user:
+        reserves_count: Reserve count
+      reserve_stat_has_manifestation:
         reserves_count: Reserve count
       bookmark_stat_has_manifestation:
         bookmarks_count: Bookmark count

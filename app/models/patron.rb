@@ -37,7 +37,7 @@ class Patron < ActiveRecord::Base
   acts_as_soft_deletable
   acts_as_tree
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   attr_accessor :restrain_indexing
 

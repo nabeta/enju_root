@@ -10,7 +10,7 @@ class Shelf < ActiveRecord::Base
   acts_as_list :scope => :library
   acts_as_soft_deletable
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def web_shelf?

@@ -16,7 +16,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :title, :library, :event_category
   validates_associated :library, :event_category
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def before_save

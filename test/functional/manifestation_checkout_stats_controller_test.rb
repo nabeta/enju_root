@@ -48,7 +48,7 @@ class ManifestationCheckoutStatsControllerTest < ActionController::TestCase
   test "librarian should create manifestation_checkout_stat" do
     login_as :librarian1
     assert_difference('ManifestationCheckoutStat.count') do
-      post :create, :manifestation_checkout_stat => { }
+      post :create, :manifestation_checkout_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
 
     assert_redirected_to manifestation_checkout_stat_path(assigns(:manifestation_checkout_stat))

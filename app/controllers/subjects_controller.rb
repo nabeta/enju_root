@@ -16,7 +16,7 @@ class SubjectsController < ApplicationController
         query.add_query!(@classification) if @classification
         query.add_query!(@subject_heading_type) if @subject_heading_type
       end
-      @subjects = Subject.paginate_by_solr(query, :page => params[:page], :per_page => @per_page).compact
+      @subjects = Subject.paginate_by_solr(query, :page => params[:page]).compact
     else
       case
       when @manifestation

@@ -13,7 +13,7 @@ class ConceptsController < ApplicationController
     if @query.blank?
       @concepts = Concept.paginate(:all, :page => params[:page])
     else
-      @concepts = Concept.paginate_by_solr(@query, :page => params[:page], :per_page => @per_page)
+      @concepts = Concept.paginate_by_solr(@query, :page => params[:page])
     end
 
     respond_to do |format|

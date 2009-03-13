@@ -6,7 +6,7 @@ class Barcode < ActiveRecord::Base
   validates_uniqueness_of :barcodable_id, :scope => :barcodable_type
   validates_uniqueness_of :code_word, :scope => :barcode_type
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 30
 
   def before_create

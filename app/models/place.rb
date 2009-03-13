@@ -8,5 +8,5 @@ class Place < ActiveRecord::Base
   validates_presence_of :term
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 end

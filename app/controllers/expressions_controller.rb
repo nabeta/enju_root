@@ -23,7 +23,7 @@ class ExpressionsController < ApplicationController
         query += " subscription_id: #{@subscription.id}" if @subscription
         query += " expression_merge_list_ids: #{@expression_merge_list.id}" if @expression_merge_list
       end
-      @expressions = Expression.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page], :per_page => @per_page).compact
+      @expressions = Expression.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
       @count[:total] = @expressions.total_entries
     else
       case

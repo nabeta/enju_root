@@ -4,7 +4,7 @@ class SearchHistory < ActiveRecord::Base
 
   belongs_to :user
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   # http://d.hatena.ne.jp/rubyco/20070528
   def self.not_found_query(number, duration = 1.year.ago)

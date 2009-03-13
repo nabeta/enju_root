@@ -9,7 +9,7 @@ class ClassificationsController < ApplicationController
     unless params[:query].blank?
       query = params[:query].to_s.strip
       @query = query.dup
-      @classifications = Classification.paginate_by_solr(query, :page => params[:page], :per_page => @per_page).compact
+      @classifications = Classification.paginate_by_solr(query, :page => params[:page]).compact
     else
       if @subject
         @classifications = @subject.classifications.paginate(:page => params[:page])

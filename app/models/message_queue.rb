@@ -12,7 +12,7 @@ class MessageQueue < ActiveRecord::Base
   acts_as_soft_deletable
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   def send_message
     if self.body

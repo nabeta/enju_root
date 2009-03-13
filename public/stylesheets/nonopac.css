@@ -48,7 +48,7 @@ div#content{
   width: 922px;
 }
 
-div#header{
+div#header_and_footer{
   padding: 2px;
   width: 100%;
   clear: both
@@ -169,7 +169,8 @@ div#right_pane_detail{
 }
 
 div#footer{
-  padding: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
   clear: both;
 }
 

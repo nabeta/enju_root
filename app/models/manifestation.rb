@@ -64,8 +64,7 @@ class Manifestation < ActiveRecord::Base
   acts_as_tree
 
   @@per_page = 10
-  cattr_reader :per_page
-  cattr_reader :result_limit
+  cattr_accessor :per_page
   attr_accessor :restrain_indexing
 
   validates_presence_of :original_title, :manifestation_form, :language

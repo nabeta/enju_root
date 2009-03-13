@@ -25,20 +25,12 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging :password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code
 
   #before_filter :login_from_cookie
-  before_filter :get_library_group, :get_user_role
+  before_filter :get_library_group
   #before_filter :has_permission?
   #session :session_key => '_catalog_session_id'
 
   def get_library_group
     @library_group = LibraryGroup.config
-  end
-
-  def get_user_role
-    if logged_in?
-      @role = current_user.highest_role
-    else
-      @role = Role.find(1)
-    end
   end
 
   def reset_params_session
@@ -262,11 +254,12 @@ class ApplicationController < ActionController::Base
     false
   end
 
-  def csv_convert_charset
+  def convert_charset
     if params[:format] == 'ics'
       response.body = NKF::nkf('-w -Lw', response.body)
     elsif params[:format] == 'csv'
-      if params[:lang] == 'ja'
+      lang = params[:lang] ||= I18n.default_locale
+      if lang == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
         response.body = NKF::nkf('-Ws', response.body)
       end

@@ -8,7 +8,7 @@ class Embody < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id, :scope => :expression_id
   
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   acts_as_list :scope => :manifestation
 

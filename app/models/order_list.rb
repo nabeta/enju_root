@@ -14,7 +14,7 @@ class OrderList < ActiveRecord::Base
 
   acts_as_soft_deletable
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   aasm_initial_state :pending
@@ -33,5 +33,10 @@ class OrderList < ActiveRecord::Base
   end
 
   def order
+    self.ordered_at = Time.zone.now
+  end
+
+  def ordered?
+    true if self.ordered_at.present?
   end
 end

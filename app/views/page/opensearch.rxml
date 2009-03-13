@@ -2,14 +2,14 @@ xml.instruct! :xml, :version=>"1.0"
 xml.OpenSearchDescription(
   'xmlns' => "http://a9.com/-/spec/opensearch/1.1/",
   'xmlns:moz' => 'http://www.mozilla.org/2006/browser/search/'){
-  xml.ShortName "#{@library_group.display_name}"
-  xml.Description "#{@library_group.display_name}"
+  xml.ShortName h(@library_group.display_name)
+  xml.Description h(@library_group.display_name)
   xml.Tags 'Library Catalog'
-  xml.Contact "webmaster@kamata.lib.teu.ac.jp"
+  xml.Contact h(@library_group.email)
   xml.Url :type => 'text/html', :template => "#{request.protocol}#{request.host_with_port}/manifestations?query={searchTerms}&pages={startPage?}"
   xml.Url :type => 'application/rss+xml', :template => "#{request.protocol}#{request.host_with_port}/manifestations.rss?query={searchTerms}&pages={startPage?}"
   xml.Query :role => 'example', :searchTerms => 'cat'
-  xml.Language 'ja-jp'
+  xml.Language I18n.default_locale
   xml.OutputEncoding 'UTF-8'
   xml.InputEncoding 'UTF-8'
   xml.tag! 'moz:SearchForm', root_url

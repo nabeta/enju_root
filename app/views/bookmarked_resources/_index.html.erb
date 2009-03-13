@@ -41,7 +41,7 @@
   <p>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), formatted_bookmarked_resources_path(:rss) -%>
     (<%= link_to 'RSS', formatted_bookmarked_resources_path(:rss) -%>)
-    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => 'ja') -%>)
+    (<%= link_to 'CSV', formatted_bookmarked_resources_path(:csv, :lang => I18n.default_locale) -%>)
   </p>
   <%- if logged_in? -%>
     <h4><%= t('page.bookmarklet') -%></h4>

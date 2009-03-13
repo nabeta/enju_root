@@ -9,6 +9,6 @@ class Order < ActiveRecord::Base
   
   acts_as_list :scope => :order_list
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 end

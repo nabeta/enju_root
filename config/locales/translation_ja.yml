@@ -779,9 +779,13 @@ ja:
         date_of_birth: 生年月日
         note: 注記
       checkout_stat_has_user:
-        checkouts_count: 貸出回数
+        checkouts_count: 利用者の貸出回数
+      checkout_stat_has_manifestation:
+        checkouts_count: 資料の貸出回数
       reserve_stat_has_user:
-        reserves_count: 予約回数
+        reserves_count: 利用者の予約回数
+      reserve_stat_has_manifestation:
+        reserves_count: 資料の予約回数
       bookmark_stat_has_manifestation:
         bookmarks_count: ブックマーク回数
 

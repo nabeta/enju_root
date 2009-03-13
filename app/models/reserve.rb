@@ -7,7 +7,8 @@ class Reserve < ActiveRecord::Base
   named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
   named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
   #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
-  named_scope :will_expire, lambda {|date| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state != ?', date, 'expired'], :order => 'expired_at'}}
+  named_scope :will_expire, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state != ?', datetime, 'expired'], :order => 'expired_at'}}
+  named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -22,7 +23,7 @@ class Reserve < ActiveRecord::Base
   #validates_uniqueness_of :manifestation_id, :scope => :user_id
   validate :manifestation_must_include_item
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   cattr_accessor :user_number
 
@@ -146,6 +147,14 @@ class Reserve < ActiveRecord::Base
       queue = MessageQueue.create(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
     end
     true
+  end
+
+  def self.users_count(start_date, end_date, user)
+    self.created(start_date, end_date).find(:all, :conditions => {:user_id => user.id}).count
+  end
+
+  def self.manifestations_count(start_date, end_date, manifestation)
+    self.created(start_date, end_date).find(:all, :conditions => {:manifestation_id => manifestation.id}).count
   end
 
   def self.is_indexable_by(user, parent = nil)

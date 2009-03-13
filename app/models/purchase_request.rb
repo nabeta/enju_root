@@ -18,8 +18,8 @@ class PurchaseRequest < ActiveRecord::Base
   acts_as_soft_deletable
   acts_as_solr :fields => [:title, :author, :publisher, :isbn, {:price => :range_float}, {:pubdate => :date}, :url, :note, {:user_id => :integer}, {:accepted_at => :date}, {:denied_at => :date}]
 
-  cattr_reader :order_list_id
-  cattr_reader :per_page
+  #cattr_reader :order_list_id
+  cattr_accessor :per_page
   @@per_page = 10
 
   def pubdate

@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @count = {}
     unless query.blank?
       @query = query.dup
-      @users = User.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
+      @users = User.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @users.total_entries
     else
       @users = User.paginate(:all, :page => params[:page])

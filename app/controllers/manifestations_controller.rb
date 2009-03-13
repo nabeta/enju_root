@@ -6,7 +6,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_subject
   before_filter :store_location, :except => [:index, :create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /manifestations
@@ -53,9 +53,7 @@ class ManifestationsController < ApplicationController
       manifestations = {}
       @count = {}
       if params[:format] == 'csv'
-        per_page = 65534
-      else
-        per_page = Manifestation.per_page
+        Manifestation.per_page = 65534
       end
 
       # 絞り込みを行わない状態のクエリ
@@ -104,7 +102,7 @@ class ManifestationsController < ApplicationController
             end
           end
 
-          @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page], :per_page => per_page).compact
+          @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
           @count[:query_result] = @manifestations.total_entries
         
           if @manifestations
@@ -124,7 +122,7 @@ class ManifestationsController < ApplicationController
         save_search_history(@query, @manifestations.offset, @count[:total])
       end
     end
-    store_location
+    store_location # before_filter ではファセット検索のURLを記憶してしまう
 
     respond_to do |format|
       format.html
@@ -467,7 +465,7 @@ class ManifestationsController < ApplicationController
     when @subject
       @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else
-      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['manifestations.id'])
+      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :manifestation_form, :order => ['manifestations.id'])
       @manifestations = []
     end
     @count[:total] = @manifestations.size

@@ -10,7 +10,7 @@ class Question < ActiveRecord::Base
   acts_as_soft_deletable
   acts_as_solr :fields => [:body, :answer_body, {:login => :string}, {:created_at => :date}, {:updated_at => :date}, {:shared => :boolean}], :auto_commit => false
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   cattr_reader :crd_per_page
   @@crd_per_page = 5

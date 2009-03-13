@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   acts_as_soft_deletable
   has_friendly_id :login
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   
   # Virtual attribute for the unencrypted password

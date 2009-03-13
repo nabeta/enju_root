@@ -38,21 +38,21 @@ class CorporateBodiesController < ApplicationController
         query += " corporate_body_merge_list_ids: #{@corporate_body_merge_list.id}" if @corporate_body_merge_list
       end
 
-      @corporate_bodies = CorporateBody.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
+      @corporate_bodies = CorporateBody.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @corporate_bodies.total_entries
-      @corporate_bodies = CorporateBody.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+      @corporate_bodies = CorporateBody.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
     else
       case
       when @work
-        @corporate_bodies = @work.corporate_bodies.paginate(:page => params[:page], :per_page => @per_page)
+        @corporate_bodies = @work.corporate_bodies.paginate(:page => params[:page])
       when @expression
-        @corporate_bodies = @expression.corporate_bodies.paginate(:page => params[:page], :per_page => @per_page)
+        @corporate_bodies = @expression.corporate_bodies.paginate(:page => params[:page])
       when @manifestation
-        @corporate_bodies = @manifestation.corporate_bodies.paginate(:page => params[:page], :per_page => @per_page)
+        @corporate_bodies = @manifestation.corporate_bodies.paginate(:page => params[:page])
       when @corporate_body_merge_list
-        @corporate_bodies = @corporate_body_merge_list.corporate_bodies.paginate(:page => params[:page], :per_page => @per_page)
+        @corporate_bodies = @corporate_body_merge_list.corporate_bodies.paginate(:page => params[:page])
       else
-        @corporate_bodies = CorporateBody.paginate(:all, :page => params[:page], :per_page => @per_page)
+        @corporate_bodies = CorporateBody.paginate(:all, :page => params[:page])
       end
 
     end
@@ -75,8 +75,8 @@ class CorporateBodiesController < ApplicationController
       return
     end
 
-    #@involved_manifestations = @corporate_body.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    #@publications = @corporate_body.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @corporate_body.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
+    #@publications = @corporate_body.manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml

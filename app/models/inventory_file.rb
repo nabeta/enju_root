@@ -6,7 +6,7 @@ class InventoryFile < ActiveRecord::Base
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def import

@@ -11,7 +11,7 @@ class Classification < ActiveRecord::Base
   acts_as_solr :fields => [:category, :name, :note, :subject, {:subject_ids => :integer}], :auto_commit => false
   acts_as_tree
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   #def subject

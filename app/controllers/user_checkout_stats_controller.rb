@@ -1,5 +1,6 @@
 class UserCheckoutStatsController < ApplicationController
   before_filter :has_permission?
+  after_filter :convert_charset, :only => :show
 
   # GET /user_checkout_stats
   # GET /user_checkout_stats.xml
@@ -16,11 +17,13 @@ class UserCheckoutStatsController < ApplicationController
   # GET /user_checkout_stats/1.xml
   def show
     @user_checkout_stat = UserCheckoutStat.find(params[:id])
+    CheckoutStatHasUser.per_page = 65534 if params[:format] == 'csv'
     @stats = @user_checkout_stat.checkout_stat_has_users.paginate(:all, :order => 'checkouts_count DESC, user_id', :page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user_checkout_stat }
+      format.csv
     end
   end
 

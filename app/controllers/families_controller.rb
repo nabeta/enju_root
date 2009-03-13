@@ -38,21 +38,21 @@ class FamiliesController < ApplicationController
         query += " family_merge_list_ids: #{@family_merge_list.id}" if @family_merge_list
       end
 
-      @families = Family.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
+      @families = Family.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @families.total_entries
-      @families = Family.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+      @families = Family.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
     else
       case
       when @work
-        @families = @work.families.paginate(:page => params[:page], :per_page => @per_page)
+        @families = @work.families.paginate(:page => params[:page])
       when @expression
-        @families = @expression.families.paginate(:page => params[:page], :per_page => @per_page)
+        @families = @expression.families.paginate(:page => params[:page])
       when @manifestation
-        @families = @manifestation.families.paginate(:page => params[:page], :per_page => @per_page)
+        @families = @manifestation.families.paginate(:page => params[:page])
       when @family_merge_list
-        @families = @family_merge_list.families.paginate(:page => params[:page], :per_page => @per_page)
+        @families = @family_merge_list.families.paginate(:page => params[:page])
       else
-        @families = Family.paginate(:all, :page => params[:page], :per_page => @per_page)
+        @families = Family.paginate(:all, :page => params[:page])
       end
 
     end
@@ -75,8 +75,8 @@ class FamiliesController < ApplicationController
       return
     end
 
-    #@involved_manifestations = @family.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    #@publications = @family.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @family.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
+    #@publications = @family.manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml

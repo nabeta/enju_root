@@ -14,7 +14,7 @@ class Subscription < ActiveRecord::Base
     {:expression_ids => :integer}]
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   def expression_ids
     self.expressions.collect(&:id)

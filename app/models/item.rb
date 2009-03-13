@@ -50,7 +50,7 @@ class Item < ActiveRecord::Base
     :facets => [:circulation_status_id],
     :if => proc{|item| !item.restrain_indexing}, :auto_commit => false
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   attr_accessor :restrain_indexing
 

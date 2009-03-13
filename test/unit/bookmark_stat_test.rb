@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class BookmarkStatTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  fixtures :bookmark_stats
+
+  test "calculate manifestation count" do
+    assert bookmark_stats(:one).calculate_bookmarks_count
   end
 end

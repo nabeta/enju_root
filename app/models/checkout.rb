@@ -17,8 +17,7 @@ class Checkout < ActiveRecord::Base
   validates_uniqueness_of :item_id, :scope => [:basket_id, :user_id]
   validate_on_create :is_not_checked?
 
-  cattr_reader :renew_due_date
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def is_not_checked?

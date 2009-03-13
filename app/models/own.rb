@@ -9,7 +9,7 @@ class Own < ActiveRecord::Base
 
   acts_as_list :scope => :item
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   attr_accessor :item_identifier
 

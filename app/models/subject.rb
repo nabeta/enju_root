@@ -39,7 +39,7 @@ class Subject < ActiveRecord::Base
     :auto_commit => false
   acts_as_tree
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   def tags
     self.manifestations.collect(&:tags).flatten

@@ -18,7 +18,7 @@ class WorksController < ApplicationController
         query += " parent_id: #{@parent.id}" if @parent
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
-      @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page], :per_page => @per_page).compact
+      @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
       @count[:total] = @works.total_entries
     else
       case

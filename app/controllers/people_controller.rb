@@ -38,21 +38,21 @@ class PeopleController < ApplicationController
         query += " person_merge_list_ids: #{@person_merge_list.id}" if @person_merge_list
       end
 
-      @people = Person.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
+      @people = Person.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @people.total_entries
-      @people = Person.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+      @people = Person.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
     else
       case
       when @work
-        @people = @work.people.paginate(:page => params[:page], :per_page => @per_page)
+        @people = @work.people.paginate(:page => params[:page])
       when @expression
-        @people = @expression.people.paginate(:page => params[:page], :per_page => @per_page)
+        @people = @expression.people.paginate(:page => params[:page])
       when @manifestation
-        @people = @manifestation.people.paginate(:page => params[:page], :per_page => @per_page)
+        @people = @manifestation.people.paginate(:page => params[:page])
       when @person_merge_list
-        @people = @person_merge_list.people.paginate(:page => params[:page], :per_page => @per_page)
+        @people = @person_merge_list.people.paginate(:page => params[:page])
       else
-        @people = Person.paginate(:all, :page => params[:page], :per_page => @per_page)
+        @people = Person.paginate(:all, :page => params[:page])
       end
 
     end
@@ -75,8 +75,8 @@ class PeopleController < ApplicationController
       return
     end
 
-    #@involved_manifestations = @person.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    #@publications = @person.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @person.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
+    #@publications = @person.manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml

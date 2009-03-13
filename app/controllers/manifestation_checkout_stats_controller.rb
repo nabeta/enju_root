@@ -1,5 +1,6 @@
 class ManifestationCheckoutStatsController < ApplicationController
   before_filter :has_permission?
+  after_filter :convert_charset, :only => :show
 
   # GET /manifestation_checkout_stats
   # GET /manifestation_checkout_stats.xml
@@ -16,11 +17,13 @@ class ManifestationCheckoutStatsController < ApplicationController
   # GET /manifestation_checkout_stats/1.xml
   def show
     @manifestation_checkout_stat = ManifestationCheckoutStat.find(params[:id])
+    CheckoutStatHasManifestation.per_page = 65534 if params[:format] == 'csv'
     @stats = @manifestation_checkout_stat.checkout_stat_has_manifestations.paginate(:all, :order => 'checkouts_count DESC, manifestation_id', :page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @manifestation_checkout_stat }
+      format.csv
     end
   end
 

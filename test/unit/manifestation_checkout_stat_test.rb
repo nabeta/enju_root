@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class ManifestationCheckoutStatTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  fixtures :manifestation_checkout_stats
+
+  test "calculate manifestation count" do
+    assert manifestation_checkout_stats(:one).calculate_manifestation_count
   end
 end

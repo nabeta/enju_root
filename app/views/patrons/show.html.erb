@@ -36,10 +36,10 @@
   </h2>
 
   <p>
-  (<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@patron.full_name_without_space)) -%>)
-  <%- unless @patron.user -%>
-    (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
-  <%- end -%>
+    (<%= link_to_wikipedia(@patron.full_name_without_space) -%>)
+    <%- unless @patron.user -%>
+      (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
+    <%- end -%>
   </p>
 
 <div id="tabview">

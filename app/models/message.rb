@@ -28,7 +28,7 @@ class Message < ActiveRecord::Base
 
   belongs_to :message_queue
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   # Returns user.login for the sender
