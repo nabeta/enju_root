@@ -4,7 +4,6 @@ class ManifestationsController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   before_filter :get_subject
-  before_filter :store_location, :except => [:index, :create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -160,6 +159,7 @@ class ManifestationsController < ApplicationController
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     @amazon_reviews = @manifestation.amazon_customer_review
+    store_location
 
     respond_to do |format|
       format.html # show.rhtml
@@ -202,6 +202,7 @@ class ManifestationsController < ApplicationController
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) if @manifestation.bookmarked_resource rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
+    store_location
   rescue ActiveRecord::RecordNotFound
     not_found
   end
