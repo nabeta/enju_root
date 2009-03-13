@@ -62,6 +62,7 @@ class Manifestation < ActiveRecord::Base
   acts_as_taggable
   acts_as_soft_deletable
   acts_as_tree
+  enju_twitter
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -511,7 +512,7 @@ class Manifestation < ActiveRecord::Base
         end
       }
     }
-    xml.identifier("#{LIBRARY_WEB_URL}manifestations/#{self.id}", 'type' => 'uri')
+    xml.identifier("#{LibraryGroup.url}manifestations/#{self.id}", 'type' => 'uri')
     xml.originInfo{
       self.publishers.each do |publisher|
         xml.publisher publisher.full_name
@@ -519,24 +520,6 @@ class Manifestation < ActiveRecord::Base
       xml.dateIssued self.date_of_publication.iso8601 if self.date_of_publication
     }
     xml.target!
-  end
-
-  # TODO: 投稿は非同期で行う
-  def post_to_twitter
-    if RAILS_ENV == 'production'
-      if Twitter::Status
-        library_group = LibraryGroup.config
-        title = ERB::Util.html_escape(truncate(self.original_title))
-        status = "#{title}: #{note} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
-        begin
-          timeout(5){
-            Twitter::Status.post(:update, :status => status)
-          }
-        rescue Timeout::Error
-          Twitter.logger.warn 'post timeout!'
-        end
-      end
-    end
   end
 
   def access_amazon

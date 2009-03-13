@@ -247,7 +247,7 @@ class ManifestationsController < ApplicationController
 
         # tsvなどでのインポート時に大量にpostされないようにするため、
         # コントローラで処理する
-        @manifestation.post_to_twitter
+        @manifestation.post_to_twitter(manifestation_url(@manifestation))
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
