@@ -24,7 +24,7 @@ class Work < ActiveRecord::Base
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 
     :if => proc{|work| !work.restrain_indexing}, :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_tree
 
   @@per_page = 10

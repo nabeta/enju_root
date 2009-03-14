@@ -24,7 +24,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.filename') -%>:</b>
-  <%= link_to h(@picture_file.filename), formatted_picture_file_path(@picture_file, @picture_file.extname) -%>
+  <%= link_to h(@picture_file.filename), picture_file_path(@picture_file, :format => @picture_file.extname) -%>
 </p>
 
 <p>

@@ -7,7 +7,7 @@ class Question < ActiveRecord::Base
 
   validates_associated :user
   validates_presence_of :user, :body
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_solr :fields => [:body, :answer_body, {:login => :string}, {:created_at => :date}, {:updated_at => :date}, {:shared => :boolean}], :auto_commit => false
 
   cattr_accessor :per_page

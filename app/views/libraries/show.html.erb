@@ -71,7 +71,7 @@
             <td>
               <%= link_to h(shelf.name), library_shelf_path(@library.short_name, shelf) -%>
               <%- shelf.picture_files.each do |picture_file| -%>
-                <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), formatted_picture_file_path(picture_file, picture_file.extname), :class => "thickbox", :rel => "shelf_#{h(shelf.id)}" -%>
+                <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), picture_file_path(picture_file, :format => picture_file.extname), :class => "thickbox", :rel => "shelf_#{h(shelf.id)}" -%>
               <%- end -%>
             </td>
             <td><%=h shelf.items_count -%></td>

@@ -47,22 +47,22 @@
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
     <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
-    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
-    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_on_shelf', :lang => I18n.default_locale) -%>)
+    <%= link_to t('inventory_file.not_in_catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
+    (<%= link_to ('CSV'), inventory_file_items_path(@inventory_file, :format => :csv, :inventory => 'not_on_shelf', :lang => I18n.default_locale) -%>)
   </p>
 <%- when 'not_in catalog' -%>
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
     <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
-    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
-    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :inventory => 'not_in_catalog', :lang => I18n.default_locale) -%>)
+    <%= link_to t('inventory_file.not_on_shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
+    (<%= link_to ('CSV'), inventory_file_items_path(@inventory_file, :format => :csv, :inventory => 'not_in_catalog', :lang => I18n.default_locale) -%>)
   </p>
 <%- else -%>
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
-    <%= link_to ('Not on shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
-    <%= link_to ('Not in catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
-    (<%= link_to ('CSV'), formatted_inventory_file_items_path(@inventory_file, :csv, :lang => I18n.default_locale) -%>)
+    <%= link_to t('inventory_file.not_on_shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
+    <%= link_to t('inventory_file.not_in_catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
+    (<%= link_to ('CSV'), inventory_file_items_path(@inventory_file, :format => :csv, :lang => I18n.default_locale) -%>)
   </p>
 <%- end -%>
 </div>

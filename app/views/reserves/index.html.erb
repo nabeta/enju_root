@@ -17,12 +17,12 @@
   <p>
     <%- if @user -%>
       <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
-      (<%= link_to ('RSS'), formatted_user_reserves_path(@user.login, :rss) -%>)
-      (<%= link_to ('CSV'), formatted_user_reserves_path(@user.login, :csv, :lang => I18n.default_locale) -%>)
+      (<%= link_to ('RSS'), user_reserves_path(@user.login, :format => :rss) -%>)
+      (<%= link_to ('CSV'), user_reserves_path(@user.login, :format => :csv, :lang => I18n.default_locale) -%>)
     <%- else -%>
       <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
-      (<%= link_to ('RSS'), formatted_reserves_path(:rss) -%>)
-      (<%= link_to ('CSV'), formatted_reserves_path(:csv, :lang => I18n.default_locale) -%>)
+      (<%= link_to ('RSS'), reserves_path(:format => :rss) -%>)
+      (<%= link_to ('CSV'), reserves_path(:format => :csv, :lang => I18n.default_locale) -%>)
     <%- end -%>
   </p>
 </div>

@@ -33,7 +33,7 @@ class Expression < ActiveRecord::Base
     {:subscription_id => :integer}, {:required_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
     :facets => [:expression_form_id, :language_id], :if => proc{|expression| !expression.restrain_indexing}, :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_taggable
 
   cattr_accessor :per_page

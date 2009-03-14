@@ -7,8 +7,8 @@
   </ul>
   <p>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
-    (<%= link_to ('RSS'), formatted_purchase_requests_path(:rss) -%>)
-    (<%= link_to ('CSV'), formatted_purchase_requests_path(:csv, :lang => I18n.default_locale) -%>)
+    (<%= link_to ('RSS'), purchase_requests_path(:format => :rss) -%>)
+    (<%= link_to ('CSV'), purchase_requests_path(:format => :csv, :lang => I18n.default_locale) -%>)
   </p>
   <h4><%= t('page.bookmarklet') -%></h4>
   <ul>

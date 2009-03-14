@@ -5,16 +5,18 @@ xml.rss('version' => "2.0",
   xml.channel{
     if @user
       xml.title "#{@user.login}'s orders at #{@library_group.display_name}"
-      xml.link "#{request.protocol}#{request.host_with_port}" + user_orders_path(@user.login)
+      xml.link user_orders_url(@user.login)
+      xml.tag! "atom:link", :rel => 'self', :href => user_orders_url(@user.login, :format => :rss)
+      xml.tag! "atom:link", :rel => 'alternate', :href => user_orders_url(@user.login)
     else
       xml.title "Orders at #{@library_group.display_name}"
-      xml.link "#{request.protocol}#{request.host_with_port}" + orders_path
+      xml.link orders_url
+      xml.tag! "atom:link", :rel => 'self', :href => orders_url(:format => :rss)
+      xml.tag! "atom:link", :rel => 'alternate', :href => orders_url
     end
     xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language I18n.default_locale
     xml.ttl "60"
-    xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"
-    xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"
     #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?
       xml.tag! "opensearch:totalResults", @count[:query_result]
@@ -28,8 +30,8 @@ xml.rss('version' => "2.0",
         #xml.description(order.title)
         # rfc822
         xml.pubDate order.created_at.rfc2822
-        xml.link "#{request.protocol}#{request.host_with_port}" + order_path(order)
-        xml.guid "#{request.protocol}#{request.host_with_port}" + order_path(order), :isPermaLink => "true"
+        xml.link order_url(order)
+        xml.guid order_url(order), :isPermaLink => "true"
       end
     end
   }

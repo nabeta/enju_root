@@ -4,13 +4,13 @@ xml.rss('version' => "2.0",
         'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     xml.title t('patron.library_group_patron', :library_group_name => @library_group.display_name)
-    xml.link "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => nil))}"
+    xml.link "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "nil"))}"
     xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
-    xml.language I18n.default_localeの資料
+    xml.language I18n.default_locale
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"
-    xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"
-    xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "#{request.protocol}#{request.host_with_port}/page/opensearch"
+    xml.tag! "atom:link", :rel => 'alternate', :href => patrons_url
+    xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "#{root_url}page/opensearch"
     unless params[:query].blank?
       xml.tag! "opensearch:totalResults", @count[:query_result]
       xml.tag! "opensearch:startIndex", @patrons.offset + 1
@@ -24,8 +24,8 @@ xml.rss('version' => "2.0",
           #xml.description(patron.title)
           # rfc822
           xml.pubDate h(patron.created_at.rfc2822)
-          xml.link "#{request.protocol}#{request.host_with_port}" + patron_path(patron)
-          xml.guid "#{request.protocol}#{request.host_with_port}" + patron_path(patron), :isPermaLink => "true"
+          xml.link patron_url(patron)
+          xml.guid patron_url(patron), :isPermaLink => "true"
           #patron.tags.each do |tag|
           #  xml.category tag
           #end

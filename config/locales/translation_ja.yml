@@ -1159,3 +1159,6 @@ ja:
     period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
+  inventory_file:
+    not_in_catalog: "目録に存在しない資料"
+    not_on_shelf: "書架に存在しない資料"

@@ -2,7 +2,7 @@ class Place < ActiveRecord::Base
   has_many :works, :as => :subjects
   has_many :classifications, :as => :subjects
 
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_solr :fields => [:term, :note]
 
   validates_presence_of :term

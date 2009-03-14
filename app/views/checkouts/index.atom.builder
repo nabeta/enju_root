@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_checkouts_url(:atom)) do |feed|
+atom_feed(:url => checkouts_url(:format => :atom)) do |feed|
   if @user
     feed.title t('checkout.user_checkout', :login_name => @user.login)
   else

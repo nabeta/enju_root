@@ -8,7 +8,7 @@ class Shelf < ActiveRecord::Base
   validates_presence_of :name, :library
   
   acts_as_list :scope => :library
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   cattr_accessor :per_page
   @@per_page = 10

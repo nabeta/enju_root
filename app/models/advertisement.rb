@@ -11,7 +11,7 @@ class Advertisement < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_nil => true
 
   acts_as_solr :fields => [:title, :body, {:url => :string}, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   @@per_page = 10
   cattr_accessor :per_page

@@ -5,7 +5,7 @@
   </ul>
   <h4><%= t('page.export') -%></h4>
   <ul>
-    <li><%= link_to ('CSV'), formatted_bookmark_stat_path(@bookmark_stat, :csv, :lang => I18n.default_locale) -%></li>
+    <li><%= link_to ('CSV'), bookmark_stat_path(@bookmark_stat, :format => :csv, :lang => I18n.default_locale) -%></li>
   </ul>
 </div>
 

@@ -44,7 +44,7 @@ class Item < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
   acts_as_taggable
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:required_role_id => :range_integer}],
     :facets => [:circulation_status_id],

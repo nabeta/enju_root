@@ -5,7 +5,7 @@ class Answer < ActiveRecord::Base
   belongs_to :user, :counter_cache => true, :validate => true
   belongs_to :question, :counter_cache => true, :validate => true
 
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   after_save :save_questions
 
   validates_associated :user, :question

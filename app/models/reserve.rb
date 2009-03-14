@@ -17,7 +17,7 @@ class Reserve < ActiveRecord::Base
   has_one :inter_library_loan
   belongs_to :request_status_type
 
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   validates_associated :user, :manifestation, :librarian, :item, :request_status_type
   validates_presence_of :user_id, :manifestation_id, :request_status_type #, :expired_at
   #validates_uniqueness_of :manifestation_id, :scope => :user_id

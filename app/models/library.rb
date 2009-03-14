@@ -12,7 +12,7 @@ class Library < ActiveRecord::Base
   has_many :users
 
   acts_as_list
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   has_friendly_id :short_name
   acts_as_geocodable
 

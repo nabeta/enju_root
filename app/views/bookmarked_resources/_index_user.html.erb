@@ -16,9 +16,9 @@
 
 <div id="submenu">
   <p>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>
-    (<%= link_to ('RSS'), formatted_user_bookmarked_resources_path(@user.login, :rss) -%>)
-    (<%= link_to ('CSV'), formatted_user_bookmarked_resources_path(@user.login, :csv, :lang => I18n.default_locale) -%>)
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), user_bookmarked_resources_path(@user.login, :format => :rss) -%>
+    (<%= link_to ('RSS'), user_bookmarked_resources_path(@user.login, :format => :rss) -%>)
+    (<%= link_to ('CSV'), user_bookmarked_resources_path(@user.login, :format => :csv, :lang => I18n.default_locale) -%>)
   </p>
   <%- if logged_in? -%>
     <h4><%= t('page.bookmarklet') -%></h4>
