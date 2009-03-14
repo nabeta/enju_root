@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class EmbodyTest < Test::Unit::TestCase
+class EmbodyTest < ActiveSupport::TestCase
   fixtures :embodies
 
   # Replace this with your real tests.

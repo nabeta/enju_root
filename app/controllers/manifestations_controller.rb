@@ -60,25 +60,7 @@ class ManifestationsController < ApplicationController
       total_query = query
 
       unless query.blank?
-        unless params[:mode] == "add"
-          query.add_query!(@expression) unless @expression.blank?
-          query.add_query!(@patron) unless @patron.blank?
-        end
-        # 内部的なクエリ
-        if @reservable
-          query = "#{query} reservable: true"
-        end
-        query.add_query!(@manifestation_form) unless @manifestation_form.blank?
-        query.add_query!(@subject_by_term) unless @subject_by_term.blank?
-        unless params[:library].blank?
-          library_list = params[:library].split.uniq.join(' ')
-          query = "#{query} library: (#{library_list})"
-        end
-        unless params[:language].blank?
-          language_list = params[:language].split.uniq.join(' ')
-          query = "#{query} lang: (#{language_list})"
-        end
-
+        query = make_internal_query(query)
         begin
           @count[:total] = Manifestation.count_by_solr(total_query)
           #@tags_count = @count[:total]
@@ -247,7 +229,7 @@ class ManifestationsController < ApplicationController
 
         # tsvなどでのインポート時に大量にpostされないようにするため、
         # コントローラで処理する
-        @manifestation.post_to_twitter(manifestation_url(@manifestation))
+        @manifestation.post_to_twitter(manifestation_url(@manifestation)) rescue nil
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
@@ -472,6 +454,28 @@ class ManifestationsController < ApplicationController
     @count[:total] = @manifestations.size
     @count[:query_result] = @manifestations.size
     #flash[:notice] = ('Enter your search term.')
+  end
+
+  def make_internal_query(query)
+    # 内部的なクエリ
+    unless params[:mode] == "add"
+      query.add_query!(@expression) unless @expression.blank?
+      query.add_query!(@patron) unless @patron.blank?
+    end
+    if @reservable
+      query = "#{query} reservable: true"
+    end
+    query.add_query!(@manifestation_form) unless @manifestation_form.blank?
+    query.add_query!(@subject_by_term) unless @subject_by_term.blank?
+    unless params[:library].blank?
+      library_list = params[:library].split.uniq.join(' ')
+      query = "#{query} library: (#{library_list})"
+    end
+    unless params[:language].blank?
+      language_list = params[:language].split.uniq.join(' ')
+      query = "#{query} lang: (#{language_list})"
+    end
+    return query
   end
 
   def prepare_options

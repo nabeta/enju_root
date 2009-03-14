@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ShelfTest < Test::Unit::TestCase
+class ShelfTest < ActiveSupport::TestCase
   fixtures :shelves
 
   # Replace this with your real tests.

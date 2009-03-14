@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ItemTest < Test::Unit::TestCase
+class ItemTest < ActiveSupport::TestCase
   fixtures :items, :circulation_statuses, :checkouts, :shelves, :manifestations, :manifestation_forms, :exemplifies,
     :creates, :realizes, :produces, :owns,
     :languages, :libraries, :users, :patrons, :user_groups, :reserves,

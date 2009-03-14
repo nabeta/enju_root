@@ -4,6 +4,6 @@ class AddDsblListToLibraryGroup < ActiveRecord::Migration
   end
 
   def self.down
-    add_column :library_groups, :use_dsbl, :boolean
+    remove_column :library_groups, :dsbl_list
   end
 end

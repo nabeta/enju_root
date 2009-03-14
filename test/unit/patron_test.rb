@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class PatronTest < Test::Unit::TestCase
+class PatronTest < ActiveSupport::TestCase
   fixtures :patrons, :realizes, :produces, :expressions, :manifestations, :patron_types, :languages, :countries
 
   # Replace this with your real tests.

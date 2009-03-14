@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ExpressionFormTest < Test::Unit::TestCase
+class ExpressionFormTest < ActiveSupport::TestCase
   fixtures :expression_forms
 
   # Replace this with your real tests.
