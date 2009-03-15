@@ -4,6 +4,9 @@ class WorkMergeList < ActiveRecord::Base
   has_many :works, :through => :work_merges
   validates_presence_of :title
 
+  cattr_accessor :per_page
+  @@per_page = 10
+
   def merge_works(selected_work)
     self.works.each do |work|
       Create.update_all(['work_id = ?', selected_work.id], ['work_id = ?', work.id])

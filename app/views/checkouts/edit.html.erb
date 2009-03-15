@@ -16,7 +16,7 @@
 <h3><%= t('checkout.renewal') -%></h3>
 <%- if @checkout.checkout_renewable? -%>
   <%- form_for :checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put } do |f| -%>
-    <%= t('checkout.new_due_date') -%>: <%=h @renew_due_date -%>
+    <%= t('checkout.new_due_date') -%>: <%= l(@renew_due_date, :format => :only_date) if @renew_due_date -%>
     <%= f.hidden_field :due_date, :value => @renew_due_date -%>
     <br />
     <%= f.submit t('page.update') -%>

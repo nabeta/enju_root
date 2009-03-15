@@ -12,7 +12,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => checkout.item.manifestation} -%>
-      <div class="holding" id="holding_<%=h checkout.item.manifestation.id -%>"></div>
+      <%= render :partial => 'manifestations/holding', :locals => {:manifestation => checkout.item.manifestation} -%>
     </td>
     <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
     <td><%=h l(checkout.due_date, :format => :only_date) -%></td>

@@ -15,7 +15,7 @@ end
 
 class OaiProvider < OAI::Provider::Base
   name, email = nil
-  if library_group = LibraryGroup.find(1) rescue nil
+  if library_group = LibraryGroup.config rescue nil
     name = library_group.name
     email = library_group.email
   end

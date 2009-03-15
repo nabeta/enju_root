@@ -1,5 +1,6 @@
 class ManifestationReserveStatsController < ApplicationController
   before_filter :has_permission?
+  after_filter :convert_charset, :only => :show
 
   # GET /manifestation_reserve_stats
   # GET /manifestation_reserve_stats.xml
@@ -16,10 +17,13 @@ class ManifestationReserveStatsController < ApplicationController
   # GET /manifestation_reserve_stats/1.xml
   def show
     @manifestation_reserve_stat = ManifestationReserveStat.find(params[:id])
+    ReserveStatHasManifestation.per_page = 65534 if params[:format] == 'csv'
+    @stats = @manifestation_reserve_stat.reserve_stat_has_manifestations.paginate(:all, :order => 'reserves_count DESC, manifestation_id', :page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @manifestation_reserve_stat }
+      format.csv
     end
   end
 
@@ -47,7 +51,6 @@ class ManifestationReserveStatsController < ApplicationController
     respond_to do |format|
       if @manifestation_reserve_stat.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_reserve_stat'))
-        flash[:notice] = 'ManifestationReserveStat was successfully created.'
         format.html { redirect_to(@manifestation_reserve_stat) }
         format.xml  { render :xml => @manifestation_reserve_stat, :status => :created, :location => @manifestation_reserve_stat }
       else

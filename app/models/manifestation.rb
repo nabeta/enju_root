@@ -60,12 +60,12 @@ class Manifestation < ActiveRecord::Base
     :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
   acts_as_taggable
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_tree
+  enju_twitter
 
   @@per_page = 10
-  cattr_reader :per_page
-  cattr_reader :result_limit
+  cattr_accessor :per_page
   attr_accessor :restrain_indexing
 
   validates_presence_of :original_title, :manifestation_form, :language
@@ -512,7 +512,7 @@ class Manifestation < ActiveRecord::Base
         end
       }
     }
-    xml.identifier("#{LIBRARY_WEB_URL}manifestations/#{self.id}", 'type' => 'uri')
+    xml.identifier("#{LibraryGroup.url}manifestations/#{self.id}", 'type' => 'uri')
     xml.originInfo{
       self.publishers.each do |publisher|
         xml.publisher publisher.full_name
@@ -520,24 +520,6 @@ class Manifestation < ActiveRecord::Base
       xml.dateIssued self.date_of_publication.iso8601 if self.date_of_publication
     }
     xml.target!
-  end
-
-  # TODO: 投稿は非同期で行う
-  def post_to_twitter
-    if RAILS_ENV == 'production' and LibraryGroup.find(1).config[:post_to_twitter?]
-      if Twitter::Status
-        library_group = LibraryGroup.find(1)
-        title = ERB::Util.html_escape(truncate(self.original_title))
-        status = "#{title}: #{note} #{LIBRARY_WEB_URL}manifestations/#{self.id}"
-        begin
-          timeout(5){
-            Twitter::Status.post(:update, :status => status)
-          }
-        rescue Timeout::Error
-          Twitter.logger.warn 'post timeout!'
-        end
-      end
-    end
   end
 
   def access_amazon

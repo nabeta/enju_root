@@ -4,7 +4,7 @@ class EventsController < ApplicationController
   before_filter :get_libraries, :except => [:index, :destroy]
   #before_filter :get_patron, :only => [:index]
   before_filter :prepare_options
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   before_filter :store_page, :only => :index
 
   # GET /events
@@ -13,6 +13,7 @@ class EventsController < ApplicationController
     @count = {}
     query = params[:query].to_s.strip
     @query = query.dup
+    query = query.gsub('　', ' ')
 
     if params[:date].present?
       date = params[:date].to_s
@@ -26,14 +27,14 @@ class EventsController < ApplicationController
         query = params[:query] + " library_id: #{@library.id}"
       end
       query = "#{query} tag_list: #{params[:tag]}"
-      @events = Event.paginate_by_solr(query, :page => params[:page], :per_page => @per_page)
+      @events = Event.paginate_by_solr(query, :page => params[:page])
     elsif params[:query].present?
       if @library.present?
         query = params[:query] + " library_id: #{@library.id}"
       else
         query = params[:query]
       end
-      @events = Event.paginate_by_solr(query, :page => params[:page], :per_page => @per_page)
+      @events = Event.paginate_by_solr(query, :page => params[:page])
     else
       case params[:mode]
       when 'all'

@@ -4,7 +4,7 @@ class CheckoutsController < ApplicationController
   before_filter :get_user_if_nil, :only => :index
   before_filter :get_user, :except => :index
   before_filter :get_item
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   
   # GET /checkouts
   # GET /checkouts.xml

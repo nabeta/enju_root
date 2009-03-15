@@ -95,7 +95,7 @@ class OwnsControllerTest < ActionController::TestCase
   def test_librarian_should_create_own
     login_as :librarian1
     old_count = Own.count
-    post :create, :own => {:patron_id => 1, :patron_type => 'Person', :item_id => 3}
+    post :create, :own => {:patron_id => 1, :item_id => 3}
     assert_equal old_count+1, Own.count
     
     assert_redirected_to own_url(assigns(:own))

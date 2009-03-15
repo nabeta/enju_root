@@ -1,5 +1,6 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
 LIBRARY_WEB_PORT_NUMBER = '3000'
+
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 # AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
 AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
@@ -63,6 +64,8 @@ Rails::Initializer.run do |config|
   config.gem "calendar_date_select"
   config.gem 'mdarby-scribd_fu', :lib => 'scribd_fu'
   #config.gem "mdarby-restful_acl", :lib => 'restful_acl_controller'
+  config.gem "shuber-attr_encrypted", :lib => 'attr_encrypted'
+  config.gem "system_timer"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
@@ -124,8 +127,6 @@ require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'wakati'
 require 'search_query'
-
-LIBRARY_WEB_URL = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
 
 #ActionMailer::Base.delivery_method = :smtp
 

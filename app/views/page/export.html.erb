@@ -10,19 +10,19 @@
 <ul>
   <li>
     <%= t('activerecord.models.patron') -%>
-    (<%= link_to 'CSV', formatted_patrons_path(:csv) -%>)
+    (<%= link_to 'CSV', patrons_path(:format => :csv) -%>)
   </li>
   <li>
     <%= t('activerecord.models.event') -%>
-    (<%= link_to 'CSV', formatted_events_path(:csv) -%>)
+    (<%= link_to 'CSV', events_path(:format => :csv) -%>)
   </li>
   <li>
     <%= t('activerecord.models.manifestation') -%>
-    (<%= link_to 'CSV', formatted_manifestations_path(:csv) -%>)
+    (<%= link_to 'CSV', manifestations_path(:format => :csv) -%>)
   </li>
   <li>
     <%= t('activerecord.models.item') -%>
-    (<%= link_to 'CSV', formatted_items_path(:csv) -%>)
+    (<%= link_to 'CSV', items_path(:format => :csv) -%>)
   </li>
 </ul>
 </div>

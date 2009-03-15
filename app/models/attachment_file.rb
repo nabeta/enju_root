@@ -11,7 +11,7 @@ class AttachmentFile < ActiveRecord::Base
   validates_associated :attachable
   #alidates_presence_of :attachable_id, :attachable_type
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   
   before_save :extract_text

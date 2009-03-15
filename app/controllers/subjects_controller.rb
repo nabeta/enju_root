@@ -10,12 +10,13 @@ class SubjectsController < ApplicationController
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
+      query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@classification) if @classification
         query.add_query!(@subject_heading_type) if @subject_heading_type
       end
-      @subjects = Subject.paginate_by_solr(query, :page => params[:page], :per_page => @per_page).compact
+      @subjects = Subject.paginate_by_solr(query, :page => params[:page]).compact
     else
       case
       when @manifestation

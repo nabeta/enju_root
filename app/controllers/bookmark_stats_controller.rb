@@ -1,5 +1,6 @@
 class BookmarkStatsController < ApplicationController
   before_filter :has_permission?
+  after_filter :convert_charset, :only => :show
 
   # GET /bookmark_stats
   # GET /bookmark_stats.xml
@@ -16,11 +17,13 @@ class BookmarkStatsController < ApplicationController
   # GET /bookmark_stats/1.xml
   def show
     @bookmark_stat = BookmarkStat.find(params[:id])
+    BookmarkStatHasManifestation.per_page = 1 if params[:format] == 'csv'
     @stats = @bookmark_stat.bookmark_stat_has_manifestations.paginate(:all, :order => 'bookmarks_count DESC, manifestation_id', :page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @bookmark_stat }
+      format.csv
     end
   end
 

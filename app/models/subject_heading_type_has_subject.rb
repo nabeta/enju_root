@@ -7,5 +7,5 @@ class SubjectHeadingTypeHasSubject < ActiveRecord::Base
   validates_associated :subject, :subject_heading_type
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 end

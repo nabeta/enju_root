@@ -6,5 +6,5 @@ class EventCategory < ActiveRecord::Base
   acts_as_list
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 end

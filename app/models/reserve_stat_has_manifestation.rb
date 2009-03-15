@@ -6,5 +6,5 @@ class ReserveStatHasManifestation < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id, :scope => :manifestation_reserve_stat_id
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 end

@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_answers_url(:atom)) do |feed|
+atom_feed(:url => answers_url(:format => :atom)) do |feed|
   if @user
     feed.title t('answer.user_answer', :login_name => @user.login)
   else

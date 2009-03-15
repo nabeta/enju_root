@@ -5,7 +5,7 @@ class WorkMergeListsController < ApplicationController
   # GET /work_merge_lists
   # GET /work_merge_lists.xml
   def index
-    @work_merge_lists = WorkMergeList.find(:all)
+    @work_merge_lists = WorkMergeList.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

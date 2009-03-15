@@ -48,7 +48,7 @@ class UserCheckoutStatsControllerTest < ActionController::TestCase
   test "librarian should create user_checkout_stat" do
     login_as :librarian1
     assert_difference('UserCheckoutStat.count') do
-      post :create, :user_checkout_stat => { }
+      post :create, :user_checkout_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
 
     assert_redirected_to user_checkout_stat_path(assigns(:user_checkout_stat))

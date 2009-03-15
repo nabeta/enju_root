@@ -1,6 +1,6 @@
 <%- form_for(:picture_file, :url => patron_picture_files_path(@patron), :html => { :multipart => true, :method => :post }) do |f| -%>
   <p>
-    <b><%= ('Attachable') -%></b><br />
+    <b><%= ('page.attachable') -%></b><br />
     <%= link_to h(@patron.full_name), @patron -%>
     <%= f.hidden_field :picture_attachable_id, :value => h(@patron.id) -%>
     <%= f.hidden_field :picture_attachable_type, :value => h(@patron.class) -%>

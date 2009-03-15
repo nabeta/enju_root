@@ -7,7 +7,7 @@ class ItemsController < ApplicationController
   before_filter :get_library, :only => [:new]
   before_filter :prepare_options, :only => [:new, :edit]
   #before_filter :store_location
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /items
@@ -17,13 +17,12 @@ class ItemsController < ApplicationController
     if logged_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
-          per_page = 65534
+          Item.per_page = 65534
         elsif params[:mode] == 'barcode'
-          per_page = 40
+          Item.per_page = 40
         end
       end
     end
-    per_page = Item.per_page if per_page.nil?
 
     unless query.blank?
       @count = {}
@@ -32,31 +31,31 @@ class ItemsController < ApplicationController
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@patron) if @patron
       end
-      @items = Item.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:holding_library]}, :page => params[:page], :per_page => per_page).compact
+      @items = Item.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:holding_library]}, :page => params[:page]).compact
       @count[:total] = @items.total_entries
     else
       order = "items.id DESC"
       case
       when @patron
-        @items = @patron.items.paginate(:page => params[:page], :per_page => per_page, :order => order)
+        @items = @patron.items.paginate(:page => params[:page], :order => order)
       when @manifestation
-        @items = @manifestation.items.paginate(:page => params[:page], :per_page => per_page, :order => order)
+        @items = @manifestation.items.paginate(:page => params[:page], :order => order)
         #if @items.blank?
         #  redirect_to new_manifestation_item_path(@manifestation)
         #  return
         #end
       when @shelf
-        @items = @shelf.items.paginate(:page => params[:page], :per_page => per_page, :order => order)
+        @items = @shelf.items.paginate(:page => params[:page], :order => order)
       when @inventory_file
         if logged_in?
           if current_user.has_role?('Librarian')
             case params[:inventory]
             when 'not_on_shelf'
-              @items = Item.inventory_items(@inventory_file, 'not_on_shelf').paginate(:page => params[:page], :per_page => per_page, :order => order)
+              @items = Item.inventory_items(@inventory_file, 'not_on_shelf').paginate(:page => params[:page], :order => order)
             when 'not_in_catalog'
-              @items = Item.inventory_items(@inventory_file, 'not_in_catalog').paginate(:page => params[:page], :per_page => per_page, :order => order)
+              @items = Item.inventory_items(@inventory_file, 'not_in_catalog').paginate(:page => params[:page], :order => order)
             else
-              @items = @inventory_file.items.paginate(:page => params[:page], :per_page => per_page, :order => order)
+              @items = @inventory_file.items.paginate(:page => params[:page], :order => order)
             end
           end
         end
@@ -65,11 +64,11 @@ class ItemsController < ApplicationController
           return
         end
       when @parent_item
-        @items = @parent_item.derived_items.paginate(:page => params[:page], :per_page => @per_page, :order => 'items.id')
+        @items = @parent_item.derived_items.paginate(:page => params[:page], :order => 'items.id')
       when @derived_item
-        @items = @derived_item.parent_items.paginate(:page => params[:page], :per_page => @per_page, :order => 'items.id')
+        @items = @derived_item.parent_items.paginate(:page => params[:page], :order => 'items.id')
       else
-        @items = Item.paginate :all, :page => params[:page], :per_page => per_page, :order => order
+        @items = Item.paginate :all, :page => params[:page], :order => order
       end
     end
 
@@ -112,6 +111,7 @@ class ItemsController < ApplicationController
       return
     end
     @item = Item.new
+    @item.manifestation = @manifestation
     @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
 
@@ -144,6 +144,7 @@ class ItemsController < ApplicationController
         Item.transaction do
           @manifestation.items << @item
           @item.reload
+          @item.post_to_federated_catalog
 
           if @item.shelf
             @item.shelf.library.patron.items << @item

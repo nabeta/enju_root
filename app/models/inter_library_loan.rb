@@ -21,10 +21,10 @@ class InterLibraryLoan < ActiveRecord::Base
     end
   end
 
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
   attr_accessor :item_identifier
 
   aasm_initial_state :pending

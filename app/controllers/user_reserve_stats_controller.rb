@@ -1,5 +1,6 @@
 class UserReserveStatsController < ApplicationController
   before_filter :has_permission?
+  after_filter :convert_charset, :only => :show
 
   # GET /user_reserve_stats
   # GET /user_reserve_stats.xml
@@ -16,11 +17,13 @@ class UserReserveStatsController < ApplicationController
   # GET /user_reserve_stats/1.xml
   def show
     @user_reserve_stat = UserReserveStat.find(params[:id])
+    ReserveStatHasUser.per_page = 65534 if params[:format] == 'csv'
     @stats = @user_reserve_stat.reserve_stat_has_users.paginate(:all, :order => 'reserves_count DESC, user_id', :page => params[:page])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @user_reserve_stat }
+      format.csv
     end
   end
 

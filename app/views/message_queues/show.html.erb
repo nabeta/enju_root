@@ -44,10 +44,10 @@
   <%=h @message_queue.subject -%>
 </p>
 
-<p>
+<div>
   <b><%= t('activerecord.attributes.message.body') -%>:</b>
-  <%= auto_link(textilize(@message_queue.body)) -%>
-</p>
+  <%= auto_link(textilize(h(@message_queue.body))) -%>
+</div>
 
 </div>
 </div>

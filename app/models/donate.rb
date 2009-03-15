@@ -5,6 +5,6 @@ class Donate < ActiveRecord::Base
   validates_associated :patron, :item
   validates_presence_of :patron, :item
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 end

@@ -9,6 +9,9 @@ class NewsFeed < ActiveRecord::Base
 
   acts_as_list
 
+  cattr_accessor :per_page
+  @@per_page = 10
+
   def content
     if self.body.blank?
       file = open(self.url)

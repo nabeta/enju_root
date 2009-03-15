@@ -2,7 +2,7 @@ class PurchaseRequestsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_order_list
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   before_filter :store_page, :only => :index
  
   # GET /purchase_requests
@@ -17,27 +17,27 @@ class PurchaseRequestsController < ApplicationController
     end
 
     @count = {}
-    @per_page = 65534 if params[:format] == 'csv'
+    PurchaseRequest.per_page = 65534 if params[:format] == 'csv'
     case
     when @user
-      @purchase_requests = @user.purchase_requests.paginate(:page => params[:page], :per_page => @per_page, :order => ['purchase_requests.created_at'])
+      @purchase_requests = @user.purchase_requests.paginate(:page => params[:page], :order => ['purchase_requests.created_at'])
     when @order_list
       case params[:mode]
       when 'not_ordered'
-        @purchase_requests = PurchaseRequest.not_ordered.paginate(:all, :page => params[:page], :per_page => @per_page, :conditions => ['order_list_id = ?', @order_list.id])
+        @purchase_requests = PurchaseRequest.not_ordered.paginate(:all, :page => params[:page], :conditions => ['order_list_id = ?', @order_list.id])
       when 'ordered'
-        @purchase_requests = PurchaseRequest.ordered.paginate(:all, :page => params[:page], :per_page => @per_page, :conditions => ['order_list_id = ?', @order_list.id])
+        @purchase_requests = PurchaseRequest.ordered.paginate(:all, :page => params[:page], :conditions => ['order_list_id = ?', @order_list.id])
       else
-        @purchase_requests = @order_list.purchase_requests.paginate(:page => params[:page], :per_page => @per_page, :order => ['purchase_requests.created_at'])
+        @purchase_requests = @order_list.purchase_requests.paginate(:page => params[:page], :order => ['purchase_requests.created_at'])
       end
     else
       case params[:mode]
       when 'not_ordered'
-        @purchase_requests = PurchaseRequest.not_ordered.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['purchase_requests.created_at'])
+        @purchase_requests = PurchaseRequest.not_ordered.paginate(:all, :page => params[:page], :order => ['purchase_requests.created_at'])
       when 'ordered'
-        @purchase_requests = PurchaseRequest.ordered.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['purchase_requests.created_at'])
+        @purchase_requests = PurchaseRequest.ordered.paginate(:all, :page => params[:page], :order => ['purchase_requests.created_at'])
       else
-        @purchase_requests = PurchaseRequest.paginate(:all, :page => params[:page], :per_page => @per_page, :order => ['purchase_requests.created_at'])
+        @purchase_requests = PurchaseRequest.paginate(:all, :page => params[:page], :order => ['purchase_requests.created_at'])
       end
     end
     @count[:query_result] = @purchase_requests.size

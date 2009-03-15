@@ -11,9 +11,10 @@ class ExpressionsController < ApplicationController
   # GET /expressions.xml
   def index
     query = params[:query].to_s.strip
-    unless @query.blank?
+    unless query.blank?
       @count = {}
       @query = query.dup
+      query = query.gsub('　', ' ')
       query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
       unless params[:mode] == 'add'
         query.add_query!(@manifestation) if @manifestation
@@ -22,7 +23,7 @@ class ExpressionsController < ApplicationController
         query += " subscription_id: #{@subscription.id}" if @subscription
         query += " expression_merge_list_ids: #{@expression_merge_list.id}" if @expression_merge_list
       end
-      @expressions = Expression.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page], :per_page => @per_page).compact
+      @expressions = Expression.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
       @count[:total] = @expressions.total_entries
     else
       case

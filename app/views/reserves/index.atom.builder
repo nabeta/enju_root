@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_reserves_url(:atom)) do |feed|
+atom_feed(:url => reserves_url(:format => :atom)) do |feed|
   if @user
     feed.title t('reserve.user_reserve', :login_name => @user.login)
   else

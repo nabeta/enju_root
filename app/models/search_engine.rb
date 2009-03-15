@@ -8,7 +8,7 @@ class SearchEngine < ActiveRecord::Base
   validates_length_of :url, :maximum => 255
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   def validate
     errors.add(:url) unless (URI(read_attribute(:url)) rescue false)

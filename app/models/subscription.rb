@@ -8,13 +8,13 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :title, :user
   validates_associated :user
 
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_solr :fields => [:title, :note,
     {:created_at => :date}, {:updated_at => :date},
     {:expression_ids => :integer}]
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   def expression_ids
     self.expressions.collect(&:id)

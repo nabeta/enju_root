@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class BookmarkTest < Test::Unit::TestCase
+class BookmarkTest < ActiveSupport::TestCase
   fixtures :bookmarks, :bookmarked_resources,
     :users, :patrons, :patron_types, :languages, :countries,
     :checked_items, :items, :manifestations, :exemplifies,

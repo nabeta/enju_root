@@ -1,9 +1,9 @@
 class PictureFilesController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_manifestation, :only => [:index, :new]
-  before_filter :get_patron, :only => [:index, :new, :create]
-  before_filter :get_event, :only => [:index, :new, :create]
-  before_filter :get_shelf, :only => [:index, :new, :create]
+  before_filter :get_manifestation
+  before_filter :get_patron
+  before_filter :get_event
+  before_filter :get_shelf
 
   # GET /picture_files
   # GET /picture_files.xml
@@ -113,8 +113,13 @@ class PictureFilesController < ApplicationController
     @picture_file.destroy
 
     respond_to do |format|
-      format.html { redirect_to(picture_files_url) }
-      format.xml  { head :ok }
+      if @shelf
+        format.html { redirect_to shelf_picture_files_url(@shelf) }
+        format.xml  { head :ok }
+      else
+        format.html { redirect_to(picture_files_url) }
+        format.xml  { head :ok }
+      end
     end
   end
 

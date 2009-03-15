@@ -9,7 +9,7 @@ class Family < ActiveRecord::Base
 
   validates_presence_of :full_name
   acts_as_solr :fields => [:name, {:required_role_id => :integer}]
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   def check_required_role(user)
     true

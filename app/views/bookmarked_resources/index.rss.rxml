@@ -10,10 +10,10 @@ xml.rss('version' => "2.0",
       xml.title "Bookmarks at #{@library_group.display_name}"
       xml.link "#{request.protocol}#{request.host_with_port}" + bookmarked_resources_path
     end
-    xml.description "open-source integrated library automation system developed by Kamata Library"
-    xml.language "ja-jp" # TODO: 日本語以外
+    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.language I18n.default_locale
     xml.ttl "60"
-    xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"
+    xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => :rss))}"
     xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"
     #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?
@@ -28,8 +28,8 @@ xml.rss('version' => "2.0",
         #xml.description(bookmark.title)
         # rfc822
         xml.pubDate bookmarked_resource.created_at.rfc2822
-        xml.link "#{request.protocol}#{request.host_with_port}" + manifestation_path(bookmarked_resource)
-        xml.guid "#{request.protocol}#{request.host_with_port}" + manifestation_path(bookmarked_resource), :isPermaLink => "true"
+        xml.link manifestation_url(bookmarked_resource)
+        xml.guid manifestation_url(bookmarked_resource), :isPermaLink => "true"
         bookmarked_resource.tags.each do |tag|
           xml.category(tag)
         end

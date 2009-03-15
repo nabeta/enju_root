@@ -4,6 +4,9 @@ class ExpressionMergeList < ActiveRecord::Base
   has_many :expressions, :through => :expression_merges
   validates_presence_of :title
 
+  cattr_accessor :per_page
+  @@per_page = 10
+
   def merge_expressions(selected_expression)
     self.expressions.each do |expression|
       Realize.update_all(['expression_id = ?', selected_expression.id], ['expression_id = ?', expression.id])

@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class UserCheckoutStatTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  fixtures :user_checkout_stats
+
+  test "calculate user count" do
+    assert user_checkout_stats(:one).calculate_user_count
   end
 end

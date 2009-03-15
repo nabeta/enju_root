@@ -10,7 +10,7 @@ class Bookmark < ActiveRecord::Base
   validates_uniqueness_of :bookmarked_resource_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_nil => true
   
-  cattr_reader :per_page
+  cattr_accessor :per_page
   attr_accessor :url
   attr_accessor :title
   @@per_page = 10

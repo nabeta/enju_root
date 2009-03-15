@@ -34,15 +34,21 @@ class Patron < ActiveRecord::Base
   acts_as_solr :fields => [:name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2, :address_1_note, :address_2_note, :other_designation, {:created_at => :date}, {:updated_at => :date}, {:date_of_birth => :date}, {:date_of_death => :date},
     {:work_ids => :integer}, {:expression_ids => :integer}, {:manifestation_ids => :integer}, {:patron_type_id => :integer}, {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer}],
     :facets => [:patron_type_id, :date_of_birth], :if => proc{|patron| !patron.restrain_indexing}, :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_tree
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   attr_accessor :restrain_indexing
 
   def before_validation_on_create
     self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
+    if self.full_name.blank?
+      self.full_name = [last_name, middle_name, first_name].split(" ").to_s
+    end
+    if self.full_name_transcription.blank?
+      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s
+    end
   end
 
   #def full_name_generate

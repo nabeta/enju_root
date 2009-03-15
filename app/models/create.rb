@@ -9,7 +9,7 @@ class Create < ActiveRecord::Base
 
   acts_as_list :scope => :work
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
 end

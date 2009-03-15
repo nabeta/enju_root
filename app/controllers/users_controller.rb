@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     @count = {}
     unless query.blank?
       @query = query.dup
-      @users = User.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
+      @users = User.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @users.total_entries
     else
       @users = User.paginate(:all, :page => params[:page])
@@ -30,8 +30,8 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user = User.find(params[:id])
+    @user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     @tags = @user.tags.find(:all, :order => 'tags.taggings_count DESC')
 

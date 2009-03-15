@@ -48,7 +48,7 @@ div#content{
   width: 922px;
 }
 
-div#header{
+div#header_and_footer{
   padding: 2px;
   width: 100%;
   clear: both
@@ -59,8 +59,8 @@ div#header_left, div#navibar_left{
   float: left;
   padding-left: 2px;
   padding-right: 2px;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 div#header_advertisement{
@@ -169,10 +169,8 @@ div#right_pane_detail{
 }
 
 div#footer{
-  padding-top: 5px;
-  padding-bottom: 5px;
-  margin-left: 0em;
-  margin-right: 0em;
+  padding-left: 2px;
+  padding-right: 2px;
   clear: both;
 }
 
@@ -182,7 +180,7 @@ h1{
   margin-bottom: 10px;
 }
 
-h1#resource_title{
+#resource_title{
   line-height: 140%;
 }
 
@@ -376,10 +374,6 @@ th.checked_item_title{
   width: 400px;
 }
 
-div#description{
-  margin-left: 1em;
-}
-
 .error_message{
   color: red;
 }
@@ -395,4 +389,17 @@ label{
 table.calendar{
   width: 100%;
 }
+
+input.editable_text_field{
+  width: 100%;
+}
+
+form.inplaceeditor-form input[type="text"]{
+  width: 100%;
+}
+
+form.inplaceeditor-form textarea{
+  width: 100%;
+}
+
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

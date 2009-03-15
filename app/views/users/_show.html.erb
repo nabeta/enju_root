@@ -49,7 +49,7 @@
   <h3 class="title"><%= t('tag.my_tag') -%></h3>
   <div id="tag_cloud_box">
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.login) do -%>
-      <%= render :partial => 'bookmarked_resources/tag_cloud' -%>
+      <%= render :partial => 'bookmarked_resources/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
     <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>
   </div>

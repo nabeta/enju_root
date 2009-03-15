@@ -12,7 +12,7 @@ class Library < ActiveRecord::Base
   has_many :users
 
   acts_as_list
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   has_friendly_id :short_name
   acts_as_geocodable
 
@@ -22,7 +22,7 @@ class Library < ActiveRecord::Base
   validates_uniqueness_of :name, :short_name, :short_display_name
   validates_format_of :short_name, :with => /^[a-z][0-9a-z]{2,254}$/
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def closed?(date)

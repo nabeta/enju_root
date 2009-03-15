@@ -92,7 +92,7 @@ class CreatesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_create_already_created
     login_as :librarian1
     old_count = Create.count
-    post :create, :create => { :patron_id => 1, :patron_type => 'Person', :work_id => 1 }
+    post :create, :create => { :patron_id => 1, :work_id => 1 }
     assert_equal old_count, Create.count
     
     assert_response :success
@@ -101,7 +101,7 @@ class CreatesControllerTest < ActionController::TestCase
   def test_librarian_should_create_create_not_created_yet
     login_as :librarian1
     old_count = Create.count
-    post :create, :create => { :patron_id => 1, :patron_type => 'Person', :work_id => 3 }
+    post :create, :create => { :patron_id => 1, :work_id => 3 }
     assert_equal old_count+1, Create.count
     
     assert_redirected_to create_url(assigns(:create))

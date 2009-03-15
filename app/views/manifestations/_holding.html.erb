@@ -1,0 +1,6 @@
+<%- unless manifestation.items.exclude_web.blank? -%>
+  <%- unless manifestation.manifestation_form.name == 'file' -%>
+    (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
+  <%- end -%>
+<%- end -%>
+<div class="holding" id="holding_<%=h manifestation.id -%>"></div>

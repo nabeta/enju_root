@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_expressions_url(:atom)) do |feed|
+atom_feed(:url => expressions_url(:format => :atom)) do |feed|
   feed.title t('expression.library_group_expression', :library_group_name => @library_group.display_name)
   feed.updated(@expressions.first ? @expressions.first.created_at : Time.zone.now)
 

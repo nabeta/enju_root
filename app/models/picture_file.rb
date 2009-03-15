@@ -9,7 +9,7 @@ class PictureFile < ActiveRecord::Base
   validates_associated :picture_attachable
   validates_presence_of :picture_attachable_id, :picture_attachable_type, :unless => :parent_id, :on => :create
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def digest(options = {:type => 'sha1'})

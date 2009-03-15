@@ -78,21 +78,21 @@ class PatronsControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_patron
     login_as :librarian1
-    old_count = Patron.count
-    post :create, :patron => { :full_name => 'test' }
-    assert_equal old_count+1, Patron.count
+    assert_difference('Patron.count') do
+      post :create, :patron => { :full_name => 'test' }
+    end
     
     assert_redirected_to patron_url(assigns(:patron))
   end
 
   # TODO: full_name以外での判断
-  def test_librarian_should_not_create_patron_without_full_name
+  def test_librarian_should_create_patron_without_full_name
     login_as :librarian1
-    old_count = Patron.count
-    post :create, :patron => { :first_name => 'test' }
-    assert_equal old_count, Patron.count
+    assert_difference('Patron.count') do
+      post :create, :patron => { :first_name => 'test' }
+    end
     
-    assert_response :success
+    assert_redirected_to patron_url(assigns(:patron))
   end
 
   def test_guest_should_show_patron

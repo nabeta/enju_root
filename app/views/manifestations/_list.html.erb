@@ -4,19 +4,13 @@
         <td><%= itemnum = @manifestations.offset + 1 + i -%></td>
         <td>
           <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
-          <%- unless manifestation.items.blank? -%>
-            <%- unless manifestation.manifestation_form.name == 'file' -%>
-              (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
-            <%- end -%>
-          <%- end -%>
-          <div class="holding" id="holding_<%=h manifestation.id -%>"></div>
+          <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
         </td>
       </tr>
     <%- end -%>
   </table>
 
 <%=
-  # will_paginate(@manifestations, :update => 'list', :params => {:action => :index, :list => 'partial'}, :renderer => RemoteLinkRenderer, :method => :get, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
   will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
 -%>
 <br />

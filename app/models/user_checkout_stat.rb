@@ -4,13 +4,25 @@ class UserCheckoutStat < ActiveRecord::Base
   has_many :checkout_stat_has_users
   has_many :users, :through => :checkout_stat_has_users
 
+  validates_presence_of :start_date, :end_date
+
   aasm_initial_state :pending
   aasm_column :state
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
-  def culculate_user_checkouts_count
+  def validate
+    if self.start_date and self.end_date
+      if self.start_date >= self.end_date
+        errors.add(:start_date)
+        errors.add(:end_date)
+      end
+    end
+  end
+
+  def calculate_user_count
+    # TODO: 2.3でBatch Findingを使うこと
     User.find(:all, :select => :id).each do |user|
       daily_count = Checkout.users_count(self.start_date, self.end_date, user)
       if daily_count > 0

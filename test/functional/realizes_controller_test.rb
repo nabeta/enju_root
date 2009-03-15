@@ -90,7 +90,7 @@ class RealizesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_realize_already_created
     login_as :librarian1
     old_count = Realize.count
-    post :create, :realize => { :patron_id => 1, :patron_type => 'Person', :expression_id => 1 }
+    post :create, :realize => { :patron_id => 1, :expression_id => 1 }
     assert_equal old_count, Realize.count
     
     assert_response :success
@@ -99,7 +99,7 @@ class RealizesControllerTest < ActionController::TestCase
   def test_librarian_should_create_realize_not_created_yet
     login_as :librarian1
     old_count = Realize.count
-    post :create, :realize => { :patron_id => 1, :patron_type => 'Person', :expression_id => 3 }
+    post :create, :realize => { :patron_id => 1, :expression_id => 3 }
     assert_equal old_count+1, Realize.count
     
     assert_redirected_to realize_url(assigns(:realize))

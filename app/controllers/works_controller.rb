@@ -9,15 +9,16 @@ class WorksController < ApplicationController
   # GET /works.xml
   def index
     query = params[:query].to_s.strip
-    unless @query.blank?
+    unless query.blank?
       @count = {}
       @query = query.dup
+      query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@patron) if @patron
         query += " parent_id: #{@parent.id}" if @parent
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
-      @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page], :per_page => @per_page).compact
+      @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
       @count[:total] = @works.total_entries
     else
       case

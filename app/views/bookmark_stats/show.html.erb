@@ -3,6 +3,10 @@
     <li><%= link_to t('page.edit'), edit_bookmark_stat_path(@bookmark_stat) -%></li>
     <li><%= link_to t('page.back'), bookmark_stats_path -%></li>
   </ul>
+  <h4><%= t('page.export') -%></h4>
+  <ul>
+    <li><%= link_to ('CSV'), bookmark_stat_path(@bookmark_stat, :format => :csv, :lang => I18n.default_locale) -%></li>
+  </ul>
 </div>
 
 <div id="content_detail">

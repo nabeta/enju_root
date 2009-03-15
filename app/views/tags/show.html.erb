@@ -17,7 +17,7 @@
     <%=h @tag.name -%>
   </h2>
 
-<p>(<%= link_to ('Wikipedia'), "http://ja.wikipedia.org/wiki/" + CGI.escape(h(@tag.name)) -%>)</p>
+  (<%= link_to_wikipedia(@tag.name) -%>)
 
 <p>
   <b><%= t('activerecord.attributes.tag.taggings_count') -%>:</b>

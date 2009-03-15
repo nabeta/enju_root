@@ -586,9 +586,12 @@ ja:
         display_name: 表示名
         short_name: 短縮名
         email: メール
-        my_networks: マイネットワーク
-        use_dsbl: "DSBLを使用する"
+        my_networks: LANとして扱うネットワーク
+        use_dsbl: DSBLを使用する
+        dsbl_list: DSBLの一覧
         note: 注記
+        login_banner: ログイン画面でのメッセージ
+        post_to_union_catalog: 総合目録に登録する
       imported_event_file:
         filename: ファイル名
         content_type: Content-Type
@@ -776,9 +779,13 @@ ja:
         date_of_birth: 生年月日
         note: 注記
       checkout_stat_has_user:
-        checkouts_count: 貸出回数
+        checkouts_count: 利用者の貸出回数
+      checkout_stat_has_manifestation:
+        checkouts_count: 資料の貸出回数
       reserve_stat_has_user:
-        reserves_count: 予約回数
+        reserves_count: 利用者の予約回数
+      reserve_stat_has_manifestation:
+        reserves_count: 資料の予約回数
       bookmark_stat_has_manifestation:
         bookmarks_count: ブックマーク回数
 
@@ -914,6 +921,7 @@ ja:
     read: "読み込み"
     merge: "併合する（取り消しはできません）"
     merge_resource: "{{model}}を併合する"
+    attachable: 添付先
   title:
     index: "一覧"
     show: "表示"
@@ -1151,3 +1159,6 @@ ja:
     period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
+  inventory_file:
+    not_in_catalog: "目録に存在しない資料"
+    not_on_shelf: "書架に存在しない資料"

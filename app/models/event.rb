@@ -11,12 +11,12 @@ class Event < ActiveRecord::Base
   has_many :picture_files, :as => :picture_attachable
 
   acts_as_taggable
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_solr :fields => [:title, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
   validates_presence_of :title, :library, :event_category
   validates_associated :library, :event_category
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   def before_save

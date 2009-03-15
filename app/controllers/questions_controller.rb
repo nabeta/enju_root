@@ -20,6 +20,7 @@ class QuestionsController < ApplicationController
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
+      query = query.gsub('　', ' ')
 
       if @user
         if logged_in?
@@ -27,7 +28,7 @@ class QuestionsController < ApplicationController
         end
       end
 
-      @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc', :per_page => @per_page).compact
+      @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
       refkyo_resources = Question.refkyo_search(params[:query], crd_startrecord)
       @resources = refkyo_resources[:resources]
       if params[:crd_page]
@@ -59,8 +60,8 @@ class QuestionsController < ApplicationController
       format.atom
       format.js {
         render :update do |page|
-          page.replace 'result_index', :partial => 'list' if params[:page]
-          page.replace 'sidebar', :partial => 'crd' if params[:crd_page]
+          page.replace_html 'result_index', :partial => 'list' if params[:page]
+          page.replace_html 'submenu', :partial => 'crd' if params[:crd_page]
         end
       }
     end

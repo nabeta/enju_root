@@ -7,8 +7,8 @@
   <title><%= t('activerecord.models.inter_library_loan') -%>: <%=h title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, formatted_inter_library_loans_url(:rss), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
-    <%= auto_discovery_link_tag(:atom, formatted_inter_library_loans_url(:atom), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
+    <%= auto_discovery_link_tag(:rss, inter_library_loans_url(:format => :rss), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
+    <%= auto_discovery_link_tag(:atom, inter_library_loans_url(:format => :atom), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">

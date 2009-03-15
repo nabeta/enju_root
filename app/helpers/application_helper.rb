@@ -4,7 +4,7 @@ module ApplicationHelper
   include UsersHelper
 
   def library_system_name
-    h(LibraryGroup.find(1).name)
+    h(LibraryGroup.config.name)
   end
   
   def form_icon(manifestation_form)
@@ -130,16 +130,6 @@ module ApplicationHelper
     return manifestations_link.join(" ")
   end
 
-  def duedate_check(checkout)
-    if checkout.is_today_due_date?
-      "duedate_is_today"
-    elsif checkout.overdue?
-      "overdue"
-    else
-      "in_checkout"
-    end
-  end
-
   def book_jacket(manifestation)
     return nil if manifestation.nil?
     book_jacket = manifestation.amazon_book_jacket
@@ -194,4 +184,7 @@ module ApplicationHelper
     end
   end
 
+  def link_to_wikipedia(string)
+    link_to ('Wikipedia'), "http://#{I18n.default_locale}.wikipedia.org/wiki/#{CGI.escape(string)}"
+  end
 end

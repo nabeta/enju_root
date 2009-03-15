@@ -4,9 +4,8 @@ class ManifestationsController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   before_filter :get_subject
-  before_filter :store_location, :except => [:index, :create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /manifestations
@@ -53,34 +52,15 @@ class ManifestationsController < ApplicationController
       manifestations = {}
       @count = {}
       if params[:format] == 'csv'
-        per_page = 65534
-      else
-        per_page = Manifestation.per_page
+        Manifestation.per_page = 65534
       end
 
       # 絞り込みを行わない状態のクエリ
+      query = query.gsub('　', ' ')
       total_query = query
 
       unless query.blank?
-        unless params[:mode] == "add"
-          query.add_query!(@expression) unless @expression.blank?
-          query.add_query!(@patron) unless @patron.blank?
-        end
-        # 内部的なクエリ
-        if @reservable
-          query = "#{query} reservable: true"
-        end
-        query.add_query!(@manifestation_form) unless @manifestation_form.blank?
-        query.add_query!(@subject_by_term) unless @subject_by_term.blank?
-        unless params[:library].blank?
-          library_list = params[:library].split.uniq.join(' ')
-          query = "#{query} library: (#{library_list})"
-        end
-        unless params[:language].blank?
-          language_list = params[:language].split.uniq.join(' ')
-          query = "#{query} lang: (#{language_list})"
-        end
-
+        query = make_internal_query(query)
         begin
           @count[:total] = Manifestation.count_by_solr(total_query)
           #@tags_count = @count[:total]
@@ -103,7 +83,7 @@ class ManifestationsController < ApplicationController
             end
           end
 
-          @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page], :per_page => per_page).compact
+          @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
           @count[:query_result] = @manifestations.total_entries
         
           if @manifestations
@@ -119,14 +99,11 @@ class ManifestationsController < ApplicationController
         get_index_without_solr
       end
 
-      unless @query.blank?
-        #check_dsbl if LibraryGroup.find(1).use_dsbl?
-        if logged_in?
-          SearchHistory.create(:query => @query, :user_id => nil, :start_record => @manifestations.offset + 1, :maximum_records => nil, :number_of_records => @count[:total])
-        end
+      unless query.blank?
+        save_search_history(@query, @manifestations.offset, @count[:total])
       end
     end
-    store_location
+    store_location # before_filter ではファセット検索のURLを記憶してしまう
 
     respond_to do |format|
       format.html
@@ -140,6 +117,7 @@ class ManifestationsController < ApplicationController
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
       format.atom
+      format.json
     end
   end
 
@@ -163,6 +141,7 @@ class ManifestationsController < ApplicationController
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     @amazon_reviews = @manifestation.amazon_customer_review
+    store_location
 
     respond_to do |format|
       format.html # show.rhtml
@@ -203,8 +182,9 @@ class ManifestationsController < ApplicationController
     @manifestation = Manifestation.find(params[:id])
     if params[:mode] == 'tag_edit'
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) if @manifestation.bookmarked_resource rescue nil
-      render :partial => 'tag_edit'
+      render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
+    store_location
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -249,7 +229,7 @@ class ManifestationsController < ApplicationController
 
         # tsvなどでのインポート時に大量にpostされないようにするため、
         # コントローラで処理する
-        @manifestation.post_to_twitter
+        @manifestation.post_to_twitter(manifestation_url(@manifestation)) rescue nil
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
@@ -468,12 +448,34 @@ class ManifestationsController < ApplicationController
     when @subject
       @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else
-      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :per_page => @per_page, :include => :manifestation_form, :order => ['manifestations.id'])
+      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :manifestation_form, :order => ['manifestations.id'])
       @manifestations = []
     end
     @count[:total] = @manifestations.size
     @count[:query_result] = @manifestations.size
     #flash[:notice] = ('Enter your search term.')
+  end
+
+  def make_internal_query(query)
+    # 内部的なクエリ
+    unless params[:mode] == "add"
+      query.add_query!(@expression) unless @expression.blank?
+      query.add_query!(@patron) unless @patron.blank?
+    end
+    if @reservable
+      query = "#{query} reservable: true"
+    end
+    query.add_query!(@manifestation_form) unless @manifestation_form.blank?
+    query.add_query!(@subject_by_term) unless @subject_by_term.blank?
+    unless params[:library].blank?
+      library_list = params[:library].split.uniq.join(' ')
+      query = "#{query} library: (#{library_list})"
+    end
+    unless params[:language].blank?
+      language_list = params[:language].split.uniq.join(' ')
+      query = "#{query} lang: (#{language_list})"
+    end
+    return query
   end
 
   def prepare_options
@@ -482,4 +484,10 @@ class ManifestationsController < ApplicationController
     @roles = Role.find(:all, :order => 'id desc')
   end
 
+  def save_search_history(query, offset = 0, total = 0)
+    check_dsbl if LibraryGroup.config.use_dsbl
+    if logged_in?
+      SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+    end
+  end
 end

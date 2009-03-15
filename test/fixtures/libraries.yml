@@ -15,7 +15,6 @@ library_00001:
   created_at: 
   library_group_id: 1
   patron_id: 1
-  patron_type: CorporateBody
   call_number_delimiter: "|"
   position: 1
 library_00002: 
@@ -34,7 +33,6 @@ library_00002:
   created_at: 2007-08-13 18:10:00 +09:00
   library_group_id: 1
   patron_id: 2
-  patron_type: CorporateBody
   call_number_delimiter: "|"
   position: 2
 library_00003: 
@@ -53,7 +51,6 @@ library_00003:
   created_at: 2007-08-14 16:37:00 +09:00
   library_group_id: 1
   patron_id: 3
-  patron_type: CorporateBody
   call_number_delimiter: "|"
   position: 3
 library_00004: 
@@ -72,6 +69,5 @@ library_00004:
   created_at: 2007-08-23 19:51:00 +09:00
   library_group_id: 1
   patron_id: 4
-  patron_type: CorporateBody
   call_number_delimiter: "|"
   position: 4

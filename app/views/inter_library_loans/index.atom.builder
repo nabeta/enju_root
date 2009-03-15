@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_inter_library_loans_url(:atom)) do |feed|
+atom_feed(:url => inter_library_loans_url(:format => :atom)) do |feed|
   feed.title t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name)
   feed.updated(@inter_library_loans.first ? @inter_library_loans.first.created_at : Time.zone.now)
 

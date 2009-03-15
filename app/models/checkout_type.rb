@@ -14,7 +14,7 @@ class CheckoutType < ActiveRecord::Base
 
   validates_presence_of :name
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   acts_as_list

@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ManifestationTest < Test::Unit::TestCase
+class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
     :frequency_of_issues, :work_forms, :expression_forms, :manifestation_forms, :countries, :patron_types

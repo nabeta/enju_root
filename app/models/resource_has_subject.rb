@@ -12,7 +12,7 @@ class ResourceHasSubject < ActiveRecord::Base
   #validates_uniqueness_of :subject_id, :subject_type], :scope => :work_id
   validates_uniqueness_of :subject_id, :scope => [:subjectable_id, :subjectable_type]
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   #def after_save

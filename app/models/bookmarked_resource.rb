@@ -11,7 +11,7 @@ class BookmarkedResource < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id
   validates_length_of :url, :maximum => 255, :allow_nil => true
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
 
   attr_accessor :start_date

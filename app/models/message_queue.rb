@@ -9,10 +9,10 @@ class MessageQueue < ActiveRecord::Base
   validates_associated :sender, :receiver, :message_template
   validates_presence_of :sender, :receiver, :message_template
 
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 
   def send_message
     if self.body
@@ -28,7 +28,7 @@ class MessageQueue < ActiveRecord::Base
 
   def body
     unless self.message_body.blank?
-      library_group = LibraryGroup.find(1)
+      library_group = LibraryGroup.config
       message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
       message = message.gsub("{reserved_manifestations}", self.message_body)
       message = message.gsub("{library_system_name}", library_group.name)

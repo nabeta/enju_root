@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_order_lists_url(:atom)) do |feed|
+atom_feed(:url => order_lists_url(:format => :atom)) do |feed|
   feed.title t('order_list.library_group_order_list', :library_group_name => @library_group.display_name)
   feed.updated(@order_lists.first ? @order_lists.first.created_at : Time.zone.now)
 

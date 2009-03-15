@@ -48,7 +48,7 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   test "librarian should create bookmark_stat" do
     login_as :librarian1
     assert_difference('BookmarkStat.count') do
-      post :create, :bookmark_stat => { }
+      post :create, :bookmark_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
 
     assert_redirected_to bookmark_stat_path(assigns(:bookmark_stat))

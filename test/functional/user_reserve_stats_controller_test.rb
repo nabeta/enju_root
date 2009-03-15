@@ -48,7 +48,7 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   test "librarian should create user_reserve_stat" do
     login_as :librarian1
     assert_difference('UserReserveStat.count') do
-      post :create, :user_reserve_stat => { }
+      post :create, :user_reserve_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
 
     assert_redirected_to user_reserve_stat_path(assigns(:user_reserve_stat))

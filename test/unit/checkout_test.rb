@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class CheckoutTest < Test::Unit::TestCase
+class CheckoutTest < ActiveSupport::TestCase
   fixtures :checkouts, :items, :users
 
   # Replace this with your real tests.

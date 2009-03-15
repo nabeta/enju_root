@@ -9,7 +9,17 @@ class LibraryGroup < ActiveRecord::Base
 
   validates_presence_of :name, :short_name, :email
 
-  default_configuration :post_to_twitter? => false
+  def self.config
+    LibraryGroup.find(1)
+  end
+
+  def self.url
+    URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
+  end
+
+  def config?
+    true if self == LibraryGroup.config
+  end
 
   def physical_libraries
     # 物理的な図書館 = IDが1以外
@@ -31,7 +41,7 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def is_deletable_by(user, parent = nil)
-    raise if self.id == 1
+    raise if self.config?
     true if user.has_role?('Administrator')
   rescue
     false

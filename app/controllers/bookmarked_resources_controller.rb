@@ -3,7 +3,7 @@ class BookmarkedResourcesController < ApplicationController
   before_filter :get_user_if_nil
   before_filter :get_manifestation, :only => [:new]
   before_filter :store_location, :except => [:create, :update, :destroy]
-  after_filter :csv_convert_charset, :only => :index
+  after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   helper :bookmarks
 
@@ -28,16 +28,16 @@ class BookmarkedResourcesController < ApplicationController
     query.add_query!(@user) if @user
 
     unless query.blank?
-      @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+      @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
     else
       if @user
         #query = "user: #{@user.login}"
-        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
       else
         if logged_in?
           if current_user.has_role?('Librarian')
             query = "user: [* TO *]"
-            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
           else
             redirect_to user_bookmarks_url(current_user.login)
             return

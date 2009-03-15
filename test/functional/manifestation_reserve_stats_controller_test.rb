@@ -48,7 +48,7 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   test "librarian should create manifestation_reserve_stat" do
     login_as :librarian1
     assert_difference('ManifestationReserveStat.count') do
-      post :create, :manifestation_reserve_stat => { }
+      post :create, :manifestation_reserve_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
 
     assert_redirected_to manifestation_reserve_stat_path(assigns(:manifestation_reserve_stat))

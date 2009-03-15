@@ -1,4 +1,4 @@
-atom_feed(:url => formatted_purchase_requests_url(:atom)) do |feed|
+atom_feed(:url => purchase_requests_url(:format => :atom)) do |feed|
   if @user
     feed.title t('purchase_request.user_purchase_request', :login_name => @user.login)
   else

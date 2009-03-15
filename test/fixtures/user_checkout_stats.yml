@@ -2,12 +2,12 @@
 
 one:
   start_date: 2008-12-15 18:43:02
-  end_date: 2008-12-15 18:43:02
+  end_date: 2008-12-16 18:43:02
   note: MyText
-  state: MyString
+  state: pending
 
 two:
   start_date: 2008-12-15 18:43:02
-  end_date: 2008-12-15 18:43:02
+  end_date: 2008-12-16 18:43:02
   note: MyText
-  state: MyString
+  state: pending

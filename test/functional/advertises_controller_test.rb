@@ -83,7 +83,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   def test_admin_should_not_create_advertise_already_created
     login_as :admin
     old_count = Advertise.count
-    post :create, :advertise => {:patron_id =>1, :patron_type => 'Person', :advertisement_id => 1}
+    post :create, :advertise => {:patron_id =>1, :advertisement_id => 1}
     assert_equal old_count, Advertise.count
     
     assert_response :success
@@ -92,7 +92,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   def test_admin_should_create_advertise
     login_as :admin
     old_count = Advertise.count
-    post :create, :advertise => {:patron_id =>1, :patron_type => 'Person', :advertisement_id => 3}
+    post :create, :advertise => {:patron_id =>1, :advertisement_id => 3}
     assert_equal old_count+1, Advertise.count
     
     assert_redirected_to advertise_url(assigns(:advertise))

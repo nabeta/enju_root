@@ -14,11 +14,12 @@ class PatronsController < ApplicationController
     # 最近追加されたパトロン
     #@query = params[:query] ||= "[* TO *]"
     query = params[:query].to_s.strip
+    @query = query.dup
+    query = query.gsub('　', ' ')
 
     if params[:mode] == 'recent'
       query = "#{query} created_at: [NOW-1MONTH TO NOW]"
     end
-    @query = query.dup
 
     browse = nil
     order = nil
@@ -40,9 +41,9 @@ class PatronsController < ApplicationController
         query += " patron_merge_list_ids: #{@patron_merge_list.id}" if @patron_merge_list
       end
 
-      @patrons = Patron.paginate_by_solr(query, :order => order, :page => params[:page], :per_page => @per_page).compact
+      @patrons = Patron.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @patrons.total_entries
-      @patrons = Patron.paginate_by_solr(query, :page => params[:page], :per_page => @per_page, :order => 'updated_at desc').compact
+      @patrons = Patron.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
     else
       case
       when @work
@@ -64,6 +65,7 @@ class PatronsController < ApplicationController
       format.xml  { render :xml => @patrons }
       format.rss  { render :layout => false }
       format.atom
+      format.json
     end
   end
 
@@ -83,12 +85,21 @@ class PatronsController < ApplicationController
       @patron = Patron.find(params[:id])
     end
 
-    @involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
-    @publications = @patron.manifestations.paginate(:page => params[:page], :per_page => 10, :order => 'date_of_publication DESC')
+    #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
+    @works = @patron.works.paginate(:page => params[:work_list_page])
+    @expressions = @patron.expressions.paginate(:page => params[:expression_list_page])
+    @manifestations = @patron.manifestations.paginate(:page => params[:manifestation_list_page], :order => 'date_of_publication DESC')
 
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @patron }
+      format.js {
+        render :update do |page|
+          page.replace_html 'work', :partial => 'work_list', :locals => {:works => @works} if params[:work_list_page]
+          page.replace_html 'expression', :partial => 'expression_list', :locals => {:expressions => @expressions} if params[:expression_list_page]
+          page.replace_html 'manifestation', :partial => 'manifestation_list', :locals => {:manifestations => @manifestations} if params[:manifestation_list_page]
+        end
+      }
     end
   rescue ActiveRecord::RecordNotFound
     not_found

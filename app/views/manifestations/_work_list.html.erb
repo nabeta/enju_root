@@ -1,0 +1,39 @@
+<div id="work">
+<%- unless @manifestation.related_works.blank? -%>
+  <ul>
+    <%- @manifestation.related_works.each do |work| -%>
+      <li>
+        <%- if work.serials.blank? -%>
+          [W] <%= link_to h(work.original_title), work -%>
+          <%- work.expressions.each do |expression| -%>
+            <%= link_to expression_form_icon(expression.expression_form), expression -%>
+          <%- end -%>
+          <%= patrons_list(work.patrons) -%>
+          <ul>
+            <%- work.manifestations.each do |manifestation| -%>
+              <%- unless @manifestation == manifestation -%>
+                <%- unless work.original_title == manifestation.original_title and work.expressions.size == 1 -%>
+                  <li>
+                    [M]
+                    <%= link_to h(manifestation.original_title), manifestation -%>
+                    <%= form_icon(manifestation.manifestation_form) -%>
+                    <%- manifestation.expressions.each do |expression| -%>
+                      <%= link_to expression_form_icon(expression.expression_form), expression -%>
+                    <%- end -%>
+                    <%= patrons_list(manifestation.authors) -%>
+                    <%= patrons_list(manifestation.editors) -%>
+                    <%= patrons_list(manifestation.patrons) -%>
+                    <%- if manifestation.date_of_publication -%>
+                      (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                    <%- end -%>
+                  </li>
+                <%- end -%>
+              <%- end -%>
+            <%- end -%>
+          </ul>
+        <%- end -%>
+      </li>
+    <%- end -%>
+  </ul>
+<%- end -%>
+</div>

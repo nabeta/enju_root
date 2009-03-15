@@ -7,4 +7,7 @@ class NewsPost < ActiveRecord::Base
   validates_associated :user
 
   acts_as_list
+
+  cattr_accessor :per_page
+  @@per_page = 10
 end

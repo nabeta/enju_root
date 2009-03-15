@@ -6,5 +6,5 @@ class BookmarkStatHasManifestation < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id, :scope => :bookmark_stat_id
 
   @@per_page = 10
-  cattr_reader :per_page
+  cattr_accessor :per_page
 end

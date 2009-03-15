@@ -589,7 +589,10 @@ en:
         email: Email
         my_networks: My networks
         use_dsbl: Use DSBL
+        dsbl_list: DSBL list
         note: Note
+        login_banner: Login banner
+        post_to_union_catalog: Post to union catalog
       imported_event_file:
         filename: Filename
         content_type: Content type
@@ -784,7 +787,11 @@ en:
         note: Note
       checkout_stat_has_user:
         checkouts_count: Checkout count
+      checkout_stat_has_manifestation:
+        checkouts_count: Checkout count
       reserve_stat_has_user:
+        reserves_count: Reserve count
+      reserve_stat_has_manifestation:
         reserves_count: Reserve count
       bookmark_stat_has_manifestation:
         bookmarks_count: Bookmark count
@@ -862,7 +869,7 @@ en:
     submit: "Submit"
     management: "Management"
     about_us: "About us"
-    open_source_integrated_library_system: "open-source integrated library system"
+    open_source_integrated_library_system: "an open source integrated library system"
     related_work: "Related work"
     related_manifestation: "Related manifestation"
     amazon_review: "Amazon review"
@@ -931,6 +938,7 @@ en:
     read: "Read"
     merge: "Merge!"
     merge_resource: "Merge {{model}}"
+    attachable: "Attachable"
   title:
     index: "index"
     show: "show"
@@ -1173,3 +1181,6 @@ en:
     period: "Period"
   attachment_file:
     invalid_file: "Invalid file."
+  inventory_file:
+    not_in_catalog: "Not in catalog"
+    not_on_shelf: "Not on shelf"

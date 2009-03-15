@@ -3,12 +3,12 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.user_reserve_stat.start_date') -%>:</b>
-  <%=h @user_reserve_stat.start_date -%>
+  <%= l(@user_reserve_stat.start_date) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.user_reserve_stat.end_date') -%>:</b>
-  <%=h @user_reserve_stat.end_date -%>
+  <%= l(@user_reserve_stat.end_date) -%>
 </p>
 
 <p>
@@ -39,5 +39,9 @@
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_stat_path(@user_reserve_stat) -%></li>
     <li><%= link_to t('page.back'), user_reserve_stats_path -%></li>
+  </ul>
+  <h4><%= t('page.export') -%></h4>
+  <ul>
+    <li><%= link_to ('CSV'), user_reserve_stat_path(@user_reserve_stat, :format => :csv, :lang => I18n.default_locale) -%></li>
   </ul>
 </div>

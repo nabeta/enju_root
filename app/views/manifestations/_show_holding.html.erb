@@ -14,9 +14,7 @@
         </td>
         <td>
           <%= link_to h(item.shelf.name), shelf_path(item.shelf) -%>
-          <%- if item.shelf.picture_files.present? -%>
-            (<%= link_to t('page.picture'), formatted_picture_file_path(item.shelf.picture_files.first, item.shelf.picture_files.first.extname), :class => "thickbox" -%>)
-          <%- end -%>
+          <%= render :partial => 'items/shelf_picture', :locals => {:item => item} -%>
         </td>
         <td>
           <%=h item.call_number -%>
@@ -42,12 +40,13 @@
   <%- end -%>
 </table>
 
-<%- if item.shelf.picture_files.present? and request.xhr? -%>
-  <script type="text/javascript" language="JavaScript">
-    jQuery(document).ready(function(){
-      tb_init('a.thickbox, area.thickbox, input.thickbox');
-      imgLoader = new Image();
-      imgLoader.src = tb_pathToImage;
-    });
-  </script>
-<%- end -%>
+    <%- if request.xhr? -%>
+      <script type="text/javascript" language="JavaScript">
+        jQuery(document).ready(function(){
+          tb_init('a.thickbox, area.thickbox, input.thickbox');
+          imgLoader = new Image();
+          imgLoader.src = tb_pathToImage;
+        });
+      </script>
+    <%- end -%>
+

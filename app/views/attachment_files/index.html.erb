@@ -3,12 +3,12 @@
 <div id="content_list">
 
 <%- if @manifestation -%>
-  <p>Attachment files for <%= link_to h(@manifestation.original_title), @manifestation -%></p>
+  <h2><%= link_to h(@manifestation.original_title), @manifestation -%></h2>
 <%- end -%>
 
 <table id="index">
   <tr>
-    <th><%= ('Attachable') -%></th>
+    <th><%= t('page.attachable') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.size') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.content_type') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.filename') -%></th>
@@ -19,7 +19,7 @@
     <td><%= link_to "#{h(attachment_file.attachable_type)}/#{h(attachment_file.attachable_id)}", attachment_file.attachable -%></td>
     <td><%=h attachment_file.size -%></td>
     <td><%=h attachment_file.content_type -%></td>
-    <td><%= link_to h(attachment_file.filename), formatted_attachment_file_path(attachment_file, :download) -%></td>
+    <td><%= link_to h(attachment_file.filename), attachment_file_path(attachment_file, :format => :download) -%></td>
     <%- if deletable(attachment_file) -%>
       <td><%= link_to t('page.show'), attachment_file -%></td>
       <td><%= link_to t('page.edit'), edit_attachment_file_path(attachment_file) -%></td>

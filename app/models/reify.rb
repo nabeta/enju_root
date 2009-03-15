@@ -7,7 +7,7 @@ class Reify < ActiveRecord::Base
   validates_presence_of :work, :expression
   validates_uniqueness_of :expression_id
   
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   
   acts_as_list :scope => :work

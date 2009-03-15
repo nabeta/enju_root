@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
+  named_scope :exclude_web, :conditions => ['shelf_id != 1']
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins
@@ -43,13 +44,13 @@ class Item < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
   acts_as_taggable
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
 
   acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:required_role_id => :range_integer}],
     :facets => [:circulation_status_id],
     :if => proc{|item| !item.restrain_indexing}, :auto_commit => false
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   attr_accessor :restrain_indexing
 
@@ -199,38 +200,43 @@ class Item < ActiveRecord::Base
   end
 
   def post_to_federated_catalog
+    return false if self.item_identifier.blank?
+    self.reload
     local_library = self.shelf.library
-    library_url = URI.parse("#{LIBRARY_WEB_URL}libraries/#{local_library.short_name}").normalize.to_s
-    manifestation_url = URI.parse("#{LIBRARY_WEB_URL}manifestations/#{self.manifestation.id}").normalize.to_s
-    resource = FederatedCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn})
+    library_url = URI.parse("#{LibraryGroup.url}libraries/#{local_library.short_name}").normalize.to_s
+    manifestation_url = URI.parse("#{LibraryGroup.url}manifestations/#{self.manifestation.id}").normalize.to_s
+    resource = UnionCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn})
     if resource.nil?
-      #resource = FederatedCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id)
-      resource = FederatedCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :manifestation_url => manifestation_url)
+      #resource = UnionCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id)
+      resource = UnionCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :manifestation_url => manifestation_url)
     end
 
-    library = FederatedCatalog::Library.find(:first, :params => {:url => library_url})
+    library = UnionCatalog::Library.find(:first, :params => {:url => library_url})
     if library.nil?
-      library = FederatedCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.zip_code, :address => local_library.address, :lat => local_library.geocode.latitude, :lng => local_library.geocode.longitude)
+      library = UnionCatalog::Library.create(:name => local_library.name, :url => library_url, :zip_code => local_library.postal_code, :address => local_library.address, :lat => local_library.geocode.latitude, :lng => local_library.geocode.longitude)
     end
 
-    resource_url = URI.parse("http://#{FederatedCatalog.site.host}:#{FederatedCatalog.site.port}/manifestations/#{resource.id}").normalize.to_s
-    #FederatedCatalog::Own.create(:manifestation_id => resource.id, :library_id => library.id, :url => manifestation_url, :library_url => library_url)
-    FederatedCatalog::Own.create(:manifestation_url => resource_url, :library_url => library_url)
+    resource_url = URI.parse("http://#{UnionCatalog.site.host}:#{UnionCatalog.site.port}/manifestations/#{resource.id}").normalize.to_s
+    #UnionCatalog::Own.create(:manifestation_id => resource.id, :library_id => library.id, :url => manifestation_url, :library_url => library_url)
+    UnionCatalog::Own.create(:manifestation_url => resource_url, :library_url => library_url)
   end
 
   def update_federated_catalog
+    return false if self.item_identifier.blank?
     local_library = self.shelf.library
-    library_url = URI.parse("#{LIBRARY_WEB_URL}libraries/#{local_library.short_name}").normalize.to_s
-    manifestation_url = URI.parse("#{LIBRARY_WEB_URL}manifestations/#{self.manifestation.id}").normalize.to_s
-    own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url, :library_url => library_url})
+    library_url = URI.parse("#{LibraryGroup.url}libraries/#{local_library.short_name}").normalize.to_s
+    manifestation_url = URI.parse("#{LibraryGroup.url}manifestations/#{self.manifestation.id}").normalize.to_s
+    own = UnionCatalog::Own.find(:first, :params => {:url => manifestation_url, :library_url => library_url})
     own.library_url = library_url
     own.url = manifestation_url
     own.save
   end
 
   def remove_from_federated_catalog
-    manifestation_url = URI.parse("#{LIBRARY_WEB_URL}manifestations/#{self.manifestation.id}").normalize.to_s
-    own = FederatedCatalog::Own.find(:first, :params => {:url => manifestation_url})
+    return false if self.item_identifier.blank?
+    manifestation_url = URI.parse("#{LibraryGroup.url}manifestations/#{self.manifestation.id}").normalize.to_s
+    own = UnionCatalog::Own.find(:first, :params => {:url => manifestation_url})
     own.destroy
   end
+
 end

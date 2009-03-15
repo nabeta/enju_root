@@ -1,7 +1,7 @@
 <div id="content_detail">
-<h1 class="title">Project Next-L "Enju"</h1>
+<h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
 <div id="content_list">
-  <p>このシステムは、Project Next-L が開発している図書館システム Project Next-L "Enju"です。</p>
+  <%= textilize(h(@library_group.login_banner)) -%>
 </div>
 </div>
 

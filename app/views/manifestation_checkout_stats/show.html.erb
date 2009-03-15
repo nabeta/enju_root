@@ -3,18 +3,23 @@
     <li><%= link_to t('page.edit'), edit_manifestation_checkout_stat_path(@manifestation_checkout_stat) -%></li>
     <li><%= link_to t('page.back'), manifestation_checkout_stats_path -%></li>
   </ul>
+  <h4><%= t('page.export') -%></h4>
+  <ul>
+    <li><%= link_to ('CSV'), manifestation_checkout_stat_path(@manifestation_checkout_stat, :format => :csv, :lang => I18n.default_locale) -%></li>
+  </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_checkout_stat')) -%></h1>
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.manifestation_checkout_stat.start_date') -%>:</b>
-  <%=h @manifestation_checkout_stat.start_date -%>
+  <%= l(@manifestation_checkout_stat.start_date) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.manifestation_checkout_stat.end_date') -%>:</b>
-  <%=h @manifestation_checkout_stat.end_date -%>
+  <%= l(@manifestation_checkout_stat.end_date) -%>
 </p>
 
 <p>
@@ -25,7 +30,7 @@
 <table id="index">
   <tr>
     <th><%= t('activerecord.models.manifestation') -%></th>
-    <th><%= ('Checkouts count') -%></th>
+    <th><%= t('activerecord.attributes.checkout_stat_has_manifestation.checkouts_count') -%></th>
   </tr>
   <%- @stats.each do |stat| -%>
     <tr class="line<%= cycle("0", "1") -%>">

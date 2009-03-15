@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class ReserveTest < Test::Unit::TestCase
+class ReserveTest < ActiveSupport::TestCase
   fixtures :reserves, :request_status_types, :message_queues
 
   # Replace this with your real tests.

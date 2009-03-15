@@ -57,10 +57,10 @@ class User < ActiveRecord::Base
 
   restful_easy_messages
   acts_as_tagger
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   has_friendly_id :login
 
-  cattr_reader :per_page
+  cattr_accessor :per_page
   @@per_page = 10
   
   # Virtual attribute for the unencrypted password
