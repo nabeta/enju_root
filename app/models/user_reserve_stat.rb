@@ -22,7 +22,7 @@ class UserReserveStat < ActiveRecord::Base
   end
 
   def calculate_user_count
-    User.each do |user|
+    User.find_each do |user|
       daily_count = Reserve.users_count(self.start_date, self.end_date, user)
       if daily_count > 0
         self.users << user

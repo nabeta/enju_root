@@ -1,6 +1,6 @@
 class Reify < ActiveRecord::Base
   include OnlyLibrarianCanModify
-  belongs_to :work, :counter_cache => true #, :validate => true
+  belongs_to :work #, :counter_cache => true #, :validate => true
   belongs_to :expression #, :validate => true
 
   validates_associated :work, :expression

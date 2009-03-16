@@ -1,7 +1,7 @@
 class Embody < ActiveRecord::Base
   include OnlyLibrarianCanModify
-  belongs_to :expression, :counter_cache => true #, :validate => true
-  belongs_to :manifestation, :counter_cache => true #, :validate => true
+  belongs_to :expression #, :counter_cache => true #, :validate => true
+  belongs_to :manifestation #, :counter_cache => true #, :validate => true
 
   validates_associated :expression, :manifestation
   validates_presence_of :expression, :manifestation

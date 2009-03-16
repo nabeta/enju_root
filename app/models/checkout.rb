@@ -4,8 +4,8 @@ class Checkout < ActiveRecord::Base
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
   named_scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   
-  belongs_to :user, :counter_cache => true #, :validate => true
-  belongs_to :item, :counter_cache => true #, :validate => true
+  belongs_to :user #, :counter_cache => true #, :validate => true
+  belongs_to :item #, :counter_cache => true #, :validate => true
   belongs_to :checkin #, :validate => true
   belongs_to :librarian, :class_name => 'User' #, :validate => true
   belongs_to :basket #, :validate => true
