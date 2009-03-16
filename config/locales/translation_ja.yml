@@ -276,7 +276,7 @@ ja:
         user_number: 利用者番号
         state: 状態
       resource_has_subject:
-        subjectable_type: Subjectable種類
+        subjectable_type: 件名付与対象の種類
       picture_file:
         picture_attachable_type: 画像を添付可能な種類
         size: ファイルサイズ
@@ -1162,3 +1162,12 @@ ja:
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"
+  message_queue:
+    not_sent: "送信待ち"
+    sent: "送信済み"
+    all: "全てのメッセージ"
+  order:
+    create_order_list: "発注リストを作成してください。"
+    specify_purchase_request: "購入依頼を指定してください。"
+  resource_has_subject:
+    subjectable: "件名付与対象"

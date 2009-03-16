@@ -38,13 +38,18 @@ class OrdersController < ApplicationController
   # GET /orders/new
   # GET /orders/new.xml
   def new
+    @order_lists = OrderList.not_ordered
+    if @order_lists.blank?
+      flash[:notice] = t('order.create_order_list')
+      redirect_to new_order_list_url
+      return
+    end
     unless @purchase_request
-      flash[:notice] = ('You should specify purchase request id.')
+      flash[:notice] = t('order.specify_purchase_request')
       redirect_to purchase_requests_url
       return
     end
     @order = Order.new(params[:order])
-    @order_lists = OrderList.not_ordered
 
     respond_to do |format|
       format.html # new.html.erb

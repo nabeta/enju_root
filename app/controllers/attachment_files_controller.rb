@@ -6,9 +6,9 @@ class AttachmentFilesController < ApplicationController
   # GET /attachment_files.xml
   def index
     if @attachable
-      @attachment_files = @attachable.attachment_files.paginate(:page => params[:page], :order => ['attachment_files.id'])
+      @attachment_files = @attachable.attachment_files.paginate(:page => params[:page])
     else
-      @attachment_files = AttachmentFile.paginate(:all, :page => params[:page], :order => :id)
+      @attachment_files = AttachmentFile.paginate(:all, :page => params[:page])
     end
 
     respond_to do |format|
@@ -62,6 +62,7 @@ class AttachmentFilesController < ApplicationController
           @attachment_file.create_resource(params[:attachment_file][:title])
         end
         @attachment_file.extract_text
+        AttachmentFile.find_by_sql(['UPDATE attachment_files SET file_hash = ? WHERE id = ?', @attachment_file.digest, @attachment_file.id])
         #@attachment_file.file_hash = @attachment_file.digest(:type => 'sha1')
 
         #case @attachment_file.attachable_type

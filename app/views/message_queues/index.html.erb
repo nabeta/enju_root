@@ -1,5 +1,5 @@
 <div id="content_detail">
-  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.message_queue')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.message_queue')) -%></h1>
 <div id="content_list">
 
 <table id="index">
@@ -39,10 +39,17 @@
 </div>
 
 <div id="submenu">
-  <%- if MessageQueue.is_creatable_by(current_user) -%>
-    <ul>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.message_queue')), new_message_queue_path -%></li>
-    </ul>
-  <%- end -%>
+  <ul>
+    <%- case params[:mode] when 'sent' -%>
+      <li><%= link_to t('message_queue.not_sent'), message_queues_path(:mode => 'not_sent') -%></li>
+      <li><%= link_to t('message_queue.all'), message_queues_path(:mode => 'all') -%></li>
+    <%- when 'all' -%>
+      <li><%= link_to t('message_queue.not_sent'), message_queues_path(:mode => 'not_sent') -%></li>
+      <li><%= link_to t('message_queue.sent'), message_queues_path(:mode => 'sent') -%></li>
+    <%- else -%>
+      <li><%= link_to t('message_queue.sent'), message_queues_path(:mode => 'sent') -%></li>
+      <li><%= link_to t('message_queue.all'), message_queues_path(:mode => 'all') -%></li>
+    <%- end -%>
+  </ul>
 </div>
 

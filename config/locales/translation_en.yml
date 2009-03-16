@@ -1184,3 +1184,12 @@ en:
   inventory_file:
     not_in_catalog: "Not in catalog"
     not_on_shelf: "Not on shelf"
+  message_queue:
+    not_sent: "Not sent"
+    sent: "Sent"
+    all: "All messages"
+  order:
+    create_order_list: "You should create an order list."
+    specify_purchase_request: "You should specify the purchase request."
+  resource_has_subject:
+    subjectable: "Subjectable"

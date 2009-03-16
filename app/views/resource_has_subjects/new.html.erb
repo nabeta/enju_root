@@ -17,7 +17,7 @@
 
   <%- if @manifestation -%>
     <p>
-      <%= f.label :subjectable_id -%><br />
+      <%= f.label t('resource_has_subject.subjectable') -%><br />
       <%= link_to h(@manifestation.original_title), @manifestation -%>
       <%= f.hidden_field :subjectable_id, :value => @manifestation.id -%>
       <%= f.hidden_field :subjectable_type, :value => @manifestation.class.to_s -%>
@@ -33,12 +33,11 @@
     </p>
   <%- end -%>
   <p>
+    <%= f.label t('activerecord.models.subject') -%><br />
     <%- if @subject -%>
-      <%= f.label t('activerecord.models.subject') -%><br />
       <%= link_to h(@subject.term), @subject -%>
       <%= f.hidden_field :subject_id -%>
     <%- else -%>
-      <%= f.label :subject_id -%><br />
       <%= f.text_field :subject_id -%>
     <%- end -%>
   </p>

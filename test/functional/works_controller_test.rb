@@ -198,36 +198,36 @@ class WorksControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_destroy_work
-    old_count = Work.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Work.count
+    assert_no_difference('Work.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_session_url
   end
 
   def test_user_should_not_destroy_work
     login_as :user1
-    old_count = Work.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Work.count
+    assert_no_difference('Work.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_destroy_work
     login_as :librarian1
-    old_count = Work.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, Work.count
+    assert_difference('Work.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to works_url
   end
 
   def test_admin_should_destroy_work
     login_as :admin
-    old_count = Work.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, Work.count
+    assert_difference('Work.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to works_url
   end

@@ -105,12 +105,12 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_show_subject
-    get :show, :id => 1
+    get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
 
   def test_guest_should_show_subject_with_manifestation
-    get :show, :id => 1, :manifestation_id => 1
+    get :show, :id => subjects(:subject_00001).to_param, :manifestation_id => 1
     assert_response :success
     assert assigns(:subject)
     assert assigns(:manifestation)
@@ -118,117 +118,117 @@ class SubjectsControllerTest < ActionController::TestCase
 
   def test_user_should_show_subject
     login_as :user1
-    get :show, :id => 1
+    get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
 
   def test_librarian_should_show_subject
     login_as :librarian1
-    get :show, :id => 1
+    get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
 
   def test_admin_should_show_subject
     login_as :admin
-    get :show, :id => 1
+    get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
 
   def test_guest_should_not_get_edit
-    get :edit, :id => 1
+    get :edit, :id => subjects(:subject_00001).to_param
     assert_redirected_to new_session_url
   end
   
   def test_user_should_not_get_edit
     login_as :user1
-    get :edit, :id => 1
+    get :edit, :id => subjects(:subject_00001).to_param
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
     login_as :librarian1
-    get :edit, :id => 1
+    get :edit, :id => subjects(:subject_00001).to_param
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
     login_as :admin
-    get :edit, :id => 1
+    get :edit, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
   
   def test_admin_should_get_edit_with_manifestation
     login_as :admin
-    get :edit, :id => 1, :manifestation_id => 1
+    get :edit, :id => subjects(:subject_00001).to_param, :manifestation_id => 1
     assert_response :success
   end
   
   def test_admin_should_not_get_edit_with_missing_manifestation
     login_as :admin
-    get :edit, :id => 1, :manifestation_id => 100
+    get :edit, :id => subjects(:subject_00001).to_param, :manifestation_id => 100
     assert_response :missing
   end
   
   def test_guest_should_not_update_subject
-    put :update, :id => 1, :subject => { }
+    put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_redirected_to new_session_url
   end
   
   def test_user_should_not_update_subject
     login_as :user1
-    put :update, :id => 1, :subject => { }
+    put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_subject
     login_as :librarian1
-    put :update, :id => 1, :subject => { }
+    put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_response :forbidden
   end
   
   def test_admin_should_not_update_subject_without_term
     login_as :admin
-    put :update, :id => 1, :subject => {:term => nil}
+    put :update, :id => subjects(:subject_00001).to_param, :subject => {:term => nil}
     assert_response :success
   end
   
   def test_admin_should_update_subject
     login_as :admin
-    put :update, :id => 1, :subject => { }
+    put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_redirected_to subject_url(assigns(:subject))
   end
   
   def test_guest_should_not_destroy_subject
-    old_count = Subject.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      delete :destroy, :id => subjects(:subject_00001).to_param
+    end
     
     assert_redirected_to new_session_url
   end
 
   def test_user_should_not_destroy_subject
     login_as :user1
-    old_count = Subject.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      delete :destroy, :id => subjects(:subject_00001).to_param
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_subject
     login_as :librarian1
-    old_count = Subject.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      delete :destroy, :id => subjects(:subject_00001).to_param
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_subject
     login_as :admin
-    old_count = Subject.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, Subject.count
+    assert_difference('Subject.count', -1) do
+      delete :destroy, :id => subjects(:subject_00001).to_param
+    end
     
     assert_redirected_to subjects_url
   end

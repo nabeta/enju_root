@@ -19,8 +19,8 @@ class Patron < ActiveRecord::Base
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  has_many :subjects, :through => :resource_has_subjects
   has_many :attachment_files, :as => :attachable, :dependent => :destroy
   belongs_to :patron_type #, :validate => true
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true

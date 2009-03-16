@@ -34,10 +34,10 @@ class MessageQueuesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_get_new
+  def test_librarian_should_not_get_new
     login_as :librarian1
     get :new
-    assert_response :success
+    assert_response :forbidden
   end
 
   def test_guest_should_not_create_message_queue
@@ -58,13 +58,14 @@ class MessageQueuesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_create_message_queue
+  def test_librarian_should_not_create_message_queue
     login_as :librarian1
-    assert_difference('MessageQueue.count') do
+    assert_no_difference('MessageQueue.count') do
       post :create, :message_queue => {:sender_id => 1, :receiver_id => 2, :message_template_id => 1}
     end
 
-    assert_redirected_to message_queue_path(assigns(:message_queue))
+    #assert_redirected_to message_queue_path(assigns(:message_queue))
+    assert_response :forbidden
   end
 
   def test_guest_should_not_show_message_queue

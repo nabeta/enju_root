@@ -102,6 +102,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
     end
 
     #assert_response :success
+    assert_not_nil assigns(:attachment_file).file_hash
     assert_redirected_to attachment_file_url(assigns(:attachment_file))
   end
 
@@ -130,6 +131,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
       post :create, :attachment_file => {:attachable_type => 'Manifestation', :attachable_id => 1, :uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif"), :title => 'test upload'}
     end
 
+    assert assigns(:attachment_file).attachable
     assert_redirected_to attachment_file_url(assigns(:attachment_file))
   end
 

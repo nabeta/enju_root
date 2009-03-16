@@ -4,6 +4,7 @@ class MessagesController < ApplicationController
   
   # Restful_authentication Filter
   before_filter :rezm_login_required
+  before_filter :set_rezm_user
 
   # GET /messages
   def index
@@ -77,7 +78,6 @@ class MessagesController < ApplicationController
   def inbox
     session[:mail_box] = "inbox"
     @messages = rezm_user.inbox_messages.paginate(:page => params[:page])
-    @rezm_user = rezm_user
     
     respond_to do |format|
       format.html { render :action => "index" }
@@ -189,6 +189,10 @@ class MessagesController < ApplicationController
       message.save(false) 
       message.purge
     end
+  end
+
+  def set_rezm_user
+    @rezm_user = rezm_user
   end
 
 end

@@ -9,6 +9,10 @@ class Reserve < ActiveRecord::Base
   #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
   named_scope :will_expire, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state != ?', datetime, 'expired'], :order => 'expired_at'}}
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
+  #named_scope :expired_notified, :conditions => {:state => 'expired'}
+  named_scope :not_notified, :conditions => {:notified => false}
+  named_scope :notified, :conditions => {:notified => true}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -132,7 +136,7 @@ class Reserve < ActiveRecord::Base
         if message_queue.blank?
           queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
           # 即時送信
-          queue.send_message
+          queue.aasm_send_message!
         end
       end
     end

@@ -1,5 +1,8 @@
 class PasswordsController < ApplicationController
+  # まだ使っていない
   before_filter :check_client_ip_address
+  before_filter :login_required
+  require_role 'Librarian'
 
   def new
     @password = Password.new

@@ -1,5 +1,6 @@
 # http://guides.rails.info/securing_rails_applications/security.html
 class Session < ActiveRecord::Base
+  named_scope :will_expire, lambda {|date| {:conditions => ['updated_at < ?', date]}}
   def self.sweep(time_ago = nil)
     time = case time_ago
       when /^(\d+)m$/ then Time.zone.now - $1.to_i.minute

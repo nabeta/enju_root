@@ -14,8 +14,7 @@
     'yui/build/menu/menu-min',
     :cache => true
 -%>
-<%= javascript_include_tag 'scriptaculous', 'builder', 'thickbox' -%>
-<%= javascript_include_tag 'in_place_editor_with_empty_text' -%>
+<%= javascript_include_tag 'scriptaculous', 'builder', 'thickbox', 'in_place_editor_with_empty_text', :cache => 'include' -%>
 <%= stylesheet_link_tag 'yui/build/reset-fonts-grids/reset-fonts-grids',
     'yui/build/fonts/fonts-min',
     'yui/build/base/base-min',
@@ -25,7 +24,7 @@
     'yui/build/assets/skins/sam/treeview',
     'yui/build/assets/skins/sam/menu'
 -%>
-<%= stylesheet_link_tag 'thickbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', 'thickbox_login' -%>
+<%= stylesheet_link_tag 'thickbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', 'thickbox_login', :cache => 'include' -%>
 <%= calendar_date_select_includes -%>
 <script type="text/javascript">
   YAHOO.util.Event.onContentReady("services", function () {

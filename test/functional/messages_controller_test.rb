@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MessagesControllerTest < ActionController::TestCase
   #include AuthenticatedTestHelper
-  fixtures :users, :messages
+  fixtures :users, :messages, :patrons, :patron_types
 
   def test_should_get_index
     login_as("user1")

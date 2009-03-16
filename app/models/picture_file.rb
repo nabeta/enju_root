@@ -1,5 +1,6 @@
 class PictureFile < ActiveRecord::Base
   include OnlyLibrarianCanModify
+  named_scope :attached, :conditions => ['picture_attachable_id > 0']
   belongs_to :picture_attachable, :polymorphic => true, :validate => true
 
   has_attachment :content_type => :image, #:resize_to => [800,800],
@@ -8,6 +9,7 @@ class PictureFile < ActiveRecord::Base
 
   validates_associated :picture_attachable
   validates_presence_of :picture_attachable_id, :picture_attachable_type, :unless => :parent_id, :on => :create
+  default_scope :order => 'id DESC'
 
   cattr_accessor :per_page
   @@per_page = 10

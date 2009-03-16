@@ -7,7 +7,7 @@ class CreateQuestions < ActiveRecord::Migration
       t.integer :answers_count, :default => 0, :null => false
       t.timestamps
       t.datetime :deleted_at
-      t.string :state, :default => 'pending'
+      t.string :state
     end
     add_index :questions, :user_id
   end

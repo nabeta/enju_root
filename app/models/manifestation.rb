@@ -62,7 +62,7 @@ class Manifestation < ActiveRecord::Base
   acts_as_taggable
   #acts_as_soft_deletable
   acts_as_tree
-  enju_twitter
+  #enju_twitter
 
   @@per_page = 10
   cattr_accessor :per_page

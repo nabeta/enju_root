@@ -2,8 +2,8 @@
   <p>
     <b><%= t('page.attachable') -%></b><br />
     <%= link_to h(@manifestation.original_title), @manifestation -%>
-    <%= f.hidden_field :picture_attachable_id, :value => h(@manifestation.id) -%>
-    <%= f.hidden_field :picture_attachable_type, :value => h(@manifestation.class) -%>
+    <%= f.hidden_field :picture_attachable_id -%>
+    <%= f.hidden_field :picture_attachable_type -%>
   </p>
 
   <p>

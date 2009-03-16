@@ -4,11 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= t('activerecord.models.message') -%>: <%=h title_action_name -%></title>
-  <%- if @user -%>
-    <%= auto_discovery_link_tag(:rss, inbox_user_messages_url(@user.login, :format => :rss), :title => (t('message.user_message', :login_name => @user.login) + " (RSS)")) -%>
-    <%= auto_discovery_link_tag(:atom, inbox_user_messages_url(@user.login, :format => :atom), :title => (t('message.user_message', :login_name => @user.login) + " (Atom)")) -%>
-  <%- end -%>
+  <title><%= t('message.user_message', :login_name => @rezm_user.login) -%></title>
+  <%= auto_discovery_link_tag(:rss, inbox_user_messages_url(@rezm_user.login, :format => :rss), :title => (t('message.user_message', :login_name => @rezm_user.login) + " (RSS)")) -%>
+  <%= auto_discovery_link_tag(:atom, inbox_user_messages_url(@rezm_user.login, :format => :atom), :title => (t('message.user_message', :login_name => @rezm_user.login) + " (Atom)")) -%>
   <%= render :partial => 'page/include' -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
