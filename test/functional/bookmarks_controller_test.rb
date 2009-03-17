@@ -7,7 +7,6 @@ class BookmarksControllerTest < ActionController::TestCase
     :reifies, :embodies, :exemplifies
   fixtures :users, :patrons, :patron_types
   fixtures :roles
-  fixtures :roles_users
 
   def test_guest_should_not_get_index
     get :index

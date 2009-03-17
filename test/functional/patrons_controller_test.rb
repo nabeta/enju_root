@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PatronsControllerTest < ActionController::TestCase
-  fixtures :patrons, :users, :patron_types, :manifestations, :manifestation_forms, :expressions, :works, :embodies, :roles, :roles_users,
+  fixtures :patrons, :users, :patron_types, :manifestations, :manifestation_forms, :expressions, :works, :embodies, :roles,
     :creates, :realizes, :produces, :owns, :languages, :countries
 
   def test_guest_should_get_index

@@ -7,7 +7,6 @@ class ManifestationsControllerTest < ActionController::TestCase
   fixtures :items, :libraries, :shelves, :languages, :exemplifies
   fixtures :embodies
   fixtures :patrons, :user_groups, :users, :bookmarks, :bookmarked_resources, :roles
-  fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
     assert_no_difference('SearchHistory.count') do

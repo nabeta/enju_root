@@ -1,13 +1,12 @@
 require 'test_helper'
 
 class CheckinsControllerTest < ActionController::TestCase
-  fixtures :checkins, :checkouts, :users, :patrons, :roles, :roles_users, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,
+  fixtures :checkins, :checkouts, :users, :patrons, :roles, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,
     :user_group_has_checkout_types, :manifestation_form_has_checkout_types,
     :manifestations, :manifestation_forms,
     :items, :circulation_statuses, :exemplifies,
     :shelves, :request_status_types,
-    :expressions, :expression_forms, :languages, :message_templates,
-    :people, :corporate_bodies, :families
+    :expressions, :expression_forms, :languages, :message_templates
 
   def test_guest_should_not_get_index
     get :index
