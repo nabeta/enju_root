@@ -22,7 +22,7 @@ class ManifestationsController < ApplicationController
       @libraries = Library.find(:all, :order => 'position')
       @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
 
-      @manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
+      #@manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
       @search_engines = SearchEngine.find(:all, :order => :position)
 
       query = make_query(params[:query], {
@@ -375,16 +375,6 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def add_query(query, object)
-    case object.class.to_s
-    when 'ManifestationForm'
-      query = "#{query} formtype: #{object.name}"
-    when 'Language'
-      query = "#{query} lang: #{object.name}"
-    end
-    return query
-  end
-
   def get_facet(query)
     result = Manifestation.find_by_solr(query, {:facets => {:zeros => false, :fields => [:formtype_f, :library_f, :language_f, :subject_f]}})
     return result.facets["facet_fields"]
@@ -465,8 +455,12 @@ class ManifestationsController < ApplicationController
     if @reservable
       query = "#{query} reservable: true"
     end
-    query.add_query!(@manifestation_form) unless @manifestation_form.blank?
+    #query.add_query!(@manifestation_form) unless @manifestation_form.blank?
     query.add_query!(@subject_by_term) unless @subject_by_term.blank?
+    unless params[:formtype].blank?
+      manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
+      query = "#{query} formtype: #{manifestation_form.name}"
+    end
     unless params[:library].blank?
       library_list = params[:library].split.uniq.join(' ')
       query = "#{query} library: (#{library_list})"

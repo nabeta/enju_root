@@ -22,8 +22,7 @@ class UserCheckoutStat < ActiveRecord::Base
   end
 
   def calculate_user_count
-    # TODO: 2.3でBatch Findingを使うこと
-    User.find(:all, :select => :id).each do |user|
+    User.find_each do |user|
       daily_count = Checkout.users_count(self.start_date, self.end_date, user)
       if daily_count > 0
         self.users << user

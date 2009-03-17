@@ -5,6 +5,7 @@ class AttachmentFile < ActiveRecord::Base
   has_one :db_file
 
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  default_scope :order => 'id DESC'
 
   has_attachment
   validates_as_attachment

@@ -4,7 +4,7 @@ class CreateManifestationCheckoutStats < ActiveRecord::Migration
       t.datetime :start_date
       t.datetime :end_date
       t.text :note
-      t.string :state, :default => 'pending', :null => false
+      t.string :state, :null => false
 
       t.timestamps
     end

@@ -10,8 +10,8 @@ class Work < ActiveRecord::Base
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
-  has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork', :dependent => :destroy
-  has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork', :dependent => :destroy
+  has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
+  has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
   has_many :derived_works, :through => :to_works, :source => :work_to_work
   has_many :original_works, :through => :from_works, :source => :work_from_work
   #has_many :work_has_concepts, :dependent => :destroy

@@ -1,22 +1,14 @@
 class PictureFilesController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_manifestation
-  before_filter :get_patron
-  before_filter :get_event
-  before_filter :get_shelf
+  before_filter :get_attachable, :only => [:index, :new]
 
   # GET /picture_files
   # GET /picture_files.xml
   def index
-    case
-    when @manifestation
-      @picture_files = @manifestation.picture_files.paginate(:page => params[:page], :order => ['picture_files.id'])
-    when @event
-      @picture_files = @event.picture_files.paginate(:page => params[:page], :order => ['picture_files.id'])
-    when @shelf
-      @picture_files = @shelf.picture_files.paginate(:page => params[:page], :order => ['picture_files.id'])
+    if @attachable
+      @picture_files = @attachable.picture_files.attached.paginate(:page => params[:page])
     else
-      @picture_files = PictureFile.paginate(:all, :page => params[:page], :order => :id)
+      @picture_files = PictureFile.attached.paginate(:all, :page => params[:page])
     end
 
     respond_to do |format|
@@ -44,14 +36,7 @@ class PictureFilesController < ApplicationController
   def new
     #raise unless @event or @manifestation or @shelf or @patron
     @picture_file = PictureFile.new
-    case
-    when @patron
-      @picture_file.picture_attachable = @patron
-    when @event
-      @picture_file.picture_attachable = @event
-    when @shelf
-      @picture_file.picture_attachable = @shelf 
-    end
+    @picture_file.picture_attachable = @attachable
 
     respond_to do |format|
       format.html # new.html.erb
@@ -75,6 +60,7 @@ class PictureFilesController < ApplicationController
 
     respond_to do |format|
       if @picture_file.save
+        PictureFile.find_by_sql(['UPDATE picture_files SET file_hash = ? WHERE id = ?', @picture_file.digest, @picture_file.id])
         #@picture_file.sha1_hash = @picture_file.digest(:type => 'sha1')
         #@picture_file.save
 
@@ -123,4 +109,10 @@ class PictureFilesController < ApplicationController
     end
   end
 
+  def get_attachable
+    @attachable = get_manifestation
+    @attachable = get_patron unless @attachable
+    @attachable = get_event unless @attachable
+    @attachable = get_shelf unless @attachable
+  end
 end

@@ -7,7 +7,8 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.order')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.order')) -%></h1>
+<div id="content_list">
 
 <table>
   <tr>
@@ -34,4 +35,5 @@
 
 <%= will_paginate(@orders, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
+</div>
 </div>

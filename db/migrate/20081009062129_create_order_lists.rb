@@ -7,7 +7,7 @@ class CreateOrderLists < ActiveRecord::Migration
       t.text :note
       t.datetime :ordered_at
       t.datetime :deleted_at
-      t.string :state, :default => 'pending', :null => false
+      t.string :state, :null => false
 
       t.timestamps
     end

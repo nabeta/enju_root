@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class AdvertisementsControllerTest < ActionController::TestCase
-  fixtures :advertisements, :users, :user_groups, :advertises, :patrons, :patron_types, :roles, :roles_users, :library_groups, :libraries, :countries, :languages,
-    :people, :corporate_bodies, :families
+  fixtures :advertisements, :users, :user_groups, :advertises, :patrons, :patron_types, :roles, :library_groups, :libraries, :countries, :languages
 
   def test_guest_should_not_get_index
     get :index

@@ -1,2 +1,0 @@
-class PortaResponse < ManifestationApiResponse
-end

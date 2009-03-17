@@ -3,7 +3,6 @@ require 'test_helper'
 class ItemsControllerTest < ActionController::TestCase
   fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :manifestation_forms, :languages, :reserves
   fixtures :libraries, :patrons, :users, :inventories, :inventory_files
-  fixtures :people, :corporate_bodies, :families
 
   def test_guest_should_get_index
     get :index

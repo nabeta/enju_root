@@ -5,10 +5,11 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
   end
 
   def send_messages(args = nil)
+    count = MessageQueue.not_sent.size
     MessageQueue.not_sent.each do |queue|
-      queue.send_message
+      queue.aasm_send_message!
     end
-    logger.info "#{Time.zone.now} sent messages!"
+    logger.info "#{Time.zone.now} sent #{count} messages!"
   #rescue
   #  logger.info "#{Time.zone.now} sending messages failed!"
   end
@@ -48,10 +49,14 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
     Reserve.transaction do
       reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
       Reserve.send_message_to_patrons('expired') unless reservations.blank?
-      reservations.each do |reserve|
-        reserve.send_message('expired')
-        reserve.aasm_expire!
-        #reserve.expire
+      reservations.find_in_batches do |reserves|
+        reserves.each {|reserve|
+          # キューに登録した時点では本文は作られないので
+          # 予約の連絡をすませたかどうかを識別できるようにしなければならない
+          reserve.send_message('expired')
+          reserve.aasm_expire!
+          #reserve.expire
+        }
       end
       logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end

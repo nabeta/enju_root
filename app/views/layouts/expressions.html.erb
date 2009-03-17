@@ -5,7 +5,11 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%- case when @expression -%>
-    <title><%=h @expression.original_title -%> : <%= t('activerecord.models.expression') -%>: <%=h title_action_name -%></title>
+    <%- if controller.action_name == 'new' -%>
+      <title><%= t('activerecord.models.expression') -%>: <%=h title_action_name -%></title>
+    <%- else -%>
+      <title><%=h @expression.original_title -%> : <%= t('activerecord.models.expression') -%>: <%=h title_action_name -%></title>
+    <%- end -%>
   <%- when @patron -%>
     <title><%= t('expression.patron_expression', :patron_name => @patron.full_name) -%>: <%=h title_action_name -%></title>
   <%- else -%>

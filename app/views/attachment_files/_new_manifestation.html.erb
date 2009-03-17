@@ -14,8 +14,8 @@
   <p>
     <b><%= t('page.attachable') -%></b><br />
     <%= link_to h(@manifestation.original_title), @manifestation -%>
-    <%= f.hidden_field :attachable_id, :value => h(@manifestation.id) -%>
-    <%= f.hidden_field :attachable_type, :value => h(@manifestation.class.to_s) -%>
+    <%= f.hidden_field :attachable_id -%>
+    <%= f.hidden_field :attachable_type -%>
   </p>
 
   <p>

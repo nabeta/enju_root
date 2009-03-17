@@ -36,7 +36,7 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :required_role_id, :null => false
       t.text :keyword_list
       t.string :user_number
-      t.string :state, :default => 'pending', :null => false
+      t.string :state, :null => false
       t.integer :required_score, :default => 0, :null => false
     end
     add_index :users, :login, :unique => true

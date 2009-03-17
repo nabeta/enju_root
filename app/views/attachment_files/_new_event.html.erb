@@ -14,8 +14,8 @@
   <p>
     <b><%= t('page.attachable') -%></b><br />
     <%= link_to h(@event.title), @event -%>
-    <%= f.hidden_field :attachable_id, :value => h(@event.id) -%>
-    <%= f.hidden_field :attachable_type, :value => h(@event.class.to_s) -%>
+    <%= f.hidden_field :attachable_id -%>
+    <%= f.hidden_field :attachable_type -%>
   </p>
 
   <p>

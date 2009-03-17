@@ -22,7 +22,7 @@ class BookmarkStat < ActiveRecord::Base
   end
 
   def calculate_bookmarks_count
-    Manifestation.find(:all, :select => :id).each do |manifestation|
+    Manifestation.find_each do |manifestation|
       daily_count = Bookmark.manifestations_count(self.start_date, self.end_date, manifestation)
       #manifestation.update_attributes({:daily_bookmarks_count => daily_count, :total_count => manifestation.total_count + daily_count})
       if daily_count > 0

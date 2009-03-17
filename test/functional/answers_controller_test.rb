@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class AnswersControllerTest < ActionController::TestCase
-  fixtures :answers, :questions, :languages, :patrons, :patron_types, :user_groups, :users, :roles, :roles_users, :library_groups, :libraries, :countries,
-    :people, :corporate_bodies, :families
+  fixtures :answers, :questions, :languages, :patrons, :patron_types, :user_groups, :users, :roles, :library_groups, :libraries, :countries
 
   def test_guest_should_not_get_index
     get :index
