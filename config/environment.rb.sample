@@ -33,7 +33,7 @@ Rails::Initializer.run do |config|
   config.gem "packet"
   config.gem "marc"
   config.gem "oai"
-#  config.gem "jasper-rails"
+  #config.gem "jasper-rails"
   config.gem "icalendar"
   config.gem "RedCloth"
   #config.gem "rmagick", :lib => "RMagick"
@@ -43,7 +43,7 @@ Rails::Initializer.run do |config|
   config.gem "barby"
   config.gem "rubyist-aasm", :lib => "aasm"
   config.gem "mislav-will_paginate", :lib => "will_paginate"
-  config.gem "jpmobile"
+  #config.gem "jpmobile"
   config.gem "prawn"
   config.gem "rscribd"
   config.gem "flickr_fu"
@@ -57,6 +57,7 @@ Rails::Initializer.run do |config|
   config.gem "system_timer"
   config.gem "image_science"
   config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
+  config.gem "authlogic"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -78,8 +79,6 @@ Rails::Initializer.run do |config|
   # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
   # config.i18n.default_locale = :de
 end
-
-#I18n.default_locale = "ja"
 
 Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
 
