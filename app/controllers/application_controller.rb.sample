@@ -240,11 +240,6 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
-  # 本人と図書館員のみが参照できる
-  def authorized_content
-    access_denied unless librarian_authorized?
-  end
-
   def librarian_authorized?
     return false unless logged_in?
     user = get_user_if_nil
