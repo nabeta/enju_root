@@ -18,7 +18,8 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    login_as :user1
+    set_session_for(User.find(1))
+    #login_as :user1
     get :index
     assert_response :success
     assert assigns(:works)
@@ -40,7 +41,7 @@ class WorksControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -66,7 +67,7 @@ class WorksControllerTest < ActionController::TestCase
     post :create, :work => { :original_title => 'test', :work_form_id => 1 }
     assert_equal old_count, Work.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_work
@@ -140,7 +141,7 @@ class WorksControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -163,7 +164,7 @@ class WorksControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_work
     put :update, :id => 1, :work => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_work
@@ -201,7 +202,7 @@ class WorksControllerTest < ActionController::TestCase
       delete :destroy, :id => 1
     end
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_work

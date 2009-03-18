@@ -952,7 +952,7 @@ en:
     from: "from"
     to: "to"
     all_libraries: "All libraries"
-  session:
+  user_session:
     logged_in: "Logged in successfully."
     logged_out: "You have been logged out."
     remember_me: "Remember me"

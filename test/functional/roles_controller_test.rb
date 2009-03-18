@@ -6,7 +6,7 @@ class RolesControllerTest < ActionController::TestCase
   def test_guest_should_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -31,7 +31,7 @@ class RolesControllerTest < ActionController::TestCase
   #def test_guest_should_not_get_new
   #  get :new
   #  assert_response :redirect
-  #  assert_redirected_to new_session_url
+  #  assert_redirected_to new_user_session_url
   #end
   
   #def test_user_should_not_get_new
@@ -59,7 +59,7 @@ class RolesControllerTest < ActionController::TestCase
   #  assert_equal old_count, Role.count
   #  
   #  assert_response :redirect
-  #  assert_redirected_to new_session_url
+  #  assert_redirected_to new_user_session_url
   #end
 
   #def test_user_should_not_create_role
@@ -100,7 +100,7 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_show_role
     get :show, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_show_role
@@ -125,7 +125,7 @@ class RolesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -149,7 +149,7 @@ class RolesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_role
     put :update, :id => 1, :role => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_role
@@ -182,7 +182,7 @@ class RolesControllerTest < ActionController::TestCase
   #  assert_equal old_count, Role.count
   #  
   #  assert_response :redirect
-  #  assert_redirected_to new_session_url
+  #  assert_redirected_to new_user_session_url
   #end
 
   #def test_user_should_not_destroy_role

@@ -6,7 +6,7 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:request_status_types)
   end
 
@@ -60,7 +60,7 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_request_status_type
@@ -102,7 +102,7 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_request_status_type
     get :show, :id => request_status_types(:request_status_type_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_request_status_type
@@ -126,7 +126,7 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => request_status_types(:request_status_type_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -150,7 +150,7 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_request_status_type
     put :update, :id => request_status_types(:request_status_type_00001).id, :request_status_type => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_request_status_type
@@ -183,7 +183,7 @@ class RequestStatusTypesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_request_status_type

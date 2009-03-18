@@ -37,7 +37,7 @@ class CreatesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -58,7 +58,7 @@ class CreatesControllerTest < ActionController::TestCase
     assert_equal old_count, Create.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_create
@@ -126,7 +126,7 @@ class CreatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -144,7 +144,7 @@ class CreatesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_create
     put :update, :id => 1, :create => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_create
@@ -176,7 +176,7 @@ class CreatesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Create.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_create

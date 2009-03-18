@@ -52,7 +52,7 @@ class EventsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -78,7 +78,7 @@ class EventsControllerTest < ActionController::TestCase
     post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
     assert_equal old_count, Event.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_event
@@ -86,7 +86,7 @@ class EventsControllerTest < ActionController::TestCase
     post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
     assert_equal old_count, Event.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_create_event_without_library_id
@@ -161,7 +161,7 @@ class EventsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -184,7 +184,7 @@ class EventsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_event
     put :update, :id => 1, :event => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_event
@@ -229,7 +229,7 @@ class EventsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Event.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_event

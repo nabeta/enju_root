@@ -102,8 +102,9 @@ class UsersController < ApplicationController
       if params[:user][:auto_generated_password] == "1"
         @user.set_auto_generated_password if current_user.has_role?('Librarian')
       else
-        unless params[:user][:old_password].blank?
-          if @user.authenticated?(params[:user][:old_password])
+        old_password = params[:user][:old_password]
+        unless old_password.blank?
+          if @user.valid_password?(old_password)
             #@user.update_attributes(:password => params[:password], :password_confirmation => params[:password_confirmation])
             @user.password = params[:user][:password] if params[:user][:password]
             @user.password_confirmation = params[:user][:password_confirmation] if params[:user][:password_confirmation]

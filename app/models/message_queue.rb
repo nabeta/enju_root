@@ -1,7 +1,7 @@
 class MessageQueue < ActiveRecord::Base
   include AASM
   include LibrarianRequired
-  named_scope :not_sent, :conditions => {:sent_at => nil}
+  named_scope :not_sent, :conditions => ['sent_at IS NULL AND state != ?', 'sent']
   named_scope :sent, :conditions => {:state => 'sent'}
   belongs_to :message_template, :validate => true
   belongs_to :sender, :class_name => "User", :foreign_key => "sender_id", :validate => true
@@ -30,8 +30,8 @@ class MessageQueue < ActiveRecord::Base
   def send_message
     if self.body
       Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
-      self.update_attributes({:sent_at => Time.zone.now})
     end
+    self.update_attributes({:sent_at => Time.zone.now})
   end
   
   def subject

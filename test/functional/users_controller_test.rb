@@ -95,7 +95,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -114,7 +114,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_guest_should_not_update_user
     put :update, :id => 'admin', :user => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_update_myself
@@ -174,7 +174,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new, :patron_id => 6
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_get_new_without_patron_id
@@ -198,7 +198,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_guest_should_not_show_user
     get :show, :id => users(:user1).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_show_my_user
@@ -222,7 +222,7 @@ class UsersControllerTest < ActionController::TestCase
   def test_guest_should_not_edit_user
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_edit_missing_user
@@ -254,7 +254,7 @@ class UsersControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, User.count
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_myself

@@ -6,19 +6,19 @@ class AnswersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_not_get_other_index_without_question_id
     get :index, :user_id => users(:user1).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_not_get_other_index_without_user_id
     get :index, :question_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_get_my_index_without_user_id
@@ -80,7 +80,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_get_new_without_question_id
@@ -101,7 +101,7 @@ class AnswersControllerTest < ActionController::TestCase
     post :create, :answer => { }
     assert_equal old_count, Answer.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_create_answer_without_user_id
@@ -140,7 +140,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_guest_should_not_show_private_answer
     get :show, :id => 4, :question_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_show_answer_without_user_id
@@ -188,7 +188,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_get_my_edit_without_user_id
@@ -230,7 +230,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_guest_should_not_update_answer
     put :update, :id => 1, :answer => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_update_my_answer
@@ -277,7 +277,7 @@ class AnswersControllerTest < ActionController::TestCase
     assert_equal old_count, Answer.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_destroy_my_answer

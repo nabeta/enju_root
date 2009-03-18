@@ -39,7 +39,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -65,7 +65,7 @@ class SubjectsControllerTest < ActionController::TestCase
     post :create, :subject => { }
     assert_equal old_count, Subject.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_subject
@@ -136,7 +136,7 @@ class SubjectsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => subjects(:subject_00001).to_param
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -171,7 +171,7 @@ class SubjectsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_subject
     put :update, :id => subjects(:subject_00001).to_param, :subject => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_subject
@@ -203,7 +203,7 @@ class SubjectsControllerTest < ActionController::TestCase
       delete :destroy, :id => subjects(:subject_00001).to_param
     end
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_subject

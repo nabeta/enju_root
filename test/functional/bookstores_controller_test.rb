@@ -7,7 +7,7 @@ class BookstoresControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:bookstores)
   end
 
@@ -28,7 +28,7 @@ class BookstoresControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -54,7 +54,7 @@ class BookstoresControllerTest < ActionController::TestCase
       post :create, :bookstore => { }
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_bookstore
@@ -96,7 +96,7 @@ class BookstoresControllerTest < ActionController::TestCase
   def test_guest_should_not_show_bookstore
     get :show, :id => bookstores(:bookstore_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_bookstore
@@ -114,7 +114,7 @@ class BookstoresControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => bookstores(:bookstore_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -138,7 +138,7 @@ class BookstoresControllerTest < ActionController::TestCase
   def test_guest_should_not_update_bookstore
     put :update, :id => bookstores(:bookstore_00001).id, :bookstore => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_bookstore
@@ -170,7 +170,7 @@ class BookstoresControllerTest < ActionController::TestCase
       delete :destroy, :id => bookstores(:bookstore_00001).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_bookstore

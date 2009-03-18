@@ -12,7 +12,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -32,7 +32,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
       post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2}
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create manifestation_has_manifestation" do
@@ -61,7 +61,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   test "guest should not get edit" do
     get :edit, :id => manifestation_has_manifestations(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should get edit" do
@@ -78,7 +78,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
 
   test "guest should not update manifestation_has_manifestation" do
     put :update, :id => manifestation_has_manifestations(:one).id, :manifestation_has_manifestation => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update manifestation_has_manifestation" do
@@ -98,7 +98,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
       delete :destroy, :id => manifestation_has_manifestations(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy manifestation_has_manifestation" do

@@ -12,7 +12,7 @@ class ManifestationCheckoutStatsControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -33,7 +33,7 @@ class ManifestationCheckoutStatsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create manifestation_checkout_stat" do
@@ -62,7 +62,7 @@ class ManifestationCheckoutStatsControllerTest < ActionController::TestCase
   test "guest should not get edit" do
     get :edit, :id => manifestation_checkout_stats(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get edit" do
@@ -79,7 +79,7 @@ class ManifestationCheckoutStatsControllerTest < ActionController::TestCase
 
   test "guest should not update manifestation_checkout_stat" do
     put :update, :id => manifestation_checkout_stats(:one).id, :manifestation_checkout_stat => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update manifestation_checkout_stat" do
@@ -99,7 +99,7 @@ class ManifestationCheckoutStatsControllerTest < ActionController::TestCase
       delete :destroy, :id => manifestation_checkout_stats(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy manifestation_checkout_stat" do

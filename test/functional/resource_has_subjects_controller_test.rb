@@ -37,7 +37,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1 }
     assert_equal old_count, ResourceHasSubject.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_resource_has_subject
@@ -65,7 +65,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1 }
     assert_equal old_count, ResourceHasSubject.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_resource_has_subject_without_subject_id
@@ -126,7 +126,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -143,7 +143,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_resource_has_subject
     put :update, :id => 1, :resource_has_subject => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_resource_has_subject
@@ -181,7 +181,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, ResourceHasSubject.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_resource_has_subject

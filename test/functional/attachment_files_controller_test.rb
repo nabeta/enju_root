@@ -9,7 +9,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -44,7 +44,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -83,7 +83,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_attachment_file
@@ -138,7 +138,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_attachment_file
     get :show, :id => attachment_files(:attachment_file_00001)
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_attachment_file
@@ -156,7 +156,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => attachment_files(:attachment_file_00001)
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -174,7 +174,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_attachment_file
     put :update, :id => attachment_files(:attachment_file_00001), :attachment_file => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_attachment_file
@@ -209,7 +209,7 @@ class AttachmentFilesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_attachment_file

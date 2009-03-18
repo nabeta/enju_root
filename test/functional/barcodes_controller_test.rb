@@ -6,7 +6,7 @@ class BarcodesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:barcodes)
   end
 
@@ -27,7 +27,7 @@ class BarcodesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -47,7 +47,7 @@ class BarcodesControllerTest < ActionController::TestCase
       post :create, :barcode => {:code_word => 'test'}
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_barcode
@@ -88,7 +88,7 @@ class BarcodesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => barcodes(:barcode_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -105,7 +105,7 @@ class BarcodesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_update_barcode
     put :update, :id => barcodes(:barcode_00001).id, :barcode => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_barcode
@@ -125,7 +125,7 @@ class BarcodesControllerTest < ActionController::TestCase
       delete :destroy, :id => barcodes(:barcode_00001).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_barcode

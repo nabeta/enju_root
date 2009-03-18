@@ -144,7 +144,7 @@ class ItemsController < ApplicationController
         Item.transaction do
           @manifestation.items << @item
           @item.reload
-          @item.post_to_federated_catalog
+          @item.post_to_union_catalog
 
           if @item.shelf
             @item.shelf.library.patron.items << @item

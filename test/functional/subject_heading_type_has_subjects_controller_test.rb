@@ -12,7 +12,7 @@ class SubjectHeadingTypeHasSubjectsControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -38,7 +38,7 @@ class SubjectHeadingTypeHasSubjectsControllerTest < ActionController::TestCase
       post :create, :subject_heading_type_has_subject => {:subject_heading_type_id => 1, :subject_id => 3}
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create subject_heading_type_has_subject" do
@@ -76,7 +76,7 @@ class SubjectHeadingTypeHasSubjectsControllerTest < ActionController::TestCase
   test "guest should not get edit" do
     get :edit, :id => subject_heading_type_has_subjects(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get edit" do
@@ -99,7 +99,7 @@ class SubjectHeadingTypeHasSubjectsControllerTest < ActionController::TestCase
 
   test "guest should not update subject_heading_type_has_subject" do
     put :update, :id => subject_heading_type_has_subjects(:one).id, :subject_heading_type_has_subject => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update subject_heading_type_has_subject" do
@@ -125,7 +125,7 @@ class SubjectHeadingTypeHasSubjectsControllerTest < ActionController::TestCase
       delete :destroy, :id => subject_heading_type_has_subjects(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy subject_heading_type_has_subject" do

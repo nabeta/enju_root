@@ -12,7 +12,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -32,7 +32,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
       post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2}
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create expression_has_expression" do
@@ -61,7 +61,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   test "guest should not get edit" do
     get :edit, :id => expression_has_expressions(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should get edit" do
@@ -78,7 +78,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
 
   test "guest should not update expression_has_expression" do
     put :update, :id => expression_has_expressions(:one).id, :expression_has_expression => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update expression_has_expression" do
@@ -98,7 +98,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
       delete :destroy, :id => expression_has_expressions(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy expression_has_expression" do

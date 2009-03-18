@@ -55,7 +55,7 @@ class TagsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 'next-l'
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -72,7 +72,7 @@ class TagsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_tag
     put :update, :id => 'next-l', :tag => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_tag
@@ -98,7 +98,7 @@ class TagsControllerTest < ActionController::TestCase
     delete :destroy, :id => 'next-l'
     assert_equal old_count, Tag.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_tag

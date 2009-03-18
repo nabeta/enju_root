@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resource :user_session
+
   #map.resources :people do |person|
   #  person.resources :works
   #  person.resources :expressions

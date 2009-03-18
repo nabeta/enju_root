@@ -9,7 +9,7 @@ class BasketsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index, :user_id => users(:user1).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_get_index_without_user_id
@@ -34,7 +34,7 @@ class BasketsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new, :user_id => users(:user1).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -55,7 +55,7 @@ class BasketsControllerTest < ActionController::TestCase
     assert_equal old_count, Basket.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_basket
@@ -88,7 +88,7 @@ class BasketsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_basket
     get :show, :id => 1, :user_id => users(:admin).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_not_show_basket_without_user_number
@@ -112,7 +112,7 @@ class BasketsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1, :user_id => users(:admin).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_edit_without_user_id
@@ -136,7 +136,7 @@ class BasketsControllerTest < ActionController::TestCase
   def test_guest_should_not_destroy_basket
     delete :destroy, :id => 1, :basket => { }, :user_id => users(:user1).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_basket_without_user_id
@@ -170,7 +170,7 @@ class BasketsControllerTest < ActionController::TestCase
     assert_equal old_count, Basket.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_basket_without_user_id

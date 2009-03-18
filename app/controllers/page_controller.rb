@@ -1,6 +1,7 @@
 class PageController < ApplicationController
   before_filter :store_location, :except => [:opensearch, :sitemap]
-  before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
+  #before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
+  before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
   require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message]
@@ -30,7 +31,7 @@ class PageController < ApplicationController
     if logged_in?
       redirect_to inbox_user_messages_url(current_user.login)
     else
-      redirect_to new_session_url
+      redirect_to new_user_session_url
     end
   end
 

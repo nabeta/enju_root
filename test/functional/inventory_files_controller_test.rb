@@ -8,7 +8,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:inventory_files)
   end
 
@@ -29,7 +29,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -49,7 +49,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
       post :create, :inventory_file => { }
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_inventory_file
@@ -75,7 +75,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_inventory_file
     get :show, :id => inventory_files(:inventory_file_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_inventory_file
@@ -93,7 +93,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => inventory_files(:inventory_file_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -110,7 +110,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_update_inventory_file
     put :update, :id => inventory_files(:inventory_file_00003).id, :inventory_file => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_inventory_file
@@ -130,7 +130,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
       delete :destroy, :id => inventory_files(:inventory_file_00003).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_inventory_file

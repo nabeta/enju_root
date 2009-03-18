@@ -5,7 +5,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_index
     get :index, :user_id => users(:admin).login
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -34,7 +34,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new, :user_id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_new
@@ -48,7 +48,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
     post :create, :search_history => { }
     assert_equal old_count, SearchHistory.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_search_history
@@ -65,7 +65,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_search_history
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_search_history
@@ -95,7 +95,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_edit
@@ -106,7 +106,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_search_history
     put :update, :id => 1, :search_history => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_update_search_history
@@ -120,7 +120,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, SearchHistory.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_search_history

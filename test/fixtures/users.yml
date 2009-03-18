@@ -30,6 +30,7 @@ librarian2:
   save_search_history: false
   required_role_id: 1
   user_number: "00004"
+  persistence_token: test
 user2: 
   salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
   questions_count: 0
@@ -61,8 +62,10 @@ user2:
   save_search_history: false
   required_role_id: 2
   user_number: "00005"
+  persistence_token: test
 admin: 
-  salt: 3e113e7ed6a655f2e0824661362965cc84ba057b
+  #salt: 3e113e7ed6a655f2e0824661362965cc84ba057b
+  password_salt: 1456d4f4b7eb4e7e9ad0d49c05e3483d2d63e45a504aa094a26ae1bdcb097fcab4fb02dcecbf8dd473a079d87cb11c984e3104c1122de28493dbc8c843a35b87
   questions_count: 0
   checkouts_count: 0
   answer_rss_token: 
@@ -70,7 +73,8 @@ admin:
   checkout_icalendar_token: 577830b08ecf9c4c4333d599a57a6f44a7fe76c0
   activated_at: 2007-11-19 07:58:32.266958 +09:00
   expired_at: 
-  crypted_password: 9533a4df0f14ce21677cdc4cd89e9eea4f22008a
+  #crypted_password: 9533a4df0f14ce21677cdc4cd89e9eea4f22008a
+  crypted_password: 3732cc3293291fdbf09c94614e6c903ae3d0aca3
   deleted_at: 
   user_group_id: 2
   remember_token_expires_at: 
@@ -92,6 +96,7 @@ admin:
   save_search_history: true
   required_role_id: 4
   user_number: "00001"
+  persistence_token: test
 librarian1: 
   salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
   questions_count: 0
@@ -123,8 +128,10 @@ librarian1:
   save_search_history: false
   required_role_id: 1
   user_number: "00002"
+  persistence_token: test
 user1: 
-  salt: 04f8a5895162043979444830de2b9d0a021255c6
+  #salt: 04f8a5895162043979444830de2b9d0a021255c6
+  password_salt: 9736993efc095816e2590b3ddcc102cccaba386567d334a57284c35a0acedc0d16faa44b70b62bb93735b0ec1aebb6647c9f28ce900b91ecbe1d6fe7e747365e
   questions_count: 0
   checkouts_count: 0
   answer_rss_token: 
@@ -132,7 +139,8 @@ user1:
   checkout_icalendar_token: b5db2091d96100335d287834274777864fea1c91
   activated_at: 2007-11-19 07:58:34.801650 +09:00
   expired_at: 
-  crypted_password: a697df1e63a8618f5ff4517c76d6d3ae6df8d2c6
+  #crypted_password: a697df1e63a8618f5ff4517c76d6d3ae6df8d2c6
+  crypted_password: 5cc0dffb023444c3a42b7fdddaf3e4735e89b94c
   deleted_at: 
   user_group_id: 1
   remember_token_expires_at: 
@@ -155,3 +163,4 @@ user1:
   required_role_id: 3
   checkout_icalendar_token: e3e0277cbba03183c3a12d2b740f3eabebd7df0d
   user_number: "00003"
+  persistence_token: test

@@ -1,0 +1,25 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
+<div id="content_list">
+  <%= textilize(h(@library_group.login_banner)) -%>
+</div>
+</div>
+
+<div id="submenu">
+<% form_for @user_session, :url => user_session_path do |f| %>
+  <p><%= f.label t('page.login_name') -%><br/>
+  <%= f.text_field :login, :class => 'login_password' %></p>
+
+  <p><%= f.label t('page.password') -%><br/>
+  <%= f.password_field :password, :class => 'login_password' %></p>
+
+  <p><%= f.label t('user_session.remember_me') -%>
+  <%= f.check_box :remember_me %></p>
+
+  <p>
+    <%= f.submit t('page.login') %>
+  </p>
+
+<% end %>
+<%= javascript_tag("$('user_session_login').focus()") -%>
+</div>

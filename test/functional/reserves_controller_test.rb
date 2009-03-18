@@ -7,7 +7,7 @@ class ReservesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index, :user_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_get_my_index
@@ -68,7 +68,7 @@ class ReservesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new, :user_id => users(:user1).login, :manifestation_id => 3
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_get_my_new
@@ -104,7 +104,7 @@ class ReservesControllerTest < ActionController::TestCase
   def test_guest_should_not_create_reserve
     old_count = Reserve.count
     post :create, :reserve => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_reserve_without_manifestation_id
@@ -180,7 +180,7 @@ class ReservesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_reserve
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_show_missing_reserve
@@ -228,7 +228,7 @@ class ReservesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 3
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_missing_edit
@@ -345,7 +345,7 @@ class ReservesControllerTest < ActionController::TestCase
     old_count = Reserve.count
     delete :destroy, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_reserve_without_user_id

@@ -11,7 +11,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index, :basket_id => 1, :item_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_get_index_without_basket_id
@@ -49,7 +49,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new, :basket_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_new_without_basket_id
@@ -76,7 +76,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     assert_equal old_count, CheckedItem.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_checked_item_without_item_id
@@ -171,7 +171,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_checked_item
     get :show, :id => 1, :basket_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_not_show_checked_item_without_basket_id
@@ -195,7 +195,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1, :basket_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_edit_without_basket_id
@@ -219,7 +219,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_checked_item
     put :update, :id => 1, :checked_item => { }, :basket_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_update_checked_item_without_basket_id
@@ -253,7 +253,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     assert_equal old_count, CheckedItem.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_checked_item_without_basket_id

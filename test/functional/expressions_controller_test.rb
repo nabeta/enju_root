@@ -69,7 +69,7 @@ class ExpressionsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -108,7 +108,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count, Expression.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_expression_without_work_id
@@ -216,7 +216,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -239,7 +239,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_expression
     put :update, :id => 1, :expression => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_expression
@@ -277,7 +277,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Expression.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_expression

@@ -31,7 +31,7 @@ class FrequencyOfIssuesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class FrequencyOfIssuesControllerTest < ActionController::TestCase
     post :create, :frequency_of_issue => { }
     assert_equal old_count, FrequencyOfIssue.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_frequency_of_issue
@@ -121,7 +121,7 @@ class FrequencyOfIssuesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -144,7 +144,7 @@ class FrequencyOfIssuesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_frequency_of_issue
     put :update, :id => 1, :frequency_of_issue => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_frequency_of_issue
@@ -176,7 +176,7 @@ class FrequencyOfIssuesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, FrequencyOfIssue.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_frequency_of_issue

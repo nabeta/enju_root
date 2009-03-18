@@ -6,7 +6,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   test "guest should not get index" do
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:checkout_stat_has_manifestations)
   end
 
@@ -27,7 +27,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -47,7 +47,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
       post :create, :checkout_stat_has_manifestation => { }
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create checkout_stat_has_manifestation" do
@@ -71,7 +71,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   test "guest should not show checkout_stat_has_manifestation" do
     get :show, :id => checkout_stat_has_manifestations(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not show checkout_stat_has_manifestation" do
@@ -89,7 +89,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   test "guest should get edit" do
     get :edit, :id => checkout_stat_has_manifestations(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should get edit" do
@@ -106,7 +106,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
 
   test "guest should not update checkout_stat_has_manifestation" do
     put :update, :id => checkout_stat_has_manifestations(:one).id, :checkout_stat_has_manifestation => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update checkout_stat_has_manifestation" do
@@ -126,7 +126,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
       delete :destroy, :id => checkout_stat_has_manifestations(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy checkout_stat_has_manifestation" do

@@ -6,7 +6,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:expression_merge_lists)
   end
 
@@ -27,7 +27,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -48,7 +48,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_expression_merge_list
@@ -81,7 +81,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_expression_merge_list
     get :show, :id => expression_merge_lists(:expression_merge_list_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_expression_merge_list
@@ -99,7 +99,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => expression_merge_lists(:expression_merge_list_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -117,7 +117,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_expression_merge_list
     put :update, :id => expression_merge_lists(:expression_merge_list_00001).id, :expression_merge_list => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_expression_merge_list
@@ -160,7 +160,7 @@ class ExpressionMergeListsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_expression_merge_list

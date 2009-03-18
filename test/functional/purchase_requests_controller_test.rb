@@ -6,7 +6,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:purchase_requests)
   end
 
@@ -48,7 +48,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
   def test_guest_should_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_get_my_new
@@ -75,7 +75,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_create_purchase_request_without_user_id
@@ -117,7 +117,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_purchase_request
     get :show, :id => purchase_requests(:purchase_request_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_show_my_purchase_request
@@ -141,7 +141,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => purchase_requests(:purchase_request_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_get_my_edit
@@ -164,7 +164,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_update_purchase_request
     put :update, :id => purchase_requests(:purchase_request_00003).id, :purchase_request => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_update_my_purchase_request
@@ -203,7 +203,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_destroy_my_purchase_request

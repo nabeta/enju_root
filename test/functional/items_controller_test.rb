@@ -34,7 +34,7 @@ class ItemsControllerTest < ActionController::TestCase
   def test_guest_not_should_get_index_with_inventory_file_id
     get :index, :inventory_file_id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert assigns(:inventory_file)
     assert_nil assigns(:items)
   end
@@ -76,7 +76,7 @@ class ItemsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_new_without_manifestation_id
@@ -108,7 +108,7 @@ class ItemsControllerTest < ActionController::TestCase
     post :create, :item => { :circulation_status_id => 1, :manifestation_id => 1 }
     assert_equal old_count, Item.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_item_without_manifestation_id
@@ -189,7 +189,7 @@ class ItemsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_edit_missing_item
@@ -218,7 +218,7 @@ class ItemsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_item
     put :update, :id => 1, :item => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_update_missing_item
@@ -256,7 +256,7 @@ class ItemsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Item.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_missing_item

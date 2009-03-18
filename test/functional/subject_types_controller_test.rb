@@ -6,7 +6,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:subject_types)
   end
 
@@ -33,7 +33,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -59,7 +59,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
       post :create, :subject_type => { }
     end
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_subject_type
@@ -102,7 +102,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_subject_type
     get :show, :id => subject_types(:subject_type_00001)
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_subject_type
@@ -125,7 +125,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => subject_types(:subject_type_00001)
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -148,7 +148,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_subject_type
     put :update, :id => subject_types(:subject_type_00001), :subject_type => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_subject_type
@@ -180,7 +180,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
       delete :destroy, :id => subject_types(:subject_type_00001)
     end
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_subject_type

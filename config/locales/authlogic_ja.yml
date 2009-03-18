@@ -1,0 +1,15 @@
+ja:
+  authlogic:
+    error_messages:
+      login_blank: ログイン名を入力してください。
+      login_not_found: ログイン名は存在しません。
+      login_invalid: ログイン名に使用できない文字が含まれています。半角の英数字とアンダーバー、アットマークのみ使用できます。
+      consecutive_failed_logins_limit_exceeded: ログインの試行回数の上限を超えました。アカウントは停止されました。
+      email_invalid: メールアドレスの形式が正しくありません。
+      password_blank: パスワードを入力してください。
+      password_invalid: パスワードが無効です。
+      not_active: アカウントが停止されています。
+      not_confirmed: アカウントが確認されていません。
+      not_approved: アカウントが承認されていません。
+      blank_record: You can not login with a blank record
+      new_record: You can not login with a new record

@@ -935,7 +935,7 @@ ja:
     from: "ここから"
     to: "ここまで"
     all_libraries: "全ての図書館"
-  session:
+  user_session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"

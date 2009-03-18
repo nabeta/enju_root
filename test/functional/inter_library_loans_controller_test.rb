@@ -7,7 +7,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -48,7 +48,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -72,7 +72,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
   def test_guest_should_not_create_inter_library_loan
     old_count = InterLibraryLoan.count
     post :create, :inter_library_loan => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_inter_library_loan_without_item_id
@@ -125,7 +125,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
   def test_guest_should_not_show_inter_library_loan
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_show_missing_inter_library_loan
@@ -155,7 +155,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 3
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_missing_edit
@@ -185,7 +185,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
   def test_guest_should_not_update_inter_library_loan
     put :update, :id => 1, :inter_library_loan => { }
     assert_response :redirect
-    assert_redirected_to new_session_path
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_update_inter_library_loan_without_borrowing_library_id
@@ -258,7 +258,7 @@ class InterLibraryLoansControllerTest < ActionController::TestCase
     old_count = InterLibraryLoan.count
     delete :destroy, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_missing_inter_library_loan
