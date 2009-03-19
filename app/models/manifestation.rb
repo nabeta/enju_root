@@ -63,6 +63,7 @@ class Manifestation < ActiveRecord::Base
   #acts_as_soft_deletable
   acts_as_tree
   #enju_twitter
+  enju_manifestation_viewer
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -138,17 +139,6 @@ class Manifestation < ActiveRecord::Base
     available_checkout_types(user).collect(&:reservation_expired_period).max
   end
   
-  #def reserved?(user = nil)
-  #  if user
-  #    self.reserving_users.collect{|r|
-  #      return true if  r.id == user.id
-  #    }
-  #  else
-  #    return true unless self.reserves.blank?
-  #  end
-  #  return false
-  #end
-
   def embodies?(expression)
     expression.manifestations.detect{|manifestation| manifestation == self} rescue nil
   end
@@ -181,39 +171,6 @@ class Manifestation < ActiveRecord::Base
 
   def next_reservation
     self.reserves.find(:first, :order => ['reserves.created_at'])
-  end
-
-  def youtube_id
-    if access_address
-      url = URI.parse(access_address)
-      if url.host =~ /youtube\.com$/ and url.path == "/watch"
-        return CGI.parse(url.query)["v"][0]
-      end
-    end
-  end
-
-  def nicovideo_id
-    if access_address
-      url = URI.parse(access_address)
-      if url.host =~ /nicovideo\.jp$/ and url.path =~ /^\/watch/
-        return url.path.split("/")[2]
-      end
-    end
-  end
-
-  def flickr
-    if access_address
-      info = {}
-      url = URI.parse(access_address)
-      paths = url.path.split('/')
-      if url.host =~ /^www\.flickr\.com$/ and paths[1] == 'photos' and paths[2]
-        info[:user] = paths[2]
-        if paths[3] == "sets"
-          info[:set_id] = paths[4]
-        end
-      end
-      return info
-    end
   end
 
   def authors
