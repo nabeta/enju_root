@@ -32,7 +32,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -58,7 +58,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
     post :create, :classification_type => { }
     assert_equal old_count, ClassificationType.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_classification_type
@@ -122,7 +122,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -145,7 +145,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_classification_type
     put :update, :id => 1, :classification_type => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_classification_type
@@ -177,7 +177,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, ClassificationType.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_classification_type

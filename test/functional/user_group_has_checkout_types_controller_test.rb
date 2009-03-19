@@ -6,7 +6,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:user_group_has_checkout_types)
   end
 
@@ -32,7 +32,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -58,7 +58,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
     post :create, :user_group_has_checkout_type => { }
     assert_equal old_count, UserGroupHasCheckoutType.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_user_group_has_checkout_type
@@ -100,7 +100,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_user_group_has_checkout_type
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_user_group_has_checkout_type
@@ -123,7 +123,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -146,7 +146,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_user_group_has_checkout_type
     put :update, :id => 1, :user_group_has_checkout_type => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_user_group_has_checkout_type
@@ -172,7 +172,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, UserGroupHasCheckoutType.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_user_group_has_checkout_type

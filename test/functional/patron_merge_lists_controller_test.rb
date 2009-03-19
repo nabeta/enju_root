@@ -6,7 +6,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:patron_merge_lists)
   end
 
@@ -27,7 +27,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -48,7 +48,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_patron_merge_list
@@ -81,7 +81,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_patron_merge_list
     get :show, :id => patron_merge_lists(:patron_merge_list_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_patron_merge_list
@@ -99,7 +99,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => patron_merge_lists(:patron_merge_list_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -117,7 +117,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_patron_merge_list
     put :update, :id => patron_merge_lists(:patron_merge_list_00001).id, :patron_merge_list => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_patron_merge_list
@@ -160,7 +160,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_patron_merge_list

@@ -12,7 +12,7 @@ class CheckoutsController < ApplicationController
   def index
     @library_group = LibraryGroup.find(:first)
 
-    if params[:icalendar_token]
+    if params[:icalendar_token].present?
       icalendar_user = User.find(:first, :conditions => {:checkout_icalendar_token => params[:icalendar_token]})
       if icalendar_user.blank?
         raise ActiveRecord::RecordNotFound

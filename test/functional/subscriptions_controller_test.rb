@@ -6,7 +6,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   def test_guest_should_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -31,7 +31,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
     post :create, :subscription => { :title => 'test' }
     assert_equal old_count, Subscription.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_subscription
@@ -99,7 +99,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_subscription
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_subscription
@@ -123,7 +123,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -146,7 +146,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_subscription
     put :update, :id => 1, :subscription => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_subscription
@@ -178,7 +178,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Subscription.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_subscription

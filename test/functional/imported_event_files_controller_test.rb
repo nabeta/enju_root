@@ -9,7 +9,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:imported_event_files)
   end
 
@@ -30,7 +30,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -50,7 +50,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
       post :create, :imported_event_file => { }
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_imported_event_file
@@ -74,7 +74,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_imported_event_file
     get :show, :id => imported_event_files(:imported_event_file_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_imported_event_file
@@ -92,7 +92,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => imported_event_files(:imported_event_file_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -109,7 +109,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_update_imported_event_file
     put :update, :id => imported_event_files(:imported_event_file_00003).id, :imported_event_file => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_imported_event_file
@@ -129,7 +129,7 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
       delete :destroy, :id => imported_event_files(:imported_event_file_00003).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_imported_event_file

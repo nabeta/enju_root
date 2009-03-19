@@ -40,7 +40,7 @@ class OwnsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -61,7 +61,7 @@ class OwnsControllerTest < ActionController::TestCase
     assert_equal old_count, Own.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_own
@@ -120,7 +120,7 @@ class OwnsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -138,7 +138,7 @@ class OwnsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_own
     put :update, :id => 1, :own => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_own
@@ -171,7 +171,7 @@ class OwnsControllerTest < ActionController::TestCase
     assert_equal old_count, Own.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_destroy_own

@@ -6,7 +6,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:advertises)
   end
 
@@ -32,7 +32,7 @@ class AdvertisesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -58,7 +58,7 @@ class AdvertisesControllerTest < ActionController::TestCase
     post :create, :advertise => { }
     assert_equal old_count, Advertise.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_advertise
@@ -100,7 +100,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_advertise
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_advertise
@@ -123,7 +123,7 @@ class AdvertisesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -146,7 +146,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_advertise
     put :update, :id => 1, :advertise => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_advertise
@@ -172,7 +172,7 @@ class AdvertisesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Advertise.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_advertise

@@ -6,7 +6,7 @@ class DonatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:donates)
   end
 
@@ -27,7 +27,7 @@ class DonatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -48,7 +48,7 @@ class DonatesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_donate
@@ -90,7 +90,7 @@ class DonatesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_donate
     get :show, :id => donates(:donate_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_donate
@@ -108,7 +108,7 @@ class DonatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => donates(:donate_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -126,7 +126,7 @@ class DonatesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_donate
     put :update, :id => donates(:donate_00001).id, :donate => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_donate
@@ -159,7 +159,7 @@ class DonatesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_donate

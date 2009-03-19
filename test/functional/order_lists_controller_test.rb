@@ -6,7 +6,7 @@ class OrderListsControllerTest < ActionController::TestCase
   def test_guest_should_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -31,7 +31,7 @@ class OrderListsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class OrderListsControllerTest < ActionController::TestCase
     post :create, :order_list => { :title => 'test' }
     assert_equal old_count, OrderList.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_order_list
@@ -108,7 +108,7 @@ class OrderListsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_order_list
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_order_list
@@ -132,7 +132,7 @@ class OrderListsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -155,7 +155,7 @@ class OrderListsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_order_list
     put :update, :id => 1, :order_list => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_order_list
@@ -187,7 +187,7 @@ class OrderListsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, OrderList.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_order_list

@@ -68,7 +68,7 @@ class QuestionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_get_new
@@ -82,7 +82,7 @@ class QuestionsControllerTest < ActionController::TestCase
     post :create, :question => { }
     assert_equal old_count, Question.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
 
@@ -107,7 +107,7 @@ class QuestionsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_question
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_question_without_user_id
@@ -143,7 +143,7 @@ class QuestionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit_other_question
@@ -173,7 +173,7 @@ class QuestionsControllerTest < ActionController::TestCase
   def test_user_should_not_update_question_without_login
     put :update, :id => 1, :question => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_update_my_question
@@ -206,7 +206,7 @@ class QuestionsControllerTest < ActionController::TestCase
     assert_equal old_count, Question.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_destroy_my_question

@@ -6,7 +6,7 @@ class OrdersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -45,7 +45,7 @@ class OrdersControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -72,7 +72,7 @@ class OrdersControllerTest < ActionController::TestCase
     post :create, :order => { :order_list_id => 1, :purchase_request_id => 1 }
     assert_equal old_count, Order.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_order
@@ -80,7 +80,7 @@ class OrdersControllerTest < ActionController::TestCase
     post :create, :order => { :order_list_id => 1, :purchase_request_id => 1 }
     assert_equal old_count, Order.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_order_without_order_list_id
@@ -122,7 +122,7 @@ class OrdersControllerTest < ActionController::TestCase
   def test_guest_should_not_show_order
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_show_order
@@ -140,7 +140,7 @@ class OrdersControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -157,7 +157,7 @@ class OrdersControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_order
     put :update, :id => 1, :order => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_order
@@ -189,7 +189,7 @@ class OrdersControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Order.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_order

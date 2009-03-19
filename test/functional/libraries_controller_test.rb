@@ -32,7 +32,7 @@ class LibrariesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -58,7 +58,7 @@ class LibrariesControllerTest < ActionController::TestCase
     post :create, :library => { :name => 'Fujisawa Library', :short_name => 'fujisawa' }
     assert_equal old_count, Library.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_library
@@ -146,7 +146,7 @@ class LibrariesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 'kamata'
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -169,7 +169,7 @@ class LibrariesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_library
     put :update, :id => 'kamata', :library => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_library
@@ -207,7 +207,7 @@ class LibrariesControllerTest < ActionController::TestCase
     delete :destroy, :id => 'kamata'
     assert_equal old_count, Library.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_library

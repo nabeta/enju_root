@@ -10,7 +10,7 @@ class BookmarksControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_index
     get :index
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index_without_user_id
@@ -57,7 +57,7 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new_without_user_id
@@ -99,7 +99,7 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {:title => 'example', :url => 'http://example.com'}
     assert_equal old_count, Bookmark.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_create_bookmark
@@ -171,13 +171,13 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_guest_should_not_show_bookmark_without_user_id
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_not_show_bookmark_with_user_id
     get :show, :id => 5, :user_id => users(:user2).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_other_user_bookmark
@@ -201,7 +201,7 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit_without_user_id
@@ -236,7 +236,7 @@ class BookmarksControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_bookmark
     put :update, :id => 1, :user_id => users(:admin).login, :bookmark => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_update_my_bookmark_without_user_id
@@ -284,7 +284,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal old_count, Bookmark.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_destroy_my_bookmark

@@ -11,7 +11,7 @@ class CheckinsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
@@ -30,7 +30,7 @@ class CheckinsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -52,7 +52,7 @@ class CheckinsControllerTest < ActionController::TestCase
     assert_equal old_count, Checkin.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_checkin_without_item_id
@@ -121,7 +121,7 @@ class CheckinsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_checkin
     get :show, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_show_missing_checkin
@@ -145,7 +145,7 @@ class CheckinsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_missing_edit
@@ -163,7 +163,7 @@ class CheckinsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_checkin
     put :update, :id => 1, :checkin => { :item_identifier => 1 }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_update_missing_checkin
@@ -196,7 +196,7 @@ class CheckinsControllerTest < ActionController::TestCase
     assert_equal old_count, Checkin.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_destroy_missing_checkin

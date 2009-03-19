@@ -63,7 +63,8 @@ class BookmarksController < ApplicationController
         else
           @bookmarked_resource = BookmarkedResource.new(:url => url)
           #@title = Bookmark.get_title(URI.encode(url), root_url)
-          @title = Bookmark.get_title(url, root_url)
+          #@title = Bookmark.get_title(url, root_url)
+          @title = Bookmark.get_title(params[:title])
         end
       else
         logger.warn "Failed to bookmark: #{params[:url]}"
@@ -95,15 +96,16 @@ class BookmarksController < ApplicationController
   def create
     url = URI.parse(params[:bookmark][:url]).normalize.to_s rescue nil
     url = "" if url == "/"
+      @bookmark = current_user.bookmarks.new(params[:bookmark])
 
     Bookmark.transaction do
       unless url.blank?
         unless @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           @bookmarked_resource = BookmarkedResource.new(:url => url)
           if params[:bookmark][:title]
-            @bookmarked_resource.title = params[:bookmark][:title]
-          else
-            @bookmarked_resource.title = Bookmark.get_title(URI.encode(url), root_url)
+            @bookmarked_resource.title = @bookmark.title
+          #else
+          #  @bookmarked_resource.title = Bookmark.get_title(URI.encode(url), root_url)
           end
 
           # 自館のページをブックマークする場合
@@ -134,15 +136,13 @@ class BookmarksController < ApplicationController
         return
       end
 
-      if @user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @bookmarked_resource.id})
+      if current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @bookmarked_resource.id})
         flash[:notice] = t('bookmark.already_bookmarked')
         redirect_to new_user_bookmark_url(current_user.login)
         return
       end
 
-      @bookmark = current_user.bookmarks.new(params[:bookmark])
       @bookmark.bookmarked_resource = @bookmarked_resource
-
       @bookmarked_resource.manifestation.reload
     end
 

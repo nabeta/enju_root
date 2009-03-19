@@ -59,53 +59,53 @@ class UserTest < ActiveSupport::TestCase
     assert_equal users(:user1), User.authenticate('user1', 'user1password')
   end
 
-  def test_should_set_remember_token
-    users(:user1).remember_me
-    assert_not_nil users(:user1).remember_token
-    assert_not_nil users(:user1).remember_token_expires_at
-  end
+  #def test_should_set_remember_token
+  #  users(:user1).remember_me
+  #  assert_not_nil users(:user1).remember_token
+  #  assert_not_nil users(:user1).remember_token_expires_at
+  #end
 
-  def test_should_unset_remember_token
-    users(:user1).remember_me
-    assert_not_nil users(:user1).remember_token
-    users(:user1).forget_me
-    assert_nil users(:user1).remember_token
-  end
+  #def test_should_unset_remember_token
+  #  users(:user1).remember_me
+  #  assert_not_nil users(:user1).remember_token
+  #  users(:user1).forget_me
+  #  assert_nil users(:user1).remember_token
+  #end
 
-  def test_should_remember_me_for_one_week
-    before = 1.week.from_now.utc
-    users(:user1).remember_me_for 1.week
-    after = 1.week.from_now.utc
-    assert_not_nil users(:user1).remember_token
-    assert_not_nil users(:user1).remember_token_expires_at
-    assert users(:user1).remember_token_expires_at.between?(before, after)
-  end
+  #def test_should_remember_me_for_one_week
+  #  before = 1.week.from_now.utc
+  #  users(:user1).remember_me_for 1.week
+  #  after = 1.week.from_now.utc
+  #  assert_not_nil users(:user1).remember_token
+  #  assert_not_nil users(:user1).remember_token_expires_at
+  #  assert users(:user1).remember_token_expires_at.between?(before, after)
+  #end
 
-  def test_should_remember_me_until_one_week
-    time = 1.week.from_now.utc
-    users(:user1).remember_me_until time
-    assert_not_nil users(:user1).remember_token
-    assert_not_nil users(:user1).remember_token_expires_at
-    assert_equal users(:user1).remember_token_expires_at, time
-  end
+  #def test_should_remember_me_until_one_week
+  #  time = 1.week.from_now.utc
+  #  users(:user1).remember_me_until time
+  #  assert_not_nil users(:user1).remember_token
+  #  assert_not_nil users(:user1).remember_token_expires_at
+  #  assert_equal users(:user1).remember_token_expires_at, time
+  #end
 
-  def test_should_remember_me_default_two_weeks
-    before = 2.weeks.from_now.utc
-    users(:user1).remember_me
-    after = 2.weeks.from_now.utc
-    assert_not_nil users(:user1).remember_token
-    assert_not_nil users(:user1).remember_token_expires_at
-    assert users(:user1).remember_token_expires_at.between?(before, after)
-  end
+  #def test_should_remember_me_default_two_weeks
+  #  before = 2.weeks.from_now.utc
+  #  users(:user1).remember_me
+  #  after = 2.weeks.from_now.utc
+  #  assert_not_nil users(:user1).remember_token
+  #  assert_not_nil users(:user1).remember_token_expires_at
+  #  assert users(:user1).remember_token_expires_at.between?(before, after)
+  #end
 
   def test_should_reset_checkout_icalendar_token
     users(:user1).reset_checkout_icalendar_token
     assert_not_nil users(:user1).checkout_icalendar_token
   end
 
-  def test_should_reset_answer_rss_token
-    users(:user1).reset_answer_rss_token
-    assert_not_nil users(:user1).answer_rss_token
+  def test_should_reset_answer_feed_token
+    users(:user1).reset_answer_feed_token
+    assert_not_nil users(:user1).answer_feed_token
   end
 
   def test_should_delete_checkout_icalendar_token
@@ -113,9 +113,9 @@ class UserTest < ActiveSupport::TestCase
     assert_nil users(:user1).checkout_icalendar_token
   end
 
-  def test_should_delete_answer_rss_token
-    users(:user1).delete_answer_rss_token
-    assert_nil users(:user1).answer_rss_token
+  def test_should_delete_answer_feed_token
+    users(:user1).delete_answer_feed_token
+    assert_nil users(:user1).answer_feed_token
   end
 
   def test_should_get_checked_item_count

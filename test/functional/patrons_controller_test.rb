@@ -44,7 +44,7 @@ class PatronsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -64,7 +64,7 @@ class PatronsControllerTest < ActionController::TestCase
     post :create, :patron => { :full_name => 'test' }
     assert_equal old_count, Patron.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_patron
@@ -103,7 +103,7 @@ class PatronsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_patron_when_required_role_is_user
     get :show, :id => 5
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_show_patron_with_work
@@ -214,7 +214,7 @@ class PatronsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_patron
     put :update, :id => 1, :patron => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_update_myself
@@ -240,7 +240,7 @@ class PatronsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Patron.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_patron

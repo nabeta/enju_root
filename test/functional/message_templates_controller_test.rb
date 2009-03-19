@@ -6,7 +6,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:message_templates)
   end
 
@@ -27,7 +27,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -48,7 +48,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_message_template_without_status
@@ -108,7 +108,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_message_template
     get :show, :id => message_templates(:message_template_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_message_template
@@ -126,7 +126,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => message_templates(:message_template_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -144,7 +144,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_message_template
     put :update, :id => message_templates(:message_template_00001).id, :message_template => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_message_template
@@ -165,7 +165,7 @@ class MessageTemplatesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_message_template

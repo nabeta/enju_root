@@ -9,7 +9,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index, :user_id => users(:admin).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_get_index_without_user_id
@@ -104,7 +104,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new, :user_id => users(:admin).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_new_without_user_id
@@ -143,7 +143,7 @@ class CheckoutsControllerTest < ActionController::TestCase
     assert_nil flash[:notice]
     assert_equal old_count, Checkout.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_my_checkout
@@ -190,7 +190,7 @@ class CheckoutsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_show_checkout_without_login
     get :show, :id => 1, :user_id => users(:admin).login
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_missing_checkout
@@ -226,7 +226,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1, :user_id => users(:admin).login
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_get_edit_without_user_id
@@ -261,7 +261,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_checkout
     put :update, :id => 1, :user_id => users(:admin).login, :checkout => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_everyone_should_not_update_checkout_without_user_id
@@ -327,7 +327,7 @@ class CheckoutsControllerTest < ActionController::TestCase
     delete :destroy, :id => 3, :user_id => users(:user1).login
     assert_equal old_count, Checkout.count
     
-    assert_redirected_to new_session_url 
+    assert_redirected_to new_user_session_url 
   end
 
   def test_everyone_should_not_destroy_checkout_without_user_id

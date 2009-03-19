@@ -37,7 +37,7 @@ class ReifiesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class ReifiesControllerTest < ActionController::TestCase
     post :create, :reify => { :work_id => 1, :expression_id => 1 }
     assert_equal old_count, Reify.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_reify
@@ -65,7 +65,7 @@ class ReifiesControllerTest < ActionController::TestCase
     post :create, :reify => { :work_id => 1, :expression_id => 1 }
     assert_equal old_count, Reify.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_reify_without_work_id
@@ -124,7 +124,7 @@ class ReifiesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -141,7 +141,7 @@ class ReifiesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_reify
     put :update, :id => 1, :reify => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_reify
@@ -179,7 +179,7 @@ class ReifiesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Reify.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_reify

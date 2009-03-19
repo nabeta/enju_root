@@ -37,7 +37,7 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
     post :create, :subject_has_classification => { :subject_id => 1, :classification_id => 1 }
     assert_equal old_count, SubjectHasClassification.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_subject_has_classification
@@ -65,7 +65,7 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
     post :create, :subject_has_classification => { :subject_id => 1, :classification_id => 1 }
     assert_equal old_count, SubjectHasClassification.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_subject_has_classification_without_subject_id
@@ -124,7 +124,7 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -141,7 +141,7 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_subject_has_classification
     put :update, :id => 1, :subject_has_classification => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_subject_has_classification
@@ -173,7 +173,7 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, SubjectHasClassification.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_subject_has_classification

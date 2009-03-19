@@ -12,7 +12,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -32,7 +32,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
       post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2}
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create work_has_work" do
@@ -61,7 +61,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   test "guest should not get edit" do
     get :edit, :id => work_has_works(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should get edit" do
@@ -78,7 +78,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
 
   test "guest should not update work_has_work" do
     put :update, :id => work_has_works(:one).id, :work_has_work => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update work_has_work" do
@@ -98,7 +98,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
       delete :destroy, :id => work_has_works(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy work_has_work" do

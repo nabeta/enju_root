@@ -188,6 +188,9 @@ ja:
         date_of_death: 没年月日
         lock_version: ロックバージョン
         note: 注記
+        country: 国籍
+        patron_type: パトロンの種類
+        language: 言語
       feeds/app:
         source_url: ソースURL
         title: タイトル
@@ -275,6 +278,10 @@ ja:
         keyword_list: キーワードリスト
         user_number: 利用者番号
         state: 状態
+        patron: パトロン
+        library: 所属館
+        user_group: ユーザグループ
+        full_name: 氏名
       resource_has_subject:
         subjectable_type: 件名付与対象の種類
       picture_file:
@@ -553,6 +560,8 @@ ja:
         note: 注記
         repository_content: リポジトリのコンテンツ
         lock_version: ロックバージョン
+        manifestation_form: 体現形の形態
+        language: 言語
       user_group:
         name: 名前
         display_name: 表示名
@@ -592,6 +601,7 @@ ja:
         note: 注記
         login_banner: ログイン画面でのメッセージ
         post_to_union_catalog: 総合目録に登録する
+        valid_period_for_new_user: 新規ユーザの有効日数
       imported_event_file:
         filename: ファイル名
         content_type: Content-Type
@@ -935,7 +945,7 @@ ja:
     from: "ここから"
     to: "ここまで"
     all_libraries: "全ての図書館"
-  session:
+  user_session:
     logged_in: "ログインしました。"
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"
@@ -1108,6 +1118,8 @@ ja:
     history: "履歴"
     account_management: "アカウント管理"
     reset_checkout_icalendar_url: "貸出期限通知用のiCalendarファイルのURLをリセットする"
+    you_have_to_save_profile_to_activate_feed_url: "新しいURLを有効にするには、プロフィールを更新する必要があります。"
+    you_have_to_save_profile_to_deactivate_feed_url: "URLを無効にするには、プロフィールを更新する必要があります。"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:

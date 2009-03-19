@@ -6,7 +6,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
   test "guest should not get index" do
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:reserve_stat_has_users)
   end
 
@@ -27,7 +27,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -47,7 +47,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
       post :create, :reserve_stat_has_user => { }
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create reserve_stat_has_user" do
@@ -71,7 +71,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
   test "guest should not show reserve_stat_has_user" do
     get :show, :id => reserve_stat_has_users(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not show reserve_stat_has_user" do
@@ -89,7 +89,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
   test "guest should get edit" do
     get :edit, :id => reserve_stat_has_users(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should get edit" do
@@ -106,7 +106,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
 
   test "guest should not update reserve_stat_has_user" do
     put :update, :id => reserve_stat_has_users(:one).id, :reserve_stat_has_user => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update reserve_stat_has_user" do
@@ -126,7 +126,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
       delete :destroy, :id => reserve_stat_has_users(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy reserve_stat_has_user" do

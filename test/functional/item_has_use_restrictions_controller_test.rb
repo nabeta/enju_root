@@ -6,7 +6,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:item_has_use_restrictions)
   end
 
@@ -34,7 +34,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -55,7 +55,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_item_has_use_restriction
@@ -97,7 +97,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_item_has_use_restriction
     get :show, :id => item_has_use_restrictions(:item_has_use_restriction_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_item_has_use_restriction
@@ -115,7 +115,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => item_has_use_restrictions(:item_has_use_restriction_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -133,7 +133,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_item_has_use_restriction
     put :update, :id => item_has_use_restrictions(:item_has_use_restriction_00001).id, :item_has_use_restriction => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_item_has_use_restriction
@@ -166,7 +166,7 @@ class ItemHasUseRestrictionsControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_destroy_item_has_use_restrictions

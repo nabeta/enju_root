@@ -1,7 +1,8 @@
 class BookmarkedResourcesController < ApplicationController
+  before_filter :access_denied, :only => [:new, :create]
   before_filter :has_permission?
   before_filter :get_user_if_nil
-  before_filter :get_manifestation, :only => [:new]
+  #before_filter :get_manifestation, :only => [:new]
   before_filter :store_location, :except => [:create, :update, :destroy]
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -120,7 +121,7 @@ class BookmarkedResourcesController < ApplicationController
     @bookmarked_resource = BookmarkedResource.find(params[:id])
     unless params[:bookmarked_resource][:title]
       url = URI.parse(params[:bookmarked_resource][:url]).normalize.to_s
-      params[:bookmarked_resource][:title] = Bookmark.get_title(URI.encode(url), root_url) if url
+      #params[:bookmarked_resource][:title] = Bookmark.get_title(URI.encode(url), root_url) if url
     end
 
     respond_to do |format|

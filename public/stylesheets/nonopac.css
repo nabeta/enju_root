@@ -402,4 +402,8 @@ form.inplaceeditor-form textarea{
   width: 100%;
 }
 
+input.login_password{
+  width: 180px;
+}
+
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

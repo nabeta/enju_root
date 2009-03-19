@@ -37,7 +37,7 @@ class RealizesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -57,7 +57,7 @@ class RealizesControllerTest < ActionController::TestCase
     post :create, :realize => { :patron_id => 1, :expression_id => 1 }
     assert_equal old_count, Realize.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_realize
@@ -65,7 +65,7 @@ class RealizesControllerTest < ActionController::TestCase
     post :create, :realize => { :patron_id => 1, :expression_id => 1 }
     assert_equal old_count, Realize.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_realize_without_patron_id
@@ -124,7 +124,7 @@ class RealizesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -141,7 +141,7 @@ class RealizesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_realize
     put :update, :id => 1, :realize => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_realize
@@ -179,7 +179,7 @@ class RealizesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Realize.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_realize

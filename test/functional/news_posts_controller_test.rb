@@ -31,7 +31,7 @@ class NewsPostsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -60,7 +60,7 @@ class NewsPostsControllerTest < ActionController::TestCase
     assert_equal old_count, NewsPost.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_news_post
@@ -103,7 +103,7 @@ class NewsPostsControllerTest < ActionController::TestCase
     get :show, :id => 1
     assert_response :success
     assert_not_nil assigns(:news_post)
-    #assert_redirected_to new_session_url
+    #assert_redirected_to new_user_session_url
   end
 
   #def test_user_should_not_show_news_post
@@ -127,7 +127,7 @@ class NewsPostsControllerTest < ActionController::TestCase
 
   def test_guest_should_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_get_edit
@@ -151,7 +151,7 @@ class NewsPostsControllerTest < ActionController::TestCase
   def test_guest_should_not_update_news_post
     put :update, :id => 1, :news_post => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_news_post
@@ -184,7 +184,7 @@ class NewsPostsControllerTest < ActionController::TestCase
     assert_equal old_count, NewsPost.count
     
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_news_post

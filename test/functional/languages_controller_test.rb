@@ -32,7 +32,7 @@ class LanguagesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -58,7 +58,7 @@ class LanguagesControllerTest < ActionController::TestCase
     post :create, :language => { }
     assert_equal old_count, Language.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_language
@@ -122,7 +122,7 @@ class LanguagesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -145,7 +145,7 @@ class LanguagesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_language
     put :update, :id => 1, :language => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_language
@@ -177,7 +177,7 @@ class LanguagesControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Language.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_language

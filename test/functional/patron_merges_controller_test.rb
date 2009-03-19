@@ -6,7 +6,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:patron_merges)
   end
 
@@ -43,7 +43,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -64,7 +64,7 @@ class PatronMergesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_patron_merge
@@ -106,7 +106,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_patron_merge
     get :show, :id => patron_merges(:patron_merge_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_patron_merge
@@ -124,7 +124,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => patron_merges(:patron_merge_00001).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -142,7 +142,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   def test_guest_should_not_update_patron_merge
     put :update, :id => patron_merges(:patron_merge_00001).id, :patron_merge => { }
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_patron_merge
@@ -175,7 +175,7 @@ class PatronMergesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_patron_merge

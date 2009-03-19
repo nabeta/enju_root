@@ -12,7 +12,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   test "guest should not get new" do
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not get new" do
@@ -32,7 +32,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
       post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2}
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not create item_has_item" do
@@ -61,7 +61,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   test "guest should not get edit" do
     get :edit, :id => item_has_items(:one).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should get edit" do
@@ -78,7 +78,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
 
   test "guest should not update item_has_item" do
     put :update, :id => item_has_items(:one).id, :item_has_item => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not update item_has_item" do
@@ -98,7 +98,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
       delete :destroy, :id => item_has_items(:one).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   test "user should not destroy item_has_item" do

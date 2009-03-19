@@ -44,7 +44,7 @@ class ShelvesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -70,7 +70,7 @@ class ShelvesControllerTest < ActionController::TestCase
     post :create, :shelf => { :name => 'My shelf', :library_id => 2 }
     assert_equal old_count, Shelf.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_shelf
@@ -134,7 +134,7 @@ class ShelvesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -157,7 +157,7 @@ class ShelvesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_shelf
     put :update, :id => 1, :shelf => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_shelf
@@ -189,7 +189,7 @@ class ShelvesControllerTest < ActionController::TestCase
     delete :destroy, :id => 2
     assert_equal old_count, Shelf.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_shelf

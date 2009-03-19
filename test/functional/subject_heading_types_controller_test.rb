@@ -33,7 +33,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -59,7 +59,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
     post :create, :subject_heading_type => { }
     assert_equal old_count, SubjectHeadingType.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_subject_heading_type
@@ -123,7 +123,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => subject_heading_types(:subject_heading_type_00001).id
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -146,7 +146,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_subject_heading_type
     put :update, :id => subject_heading_types(:subject_heading_type_00001).id, :subject_heading_type => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_subject_heading_type
@@ -178,7 +178,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
     delete :destroy, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_equal old_count, SubjectHeadingType.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_subject_heading_type

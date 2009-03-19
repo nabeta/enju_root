@@ -9,7 +9,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_index
     get :index
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
     assert_nil assigns(:imported_resource_files)
   end
 
@@ -30,7 +30,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_new
     get :new
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_new
@@ -50,7 +50,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
       post :create, :imported_resource_file => { }
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_imported_resource_file
@@ -93,7 +93,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_show_imported_resource_file
     get :show, :id => imported_resource_files(:imported_resource_file_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_show_imported_resource_file
@@ -111,7 +111,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => imported_resource_files(:imported_resource_file_00003).id
     assert_response :redirect
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_edit
@@ -128,7 +128,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_update_imported_resource_file
     put :update, :id => imported_resource_files(:imported_resource_file_00003).id, :imported_resource_file => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_update_imported_resource_file
@@ -148,7 +148,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
       delete :destroy, :id => imported_resource_files(:imported_resource_file_00003).id
     end
 
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_imported_resource_file

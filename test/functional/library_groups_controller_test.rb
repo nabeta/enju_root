@@ -29,7 +29,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_new
     get :new
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_new
@@ -55,7 +55,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
     post :create, :library_group => { }
     assert_equal old_count, LibraryGroup.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_library_group
@@ -120,7 +120,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
 
   def test_guest_should_not_get_edit
     get :edit, :id => 1
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit
@@ -143,7 +143,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_update_library_group
     put :update, :id => 1, :library_group => { }
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_update_library_group
@@ -175,7 +175,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, LibraryGroup.count
     
-    assert_redirected_to new_session_url
+    assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_library_group
