@@ -60,7 +60,7 @@ class UsersController < ApplicationController
       nil
     end
     @user.patron = @patron
-    @user.expired_at = LibraryGroup.config.user_valid_days.days.from_now
+    @user.expired_at = LibraryGroup.config.valid_period_for_new_user.days.from_now
   #rescue
     #flash[:notice] = t('user.specify_patron')
     #redirect_to patrons_url
