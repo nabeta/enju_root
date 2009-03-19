@@ -1,6 +1,6 @@
 class AddValidPeriodForNewUserToLibraryGroup < ActiveRecord::Migration
   def self.up
-    add_column :library_groups, :valid_period_for_new_user, :integer, :default => 365
+    add_column :library_groups, :valid_period_for_new_user, :integer, :default => 365, :null => false
   end
 
   def self.down

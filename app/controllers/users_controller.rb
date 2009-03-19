@@ -72,7 +72,11 @@ class UsersController < ApplicationController
     raise ActiveRecord::RecordNotFound if @user.blank?
 
     if params[:mode] == 'feed_token'
-      @user.reset_checkout_icalendar_token
+      if params[:disable] == 'true'
+        @user.delete_checkout_icalendar_token
+      else
+        @user.reset_checkout_icalendar_token
+      end
       render :partial => 'users/feed_token'
       return
     end

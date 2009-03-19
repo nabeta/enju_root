@@ -189,6 +189,9 @@ en:
         date_of_death: Date of death
         lock_version: Lock version
         note: Note
+        country: Country
+        patron_type: Patron type
+        language: Language
       feeds/app:
         source_url: Source URL
         title: Title
@@ -276,6 +279,10 @@ en:
         keyword_list: Keyword list
         user_number: User number
         state: State
+        patron: Patron
+        library: Library
+        user_group: User group
+        full_name: Full name
       resource_has_subject:
         subjectable_type: Subjectable type
       picture_file:
@@ -554,6 +561,8 @@ en:
         note: Note
         repository_content: Repository content
         lock_version: Lock version
+        manifestation_form: Manifestation form
+        language: Language
       user_group:
         name: Name
         display_name: Display name
@@ -1134,6 +1143,7 @@ en:
     account_management: "Account management"
     reset_checkout_icalendar_url: "Reset checkout iCalendar URL"
     you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
+    you_have_to_save_profile_to_deactivate_feed_url: "You have to save your profile to deactivate this url."
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

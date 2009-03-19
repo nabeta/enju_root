@@ -71,7 +71,7 @@ class User < ActiveRecord::Base
   attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note
 
   validates_presence_of     :login, :user_number, :full_name
-  validates_length_of       :login,    :within => 3..40
+  validates_length_of       :login,    :within => 2..40
   validates_uniqueness_of   :login,    :case_sensitive => false
   #validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
 
