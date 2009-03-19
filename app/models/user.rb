@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   @@per_page = 10
   
   # Virtual attribute for the unencrypted password
-  attr_accessor :password
+  attr_accessor :password, :old_password
   attr_accessor :temporary_password
   attr_reader :auto_generated_password
   attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_number, :allow_nil => true
   validates_length_of :openid_url, :maximum => 255, :allow_nil => true
 
-  before_create :reset_checkout_icalendar_token, :reset_answer_rss_token
+  before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
 
   acts_as_authentic :transition_from_restful_authentication => true, :validate_email_field => false
 
@@ -137,19 +137,21 @@ class User < ActiveRecord::Base
   end
 
   def reset_checkout_icalendar_token
-    self.checkout_icalendar_token = Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )
+    self.checkout_icalendar_token = User.friendly_unique_token
+    #self.checkout_icalendar_token = Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )
   end
 
   def delete_checkout_icalendar_token
     self.checkout_icalendar_token = nil
   end
 
-  def reset_answer_rss_token
-    self.answer_rss_token = Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )
+  def reset_answer_feed_token
+    self.answer_feed_token = User.friendly_unique_token
+    #self.answer_rss_token = Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )
   end
 
-  def delete_answer_rss_token
-    self.answer_rss_token = nil
+  def delete_answer_feed_token
+    self.answer_feed_token = nil
   end
 
   def lock

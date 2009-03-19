@@ -380,17 +380,16 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :orders
   map.resources :families
 
-  map.error '/error', :controller => 'sessions', :action => 'new'
-  map.denied '/denied', :controller => 'sessions', :action => 'new'
+  map.error '/error', :controller => 'user_sessions', :action => 'new'
+  map.denied '/denied', :controller => 'user_sessions', :action => 'new'
   #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.calendar '/calendar/:date', :controller => 'events', :action => 'index'
   map.signup '/signup', :controller => 'users', :action => 'new'
-  map.login  '/login', :controller => 'sessions', :action => 'new'
-  map.logout '/logout', :controller => 'sessions', :action => 'destroy'
+  map.login  '/login', :controller => 'user_sessions', :action => 'new'
+  map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
   map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
-  map.icalendar '/icalendar/:icalendar_token.:format', :controller => 'checkouts', :action => 'index', :format => :ics
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
   map.sitemap 'sitemap.xml', :controller => 'page', :action => 'sitemap'
 

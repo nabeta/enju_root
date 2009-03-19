@@ -83,6 +83,7 @@ class BookmarkedResourcesControllerTest < ActionController::TestCase
     end
 
     assert_response :redirect
+    #assert_response :forbidden
     assert_redirected_to new_user_session_url
   end
 
@@ -102,7 +103,7 @@ class BookmarkedResourcesControllerTest < ActionController::TestCase
       post :create, :bookmarked_resource => { }
     end
 
-    assert_response :success
+    assert_response :forbidden
   end
 
   def test_librarian_should_not_create_bookmarked_resource_without_manifestation_id
@@ -111,17 +112,26 @@ class BookmarkedResourcesControllerTest < ActionController::TestCase
       post :create, :bookmarked_resource => {:url => 'http://example.com/' }
     end
 
-    assert_response :success
+    assert_response :forbidden
   end
 
-  def test_librarian_should_not_create_bookmarked_resource
+  def test_librarian_should_not_create_bookmarked_resource_without_title
     login_as :librarian1
-    assert_difference('BookmarkedResource.count') do
+    assert_no_difference('BookmarkedResource.count') do
       post :create, :bookmarked_resource => {:url => 'http://example.com/', :manifestation_id => 6}
     end
 
-    assert_response :redirect
-    assert_redirected_to bookmarked_resource_url(assigns(:bookmarked_resource))
+    assert_response :forbidden
+  end
+
+  def test_librarian_should_not_bookmarked_resource_with_title
+    login_as :librarian1
+    assert_no_difference('BookmarkedResource.count') do
+      post :create, :bookmarked_resource => {:url => 'http://example.com/', :manifestation_id => 6, :title => 'test'}
+    end
+
+    assert_response :forbidden
+    #assert_redirected_to bookmarked_resource_url(assigns(:bookmarked_resource))
   end
 
   def test_guest_should_show_bookmarked_resource

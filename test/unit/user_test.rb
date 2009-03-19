@@ -103,9 +103,9 @@ class UserTest < ActiveSupport::TestCase
     assert_not_nil users(:user1).checkout_icalendar_token
   end
 
-  def test_should_reset_answer_rss_token
-    users(:user1).reset_answer_rss_token
-    assert_not_nil users(:user1).answer_rss_token
+  def test_should_reset_answer_feed_token
+    users(:user1).reset_answer_feed_token
+    assert_not_nil users(:user1).answer_feed_token
   end
 
   def test_should_delete_checkout_icalendar_token
@@ -113,9 +113,9 @@ class UserTest < ActiveSupport::TestCase
     assert_nil users(:user1).checkout_icalendar_token
   end
 
-  def test_should_delete_answer_rss_token
-    users(:user1).delete_answer_rss_token
-    assert_nil users(:user1).answer_rss_token
+  def test_should_delete_answer_feed_token
+    users(:user1).delete_answer_feed_token
+    assert_nil users(:user1).answer_feed_token
   end
 
   def test_should_get_checked_item_count

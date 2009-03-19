@@ -593,6 +593,7 @@ en:
         note: Note
         login_banner: Login banner
         post_to_union_catalog: Post to union catalog
+        valid_period_for_new_user: Valid period for new user
       imported_event_file:
         filename: Filename
         content_type: Content type
@@ -1132,6 +1133,7 @@ en:
     history: "History"
     account_management: "Account management"
     reset_checkout_icalendar_url: "Reset checkout iCalendar URL"
+    you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

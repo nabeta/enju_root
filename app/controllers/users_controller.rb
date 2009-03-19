@@ -60,7 +60,7 @@ class UsersController < ApplicationController
       nil
     end
     @user.patron = @patron
-    @user.expired_at = 5.year.from_now
+    @user.expired_at = LibraryGroup.config.user_valid_days.days.from_now
   #rescue
     #flash[:notice] = t('user.specify_patron')
     #redirect_to patrons_url
@@ -70,6 +70,12 @@ class UsersController < ApplicationController
     #@user = User.find(:first, :conditions => {:login => params[:id]})
     @user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
+
+    if params[:mode] == 'feed_token'
+      @user.reset_checkout_icalendar_token
+      render :partial => 'users/feed_token'
+      return
+    end
 
     @user_groups = UserGroup.find(:all, :order => :position)
     @roles = Role.find(:all, :order => 'id desc')
@@ -129,20 +135,19 @@ class UsersController < ApplicationController
         end
       end
       
-      unless @user.expired_at.blank?
-        begin
-          expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"])
-        rescue
-          flash[:notice] = t('page.invalid_date')
-          redirect_to edit_user_url(@user.login)
-          return
-        end
+      expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
+      begin
+        expired_at = Time.zone.parse(expired_at_array.join("-"))
+      rescue
+        flash[:notice] = t('page.invalid_date')
+        redirect_to edit_user_url(@user.login)
+        return
       end
 
       @user.email = params[:user][:email] if params[:user][:email]
       @user.openid_url = params[:user][:openid_url] if params[:user][:openid_url]
       @user.share_bookmarks = params[:user][:share_bookmarks] if params[:user][:share_bookmarks]
-      #@user.update_attributes(params[:user])
+      @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
       if current_user.has_role?('Librarian')
         @user.suspended = params[:user][:suspended] || false
         @user.note = params[:user][:note]

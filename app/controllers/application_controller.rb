@@ -17,12 +17,10 @@ class ApplicationController < ActionController::Base
 
   #include ExceptionNotifiable
 
-  filter_parameter_logging :password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code
+  filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
-  #before_filter :login_from_cookie
   before_filter :get_library_group
   #before_filter :has_permission?
-  #session :session_key => '_catalog_session_id'
 
   def get_library_group
     @library_group = LibraryGroup.config
@@ -309,7 +307,7 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user
       store_location
-      flash[:notice] = "You must be logged in to access this page"
+      #flash[:notice] = "You must be logged in to access this page"
       redirect_to new_user_session_url
       return false
     end
@@ -318,7 +316,7 @@ class ApplicationController < ActionController::Base
   def require_no_user
     if current_user
       store_location
-      flash[:notice] = "You must be logged out to access this page"
+      #flash[:notice] = "You must be logged out to access this page"
       redirect_to user_url(current_user.login)
       return false
     end

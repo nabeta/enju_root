@@ -3,7 +3,7 @@ librarian2:
   salt: 73f4b91545992d7c94613938740b25a7b4057c94
   questions_count: 0
   checkouts_count: 0
-  answer_rss_token: 
+  answer_feed_token: 
   updated_at: 2008-05-31 12:42:23.340575 +09:00
   checkout_icalendar_token: 
   activated_at: 2008-01-18 03:24:04.243193 +09:00
@@ -35,7 +35,7 @@ user2:
   salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
   questions_count: 0
   checkouts_count: 0
-  answer_rss_token: 
+  answer_feed_token: 
   updated_at: 2008-05-31 12:42:44.711117 +09:00
   checkout_icalendar_token: 
   activated_at: 2008-01-18 04:29:06.917263 +09:00
@@ -68,7 +68,7 @@ admin:
   password_salt: 1456d4f4b7eb4e7e9ad0d49c05e3483d2d63e45a504aa094a26ae1bdcb097fcab4fb02dcecbf8dd473a079d87cb11c984e3104c1122de28493dbc8c843a35b87
   questions_count: 0
   checkouts_count: 0
-  answer_rss_token: 
+  answer_feed_token: 
   updated_at: 2008-05-31 13:16:30.163731 +09:00
   checkout_icalendar_token: 577830b08ecf9c4c4333d599a57a6f44a7fe76c0
   activated_at: 2007-11-19 07:58:32.266958 +09:00
@@ -101,7 +101,7 @@ librarian1:
   salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
   questions_count: 0
   checkouts_count: 0
-  answer_rss_token: 
+  answer_feed_token: 
   updated_at: 2008-05-31 12:41:16.337474 +09:00
   checkout_icalendar_token: 
   activated_at: 2007-11-19 07:58:33.382249 +09:00
@@ -134,9 +134,9 @@ user1:
   password_salt: 9736993efc095816e2590b3ddcc102cccaba386567d334a57284c35a0acedc0d16faa44b70b62bb93735b0ec1aebb6647c9f28ce900b91ecbe1d6fe7e747365e
   questions_count: 0
   checkouts_count: 0
-  answer_rss_token: 
+  answer_feed_token: 
   updated_at: 2008-05-31 13:02:25.101261 +09:00
-  checkout_icalendar_token: b5db2091d96100335d287834274777864fea1c91
+  checkout_icalendar_token: h75t40Hk364eBQOkmVnH
   activated_at: 2007-11-19 07:58:34.801650 +09:00
   expired_at: 
   #crypted_password: a697df1e63a8618f5ff4517c76d6d3ae6df8d2c6

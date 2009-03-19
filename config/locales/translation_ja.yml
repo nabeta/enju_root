@@ -592,6 +592,7 @@ ja:
         note: 注記
         login_banner: ログイン画面でのメッセージ
         post_to_union_catalog: 総合目録に登録する
+        valid_period_for_new_user: 新規ユーザの有効日数
       imported_event_file:
         filename: ファイル名
         content_type: Content-Type
@@ -1108,6 +1109,7 @@ ja:
     history: "履歴"
     account_management: "アカウント管理"
     reset_checkout_icalendar_url: "貸出期限通知用のiCalendarファイルのURLをリセットする"
+    you_have_to_save_profile_to_activate_feed_url: "新しいURLを有効にするには、プロフィールを更新する必要があります。"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:

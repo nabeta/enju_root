@@ -1,0 +1,4 @@
+<%= checkouts_url(:icalendar_token => @user.checkout_icalendar_token, :format => :ics) -%>
+<%= hidden_field_tag 'user[checkout_icalendar_token]', @user.checkout_icalendar_token -%>
+<br />
+<%= t('user.you_have_to_save_profile_to_activate_feed_url') -%>
