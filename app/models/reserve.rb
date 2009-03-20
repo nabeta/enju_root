@@ -179,4 +179,24 @@ class Reserve < ActiveRecord::Base
   rescue
     false
   end
+
+  def self.expire
+    Reserve.transaction do
+      reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
+      Reserve.send_message_to_patrons('expired') unless reservations.blank?
+      reservations.find_in_batches do |reserves|
+        reserves.each {|reserve|
+          # キューに登録した時点では本文は作られないので
+          # 予約の連絡をすませたかどうかを識別できるようにしなければならない
+          reserve.send_message('expired')
+          reserve.aasm_expire!
+          self.update_attribute(:expiration_notice_to_patron, true)
+          #reserve.expire
+        }
+      end
+      logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
+    end
+  #rescue
+  #  logger.info "#{Time.zone.now} expiring reservations failed!"
+  end
 end

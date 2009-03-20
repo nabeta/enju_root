@@ -85,4 +85,12 @@ class MessageQueue < ActiveRecord::Base
     return manifestation_message.to_s
   end
 
+  def self.send_messages
+    count = MessageQueue.not_sent.size
+    MessageQueue.not_sent.each do |queue|
+      queue.aasm_send_message!
+    end
+    logger.info "#{Time.zone.now} sent #{count} messages!"
+  end
+
 end

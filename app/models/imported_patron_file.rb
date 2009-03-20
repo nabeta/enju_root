@@ -81,4 +81,12 @@ class ImportedPatronFile < ActiveRecord::Base
     end
     return num
   end
+
+  def self.import
+    ImportedPatronFile.not_imported.each do |file|
+      file.import
+    end
+  rescue
+    logger.info "#{Time.zone.now} importing patrons failed!"
+  end
 end

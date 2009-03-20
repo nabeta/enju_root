@@ -49,4 +49,12 @@ class ImportedEventFile < ActiveRecord::Base
     return num
   end
 
+  def self.import
+    ImportedEventFile.not_imported.each do |file|
+      file.import
+    end
+  rescue
+    logger.info "#{Time.zone.now} importing events failed!"
+  end
+
 end

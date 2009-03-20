@@ -41,4 +41,17 @@ class NewsFeed < ActiveRecord::Base
     content
   end
 
+  def self.fetch_feeds
+    require 'action_controller/integration'
+    app = ActionController::Integration::Session.new
+    app.host = LibraryGroup.url
+    NewsFeed.find(:all).each do |news_feed|
+      news_feed.force_reload
+    end
+    app.get('/news_feeds?mode=clear_cache')
+    logger.info "#{Time.zone.now} feeds reloaded!"
+  rescue
+    logger.info "#{Time.zone.now} reloading feeds failed!"
+  end
+
 end
