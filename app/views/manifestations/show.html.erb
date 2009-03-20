@@ -101,7 +101,7 @@
   <div class="yui-content">
     <div id="detail">
     <%- if @manifestation.isbn -%>
-      <%= render :partial => 'google_book_search' -%>
+      <%= google_book_search_preview(@manifestation.isbn) -%>
     <%- end -%>
 
     <table id="manifestation_detail">
