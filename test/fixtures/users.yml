@@ -1,6 +1,6 @@
 --- 
 librarian2: 
-  salt: 73f4b91545992d7c94613938740b25a7b4057c94
+  password_salt: 73f4b91545992d7c94613938740b25a7b4057c94
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
@@ -30,9 +30,11 @@ librarian2:
   save_search_history: false
   required_role_id: 1
   user_number: "00004"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 user2: 
-  salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
+  password_salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
@@ -62,6 +64,8 @@ user2:
   save_search_history: false
   required_role_id: 2
   user_number: "00005"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 admin: 
   #salt: 3e113e7ed6a655f2e0824661362965cc84ba057b
@@ -96,9 +100,11 @@ admin:
   save_search_history: true
   required_role_id: 4
   user_number: "00001"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 librarian1: 
-  salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
+  password_salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
@@ -128,6 +134,8 @@ librarian1:
   save_search_history: false
   required_role_id: 1
   user_number: "00002"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 user1: 
   #salt: 04f8a5895162043979444830de2b9d0a021255c6
@@ -163,4 +171,6 @@ user1:
   required_role_id: 3
   checkout_icalendar_token: e3e0277cbba03183c3a12d2b740f3eabebd7df0d
   user_number: "00003"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test

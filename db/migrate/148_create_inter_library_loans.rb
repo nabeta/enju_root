@@ -9,7 +9,7 @@ class CreateInterLibraryLoans < ActiveRecord::Migration
       t.timestamp :return_shipped_at
       t.timestamp :return_received_at
       t.timestamp :deleted_at
-      t.string :state, :null => false
+      t.string :state
 
       t.timestamps
     end
