@@ -11,8 +11,10 @@ class Reserve < ActiveRecord::Base
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
   #named_scope :expired_notified, :conditions => {:state => 'expired'}
-  named_scope :not_notified, :conditions => {:notified => false}
-  named_scope :notified, :conditions => {:notified => true}
+  named_scope :not_sent_expiration_notice_to_patron, :conditions => {:expiration_notice_to_patron => false}
+  named_scope :not_sent_expiration_notice_to_library, :conditions => {:expiration_notice_to_library => false}
+  named_scope :sent_expiration_notice_to_patron, :conditions => {:expiration_notice_to_patron => true}
+  named_scope :sent_expiration_notice_to_library, :conditions => {:expiration_notice_to_library => true}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -121,23 +123,21 @@ class Reserve < ActiveRecord::Base
         system_user = User.find(1) # TODO: システムからのメッセージの発信者
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_accepted'})
         queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.send_message # 受付時は即時送信
+        message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_accepted'})
+        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
+        queue.send_message # 受付時は即時送信
       when 'canceled'
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_patron'})
         queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.send_message # キャンセル時は即時送信
         message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_library'})
         queue = MessageQueue.create(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+        queue.send_message # キャンセル時は即時送信
       when 'expired'
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_patron'})
         queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-      end
-
-      unless message_template_to_patron.blank?
-        message_queue = message_template_to_patron.message_queues.find_by_receiver_id(user.id) rescue nil
-        if message_queue.blank?
-          queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-          # 即時送信
-          queue.aasm_send_message!
-        end
+        queue.send_message # 期限切れ時は利用者にのみ即時送信
       end
     end
     true

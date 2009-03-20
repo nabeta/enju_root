@@ -55,6 +55,7 @@ class PeriodicWorker < BackgrounDRb::MetaWorker
           # 予約の連絡をすませたかどうかを識別できるようにしなければならない
           reserve.send_message('expired')
           reserve.aasm_expire!
+          self.update_attribute(:expiration_notice_to_patron, true)
           #reserve.expire
         }
       end

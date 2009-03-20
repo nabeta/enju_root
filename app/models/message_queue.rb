@@ -56,9 +56,9 @@ class MessageQueue < ActiveRecord::Base
     when "item_received"
       reserves = self.receiver.reserves.hold.waiting
     when "reservation_expired_for_library"
-      reserves = Reserve.will_expire(Time.zone.now.beginning_of_day).not_notified
+      reserves = Reserve.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_library
     when "reservation_expired_for_patron"
-      reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day)
+      reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_patron
     end
 
     unless reserves.blank?
@@ -77,6 +77,7 @@ class MessageQueue < ActiveRecord::Base
         end
         manifestation_message << "#{LibraryGroup.url}manifestations/#{reserve.manifestation.id}"
         manifestation_message << "\r\n\r\n"
+        reserve.update_attribute(:expiration_notice_to_patron, true)
       end
     else
       'no reservations expired.'
