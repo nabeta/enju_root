@@ -1,6 +1,8 @@
 class UserReserveStat < ActiveRecord::Base
   include AASM
   include OnlyLibrarianCanModify
+  include CalculateStat
+  named_scope :not_calculated, :conditions => {:state => 'pending'}
   has_many :reserve_stat_has_users
   has_many :users, :through => :reserve_stat_has_users
 
@@ -8,6 +10,13 @@ class UserReserveStat < ActiveRecord::Base
 
   aasm_initial_state :pending
   aasm_column :state
+  aasm_state :pending
+  aasm_state :completed
+
+  aasm_event :aasm_calculate do
+    transitions :from => :pending, :to => :completed,
+      :on_transition => :calculate_count
+  end
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -21,7 +30,8 @@ class UserReserveStat < ActiveRecord::Base
     end
   end
 
-  def calculate_user_count
+  def calculate_count
+    self.started_at = Time.zone.now
     User.find_each do |user|
       daily_count = Reserve.users_count(self.start_date, self.end_date, user)
       if daily_count > 0
@@ -29,5 +39,6 @@ class UserReserveStat < ActiveRecord::Base
         UserReserveStat.find_by_sql(['UPDATE reserve_stat_has_users SET reserves_count = ? WHERE user_reserve_stat_id = ? AND user_id = ?', daily_count, self.id, user.id])
       end
     end
+    self.completed_at = Time.zone.now
   end
 end

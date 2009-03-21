@@ -11,11 +11,11 @@ class Session < ActiveRecord::Base
     self.delete_all "updated_at < '#{time.to_s(:db)}'"
   end
 
-  def self.expire(date)
-    Session.sweep(date)
+  def self.expire
+    Session.sweep
     logger.info "#{Time.zone.now} sessions expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring sessions failed!"
+  #rescue
+  #  logger.info "#{Time.zone.now} expiring sessions failed!"
   end
 
 end

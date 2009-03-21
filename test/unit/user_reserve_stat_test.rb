@@ -4,6 +4,6 @@ class UserReserveStatTest < ActiveSupport::TestCase
   fixtures :user_reserve_stats
 
   test "calculate user count" do
-    assert user_reserve_stats(:one).calculate_user_count
+    assert user_reserve_stats(:one).calculate_count
   end
 end

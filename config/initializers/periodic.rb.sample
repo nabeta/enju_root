@@ -1,3 +1,4 @@
+# ThinやMongrelを複数起動していると以下のタスクもその数だけ実行される
 scheduler = Rufus::Scheduler.start_new
 
 scheduler.cron "0 4 * * *" do
