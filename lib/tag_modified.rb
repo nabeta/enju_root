@@ -17,4 +17,8 @@ class Tag
     #self.tagged.each do |b| b.bookmarked_resource.manifestation.save end
     self.tagged.each do |b| b.save end
   end
+
+  def tagged
+    taggings.collect(&:taggable)
+  end
 end

@@ -10,7 +10,7 @@ class Event < ActiveRecord::Base
   has_many :attachment_files, :as => :attachable
   has_many :picture_files, :as => :picture_attachable
 
-  acts_as_taggable
+  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   acts_as_solr :fields => [:title, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
   validates_presence_of :title, :library, :event_category

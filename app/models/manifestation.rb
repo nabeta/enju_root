@@ -59,7 +59,7 @@ class Manifestation < ActiveRecord::Base
     #:if => proc{|manifestation| !manifestation.serial?},
     :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
-  acts_as_taggable
+  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   acts_as_tree
   #enju_twitter

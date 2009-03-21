@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     @user = User.find(:first, :conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
-    @tags = @user.tags.find(:all, :order => 'tags.taggings_count DESC')
+    @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
     @news_feeds = LibraryGroup.find(:first).news_feeds.find(:all, :order => :position) rescue nil

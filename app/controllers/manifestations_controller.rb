@@ -86,6 +86,10 @@ class ManifestationsController < ApplicationController
           @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
           @count[:query_result] = @manifestations.total_entries
         
+          unless query.blank?
+            save_search_history(@query, @manifestations.offset, @count[:total])
+          end
+
           if @manifestations
             session[:manifestation_ids] = manifestation_ids
           end
@@ -99,9 +103,6 @@ class ManifestationsController < ApplicationController
         get_index_without_solr
       end
 
-      unless query.blank?
-        save_search_history(@query, @manifestations.offset, @count[:total])
-      end
     end
     store_location # before_filter ではファセット検索のURLを記憶してしまう
 

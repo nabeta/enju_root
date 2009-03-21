@@ -15,7 +15,7 @@ class Bookmark < ActiveRecord::Base
   attr_accessor :title
   @@per_page = 10
 
-  acts_as_taggable
+  acts_as_taggable_on :tags
 
   def after_save
     if self.bookmarked_resource

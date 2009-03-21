@@ -56,9 +56,9 @@ class User < ActiveRecord::Base
   has_many :news_posts
 
   restful_easy_messages
-  acts_as_tagger
   #acts_as_soft_deletable
   has_friendly_id :login
+  acts_as_tagger
 
   cattr_accessor :per_page
   @@per_page = 10

@@ -43,7 +43,7 @@ class Item < ActiveRecord::Base
   validates_uniqueness_of :item_identifier, :allow_blank => true, :if => proc{|item| !item.item_identifier.blank?}
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
-  acts_as_taggable
+  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
 
