@@ -1,6 +1,8 @@
 class ManifestationReserveStat < ActiveRecord::Base
   include AASM
   include OnlyLibrarianCanModify
+  include CalculateStat
+  named_scope :not_calculated, :conditions => {:state => 'pending'}
   has_many :reserve_stat_has_manifestations
   has_many :manifestations, :through => :reserve_stat_has_manifestations
 
@@ -8,6 +10,13 @@ class ManifestationReserveStat < ActiveRecord::Base
 
   aasm_initial_state :pending
   aasm_column :state
+  aasm_state :pending
+  aasm_state :completed
+
+  aasm_event :aasm_calculate do
+    transitions :from => :pending, :to => :completed,
+      :on_transition => :calculate_count
+  end
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -21,7 +30,8 @@ class ManifestationReserveStat < ActiveRecord::Base
     end
   end
 
-  def calculate_manifestation_count
+  def calculate_count
+    self.started_at = Time.zone.now
     Manifestation.find_each do |manifestation|
       daily_count = Reserve.manifestations_count(self.start_date, self.end_date, manifestation)
       #manifestation.update_attributes({:daily_reserves_count => daily_count, :total_count => manifestation.total_count + daily_count})
@@ -30,5 +40,6 @@ class ManifestationReserveStat < ActiveRecord::Base
         ManifestationReserveStat.find_by_sql(['UPDATE reserve_stat_has_manifestations SET reserves_count = ? WHERE manifestation_reserve_stat_id = ? AND manifestation_id = ?', daily_count, self.id, manifestation.id])
       end
     end
+    self.completed_at = Time.zone.now
   end
 end

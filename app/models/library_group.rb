@@ -46,4 +46,16 @@ class LibraryGroup < ActiveRecord::Base
   rescue
     false
   end
+
+  def self.solr_reindex(num = 500)
+    Patron.rebuild_solr_index(num)
+    Work.rebuild_solr_index(num)
+    Expression.rebuild_solr_index(num)
+    Manifestation.rebuild_solr_index(num)
+    Item.rebuild_solr_index(num)
+    logger.info "#{Time.zone.now} optimized!"
+  rescue StandardError, Timeout::Error
+    logger.info "#{Time.zone.now} optimization failed!"
+  end
+
 end

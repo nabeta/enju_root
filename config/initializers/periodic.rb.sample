@@ -1,0 +1,37 @@
+# ThinやMongrelを複数起動していると以下のタスクもその数だけ実行される
+scheduler = Rufus::Scheduler.start_new
+
+scheduler.cron "0 4 * * *" do
+  user_checkout_stat = UserCheckoutStat.create(:from_date => from_date, :to_date => to_date)
+  user_checkout_stat.culculate_users_count
+  manifestation_checkout_stat = ManifestationCheckoutStat.create(:from_date => from_date, :to_date => to_date)
+  manifestation_checkout_stat.culculate_manifestations_count
+  user_reserve_stat = UserReserveStat.create(:from_date => from_date, :to_date => to_date)
+  user_reserve_stat.culculate_users_count
+  manifestation_reserve_stat = ManifestationReserveStat.create(:from_date => from_date, :to_date => to_date)
+  manifestation_reserve_stat.culculate_manifestations_count
+  bookmark_stat = BookmarkStat.create(:from_date => from_date, :to_date => to_date)
+  bookmark_stat.culculate_bookmarks_count
+end
+
+scheduler.cron "0 0 * * *" do
+  Reserve.expire
+  Basket.expire
+  NewsFeed.fetch_feeds
+end
+
+scheduler.cron "*/5 * * * *" do
+  Session.sweep
+  MessageQueue.send_messages
+  AawsResponse.expire
+end
+
+scheduler.cron "0 1 * * *" do
+  ImportedPatronFile.import
+  ImportedEventFile.import
+  ImportedResourceFile.import
+end
+
+scheduler.cron "0 1 * * *" do
+  LibraryGroup.solr_reindex(500)
+end

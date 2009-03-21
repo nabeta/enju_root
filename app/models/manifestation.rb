@@ -63,6 +63,9 @@ class Manifestation < ActiveRecord::Base
   #acts_as_soft_deletable
   acts_as_tree
   #enju_twitter
+  enju_manifestation_viewer
+  enju_amazon
+  enju_porta
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -138,17 +141,6 @@ class Manifestation < ActiveRecord::Base
     available_checkout_types(user).collect(&:reservation_expired_period).max
   end
   
-  #def reserved?(user = nil)
-  #  if user
-  #    self.reserving_users.collect{|r|
-  #      return true if  r.id == user.id
-  #    }
-  #  else
-  #    return true unless self.reserves.blank?
-  #  end
-  #  return false
-  #end
-
   def embodies?(expression)
     expression.manifestations.detect{|manifestation| manifestation == self} rescue nil
   end
@@ -181,39 +173,6 @@ class Manifestation < ActiveRecord::Base
 
   def next_reservation
     self.reserves.find(:first, :order => ['reserves.created_at'])
-  end
-
-  def youtube_id
-    if access_address
-      url = URI.parse(access_address)
-      if url.host =~ /youtube\.com$/ and url.path == "/watch"
-        return CGI.parse(url.query)["v"][0]
-      end
-    end
-  end
-
-  def nicovideo_id
-    if access_address
-      url = URI.parse(access_address)
-      if url.host =~ /nicovideo\.jp$/ and url.path =~ /^\/watch/
-        return url.path.split("/")[2]
-      end
-    end
-  end
-
-  def flickr
-    if access_address
-      info = {}
-      url = URI.parse(access_address)
-      paths = url.path.split('/')
-      if url.host =~ /^www\.flickr\.com$/ and paths[1] == 'photos' and paths[2]
-        info[:user] = paths[2]
-        if paths[3] == "sets"
-          info[:set_id] = paths[4]
-        end
-      end
-      return info
-    end
   end
 
   def authors
@@ -522,89 +481,6 @@ class Manifestation < ActiveRecord::Base
     xml.target!
   end
 
-  def access_amazon
-    # キャッシュがない場合
-    if self.manifestation_api_response.blank?
-      amazon_url = ""
-      #@isbn = @resource.searchable.isbn.sub("urn:isbn:", "") rescue ""
-      unless self.isbn.blank?
-        #@amazon_url = "http://#{@library_group.amazon_host}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&IdType=ASIN&ItemId=#{@resource.searchable.isbn}&ResponseGroup=Images"
-        amazon_url = "https://#{AMAZON_AWS_HOSTNAME}/onca/xml?Service=AWSECommerceService&SubscriptionId=#{AMAZON_ACCESS_KEY}&Operation=ItemLookup&SearchIndex=Books&IdType=ISBN&ItemId=#{isbn}&ResponseGroup=Images,Reviews"
-        last_response = AawsResponse.find(:first, :order => 'created_at DESC')
-        unless last_response.nil?
-          # 1 request per 1 second
-          i = 0
-          while Time.zone.now - last_response.created_at <= 1
-            sleep 1 - (Time.zone.now - last_response.created_at)
-            i += 1
-            if i > 10
-              raise "timeout"
-            end
-          end
-        end
-
-        # Get XML response file from Amazon Web Service
-        doc = nil
-        open(amazon_url){|f|
-          doc = REXML::Document.new(f)
-        }
-        # Save XML response file
-        if self.manifestation_api_response
-          self.manifestation_api_response.update_attributes({:body => doc.to_s})
-        else
-          xmlfile = AawsResponse.new(:body => doc.to_s)
-          self.manifestation_api_response = xmlfile
-          self.manifestation_api_response.save
-        end
-      else
-        raise "no isbn"
-      end
-    end
-  end
-    
-  def amazon_book_jacket
-    access_amazon
-    self.reload
-    doc = REXML::Document.new(self.manifestation_api_response.body)
-    r = Array.new
-    r = REXML::XPath.match(doc, '/ItemLookupResponse/Items/Item/')
-    bookjacket = {}
-    bookjacket['url'] = REXML::XPath.first(r[0], 'MediumImage/URL/text()').to_s
-    bookjacket['width'] = REXML::XPath.first(r[0], 'MediumImage/Width/text()').to_s.to_i
-    bookjacket['height'] = REXML::XPath.first(r[0], 'MediumImage/Height/text()').to_s.to_i
-    bookjacket['asin'] = REXML::XPath.first(r[0], 'ASIN/text()').to_s
-
-    if bookjacket['url'].blank?
-      raise "Can't get bookjacket"
-    end
-    return bookjacket
-
-  rescue
-    bookjacket = {'url' => 'unknown_resource.png', 'width' => '100', 'height' => '100'}
-  end
-
-  def amazon_customer_review
-    access_amazon
-    reviews = []
-    doc = REXML::Document.new(self.manifestation_api_response.body)
-    reviews = []
-    doc.elements.each('/ItemLookupResponse/Items/Item/CustomerReviews/Review') do |item|
-      reviews << item
-    end
-
-    comments = []
-    reviews.each do |review|
-      r = {}
-      r[:date] =  review.elements['Date/text()'].to_s
-      r[:summary] =  review.elements['Summary/text()'].to_s
-      r[:content] =  review.elements['Content/text()'].to_s
-      comments << r
-    end
-    return comments
-  rescue
-    []
-  end
-
   def self.pickup(keyword = nil)
     return nil if self.numdocs < 10
     resource = nil
@@ -638,93 +514,6 @@ class Manifestation < ActiveRecord::Base
       patrons << patron
     end
     return patrons
-  end
-
-  def self.import_isbn(isbn)
-    isbn = isbn.to_s.strip
-    raise 'invalid ISBN' unless ISBN_Tools.is_valid?(isbn)
-    if isbn.length == 10
-      isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
-    end
-
-    if manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
-      raise 'already imported'
-    end
-
-    result = search_z3950(isbn)
-    raise "not found" if result.nil?
-
-    title, title_transcription, date_of_publication, language = nil, nil, nil, nil
-    authors, publishers, subjects = [], [], []
-
-    result.to_s.split("\n").each do |line|
-      if md = /^【title】：+(.*)$/.match(line) 
-        title = md[1].sub(/\.$/, '').tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-      elsif md = /^【titleTranscription】：+(.*)$/.match(line) 
-        title_transcription = md[1].sub(/\.$/, '').tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-      elsif md = /^【creator】\(dcndl:NDLNH\)：+(.*)$/.match(line)
-        authors << md[1].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ') 
-      elsif md = /^【publisher】：+(.*)$/.match(line)
-        publishers << md[1].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-      elsif md = /^【subject】\(dcndl:NDLNH\)：+(.*)$/.match(line)
-        subjects << md[1].tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-      elsif md = /^【issued】\(dcterms:W3CDTF\)：+(.*)$/.match(line)
-        date_of_publication = Time.mktime(md[1])
-      elsif md = /^【language】\(dcterms:ISO639-2\)：+(.*)$/.match(line)
-        language = md[1]
-      end
-    end
-
-    Patron.transaction do
-      author_patrons = Manifestation.import_patrons(authors.reverse)
-      publisher_patrons = Manifestation.import_patrons(publishers)
-
-      work = Work.new(:original_title => title)
-      expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
-      manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication)
-      work.restrain_indexing = true
-      expression.restrain_indexing = true
-      manifestation.restrain_indexing = true
-      work.save!
-      work.patrons << author_patrons
-      work.expressions << expression
-      expression.manifestations << manifestation
-      manifestation.patrons << publisher_patrons
-
-      subjects.each do |term|
-        subject = Subject.find(:first, :conditions => {:term => term})
-        manifestation.subjects << subject if subject
-      end
-    end
-
-    return manifestation
-  end
-
-  def self.z3950query (isbn, host, port, db)
-    begin
-      ZOOM::Connection.open(host, port) do |conn|
-        conn.database_name = db
-        conn.preferred_record_syntax = 'SUTRS'
-        rset = conn.search("@attr 1=7 #{isbn}")
-        return rset[0]
-      end
-    rescue Exception => e
-      return nil
-    end
-  end
-
-  def self.search_z3950(isbn)
-    server = ["api.porta.ndl.go.jp", 210, "zomoku"]
-    result = z3950query(isbn, server[0], server[1], server[2])
-    if result.nil?
-      if isbn.length == 10
-        isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
-      elsif isbn.length == 13
-        isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
-      end
-      result = z3950query(isbn, server[0], server[1], server[2])
-    end
-    return result
   end
 
   def set_serial_number(expression)

@@ -139,4 +139,12 @@ class ImportedResourceFile < ActiveRecord::Base
     end
   end
 
+  def self.import
+    ImportedResourceFile.not_imported.each do |file|
+      file.import
+    end
+  rescue
+    logger.info "#{Time.zone.now} importing resources failed!"
+  end
+
 end

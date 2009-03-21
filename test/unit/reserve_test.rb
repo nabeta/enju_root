@@ -26,7 +26,8 @@ class ReserveTest < ActiveSupport::TestCase
   def test_should_send_accepted_message
     old_count = MessageQueue.count
     assert reserves(:reserve_00002).send_message('accepted')
-    assert_equal old_count + 1, MessageQueue.count
+    # 予約者と図書館の両方に送られる
+    assert_equal old_count + 2, MessageQueue.count
   end
 
   def test_should_send_expired_message

@@ -4,7 +4,7 @@ class CreateOrders < ActiveRecord::Migration
       t.integer :order_list_id
       t.integer :purchase_request_id
       t.integer :position
-      t.string :state, :null => false
+      t.string :state
 
       t.timestamps
     end

@@ -10,7 +10,7 @@ class CreateReserves < ActiveRecord::Migration
       t.datetime :canceled_at
       t.datetime :expired_at
       t.datetime :deleted_at
-      t.string :state, :null => false
+      t.string :state
     end
 
     add_index :reserves, :user_id

@@ -1,23 +1,19 @@
 --- 
 librarian2: 
-  salt: 73f4b91545992d7c94613938740b25a7b4057c94
+  password_salt: 73f4b91545992d7c94613938740b25a7b4057c94
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 12:42:23.340575 +09:00
   checkout_icalendar_token: 
-  activated_at: 2008-01-18 03:24:04.243193 +09:00
   expired_at: 
   crypted_password: 844805f512e34628c9758115977fc7cf7c85a807
   deleted_at: 
   user_group_id: 1
-  remember_token_expires_at: 
-  activation_code: 
   reserves_count: 0
   patron_id: 4
   id: 4
   bookmarks_count: 0
-  remember_token: 
   share_bookmarks: true
   note: 
   due_date_reminder_days: 1
@@ -30,26 +26,24 @@ librarian2:
   save_search_history: false
   required_role_id: 1
   user_number: "00004"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 user2: 
-  salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
+  password_salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 12:42:44.711117 +09:00
   checkout_icalendar_token: 
-  activated_at: 2008-01-18 04:29:06.917263 +09:00
   expired_at: 
   crypted_password: a6df6e841833c2ffa1ca64d0cb66bbc9e3c0d5bd
   deleted_at: 
   user_group_id: 1
-  remember_token_expires_at: 
-  activation_code: a17e827f61c65db3f6204e784233ccf5964eebef
   reserves_count: 0
   patron_id: 5
   id: 5
   bookmarks_count: 0
-  remember_token: 
   share_bookmarks: true
   note: 
   due_date_reminder_days: 1
@@ -62,6 +56,8 @@ user2:
   save_search_history: false
   required_role_id: 2
   user_number: "00005"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 admin: 
   #salt: 3e113e7ed6a655f2e0824661362965cc84ba057b
@@ -71,19 +67,15 @@ admin:
   answer_feed_token: 
   updated_at: 2008-05-31 13:16:30.163731 +09:00
   checkout_icalendar_token: 577830b08ecf9c4c4333d599a57a6f44a7fe76c0
-  activated_at: 2007-11-19 07:58:32.266958 +09:00
   expired_at: 
   #crypted_password: 9533a4df0f14ce21677cdc4cd89e9eea4f22008a
   crypted_password: 3732cc3293291fdbf09c94614e6c903ae3d0aca3
   deleted_at: 
   user_group_id: 2
-  remember_token_expires_at: 
-  activation_code: 
   reserves_count: 2
   patron_id: 1
   id: 1
   bookmarks_count: 0
-  remember_token: 
   share_bookmarks: true
   note: 
   due_date_reminder_days: 1
@@ -96,26 +88,24 @@ admin:
   save_search_history: true
   required_role_id: 4
   user_number: "00001"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 librarian1: 
-  salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
+  password_salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 12:41:16.337474 +09:00
   checkout_icalendar_token: 
-  activated_at: 2007-11-19 07:58:33.382249 +09:00
   expired_at: 
   crypted_password: cff14c762d8905f02b8dcd5128ede6d837dd23f7
   deleted_at: 
   user_group_id: 1
-  remember_token_expires_at: 2008-05-16 02:26:13.007385 +09:00
-  activation_code: 
   reserves_count: 0
   patron_id: 2
   id: 2
   bookmarks_count: 0
-  remember_token: 7f5933995655af941da1960ebbd9fe65142869e7
   share_bookmarks: true
   note: 
   due_date_reminder_days: 1
@@ -128,6 +118,8 @@ librarian1:
   save_search_history: false
   required_role_id: 1
   user_number: "00002"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test
 user1: 
   #salt: 04f8a5895162043979444830de2b9d0a021255c6
@@ -137,19 +129,15 @@ user1:
   answer_feed_token: 
   updated_at: 2008-05-31 13:02:25.101261 +09:00
   checkout_icalendar_token: h75t40Hk364eBQOkmVnH
-  activated_at: 2007-11-19 07:58:34.801650 +09:00
   expired_at: 
   #crypted_password: a697df1e63a8618f5ff4517c76d6d3ae6df8d2c6
   crypted_password: 5cc0dffb023444c3a42b7fdddaf3e4735e89b94c
   deleted_at: 
   user_group_id: 1
-  remember_token_expires_at: 
-  activation_code: 
   reserves_count: 0
   patron_id: 3
   id: 3
   bookmarks_count: 0
-  remember_token: 
   share_bookmarks: false
   note: 
   due_date_reminder_days: 1
@@ -163,4 +151,6 @@ user1:
   required_role_id: 3
   checkout_icalendar_token: e3e0277cbba03183c3a12d2b740f3eabebd7df0d
   user_number: "00003"
+  single_access_token: dummy
+  perishable_token: dummy
   persistence_token: test

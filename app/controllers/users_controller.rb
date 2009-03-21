@@ -1,6 +1,4 @@
 class UsersController < ApplicationController
-  # Be sure to include AuthenticationSystem in Application Controller instead
-  #include AuthenticatedSystem
   #before_filter :reset_params_session
   before_filter :has_permission?
   before_filter :suspended?
@@ -257,15 +255,6 @@ class UsersController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     not_found
   end
-
-  #def activate
-  #  self.current_user = User.find_by_activation_code(params[:activation_code])
-  #  if logged_in? && !current_user.activated?
-  #    current_user.activate
-  #    flash[:notice] = ('Signup complete!')
-  #  end
-  #  redirect_back_or_default('/')
-  #end
 
   def destroy
     #@user = User.find(:first, :conditions => {:login => params[:id]})

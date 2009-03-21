@@ -1,0 +1,2 @@
+class AawsResponse < ManifestationApiResponse
+end
