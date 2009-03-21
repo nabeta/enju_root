@@ -12,3 +12,25 @@ scheduler.cron "0 4 * * *" do
   bookmark_stat = BookmarkStat.create(:from_date => from_date, :to_date => to_date)
   bookmark_stat.culculate_bookmarks_count
 end
+
+scheduler.cron "0 0 * * *" do
+  Reserve.expire
+  Basket.expire
+  NewsFeed.fetch_feeds
+end
+
+scheduler.cron "*/5 * * * *" do
+  Session.sweep
+  MessageQueue.send_messages
+  AawsResponse.expire
+end
+
+scheduler.cron "0 1 * * *" do
+  ImportedPatronFile.import
+  ImportedEventFile.import
+  ImportedResourceFile.import
+end
+
+scheduler.cron "0 1 * * *" do
+  LibraryGroup.solr_reindex(500)
+end
