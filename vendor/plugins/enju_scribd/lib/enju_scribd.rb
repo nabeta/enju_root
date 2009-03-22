@@ -10,7 +10,7 @@ module EnjuScribd
   end
 
   module InstanceMethods
-    attr_accessor :post_to_scribd
+    attr_accessor :post_to_scribd, :post_to_twitter
     def scribdable?
       return false if RAILS_ENV != 'production'
       if post_to_scribd

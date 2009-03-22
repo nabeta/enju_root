@@ -196,10 +196,10 @@
         </td>
       </tr>
     <%- end -%>
-    <%- unless @manifestation.attachment_files.blank? -%>
+    <%- unless @manifestation.attachment_file.blank? -%>
       <tr>
         <td><%= t('activerecord.models.attachment_file') -%>:</td>
-        <td><%= render :partial => 'attachment_files' -%></td>
+        <td><%= render :partial => 'attachment_file' -%></td>
       </tr>
     <%- end -%>
     <tr>

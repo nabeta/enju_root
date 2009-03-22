@@ -51,10 +51,10 @@ class AttachmentFilesController < ApplicationController
   # POST /attachment_files.xml
   def create
     @attachment_file = AttachmentFile.new(params[:attachment_file])
-    #@attachment_file.post_to_scribd = params[:attachment_file][:post_to_scribd]
+    @attachment_file.post_to_scribd = params[:attachment_file][:post_to_scribd]
+    @attachment_file.post_to_twitter = params[:attachment_file][:post_to_twitter]
     title = params[:attachment_file][:title]
     @attachment_file.title = title
-    @attachment_file.manifestation = Manifestation.create(:original_title => title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}))
 
     respond_to do |format|
       if @attachment_file.save
@@ -77,11 +77,11 @@ class AttachmentFilesController < ApplicationController
   def update
     @attachment_file = AttachmentFile.find(params[:id])
     @attachment_file.manifestation_id = params[:attachment_file][:manifestation_id]
-    @attachment_file.extract_text
+    #@attachment_file.extract_text
 
     respond_to do |format|
       if @attachment_file.update_attributes(params[:attachment_file])
-        @attachment_file.extract_text
+        #@attachment_file.extract_text
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
         format.xml  { head :ok }

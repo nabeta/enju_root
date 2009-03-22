@@ -13,6 +13,7 @@ class CreateAttachmentFiles < ActiveRecord::Migration
       t.integer :db_file_id
       t.text :fulltext
       t.string :file_hash
+      t.datetime :indexed_at
 
       t.timestamps
     end

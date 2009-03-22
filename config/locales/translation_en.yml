@@ -1020,6 +1020,7 @@ en:
     pickup: "Pick up"
     showing_reservable_record: "Showing reservable records."
     all_result: "All results"
+    post_to_twitter: "post to Twitter"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

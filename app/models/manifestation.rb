@@ -64,7 +64,7 @@ class Manifestation < ActiveRecord::Base
   acts_as_taggable_on :tags
   #acts_as_soft_deletable
   acts_as_tree
-  #enju_twitter
+  enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_porta
@@ -77,10 +77,6 @@ class Manifestation < ActiveRecord::Base
   validates_associated :manifestation_form, :language
   validates_numericality_of :start_page, :end_page, :allow_blank => true
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
-
-  # tsvなどでのインポート時に大量にpostされないようにするため、
-  # コントローラで処理する
-  #after_create :post_to_twitter
 
   def validate
     #unless self.date_of_publication.blank?
@@ -593,38 +589,8 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def extract_text
-    content = Tempfile::new("content")
-    content.puts(self.db_file.data)
-    content.close
-    text = Tempfile::new("text")
-    case self.content_type
-    when "application/pdf"
-      system("pdftotext -q -enc UTF-8 -raw #{content.path} #{text.path}")
-    when "application/msword"
-      system("antiword #{content.path} 2> /dev/null > #{text.path}")
-    when "application/vnd.ms-excel"
-      system("xlhtml #{content.path} 2> /dev/null > #{text.path}")
-    when "application/vnd.ms-powerpoint"
-      system("ppthtml #{content.path} 2> /dev/null #{text.path}")
-#    when "text/html"
-#      system("elinks --dump 1 #{self.full_filename} 2> /dev/null #{temp.path}")
-    #  html = open(self.full_filename).read
-    #  body, title = ExtractContent::analyse(html)
-    #  body = NKF.nkf('-w', body)
-    #  title = NKF.nkf('-w', title)
-    #  temp.open
-    #  temp.puts(title)
-    #  temp.puts(body)
-    #  temp.close
-    #else
-    #  nil
-    end
-
-    self.update_attribute(:fulltext, text.read)
-    text.close
-  rescue
-    nil
+  def fulltext
+    self.attachment_file.fulltext
   end
 
   def digest(options = {:type => 'sha1'})

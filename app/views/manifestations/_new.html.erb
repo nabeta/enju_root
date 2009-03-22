@@ -13,9 +13,9 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
-  <p>
-    <b><%= t('activerecord.models.expression') -%></b><br />
-    <%- if @expression -%>
+  <%- if @expression -%>
+    <p>
+      <b><%= t('activerecord.models.expression') -%></b><br />
       <%= link_to h(@expression.original_title), @expression -%>
       <%- if @expression.serial? and !@expression.subscribed? -%>
         <br />
@@ -24,8 +24,8 @@
           <%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%>
         </span>
       <%- end -%>
-    <%- end -%>
-  </p>
+    </p>
+  <%- end -%>
 
 <%= error_messages_for :manifestation -%>
 
@@ -119,6 +119,11 @@
   <p>
     <b><%= t('activerecord.attributes.manifestation.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= t('manifestation.post_to_twitter') -%>
+    <%= f.check_box :post_to_twitter -%>
   </p>
 
   <p>

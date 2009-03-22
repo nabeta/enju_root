@@ -159,8 +159,6 @@ class ManifestationsController < ApplicationController
     case params[:mode]
     when 'import_isbn'
       @manifestation = Manifestation.new
-    when 'upload'
-      @manifestation = Manifestation.new
     else
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
@@ -232,12 +230,8 @@ class ManifestationsController < ApplicationController
           end
         end
 
-        if params[:mode] == 'upload'
-          Manifestation.find_by_sql(['UPDATE manifestations SET file_hash = ? WHERE id = ?', @manifestation.digest, @manifestation.id])
-        end
-        # tsvなどでのインポート時に大量にpostされないようにするため、
-        # コントローラで処理する
-        @manifestation.post_to_twitter(manifestation_url(@manifestation)) rescue nil
+        # TODO: モデルへ移動
+        @manifestation.send_to_twitter(manifestation_url(@manifestation))
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
