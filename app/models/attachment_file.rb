@@ -24,7 +24,7 @@ class AttachmentFile < ActiveRecord::Base
 
   def before_validation_on_create
     unless self.manifestation
-      manifestation = Manifestation.create!(:original_title => self.title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}), :post_to_twitter => false)
+      manifestation = Manifestation.create!(:original_title => self.title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}), :post_to_twitter => self.post_to_twitter)
       self.manifestation_id = manifestation.id
     end
   end

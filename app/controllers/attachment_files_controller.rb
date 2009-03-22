@@ -58,9 +58,7 @@ class AttachmentFilesController < ApplicationController
 
     respond_to do |format|
       if @attachment_file.save
-        #@attachment_file.extract_text
         AttachmentFile.find_by_sql(['UPDATE attachment_files SET file_hash = ? WHERE id = ?', @attachment_file.digest, @attachment_file.id])
-        #@attachment_file.file_hash = @attachment_file.digest(:type => 'sha1')
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
@@ -77,11 +75,9 @@ class AttachmentFilesController < ApplicationController
   def update
     @attachment_file = AttachmentFile.find(params[:id])
     @attachment_file.manifestation_id = params[:attachment_file][:manifestation_id]
-    #@attachment_file.extract_text
 
     respond_to do |format|
       if @attachment_file.update_attributes(params[:attachment_file])
-        #@attachment_file.extract_text
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
         format.xml  { head :ok }
