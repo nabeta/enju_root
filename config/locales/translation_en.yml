@@ -900,7 +900,7 @@ en:
     total: "Total"
     sort_by: "Sort by"
     bookmarklet: "Bookmarklet"
-    add_file: "Add a file"
+    upload_file: "Upload a file"
     telephone_number: "Telephoone number"
     about_this_system: "About this system"
     report_bugs: "Report bugs"
@@ -1194,6 +1194,7 @@ en:
     period: "Period"
   attachment_file:
     invalid_file: "Invalid file."
+    post_to_scribd: "post to Scribd"
   inventory_file:
     not_in_catalog: "Not in catalog"
     not_on_shelf: "Not on shelf"

@@ -131,6 +131,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :imported_patron_files
   map.resources :imported_event_files
   map.resources :imported_resource_files
+  map.resources :attachment_files
   map.resources :picture_files
 
   map.resources :exemplifies
@@ -208,10 +209,10 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :patron_merges
     patron.resources :patron_merge_lists
     patron.resources :resource_has_subjects
-    patron.resources :attachment_files
     patron.resources :donates
     patron.resources :advertises
     patron.resources :advertisements
+    patron.resources :picture_files
   end
   map.resources :users do |user|
     user.resources :roles
@@ -322,7 +323,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :bookmarked_resources
   map.resources :event_categories
   map.resources :events do |event|
-    event.resources :attachment_files
     event.resources :picture_files
   end
   map.resources :library_groups do |library_group|
@@ -348,7 +348,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :embodies
   map.resources :languages
   map.resources :countries
-  map.resources :attachment_files
   map.resources :expression_forms
   map.resources :answers
   map.resources :questions

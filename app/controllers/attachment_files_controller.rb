@@ -1,12 +1,12 @@
 class AttachmentFilesController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_attachable, :only => [:index, :new]
+  before_filter :get_manifestation, :only => [:index, :new]
 
   # GET /attachment_files
   # GET /attachment_files.xml
   def index
-    if @attachable
-      @attachment_files = @attachable.attachment_files.paginate(:page => params[:page])
+    if @manifestation
+      @attachment_files = @manifestation.attachment_files.paginate(:page => params[:page])
     else
       @attachment_files = AttachmentFile.paginate(:all, :page => params[:page])
     end
@@ -32,9 +32,7 @@ class AttachmentFilesController < ApplicationController
   # GET /attachment_files/new
   # GET /attachment_files/new.xml
   def new
-    #raise unless @event or @manifestation or @shelf or @patron
     @attachment_file = AttachmentFile.new
-    @attachment_file.attachable = @attachable
 
     respond_to do |format|
       format.html # new.html.erb
@@ -53,26 +51,16 @@ class AttachmentFilesController < ApplicationController
   # POST /attachment_files.xml
   def create
     @attachment_file = AttachmentFile.new(params[:attachment_file])
-    @attachment_file.attachable_id = params[:attachment_file][:attachable_id]
-    @attachment_file.attachable_type = params[:attachment_file][:attachable_type]
+    #@attachment_file.post_to_scribd = params[:attachment_file][:post_to_scribd]
+    title = params[:attachment_file][:title]
+    @attachment_file.title = title
+    @attachment_file.manifestation = Manifestation.create(:original_title => title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}))
 
     respond_to do |format|
       if @attachment_file.save
-        unless @attachment_file.attachable
-          @attachment_file.create_resource(params[:attachment_file][:title])
-        end
-        @attachment_file.extract_text
+        #@attachment_file.extract_text
         AttachmentFile.find_by_sql(['UPDATE attachment_files SET file_hash = ? WHERE id = ?', @attachment_file.digest, @attachment_file.id])
         #@attachment_file.file_hash = @attachment_file.digest(:type => 'sha1')
-
-        #case @attachment_file.attachable_type
-        #when 'Work'
-        #when 'Expression'
-        #when 'Manifestation'
-        #when 'Item'
-        #when 'Patron'
-        #end
-        #@attachment_file.save
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.attachment_file'))
         format.html { redirect_to(@attachment_file) }
@@ -88,6 +76,7 @@ class AttachmentFilesController < ApplicationController
   # PUT /attachment_files/1.xml
   def update
     @attachment_file = AttachmentFile.find(params[:id])
+    @attachment_file.manifestation_id = params[:attachment_file][:manifestation_id]
     @attachment_file.extract_text
 
     respond_to do |format|
@@ -115,10 +104,4 @@ class AttachmentFilesController < ApplicationController
     end
   end
 
-  def get_attachable
-    @attachable = get_manifestation
-    @attachable = get_patron unless @attachable
-    @attachable = get_event unless @attachable
-    @attachable = get_shelf unless @attachable
-  end
 end

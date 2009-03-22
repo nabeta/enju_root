@@ -1,37 +1,28 @@
 class AttachmentFile < ActiveRecord::Base
   include LibrarianRequired
   #include ExtractContent
-  belongs_to :attachable, :polymorphic => true, :validate => true
+  #belongs_to :attachable, :polymorphic => true, :validate => true
+  belongs_to :manifestation
   has_one :db_file
 
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'id DESC'
 
   has_attachment
-  #acts_as_scribd_document
-
   validates_as_attachment
-  validates_associated :attachable
-  #alidates_presence_of :attachable_id, :attachable_type
+  validates_presence_of :manifestation_id
+  validates_associated :manifestation
+
+  acts_as_scribd_document
+  enju_scribd
 
   cattr_accessor :per_page
   @@per_page = 10
+  attr_accessor :title
   
-  before_save :extract_text
+  #before_save :extract_text
   #after_save :save_manifestation
   #after_destroy :save_manifestation
-
-  def create_resource(title)
-    AttachmentFile.transaction do
-      work = Work.create!(:original_title => title)
-      expression = Expression.new(:original_title => title)
-      work.expressions << expression
-      manifestation = Manifestation.new(:original_title => title)
-      manifestation.manifestation_form = ManifestationForm.find_by_name('file')
-      expression.manifestations << manifestation
-      self.attachable = manifestation
-    end
-  end
 
   #def save_manifestation
   #  if self.attachable_type == 'Manifestation'

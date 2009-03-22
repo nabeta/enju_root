@@ -885,7 +885,7 @@ ja:
     total: "合計"
     sort_by: "次の項目で並べ替える"
     bookmarklet: "ブックマークレット"
-    add_file: "ファイルを追加する"
+    upload_file: "ファイルをアップロードする"
     telephone_number: "電話番号"
     about_this_system: "このシステムについて"
     report_bugs: "不具合を報告する"
@@ -1172,6 +1172,7 @@ ja:
     period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
+    post_to_scribd: "Scribdに送信する"
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"

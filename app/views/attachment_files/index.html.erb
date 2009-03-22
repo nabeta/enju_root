@@ -8,7 +8,7 @@
 
 <table id="index">
   <tr>
-    <th><%= t('page.attachable') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.size') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.content_type') -%></th>
     <th><%= t('activerecord.attributes.attachment_file.filename') -%></th>
@@ -16,7 +16,7 @@
 
 <%- for attachment_file in @attachment_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to "#{h(attachment_file.attachable_type)}/#{h(attachment_file.attachable_id)}", attachment_file.attachable -%></td>
+    <td><%= link_to h(attachment_file.manifestation.original_title), attachment_file.manifestation -%></td>
     <td><%=h attachment_file.size -%></td>
     <td><%=h attachment_file.content_type -%></td>
     <td><%= link_to h(attachment_file.filename), attachment_file_path(attachment_file, :format => :download) -%></td>

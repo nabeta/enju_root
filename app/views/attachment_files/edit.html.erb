@@ -13,13 +13,8 @@
 
 <%- form_for(@attachment_file) do |f| -%>
   <p>
-    <b><%= t('page.attachable') -%></b><br />
-    <%= f.text_field :attachable_id -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.attachment_file.attachable_type') -%></b><br />
-    <%= f.text_field :attachable_type -%>
+    <b><%= t('activerecord.models.manifestation') -%></b><br />
+    <%= f.text_field :manifestation_id -%>
   </p>
 
   <p>

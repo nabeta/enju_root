@@ -1,0 +1,9 @@
+#Scribd Account Info
+
+scribd:
+ key: 
+ secret: 
+ user: 
+ password: 
+ access:
+#storage: s3 # Uncomment if Attachment_fu is using Amazon S3 for storage

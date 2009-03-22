@@ -10,6 +10,7 @@ module EnjuManifestationViewer
   end
 
   module InstanceMethods
+
     def youtube_id
       if access_address
         url = URI.parse(access_address)
@@ -43,16 +44,12 @@ module EnjuManifestationViewer
       end
     end
 
-    # scribd_fuで定義
-    #def scribd_id
-    #  if access_address
-    #    url = URI.parse(access_address)
-    #    paths = url.path.split('/')
-    #    if url.host =~ /^www\.scribd\.com$/ and paths[1] == 'doc' and paths[2]
-    #      return paths[2]
-    #    end
-    #  end
-    #end
+    def scribd_id
+      # scribd_fuで定義
+      if self.attachment_file
+        self.attachment_file.scribd_id
+      end
+    end
 
   end
 end

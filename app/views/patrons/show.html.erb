@@ -6,7 +6,7 @@
       <%- else -%>
         <li><%= link_to t('patron.deactivate'), edit_user_path(@patron.user.login) -%></li>
       <%- end -%>
-      <li><%= link_to t('page.add_picture'), new_patron_attachment_file_path(@patron) -%></li>
+      <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
       <li><%= link_to t('page.back'), patrons_path -%></li>
       <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>

@@ -53,7 +53,7 @@ module ManifestationsHelper
       render :partial => 'youtube', :locals => {:manifestation => manifestation}
     when manifestation.nicovideo_id
       render :partial => 'nicovideo', :locals => {:manifestation => manifestation}
-    when manifestation.flickr
+    when manifestation.flickr.present?
       render :partial => 'flickr', :locals => {:manifestation => manifestation}
     when manifestation.scribd_id
       render :partial => 'scribd', :locals => {:manifestation => manifestation}

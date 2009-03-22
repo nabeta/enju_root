@@ -26,6 +26,7 @@ class CreateManifestations < ActiveRecord::Migration
       #t.text :filename
       #t.string :content_type
       #t.integer :size
+      #t.text :fulltext
       t.string :volume_number_list
       t.string :issue_number_list
       t.string :serial_number_list

@@ -8,8 +8,8 @@
 <div id="content_detail">
 <div id="content_list">
 <p>
-  <b><%= t('page.attachable') -%>:</b>
-  <%= link_to h("#{@attachment_file.attachable_type}/#{@attachment_file.attachable_id}"), @attachment_file.attachable -%>
+  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <%= link_to h(@attachment_file.manifestation.original_title), @attachment_file.manifestation -%>
 </p>
 
 <p>
@@ -37,10 +37,12 @@
   <%=h @attachment_file.width -%>
 </p>
 
+<!--
 <p>
   <b><%= ('Parent') -%>:</b>
   <%=h @attachment_file.parent_id -%>
 </p>
+-->
 
 <p>
   <b><%= t('activerecord.attributes.attachment_file.thumbnail') -%>:</b>

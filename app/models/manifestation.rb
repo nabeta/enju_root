@@ -4,6 +4,7 @@ require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   include OnlyLibrarianCanModify
+  named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
@@ -15,7 +16,7 @@ class Manifestation < ActiveRecord::Base
   has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
-  has_many :attachment_files, :as => :attachable, :dependent => :destroy
+  has_one :attachment_file, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks
@@ -35,7 +36,8 @@ class Manifestation < ActiveRecord::Base
   has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
   has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
-  
+  has_one :db_file
+
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
     {:isbn => :string}, {:isbn10 => :string}, {:wrong_isbn => :string},
@@ -70,7 +72,6 @@ class Manifestation < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
   attr_accessor :restrain_indexing
-  attr_accessor :scribd_access_key
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
@@ -279,14 +280,6 @@ class Manifestation < ActiveRecord::Base
     manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact - serials - Array(self)
   rescue
     []
-  end
-
-  def fulltext
-    fulltext = ""
-    self.attachment_files.each do |file|
-      fulltext += file.fulltext.to_s
-    end
-    return fulltext
   end
 
   def sortable_title
@@ -600,11 +593,45 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def embed_content?
-    true if self.youtube_id
-    true if self.nicovideo_id
-    true if !self.flickr.blank?
-    true if self.scribd_id
+  def extract_text
+    content = Tempfile::new("content")
+    content.puts(self.db_file.data)
+    content.close
+    text = Tempfile::new("text")
+    case self.content_type
+    when "application/pdf"
+      system("pdftotext -q -enc UTF-8 -raw #{content.path} #{text.path}")
+    when "application/msword"
+      system("antiword #{content.path} 2> /dev/null > #{text.path}")
+    when "application/vnd.ms-excel"
+      system("xlhtml #{content.path} 2> /dev/null > #{text.path}")
+    when "application/vnd.ms-powerpoint"
+      system("ppthtml #{content.path} 2> /dev/null #{text.path}")
+#    when "text/html"
+#      system("elinks --dump 1 #{self.full_filename} 2> /dev/null #{temp.path}")
+    #  html = open(self.full_filename).read
+    #  body, title = ExtractContent::analyse(html)
+    #  body = NKF.nkf('-w', body)
+    #  title = NKF.nkf('-w', title)
+    #  temp.open
+    #  temp.puts(title)
+    #  temp.puts(body)
+    #  temp.close
+    #else
+    #  nil
+    end
+
+    self.update_attribute(:fulltext, text.read)
+    text.close
+  rescue
+    nil
+  end
+
+  def digest(options = {:type => 'sha1'})
+    if self.file_hash.blank?
+      self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
+    end
+    self.file_hash
   end
 
 end

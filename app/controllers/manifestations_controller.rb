@@ -156,7 +156,10 @@ class ManifestationsController < ApplicationController
 
   # GET /manifestations/new
   def new
-    if params[:mode] == 'import_isbn'
+    case params[:mode]
+    when 'import_isbn'
+      @manifestation = Manifestation.new
+    when 'upload'
       @manifestation = Manifestation.new
     else
       #unless @expression
@@ -193,7 +196,8 @@ class ManifestationsController < ApplicationController
   # POST /manifestations
   # POST /manifestations.xml
   def create
-    if params[:mode] == 'import_isbn'
+    case params[:mode]
+    when 'import_isbn'
       begin
         @manifestation = Manifestation.import_isbn(params[:manifestation][:isbn])
       rescue Exception => e
@@ -228,6 +232,9 @@ class ManifestationsController < ApplicationController
           end
         end
 
+        if params[:mode] == 'upload'
+          Manifestation.find_by_sql(['UPDATE manifestations SET file_hash = ? WHERE id = ?', @manifestation.digest, @manifestation.id])
+        end
         # tsvなどでのインポート時に大量にpostされないようにするため、
         # コントローラで処理する
         @manifestation.post_to_twitter(manifestation_url(@manifestation)) rescue nil
