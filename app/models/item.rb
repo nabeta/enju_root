@@ -42,8 +42,9 @@ class Item < ActiveRecord::Base
   validates_presence_of :circulation_status #, :checkout_type
   validates_uniqueness_of :item_identifier, :allow_blank => true, :if => proc{|item| !item.item_identifier.blank?}
   validates_length_of :url, :maximum => 255, :allow_blank => true
+  validates_format_of :item_identifier, :with=>/\A[0-9]+\Z/, :allow_blank => true
 
-  acts_as_taggable
+  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
 
@@ -68,14 +69,19 @@ class Item < ActiveRecord::Base
   #end
 
   def before_save
-    unless self.item_identifier.blank?
-      barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
-      if barcode.nil?
-        barcode = Barcode.create(:code_word => self.item_identifier)
-      end
+    if self.item_identifier
+      self.item_identifier.strip!
+      unless self.item_identifier.blank?
+        barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
+        if barcode.nil?
+          barcode = Barcode.create(:code_word => self.item_identifier)
+        end
 
-      self.barcode = barcode
-      self.barcode.save
+        self.barcode = barcode
+        self.barcode.save
+      else
+        self.item_identifier = nil
+      end
     end
   end
 

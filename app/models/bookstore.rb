@@ -6,7 +6,7 @@ class Bookstore < ActiveRecord::Base
   acts_as_list
   #acts_as_soft_deletable
   validates_presence_of :name
-  validates_length_of :url, :maximum => 255, :allow_nil => true
+  validates_length_of :url, :maximum => 255, :allow_blank => true
 
   cattr_accessor :per_page
   @@per_page = 10

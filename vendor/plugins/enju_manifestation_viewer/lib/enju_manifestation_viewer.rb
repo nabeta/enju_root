@@ -43,5 +43,16 @@ module EnjuManifestationViewer
       end
     end
 
+    # scribd_fuで定義
+    #def scribd_id
+    #  if access_address
+    #    url = URI.parse(access_address)
+    #    paths = url.path.split('/')
+    #    if url.host =~ /^www\.scribd\.com$/ and paths[1] == 'doc' and paths[2]
+    #      return paths[2]
+    #    end
+    #  end
+    #end
+
   end
 end

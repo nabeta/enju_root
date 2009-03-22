@@ -59,7 +59,7 @@ class Manifestation < ActiveRecord::Base
     #:if => proc{|manifestation| !manifestation.serial?},
     :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
-  acts_as_taggable
+  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   acts_as_tree
   #enju_twitter
@@ -70,11 +70,12 @@ class Manifestation < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
   attr_accessor :restrain_indexing
+  attr_accessor :scribd_access_key
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
-  validates_numericality_of :start_page, :end_page, :allow_nil => true
-  validates_length_of :access_address, :maximum => 255, :allow_nil => true
+  validates_numericality_of :start_page, :end_page, :allow_blank => true
+  validates_length_of :access_address, :maximum => 255, :allow_blank => true
 
   # tsvなどでのインポート時に大量にpostされないようにするため、
   # コントローラで処理する
@@ -598,4 +599,12 @@ class Manifestation < ActiveRecord::Base
   rescue
     nil
   end
+
+  def embed_content?
+    true if self.youtube_id
+    true if self.nicovideo_id
+    true if !self.flickr.blank?
+    true if self.scribd_id
+  end
+
 end

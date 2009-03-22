@@ -6,9 +6,11 @@ class CreateMessageQueues < ActiveRecord::Migration
       t.integer :message_template_id
       t.datetime :sent_at
       t.datetime :deleted_at
+      t.string :message_queues, :state
 
       t.timestamps
     end
+    add_index :message_queues, :state
   end
 
   def self.down

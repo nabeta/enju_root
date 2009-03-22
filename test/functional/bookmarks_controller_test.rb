@@ -129,7 +129,7 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {:tag_list => 'search', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
-    assert_equal 'search', assigns(:bookmark).tag_list
+    assert_equal ['search'], assigns(:bookmark).tag_list
     assert_nil assigns(:bookmark).bookmarked_resource.manifestation.items.first.item_identifier
     #assert_equal 1, assigns(:bookmark).bookmarked_resource.manifestation.items.size
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
@@ -141,7 +141,7 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {:tag_list => 'タグの　テスト', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
-    assert_equal 'タグの テスト', assigns(:bookmark).tag_list
+    assert_equal ['タグの テスト'], assigns(:bookmark).tag_list
     assert_nil assigns(:bookmark).bookmarked_resource.manifestation.items.first.item_identifier
     assert_equal 1, assigns(:bookmark).bookmarked_resource.manifestation.items.size
     #assert_redirected_to user_bookmarked_resource_url(users(:user1).login, assigns(:bookmark).bookmarked_resource)
@@ -275,7 +275,7 @@ class BookmarksControllerTest < ActionController::TestCase
     login_as :user1
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => 'search'}
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
-    assert_equal 'search', assigns(:bookmark).tag_list
+    assert_equal ['search'], assigns(:bookmark).tag_list
   end
   
   def test_guest_should_not_destroy_bookmark

@@ -63,7 +63,7 @@ module ApplicationHelper
     link_to h(tag), manifestations_path(:tag => tag.name)
   end
 
-  def tag_cloud(tags, options = {})
+  def render_tag_cloud(tags, options = {})
     return nil if tags.nil?
     # TODO: add options to specify different limits and sorts
     #tags = Tag.find(:all, :limit => 100, :order => 'taggings_count DESC').sort_by(&:name)

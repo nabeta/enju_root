@@ -56,9 +56,9 @@ class User < ActiveRecord::Base
   has_many :news_posts
 
   restful_easy_messages
-  acts_as_tagger
   #acts_as_soft_deletable
   has_friendly_id :login
+  acts_as_tagger
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -84,13 +84,14 @@ class User < ActiveRecord::Base
   #validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message, :if => proc{|user| !user.email.blank?}
 
   validates_format_of   :login, :with => /^[a-z][0-9a-z]{2,254}$/
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => proc{|user| !user.email.blank?}, :allow_blank => true
+  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   validates_presence_of :patron, :user_group, :library
-  validates_uniqueness_of   :openid_url,    :allow_nil => true
+  validates_uniqueness_of   :openid_url,    :allow_blank => true
   #validates_presence_of :user_number
-  validates_uniqueness_of :user_number, :allow_nil => true
-  validates_length_of :openid_url, :maximum => 255, :allow_nil => true
+  validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
+  validates_length_of :openid_url, :maximum => 255, :allow_blank => true
 
   before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
 

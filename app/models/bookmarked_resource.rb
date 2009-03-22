@@ -9,7 +9,7 @@ class BookmarkedResource < ActiveRecord::Base
   validates_associated :manifestation
   validates_presence_of :title, :url, :manifestation
   validates_uniqueness_of :manifestation_id
-  validates_length_of :url, :maximum => 255, :allow_nil => true
+  validates_length_of :url, :maximum => 255, :allow_blank => true
 
   cattr_accessor :per_page
   @@per_page = 10
