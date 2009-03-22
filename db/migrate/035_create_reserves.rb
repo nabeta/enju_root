@@ -11,6 +11,8 @@ class CreateReserves < ActiveRecord::Migration
       t.datetime :expired_at
       t.datetime :deleted_at
       t.string :state
+      t.boolean :expiration_notice_to_patron, :default => false
+      t.boolean :expiration_notice_to_library, :default => false
     end
 
     add_index :reserves, :user_id

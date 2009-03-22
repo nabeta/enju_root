@@ -105,14 +105,7 @@
     <%- end -%>
 
     <table id="manifestation_detail">
-    <%- if @manifestation.youtube_id or @manifestation.nicovideo_id or !@manifestation.flickr.blank? -%>
-      <tr>
-        <td style="width: 200px"><%=h t('page.video') -%>:</td>
-        <td style="width: 500px">
-          <%= embed_content(@manifestation) -%>
-        </td>
-      </tr>
-    <%- end -%>
+    <%= embed_content(@manifestation) -%>
     <%- if @manifestation.serial -%>
       <tr>
         <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>

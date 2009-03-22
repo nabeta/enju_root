@@ -8,6 +8,8 @@ class AttachmentFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
 
   has_attachment
+  #acts_as_scribd_document
+
   validates_as_attachment
   validates_associated :attachable
   #alidates_presence_of :attachable_id, :attachable_type
