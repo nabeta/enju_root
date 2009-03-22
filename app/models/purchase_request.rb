@@ -9,7 +9,7 @@ class PurchaseRequest < ActiveRecord::Base
 
   validates_associated :user
   validates_presence_of :user, :title
-  validates_length_of :url, :maximum => 255, :allow_nil => true
+  validates_length_of :url, :maximum => 255, :allow_blank => true
 
   def validate
     errors.add(:price) unless self.price.nil? || self.price > 0.0

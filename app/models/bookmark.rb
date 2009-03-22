@@ -8,7 +8,7 @@ class Bookmark < ActiveRecord::Base
   validates_presence_of :url, :on => :create
   validates_associated :user, :bookmarked_resource
   validates_uniqueness_of :bookmarked_resource_id, :scope => :user_id
-  validates_length_of :url, :maximum => 255, :allow_nil => true
+  validates_length_of :url, :maximum => 255, :allow_blank => true
   
   cattr_accessor :per_page
   attr_accessor :url

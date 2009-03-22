@@ -73,8 +73,8 @@ class Manifestation < ActiveRecord::Base
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
-  validates_numericality_of :start_page, :end_page, :allow_nil => true
-  validates_length_of :access_address, :maximum => 255, :allow_nil => true
+  validates_numericality_of :start_page, :end_page, :allow_blank => true
+  validates_length_of :access_address, :maximum => 255, :allow_blank => true
 
   # tsvなどでのインポート時に大量にpostされないようにするため、
   # コントローラで処理する

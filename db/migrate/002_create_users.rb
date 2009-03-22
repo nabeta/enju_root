@@ -1,18 +1,23 @@
 class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table "users", :force => true do |t|
-      t.column :login,                     :string, :null => false
-      t.column :openid_url,                :string
-      t.column :email,                     :string
-      t.column :crypted_password,          :string, :limit => 40
-      t.column :salt,                      :string, :limit => 40
-      t.column :created_at,                :datetime
-      t.column :updated_at,                :datetime
-      t.column :deleted_at,                :datetime
-      t.column :remember_token,            :string
-      t.column :remember_token_expires_at, :datetime
-      t.column :activation_code, :string, :limit => 40
-      t.column :activated_at, :datetime
+      t.string :login, :null => false
+      t.string :openid_url, :string
+      t.string :email, :string
+      t.string :crypted_password, :null => false
+      t.timestamps
+      t.datetime :deleted_at
+      t.string :password_salt, :null => false
+      t.string :persistence_token, :string, :null => false
+      t.string :single_access_token, :string, :null => false
+      t.string :perishable_token, :string, :null => false
+      t.integer :login_count, :integer, :null => false, :default => 0
+      t.integer :failed_login_count, :integer, :null => false, :default => 0
+      t.datetime :last_request_at, :datetime
+      t.datetime :last_login_at, :datetime
+      t.datetime :current_login_at, :datetime
+      t.string :last_login_ip, :string
+      t.string :current_login_ip, :string
 
       t.references :patron, :polymorphic => true
       t.integer :library_id, :default => 1, :null => false
@@ -26,13 +31,12 @@ class CreateUsers < ActiveRecord::Migration
       t.string :checkout_icalendar_token
       t.integer :questions_count, :default => 0, :null => false
       t.integer :answers_count, :default => 0, :null => false
-      t.string :answer_rss_token
+      t.string :answer_feed_token
       t.integer :due_date_reminder_days, :default => 1, :null => false
       t.text :note
       t.boolean :share_bookmarks, :default => false, :null => false
       t.boolean :save_search_history, :default => false, :null => false
       t.boolean :save_checkout_history, :default => false, :null => false
-      t.integer :lock_version, :default => 0, :null => false
       t.integer :required_role_id, :null => false
       t.text :keyword_list
       t.string :user_number
@@ -47,7 +51,7 @@ class CreateUsers < ActiveRecord::Migration
     add_index :users, :required_role_id
     add_index :users, :user_number, :unique => true
     add_index :users, :checkout_icalendar_token, :unique => true
-    add_index :users, :answer_rss_token, :unique => true
+    add_index :users, :answer_feed_token, :unique => true
   end
 
   def self.down
