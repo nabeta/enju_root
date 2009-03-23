@@ -57,7 +57,7 @@ Rails::Initializer.run do |config|
   config.gem "system_timer"
   config.gem "image_science"
   config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
-  config.gem "authlogic", :version => "1.4.3"
+  config.gem "authlogic"
   config.gem "money"
   config.gem "javan-whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"

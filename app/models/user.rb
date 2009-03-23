@@ -64,8 +64,7 @@ class User < ActiveRecord::Base
   @@per_page = 10
   
   # Virtual attribute for the unencrypted password
-  attr_accessor :password, :old_password
-  attr_accessor :temporary_password
+  attr_accessor :old_password, :temporary_password
   attr_reader :auto_generated_password
   attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
   attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note
@@ -95,12 +94,11 @@ class User < ActiveRecord::Base
 
   before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
 
-  acts_as_authentic :transition_from_restful_authentication => true, :validate_email_field => false
-  #acts_as_authentic  {|c|
-    #c.transition_from_restful_authentication = true
-    #c.password_salt_field = 'password_salt'
-    #c.validate_email_field = false
-  #}
+  #acts_as_authentic :transition_from_restful_authentication => true, :validate_email_field => false
+  acts_as_authentic  {|c|
+    c.transition_from_restful_authentication = true
+    c.validate_email_field = false
+  }
 
   def before_validation
     self.full_name = self.patron.full_name if self.patron
@@ -143,7 +141,7 @@ class User < ActiveRecord::Base
   end
 
   def reset_checkout_icalendar_token
-    self.checkout_icalendar_token = User.friendly_unique_token
+    self.checkout_icalendar_token = Authlogic::Random.friendly_token
   end
 
   def delete_checkout_icalendar_token
@@ -151,7 +149,7 @@ class User < ActiveRecord::Base
   end
 
   def reset_answer_feed_token
-    self.answer_feed_token = User.friendly_unique_token
+    self.answer_feed_token = Authlogic::Random.friendly_token
   end
 
   def delete_answer_feed_token

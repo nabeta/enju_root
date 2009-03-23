@@ -20,6 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 set :path, RAILS_ROOT
+set :environment, :production
 set :cron_log, "#{RAILS_ROOT}/log/cron_log.log"
 
 every 5.minute do
