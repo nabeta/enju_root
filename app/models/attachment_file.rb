@@ -41,25 +41,16 @@ class AttachmentFile < ActiveRecord::Base
     when "application/msword"
       system("antiword #{content.path} 2> /dev/null > #{text.path}")
       self.fulltext = text.read
-    # TODO: HTMLのタグの除去
     when "application/vnd.ms-excel"
       system("xlhtml #{content.path} 2> /dev/null > #{text.path}")
       self.fulltext = extractor.analyse(text.read)
     when "application/vnd.ms-powerpoint"
       system("ppthtml #{content.path} 2> /dev/null > #{text.path}")
       self.fulltext = extractor.analyse(text.read)
-#    when "text/html"
-#      system("elinks --dump 1 #{self.full_filename} 2> /dev/null #{temp.path}")
-    #  html = open(self.full_filename).read
-    #  body, title = ExtractContent::analyse(html)
-    #  body = NKF.nkf('-w', body)
-    #  title = NKF.nkf('-w', title)
-    #  temp.open
-    #  temp.puts(title)
-    #  temp.puts(body)
-    #  temp.close
-    #else
-    #  nil
+    when "text/html"
+      # TODO: 日本語以外
+      system("elinks --dump 1 #{self.full_filename} 2> /dev/null | nkf -w > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
     end
 
     self.indexed_at = Time.zone.now
