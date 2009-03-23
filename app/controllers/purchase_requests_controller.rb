@@ -88,6 +88,7 @@ class PurchaseRequestsController < ApplicationController
       #parsed_url = URI.parse(URI.encode(url)).normalize
       #title = Bookmark.get_title(url, root_url)
       title = Bookmark.get_title(params[:title])
+      title = Bookmark.get_title_from_url(url) if title.nil?
     rescue
       url = nil
       title = nil

@@ -61,7 +61,6 @@ class Manifestation < ActiveRecord::Base
     #:if => proc{|manifestation| !manifestation.serial?},
     :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
-  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   acts_as_tree
   enju_twitter
@@ -217,7 +216,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def tag
-    tags.collect{|t| Array(t.name) + t.synonym.to_s.split}
+    tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
   end
 
   def tags
@@ -471,6 +470,7 @@ class Manifestation < ActiveRecord::Base
     xml.target!
   end
 
+  # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
     return nil if self.numdocs < 10
     resource = nil

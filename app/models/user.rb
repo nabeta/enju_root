@@ -96,6 +96,11 @@ class User < ActiveRecord::Base
   before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
 
   acts_as_authentic :transition_from_restful_authentication => true, :validate_email_field => false
+  #acts_as_authentic  {|c|
+    #c.transition_from_restful_authentication = true
+    #c.password_salt_field = 'password_salt'
+    #c.validate_email_field = false
+  #}
 
   def before_validation
     self.full_name = self.patron.full_name if self.patron
@@ -139,7 +144,6 @@ class User < ActiveRecord::Base
 
   def reset_checkout_icalendar_token
     self.checkout_icalendar_token = User.friendly_unique_token
-    #self.checkout_icalendar_token = Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )
   end
 
   def delete_checkout_icalendar_token
@@ -148,7 +152,6 @@ class User < ActiveRecord::Base
 
   def reset_answer_feed_token
     self.answer_feed_token = User.friendly_unique_token
-    #self.answer_rss_token = Digest::SHA1.hexdigest( Time.zone.now.to_s.split(//).sort_by {rand}.join )
   end
 
   def delete_answer_feed_token

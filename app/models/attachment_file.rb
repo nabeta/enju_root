@@ -1,6 +1,5 @@
 class AttachmentFile < ActiveRecord::Base
   include LibrarianRequired
-  #include ExtractContent
   named_scope :not_indexed, :conditions => ['indexed_at IS NULL']
   belongs_to :manifestation
   has_one :db_file
@@ -30,6 +29,7 @@ class AttachmentFile < ActiveRecord::Base
   end
 
   def extract_text
+    extractor = ExtractContent::Extractor.new
     content = Tempfile::new("content")
     content.puts(self.db_file.data)
     content.close
@@ -37,13 +37,17 @@ class AttachmentFile < ActiveRecord::Base
     case self.content_type
     when "application/pdf"
       system("pdftotext -q -enc UTF-8 -raw #{content.path} #{text.path}")
+      self.fulltext = text.read
     when "application/msword"
       system("antiword #{content.path} 2> /dev/null > #{text.path}")
+      self.fulltext = text.read
     # TODO: HTMLのタグの除去
     when "application/vnd.ms-excel"
       system("xlhtml #{content.path} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
     when "application/vnd.ms-powerpoint"
       system("ppthtml #{content.path} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
 #    when "text/html"
 #      system("elinks --dump 1 #{self.full_filename} 2> /dev/null #{temp.path}")
     #  html = open(self.full_filename).read
@@ -58,7 +62,6 @@ class AttachmentFile < ActiveRecord::Base
     #  nil
     end
 
-    self.fulltext = text.read
     self.indexed_at = Time.zone.now
     self.save
     text.close

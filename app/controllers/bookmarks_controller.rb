@@ -65,6 +65,7 @@ class BookmarksController < ApplicationController
           #@title = Bookmark.get_title(URI.encode(url), root_url)
           #@title = Bookmark.get_title(url, root_url)
           @title = Bookmark.get_title(params[:title])
+          @title = Bookmark.get_title_from_url(url) if @title.nil?
         end
       else
         logger.warn "Failed to bookmark: #{params[:url]}"
