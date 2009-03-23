@@ -11,14 +11,14 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:donates)
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:donates)
@@ -31,13 +31,13 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
 
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -52,7 +52,7 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_donate
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('Donate.count') do
       post :create, :donate => { }
     end
@@ -61,7 +61,7 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_donate_without_patron_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_no_difference('Donate.count') do
       post :create, :donate => {:item_id => 6}
     end
@@ -70,7 +70,7 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_donate_without_item_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_no_difference('Donate.count') do
       post :create, :donate => {:patron_id => 1}
     end
@@ -79,7 +79,7 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_donate
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('Donate.count') do
       post :create, :donate => {:patron_id => 1, :item_id => 6}
     end
@@ -94,13 +94,13 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_donate
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => donates(:donate_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_show_donate
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => donates(:donate_00001).id
     assert_response :success
   end
@@ -112,13 +112,13 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => donates(:donate_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => donates(:donate_00001).id
     assert_response :success
   end
@@ -130,25 +130,25 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_update_donate
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => donates(:donate_00001).id, :donate => { }
     assert_response :forbidden
   end
 
   def test_librarian_should_not_update_donate_without_patron_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => donates(:donate_00001).id, :donate => {:patron_id => nil}
     assert_response :success
   end
 
   def test_librarian_should_not_update_donate_without_item_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => donates(:donate_00001).id, :donate => {:item_id => nil}
     assert_response :success
   end
 
   def test_librarian_should_update_donate
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => donates(:donate_00001).id, :donate => {:item_id => 3, :patron_id => 2}
     assert_redirected_to donate_url(assigns(:donate))
   end
@@ -163,7 +163,7 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_donate
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('Donate.count') do
       delete :destroy, :id => donates(:donate_00001).id
     end
@@ -172,7 +172,7 @@ class DonatesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_donate
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('Donate.count', -1) do
       delete :destroy, :id => donates(:donate_00001).id
     end

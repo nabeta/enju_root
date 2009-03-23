@@ -26,14 +26,14 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :success
     assert assigns(:embodies)
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:embodies)
@@ -45,13 +45,13 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -73,7 +73,7 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_embody_without_expression_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Embody.count
     post :create, :embody => { :manifestation_id => 1 }
     assert_equal old_count, Embody.count
@@ -82,7 +82,7 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_embody_without_manifestation_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Embody.count
     post :create, :embody => { :expression_id => 1 }
     assert_equal old_count, Embody.count
@@ -91,7 +91,7 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_embody_already_created
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Embody.count
     post :create, :embody => { :expression_id => 1, :manifestation_id => 1 }
     assert_equal old_count, Embody.count
@@ -100,7 +100,7 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_embody_not_created_yet
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Embody.count
     post :create, :embody => { :expression_id => 1, :manifestation_id => 10 }
     assert_equal old_count+1, Embody.count
@@ -114,13 +114,13 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_embody
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_embody
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
@@ -132,13 +132,13 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => 1, :patron_id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => 1, :patron_id => 1
     assert_response :success
   end
@@ -149,25 +149,25 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_embody
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => 1, :embody => {:expression_id => 1, :manifestation_id => 1 }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_embody_without_expression_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :embody => {:expression_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_embody_without_manifestation_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :embody => {:manifestation_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_embody
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :embody => {:expression_id => 1, :manifestation_id => 5}
     assert_redirected_to embody_url(assigns(:embody))
   end
@@ -181,7 +181,7 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_embody
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Embody.count
     delete :destroy, :id => 1
     assert_equal old_count, Embody.count
@@ -190,7 +190,7 @@ class EmbodiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_embody
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Embody.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Embody.count

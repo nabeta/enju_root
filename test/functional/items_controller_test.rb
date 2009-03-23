@@ -40,27 +40,27 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :success
     assert assigns(:items)
   end
 
   def test_user_not_should_get_index_with_inventory_file_id
-    login_as :user1
+    set_session_for users(:user1)
     get :index, :inventory_file_id => 1
     assert_response :forbidden
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:items)
   end
 
   def test_librarian_should_get_index_with_inventory_file_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index, :inventory_file_id => 1
     assert_response :success
     assert assigns(:inventory_file)
@@ -68,7 +68,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_get_index
-    login_as :admin
+    set_session_for users(:admin)
     get :index
     assert_response :success
     assert assigns(:items)
@@ -80,25 +80,25 @@ class ItemsControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_get_new_without_manifestation_id
-    login_as :admin
+    set_session_for users(:admin)
     get :new
     assert_redirected_to manifestations_url
   end
   
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new, :manifestation_id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new, :manifestation_id => 1
     assert_response :success
   end
   
   def test_admin_should_get_new
-    login_as :admin
+    set_session_for users(:admin)
     get :new, :manifestation_id => 1
     assert_response :success
   end
@@ -112,7 +112,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_create_item_without_manifestation_id
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Item.count
     post :create, :item => { :circulation_status_id => 1 }
     assert_equal old_count, Item.count
@@ -122,7 +122,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_create_item_already_created
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Item.count
     post :create, :item => { :circulation_status_id => 1, :item_identifier => "00001" }, :manifestation_id => 1
     assert_equal old_count, Item.count
@@ -131,7 +131,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_item
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Item.count
     post :create, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_equal old_count, Item.count
@@ -140,7 +140,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_item
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Item.count
     post :create, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_equal old_count+1, Item.count
@@ -149,7 +149,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_item
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Item.count
     post :create, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_equal old_count+1, Item.count
@@ -163,25 +163,25 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_show_missing_item
-    login_as :admin
+    set_session_for users(:admin)
     get :show, :id => 100
     assert_response :missing
   end
 
   def test_user_should_show_item
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_item
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_item
-    login_as :admin
+    set_session_for users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -193,25 +193,25 @@ class ItemsControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_edit_missing_item
-    login_as :admin
+    set_session_for users(:admin)
     get :edit, :id => 100
     assert_response :missing
   end
 
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => 1
     assert_response :success
   end
   
   def test_admin_should_get_edit
-    login_as :admin
+    set_session_for users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -222,31 +222,31 @@ class ItemsControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_update_missing_item
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => 100, :item => { }
     assert_response :missing
   end
   
   def test_user_should_not_update_item
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => 1, :item => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_item_without_circulation_status_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :item => {:circulation_status_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_item
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_redirected_to item_url(assigns(:item))
   end
   
   def test_admin_should_update_item
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => 1, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_redirected_to item_url(assigns(:item))
   end
@@ -260,7 +260,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_destroy_missing_item
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Item.count
     delete :destroy, :id => 100
     assert_equal old_count, Item.count
@@ -269,7 +269,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_item
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Item.count
     delete :destroy, :id => 1
     assert_equal old_count, Item.count
@@ -278,7 +278,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_item
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Item.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Item.count
@@ -287,7 +287,7 @@ class ItemsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_item
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Item.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Item.count

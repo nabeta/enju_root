@@ -95,7 +95,7 @@ class User < ActiveRecord::Base
   before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
 
   #acts_as_authentic :transition_from_restful_authentication => true, :validate_email_field => false
-  acts_as_authentic  {|c|
+  acts_as_authentic {|c|
     c.transition_from_restful_authentication = true
     c.validate_email_field = false
   }
@@ -112,15 +112,11 @@ class User < ActiveRecord::Base
   
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
-    set_auto_generated_password
+    reset_password
   end
 
   def set_auto_generated_password
-    if self.password.blank? and self.password_confirmation.blank?
-      self.password = Base64.encode64(User.make_token)[0..7]
-      self.password_confirmation = self.password
-      self.temporary_password = self.password
-    end
+    self.temporary_password = reset_password
   end
 
   def before_save
@@ -168,7 +164,7 @@ class User < ActiveRecord::Base
 
   def activate
     self.suspended = false
-    save!
+    save
   end
 
   def checked_item_count

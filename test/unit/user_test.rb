@@ -31,7 +31,7 @@ class UserTest < ActiveSupport::TestCase
   def test_should_require_password_confirmation
     assert_no_difference 'User.count' do
       u = create_user(:password_confirmation => nil)
-      assert_nil u.errors.on(:password_confirmation)
+      assert u.errors.on(:password_confirmation)
     end
   end
 
@@ -124,8 +124,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_should_set_temporary_password
-    assert_nil users(:user1).temporary_password
+    old_password = users(:user1).crypted_password
     users(:user1).set_auto_generated_password
+    assert_not_equal old_password, users(:user1).crypted_password
     assert_not_nil users(:user1).temporary_password
   end
 

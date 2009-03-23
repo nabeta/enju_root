@@ -10,7 +10,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_user_show
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :redirect
     assert_redirected_to user_url(users(:user1).login)
@@ -38,7 +38,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_get_import
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :import
     assert_response :success
   end
@@ -50,7 +50,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_message
-    login_as :user1
+    set_session_for users(:user1)
     get :message
     assert_response :redirect
     assert_redirected_to inbox_user_messages_url(users(:user1).login)
@@ -63,13 +63,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_acquisition
-    login_as :user1
+    set_session_for users(:user1)
     get :acquisition
     assert_response :forbidden
   end
 
   def test_librarian_should_get_acquisition
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :acquisition
     assert_response :success
   end
@@ -81,13 +81,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_configuration
-    login_as :user1
+    set_session_for users(:user1)
     get :configuration
     assert_response :forbidden
   end
 
   def test_librarian_should_get_configuration
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :configuration
     assert_response :success
   end
@@ -99,13 +99,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_patron
-    login_as :user1
+    set_session_for users(:user1)
     get :patron
     assert_response :forbidden
   end
 
   def test_librarian_should_get_patron
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :patron
     assert_response :success
   end
@@ -117,13 +117,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_circulation
-    login_as :user1
+    set_session_for users(:user1)
     get :patron
     assert_response :forbidden
   end
 
   def test_librarian_should_get_circulation
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :patron
     assert_response :success
   end
@@ -135,13 +135,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_management
-    login_as :user1
+    set_session_for users(:user1)
     get :management
     assert_response :forbidden
   end
 
   def test_librarian_should_get_management
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :management
     assert_response :success
   end

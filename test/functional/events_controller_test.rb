@@ -30,21 +30,21 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :success
     assert assigns(:events)
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:events)
   end
 
   def test_admin_should_get_index
-    login_as :admin
+    set_session_for users(:admin)
     get :index
     assert_response :success
     assert assigns(:events)
@@ -56,19 +56,19 @@ class EventsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
   
   def test_admin_should_get_new
-    login_as :admin
+    set_session_for users(:admin)
     get :new
     assert_response :success
   end
@@ -90,7 +90,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_event_without_library_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Event.count
     post :create, :event => { :title => 'test', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
@@ -99,7 +99,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_event_without_category_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Event.count
     post :create, :event => { :title => 'test', :library_id => '1', :started_at => '2008-02-05', :ended_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
@@ -108,7 +108,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_event_with_invalid_dates
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Event.count
     post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-08', :ended_at => '2008-02-05' }
     assert_equal old_count, Event.count
@@ -118,7 +118,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_event
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Event.count
     post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
@@ -127,7 +127,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_event
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Event.count
     post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
@@ -141,19 +141,19 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_event
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_event
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_event
-    login_as :admin
+    set_session_for users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -165,19 +165,19 @@ class EventsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => 1
     assert_response :success
   end
   
   def test_admin_should_get_edit
-    login_as :admin
+    set_session_for users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -188,38 +188,38 @@ class EventsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_event
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => 1, :event => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_update_event_without_library_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :event => {:library_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_event_without_event_category_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :event => {:event_category_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_event_with_invalid_date
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :event => {:started_at => '2008-02-08', :ended_at => '2008-02-05' }
     assert_response :success
     assert assigns(:event).errors.on(:started_at)
   end
   
   def test_librarian_should_update_event
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :event => { }
     assert_redirected_to event_url(assigns(:event))
   end
   
   def test_admin_should_update_event
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => 1, :event => { }
     assert_redirected_to event_url(assigns(:event))
   end
@@ -233,7 +233,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_event
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Event.count
     delete :destroy, :id => 1
     assert_equal old_count, Event.count
@@ -242,7 +242,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_event
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Event.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Event.count
@@ -251,7 +251,7 @@ class EventsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_event
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Event.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Event.count

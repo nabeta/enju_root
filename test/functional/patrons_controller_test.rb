@@ -35,7 +35,7 @@ class PatronsControllerTest < ActionController::TestCase
   #end
 
   def test_user_should_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :success
     assert assigns(:patrons)
@@ -48,13 +48,13 @@ class PatronsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -68,7 +68,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_patron
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Patron.count
     post :create, :patron => { :full_name => 'test' }
     assert_equal old_count, Patron.count
@@ -77,7 +77,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_patron
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('Patron.count') do
       post :create, :patron => { :full_name => 'test' }
     end
@@ -87,7 +87,7 @@ class PatronsControllerTest < ActionController::TestCase
 
   # TODO: full_name以外での判断
   def test_librarian_should_create_patron_without_full_name
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('Patron.count') do
       post :create, :patron => { :first_name => 'test' }
     end
@@ -122,56 +122,56 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_patron
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => users(:user2).patron
     assert_response :success
   end
 
   def test_user_should_not_show_patron_when_required_role_is_librarian
-    login_as :user2
+    set_session_for users(:user2)
     get :show, :id => users(:user1).patron
     assert_response :forbidden
   end
 
   def test_user_should_show_myself
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => users(:user1).patron
     assert_response :success
   end
 
   def test_librarian_should_show_patron_when_required_role_is_user
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => users(:user2).patron
     assert_response :success
   end
 
   def test_librarian_should_show_patron_when_required_role_is_librarian
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => users(:user1).patron
     assert_response :success
   end
 
   def test_librarian_should_not_show_patron_when_required_role_is_admin
-    login_as :librarian2
+    set_session_for users(:librarian2)
     get :show, :id => users(:librarian1).patron
     assert_response :forbidden
   end
 
   def test_librarian_should_not_show_patron_not_create
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 2, :work_id => 3
     assert_response :missing
     #assert_redirected_to new_patron_create_url(assigns(:patron), :work_id => 3)
   end
 
   def test_librarian_should_not_show_patron_not_realize
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 2, :expression_id => 4
     assert_response :missing
   end
 
   def test_librarian_should_not_show_patron_not_produce
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 2, :manifestation_id => 4
     assert_response :missing
     #assert_redirected_to new_patron_produce_url(assigns(:patron), :manifestation_id => 4)
@@ -183,31 +183,31 @@ class PatronsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_get_edit_myself
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => users(:user1).patron
     assert_response :success
   end
   
   def test_user_should_not_get_edit_other_patron
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => users(:user2).patron
     assert_response :forbidden
   end
 
   def test_librarian_should_edit_patron_when_required_role_is_user
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => users(:user2).patron
     assert_response :success
   end
 
   def test_librarian_should_edit_patron_when_required_role_is_librarian
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => users(:user1).patron
     assert_response :success
   end
   
   def test_librarian_should_not_get_edit_admin
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => users(:admin).patron
     assert_response :forbidden
   end
@@ -218,19 +218,19 @@ class PatronsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_update_myself
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => users(:user1).patron.id, :patron => { :full_name => 'test' }
     assert_redirected_to patron_url(assigns(:patron))
   end
   
   def test_user_should_not_update_myself_without_name
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => users(:user1).patron.id, :patron => { :full_name => '' }
     assert_response :success
   end
   
   def test_user_should_not_update_other_patron
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => users(:user2).patron.id, :patron => { :full_name => 'test' }
     assert_response :forbidden
   end
@@ -244,7 +244,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_patron
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Patron.count
     delete :destroy, :id => users(:user1).patron
     assert_equal old_count, Patron.count
@@ -253,7 +253,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_patron
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Patron.count
     delete :destroy, :id => users(:user1).patron
     assert_equal old_count-1, Patron.count
@@ -262,7 +262,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_librarian
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Patron.count
     delete :destroy, :id => users(:librarian1).patron
     assert_equal old_count, Patron.count
@@ -271,7 +271,7 @@ class PatronsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_librarian
-    login_as :admin
+    set_session_for users(:admin)
     old_count = Patron.count
     delete :destroy, :id => users(:librarian1).patron
     assert_equal old_count-1, Patron.count

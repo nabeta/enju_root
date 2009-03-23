@@ -24,14 +24,14 @@ class ProducesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :success
     assert assigns(:produces)
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:produces)
@@ -43,13 +43,13 @@ class ProducesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -71,7 +71,7 @@ class ProducesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_produce_already_created
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Produce.count
     post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
     assert_equal old_count, Produce.count
@@ -80,7 +80,7 @@ class ProducesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_produce_not_created_yet
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Produce.count
     post :create, :produce => { :patron_id => 1, :manifestation_id => 10 }
     assert_equal old_count+1, Produce.count
@@ -94,13 +94,13 @@ class ProducesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_produce
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_produce
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
@@ -112,13 +112,13 @@ class ProducesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => 1, :patron_id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => 1, :patron_id => 1
     assert_response :success
   end
@@ -129,25 +129,25 @@ class ProducesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_produce
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => 1, :produce => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_produce_without_patron_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :produce => {:patron_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_produce_without_manifestation_id
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :produce => {:manifestation_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_produce
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :produce => { }
     assert_redirected_to produce_url(assigns(:produce))
   end
@@ -161,7 +161,7 @@ class ProducesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_produce
-    login_as :user1
+    set_session_for users(:user1)
     old_count = Produce.count
     delete :destroy, :id => 1
     assert_equal old_count, Produce.count
@@ -170,7 +170,7 @@ class ProducesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_produce
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = Produce.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Produce.count

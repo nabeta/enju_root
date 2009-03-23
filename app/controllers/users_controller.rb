@@ -113,17 +113,8 @@ class UsersController < ApplicationController
         old_password = params[:user][:old_password]
         unless old_password.blank?
           if @user.valid_password?(old_password)
-            #@user.update_attributes(:password => params[:password], :password_confirmation => params[:password_confirmation])
             @user.password = params[:user][:password] if params[:user][:password]
             @user.password_confirmation = params[:user][:password_confirmation] if params[:user][:password_confirmation]
-            #begin
-            #  @user.save!
-            #  flash[:notice] = ('Successfully changed your password.')
-            #rescue ActiveRecord::RecordInvalid => e
-            #  flash[:error] = "Couldn't change your password: #{e}" 
-            #  redirect_to :action => 'edit'
-            #  return
-            #end
             unless @user.password == @user.password_confirmation
               flash[:notice] = t('user.password_mismatch') unless @user.password == @user.password_confirmation
               redirect_to edit_user_url(@user.login)
@@ -231,14 +222,14 @@ class UsersController < ApplicationController
                              :address_1_note => @user.address_note)
     end
     @user.patron = patron
-    success = @user && @user.save
+    #success = @user && @user.save
 
     respond_to do |format|
-      if success && @user.errors.empty?
+      #if @user.save
+      if @user.activate
         flash[:temporary_password] = @user.temporary_password
         User.transaction do
           @user.roles << Role.find(:first, :conditions => {:name => 'User'})
-          @user.activate # TODO: すぐにアクティベーションするかは要検討
         end
         #self.current_user = @user
         flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
