@@ -12,13 +12,13 @@ class String
   def rewrite_my_host
     if self.my_host?
       url= URI.parse(self)
-      if url.host == "localhost"
+      if url.host == BOOKMARK_HOSTNAME
         if url.port == LIBRARY_WEB_PORT_NUMBER
-          url.port = "3001" # TODO: 3000番で動かしていることを前提としない
+          url.port = BOOKMARK_PORT_NUMBER
         end
       else
-        url.host = "localhost"
-        url.port = "3001"
+        url.host = BOOKMARK_HOSTNAME
+        url.port = BOOKMARK_PORT_NUMBER
       end
       url.normalize.to_s
     else

@@ -1,6 +1,10 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
 LIBRARY_WEB_PORT_NUMBER = '3000'
 
+# ブックマークする時にアクセスするホストとポート番号
+BOOKMARK_HOSTNAME = 'localhost'
+BOOKMARK_PORT_NUMBER = '3001'
+
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 # AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
 AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
