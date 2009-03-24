@@ -1,8 +1,7 @@
 class CreateAttachmentFiles < ActiveRecord::Migration
   def self.up
     create_table :attachment_files do |t|
-      t.integer :attachable_id
-      t.string :attachable_type
+      t.integer :manifestation_id
       t.integer :size
       t.string :content_type
       t.text :title
@@ -14,10 +13,11 @@ class CreateAttachmentFiles < ActiveRecord::Migration
       t.integer :db_file_id
       t.text :fulltext
       t.string :file_hash
+      t.datetime :indexed_at
 
       t.timestamps
     end
-    add_index :attachment_files, [:attachable_id, :attachable_type], :name => "index_attachment_files_on_attachment_file_id_and_type"
+    add_index :attachment_files, :manifestation_id
     add_index :attachment_files, :parent_id
     add_index :attachment_files, :db_file_id
     add_index :attachment_files, :file_hash

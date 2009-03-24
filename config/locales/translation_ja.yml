@@ -70,8 +70,8 @@ ja:
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現のマージ
       request_status_type: 依頼の状態の種類
-      news_feed: ニュースフィード
-      news_post: ニュース投稿
+      news_feed: お知らせのフィード
+      news_post: 図書館からのお知らせ
       search_engine: 検索エンジン
       bookmark: ブックマーク
       create: 作成
@@ -885,7 +885,7 @@ ja:
     total: "合計"
     sort_by: "次の項目で並べ替える"
     bookmarklet: "ブックマークレット"
-    add_file: "ファイルを追加する"
+    upload_file: "ファイルをアップロードする"
     telephone_number: "電話番号"
     about_this_system: "このシステムについて"
     report_bugs: "不具合を報告する"
@@ -951,6 +951,7 @@ ja:
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"
     your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
+    login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
@@ -1001,6 +1002,7 @@ ja:
     pickup: "ピックアップ"
     showing_reservable_record: "予約可能な資料のみを表示しています。"
     all_result: "すべての検索結果"
+    post_to_twitter: "Twitterに送信する"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
@@ -1172,6 +1174,7 @@ ja:
     period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
+    post_to_scribd: "Scribdに送信する"
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"

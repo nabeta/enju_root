@@ -16,13 +16,13 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -36,7 +36,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "user should not create work_has_work" do
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('WorkHasWork.count') do
       post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2}
     end
@@ -45,7 +45,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "librarian should create work_has_work" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('WorkHasWork.count') do
       post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2}
     end
@@ -65,13 +65,13 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => work_has_works(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => work_has_works(:one).id
     assert_response :success
   end
@@ -82,13 +82,13 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "user should not update work_has_work" do
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => work_has_works(:one).id, :work_has_work => { }
     assert_response :forbidden
   end
 
   test "librarian should update work_has_work" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => work_has_works(:one).id, :work_has_work => { }
     assert_redirected_to work_has_work_path(assigns(:work_has_work))
   end
@@ -102,7 +102,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy work_has_work" do
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('WorkHasWork.count') do
       delete :destroy, :id => work_has_works(:one).id
     end
@@ -111,7 +111,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy work_has_work" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('WorkHasWork.count', -1) do
       delete :destroy, :id => work_has_works(:one).id
     end

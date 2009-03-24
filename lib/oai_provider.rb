@@ -14,13 +14,11 @@ class OAI::Provider::ActiveRecordWrapper
 end
 
 class OaiProvider < OAI::Provider::Base
-  name, email = nil
-  if library_group = LibraryGroup.config rescue nil
-    name = library_group.name
-    email = library_group.email
-  end
+  name = LibraryGroup.config.name
+  email = LibraryGroup.config.email
+
   repository_name name
-  repository_url "http://" + LIBRARY_WEB_HOSTNAME + "/oai"
+  repository_url "http://" + LibraryGroup.url + "/oai"
   record_prefix "oai:" + LIBRARY_WEB_HOSTNAME + "/manifestations"
 #  admin_email LIBRARY_EMAIL_ADDRESS
   admin_email email

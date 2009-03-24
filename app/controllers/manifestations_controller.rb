@@ -156,7 +156,8 @@ class ManifestationsController < ApplicationController
 
   # GET /manifestations/new
   def new
-    if params[:mode] == 'import_isbn'
+    case params[:mode]
+    when 'import_isbn'
       @manifestation = Manifestation.new
     else
       #unless @expression
@@ -193,7 +194,8 @@ class ManifestationsController < ApplicationController
   # POST /manifestations
   # POST /manifestations.xml
   def create
-    if params[:mode] == 'import_isbn'
+    case params[:mode]
+    when 'import_isbn'
       begin
         @manifestation = Manifestation.import_isbn(params[:manifestation][:isbn])
       rescue Exception => e
@@ -228,9 +230,8 @@ class ManifestationsController < ApplicationController
           end
         end
 
-        # tsvなどでのインポート時に大量にpostされないようにするため、
-        # コントローラで処理する
-        @manifestation.post_to_twitter(manifestation_url(@manifestation)) rescue nil
+        # TODO: モデルへ移動
+        @manifestation.send_to_twitter(manifestation_url(@manifestation))
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'

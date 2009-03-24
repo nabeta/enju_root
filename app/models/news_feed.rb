@@ -12,9 +12,14 @@ class NewsFeed < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
+  def before_save
+    self.body = nil
+  end
+
   def content
+    url = self.url.rewrite_my_host
     if self.body.blank?
-      file = open(self.url)
+      file = open(url)
       feed = file.read
       if rss = RSS::Parser.parse(feed, false)
         self.update_attributes({:body => feed})
@@ -48,7 +53,7 @@ class NewsFeed < ActiveRecord::Base
     NewsFeed.find(:all).each do |news_feed|
       news_feed.force_reload
     end
-    app.get('/news_feeds?mode=clear_cache')
+    app.get("#{LibraryGroup.url}news_feeds?mode=clear_cache")
     logger.info "#{Time.zone.now} feeds reloaded!"
   rescue
     logger.info "#{Time.zone.now} reloading feeds failed!"

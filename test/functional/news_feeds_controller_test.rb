@@ -10,19 +10,19 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   #def test_user_should_not_get_index
-  #  login_as :user1
+  #  set_session_for users(:user1)
   #  get :index
   #  assert_response :forbidden
   #end
 
   #def test_librarian_should_not_get_index
-  #  login_as :librarian1
+  #  set_session_for users(:librarian1)
   #  get :index
   #  assert_response :forbidden
   #end
 
   #def test_admin_should_get_index
-  #  login_as :admin
+  #  set_session_for users(:admin)
   #  get :index
   #  assert_response :success
   #  assert assigns(:news_feeds)
@@ -35,19 +35,19 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    login_as :admin
+    set_session_for users(:admin)
     get :new
     assert_response :success
     assert assigns(:news_feed)
@@ -63,7 +63,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_news_feed
-    login_as :user1
+    set_session_for users(:user1)
     old_count = NewsFeed.count
     post :create, :news_feed => { }
     assert_equal old_count, NewsFeed.count
@@ -72,7 +72,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_news_feed
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = NewsFeed.count
     post :create, :news_feed => { }
     assert_equal old_count, NewsFeed.count
@@ -81,7 +81,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_news_feed_without_url
-    login_as :admin
+    set_session_for users(:admin)
     old_count = NewsFeed.count
     post :create, :news_feed => { }
     assert_equal old_count, NewsFeed.count
@@ -90,7 +90,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_news_feed
-    login_as :admin
+    set_session_for users(:admin)
     old_count = NewsFeed.count
     post :create, :news_feed => {:title => 'test', :url => 'test'}
     assert_equal old_count+1, NewsFeed.count
@@ -106,19 +106,19 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   #def test_user_should_not_show_news_feed
-  #  login_as :librarian1
+  #  set_session_for users(:librarian1)
   #  get :show, :id => 1
   #  assert_response :forbidden
   #end
 
   #def test_librarian_should_not_show_news_feed
-  #  login_as :librarian1
+  #  set_session_for users(:librarian1)
   #  get :show, :id => 1
   #  assert_response :forbidden
   #end
 
   #def test_admin_should_show_news_feed
-  #  login_as :admin
+  #  set_session_for users(:admin)
   #  get :show, :id => 1
   #  assert_response :success
   #  assert assigns(:news_feed)
@@ -130,19 +130,19 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    login_as :admin
+    set_session_for users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -154,25 +154,25 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_news_feed
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => 1, :news_feed => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_news_feed
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => 1, :news_feed => { }
     assert_response :forbidden
   end
   
   def test_admin_should_not_update_news_feed_without_url
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => 1, :news_feed => {:url => ""}
     assert_response :success
   end
   
   def test_admin_should_update_news_feed
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => 1, :news_feed => { }
     assert_redirected_to news_feed_url(assigns(:news_feed))
   end
@@ -187,7 +187,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_news_feed
-    login_as :user1
+    set_session_for users(:user1)
     old_count = NewsFeed.count
     delete :destroy, :id => 1
     assert_equal old_count, NewsFeed.count
@@ -196,7 +196,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
   
   def test_librarian_should_not_destroy_news_feed
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_count = NewsFeed.count
     delete :destroy, :id => 1
     assert_equal old_count, NewsFeed.count
@@ -205,7 +205,7 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
   
   def test_admin_should_destroy_news_feed
-    login_as :admin
+    set_session_for users(:admin)
     old_count = NewsFeed.count
     delete :destroy, :id => 1
     assert_equal old_count-1, NewsFeed.count

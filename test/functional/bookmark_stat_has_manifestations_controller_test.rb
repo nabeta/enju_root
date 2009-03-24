@@ -11,14 +11,14 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get index" do
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:bookmark_stat_has_manifestations)
   end
 
   test "librarian should get index" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:bookmark_stat_has_manifestations)
@@ -31,13 +31,13 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "should get new" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -51,7 +51,7 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not create bookmark_stat_has_manifestation" do
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('BookmarkStatHasManifestation.count') do
       post :create, :bookmark_stat_has_manifestation => { }
     end
@@ -60,7 +60,7 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create bookmark_stat_has_manifestation" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('BookmarkStatHasManifestation.count') do
       post :create, :bookmark_stat_has_manifestation => { }
     end
@@ -75,13 +75,13 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not show bookmark_stat_has_manifestation" do
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => bookmark_stat_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should show bookmark_stat_has_manifestation" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => bookmark_stat_has_manifestations(:one).id
     assert_response :success
   end
@@ -93,13 +93,13 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => bookmark_stat_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => bookmark_stat_has_manifestations(:one).id
     assert_response :success
   end
@@ -110,13 +110,13 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not update bookmark_stat_has_manifestation" do
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => bookmark_stat_has_manifestations(:one).id, :bookmark_stat_has_manifestation => { }
     assert_response :forbidden
   end
 
   test "librarian should update bookmark_stat_has_manifestation" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => bookmark_stat_has_manifestations(:one).id, :bookmark_stat_has_manifestation => {:bookmark_stat_id => 1, :manifestation_id => 2}
     assert_redirected_to bookmark_stat_has_manifestation_path(assigns(:bookmark_stat_has_manifestation))
   end
@@ -130,7 +130,7 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy bookmark_stat_has_manifestation" do
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('BookmarkStatHasManifestation.count') do
       delete :destroy, :id => bookmark_stat_has_manifestations(:one).id
     end
@@ -139,7 +139,7 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy bookmark_stat_has_manifestation" do
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('BookmarkStatHasManifestation.count', -1) do
       delete :destroy, :id => bookmark_stat_has_manifestations(:one).id
     end

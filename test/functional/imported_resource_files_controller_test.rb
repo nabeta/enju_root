@@ -14,14 +14,14 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:imported_resource_files)
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:imported_resource_files)
@@ -34,13 +34,13 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
 
   def test_librarian_should_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :success
   end
@@ -54,7 +54,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_imported_resource_file
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('ImportedResourceFile.count') do
       post :create, :imported_resource_file => { }
     end
@@ -63,7 +63,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_imported_resource_file
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_patrons_count = Patron.count
     old_manifestations_count = Manifestation.count
     assert_difference('ImportedResourceFile.count') do
@@ -77,7 +77,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_imported_resource_file_only_isbn
-    login_as :librarian1
+    set_session_for users(:librarian1)
     old_patrons_count = Patron.count
     old_manifestations_count = Manifestation.count
     assert_difference('ImportedResourceFile.count') do
@@ -97,13 +97,13 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_imported_resource_file
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => imported_resource_files(:imported_resource_file_00003).id
     assert_response :forbidden
   end
 
   def test_librarian_should_show_imported_resource_file
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => imported_resource_files(:imported_resource_file_00003).id
     assert_response :success
   end
@@ -115,13 +115,13 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => imported_resource_files(:imported_resource_file_00003).id
     assert_response :forbidden
   end
 
   def test_librarian_should_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => imported_resource_files(:imported_resource_file_00003).id
     assert_response :success
   end
@@ -132,13 +132,13 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_update_imported_resource_file
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => imported_resource_files(:imported_resource_file_00003).id, :imported_resource_file => { }
     assert_response :forbidden
   end
 
   def test_librarian_should_update_imported_resource_file
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => imported_resource_files(:imported_resource_file_00003).id, :imported_resource_file => { }
     assert_redirected_to imported_resource_file_path(assigns(:imported_resource_file))
   end
@@ -152,7 +152,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_imported_resource_file
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('ImportedResourceFile.count') do
       delete :destroy, :id => imported_resource_files(:imported_resource_file_00003).id
     end
@@ -161,7 +161,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_imported_resource_file
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_difference('ImportedResourceFile.count', -1) do
       delete :destroy, :id => imported_resource_files(:imported_resource_file_00003).id
     end

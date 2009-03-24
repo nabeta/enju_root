@@ -20,6 +20,7 @@
 # Learn more: http://github.com/javan/whenever
 
 set :path, RAILS_ROOT
+set :environment, :production
 set :cron_log, "#{RAILS_ROOT}/log/cron_log.log"
 
 every 5.minute do
@@ -40,6 +41,7 @@ every 1.day, :at => '1:00 am' do
   runner "ManifestationCheckoutStat.calculate_stat"
   runner "ManifestationReserveStat.calculate_stat"
   runner "BookmarkStat.calculate_stat"
+  runner "AttachmentFile.extract_text"
 end
 
 every 1.day, :at => '2:00 am' do

@@ -11,21 +11,21 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    login_as :user1
+    set_session_for users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:use_restrictions)
   end
 
   def test_librarian_should_get_index
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:use_restrictions)
   end
 
   def test_admin_should_get_index
-    login_as :admin
+    set_session_for users(:admin)
     get :index
     assert_response :success
     assert_not_nil assigns(:use_restrictions)
@@ -37,19 +37,19 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_new
-    login_as :user1
+    set_session_for users(:user1)
     get :new
     assert_response :forbidden
   end
 
   def test_librarian_should_not_get_new
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :new
     assert_response :forbidden
   end
 
   def test_admin_should_get_new
-    login_as :admin
+    set_session_for users(:admin)
     get :new
     assert_response :success
   end
@@ -64,7 +64,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_use_restriction
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('UseRestriction.count') do
       post :create, :use_restriction => { }
     end
@@ -73,7 +73,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_use_restriction
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_no_difference('UseRestriction.count') do
       post :create, :use_restriction => { }
     end
@@ -82,7 +82,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_use_restriction_without_name
-    login_as :admin
+    set_session_for users(:admin)
     assert_no_difference('UseRestriction.count') do
       post :create, :use_restriction => { }
     end
@@ -91,7 +91,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_use_restriction
-    login_as :admin
+    set_session_for users(:admin)
     assert_difference('UseRestriction.count') do
       post :create, :use_restriction => {:name => 'test'}
     end
@@ -106,19 +106,19 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_use_restriction
-    login_as :user1
+    set_session_for users(:user1)
     get :show, :id => use_restrictions(:use_restriction_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_show_use_restriction
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :show, :id => use_restrictions(:use_restriction_00001).id
     assert_response :success
   end
 
   def test_admin_should_not_show_use_restriction
-    login_as :admin
+    set_session_for users(:admin)
     get :show, :id => use_restrictions(:use_restriction_00001).id
     assert_response :success
   end
@@ -130,19 +130,19 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_edit
-    login_as :user1
+    set_session_for users(:user1)
     get :edit, :id => use_restrictions(:use_restriction_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_not_get_edit
-    login_as :librarian1
+    set_session_for users(:librarian1)
     get :edit, :id => use_restrictions(:use_restriction_00001).id
     assert_response :forbidden
   end
 
   def test_admin_should_get_edit
-    login_as :admin
+    set_session_for users(:admin)
     get :edit, :id => use_restrictions(:use_restriction_00001).id
     assert_response :success
   end
@@ -154,25 +154,25 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_update_use_restriction
-    login_as :user1
+    set_session_for users(:user1)
     put :update, :id => use_restrictions(:use_restriction_00001).id, :use_restriction => { }
     assert_response :forbidden
   end
 
   def test_librarian_should_not_update_use_restriction
-    login_as :librarian1
+    set_session_for users(:librarian1)
     put :update, :id => use_restrictions(:use_restriction_00001).id, :use_restriction => { }
     assert_response :forbidden
   end
 
   def test_admin_should_not_update_use_restriction_without_name
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => use_restrictions(:use_restriction_00001).id, :use_restriction => {:name => ""}
     assert_response :success
   end
 
   def test_admin_should_update_use_restriction
-    login_as :admin
+    set_session_for users(:admin)
     put :update, :id => use_restrictions(:use_restriction_00001).id, :use_restriction => { }
     assert_redirected_to use_restriction_url(assigns(:use_restriction))
   end
@@ -187,7 +187,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_use_restriction
-    login_as :user1
+    set_session_for users(:user1)
     assert_no_difference('UseRestriction.count') do
       delete :destroy, :id => use_restrictions(:use_restriction_00001).id
     end
@@ -196,7 +196,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_use_restriction
-    login_as :librarian1
+    set_session_for users(:librarian1)
     assert_no_difference('UseRestriction.count') do
       delete :destroy, :id => use_restrictions(:use_restriction_00001).id
     end
@@ -205,7 +205,7 @@ class UseRestrictionsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_use_restriction
-    login_as :admin
+    set_session_for users(:admin)
     assert_difference('UseRestriction.count', -1) do
       delete :destroy, :id => use_restrictions(:use_restriction_00001).id
     end

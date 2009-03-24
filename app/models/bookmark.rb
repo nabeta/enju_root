@@ -44,42 +44,29 @@ class Bookmark < ActiveRecord::Base
     CGI.unescape(string).strip unless string.nil?
   end
 
-  # エンコード済みのURLを渡す
-  #def self.get_title(url, root_url)
-  #  return if url.blank?
-  #  #requested_url = URI.parse(URI.escape(url))
-  #  requested_url = URI.parse(url)
-  #  server_url = URI.parse(root_url)
-  #  if requested_url.host == server_url.host 
-  #  # TODO: ホスト名の扱い
-  #    if requested_url.host == 'localhost' and requested_url.port == 3000
-  #      requested_url.port = 3001
-  #    else
-  #      requested_url.host = 'localhost'
-  #      requested_url.port = 3001
-  #    end
-  #    access_url = requested_url.normalize.to_s
-  #  else
-  #    access_url = url
-  #  end
-  #
-  #  page = open(access_url)
-  # doc = Hpricot(page)
-  #  # TODO: 日本語以外
-  #  #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
-  #  #if charsets.include?(page.charset.downcase)
-  #    title = NKF.nkf('-w', CGI.unescapeHTML((doc/"title").inner_text))
-  #    if title.to_s.strip.blank?
-  #      title = url
-  #    end
-  #  #else
-  #  #  title = (doc/"title").inner_text
-  #  #end
-  #  title
-  #rescue
-  #  # TODO 404などの場合の処理
-  #  nil
-  #end
+  def self.get_title_from_url(url)
+    return if url.blank?
+    # TODO: ホスト名の扱い
+    access_url = url.rewrite_my_host
+  
+    page = open(access_url)
+    #doc = Hpricot(page)
+    doc = Nokogiri(page)
+    # TODO: 日本語以外
+    #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
+    #if charsets.include?(page.charset.downcase)
+      title = NKF.nkf('-w', CGI.unescapeHTML((doc/"title").inner_text)).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
+      if title.blank?
+        title = url
+      end
+    #else
+    #  title = (doc/"title").inner_text
+    #end
+    title
+  rescue
+    # TODO 404などの場合の処理
+    nil
+  end
 
   def create_bookmark_item
     self.reload

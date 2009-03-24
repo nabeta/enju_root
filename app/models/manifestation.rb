@@ -4,6 +4,7 @@ require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   include OnlyLibrarianCanModify
+  named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
   has_many :exemplifies, :dependent => :destroy
@@ -15,7 +16,7 @@ class Manifestation < ActiveRecord::Base
   has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
-  has_many :attachment_files, :as => :attachable, :dependent => :destroy
+  has_one :attachment_file, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks
@@ -35,7 +36,8 @@ class Manifestation < ActiveRecord::Base
   has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
   has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
-  
+  has_one :db_file
+
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher,
     {:isbn => :string}, {:isbn10 => :string}, {:wrong_isbn => :string},
@@ -59,10 +61,9 @@ class Manifestation < ActiveRecord::Base
     #:if => proc{|manifestation| !manifestation.serial?},
     :if => proc{|manifestation| !manifestation.restrain_indexing},
     :auto_commit => false
-  acts_as_taggable_on :tags
   #acts_as_soft_deletable
   acts_as_tree
-  #enju_twitter
+  enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_porta
@@ -70,16 +71,11 @@ class Manifestation < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
   attr_accessor :restrain_indexing
-  attr_accessor :scribd_access_key
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
   validates_numericality_of :start_page, :end_page, :allow_blank => true
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
-
-  # tsvなどでのインポート時に大量にpostされないようにするため、
-  # コントローラで処理する
-  #after_create :post_to_twitter
 
   def validate
     #unless self.date_of_publication.blank?
@@ -220,7 +216,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def tag
-    tags.collect{|t| Array(t.name) + t.synonym.to_s.split}
+    tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
   end
 
   def tags
@@ -279,14 +275,6 @@ class Manifestation < ActiveRecord::Base
     manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact - serials - Array(self)
   rescue
     []
-  end
-
-  def fulltext
-    fulltext = ""
-    self.attachment_files.each do |file|
-      fulltext += file.fulltext.to_s
-    end
-    return fulltext
   end
 
   def sortable_title
@@ -482,6 +470,7 @@ class Manifestation < ActiveRecord::Base
     xml.target!
   end
 
+  # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
     return nil if self.numdocs < 10
     resource = nil
@@ -600,11 +589,15 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def embed_content?
-    true if self.youtube_id
-    true if self.nicovideo_id
-    true if !self.flickr.blank?
-    true if self.scribd_id
+  def fulltext
+    self.attachment_file.fulltext
+  end
+
+  def digest(options = {:type => 'sha1'})
+    if self.file_hash.blank?
+      self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
+    end
+    self.file_hash
   end
 
 end

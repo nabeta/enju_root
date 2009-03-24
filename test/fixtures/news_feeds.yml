@@ -9,7 +9,7 @@ news_feed_00001:
 news_feed_00002:
   id: 2
   title: "Kosuke Tanabe's diary"
-  url: "http://kamata.lib.teu.ac.jp/~tanabe/diary/index.rdf"
+  url: "http://d.hatena.ne.jp/nabeta/rss2"
   body: 
   position: 2
 news_feed_00003:

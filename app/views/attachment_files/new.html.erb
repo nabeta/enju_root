@@ -1,9 +1,40 @@
-<%- case when @manifestation -%>
-  <%= render :partial => 'new_manifestation' -%>
-<%- when @event -%>
-  <%= render :partial => 'new_event' -%>
-<%- when @patron -%>
-  <%= render :partial => 'new_patron' -%>
-<%- else -%>
-  <%= render :partial => 'new' -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), attachment_files_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.attachment_file')) -%></h1>
+<div id="content_list">
+
+<%= error_messages_for :attachment_file -%>
+
+<%- form_for(@attachment_file, :html => { :multipart => true, :method => :post }) do |f| -%>
+  <p>
+    <b><%= t('page.file') -%></b><br />
+    <%= f.file_field :uploaded_data -%>
+  </p>
+
+  <p>
+    <b><%= t('page.title') -%></b><br />
+    <%= f.text_field :title -%>
+  </p>
+
+  <p>
+    <%= t('attachment_file.post_to_scribd') -%>
+    <%= f.check_box :post_to_scribd -%>
+  </p>
+
+  <p>
+    <%= t('manifestation.post_to_twitter') -%>
+    <%= f.check_box :post_to_twitter -%>
+  </p>
+
+  <p>
+    <%= f.submit t('page.create') -%>
+  </p>
+
 <%- end -%>
+</div>
+</div>

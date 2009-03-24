@@ -900,7 +900,7 @@ en:
     total: "Total"
     sort_by: "Sort by"
     bookmarklet: "Bookmarklet"
-    add_file: "Add a file"
+    upload_file: "Upload a file"
     telephone_number: "Telephoone number"
     about_this_system: "About this system"
     report_bugs: "Report bugs"
@@ -968,6 +968,7 @@ en:
     logged_out: "You have been logged out."
     remember_me: "Remember me"
     your_account_is_suspended: "Your account is suspended. Tell the library staffs."
+    login_failed: "Login failed. Your username or password may be wrong."
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
@@ -1020,6 +1021,7 @@ en:
     pickup: "Pick up"
     showing_reservable_record: "Showing reservable records."
     all_result: "All results"
+    post_to_twitter: "post to Twitter"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
@@ -1194,6 +1196,7 @@ en:
     period: "Period"
   attachment_file:
     invalid_file: "Invalid file."
+    post_to_scribd: "post to Scribd"
   inventory_file:
     not_in_catalog: "Not in catalog"
     not_on_shelf: "Not on shelf"

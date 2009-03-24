@@ -1,6 +1,10 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
 LIBRARY_WEB_PORT_NUMBER = '3000'
 
+# ブックマークする時にアクセスするホストとポート番号
+BOOKMARK_HOSTNAME = 'localhost'
+BOOKMARK_PORT_NUMBER = '3001'
+
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 # AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
 AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
@@ -28,7 +32,7 @@ Rails::Initializer.run do |config|
   # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
   # config.gem "sqlite3-ruby", :lib => "sqlite3"
   # config.gem "aws-s3", :lib => "aws/s3"
-  config.gem "hpricot"
+  config.gem "nokogiri"
   config.gem "chronic"
   config.gem "packet"
   config.gem "marc"
@@ -100,3 +104,4 @@ require 'wakati'
 require 'search_query'
 require 'restful_acl_controller'
 require 'tag_list'
+require 'hostname'

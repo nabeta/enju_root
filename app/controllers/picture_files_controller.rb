@@ -61,11 +61,8 @@ class PictureFilesController < ApplicationController
     respond_to do |format|
       if @picture_file.save
         PictureFile.find_by_sql(['UPDATE picture_files SET file_hash = ? WHERE id = ?', @picture_file.digest, @picture_file.id])
-        #@picture_file.sha1_hash = @picture_file.digest(:type => 'sha1')
-        #@picture_file.save
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.picture_file'))
-        #format.html { redirect_to(@picture_file) }
         format.html { redirect_to(@picture_file) }
         format.xml  { render :xml => @picture_file, :status => :created, :location => @picture_file }
       else

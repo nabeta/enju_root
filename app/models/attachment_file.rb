@@ -1,79 +1,69 @@
 class AttachmentFile < ActiveRecord::Base
   include LibrarianRequired
-  #include ExtractContent
-  belongs_to :attachable, :polymorphic => true, :validate => true
+  named_scope :not_indexed, :conditions => ['indexed_at IS NULL']
+  belongs_to :manifestation
   has_one :db_file
 
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'id DESC'
 
   has_attachment
-  #acts_as_scribd_document
-
   validates_as_attachment
-  validates_associated :attachable
-  #alidates_presence_of :attachable_id, :attachable_type
+  validates_presence_of :manifestation
+  validates_associated :manifestation
+
+  #acts_as_scribd_document
+  enju_scribd
 
   cattr_accessor :per_page
   @@per_page = 10
+  attr_accessor :title
   
-  before_save :extract_text
-  #after_save :save_manifestation
-  #after_destroy :save_manifestation
+  #before_save :extract_text
 
-  def create_resource(title)
-    AttachmentFile.transaction do
-      work = Work.create!(:original_title => title)
-      expression = Expression.new(:original_title => title)
-      work.expressions << expression
-      manifestation = Manifestation.new(:original_title => title)
-      manifestation.manifestation_form = ManifestationForm.find_by_name('file')
-      expression.manifestations << manifestation
-      self.attachable = manifestation
+  def before_validation_on_create
+    unless self.manifestation
+      manifestation = Manifestation.create!(:original_title => self.title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}), :post_to_twitter => self.post_to_twitter)
+      self.manifestation_id = manifestation.id
     end
   end
 
-  #def save_manifestation
-  #  if self.attachable_type == 'Manifestation'
-  #    manifestation = Manifestation.find(self.attachable_id)
-  #    manifestation.save
-  #  end
-  #rescue
-  #  nil
-  #end
-
   def extract_text
+    extractor = ExtractContent::Extractor.new
     content = Tempfile::new("content")
     content.puts(self.db_file.data)
     content.close
-    fulltext = Tempfile::new("fulltext")
+    text = Tempfile::new("text")
     case self.content_type
     when "application/pdf"
-      system("pdftotext -q -enc UTF-8 -raw #{content.path} #{fulltext.path}")
+      system("pdftotext -q -enc UTF-8 -raw #{content.path} #{text.path}")
+      self.fulltext = text.read
     when "application/msword"
-      system("antiword #{content.path} 2> /dev/null > #{fulltext.path}")
+      system("antiword #{content.path} 2> /dev/null > #{text.path}")
+      self.fulltext = text.read
     when "application/vnd.ms-excel"
-      system("xlhtml #{content.path} 2> /dev/null > #{fulltext.path}")
+      system("xlhtml #{content.path} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
     when "application/vnd.ms-powerpoint"
-      system("ppthtml #{content.path} 2> /dev/null #{fulltext.path}")
-#    when "text/html"
-#      system("elinks --dump 1 #{self.full_filename} 2> /dev/null #{temp.path}")
-    #  html = open(self.full_filename).read
-    #  body, title = ExtractContent::analyse(html)
-    #  body = NKF.nkf('-w', body)
-    #  title = NKF.nkf('-w', title)
-    #  temp.open
-    #  temp.puts(title)
-    #  temp.puts(body)
-    #  temp.close
-    #else
-    #  nil
+      system("ppthtml #{content.path} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    when "text/html"
+      # TODO: 日本語以外
+      system("elinks --dump 1 #{self.full_filename} 2> /dev/null | nkf -w > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
     end
 
-    self.update_attribute(:fulltext, fulltext.read)
-    fulltext.close
-  rescue
-    nil
+    self.indexed_at = Time.zone.now
+    self.save
+    text.close
+  #rescue
+  #  nil
+  end
+
+  def self.extract_text
+    AttachmentFile.not_indexed.find_each do |file|
+      file.extract_text
+    end
   end
 
   def digest(options = {:type => 'sha1'})

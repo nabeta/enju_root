@@ -21,12 +21,12 @@
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.label :user_id -%><br />
-    <%= f.text_field :user_id -%>
+    <%= f.label t('activerecord.models.user') -%><br />
+    <%= link_to h(@news_post.user.login), user_path(@news_post.user.login) -%>
   </p>
   <p>
-    <%= f.label :required_score -%><br />
-    <%= f.text_field :required_score -%>
+    <b><%= t('role.required_role') -%></b>
+    <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.news_post.start_date') -%><br />
