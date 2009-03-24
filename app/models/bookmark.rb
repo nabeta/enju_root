@@ -47,7 +47,7 @@ class Bookmark < ActiveRecord::Base
   def self.get_title_from_url(url)
     return if url.blank?
     # TODO: ホスト名の扱い
-    access_url = Bookmark.set_local_access_url(url)
+    access_url = url.rewrite_my_host
   
     page = open(access_url)
     #doc = Hpricot(page)
@@ -66,24 +66,6 @@ class Bookmark < ActiveRecord::Base
   rescue
     # TODO 404などの場合の処理
     nil
-  end
-
-  def self.set_local_access_url(url)
-    access_url = URI.parse(url)
-    server_url = URI.parse(LibraryGroup.url)
-    if access_url.host == server_url.host and access_url.port == server_url.port
-      if access_url.host == 'localhost'
-        if access_url.port == 3000
-          access_url.port = 3001
-        else
-          access_url.port = 3000
-        end
-      else
-        access_url.host = 'localhost'
-        access_url.port = 3001
-      end
-    end
-    access_url.normalize.to_s
   end
 
   def create_bookmark_item

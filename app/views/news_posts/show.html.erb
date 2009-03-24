@@ -24,8 +24,8 @@
 </p>
 
 <p>
-  <b>Required score:</b>
-  <%=h @news_post.required_score -%>
+  <b><%= t('role.required_role') -%>:</b>
+  <%=h @news_post.required_role.display_name -%>
 </p>
 
 <p>

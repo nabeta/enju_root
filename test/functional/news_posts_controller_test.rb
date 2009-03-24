@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class NewsPostsControllerTest < ActionController::TestCase
-  fixtures :news_posts, :users
+  fixtures :news_posts, :users, :roles
 
   def test_guest_should_get_index
     get :index

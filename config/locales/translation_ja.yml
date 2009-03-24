@@ -70,8 +70,8 @@ ja:
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現のマージ
       request_status_type: 依頼の状態の種類
-      news_feed: ニュースフィード
-      news_post: ニュース投稿
+      news_feed: お知らせのフィード
+      news_post: 図書館からのお知らせ
       search_engine: 検索エンジン
       bookmark: ブックマーク
       create: 作成

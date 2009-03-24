@@ -1,10 +1,16 @@
 class NewsPostsController < ApplicationController
+  before_filter :check_client_ip_address, :except => [:index, :show]
   before_filter :has_permission?
 
   # GET /news_posts
   # GET /news_posts.xml
   def index
-    @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page])
+    if logged_in?
+      if current_user.has_role?('Librarian')
+        @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
+      end
+    end
+    @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page]) if @news_posts.nil?
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,6 +35,7 @@ class NewsPostsController < ApplicationController
   # GET /news_posts/new.xml
   def new
     @news_post = NewsPost.new
+    @roles = Role.find(:all)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -39,12 +46,14 @@ class NewsPostsController < ApplicationController
   # GET /news_posts/1/edit
   def edit
     @news_post = NewsPost.find(params[:id])
+    @roles = Role.find(:all)
   end
 
   # POST /news_posts
   # POST /news_posts.xml
   def create
     @news_post = NewsPost.new(params[:news_post])
+    @roles = Role.find(:all)
     @news_post.user = current_user
 
     respond_to do |format|
@@ -63,6 +72,7 @@ class NewsPostsController < ApplicationController
   # PUT /news_posts/1.xml
   def update
     @news_post = NewsPost.find(params[:id])
+    @roles = Role.find(:all)
 
     respond_to do |format|
       if @news_post.update_attributes(params[:news_post])

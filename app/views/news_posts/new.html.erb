@@ -20,8 +20,8 @@
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <%= f.label :required_score -%><br />
-    <%= f.text_field :required_score -%>
+    <b><%= t('role.required_role') -%></b>
+    <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.news_post.start_date') -%><br />
