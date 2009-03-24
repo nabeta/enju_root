@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validates_length_of :openid_url, :maximum => 255, :allow_blank => true
 
-  before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
+  #before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
 
   #acts_as_authentic :transition_from_restful_authentication => true, :validate_email_field => false
   acts_as_authentic {|c|

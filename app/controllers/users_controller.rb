@@ -108,7 +108,7 @@ class UsersController < ApplicationController
       end
 
       if params[:user][:auto_generated_password] == "1"
-        @user.set_auto_generated_password if current_user.has_role?('Librarian')
+        @user.reset_password if current_user.has_role?('Librarian')
       else
         old_password = params[:user][:old_password]
         unless old_password.blank?
@@ -156,7 +156,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
-        flash[:temporary_password] = @user.temporary_password if @user.temporary_password
+        flash[:temporary_password] = @user.password
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
       else
@@ -179,8 +179,11 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     @user.login = params[:user][:login]
     @user.email = params[:user][:email]
-    #@user.password = params[:user][:password]
-    #@user.password_confirmation = params[:user][:password_confirmation]
+    @user.password = params[:user][:password]
+    @user.password_confirmation = params[:user][:password_confirmation]
+    if params[:user][:auto_generated_password] == "1"
+      @user.reset_password
+    end
     @user.note = params[:user][:note]
     @user.user_group_id = params[:user][:user_group_id] ||= 1
     @user.library_id = params[:user][:library_id] ||= 1
@@ -227,7 +230,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       #if @user.save
       if @user.activate
-        flash[:temporary_password] = @user.temporary_password
+        flash[:temporary_password] = @user.password
         User.transaction do
           @user.roles << Role.find(:first, :conditions => {:name => 'User'})
         end
@@ -302,8 +305,7 @@ class UsersController < ApplicationController
   private
   def suspended?
     if logged_in? and current_user.suspended?
-      cookies.delete :auth_token
-      reset_session
+      current_user_session.destroy
       access_denied
     end
   end

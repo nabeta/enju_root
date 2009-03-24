@@ -33,9 +33,12 @@
     <%- end -%>
   </p>
 
-  <p>
-    <%= f.check_box :auto_generated_password -%> <%= t('user.set_auto_generated_password') -%>
-  </p>
+  <%- if current_user.has_role?('Librarian') and current_user != @user -%>
+    <p>
+      <b><%= t('user.set_auto_generated_password') -%></b>
+      <%= f.check_box :auto_generated_password -%>
+    </p>
+  <%- end -%>
 
   <p>
     <b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
