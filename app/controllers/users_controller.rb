@@ -181,9 +181,9 @@ class UsersController < ApplicationController
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
     @user.password_confirmation = params[:user][:password_confirmation]
-    if params[:user][:auto_generated_password] == "1"
+    #if params[:user][:auto_generated_password] == "1"
       @user.reset_password
-    end
+    #end
     @user.note = params[:user][:note]
     @user.user_group_id = params[:user][:user_group_id] ||= 1
     @user.library_id = params[:user][:library_id] ||= 1

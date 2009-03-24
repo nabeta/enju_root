@@ -112,7 +112,6 @@ class User < ActiveRecord::Base
   
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
-    reset_password
   end
 
   def set_auto_generated_password

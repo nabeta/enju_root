@@ -24,14 +24,14 @@ class UserTest < ActiveSupport::TestCase
   def test_should_require_password
     assert_no_difference 'User.count' do
       u = create_user(:password => nil)
-      assert_nil u.errors.on(:password)
+      assert u.errors.on(:password)
     end
   end
 
   def test_should_require_password_confirmation
     assert_no_difference 'User.count' do
       u = create_user(:password => 'new_password', :password_confirmation => nil)
-      assert_nil u.errors.on(:password_confirmation)
+      assert u.errors.on(:password_confirmation)
     end
   end
 
