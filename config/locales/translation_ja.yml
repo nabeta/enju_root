@@ -951,6 +951,7 @@ ja:
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"
     your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
+    login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"

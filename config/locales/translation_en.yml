@@ -968,6 +968,7 @@ en:
     logged_out: "You have been logged out."
     remember_me: "Remember me"
     your_account_is_suspended: "Your account is suspended. Tell the library staffs."
+    login_failed: "Login failed. Your username or password may be wrong."
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."

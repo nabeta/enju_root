@@ -10,13 +10,17 @@ class UserSessionsController < ApplicationController
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
-      flash[:notice] = t('user_session.logged_in')
-      redirect_back_or_default user_url(@user_session.user.login)
-    else
-      if self.current_user.suspended?
+      if @user_session.user.suspended?
         flash[:notice] = t('user_session.your_account_is_suspended')
+        render :action => :new
+        return
+      else
+        flash[:notice] = t('user_session.logged_in')
+        redirect_back_or_default user_url(@user_session.user.login)
       end
-      render :action => :new
+    else
+      flash[:notice] = t('user_session.login_failed')
+      redirect_to new_user_session_url
     end
   end
   
