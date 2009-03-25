@@ -411,6 +411,7 @@ en:
         barcodable_type: Barcodable type
         code_word: Code word
         data: Data
+        barcodable: Barcodable
       work:
         original_title: Original title
         title_transcription: Title transcription
@@ -1209,3 +1210,5 @@ en:
     specify_purchase_request: "You should specify the purchase request."
   resource_has_subject:
     subjectable: "Subjectable"
+  library_group:
+    configuration: "Library configuration"

@@ -37,7 +37,7 @@
       <%=h library.telephone_number_2 -%>
     </td>
     <td><%=h library.fax_number -%></td>
-    <%- if library.is_deletable_by(current_user) -%>
+    <%- if library.is_updatable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_library_path(library.short_name) -%></td>
       <td><%= link_to t('page.destroy'), library_path(library.short_name), :confirm => t('page.are_you_sure'), :method => :delete unless library.web? -%></td>
       <td><%= library.first? ? '' : link_to('▲', {:action => 'update', :position => (library.position  > 1 ? library.position - 1 : 1), :id => library.short_name}, :method => :put) -%></td>

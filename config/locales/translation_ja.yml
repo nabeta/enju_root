@@ -406,10 +406,11 @@ ja:
         price: 購入価格
         lock_version: ロックバージョン
       barcode:
-        barcode_type: バーコード種類
-        barcodable_type: Barcodable種類
-        code_word: 符号語
+        barcode_type: バーコードの種類
+        barcodable_type: バーコード付与対象の種類
+        code_word: コードワード
         data: データ
+        barcodable: バーコード付与対象
       work:
         original_title: 原題
         title_transcription: タイトルよみ
@@ -1187,3 +1188,5 @@ ja:
     specify_purchase_request: "購入依頼を指定してください。"
   resource_has_subject:
     subjectable: "件名付与対象"
+  library_group:
+    configuration: "図書館の設定"

@@ -4,16 +4,14 @@
 
 <table id="index">
   <tr>
-    <th>Barcode type</th>
-    <th>Barcodable</th>
-    <th>Barcodable type</th>
+    <th><%= t('activerecord.attributes.barcode.barcode_type') -%></th>
+    <th><%= t('activerecord.attributes.barcode.barcodable') -%></th>
   </tr>
 
 <%- for barcode in @barcodes -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h barcode.barcode_type -%></td>
-    <td><%=h barcode.barcodable_id -%></td>
-    <td><%=h barcode.barcodable_type -%></td>
+    <td><%= link_to h("#{barcode.barcodable_type} / #{barcode.barcodable_id}"), barcode.barcodable if barcode.barcodable -%></td>
     <td><%= link_to t('page.show'), barcode -%></td>
     <td><%= link_to t('page.edit'), edit_barcode_path(barcode) -%></td>
     <td><%= link_to t('page.destroy'), barcode, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
