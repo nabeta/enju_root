@@ -5,20 +5,15 @@
     <%- else -%>
       <li><%= link_to t('page.edit'), edit_bookmarked_resource_path(@bookmarked_resource) -%></li>
     <%- end -%>
-    <li><%= link_to t('page.back'), bookmarked_resources_path -%></li>
-    <li><%= link_to t('page.back_to_search_results'), back_to_bookmarked_resource_index(@user) -%></li>
+    <li><%= link_to t('page.back'), :back -%></li>
   </ul>
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
 <div id="content_list">
-<p>
-<b><%= t('page.title') -%>:</b>
-<%= link_to h(@bookmarked_resource.title), h(@bookmarked_resource.url) -%>
-<%- if @bookmarked_resource.manifestation -%>
-  (<%= link_to t('activerecord.models.manifestation'), @bookmarked_resource.manifestation -%>)
-<%- end -%>
-</p>
+
+<%= render :partial => 'manifestations/title', :locals => {:manifestation => @bookmarked_resource.manifestation} -%>
 
 <p>
   <b><%= t('activerecord.attributes.bookmarked_resource.url') -%>:</b>

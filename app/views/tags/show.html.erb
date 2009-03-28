@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), back_to_tag_index -%></li>
+    <li><%= link_to t('page.back'), :back -%></li>
     <li><%= link_to t('page.edit'), edit_tag_path(@tag.name) -%></li>
     <li><%= link_to t('page.search_resource', :model => t('activerecord.models.manifestation')), manifestations_path(:tag => h(@tag.name)) -%></li>
     <%- if logged_in? -%>

@@ -18,7 +18,11 @@ class BookmarksController < ApplicationController
       end
     end
 
-    @bookmarks = Bookmark.paginate(:all, :page => params[:page], :order => ['id DESC'])
+    if @user
+      @bookmarks = @user.bookmarks.paginate(:all, :page => params[:page], :order => ['id DESC'])
+    else
+      @bookmarks = Bookmark.paginate(:all, :page => params[:page], :order => ['id DESC'])
+    end
     
     respond_to do |format|
       format.html # index.rhtml

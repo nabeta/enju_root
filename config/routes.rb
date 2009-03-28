@@ -320,7 +320,9 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.resources :work_forms
   map.resources :calendar_files
-  map.resources :bookmarked_resources
+  map.resources :bookmarked_resources do |bookmarked_resource|
+    bookmarked_resource.resources :bookmarks
+  end
   map.resources :event_categories
   map.resources :events do |event|
     event.resources :picture_files
