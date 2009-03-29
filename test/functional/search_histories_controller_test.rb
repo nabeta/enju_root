@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SearchHistoriesControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :search_histories, :users
 
   def test_guest_should_not_get_index
@@ -9,25 +10,25 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :forbidden
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
   end
 
   def test_librarian_should_get_failed_search_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :mode => 'not_found'
     assert_response :success
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
   end
@@ -38,7 +39,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :forbidden
   end
@@ -53,7 +54,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
 
   def test_everyone_should_not_create_search_history
     # 履歴を直接作成することはできない
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SearchHistory.count
     post :create, :search_history => {:query => 'test', :user_id => users(:admin).login}
     assert_equal old_count, SearchHistory.count
@@ -69,25 +70,25 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_search_history
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1
     assert_response :forbidden
   end
 
   def test_librarian_should_show_search_history
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_search_history
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_everyone_should_not_show_missing_search_history
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 100
     assert_response :missing
   end
@@ -99,7 +100,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 3
     assert_response :forbidden
   end
@@ -110,7 +111,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_update_search_history
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :search_history => { }
     assert_response :forbidden
   end
@@ -124,7 +125,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_destroy_search_history
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SearchHistory.count
     delete :destroy, :id => 3
     assert_equal old_count, SearchHistory.count
@@ -133,7 +134,7 @@ class SearchHistoriesControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_destroy_missing_search_history
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SearchHistory.count
     delete :destroy, :id => 100
     assert_equal old_count, SearchHistory.count

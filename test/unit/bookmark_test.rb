@@ -20,4 +20,12 @@ class BookmarkTest < ActiveSupport::TestCase
     assert_not_nil bookmarks(:bookmark_00001).bookmarked_resource.manifestation.items
     assert_equal old_count + 1, Item.count
   end
+
+  def test_should_rewrite_my_url
+    assert_equal LibraryGroup.url.rewrite_my_url, "http://localhost:3001/"
+  end
+
+  def test_should_rewrite_bookmark_url
+    assert_equal "http://localhost:3001".rewrite_bookmark_url, LibraryGroup.url
+  end
 end

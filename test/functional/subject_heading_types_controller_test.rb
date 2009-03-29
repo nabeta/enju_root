@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SubjectHeadingTypesControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :subject_heading_types, :users, :subjects, :subject_types,
     :subject_heading_type_has_subjects, :manifestations, :manifestation_forms
 
@@ -11,21 +12,21 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :success
     assert assigns(:subject_heading_types)
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:subject_heading_types)
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:subject_heading_types)
@@ -37,19 +38,19 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :success
   end
@@ -63,7 +64,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_subject_heading_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
     assert_equal old_count, SubjectHeadingType.count
@@ -72,7 +73,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_subject_heading_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
     assert_equal old_count, SubjectHeadingType.count
@@ -81,7 +82,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_subject_heading_type_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => { }
     assert_equal old_count, SubjectHeadingType.count
@@ -90,7 +91,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_subject_heading_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SubjectHeadingType.count
     post :create, :subject_heading_type => {:name => 'test'}
     assert_equal old_count+1, SubjectHeadingType.count
@@ -104,19 +105,19 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_subject_heading_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_response :success
   end
 
   def test_librarian_should_show_subject_heading_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_response :success
   end
 
   def test_admin_should_show_subject_heading_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_response :success
   end
@@ -127,19 +128,19 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_response :success
   end
@@ -150,25 +151,25 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_subject_heading_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => subject_heading_types(:subject_heading_type_00001).id, :subject_heading_type => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_subject_heading_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => subject_heading_types(:subject_heading_type_00001).id, :subject_heading_type => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_subject_heading_type_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => subject_heading_types(:subject_heading_type_00001).id, :subject_heading_type => {:name => ""}
     assert_response :success
   end
   
   def test_admin_should_update_subject_heading_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => subject_heading_types(:subject_heading_type_00001).id, :subject_heading_type => { }
     assert_redirected_to subject_heading_type_url(assigns(:subject_heading_type))
   end
@@ -182,7 +183,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_subject_heading_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = SubjectHeadingType.count
     delete :destroy, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_equal old_count, SubjectHeadingType.count
@@ -191,7 +192,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_subject_heading_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = SubjectHeadingType.count
     delete :destroy, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_equal old_count, SubjectHeadingType.count
@@ -200,7 +201,7 @@ class SubjectHeadingTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_subject_heading_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SubjectHeadingType.count
     delete :destroy, :id => subject_heading_types(:subject_heading_type_00001).id
     assert_equal old_count-1, SubjectHeadingType.count

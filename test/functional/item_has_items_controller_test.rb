@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ItemHasItemsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :item_has_items, :items, :users
 
   test "guest should get index" do
@@ -16,13 +17,13 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
@@ -36,7 +37,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "user should not create item_has_item" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('ItemHasItem.count') do
       post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2}
     end
@@ -45,7 +46,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create item_has_item" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('ItemHasItem.count') do
       post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2}
     end
@@ -65,13 +66,13 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => item_has_items(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => item_has_items(:one).id
     assert_response :success
   end
@@ -82,13 +83,13 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "user should not update item_has_item" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => item_has_items(:one).id, :item_has_item => { }
     assert_response :forbidden
   end
 
   test "librarian should update item_has_item" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => item_has_items(:one).id, :item_has_item => { }
     assert_redirected_to item_has_item_path(assigns(:item_has_item))
   end
@@ -102,7 +103,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy item_has_item" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('ItemHasItem.count') do
       delete :destroy, :id => item_has_items(:one).id
     end
@@ -111,7 +112,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy item_has_item" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('ItemHasItem.count', -1) do
       delete :destroy, :id => item_has_items(:one).id
     end

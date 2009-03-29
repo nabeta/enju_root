@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :reserve_stat_has_manifestations, :users
 
   test "guest should not get index" do
@@ -11,14 +12,14 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get index" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:reserve_stat_has_manifestations)
   end
 
   test "librarian should get index" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:reserve_stat_has_manifestations)
@@ -31,13 +32,13 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "should get new" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
@@ -51,7 +52,7 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not create reserve_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('ReserveStatHasManifestation.count') do
       post :create, :reserve_stat_has_manifestation => { }
     end
@@ -60,7 +61,7 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create reserve_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('ReserveStatHasManifestation.count') do
       post :create, :reserve_stat_has_manifestation => { }
     end
@@ -75,13 +76,13 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not show reserve_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => reserve_stat_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should show reserve_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => reserve_stat_has_manifestations(:one).id
     assert_response :success
   end
@@ -93,13 +94,13 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => reserve_stat_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => reserve_stat_has_manifestations(:one).id
     assert_response :success
   end
@@ -110,13 +111,13 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not update reserve_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => reserve_stat_has_manifestations(:one).id, :reserve_stat_has_manifestation => { }
     assert_response :forbidden
   end
 
   test "librarian should update reserve_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => reserve_stat_has_manifestations(:one).id, :reserve_stat_has_manifestation => {:manifestation_reserve_stat_id => 1, :manifestation_id => 2}
     assert_redirected_to reserve_stat_has_manifestation_path(assigns(:reserve_stat_has_manifestation))
   end
@@ -130,7 +131,7 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy reserve_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('ReserveStatHasManifestation.count') do
       delete :destroy, :id => reserve_stat_has_manifestations(:one).id
     end
@@ -139,7 +140,7 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy reserve_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('ReserveStatHasManifestation.count', -1) do
       delete :destroy, :id => reserve_stat_has_manifestations(:one).id
     end

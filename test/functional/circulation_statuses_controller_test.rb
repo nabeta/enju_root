@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CirculationStatusesControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :circulation_statuses, :users
 
   def test_guest_should_get_index
@@ -10,21 +11,21 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :success
     assert assigns(:circulation_statuses)
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:circulation_statuses)
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:circulation_statuses)
@@ -36,19 +37,19 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :success
   end
@@ -62,7 +63,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_circulation_status
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = CirculationStatus.count
     post :create, :circulation_status => { }
     assert_equal old_count, CirculationStatus.count
@@ -71,7 +72,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_circulation_status
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = CirculationStatus.count
     post :create, :circulation_status => { }
     assert_equal old_count, CirculationStatus.count
@@ -80,7 +81,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_circulation_status_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = CirculationStatus.count
     post :create, :circulation_status => { }
     assert_equal old_count, CirculationStatus.count
@@ -89,7 +90,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_circulation_status
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = CirculationStatus.count
     post :create, :circulation_status => {:name => 'test'}
     assert_equal old_count+1, CirculationStatus.count
@@ -103,19 +104,19 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_circulation_status
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_circulation_status
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_circulation_status
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -126,19 +127,19 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -149,25 +150,25 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_circulation_status
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 1, :circulation_status => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_circulation_status
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :circulation_status => { }
     assert_response :forbidden
   end
   
   def test_admin_should_not_update_circulation_status_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :circulation_status => {:name => nil}
     assert_response :success
   end
   
   def test_admin_should_update_circulation_status
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :circulation_status => { }
     assert_redirected_to circulation_status_url(assigns(:circulation_status))
   end
@@ -181,7 +182,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_circulation_status
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = CirculationStatus.count
     delete :destroy, :id => 1
     assert_equal old_count, CirculationStatus.count
@@ -190,7 +191,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_circulation_status
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = CirculationStatus.count
     delete :destroy, :id => 1
     assert_equal old_count, CirculationStatus.count
@@ -199,7 +200,7 @@ class CirculationStatusesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_circulation_status
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = CirculationStatus.count
     delete :destroy, :id => 1
     assert_equal old_count-1, CirculationStatus.count

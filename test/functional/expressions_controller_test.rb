@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ExpressionsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :expressions, :expression_forms, :languages, :frequency_of_issues,
     :works, :work_forms, :embodies, :realizes, :reifies,
     :manifestations, :manifestation_forms, :embodies,
@@ -47,21 +48,21 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :success
     assert assigns(:expressions)
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:expressions)
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:expressions)
@@ -73,32 +74,32 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   #def test_librarian_should_not_get_new_without_work_id
-  #  set_session_for users(:librarian1)
+  #  UserSession.create users(:librarian1)
   #  get :new
   #  assert_response :redirect
   #  assert_redirected_to works_path
   #end
   
   def test_librarian_should_get_new_without_work_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
   
   def test_librarian_should_get_new_with_work_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new, :work_id => 1
     assert_response :success
   end
   
   def test_admin_should_get_new_with_work_id
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new, :work_id => 1
     assert_response :success
   end
@@ -112,7 +113,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_create_expression_without_work_id
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1 }
     assert_equal old_count, Expression.count
@@ -122,7 +123,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_expression
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count, Expression.count
@@ -131,7 +132,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_expression
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count+1, Expression.count
@@ -140,7 +141,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_expression_without_expression_form_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :language_id => 1}, :work_id => 1
     assert_equal old_count+1, Expression.count
@@ -152,7 +153,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_expression_without_language_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :expression_form_id => 1 }, :work_id => 1
     assert_equal old_count+1, Expression.count
@@ -164,7 +165,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_expression
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1 }, :work_id => 1
     assert_equal old_count+1, Expression.count
@@ -184,31 +185,31 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_expression
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_expression_with_manifestation_not_embody
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1, :manifestation_id => 5
     assert_response :missing
   end
 
   def test_librarian_should_show_expression_with_patron_not_realize
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1, :patron_id => 2
     assert_response :missing
   end
 
   def test_librarian_should_show_expression
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_expression
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -220,19 +221,19 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => 1
     assert_response :success
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -243,31 +244,31 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_expression
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 1, :expression => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_expression_without_expression_form_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :expression => {:expression_form_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_expression_without_language_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :expression => {:language_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_expression
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :expression => { }
     assert_redirected_to expression_url(assigns(:expression))
   end
   
   def test_admin_should_update_expression
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :expression => { }
     assert_redirected_to expression_url(assigns(:expression))
   end
@@ -281,7 +282,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_expression
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = Expression.count
     delete :destroy, :id => 1
     assert_equal old_count, Expression.count
@@ -290,7 +291,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_expression
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Expression.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Expression.count
@@ -299,7 +300,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_expression
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Expression.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Expression.count

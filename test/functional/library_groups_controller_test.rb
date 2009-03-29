@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class LibraryGroupsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :library_groups, :users, :libraries
 
   def test_guest_should_not_get_index
@@ -9,19 +10,19 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :success
   end
 
   def test_librarian_should_not_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:library_groups)
@@ -33,19 +34,19 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :success
   end
@@ -59,7 +60,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_library_group
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = LibraryGroup.count
     post :create, :library_group => { }
     assert_equal old_count, LibraryGroup.count
@@ -68,7 +69,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_library_group
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = LibraryGroup.count
     post :create, :library_group => { }
     assert_equal old_count, LibraryGroup.count
@@ -77,7 +78,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_library_group_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = LibraryGroup.count
     post :create, :library_group => { }
     assert_equal old_count, LibraryGroup.count
@@ -86,7 +87,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_library_group
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = LibraryGroup.count
     post :create, :library_group => {:name => 'test'}
     assert_equal old_count, LibraryGroup.count
@@ -101,19 +102,19 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_library_group
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_library_group
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_library_group
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -124,19 +125,19 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -147,25 +148,25 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_library_group
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 1, :library_group => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_library_group
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :library_group => { }
     assert_response :forbidden
   end
   
   def test_admin_should_not_update_library_group_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :library_group => {:name => nil}
     assert_response :success
   end
   
   def test_admin_should_update_library_group
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :library_group => { }
     assert_redirected_to library_group_url(assigns(:library_group))
   end
@@ -179,7 +180,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_library_group
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = LibraryGroup.count
     delete :destroy, :id => 1
     assert_equal old_count, LibraryGroup.count
@@ -188,7 +189,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_library_group
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = LibraryGroup.count
     delete :destroy, :id => 1
     assert_equal old_count, LibraryGroup.count
@@ -197,7 +198,7 @@ class LibraryGroupsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_destroy_library_group
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = LibraryGroup.count
     delete :destroy, :id => 1
     assert_equal old_count, LibraryGroup.count

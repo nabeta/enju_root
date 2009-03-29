@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CheckoutsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :checkouts, :users, :patrons, :roles, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,
     :user_group_has_checkout_types, :manifestation_form_has_checkout_types,
     :manifestations, :manifestation_forms,
@@ -13,20 +14,20 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_get_index_without_user_id
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :forbidden
   end
 
   def test_user_should_get_my_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index, :user_id => users(:user1).login
     assert_response :success
     assert assigns(:checkouts)
   end
 
   def test_user_should_get_my_index_feed
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index, :user_id => users(:user1).login, :format => 'rss'
     assert_response :success
     assert assigns(:checkouts)
@@ -40,63 +41,63 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_other_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index, :user_id => users(:admin).login
     assert_response :forbidden
   end
 
   def test_user_should_not_get_overdue_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index, :view => 'overdue'
     assert_response :forbidden
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
   end
 
   def test_librarian_should_get_index_csv
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :format => 'csv'
     assert_response :success
   end
 
   def test_librarian_should_get_index_rss
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :format => 'rss'
     assert_response :success
   end
 
   def test_librarian_should_get_other_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :user_id => users(:admin).login
     assert_response :success
   end
 
   def test_librarian_should_get_overdue_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :view => 'overdue'
     assert_response :success
   end
 
   def test_librarian_should_get_overdue_index_with_number_of_days_overdue
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :view => 'overdue', :days_overdue => 2
     assert_response :success
     assert assigns(:checkouts).size > 0
   end
 
   def test_librarian_should_get_overdue_index_with_invalid_number_of_days
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index, :view => 'overdue', :days_overdue => 'invalid days'
     assert_response :success
     assert assigns(:checkouts).size > 0
   end
 
   def test_admin_should_get_other_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index, :user_id => users(:user1).login
     assert_response :success
   end
@@ -108,31 +109,31 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_get_new_without_user_id
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :forbidden
   end
   
   def test_user_should_not_get_my_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new, :user_id => users(:user1).login
     assert_response :forbidden
   end
   
   def test_user_should_not_get_other_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new, :user_id => users(:admin).login
     assert_response :forbidden
   end
   
   def test_librarian_should_get_other_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new, :user_id => users(:admin).login
     assert_response :forbidden
   end
   
   def test_admin_should_not_get_other_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new, :user_id => users(:user1).login
     assert_response :forbidden
   end
@@ -147,7 +148,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_my_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = Checkout.count
     post :create, :user_id => users(:user1).login, :checkout => {:item_id => 6}
     assert_equal old_count, Checkout.count
@@ -157,7 +158,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_other_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = Checkout.count
     post :create, :user_id => users(:admin).login, :checkout => {:item_id => 6}
     assert_equal old_count, Checkout.count
@@ -168,7 +169,7 @@ class CheckoutsControllerTest < ActionController::TestCase
 
   def test_librarian_should_not_create_checkout
     # 直接追加はできない。Basket経由のみ
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Checkout.count
     post :create, :user_id => users(:user1).login, :checkout => {:item_id => 6}
     assert_equal old_count, Checkout.count
@@ -179,7 +180,7 @@ class CheckoutsControllerTest < ActionController::TestCase
 
   def test_admin_should_not_create_checkout
     # 直接追加はできない。Basket経由のみ
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Checkout.count
     post :create, :user_id => users(:user1).login, :checkout => {:item_id => 6}
     assert_equal old_count, Checkout.count
@@ -194,31 +195,31 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_missing_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 100, :user_id => users(:user1).login
     assert_response :missing
   end
 
   def test_user_should_show_my_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 3, :user_id => users(:user1).login
     assert_response :success
   end
 
   def test_user_should_not_show_other_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1, :user_id => users(:admin).login
     assert_response :forbidden
   end
 
   def test_librarian_should_show_other_checkout
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 3, :user_id => users(:user1).login
     assert_response :success
   end
 
   def test_admin_should_show_other_checkout
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 3, :user_id => users(:user1).login
     assert_response :success
   end
@@ -230,31 +231,31 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_get_edit_without_user_id
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_user_should_get_my_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 3, :user_id => users(:user1).login
     assert_response :success
   end
   
   def test_user_should_not_get_other_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 1, :user_id => users(:admin).login
     assert_response :forbidden
   end
   
   def test_librarian_should_get_other_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => 3, :user_id => users(:user1).login
     assert_response :success
   end
   
   def test_admin_should_get_other_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 3, :user_id => users(:user1).login
     assert_response :success
   end
@@ -265,37 +266,37 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
   
   def test_everyone_should_not_update_checkout_without_user_id
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :checkout => { }
     assert_response :forbidden
   end
   
   def test_everyone_should_not_update_missing_checkout
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 100, :user_id => users(:admin).login, :checkout => { }
     assert_response :missing
   end
   
   def test_user_should_update_my_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 3, :user_id => users(:user1).login, :checkout => { }
     assert_redirected_to user_checkout_url(assigns(:checkout).user.login, assigns(:checkout))
   end
   
   def test_user_should_not_update_checkout_without_item_id
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 3, :user_id => users(:user1).login, :checkout => {:item_id => nil}
     assert_response :success
   end
   
   def test_user_should_not_update_other_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 1, :user_id => users(:admin).login, :checkout => { }
     assert_response :forbidden
   end
   
   def test_user_should_not_update_already_renewed_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 9, :user_id => users(:user1).login, :checkout => { }
     assert_equal 'Excessed checkout renewal limit.', flash[:notice]
     assert_response :redirect
@@ -303,7 +304,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
   
   def test_librarian_should_update_checkout_item_is_reserved
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 8, :user_id => users(:librarian1).login, :checkout => { }
     assert_equal 'This item is reserved.', flash[:notice]
     assert_response :redirect
@@ -311,13 +312,13 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
   
   def test_librarian_should_update_other_checkout
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :user_id => users(:admin).login, :checkout => { }
     assert_redirected_to user_checkout_url(assigns(:checkout).user.login, assigns(:checkout))
   end
   
   def test_admin_should_update_other_checkout
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 3, :user_id => users(:user1).login, :checkout => { }
     assert_redirected_to user_checkout_url(assigns(:checkout).user.login, assigns(:checkout))
   end
@@ -331,7 +332,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_destroy_checkout_without_user_id
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Checkout.count
     delete :destroy, :id => 3
     assert_equal old_count, Checkout.count
@@ -340,7 +341,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_everyone_should_not_destroy_missing_checkout
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Checkout.count
     delete :destroy, :id => 100, :user_id => users(:admin).login
     assert_equal old_count, Checkout.count
@@ -349,7 +350,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_destroy_my_checkout
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = Checkout.count
     delete :destroy, :id => 3, :user_id => users(:user1).login
     assert_equal old_count-1, Checkout.count
@@ -358,7 +359,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
   
   def test_librarian_should_destroy_other_checkout
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Checkout.count
     delete :destroy, :id => 1, :user_id => users(:admin).login
     assert_equal old_count-1, Checkout.count
@@ -368,7 +369,7 @@ class CheckoutsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_other_checkout
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Checkout.count
     delete :destroy, :id => 3, :user_id => users(:user1).login
     assert_equal old_count-1, Checkout.count
