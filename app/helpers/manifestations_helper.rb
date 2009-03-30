@@ -55,7 +55,7 @@ module ManifestationsHelper
       render :partial => 'nicovideo', :locals => {:manifestation => manifestation}
     when manifestation.flickr.present?
       render :partial => 'flickr', :locals => {:manifestation => manifestation}
-    when manifestation.scribd_id
+    when manifestation.ipaper_id
       render :partial => 'scribd', :locals => {:manifestation => manifestation}
     end
   end
