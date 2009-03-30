@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class OaiControllerTest < ActionController::TestCase
-  # Replace this with your real tests.
+  setup :activate_authlogic
   fixtures :manifestations, :manifestation_forms, :library_groups
 
   def test_guest_should_get_verb_identify

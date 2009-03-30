@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class UserReserveStatsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :user_reserve_stats, :users
 
   test "guest should get index" do
@@ -16,13 +17,13 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
@@ -37,7 +38,7 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not create user_reserve_stat" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('UserReserveStat.count') do
       post :create, :user_reserve_stat => { }
     end
@@ -46,7 +47,7 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create user_reserve_stat" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('UserReserveStat.count') do
       post :create, :user_reserve_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
@@ -66,13 +67,13 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not get edit" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => user_reserve_stats(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => user_reserve_stats(:one).id
     assert_response :success
   end
@@ -83,13 +84,13 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not update user_reserve_stat" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => user_reserve_stats(:one).id, :user_reserve_stat => { }
     assert_response :forbidden
   end
 
   test "librarian should update user_reserve_stat" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => user_reserve_stats(:one).id, :user_reserve_stat => { }
     assert_redirected_to user_reserve_stat_path(assigns(:user_reserve_stat))
   end
@@ -103,7 +104,7 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy user_reserve_stat" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('UserReserveStat.count') do
       delete :destroy, :id => user_reserve_stats(:one).id
     end
@@ -112,7 +113,7 @@ class UserReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy user_reserve_stat" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('UserReserveStat.count', -1) do
       delete :destroy, :id => user_reserve_stats(:one).id
     end

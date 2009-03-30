@@ -6,16 +6,17 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.exemplify')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@exemplify) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :manifestation_id -%><br />
+    <%= f.label t('activerecord.models.manifestation') -%><br />
     <%= f.text_field :manifestation_id -%>
   </p>
   <p>
-    <%= f.label :item_id -%><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%= f.text_field :item_id -%>
   </p>
   <p>
@@ -23,4 +24,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

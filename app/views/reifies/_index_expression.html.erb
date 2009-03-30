@@ -1,14 +1,14 @@
 <div id="submenu">
   <ul>
-    <%- if Realize.is_creatable_by(current_user) -%>
+    <li><%= link_to t('activerecord.models.work'), expression_work_path(@expression.work) -%></li>
+    <%- if Reify.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_expression_reify_path(@expression) -%></li>
-      <li><%= link_to t('page.back'), expression_patrons_path(@expression) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
-<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.reify')) -%></h1>
 <div id="content_list">
   <h2>
     <%= link_to h(@expression.original_title), @expression -%>

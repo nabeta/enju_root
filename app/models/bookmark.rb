@@ -47,7 +47,7 @@ class Bookmark < ActiveRecord::Base
   def self.get_title_from_url(url)
     return if url.blank?
     # TODO: ホスト名の扱い
-    access_url = url.rewrite_my_host
+    access_url = url.rewrite_my_url
   
     page = open(access_url)
     #doc = Hpricot(page)

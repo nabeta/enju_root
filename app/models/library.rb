@@ -2,8 +2,9 @@ require 'mathn'
 class Library < ActiveRecord::Base
   include DisplayName
   include OnlyAdministratorCanModify
-  named_scope :physicals, :conditions => ['id != 1'], :order => :position
-  has_many :shelves, :order => "shelves.position"
+  default_scope :order => 'position'
+  named_scope :physicals, :conditions => ['id != 1'], :order => 'position'
+  has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
   has_many :events, :include => :event_category
   #belongs_to :holding_patron, :polymorphic => true, :validate => true

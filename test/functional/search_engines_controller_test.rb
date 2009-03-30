@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SearchEnginesControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :search_engines, :library_groups, :users
 
   def test_guest_should_not_get_index
@@ -11,20 +12,20 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:search_engines)
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:search_engines)
@@ -36,19 +37,19 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :success
   end
@@ -62,7 +63,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_search_engine
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = SearchEngine.count
     post :create, :search_engine => { }
     assert_equal old_count, SearchEngine.count
@@ -71,7 +72,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_search_engine
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = SearchEngine.count
     post :create, :search_engine => { }
     assert_equal old_count, SearchEngine.count
@@ -80,7 +81,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_search_engine_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SearchEngine.count
     post :create, :search_engine => { }
     assert_equal old_count, SearchEngine.count
@@ -89,7 +90,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_search_engine
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SearchEngine.count
     post :create, :search_engine => {:name => 'test', :url => 'http://www.example.com/', :base_url => 'http://www.example.com/search', :http_method => 'get', :query_param => 'test'}
     assert_equal old_count+1, SearchEngine.count
@@ -104,19 +105,19 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_search_engine
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1
     assert_response :forbidden
   end
 
   def test_librarian_should_show_search_engine
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_search_engine
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -127,19 +128,19 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -150,25 +151,25 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_search_engine
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 1, :search_engine => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_search_engine
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :search_engine => { }
     assert_response :forbidden
   end
   
   def test_admin_should_not_update_search_engine_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :search_engine => {:name => ""}
     assert_response :success
   end
   
   def test_admin_should_update_search_engine
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :search_engine => {:name => 'test', :url => 'http://www.example.com/', :base_url => 'http://www.example.com/search', :http_method => 'get', :query_param => 'test'}
     assert_redirected_to search_engine_url(assigns(:search_engine))
   end
@@ -182,7 +183,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_search_engine
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = SearchEngine.count
     delete :destroy, :id => 1
     assert_equal old_count, SearchEngine.count
@@ -191,7 +192,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_search_engine
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = SearchEngine.count
     delete :destroy, :id => 1
     assert_equal old_count, SearchEngine.count
@@ -200,7 +201,7 @@ class SearchEnginesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_search_engine
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = SearchEngine.count
     delete :destroy, :id => 1
     assert_equal old_count-1, SearchEngine.count

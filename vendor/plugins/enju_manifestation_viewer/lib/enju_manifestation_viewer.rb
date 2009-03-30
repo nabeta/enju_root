@@ -44,10 +44,10 @@ module EnjuManifestationViewer
       end
     end
 
-    def scribd_id
+    def ipaper_id
       # scribd_fuで定義
       if self.attachment_file
-        self.attachment_file.scribd_id
+        self.attachment_file.ipaper_id
       end
     end
 

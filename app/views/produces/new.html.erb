@@ -6,7 +6,6 @@
     <%- if @produce.manifestation -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), manifestation_patrons_path(@produce.manifestation) -%></li>
     <%- end -%>
-    <li><%= link_to t('page.back'), produces_path -%></li>
   </ul>
 </div>
 

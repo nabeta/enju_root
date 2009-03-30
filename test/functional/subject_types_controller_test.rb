@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class SubjectTypesControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :subject_types, :users
 
   def test_guest_should_not_get_index
@@ -11,21 +12,21 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:subject_types)
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:subject_types)
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:subject_types)
@@ -37,19 +38,19 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :success
   end
@@ -63,7 +64,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_subject_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('SubjectType.count') do
       post :create, :subject_type => { }
     end
@@ -72,7 +73,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_subject_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_no_difference('SubjectType.count') do
       post :create, :subject_type => { }
     end
@@ -82,7 +83,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_subject_type_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     assert_no_difference('SubjectType.count') do
       post :create, :subject_type => { }
     end
@@ -91,7 +92,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_subject_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     assert_difference('SubjectType.count') do
       post :create, :subject_type => {:name => 'test'}
     end
@@ -106,19 +107,19 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_subject_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => subject_types(:subject_type_00001)
     assert_response :forbidden
   end
 
   def test_librarian_should_show_subject_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => subject_types(:subject_type_00001)
     assert_response :success
   end
 
   def test_admin_should_show_subject_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => subject_types(:subject_type_00001)
     assert_response :success
   end
@@ -129,19 +130,19 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => subject_types(:subject_type_00001)
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => subject_types(:subject_type_00001)
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => subject_types(:subject_type_00001)
     assert_response :success
   end
@@ -152,25 +153,25 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_subject_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => subject_types(:subject_type_00001), :subject_type => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_subject_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => subject_types(:subject_type_00001), :subject_type => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_subject_type_without_name
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => subject_types(:subject_type_00001), :subject_type => {:name => ""}
     assert_response :success
   end
   
   def test_admin_should_update_subject_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => subject_types(:subject_type_00001), :subject_type => { }
     assert_redirected_to subject_type_url(assigns(:subject_type))
   end
@@ -184,7 +185,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_subject_type
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('SubjectType.count') do
       delete :destroy, :id => subject_types(:subject_type_00001)
     end
@@ -193,7 +194,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_subject_type
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_no_difference('SubjectType.count') do
       delete :destroy, :id => subject_types(:subject_type_00001)
     end
@@ -202,7 +203,7 @@ class SubjectTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_subject_type
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     assert_difference('SubjectType.count', -1) do
       delete :destroy, :id => subject_types(:subject_type_00001)
     end

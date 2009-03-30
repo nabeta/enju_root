@@ -16,7 +16,7 @@ class Manifestation < ActiveRecord::Base
   has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
-  has_one :attachment_file, :dependent => :destroy
+  has_one :attachment_file #, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks

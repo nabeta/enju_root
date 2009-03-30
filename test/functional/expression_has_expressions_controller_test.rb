@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class ExpressionHasExpressionsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :expression_has_expressions, :expressions, :users
 
   test "guest should get index" do
@@ -16,13 +17,13 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
@@ -36,7 +37,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "user should not create expression_has_expression" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('ExpressionHasExpression.count') do
       post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2}
     end
@@ -45,7 +46,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create expression_has_expression" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('ExpressionHasExpression.count') do
       post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2}
     end
@@ -65,13 +66,13 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => expression_has_expressions(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => expression_has_expressions(:one).id
     assert_response :success
   end
@@ -82,13 +83,13 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "user should not update expression_has_expression" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => expression_has_expressions(:one).id, :expression_has_expression => { }
     assert_response :forbidden
   end
 
   test "librarian should update expression_has_expression" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => expression_has_expressions(:one).id, :expression_has_expression => { }
     assert_redirected_to expression_has_expression_path(assigns(:expression_has_expression))
   end
@@ -102,7 +103,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy expression_has_expression" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('ExpressionHasExpression.count') do
       delete :destroy, :id => expression_has_expressions(:one).id
     end
@@ -111,7 +112,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy expression_has_expression" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('ExpressionHasExpression.count', -1) do
       delete :destroy, :id => expression_has_expressions(:one).id
     end

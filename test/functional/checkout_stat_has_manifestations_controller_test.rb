@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
+  setup :activate_authlogic
   fixtures :checkout_stat_has_manifestations, :users
 
   test "guest should not get index" do
@@ -11,14 +12,14 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get index" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:checkout_stat_has_manifestations)
   end
 
   test "librarian should get index" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:checkout_stat_has_manifestations)
@@ -31,13 +32,13 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "should get new" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
@@ -51,7 +52,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not create checkout_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('CheckoutStatHasManifestation.count') do
       post :create, :checkout_stat_has_manifestation => { }
     end
@@ -60,7 +61,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create checkout_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('CheckoutStatHasManifestation.count') do
       post :create, :checkout_stat_has_manifestation => { }
     end
@@ -75,13 +76,13 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not show checkout_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => checkout_stat_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should show checkout_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => checkout_stat_has_manifestations(:one).id
     assert_response :success
   end
@@ -93,13 +94,13 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => checkout_stat_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => checkout_stat_has_manifestations(:one).id
     assert_response :success
   end
@@ -110,13 +111,13 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not update checkout_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => checkout_stat_has_manifestations(:one).id, :checkout_stat_has_manifestation => { }
     assert_response :forbidden
   end
 
   test "librarian should update checkout_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => checkout_stat_has_manifestations(:one).id, :checkout_stat_has_manifestation => {:manifestation_checkout_stat_id => 1, :manifestation_id => 2}
     assert_redirected_to checkout_stat_has_manifestation_path(assigns(:checkout_stat_has_manifestation))
   end
@@ -130,7 +131,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy checkout_stat_has_manifestation" do
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('CheckoutStatHasManifestation.count') do
       delete :destroy, :id => checkout_stat_has_manifestations(:one).id
     end
@@ -139,7 +140,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy checkout_stat_has_manifestation" do
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('CheckoutStatHasManifestation.count', -1) do
       delete :destroy, :id => checkout_stat_has_manifestations(:one).id
     end

@@ -1,4 +1,13 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @produce -%></li>
+    <li><%= link_to t('page.back'), produces_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.produce')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :produce -%>
 
@@ -19,5 +28,5 @@
 
 <%- end -%>
 
-<%= link_to t('page.show'), produce_path(@produce) -%> |
-<%= link_to t('page.back'), produces_path -%>
+</div>
+</div>

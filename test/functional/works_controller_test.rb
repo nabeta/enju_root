@@ -1,8 +1,9 @@
 require 'test_helper'
 
 class WorksControllerTest < ActionController::TestCase
-  fixtures :works, :work_forms, :expressions, :realizes, :creates, :produces, :reifies
-  fixtures :patrons, :users, :roles
+  setup :activate_authlogic
+  fixtures :works, :work_forms, :expressions, :realizes, :creates, :produces, :reifies,
+    :patrons, :users, :roles
 
   def test_guest_should_get_index
     get :index
@@ -18,22 +19,22 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    set_session_for(User.find(1))
-    #set_session_for users(:user1)
+    UserSession.create(User.find(1))
+    #UserSession.create users(:user1)
     get :index
     assert_response :success
     assert assigns(:works)
   end
 
   def test_librarian_should_get_index
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:works)
   end
 
   def test_admin_should_get_index
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :index
     assert_response :success
     assert assigns(:works)
@@ -45,19 +46,19 @@ class WorksControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :new
     assert_response :success
   end
   
   def test_admin_should_get_new
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :new
     assert_response :success
   end
@@ -71,7 +72,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_work
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     old_count = Work.count
     post :create, :work => { :original_title => 'test', :work_form_id => 1 }
     assert_equal old_count, Work.count
@@ -80,7 +81,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_work_without_title
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Work.count
     post :create, :work => { :work_form_id => 1 }
     assert_equal old_count, Work.count
@@ -89,7 +90,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_work_without_work_form_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Work.count
     post :create, :work => { :original_title => 'test' }
     assert_equal old_count+1, Work.count
@@ -98,7 +99,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_work
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     old_count = Work.count
     post :create, :work => { :original_title => 'test', :work_form_id => 1 }
     assert_equal old_count+1, Work.count
@@ -107,7 +108,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_work
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     old_count = Work.count
     post :create, :work => { :original_title => 'test', :work_form_id => 1 }
     assert_equal old_count+1, Work.count
@@ -121,19 +122,19 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_work
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_work
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_work
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -145,19 +146,19 @@ class WorksControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     get :edit, :id => 1
     assert_response :success
   end
   
   def test_admin_should_get_edit
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -168,31 +169,31 @@ class WorksControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_work
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     put :update, :id => 1, :work => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_work_without_title
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :work => {:original_title => "", :work_form_id => 1}
     assert_response :success
   end
   
   def test_librarian_should_not_update_work_without_work_form_id
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :work => {:work_form_id => nil, :original_title => 'test'}
     assert_response :success
   end
   
   def test_librarian_should_update_work
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     put :update, :id => 1, :work => { }
     assert_redirected_to work_url(assigns(:work))
   end
   
   def test_admin_should_update_work
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     put :update, :id => 1, :work => { }
     assert_redirected_to work_url(assigns(:work))
   end
@@ -206,7 +207,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_work
-    set_session_for users(:user1)
+    UserSession.create users(:user1)
     assert_no_difference('Work.count') do
       delete :destroy, :id => 1
     end
@@ -215,7 +216,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_work
-    set_session_for users(:librarian1)
+    UserSession.create users(:librarian1)
     assert_difference('Work.count', -1) do
       delete :destroy, :id => 1
     end
@@ -224,7 +225,7 @@ class WorksControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_work
-    set_session_for users(:admin)
+    UserSession.create users(:admin)
     assert_difference('Work.count', -1) do
       delete :destroy, :id => 1
     end

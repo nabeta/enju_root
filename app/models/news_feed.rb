@@ -17,7 +17,7 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def content
-    url = self.url.rewrite_my_host
+    url = self.url.rewrite_my_url
     if self.body.blank?
       file = open(url)
       feed = file.read

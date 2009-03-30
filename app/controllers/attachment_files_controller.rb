@@ -93,6 +93,7 @@ class AttachmentFilesController < ApplicationController
   def destroy
     @attachment_file = AttachmentFile.find(params[:id])
     @attachment_file.destroy
+    #rescue ScribdFu::ScribdFuError
 
     respond_to do |format|
       format.html { redirect_to(attachment_files_url) }
