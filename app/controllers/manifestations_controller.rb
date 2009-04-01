@@ -148,6 +148,7 @@ class ManifestationsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @manifestation }
       format.json { render :json => @manifestation }
+      format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
     end
   rescue ActiveRecord::RecordNotFound

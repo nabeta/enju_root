@@ -590,7 +590,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def fulltext
-    self.attachment_file.fulltext
+    self.attachment_file.fulltext if self.attachment_file
   end
 
   def digest(options = {:type => 'sha1'})
