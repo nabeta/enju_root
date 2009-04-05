@@ -6,5 +6,9 @@
 </div>
 
 <div id="submenu">
-  <%= render :partial => 'user_sessions/password' -%>
+  <%- if flash[:login_form] == 'openid' -%>
+    <%= render :partial => 'user_sessions/openid' -%>
+  <%- else -%>
+    <%= render :partial => 'user_sessions/password' -%>
+  <%- end -%>
 </div>

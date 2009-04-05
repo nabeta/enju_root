@@ -5,7 +5,7 @@ class UserSessionsController < ApplicationController
   
   def new
     @user_session = UserSession.new
-    case params[:mode]
+    case params[:login_form]
     when 'password'
       render :partial => 'user_sessions/password'
     when 'openid'
@@ -15,6 +15,7 @@ class UserSessionsController < ApplicationController
   
   def create
     @user_session = UserSession.new(params[:user_session])
+    flash[:login_form] = params[:login_form]
     @user_session.save do |result|
       if result
         if @user_session.user.suspended?
@@ -24,11 +25,18 @@ class UserSessionsController < ApplicationController
         else
           flash[:notice] = t('user_session.logged_in')
           redirect_back_or_default user_url(@user_session.user.login)
+          return
         end
       else
         flash[:notice] = t('user_session.login_failed')
         redirect_to new_user_session_url
+        return
       end
+    end
+
+    unless performed?
+      flash[:notice] = t('user_session.login_failed')
+      redirect_to new_user_session_url
     end
   end
   

@@ -19,6 +19,12 @@ class UserSessionsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
   
+  test "should not create user session with invalid openid identifier" do
+    post :create, :user_session => { :openid_identifier => "invalid identifier" }
+    assert_nil user_session = UserSession.find
+    assert_redirected_to new_user_session_url
+  end
+  
   test "should destroy user session" do
     delete :destroy
     assert_nil UserSession.find
