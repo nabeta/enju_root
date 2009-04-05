@@ -36,14 +36,7 @@ class Work < ActiveRecord::Base
   validates_presence_of :original_title, :work_form
 
   def title
-    array = self.titles
-    self.expressions.each do |expression|
-      array << expression.titles
-      expression.manifestations.each do |manifestation|
-        array << manifestation.titles
-      end
-    end
-    array.flatten.compact
+    (expressions.collect(&:titles) + expressions.collect(&:manifestations).flatten.collect(&:titles)).flatten.compact
   end
 
   def titles
@@ -58,15 +51,7 @@ class Work < ActiveRecord::Base
   end
   
   def manifestations
-    manifestations = []
-    expressions.each do |e|
-      unless e.serial?
-        manifestations << e.manifestations
-      end
-    end
-    manifestations.flatten.uniq
-  rescue
-    []
+    expressions.not_serials.collect(&:manifestations).flatten.uniq
   end
 
   def serials

@@ -41,6 +41,7 @@ namespace :enju do
 
       begin
         user.activate
+        user.save!
         puts 'Administrator account created.'
       rescue
         puts $!

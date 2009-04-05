@@ -152,15 +152,17 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      if @user.save
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
-        flash[:temporary_password] = @user.password
-        format.html { redirect_to user_url(@user.login) }
-        format.xml  { head :ok }
-      else
-        prepare_options
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+      @user.save do |result|
+        if result
+          flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
+          flash[:temporary_password] = @user.password
+          format.html { redirect_to user_url(@user.login) }
+          format.xml  { head :ok }
+        else
+          prepare_options
+          format.html { render :action => "edit" }
+          format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
+        end
       end
     end
   rescue ActiveRecord::RecordNotFound
@@ -222,25 +224,26 @@ class UsersController < ApplicationController
     end
     @user.patron = patron
     @user.indexing = true
-    #success = @user && @user.save
+    @user.activate
 
     respond_to do |format|
-      #if @user.save
-      if @user.activate
-        flash[:temporary_password] = @user.password
-        User.transaction do
-          @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+      @user.save do |result|
+        if result
+          flash[:temporary_password] = @user.password
+          User.transaction do
+            @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+          end
+          #self.current_user = @user
+          flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
+          format.html { redirect_to user_url(@user.login) }
+          format.xml  { head :ok }
+        else
+          prepare_options
+          #flash[:notice] = ('The record is invalid.')
+          flash[:error] = ("We couldn't set up that account, sorry.  Please try again, or contact an admin.")
+          format.html { render :action => "new" }
+          format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         end
-        #self.current_user = @user
-        flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
-        format.html { redirect_to user_url(@user.login) }
-        format.xml  { head :ok }
-      else
-        prepare_options
-        #flash[:notice] = ('The record is invalid.')
-        flash[:error] = ("We couldn't set up that account, sorry.  Please try again, or contact an admin.")
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
   rescue ActiveRecord::RecordNotFound

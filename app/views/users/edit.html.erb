@@ -101,8 +101,14 @@
   </div>
 
 <p style="clear: both">
-  <p><b><%= t('activerecord.attributes.user.keyword_list') -%></b><br />
-   <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
+  <p>
+    <b><%= t('activerecord.attributes.user.openid_identifier') -%></b><br />
+    <%= f.text_field :openid_identifier, :class => 'resource_url' -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.user.keyword_list') -%></b><br />
+    <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
   </p>
 
   <p>

@@ -43,16 +43,11 @@ class Expression < ActiveRecord::Base
 
   def serial?
     return true if self.frequency_of_issue_id > 1
-    return false
+    false
   end
   
   def title
-    array = []
-    array << self.work.titles if self.work
-    self.manifestations.each do |manifestation|
-      array << manifestation.titles
-    end
-    array.flatten.compact
+    (self.work.titles + self.manifestations.collect(&:titles).flatten).compact
   end
 
   def titles
@@ -77,7 +72,7 @@ class Expression < ActiveRecord::Base
 
   def last_issue
     if self.serial?
-      self.manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC', :limit => 1)
+      self.manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
     end
   rescue
     nil

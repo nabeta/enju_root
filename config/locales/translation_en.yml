@@ -257,7 +257,7 @@ en:
       user:
         login: Login
         name: Name
-        openid_url: OpenID URL
+        openid_identifier: OpenID Identifier
         email: Email
         crypted_password: Crypted password
         salt: Salt
@@ -971,6 +971,8 @@ en:
     remember_me: "Remember me"
     your_account_is_suspended: "Your account is suspended. Tell the library staffs."
     login_failed: "Login failed. Your username or password may be wrong."
+    login_with_username_and_password: "Login with username and password"
+    login_with_openid: "Login with OpenID"
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."

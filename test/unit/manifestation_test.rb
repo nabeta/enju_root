@@ -38,10 +38,6 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00001).item_checkouts_count > 0
   end
 
-  def test_manifestation_should_get_item_checkouts_count
-    assert Manifestation.item_checkouts_count > 0
-  end
-
   def test_youtube_id
     assert_equal manifestations(:manifestation_00022).youtube_id, 'BSHBzd9ftDE'
   end

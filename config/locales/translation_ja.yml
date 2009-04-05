@@ -254,9 +254,9 @@ ja:
       patron_merge_list:
         title: タイトル
       user:
-        login: ログイン
+        login: ログイン名
         name: 名前
-        openid_url: OpenIDのURL
+        openid_identifier: OpenIDのURL
         email: メールアドレス
         crypted_password: 暗号化パスワード
         salt: ソルト
@@ -954,6 +954,8 @@ ja:
     remember_me: "ウインドウを閉じてもログインしたままにする"
     your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
     login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
+    login_with_username_and_password: "ログイン名とパスワードを利用してログインする"
+    login_with_openid: "OpenIDを利用してログインする"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"

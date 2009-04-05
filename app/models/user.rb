@@ -167,7 +167,6 @@ class User < ActiveRecord::Base
 
   def activate
     self.suspended = false
-    save
   end
 
   def checked_item_count
