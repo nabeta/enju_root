@@ -51,7 +51,7 @@
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('activerecord.models.expression') -%></em></a></li>
-      <%- unless @expression.patrons.blank? -%>
+      <%- unless @expression.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
       <%- end -%>
       <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>

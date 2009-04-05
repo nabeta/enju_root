@@ -128,6 +128,7 @@ class PatronsController < ApplicationController
   # POST /patrons.xml
   def create
     @patron = Patron.new(params[:patron])
+    @patron.indexing = true
 
     respond_to do |format|
       if @patron.save
@@ -161,6 +162,7 @@ class PatronsController < ApplicationController
   # PUT /patrons/1.xml
   def update
     @patron = Patron.find(params[:id])
+    @patron.indexing = true
 
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
@@ -181,6 +183,7 @@ class PatronsController < ApplicationController
   # DELETE /patrons/1.xml
   def destroy
     @patron = Patron.find(params[:id])
+    @patron.indexing = true
 
     if @patron.user
       if @patron.user.has_role?('Librarian')
@@ -221,9 +224,9 @@ class PatronsController < ApplicationController
   end
 
   def prepare_options
-    @patron_types = PatronType.find(:all, :order => :position)
-    @languages = Language.find(:all, :order => :position)
-    @countries = Country.find(:all, :order => :position)
+    @patron_types = PatronType.find(:all)
+    @languages = Language.find(:all)
+    @countries = Country.find(:all)
     @roles = Role.find(:all)
   end
 

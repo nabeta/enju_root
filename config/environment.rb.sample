@@ -65,7 +65,29 @@ Rails::Initializer.run do |config|
   config.gem "money"
   config.gem "javan-whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "mbleigh-acts-as-taggable-on", :lib => "acts-as-taggable-on"
+  #config.gem "mbleigh-acts-as-taggable-on", :lib => "acts-as-taggable-on"
+  config.gem "mloughran-api_cache", :lib => "api_cache"
+  config.gem "memcache-client", :lib => "memcache"
+
+  # Only load the plugins named here, in the order given (default is alphabetical).
+  # :all can be used as a placeholder for all plugins not explicitly named
+  # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+
+  # Skip frameworks you're not going to use. To use Rails without a database,
+  # you must remove the Active Record framework.
+  # config.frameworks -= [ :active_record, :active_resource, :action_mailer ]
+
+  # Activate observers that should always be running
+  # config.active_record.observers = :cacher, :garbage_collector, :forum_observer
+
+  # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
+  # Run "rake -D time" for a list of tasks for finding time zone names.
+  config.time_zone = 'UTC'
+  #config.time_zone = 'Tokyo'
+
+  # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
+  # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}')]
+  # config.i18n.default_locale = :de
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -91,6 +113,7 @@ end
 Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
 Money.default_currency = "JPY"
 RAILS_DEFAULT_LOGGER.auto_flushing = 1
+APICache.start
 
 #require 'jasper-rails'
 require 'solr_modified'
@@ -105,4 +128,3 @@ require 'search_query'
 require 'restful_acl_controller'
 require 'tag_list'
 require 'hostname'
-require 'scribd_fu_modified'

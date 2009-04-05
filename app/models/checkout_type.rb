@@ -1,6 +1,8 @@
 class CheckoutType < ActiveRecord::Base
   include DisplayName
   include AdministratorRequired
+
+  default_scope :order => "checkout_types.position"
   named_scope :available_for_manifestation_form, lambda {|manifestation_form| {:include => :manifestation_forms, :conditions => ['manifestation_forms.name = ?', manifestation_form.name], :order => 'manifestation_forms.position'}}
   named_scope :available_for_user_group, lambda {|user_group| {:include => :user_groups, :conditions => ['user_groups.name = ?', user_group.name], :order => 'user_group.position'}}
 

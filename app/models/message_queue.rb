@@ -40,7 +40,7 @@ class MessageQueue < ActiveRecord::Base
 
   def body
     unless self.message_body.blank?
-      library_group = LibraryGroup.config
+      library_group = LibraryGroup.site_config
       message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
       message = message.gsub("{reserved_manifestations}", self.message_body)
       message = message.gsub("{library_system_name}", library_group.name)

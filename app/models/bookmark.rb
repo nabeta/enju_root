@@ -1,5 +1,6 @@
 class Bookmark < ActiveRecord::Base
   include LibrarianOwnerRequired
+
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
@@ -11,8 +12,7 @@ class Bookmark < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_blank => true
   
   cattr_accessor :per_page
-  attr_accessor :url
-  attr_accessor :title
+  attr_accessor :url, :title
   @@per_page = 10
 
   acts_as_taggable_on :tags
@@ -37,7 +37,7 @@ class Bookmark < ActiveRecord::Base
   end
 
   def shelved?
-    true if self.bookmarked_resource.manifestation.items.find(:first, :select => :id, :include => :shelf, :conditions => ['shelves.id = 1']) rescue nil
+    true unless self.bookmarked_resource.manifestation.items.on_web.empty?
   end
 
   def self.get_title(string)
@@ -70,7 +70,7 @@ class Bookmark < ActiveRecord::Base
 
   def create_bookmark_item
     self.reload
-    shelf = Shelf.find(1) # ブックマーク用の書棚のIDは常に1
+    shelf = Shelf.web
     circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'Not Available'})
     item = Item.new
     item.circulation_status = circulation_status
@@ -80,7 +80,7 @@ class Bookmark < ActiveRecord::Base
 
   def self.manifestations_count(start_date, end_date, manifestation)
     if manifestation.bookmarked_resource
-      self.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => manifestation.bookmarked_resource.id}).count
+      self.bookmarked(start_date, end_date).count(:all, :conditions => {:bookmarked_resource_id => manifestation.bookmarked_resource.id})
     else
       0
     end

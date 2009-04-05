@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
   named_scope :suspended, :conditions => {:suspended => true}
   acts_as_solr :fields => [:login, :email, :patron_name, :note, {:required_role_id => :range_integer}],
-    :auto_commit => false
+    :auto_commit => false, :offline => proc{|user| !user.indexing}
 
   belongs_to :patron #, :validate => true
   #belongs_to :patron, :polymorphic => true
@@ -39,7 +39,6 @@ class User < ActiveRecord::Base
   has_many :bookmarked_resources, :through => :bookmarks
   has_many :search_histories, :dependent => :destroy
   has_many :baskets, :dependent => :destroy
-  has_many :taggings
   belongs_to :user_group #, :validate => true
   has_many :purchase_requests
   belongs_to :library, :counter_cache => true, :validate => true
@@ -68,6 +67,7 @@ class User < ActiveRecord::Base
   attr_reader :auto_generated_password
   attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
   attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note
+  attr_accessor :indexing
 
   validates_presence_of     :login, :user_number, :full_name
   validates_length_of       :login,    :within => 2..40
@@ -127,6 +127,10 @@ class User < ActiveRecord::Base
     lock = true if self.user_number.blank?
 
     self.suspended = true if lock
+  end
+
+  def before_destroy
+    self.indexing = true
   end
   
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.

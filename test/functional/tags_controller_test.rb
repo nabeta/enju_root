@@ -71,28 +71,22 @@ class TagsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def test_guest_should_not_update_tag
-    put :update, :id => 'next-l', :tag => { }
-    assert_redirected_to new_user_session_url
-  end
+  #def test_guest_should_not_update_tag
+  #  put :update, :id => 'next-l', :tag => { }
+  #  assert_redirected_to new_user_session_url
+  #end
   
-  def test_user_should_not_update_tag
-    UserSession.create users(:user1)
-    put :update, :id => 'next-l', :tag => { }
-    assert_response :forbidden
-  end
+  #def test_user_should_not_update_tag
+  #  UserSession.create users(:user1)
+  #  put :update, :id => 'next-l', :tag => { }
+  #  assert_response :forbidden
+  #end
   
-  def test_librarian_should_not_update_tag_without_name
-    UserSession.create users(:librarian1)
-    put :update, :id => 'next-l', :tag => {:name => nil}
-    assert_response :success
-  end
-  
-  def test_librarian_should_update_tag
-    UserSession.create users(:librarian1)
-    put :update, :id => 'next-l', :tag => { }
-    assert_redirected_to tag_url(assigns(:tag).name)
-  end
+  #def test_librarian_should_update_tag
+  #  UserSession.create users(:librarian1)
+  #  put :update, :id => 'next-l', :tag => {:synonym => 'hoge'}
+  #  assert_redirected_to tag_url(assigns(:tag).name)
+  #end
   
   def test_guest_should_not_destroy_tag
     old_count = Tag.count

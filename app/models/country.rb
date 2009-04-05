@@ -1,10 +1,12 @@
 class Country < ActiveRecord::Base
   include DisplayName
   include OnlyAdministratorCanModify
+
+  default_scope :order => "position"
   has_many :patrons
-  has_many :people
-  has_many :corporate_bodies
-  has_many :families
+  #has_many :people
+  #has_many :corporate_bodies
+  #has_many :families
   
   # If you wish to change the field names for brevity, feel free to enable/modify these.
   # alias_attribute :iso, :alpha_2

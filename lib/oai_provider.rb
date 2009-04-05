@@ -14,8 +14,8 @@ class OAI::Provider::ActiveRecordWrapper
 end
 
 class OaiProvider < OAI::Provider::Base
-  name = LibraryGroup.config.name
-  email = LibraryGroup.config.email
+  name = LibraryGroup.site_config.name
+  email = LibraryGroup.site_config.email
 
   repository_name name
   repository_url "http://" + LibraryGroup.url + "/oai"

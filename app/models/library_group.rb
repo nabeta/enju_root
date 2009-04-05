@@ -1,16 +1,27 @@
 class LibraryGroup < ActiveRecord::Base
-  include Singleton
+  #include Singleton
   include DisplayName
   include OnlyAdministratorCanModify
-  include Configurator
-  has_many :libraries, :order => 'position'
+  #include Configurator
+
+  has_many :libraries
   has_many :search_engines
   has_many :news_feeds
 
   validates_presence_of :name, :short_name, :email
 
-  def self.config
-    LibraryGroup.find(1)
+  acts_as_cached
+
+  def before_save
+    self.expire_cache
+  end
+
+  def before_destroy
+    self.expire_cache
+  end
+
+  def self.site_config
+    LibraryGroup.get_cache(1)
   end
 
   def self.url
@@ -18,12 +29,12 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def config?
-    true if self == LibraryGroup.config
+    true if self == LibraryGroup.site_config
   end
 
   def physical_libraries
     # 物理的な図書館 = IDが1以外
-    self.libraries.find(:all, :conditions => ['id != 1'], :order => :position)
+    self.libraries.find(:all, :conditions => ['id != 1'])
   end
 
   def my_networks?(ip_address)

@@ -1,5 +1,6 @@
 class Work < ActiveRecord::Base
   include OnlyLibrarianCanModify
+  #include CacheMoney
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
@@ -69,7 +70,7 @@ class Work < ActiveRecord::Base
   end
 
   def serials
-    self.expressions.find(:all, :conditions => ['frequency_of_issue_id > 1'])
+    self.expressions.serials
   end
 
   def expressions_except_serials

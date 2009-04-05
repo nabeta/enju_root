@@ -21,7 +21,7 @@
     <%- end -%>
     <%= t('activerecord.models.manifestation') -%> :
     <%=h title_action_name -%> - 
-    <%=h LibraryGroup.config.display_name -%>
+    <%=h LibraryGroup.site_config.display_name -%>
   </title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

@@ -1,6 +1,6 @@
 <%- manifestation = @manifestation if @manifestation -%>
   <%- if params[:mode] == 'show_all_authors' -%>
-    <%- cache(:id => manifestation.id, :action => :show, :action_suffix => 'show_all_authors') do -%>
+    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_all_authors') do -%>
       <%- manifestation.authors.each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
@@ -9,7 +9,7 @@
       <%- end -%>
     <%- end -%>
   <%- else -%>
-    <%- cache(:id => manifestation.id, :action => :show, :action_suffix => 'show_limited_authors') do -%>
+    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_limited_authors') do -%>
       <%- manifestation.authors[0..2].each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
@@ -19,12 +19,12 @@
     <%- end -%>
   <%- end -%>
 
-<%- cache(:id => manifestation.id, :action => :show, :action_suffix => 'show_editors_and_publishers') do -%>
+<%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_editors_and_publishers') do -%>
   <%- manifestation.editors.each do |patron| -%>
     <%= link_to h(patron.full_name), patron -%>
   <%- end -%>
 
-  <%- manifestation.patrons.each do |patron| -%>
-    <%= link_to h(patron.full_name), patron -%>
+  <%- manifestation.publishers.each do |publisher| -%>
+    <%= link_to h(publisher.full_name), publisher -%>
   <%- end -%>
 <%- end -%>

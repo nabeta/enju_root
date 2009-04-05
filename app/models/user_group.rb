@@ -1,6 +1,8 @@
 class UserGroup < ActiveRecord::Base
   include DisplayName
   include OnlyAdministratorCanModify
+
+  default_scope :order => "position"
   has_many :users
   #has_many :available_manifestation_forms
   #has_many :manifestation_forms, :through => :available_manifestation_forms, :order => :position

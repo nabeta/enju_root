@@ -2,6 +2,7 @@ class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   named_scope :exclude_web, :conditions => ['shelf_id != 1']
+  named_scope :on_web, :conditions => ['shelf_id = 1']
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form
   #has_many :checkins
@@ -44,7 +45,7 @@ class Item < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_blank => true
   validates_format_of :item_identifier, :with=>/\A[0-9]+\Z/, :allow_blank => true
 
-  acts_as_taggable_on :tags
+  #acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
 

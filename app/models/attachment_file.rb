@@ -56,8 +56,6 @@ class AttachmentFile < ActiveRecord::Base
     self.indexed_at = Time.zone.now
     self.save
     text.close
-  #rescue
-  #  nil
   end
 
   def self.extract_text

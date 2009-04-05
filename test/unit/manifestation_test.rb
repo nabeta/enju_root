@@ -49,4 +49,8 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_nicovideo_id
     assert_equal manifestations(:manifestation_00023).nicovideo_id, 'sm3015373'
   end
+
+  def test_pickup
+    assert Manifestation.pickup
+  end
 end

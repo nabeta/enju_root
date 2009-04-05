@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :bookmark_has_tags
+
+  map.resources :user_has_tags
+
   map.resource :user_session
 
   #map.resources :people do |person|

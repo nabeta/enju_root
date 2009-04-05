@@ -178,8 +178,8 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @languages = Language.find(:all, :order => :position)
-    @frequency_of_issues = FrequencyOfIssue.find(:all, :order => :position)
-    @expression_forms = ExpressionForm.find(:all, :order => :position)
+    @languages = Language.find(:all)
+    @frequency_of_issues = FrequencyOfIssue.find(:all)
+    @expression_forms = ExpressionForm.find(:all)
   end
 end

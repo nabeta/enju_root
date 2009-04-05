@@ -37,6 +37,7 @@ namespace :enju do
       user.library = Library.web
       user.user_number = '0'
       user.roles << Role.find_by_name('Administrator')
+      user.indexing = true
 
       begin
         user.activate

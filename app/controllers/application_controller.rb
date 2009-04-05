@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
   #before_filter :has_permission?
 
   def get_library_group
-    @library_group = LibraryGroup.config
+    @library_group = LibraryGroup.site_config
   end
 
   def reset_params_session
@@ -151,11 +151,11 @@ class ApplicationController < ActionController::Base
   end
 
   def get_libraries
-    @libraries = Library.find(:all, :order => 'position') rescue []
+    @libraries = Library.find(:all) rescue []
   end
 
   def get_library_group
-    @library_group = LibraryGroup.config
+    @library_group = LibraryGroup.site_config
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -259,12 +259,12 @@ class ApplicationController < ActionController::Base
   end
 
   def check_client_ip_address
-    return true if LibraryGroup.config.my_networks?(request.remote_ip)
+    return true if LibraryGroup.site_config.my_networks?(request.remote_ip)
     access_denied
   end
 
   def check_dsbl
-    @library_group = LibraryGroup.config
+    @library_group = LibraryGroup.site_config
     return true if @library_group.my_networks?(request.remote_ip)
     begin
       dsbl_hosts = @library_group.dsbl_list.split.compact

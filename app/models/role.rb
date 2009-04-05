@@ -5,12 +5,12 @@
 class Role < ActiveRecord::Base
   include DisplayName
   include AdministratorRequired
-  default_scope :order => 'position'
+  default_scope :order => 'id DESC'
   has_and_belongs_to_many :users
   has_many :patrons, :foreign_key => 'required_role_id'
-  has_many :people, :foreign_key => 'required_role_id'
-  has_many :corporate_bodies, :foreign_key => 'required_role_id'
-  has_many :families, :foreign_key => 'required_role_id'
+  #has_many :people, :foreign_key => 'required_role_id'
+  #has_many :corporate_bodies, :foreign_key => 'required_role_id'
+  #has_many :families, :foreign_key => 'required_role_id'
   has_many :works, :foreign_key => 'required_role_id'
   has_many :expressions, :foreign_key => 'required_role_id'
   has_many :manifestations, :foreign_key => 'required_role_id'
@@ -20,4 +20,5 @@ class Role < ActiveRecord::Base
   validates_presence_of :name
 
   acts_as_list
+
 end

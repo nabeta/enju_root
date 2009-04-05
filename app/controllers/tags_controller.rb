@@ -15,11 +15,11 @@ class TagsController < ApplicationController
     else
       order = 'created_at desc'
     end
-    if @user
-      @tags = @user.tags.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
-    else
-      @tags = Tag.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
-    end
+    #if @user
+    #  @tags = @user.tags.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
+    #else
+      @tags = Tag.paginate_by_sql("SELECT * FROM tags WHERE taggings_count > 0 ORDER BY #{order}", :page => params[:page])
+    #end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @tags }
@@ -27,7 +27,7 @@ class TagsController < ApplicationController
   end
 
   def show
-    @tag = Tag.find(:first, :conditions => {:name => params[:id]})
+    @tag = Tag.find(params[:id])
     raise ActiveRecord::RecordNotFound if @tag.blank?
 
     respond_to do |format|
@@ -39,21 +39,20 @@ class TagsController < ApplicationController
   end
 
   def edit
-    @tag = Tag.find(:first, :conditions => {:name => params[:id]})
+    @tag = Tag.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def update
-    @tag = Tag.find(:first, :conditions => {:name => params[:id]})
-
+    @tag = Tag.find(params[:id])
+  
     respond_to do |format|
       if @tag.update_attributes(params[:tag])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.tag'))
         format.html { redirect_to tag_url(@tag.name) }
         format.xml  { head :ok }
       else
-        @tag = Tag.find(:first, :conditions => {:name => params[:id]})
         format.html { render :action => "edit" }
         format.xml  { render :xml => @tag.errors.to_xml }
       end
@@ -65,7 +64,7 @@ class TagsController < ApplicationController
   # DELETE /tags/1
   # DELETE /tags/1.xml
   def destroy
-    @tag = Tag.find(:first, :conditions => {:name => params[:id]})
+    @tag = Tag.find(params[:id])
     @tag.destroy
 
     respond_to do |format|

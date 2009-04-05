@@ -4,7 +4,7 @@ class LanguagesController < ApplicationController
   # GET /languages
   # GET /languages.xml
   def index
-    @languages = Language.find(:all, :order => 'position')
+    @languages = Language.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb

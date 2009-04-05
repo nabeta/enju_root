@@ -220,13 +220,13 @@ class ItemsController < ApplicationController
     @libraries = Library.physicals
     @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
     @shelves = Shelf.find(:all, :order => :position)
-    @circulation_statuses = CirculationStatus.find(:all, :order => :position)
+    @circulation_statuses = CirculationStatus.find(:all)
     @bookstores = Bookstore.find(:all, :order => :position)
-    @use_restrictions = UseRestriction.find(:all, :order => :position)
+    @use_restrictions = UseRestriction.find(:all)
     if @manifestation
       @checkout_types = CheckoutType.available_for_manifestation_form(@manifestation.manifestation_form)
     else
-      @checkout_types = CheckoutType.find(:all, :order => :position)
+      @checkout_types = CheckoutType.find(:all)
     end
   end
 

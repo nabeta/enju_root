@@ -8,7 +8,6 @@ class BookmarkTest < ActiveSupport::TestCase
     :shelves, :circulation_statuses, :libraries, :library_groups,
     :users, :user_groups
 
-  # Replace this with your real tests.
   def test_bookmark_sheved
     assert bookmarks(:bookmark_00001).shelved?
   end

@@ -5,6 +5,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_expression
   before_filter :get_subject
   before_filter :prepare_options, :only => [:new, :edit]
+  before_filter :get_libraries, :only => :index
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -19,11 +20,10 @@ class ManifestationsController < ApplicationController
 	    end
 
       prepare_options
-      @libraries = Library.find(:all, :order => 'position')
       @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
 
       #@manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
-      @search_engines = SearchEngine.find(:all, :order => :position)
+      @search_engines = SearchEngine.find(:all)
 
       query = make_query(params[:query], {
         :mode => params[:mode],
@@ -476,13 +476,13 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    @manifestation_forms = ManifestationForm.find(:all, :order => 'position')
-    @languages = Language.find(:all, :order => 'position')
-    @roles = Role.find(:all, :order => 'id desc')
+    @manifestation_forms = ManifestationForm.find(:all)
+    @languages = Language.find(:all)
+    @roles = Role.find(:all)
   end
 
   def save_search_history(query, offset = 0, total = 0)
-    check_dsbl if LibraryGroup.config.use_dsbl
+    check_dsbl if LibraryGroup.site_config.use_dsbl
     if logged_in?
       SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end

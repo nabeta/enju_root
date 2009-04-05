@@ -6,8 +6,8 @@ advertisement_00001:
   url: MyString
   body: MyText
   note: MyText
-  started_at: <%= Time.zone.now %>
-  ended_at: <%= Time.zone.parse(Date.tomorrow.to_s) %>
+  started_at: <%= 1.day.ago %>
+  ended_at: <%= 1.day.from_now %>
   position: 1
 advertisement_00002:
   id: 2
@@ -15,8 +15,8 @@ advertisement_00002:
   url: MyString
   body: MyText
   note: MyText
-  started_at: <%= Time.zone.now %>
-  ended_at: <%= Time.zone.parse(Date.tomorrow.to_s) %>
+  started_at: <%= 1.day.ago %>
+  ended_at: <%= 1.day.from_now %>
   position: 2
 advertisement_00003:
   id: 3
@@ -24,6 +24,6 @@ advertisement_00003:
   url: MyString
   note: MyText
   body: MyText
-  started_at: <%= Time.zone.now %>
-  ended_at: <%= Time.zone.parse(Date.tomorrow.to_s) %>
+  started_at: <%= 1.day.ago %>
+  ended_at: <%= 1.day.from_now %>
   position: 3

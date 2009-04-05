@@ -67,7 +67,7 @@ class SubjectsController < ApplicationController
   # GET /subjects/new
   def new
     @subject = Subject.new
-    @subject_types = SubjectType.find(:all, :order => :position)
+    @subject_types = SubjectType.find(:all)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -82,7 +82,7 @@ class SubjectsController < ApplicationController
     else
       @subject = Subject.find(params[:id])
     end
-    @subject_types = SubjectType.find(:all, :order => :position)
+    @subject_types = SubjectType.find(:all)
   end
 
   # POST /subjects
@@ -100,7 +100,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to subject_url(@subject) }
         format.xml  { render :xml => @subject, :status => :created, :location => @subject }
       else
-        @subject_types = SubjectType.find(:all, :order => :position)
+        @subject_types = SubjectType.find(:all)
         format.html { render :action => "new" }
         format.xml  { render :xml => @subject.errors.to_xml }
       end
@@ -122,7 +122,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to subject_url(@subject) }
         format.xml  { head :ok }
       else
-        @subject_types = SubjectType.find(:all, :order => :position)
+        @subject_types = SubjectType.find(:all)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @subject.errors.to_xml }
       end

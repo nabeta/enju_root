@@ -85,7 +85,7 @@ class Reserve < ActiveRecord::Base
   def manifestation_must_include_item
     unless item_id.blank?
       item = Item.find(item_id) rescue nil
-      errors.add_to_base(('Invalid item id.')) unless manifestation.items.include?(item)
+      errors.add_to_base(t('reserve.invalid_item')) unless manifestation.items.include?(item)
     end
   end
 

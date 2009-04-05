@@ -34,7 +34,7 @@ class Expression < ActiveRecord::Base
     {:expression_merge_list_ids => :integer}],
     :facets => [:expression_form_id, :language_id], :if => proc{|expression| !expression.restrain_indexing}, :auto_commit => false
   #acts_as_soft_deletable
-  acts_as_taggable_on :tags
+  #acts_as_taggable_on :tags
 
   cattr_accessor :per_page
   @@per_page = 10

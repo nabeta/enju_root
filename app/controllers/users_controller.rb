@@ -34,7 +34,7 @@ class UsersController < ApplicationController
     @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
-    @news_feeds = LibraryGroup.find(:first).news_feeds.find(:all, :order => :position) rescue nil
+    @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
 
     respond_to do |format|
       format.html # show.rhtml
@@ -46,7 +46,7 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
-    @user_groups = UserGroup.find(:all, :order => :position)
+    @user_groups = UserGroup.find(:all)
     begin
       @patron = Patron.find(params[:patron_id])
       if @patron.user
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
       nil
     end
     @user.patron = @patron
-    @user.expired_at = LibraryGroup.config.valid_period_for_new_user.days.from_now
+    @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
   #rescue
     #flash[:notice] = t('user.specify_patron')
     #redirect_to patrons_url
@@ -78,11 +78,8 @@ class UsersController < ApplicationController
       render :partial => 'users/feed_token'
       return
     end
+    prepare_options
 
-    @user_groups = UserGroup.find(:all, :order => :position)
-    @roles = Role.find(:all, :order => 'id desc')
-    @libraries = Library.find(:all, :order => 'id')
-    @user_role_id = @user.roles.first.id rescue nil
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -90,6 +87,7 @@ class UsersController < ApplicationController
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
     @user = User.find(params[:id])
+    @user.indexing = true
     raise ActiveRecord::RecordNotFound if @user.blank?
     @user.full_name = @user.patron.full_name
     User.transaction do
@@ -160,9 +158,7 @@ class UsersController < ApplicationController
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
       else
-        @roles = Role.find(:all, :order => 'id desc')
-        @libraries = Library.find(:all, :order => 'id')
-        @user_groups = UserGroup.find(:all, :order => :position)
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
@@ -225,6 +221,7 @@ class UsersController < ApplicationController
                              :address_1_note => @user.address_note)
     end
     @user.patron = patron
+    @user.indexing = true
     #success = @user && @user.save
 
     respond_to do |format|
@@ -239,7 +236,7 @@ class UsersController < ApplicationController
         format.html { redirect_to user_url(@user.login) }
         format.xml  { head :ok }
       else
-        @user_groups = UserGroup.find(:all, :order => :position)
+        prepare_options
         #flash[:notice] = ('The record is invalid.')
         flash[:error] = ("We couldn't set up that account, sorry.  Please try again, or contact an admin.")
         format.html { render :action => "new" }
@@ -310,4 +307,10 @@ class UsersController < ApplicationController
     end
   end
 
+  def prepare_options
+    @user_groups = UserGroup.find(:all)
+    @roles = Role.find(:all)
+    @libraries = Library.find(:all)
+    @user_role_id = @user.roles.first.id rescue nil
+  end
 end

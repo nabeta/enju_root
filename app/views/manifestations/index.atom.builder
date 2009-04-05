@@ -5,7 +5,7 @@ atom_feed(:url => manifestations_url(:format => :atom)) do |feed|
   for manifestation in @manifestations
     feed.entry(manifestation) do |entry|
       entry.title(manifestation.original_title)
-      entry.content(manifestation.tag_list, :type => 'html')
+      entry.content(manifestation.tags.join(' '), :type => 'html')
 
       manifestation.authors.each do |patron|
         entry.author do |author|

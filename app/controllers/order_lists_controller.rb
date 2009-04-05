@@ -35,7 +35,7 @@ class OrderListsController < ApplicationController
   # GET /order_lists/new.xml
   def new
     @order_list = OrderList.new
-    @bookstores = Bookstore.find(:all, :order => 'position')
+    @bookstores = Bookstore.find(:all)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +46,7 @@ class OrderListsController < ApplicationController
   # GET /order_lists/1/edit
   def edit
     @order_list = OrderList.find(params[:id])
-    @bookstores = Bookstore.find(:all, :order => 'position')
+    @bookstores = Bookstore.find(:all)
   end
 
   # POST /order_lists
@@ -61,7 +61,7 @@ class OrderListsController < ApplicationController
         format.html { redirect_to(@order_list) }
         format.xml  { render :xml => @order_list, :status => :created, :location => @order_list }
       else
-        @bookstores = Bookstore.find(:all, :order => 'position')
+        @bookstores = Bookstore.find(:all)
         format.html { render :action => "new" }
         format.xml  { render :xml => @order_list.errors, :status => :unprocessable_entity }
       end
@@ -80,7 +80,7 @@ class OrderListsController < ApplicationController
         format.html { redirect_to(@order_list) }
         format.xml  { head :ok }
       else
-        @bookstores = Bookstore.find(:all, :order => 'position')
+        @bookstores = Bookstore.find(:all)
         format.html { render :action => "edit" }
         format.xml  { render :xml => @order_list.errors, :status => :unprocessable_entity }
       end

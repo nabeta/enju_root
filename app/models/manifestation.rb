@@ -67,6 +67,7 @@ class Manifestation < ActiveRecord::Base
   enju_manifestation_viewer
   enju_amazon
   enju_porta
+  acts_as_cached
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -97,6 +98,14 @@ class Manifestation < ActiveRecord::Base
     end
   rescue
     nil
+  end
+
+  def before_save
+    self.expire_cache
+  end
+
+  def before_destroy
+    self.expire_cache
   end
 
   def full_title
@@ -139,7 +148,7 @@ class Manifestation < ActiveRecord::Base
   end
   
   def embodies?(expression)
-    expression.manifestations.detect{|manifestation| manifestation == self} rescue nil
+    expression.manifestations.detect{|manifestation| manifestation == self}
   end
 
   def serial
@@ -284,7 +293,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def formtype
-    self.manifestation_form.name rescue nil
+    self.manifestation_form.name
   end
   
   def formtype_f
@@ -356,7 +365,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def number_of_contents
-    self.expressions.size - self.expressions.find(:all, :conditions => ['frequency_of_issue_id > 1']).size
+    self.cahes(:expressions).size - self.expressions.find(:all, :conditions => ['frequency_of_issue_id > 1']).size
   end
 
   def number_of_pages
@@ -476,11 +485,11 @@ class Manifestation < ActiveRecord::Base
     resource = nil
     if keyword
       resources = self.find_id_by_solr(keyword, :limit => self.numdocs)
-      resource = self.find(resources.results[rand(resources.total_hits)]) rescue nil
+      resource = self.get_cache(resources.results[rand(resources.total_hits)]) rescue nil
     end
     if resource.blank?
       while resource.nil?
-        resource = self.find(rand(self.numdocs)) rescue nil
+        resource = self.get_cache(rand(self.numdocs)) rescue nil
       end
     end
     return resource
@@ -495,9 +504,9 @@ class Manifestation < ActiveRecord::Base
   def self.import_patrons(patron_lists)
     patrons = []
     patron_lists.each do |patron_list|
-      unless patron = Patron.find(:first, :conditions => {:full_name => patron_list}) rescue nil
+      unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.restrain_indexing
+        patron.indexing = true
         patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
