@@ -160,23 +160,6 @@ class Manifestation < ActiveRecord::Base
     false
   end
 
-  def item_checkouts_count
-    count = 0
-    self.items.each do |item|
-      count += item.checkouts.size
-    end
-    return count
-  end
-
-  def self.item_checkouts_count
-    count = 0
-    #self.find(:all, :include => :items, :conditions => ['items.checkouts_count > 0']).each do |manifestation|
-    self.find(:all).each do |manifestation|
-      count += manifestation.item_checkouts_count
-    end
-    return count
-  end
-
   def next_reservation
     self.reserves.find(:first, :order => ['reserves.created_at'])
   end
@@ -214,14 +197,6 @@ class Manifestation < ActiveRecord::Base
 
   def shelves
     self.items.collect{|item| item.shelves}.flatten.uniq
-  end
-
-  def items_on_shelves
-    items = []
-    self.items.each do |item|
-      items << item unless item.shelf.web_shelf?
-    end
-    items
   end
 
   def tag
@@ -341,19 +316,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def forms
-    forms = []
-    self.expressions.each do |expression|
-      forms << expression.expression_form
-    end
-    forms.uniq!
+    self.expressions.collect(&:expression_form).uniq
   end
 
   def languages
-    languages = []
-    self.expressions.each do |expression|
-      languages << expression.language
-    end
-    languages.uniq
+    self.expressions.collect(&:language).uniq
   end
 
   def lang
@@ -365,7 +332,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def number_of_contents
-    self.cahes(:expressions).size - self.expressions.find(:all, :conditions => ['frequency_of_issue_id > 1']).size
+    self.expressions.size - self.expressions.serials.size
   end
 
   def number_of_pages
@@ -412,11 +379,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def user
-    user_login_names = []
-    self.bookmarks.each do |bookmark|
-      user_login_names << bookmark.user.login #if bookmark.user.share_bookmarks
-    end
-    return user_login_names
+    self.bookmarks.collect(&:user).collect(&:login)
   end
 
   def oai_identifier
@@ -433,6 +396,7 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
+  # TODO: ビューに移動する
   def to_oai_dc
     xml = Builder::XmlMarkup.new
     xml.tag!("oai_dc:dc",

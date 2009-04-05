@@ -934,6 +934,7 @@ ja:
     merge: "併合する（取り消しはできません）"
     merge_resource: "{{model}}を併合する"
     attachable: 添付先
+    under_construction: 開発中
   title:
     index: "一覧"
     show: "表示"

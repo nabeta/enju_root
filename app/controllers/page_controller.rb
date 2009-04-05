@@ -83,7 +83,18 @@ class PageController < ApplicationController
   end
 
   def under_construction
-    @title = ('Under construction')
+    @title = t('page.under_construction')
+  end
+
+  def screen_shot
+    thumb = Page.get_screen_shot(params[:url])
+    if thumb
+      file = Tempfile.new('thumb')
+      file.puts thumb
+      file.close
+      mime = MIME.check(file.path)
+      send_data thumb, :filename => File.basename(file.path), :type => mime.type, :disposition => 'inline'
+    end
   end
 
   private

@@ -16,7 +16,7 @@ class TagsController < ApplicationController
       order = 'created_at desc'
     end
     #if @user
-    #  @tags = @user.tags.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
+    #  @tags = @user.owned_tags.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
     #else
       @tags = Tag.paginate_by_sql("SELECT * FROM tags WHERE taggings_count > 0 ORDER BY #{order}", :page => params[:page])
     #end

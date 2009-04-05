@@ -136,7 +136,7 @@ class UsersController < ApplicationController
       end
 
       @user.email = params[:user][:email] if params[:user][:email]
-      @user.openid_url = params[:user][:openid_url] if params[:user][:openid_url]
+      @user.openid_identifier = params[:user][:openid_identifier] if params[:user][:openid_identifier]
       @user.share_bookmarks = params[:user][:share_bookmarks] if params[:user][:share_bookmarks]
       @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
       if current_user.has_role?('Librarian')

@@ -213,7 +213,7 @@
     </tr>
     </table>
 
-    <%- unless @manifestation.items_on_shelves.blank? -%>
+    <%- unless @manifestation.items.on_shelf.empty? -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
       <%- if @manifestation.bookmarks -%>

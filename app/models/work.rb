@@ -73,10 +73,6 @@ class Work < ActiveRecord::Base
     self.expressions.serials
   end
 
-  def expressions_except_serials
-    self.expressions - self.serials
-  end
-
   def patron_ids
     self.patrons.collect(&:id)
   end

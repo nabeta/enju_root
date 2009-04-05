@@ -1,7 +1,7 @@
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
-  named_scope :exclude_web, :conditions => ['shelf_id != 1']
+  named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
   has_one :exemplify, :dependent => :destroy
   has_one :manifestation, :through => :exemplify, :include => :manifestation_form

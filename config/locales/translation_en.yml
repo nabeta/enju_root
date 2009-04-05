@@ -951,6 +951,7 @@ en:
     merge: "Merge!"
     merge_resource: "Merge {{model}}"
     attachable: "Attachable"
+    under_construction: "Under construction"
   title:
     index: "index"
     show: "show"
