@@ -11,7 +11,7 @@
 
 <%= error_messages_for :question -%>
 
-<%- form_for(:question, :url => user_question_path(@question.user.login, @question), :html => { :method => :put }) do |f| -%>
+<%- form_for(@question, :url => user_question_path(@question.user.login, @question), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.user') -%></b><br />
   <%= link_to h(@question.user.login), user_path(@question.user.login) -%>

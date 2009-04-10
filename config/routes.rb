@@ -1,7 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :bookmark_has_tags
-
-  map.resources :user_has_tags
+  map.resources :password_resets
 
   map.resource :user_session
 
@@ -248,6 +246,7 @@ ActionController::Routing::Routes.draw do |map|
     user.resources :imported_resource_files
     user.resources :order_lists
     user.resources :subscriptions
+    user.resources :patrons
   end
   map.resources :sessions
   map.resources :works do |work|

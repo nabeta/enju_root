@@ -14,11 +14,11 @@ class Classification < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  #def subject
-  #  self.subjects.collect(&:term) + self.subjects.collect(&:term_transcription)
-  #end
+  def subject
+    self.subjects.collect(&:term) + self.subjects.collect(&:term_transcription)
+  end
 
-  #def subject_ids
-  #  self.subjects.collect(&:id)
-  #end
+  def subject_ids
+    self.subjects.collect(&:id)
+  end
 end

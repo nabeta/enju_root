@@ -14,3 +14,4 @@
   <%= hidden_field_tag 'login_form', 'openid' -%>
 <% end %>
 <%= javascript_tag("$('user_session_openid_identifier').focus()") -%>
+<p><%= link_to t('user.sign_up'), new_user_path -%></p>

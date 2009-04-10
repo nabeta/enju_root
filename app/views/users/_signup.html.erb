@@ -1,0 +1,28 @@
+<div id="submenu">
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
+
+<div id="content_list">
+<%= error_messages_for :user -%>
+<%- form_for(@user) do |f| -%>
+
+<p>
+  <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
+  <%= f.text_field :login, :value => "" -%>
+</p>
+<p>
+  <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
+  <%= f.text_field :email, :value => "" -%>
+</p>
+<p>
+  <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label><br />
+  <%= f.text_field :openid_identifier, :class => 'resource_url' -%>
+</p>
+
+<p><%= f.submit t('user.sign_up') -%></p>
+<%- end -%>
+<%= javascript_tag("$('user_last_name').focus()") -%>
+</div>
+</div>

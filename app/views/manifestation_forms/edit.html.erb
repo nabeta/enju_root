@@ -11,7 +11,7 @@
 
 <%= error_messages_for :manifestation_form -%>
 
-<%- form_for(:manifestation_form, :url => manifestation_form_path(@manifestation_form), :html => { :method => :put }) do |f| -%>
+<%- form_for(@manifestation_form) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.manifestation_form.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>

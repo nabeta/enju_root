@@ -11,7 +11,7 @@
 
 <%= error_messages_for :tag -%>
 
-<%- form_for(:tag, :url => tag_path(@tag.name), :html => { :method => :put }) do |f| -%>
+<%- form_for(@tag, :url => tag_path(@tag.name)) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.tag.name') -%></b><br />
     <%= f.text_field :name, :value => @tag.name -%>

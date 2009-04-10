@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   #before_filter :reset_params_session
   before_filter :has_permission?
   before_filter :suspended?
-  before_filter :store_location, :except => [:create, :update, :destroy]
+  before_filter :get_patron, :only => :new
+  before_filter :store_location, :only => [:index, :show]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
 
   def index
@@ -45,10 +46,15 @@ class UsersController < ApplicationController
   end
 
   def new
+    if logged_in?
+      unless current_user.has_role?('Librarian')
+        access_denied; return
+      end
+    end
     @user = User.new
+    @user.openid_identifier = flash[:openid_identifier]
     @user_groups = UserGroup.find(:all)
     begin
-      @patron = Patron.find(params[:patron_id])
       if @patron.user
         redirect_to patron_url(@patron)
         flash[:notice] = t('page.already_activated')
@@ -57,16 +63,17 @@ class UsersController < ApplicationController
     rescue
       nil
     end
-    @user.patron = @patron
+    @user.patron_id = @patron.id if @patron
     @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
-  #rescue
-    #flash[:notice] = t('user.specify_patron')
-    #redirect_to patrons_url
   end
 
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user = User.find(params[:id])
+    if current_user.has_role?('Librarian')
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
     raise ActiveRecord::RecordNotFound if @user.blank?
 
     if params[:mode] == 'feed_token'
@@ -86,74 +93,71 @@ class UsersController < ApplicationController
 
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user = User.find(params[:id])
-    @user.indexing = true
-    raise ActiveRecord::RecordNotFound if @user.blank?
-    @user.full_name = @user.patron.full_name
-    User.transaction do
-      if params[:user][:reset_url] == 'checkout_icalendar'
-        @user.reset_checkout_icalendar_token
-      elsif params[:user][:delete_url] == 'checkout_icalendar'
-        @user.delete_checkout_icalendar_token
-      end
+    if current_user.has_role?('Librarian')
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
+    @user.operator = current_user
+    if @user != current_user
+       if !current_user.has_role?('Librarian')
+         access_denied; return
+       end
+    end
 
-      if current_user.has_role?('Administrator')
-        if params[:user][:role_id]
-          @user.roles.delete_all
-          role = Role.find(params[:user][:role_id])
-          @user.roles << role
+    @user.indexing = true
+    if params[:user]
+      #@user.login = params[:user][:login]
+      @user.email = params[:user][:email]
+      @user.old_password = params[:user][:old_password]
+      @user.openid_identifier = params[:user][:openid_identifier]
+      @user.keyword_list = params[:user][:keyword_list]
+      @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
+      #@user.note = params[:user][:note]
+      if @user.old_password.present?
+        unless @user.valid_password?(@user.old_password)
+          @user.password_not_verified = true unless current_user.has_role?('Administrator')
         end
       end
-
       if params[:user][:auto_generated_password] == "1"
         @user.reset_password if current_user.has_role?('Librarian')
-      else
-        old_password = params[:user][:old_password]
-        unless old_password.blank?
-          if @user.valid_password?(old_password)
-            @user.password = params[:user][:password] if params[:user][:password]
-            @user.password_confirmation = params[:user][:password_confirmation] if params[:user][:password_confirmation]
-            unless @user.password == @user.password_confirmation
-              flash[:notice] = t('user.password_mismatch') unless @user.password == @user.password_confirmation
-              redirect_to edit_user_url(@user.login)
-              return
-            end
-          else
-            flash[:notice] = t('user.wrong_password')
-            redirect_to edit_user_url(@user.login)
-            return
-          end
-        end
       end
-      
-      expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
-      begin
-        expired_at = Time.zone.parse(expired_at_array.join("-"))
-      rescue
-        flash[:notice] = t('page.invalid_date')
-        redirect_to edit_user_url(@user.login)
-        return
-      end
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+    end
 
-      @user.email = params[:user][:email] if params[:user][:email]
-      @user.openid_identifier = params[:user][:openid_identifier] if params[:user][:openid_identifier]
-      @user.share_bookmarks = params[:user][:share_bookmarks] if params[:user][:share_bookmarks]
-      @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
-      if current_user.has_role?('Librarian')
+    if current_user.has_role?('Librarian')
+      if params[:user]
         @user.suspended = params[:user][:suspended] || false
         @user.note = params[:user][:note]
-        @user.user_group_id = params[:user][:user_id] ||= 1
+        @user.user_group_id = params[:user][:user_group_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
+        @user.role_id = params[:user][:role_id] ||= 1
         @user.required_role_id = params[:user][:required_role_id] ||= 1
-        @user.expired_at = expired_at
-        @user.keyword_list = params[:user][:keyword_list]
         @user.user_number = params[:user][:user_number]
+        expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
+        begin
+          @user.expired_at = Time.zone.parse(expired_at_array.join("-"))
+        rescue
+          flash[:notice] = t('page.invalid_date')
+          redirect_to edit_user_url(@user.login)
+          return
+        end
       end
     end
 
-    respond_to do |format|
-      @user.save do |result|
+    #@user.update_attributes(params[:user]) do |result|
+    @user.save do |result|
+      respond_to do |format|
+        #if @user.update_attributes(params[:user])
         if result
+          if current_user.has_role?('Administrator')
+            if @user.role_id
+              role = Role.find(@user.role_id)
+              @user.set_role(role)
+            end
+          end
+
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
           flash[:temporary_password] = @user.password
           format.html { redirect_to user_url(@user.login) }
@@ -165,69 +169,53 @@ class UsersController < ApplicationController
         end
       end
     end
+
+    unless performed?
+      # OpenIDでの認証後
+      flash[:notice] = t('user_session.login_failed')
+      redirect_to edit_user_url(@user.login)
+    end
+
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def create
-    #@user = current_user
-    #logout_keeping_session!
-    #cookies.delete :auth_token
-    expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
+    if logged_in?
+      unless current_user.has_role?('Librarian')
+        access_denied; return
+      end
+    end
     @user = User.new(params[:user])
-    @user.login = params[:user][:login]
+    @user.operator = current_user
+    #@user.login = params[:user][:login]
     @user.email = params[:user][:email]
-    @user.password = params[:user][:password]
-    @user.password_confirmation = params[:user][:password_confirmation]
+    #@user.password = params[:user][:password]
+    #@user.password_confirmation = params[:user][:password_confirmation]
+    #@user.openid_identifier = params[:user][:openid_identifier]
+    # TODO: OpenIDで発行したアカウントへのパスワード通知
     #if params[:user][:auto_generated_password] == "1"
-      @user.reset_password
+      #if @user.password.blank? and @user.password_confirmation.blank?
+        @user.reset_password
+      #end
     #end
     @user.note = params[:user][:note]
     @user.user_group_id = params[:user][:user_group_id] ||= 1
     @user.library_id = params[:user][:library_id] ||= 1
-    #@user.required_role_id = params[:user][:required_role_id] ||= 1
-    @user.expired_at = expired_at
+    @user.role_id = params[:user][:role_id] ||= 1
+    @user.required_role_id = params[:user][:required_role_id] ||= 1
+    @user.expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
     @user.keyword_list = params[:user][:keyword_list]
     @user.user_number = params[:user][:user_number]
-    patron = Patron.find(params[:user][:patron_id]) rescue nil
-    if patron
-      @user.full_name = patron.full_name
-      @user.full_name_transcription = patron.full_name_transcription
-    else
-      @user.first_name = params[:user][:first_name]
-      @user.middle_name = params[:user][:middle_name]
-      @user.last_name = params[:user][:last_name]
-      @user.first_name_transcription = params[:user][:first_name_transcription]
-      @user.middle_name_transcription = params[:user][:middle_name_transcription]
-      @user.last_name_transcription = params[:user][:last_name_transcription]
-      @user.zip_code = params[:user][:zip_code]
-      @user.address = params[:user][:address]
-      @user.telephone_number = params[:user][:telephone_number]
-      @user.fax_number = params[:user][:fax_number]
-      @user.address_note = params[:user][:address_note]
-      # TODO: 日本人以外の姓と名の順序
-      @user.full_name = @user.last_name.to_s + @user.first_name.to_s
-      @user.full_name_transcription = @user.last_name_transcription.to_s + @user.first_name_transcription.to_s
-      patron = Patron.create(:first_name => @user.first_name,
-                             :middle_name => @user.middle_name,
-                             :last_name => @user.last_name,
-                             :full_name => @user.full_name,
-                             :first_name_transcription => @user.first_name_transcription,
-                             :middle_name_transcription => @user.middle_name_transcription,
-                             :last_name_transcription => @user.last_name_transcription,
-                             :full_name_transcription => @user.full_name_transcription,
-                             :zip_code_1 => @user.zip_code,
-                             :address_1 => @user.address,
-                             :telephone_number_1 => @user.telephone_number,
-                             :fax_number_1 => @user.fax_number,
-                             :address_1_note => @user.address_note)
-    end
-    @user.patron = patron
     @user.indexing = true
+    if @user.patron_id
+      @user.patron = Patron.find(@user.patron_id) rescue nil
+    end
+              
     @user.activate
 
-    respond_to do |format|
-      @user.save do |result|
+    @user.save do |result|
+      respond_to do |format|
         if result
           flash[:temporary_password] = @user.password
           User.transaction do
@@ -235,7 +223,8 @@ class UsersController < ApplicationController
           end
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
-          format.html { redirect_to user_url(@user.login) }
+          #format.html { redirect_to user_url(@user.login) }
+          format.html { redirect_to new_user_patron_url(@user.login) }
           format.xml  { head :ok }
         else
           prepare_options
@@ -315,5 +304,9 @@ class UsersController < ApplicationController
     @roles = Role.find(:all)
     @libraries = Library.find(:all)
     @user_role_id = @user.roles.first.id rescue nil
+  end
+
+  def set_operator
+    @user.operator = current_user
   end
 end

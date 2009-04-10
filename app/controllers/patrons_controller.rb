@@ -1,5 +1,6 @@
 class PatronsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_user_if_nil
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
   before_filter :get_patron_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
@@ -107,7 +108,15 @@ class PatronsController < ApplicationController
 
   # GET /patrons/new
   def new
+    unless current_user.has_role?('Librarian')
+      unless current_user == @user
+        access_denied; return
+      end
+    end
     @patron = Patron.new
+    if @user
+      @patron.user = @user
+    end
     prepare_options
 
     respond_to do |format|
@@ -128,7 +137,14 @@ class PatronsController < ApplicationController
   # POST /patrons.xml
   def create
     @patron = Patron.new(params[:patron])
-    @patron.indexing = true
+    if @patron.user_id
+      @patron.user = User.find(@patron.user_id) rescue nil
+    end
+    unless current_user.has_role?('Librarian')
+      if @patron.user != current_user
+        access_denied; return
+      end
+    end
 
     respond_to do |format|
       if @patron.save
@@ -162,7 +178,6 @@ class PatronsController < ApplicationController
   # PUT /patrons/1.xml
   def update
     @patron = Patron.find(params[:id])
-    @patron.indexing = true
 
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
@@ -183,7 +198,6 @@ class PatronsController < ApplicationController
   # DELETE /patrons/1.xml
   def destroy
     @patron = Patron.find(params[:id])
-    @patron.indexing = true
 
     if @patron.user
       if @patron.user.has_role?('Librarian')

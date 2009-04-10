@@ -4,108 +4,11 @@
 
 <%= error_messages_for :user -%>
 
-<%- form_for(:user, :url => user_path(@user.login), :html => { :method => :put }) do |f| -%>
+<%- form_for(@user, :url => user_path(@user.login)) do |f| -%>
+
+  <%= render :partial => 'users/edit_credential', :locals => {:f => f} -%>
   
-  <div id="left_pane_detail">
-
-  <p>
-    <b><%= t('activerecord.attributes.user.email') -%></b><br />
-    <%= f.text_field :email, :class => 'resource_email' -%>
-  </p>
-
-  <p>
-    <b><%= t('page.password') -%></b><br />
-    <%- if current_user == @user -%>
-      <table>
-        <tr>
-          <td><%= t('user.current_password') -%>:</td>
-          <td><%= f.text_field :old_password -%></td>
-        </tr>
-        <tr>
-          <td><%= t('user.new_password') -%>:</td>
-          <td><%= f.password_field :password -%></td>
-        </tr>
-        <tr>
-          <td><%= t('user.repeat_new_password') -%>:</td>
-          <td><%= f.password_field :password_confirmation -%></td>
-        </tr>
-      </table>
-    <%- end -%>
-  </p>
-
-  <%- if current_user.has_role?('Librarian') and current_user != @user -%>
-    <p>
-      <b><%= t('user.set_auto_generated_password') -%></b>
-      <%= f.check_box :auto_generated_password -%>
-    </p>
-  <%- end -%>
-
-  <p>
-    <b><%= t('activerecord.attributes.user.expired_at') -%></b><br />
-    <%- if current_user.has_role?('Librarian') -%>
-      <%= f.date_select :expired_at, :include_blank => true -%>
-    <%- else -%>
-      <%= l(@user.expired_at) if @user.expired_at -%>
-    <%- end -%>
-  </p>
-  
-  <p>
-    <b><%= t('activerecord.attributes.user.suspended') -%></b>
-    <%= f.check_box :suspended -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.user.share_bookmarks') -%></b>
-    <%= f.check_box :share_bookmarks -%>
-  </p>
-  </div>
-
-  <div id="right_pane_detail">
-  <%- if current_user.has_role?('Librarian') -%>
-    <p>
-      <b><%= t('activerecord.models.user_group') -%></b><br />
-      <%= f.select(:user_group_id, @user_groups.collect{|u| [u.name, u.id]}) -%>
-    </p>
-  <%- end -%>
-
-  <%- if current_user.has_role?('Administrator') -%>
-    <p>
-      <b><%= t('activerecord.models.role') -%></b><br />
-      <select id="user_role_id" name="user[role_id]">
-      <%= options_from_collection_for_select(@roles, "id", "display_name", @user_role_id) -%>
-      </select>
-    </p>
-  <%- end -%>
-
-    <p>
-      <b><%= t('activerecord.attributes.user.user_number') -%></b><br />
-      <%- if current_user.has_role?('Librarian') -%>
-        <%= f.text_field :user_number, :class => 'resource_user_number' -%>
-      <%- else -%>
-        <%=h @user.user_number -%>
-      <%- end -%>
-    </p>
-
-  <%- if current_user.has_role?('Librarian') -%>
-    <p>
-      <b><%= t('page.library') -%></b><br />
-      <%= f.select(:library_id, @libraries.collect{|l| [l.name, l.id]}) -%>
-    </p>
-
-    <p>
-      <b><%= t('role.required_role') -%></b><br />
-      <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
-    </p>
-  <%- end -%>
-
-  </div>
-
 <p style="clear: both">
-  <p>
-    <b><%= t('activerecord.attributes.user.openid_identifier') -%></b><br />
-    <%= f.text_field :openid_identifier, :class => 'resource_url' -%>
-  </p>
-
   <p>
     <b><%= t('activerecord.attributes.user.keyword_list') -%></b><br />
     <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
@@ -124,8 +27,9 @@
     </div>
   </p>
 
-  <p><b><%= t('activerecord.attributes.user.note') -%></b><br />
-   <%= f.text_area :note, :class => 'resource_textarea' -%>
+  <p>
+    <b><%= t('activerecord.attributes.user.note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <!--
@@ -138,19 +42,22 @@
     <%= f.check_box :save_checkout_history -%> <%= ('Save checkout history') -%>
   </p>
   -->
-
   <p>
     <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
   </p>
 
-<%- end -%>
+  <%- end -%>
 
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('user.patron_profile'), @user.patron -%></li>
+    <%- if @user.patron -%>
+      <li><%= link_to t('user.patron_profile'), @user.patron -%></li>
+    <%- else -%>
+      <li><%= link_to t('user.patron_profile'), new_user_patron_path(@user.login) -%></li>
+    <%- end -%>
     <%- if current_user.has_role?('Librarian') -%>
       <%- unless current_user == @user -%>
         <li><%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%></li>

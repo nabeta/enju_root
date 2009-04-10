@@ -11,7 +11,7 @@
 
 <%= error_messages_for :bookmark -%>
 
-<%- form_for(:bookmark, :url => user_bookmark_path(@bookmark.user.login, @bookmark), :html => { :method => :put }) do |f| -%>
+<%- form_for(@bookmark, :url => user_bookmark_path(@bookmark.user.login, @bookmark), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.title') -%></b><br />
   <%- if @bookmark.bookmarked_resource -%>

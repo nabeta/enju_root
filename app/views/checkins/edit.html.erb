@@ -2,7 +2,7 @@
 
 <%= error_messages_for :checkin -%>
 
-<%- form_for(:checkin, :url => checkin_path(@checkin), :html => { :method => :put }) do |f| -%>
+<%- form_for(@checkin) do |f| -%>
   <p>
   <b><%= t('activerecord.models.item') -%></b><br />
     <%= f.text_field :item_identifier -%>

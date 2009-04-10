@@ -51,7 +51,7 @@ class Item < ActiveRecord::Base
 
   acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:required_role_id => :range_integer}],
     :facets => [:circulation_status_id],
-    :if => proc{|item| !item.restrain_indexing}, :auto_commit => false
+    :offline => proc{|item| item.restrain_indexing}, :auto_commit => false
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -84,6 +84,7 @@ class Item < ActiveRecord::Base
         self.item_identifier = nil
       end
     end
+
   end
 
   def after_save

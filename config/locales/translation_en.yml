@@ -283,6 +283,8 @@ en:
         library: Library
         user_group: User group
         full_name: Full name
+        password: Password
+        old_password: Old password
       resource_has_subject:
         subjectable_type: Subjectable type
       picture_file:
@@ -1151,6 +1153,7 @@ en:
     reset_checkout_icalendar_url: "Reset checkout iCalendar URL"
     you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
     you_have_to_save_profile_to_deactivate_feed_url: "You have to save your profile to deactivate this url."
+    sign_up: "Sign up"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"

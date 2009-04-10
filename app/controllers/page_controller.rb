@@ -1,5 +1,5 @@
 class PageController < ApplicationController
-  before_filter :store_location, :except => [:opensearch, :sitemap]
+  before_filter :store_location, :except => [:opensearch, :sitemap, :screen_shot]
   #before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :get_libraries, :only => [:advanced_search]

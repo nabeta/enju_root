@@ -11,7 +11,7 @@
 
 <%= error_messages_for :reservation -%>
 
-<%- form_for(:reserve, :url => user_reserve_path(@reserve.user.login, @reserve), :html => { :method => :put }) do |f| -%>
+<%- form_for(@reserve, :url => user_reserve_path(@reserve.user.login, @reserve)) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron') -%></b><br />
     <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%=h @reserve.user.login -%>)

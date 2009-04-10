@@ -24,7 +24,7 @@ class Work < ActiveRecord::Base
 
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 
-    :if => proc{|work| !work.restrain_indexing}, :auto_commit => false
+    :offline => proc{|work| work.restrain_indexing}, :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
 
@@ -36,7 +36,11 @@ class Work < ActiveRecord::Base
   validates_presence_of :original_title, :work_form
 
   def title
-    (expressions.collect(&:titles) + expressions.collect(&:manifestations).flatten.collect(&:titles)).flatten.compact
+    array = titles
+    #if expressions
+    #  title_array << expressions.collect(&:titles) + expressions.collect(&:manifestations).flatten.collect(&:titles)
+    #end
+    array.flatten.compact.sort.uniq
   end
 
   def titles

@@ -34,10 +34,6 @@ class ManifestationTest < ActiveSupport::TestCase
     assert Manifestation.import_isbn('4797327030')
   end
 
-  def test_manifestation_should_get_item_checkouts_count
-    assert manifestations(:manifestation_00001).item_checkouts_count > 0
-  end
-
   def test_youtube_id
     assert_equal manifestations(:manifestation_00022).youtube_id, 'BSHBzd9ftDE'
   end
@@ -48,5 +44,9 @@ class ManifestationTest < ActiveSupport::TestCase
 
   def test_pickup
     assert Manifestation.pickup
+  end
+
+  def title
+    assert manifestations(:manifestation_00001).title
   end
 end

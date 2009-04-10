@@ -27,28 +27,29 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
-  #def test_librarian_should_not_allow_signup_without_patron_id
-  #  UserSession.create users(:librarian1)
-  #  assert_no_difference 'User.count' do
-  #    create_user_without_patron_id
-  #    assert_response :missing
-  #  end
-  #end
-
-  def test_librarian_should_not_allow_signup_without_patron_id_and_name
+  def test_librarian_should_allow_signup_without_patron_id
     UserSession.create users(:librarian1)
-    assert_no_difference 'User.count' do
-      create_user_without_patron_id_and_name
-      assert_response :success
+    assert_difference 'User.count' do
+      create_user_without_patron_id
+      assert_response :redirect
+      assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
   end
+
+  #def test_librarian_should_not_allow_signup_without_patron_id_and_name
+  #  UserSession.create users(:librarian1)
+  #  assert_no_difference 'User.count' do
+  #    create_user_without_patron_id_and_name
+  #    assert_response :success
+  #  end
+  #end
 
   def test_librarian_should_allow_signup_without_patron_id
     UserSession.create users(:librarian1)
     assert_difference 'User.count' do
       create_user_without_patron_id
       assert_response :redirect
-      assert_redirected_to user_url(assigns(:user).login)
+      assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
   end
 
@@ -68,7 +69,7 @@ class UsersControllerTest < ActionController::TestCase
       #assert assigns(:user).errors.on(:password)
       #assert_response :success
       assert_response :redirect
-      assert_redirected_to user_url(assigns(:user).login)
+      assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
   end
 
@@ -79,7 +80,7 @@ class UsersControllerTest < ActionController::TestCase
       #assert assigns(:user).errors.on(:password_confirmation)
       #assert_response :success
       assert_response :redirect
-      assert_redirected_to user_url(assigns(:user).login)
+      assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
   end
 
@@ -89,7 +90,8 @@ class UsersControllerTest < ActionController::TestCase
       create_user(:email => nil)
       #assert assigns(:user).errors.on(:email)
       #assert_response :success
-      assert_redirected_to user_url(assigns(:user).login)
+      assert_response :redirect
+      assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
   end
   
@@ -124,18 +126,19 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to user_url(assigns(:user).login)
   end
 
-  def test_user_should_not_update_myself_without_login
-    UserSession.create users(:user1)
-    put :update, :id => users(:user1).login, :user => {:login => ""}
-    assert_redirected_to user_url(assigns(:user).login)
-    assert_equal assigns(:user).login, users(:user1).login
-  end
+  #def test_user_should_not_update_myself_without_login
+  #  UserSession.create users(:user1)
+  #  put :update, :id => users(:user1).login, :user => {:login => ""}
+  #  assert_redirected_to user_url(assigns(:user).login)
+  #  assert_equal assigns(:user).login, users(:user1).login
+  #end
 
   def test_user_should_update_myself_without_email
     UserSession.create users(:user1)
     put :update, :id => users(:user1).login, :user => {:email => ""}
     #assert_response :success
     assert_redirected_to user_url(assigns(:user).login)
+    assert assigns(:user).valid_password?('user1password')
   end
 
   def test_user_should_update_my_password
@@ -143,20 +146,55 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => users(:user1).login, :user => {:email => 'user1@library.example.jp', :old_password => 'user1password', :password => 'new_user1', :password_confirmation => 'new_user1'}
     assert_redirected_to user_url(assigns(:user).login)
     assert_equal 'User was successfully updated.', flash[:notice]
+    assert assigns(:user).valid_password?('new_user1')
+    assert !assigns(:user).valid_password?('user1password')
   end
 
   def test_user_should_not_update_my_password_without_current_password
     UserSession.create users(:user1)
     put :update, :id => users(:user1).login, :user => {:email => 'user1@library.example.jp', :old_password => 'wrong password', :password => 'new_user1', :password_confirmation => 'new_user1'}
-    assert_redirected_to edit_user_url(assigns(:user).login)
-    assert_equal 'Wrong password.', flash[:notice]
+    assert_response :success
+    assert !assigns(:user).valid_password?('user1password')
+    assert assigns(:user).valid_password?('new_user1')
+    assert !assigns(:user).valid_password?('wrong password')
   end
 
-  def test_user_should_update_not_my_password_without_password_confirmation
+  def test_user_should_not_update_my_password_without_password_confirmation
     UserSession.create users(:user1)
     put :update, :id => users(:user1).login, :user => {:email => 'user1@library.example.jp', :old_password => 'user1password', :password => 'new_user1', :password_confirmation => 'wrong password'}
-    assert_redirected_to edit_user_url(assigns(:user).login)
-    assert_equal 'Password mismatch.', flash[:notice]
+    assert_response :success
+    assert_equal assigns(:user).errors[:password], "doesn't match confirmation"
+    assert !assigns(:user).valid_password?('user1password')
+    assert assigns(:user).valid_password?('new_user1')
+    assert !assigns(:user).valid_password?('wrong password')
+  end
+
+  def test_user_should_not_update_my_role
+    UserSession.create users(:user1)
+    put :update, :id => users(:user1).login, :user => {:role_id => 4}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert !assigns(:user).roles.include?(Role.find(4))
+  end
+
+  def test_user_should_not_update_my_user_group
+    UserSession.create users(:user1)
+    put :update, :id => users(:user1).login, :user => {:user_group_id => 3}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert_equal assigns(:user).user_group.id, 1
+  end
+
+  def test_user_should_not_update_my_note
+    UserSession.create users(:user1)
+    put :update, :id => users(:user1).login, :user => {:note => 'test'}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert_nil assigns(:user).note
+  end
+
+  def test_user_should_update_my_keyword_list
+    UserSession.create users(:user1)
+    put :update, :id => users(:user1).login, :user => {:keyword_list => 'test'}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert_equal assigns(:user).keyword_list, 'test'
   end
 
   def test_user_should_not_update_other_user
@@ -169,13 +207,39 @@ class UsersControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => users(:user1).login, :user => {:user_number => '00003'}
     assert_redirected_to user_url(assigns(:user).login)
-    #assert_nil assigns(:user).errors
   end
 
-  def test_guest_should_not_get_new
+  def test_librarian_should_not_update_other_role
+    UserSession.create users(:librarian1)
+    put :update, :id => users(:user1).login, :user => {:role_id => 4}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert !assigns(:user).roles.include?(Role.find(4))
+  end
+
+  def test_admin_should_update_other_role
+    UserSession.create users(:admin)
+    put :update, :id => users(:user1).login, :user => {:role_id => 4}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert assigns(:user).roles.include?(Role.find(4))
+  end
+
+  def test_librarian_should_update_other_user_group
+    UserSession.create users(:librarian1)
+    put :update, :id => users(:user1).login, :user => {:user_group_id => 3}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert_equal assigns(:user).user_group_id, 3
+  end
+
+  def test_librarian_should_update_other_note
+    UserSession.create users(:librarian1)
+    put :update, :id => users(:user1).login, :user => {:note => 'test'}
+    assert_redirected_to user_url(assigns(:user).login)
+    assert_equal assigns(:user).note, 'test'
+  end
+
+  def test_guest_should_get_new
     get :new, :patron_id => 6
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_response :success
   end
 
   def test_librarian_should_get_new_without_patron_id
@@ -325,7 +389,7 @@ class UsersControllerTest < ActionController::TestCase
   protected
     def create_user(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :patron_type => 'Person', :user_number => '00006' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00006' }.merge(options)
     end
 
     def create_user_without_patron_id_and_name(options = {})

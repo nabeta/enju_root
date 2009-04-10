@@ -71,9 +71,11 @@
           <br />
           <%=h search_engine.note -%>
           <%= hidden_field_tag search_engine.query_param, h(@query) -%>
-          <%- search_engine.search_params(@query).each{|k, v| -%>
-            <%= hidden_field_tag k, h(v) -%>
-          <%- } -%>
+          <%- if search_engine.search_params(@query) -%>
+            <%- search_engine.search_params(@query).each{|k, v| -%>
+              <%= hidden_field_tag k, h(v) -%>
+            <%- } -%>
+          <%- end -%>
         </form>
       </p>
     <%- end -%>

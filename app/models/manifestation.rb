@@ -59,7 +59,7 @@ class Manifestation < ActiveRecord::Base
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
-    :if => proc{|manifestation| !manifestation.restrain_indexing},
+    :offline => proc{|manifestation| manifestation.restrain_indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
@@ -445,7 +445,7 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
-    return nil if self.numdocs < 10
+    return nil if self.numdocs < 5
     resource = nil
     if keyword
       resources = self.find_id_by_solr(keyword, :limit => self.numdocs)
@@ -470,7 +470,7 @@ class Manifestation < ActiveRecord::Base
     patron_lists.each do |patron_list|
       unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.indexing = true
+        patron.restrain_indexing = true
         patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
@@ -547,10 +547,10 @@ class Manifestation < ActiveRecord::Base
           manifestation = Manifestation.find(:first, :conditions => {:access_address => item.link})
           if manifestation.blank?
             Manifestation.transaction do
-              work = Work.create(:original_title => item.title, :restrain_indexing => true)
-              expression = Expression.new(:original_title => item.title, :restrain_indexing => true)
+              work = Work.create(:original_title => item.title)
+              expression = Expression.new(:original_title => item.title)
               work.expressions << expression
-              manifestation = Manifestation.new(:original_title => item.title, :access_address => item.link, :restrain_indexing => true)
+              manifestation = Manifestation.new(:original_title => item.title, :access_address => item.link)
               expression.manifestations << manifestation
               self.expressions << expression
             end

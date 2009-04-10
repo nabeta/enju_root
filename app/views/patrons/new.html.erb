@@ -17,6 +17,14 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.patron.last_name') -%></b><br />
+    <%= f.text_field :last_name, :class => 'resource_title' -%><br />
+    <%= t('activerecord.attributes.patron.last_name_transcription') -%><br />
+    <%= f.text_field :last_name_transcription, :class => 'resource_title' -%><br />
+    <b><%= t('activerecord.attributes.patron.first_name') -%></b><br />
+    <%= f.text_field :first_name, :class => 'resource_title' -%><br />
+    <%= t('activerecord.attributes.patron.first_name_transcription') -%><br />
+    <%= f.text_field :first_name_transcription, :class => 'resource_title' -%><br />
     <b><%= t('activerecord.attributes.patron.full_name') -%></b><br />
     <%= f.text_field :full_name, :class => 'resource_title' -%><br />
     <%= t('activerecord.attributes.patron.full_name_transcription') -%><br />
@@ -124,6 +132,7 @@
     <%= hidden_field_tag 'expression_id', @expression.id if @expression -%>
     <%= hidden_field_tag 'manifestation_id', @manifestation.id if @manifestation -%>
     <%= hidden_field_tag 'item_id', @item.id if @item -%>
+    <%= f.hidden_field :user_id -%>
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>

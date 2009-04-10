@@ -109,22 +109,22 @@ class ImportedResourceFile < ActiveRecord::Base
     # TODO
     for record in reader
       work = Work.new(:title => record['245']['a'])
-      work.work_form = WorkForm.find(1)
       work.restrain_indexing = true
+      work.work_form = WorkForm.find(1)
       work.save
 
       expression = Expression.new(:title => work.original_title)
+      expression.restrain_indexing = true
       expression.expression_form = ExpressionForm.find(1)
       expression.language = Language.find(1)
       expression.frequency_of_issue = FrequencyOfIssue.find(1)
-      expression.restrain_indexing = true
       expression.save
       work.expressions << expression
 
       manifestation = Manifestation.new(:title => expression.original_title)
+      manifestation.restrain_indexing = true
       manifestation.manifestation_form = ManifestationForm.find(1)
       manifestation.language = Language.find(1)
-      manifestation.restrain_indexing = true
       manifestation.save
       expression.manifestations << manifestation
 

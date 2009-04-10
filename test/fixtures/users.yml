@@ -1,17 +1,16 @@
 --- 
 librarian2: 
-  password_salt: 73f4b91545992d7c94613938740b25a7b4057c94
+  password_salt: iRy17JOpKf9eaqn7J6as
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 12:42:23.340575 +09:00
   checkout_icalendar_token: 
   expired_at: 
-  crypted_password: 844805f512e34628c9758115977fc7cf7c85a807
+  crypted_password: 0364a44ea75f7d3541979178cc36ddca4c702e9ebeb17cb86337905d438b74757825eaffe726ece9dbbb34e3fb008a6e153f34f499f12d668b7c1397ff1fb704
   deleted_at: 
   user_group_id: 1
   reserves_count: 0
-  patron_id: 4
   id: 4
   bookmarks_count: 0
   share_bookmarks: true
@@ -30,18 +29,17 @@ librarian2:
   perishable_token: dummy
   persistence_token: test
 user2: 
-  password_salt: 0ec812a0c1090169e0a2038bc3bb211290e4a9ea
+  password_salt: fzvD659HY-1W7NjZpnZG
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 12:42:44.711117 +09:00
   checkout_icalendar_token: 
   expired_at: 
-  crypted_password: a6df6e841833c2ffa1ca64d0cb66bbc9e3c0d5bd
+  crypted_password: f06d87fedb2d5177e5833564d080d75884ae47eef1512e5eb54087bb678dea58c4d43f8f4cd655fe260e8c9f6aabb643c50d3efbb9c594f90e34327202ef4f8e
   deleted_at: 
   user_group_id: 1
   reserves_count: 0
-  patron_id: 5
   id: 5
   bookmarks_count: 0
   share_bookmarks: true
@@ -60,20 +58,17 @@ user2:
   perishable_token: dummy
   persistence_token: test
 admin: 
-  #salt: 3e113e7ed6a655f2e0824661362965cc84ba057b
-  password_salt: 1456d4f4b7eb4e7e9ad0d49c05e3483d2d63e45a504aa094a26ae1bdcb097fcab4fb02dcecbf8dd473a079d87cb11c984e3104c1122de28493dbc8c843a35b87
+  password_salt: a8RC66k288qFImXHunGO
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 13:16:30.163731 +09:00
   checkout_icalendar_token: 577830b08ecf9c4c4333d599a57a6f44a7fe76c0
   expired_at: 
-  #crypted_password: 9533a4df0f14ce21677cdc4cd89e9eea4f22008a
-  crypted_password: 3732cc3293291fdbf09c94614e6c903ae3d0aca3
+  crypted_password: 80aa08cc5ba64b30f367719f9536bc2a12621d034ce7de4fa07235c4b2d22fcecbc385d8986b71775bb6aface78e4ae610ba940b3b53f3107548e66342e2eca1
   deleted_at: 
   user_group_id: 2
   reserves_count: 2
-  patron_id: 1
   id: 1
   bookmarks_count: 0
   share_bookmarks: true
@@ -92,18 +87,17 @@ admin:
   perishable_token: dummy
   persistence_token: test
 librarian1: 
-  password_salt: bce7013afba5c82a79cd1b45c3262e8a5c113354
+  password_salt: ANpwilsBMIRre2WGgE_2
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 12:41:16.337474 +09:00
   checkout_icalendar_token: 
   expired_at: 
-  crypted_password: cff14c762d8905f02b8dcd5128ede6d837dd23f7
+  crypted_password: ca9b4126f849a1d2896b7ae6570844b25fdc2a1a8aa91f4203252fa371f40ab874ce962951769338964868c43b43b5483dc89709cdde01778d1b3874c8be5907
   deleted_at: 
   user_group_id: 1
   reserves_count: 0
-  patron_id: 2
   id: 2
   bookmarks_count: 0
   share_bookmarks: true
@@ -122,20 +116,17 @@ librarian1:
   perishable_token: dummy
   persistence_token: test
 user1: 
-  #salt: 04f8a5895162043979444830de2b9d0a021255c6
-  password_salt: 9736993efc095816e2590b3ddcc102cccaba386567d334a57284c35a0acedc0d16faa44b70b62bb93735b0ec1aebb6647c9f28ce900b91ecbe1d6fe7e747365e
+  password_salt: CnM9OO2zUsKFIi-b3mpA
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 13:02:25.101261 +09:00
   checkout_icalendar_token: h75t40Hk364eBQOkmVnH
   expired_at: 
-  #crypted_password: a697df1e63a8618f5ff4517c76d6d3ae6df8d2c6
-  crypted_password: 5cc0dffb023444c3a42b7fdddaf3e4735e89b94c
+  crypted_password: cc53de0c2d9a1a228daa9a673ec824473747e17507a6c3c4f7e5eff8821f531d4b9e23616b3ddc66fe17006b2298a556fbd567ac080e87f00f37eef8cee6c417
   deleted_at: 
   user_group_id: 1
   reserves_count: 0
-  patron_id: 3
   id: 3
   bookmarks_count: 0
   share_bookmarks: false

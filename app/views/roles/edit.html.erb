@@ -10,7 +10,7 @@
 
 <%= error_messages_for :role -%>
 
-<%- form_for(:role, :url => role_path(@role), :html => { :method => :put }) do |f| -%>
+<%- form_for(@role) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.role.name') -%></b><br />
     <%= f.text_field :name -%>

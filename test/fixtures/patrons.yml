@@ -15,6 +15,7 @@ patron_00001:
   patron_type_id: 1
   required_role_id: 1
   created_at: 2007-11-19 17:06:06.507237 +09:00
+  user_id: 1
 patron_00002: 
   place: ""
   last_name: Librarian1
@@ -31,6 +32,7 @@ patron_00002:
   patron_type_id: 1
   required_role_id: 4
   created_at: 2007-11-19 17:06:07.724517 +09:00
+  user_id: 2
 patron_00003: 
   place: 
   last_name: Kosuke
@@ -47,6 +49,7 @@ patron_00003:
   patron_type_id: 1
   required_role_id: 3
   created_at: 2007-12-04 16:25:01.523618 +09:00
+  user_id: 3
 patron_00004: 
   place: 
   last_name: Librarian2
@@ -63,6 +66,7 @@ patron_00004:
   patron_type_id: 1
   required_role_id: 1
   created_at: 2007-12-04 16:25:01.785027 +09:00
+  user_id: 4
 patron_00005: 
   place: ""
   last_name: User2
@@ -79,6 +83,7 @@ patron_00005:
   patron_type_id: 1
   required_role_id: 2
   created_at: 2007-11-19 17:24:50.153417 +09:00
+  user_id: 5
 patron_00006: 
   place: ""
   last_name: New patron 1
