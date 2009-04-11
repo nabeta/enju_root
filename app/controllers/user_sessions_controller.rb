@@ -1,3 +1,4 @@
+require 'httparty'
 class UserSessionsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
@@ -5,17 +6,17 @@ class UserSessionsController < ApplicationController
   
   def new
     @user_session = UserSession.new
-    case params[:login_form]
-    when 'password'
-      render :partial => 'user_sessions/password'
-    when 'openid'
-      render :partial => 'user_sessions/openid'
-    end
+    #case params[:login_form]
+    #when 'password'
+    #  render :partial => 'user_sessions/password'
+    #when 'openid'
+    #  render :partial => 'user_sessions/openid'
+    #end
   end
   
   def create
     @user_session = UserSession.new(params[:user_session])
-    flash[:login_form] = params[:login_form]
+    #flash[:login_form] = params[:login_form]
     @user_session.save do |result|
       if result
         if @user_session.user.suspended?
@@ -46,4 +47,5 @@ class UserSessionsController < ApplicationController
     redirect_back_or_default new_user_session_url
     #session[:return_to] = nil
   end
+
 end

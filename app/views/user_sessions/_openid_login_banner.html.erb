@@ -1,0 +1,4 @@
+<ul>
+  <li><%= link_to 'mixiでログイン', user_session_path(:user_session =>{:openid_identifier => 'https://mixi.jp'}), :method => 'post' -%></li>
+  <li><%= link_to 'Yahoo! OpenIDでログイン', user_session_path(:user_session =>{:openid_identifier => 'yahoo.co.jp'}), :method => 'post' -%></li>
+</ul>

@@ -32,6 +32,9 @@ class UsersController < ApplicationController
     @user = User.find(:first, :conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
+    unless @user.patron
+      redirect_to new_user_patron_url(@user.login); return
+    end
     @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
@@ -188,25 +191,27 @@ class UsersController < ApplicationController
     end
     @user = User.new(params[:user])
     @user.operator = current_user
-    #@user.login = params[:user][:login]
-    @user.email = params[:user][:email]
-    #@user.password = params[:user][:password]
-    #@user.password_confirmation = params[:user][:password_confirmation]
-    #@user.openid_identifier = params[:user][:openid_identifier]
+    if params[:user]
+      #@user.login = params[:user][:login]
+      @user.email = params[:user][:email]
+      #@user.password = params[:user][:password]
+      #@user.password_confirmation = params[:user][:password_confirmation]
+      #@user.openid_identifier = params[:user][:openid_identifier]
+      @user.note = params[:user][:note]
+      @user.user_group_id = params[:user][:user_group_id] ||= 1
+      @user.library_id = params[:user][:library_id] ||= 1
+      @user.role_id = params[:user][:role_id] ||= 1
+      @user.required_role_id = params[:user][:required_role_id] ||= 1
+      @user.expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
+      @user.keyword_list = params[:user][:keyword_list]
+      @user.user_number = params[:user][:user_number]
+    end
     # TODO: OpenIDで発行したアカウントへのパスワード通知
     #if params[:user][:auto_generated_password] == "1"
       #if @user.password.blank? and @user.password_confirmation.blank?
         @user.reset_password
       #end
     #end
-    @user.note = params[:user][:note]
-    @user.user_group_id = params[:user][:user_group_id] ||= 1
-    @user.library_id = params[:user][:library_id] ||= 1
-    @user.role_id = params[:user][:role_id] ||= 1
-    @user.required_role_id = params[:user][:required_role_id] ||= 1
-    @user.expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
-    @user.keyword_list = params[:user][:keyword_list]
-    @user.user_number = params[:user][:user_number]
     @user.indexing = true
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
@@ -229,7 +234,7 @@ class UsersController < ApplicationController
         else
           prepare_options
           #flash[:notice] = ('The record is invalid.')
-          flash[:error] = ("We couldn't set up that account, sorry.  Please try again, or contact an admin.")
+          flash[:error] = t('user.could_not_setup_account')
           format.html { render :action => "new" }
           format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         end

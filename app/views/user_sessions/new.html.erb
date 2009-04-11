@@ -1,12 +1,18 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
 <div id="content_list">
-  <%= textilize(h(@library_group.login_banner)) -%>
+  <%- if params[:mode] == 'openid' -%>
+    <%= render :partial => 'user_sessions/openid_login_banner' -%>
+    <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
+  <%- else -%>
+    <%= textilize(h(@library_group.login_banner)) unless params[:mode] == 'openid' -%>
+    <p><%= link_to t('user_session.login_with_openid'), new_user_session_url(:mode => 'openid') -%></p>
+  <%- end -%>
 </div>
 </div>
 
 <div id="submenu">
-  <%- if flash[:login_form] == 'openid' -%>
+  <%- if params[:mode] == 'openid' -%>
     <%= render :partial => 'user_sessions/openid' -%>
   <%- else -%>
     <%= render :partial => 'user_sessions/password' -%>

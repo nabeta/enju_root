@@ -67,23 +67,13 @@ class User < ActiveRecord::Base
   attr_accessor :restrain_indexing, :indexing, :patron_id, :operator, :password_not_verified
   attr_accessible :login, :email, :password, :password_confirmation, :openid_identifier, :old_password
 
-  #validates_presence_of     :login, :full_name
-  validates_presence_of     :login #, :full_name
-  validates_length_of       :login,    :within => 2..40
-  validates_uniqueness_of   :login,    :case_sensitive => false
-  #validates_format_of       :login,    :with => Authentication.login_regex, :message => Authentication.bad_login_message
-
-  #validates_format_of       :name,     :with => Authentication.name_regex,  :message => Authentication.bad_name_message, :allow_nil => true
-  #validates_length_of       :name,     :maximum => 255
+  #validates_length_of       :login,    :within => 2..40
+  #validates_uniqueness_of   :login,    :case_sensitive => false
 
   #validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100, :if => Proc.new{|user| !user.email.blank?}, :allow_nil => true
-  validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  #validates_format_of       :email,    :with => Authentication.email_regex, :message => Authentication.bad_email_message, :if => proc{|user| !user.email.blank?}
-
-  validates_format_of   :login, :with => /^[a-z][0-9a-z]{2,254}$/
-  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :if => proc{|user| !user.email.blank?}, :allow_blank => true
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
+  #validates_length_of       :email,    :within => 6..100, :if => Proc.new{|user| !user.email.blank?}, :allow_nil => true
+  #validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
   validates_presence_of :user_group, :library

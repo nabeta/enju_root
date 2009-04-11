@@ -1134,7 +1134,6 @@ en:
     repeat_new_password: "Repeat new password"
     delete_this_user: "Delete this user"
     your_temporary_password_is: "Your temporary password is"
-    library_group_news_post: "News from {{library_group_name}}"
     sign_up: "Sign up"
     edit_profile: "Edit profile"
     already_activated: "Already activated."
@@ -1154,6 +1153,9 @@ en:
     you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
     you_have_to_save_profile_to_deactivate_feed_url: "You have to save your profile to deactivate this url."
     sign_up: "Sign up"
+    could_not_setup_account: "We couldn't set up that account, sorry.  Please try again, or contact an admin."
+  news_post:
+    library_group_news_post: "News from {{library_group_name}}"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
