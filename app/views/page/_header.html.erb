@@ -3,9 +3,8 @@
     <h2><a href="/" title="<%=h LibraryGroup.site_config.display_name -%>"><%=h LibraryGroup.site_config.display_name -%></a></h2>
   </div>
 
-  <div id="header_advertisement">
-    <%= advertisement_pickup -%>
-  </div>
+  <%= render :partial => 'advertisements/header' -%>
+
   <div id="header_right">
     <%- if logged_in? -%>
       <%= t('page.logged_in_as', :login_name => current_user.login) -%>

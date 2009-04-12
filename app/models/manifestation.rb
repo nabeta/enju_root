@@ -39,7 +39,7 @@ class Manifestation < ActiveRecord::Base
   has_one :db_file
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
-    :title, :author, :publisher,
+    :title, :author, :publisher, :access_address,
     {:isbn => :string}, {:isbn10 => :string}, {:wrong_isbn => :string},
     {:nbn => :string}, {:issn => :string}, {:tag => :string}, :fulltext,
     {:formtype => :string}, {:formtype_f => :facet},
@@ -55,7 +55,7 @@ class Manifestation < ActiveRecord::Base
     {:subject_ids => :integer},
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
-    {:required_role_id => :range_integer}, {:reservable => :boolean}
+    {:required_role_id => :range_integer}, {:reservable => :boolean},
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
