@@ -3,7 +3,8 @@ require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  include OnlyLibrarianCanModify
+  #include OnlyLibrarianCanModify
+  include LibrarianOwnerRequired
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]

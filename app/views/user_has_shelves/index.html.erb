@@ -1,0 +1,24 @@
+<h1>Listing user_has_shelves</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Shelf</th>
+    <th>Position</th>
+  </tr>
+
+<% @user_has_shelves.each do |user_has_shelf| %>
+  <tr>
+    <td><%=h user_has_shelf.user_id %></td>
+    <td><%=h user_has_shelf.shelf_id %></td>
+    <td><%=h user_has_shelf.position %></td>
+    <td><%= link_to 'Show', user_has_shelf %></td>
+    <td><%= link_to 'Edit', edit_user_has_shelf_path(user_has_shelf) %></td>
+    <td><%= link_to 'Destroy', user_has_shelf, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New user_has_shelf', new_user_has_shelf_path %>

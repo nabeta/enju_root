@@ -157,16 +157,13 @@ class ManifestationsController < ApplicationController
 
   # GET /manifestations/new
   def new
-    case params[:mode]
-    when 'import_isbn'
-      @manifestation = Manifestation.new
-    else
+    @manifestation = Manifestation.new
+    unless params[:mode] == 'import_isbn'
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
       #  redirect_to expressions_url
       #  return
       #end
-      @manifestation = Manifestation.new
       if @expression
         @manifestation.original_title = @expression.original_title
         @manifestation.set_serial_number(@expression)
@@ -199,6 +196,7 @@ class ManifestationsController < ApplicationController
     when 'import_isbn'
       begin
         @manifestation = Manifestation.import_isbn(params[:manifestation][:isbn])
+        @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
       rescue Exception => e
         case e.message
         when 'invalid ISBN'
@@ -212,13 +210,13 @@ class ManifestationsController < ApplicationController
         return
       end
     else
+      @manifestation = Manifestation.new(params[:manifestation])
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
       #  redirect_to expressions_url
       #  return
       #end
       last_issue = @expression.last_issue if @expression
-      @manifestation = Manifestation.new(params[:manifestation])
     end
 
     respond_to do |format|
@@ -232,7 +230,7 @@ class ManifestationsController < ApplicationController
         end
 
         # TODO: モデルへ移動
-        @manifestation.send_to_twitter(manifestation_url(@manifestation))
+        @manifestation.send_later(:send_to_twitter, manifestation_url(@manifestation)) if @manifestation.post_to_twitter
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'

@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
   named_scope :suspended, :conditions => {:suspended => true}
   acts_as_solr :fields => [:login, :email, :patron_name, :note, {:required_role_id => :range_integer}],
-    :auto_commit => false, :offline => proc{|user| !user.indexing}
+    :auto_commit => false, :offline => proc{|user| user.last_request_at_changed?}
 
   has_one :patron
   #belongs_to :patron, :polymorphic => true
@@ -50,6 +50,8 @@ class User < ActiveRecord::Base
   has_many :reserve_stat_has_users
   has_many :user_reserve_stats, :through => :reserve_stat_has_users
   has_many :news_posts
+  has_many :user_has_shelves, :dependent => :destroy
+  has_many :shelves, :through => :user_has_shelves
 
   restful_easy_messages
   #acts_as_soft_deletable
@@ -92,9 +94,9 @@ class User < ActiveRecord::Base
     c.validate_email_field = false
   }
 
-  def before_validation
-    self.full_name = self.patron.full_name if self.patron
-  end
+  #def before_validation
+  #  self.full_name = self.patron.full_name if self.patron
+  #end
 
   def after_save
     if self.patron

@@ -31,7 +31,7 @@ module EnjuTwitter
   module InstanceMethods
     attr_accessor :post_to_twitter
     def send_to_twitter(manifestation_url)
-      return false unless post_to_twitter
+      #return false unless post_to_twitter
       if RAILS_ENV == "production"
         if Twitter::Status
           status = "#{original_title.to_s.truncate}: #{note.to_s.split.join(" / ").truncate} #{manifestation_url}"

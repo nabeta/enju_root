@@ -1,0 +1,24 @@
+<h1>Editing user_has_shelf</h1>
+
+<% form_for(@user_has_shelf) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :user_id %><br />
+    <%= f.text_field :user_id %>
+  </p>
+  <p>
+    <%= f.label :shelf_id %><br />
+    <%= f.text_field :shelf_id %>
+  </p>
+  <p>
+    <%= f.label :position %><br />
+    <%= f.text_field :position %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @user_has_shelf %> |
+<%= link_to 'Back', user_has_shelves_path %>

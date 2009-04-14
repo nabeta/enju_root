@@ -1,0 +1,16 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  user_id: 1
+  shelf_id: 1
+  position: 1
+
+two:
+  user_id: 1
+  shelf_id: 2
+  position: 2
+
+three:
+  user_id: 3
+  shelf_id: 3
+  position: 1

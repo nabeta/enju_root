@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :user_has_shelves
+
   map.connect '/enju_gadget.xml', :controller => 'enju_gadget', :action => 'index', :format => 'xml'
   map.resources :password_resets
 

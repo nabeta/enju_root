@@ -17,6 +17,7 @@ class Library < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :short_name
   acts_as_geocodable
+  acts_as_cached
 
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
@@ -26,6 +27,14 @@ class Library < ActiveRecord::Base
 
   cattr_accessor :per_page
   @@per_page = 10
+
+  def before_save
+    self.expire_cache
+  end
+
+  def before_destroy
+    self.expire_cache
+  end
 
   def closed?(date)
     events.closing_days.collect{|c| c.started_at.beginning_of_day}.include?(date.beginning_of_day)
@@ -37,7 +46,7 @@ class Library < ActiveRecord::Base
   end
 
   def self.web
-    Library.find(1)
+    Library.get_cache(1)
   end
 
   def address

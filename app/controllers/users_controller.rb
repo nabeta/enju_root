@@ -108,7 +108,7 @@ class UsersController < ApplicationController
        end
     end
 
-    @user.indexing = true
+    #@user.indexing = true
     if params[:user]
       #@user.login = params[:user][:login]
       @user.email = params[:user][:email]
@@ -212,7 +212,7 @@ class UsersController < ApplicationController
         @user.reset_password
       #end
     #end
-    @user.indexing = true
+    #@user.indexing = true
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end

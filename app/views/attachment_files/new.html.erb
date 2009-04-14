@@ -21,15 +21,16 @@
     <%= f.text_field :title -%>
   </p>
 
-  <p>
-    <%= t('attachment_file.post_to_scribd') -%>
-    <%= f.check_box :post_to_scribd -%>
-  </p>
+  <%- if @attachment_file.respond_to?(:post_to_twitter) -%>
+    <%= render :partial => 'manifestations/post_to_twitter', :locals => {:f => f} -%>
+  <%- end -%>
 
-  <p>
-    <%= t('manifestation.post_to_twitter') -%>
-    <%= f.check_box :post_to_twitter -%>
-  </p>
+  <%- if @attachment_file.respond_to?(:post_to_scribd) -%>
+    <p>
+      <%= t('attachment_file.post_to_scribd') -%>
+      <%= f.check_box :post_to_scribd -%>
+    </p>
+  <%- end -%>
 
   <p>
     <%= f.submit t('page.create') -%>

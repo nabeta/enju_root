@@ -1,7 +1,7 @@
 <div id="submenu">
   <%- if @patron.is_updatable_by(current_user) -%>
     <ul>
-      <%- if current_user.has_role?('Librarian') -%>
+      <%- if User.is_creatable_by(current_user) -%>
         <%- if @patron.user.blank? -%>
           <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
         <%- else -%>
