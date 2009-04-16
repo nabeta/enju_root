@@ -12,7 +12,7 @@
 
 class Solr::Request::Standard < Solr::Request::Select
 
-  VALID_PARAMS = [:query, :sort, :default_field, :operator, :start, :rows, :shards,
+  VALID_PARAMS = [:query, :sort, :default_field, :operator, :start, :rows, :shards, :date_facets,
     :filter_queries, :field_list, :debug_query, :explain_other, :facets, :highlighting, :mlt]
   
   def initialize(params)
@@ -89,6 +89,35 @@ class Solr::Request::Standard < Solr::Request::Select
             hash["f.#{key}.facet.offset"] = value[:offset]
           else
             hash["facet.field"] << f
+          end
+        end
+      end
+      
+      if @params[:date_facets]
+        hash["facet.date"] = []
+        if @params[:date_facets][:fields]
+          @params[:date_facets][:fields].each do |f|
+            if f.kind_of? Hash
+              key = f.keys[0]
+              hash["facet.date"] << key
+              f[key].each { |k, v|
+                hash["f.#{key}.facet.date.#{k}"] = v
+              }
+            else
+              hash["facet.date"] << f
+            end
+          end
+        end
+        hash["facet.date.start"] = @params[:date_facets][:start]
+        hash["facet.date.end"] = @params[:date_facets][:end]
+        hash["facet.date.gap"] = @params[:date_facets][:gap]
+        hash["facet.date.other"] = @params[:date_facets][:other]
+        hash["facet.date.hardend"] = @params[:date_facets][:hardend]
+        if @params[:date_facets][:filter]
+          if hash[:fq]
+            hash[:fq] << @params[:date_facets][:filter]
+          else
+            hash[:fq] = @params[:date_facets][:filter]
           end
         end
       end

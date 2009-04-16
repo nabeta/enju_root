@@ -43,4 +43,9 @@ class ActsAsSolrTest < Test::Unit::TestCase
     assert_equal 0, records.total
   end
   
+  def test_search_with_score_should_set_score
+    records = Book.multi_solr_search "Napoleon OR Tom", :models => [Movie], :results_format => :objects, :scores => true
+    assert_equal 1.0112731, records.docs.first.solr_score
+    assert_equal 0.6723396, records.docs.last.solr_score
+  end
 end

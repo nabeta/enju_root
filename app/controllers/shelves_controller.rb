@@ -37,7 +37,7 @@ class ShelvesController < ApplicationController
   def new
     @library = Library.web if @library.nil?
     @shelf = Shelf.new
-    @shelf.user = current_user
+    #@shelf.user = current_user
   end
 
   # GET /shelves/1;edit

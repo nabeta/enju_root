@@ -109,6 +109,10 @@ class Manifestation < ActiveRecord::Base
     self.expire_cache
   end
 
+  def after_save
+    send_later(:solr_commit)
+  end
+
   def full_title
     # TODO: 号数
     original_title + " " + volume_number.to_s

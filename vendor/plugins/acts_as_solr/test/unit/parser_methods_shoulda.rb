@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/test_helper'
 require 'parser_methods'
 require 'common_methods'
 require 'search_results'

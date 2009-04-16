@@ -12,7 +12,25 @@ message_template_00002:
   position: 2
 message_template_00003:
   id: 3
-  status: reservation_expired
+  status: reservation_expired_for_patron
   title: Reservation expired
   body: Reservation expired
   position: 3
+message_template_00004:
+  id: 4
+  status: reservation_expired_for_library
+  title: Reservation expired
+  body: Reservation expired
+  position: 4
+message_template_00005:
+  id: 5
+  status: reservation_canceled_for_patron
+  title: Reservation canceled
+  body: Reservation canceled
+  position: 5
+message_template_00006:
+  id: 6
+  status: reservation_canceled_for_library
+  title: Reservation canceled
+  body: Reservation canceled
+  position: 6

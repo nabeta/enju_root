@@ -217,12 +217,14 @@ module ActsAsSolr #:nodoc:
           value = self[field_name] || self.instance_variable_get("@#{field_name.to_s}".to_sym) || self.send(field_name.to_sym)
           case options[:type] 
             # format dates properly; return nil for nil dates 
-            when :date then value ? value.utc.strftime("%Y-%m-%dT%H:%M:%SZ") : nil 
+            when :date
+              value ? (value.respond_to?(:utc) ? value.utc : value).strftime("%Y-%m-%dT%H:%M:%SZ") : nil 
             else value
           end
         rescue
-          value = ''
+          puts $!
           logger.debug "There was a problem getting the value for the field '#{field_name}': #{$!}"
+          value = ''
         end
       end
     end

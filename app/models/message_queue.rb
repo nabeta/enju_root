@@ -56,9 +56,11 @@ class MessageQueue < ActiveRecord::Base
     when "item_received"
       reserves = self.receiver.reserves.hold.waiting
     when "reservation_expired_for_library"
-      reserves = Reserve.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_library
+      #reserves = Reserve.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_library
+      reserves = Reserve.not_sent_expiration_notice_to_library
     when "reservation_expired_for_patron"
-      reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_patron
+      #reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_patron
+      reserves = self.receiver.reserves.not_sent_expiration_notice_to_patron
     end
 
     unless reserves.blank?

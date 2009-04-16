@@ -49,7 +49,7 @@ class ActsAsSolrTest < Test::Unit::TestCase
       assert_equal ({"id" => 2, 
                       "category_id" => 2, 
                       "name" => "Ruby for Dummies", 
-                      "author" => "Peter McPeterson", "type" => nil}), records.docs.first.attributes
+                      "author" => "Peter McPeterson", "published_on" => (Date.today - 2.years), "type" => nil}), records.docs.first.attributes
     end
   end
   
@@ -64,7 +64,7 @@ class ActsAsSolrTest < Test::Unit::TestCase
       assert_equal "Splinter Cell", records.docs.first.name
       assert_equal "Tom Clancy", records.docs.first.author
       assert_equal ({"id" => 1, "category_id" => 1, "name" => "Splinter Cell", 
-                     "author" => "Tom Clancy", "type" => nil}), records.docs.first.attributes
+                     "author" => "Tom Clancy", "published_on" => (Date.today - 1.year), "type" => nil}), records.docs.first.attributes
     end
   end
   

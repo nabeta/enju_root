@@ -11,10 +11,10 @@ class Reserve < ActiveRecord::Base
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
   #named_scope :expired_notified, :conditions => {:state => 'expired'}
-  named_scope :not_sent_expiration_notice_to_patron, :conditions => {:expiration_notice_to_patron => false}
-  named_scope :not_sent_expiration_notice_to_library, :conditions => {:expiration_notice_to_library => false}
-  named_scope :sent_expiration_notice_to_patron, :conditions => {:expiration_notice_to_patron => true}
-  named_scope :sent_expiration_notice_to_library, :conditions => {:expiration_notice_to_library => true}
+  named_scope :not_sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => false}
+  named_scope :not_sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => false}
+  named_scope :sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => true}
+  named_scope :sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => true}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -190,7 +190,7 @@ class Reserve < ActiveRecord::Base
           # 予約の連絡をすませたかどうかを識別できるようにしなければならない
           reserve.send_message('expired')
           reserve.aasm_expire!
-          self.update_attribute(:expiration_notice_to_patron, true)
+          reserve.update_attribute(:expiration_notice_to_patron, true)
           #reserve.expire
         }
       end
