@@ -2,11 +2,13 @@ class Tag < ActiveRecord::Base
   include OnlyLibrarianCanModify
   has_friendly_id :name
 
+  #acts_as_solr :fields => [:name], :auto_commit => false
+
   @@per_page = 10
   cattr_accessor :per_page
 
   def subjects
-    Manifestation.find_by_solr("tag: #{self.name}", :limit => taggings_count).results.collect(&:subjects).flatten
+    Manifestation.find_by_solr("tag: #{name}", :limit => taggings_count).results.collect(&:subjects).flatten
   end
 
   def self.bookmarked(manifestation_ids)

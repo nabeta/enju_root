@@ -1,14 +1,20 @@
 class ClassificationsController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_subject
+  before_filter :get_subject, :get_classification_type
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /classifications
   # GET /classifications.xml
   def index
     unless params[:query].blank?
-      query = params[:query].to_s.strip
+      query = query = params[:query].to_s.strip
       @query = query.dup
+    end
+    if @classification_type
+      query = "#{query} classification_type_id: #{@classification_type.id}"
+    end
+
+    if query
       @classifications = Classification.paginate_by_solr(query, :page => params[:page]).compact
     else
       if @subject
@@ -41,8 +47,8 @@ class ClassificationsController < ApplicationController
   # GET /classifications/new
   # GET /classifications/new.xml
   def new
+    @classification_types = ClassificationType.find(:all)
     @classification = Classification.new
-    @classification_types = ClassificationType.find(:all, :order => :id)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -53,7 +59,7 @@ class ClassificationsController < ApplicationController
   # GET /classifications/1/edit
   def edit
     @classification = Classification.find(params[:id])
-    @classification_types = ClassificationType.find(:all, :order => :id)
+    @classification_types = ClassificationType.find(:all)
   end
 
   # POST /classifications
@@ -104,4 +110,7 @@ class ClassificationsController < ApplicationController
     end
   end
 
+  def get_classification_type
+    @classification_type = ClassificationType.find(params[:classification_type_id]) rescue nil
+  end
 end

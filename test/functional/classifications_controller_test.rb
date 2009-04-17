@@ -80,19 +80,10 @@ class ClassificationsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_admin_should_not_create_classification_without_name
-    UserSession.create users(:admin)
-    old_count = Classification.count
-    post :create, :classification => { }
-    assert_equal old_count, Classification.count
-    
-    assert_response :success
-  end
-
   def test_admin_should_create_classification
     UserSession.create users(:admin)
     old_count = Classification.count
-    post :create, :classification => {:category => '000.0', :name => 'test', :classification_type_id => '1'}
+    post :create, :classification => {:category => '000.0', :classification_type_id => '1'}
     assert_equal old_count+1, Classification.count
     
     assert_redirected_to classification_url(assigns(:classification))
@@ -101,7 +92,7 @@ class ClassificationsControllerTest < ActionController::TestCase
   def test_admin_should_not_create_classification_already_created
     UserSession.create users(:admin)
     old_count = Classification.count
-    post :create, :classification => {:category => '000', :name => 'test', :classification_type_id => '1'}
+    post :create, :classification => {:category => '000', :classification_type_id => '1'}
     assert_equal old_count, Classification.count
     
     assert_response :success
@@ -168,12 +159,6 @@ class ClassificationsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :classification => { }
     assert_response :forbidden
-  end
-  
-  def test_admin_should_not_update_classification_without_name
-    UserSession.create users(:admin)
-    put :update, :id => 1, :classification => {:name => nil}
-    assert_response :success
   end
   
   def test_admin_should_update_classification

@@ -151,13 +151,16 @@ ActionController::Routing::Routes.draw do |map|
     subject_heading_type.resources :subjects
   end
 
-  map.resources :classification_types
+  map.resources :classification_types do |classification_type|
+    classification_type.resources :classifications
+  end
 
   map.resources :classifications do |classification|
     #classification.resources :concepts
     #classification.resources :places
     classification.resources :subjects
     classification.resources :subject_has_classifications
+    classification.resources :tags
   end
 
   map.resources :subjects do |subject|

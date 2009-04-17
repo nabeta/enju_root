@@ -69,6 +69,7 @@ class Manifestation < ActiveRecord::Base
   enju_amazon
   enju_porta
   acts_as_cached
+  #acts_as_taggable_on :subject_tags
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -205,7 +206,8 @@ class Manifestation < ActiveRecord::Base
   end
 
   def tag
-    tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
+    #tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
+    tags.collect(&:name)
   end
 
   def tags

@@ -188,7 +188,7 @@ class User < ActiveRecord::Base
   end
 
   def patron_name
-    self.patron.name
+    self.patron.name if self.patron
   end
 
   def highest_role

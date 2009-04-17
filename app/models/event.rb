@@ -23,10 +23,10 @@ class Event < ActiveRecord::Base
 
   def before_save
     if self.started_at.blank?
-      self.started_at = Time.today
+      self.started_at = Time.zone.today.beginning_of_day
     end
     if self.ended_at.blank?
-      self.ended_at = Time.today.end_of_day
+      self.ended_at = Time.zone.today.end_of_day
     end
   end
 
