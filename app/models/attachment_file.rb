@@ -12,7 +12,7 @@ class AttachmentFile < ActiveRecord::Base
   validates_presence_of :manifestation
   validates_associated :manifestation
 
-  #has_ipaper_and_uses 'AttachmentFu'
+  has_ipaper_and_uses 'AttachmentFu'
   enju_scribd
 
   cattr_accessor :per_page

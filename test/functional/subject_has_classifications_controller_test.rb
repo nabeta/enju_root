@@ -166,7 +166,6 @@ class SubjectHasClassificationsControllerTest < ActionController::TestCase
   def test_librarian_should_update_subject_has_classification
     UserSession.create users(:librarian1)
     put :update, :id => 1, :subject_has_classification => { }
-    #assert_nil assigns(:subject_has_classification).errors
     assert_redirected_to subject_has_classification_url(assigns(:subject_has_classification))
   end
   

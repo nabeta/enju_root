@@ -60,12 +60,12 @@ module EnjuPorta
         expression.manifestations << manifestation
         manifestation.patrons << publisher_patrons
 
-        subjects.each do |term|
-          #subject = Subject.find(:first, :conditions => {:term => term})
-          #manifestation.subjects << subject if subject
-          #subject = Tag.find(:first, :conditions => {:name => term})
-          #manifestation.tags << subject if subject
-        end
+        #subjects.each do |term|
+        #  subject = Subject.find(:first, :conditions => {:term => term})
+        #  manifestation.subjects << subject if subject
+        #  subject = Tag.find(:first, :conditions => {:name => term})
+        #  manifestation.tags << subject if subject
+        #end
       end
 
       return manifestation
