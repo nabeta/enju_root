@@ -15,6 +15,8 @@ class Reserve < ActiveRecord::Base
   named_scope :not_sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => false}
   named_scope :sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => true}
   named_scope :sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => true}
+  named_scope :not_sent_cancel_notice_to_patron, :conditions => {:state => 'canceled', :expiration_notice_to_patron => false}
+  named_scope :not_sent_cancel_notice_to_library, :conditions => {:state => 'canceled', :expiration_notice_to_library => false}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -123,25 +125,24 @@ class Reserve < ActiveRecord::Base
         system_user = User.find(1) # TODO: システムからのメッセージの発信者
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_accepted'})
         queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.send_message # 受付時は即時送信
+        queue.aasm_send_message! # 受付時は即時送信
         message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_accepted'})
         queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
-        queue.send_message # 受付時は即時送信
+        queue.aasm_send_message! # 受付時は即時送信
       when 'canceled'
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_patron'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.send_message # キャンセル時は即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.aasm_send_message! # キャンセル時は即時送信
         message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_library'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
-        queue.send_message # キャンセル時は即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+        queue.aasm_send_message! # キャンセル時は即時送信
       when 'expired'
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_patron'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.send_message # 期限切れ時は利用者にのみ即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.aasm_send_message! # 期限切れ時は利用者にのみ即時送信
         self.update_attribute(:expiration_notice_to_patron, true)
       end
     end
-    true
   end
 
   def self.send_message_to_library(status)
@@ -151,6 +152,12 @@ class Reserve < ActiveRecord::Base
       message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_library'})
       queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
       self.not_sent_expiration_notice_to_library.each do |reserve|
+        reserve.update_attribute(:expiration_notice_to_library, true)
+      end
+    when 'canceled'
+      message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_library'})
+      queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+      self.not_sent_cancel_notice_to_library.each do |reserve|
         reserve.update_attribute(:expiration_notice_to_library, true)
       end
     end

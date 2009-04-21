@@ -32,6 +32,9 @@ class MessageQueue < ActiveRecord::Base
       Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
     end
     self.update_attributes({:sent_at => Time.zone.now})
+    self.receiver.reserves.each do |reserve|
+      reserve.update_attribute(:expiration_notice_to_patron, true)
+    end
   end
   
   def subject
@@ -39,17 +42,20 @@ class MessageQueue < ActiveRecord::Base
   end
 
   def body
-    unless self.message_body.blank?
+    message = self.message_body.dup
+    unless message.blank?
       library_group = LibraryGroup.site_config
       message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
       message = message.gsub("{reserved_manifestations}", self.message_body)
       message = message.gsub("{library_system_name}", library_group.name)
     end
+    return message
   end
 
   def message_body
     # TODO: 予約以外のメッセージ
     manifestation_message = []
+    manifestation_message << self.message_template.body
     case self.message_template.status
     when "reservation_accepted"
       reserves = self.receiver.reserves.not_hold.waiting
@@ -61,6 +67,10 @@ class MessageQueue < ActiveRecord::Base
     when "reservation_expired_for_patron"
       #reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_patron
       reserves = self.receiver.reserves.not_sent_expiration_notice_to_patron
+    when "reservation_canceled_for_library"
+      reserves = self.receiver.reserves.not_sent_cancel_notice_to_library
+    when "reservation_canceled_for_patron"
+      reserves = self.receiver.reserves.not_sent_cancel_notice_to_patron
     end
 
     unless reserves.blank?
@@ -79,7 +89,6 @@ class MessageQueue < ActiveRecord::Base
         end
         manifestation_message << "#{LibraryGroup.url}manifestations/#{reserve.manifestation.id}"
         manifestation_message << "\r\n\r\n"
-        reserve.update_attribute(:expiration_notice_to_patron, true)
       end
     else
       'no reservations expired.'

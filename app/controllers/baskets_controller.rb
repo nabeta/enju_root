@@ -46,11 +46,10 @@ class BasketsController < ApplicationController
   # POST /baskets
   # POST /baskets.xml
   def create
+    @basket = Basket.new
     @user = User.find(:first, :conditions => {:user_number => params[:basket][:user_number]}) rescue nil
-    if @user
-      @basket = Basket.new(:user_id => @user.id)
-    else
-      @basket = Basket.new
+    unless @user.user_number.blank?
+      @basket.user = @user
     end
 
     respond_to do |format|

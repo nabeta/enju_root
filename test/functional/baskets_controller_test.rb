@@ -67,7 +67,7 @@ class BasketsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_create_basket_without_user_number
+  def test_librarian_should_not_create_basket_without_user_number
     UserSession.create users(:librarian1)
     old_count = Basket.count
     post :create, :basket => { }
