@@ -63,6 +63,11 @@ class ReservesController < ApplicationController
   # GET /reserves/new
   def new
     user = get_user_number ||= get_user_if_nil
+    unless current_user.has_role?('Librarian')
+      if user.user_number.blank?
+        access_denied; return
+      end
+    end
 
     unless current_user.has_role?('Librarian')
       if user.blank? or user != current_user
@@ -80,7 +85,7 @@ class ReservesController < ApplicationController
     if @manifestation
       @reserve.manifestation = @manifestation
       if user
-        #@reserve.expired_at = @manifestation.reservation_expired_period(user).days.from_now.end_of_day
+        @reserve.expired_at = @manifestation.reservation_expired_period(user).days.from_now.end_of_day
         if @manifestation.is_reserved_by(user)
           flash[:notice] = t('reserve.this_manifestation_is_already_reserved')
           redirect_to @manifestation

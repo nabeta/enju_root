@@ -72,10 +72,16 @@ class ReservesControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
   
-  def test_user_should_get_my_new
+  def test_user_should_get_my_new_when_user_number_is_set
     UserSession.create users(:user1)
     get :new, :user_id => users(:user1).login, :manifestation_id => 3
     assert_response :success
+  end
+  
+  def test_user_should_not_get_my_new_when_user_number_is_not_set
+    UserSession.create users(:user2)
+    get :new, :user_id => users(:user2).login, :manifestation_id => 3
+    assert_response :forbidden
   end
   
   def test_user_should_not_get_other_new

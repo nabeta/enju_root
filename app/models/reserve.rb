@@ -138,17 +138,21 @@ class Reserve < ActiveRecord::Base
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_patron'})
         queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
         queue.send_message # 期限切れ時は利用者にのみ即時送信
+        self.update_attribute(:expiration_notice_to_patron, true)
       end
     end
     true
   end
 
-  def self.send_message_to_patrons(status)
+  def self.send_message_to_library(status)
     system_user = User.find(1) # TODO: システムからのメッセージの発信者
     case status
     when 'expired'
       message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_library'})
-      queue = MessageQueue.create(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+      queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+      self.not_sent_expiration_notice_to_library.each do |reserve|
+        reserve.update_attribute(:expiration_notice_to_library, true)
+      end
     end
     true
   end
@@ -183,14 +187,13 @@ class Reserve < ActiveRecord::Base
   def self.expire
     Reserve.transaction do
       reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
-      Reserve.send_message_to_patrons('expired') unless reservations.blank?
+      Reserve.send_message_to_library('expired') unless reservations.blank?
       reservations.find_in_batches do |reserves|
         reserves.each {|reserve|
           # キューに登録した時点では本文は作られないので
           # 予約の連絡をすませたかどうかを識別できるようにしなければならない
           reserve.send_message('expired')
           reserve.aasm_expire!
-          reserve.update_attribute(:expiration_notice_to_patron, true)
           #reserve.expire
         }
       end

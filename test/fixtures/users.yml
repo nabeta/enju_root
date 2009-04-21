@@ -53,7 +53,7 @@ user2:
   created_at: 2008-01-18 13:29:06.922728 +09:00
   save_search_history: false
   required_role_id: 2
-  user_number: "00005"
+  user_number: 
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test
