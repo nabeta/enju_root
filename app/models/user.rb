@@ -259,11 +259,12 @@ class User < ActiveRecord::Base
     end
   end
 
-  def send_message(status)
+  def send_message(status, options = {})
     queue = MessageQueue.new
     queue.sender = User.get_cache(1)
     queue.receiver = self
     queue.message_template = MessageTemplate.find_by_status(status)
+    queue.embed_body(options)
     queue.save!
     queue.aasm_send_message!
   end

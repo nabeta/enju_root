@@ -117,7 +117,6 @@ class Reserve < ActiveRecord::Base
     self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Available For Pickup'}), :checked_out_at => Time.zone.now})
   end
 
-  # この予約をしている人のほかの予約もメッセージを送ってしまう
   def send_message(status)
     system_user = User.get_cache(1) # TODO: システムからのメッセージの発信者
     Reserve.transaction do
@@ -213,12 +212,12 @@ class Reserve < ActiveRecord::Base
           # reserve.expire
         }
       end
-      Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
-        reserve.send_message('expired')
-      end
-      #User.find_each do |user|
-      #  user.send_message('reservation_expired_for_patron')
+      #Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
+      #  reserve.send_message('expired')
       #end
+      User.find_each do |user|
+        user.send_message('reservation_expired_for_patron', user.reserves.not_sent_expiration_notice_to_patron)
+      end
       Reserve.send_message_to_library('expired') unless reservations.blank?
       logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end
