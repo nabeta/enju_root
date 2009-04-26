@@ -111,7 +111,7 @@
           </tr>
         </table>
       </div>
-      <%- unless @expression.patrons.blank? -%>
+      <%- unless @expression.patrons.empty? -%>
         <%= render :partial => 'expressions/patron_list' -%>
       <%- end -%>
       <%- if @expression.work -%>

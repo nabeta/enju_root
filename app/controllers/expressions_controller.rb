@@ -130,7 +130,7 @@ class ExpressionsController < ApplicationController
         end
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
-        if @expression.patrons.blank?
+        if @expression.patrons.empty?
           format.html { redirect_to expression_patrons_url(@expression) }
           format.xml  { render :xml => @expression, :status => :created, :location => @expression }
         else

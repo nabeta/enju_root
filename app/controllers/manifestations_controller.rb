@@ -237,7 +237,7 @@ class ManifestationsController < ApplicationController
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
         #else
-          unless @manifestation.patrons.blank?
+          unless @manifestation.patrons.empty?
             format.html { redirect_to(@manifestation) }
             format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
           else

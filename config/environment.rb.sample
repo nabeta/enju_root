@@ -11,6 +11,9 @@ AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
 AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
 GOOGLE_APPLICATION_ID = 'REPLACE_WITH_YOUR_GOOGLE_APPLICATION_ID'
 
+# パトロンの名前を入力する際、姓を先に表示する
+FAMILY_NAME_FIRST = true
+
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present

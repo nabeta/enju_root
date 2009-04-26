@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :login
   acts_as_tagger
+  acts_as_cached
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -73,9 +74,9 @@ class User < ActiveRecord::Base
   #validates_uniqueness_of   :login,    :case_sensitive => false
 
   #validates_presence_of     :email
-  #validates_length_of       :email,    :within => 6..100, :if => Proc.new{|user| !user.email.blank?}, :allow_nil => true
-  #validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
+  validates_length_of       :email,    :within => 6..100, :if => Proc.new{|user| !user.email.blank?}, :allow_nil => true
+  validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
   validates_presence_of :user_group, :library
@@ -122,12 +123,15 @@ class User < ActiveRecord::Base
     #lock = true if self.user_number.blank?
 
     self.suspended = true if lock
+
+    self.expire_cache
   end
 
   def before_destroy
     if self.has_role?('Administrator')
       raise 'This is the last administrator in this system.' if Role.find_by_name('Administrator').users.size == 1
     end
+    self.expire_cache
   end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -253,6 +257,15 @@ class User < ActiveRecord::Base
         self.roles << role
       end
     end
+  end
+
+  def send_message(status)
+    queue = MessageQueue.new
+    queue.sender = User.get_cache(1)
+    queue.receiver = self
+    queue.message_template = MessageTemplate.find_by_status(status)
+    queue.save!
+    queue.aasm_send_message!
   end
 
   private

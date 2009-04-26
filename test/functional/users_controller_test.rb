@@ -154,8 +154,8 @@ class UsersControllerTest < ActionController::TestCase
     UserSession.create users(:user1)
     put :update, :id => users(:user1).login, :user => {:email => 'user1@library.example.jp', :old_password => 'wrong password', :password => 'new_user1', :password_confirmation => 'new_user1'}
     assert_response :success
-    assert !assigns(:user).valid_password?('user1password')
-    assert assigns(:user).valid_password?('new_user1')
+    assert assigns(:user).valid_password?('user1password')
+    assert !assigns(:user).valid_password?('new_user1')
     assert !assigns(:user).valid_password?('wrong password')
   end
 
@@ -164,8 +164,8 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => users(:user1).login, :user => {:email => 'user1@library.example.jp', :old_password => 'user1password', :password => 'new_user1', :password_confirmation => 'wrong password'}
     assert_response :success
     assert_equal assigns(:user).errors[:password], "doesn't match confirmation"
-    assert !assigns(:user).valid_password?('user1password')
-    assert assigns(:user).valid_password?('new_user1')
+    assert assigns(:user).valid_password?('user1password')
+    assert !assigns(:user).valid_password?('new_user1')
     assert !assigns(:user).valid_password?('wrong password')
   end
 

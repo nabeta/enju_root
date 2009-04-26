@@ -63,9 +63,10 @@ class Bookmark < ActiveRecord::Base
     #  title = (doc/"title").inner_text
     #end
     title
-  rescue
+  rescue OpenURI::HTTPError
     # TODO 404などの場合の処理
-    nil
+    raise "unable to access: #{access_url}"
+  #  nil
   end
 
   def create_bookmark_item

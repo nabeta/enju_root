@@ -246,7 +246,7 @@ class PatronsControllerTest < ActionController::TestCase
   
   def test_user_should_not_update_myself_without_name
     UserSession.create users(:user1)
-    put :update, :id => users(:user1).patron.id, :patron => { :full_name => '' }
+    put :update, :id => users(:user1).patron.id, :patron => { :first_name => '', :last_name => '', :full_name => '' }
     assert_response :success
   end
   
