@@ -12,7 +12,7 @@
             <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
             <%= patrons_list(manifestation.authors) -%>
             <%= patrons_list(manifestation.editors) -%>
-            <%= patrons_list(manifestation.patrons) -%>
+            <%= patrons_list(manifestation.publishers) -%>
             <%- if manifestation.date_of_publication -%>
               (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
             <%- end -%>

@@ -19,8 +19,7 @@
         
 <table id="index">
   <tr>
-    <th><%= ('Category') -%></th>
-    <!-- <th><%= t('activerecord.attributes.classification.name') -%></th> -->
+    <th><%= t('activerecord.attributes.classification.category') -%></th>
     <th><%= t('activerecord.attributes.classification.note') -%></th>
     <th><%= t('activerecord.models.classification_type') -%></th>
   </tr>
@@ -28,7 +27,6 @@
 <%- for classification in @classifications -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(classification.category), classification -%></td>
-    <!-- <td><%= link_to h(classification.name), classification -%></td> -->
     <td><%=h classification.note -%></td>
     <td><%=h classification.classification_type.display_name -%></td>
     <%- if classification.is_deletable_by(current_user) -%>

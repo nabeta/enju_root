@@ -11,6 +11,9 @@ AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
 AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
 GOOGLE_APPLICATION_ID = 'REPLACE_WITH_YOUR_GOOGLE_APPLICATION_ID'
 
+# パトロンの名前を入力する際、姓を先に表示する
+FAMILY_NAME_FIRST = true
+
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
@@ -66,6 +69,11 @@ Rails::Initializer.run do |config|
   config.gem "javan-whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
   config.gem "mbleigh-acts-as-taggable-on", :lib => "acts-as-taggable-on"
+  config.gem "mloughran-api_cache", :lib => "api_cache"
+  config.gem "memcache-client", :lib => "memcache"
+  config.gem "shared-mime-info"
+  config.gem "authlogic-oid", :lib => "authlogic_openid"
+  config.gem "tobi-delayed_job", :lib => "delayed_job"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -91,6 +99,7 @@ end
 Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
 Money.default_currency = "JPY"
 RAILS_DEFAULT_LOGGER.auto_flushing = 1
+APICache.start
 
 #require 'jasper-rails'
 require 'solr_modified'
@@ -105,4 +114,3 @@ require 'search_query'
 require 'restful_acl_controller'
 require 'tag_list'
 require 'hostname'
-require 'scribd_fu_modified'

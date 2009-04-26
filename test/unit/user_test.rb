@@ -7,10 +7,10 @@ class UserTest < ActiveSupport::TestCase
   fixtures :users, :patrons, :user_groups, :manifestation_forms, :roles
 
   def test_should_create_user
-    assert_no_difference 'User.count' do
+    assert_difference 'User.count' do
       user = create_user
-      #assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
-      assert user.new_record?, "#{user.errors.full_messages.to_sentence}"
+      assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+      #assert user.new_record?, "#{user.errors.full_messages.to_sentence}"
     end
   end
 
@@ -36,7 +36,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_should_not_require_email
-    assert_no_difference 'User.count' do
+    #assert_no_difference 'User.count' do
+    assert_difference 'User.count' do
       u = create_user(:email => nil)
       assert_nil u.errors.on(:email)
     end

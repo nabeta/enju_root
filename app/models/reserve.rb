@@ -11,10 +11,12 @@ class Reserve < ActiveRecord::Base
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
   #named_scope :expired_notified, :conditions => {:state => 'expired'}
-  named_scope :not_sent_expiration_notice_to_patron, :conditions => {:expiration_notice_to_patron => false}
-  named_scope :not_sent_expiration_notice_to_library, :conditions => {:expiration_notice_to_library => false}
-  named_scope :sent_expiration_notice_to_patron, :conditions => {:expiration_notice_to_patron => true}
-  named_scope :sent_expiration_notice_to_library, :conditions => {:expiration_notice_to_library => true}
+  named_scope :not_sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => false}
+  named_scope :not_sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => false}
+  named_scope :sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => true}
+  named_scope :sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => true}
+  named_scope :not_sent_cancel_notice_to_patron, :conditions => {:state => 'canceled', :expiration_notice_to_patron => false}
+  named_scope :not_sent_cancel_notice_to_library, :conditions => {:state => 'canceled', :expiration_notice_to_library => false}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -85,7 +87,7 @@ class Reserve < ActiveRecord::Base
   def manifestation_must_include_item
     unless item_id.blank?
       item = Item.find(item_id) rescue nil
-      errors.add_to_base(('Invalid item id.')) unless manifestation.items.include?(item)
+      errors.add_to_base(t('reserve.invalid_item')) unless manifestation.items.include?(item)
     end
   end
 
@@ -115,42 +117,61 @@ class Reserve < ActiveRecord::Base
     self.update_attributes!({:request_status_type => RequestStatusType.find(:first, :conditions => {:name => 'Available For Pickup'}), :checked_out_at => Time.zone.now})
   end
 
+  # この予約をしている人のほかの予約もメッセージを送ってしまう
   def send_message(status)
-    system_user = User.find(1) # TODO: システムからのメッセージの発信者
+    system_user = User.get_cache(1) # TODO: システムからのメッセージの発信者
     Reserve.transaction do
       case status
       when 'accepted'
-        system_user = User.find(1) # TODO: システムからのメッセージの発信者
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_accepted'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.send_message # 受付時は即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.embed_body(:manifestations => Array[self.manifestation])
+        queue.aasm_send_message! # 受付時は即時送信
         message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_accepted'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
-        queue.send_message # 受付時は即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
+        queue.embed_body(:manifestations => Array[self.manifestation])
+        queue.aasm_send_message! # 受付時は即時送信
       when 'canceled'
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_patron'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.send_message # キャンセル時は即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.embed_body(:manifestations => Array[self.manifestation])
+        queue.aasm_send_message! # キャンセル時は即時送信
         message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_library'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
-        queue.send_message # キャンセル時は即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+        queue.embed_body(:manifestations => Array[self.manifestation])
+        queue.aasm_send_message! # キャンセル時は即時送信
       when 'expired'
         message_template_to_patron = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_patron'})
-        queue = MessageQueue.create(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.send_message # 期限切れ時は利用者にのみ即時送信
+        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        queue.embed_body(:manifestations => Array[self.manifestation])
+        queue.aasm_send_message! # 期限切れ時は利用者にのみ即時送信
+        self.update_attribute(:expiration_notice_to_patron, true)
+      else
+        raise 'status not defined'
       end
     end
-    true
   end
 
-  def self.send_message_to_patrons(status)
-    system_user = User.find(1) # TODO: システムからのメッセージの発信者
+  def self.send_message_to_library(status)
+    system_user = User.get_cache(1) # TODO: システムからのメッセージの発信者
     case status
     when 'expired'
       message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_library'})
-      queue = MessageQueue.create(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+      queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+      queue.embed_body(:manifestations => self.not_sent_expiration_notice_to_library.collect(&:manifestation))
+      self.not_sent_expiration_notice_to_library.each do |reserve|
+        reserve.update_attribute(:expiration_notice_to_library, true)
+      end
+    #when 'canceled'
+    #  message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_canceled_for_library'})
+    #  queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+    #  queue.embed_body(:manifestations => self.not_sent_expiration_notice_to_library.collect(&:manifestation))
+    #  self.not_sent_cancel_notice_to_library.each do |reserve|
+    #    reserve.update_attribute(:expiration_notice_to_library, true)
+    #  end
+    else
+      raise 'status not defined'
     end
-    true
   end
 
   def self.users_count(start_date, end_date, user)
@@ -183,17 +204,22 @@ class Reserve < ActiveRecord::Base
   def self.expire
     Reserve.transaction do
       reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
-      Reserve.send_message_to_patrons('expired') unless reservations.blank?
       reservations.find_in_batches do |reserves|
         reserves.each {|reserve|
           # キューに登録した時点では本文は作られないので
           # 予約の連絡をすませたかどうかを識別できるようにしなければならない
-          reserve.send_message('expired')
+          # reserve.send_message('expired')
           reserve.aasm_expire!
-          self.update_attribute(:expiration_notice_to_patron, true)
-          #reserve.expire
+          # reserve.expire
         }
       end
+      Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
+        reserve.send_message('expired')
+      end
+      #User.find_each do |user|
+      #  user.send_message('reservation_expired_for_patron')
+      #end
+      Reserve.send_message_to_library('expired') unless reservations.blank?
       logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end
   #rescue

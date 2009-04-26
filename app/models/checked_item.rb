@@ -58,7 +58,7 @@ class CheckedItem < ActiveRecord::Base
     end
 
     if self.item_checkout_type.fixed_due_date.blank?
-      self.due_date = item_checkout_type.checkout_period.days.since Time.today
+      self.due_date = item_checkout_type.checkout_period.days.since Time.zone.today
     else
       self.due_date = item_checkout_type.fixed_due_date
     end

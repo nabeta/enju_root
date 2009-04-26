@@ -12,7 +12,7 @@
 
 <%= error_messages_for :library -%>
 
-<%- form_for(:library, :url => library_path(@library.short_name), :html => { :method => :put }) do |f| -%>
+<%- form_for(@library, :url => library_path(@library.short_name), :html => { :method => :put }) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.library.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>

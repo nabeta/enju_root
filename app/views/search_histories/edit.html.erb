@@ -2,7 +2,7 @@
 
 <%= error_messages_for :search_history -%>
 
-<%- form_for(:search_history, :url => search_history_path(@search_history), :html => { :method => :put }) do |f| -%>
+<%- form_for(@search_history) do |f| -%>
   <p>
     <b>Operation</b><br />
     <%= f.text_field :operation -%>

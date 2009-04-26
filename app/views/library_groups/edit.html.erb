@@ -10,7 +10,7 @@
 
 <%= error_messages_for :library_group -%>
 
-<%- form_for(:library_group, :url => library_group_path(@library_group), :html => { :method => :put }) do |f| -%>
+<%- form_for(@library_group) do |f| -%>
 
   <p>
     <b><%= t('activerecord.attributes.library_group.name') -%></b><br />

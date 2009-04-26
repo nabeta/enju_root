@@ -94,6 +94,6 @@ class ManifestationFormHasCheckoutTypesController < ApplicationController
   private
   def prepare_options
     @checkout_types = CheckoutType.find(:all, :order => :position)
-    @manifestation_forms = ManifestationForm.find(:all, :order => :position)
+    @manifestation_forms = ManifestationForm.find(:all)
   end
 end

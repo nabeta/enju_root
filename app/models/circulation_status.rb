@@ -1,6 +1,8 @@
 class CirculationStatus < ActiveRecord::Base
   include DisplayName
   include OnlyAdministratorCanModify
+
+  default_scope :order => "position"
   named_scope :available_for_checkout, :conditions => {:name => ['Available On Shelf']}
   has_many :items
   validates_presence_of :name

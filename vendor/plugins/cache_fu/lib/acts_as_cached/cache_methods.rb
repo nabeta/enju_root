@@ -52,7 +52,7 @@ module ActsAsCached
       keys_map = Hash[*keys.zip(cache_ids).flatten]
 
       # Call get_multi and figure out which keys were missed based on what was a hit
-      hits = cache_store(:get_multi, *keys) || {}
+      hits = ActsAsCached.config[:disabled] ? {} : (cache_store(:get_multi, *keys) || {})
 
       # Misses can take the form of key => nil
       hits.delete_if { |key, value| value.nil? }
@@ -72,6 +72,18 @@ module ActsAsCached
 
       # Return all records as a hash indexed by object cache_id
       (hits.values + missed_records).index_by(&:cache_id)
+    end
+
+    # simple wrapper for get_caches that
+    # returns the items as an ordered array
+    def get_caches_as_list(*args)
+      cache_ids = args.last.is_a?(Hash) ? args.first : args
+      cache_ids = [cache_ids].flatten
+      hash      = get_caches(*args)
+      
+      cache_ids.map do |key|
+        hash[key]
+      end
     end
 
     def set_cache(cache_id, value, ttl = nil)
@@ -168,8 +180,11 @@ module ActsAsCached
     # Memcache-client automatically prepends the namespace, plus a colon, onto keys, so we take that into account for the max key length.
     # Rob Sanheim
     def max_key_length
-      key_size = cache_config[:key_size] || 250
-      @max_key_length ||= cache_namespace ? (key_size - cache_namespace.length - 1) : key_size
+      unless @max_key_length
+        key_size = cache_config[:key_size] || 250
+        @max_key_length = cache_namespace ? (key_size - cache_namespace.length - 1) : key_size
+      end
+      @max_key_length 
     end
 
     def cache_name
@@ -181,7 +196,7 @@ module ActsAsCached
     end
 
     def cache_key(cache_id)
-      [cache_name, cache_config[:version], cache_id].compact.join(':').gsub(' ', '_').first(max_key_length)
+      [cache_name, cache_config[:version], cache_id].compact.join(':').gsub(' ', '_')[0..(max_key_length - 1)]
     end
 
     def cache_store(method = nil, *args)

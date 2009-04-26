@@ -1,6 +1,7 @@
 class ClassificationType < ActiveRecord::Base
   include DisplayName
   include OnlyAdministratorCanModify
+  default_scope :order => 'position'
   has_many :classifications
   validates_presence_of :name
 

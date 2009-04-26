@@ -1,0 +1,18 @@
+<p>
+  <b>User:</b>
+  <%=h @user_has_shelf.user_id %>
+</p>
+
+<p>
+  <b>Shelf:</b>
+  <%=h @user_has_shelf.shelf_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @user_has_shelf.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_user_has_shelf_path(@user_has_shelf) %> |
+<%= link_to 'Back', user_has_shelves_path %>

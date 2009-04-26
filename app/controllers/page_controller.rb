@@ -1,5 +1,5 @@
 class PageController < ApplicationController
-  before_filter :store_location, :except => [:opensearch, :sitemap]
+  before_filter :store_location, :except => [:opensearch, :sitemap, :screen_shot]
   #before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message]
   before_filter :get_libraries, :only => [:advanced_search]
@@ -16,7 +16,7 @@ class PageController < ApplicationController
     # TODO: タグ下限の設定
     @tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
     @picked_up = Manifestation.pickup
-    @news_feeds = LibraryGroup.find(:first).news_feeds.find(:all, :order => :position) rescue nil
+    @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
   end
 
   def patron
@@ -83,7 +83,18 @@ class PageController < ApplicationController
   end
 
   def under_construction
-    @title = ('Under construction')
+    @title = t('page.under_construction')
+  end
+
+  def screen_shot
+    thumb = Page.get_screen_shot(params[:url])
+    if thumb
+      file = Tempfile.new('thumb')
+      file.puts thumb
+      file.close
+      mime = MIME.check(file.path)
+      send_data thumb, :filename => File.basename(file.path), :type => mime.type, :disposition => 'inline'
+    end
   end
 
   private

@@ -11,7 +11,7 @@
 
 <%= error_messages_for :user_group -%>
 
-<%- form_for(:user_group, :url => user_group_path(@user_group), :html => { :method => :put }) do |f| -%>
+<%- form_for(@user_group, :url => user_group_path(@user_group)) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.user.name') -%></b><br />
     <%= f.text_field :name, :class => 'resource_title' -%>

@@ -1,25 +1,20 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
 <div id="content_list">
-  <%= textilize(h(@library_group.login_banner)) -%>
+  <%- if params[:mode] == 'openid' -%>
+    <%= render :partial => 'user_sessions/openid_login_banner' -%>
+    <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
+  <%- else -%>
+    <%= textilize(h(@library_group.login_banner)) unless params[:mode] == 'openid' -%>
+    <p><%= link_to t('user_session.login_with_openid'), new_user_session_url(:mode => 'openid') -%></p>
+  <%- end -%>
 </div>
 </div>
 
 <div id="submenu">
-<% form_for @user_session, :url => user_session_path do |f| %>
-  <p><%= f.label t('page.login_name') -%><br/>
-  <%= f.text_field :login, :class => 'login_password' %></p>
-
-  <p><%= f.label t('page.password') -%><br/>
-  <%= f.password_field :password, :class => 'login_password' %></p>
-
-  <p><%= f.label t('user_session.remember_me') -%>
-  <%= f.check_box :remember_me %></p>
-
-  <p>
-    <%= f.submit t('page.login') %>
-  </p>
-
-<% end %>
-<%= javascript_tag("$('user_session_login').focus()") -%>
+  <%- if params[:mode] == 'openid' -%>
+    <%= render :partial => 'user_sessions/openid' -%>
+  <%- else -%>
+    <%= render :partial => 'user_sessions/password' -%>
+  <%- end -%>
 </div>

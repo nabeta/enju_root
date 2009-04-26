@@ -80,8 +80,8 @@
                   <div id="bookmark" class="yuimenu">
                     <div class="bd">                    
                       <ul>
+                        <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_manifestation_path(:mode => 'import_isbn'), :class => 'yuimenuitemlabel' -%></li>
                         <%- if current_user.has_role?('Librarian') -%>
-                          <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_manifestation_path(:mode => 'import_isbn'), :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.upload_file'), new_attachment_file_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>

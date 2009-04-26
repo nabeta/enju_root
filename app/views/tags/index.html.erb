@@ -7,6 +7,13 @@
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.tag')) -%></h1>
 <div id="content_list">
 
+<%- form_for :subjects, :url => subjects_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+<%- end -%>
+
 <p><%= t('page.sort_by') -%>:
   <%= link_to t('activerecord.attributes.tag.name'), tags_path(:order => 'name') -%>
   <%= link_to t('activerecord.attributes.tag.taggings_count'), tags_path(:order => 'taggings_count') -%>

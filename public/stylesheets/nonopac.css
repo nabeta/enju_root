@@ -124,20 +124,6 @@ div#manifestation_footer{
   clear: both;
 }
 
-div#related_works{
-  height: 100px;
-}
-
-div#expression_content, div#manifestation_content{
-  border: 1px solid #5970B2;
-}
-
-div#patron_content{
-  float: left;
-  width: 40%;
-  padding-left: 2em;
-}
-
 div#left_pane{
   margin-top: 5px;
   float: left;
@@ -241,14 +227,6 @@ div#searchform{
 
 table#manifestation_detail{
   width: 100%;
-}
-
-td#manifestation_item{
-  width: 20%;
-}
-
-td#manifestation_data{
-  width: 80%;
 }
 
 li.yuimenubaritem{

@@ -122,6 +122,7 @@ ja:
       corporate_body: 団体
       family: 家族
       subject_heading_type_has_subject: 件名標目と件名の関係
+      user_has_shelf: 利用者と書棚の関係
     attributes:
       library:
         name: 名前
@@ -254,9 +255,9 @@ ja:
       patron_merge_list:
         title: タイトル
       user:
-        login: ログイン
+        login: ログイン名
         name: 名前
-        openid_url: OpenIDのURL
+        openid_identifier: OpenIDのURL
         email: メールアドレス
         crypted_password: 暗号化パスワード
         salt: ソルト
@@ -282,6 +283,8 @@ ja:
         library: 所属館
         user_group: ユーザグループ
         full_name: 氏名
+        password: パスワード
+        old_password: 古いパスワード
       resource_has_subject:
         subjectable_type: 件名付与対象の種類
       picture_file:
@@ -934,6 +937,7 @@ ja:
     merge: "併合する（取り消しはできません）"
     merge_resource: "{{model}}を併合する"
     attachable: 添付先
+    under_construction: 開発中
   title:
     index: "一覧"
     show: "表示"
@@ -953,6 +957,8 @@ ja:
     remember_me: "ウインドウを閉じてもログインしたままにする"
     your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
     login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
+    login_with_username_and_password: "ログイン名とパスワードを利用してログインする"
+    login_with_openid: "OpenIDを利用してログインする"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
@@ -1124,6 +1130,8 @@ ja:
     reset_checkout_icalendar_url: "貸出期限通知用のiCalendarファイルのURLをリセットする"
     you_have_to_save_profile_to_activate_feed_url: "新しいURLを有効にするには、プロフィールを更新する必要があります。"
     you_have_to_save_profile_to_deactivate_feed_url: "URLを無効にするには、プロフィールを更新する必要があります。"
+    sign_up: "新規登録"
+    could_not_setup_account: "利用者のアカウントを作成できませんでした。もう一度やり直すか、管理者に連絡してください。"
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:
@@ -1136,6 +1144,7 @@ ja:
     this_patron_cannot_reserve: "このパトロンはこの資料を予約できません。"
     reservation_was_canceled: "予約は取り消されました。"
     this_item_is_not_reserved: "この資料は予約されていません。"
+    invalid_item: "無効な個別資料です。"
   purchase_request:
     user_purchase_request: "{{login_name}} さんの購入依頼資料"
     library_group_purchase_request: "{{library_group_name}} での購入依頼資料"

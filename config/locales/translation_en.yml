@@ -122,6 +122,7 @@ en:
       corporate_body: Corporate body
       family: Family
       subject_heading_type_has_subject: Subject heading type to subject relationship
+      user_has_shelf: User to shelf relationship
     attributes:
       library:
         name: Name
@@ -257,7 +258,7 @@ en:
       user:
         login: Login
         name: Name
-        openid_url: OpenID URL
+        openid_identifier: OpenID Identifier
         email: Email
         crypted_password: Crypted password
         salt: Salt
@@ -283,6 +284,8 @@ en:
         library: Library
         user_group: User group
         full_name: Full name
+        password: Password
+        old_password: Old password
       resource_has_subject:
         subjectable_type: Subjectable type
       picture_file:
@@ -951,6 +954,7 @@ en:
     merge: "Merge!"
     merge_resource: "Merge {{model}}"
     attachable: "Attachable"
+    under_construction: "Under construction"
   title:
     index: "index"
     show: "show"
@@ -970,6 +974,8 @@ en:
     remember_me: "Remember me"
     your_account_is_suspended: "Your account is suspended. Tell the library staffs."
     login_failed: "Login failed. Your username or password may be wrong."
+    login_with_username_and_password: "Login with username and password"
+    login_with_openid: "Login with OpenID"
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
@@ -1129,7 +1135,6 @@ en:
     repeat_new_password: "Repeat new password"
     delete_this_user: "Delete this user"
     your_temporary_password_is: "Your temporary password is"
-    library_group_news_post: "News from {{library_group_name}}"
     sign_up: "Sign up"
     edit_profile: "Edit profile"
     already_activated: "Already activated."
@@ -1148,6 +1153,10 @@ en:
     reset_checkout_icalendar_url: "Reset checkout iCalendar URL"
     you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
     you_have_to_save_profile_to_deactivate_feed_url: "You have to save your profile to deactivate this url."
+    sign_up: "Sign up"
+    could_not_setup_account: "We couldn't set up that account, sorry.  Please try again, or contact an admin."
+  news_post:
+    library_group_news_post: "News from {{library_group_name}}"
   reserve:
     user_reserve: "{{login_name}}'s reservations"
     library_group_reserve: "Reservations in {{library_group_name}}"
@@ -1158,6 +1167,7 @@ en:
     this_patron_cannot_reserve: "This patron can't reserve this manifestation."
     reservation_was_canceled: "Reservation was canceled."
     this_item_is_not_reserved: "This item is not reserved."
+    invalid_item: "Invalid item."
   purchase_request:
     user_purchase_request: "{{login_name}} 's purchase requests"
     library_group_purchase_request: "Purchase requests in {{library_group_name}}"

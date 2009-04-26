@@ -17,7 +17,7 @@
 </div>
 
 <div id="content_detail">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.country')) -%></h1>
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
 
   <%-
@@ -36,16 +36,16 @@
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- unless @work.patrons.blank? -%>
+      <%- unless @work.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
       <%- end -%>
       <%- unless @work.children.blank? -%>
         <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
-      <%- unless @work.expressions.blank? -%>
+      <%- unless @work.expressions.empty? -%>
         <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- end -%>
-      <%- unless @work.manifestations.blank? -%>
+      <%- unless @work.manifestations.empty? -%>
         <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
       <%- end -%>
     </ul>
@@ -74,7 +74,7 @@
           </tr>
         </table>
       </div>
-      <%- unless @work.patrons.blank? -%>
+      <%- unless @work.patrons.empty? -%>
         <%= render :partial => 'works/patron_list' -%>
       <%- end -%>
       <%- unless @work.children.blank? -%>
@@ -97,10 +97,10 @@
         <%- end -%>
       </div>
       <%- end -%>
-      <%- unless @work.expressions.blank? -%>
+      <%- unless @work.expressions.empty? -%>
         <%= render :partial => 'works/expression_list' -%>
       <%- end -%>
-      <%- unless @work.manifestations.blank? -%>
+      <%- unless @work.manifestations.empty? -%>
         <%= render :partial => 'works/expression_list' -%>
       <%- end -%>
     </div>

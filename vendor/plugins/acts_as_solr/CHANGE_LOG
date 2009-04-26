@@ -12,6 +12,8 @@
 <b>FIX</b>:: Fixed compatibility with Desert by renaming environment.rb to solr_environment.rb. (David Stevenson)
 <b>FIX</b>:: Moved the require of solr_environment only into tasks that need it. (David Stevenson)
 <b>NEW</b>:: Added support to alias fields and includes using the option :as for acts_as_solr. See the RDoc for details. (Nick Hengeveld)
+<b>NEW</b>:: Added support to attach the score to multi search results. (Mathias Meyer)
+<b>NEW</b>:: Added support for facets on date fields. (Curtis Hatter)
 
 === 06-18-2007: Version 0.9
 <b>NEW</b>:: Added the option :scores when doing a search. If set to true this will return the score as a 'solr_score' attribute or each one of the instances found

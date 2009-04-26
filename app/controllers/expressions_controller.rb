@@ -130,7 +130,7 @@ class ExpressionsController < ApplicationController
         end
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
-        if @expression.patrons.blank?
+        if @expression.patrons.empty?
           format.html { redirect_to expression_patrons_url(@expression) }
           format.xml  { render :xml => @expression, :status => :created, :location => @expression }
         else
@@ -178,8 +178,8 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @languages = Language.find(:all, :order => :position)
-    @frequency_of_issues = FrequencyOfIssue.find(:all, :order => :position)
-    @expression_forms = ExpressionForm.find(:all, :order => :position)
+    @languages = Language.find(:all)
+    @frequency_of_issues = FrequencyOfIssue.find(:all)
+    @expression_forms = ExpressionForm.find(:all)
   end
 end

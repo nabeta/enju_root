@@ -121,10 +121,9 @@
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
-  <p>
-    <%= t('manifestation.post_to_twitter') -%>
-    <%= f.check_box :post_to_twitter -%>
-  </p>
+  <%- if @manifestation.respond_to?(:post_to_twitter) -%>
+    <%= render :partial => 'manifestations/post_to_twitter', :locals => {:f => f} -%>
+  <%- end -%>
 
   <p>
     <%= hidden_field_tag :expression_id, @expression.id if @expression -%>

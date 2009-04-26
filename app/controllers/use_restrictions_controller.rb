@@ -5,7 +5,7 @@ class UseRestrictionsController < ApplicationController
   # GET /use_restrictions
   # GET /use_restrictions.xml
   def index
-    @use_restrictions = UseRestriction.find(:all, :order => :position)
+    @use_restrictions = UseRestriction.find(:all)
 
     respond_to do |format|
       format.html # index.html.erb

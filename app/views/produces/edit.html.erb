@@ -11,7 +11,7 @@
 
 <%= error_messages_for :produce -%>
 
-<%- form_for(:produce, :url => produce_path(@produce), :html => { :method => :put }) do |f| -%>
+<%- form_for(@produce) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron') -%></b><br />
     <%= f.text_field :patron_id -%>

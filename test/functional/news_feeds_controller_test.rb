@@ -55,9 +55,9 @@ class NewsFeedsControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_news_feed
-    old_count = NewsFeed.count
-    post :create, :news_feed => { }
-    assert_equal old_count, NewsFeed.count
+    assert_no_difference('NewsFeed.count') do
+      post :create, :news_feed => { }
+    end
     
     assert_response :redirect
     assert_redirected_to new_user_session_url
@@ -65,36 +65,36 @@ class NewsFeedsControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_news_feed
     UserSession.create users(:user1)
-    old_count = NewsFeed.count
-    post :create, :news_feed => { }
-    assert_equal old_count, NewsFeed.count
+    assert_no_difference('NewsFeed.count') do
+      post :create, :news_feed => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_news_feed
     UserSession.create users(:librarian1)
-    old_count = NewsFeed.count
-    post :create, :news_feed => { }
-    assert_equal old_count, NewsFeed.count
+    assert_no_difference('NewsFeed.count') do
+      post :create, :news_feed => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_news_feed_without_url
     UserSession.create users(:admin)
-    old_count = NewsFeed.count
-    post :create, :news_feed => { }
-    assert_equal old_count, NewsFeed.count
+    assert_no_difference('NewsFeed.count') do
+      post :create, :news_feed => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_news_feed
     UserSession.create users(:admin)
-    old_count = NewsFeed.count
-    post :create, :news_feed => {:title => 'test', :url => 'test'}
-    assert_equal old_count+1, NewsFeed.count
+    assert_difference('NewsFeed.count') do
+      post :create, :news_feed => {:title => 'test', :url => 'test'}
+    end
     
     assert_redirected_to news_feed_url(assigns(:news_feed))
   end

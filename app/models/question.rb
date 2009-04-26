@@ -1,3 +1,4 @@
+require 'timeout'
 class Question < ActiveRecord::Base
   include LibrarianOwnerRequired
   named_scope :public_questions, :conditions => {:shared => true}

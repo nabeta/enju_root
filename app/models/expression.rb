@@ -1,6 +1,7 @@
 class Expression < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
+  named_scope :not_serials, :conditions => ['frequency_of_issue_id = 1']
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify, :include => [:work_form]
   has_many :embodies, :dependent => :destroy
@@ -30,11 +31,11 @@ class Expression < ActiveRecord::Base
   acts_as_solr :fields => [:title, {:issn => :string}, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
     {:work_id => :integer}, {:manifestation_ids => :integer},
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
-    {:subscription_id => :integer}, {:required_role_id => :range_integer},
+    {:subscription_ids => :integer}, {:required_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
-    :facets => [:expression_form_id, :language_id], :if => proc{|expression| !expression.restrain_indexing}, :auto_commit => false
+    :facets => [:expression_form_id, :language_id], :offline => proc{|expression| expression.restrain_indexing}, :auto_commit => false
   #acts_as_soft_deletable
-  acts_as_taggable_on :tags
+  #acts_as_taggable_on :tags
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -42,16 +43,14 @@ class Expression < ActiveRecord::Base
 
   def serial?
     return true if self.frequency_of_issue_id > 1
-    return false
+    false
   end
   
   def title
-    array = []
-    array << self.work.titles if self.work
-    self.manifestations.each do |manifestation|
-      array << manifestation.titles
-    end
-    array.flatten.compact
+    title_array = titles
+    #title_array << self.work.titles if self.work
+    #title_array << self.manifestations.collect(&:titles)
+    title_array.flatten.compact.sort.uniq
   end
 
   def titles
@@ -76,7 +75,7 @@ class Expression < ActiveRecord::Base
 
   def last_issue
     if self.serial?
-      self.manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC', :limit => 1)
+      self.manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
     end
   rescue
     nil
@@ -86,8 +85,8 @@ class Expression < ActiveRecord::Base
     self.work.id if self.work
   end
 
-  def subscription_id
-    self.subscription.id if self.subscription
+  def subscription_ids
+    self.subscriptions.collect(&:id)
   end
 
   def manifestation_ids

@@ -36,8 +36,8 @@ class ReserveTest < ActiveSupport::TestCase
     assert_equal old_count + 1, MessageQueue.count
   end
 
-  def test_should_send_message_to_patrons
-    assert Reserve.send_message_to_patrons('expired')
+  def test_should_send_message_to_library
+    assert Reserve.send_message_to_library('expired')
   end
 
   def test_should_have_reservations_that_will_expire

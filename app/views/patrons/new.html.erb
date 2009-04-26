@@ -16,14 +16,11 @@
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
   </p>
 
-  <p>
-    <b><%= t('activerecord.attributes.patron.full_name') -%></b><br />
-    <%= f.text_field :full_name, :class => 'resource_title' -%><br />
-    <%= t('activerecord.attributes.patron.full_name_transcription') -%><br />
-    <%= f.text_field :full_name_transcription, :class => 'resource_title' -%><br />
-    <%= t('activerecord.attributes.patron.full_name_alternative') -%><br />
-    <%= f.text_area :full_name_alternative, :class => 'resource_textarea' -%>
-  </p>
+  <%- if FAMILY_NAME_FIRST == true -%>
+    <%= render :partial => 'patrons/form_family_name_first', :locals => {:f => f} -%>
+  <%- else -%>
+    <%= render :partial => 'patrons/form_family_name_last', :locals => {:f => f} -%>
+  <%- end -%>
 
   <p>
     <b><%= t('activerecord.attributes.patron.place') -%></b><br />
@@ -124,6 +121,7 @@
     <%= hidden_field_tag 'expression_id', @expression.id if @expression -%>
     <%= hidden_field_tag 'manifestation_id', @manifestation.id if @manifestation -%>
     <%= hidden_field_tag 'item_id', @item.id if @item -%>
+    <%= f.hidden_field :user_id -%>
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>

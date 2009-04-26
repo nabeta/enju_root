@@ -29,19 +29,5 @@
   <%= l(@tag.created_at) -%>
 </p>
 
-<p>
-  <b><%= t('activerecord.attributes.tag.synonym') -%>:</b>
-  <%- @tag.synonym.to_s.split.each do |word| -%>
-    <%= link_to h(word), :controller => :tags, :action => :show, :id => h(word) -%>
-  <%- end -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.models.subject') -%>:</b>
-  <%- @tag.subjects.each do |subject| -%>
-    <%= link_to h(subject.term), subject -%>
-  <%- end -%>
-</p>
-
 </div>
 </div>

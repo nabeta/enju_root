@@ -41,6 +41,35 @@ module ActsAsSolr #:nodoc:
     #          sort:: Sorts the faceted resuls by highest to lowest count. (true|false)
     #          browse:: This is where the 'drill-down' of the facets work. Accepts an array of
     #                   fields in the format "facet_field:term"
+    #          mincount:: Replacement for zeros (it has been deprecated in Solr). Specifies the
+    #                     minimum count necessary for a facet field to be returned. (Solr's
+    #                     facet.mincount) Overrides :zeros if it is specified. Default is 0.
+    #
+    #          dates:: Run date faceted queries using the following arguments:
+    #            fields:: The fields to be included in the faceted date search (Solr's facet.date).
+    #                     It may be either a String/Symbol or Hash. If it's a hash the options are the
+    #                     same as date_facets minus the fields option (i.e., :start:, :end, :gap, :other,
+    #                     :between). These options if provided will override the base options.
+    #                     (Solr's f.<field_name>.date.<key>=<value>).
+    #            start:: The lower bound for the first date range for all Date Faceting. Required if
+    #                    :fields is present
+    #            end:: The upper bound for the last date range for all Date Faceting. Required if
+    #                  :fields is prsent
+    #            gap:: The size of each date range expressed as an interval to be added to the lower
+    #                  bound using the DateMathParser syntax.  Required if :fields is prsent
+    #            hardend:: A Boolean parameter instructing Solr what do do in the event that
+    #                      facet.date.gap does not divide evenly between facet.date.start and facet.date.end.
+    #            other:: This param indicates that in addition to the counts for each date range
+    #                    constraint between facet.date.start and facet.date.end, other counds should be
+    #                    calculated. May specify more then one in an Array. The possible options are:
+    #              before:: - all records with lower bound less than start
+    #              after:: - all records with upper bound greater than end
+    #              between:: - all records with field values between start and end
+    #              none:: - compute no other bounds (useful in per field assignment)
+    #              all:: - shortcut for before, after, and between
+    #            filter:: Similar to :query option provided by :facets, in that accepts an array of
+    #                     of date queries to limit results. Can not be used as a part of a :field hash.
+    #                     This is the only option that can be used if :fields is not present.
     # 
     # Example:
     # 
@@ -51,6 +80,24 @@ module ActsAsSolr #:nodoc:
     #                                                 :fields => [:category, :manufacturer],
     #                                                 :browse => ["category:Memory","manufacturer:Someone"]}
     # 
+    #
+    # Examples of date faceting:
+    #
+    #  basic:
+    #    Electronic.find_by_solr "memory", :facets => {:dates => {:fields => [:updated_at, :created_at],
+    #      :start => 'NOW-10YEARS/DAY', :end => 'NOW/DAY', :gap => '+2YEARS', :other => :before}}
+    #
+    #  advanced:
+    #    Electronic.find_by_solr "memory", :facets => {:dates => {:fields => [:updated_at,
+    #    {:created_at => {:start => 'NOW-20YEARS/DAY', :end => 'NOW-10YEARS/DAY', :other => [:before, :after]}
+    #    }], :start => 'NOW-10YEARS/DAY', :end => 'NOW/DAY', :other => :before, :filter =>
+    #    ["created_at:[NOW-10YEARS/DAY TO NOW/DAY]", "updated_at:[NOW-1YEAR/DAY TO NOW/DAY]"]}}
+    #
+    #  filter only:
+    #    Electronic.find_by_solr "memory", :facets => {:dates => {:filter => "updated_at:[NOW-1YEAR/DAY TO NOW/DAY]"}}
+    #
+    #
+    #
     # scores:: If set to true this will return the score as a 'solr_score' attribute
     #          for each one of the instances found. Does not currently work with find_id_by_solr
     # 
@@ -91,29 +138,48 @@ module ActsAsSolr #:nodoc:
     #                           Book.multi_solr_search "Napoleon OR Tom", :models => [Movie], :results_format => :ids
     #                           => [{"id" => "Movie:1"},{"id" => Book:1}]
     #                          Where the value of each array is as Model:instance_id
+    # scores:: If set to true this will return the score as a 'solr_score' attribute
+    #          for each one of the instances found. Does not currently work with find_id_by_solr
+    # 
+    #            books = Book.multi_solr_search 'ruby OR splinter', :scores => true
+    #            books.records.first.solr_score
+    #            => 1.21321397
+    #            books.records.last.solr_score
+    #            => 0.12321548
     # 
     def multi_solr_search(query, options = {})
-      models = "AND (#{solr_configuration[:type_field]}:#{self.name}"
-      options[:models].each{|m| models << " OR #{solr_configuration[:type_field]}:"+m.to_s} if options[:models].is_a?(Array)
+      models = multi_model_suffix(options)
       options.update(:results_format => :objects) unless options[:results_format]
-      data = parse_query(query, options, models<<")")
-      result = []
-      if data.nil?
+      data = parse_query(query, options, models)
+      
+      if data.nil? or data.total_hits == 0
         return SearchResults.new(:docs => [], :total => 0)
       end
-      
-      docs = data.hits
-      return SearchResults.new(:docs => [], :total => 0) if data.total_hits == 0
+
+      result = find_multi_search_objects(data, options)
+      if options[:scores] and options[:results_format] == :objects
+        add_scores(result, data) 
+      end
+      SearchResults.new :docs => result, :total => data.total_hits
+    end
+
+    def find_multi_search_objects(data, options)
+      result = []
       if options[:results_format] == :objects
-        docs.each{|doc| 
+        data.hits.each do |doc| 
           k = doc.fetch('id').first.to_s.split(':')
           result << k[0].constantize.find_by_id(k[1])
-        }
+        end
       elsif options[:results_format] == :ids
-        docs.each{|doc| result << {"id"=>doc.values.pop.to_s}}
+        data.hits.each{|doc| result << {"id" => doc.values.pop.to_s}}
       end
-
-      SearchResults.new :docs => result, :total => data.total_hits
+      result
+    end
+    
+    def multi_model_suffix(options)
+      models = "AND (#{solr_configuration[:type_field]}:#{self.name}"
+      models << " OR " + options[:models].collect {|m| "#{solr_configuration[:type_field]}:" + m.to_s}.join(" OR ") if options[:models].is_a?(Array)
+      models << ")"
     end
     
     # returns the total number of documents found in the query specified:

@@ -1,6 +1,8 @@
 require 'rss'
 class NewsFeed < ActiveRecord::Base
   include OnlyAdministratorCanModify
+
+  default_scope :order => "position"
   belongs_to :library_group, :validate => true
 
   validates_presence_of :title, :url, :library_group

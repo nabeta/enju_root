@@ -7,13 +7,13 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @user -%>
-    <%- if @user.login -%>
-      <title><%= t('page.user_title', :login_name => @user.login) -%> - <%= "#{@library_group.display_name}" -%></title>
+    <%- if @user.login.present? -%>
+      <title><%= t('page.user_title', :login_name => @user.login) -%> - <%=h @library_group.display_name -%></title>
     <%- else -%>
-      <title><%= t('activerecord.models.user') -%>: <%=h title_action_name -%></title>
+      <title><%= t('activerecord.models.user') -%>: <%=h title_action_name -%> - <%=h @library_group.display_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= t('activerecord.models.user') -%>: <%=h title_action_name -%></title>
+    <title><%= t('activerecord.models.user') -%>: <%=h title_action_name -%> - <%=h @library_group.display_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
@@ -21,7 +21,9 @@
 <body class="yui-skin-sam" id="yahoo-com">
 
 <%= render :partial => 'page/header' -%>
-<%= render :partial => 'page/menu' -%>
+<%- if ['index', 'show', 'edit'].include?(controller.action_name) -%>
+  <%= render :partial => 'page/menu' -%>
+<%- end -%>
 
 <div id="content">
 
@@ -32,9 +34,9 @@
 
 <%= yield  -%>
 
-<%= render :partial => 'page/footer' -%>
-
 </div>
+
+<%= render :partial => 'page/footer' -%>
 
 </body>
 </html>

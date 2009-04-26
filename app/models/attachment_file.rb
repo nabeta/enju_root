@@ -12,7 +12,7 @@ class AttachmentFile < ActiveRecord::Base
   validates_presence_of :manifestation
   validates_associated :manifestation
 
-  #has_ipaper_and_uses 'AttachmentFu'
+  has_ipaper_and_uses 'AttachmentFu'
   enju_scribd
 
   cattr_accessor :per_page
@@ -56,8 +56,6 @@ class AttachmentFile < ActiveRecord::Base
     self.indexed_at = Time.zone.now
     self.save
     text.close
-  #rescue
-  #  nil
   end
 
   def self.extract_text

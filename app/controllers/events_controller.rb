@@ -159,7 +159,7 @@ class EventsController < ApplicationController
 
   private
   def prepare_options
-    @event_categories = EventCategory.find(:all, :order => :position)
+    @event_categories = EventCategory.find(:all)
   end
 
 end

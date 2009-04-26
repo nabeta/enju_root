@@ -1,8 +1,9 @@
 require 'open-uri'
 class BookmarkedResource < ActiveRecord::Base
   include OnlyLibrarianCanModify
+
   named_scope :manifestations, lambda {|manifestation_ids| {:conditions => {:manifestation_id => manifestation_ids}}}
-  has_many :bookmarks, :dependent => :destroy, :include => :tags
+  has_many :bookmarks, :dependent => :destroy #, :include => :tags
   has_many :users, :through => :bookmarks
   belongs_to :manifestation, :validate => true
   
@@ -19,7 +20,7 @@ class BookmarkedResource < ActiveRecord::Base
 
   # http://d.hatena.ne.jp/zariganitosh/20061120/1163998759
   def validate
-    errors.add(:url, ('Invalid URL.')) unless (URI(read_attribute(:url)) rescue false)
+    errors.add(:url, t('bookmark.invalid_url')) unless (URI(read_attribute(:url)) rescue false)
   end
 
   def bookmarked?(user)

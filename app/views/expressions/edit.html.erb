@@ -11,7 +11,7 @@
 
 <%= error_messages_for :expression -%>
 
-<%- form_for(:expression, :url => expression_path(@expression), :html => { :method => :put }) do |f| -%>
+<%- form_for(@expression) do |f| -%>
   <p>
     <b><%= t('page.title') -%></b><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>

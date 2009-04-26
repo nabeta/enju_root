@@ -1,16 +1,20 @@
 <div id="submenu">
-  <%- if @patron.is_deletable_by(current_user) -%>
+  <%- if @patron.is_updatable_by(current_user) -%>
     <ul>
-      <%- if @patron.user.blank? -%>
-        <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
-      <%- else -%>
-        <li><%= link_to t('patron.deactivate'), edit_user_path(@patron.user.login) -%></li>
+      <%- if User.is_creatable_by(current_user) -%>
+        <%- if @patron.user.blank? -%>
+          <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
+        <%- else -%>
+          <li><%= link_to t('patron.deactivate'), edit_user_path(@patron.user.login) -%></li>
+        <%- end -%>
       <%- end -%>
       <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
       <li><%= link_to t('page.back'), patrons_path -%></li>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
-      <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <%- if @patron.is_deletable_by(current_user) -%>
+        <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
+        <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <%- end -%>
     </ul>
   <%- end -%>
   <ul>
@@ -37,7 +41,7 @@
 
   <p>
     (<%= link_to_wikipedia(@patron.full_name_without_space) -%>)
-    <%- unless @patron.user -%>
+    <%- if !@patron.user && User.is_creatable_by(current_user)-%>
       (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
     <%- end -%>
   </p>
@@ -47,13 +51,13 @@
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- unless @patron.works.blank? -%>
+      <%- unless @patron.works.empty? -%>
         <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
-      <%- unless @patron.expressions.blank? -%>
+      <%- unless @patron.expressions.empty? -%>
         <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- end -%>
-      <%- unless @patron.manifestations.blank? -%>
+      <%- unless @patron.manifestations.empty? -%>
         <li><a href="#manifestation"><em><%= t('activerecord.models.manifestation') -%></em></a></li>
       <%- end -%>
     </ul>

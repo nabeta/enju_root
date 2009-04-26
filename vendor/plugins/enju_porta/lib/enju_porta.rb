@@ -9,7 +9,7 @@ module EnjuPorta
     end
 
     def import_isbn(isbn)
-      isbn = isbn.to_s.strip
+      isbn = ISBN_Tools.cleanup(isbn)
       raise 'invalid ISBN' unless ISBN_Tools.is_valid?(isbn)
       if isbn.length == 10
         isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
@@ -48,21 +48,24 @@ module EnjuPorta
         publisher_patrons = Manifestation.import_patrons(publishers)
 
         work = Work.new(:original_title => title)
+        # TODO: 言語や形態の設定
         expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
         manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication)
         work.restrain_indexing = true
         expression.restrain_indexing = true
-        manifestation.restrain_indexing = true
+        #manifestation.restrain_indexing = true
         work.save!
         work.patrons << author_patrons
         work.expressions << expression
         expression.manifestations << manifestation
         manifestation.patrons << publisher_patrons
 
-        subjects.each do |term|
-          subject = Subject.find(:first, :conditions => {:term => term})
-          manifestation.subjects << subject if subject
-        end
+        #subjects.each do |term|
+        #  subject = Subject.find(:first, :conditions => {:term => term})
+        #  manifestation.subjects << subject if subject
+        #  subject = Tag.find(:first, :conditions => {:name => term})
+        #  manifestation.tags << subject if subject
+        #end
       end
 
       return manifestation
@@ -77,7 +80,7 @@ module EnjuPorta
           return rset[0]
         end
       rescue Exception => e
-        return nil
+        nil
       end
     end
 

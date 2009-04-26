@@ -3,7 +3,8 @@ require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  include OnlyLibrarianCanModify
+  #include OnlyLibrarianCanModify
+  include LibrarianOwnerRequired
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
@@ -39,7 +40,7 @@ class Manifestation < ActiveRecord::Base
   has_one :db_file
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
-    :title, :author, :publisher,
+    :title, :author, :publisher, :access_address,
     {:isbn => :string}, {:isbn10 => :string}, {:wrong_isbn => :string},
     {:nbn => :string}, {:issn => :string}, {:tag => :string}, :fulltext,
     {:formtype => :string}, {:formtype_f => :facet},
@@ -55,11 +56,11 @@ class Manifestation < ActiveRecord::Base
     {:subject_ids => :integer},
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
-    {:required_role_id => :range_integer}, {:reservable => :boolean}
+    {:required_role_id => :range_integer}, {:reservable => :boolean},
     ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
-    :if => proc{|manifestation| !manifestation.restrain_indexing},
+    :offline => proc{|manifestation| manifestation.restrain_indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
@@ -67,6 +68,8 @@ class Manifestation < ActiveRecord::Base
   enju_manifestation_viewer
   enju_amazon
   enju_porta
+  acts_as_cached
+  #acts_as_taggable_on :subject_tags
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -97,6 +100,18 @@ class Manifestation < ActiveRecord::Base
     end
   rescue
     nil
+  end
+
+  def before_save
+    self.expire_cache
+  end
+
+  def before_destroy
+    self.expire_cache
+  end
+
+  def after_save
+    send_later(:solr_commit)
   end
 
   def full_title
@@ -139,7 +154,7 @@ class Manifestation < ActiveRecord::Base
   end
   
   def embodies?(expression)
-    expression.manifestations.detect{|manifestation| manifestation == self} rescue nil
+    expression.manifestations.detect{|manifestation| manifestation == self}
   end
 
   def serial
@@ -149,23 +164,6 @@ class Manifestation < ActiveRecord::Base
   def serial?
     return true if self.serial
     false
-  end
-
-  def item_checkouts_count
-    count = 0
-    self.items.each do |item|
-      count += item.checkouts.size
-    end
-    return count
-  end
-
-  def self.item_checkouts_count
-    count = 0
-    #self.find(:all, :include => :items, :conditions => ['items.checkouts_count > 0']).each do |manifestation|
-    self.find(:all).each do |manifestation|
-      count += manifestation.item_checkouts_count
-    end
-    return count
   end
 
   def next_reservation
@@ -207,16 +205,9 @@ class Manifestation < ActiveRecord::Base
     self.items.collect{|item| item.shelves}.flatten.uniq
   end
 
-  def items_on_shelves
-    items = []
-    self.items.each do |item|
-      items << item unless item.shelf.web_shelf?
-    end
-    items
-  end
-
   def tag
-    tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
+    #tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
+    tags.collect(&:name)
   end
 
   def tags
@@ -284,7 +275,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def formtype
-    self.manifestation_form.name rescue nil
+    self.manifestation_form.name
   end
   
   def formtype_f
@@ -332,19 +323,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def forms
-    forms = []
-    self.expressions.each do |expression|
-      forms << expression.expression_form
-    end
-    forms.uniq!
+    self.expressions.collect(&:expression_form).uniq
   end
 
   def languages
-    languages = []
-    self.expressions.each do |expression|
-      languages << expression.language
-    end
-    languages.uniq
+    self.expressions.collect(&:language).uniq
   end
 
   def lang
@@ -356,7 +339,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def number_of_contents
-    self.expressions.size - self.expressions.find(:all, :conditions => ['frequency_of_issue_id > 1']).size
+    self.expressions.size - self.expressions.serials.size
   end
 
   def number_of_pages
@@ -403,11 +386,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def user
-    user_login_names = []
-    self.bookmarks.each do |bookmark|
-      user_login_names << bookmark.user.login #if bookmark.user.share_bookmarks
-    end
-    return user_login_names
+    self.bookmarks.collect(&:user).collect(&:login)
   end
 
   def oai_identifier
@@ -424,6 +403,7 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
+  # TODO: ビューに移動する
   def to_oai_dc
     xml = Builder::XmlMarkup.new
     xml.tag!("oai_dc:dc",
@@ -472,15 +452,15 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
-    return nil if self.numdocs < 10
+    return nil if self.numdocs < 5
     resource = nil
     if keyword
       resources = self.find_id_by_solr(keyword, :limit => self.numdocs)
-      resource = self.find(resources.results[rand(resources.total_hits)]) rescue nil
+      resource = self.get_cache(resources.results[rand(resources.total_hits)]) rescue nil
     end
     if resource.blank?
       while resource.nil?
-        resource = self.find(rand(self.numdocs)) rescue nil
+        resource = self.get_cache(rand(self.numdocs)) rescue nil
       end
     end
     return resource
@@ -495,9 +475,9 @@ class Manifestation < ActiveRecord::Base
   def self.import_patrons(patron_lists)
     patrons = []
     patron_lists.each do |patron_list|
-      unless patron = Patron.find(:first, :conditions => {:full_name => patron_list}) rescue nil
+      unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.restrain_indexing
+        patron.restrain_indexing = true
         patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
@@ -574,10 +554,10 @@ class Manifestation < ActiveRecord::Base
           manifestation = Manifestation.find(:first, :conditions => {:access_address => item.link})
           if manifestation.blank?
             Manifestation.transaction do
-              work = Work.create(:original_title => item.title, :restrain_indexing => true)
-              expression = Expression.new(:original_title => item.title, :restrain_indexing => true)
+              work = Work.create(:original_title => item.title)
+              expression = Expression.new(:original_title => item.title)
               work.expressions << expression
-              manifestation = Manifestation.new(:original_title => item.title, :access_address => item.link, :restrain_indexing => true)
+              manifestation = Manifestation.new(:original_title => item.title, :access_address => item.link)
               expression.manifestations << manifestation
               self.expressions << expression
             end
@@ -590,7 +570,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def fulltext
-    self.attachment_file.fulltext
+    self.attachment_file.fulltext if self.attachment_file
   end
 
   def digest(options = {:type => 'sha1'})

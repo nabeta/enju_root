@@ -1,4 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :user_has_shelves
+
+  map.connect '/enju_gadget.xml', :controller => 'enju_gadget', :action => 'index', :format => 'xml'
+  map.resources :password_resets
+
   map.resource :user_session
 
   #map.resources :people do |person|
@@ -146,13 +151,16 @@ ActionController::Routing::Routes.draw do |map|
     subject_heading_type.resources :subjects
   end
 
-  map.resources :classification_types
+  map.resources :classification_types do |classification_type|
+    classification_type.resources :classifications
+  end
 
   map.resources :classifications do |classification|
     #classification.resources :concepts
     #classification.resources :places
     classification.resources :subjects
     classification.resources :subject_has_classifications
+    classification.resources :tags
   end
 
   map.resources :subjects do |subject|
@@ -244,6 +252,7 @@ ActionController::Routing::Routes.draw do |map|
     user.resources :imported_resource_files
     user.resources :order_lists
     user.resources :subscriptions
+    user.resources :patrons
   end
   map.resources :sessions
   map.resources :works do |work|

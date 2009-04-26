@@ -21,12 +21,14 @@
   <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
-  <p>
-  <b><%= t('page.library') -%></b><br />
-    <select id="library_id" name="library_id">
-      <%= options_from_collection_for_select(@libraries, "short_name", "name", @shelf.library.short_name) -%>
-    </select>
-  </p>
+  <%- if current_user.has_role?('Librarian') -%>
+    <p>
+    <b><%= t('page.library') -%></b><br />
+      <select id="library_id" name="library_id">
+        <%= options_from_collection_for_select(@libraries, "short_name", "name", @shelf.library.short_name) -%>
+      </select>
+    </p>
+  <%- end -%>
 
   <p>
     <%= f.submit t('page.create') -%>

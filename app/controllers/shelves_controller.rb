@@ -35,8 +35,9 @@ class ShelvesController < ApplicationController
 
   # GET /shelves/new
   def new
-    @library = Library.find(:first) if @library.nil?
+    @library = Library.web if @library.nil?
     @shelf = Shelf.new
+    #@shelf.user = current_user
   end
 
   # GET /shelves/1;edit
@@ -49,10 +50,12 @@ class ShelvesController < ApplicationController
   def create
     @shelf = Shelf.new(params[:shelf])
     #@shelf.library = @library
+    @shelf.library = Library.web unless current_user.has_role?('Librarian')
 
     respond_to do |format|
       if @shelf.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.shelf'))
+        current_user.shelves << @shelf
         format.html { redirect_to shelf_url(@shelf) }
         format.xml  { render :xml => @shelf, :status => :created, :location => library_shelf_url(@shelf.library.short_name, @shelf) }
       else

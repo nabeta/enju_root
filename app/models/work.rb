@@ -1,5 +1,6 @@
 class Work < ActiveRecord::Base
   include OnlyLibrarianCanModify
+  #include CacheMoney
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
@@ -23,7 +24,7 @@ class Work < ActiveRecord::Base
 
   acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
     :facets => [:work_form_id], 
-    :if => proc{|work| !work.restrain_indexing}, :auto_commit => false
+    :offline => proc{|work| work.restrain_indexing}, :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
 
@@ -35,14 +36,11 @@ class Work < ActiveRecord::Base
   validates_presence_of :original_title, :work_form
 
   def title
-    array = self.titles
-    self.expressions.each do |expression|
-      array << expression.titles
-      expression.manifestations.each do |manifestation|
-        array << manifestation.titles
-      end
-    end
-    array.flatten.compact
+    array = titles
+    #if expressions
+    #  title_array << expressions.collect(&:titles) + expressions.collect(&:manifestations).flatten.collect(&:titles)
+    #end
+    array.flatten.compact.sort.uniq
   end
 
   def titles
@@ -57,23 +55,11 @@ class Work < ActiveRecord::Base
   end
   
   def manifestations
-    manifestations = []
-    expressions.each do |e|
-      unless e.serial?
-        manifestations << e.manifestations
-      end
-    end
-    manifestations.flatten.uniq
-  rescue
-    []
+    expressions.not_serials.collect(&:manifestations).flatten.uniq
   end
 
   def serials
-    self.expressions.find(:all, :conditions => ['frequency_of_issue_id > 1'])
-  end
-
-  def expressions_except_serials
-    self.expressions - self.serials
+    self.expressions.serials
   end
 
   def patron_ids

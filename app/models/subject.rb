@@ -38,6 +38,7 @@ class Subject < ActiveRecord::Base
     {:subject_heading_type_ids => :integer}],
     :auto_commit => false
   acts_as_tree
+
   @@per_page = 10
   cattr_accessor :per_page
 

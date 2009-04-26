@@ -1,7 +1,9 @@
 class SearchEngine < ActiveRecord::Base
   include AdministratorRequired
-  acts_as_list
+
+  default_scope :order => "position"
   belongs_to :library_group, :validate => true
+  acts_as_list
 
   validates_presence_of :name, :url, :base_url, :query_param, :http_method
   validates_inclusion_of :http_method, :in => %w(get post)

@@ -68,11 +68,31 @@ class PatronsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
 
-  def test_user_should_not_create_patron
+  def test_user_should_create_patron_myself
     UserSession.create users(:user1)
-    old_count = Patron.count
-    post :create, :patron => { :full_name => 'test' }
-    assert_equal old_count, Patron.count
+    assert_difference('Patron.count') do
+      post :create, :patron => { :full_name => 'test', :user_id => users(:user1).login }
+    end
+    
+    assert_response :redirect
+    assert_equal assigns(:patron).user, users(:user1)
+    assert_redirected_to patron_url(assigns(:patron))
+  end
+
+  def test_user_should_not_create_patron_without_user_id
+    UserSession.create users(:user1)
+    assert_no_difference('Patron.count') do
+      post :create, :patron => { :full_name => 'test' }
+    end
+    
+    assert_response :forbidden
+  end
+
+  def test_user_should_not_create_other_patron
+    UserSession.create users(:user1)
+    assert_no_difference('Patron.count') do
+      post :create, :patron => { :full_name => 'test', :user_id => users(:user2).login }
+    end
     
     assert_response :forbidden
   end
@@ -226,7 +246,7 @@ class PatronsControllerTest < ActionController::TestCase
   
   def test_user_should_not_update_myself_without_name
     UserSession.create users(:user1)
-    put :update, :id => users(:user1).patron.id, :patron => { :full_name => '' }
+    put :update, :id => users(:user1).patron.id, :patron => { :first_name => '', :last_name => '', :full_name => '' }
     assert_response :success
   end
   

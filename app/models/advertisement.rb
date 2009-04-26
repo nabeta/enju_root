@@ -12,6 +12,7 @@ class Advertisement < ActiveRecord::Base
 
   acts_as_solr :fields => [:title, :body, {:url => :string}, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
   #acts_as_soft_deletable
+  acts_as_cached
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -25,8 +26,17 @@ class Advertisement < ActiveRecord::Base
     end
   end
 
+  def before_save
+    self.expire_cache
+  end
+
+  def before_destroy
+    self.expire_cache
+  end
+
   def self.pickup
     ids = Advertisement.current_ads.collect(&:id)
-    Advertisement.find(ids.at(rand(ids.size)))
+    id = ids.at(rand(ids.size))
+    advertisement = Advertisement.get_cache(id)
   end
 end

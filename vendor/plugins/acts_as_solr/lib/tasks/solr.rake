@@ -9,7 +9,7 @@ namespace :solr do
   task :start do
     require "#{File.dirname(__FILE__)}/../../config/solr_environment.rb"
     begin
-      n = Net::HTTP.new('localhost', SOLR_PORT)
+      n = Net::HTTP.new('127.0.0.1', SOLR_PORT)
       n.request_head('/').value 
 
     rescue Net::HTTPServerException #responding

@@ -1,7 +1,7 @@
 class ReservationNotifier < ActionMailer::Base
 
   def accepted(user, manifestation)
-    library_group = LibraryGroup.config
+    library_group = LibraryGroup.site_config
     subject     ('Reservation accepted')
     body        :patron => user.patron, :manifestation => manifestation, :library_group_name => library_group.name
     recipients  user.email
@@ -10,7 +10,7 @@ class ReservationNotifier < ActionMailer::Base
   end
 
   def reserved(user, manifestation, sent_at = Time.zone.now)
-    library_group = LibraryGroup.config
+    library_group = LibraryGroup.site_config
     subject     ('Reserved resource is now available')
     body        :patron => user.patron, :manifestation => manifestation, :library_name => library_group.name
     recipients  user.email
@@ -20,7 +20,7 @@ class ReservationNotifier < ActionMailer::Base
   end
 
   def expired(user, manifestation, sent_at = Time.zone.now)
-    library_group = LibraryGroup.config
+    library_group = LibraryGroup.site_config
     subject     ('Reservation expired')
     body        :patron => user.patron, :manifestation => manifestation, :library_name => library_group.name
     recipients  user.email

@@ -4,7 +4,7 @@ module ApplicationHelper
   include UsersHelper
 
   def library_system_name
-    h(LibraryGroup.config.name)
+    h(LibraryGroup.site_config.name)
   end
   
   def form_icon(manifestation_form)
@@ -93,41 +93,15 @@ module ApplicationHelper
     html <<   %(</div>\n)
   end
 
-  def page_tag
-    bookmarked_resource = BookmarkedResource.find_by_url(request.url)
-    unless bookmarked_resource.blank?
-      bookmarks = Bookmark.find(:all, :conditions => ['bookmarked_resource_id = ?', bookmarked_resource.id], :include => :tags)
-      tags = []
-      bookmarks.each do |bookmark|
-        bookmark.tags.each do |tag|
-          tags << tag
-        end
-        tags.uniq!
-      end
-      tag_cloud(tags)
-    end
-  end
-
   def patrons_list(patrons = [], options = {})
+    return nil if patrons.blank?
     patrons_list = []
-    patrons.each do |patron|
-      if options[:nolink]
-        patrons_list << h(patron.full_name)
-      else
-        patrons_list << link_to(h(patron.full_name), patron)
-      end
+    if options[:nolink]
+      patrons_list = patrons.map{|patron| h(patron.full_name)}
+    else
+      patrons_list = patrons.map{|patron| link_to(h(patron.full_name), patron)}
     end
-    return patrons_list.join(" ")
-  rescue
-    nil
-  end
-
-  def make_manifestations_link(manifestations)
-    manifestations_link = []
-    manifestations.each do |manifestation|
-      manifestations_link << link_to(h(manifestation.original_title), manifestation)
-    end
-    return manifestations_link.join(" ")
+    patrons_list.join(" ")
   end
 
   def book_jacket(manifestation)
@@ -141,7 +115,7 @@ module ApplicationHelper
         #link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=180", :width => 180, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         #link_to image_tag("http://capture.heartrails.com/medium?#{manifestation.access_address}", :width => 200, :height => 150, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         # TODO: Project Next-L 専用のMozshotサーバを作る
-          link_to image_tag("http://mozshot.nemui.org/shot?#{manifestation.access_address}", :width => 128, :height => 128, :alt => manifestation.original_title, :border => 0), manifestation.access_address
+          link_to image_tag(url_for(:controller => :page, :action => :screen_shot, :url => "http://mozshot.nemui.org/shot?#{manifestation.access_address}"), :width => 128, :height => 128, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         else
           image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :border => 0)
         end
@@ -153,10 +127,12 @@ module ApplicationHelper
 
   def advertisement_pickup
     advertisement = Advertisement.pickup
-    unless advertisement.url.blank?
-      link_to h(advertisement.body), advertisement.url
-    else
-      h(advertisement.body)
+    if advertisement
+      unless advertisement.url.blank?
+        link_to h(advertisement.body), advertisement.url
+      else
+        h(advertisement.body)
+      end
     end
   rescue
     nil
