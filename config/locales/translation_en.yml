@@ -1071,6 +1071,7 @@ en:
     no_new_message: "No new messages."
     too_short: "Message is too short. The minimum length is {{count}} characters."
     too_long: "Message is too long. The maximum length is {{count}} characters."
+    new_message_from_library: "New message arrived from {{library}}"
   tag:
     popular_tag: "Popular tags"
     my_tag: "My tags"
