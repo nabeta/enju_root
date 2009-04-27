@@ -1052,7 +1052,6 @@ ja:
     no_new_message: "新しいメッセージはありません。"
     too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
     too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
-    new_message_from_library: "{{library}} から新しいお知らせが届いています"
   tag:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
