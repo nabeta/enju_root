@@ -34,6 +34,7 @@ class MessageQueue < ActiveRecord::Base
         message = Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
       end
       self.update_attributes({:sent_at => Time.zone.now})
+      Notifier.deliver_message_notification(self.receiver)
       if ['reservation_expired_for_patron', 'reservation_expired_for_patron'].include?(self.message_template.status)
         self.receiver.reserves.each do |reserve|
           reserve.update_attribute(:expiration_notice_to_patron, true)
