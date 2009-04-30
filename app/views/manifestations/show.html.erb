@@ -77,11 +77,11 @@
     </div>
   <%- end -%>
 
+  <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 <!-- cache start -->
 <%
   cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
-  <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 
   <div id="tabview">
 

@@ -53,10 +53,9 @@ class MessageQueue < ActiveRecord::Base
     # :manifestations を指定する
     message = self.message_body(options).dup
     unless message.blank?
-      library_group = LibraryGroup.site_config
       message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
       message = message.gsub("{manifestations}", self.message_body(:manifestations => options[:manifestations]))
-      message = message.gsub("{library_system_name}", library_group.name)
+      message = message.gsub("{library_system_name}", LibraryGroup.site_config.display_name)
     end
     self.update_attributes!({:body => message})
   end

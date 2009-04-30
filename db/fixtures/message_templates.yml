@@ -34,3 +34,9 @@ message_template_00006:
   title: Reservation canceled
   body: Reservation canceled
   position: 6
+message_template_00007:
+  id: 7
+  status: recall_item
+  title: Recall item
+  body: Recall item
+  position: 7

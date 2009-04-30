@@ -32,8 +32,8 @@ class UserCheckoutStat < ActiveRecord::Base
 
   def calculate_count
     self.started_at = Time.zone.now
-    User.find_each do |user|
-      daily_count = Checkout.users_count(self.start_date, self.end_date, user)
+    User.find_each(:batch_size => UserCheckoutStat.not_calculated.size) do |user|
+      daily_count = user.checkouts.completed(self.start_date, self.end_date).size
       if daily_count > 0
         self.users << user
         UserCheckoutStat.find_by_sql(['UPDATE checkout_stat_has_users SET checkouts_count = ? WHERE user_checkout_stat_id = ? AND user_id = ?', daily_count, self.id, user.id])

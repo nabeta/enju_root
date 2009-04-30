@@ -1,5 +1,7 @@
 class Patron < ActiveRecord::Base
   include LibrarianOwnerRequired
+  include EnjuFragmentCache
+
   belongs_to :user #, :validate => true
   has_one :library
   has_many :creates, :dependent => :destroy
@@ -213,4 +215,5 @@ class Patron < ActiveRecord::Base
   rescue
     false
   end
+
 end

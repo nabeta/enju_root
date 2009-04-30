@@ -76,10 +76,17 @@ class Checkout < ActiveRecord::Base
   end
 
   def self.manifestations_count(start_date, end_date, manifestation)
-    self.completed(start_date, end_date).find(:all, :conditions => {:item_id => manifestation.items.collect(&:id)}).count
+    self.completed(start_date, end_date).count(:all, :conditions => {:item_id => manifestation.items.collect(&:id)})
   end
 
-  def self.users_count(start_date, end_date, user)
-    self.completed(start_date, end_date).find(:all, :conditions => {:user_id => user.id}).count
+  def self.send_messages(date, template)
+    User.find_each(:batch_size => User.count) do |user|
+      # 未来の日時を指定する
+      checkouts = user.checkouts.overdue(date)
+      unless checkouts.empty?
+        user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
+      end
+    end
   end
+
 end

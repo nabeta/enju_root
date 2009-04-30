@@ -173,14 +173,6 @@ class Reserve < ActiveRecord::Base
     end
   end
 
-  def self.users_count(start_date, end_date, user)
-    self.created(start_date, end_date).find(:all, :conditions => {:user_id => user.id}).count
-  end
-
-  def self.manifestations_count(start_date, end_date, manifestation)
-    self.created(start_date, end_date).find(:all, :conditions => {:manifestation_id => manifestation.id}).count
-  end
-
   def self.is_indexable_by(user, parent = nil)
     true if user.has_role?('User')
   rescue
@@ -215,7 +207,7 @@ class Reserve < ActiveRecord::Base
       #Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
       #  reserve.send_message('expired')
       #end
-      User.find_each do |user|
+      User.find_each(:batch_size => User.count) do |user|
         user.send_message('reservation_expired_for_patron', user.reserves.not_sent_expiration_notice_to_patron)
       end
       Reserve.send_message_to_library('expired') unless reservations.blank?

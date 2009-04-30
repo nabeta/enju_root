@@ -29,6 +29,10 @@ every 5.minute do
   runner "MessageQueue.send_messages"
 end
 
+every 1.hour do
+  runner "Advertisement.expire_cache"
+end
+
 every 1.day, :at => '0:00 am' do
   runner "Reserve.expire"
   runner "Basket.expire"
@@ -52,4 +56,8 @@ end
 
 every 1.day, :at => '4:00 am' do
   runner "LibraryGroup.solr_reindex(500)"
+end
+
+every 1.day, :at => '9:00 am' do
+  runner "Checkout.send_messages(1.day.from_now.beginning_of_day, 'recall_item')"
 end

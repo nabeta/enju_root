@@ -39,7 +39,7 @@
 
   <p>
     (<%= link_to_wikipedia(@patron.full_name_without_space) -%>)
-    <%- if !@patron.user && User.is_creatable_by(current_user)-%>
+    <%- if !@patron.user && @patron.is_updatable_by(current_user)-%>
       (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
     <%- end -%>
   </p>
