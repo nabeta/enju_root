@@ -5,7 +5,7 @@
   <div id="searchform">
     <%- form_for :questions, :url => user_questions_path(@user.login), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:style => 'width: 350px'} -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
   <%- end -%>

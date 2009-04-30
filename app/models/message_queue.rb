@@ -34,6 +34,7 @@ class MessageQueue < ActiveRecord::Base
         message = Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
       end
       self.update_attributes({:sent_at => Time.zone.now})
+      Notifier.deliver_message_notification(self.receiver)
       if ['reservation_expired_for_patron', 'reservation_expired_for_patron'].include?(self.message_template.status)
         self.receiver.reserves.each do |reserve|
           reserve.update_attribute(:expiration_notice_to_patron, true)
@@ -56,33 +57,12 @@ class MessageQueue < ActiveRecord::Base
       message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
       message = message.gsub("{manifestations}", self.message_body(:manifestations => options[:manifestations]))
       message = message.gsub("{library_system_name}", library_group.name)
-    #else
-    #  message = self.message_template.body
     end
     self.update_attributes!({:body => message})
   end
 
   def message_body(options = {})
     manifestation_message = []
-    #case self.message_template.status
-    #when "reservation_accepted"
-    #  reserves = self.receiver.reserves.not_hold.waiting
-    #when "item_received"
-    #  reserves = self.receiver.reserves.hold.waiting
-    #when "reservation_expired_for_library"
-    #  #reserves = Reserve.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_library
-    #  reserves = Reserve.not_sent_expiration_notice_to_library
-    #when "reservation_expired_for_patron"
-    ##  #reserves = self.receiver.reserves.will_expire(Time.zone.now.beginning_of_day).not_sent_expiration_notice_to_patron
-    #  reserves = self.receiver.reserves.not_sent_expiration_notice_to_patron
-    #when "reservation_canceled_for_library"
-    #  reserves = self.receiver.reserves.not_sent_cancel_notice_to_library
-    #when "reservation_canceled_for_patron"
-    #  reserves = self.receiver.reserves.not_sent_cancel_notice_to_patron
-    #else
-    #  raise 'template not found'
-    #end
-
     manifestations = options[:manifestations]
     unless manifestations.blank?
       manifestations.each do |manifestation|

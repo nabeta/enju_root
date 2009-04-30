@@ -16,6 +16,9 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.manifestations.each do |manifestation|
         expire_editable_fragment(manifestation)
       end
+      record.donated_items.each do |item|
+        expire_editable_fragment(item)
+      end
     when record.is_a?(Work)
       expire_editable_fragment(record)
       record.expressions.each do |expression|
@@ -49,8 +52,15 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
       end
+      record.donors.each do |donor|
+        expire_editable_fragment(donor)
+      end
     when record.is_a?(Library)
       expire_fragment(:controller => :libraries, :action => :index, :action_suffix => 'menu')
+    when record.is_a?(Shelf)
+      record.items.each do |item|
+        expire_editable_fragment(item)
+      end
     when record.is_a?(Bookmark)
       # Not supported by Memcache
       # expire_fragment(%r{manifestations/\d*})

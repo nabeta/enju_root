@@ -7,7 +7,7 @@ class CheckedItemsController < ApplicationController
   # GET /checked_items.xml
   def index
     if @basket
-      @checked_items = @basket.checked_items.find(:all)
+      @checked_items = @basket.checked_items
       @checked_item = @basket.checked_items.new
     else
       access_denied

@@ -4,7 +4,7 @@
   <div id="content_list">
 <%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 350px'} -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>

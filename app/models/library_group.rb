@@ -10,18 +10,20 @@ class LibraryGroup < ActiveRecord::Base
 
   validates_presence_of :name, :short_name, :email
 
-  acts_as_cached
-
-  def before_save
-    self.expire_cache
+  def after_save
+    expire_cache
   end
 
-  def before_destroy
-    self.expire_cache
+  def after_destroy
+    after_save
+  end
+
+  def expire_cache
+    Rails.cache.delete("LibraryGroup:#{id}")
   end
 
   def self.site_config
-    LibraryGroup.get_cache(1)
+    Rails.cache.fetch('LibraryGroup:1'){LibraryGroup.find(1)}
   end
 
   def self.url

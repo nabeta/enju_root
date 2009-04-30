@@ -37,7 +37,7 @@ class UsersController < ApplicationController
     end
     @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
 
-    @picked_up = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
+    @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
     @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
 
     respond_to do |format|
@@ -56,7 +56,8 @@ class UsersController < ApplicationController
     end
     @user = User.new
     @user.openid_identifier = flash[:openid_identifier]
-    @user_groups = UserGroup.find(:all)
+    #@user_groups = UserGroup.find(:all)
+    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
     begin
       if @patron.user
         redirect_to patron_url(@patron)
@@ -305,7 +306,8 @@ class UsersController < ApplicationController
   end
 
   def prepare_options
-    @user_groups = UserGroup.find(:all)
+    #@user_groups = UserGroup.find(:all)
+    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
     @roles = Role.find(:all)
     @libraries = Library.find(:all)
     @user_role_id = @user.roles.first.id rescue nil

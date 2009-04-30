@@ -21,4 +21,15 @@ class Role < ActiveRecord::Base
 
   acts_as_list
 
+  def after_save
+    expire_cache
+  end
+
+  def after_destroy
+    after_save
+  end
+
+  def expire_cache
+    Rails.cache.delete('Role.all')
+  end
 end

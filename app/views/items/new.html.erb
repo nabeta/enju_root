@@ -1,11 +1,11 @@
 <div id="submenu">
-  <%- if @manifestation -%>
-    <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
+  <%- if @item.manifestation -%>
+    <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
 
   <ul>
-    <%- if @manifestation -%>
-      <li><%= link_to t('page.back'), manifestation_items_path(@manifestation) -%></li>
+    <%- if @item.manifestation -%>
+      <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
     <%- else -%>
       <li><%= link_to t('page.back'), items_path -%></li>
     <%- end -%>
@@ -15,11 +15,13 @@
 <div id="content_detail">
   <h1 class="title"><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
-  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+  <%- if @item.manifestation -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
+  <%- end -%>
 
 <%= error_messages_for :item -%>
 
-<%- form_for(:item, :url => manifestation_items_path(@manifestation)) do |f| -%>
+<%- form_for(:item, :url => manifestation_items_path(@item.manifestation)) do |f| -%>
 
   <p>
     <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />

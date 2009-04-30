@@ -274,7 +274,7 @@ class BookmarksControllerTest < ActionController::TestCase
   
   def test_user_should_add_tags_to_bookmark
     UserSession.create users(:user1)
-    put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => 'search'}
+    put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => 'search', :title => 'test'}
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
     assert_equal ['search'], assigns(:bookmark).tag_list
   end

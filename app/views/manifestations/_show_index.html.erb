@@ -1,4 +1,4 @@
-<%- cache(:id => manifestation.id, :action => :show, :action_suffix => 'show_index') do -%>
+<%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_index') do -%>
   <strong><%= link_to h(manifestation.original_title), manifestation -%></strong>
   <%- if manifestation.serial? -%>
     <%=h manifestation.volume_number_list -%>
@@ -8,8 +8,8 @@
     <%=h manifestation.serial_number_list -%>
   <%- end -%>
   <%= form_icon(manifestation.manifestation_form) -%>
-  <%= image_tag('/icons/newspaper.png', :size => '16x16', :alt => ('Serial')) if manifestation.serial -%>
-  <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), manifestation.access_address unless manifestation.access_address.blank? -%>
+  <%= image_tag('/icons/newspaper.png', :size => '16x16', :alt => t('manifestation.serial')) if manifestation.serial? -%>
+  <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => t('manifestation.web')), manifestation.access_address unless manifestation.access_address.blank? -%>
   <%- manifestation.expressions.each do |expression| -%>
     <%= link_to expression_form_icon(expression.expression_form), expression -%>
   <%- end -%>

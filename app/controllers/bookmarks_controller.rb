@@ -232,7 +232,7 @@ class BookmarksController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html { redirect_to bookmarks_url }
+        format.html { redirect_to user_bookmarks_url(current_user.login) }
         format.xml  { head :ok }
       end
     end

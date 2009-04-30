@@ -34,7 +34,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @expression.id, :editable => @expression.is_updatable_by(current_user)) do
+    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user)) do
   -%>
   <h2 id="resource_title">
     [E]
@@ -42,10 +42,10 @@
     <%= expression_form_icon(@expression.expression_form) -%>
   </h2>
 
-<div>
-  <%= patrons_list(@expression.work.patrons) -%>
-  <%= patrons_list(@expression.patrons) -%>
-</div>
+  <p>
+    <%= patrons_list(@expression.work.patrons) -%>
+    <%= patrons_list(@expression.patrons) -%>
+  </p>
 <div id="tabview">
 
   <div id="demo" class="yui-navset yui-navset-top">

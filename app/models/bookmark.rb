@@ -32,9 +32,9 @@ class Bookmark < ActiveRecord::Base
   #  self.bookmarked_resource.title
   #end
 
-  def url
-    self.bookmarked_resource.url
-  end
+  #def url
+  #  self.bookmarked_resource.url
+  #end
 
   def shelved?
     true unless self.bookmarked_resource.manifestation.items.on_web.empty?
@@ -70,7 +70,6 @@ class Bookmark < ActiveRecord::Base
   end
 
   def create_bookmark_item
-    self.reload
     shelf = Shelf.web
     circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'Not Available'})
     item = Item.new

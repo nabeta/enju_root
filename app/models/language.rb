@@ -12,4 +12,15 @@ class Language < ActiveRecord::Base
   validates_presence_of :name
   acts_as_list
   
+  def after_save
+    expire_cache
+  end
+
+  def after_destroy
+    after_save
+  end
+
+  def expire_cache
+    Rails.cache.delete('Language.all')
+  end
 end

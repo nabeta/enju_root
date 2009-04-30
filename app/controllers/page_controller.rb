@@ -1,10 +1,10 @@
 class PageController < ApplicationController
   before_filter :store_location, :except => [:opensearch, :sitemap, :screen_shot]
   #before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
-  before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message]
+  before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message, :screen_shot]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message]
+  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message, :screen_shot]
 
   caches_page :opensearch, :sitemap
 
@@ -12,10 +12,10 @@ class PageController < ApplicationController
     if logged_in?
       redirect_to user_url(current_user.login)
     end
-    @numdocs = Manifestation.numdocs
+    @numdocs = Manifestation.cached_numdocs
     # TODO: タグ下限の設定
     @tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
-    @picked_up = Manifestation.pickup
+    @manifestation = Manifestation.pickup
     @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
   end
 

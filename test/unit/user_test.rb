@@ -139,6 +139,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'Administrator', users(:admin).highest_role.name
   end
 
+  def test_should_send_message
+    assert users(:librarian1).send_message('reservation_expired_for_patron', :manifestations => users(:librarian1).reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
+    assert_equal [], users(:librarian1).reserves.not_sent_expiration_notice_to_patron
+  end
+
   protected
     def create_user(options = {})
       User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))

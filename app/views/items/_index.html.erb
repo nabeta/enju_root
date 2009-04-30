@@ -17,7 +17,7 @@
 
 <%- form_for :items, :url => items_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
     <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>
@@ -44,7 +44,7 @@
     <td><%=h item.call_number -%></td>
     <td>
       <%- if item.manifestation -%>
-        <%= link_to h(item.manifestation.original_title), item.manifestation -%>
+        <%= render :partial => "manifestations/show_index", :locals => {:manifestation => item.manifestation} -%>
       <%- else -%>
         (<%= link_to ('No manifestation'), item_exemplify_path(item) -%>)
       <%- end -%>

@@ -14,7 +14,7 @@
 
   <%- form_for :expressions, :url => subscription_expressions_path(@subscription), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
       <%- if @subscription.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
