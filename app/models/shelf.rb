@@ -11,18 +11,9 @@ class Shelf < ActiveRecord::Base
   
   acts_as_list :scope => :library
   #acts_as_soft_deletable
-  acts_as_cached
 
   cattr_accessor :per_page
   @@per_page = 10
-
-  def before_save
-    self.expire_cache
-  end
-
-  def before_destroy
-    self.expire_cache
-  end
 
   def web_shelf?
     return true if self.id == 1
@@ -30,7 +21,7 @@ class Shelf < ActiveRecord::Base
   end
 
   def self.web
-    Shelf.get_cache(1)
+    Shelf.find(1)
   end
 
   def is_deletable_by(user, parent = nil)

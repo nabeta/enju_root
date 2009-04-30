@@ -6,46 +6,44 @@
     <th><%=h t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%=h t('activerecord.models.circulation_status') -%></th>
   </tr>
-  <%- for item in manifestation.items -%>
-    <%- unless (item.shelf.blank? or item.shelf.web_shelf?) -%>
-      <tr>
-        <td>
-          <%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name)%>
-        </td>
-        <td>
-          <%= link_to h(item.shelf.name), shelf_path(item.shelf) -%>
-          <%= render :partial => 'items/shelf_picture', :locals => {:item => item} -%>
-        </td>
-        <td>
-          <%=h item.call_number -%>
-        </td>
-        <td>
-          <%- unless item.item_identifier.blank? -%>
-            <%= link_to h(item.item_identifier), item -%>
-          <%- else -%>
-            (<%= link_to t('item.no_number'), item -%>)
-          <%- end -%>
-        </td>
-        <td>
-          <%=h item.circulation_status.display_name if item.circulation_status -%>
-          <%- if item.rent? -%>
-            (
-              <%= t('activerecord.attributes.checkout.due_date') -%>:
-              <%=h l(item.checkouts.first.due_date, :format => :short) -%>
-            )
-          <%- end -%>
-        </td>
-      </tr>
-    <%- end -%>
+  <%- for item in manifestation.items.on_shelf -%>
+    <tr>
+      <td>
+        <%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name)%>
+      </td>
+      <td>
+        <%= link_to h(item.shelf.name), shelf_path(item.shelf) -%>
+        <%= render :partial => 'items/shelf_picture', :locals => {:item => item} -%>
+      </td>
+      <td>
+        <%=h item.call_number -%>
+      </td>
+      <td>
+        <%- unless item.item_identifier.blank? -%>
+          <%= link_to h(item.item_identifier), item -%>
+        <%- else -%>
+          (<%= link_to t('item.no_number'), item -%>)
+        <%- end -%>
+      </td>
+      <td>
+        <%=h item.circulation_status.display_name if item.circulation_status -%>
+        <%- if item.rent? -%>
+          (
+            <%= t('activerecord.attributes.checkout.due_date') -%>:
+            <%=h l(item.checkouts.first.due_date, :format => :short) -%>
+          )
+        <%- end -%>
+      </td>
+    </tr>
   <%- end -%>
 </table>
 
-    <%- if request.xhr? -%>
-      <script type="text/javascript" language="JavaScript">
-        jQuery(document).ready(function(){
-          tb_init('a.thickbox, area.thickbox, input.thickbox');
-          imgLoader = new Image();
-          imgLoader.src = tb_pathToImage;
-        });
-      </script>
-    <%- end -%>
+<%- if request.xhr? -%>
+  <script type="text/javascript" language="JavaScript">
+    jQuery(document).ready(function(){
+      tb_init('a.thickbox, area.thickbox, input.thickbox');
+      imgLoader = new Image();
+      imgLoader.src = tb_pathToImage;
+    });
+  </script>
+<%- end -%>

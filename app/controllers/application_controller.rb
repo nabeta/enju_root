@@ -19,11 +19,16 @@ class ApplicationController < ActionController::Base
 
   filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
-  before_filter :get_library_group
+  before_filter :get_library_group, :set_locale
   #before_filter :has_permission?
 
   def get_library_group
     @library_group = LibraryGroup.site_config
+  end
+
+  def set_locale
+    # TODO: 多言語での表示
+    @locale = I18n.default_locale
   end
 
   def reset_params_session
@@ -125,7 +130,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.find(params[:user_id], :include => :user_group) if params[:user_id]
+    @user = User.find(params[:user_id]) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     return @user
 
@@ -135,7 +140,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_if_nil
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}, :include => :user_group) if params[:user_id]
+    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
   end
   
   def get_user_group
@@ -151,7 +156,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_libraries
-    @libraries = Library.find(:all) rescue []
+    #@libraries = Library.find(:all) rescue []
+    @libraries = Rails.cache.fetch('Library.all'){Library.find(:all)}
   end
 
   def get_library_group

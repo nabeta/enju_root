@@ -9,7 +9,8 @@
       <%- end -%>
     <%- end -%>
   <%- else -%>
-    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_limited_authors') do -%>
+    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_limited_authors') do
+    -%>
       <%- manifestation.authors[0..2].each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>

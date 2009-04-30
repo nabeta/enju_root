@@ -14,7 +14,7 @@
 
   <%- form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
       <%- if @patron.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>

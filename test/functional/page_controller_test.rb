@@ -146,4 +146,9 @@ class PageControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_should_get_screen_shot
+    get :screen_shot, :url => 'http://next-l.slis.keio.ac.jp/'
+    assert_response :success
+  end
+
 end

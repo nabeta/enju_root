@@ -21,16 +21,16 @@
 <div id="content_list">
 
   <%-
-    cache(:id => @work.id, :editable => @work.is_updatable_by(current_user)) do
+    cache(:id => @work.id, :action => :show, :controller => :works, :editable => @work.is_updatable_by(current_user)) do
   -%>
   <h2 id="resource_title">
     [W]
     <%=h @work.original_title -%>
   </h2>
 
-  <div>
+  <p>
     <%= patrons_list(@work.patrons) -%>
-  </div>
+  </p>
 <div id="tabview">
 
   <div id="demo" class="yui-navset yui-navset-top">
@@ -61,7 +61,7 @@
           <tr>
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
             <td>
-              <%= editable_content_tag(:span, @work, 'context', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2, :cols => 40}) %>
+              <%=h @work.context -%>
             </td>
           </tr>
           <tr>

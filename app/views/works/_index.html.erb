@@ -11,7 +11,7 @@
 <div id="content_list">
   <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
     <%= submit_tag t('page.search') -%>
    </p>
   <%- end -%>

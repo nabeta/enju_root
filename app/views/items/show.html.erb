@@ -20,11 +20,9 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
-<%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'show_index', :editbale => false) do -%>
   <%- if @item.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
-<%- end -%>
 
 <p>
   <b><%= t('activerecord.models.shelf') -%>:</b>
@@ -87,8 +85,8 @@
 </p>
 -->
 
-<%- if @item.is_deletable_by(current_user) -%>
-
+<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user)) do -%>
+<%- if @item.is_updatable_by(current_user) -%>
   <p>
     <b><%= t('item.donor') -%>:</b>
     <%- @item.donors.each do |patron| -%>
@@ -106,5 +104,6 @@
   <b><%= t('page.updated_at') -%>:</b>
   <%= l(@item.updated_at) -%>
 </p>
+<%- end -%>
 </div>
 </div>

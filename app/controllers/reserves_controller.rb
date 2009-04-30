@@ -25,7 +25,7 @@ class ReservesController < ApplicationController
         @reserves = @user.reserves.paginate(:page => params[:page], :order => ['reserves.expired_at DESC'])
       else
         # 管理者
-        @reserves = Reserve.paginate(:all, :page => params[:page], :order => ['reserves.expired_at DESC'])
+        @reserves = Reserve.paginate(:all, :page => params[:page], :order => ['reserves.expired_at DESC'], :include => :manifestation)
       end
     end
 
@@ -223,7 +223,7 @@ class ReservesController < ApplicationController
 
     if @reserve.manifestation.is_reserved_by
       if @reserve.item
-        retain = @reserve.item.retain(User.get_cache(1)) # TODO: システムからの送信ユーザの設定
+        retain = @reserve.item.retain(User.find(1)) # TODO: システムからの送信ユーザの設定
         if retain.nil?
           flash[:message] = t('reserve.this_item_is_not_reserved')
         end

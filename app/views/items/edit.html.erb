@@ -14,9 +14,7 @@
 
 <%- form_for(@item, :html => { :method => :put }) do |f| -%>
   <%- if @item.manifestation -%>
-    <%- cache(:id => @item.manifestation.id, :action => :show, :action_suffix => 'title', :editable => false) do -%>
-      <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
-    <%- end -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
 
   <p>

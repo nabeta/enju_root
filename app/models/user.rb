@@ -57,7 +57,6 @@ class User < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :login
   acts_as_tagger
-  acts_as_cached
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -100,12 +99,19 @@ class User < ActiveRecord::Base
   #end
 
   def after_save
-    if self.patron
-      self.patron.restrain_indexing = true
-      self.patron.save
+    # TODO: last_request_atを無効にすることも考える
+    unless last_request_at_changed?
+      if self.patron
+        self.patron.restrain_indexing = true
+        self.patron.save
+      end
     end
   end
-  
+
+  def after_destroy
+    after_save
+  end
+
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
   end
@@ -123,15 +129,12 @@ class User < ActiveRecord::Base
     #lock = true if self.user_number.blank?
 
     self.suspended = true if lock
-
-    self.expire_cache
   end
 
   def before_destroy
     if self.has_role?('Administrator')
       raise 'This is the last administrator in this system.' if Role.find_by_name('Administrator').users.size == 1
     end
-    self.expire_cache
   end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
@@ -261,7 +264,7 @@ class User < ActiveRecord::Base
 
   def send_message(status, options = {})
     queue = MessageQueue.new
-    queue.sender = User.get_cache(1)
+    queue.sender = User.find(1)
     queue.receiver = self
     queue.message_template = MessageTemplate.find_by_status(status)
     queue.embed_body(options)

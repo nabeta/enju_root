@@ -17,7 +17,6 @@ class Library < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :short_name
   acts_as_geocodable
-  acts_as_cached
 
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
@@ -28,12 +27,17 @@ class Library < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  def before_save
-    self.expire_cache
+  def after_save
+    expire_cache
   end
 
-  def before_destroy
-    self.expire_cache
+  def after_destroy
+    after_save
+  end
+
+  def expire_cache
+    Rails.cache.delete("Library:#{id}")
+    Rails.cache.delete('Library.all')
   end
 
   def closed?(date)
@@ -46,7 +50,7 @@ class Library < ActiveRecord::Base
   end
 
   def self.web
-    Library.get_cache(1)
+    Rails.cache.fetch("Library:1"){Library.find(1)}
   end
 
   def address

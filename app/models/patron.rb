@@ -1,15 +1,15 @@
 class Patron < ActiveRecord::Base
   include LibrarianOwnerRequired
   belongs_to :user #, :validate => true
-  has_one :library, :include => :library_group
+  has_one :library
   has_many :creates, :dependent => :destroy
-  has_many :works, :through => :creates, :include => :work_form, :as => :creators
+  has_many :works, :through => :creates, :as => :creators
   has_many :realizes, :dependent => :destroy
-  has_many :expressions, :through => :realizes, :include => :expression_form
+  has_many :expressions, :through => :realizes
   has_many :produces, :dependent => :destroy
-  has_many :manifestations, :through => :produces, :include => :manifestation_form
+  has_many :manifestations, :through => :produces
   has_many :owns, :dependent => :destroy
-  has_many :items, :through => :owns, :include => [:use_restrictions, :circulation_status]
+  has_many :items, :through => :owns
   #has_one :person
   #has_one :corporate_body
   #has_one :conference
@@ -202,8 +202,7 @@ class Patron < ActiveRecord::Base
   def is_updatable_by(user, parent = nil)
     if user == self.user || user.has_role?('Librarian')
       # 管理者は自分自身でのみ更新可能
-      return true unless self.user
-      return  true unless self.user.has_role?('Administrator')
+      return true unless self.user.has_role?('Administrator')
     end
   rescue
     false

@@ -7,11 +7,11 @@ class Manifestation < ActiveRecord::Base
   include LibrarianOwnerRequired
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   has_many :embodies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy, :include => [:expression_form, :language]
+  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy
   has_many :exemplifies, :dependent => :destroy
-  has_many :items, :through => :exemplifies, :include => [:checkouts, {:shelf => :library}, :circulation_status], :dependent => :destroy
+  has_many :items, :through => :exemplifies, :dependent => :destroy
   has_many :produces, :dependent => :destroy
-  has_many :patrons, :through => :produces, :order => 'produces.position', :include => :patron_type
+  has_many :patrons, :through => :produces, :order => 'produces.position'
   has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user
@@ -20,7 +20,7 @@ class Manifestation < ActiveRecord::Base
   has_one :attachment_file #, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
-  has_one :bookmarked_resource, :dependent => :destroy, :include => :bookmarks
+  has_one :bookmarked_resource, :dependent => :destroy
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
@@ -68,7 +68,6 @@ class Manifestation < ActiveRecord::Base
   enju_manifestation_viewer
   enju_amazon
   enju_porta
-  acts_as_cached
   #acts_as_taggable_on :subject_tags
 
   @@per_page = 10
@@ -102,16 +101,22 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def before_save
-    self.expire_cache
-  end
-
-  def before_destroy
-    self.expire_cache
-  end
-
   def after_save
+    expire_cache
     send_later(:solr_commit)
+    send_later(:generate_fragment_cache)
+  end
+
+  def after_destroy
+    after_save
+  end
+
+  def expire_cache
+    Rails.cache.delete("Manifestation:numdocs")
+  end
+
+  def self.cached_numdocs
+    Rails.cache.fetch("Manifestation:numdocs"){Manifestation.numdocs}
   end
 
   def full_title
@@ -171,7 +176,6 @@ class Manifestation < ActiveRecord::Base
   end
 
   def authors
-    self.reload
     patron_ids = []
     # 著編者
     (self.related_works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
@@ -211,7 +215,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def tags
-    self.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
+    if self.bookmarked_resource
+      self.bookmarked_resource.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
+    else
+      []
+    end
   end
 
   def works
@@ -262,7 +270,7 @@ class Manifestation < ActiveRecord::Base
   end
   
   def related_manifestations
-    serials = self.expressions.find(:all, :select => ['expressions.id'], :conditions => ['frequency_of_issue_id > 1']).collect{|e| e.manifestations}.flatten.uniq.compact
+    serials = self.expressions.serials.collect(&:manifestations)
     manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact - serials - Array(self)
   rescue
     []
@@ -386,7 +394,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def user
-    self.bookmarks.collect(&:user).collect(&:login)
+    if self.bookmarked_resource
+      self.bookmarked_resource.bookmarks.collect(&:user).collect(&:login)
+    else
+      []
+    end
   end
 
   def oai_identifier
@@ -396,8 +408,7 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_oai_identifier(oai_identifier)
     base_url = "oai:#{LIBRARY_WEB_HOSTNAME}/manifestations/"
     begin
-      id = oai_identifier.gsub(base_url, '').to_i
-      resource = Manifestation.find(id)
+      Manifestation.find(oai_identifier.gsub(base_url, '').to_i)
     rescue
       nil
     end
@@ -452,15 +463,15 @@ class Manifestation < ActiveRecord::Base
 
   # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
-    return nil if self.numdocs < 5
+    return nil if self.cached_numdocs < 5
     resource = nil
     if keyword
-      resources = self.find_id_by_solr(keyword, :limit => self.numdocs)
-      resource = self.get_cache(resources.results[rand(resources.total_hits)]) rescue nil
+      resources = self.find_id_by_solr(keyword, :limit => self.cached_numdocs)
+      resource = self.find(resources.results[rand(resources.total_hits)]) rescue nil
     end
     if resource.blank?
       while resource.nil?
-        resource = self.get_cache(rand(self.numdocs)) rescue nil
+        resource = self.find(rand(self.cached_numdocs)) rescue nil
       end
     end
     return resource
@@ -527,17 +538,17 @@ class Manifestation < ActiveRecord::Base
     Checkout.completed(start_date, end_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
   end
 
-  def bookmarks(start_date = nil, end_date = nil)
-    if start_date.blank? and end_date.blank?
-      if self.bookmarked_resource
-        self.bookmarked_resource.bookmarks
-      else
-        []
-      end
-    else
-      Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
-    end
-  end
+  #def bookmarks(start_date = nil, end_date = nil)
+  #  if start_date.blank? and end_date.blank?
+  #    if self.bookmarked_resource
+  #      self.bookmarked_resource.bookmarks
+  #    else
+  #      []
+  #    end
+  #  else
+  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
+  #  end
+  #end
 
   def fetch_expression_feed
     if self.serial?
@@ -578,6 +589,17 @@ class Manifestation < ActiveRecord::Base
       self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
     end
     self.file_hash
+  end
+
+  def generate_fragment_cache
+    url = "#{LibraryGroup.url}manifestations/#{id}"
+    Net::HTTP.get(URI.parse(url))
+    url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_index"
+    Net::HTTP.get(URI.parse(url))
+    url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_authors"
+    Net::HTTP.get(URI.parse(url))
+    url = "#{LibraryGroup.url}manifestations/#{id}?mode=pickup"
+    Net::HTTP.get(URI.parse(url))
   end
 
 end

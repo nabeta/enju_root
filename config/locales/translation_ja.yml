@@ -850,6 +850,7 @@ ja:
     file: "ファイル"
     cancel: "中止"
     author: "著者"
+    editor: "編者"
     publisher: "出版者"
     feed: "フィード"
     back_to_index: "一覧に戻る"
@@ -1010,6 +1011,8 @@ ja:
     showing_reservable_record: "予約可能な資料のみを表示しています。"
     all_result: "すべての検索結果"
     post_to_twitter: "Twitterに送信する"
+    web: "Web"
+    serial: "定期刊行物"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"

@@ -118,7 +118,7 @@ class Reserve < ActiveRecord::Base
   end
 
   def send_message(status)
-    system_user = User.get_cache(1) # TODO: システムからのメッセージの発信者
+    system_user = User.find(1) # TODO: システムからのメッセージの発信者
     Reserve.transaction do
       case status
       when 'accepted'
@@ -152,7 +152,7 @@ class Reserve < ActiveRecord::Base
   end
 
   def self.send_message_to_library(status)
-    system_user = User.get_cache(1) # TODO: システムからのメッセージの発信者
+    system_user = User.find(1) # TODO: システムからのメッセージの発信者
     case status
     when 'expired'
       message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_library'})

@@ -384,4 +384,12 @@ input.login_password{
   width: 180px;
 }
 
+input.search_form{
+  width: 350px;
+}
+
+input.search_form_short{
+  width: 250px;
+}
+
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

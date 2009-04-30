@@ -13,17 +13,16 @@ class ManifestationsController < ApplicationController
   # GET /manifestations.xml
   def index
     @seconds = Benchmark.realtime do
-      @numdocs = Manifestation.numdocs
+      @numdocs = Manifestation.cached_numdocs
 
 	    if logged_in?
 	      @user = current_user if @user.nil?
 	    end
 
-      prepare_options
       @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
 
       #@manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
-      @search_engines = SearchEngine.find(:all)
+      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
 
       query = make_query(params[:query], {
         :mode => params[:mode],
@@ -66,6 +65,7 @@ class ManifestationsController < ApplicationController
           #@tags_count = @count[:total]
 
           if ["all_facet", "manifestation_form_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
+            prepare_options
             render_facet(query)
             return
           end
@@ -74,7 +74,7 @@ class ManifestationsController < ApplicationController
           #browse = "manifestation_form_f: #{@manifestation_form.name}" if @manifestation_form
           browse = ""
 
-          manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.numdocs).results
+          manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.cached_numdocs).results
           if params[:view] == "tag_cloud"
             if manifestation_ids
               @tags = Tag.bookmarked(manifestation_ids)
@@ -141,7 +141,6 @@ class ManifestationsController < ApplicationController
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
-    @amazon_reviews = @manifestation.amazon_customer_review
     store_location
 
     respond_to do |format|
@@ -417,10 +416,14 @@ class ManifestationsController < ApplicationController
       render :partial => 'manifestations/tag_edit'
     when 'tag_list'
       render :partial => 'manifestations/tag_list'
+    when 'show_index'
+      render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation}
     when 'show_authors'
-      render :partial => 'manifestations/show_authors'
+      render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation}
     when 'show_all_authors'
-      render :partial => 'manifestations/show_authors'
+      render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation}
+    when 'pickup'
+      render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation}
     else
       false
     end
@@ -474,9 +477,9 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    @manifestation_forms = ManifestationForm.find(:all)
-    @languages = Language.find(:all)
-    @roles = Role.find(:all)
+    @manifestation_forms = Rails.cache.fetch('ManifestationForm.all'){ManifestationForm.all}
+    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @roles = Rails.cache.fetch('Role.all'){Role.all}
   end
 
   def save_search_history(query, offset = 0, total = 0)

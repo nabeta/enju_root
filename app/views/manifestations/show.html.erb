@@ -2,7 +2,7 @@
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <%- if logged_in? -%>
     <div id="call_number_content">
-      <%- for item in @manifestation.items -%>
+      <%- for item in @manifestation.items.on_shelf -%>
         <%- if item.hold?(current_user.library) -%>
           <%= call_number_label(item) -%>
         <%- end -%>
@@ -79,7 +79,7 @@
 
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user)) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 
@@ -94,7 +94,7 @@
     <%- if @manifestation.related_manifestations.size > 0 -%>
       <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
     <%- end -%>
-    <%- unless @amazon_reviews.blank? -%>
+    <%- unless @manifestation.amazon_customer_reviews.blank? -%>
       <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
     <%- end -%>
   </ul>            
@@ -181,7 +181,7 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user)) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user)) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
@@ -216,7 +216,7 @@
     <%- unless @manifestation.items.on_shelf.empty? -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
-      <%- if @manifestation.bookmarks -%>
+      <%- if @manifestation.bookmarked_resource -%>
         <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>
       <%- end -%>
@@ -231,7 +231,7 @@
     <div id="tab5">
     </div>
     -->
-    <%- if @amazon_reviews.size > 0 -%>
+    <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
       <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
     <%- end -%>
   </div>

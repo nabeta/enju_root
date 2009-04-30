@@ -17,6 +17,18 @@ class SearchEngine < ActiveRecord::Base
     errors.add(:base_url) unless (URI(read_attribute(:base_url)) rescue false)
   end
 
+  def after_save
+    expire_cache
+  end
+
+  def after_destroy
+    after_save
+  end
+
+  def expire_cache
+    Rails.cache.delete('SearchEngine.all')
+  end
+
   def search_params(query)
     params = {}
     if self.additional_param

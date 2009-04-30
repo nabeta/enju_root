@@ -12,7 +12,7 @@
 
 <%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :style => 'width: 350px' -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
     <%- if params[:view] == 'serial' -%>
       <%= check_box_tag 'view', 'serial', :checked => true -%>
     <%- else -%>

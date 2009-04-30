@@ -863,6 +863,7 @@ en:
     file: "File"
     cancel: "Cancel"
     author: "Author"
+    editor: "Editor"
     publisher: "Publisher"
     feed: "Feed"
     back_to_index: "Back to index"
@@ -1029,6 +1030,8 @@ en:
     showing_reservable_record: "Showing reservable records."
     all_result: "All results"
     post_to_twitter: "post to Twitter"
+    web: "Web"
+    serial: "Serial"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

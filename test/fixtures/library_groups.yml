@@ -4,7 +4,7 @@ one:
   name: unknown
   display_name: unknown
   short_name: unknown
-  email: next-l@kamata.lib.teu.ac.jp
+  email: next-l@library.example.jp
   use_dsbl: false
   note: 
   my_networks: 0.0.0.0/0

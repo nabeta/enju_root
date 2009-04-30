@@ -1,6 +1,4 @@
-<%- unless manifestation.items.on_shelf.blank? -%>
-  <%- unless manifestation.manifestation_form.name == 'file' -%>
-    (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
-  <%- end -%>
+<%- unless manifestation.items.on_shelf.empty? -%>
+  (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
 <%- end -%>
 <div class="holding" id="holding_<%=h manifestation.id -%>"></div>

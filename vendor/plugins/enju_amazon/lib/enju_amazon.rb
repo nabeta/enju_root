@@ -72,7 +72,7 @@ module EnjuAmazon
       bookjacket = {'url' => 'unknown_resource.png', 'width' => '100', 'height' => '100'}
     end
 
-    def amazon_customer_review
+    def amazon_customer_reviews
       reviews = []
       doc = REXML::Document.new(self.access_amazon)
       reviews = []
