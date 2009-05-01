@@ -5,7 +5,7 @@
   </ul>
   <h4><%= t('page.export') -%></h4>
   <ul>
-    <li><%= link_to ('CSV'), user_checkout_stat_path(@user_checkout_stat, :format => :csv, :lang => I18n.default_locale) -%></li>
+    <li><%= link_to ('CSV'), user_checkout_stat_path(@user_checkout_stat, :format => :csv, :locale => @locale) -%></li>
   </ul>
 </div>
 

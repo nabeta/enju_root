@@ -1,6 +1,5 @@
 class AddUsersOpenidField < ActiveRecord::Migration
   def self.up
-    remove_column :users, :openid_url
     add_column :users, :openid_identifier, :string
     add_index :users, :openid_identifier
 
@@ -11,7 +10,6 @@ class AddUsersOpenidField < ActiveRecord::Migration
 
   def self.down
     remove_column :users, :openid_identifier
-    add_column :users, :openid_url, :string
     [:login, :crypted_password, :password_salt].each do |field|
       User.all(:conditions => "#{field} is NULL").each { |user| user.update_attribute(field, "") if user.send(field).nil? }
       change_column :users, field, :string, :default => "", :null => false
