@@ -61,3 +61,7 @@ end
 every 1.day, :at => '9:00 am' do
   runner "Checkout.send_messages(1.day.from_now.beginning_of_day, 'recall_item')"
 end
+
+every 1.day, :at => '9:00 am' do
+  runner "Checkout.send_due_date_notification"
+end

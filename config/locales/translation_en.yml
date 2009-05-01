@@ -956,6 +956,7 @@ en:
     merge_resource: "Merge {{model}}"
     attachable: "Attachable"
     under_construction: "Under construction"
+    sent_email: "Sent email."
   title:
     index: "index"
     show: "show"
@@ -1032,6 +1033,7 @@ en:
     post_to_twitter: "post to Twitter"
     web: "Web"
     serial: "Serial"
+    send_email: "Email this information"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

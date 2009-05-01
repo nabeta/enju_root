@@ -2,6 +2,7 @@ class Checkout < ActiveRecord::Base
   include LibrarianOwnerRequired
   named_scope :not_returned, :conditions => ['checkin_id IS NULL']
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
+  named_scope :due_date_on, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date = ?', date]}}
   named_scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   
   belongs_to :user #, :counter_cache => true #, :validate => true
@@ -87,6 +88,21 @@ class Checkout < ActiveRecord::Base
         user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
       end
     end
+  end
+
+  def self.send_due_date_notification(notification_duration = 1, number = 1)
+    template = 'recall_item'
+    queues = []
+    # TODO: 何回催促をするかを設定できるようにする
+    number.times do |i|
+      User.find_each(:batch_size => User.count) do |user|
+        checkouts = user.checkouts.due_date_on((notification_duration * (i + 1)).days.ago.beginning_of_day)
+        unless checkouts.empty?
+          queues << user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
+        end
+      end
+    end
+    queues.size
   end
 
 end

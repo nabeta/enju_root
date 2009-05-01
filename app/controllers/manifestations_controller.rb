@@ -136,6 +136,15 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
 
+    if params[:mode] == 'send_email'
+      if logged_in?
+        Notifier.deliver_manifestation_info(current_user, @manifestation)
+        flash[:notice] = t('page.sent_email')
+        redirect_to manifestation_url(@manifestation)
+        return
+      end
+    end
+
     return if render_mode(params[:mode])
 
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
