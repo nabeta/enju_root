@@ -351,6 +351,7 @@ ja:
         echoed_search_retrieve_request: エコーの検索リクエストを取得
       shelf:
         name: 名前
+        display_name: 表示名
         note: 注記
         position: 位置
         deleted_at: 削除時刻

@@ -13,8 +13,12 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.shelf')) -%></h1>
 <div id="content_list">
-  <h2 id="resource_title"><%= link_to h(@shelf.library.name), library_path(@shelf.library.short_name) -%>
-    <%=h @shelf.name -%></h2>
+  <h2 id="resource_title"><%= link_to h(@shelf.library.display_name), library_path(@shelf.library.short_name) -%>
+    <%=h @shelf.display_name -%></h2>
+</p>
+
+<p>
+  <%=h @shelf.name -%><br />
 </p>
 
 <p>

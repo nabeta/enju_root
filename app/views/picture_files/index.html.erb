@@ -3,7 +3,7 @@
 <div id="content_list">
 
 <%- if @shelf -%>
-  <h2><%= link_to h(@shelf.name), @shelf -%></h2>
+  <h2><%= link_to h(@shelf.display_name), @shelf -%></h2>
 <%- end -%>
 
 <table id="index">

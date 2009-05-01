@@ -352,6 +352,7 @@ en:
         echoed_search_retrieve_request: Echoed search retrieve request
       shelf:
         name: Name
+        display_name: Display name
         note: Note
         position: Position
         deleted_at: Deleted at
