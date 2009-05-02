@@ -68,6 +68,7 @@ class Manifestation < ActiveRecord::Base
   enju_manifestation_viewer
   enju_amazon
   enju_porta
+  enju_cinii
   #acts_as_taggable_on :subject_tags
 
   @@per_page = 10

@@ -29,7 +29,7 @@ class QuestionsController < ApplicationController
       end
 
       @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-      refkyo_resources = Question.refkyo_search(params[:query], crd_startrecord)
+      refkyo_resources = Question.refkyo_search(params[:query], crd_startrecord, Question.crd_per_page)
       @resources = refkyo_resources[:resources]
       if params[:crd_page]
         crd_page = params[:crd_page].to_i

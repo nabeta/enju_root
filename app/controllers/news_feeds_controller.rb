@@ -20,7 +20,6 @@ class NewsFeedsController < ApplicationController
   # GET /news_feeds/1.xml
   def show
     @news_feed = NewsFeed.find(params[:id])
-    @news_feed_content = @news_feed.content
 
     respond_to do |format|
       format.html # show.html.erb

@@ -11,6 +11,8 @@ class Question < ActiveRecord::Base
   #acts_as_soft_deletable
   acts_as_solr :fields => [:body, :answer_body, {:login => :string}, {:created_at => :date}, {:updated_at => :date}, {:shared => :boolean}], :auto_commit => false
 
+  enju_porta
+ 
   cattr_accessor :per_page
   @@per_page = 10
   cattr_reader :crd_per_page
@@ -27,33 +29,6 @@ class Question < ActiveRecord::Base
 
   def login
     self.user.login
-  end
-
-  def self.refkyo_search(query, startrecord = 1)
-    doc = nil
-    if startrecord < 1
-      startrecord = 1
-    end
-    url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=refkyo&any=#{URI.escape(query)}&cnt=#{Question.crd_per_page}&idx=#{startrecord}"
-    open(url){|f|
-      doc = REXML::Document.new(f)
-    }
-    results = {}
-    resources = []
-    total_count = doc.elements['/rss/channel/openSearch:totalResults/text()'].to_s.strip.to_i
-    doc.elements.each('/rss/channel/item') do |item|
-      resources << item
-    end
-    refkyo_resources = []
-    resources.each do |ref|
-      r = {}
-      r[:title] = ref.elements['title/text()'].to_s
-      r[:link] = ref.elements['link/text()'].to_s
-      refkyo_resources << r
-    end 
-    results[:total_count] = total_count
-    results[:resources] = refkyo_resources
-    return results
   end
 
   def is_readable_by(user, parent = nil)
