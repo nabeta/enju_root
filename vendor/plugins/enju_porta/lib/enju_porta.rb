@@ -104,32 +104,21 @@ module EnjuPorta
       return result
     end
 
-    def refkyo_search(query, startrecord = 1, per_page = 10)
-      # TODO: opensearchライブラリを使って書き直す
-      # NDLでレファ協のdescriptionファイルを用意してくれるとよいのだけど
+    def search_porta(query, dpid, startrecord = 1, per_page = 10)
       doc = nil
+      results = {}
       if startrecord < 1
         startrecord = 1
       end
-      url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=refkyo&any=#{URI.escape(query)}&cnt=#{per_page}&idx=#{startrecord}"
-      open(url){|f|
-        doc = REXML::Document.new(f)
-      }
-      results = {}
-      resources = []
+      url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=#{dpid}&any=#{URI.escape(query)}&cnt=#{per_page}&idx=#{startrecord}"
+      #rss = open(url).read
+      rss = APICache.get(url)
+      feed = RSS::Parser.parse(open(url).read, false)
+      results[:resources] = feed
+
+      doc = REXML::Document.new(rss)
       total_count = doc.elements['/rss/channel/openSearch:totalResults/text()'].to_s.strip.to_i
-      doc.elements.each('/rss/channel/item') do |item|
-        resources << item
-      end
-      refkyo_resources = []
-      resources.each do |ref|
-        r = {}
-        r[:title] = ref.elements['title/text()'].to_s
-        r[:link] = ref.elements['link/text()'].to_s
-        refkyo_resources << r
-      end 
       results[:total_count] = total_count
-      results[:resources] = refkyo_resources
       return results
     end
 

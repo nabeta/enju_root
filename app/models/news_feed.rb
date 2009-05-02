@@ -16,15 +16,22 @@ class NewsFeed < ActiveRecord::Base
 
   def before_save
     self.body = nil
+    expire_cache
+  end
+
+  def before_destroy
+    expire_cache
+  end
+
+  def expire_cache
+    Rails.cache.delete('NewsFeed.all')
   end
 
   def content
     url = self.url.rewrite_my_url
     if self.body.blank?
-      file = open(url)
-      feed = file.read
-      #if rss = RSS::Parser.parse(feed, false)
-      if rss = Feedzirra::Feed.fetch_and_parse(url)
+      feed = open(url).read
+      if rss = RSS::Parser.parse(feed, false)
         self.update_attributes({:body => feed})
       end
     end
@@ -32,14 +39,12 @@ class NewsFeed < ActiveRecord::Base
     # rss = RSS::Parser.parse(self.url)
     # rss.to_s
     # => ""
-    #if rss.nil?
-    if rss == 0
-      #begin
-        #rss = RSS::Parser.parse(self.body)
-        rss = Feedzirra::Feed.parse(body)
-      #rescue RSS::InvalidRSSError
-      #  rss = RSS::Parser.parse(self.body, false)
-      #end
+    if rss.nil?
+      begin
+        rss = RSS::Parser.parse(self.body)
+      rescue RSS::InvalidRSSError
+        rss = RSS::Parser.parse(self.body, false)
+      end
     end
     return rss
   rescue

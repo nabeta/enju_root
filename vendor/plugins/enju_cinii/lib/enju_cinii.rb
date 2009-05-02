@@ -8,20 +8,19 @@ module EnjuCinii
       include EnjuCinii::InstanceMethods
     end
 
-    def search_cinii(query, format = 'atom')
-      engine = OpenSearch::OpenSearch.new('http://ci.nii.ac.jp/opensearch/description.xml')
-      case format
-      when 'atom'
-        type = 'application/atom+xml'
-        Feedzirra::Feed.add_feed_class(Feedzirra::Parser::OpenSearchAtom)
-      when 'rss'
-        type = 'application/rdf+xml'
-        Feedzirra::Feed.add_feed_class(Feedzirra::Parser::OpenSearchRSS)
-      end
-      Feedzirra::Feed.parse(engine.search(query, type))
+    def search_cinii(query)
+      url = "http://ci.nii.ac.jp/opensearch/search?q=#{URI.encode(query)}&format=atom"
+      Atom::Feed.load_feed(URI.parse(url)).entries
     end
   end
 
   module InstanceMethods
+    def cinii_items(page = 1, count = 10)
+      start = (page - 1) * count + 1
+      if self.respond_to?(:issn)
+        url = "http://ci.nii.ac.jp/opensearch/search?issn=#{self.issn}&count=#{count}&start=#{start}&format=atom"
+      end
+      Atom::Feed.load_feed(URI.parse(url)).entries
+    end
   end
 end

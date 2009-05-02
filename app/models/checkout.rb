@@ -90,7 +90,7 @@ class Checkout < ActiveRecord::Base
     end
   end
 
-  def self.send_due_date_notification(notification_duration = 1, number = 1)
+  def self.send_overdue_notification(notification_duration = 1, number = 1)
     template = 'recall_overdue_item'
     queues = []
     number.times do |i|

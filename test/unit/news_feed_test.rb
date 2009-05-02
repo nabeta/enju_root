@@ -15,4 +15,8 @@ class NewsFeedTest < ActiveSupport::TestCase
   def test_should_reload
     assert news_feeds(:news_feed_00001).force_reload
   end
+
+  def test_should_get_atom_content
+    assert news_feeds(:news_feed_00004).content
+  end
 end

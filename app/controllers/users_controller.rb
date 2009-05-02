@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
-    @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
+    @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
 
     respond_to do |format|
       format.html # show.rhtml

@@ -13,7 +13,7 @@ class CheckoutTest < ActiveSupport::TestCase
     assert Checkout.not_returned.size > Checkout.overdue(Time.zone.now).size
   end
 
-  def test_send_due_date_notification
-    assert_equal Checkout.send_due_date_notification, 0
+  def test_send_overdue_notification
+    assert_equal Checkout.send_overdue_notification, 0
   end
 end

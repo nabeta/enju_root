@@ -105,7 +105,7 @@ class ManifestationsController < ApplicationController
 
     end
 
-    @opensearch_result = Manifestation.search_cinii(@query, 'rss')
+    #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
 
     respond_to do |format|

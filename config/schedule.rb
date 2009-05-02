@@ -55,6 +55,7 @@ every 1.day, :at => '2:00 am' do
 end
 
 every 1.day, :at => '4:00 am' do
+  #rake "solr:reindex"
   runner "LibraryGroup.solr_reindex(500)"
 end
 
@@ -63,5 +64,5 @@ every 1.day, :at => '9:00 am' do
 end
 
 every 1.day, :at => '9:00 am' do
-  runner "Checkout.send_due_date_notification"
+  runner "Checkout.send_overdue_notification"
 end

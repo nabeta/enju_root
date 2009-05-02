@@ -1,13 +1,5 @@
-<%- if news_feed.content -%>
-  <h3><%= link_to h(news_feed.content.title), h(news_feed.content.url.rewrite_bookmark_url) -%></h3>
-  <ul>
-    <%- news_feed.content.entries[0..2].each do |item| -%>
-      <li><%= link_to h(item.title), h(item.url.rewrite_bookmark_url) -%>
-      <%- if date = Time.zone.parse(item.published.to_s) rescue nil -%>
-        (<%=h l(date, :format => :short) -%>)
-      <%- end -%>
-      <br />
-      <%= truncate(h(item.summary)) -%></li>
-    <%- end -%>
-  </ul>
+<%- if news_feed.content.is_a?(RSS::Atom::Feed) -%>
+  <%= render :partial => 'news_feeds/content_atom', :locals => {:news_feed => news_feed} -%>
+<%- else -%>
+  <%= render :partial => 'news_feeds/content_rss', :locals => {:news_feed => news_feed} -%>
 <%- end -%>

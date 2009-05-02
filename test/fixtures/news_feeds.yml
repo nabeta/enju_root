@@ -18,3 +18,9 @@ news_feed_00003:
   url: "http://www.slis.keio.ac.jp/"
   body: 
   position: 3
+news_feed_00004:
+  id: 4
+  title: "Atom feed"
+  url: "http://mwr.mediacom.keio.ac.jp/?feed=atom"
+  body: 
+  position: 4
