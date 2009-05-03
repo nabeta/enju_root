@@ -34,7 +34,7 @@ class NewsFeed < ActiveRecord::Base
       feed_url = Feedbag.find(url).first
     end
     if self.body.blank?
-      feed = open(url.rewrite_my_url).read
+      feed = open(feed_url.rewrite_my_url).read
       if rss = RSS::Parser.parse(feed, false)
         self.update_attributes({:body => feed})
       end

@@ -27,13 +27,19 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    locale = params[:locale] || I18n.default_locale
-    unless locale.empty?
-      if I18n.available_locales.include?(locale)
-        @locale = locale
+    if RAILS_ENV == 'test'
+      locale = 'en'
+    else
+      if logged_in?
+        locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale
+      else
+        locale = params[:locale] || session[:locale] || I18n.default_locale
       end
     end
-    I18n.locale = @locale = locale
+    unless I18n.available_locales.include?(locale)
+      locale = I18n.default_locale
+    end
+    I18n.locale = @locale = session[:locale] = locale
   end
 
   def reset_params_session

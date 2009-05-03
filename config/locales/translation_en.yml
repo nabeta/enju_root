@@ -958,6 +958,7 @@ en:
     attachable: "Attachable"
     under_construction: "Under construction"
     sent_email: "Sent email."
+    identifier: "Identifier"
   title:
     index: "index"
     show: "show"
