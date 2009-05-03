@@ -29,14 +29,14 @@ class QuestionsController < ApplicationController
       end
 
       @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-      refkyo_resources = Question.search_porta(params[:query], 'refkyo', crd_startrecord, Question.crd_per_page)
-      @resources = refkyo_resources[:resources].items
+      refkyo_resource = Question.search_porta(params[:query], 'refkyo', crd_startrecord, Question.crd_per_page)
+      @resources = refkyo_resource.items
       if params[:crd_page]
         crd_page = params[:crd_page].to_i
       else
         crd_page = 1
       end
-      @refkyo_count = refkyo_resources[:total_count]
+      @refkyo_count = refkyo_resource.channel.totalResults.to_i
       if @refkyo_count > 1000
         crd_total_count = 1000
       else

@@ -113,13 +113,9 @@ module EnjuPorta
       url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=#{dpid}&any=#{URI.escape(query)}&cnt=#{per_page}&idx=#{startrecord}"
       #rss = open(url).read
       rss = APICache.get(url)
-      feed = RSS::Parser.parse(open(url).read, false)
-      results[:resources] = feed
-
-      doc = REXML::Document.new(rss)
-      total_count = doc.elements['/rss/channel/openSearch:totalResults/text()'].to_s.strip.to_i
-      results[:total_count] = total_count
-      return results
+      RSS::Rss::Channel.install_text_element("openSearch:totalResults", "http://a9.com/-/spec/opensearchrss/1.0/", "?", "totalResults", :text, "openSearch:totalResults")
+      RSS::BaseListener.install_get_text_element "http://a9.com/-/spec/opensearchrss/1.0/", "totalResults", "totalResults="
+      feed = RSS::Parser.parse(url, false)
     end
 
   end
