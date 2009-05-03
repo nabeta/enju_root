@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
         locale = params[:locale] || session[:locale] || I18n.default_locale
       end
     end
-    unless I18n.available_locales.include?(locale)
+    unless I18n.available_locales.include?(locale.intern)
       locale = I18n.default_locale
     end
     I18n.locale = @locale = session[:locale] = locale
