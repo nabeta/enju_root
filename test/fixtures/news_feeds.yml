@@ -24,3 +24,9 @@ news_feed_00004:
   url: "http://mwr.mediacom.keio.ac.jp/?feed=atom"
   body: 
   position: 4
+news_feed_00005:
+  id: 5
+  title: "Contain feeds"
+  url: "http://mwr.mediacom.keio.ac.jp/"
+  body: 
+  position: 5

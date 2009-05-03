@@ -120,7 +120,7 @@ class ManifestationsController < ApplicationController
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
       format.atom
-      format.json
+      format.json { render :json => @manifestations }
     end
   end
 

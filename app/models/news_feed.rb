@@ -29,6 +29,9 @@ class NewsFeed < ActiveRecord::Base
 
   def content
     url = self.url.rewrite_my_url
+    unless Feedbag.feed?(url)
+      url = Feedbag.find(url).first
+    end
     if self.body.blank?
       feed = open(url).read
       if rss = RSS::Parser.parse(feed, false)

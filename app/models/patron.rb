@@ -58,9 +58,9 @@ class Patron < ActiveRecord::Base
   def full_name
     if self[:full_name].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.first_name} #{self.last_name}"
-      else
         "#{self.last_name} #{self.first_name}"
+      else
+        "#{self.first_name} #{self.last_name}"
       end
     else
       self[:full_name]
@@ -70,9 +70,9 @@ class Patron < ActiveRecord::Base
   def full_name_transcription
     if self[:full_name_transcription].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.first_name_transcription} #{self.last_name_transcription}"
-      else
         "#{self.last_name_transcription} #{self.first_name_transcription}"
+      else
+        "#{self.first_name_transcription} #{self.last_name_transcription}"
       end
     else
       self[:full_name_transcription]

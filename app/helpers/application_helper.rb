@@ -163,6 +163,6 @@ module ApplicationHelper
   end
 
   def link_to_wikipedia(string)
-    link_to ('Wikipedia'), "http://#{I18n.default_locale}.wikipedia.org/wiki/#{CGI.escape(string)}"
+    link_to ('Wikipedia'), "http://#{I18n.locale}.wikipedia.org/wiki/#{URI.escape(string)}"
   end
 end

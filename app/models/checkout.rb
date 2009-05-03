@@ -80,10 +80,11 @@ class Checkout < ActiveRecord::Base
     self.completed(start_date, end_date).count(:all, :conditions => {:item_id => manifestation.items.collect(&:id)})
   end
 
-  def self.send_messages(date, template)
+  def self.send_due_date_notification(day = 1)
+    template = 'recall_item'
     User.find_each(:batch_size => User.count) do |user|
       # 未来の日時を指定する
-      checkouts = user.checkouts.overdue(date)
+      checkouts = user.checkouts.overdue(day.days.from_now)
       unless checkouts.empty?
         user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
       end
