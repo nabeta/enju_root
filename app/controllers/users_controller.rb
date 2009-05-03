@@ -139,6 +139,7 @@ class UsersController < ApplicationController
         @user.role_id = params[:user][:role_id] ||= 1
         @user.required_role_id = params[:user][:required_role_id] ||= 1
         @user.user_number = params[:user][:user_number]
+        @user.locale = params[:user][:locale]
         expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
         begin
           @user.expired_at = Time.zone.parse(expired_at_array.join("-"))
@@ -206,6 +207,7 @@ class UsersController < ApplicationController
       @user.expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
       @user.keyword_list = params[:user][:keyword_list]
       @user.user_number = params[:user][:user_number]
+      @user.locale = params[:user][:locale]
     end
     # TODO: OpenIDで発行したアカウントへのパスワード通知
     #if params[:user][:auto_generated_password] == "1"
@@ -311,6 +313,7 @@ class UsersController < ApplicationController
     @roles = Role.find(:all)
     @libraries = Library.find(:all)
     @user_role_id = @user.roles.first.id rescue nil
+    @languages = Language.find(:all)
   end
 
   def set_operator

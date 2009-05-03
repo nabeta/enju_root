@@ -285,6 +285,7 @@ ja:
         full_name: 氏名
         password: パスワード
         old_password: 古いパスワード
+        locale: 言語
       resource_has_subject:
         subjectable_type: 件名付与対象の種類
       picture_file:

@@ -286,6 +286,7 @@ en:
         full_name: Full name
         password: Password
         old_password: Old password
+        locale: Locale
       resource_has_subject:
         subjectable_type: Subjectable type
       picture_file:
