@@ -1,4 +1,5 @@
 class Shelf < ActiveRecord::Base
+  include DisplayName
   include OnlyAdministratorCanModify
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]

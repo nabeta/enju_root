@@ -29,6 +29,10 @@ every 5.minute do
   runner "MessageQueue.send_messages"
 end
 
+every 1.hour do
+  runner "Advertisement.expire_cache"
+end
+
 every 1.day, :at => '0:00 am' do
   runner "Reserve.expire"
   runner "Basket.expire"
@@ -51,5 +55,14 @@ every 1.day, :at => '2:00 am' do
 end
 
 every 1.day, :at => '4:00 am' do
+  #rake "solr:reindex"
   runner "LibraryGroup.solr_reindex(500)"
+end
+
+every 1.day, :at => '9:00 am' do
+  runner "Checkout.send_due_date_notification(1)"
+end
+
+every 1.day, :at => '9:00 am' do
+  runner "Checkout.send_overdue_notification"
 end

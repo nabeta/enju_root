@@ -14,15 +14,27 @@ class NewsFeed < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  def before_save
-    self.body = nil
+  def after_save
+    body = nil
+    expire_cache
+  end
+
+  def after_destroy
+    expire_cache
+  end
+
+  def expire_cache
+    Rails.cache.delete('NewsFeed.all')
   end
 
   def content
-    url = self.url.rewrite_my_url
+    if Feedbag.feed?(url)
+      feed_url = url
+    else
+      feed_url = Feedbag.find(url).first
+    end
     if self.body.blank?
-      file = open(url)
-      feed = file.read
+      feed = open(feed_url.rewrite_my_url).read
       if rss = RSS::Parser.parse(feed, false)
         self.update_attributes({:body => feed})
       end

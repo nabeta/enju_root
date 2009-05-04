@@ -32,8 +32,8 @@ class UserReserveStat < ActiveRecord::Base
 
   def calculate_count
     self.started_at = Time.zone.now
-    User.find_each do |user|
-      daily_count = Reserve.users_count(self.start_date, self.end_date, user)
+    User.find_each(:batch_size => UserReserveStat.not_calculated.size) do |user|
+      daily_count = user.reserves.created(self.start_date, self.end_date).size
       if daily_count > 0
         self.users << user
         UserReserveStat.find_by_sql(['UPDATE reserve_stat_has_users SET reserves_count = ? WHERE user_reserve_stat_id = ? AND user_id = ?', daily_count, self.id, user.id])

@@ -1,5 +1,7 @@
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
+  include EnjuFragmentCache
+
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
@@ -70,21 +72,7 @@ class Item < ActiveRecord::Base
   #end
 
   def before_save
-    if self.item_identifier
-      self.item_identifier.strip!
-      unless self.item_identifier.blank?
-        barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
-        if barcode.nil?
-          barcode = Barcode.create(:code_word => self.item_identifier)
-        end
-
-        self.barcode = barcode
-        self.barcode.save
-      else
-        self.item_identifier = nil
-      end
-    end
-
+    set_item_identifier
   end
 
   def after_save
@@ -206,6 +194,23 @@ class Item < ActiveRecord::Base
     end
   rescue
     nil
+  end
+
+  def set_item_identifier
+    if self.item_identifier
+      self.item_identifier.strip!
+      unless self.item_identifier.blank?
+        barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
+        if barcode.nil?
+          barcode = Barcode.create(:code_word => self.item_identifier)
+        end
+
+        self.barcode = barcode
+        self.barcode.save
+      else
+        self.item_identifier = nil
+      end
+    end
   end
 
 end

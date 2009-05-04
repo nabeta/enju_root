@@ -10,7 +10,7 @@ class CreatePatrons < ActiveRecord::Migration
       t.string :first_name_transcription
       t.string :corporate_name
       t.string :corporate_name_transcription
-      t.string :full_name, :null => false
+      t.string :full_name
       t.text :full_name_transcription
       t.text :full_name_alternative
       t.timestamps

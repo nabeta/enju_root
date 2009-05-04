@@ -351,6 +351,7 @@ ja:
         echoed_search_retrieve_request: エコーの検索リクエストを取得
       shelf:
         name: 名前
+        display_name: 表示名
         note: 注記
         position: 位置
         deleted_at: 削除時刻
@@ -937,8 +938,10 @@ ja:
     read: "読み込み"
     merge: "併合する（取り消しはできません）"
     merge_resource: "{{model}}を併合する"
-    attachable: 添付先
-    under_construction: 開発中
+    attachable: "添付先"
+    under_construction: "開発中"
+    sent_email: "電子メールを送信しました。"
+    identifier: "識別子"
   title:
     index: "一覧"
     show: "表示"
@@ -1013,6 +1016,7 @@ ja:
     post_to_twitter: "Twitterに送信する"
     web: "Web"
     serial: "定期刊行物"
+    send_email: "書誌情報を電子メールで送信する"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"

@@ -104,6 +104,8 @@ class ManifestationsController < ApplicationController
       end
 
     end
+
+    #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
 
     respond_to do |format|
@@ -118,7 +120,7 @@ class ManifestationsController < ApplicationController
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
       format.atom
-      format.json
+      format.json { render :json => @manifestations }
     end
   end
 
@@ -134,6 +136,15 @@ class ManifestationsController < ApplicationController
       end
     else
       @manifestation = Manifestation.find(params[:id])
+    end
+
+    if params[:mode] == 'send_email'
+      if logged_in?
+        Notifier.deliver_manifestation_info(current_user, @manifestation)
+        flash[:notice] = t('page.sent_email')
+        redirect_to manifestation_url(@manifestation)
+        return
+      end
     end
 
     return if render_mode(params[:mode])

@@ -68,6 +68,7 @@ class Manifestation < ActiveRecord::Base
   enju_manifestation_viewer
   enju_amazon
   enju_porta
+  enju_cinii
   #acts_as_taggable_on :subject_tags
 
   @@per_page = 10
@@ -78,6 +79,8 @@ class Manifestation < ActiveRecord::Base
   validates_associated :manifestation_form, :language
   validates_numericality_of :start_page, :end_page, :allow_blank => true
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
+  validates_uniqueness_of :isbn, :allow_blank => true
+  validates_uniqueness_of :nbn, :allow_blank => true
 
   def validate
     #unless self.date_of_publication.blank?

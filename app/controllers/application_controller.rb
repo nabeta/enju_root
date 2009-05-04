@@ -27,8 +27,19 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    # TODO: 多言語での表示
-    @locale = I18n.default_locale
+    if RAILS_ENV == 'test'
+      locale = 'en'
+    else
+      if logged_in?
+        locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale
+      else
+        locale = params[:locale] || session[:locale] || I18n.default_locale
+      end
+    end
+    unless I18n.available_locales.include?(locale.intern)
+      locale = I18n.default_locale
+    end
+    I18n.locale = @locale = session[:locale] = locale
   end
 
   def reset_params_session
@@ -256,8 +267,8 @@ class ApplicationController < ActionController::Base
     if params[:format] == 'ics'
       response.body = NKF::nkf('-w -Lw', response.body)
     elsif params[:format] == 'csv'
-      lang = params[:lang] ||= I18n.default_locale
-      if lang == 'ja'
+      # TODO: 他の言語
+      if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
         response.body = NKF::nkf('-Ws', response.body)
       end

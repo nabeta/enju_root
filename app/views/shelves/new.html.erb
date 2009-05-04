@@ -12,18 +12,23 @@
 
 <%- form_for(@shelf) do |f| -%>
   <p>
-  <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
-  <%= f.text_field :name, :class => 'resource_title' -%>
+    <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
+    <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.shelf.note') -%></b><br />
-  <%= f.text_area :note, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.shelf.display_name') -%></b><br />
+    <%= f.text_field :display_name, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.shelf.note') -%></b><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <%- if current_user.has_role?('Librarian') -%>
     <p>
-    <b><%= t('page.library') -%></b><br />
+      <b><%= t('page.library') -%></b><br />
       <select id="library_id" name="library_id">
         <%= options_from_collection_for_select(@libraries, "short_name", "name", @shelf.library.short_name) -%>
       </select>

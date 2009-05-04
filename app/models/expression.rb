@@ -1,5 +1,7 @@
 class Expression < ActiveRecord::Base
   include OnlyLibrarianCanModify
+  include EnjuFragmentCache
+
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   named_scope :not_serials, :conditions => ['frequency_of_issue_id = 1']
   has_one :reify, :dependent => :destroy
@@ -35,6 +37,7 @@ class Expression < ActiveRecord::Base
     {:expression_merge_list_ids => :integer}],
     :facets => [:expression_form_id, :language_id], :offline => proc{|expression| expression.restrain_indexing}, :auto_commit => false
   #acts_as_soft_deletable
+  enju_cinii
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -106,8 +109,4 @@ class Expression < ActiveRecord::Base
     nil
   end
 
-  def generate_fragment_cache
-    url = "#{LibraryGroup.url}expressions/#{id}"
-    Net::HTTP.get(URI.parse(url))
-  end
 end

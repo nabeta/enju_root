@@ -2,6 +2,7 @@ class Checkout < ActiveRecord::Base
   include LibrarianOwnerRequired
   named_scope :not_returned, :conditions => ['checkin_id IS NULL']
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
+  named_scope :due_date_on, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date = ?', date]}}
   named_scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   
   belongs_to :user #, :counter_cache => true #, :validate => true
@@ -76,10 +77,32 @@ class Checkout < ActiveRecord::Base
   end
 
   def self.manifestations_count(start_date, end_date, manifestation)
-    self.completed(start_date, end_date).find(:all, :conditions => {:item_id => manifestation.items.collect(&:id)}).count
+    self.completed(start_date, end_date).count(:all, :conditions => {:item_id => manifestation.items.collect(&:id)})
   end
 
-  def self.users_count(start_date, end_date, user)
-    self.completed(start_date, end_date).find(:all, :conditions => {:user_id => user.id}).count
+  def self.send_due_date_notification(day = 1)
+    template = 'recall_item'
+    User.find_each(:batch_size => User.count) do |user|
+      # 未来の日時を指定する
+      checkouts = user.checkouts.overdue(day.days.from_now)
+      unless checkouts.empty?
+        user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
+      end
+    end
   end
+
+  def self.send_overdue_notification(notification_duration = 1, number = 1)
+    template = 'recall_overdue_item'
+    queues = []
+    number.times do |i|
+      User.find_each(:batch_size => User.count) do |user|
+        checkouts = user.checkouts.due_date_on((notification_duration * (i + 1)).days.ago.beginning_of_day)
+        unless checkouts.empty?
+          queues << user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
+        end
+      end
+    end
+    queues.size
+  end
+
 end

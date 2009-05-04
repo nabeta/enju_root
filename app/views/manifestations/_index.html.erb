@@ -93,10 +93,11 @@
       :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
   </div>
 <%- end -%>
+
     <div class="autopagerize_insert_before">
     </div>
 
-</div>
+  </div>
 </div>
 
 <div id="submenu">
@@ -113,11 +114,11 @@
 
     <%- end -%>
   <%- end -%>
-    <div>
-      <%- if params[:library_id].blank? -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
-      <%- else -%>
-        <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
-      <%- end -%>
-    </div>
+  <div>
+    <%- if params[:library_id].blank? -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
+    <%- end -%>
+  </div>
 </div>

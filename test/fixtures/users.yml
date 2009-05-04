@@ -28,6 +28,7 @@ librarian2:
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test
+  locale: "ja"
 user2: 
   password_salt: fzvD659HY-1W7NjZpnZG
   questions_count: 0
@@ -57,6 +58,7 @@ user2:
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test
+  locale: "ja"
 admin: 
   password_salt: a8RC66k288qFImXHunGO
   questions_count: 0
@@ -86,6 +88,7 @@ admin:
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test
+  locale: "ja"
 librarian1: 
   password_salt: ANpwilsBMIRre2WGgE_2
   questions_count: 0
@@ -115,6 +118,7 @@ librarian1:
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test
+  locale: "ja"
 user1: 
   password_salt: CnM9OO2zUsKFIi-b3mpA
   questions_count: 0
@@ -145,3 +149,4 @@ user1:
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test
+  locale: "ja"

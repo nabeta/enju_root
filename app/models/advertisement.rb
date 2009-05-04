@@ -26,7 +26,11 @@ class Advertisement < ActiveRecord::Base
   end
 
   def self.cached_current_ads
-    Rails.cache.fetch('Advertisement.current_ads', :expires_in => 60.seconds){Advertisement.current_ads}
+    Rails.cache.fetch('Advertisement.current_ads'){Advertisement.current_ads}
+  end
+
+  def self.expire_cache
+    Rails.cache.delete('Advertisement.current_ads')
   end
 
   def self.pickup

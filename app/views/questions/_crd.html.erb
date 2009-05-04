@@ -15,7 +15,7 @@
   <p><%= t('question.number_of_search_results', :count => @refkyo_count) -%><br />
   <ul>
     <%- @resources.each do |resource| -%>
-      <li><%= link_to h(truncate(resource[:title])), resource[:link] -%></li>
+      <li><%= link_to h(truncate(resource.title)), resource.link -%></li>
     <%- end -%>
   </ul>
   <%= will_paginate(@crd_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :crd_page, :class => 'sidebar_pagination') -%>

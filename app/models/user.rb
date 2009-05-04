@@ -78,7 +78,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
-  validates_presence_of :user_group, :library
+  validates_presence_of :user_group, :library, :locale
   #validates_presence_of :user_number
   validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validate_on_update :verify_password
@@ -114,6 +114,7 @@ class User < ActiveRecord::Base
 
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
+    self.locale = I18n.default_locale
   end
 
   def set_auto_generated_password

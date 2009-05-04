@@ -1,5 +1,7 @@
 class Patron < ActiveRecord::Base
   include LibrarianOwnerRequired
+  include EnjuFragmentCache
+
   belongs_to :user #, :validate => true
   has_one :library
   has_many :creates, :dependent => :destroy
@@ -30,6 +32,7 @@ class Patron < ActiveRecord::Base
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
+  validates_length_of :full_name, :maximum => 255
 
   acts_as_solr :fields => [:name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2, :address_1_note, :address_2_note, :other_designation, {:created_at => :date}, {:updated_at => :date}, {:date_of_birth => :date}, {:date_of_death => :date},
     {:work_ids => :integer}, {:expression_ids => :integer}, {:manifestation_ids => :integer}, {:patron_type_id => :integer}, {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer}],
@@ -55,9 +58,9 @@ class Patron < ActiveRecord::Base
   def full_name
     if self[:full_name].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.first_name} #{self.last_name}"
-      else
         "#{self.last_name} #{self.first_name}"
+      else
+        "#{self.first_name} #{self.last_name}"
       end
     else
       self[:full_name]
@@ -67,9 +70,9 @@ class Patron < ActiveRecord::Base
   def full_name_transcription
     if self[:full_name_transcription].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.first_name_transcription} #{self.last_name_transcription}"
-      else
         "#{self.last_name_transcription} #{self.first_name_transcription}"
+      else
+        "#{self.first_name_transcription} #{self.last_name_transcription}"
       end
     else
       self[:full_name_transcription]
@@ -213,4 +216,5 @@ class Patron < ActiveRecord::Base
   rescue
     false
   end
+
 end

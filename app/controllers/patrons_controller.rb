@@ -66,7 +66,7 @@ class PatronsController < ApplicationController
       format.xml  { render :xml => @patrons }
       format.rss  { render :layout => false }
       format.atom
-      format.json
+      format.json { render :json => @patrons }
     end
   end
 

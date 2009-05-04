@@ -2,7 +2,6 @@ class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table "users", :force => true do |t|
       t.string :login, :null => false
-      t.string :openid_url, :string
       t.string :email, :string
       t.string :crypted_password, :null => false
       t.timestamps
@@ -44,8 +43,6 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :required_score, :default => 0, :null => false
     end
     add_index :users, :login, :unique => true
-    add_index :users, :openid_url
-
     add_index :users, :patron_id, :unique => true
     add_index :users, :user_group_id
     add_index :users, :required_role_id

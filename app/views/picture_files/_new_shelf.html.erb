@@ -2,7 +2,7 @@
   <p>
     <b><%= t('page.attachable') -%></b><br />
     <%= link_to h(@shelf.library.name), library_path(@shelf.library.short_name) -%>
-    <%= link_to h(@shelf.name), @shelf -%>
+    <%= link_to h(@shelf.display_name), @shelf -%>
     <%= f.hidden_field :picture_attachable_id -%>
     <%= f.hidden_field :picture_attachable_type -%>
   </p>

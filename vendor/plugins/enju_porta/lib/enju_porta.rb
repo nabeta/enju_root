@@ -22,7 +22,7 @@ module EnjuPorta
       result = search_z3950(isbn)
       raise "not found" if result.nil?
 
-      title, title_transcription, date_of_publication, language = nil, nil, nil, nil
+      title, title_transcription, date_of_publication, language, work_title, nbn = nil, nil, nil, nil, nil, nil
       authors, publishers, subjects = [], [], []
 
       result.to_s.split("\n").each do |line|
@@ -34,12 +34,16 @@ module EnjuPorta
           authors << md[1].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ') 
         elsif md = /^【publisher】：+(.*)$/.match(line)
           publishers << md[1].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-        elsif md = /^【subject】\(dcndl:NDLNH\)：+(.*)$/.match(line)
+        elsif md = /^【subject】\(dcndl:NDLSH\)：+(.*)$/.match(line)
           subjects << md[1].tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
         elsif md = /^【issued】\(dcterms:W3CDTF\)：+(.*)$/.match(line)
           date_of_publication = Time.mktime(md[1])
         elsif md = /^【language】\(dcterms:ISO639-2\)：+(.*)$/.match(line)
           language = md[1]
+        elsif md = /^【description】：原タイトル : +(.*)$/.match(line)
+          work_title = md[1].tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+        elsif md = /^【identifier】\(dcndl:JPNO\)：+(.*)$/.match(line)
+          nbn = "JP-#{md[1]}"
         end
       end
 
@@ -47,10 +51,14 @@ module EnjuPorta
         author_patrons = Manifestation.import_patrons(authors.reverse)
         publisher_patrons = Manifestation.import_patrons(publishers)
 
-        work = Work.new(:original_title => title)
+        if work_title
+          work = Work.new(:original_title => work_title)
+        else
+          work = Work.new(:original_title => title)
+        end
         # TODO: 言語や形態の設定
         expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
-        manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication)
+        manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication, :nbn => nbn)
         work.restrain_indexing = true
         expression.restrain_indexing = true
         #manifestation.restrain_indexing = true
@@ -96,6 +104,20 @@ module EnjuPorta
         result = z3950query(isbn, server[0], server[1], server[2])
       end
       return result
+    end
+
+    def search_porta(query, dpid, startrecord = 1, per_page = 10)
+      doc = nil
+      results = {}
+      if startrecord < 1
+        startrecord = 1
+      end
+      url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=#{dpid}&any=#{URI.escape(query)}&cnt=#{per_page}&idx=#{startrecord}"
+      #rss = open(url).read
+      rss = APICache.get(url)
+      RSS::Rss::Channel.install_text_element("openSearch:totalResults", "http://a9.com/-/spec/opensearchrss/1.0/", "?", "totalResults", :text, "openSearch:totalResults")
+      RSS::BaseListener.install_get_text_element "http://a9.com/-/spec/opensearchrss/1.0/", "totalResults", "totalResults="
+      feed = RSS::Parser.parse(url, false)
     end
 
   end

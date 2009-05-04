@@ -281,6 +281,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Manifestation.count
     
     assert assigns(:manifestation)
+    assert assigns(:manifestation).nbn
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_url(assigns(:manifestation))
   end
