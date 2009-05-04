@@ -7,7 +7,6 @@ event_category_00001:
   position: 1
 event_category_00002: 
   name: closed
-  display_name: Closed
   id: 2
   note: ""
   position: 2

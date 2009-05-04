@@ -13,17 +13,12 @@
 <%- form_for(@language) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.language.name') -%></b><br />
-    <%= f.text_field :name -%>
+    <%= f.text_area :name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
     <b><%= ('Native name') -%></b><br />
     <%= f.text_field :native_name -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.language.display_name') -%></b><br />
-    <%= f.text_field :display_name -%>
   </p>
 
   <p>

@@ -12,14 +12,12 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.manifestation_form.name') -%></th>
     <th><%= t('activerecord.attributes.manifestation_form.display_name') -%></th>
     <th><%= t('activerecord.attributes.manifestation_form.note') -%></th>
   </tr>
   
 <%- for manifestation_form in @manifestation_forms -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(manifestation_form.name), manifestation_form -%></td>
     <td><%= link_to h(manifestation_form.display_name), manifestation_form -%></td>
     <td><%=h manifestation_form.note -%></td>
     <%- if manifestation_form.is_deletable_by(current_user) -%>

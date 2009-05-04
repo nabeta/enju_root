@@ -14,12 +14,7 @@
 <%- form_for(@subject_type) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.subject_type.name') -%></b><br />
-    <%= f.text_field :name -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.subject_type.display_name') -%></b><br />
-    <%= f.text_field :display_name -%>
+    <%= f.text_area :name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

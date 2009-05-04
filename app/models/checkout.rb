@@ -84,7 +84,7 @@ class Checkout < ActiveRecord::Base
     template = 'recall_item'
     User.find_each(:batch_size => User.count) do |user|
       # 未来の日時を指定する
-      checkouts = user.checkouts.overdue(day.days.from_now)
+      checkouts = user.checkouts.due_date_on(day.days.from_now.beginning_of_day)
       unless checkouts.empty?
         user.send_message(template, :manifestations => checkouts.collect(&:item).collect(&:manifestation))
       end

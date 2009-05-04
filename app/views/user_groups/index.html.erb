@@ -10,14 +10,12 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.user_group.name') -%></th>
     <th><%= t('activerecord.attributes.user_group.display_name') -%></th>
     <th><%= t('activerecord.attributes.user_group.note') -%></th>
   </tr>
   
 <%- for user_group in @user_groups -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(user_group.name), user_group -%></td>
     <td><%= link_to h(user_group.display_name), user_group -%></td>
     <td><%=h user_group.note -%></td>
     <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>

@@ -48,7 +48,7 @@ div#content{
   width: 922px;
 }
 
-div#header_and_footer{
+div.header_and_footer{
   padding: 2px;
   width: 100%;
   clear: both
@@ -96,7 +96,8 @@ div#submenu{
 
 div#manifestation_book_jacket{
   text-align: center;
-  margin-top: 2em;
+  margin-top: 10px;
+  width: 200px;
 }
 
 div#manifestation_bookmark_buttons{

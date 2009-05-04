@@ -1,4 +1,5 @@
 class EventCategory < ActiveRecord::Base
+  include DisplayName
   include OnlyAdministratorCanModify
 
   default_scope :order => "position"

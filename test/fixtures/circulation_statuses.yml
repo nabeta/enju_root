@@ -4,7 +4,6 @@ circulation_status_00005:
   updated_at: 2008-02-15 17:31:42.422676 +09:00
   id: 5
   note: ""
-  display_name: In Process
   created_at: 2008-02-15 17:31:42.422676 +09:00
   position: 5
 circulation_status_00006: 
@@ -12,7 +11,6 @@ circulation_status_00006:
   updated_at: 2008-02-15 17:31:51.227056 +09:00
   id: 6
   note: ""
-  display_name: In Transit Between Library Locations
   created_at: 2008-02-15 17:31:51.227056 +09:00
   position: 6
 circulation_status_00007: 
@@ -20,7 +18,6 @@ circulation_status_00007:
   updated_at: 2008-02-15 17:31:58.627987 +09:00
   id: 7
   note: ""
-  display_name: Lost
   created_at: 2008-02-15 17:31:58.627987 +09:00
   position: 7
 circulation_status_00008: 
@@ -28,7 +25,6 @@ circulation_status_00008:
   updated_at: 2008-02-15 17:32:07.006541 +09:00
   id: 8
   note: ""
-  display_name: Missing
   created_at: 2008-02-15 17:32:07.006541 +09:00
   position: 8
 circulation_status_00010: 
@@ -36,7 +32,6 @@ circulation_status_00010:
   updated_at: 2008-02-15 17:32:22.969896 +09:00
   id: 10
   note: ""
-  display_name: On Loan
   created_at: 2008-02-15 17:32:22.969896 +09:00
   position: 10
 circulation_status_00009: 
@@ -44,7 +39,6 @@ circulation_status_00009:
   updated_at: 2008-02-15 17:32:15.454067 +09:00
   id: 9
   note: ""
-  display_name: Not Available
   created_at: 2008-02-15 17:32:15.454067 +09:00
   position: 9
 circulation_status_00011: 
@@ -52,7 +46,6 @@ circulation_status_00011:
   updated_at: 2008-02-15 17:32:30.675735 +09:00
   id: 11
   note: ""
-  display_name: On Order
   created_at: 2008-02-15 17:32:30.675735 +09:00
   position: 11
 circulation_status_00012: 
@@ -60,7 +53,6 @@ circulation_status_00012:
   updated_at: 2008-02-15 17:32:39.395000 +09:00
   id: 12
   note: ""
-  display_name: Pending Transfer
   created_at: 2008-02-15 17:32:39.395000 +09:00
   position: 12
 circulation_status_00001: 
@@ -68,7 +60,6 @@ circulation_status_00001:
   updated_at: 2008-02-15 17:31:10.588524 +09:00
   id: 1
   note: ""
-  display_name: Available For Pickup
   created_at: 2008-02-15 17:31:10.588524 +09:00
   position: 1
 circulation_status_00002: 
@@ -76,7 +67,6 @@ circulation_status_00002:
   updated_at: 2008-02-15 17:31:18.946298 +09:00
   id: 2
   note: ""
-  display_name: Available On Shelf
   created_at: 2008-02-15 17:31:18.946298 +09:00
   position: 2
 circulation_status_00013: 
@@ -84,7 +74,6 @@ circulation_status_00013:
   updated_at: 2008-02-15 17:32:48.355304 +09:00
   id: 13
   note: ""
-  display_name: Recalled
   created_at: 2008-02-15 17:32:48.355304 +09:00
   position: 13
 circulation_status_00014: 
@@ -92,7 +81,6 @@ circulation_status_00014:
   updated_at: 2008-02-15 17:32:59.078750 +09:00
   id: 14
   note: ""
-  display_name: Waiting To Be Reshelved
   created_at: 2008-02-15 17:32:59.078750 +09:00
   position: 14
 circulation_status_00003: 
@@ -100,7 +88,6 @@ circulation_status_00003:
   updated_at: 2008-02-15 17:31:26.564769 +09:00
   id: 3
   note: ""
-  display_name: Circulation Status Undefined
   created_at: 2008-02-15 17:31:26.564769 +09:00
   position: 3
 circulation_status_00004: 
@@ -108,6 +95,5 @@ circulation_status_00004:
   updated_at: 2008-02-15 17:31:35.786404 +09:00
   id: 4
   note: ""
-  display_name: Claimed Returned Or Never Borrowed
   created_at: 2008-02-15 17:31:35.786404 +09:00
   position: 4

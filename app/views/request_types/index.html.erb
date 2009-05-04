@@ -10,13 +10,11 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.request_type.name') -%></th>
     <th><%= t('activerecord.attributes.request_type.display_name') -%></th>
   </tr>
 
 <%- for request_type in @request_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(request_type.name), request_type -%></td>
     <td><%= link_to h(request_type.display_name), request_type -%></td>
     <td><%= link_to t('page.edit'), edit_request_type_path(request_type) -%></td>
     <td><%= link_to t('page.destroy'), request_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

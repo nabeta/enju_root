@@ -1,4 +1,5 @@
 class Event < ActiveRecord::Base
+  include DisplayName
   include OnlyLibrarianCanModify
 
   named_scope :closing_days, :include => :event_category, :conditions => ['event_categories.name = ?', 'closed']

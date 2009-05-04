@@ -4,7 +4,6 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.language.name') -%></th>
     <th><%= t('activerecord.attributes.language.display_name') -%></th>
     <th><%= t('activerecord.attributes.language.native_name') -%></th>
     <th><%= ('Iso 639 1') -%></th>
@@ -14,7 +13,6 @@
 
 <%- for language in @languages -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(language.name), language -%></td>
     <td><%= link_to h(language.display_name), language -%></td>
     <td><%=h language.native_name -%></td>
     <td><%=h language.iso_639_1 -%></td>

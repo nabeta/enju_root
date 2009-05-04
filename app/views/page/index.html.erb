@@ -18,7 +18,7 @@
 
   <h3 class="title"><%= t('page.news') -%></h3>
   <div id="news_feed_box">
-    <%- cache(:controller => :news_feeds, :action => :index, :action_suffix => 'list') do -%>
+    <%- cache(:controller => :news_feeds, :action => :index, :action_suffix => 'list', :locale => @locale) do -%>
       <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
     <%- end -%>
   </div>
@@ -33,7 +33,7 @@
 
   <h3 class="title"><%= t('tag.popular_tag') -%></h3>
   <div id="tag_cloud_box">
-    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud') do -%>
+    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud', :locale => @locale) do -%>
       <%= render :partial => 'bookmarked_resources/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
   </div>

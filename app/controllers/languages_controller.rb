@@ -4,7 +4,7 @@ class LanguagesController < ApplicationController
   # GET /languages
   # GET /languages.xml
   def index
-    @languages = Language.find(:all)
+    @languages = Rails.cache.fetch('Language.all'){Language.all}
 
     respond_to do |format|
       format.html # index.html.erb

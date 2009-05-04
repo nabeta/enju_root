@@ -7,7 +7,6 @@ language_00001:
   iso_639_3: "???"
   id: 1
   note: 
-  display_name: 
   native_name: 
 language_00086: 
   position: 86
@@ -17,7 +16,6 @@ language_00086:
   iso_639_3: kin
   id: 86
   note: 
-  display_name: 
   native_name: 
 language_00141: 
   position: 141
@@ -27,7 +25,6 @@ language_00141:
   iso_639_3: gla
   id: 141
   note: 
-  display_name: 
   native_name: 
 language_00058: 
   position: 58
@@ -37,7 +34,6 @@ language_00058:
   iso_639_3: grn
   id: 58
   note: 
-  display_name: 
   native_name: 
 language_00113: 
   position: 113
@@ -47,7 +43,6 @@ language_00113:
   iso_639_3: nau
   id: 113
   note: 
-  display_name: 
   native_name: 
 language_00087: 
   position: 87
@@ -57,7 +52,6 @@ language_00087:
   iso_639_3: kir
   id: 87
   note: 
-  display_name: 
   native_name: 
 language_00142: 
   position: 142
@@ -67,7 +61,6 @@ language_00142:
   iso_639_3: srp
   id: 142
   note: 
-  display_name: 
   native_name: 
 language_00059: 
   position: 59
@@ -77,7 +70,6 @@ language_00059:
   iso_639_3: guj
   id: 59
   note: 
-  display_name: 
   native_name: 
 language_00114: 
   position: 114
@@ -87,7 +79,6 @@ language_00114:
   iso_639_3: nav
   id: 114
   note: 
-  display_name: 
   native_name: 
 language_00170: 
   position: 170
@@ -97,7 +88,6 @@ language_00170:
   iso_639_3: tur
   id: 170
   note: 
-  display_name: 
   native_name: 
 language_00088: 
   position: 88
@@ -107,7 +97,6 @@ language_00088:
   iso_639_3: run
   id: 88
   note: 
-  display_name: 
   native_name: 
 language_00143: 
   position: 143
@@ -117,7 +106,6 @@ language_00143:
   iso_639_3: hbs
   id: 143
   note: 
-  display_name: 
   native_name: 
 language_00115: 
   position: 115
@@ -127,7 +115,6 @@ language_00115:
   iso_639_3: ndo
   id: 115
   note: 
-  display_name: 
   native_name: 
 language_00171: 
   position: 171
@@ -137,7 +124,6 @@ language_00171:
   iso_639_3: tuk
   id: 171
   note: 
-  display_name: 
   native_name: 
 language_00144: 
   position: 144
@@ -147,7 +133,6 @@ language_00144:
   iso_639_3: sna
   id: 144
   note: 
-  display_name: 
   native_name: 
 language_00002: 
   position: 2
@@ -157,7 +142,6 @@ language_00002:
   iso_639_3: abk
   id: 2
   note: 
-  display_name: 
   native_name: 
 language_00116: 
   position: 116
@@ -167,7 +151,6 @@ language_00116:
   iso_639_3: nep
   id: 116
   note: 
-  display_name: 
   native_name: 
 language_00172: 
   position: 172
@@ -177,7 +160,6 @@ language_00172:
   iso_639_3: twi
   id: 172
   note: 
-  display_name: 
   native_name: 
 language_00030: 
   position: 30
@@ -187,7 +169,6 @@ language_00030:
   iso_639_3: nya
   id: 30
   note: 
-  display_name: 
   native_name: 
 language_00089: 
   position: 89
@@ -197,7 +178,6 @@ language_00089:
   iso_639_3: kom
   id: 89
   note: 
-  display_name: 
   native_name: 
 language_00145: 
   position: 145
@@ -207,7 +187,6 @@ language_00145:
   iso_639_3: iii
   id: 145
   note: 
-  display_name: 
   native_name: 
 language_00003: 
   position: 3
@@ -217,7 +196,6 @@ language_00003:
   iso_639_3: aar
   id: 3
   note: 
-  display_name: 
   native_name: 
 language_00117: 
   position: 117
@@ -227,7 +205,6 @@ language_00117:
   iso_639_3: nde
   id: 117
   note: 
-  display_name: 
   native_name: 
 language_00173: 
   position: 173
@@ -237,7 +214,6 @@ language_00173:
   iso_639_3: uig
   id: 173
   note: 
-  display_name: 
   native_name: 
 language_00031: 
   position: 31
@@ -247,7 +223,6 @@ language_00031:
   iso_639_3: zho
   id: 31
   note: 
-  display_name: 
   native_name: 
 language_00004: 
   position: 4
@@ -257,7 +232,6 @@ language_00004:
   iso_639_3: afr
   id: 4
   note: 
-  display_name: 
   native_name: 
 language_00118: 
   position: 118
@@ -267,7 +241,6 @@ language_00118:
   iso_639_3: sme
   id: 118
   note: 
-  display_name: 
   native_name: 
 language_00060: 
   position: 60
@@ -277,7 +250,6 @@ language_00060:
   iso_639_3: hat
   id: 60
   note: 
-  display_name: 
   native_name: 
 language_00174: 
   position: 174
@@ -287,7 +259,6 @@ language_00174:
   iso_639_3: ukr
   id: 174
   note: 
-  display_name: 
   native_name: 
 language_00032: 
   position: 32
@@ -297,7 +268,6 @@ language_00032:
   iso_639_3: chu
   id: 32
   note: 
-  display_name: 
   native_name: 
 language_00146: 
   position: 146
@@ -307,7 +277,6 @@ language_00146:
   iso_639_3: snd
   id: 146
   note: 
-  display_name: 
   native_name: 
 language_00119: 
   position: 119
@@ -317,7 +286,6 @@ language_00119:
   iso_639_3: nor
   id: 119
   note: 
-  display_name: 
   native_name: 
 language_00061: 
   position: 61
@@ -327,7 +295,6 @@ language_00061:
   iso_639_3: hau
   id: 61
   note: 
-  display_name: 
   native_name: 
 language_00175: 
   position: 175
@@ -337,7 +304,6 @@ language_00175:
   iso_639_3: urd
   id: 175
   note: 
-  display_name: 
   native_name: 
 language_00033: 
   position: 33
@@ -347,7 +313,6 @@ language_00033:
   iso_639_3: chv
   id: 33
   note: 
-  display_name: 
   native_name: 
 language_00147: 
   position: 147
@@ -357,7 +322,6 @@ language_00147:
   iso_639_3: sin
   id: 147
   note: 
-  display_name: 
   native_name: 
 language_00005: 
   position: 5
@@ -367,7 +331,6 @@ language_00005:
   iso_639_3: aka
   id: 5
   note: 
-  display_name: 
   native_name: 
 language_00062: 
   position: 62
@@ -377,7 +340,6 @@ language_00062:
   iso_639_3: heb
   id: 62
   note: 
-  display_name: 
   native_name: 
 language_00176: 
   position: 176
@@ -387,7 +349,6 @@ language_00176:
   iso_639_3: uzb
   id: 176
   note: 
-  display_name: 
   native_name: 
 language_00034: 
   position: 34
@@ -397,7 +358,6 @@ language_00034:
   iso_639_3: cor
   id: 34
   note: 
-  display_name: 
   native_name: 
 language_00148: 
   position: 148
@@ -407,7 +367,6 @@ language_00148:
   iso_639_3: slk
   id: 148
   note: 
-  display_name: 
   native_name: 
 language_00006: 
   position: 6
@@ -417,7 +376,6 @@ language_00006:
   iso_639_3: sqi
   id: 6
   note: 
-  display_name: 
   native_name: 
 language_00090: 
   position: 90
@@ -427,7 +385,6 @@ language_00090:
   iso_639_3: kon
   id: 90
   note: 
-  display_name: 
   native_name: 
 language_00063: 
   position: 63
@@ -437,7 +394,6 @@ language_00063:
   iso_639_3: her
   id: 63
   note: 
-  display_name: 
   native_name: 
 language_00177: 
   position: 177
@@ -447,7 +403,6 @@ language_00177:
   iso_639_3: ven
   id: 177
   note: 
-  display_name: 
   native_name: 
 language_00035: 
   position: 35
@@ -457,7 +412,6 @@ language_00035:
   iso_639_3: cos
   id: 35
   note: 
-  display_name: 
   native_name: 
 language_00149: 
   position: 149
@@ -467,7 +421,6 @@ language_00149:
   iso_639_3: slv
   id: 149
   note: 
-  display_name: 
   native_name: 
 language_00007: 
   position: 7
@@ -477,7 +430,6 @@ language_00007:
   iso_639_3: amh
   id: 7
   note: 
-  display_name: 
   native_name: 
 language_00091: 
   position: 91
@@ -487,7 +439,6 @@ language_00091:
   iso_639_3: kor
   id: 91
   note: 
-  display_name: 
   native_name: 
 language_00064: 
   position: 64
@@ -497,7 +448,6 @@ language_00064:
   iso_639_3: hin
   id: 64
   note: 
-  display_name: 
   native_name: 
 language_00178: 
   position: 178
@@ -507,7 +457,6 @@ language_00178:
   iso_639_3: vie
   id: 178
   note: 
-  display_name: 
   native_name: 
 language_00036: 
   position: 36
@@ -517,7 +466,6 @@ language_00036:
   iso_639_3: cre
   id: 36
   note: 
-  display_name: 
   native_name: 
 language_00008: 
   position: 8
@@ -527,7 +475,6 @@ language_00008:
   iso_639_3: ara
   id: 8
   note: 
-  display_name: 
   native_name: 
 language_00092: 
   position: 92
@@ -537,7 +484,6 @@ language_00092:
   iso_639_3: kur
   id: 92
   note: 
-  display_name: 
   native_name: 
 language_00065: 
   position: 65
@@ -547,7 +493,6 @@ language_00065:
   iso_639_3: hmo
   id: 65
   note: 
-  display_name: 
   native_name: 
 language_00120: 
   position: 120
@@ -557,7 +502,6 @@ language_00120:
   iso_639_3: nob
   id: 120
   note: 
-  display_name: 
   native_name: 
 language_00179: 
   position: 179
@@ -567,7 +511,6 @@ language_00179:
   iso_639_3: vol
   id: 179
   note: 
-  display_name: 
   native_name: 
 language_00037: 
   position: 37
@@ -577,7 +520,6 @@ language_00037:
   iso_639_3: hrv
   id: 37
   note: 
-  display_name: 
   native_name: 
 language_00009: 
   position: 9
@@ -587,7 +529,6 @@ language_00009:
   iso_639_3: arg
   id: 9
   note: 
-  display_name: 
   native_name: 
 language_00093: 
   position: 93
@@ -597,7 +538,6 @@ language_00093:
   iso_639_3: kua
   id: 93
   note: 
-  display_name: 
   native_name: 
 language_00066: 
   position: 66
@@ -607,7 +547,6 @@ language_00066:
   iso_639_3: hun
   id: 66
   note: 
-  display_name: 
   native_name: 
 language_00121: 
   position: 121
@@ -617,7 +556,6 @@ language_00121:
   iso_639_3: nno
   id: 121
   note: 
-  display_name: 
   native_name: 
 language_00038: 
   position: 38
@@ -627,7 +565,6 @@ language_00038:
   iso_639_3: ces
   id: 38
   note: 
-  display_name: 
   native_name: 
 language_00094: 
   position: 94
@@ -637,7 +574,6 @@ language_00094:
   iso_639_3: lao
   id: 94
   note: 
-  display_name: 
   native_name: 
 language_00067: 
   position: 67
@@ -647,7 +583,6 @@ language_00067:
   iso_639_3: isl
   id: 67
   note: 
-  display_name: 
   native_name: 
 language_00122: 
   position: 122
@@ -657,7 +592,6 @@ language_00122:
   iso_639_3: oci
   id: 122
   note: 
-  display_name: 
   native_name: 
 language_00039: 
   position: 39
@@ -667,7 +601,6 @@ language_00039:
   iso_639_3: dan
   id: 39
   note: 
-  display_name: 
   native_name: 
 language_00095: 
   position: 95
@@ -677,7 +610,6 @@ language_00095:
   iso_639_3: lat
   id: 95
   note: 
-  display_name: 
   native_name: 
 language_00150: 
   position: 150
@@ -687,7 +619,6 @@ language_00150:
   iso_639_3: som
   id: 150
   note: 
-  display_name: 
   native_name: 
 language_00123: 
   position: 123
@@ -697,7 +628,6 @@ language_00123:
   iso_639_3: oji
   id: 123
   note: 
-  display_name: 
   native_name: 
 language_00096: 
   position: 96
@@ -707,7 +637,6 @@ language_00096:
   iso_639_3: lav
   id: 96
   note: 
-  display_name: 
   native_name: 
 language_00151: 
   position: 151
@@ -717,7 +646,6 @@ language_00151:
   iso_639_3: sot
   id: 151
   note: 
-  display_name: 
   native_name: 
 language_00068: 
   position: 68
@@ -727,7 +655,6 @@ language_00068:
   iso_639_3: ido
   id: 68
   note: 
-  display_name: 
   native_name: 
 language_00124: 
   position: 124
@@ -737,7 +664,6 @@ language_00124:
   iso_639_3: ori
   id: 124
   note: 
-  display_name: 
   native_name: 
 language_00180: 
   position: 180
@@ -747,7 +673,6 @@ language_00180:
   iso_639_3: wln
   id: 180
   note: 
-  display_name: 
   native_name: 
 language_00097: 
   position: 97
@@ -757,7 +682,6 @@ language_00097:
   iso_639_3: lim
   id: 97
   note: 
-  display_name: 
   native_name: 
 language_00152: 
   position: 152
@@ -767,7 +691,6 @@ language_00152:
   iso_639_3: nbl
   id: 152
   note: 
-  display_name: 
   native_name: 
 language_00010: 
   position: 10
@@ -777,7 +700,6 @@ language_00010:
   iso_639_3: hye
   id: 10
   note: 
-  display_name: 
   native_name: 
 language_00069: 
   position: 69
@@ -787,7 +709,6 @@ language_00069:
   iso_639_3: ibo
   id: 69
   note: 
-  display_name: 
   native_name: 
 language_00181: 
   position: 181
@@ -797,7 +718,6 @@ language_00181:
   iso_639_3: cym
   id: 181
   note: 
-  display_name: 
   native_name: 
 language_00098: 
   position: 98
@@ -807,7 +727,6 @@ language_00098:
   iso_639_3: lin
   id: 98
   note: 
-  display_name: 
   native_name: 
 language_00153: 
   position: 153
@@ -817,7 +736,6 @@ language_00153:
   iso_639_3: spa
   id: 153
   note: 
-  display_name: 
   native_name: 
 language_00011: 
   position: 11
@@ -827,7 +745,6 @@ language_00011:
   iso_639_3: asm
   id: 11
   note: 
-  display_name: 
   native_name: 
 language_00125: 
   position: 125
@@ -837,7 +754,6 @@ language_00125:
   iso_639_3: orm
   id: 125
   note: 
-  display_name: 
   native_name: 
 language_00182: 
   position: 182
@@ -847,7 +763,6 @@ language_00182:
   iso_639_3: fry
   id: 182
   note: 
-  display_name: 
   native_name: 
 language_00040: 
   position: 40
@@ -857,7 +772,6 @@ language_00040:
   iso_639_3: div
   id: 40
   note: 
-  display_name: 
   native_name: 
 language_00099: 
   position: 99
@@ -867,7 +781,6 @@ language_00099:
   iso_639_3: lit
   id: 99
   note: 
-  display_name: 
   native_name: 
 language_00154: 
   position: 154
@@ -877,7 +790,6 @@ language_00154:
   iso_639_3: sun
   id: 154
   note: 
-  display_name: 
   native_name: 
 language_00012: 
   position: 12
@@ -887,7 +799,6 @@ language_00012:
   iso_639_3: ava
   id: 12
   note: 
-  display_name: 
   native_name: 
 language_00126: 
   position: 126
@@ -897,7 +808,6 @@ language_00126:
   iso_639_3: oss
   id: 126
   note: 
-  display_name: 
   native_name: 
 language_00183: 
   position: 183
@@ -907,7 +817,6 @@ language_00183:
   iso_639_3: wol
   id: 183
   note: 
-  display_name: 
   native_name: 
 language_00041: 
   position: 41
@@ -917,7 +826,6 @@ language_00041:
   iso_639_3: nld
   id: 41
   note: 
-  display_name: 
   native_name: 
 language_00155: 
   position: 155
@@ -927,7 +835,6 @@ language_00155:
   iso_639_3: swa
   id: 155
   note: 
-  display_name: 
   native_name: 
 language_00013: 
   position: 13
@@ -937,7 +844,6 @@ language_00013:
   iso_639_3: ave
   id: 13
   note: 
-  display_name: 
   native_name: 
 language_00127: 
   position: 127
@@ -947,7 +853,6 @@ language_00127:
   iso_639_3: pan
   id: 127
   note: 
-  display_name: 
   native_name: 
 language_00128: 
   position: 128
@@ -957,7 +862,6 @@ language_00128:
   iso_639_3: pus
   id: 128
   note: 
-  display_name: 
   native_name: 
 language_00184: 
   position: 184
@@ -967,7 +871,6 @@ language_00184:
   iso_639_3: xho
   id: 184
   note: 
-  display_name: 
   native_name: 
 language_00042: 
   position: 42
@@ -977,7 +880,6 @@ language_00042:
   iso_639_3: dzo
   id: 42
   note: 
-  display_name: 
   native_name: 
 language_00156: 
   position: 156
@@ -987,7 +889,6 @@ language_00156:
   iso_639_3: ssw
   id: 156
   note: 
-  display_name: 
   native_name: 
 language_00014: 
   position: 14
@@ -997,7 +898,6 @@ language_00014:
   iso_639_3: aym
   id: 14
   note: 
-  display_name: 
   native_name: 
 language_00070: 
   position: 70
@@ -1007,7 +907,6 @@ language_00070:
   iso_639_3: ind
   id: 70
   note: 
-  display_name: 
   native_name: 
 language_00185: 
   position: 185
@@ -1017,7 +916,6 @@ language_00185:
   iso_639_3: yid
   id: 185
   note: 
-  display_name: 
   native_name: 
 language_00043: 
   position: 43
@@ -1027,7 +925,6 @@ language_00043:
   iso_639_3: eng
   id: 43
   note: 
-  display_name: 
   native_name: 
 language_00157: 
   position: 157
@@ -1037,7 +934,6 @@ language_00157:
   iso_639_3: swe
   id: 157
   note: 
-  display_name: 
   native_name: 
 language_00015: 
   position: 15
@@ -1047,7 +943,6 @@ language_00015:
   iso_639_3: aze
   id: 15
   note: 
-  display_name: 
   native_name: 
 language_00129: 
   position: 129
@@ -1057,7 +952,6 @@ language_00129:
   iso_639_3: fas
   id: 129
   note: 
-  display_name: 
   native_name: 
 language_00071: 
   position: 71
@@ -1067,7 +961,6 @@ language_00071:
   iso_639_3: ina
   id: 71
   note: 
-  display_name: 
   native_name: 
 language_00186: 
   position: 186
@@ -1077,7 +970,6 @@ language_00186:
   iso_639_3: yor
   id: 186
   note: 
-  display_name: 
   native_name: 
 language_00044: 
   position: 44
@@ -1087,7 +979,6 @@ language_00044:
   iso_639_3: epo
   id: 44
   note: 
-  display_name: 
   native_name: 
 language_00158: 
   position: 158
@@ -1097,7 +988,6 @@ language_00158:
   iso_639_3: tgl
   id: 158
   note: 
-  display_name: 
   native_name: 
 language_00016: 
   position: 16
@@ -1107,7 +997,6 @@ language_00016:
   iso_639_3: bam
   id: 16
   note: 
-  display_name: 
   native_name: 
 language_00072: 
   position: 72
@@ -1117,7 +1006,6 @@ language_00072:
   iso_639_3: ile
   id: 72
   note: 
-  display_name: 
   native_name: 
 language_00017: 
   position: 17
@@ -1127,7 +1015,6 @@ language_00017:
   iso_639_3: bak
   id: 17
   note: 
-  display_name: 
   native_name: 
 language_00159: 
   position: 159
@@ -1137,7 +1024,6 @@ language_00159:
   iso_639_3: tah
   id: 159
   note: 
-  display_name: 
   native_name: 
 language_00187: 
   position: 187
@@ -1147,7 +1033,6 @@ language_00187:
   iso_639_3: zha
   id: 187
   note: 
-  display_name: 
   native_name: 
 language_00045: 
   position: 45
@@ -1157,7 +1042,6 @@ language_00045:
   iso_639_3: est
   id: 45
   note: 
-  display_name: 
   native_name: 
 language_00100: 
   position: 100
@@ -1167,7 +1051,6 @@ language_00100:
   iso_639_3: lub
   id: 100
   note: 
-  display_name: 
   native_name: 
 language_00073: 
   position: 73
@@ -1177,7 +1060,6 @@ language_00073:
   iso_639_3: iku
   id: 73
   note: 
-  display_name: 
   native_name: 
 language_00188: 
   position: 188
@@ -1187,7 +1069,6 @@ language_00188:
   iso_639_3: zul
   id: 188
   note: 
-  display_name: 
   native_name: 
 language_00101: 
   position: 101
@@ -1197,7 +1078,6 @@ language_00101:
   iso_639_3: ltz
   id: 101
   note: 
-  display_name: 
   native_name: 
 language_00046: 
   position: 46
@@ -1207,7 +1087,6 @@ language_00046:
   iso_639_3: ewe
   id: 46
   note: 
-  display_name: 
   native_name: 
 language_00018: 
   position: 18
@@ -1217,7 +1096,6 @@ language_00018:
   iso_639_3: eus
   id: 18
   note: 
-  display_name: 
   native_name: 
 language_00074: 
   position: 74
@@ -1227,7 +1105,6 @@ language_00074:
   iso_639_3: ipk
   id: 74
   note: 
-  display_name: 
   native_name: 
 language_00130: 
   position: 130
@@ -1237,7 +1114,6 @@ language_00130:
   iso_639_3: pol
   id: 130
   note: 
-  display_name: 
   native_name: 
 language_00075: 
   position: 75
@@ -1247,7 +1123,6 @@ language_00075:
   iso_639_3: gle
   id: 75
   note: 
-  display_name: 
   native_name: 
 language_00102: 
   position: 102
@@ -1257,7 +1132,6 @@ language_00102:
   iso_639_3: mkd
   id: 102
   note: 
-  display_name: 
   native_name: 
 language_00019: 
   position: 19
@@ -1267,7 +1141,6 @@ language_00019:
   iso_639_3: bel
   id: 19
   note: 
-  display_name: 
   native_name: 
 language_00047: 
   position: 47
@@ -1277,7 +1150,6 @@ language_00047:
   iso_639_3: fat
   id: 47
   note: 
-  display_name: 
   native_name: 
 language_00131: 
   position: 131
@@ -1287,7 +1159,6 @@ language_00131:
   iso_639_3: por
   id: 131
   note: 
-  display_name: 
   native_name: 
 language_00076: 
   position: 76
@@ -1297,7 +1168,6 @@ language_00076:
   iso_639_3: ita
   id: 76
   note: 
-  display_name: 
   native_name: 
 language_00103: 
   position: 103
@@ -1307,7 +1177,6 @@ language_00103:
   iso_639_3: mlg
   id: 103
   note: 
-  display_name: 
   native_name: 
 language_00048: 
   position: 48
@@ -1317,7 +1186,6 @@ language_00048:
   iso_639_3: fao
   id: 48
   note: 
-  display_name: 
   native_name: 
 language_00104: 
   position: 104
@@ -1327,7 +1195,6 @@ language_00104:
   iso_639_3: msa
   id: 104
   note: 
-  display_name: 
   native_name: 
 language_00132: 
   position: 132
@@ -1339,7 +1206,6 @@ language_00132:
   iso_639_3: pli
   id: 132
   note: 
-  display_name: 
   native_name: 
 language_00160: 
   position: 160
@@ -1349,7 +1215,6 @@ language_00160:
   iso_639_3: tgk
   id: 160
   note: 
-  display_name: 
   native_name: 
 language_00077: 
   position: 77
@@ -1359,7 +1224,6 @@ language_00077:
   iso_639_3: jpn
   id: 77
   note: 
-  display_name: 
   native_name: 
 language_00049: 
   position: 49
@@ -1369,7 +1233,6 @@ language_00049:
   iso_639_3: fij
   id: 49
   note: 
-  display_name: 
   native_name: 
 language_00133: 
   position: 133
@@ -1379,7 +1242,6 @@ language_00133:
   iso_639_3: que
   id: 133
   note: 
-  display_name: 
   native_name: 
 language_00105: 
   position: 105
@@ -1389,7 +1251,6 @@ language_00105:
   iso_639_3: mal
   id: 105
   note: 
-  display_name: 
   native_name: 
 language_00161: 
   position: 161
@@ -1399,7 +1260,6 @@ language_00161:
   iso_639_3: tam
   id: 161
   note: 
-  display_name: 
   native_name: 
 language_00078: 
   position: 78
@@ -1409,7 +1269,6 @@ language_00078:
   iso_639_3: jav
   id: 78
   note: 
-  display_name: 
   native_name: 
 language_00106: 
   position: 106
@@ -1419,7 +1278,6 @@ language_00106:
   iso_639_3: mlt
   id: 106
   note: 
-  display_name: 
   native_name: 
 language_00134: 
   position: 134
@@ -1429,7 +1287,6 @@ language_00134:
   iso_639_3: roh
   id: 134
   note: 
-  display_name: 
   native_name: 
 language_00020: 
   position: 20
@@ -1439,7 +1296,6 @@ language_00020:
   iso_639_3: ben
   id: 20
   note: 
-  display_name: 
   native_name: 
 language_00079: 
   position: 79
@@ -1449,7 +1305,6 @@ language_00079:
   iso_639_3: kal
   id: 79
   note: 
-  display_name: 
   native_name: 
 language_00162: 
   position: 162
@@ -1459,7 +1314,6 @@ language_00162:
   iso_639_3: tat
   id: 162
   note: 
-  display_name: 
   native_name: 
 language_00107: 
   position: 107
@@ -1469,7 +1323,6 @@ language_00107:
   iso_639_3: glv
   id: 107
   note: 
-  display_name: 
   native_name: 
 language_00163: 
   position: 163
@@ -1479,7 +1332,6 @@ language_00163:
   iso_639_3: tel
   id: 163
   note: 
-  display_name: 
   native_name: 
 language_00135: 
   position: 135
@@ -1489,7 +1341,6 @@ language_00135:
   iso_639_3: ron
   id: 135
   note: 
-  display_name: 
   native_name: 
 language_00021: 
   position: 21
@@ -1499,7 +1350,6 @@ language_00021:
   iso_639_3: XXX
   id: 21
   note: 
-  display_name: 
   native_name: 
 language_00164: 
   position: 164
@@ -1509,7 +1359,6 @@ language_00164:
   iso_639_3: tha
   id: 164
   note: 
-  display_name: 
   native_name: 
 language_00022: 
   position: 22
@@ -1519,7 +1368,6 @@ language_00022:
   iso_639_3: bis
   id: 22
   note: 
-  display_name: 
   native_name: 
 language_00050: 
   position: 50
@@ -1529,7 +1377,6 @@ language_00050:
   iso_639_3: fin
   id: 50
   note: 
-  display_name: 
   native_name: 
 language_00108: 
   position: 108
@@ -1539,7 +1386,6 @@ language_00108:
   iso_639_3: mar
   id: 108
   note: 
-  display_name: 
   native_name: 
 language_00136: 
   position: 136
@@ -1549,7 +1395,6 @@ language_00136:
   iso_639_3: rus
   id: 136
   note: 
-  display_name: 
   native_name: 
 language_00137: 
   position: 137
@@ -1559,7 +1404,6 @@ language_00137:
   iso_639_3: smo
   id: 137
   note: 
-  display_name: 
   native_name: 
 language_00051: 
   position: 51
@@ -1569,7 +1413,6 @@ language_00051:
   iso_639_3: fra
   id: 51
   note: 
-  display_name: 
   native_name: 
 language_00165: 
   position: 165
@@ -1579,7 +1422,6 @@ language_00165:
   iso_639_3: bod
   id: 165
   note: 
-  display_name: 
   native_name: 
 language_00023: 
   position: 23
@@ -1589,7 +1431,6 @@ language_00023:
   iso_639_3: bos
   id: 23
   note: 
-  display_name: 
   native_name: 
 language_00109: 
   position: 109
@@ -1599,7 +1440,6 @@ language_00109:
   iso_639_3: mah
   id: 109
   note: 
-  display_name: 
   native_name: 
 language_00166: 
   position: 166
@@ -1609,7 +1449,6 @@ language_00166:
   iso_639_3: tir
   id: 166
   note: 
-  display_name: 
   native_name: 
 language_00138: 
   position: 138
@@ -1619,7 +1458,6 @@ language_00138:
   iso_639_3: sag
   id: 138
   note: 
-  display_name: 
   native_name: 
 language_00080: 
   position: 80
@@ -1629,7 +1467,6 @@ language_00080:
   iso_639_3: kan
   id: 80
   note: 
-  display_name: 
   native_name: 
 language_00024: 
   position: 24
@@ -1639,7 +1476,6 @@ language_00024:
   iso_639_3: bre
   id: 24
   note: 
-  display_name: 
   native_name: 
 language_00052: 
   position: 52
@@ -1649,7 +1485,6 @@ language_00052:
   iso_639_3: ful
   id: 52
   note: 
-  display_name: 
   native_name: 
 language_00025: 
   position: 25
@@ -1659,7 +1494,6 @@ language_00025:
   iso_639_3: bul
   id: 25
   note: 
-  display_name: 
   native_name: 
 language_00139: 
   position: 139
@@ -1669,7 +1503,6 @@ language_00139:
   iso_639_3: san
   id: 139
   note: 
-  display_name: 
   native_name: 
 language_00167: 
   position: 167
@@ -1679,7 +1512,6 @@ language_00167:
   iso_639_3: ton
   id: 167
   note: 
-  display_name: 
   native_name: 
 language_00053: 
   position: 53
@@ -1689,7 +1521,6 @@ language_00053:
   iso_639_3: glg
   id: 53
   note: 
-  display_name: 
   native_name: 
 language_00081: 
   position: 81
@@ -1699,7 +1530,6 @@ language_00081:
   iso_639_3: kau
   id: 81
   note: 
-  display_name: 
   native_name: 
 language_00168: 
   position: 168
@@ -1709,7 +1539,6 @@ language_00168:
   iso_639_3: tso
   id: 168
   note: 
-  display_name: 
   native_name: 
 language_00054: 
   position: 54
@@ -1719,7 +1548,6 @@ language_00054:
   iso_639_3: lug
   id: 54
   note: 
-  display_name: 
   native_name: 
 language_00082: 
   position: 82
@@ -1729,7 +1557,6 @@ language_00082:
   iso_639_3: kas
   id: 82
   note: 
-  display_name: 
   native_name: 
 language_00026: 
   position: 26
@@ -1739,7 +1566,6 @@ language_00026:
   iso_639_3: mya
   id: 26
   note: 
-  display_name: 
   native_name: 
 language_00110: 
   position: 110
@@ -1749,7 +1575,6 @@ language_00110:
   iso_639_3: mol
   id: 110
   note: 
-  display_name: 
   native_name: 
 language_00055: 
   position: 55
@@ -1759,7 +1584,6 @@ language_00055:
   iso_639_3: kat
   id: 55
   note: 
-  display_name: 
   native_name: 
 language_00083: 
   position: 83
@@ -1769,7 +1593,6 @@ language_00083:
   iso_639_3: kaz
   id: 83
   note: 
-  display_name: 
   native_name: 
 language_00027: 
   position: 27
@@ -1779,7 +1602,6 @@ language_00027:
   iso_639_3: cat
   id: 27
   note: 
-  display_name: 
   native_name: 
 language_00169: 
   position: 169
@@ -1789,7 +1611,6 @@ language_00169:
   iso_639_3: tsn
   id: 169
   note: 
-  display_name: 
   native_name: 
 language_00111: 
   position: 111
@@ -1799,7 +1620,6 @@ language_00111:
   iso_639_3: mon
   id: 111
   note: 
-  display_name: 
   native_name: 
 language_00056: 
   position: 56
@@ -1809,7 +1629,6 @@ language_00056:
   iso_639_3: deu
   id: 56
   note: 
-  display_name: 
   native_name: 
 language_00084: 
   position: 84
@@ -1819,7 +1638,6 @@ language_00084:
   iso_639_3: khm
   id: 84
   note: 
-  display_name: 
   native_name: 
 language_00028: 
   position: 28
@@ -1829,7 +1647,6 @@ language_00028:
   iso_639_3: cha
   id: 28
   note: 
-  display_name: 
   native_name: 
 language_00112: 
   position: 112
@@ -1841,7 +1658,6 @@ language_00112:
   iso_639_3: mri
   id: 112
   note: 
-  display_name: 
   native_name: 
 language_00057: 
   position: 57
@@ -1851,7 +1667,6 @@ language_00057:
   iso_639_3: ell
   id: 57
   note: 
-  display_name: 
   native_name: 
 language_00085: 
   position: 85
@@ -1861,7 +1676,6 @@ language_00085:
   iso_639_3: kik
   id: 85
   note: 
-  display_name: 
   native_name: 
 language_00029: 
   position: 29
@@ -1871,7 +1685,6 @@ language_00029:
   iso_639_3: che
   id: 29
   note: 
-  display_name: 
   native_name: 
 language_00140: 
   position: 140
@@ -1881,5 +1694,4 @@ language_00140:
   iso_639_3: srd
   id: 140
   note: 
-  display_name: 
   native_name: 

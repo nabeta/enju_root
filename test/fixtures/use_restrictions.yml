@@ -4,82 +4,70 @@ use_restriction_00006:
   updated_at: 2008-02-12 17:56:08.807165 +09:00
   id: 6
   note: ""
-  display_name: Not For Loan
   created_at: 2008-02-12 17:56:08.807165 +09:00
 use_restriction_00007: 
   name: Overnight Only
   updated_at: 2008-02-12 17:56:15.867874 +09:00
   id: 7
   note: ""
-  display_name: Overnight Only
   created_at: 2008-02-12 17:56:15.867874 +09:00
 use_restriction_00008: 
   name: Renewals Not Permitted
   updated_at: 2008-02-12 17:56:22.879395 +09:00
   id: 8
   note: ""
-  display_name: Renewals Not Permitted
   created_at: 2008-02-12 17:56:22.879395 +09:00
 use_restriction_00009: 
   name: Supervision Required
   updated_at: 2008-02-12 17:56:30.248582 +09:00
   id: 9
   note: ""
-  display_name: Supervision Required
   created_at: 2008-02-12 17:56:30.248582 +09:00
 use_restriction_00010: 
   name: Term Loan
   updated_at: 2008-02-12 17:56:38.751182 +09:00
   id: 10
   note: ""
-  display_name: Term Loan
   created_at: 2008-02-12 17:56:38.751182 +09:00
 use_restriction_00011: 
   name: Use Only In Controlled Access
   updated_at: 2008-02-12 17:56:52.583819 +09:00
   id: 11
   note: ""
-  display_name: Use Only In Controlled Access
   created_at: 2008-02-12 17:56:52.583819 +09:00
 use_restriction_00012: 
   name: User Signature Required
   updated_at: 2008-02-12 17:56:59.931423 +09:00
   id: 12
   note: ""
-  display_name: User Signature Required
   created_at: 2008-02-12 17:56:59.931423 +09:00
 use_restriction_00001: 
   name: Available For Supply Without Return
   updated_at: 2008-02-12 17:55:03.355497 +09:00
   id: 1
   note: ""
-  display_name: Available For Supply Without Return
   created_at: 2008-02-12 17:55:03.355497 +09:00
 use_restriction_00002: 
   name: In Library Use Only
   updated_at: 2008-02-12 17:55:12.565359 +09:00
   id: 2
   note: ""
-  display_name: In Library Use Only
   created_at: 2008-02-12 17:55:12.565359 +09:00
 use_restriction_00003: 
   name: Limited Circulation, Long Loan Period
   updated_at: 2008-02-12 17:55:30.102463 +09:00
   id: 3
   note: ""
-  display_name: Limited Circulation, Long Loan Period
   created_at: 2008-02-12 17:55:30.102463 +09:00
 use_restriction_00004: 
   name: Limited Circulation, Short Loan Period
   updated_at: 2008-02-12 17:55:50.494855 +09:00
   id: 4
   note: ""
-  display_name: Limited Circulation, Short Loan Period
   created_at: 2008-02-12 17:55:50.494855 +09:00
 use_restriction_00005: 
   name: No Reproduction
   updated_at: 2008-02-12 17:56:01.916749 +09:00
   id: 5
   note: ""
-  display_name: No Reproduction
   created_at: 2008-02-12 17:56:01.916749 +09:00

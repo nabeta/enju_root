@@ -4,12 +4,10 @@ subject_heading_type_00001:
   updated_at: 2008-03-03 00:44:49.850140 +09:00
   id: 1
   note: ""
-  display_name: NDLSH
   created_at: 2008-03-03 00:44:34.260739 +09:00
 subject_heading_type_00002: 
   name: BSH
   updated_at: 2008-03-03 00:44:58.685360 +09:00
   id: 2
   note: ""
-  display_name: BSH
   created_at: 2008-03-03 00:44:58.685360 +09:00

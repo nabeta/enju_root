@@ -6,11 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject_type')) -%></h1>
 <div id="content_list">
-<p>
-  <b><%= t('activerecord.attributes.subject_type.name') -%>:</b>
-  <%=h @subject_type.name -%>
-</p>
 
 <p>
   <b><%= t('activerecord.attributes.subject_type.display_name') -%>:</b>

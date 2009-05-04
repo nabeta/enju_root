@@ -159,9 +159,9 @@ manifestation_00009:
 manifestation_00010: 
   manifestation_form_id: 1
   language_id: 1
-  isbn: "4822281167"
+  isbn: "9784774127804"
   updated_at: 2007-11-19 16:58:58.799724 +09:00
-  original_title: "Web\xE3\x82\xB5\xE3\x83\xBC\xE3\x83\x93\xE3\x82\xB9\xE5\xAE\x8C\xE5\x85\xA8\xE6\xA7\x8B\xE7\xAF\x89\xE3\x82\xAC\xE3\x82\xA4\xE3\x83\x89"
+  original_title: "Apache Lucene入門 : Java・オープンソース・全文検索システムの構築"
   price: 
   manifestation_identifier: 
   depth: 

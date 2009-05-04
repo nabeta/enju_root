@@ -11,7 +11,7 @@ class Language < ActiveRecord::Base
   # Validations
   validates_presence_of :name
   acts_as_list
-  
+
   def after_save
     expire_cache
   end

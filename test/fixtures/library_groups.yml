@@ -2,7 +2,6 @@
 one:
   id: 1
   name: unknown
-  display_name: unknown
   short_name: unknown
   email: next-l@library.example.jp
   use_dsbl: false

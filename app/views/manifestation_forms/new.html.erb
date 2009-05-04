@@ -13,12 +13,7 @@
 <%- form_for(:manifestation_form, :url => manifestation_forms_path) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.manifestation_form.name') -%></b><br />
-    <%= f.text_field :name -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.manifestation_form.display_name') -%></b><br />
-    <%= f.text_field :display_name -%>
+    <%= f.text_area :name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

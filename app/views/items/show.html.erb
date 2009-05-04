@@ -85,7 +85,7 @@
 </p>
 -->
 
-<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user)) do -%>
+<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user), :locale => @locale) do -%>
 <%- if @item.is_updatable_by(current_user) -%>
   <p>
     <b><%= t('item.donor') -%>:</b>

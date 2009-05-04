@@ -5,7 +5,6 @@ request_status_type_00001:
   id: 1
   position: 1
   note: ""
-  display_name: Available For Pickup
   created_at: 2008-02-13 18:38:38.553114 +09:00
 request_status_type_00002: 
   name: Cannot Fulfill Request
@@ -13,7 +12,6 @@ request_status_type_00002:
   id: 2
   position: 2
   note: ""
-  display_name: Cannot Fulfill Request
   created_at: 2008-02-13 18:38:51.815755 +09:00
 request_status_type_00003: 
   name: Expired
@@ -21,7 +19,6 @@ request_status_type_00003:
   id: 3
   position: 3
   note: ""
-  display_name: Expired
   created_at: 2008-02-13 18:39:00.878701 +09:00
 request_status_type_00004: 
   name: In Process
@@ -29,7 +26,6 @@ request_status_type_00004:
   id: 4
   position: 4
   note: ""
-  display_name: In Process
   created_at: 2008-02-13 18:39:10.010140 +09:00
 request_status_type_00005: 
   name: Need to Accept Conditions
@@ -37,7 +33,6 @@ request_status_type_00005:
   id: 5
   position: 5
   note: ""
-  display_name: Need to Accept Conditions
   created_at: 2008-02-13 18:39:19.068390 +09:00
 request_status_type_00006: 
   name: Requested Via ILL
@@ -45,5 +40,4 @@ request_status_type_00006:
   id: 6
   position: 6
   note: ""
-  display_name: Requested Via ILL
   created_at: 2008-02-13 18:39:29.382844 +09:00
