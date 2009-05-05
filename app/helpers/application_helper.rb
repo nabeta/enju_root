@@ -165,4 +165,13 @@ module ApplicationHelper
   def link_to_wikipedia(string)
     link_to ('Wikipedia'), "http://#{I18n.locale}.wikipedia.org/wiki/#{URI.escape(string)}"
   end
+
+  def locale_display_name(locale)
+    h(Language.find(:first, :conditions => {:iso_639_1 => locale}).display_name)
+  end
+
+  def locale_native_name(locale)
+    h(Language.find(:first, :conditions => {:iso_639_1 => locale}).native_name)
+  end
+
 end

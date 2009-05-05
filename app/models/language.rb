@@ -22,5 +22,10 @@ class Language < ActiveRecord::Base
 
   def expire_cache
     Rails.cache.delete('Language.all')
+    Rails.cache.delete('Language.available')
+  end
+
+  def self.available_languages
+    Language.find(:all, :conditions => {:iso_639_1 => I18n.available_locales.map{|l| l.to_s}})
   end
 end

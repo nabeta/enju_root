@@ -64,7 +64,16 @@ div#header_left, div#navibar_left{
 }
 
 div#header_advertisement{
-  width: 400px;
+  width: 290px;
+  float: left;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+div#header_select_locale{
+  width: 150px;
   float: left;
   padding-left: 5px;
   padding-right: 5px;
@@ -73,7 +82,7 @@ div#header_advertisement{
 }
 
 div#header_right, div#navibar_right{
-  width: 190px;
+  width: 150px;
   float: left;
   padding-left: 5px;
   padding-right: 5px;

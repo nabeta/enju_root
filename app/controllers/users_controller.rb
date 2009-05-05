@@ -309,11 +309,11 @@ class UsersController < ApplicationController
 
   def prepare_options
     #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
+    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
     @roles = Role.find(:all)
     @libraries = Library.find(:all)
     @user_role_id = @user.roles.first.id rescue nil
-    @languages = Language.find(:all)
+    @languages = Rails.cache.fetch('Language.all'){Language.all}
   end
 
   def set_operator

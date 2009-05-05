@@ -105,9 +105,9 @@ class Manifestation < ActiveRecord::Base
   end
 
   def after_save
-    expire_cache
+    self.expire_cache
     send_later(:solr_commit)
-    send_later(:generate_fragment_cache)
+    self.send_later(:generate_fragment_cache)
   end
 
   def after_destroy

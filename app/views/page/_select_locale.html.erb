@@ -1,0 +1,6 @@
+<div id="header_select_locale">
+<%- form_tag(nil, :method => :get) do %>
+  <%= select_tag 'locale', options_from_collection_for_select(@available_languages, 'iso_639_1', 'native_name', @locale) -%>
+  <%= submit_tag t('page.submit') -%>
+<%- end -%>
+</div>

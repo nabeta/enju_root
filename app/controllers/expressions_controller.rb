@@ -92,7 +92,7 @@ class ExpressionsController < ApplicationController
     #end
     @parent_expression = Expression.find(params[:parent_id]) rescue nil
     @expression = Expression.new
-    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
+    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -178,8 +178,8 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @languages = Language.find(:all)
     @frequency_of_issues = FrequencyOfIssue.find(:all)
     @expression_forms = ExpressionForm.find(:all)
+    @languages = Rails.cache.fetch('Language.all'){Language.all}
   end
 end

@@ -179,7 +179,7 @@ class ManifestationsController < ApplicationController
         @manifestation.set_serial_number(@expression)
       end
     end
-    @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale})
+    @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -489,8 +489,8 @@ class ManifestationsController < ApplicationController
 
   def prepare_options
     @manifestation_forms = Rails.cache.fetch('ManifestationForm.all'){ManifestationForm.all}
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
     @roles = Rails.cache.fetch('Role.all'){Role.all}
+    @languages = Rails.cache.fetch('Language.all'){Language.all}
   end
 
   def save_search_history(query, offset = 0, total = 0)

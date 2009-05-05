@@ -10,5 +10,4 @@ module DisplayName
   rescue
     {}
   end
-
 end
