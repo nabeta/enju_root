@@ -960,6 +960,7 @@ en:
     under_construction: "Under construction"
     sent_email: "Sent email."
     identifier: "Identifier"
+    set_locale: "Set locale"
   title:
     index: "index"
     show: "show"

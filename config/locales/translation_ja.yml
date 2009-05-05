@@ -943,6 +943,7 @@ ja:
     under_construction: "開発中"
     sent_email: "電子メールを送信しました。"
     identifier: "識別子"
+    set_locale: "言語を設定"
   title:
     index: "一覧"
     show: "表示"

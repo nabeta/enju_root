@@ -5,7 +5,7 @@ module DisplayName
   end
 
   def serialized_name
-    locales = self.name.dup.split("\n").map{|n| n.split(':')}.flatten
+    locales = self.name.dup.split("\n").map{|n| n.split(':', 2)}.flatten
     Hash[*locales]
   rescue
     {}
