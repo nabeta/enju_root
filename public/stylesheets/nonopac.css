@@ -171,6 +171,7 @@ div#right_pane_detail{
 }
 
 div#footer{
+  margin-top: 5px;
   padding-left: 2px;
   padding-right: 2px;
   clear: both;
@@ -398,6 +399,7 @@ form.inplaceeditor-form textarea{
 
 input.login_password{
   width: 180px;
+  ime-mode: disabled;
 }
 
 input.search_form{
