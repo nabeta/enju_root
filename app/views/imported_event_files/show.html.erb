@@ -37,7 +37,7 @@
   <%- @imported_event_file.imported_objects.each do |object| -%>
     <tr>
       <td><%= link_to h(object.importable.title), object.importable -%></td>
-      <td><%= link_to h(object.importable.library.name), object.importable.library -%></td>
+      <td><%= link_to h(object.importable.library.display_name), object.importable.library -%></td>
       <td>
         <%= l(object.importable.started_at) -%>
         -

@@ -28,7 +28,7 @@
   <b><%= t('activerecord.models.shelf') -%>:</b>
   <%= link_to h(@item.shelf.display_name), shelf_path(@item.shelf_id) -%>
   <%= render :partial => 'items/shelf_picture', :locals => {:item => @item} -%>
-  (<%= link_to h(@item.shelf.library.name), library_path(@item.shelf.library.short_name) -%>)
+  (<%= link_to h(@item.shelf.library.display_name), library_path(@item.shelf.library.short_name) -%>)
 </p>
 
 <p>

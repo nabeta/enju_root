@@ -65,7 +65,7 @@
 
 <ul>
   <%- @library_group.physical_libraries.each do |library| -%>
-    <li><%= link_to h(library.name), library_path(library) -%></li>
+    <li><%= link_to h(library.display_name), library_path(library.short_name) -%></li>
   <%- end -%>
 </ul>
 

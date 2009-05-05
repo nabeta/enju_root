@@ -24,7 +24,7 @@
 
 <p>
   <b><%= t('activerecord.models.library') -%>:</b>
-  <%= link_to h(@event.library.name), library_path(@event.library.short_name) -%>
+  <%= link_to h(@event.library.display_name), library_path(@event.library.short_name) -%>
 </p>
 
 <p>

@@ -69,7 +69,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h event.event_category.display_name -%></td>
     <td><%= link_to h(event.title), event -%></td>
-    <td><%= link_to h(event.library.name), library_path(event.library.short_name) -%></td>
+    <td><%= link_to h(event.library.display_name), library_path(event.library.short_name) -%></td>
     <td>
       <%=h l(event.started_at, :format => :short) -%>
       -

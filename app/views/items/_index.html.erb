@@ -49,7 +49,7 @@
         (<%= link_to ('No manifestation'), item_exemplify_path(item) -%>)
       <%- end -%>
     </td>
-    <td><%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name) -%></td>
+    <td><%= link_to h(item.shelf.library.display_name), library_path(item.shelf.library.short_name) -%></td>
     <td><%= link_to h(item.shelf.display_name), item.shelf -%></td>
     <td><%=h item.circulation_status.display_name -%></td>
     <%- if item.is_deletable_by(current_user) -%>
