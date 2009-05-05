@@ -100,6 +100,12 @@ div#manifestation_book_jacket{
   width: 200px;
 }
 
+div#pickup_book_jacket{
+  width: 200px;
+  float: left;
+  text-align: center;
+}
+
 div#manifestation_bookmark_buttons{
   clear: both;
   margin-top: 1em;

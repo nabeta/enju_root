@@ -106,6 +106,13 @@ class NewsFeedsControllerTest < ActionController::TestCase
     #assert_redirected_to new_user_session_url
   end
 
+  def test_guest_should_show_local_feed
+    get :show, :id => 6
+    assert_response :success
+    assert_not_nil assigns(:news_feed)
+    #assert_redirected_to new_user_session_url
+  end
+
   #def test_user_should_not_show_news_feed
   #  UserSession.create users(:librarian1)
   #  get :show, :id => 1

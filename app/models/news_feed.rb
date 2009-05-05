@@ -28,7 +28,7 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def content
-    page_url = URI.parse(url)
+    page_url = URI.parse(url.rewrite_my_url)
     if page_url.port == 80
       if Feedbag.feed?(url)
         feed_url = url

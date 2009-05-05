@@ -8,7 +8,7 @@ class NewsFeedsController < ApplicationController
   def index
     @news_feeds = NewsFeed.paginate(:all, :order => :position, :page => params[:page])
     if params[:mode] == 'clear_cache'
-      expire_fragment(:controller => :news_feeds, :action => :index, :action_suffix => 'list')
+      expire_index_cache
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -95,6 +95,13 @@ class NewsFeedsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to(news_feeds_url) }
       format.xml  { head :ok }
+    end
+  end
+
+  private
+  def expire_index_cache
+    I18n.available_locales.each do |locale|
+      expire_fragment(:controller => :news_feeds, :action => :index, :action_suffix => 'list', :locale => locale.to_s)
     end
   end
 end
