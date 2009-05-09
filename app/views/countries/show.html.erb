@@ -8,14 +8,10 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.country')) -%></h1>
 <div id="content_list">
-<p>
-  <b><%= t('activerecord.attributes.country.name') -%>:</b>
-  <%=h @country.name -%>
-</p>
 
 <p>
   <b><%= t('activerecord.attributes.country.display_name') -%>:</b>
-  <%=h @country.display_name -%>
+  <%=h @country.display_name.localize -%>
 </p>
 
 <p>

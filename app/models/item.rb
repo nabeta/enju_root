@@ -57,7 +57,7 @@ class Item < ActiveRecord::Base
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing
+  attr_accessor :restrain_indexing, :library_id
 
   #def after_create
   #  post_to_union_catalog
@@ -175,7 +175,7 @@ class Item < ActiveRecord::Base
   end
 
   def library
-    self.shelf.library.short_name if self.shelf
+    self.shelf.library.name if self.shelf
   end
 
   def hold?(library)

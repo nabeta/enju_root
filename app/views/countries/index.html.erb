@@ -4,7 +4,6 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.country.name') -%></th>
     <th><%= t('activerecord.attributes.country.display_name') -%></th>
     <th><%= t('activerecord.attributes.country.alpha_2') -%></th>
     <th><%= t('activerecord.attributes.country.alpha_3') -%></th>
@@ -13,8 +12,7 @@
 
 <%- for country in @countries -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(country.name), country -%></td>
-    <td><%= link_to h(country.display_name), country -%></td>
+    <td><%= link_to h(country.display_name.localize), country -%></td>
     <td><%=h country.alpha_2 -%></td>
     <td><%=h country.alpha_3 -%></td>
     <td><%=h country.numeric_3 -%></td>

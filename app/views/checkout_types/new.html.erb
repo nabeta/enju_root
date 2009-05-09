@@ -13,11 +13,7 @@
 
   <p>
     <%= f.label t('activerecord.attributes.checkout_type.name') -%><br />
-    <%= f.text_field :name -%>
-  </p>
-  <p>
-    <%= f.label t('activerecord.attributes.checkout_type.display_name') -%><br />
-    <%= f.text_field :display_name -%>
+    <%= f.text_area :name, :class => 'resource_textarea' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.checkout_type.note') -%><br />

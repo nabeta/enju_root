@@ -27,9 +27,9 @@
     </td>
     <td><%= link_to h(item.item_identifier), item -%></td>
     <td><%=h item.call_number -%></td>
-    <td><%= link_to h(item.shelf.library.name), library_path(item.shelf.library.short_name) -%></td>
-    <td><%= link_to h(item.shelf.display_name), item.shelf -%></td>
-    <td><%=h item.circulation_status.display_name -%></td>
+    <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
+    <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
+    <td><%=h item.circulation_status.display_name.localize -%></td>
     <%- if item.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
       <td><%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

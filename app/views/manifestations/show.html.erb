@@ -83,7 +83,7 @@
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user)) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
 %>
 
   <div id="tabview">
@@ -136,7 +136,7 @@
     <tr>
       <td style="width: 200px"><%=h t('page.form') -%>:</td>
       <td style="width: 500px">
-        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name -%>
+        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name.localize -%>
       </td>
     </tr>
     <tr>
@@ -184,7 +184,7 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user)) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>

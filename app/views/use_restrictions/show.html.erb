@@ -8,6 +8,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.use_restriction')) -%></h1>
 <div id="content_list">
+
 <p>
   <b><%= t('activerecord.attributes.use_restriction.name') -%></b>
   <%=h @use_restriction.name -%>
@@ -15,7 +16,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.use_restriction.display_name') -%></b>
-  <%=h @use_restriction.display_name -%>
+  <%=h @use_restriction.display_name.localize -%>
 </p>
 
 <p>

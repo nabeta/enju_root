@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), library_shelf_path(@shelf.library.short_name) -%></li>
-    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.short_name) -%></li>
+    <li><%= link_to t('page.show'), library_shelf_path(@shelf.library.name) -%></li>
+    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.name) -%></li>
   </ul>
 </div>
 
@@ -14,12 +14,7 @@
 <%- form_for(@shelf) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
-    <%= f.text_field :name, :class => 'resource_title' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.shelf.display_name') -%></b><br />
-    <%= f.text_field :display_name, :class => 'resource_title' -%>
+    <%= f.text_area :name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
@@ -29,8 +24,8 @@
 
   <p>
     <b><%= t('activerecord.models.library') -%></b><br />
-    <select name="shelf[library_id]">
-      <%= options_from_collection_for_select(@libraries, "id", "name", @shelf.library_id) -%>
+    <select id="library_id" name="library_id">
+      <%= options_from_collection_for_select(@libraries, "name", "display_name", @shelf.library.name) -%>
     </select>
   </p>
 

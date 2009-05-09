@@ -19,6 +19,7 @@ class UserSessionsController < ApplicationController
     #flash[:login_form] = params[:login_form]
     @user_session.save do |result|
       if result
+        session[:locale] = @user_session.user.locale
         if @user_session.user.suspended?
           flash[:notice] = t('user_session.your_account_is_suspended')
           render :action => :new

@@ -7,18 +7,14 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.request_status_type')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :request_status_type -%>
 
 <%- form_for(@request_status_type) do |f| -%>
   <p>
-    <b><%= t('activerecord.attributes.request_status_type.name') -%></b><br />
-    <%= f.text_field :name -%>
-  </p>
-
-  <p>
     <b><%= t('activerecord.attributes.request_status_type.display_name') -%></b><br />
-    <%= f.text_field :display_name -%>
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
@@ -31,4 +27,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

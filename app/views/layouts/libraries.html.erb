@@ -7,12 +7,12 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @library -%>
-    <title><%= h(@library.name) -%>: <%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
+    <title><%= h(@library.display_name) -%>: <%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

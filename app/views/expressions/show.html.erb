@@ -18,6 +18,8 @@
     <%- end -%>
     <%- if @expression.serial? -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%></li>
+    <%- else -%>
+      <li></li>
     <%- end -%>
   </ul>
   <ul>
@@ -34,7 +36,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user)) do
+    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale) do
   -%>
   <h2 id="resource_title">
     [E]
@@ -74,19 +76,19 @@
           </tr>
           <tr>
             <td><b><%= t('activerecord.models.language') -%>:</b></td>
-            <td><%=h @expression.language.display_name -%></td>
+            <td><%=h @expression.language.display_name.localize -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.models.expression_form') -%>:</b></td>
             <td>
               <%= expression_form_icon(@expression.expression_form) -%>
-              <%=h @expression.expression_form.display_name -%>
+              <%=h @expression.expression_form.display_name.localize -%>
             </td>
           </tr>
           <%- if @expression.serial? -%>
             <tr>
               <td><b><%= t('activerecord.models.frequency_of_issue') -%>:</b></td>
-              <td><%=h @expression.frequency_of_issue.display_name -%></td>
+              <td><%=h @expression.frequency_of_issue.display_name.localize -%></td>
             </tr>
             <tr>
               <td><b><%= t('activerecord.attributes.expression.issn') -%>:</b></td>

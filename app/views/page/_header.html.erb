@@ -1,21 +1,19 @@
-<div id="header_and_footer">
+<div class="header_and_footer">
   <div id="header_left">
-    <h2><a href="/" title="<%=h LibraryGroup.site_config.display_name -%>"><%=h LibraryGroup.site_config.display_name -%></a></h2>
+    <h2><a href="/" title="<%=h LibraryGroup.site_config.display_name.localize -%>"><%=h LibraryGroup.site_config.display_name.localize -%></a></h2>
   </div>
 
   <%= render :partial => 'advertisements/header' -%>
+  <%= render :partial => 'page/select_locale' -%>
 
   <div id="header_right">
     <%- if logged_in? -%>
       <%= t('page.logged_in_as', :login_name => current_user.login) -%>
       <br />
-      <%= render :partial => 'page/select_locale' -%>
       <%= link_to t('page.account'), edit_user_path(current_user.login) -%>
       <%= link_to t('page.logout'), user_session_path, :method => :delete, :confirm => t('page.are_you_sure') %>
     <%- else -%>
       <%= link_to t('page.login'), new_user_session_path unless controller_name == 'user_sessions' -%>
-      <br />
-      <%= render :partial => 'page/select_locale' -%>
     <%- end -%>
   </div>
 </div>

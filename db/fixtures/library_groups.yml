@@ -1,6 +1,6 @@
 library_group_00001:
   id: 1
-  name: Your library system
+  name: Your library system  
   display_name: Your library system
   short_name: yours
   email: library@example.com

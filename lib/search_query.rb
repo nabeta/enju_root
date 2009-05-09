@@ -14,7 +14,7 @@ module SearchQuery
     when object.is_a?(User)
       self.to_s + " user: #{object.login}"
     when object.is_a?(Library)
-      self.to_s + " library: #{object.short_name}"
+      self.to_s + " library: #{object.name}"
     when object.is_a?(Classification)
       self.to_s + " classification_ids: #{object.id}"
     when object.is_a?(SubjectHeadingType)

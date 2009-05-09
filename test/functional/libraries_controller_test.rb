@@ -56,7 +56,7 @@ class LibrariesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_library
     old_count = Library.count
-    post :create, :library => { :name => 'Fujisawa Library', :short_name => 'fujisawa' }
+    post :create, :library => { :name => 'Fujisawa Library', :name => 'fujisawa' }
     assert_equal old_count, Library.count
     
     assert_redirected_to new_user_session_url
@@ -65,7 +65,7 @@ class LibrariesControllerTest < ActionController::TestCase
   def test_user_should_not_create_library
     UserSession.create users(:user1)
     old_count = Library.count
-    post :create, :library => { :name => 'Fujisawa Library', :short_name => 'fujisawa' }
+    post :create, :library => { :name => 'Fujisawa Library', :name => 'fujisawa' }
     assert_equal old_count, Library.count
     
     assert_response :forbidden
@@ -74,7 +74,7 @@ class LibrariesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_library
     UserSession.create users(:librarian1)
     old_count = Library.count
-    post :create, :library => { :name => 'Fujisawa Library', :short_name => 'fujisawa' }
+    post :create, :library => { :name => 'Fujisawa Library', :name => 'fujisawa' }
     assert_equal old_count, Library.count
     
     assert_response :forbidden
@@ -83,13 +83,13 @@ class LibrariesControllerTest < ActionController::TestCase
   def test_admin_should_not_create_library_without_name
     UserSession.create users(:admin)
     old_count = Library.count
-    post :create, :library => { :short_name => 'fujisawa' }
+    post :create, :library => { :name => 'fujisawa' }
     assert_equal old_count, Library.count
     
     assert_response :success
   end
 
-  def test_admin_should_not_create_library_without_short_name
+  def test_admin_should_not_create_library_without_name
     UserSession.create users(:admin)
     old_count = Library.count
     post :create, :library => { :name => 'Fujisawa Library' }
@@ -101,7 +101,7 @@ class LibrariesControllerTest < ActionController::TestCase
   def test_admin_should_not_create_library_without_short_display_name
     UserSession.create users(:admin)
     old_count = Library.count
-    post :create, :library => { :name => 'Fujisawa Library', :short_name => 'fujisawa' }
+    post :create, :library => { :name => 'Fujisawa Library', :name => 'fujisawa' }
     assert_equal old_count, Library.count
     
     assert_response :success
@@ -110,10 +110,10 @@ class LibrariesControllerTest < ActionController::TestCase
   def test_admin_should_create_library
     UserSession.create users(:admin)
     old_count = Library.count
-    post :create, :library => { :name => 'Fujisawa Library', :short_name => 'fujisawa', :short_display_name => '藤沢' }
+    post :create, :library => { :name => 'Fujisawa Library', :name => 'fujisawa', :short_display_name => '藤沢' }
     assert_equal old_count+1, Library.count
     
-    assert_redirected_to library_url(assigns(:library).short_name)
+    assert_redirected_to library_url(assigns(:library).name)
   end
 
   def test_guest_should_show_library
@@ -191,16 +191,16 @@ class LibrariesControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def test_admin_should_not_update_library_without_short_name
+  def test_admin_should_not_update_library_without_name
     UserSession.create users(:admin)
-    put :update, :id => 'kamata', :library => {:short_name => ""}
+    put :update, :id => 'kamata', :library => {:name => ""}
     assert_response :success
   end
   
   def test_admin_should_update_library
     UserSession.create users(:admin)
     put :update, :id => 'kamata', :library => { }
-    assert_redirected_to library_url(assigns(:library).short_name)
+    assert_redirected_to library_url(assigns(:library).name)
   end
   
   def test_guest_should_not_destroy_library

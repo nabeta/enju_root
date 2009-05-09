@@ -26,14 +26,14 @@
 
 <p>
   <b><%= t('activerecord.models.shelf') -%>:</b>
-  <%= link_to h(@item.shelf.display_name), shelf_path(@item.shelf_id) -%>
+  <%= link_to h(@item.shelf.display_name.localize), shelf_path(@item.shelf_id) -%>
   <%= render :partial => 'items/shelf_picture', :locals => {:item => @item} -%>
-  (<%= link_to h(@item.shelf.library.name), library_path(@item.shelf.library.short_name) -%>)
+  (<%= link_to h(@item.shelf.library.display_name.localize), library_path(@item.shelf.library.name) -%>)
 </p>
 
 <p>
   <b><%= t('activerecord.models.circulation_status') -%>:</b>
-  <%=h @item.circulation_status.display_name -%>
+  <%=h @item.circulation_status.display_name.localize -%>
   <%- if logged_in? -%>
     <%- if current_user.has_role?('Librarian') -%>
       <%- unless @item.checkouts.not_returned.blank? -%>
@@ -79,13 +79,13 @@
   <b><%= t('activerecord.models.use_restriction') -%>:</b>
   <ul>
     <%- @item.use_restrictions.each do |use_restriction| -%>
-      <li><%= link_to h(use_restriction.display_name), use_restriction_path(use_restriction) -%></li>
+      <li><%= link_to h(use_restriction.display_name.localize), use_restriction_path(use_restriction) -%></li>
     <%- end -%>
   </ul>
 </p>
 -->
 
-<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user)) do -%>
+<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user), :locale => @locale) do -%>
 <%- if @item.is_updatable_by(current_user) -%>
   <p>
     <b><%= t('item.donor') -%>:</b>

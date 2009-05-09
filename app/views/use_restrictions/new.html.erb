@@ -12,17 +12,17 @@
 
 <%- form_for(@use_restriction) do |f| -%>
   <p>
-    <%= f.label :name -%><br />
+    <%= f.label t('activerecord.attributes.use_restriction.name') -%>
     <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <%= f.label :display_name -%><br />
-    <%= f.text_field :display_name, :class => 'resource_title' -%>
+    <%= f.label t('activerecord.attributes.use_restriction.display_name') -%>
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= f.label :note -%><br />
+    <%= f.label t('activerecord.attributes.use_restriction.note') -%>
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 

@@ -16,9 +16,9 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
-<%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user)) do -%>
+<%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
 <h2>
-  <%=h @subject.term %>
+  <%=h @subject.term -%>
 </h2>
 
 <table id="index">
@@ -36,7 +36,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.subject.note') -%>:</b>
-  <%=h @subject.note %>
+  <%=h @subject.note -%>
 </p>
 
 <%- end -%>

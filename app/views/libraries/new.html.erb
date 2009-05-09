@@ -17,13 +17,8 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.library.short_display_name') -%></b><br />
-    <%= f.text_field :short_display_name, :class => 'resource_title' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.library.short_name') -%></b><br />
-    <%= f.text_field :short_name, :class => 'resource_title' -%>
+    <b><%= t('activerecord.attributes.library.display_name') -%></b><br />
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

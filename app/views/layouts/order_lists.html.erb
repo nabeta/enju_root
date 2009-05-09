@@ -10,7 +10,7 @@
     <%= auto_discovery_link_tag(:rss, order_lists_url(:format => :rss), :title => (t('order_list.library_group_order_list', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
     <%= auto_discovery_link_tag(:atom, order_lists_url(:format => :atom), :title => (t('order_list.library_group_order_list', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="http://http://<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="http://http://<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

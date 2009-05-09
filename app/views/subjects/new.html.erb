@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), subjects_path %></li>
+    <li><%= link_to t('page.back'), subjects_path -%></li>
   </ul>
 </div>
 
@@ -8,24 +8,24 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
 
-<% form_for(@subject) do |f| %>
-  <%= f.error_messages %>
+<% form_for(@subject) do |f| -%>
+  <%= f.error_messages -%>
   <p>
     <b><%= t('activerecord.models.subject_type') -%></b>
-    <%= f.select(:subject_type_id, @subject_types.collect{|p| [p.display_name, p.id]}) -%>
+    <%= f.select(:subject_type_id, @subject_types.collect{|p| [p.display_name.localize, p.id]}) -%>
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.subject.term') %><br />
-    <%= f.text_area :term %>
+    <%= f.label t('activerecord.attributes.subject.term') -%><br />
+    <%= f.text_area :term -%>
   </p>
   <p>
-    <%= f.label t('activerecord.attributes.subject.note') %><br />
-    <%= f.text_area :note %>
+    <%= f.label t('activerecord.attributes.subject.note') -%><br />
+    <%= f.text_area :note -%>
   </p>
   <p>
-    <%= f.submit t('page.create') %>
+    <%= f.submit t('page.create') -%>
   </p>
-<% end %>
+<% end -%>
 </div>
 </div>

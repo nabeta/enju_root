@@ -6,7 +6,7 @@
     <%- if @facet_results["language_f_facet"]["#{language.name}"] -%>
       <li>
       <%- if current_languages.include?(language.name) -%><strong><%- end -%>
-        <%= link_to h("#{language.display_name} (" + @facet_results["language_f_facet"]["#{language.name}"].to_i.to_s + ")"), url_for(:params => params.merge(:page => nil, :language => (current_languages << language.name).uniq.join(' '), :form => nil, :view => nil)) -%>
+        <%= link_to h("#{language.display_name.localize} (" + @facet_results["language_f_facet"]["#{language.name}"].to_i.to_s + ")"), url_for(:params => params.merge(:page => nil, :language => (current_languages << language.name).uniq.join(' '), :form => nil, :view => nil)) -%>
         <%- if current_languages.include?(language.name) -%></strong><%- end -%>
       </li>
     <%- end -%>

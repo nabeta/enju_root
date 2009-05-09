@@ -19,12 +19,12 @@
 
   <p>
     <b><%= t('activerecord.attributes.library_group.display_name') -%></b><br />
-    <%= f.text_field :display_name, :class => 'resource_title' -%>
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.library_group.short_name') -%></b><br />
-    <%= f.text_field :short_name -%>
+    <b><%= t('activerecord.attributes.library_group.name') -%></b><br />
+    <%= f.text_field :name -%>
   </p>
 
   <p>

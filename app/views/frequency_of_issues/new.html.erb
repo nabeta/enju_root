@@ -13,12 +13,12 @@
 <%- form_for(@frequency_of_issue) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.frequency_of_issue.name') -%></b><br />
-    <%= f.text_field :name -%>
+    <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
     <b><%= t('activerecord.attributes.frequency_of_issue.display_name') -%></b><br />
-    <%= f.text_field :display_name -%>
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

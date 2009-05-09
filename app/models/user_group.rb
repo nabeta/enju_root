@@ -1,5 +1,4 @@
 class UserGroup < ActiveRecord::Base
-  include DisplayName
   include OnlyAdministratorCanModify
 
   default_scope :order => "position"
@@ -9,10 +8,15 @@ class UserGroup < ActiveRecord::Base
   has_many :user_group_has_checkout_types, :dependent => :destroy
   has_many :checkout_types, :through => :user_group_has_checkout_types, :order => :position
 
-  validates_presence_of :name
+  validates_presence_of :name, :display_name
 
   acts_as_list
 
   cattr_accessor :per_page
   @@per_page = 10
+
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
+  end
+
 end

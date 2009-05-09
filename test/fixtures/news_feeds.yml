@@ -30,3 +30,9 @@ news_feed_00005:
   url: "http://mwr.mediacom.keio.ac.jp/"
   body: 
   position: 5
+news_feed_00006:
+  id: 6
+  title: "Local feeds"
+  url: <%= "http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}/news_posts.rss" %>
+  body: 
+  position: 6

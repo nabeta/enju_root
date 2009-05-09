@@ -8,6 +8,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_form')) -%></h1>
 <div id="content_list">
+
 <p>
   <b><%= t('activerecord.attributes.work_form.name') -%>:</b>
   <%=h @work_form.name -%>
@@ -15,7 +16,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.work_form.display_name') -%>:</b>
-  <%=h @work_form.name -%>
+  <%=h @work_form.display_name.localize -%>
 </p>
 
 <p>

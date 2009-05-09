@@ -13,13 +13,8 @@
 
 <%- form_for(@expression_form, :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= t('activerecord.attributes.expression_form.name') -%></b><br />
-    <%= f.text_field :name, :class => 'resource_title' -%>
-  </p>
-
-  <p>
     <b><%= t('activerecord.attributes.expression_form.display_name') -%></b><br />
-    <%= f.text_field :display_name, :class => 'resource_title' -%>
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

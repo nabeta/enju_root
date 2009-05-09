@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%= render :partial => 'page/include' -%>
-  <title>Barcode - <%=h @library_group.display_name -%></title>
+  <title><%= t('activerecord.models.barcode') -%> - <%=h @library_group.display_name.local.localize -%></title>
 </head>
 
 <body style="width: 210mm; padding-left: 5mm; padding-right: 5mm">
@@ -23,7 +23,7 @@
           <%=h item.item_identifier -%>
         </div>
         <div style="font-size: 10pt" -%>
-          <%=h @library_group.display_name -%>
+          <%=h @library_group.display_name.localize -%>
         </div>
       </td>
     <%- if i != 0 and (i + 1) % 4 == 0 -%>

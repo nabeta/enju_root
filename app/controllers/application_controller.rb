@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
 
   filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
-  before_filter :get_library_group, :set_locale
+  before_filter :get_library_group, :set_locale, :set_available_languages
   #before_filter :has_permission?
 
   def get_library_group
@@ -40,6 +40,10 @@ class ApplicationController < ActionController::Base
       locale = I18n.default_locale
     end
     I18n.locale = @locale = session[:locale] = locale
+  end
+
+  def set_available_languages
+    @available_languages = Rails.cache.fetch('Language.available'){Language.available_languages}
   end
 
   def reset_params_session

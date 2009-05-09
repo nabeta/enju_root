@@ -20,7 +20,7 @@
 <%- for classification_type in @classification_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(classification_type.name), classification_type -%></td>
-    <td><%=h classification_type.display_name -%></td>
+    <td><%= link_to h(classification_type.display_name.localize), classification_type -%></td>
     <td><%=h classification_type.note -%></td>
     <%- if classification_type.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_classification_type_path(classification_type) -%></td>

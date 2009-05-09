@@ -47,7 +47,7 @@
 <%- @patrons.each do |patron| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(patron.full_name), patron -%></td>
-    <td><%=h patron.patron_type.display_name -%></td>
+    <td><%=h patron.patron_type.display_name.localize -%></td>
     <td><%=h patron.other_designation -%></td>
     <td><%=h patron.place -%></td>
     <td><%=h patron.date_of_birth -%></td>

@@ -36,8 +36,8 @@
       <td>
         <%= link_to h(patron.user.login), edit_user_path(patron.user.login) if patron.user -%>
       </td>
-      <td><%=h patron.patron_type.display_name -%></td>
-      <td><%=h patron.language.display_name -%></td>
+      <td><%=h patron.patron_type.display_name.localize  -%></td>
+      <td><%=h patron.language.display_name.localize  -%></td>
       <td><%=h patron.place -%></td>
       <td>
         <%- if patron.is_deletable_by(current_user) -%>

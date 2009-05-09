@@ -66,7 +66,7 @@ class ImportedPatronFile < ActiveRecord::Base
           user.email = data['email'].to_s.chomp
           user.password = data['password'].to_s.chomp
           user.password_confirmation = data['password'].to_s.chomp
-          library = Library.find(:first, :conditions => {:short_name => data['library_short_name'].to_s.chomp})
+          library = Library.find(:first, :conditions => {:name => data['library_short_name'].to_s.chomp})
           library = Library.web if library.blank?
           user.library = library
           user.patron = patron

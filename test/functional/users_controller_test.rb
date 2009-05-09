@@ -205,34 +205,34 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_librarian_should_update_other_user
     UserSession.create users(:librarian1)
-    put :update, :id => users(:user1).login, :user => {:user_number => '00003'}
+    put :update, :id => users(:user1).login, :user => {:user_number => '00003', :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
   end
 
   def test_librarian_should_not_update_other_role
     UserSession.create users(:librarian1)
-    put :update, :id => users(:user1).login, :user => {:role_id => 4}
+    put :update, :id => users(:user1).login, :user => {:role_id => 4, :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert !assigns(:user).roles.include?(Role.find(4))
   end
 
   def test_admin_should_update_other_role
     UserSession.create users(:admin)
-    put :update, :id => users(:user1).login, :user => {:role_id => 4}
+    put :update, :id => users(:user1).login, :user => {:role_id => 4, :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert assigns(:user).roles.include?(Role.find(4))
   end
 
   def test_librarian_should_update_other_user_group
     UserSession.create users(:librarian1)
-    put :update, :id => users(:user1).login, :user => {:user_group_id => 3}
+    put :update, :id => users(:user1).login, :user => {:user_group_id => 3, :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert_equal assigns(:user).user_group_id, 3
   end
 
   def test_librarian_should_update_other_note
     UserSession.create users(:librarian1)
-    put :update, :id => users(:user1).login, :user => {:note => 'test'}
+    put :update, :id => users(:user1).login, :user => {:note => 'test', :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert_equal assigns(:user).note, 'test'
   end

@@ -182,7 +182,7 @@ class ShelvesControllerTest < ActionController::TestCase
   def test_admin_should_update_shelf
     UserSession.create users(:admin)
     put :update, :id => 1, :shelf => { }
-    assert_redirected_to library_shelf_url(assigns(:shelf).library.short_name, assigns(:shelf))
+    assert_redirected_to library_shelf_url(assigns(:shelf).library.name, assigns(:shelf))
   end
   
   def test_guest_should_not_destroy_shelf
@@ -226,6 +226,6 @@ class ShelvesControllerTest < ActionController::TestCase
     delete :destroy, :id => 2
     assert_equal old_count-1, Shelf.count
     
-    assert_redirected_to library_shelves_url(assigns(:shelf).library.short_name)
+    assert_redirected_to library_shelves_url(assigns(:shelf).library.name)
   end
 end

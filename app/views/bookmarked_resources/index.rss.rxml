@@ -4,14 +4,14 @@ xml.rss('version' => "2.0",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     if @user
-      xml.title "#{h(@user.login)}'s bookmarks at #{@library_group.display_name}"
+      xml.title t('bookmark.user_bookmark', :login_user_name => @user.login)
       xml.link "#{request.protocol}#{request.host_with_port}" + user_bookmarked_resources_path(@user.login)
     else
-      xml.title "Bookmarks at #{@library_group.display_name}"
+      xml.title "Bookmarks at #{@library_group.display_name.localize}"
       xml.link "#{request.protocol}#{request.host_with_port}" + bookmarked_resources_path
     end
     xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
-    xml.language I18n.default_locale
+    xml.language @locale
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => :rss))}"
     xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"

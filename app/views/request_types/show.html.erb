@@ -6,6 +6,8 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.request_type')) -%></h1>
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.request_type.name') -%>:</b>
   <%=h @request_type.name -%>
@@ -13,7 +15,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.request_type.display_name') -%>:</b>
-  <%=h @request_type.display_name -%>
+  <%=h @request_type.display_name.localize -%>
 </p>
 
 <p>
@@ -21,4 +23,5 @@
   <%=h @request_type.note -%>
 </p>
 
+</div>
 </div>

@@ -3,13 +3,13 @@
 checkout_type_00001:
   id: 1
   name: book
-  display_name: Book
+  display_name: 図書
   note: 
   position: 1
 checkout_type_00002:
   id: 2
   name: serial
-  display_name: Serial
+  display_name: 定期刊行物
   note: 
   position: 2
 checkout_type_00003:

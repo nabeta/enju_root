@@ -8,21 +8,17 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_form')) -%></h1>
 <div id="content_list">
-<p>
-  <b><%= t('activerecord.attributes.manifestation_form.name') -%>:</b>
-  <%=h @manifestation_form.name -%>
-</p>
 
 <p>
   <b><%= t('activerecord.attributes.manifestation_form.display_name') -%>:</b>
-  <%=h @manifestation_form.display_name -%>
+  <%=h @manifestation_form.display_name.localize -%>
 </p>
 
 <p>
 <b><%= t('activerecord.models.checkout_type') -%></b>
 <ul>
   <%- @manifestation_form.manifestation_form_has_checkout_types.each do |available_checkout_type| -%>
-    <li><%= link_to h(available_checkout_type.checkout_type.display_name), available_checkout_type.checkout_type -%></li>
+    <li><%= link_to h(available_checkout_type.checkout_type.display_name.localize), available_checkout_type.checkout_type -%></li>
   <%- end -%>
 </ul>
 

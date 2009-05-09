@@ -1,8 +1,8 @@
 --- 
 library_00001: 
-  short_name: web
+  name: web
   short_display_name: Web
-  name: World Wide Web
+  display_name: World Wide Web
   fax_number: 
   updated_at: 
   telephone_number_1: 
@@ -18,9 +18,9 @@ library_00001:
   call_number_delimiter: "|"
   position: 1
 library_00002: 
-  short_name: kamata
+  name: kamata
   short_display_name: 蒲田
-  name: Kamata Library
+  display_name: Kamata Library
   fax_number: ""
   updated_at: 2007-08-31 00:18:06.662349 +09:00
   telephone_number_1: 81-3-3732-5111
@@ -36,9 +36,9 @@ library_00002:
   call_number_delimiter: "|"
   position: 2
 library_00003: 
-  short_name: hachioji
+  name: hachioji
   short_display_name: 八王子
-  name: Hachioji Library
+  display_name: Hachioji Library
   fax_number: 042-637-2116
   updated_at: 2007-08-31 00:18:16.188285 +09:00
   telephone_number_1: 042-637-2033
@@ -54,9 +54,9 @@ library_00003:
   call_number_delimiter: "|"
   position: 3
 library_00004: 
-  short_name: mita
+  name: mita
   short_display_name: 三田
-  name: Mita Library
+  display_name: Mita Library
   fax_number: ""
   updated_at: 2007-08-31 00:18:20.043951 +09:00
   telephone_number_1: ""

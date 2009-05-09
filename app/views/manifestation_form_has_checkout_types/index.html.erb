@@ -11,8 +11,8 @@
 
 <%- for manifestation_form_has_checkout_type in @manifestation_form_has_checkout_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(manifestation_form_has_checkout_type.manifestation_form.display_name), manifestation_form_has_checkout_type.manifestation_form -%></td>
-    <td><%= link_to h(manifestation_form_has_checkout_type.checkout_type.display_name), manifestation_form_has_checkout_type.checkout_type -%></td>
+    <td><%= link_to h(manifestation_form_has_checkout_type.manifestation_form.display_name.localize), manifestation_form_has_checkout_type.manifestation_form -%></td>
+    <td><%= link_to h(manifestation_form_has_checkout_type.checkout_type.display_name.localize), manifestation_form_has_checkout_type.checkout_type -%></td>
     <td><%=h manifestation_form_has_checkout_type.note -%></td>
     <td><%= link_to t('page.show'), manifestation_form_has_checkout_type -%></td>
     <td><%= link_to t('page.edit'), edit_manifestation_form_has_checkout_type_path(manifestation_form_has_checkout_type) -%></td>

@@ -6,15 +6,12 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.event_category')) -%></h1>
 <div id="content_list">
-<p>
-  <b><%= t('activerecord.attributes.event_category.name') -%>:</b>
-  <%=h @event_category.name -%>
-</p>
 
 <p>
   <b><%= t('activerecord.attributes.event_category.display_name') -%>:</b>
-  <%=h @event_category.display_name -%>
+  <%=h @event_category.display_name.localize -%>
 </p>
 
 <p>

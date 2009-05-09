@@ -1,6 +1,5 @@
 class LibraryGroup < ActiveRecord::Base
   #include Singleton
-  include DisplayName
   include OnlyAdministratorCanModify
   #include Configurator
 
@@ -8,7 +7,7 @@ class LibraryGroup < ActiveRecord::Base
   has_many :search_engines
   has_many :news_feeds
 
-  validates_presence_of :name, :short_name, :email
+  validates_presence_of :name, :display_name, :email
 
   def after_save
     expire_cache

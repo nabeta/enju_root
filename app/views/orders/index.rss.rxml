@@ -4,18 +4,18 @@ xml.rss('version' => "2.0",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     if @user
-      xml.title "#{@user.login}'s orders at #{@library_group.display_name}"
+      xml.title "#{@user.login}'s orders at #{@library_group.display_name.localize}"
       xml.link user_orders_url(@user.login)
       xml.tag! "atom:link", :rel => 'self', :href => user_orders_url(@user.login, :format => :rss)
       xml.tag! "atom:link", :rel => 'alternate', :href => user_orders_url(@user.login)
     else
-      xml.title "Orders at #{@library_group.display_name}"
+      xml.title "Orders at #{@library_group.display_name.localize}"
       xml.link orders_url
       xml.tag! "atom:link", :rel => 'self', :href => orders_url(:format => :rss)
       xml.tag! "atom:link", :rel => 'alternate', :href => orders_url
     end
     xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
-    xml.language I18n.default_locale
+    xml.language @locale
     xml.ttl "60"
     #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?

@@ -13,11 +13,11 @@
 
   <p>
     <%= f.label t('activerecord.models.user_group') -%><br />
-    <%= f.select(:user_group_id, @user_groups.collect{|u| [u.display_name, u.id]}, :include_blank => true) -%>
+    <%= f.select(:user_group_id, @user_groups.collect{|u| [u.display_name.localize, u.id]}, :include_blank => true) -%>
   </p>
   <p>
     <%= f.label t('activerecord.models.checkout_type') -%><br />
-    <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name, c.id]}, :include_blank => true) -%>
+    <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name.localize, c.id]}, :include_blank => true) -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.user_group_has_checkout_type.checkout_limit') -%><br />

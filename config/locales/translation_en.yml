@@ -286,6 +286,7 @@ en:
         full_name: Full name
         password: Password
         old_password: Old password
+        locale: Locale
       resource_has_subject:
         subjectable_type: Subjectable type
       picture_file:
@@ -813,7 +814,7 @@ en:
 
   page:
     user: "User"
-    user_title: "{{login_name}} 's library"
+    user_title: "{{login_name}}'s library"
     login: "Login"
     logout: "Logout"
     logged_in_as: "logged in as {{login_name}}"
@@ -959,6 +960,7 @@ en:
     under_construction: "Under construction"
     sent_email: "Sent email."
     identifier: "Identifier"
+    set_locale: "Set locale"
   title:
     index: "index"
     show: "show"

@@ -1,5 +1,4 @@
 class Shelf < ActiveRecord::Base
-  include DisplayName
   include OnlyAdministratorCanModify
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]
@@ -8,13 +7,18 @@ class Shelf < ActiveRecord::Base
   has_one :user, :through => :user_has_shelf
 
   validates_associated :library
-  validates_presence_of :name, :library
+  validates_presence_of :name, :display_name, :library
+  validates_uniqueness_of :name
   
   acts_as_list :scope => :library
   #acts_as_soft_deletable
 
   cattr_accessor :per_page
   @@per_page = 10
+
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
+  end
 
   def web_shelf?
     return true if self.id == 1

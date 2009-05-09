@@ -159,8 +159,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       if record.is_a?(Manifestation)
         expire_manifestation_cache(record)
       else
-        expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => true)
-        expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => false)
+        I18n.available_locales.each do |locale|
+          expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => true, :locale => locale.to_s)
+          expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => false, :locale => locale.to_s)
+        end
       end
     end
   end
@@ -177,8 +179,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
 
   def expire_manifestation_fragment(manifestation, fragment)
     if manifestation
-      expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true)
-      expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false)
+      I18n.available_locales.each do |locale|
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true, :locale => locale.to_s)
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s)
+      end
     end
   end
 end

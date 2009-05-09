@@ -19,12 +19,12 @@
 
 <p>
   <b><%= t('activerecord.models.event_category') -%>:</b>
-  <%=h @event.event_category.display_name -%>
+  <%=h @event.event_category.display_name.localize -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.library') -%>:</b>
-  <%= link_to h(@event.library.name), library_path(@event.library.short_name) -%>
+  <%= link_to h(@event.library.display_name.localize), library_path(@event.library.name) -%>
 </p>
 
 <p>

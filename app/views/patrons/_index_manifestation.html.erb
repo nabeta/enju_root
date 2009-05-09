@@ -13,7 +13,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
-<%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :editable => false) do -%>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :editable => false, :locale => @locale) do -%>
   <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 <%- end -%>
 
@@ -47,7 +47,7 @@
   <%- @patrons.each do |patron| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= link_to h(patron.full_name), patron -%></td>
-      <td><%=h patron.patron_type.display_name -%></td>
+      <td><%=h patron.patron_type.display_name.localize -%></td>
       <td><%=h patron.other_designation -%></td>
       <td><%=h patron.place -%></td>
       <td><%=h patron.date_of_birth -%></td>

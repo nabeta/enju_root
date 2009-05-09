@@ -1,6 +1,7 @@
 --- 
 event_category_00002: 
-  name: !binary |
+  name: !binary |  
+  display_name: !binary |
     5LyR5YiK5pel
 
   updated_at: 2008-01-01 16:24:32.561469 +09:00
@@ -9,7 +10,8 @@ event_category_00002:
   created_at: 2008-01-01 16:17:34.642433 +09:00
   position: 2
 event_category_00003: 
-  name: !binary |
+  name: !binary |  
+  display_name: !binary |
     44GK44Gv44Gq44GX5Lya
 
   updated_at: 2008-01-01 16:24:45.267241 +09:00
@@ -18,7 +20,8 @@ event_category_00003:
   created_at: 2008-01-01 16:17:45.415487 +09:00
   position: 3
 event_category_00004: 
-  name: !binary |
+  name: !binary |  
+  display_name: !binary |
     5LiK5pig5Lya
 
   updated_at: 2008-01-01 16:24:55.261682 +09:00
@@ -27,7 +30,8 @@ event_category_00004:
   created_at: 2008-01-01 16:18:08.868680 +09:00
   position: 4
 event_category_00005: 
-  name: !binary |
+  name: !binary |  
+  display_name: !binary |
     6Kyb5ryU5Lya
 
   updated_at: 2008-01-01 16:25:04.251141 +09:00
@@ -36,7 +40,8 @@ event_category_00005:
   created_at: 2008-01-01 16:25:04.251141 +09:00
   position: 5
 event_category_00001: 
-  name: (not specified)
+  name: (not specified)  
+  display_name: (not specified)
   updated_at: 2008-01-01 16:24:17.869192 +09:00
   id: 1
   note: ""

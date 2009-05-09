@@ -1,5 +1,5 @@
 atom_feed(:url => expressions_url(:format => :atom)) do |feed|
-  feed.title t('expression.library_group_expression', :library_group_name => @library_group.display_name)
+  feed.title t('expression.library_group_expression', :library_group_name => @library_group.display_name.localize)
   feed.updated(@expressions.first ? @expressions.first.created_at : Time.zone.now)
 
   for expression in @expressions

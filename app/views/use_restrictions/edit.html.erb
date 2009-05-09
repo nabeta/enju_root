@@ -13,13 +13,8 @@
 
 <%- form_for(@use_restriction) do |f| -%>
   <p>
-    <b><%= t('activerecord.attributes.use_restriction.name') -%></b><br />
-    <%= f.text_field :name, :class => 'resource_title' -%>
-  </p>
-
-  <p>
     <b><%= t('activerecord.attributes.use_restriction.display_name') -%></b><br />
-    <%= f.text_field :display_name, :class => 'resource_title' -%>
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

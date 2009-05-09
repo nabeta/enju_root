@@ -5,7 +5,7 @@
       <li>
       <%= form_icon(form) -%>
       <%- if params[:formtype] == form.name -%><strong><%- end -%>
-        <%= link_to h("#{form.display_name} (" + @facet_results["formtype_f_facet"]["#{form.name}"].to_i.to_s + ")"), url_for(:params => params.merge(:formtype => form.name, :page => nil, :view => nil)) -%>
+        <%= link_to h("#{form.display_name.localize} (" + @facet_results["formtype_f_facet"]["#{form.name}"].to_i.to_s + ")"), url_for(:params => params.merge(:formtype => form.name, :page => nil, :view => nil)) -%>
       <%- if params[:formtype] == form.name -%></strong><%- end -%>
       </li>
     <%- end -%>

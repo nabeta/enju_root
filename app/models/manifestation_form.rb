@@ -1,5 +1,4 @@
 class ManifestationForm < ActiveRecord::Base
-  include DisplayName
   include OnlyAdministratorCanModify
 
   default_scope :order => "position"
@@ -9,7 +8,8 @@ class ManifestationForm < ActiveRecord::Base
   has_many :manifestation_form_has_checkout_types, :dependent => :destroy
   has_many :checkout_types, :through => :manifestation_form_has_checkout_types
 
-  validates_presence_of :name
+  validates_presence_of :name, :display_name
+  validates_uniqueness_of :name
 
   acts_as_list
 
@@ -23,6 +23,10 @@ class ManifestationForm < ActiveRecord::Base
 
   def expire_cache
     Rails.cache.delete('ManifestationForm.all')
+  end
+
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
   end
 
 end

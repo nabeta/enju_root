@@ -13,7 +13,7 @@
     <td><%= link_to h(item_has_use_restriction.item_id), item_has_use_restriction.item -%></td>
     <td><%= link_to h(item_has_use_restriction.item.item_identifier), item_has_use_restriction.item -%></td>
     <td><%= link_to h(item_has_use_restriction.item.manifestation.original_title), item_has_use_restriction.item.manifestation -%></td>
-    <td><%= link_to h(item_has_use_restriction.use_restriction.display_name), item_has_use_restriction.use_restriction -%></td>
+    <td><%= link_to h(item_has_use_restriction.use_restriction.display_name.localize), item_has_use_restriction.use_restriction -%></td>
     <td><%= link_to t('page.show'), item_has_use_restriction -%></td>
     <td><%= link_to t('page.edit'), edit_item_has_use_restriction_path(item_has_use_restriction) -%></td>
     <td><%= link_to t('page.destroy'), item_has_use_restriction, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

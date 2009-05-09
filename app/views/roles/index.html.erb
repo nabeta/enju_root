@@ -2,7 +2,6 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.attributes.role.name') -%></th>
     <th><%= t('activerecord.attributes.role.display_name') -%></th>
     <th><%= t('activerecord.attributes.role.score') -%></th>
     <th><%= t('activerecord.attributes.role.note') -%></th>
@@ -12,8 +11,7 @@
   
 <%- for role in @roles -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(role.name), role -%></td>
-    <td><%= link_to h(role.display_name), role -%></td>
+    <td><%= link_to h(role.display_name.localize), role -%></td>
     <td><%=h role.score -%></td>
     <td><%=h role.note -%></td>
     <td><%= l(role.created_at) -%></td>

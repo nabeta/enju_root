@@ -2,7 +2,7 @@
 expression_form_00001:
   id: 1
   name: text
-  display_name: Text
+  display_name: text
   note: MyText
   created_at: 2007-11-20 16:14:14
   updated_at: 2007-11-20 16:14:14
@@ -10,7 +10,7 @@ expression_form_00001:
 expression_form_00002:
   id: 2
   name: audio
-  display_name: Audio
+  display_name: audio
   note: MyText
   created_at: 2007-11-20 16:14:14
   updated_at: 2007-11-20 16:14:14
@@ -18,7 +18,7 @@ expression_form_00002:
 expression_form_00003:
   id: 3
   name: video
-  display_name: Video
+  display_name: video
   note: MyText
   created_at: 2007-11-20 16:14:14
   updated_at: 2007-11-20 16:14:14

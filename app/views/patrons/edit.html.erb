@@ -14,7 +14,7 @@
 <%- form_for(@patron, :html => { :method => :put }) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron_type') -%></b>
-    <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name, p.id]}) -%>
+    <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name.localize, p.id]}) -%>
   </p>
 
   <p>
@@ -56,17 +56,17 @@
 
   <p>
     <b><%= t('activerecord.models.country') -%></b>
-    <%= f.select(:country_id, @countries.collect{|c| [c.display_name, c.id]}) -%>
+    <%= f.select(:country_id, @countries.collect{|c| [c.display_name.localize, c.id]}) -%>
   </p>
 
   <p>
     <b><%= t('activerecord.models.language') -%></b>
-    <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
+    <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
   </p>
 
   <p>
     <b><%= t('role.required_role') -%></b>
-    <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+    <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
 
   <p>
