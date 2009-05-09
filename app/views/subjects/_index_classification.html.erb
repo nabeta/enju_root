@@ -11,7 +11,7 @@
 <%- form_for :subjects, :url => classification_subjects_path(@classification), :html => {:method => 'get'} do -%>
 <div id="content_list">
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query) -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
     <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
       <%- if params[:mode] == 'add' -%>
