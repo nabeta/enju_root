@@ -10,6 +10,10 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_type')) -%></h1>
 <div id="content_list">
+<p>
+  <b><%= t('activerecord.attributes.checkout_type.name') -%>:</b>
+  <%=h @checkout_type.name -%>
+</p>
 
 <p>
   <b><%= t('activerecord.attributes.checkout_type.display_name') -%>:</b>

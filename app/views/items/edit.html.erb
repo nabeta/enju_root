@@ -19,7 +19,11 @@
 
   <p>
     <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
-    <%= f.select(:library_id, @libraries.collect{|l| [l.display_name.localize, l.id]}) -%>
+    <select id="library_id" name="library_id">
+      <%- @libraries.each do |library| -%>
+        <option value="<%=h library.name -%>"><%=h library.display_name.localize -%></option>
+      <%- end -%>
+    </select>
     <span id="item1">
       <%= f.select(:shelf_id, @item.shelf.library.shelves.collect{|s| [s.name, s.id]}) -%>
     </span>

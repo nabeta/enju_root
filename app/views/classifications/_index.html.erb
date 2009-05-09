@@ -12,7 +12,7 @@
 
 <%- form_for :classifications, :url => classifications_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query, {:class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
 <%- end -%>

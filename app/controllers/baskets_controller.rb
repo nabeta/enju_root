@@ -48,8 +48,10 @@ class BasketsController < ApplicationController
   def create
     @basket = Basket.new
     @user = User.find(:first, :conditions => {:user_number => params[:basket][:user_number]}) rescue nil
-    unless @user.user_number.blank?
-      @basket.user = @user
+    if @user
+      unless @user.user_number.blank?
+        @basket.user = @user
+      end
     end
 
     respond_to do |format|

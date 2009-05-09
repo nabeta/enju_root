@@ -219,7 +219,7 @@
     </tr>
     </table>
 
-    <%- unless @manifestation.items.on_shelf.empty? -%>
+    <%- if @manifestation.items.on_shelf.find(:first) -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
       <%- if @manifestation.bookmarked_resource -%>
