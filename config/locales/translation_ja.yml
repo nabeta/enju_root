@@ -810,7 +810,6 @@ ja:
     user_title: "{{login_name}} さんの図書館"
     logged_in_as: "{{login_name}} としてログイン"
     edit_user_profile: "{{login_name}} さんのプロフィールの編集"
-    user_bookmark_title: "{{login_name}} さんのブックマーク"
     login: "ログイン"
     logout: "ログアウト"
     login_name: "ログイン名"
@@ -973,6 +972,7 @@ ja:
     invalid_url: "無効なURLです。"
     specify_title_and_url: "タイトルとURLを指定してください。"
     already_bookmarked: "すでにブックマークに登録されています。"
+    user_bookmark: "{{login_name}} さんのブックマーク"
   bookmarked_resource:
     add_to_library_bookmark: "図書館のブックマークに追加"
     library_group_bookmark: "{{library_group_name}} でブックマークされた資料"

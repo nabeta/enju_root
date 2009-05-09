@@ -42,7 +42,9 @@
       <td>
         <select id="library_top" name="library">
           <option value=""><%= t('advanced_search.all_libraries') -%></option>
-          <%= options_from_collection_for_select(@libraries, "short_name", "name", params[:library].to_s) -%>
+          <%- @libraries.each do |library| -%>
+            <option value="<%=h library.name -%>"><%=h library.display_name.localize -%></option>
+          <%- end -%>
         </select>
       </td>
     </tr>

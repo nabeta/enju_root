@@ -13,7 +13,12 @@
 <%- form_for(@request_status_type) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.request_status_type.name') -%></b><br />
-    <%= f.text_area :name, :class => 'resource_textarea' -%>
+    <%= f.text_field :name, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.request_status_type.display_name') -%></b><br />
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

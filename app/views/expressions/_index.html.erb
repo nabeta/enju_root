@@ -38,7 +38,7 @@
         <br />
         <%= patrons_list(expression.authors, :link => true) -%>
       </td>
-      <td><%=h expression.language.display_name -%></td>
+      <td><%=h expression.language.display_name.localize -%></td>
       <%- if expression.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
         <td><%= link_to t('page.destroy'), expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

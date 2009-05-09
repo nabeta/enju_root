@@ -9,10 +9,10 @@
   <%- for item in manifestation.items.on_shelf -%>
     <tr>
       <td>
-        <%= link_to h(item.shelf.library.display_name), library_path(item.shelf.library.short_name)%>
+        <%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name)%>
       </td>
       <td>
-        <%= link_to h(item.shelf.display_name), shelf_path(item.shelf) -%>
+        <%= link_to h(item.shelf.display_name.localize), shelf_path(item.shelf) -%>
         <%= render :partial => 'items/shelf_picture', :locals => {:item => item} -%>
       </td>
       <td>
@@ -26,7 +26,7 @@
         <%- end -%>
       </td>
       <td>
-        <%=h item.circulation_status.display_name if item.circulation_status -%>
+        <%=h item.circulation_status.display_name.localize if item.circulation_status -%>
         <%- if item.rent? -%>
           (
             <%= t('activerecord.attributes.checkout.due_date') -%>:

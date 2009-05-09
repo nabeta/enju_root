@@ -78,7 +78,7 @@
           <%- end -%>
           <tr>
             <td><b><%= t('activerecord.models.patron_type') -%>:</b></td>
-            <td><%=h @patron.patron_type.display_name -%></td>
+            <td><%=h @patron.patron_type.display_name.localize -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.patron.other_designation') -%>:</b></td>
@@ -90,7 +90,7 @@
           </tr>
           <tr>
             <td><b><%= t('page.language') -%>:</b></td>
-            <td><%=h @patron.language.display_name -%></td>
+            <td><%=h @patron.language.display_name.localize -%></td>
           </tr>
           <%- if deletable(@patron) -%>
             <tr>

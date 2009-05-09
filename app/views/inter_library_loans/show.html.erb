@@ -13,12 +13,12 @@
 <div id="content_list">
 <p>
   <b><%= t('page.library') -%>:</b>
-  <%= link_to h(@inter_library_loan.item.shelf.library.display_name), library_path(@inter_library_loan.item.shelf.library.short_name) -%>
+  <%= link_to h(@inter_library_loan.item.shelf.library.display_name.localize), library_path(@inter_library_loan.item.shelf.library.name) -%>
 </p>
 
 <p>
   <b><%= t('inter_library_loan.borrowing_library') -%>:</b>
-  <%= link_to h(@inter_library_loan.borrowing_library.display_name), library_path(@inter_library_loan.borrowing_library.short_name) -%>
+  <%= link_to h(@inter_library_loan.borrowing_library.display_name.localize), library_path(@inter_library_loan.borrowing_library.name) -%>
 </p>
 
 <p>

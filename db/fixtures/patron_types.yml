@@ -1,15 +1,18 @@
 --- 
 patron_type_00001:
   id: 1
-  name: Person
+  name: Person  
+  display_name: Person
   note: 
 
 patron_type_00002:
   id: 2
-  name: CorporateBody
+  name: CorporateBody  
+  display_name: CorporateBody
   note: 
 
 patron_type_00003:
   id: 3
-  name: Family
+  name: Family  
+  display_name: Family
   note: 

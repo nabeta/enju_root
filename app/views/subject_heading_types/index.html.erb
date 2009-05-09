@@ -10,13 +10,15 @@
 
 <table id="index">
   <tr>
+    <th><%= t('activerecord.attributes.subject_heading_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.note') -%></th>
   </tr>
 
 <%- for subject_heading_type in @subject_heading_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(subject_heading_type.display_name), subject_heading_type -%></td>
+    <td><%= link_to h(subject_heading_type.name), subject_heading_type -%></td>
+    <td><%= link_to h(subject_heading_type.display_name.localize), subject_heading_type -%></td>
     <td><%=h subject_heading_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_subject_heading_type_path(subject_heading_type) -%></td>
     <td><%= link_to t('page.destroy'), subject_heading_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

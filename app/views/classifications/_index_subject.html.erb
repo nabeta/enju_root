@@ -29,7 +29,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(classification.category), subject_classification_path(@subject, classification) -%></td>
     <td><%=h classification.note -%></td>
-    <td><%=h classification.classification_type.display_name -%></td>
+    <td><%=h classification.classification_type.display_name.localize -%></td>
     <td><%= link_to t('page.edit'), edit_subject_classification_path(@subject, classification) -%></td>
     <td><%= link_to t('page.destroy'), subject_classification_path(@subject, classification), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

@@ -1,6 +1,5 @@
 require 'mathn'
 class Library < ActiveRecord::Base
-  include DisplayName
   include OnlyAdministratorCanModify
 
   default_scope :order => 'position'
@@ -15,14 +14,14 @@ class Library < ActiveRecord::Base
 
   acts_as_list
   #acts_as_soft_deletable
-  has_friendly_id :short_name
+  has_friendly_id :name
   acts_as_geocodable
 
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
-  validates_presence_of :name, :short_name, :short_display_name, :library_group, :patron
-  validates_uniqueness_of :name, :short_name, :short_display_name
-  validates_format_of :short_name, :with => /^[a-z][0-9a-z]{2,254}$/
+  validates_presence_of :name, :display_name, :short_display_name, :library_group, :patron
+  validates_uniqueness_of :name, :short_display_name
+  validates_format_of :name, :with => /^[a-z][0-9a-z]{2,254}$/
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -38,6 +37,10 @@ class Library < ActiveRecord::Base
   def expire_cache
     Rails.cache.delete("Library:#{id}")
     Rails.cache.delete('Library.all')
+  end
+
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
   end
 
   def closed?(date)

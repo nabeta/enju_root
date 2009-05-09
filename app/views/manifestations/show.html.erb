@@ -136,7 +136,7 @@
     <tr>
       <td style="width: 200px"><%=h t('page.form') -%>:</td>
       <td style="width: 500px">
-        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name -%>
+        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name.localize -%>
       </td>
     </tr>
     <tr>

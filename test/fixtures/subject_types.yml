@@ -2,19 +2,23 @@
 subject_type_00001:
   id: 1
   name: Concept
+  display_name: Concept
   note: 
 
 subject_type_00002:
   id: 2
   name: Event
+  display_name: Event
   note: 
 
 subject_type_00003:
   id: 3
   name: Object
+  display_name: Object
   note: 
 
 subject_type_00004:
   id: 4
   name: Place
+  display_name: Place
   note: 

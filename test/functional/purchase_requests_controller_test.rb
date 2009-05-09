@@ -231,7 +231,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
       delete :destroy, :id => purchase_requests(:purchase_request_00003).id, :user_id => users(:user1).login
     end
 
-    assert_redirected_to user_purchase_requests_url(users(:user1).login)
+    assert_redirected_to purchase_requests_url
   end
 
   def test_librarian_should_destroy_purchase_request_without_user_id

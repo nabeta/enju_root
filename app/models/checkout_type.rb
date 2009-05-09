@@ -1,5 +1,4 @@
 class CheckoutType < ActiveRecord::Base
-  include DisplayName
   include AdministratorRequired
 
   default_scope :order => "checkout_types.position"
@@ -14,11 +13,16 @@ class CheckoutType < ActiveRecord::Base
   #has_many :items, :through => :item_has_checkout_types
   has_many :items
 
-  validates_presence_of :name
+  validates_presence_of :name, :display_name
+  validates_uniqueness_of :name
 
   cattr_accessor :per_page
   @@per_page = 10
 
   acts_as_list
+
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
+  end
 
 end

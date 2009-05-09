@@ -1,5 +1,4 @@
 class Country < ActiveRecord::Base
-  include DisplayName
   include OnlyAdministratorCanModify
 
   default_scope :order => "position"
@@ -14,7 +13,11 @@ class Country < ActiveRecord::Base
   # alias_attribute :numeric, :numeric_3
   
   # Validations
-  validates_presence_of :name, :alpha_2, :alpha_3, :numeric_3
+  validates_presence_of :name, :display_name, :alpha_2, :alpha_3, :numeric_3
   acts_as_list
   
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
+  end
+
 end

@@ -10,8 +10,13 @@
 <div id="content_list">
 
 <p>
+  <b><%= t('activerecord.attributes.patron_type.name') -%>:</b>
+  <%=h @patron_type.name -%>
+</p>
+
+<p>
   <b><%= t('activerecord.attributes.patron_type.display_name') -%>:</b>
-  <%=h @patron_type.display_name -%>
+  <%=h @patron_type.display_name.localize -%>
 </p>
 
 <p>

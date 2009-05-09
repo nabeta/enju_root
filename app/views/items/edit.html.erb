@@ -19,9 +19,7 @@
 
   <p>
     <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
-    <select id="library_id" name="library_id">
-      <%= options_from_collection_for_select(@libraries, "short_name", "name", @item.shelf.library.short_name) -%>
-    </select>
+    <%= f.select(:library_id, @libraries.collect{|l| [l.display_name.localize, l.id]}) -%>
     <span id="item1">
       <%= f.select(:shelf_id, @item.shelf.library.shelves.collect{|s| [s.name, s.id]}) -%>
     </span>
@@ -30,7 +28,7 @@
 
   <p>
     <b><%= t('activerecord.models.circulation_status') -%></b><br />
-    <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name, c.id]}) -%>
+    <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name.localize, c.id]}) -%>
   </p>
 
   <p>
@@ -58,7 +56,7 @@
   <b><%= t('activerecord.models.use_restriction') -%>:</b><br />
   <%- @use_restrictions.each do |use_restriction| -%>
     <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
-    <%=h use_restriction.display_name -%><br />
+    <%=h use_restriction.display_name.localize -%><br />
   <%- end -%>
   </p>
   -->

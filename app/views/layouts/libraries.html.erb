@@ -12,7 +12,7 @@
     <title><%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

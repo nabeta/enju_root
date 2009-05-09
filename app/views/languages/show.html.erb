@@ -15,7 +15,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.language.display_name') -%>:</b>
-  <%=h @language.display_name -%>
+  <%=h @language.display_name.localize -%>
 </p>
 
 <p>

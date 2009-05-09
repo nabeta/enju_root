@@ -37,7 +37,7 @@
 
   <p>
     <b><%= t('activerecord.models.manifestation_form') -%></b>
-    <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name, m.id]}) -%>
+    <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name.localize, m.id]}) -%>
   </p>
 
   <p>
@@ -108,7 +108,7 @@
 
   <p>
     <b><%= t('role.required_role') -%></b>
-    <%= f.select(:required_role_id, @roles.collect{|r| [r.name, r.id]}) -%>
+    <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
 
   <p>

@@ -1,5 +1,4 @@
 class Language < ActiveRecord::Base
-  include DisplayName
   include OnlyAdministratorCanModify
 
   default_scope :order => "position"
@@ -9,7 +8,7 @@ class Language < ActiveRecord::Base
   # alias_attribute :iso3, :iso_639_3
   
   # Validations
-  validates_presence_of :name
+  validates_presence_of :name, :display_name
   acts_as_list
 
   def after_save
@@ -28,4 +27,9 @@ class Language < ActiveRecord::Base
   def self.available_languages
     Language.find(:all, :conditions => {:iso_639_1 => I18n.available_locales.map{|l| l.to_s}})
   end
+
+  def before_validation_on_create
+    self.display_name = self.name if display_name.blank?
+  end
+
 end

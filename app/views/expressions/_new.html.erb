@@ -58,17 +58,17 @@
 
   <p>
     <b><%= t('activerecord.models.language') -%></b><br />
-    <%= f.select(:language_id, @languages.collect{|l| [l.display_name, l.id]}) -%>
+    <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
   </p>
 
   <p>
     <b><%= t('activerecord.models.expression_form') -%></b><br />
-    <%= f.select(:expression_form_id, @expression_forms.collect{|b| [b.name, b.id]}) -%>
+    <%= f.select(:expression_form_id, @expression_forms.collect{|e| [e.display_name.localize, e.id]}) -%>
   </p>
 
   <p>
     <b><%= t('activerecord.models.frequency_of_issue') -%></b><br />
-    <%= f.select(:frequency_of_issue_id, @frequency_of_issues.collect{|i| [i.display_name, i.id]}) -%>
+    <%= f.select(:frequency_of_issue_id, @frequency_of_issues.collect{|i| [i.display_name.localize, i.id]}) -%>
   </p>
 
   <%- if @manifestation -%>

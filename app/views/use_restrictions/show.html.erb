@@ -10,8 +10,13 @@
 <div id="content_list">
 
 <p>
+  <b><%= t('activerecord.attributes.use_restriction.name') -%></b>
+  <%=h @use_restriction.name -%>
+</p>
+
+<p>
   <b><%= t('activerecord.attributes.use_restriction.display_name') -%></b>
-  <%=h @use_restriction.display_name -%>
+  <%=h @use_restriction.display_name.localize -%>
 </p>
 
 <p>

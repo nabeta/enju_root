@@ -1,6 +1,7 @@
 --- 
 shelf_00001: 
-  name: Library bookmark
+  name: Library bookmark  
+  display_name: Library bookmark
   id: 1
   note:
   library_id: 1

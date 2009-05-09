@@ -10,12 +10,12 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.models.manifestation_form') -%>:</b>
-  <%= link_to h(@manifestation_form_has_checkout_type.manifestation_form.display_name), @manifestation_form_has_checkout_type.manifestation_form -%>
+  <%= link_to h(@manifestation_form_has_checkout_type.manifestation_form.display_name.localize), @manifestation_form_has_checkout_type.manifestation_form -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.checkout_type') -%>:</b>
-  <%= link_to h(@manifestation_form_has_checkout_type.checkout_type.display_name), @manifestation_form_has_checkout_type.checkout_type -%>
+  <%= link_to h(@manifestation_form_has_checkout_type.checkout_type.display_name.localize), @manifestation_form_has_checkout_type.checkout_type -%>
 </p>
 
 <p>

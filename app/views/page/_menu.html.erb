@@ -118,7 +118,7 @@
                       <ul>
                         <li class="yuimenuitem"><%= link_to t('event.all'), events_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- @library_group.physical_libraries.each do |library| -%>
-                          <li class="yuimenuitem"><%= link_to h(library.display_name), library_events_path(library.short_name), :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to h(library.display_name.localize), library_events_path(library.name), :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
                         <%- if Event.is_creatable_by(current_user) -%>
                           <li class="yuimenuitem"><%= link_to t('page.import'), new_imported_event_file_path, :class => 'yuimenuitemlabel' -%></li>

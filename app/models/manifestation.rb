@@ -81,6 +81,7 @@ class Manifestation < ActiveRecord::Base
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
   validates_uniqueness_of :isbn, :allow_blank => true
   validates_uniqueness_of :nbn, :allow_blank => true
+  validates_format_of :access_address, :with => URI::regexp(%w(http https)) , :allow_blank => true
 
   def validate
     #unless self.date_of_publication.blank?
@@ -147,6 +148,10 @@ class Manifestation < ActiveRecord::Base
     title << title_transcription.wakati rescue nil
     title << title_alternative.wakati rescue nil
     title
+  end
+
+  def url
+    access_address
   end
 
   def available_checkout_types(user)
@@ -304,7 +309,7 @@ class Manifestation < ActiveRecord::Base
   def library
     library_names = []
     self.items.each do |item|
-      library_names << item.shelf.library.short_name
+      library_names << item.shelf.library.name
     end
     library_names.uniq
   end

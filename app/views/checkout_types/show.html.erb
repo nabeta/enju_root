@@ -13,14 +13,14 @@
 
 <p>
   <b><%= t('activerecord.attributes.checkout_type.display_name') -%>:</b>
-  <%=h @checkout_type.display_name -%>
+  <%=h @checkout_type.display_name.localize -%>
 </p>
 
 <p>
 <b><%= t('activerecord.models.user_group') -%></b>
 <ul>
   <%- @checkout_type.user_group_has_checkout_types.each do |available_user_group| -%>
-    <li><%= link_to h(available_user_group.user_group.display_name), available_user_group.user_group -%></li>
+    <li><%= link_to h(available_user_group.user_group.display_name.localize), available_user_group.user_group -%></li>
   <%- end -%>
 </ul>
 
@@ -28,7 +28,7 @@
 <b><%= t('activerecord.models.manifestation_form') -%></b>
 <ul>
   <%- @checkout_type.manifestation_form_has_checkout_types.each do |available_manifestation_form| -%>
-    <li><%= link_to h(available_manifestation_form.manifestation_form.display_name), available_manifestation_form.manifestation_form -%></li>
+    <li><%= link_to h(available_manifestation_form.manifestation_form.display_name.localize), available_manifestation_form.manifestation_form -%></li>
   <%- end -%>
 </ul>
 

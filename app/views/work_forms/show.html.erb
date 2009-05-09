@@ -10,8 +10,13 @@
 <div id="content_list">
 
 <p>
+  <b><%= t('activerecord.attributes.work_form.name') -%>:</b>
+  <%=h @work_form.name -%>
+</p>
+
+<p>
   <b><%= t('activerecord.attributes.work_form.display_name') -%>:</b>
-  <%=h @work_form.display_name -%>
+  <%=h @work_form.display_name.localize -%>
 </p>
 
 <p>

@@ -13,12 +13,12 @@
 <%- form_for(@library) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.library.name') -%></b><br />
-    <%= f.text_area :name, :class => 'resource_textarea' -%>
+    <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.library.short_name') -%></b><br />
-    <%= f.text_field :short_name, :class => 'resource_title' -%>
+    <b><%= t('activerecord.attributes.library.display_name') -%></b><br />
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

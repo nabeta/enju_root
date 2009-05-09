@@ -17,7 +17,7 @@ class LibrariesController < ApplicationController
   # GET /libraries/1
   # GET /libraries/1.xml
   def show
-    @library = Library.find(:first, :conditions => {:short_name => params[:id]}, :include => :shelves)
+    @library = Library.find(:first, :conditions => {:name => params[:id]}, :include => :shelves)
     raise ActiveRecord::RecordNotFound if @library.nil?
     if params[:date]
       @date = Time.parse(params[:date]) rescue Time.zone.now
@@ -49,7 +49,7 @@ class LibrariesController < ApplicationController
 
   # GET /libraries/1;edit
   def edit
-    @library = Library.find(:first, :conditions => {:short_name => params[:id]})
+    @library = Library.find(:first, :conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.nil?
     @library_groups = LibraryGroup.find(:all, :order => 'id')
   rescue ActiveRecord::RecordNotFound
@@ -67,8 +67,8 @@ class LibrariesController < ApplicationController
     respond_to do |format|
       if @library.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.library'))
-        format.html { redirect_to library_url(@library.short_name) }
-        format.xml  { render :xml => @library, :status => :created, :location => library_url(@library.short_name) }
+        format.html { redirect_to library_url(@library.name) }
+        format.xml  { render :xml => @library, :status => :created, :location => library_url(@library.name) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }
@@ -79,7 +79,7 @@ class LibrariesController < ApplicationController
   # PUT /libraries/1
   # PUT /libraries/1.xml
   def update
-    @library = Library.find(:first, :conditions => {:short_name => params[:id]})
+    @library = Library.find(:first, :conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.nil?
 
     if @library and params[:position]
@@ -91,10 +91,10 @@ class LibrariesController < ApplicationController
     respond_to do |format|
       if @library.update_attributes(params[:library])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.library'))
-        format.html { redirect_to library_url(@library.short_name) }
+        format.html { redirect_to library_url(@library.name) }
         format.xml  { head :ok }
       else
-        @library.short_name = @library.short_name_was
+        @library.name = @library.name_was
         format.html { render :action => "edit" }
         format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }
       end
@@ -106,7 +106,7 @@ class LibrariesController < ApplicationController
   # DELETE /libraries/1
   # DELETE /libraries/1.xml
   def destroy
-    @library = Library.find(:first, :conditions => {:short_name => params[:id]})
+    @library = Library.find(:first, :conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.blank?
     raise if @library.web?
 

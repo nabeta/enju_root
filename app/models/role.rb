@@ -3,7 +3,6 @@
 # "moderator" for an instance of a model (i.e., an object), a model class,
 # or without any specification at all.
 class Role < ActiveRecord::Base
-  include DisplayName
   include AdministratorRequired
   default_scope :order => 'id DESC'
   has_and_belongs_to_many :users

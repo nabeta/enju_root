@@ -41,7 +41,7 @@
       <%= link_to h(expression.original_title), expression -%>
       <%= expression_form_icon(expression.expression_form) -%>
     </td>
-    <td><%=h expression.language.display_name -%></td>
+    <td><%=h expression.language.display_name.localize -%></td>
     <td>
       <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>

@@ -13,8 +13,8 @@
 
 <%- form_for(@circulation_status) do |f| -%>
   <p>
-    <b><%= t('activerecord.attributes.circulation_status.name') -%></b><br />
-    <%= f.text_area :name, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.circulation_status.display_name') -%></b><br />
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>

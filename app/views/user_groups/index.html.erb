@@ -16,7 +16,7 @@
   
 <%- for user_group in @user_groups -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(user_group.display_name), user_group -%></td>
+    <td><%= link_to h(user_group.display_name.localize), user_group -%></td>
     <td><%=h user_group.note -%></td>
     <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>
     <td><%= link_to t('page.destroy'), user_group_path(user_group), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

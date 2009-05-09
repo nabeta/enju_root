@@ -5,14 +5,14 @@
 <table id="index">
   <tr>
     <th><%= t('activerecord.attributes.library_group.display_name') -%></th>
-    <th><%= t('activerecord.attributes.library_group.short_name') -%></th>
+    <th><%= t('activerecord.attributes.library_group.name') -%></th>
     <th><%= t('activerecord.attributes.library_group.email') -%></th>
   </tr>
   
 <%- for library_group in @library_groups -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(library_group.display_name), edit_library_group_path(library_group) -%></td>
-    <td><%=h library_group.short_name -%></td>
+    <td><%= link_to h(library_group.display_name.localize), edit_library_group_path(library_group) -%></td>
+    <td><%=h library_group.name -%></td>
     <td><%=h library_group.email -%></td>
     <td><%= link_to t('page.edit'), edit_library_group_path(library_group) -%></td>
   </tr>

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.short_name) -%></li>
+    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.name) -%></li>
   </ul>
 </div>
 
@@ -25,7 +25,7 @@
     <p>
       <b><%= t('page.library') -%></b><br />
       <select id="library_id" name="library_id">
-        <%= options_from_collection_for_select(@libraries, "short_name", "name", @shelf.library.short_name) -%>
+        <%= options_from_collection_for_select(@libraries, "name", "display_name", @shelf.library.name) -%>
       </select>
     </p>
   <%- end -%>

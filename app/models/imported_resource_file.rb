@@ -18,7 +18,7 @@ class ImportedResourceFile < ActiveRecord::Base
       data = {}
       row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
       data.each_value{|v| v.chomp!.to_s}
-      library = Library.find(:first, :conditions => {:short_name => data['library_short_name']})
+      library = Library.find(:first, :conditions => {:name => data['library_short_name']})
       library = Library.web if library.nil?
 
       # ISBNが入力してあればそれを優先する

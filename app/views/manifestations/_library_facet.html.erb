@@ -3,11 +3,11 @@
   <%- libraries = params[:library].to_s.split -%>
   <%- @libraries.each do |library| -%>
     <%- current_libraries = libraries.dup -%>
-    <%- if @facet_results["library_f_facet"]["#{library.short_name}"] -%>
+    <%- if @facet_results["library_f_facet"]["#{library.name}"] -%>
       <li>
-      <%- if current_libraries.include?(library.short_name) -%><strong><%- end -%>
-        <%= link_to h("#{library.display_name} (" + @facet_results["library_f_facet"]["#{library.short_name}"].to_i.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.short_name).uniq.join(' '), :form => nil, :view => nil)) -%>
-        <%- if current_libraries.include?(library.short_name) -%></strong><%- end -%>
+      <%- if current_libraries.include?(library.name) -%><strong><%- end -%>
+        <%= link_to h("#{library.display_name.localize} (" + @facet_results["library_f_facet"]["#{library.name}"].to_i.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :form => nil, :view => nil)) -%>
+        <%- if current_libraries.include?(library.name) -%></strong><%- end -%>
       </li>
     <%- end -%>
   <%- end -%>

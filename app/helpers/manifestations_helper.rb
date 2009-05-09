@@ -26,7 +26,7 @@ module ManifestationsHelper
   def language_list(languages)
     list = []
     languages.each do |language|
-      list << h(language.display_name)
+      list << h(language.display_name.localize)
     end
     list.join("; ")
   end

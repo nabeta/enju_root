@@ -13,7 +13,7 @@
 
 <%- for language in @languages -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(language.display_name), language -%></td>
+    <td><%= link_to h(language.display_name.localize), language -%></td>
     <td><%=h language.native_name -%></td>
     <td><%=h language.iso_639_1 -%></td>
     <td><%=h language.iso_639_2 -%></td>

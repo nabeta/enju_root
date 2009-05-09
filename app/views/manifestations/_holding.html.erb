@@ -1,4 +1,5 @@
 <%- unless manifestation.items.on_shelf.empty? -%>
   (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
+  <div class="holding" id="holding_<%=h manifestation.id -%>"></div>
 <%- end -%>
-<div class="holding" id="holding_<%=h manifestation.id -%>"></div>
+<%= link_to h(manifestation.access_address), manifestation.access_address if manifestation.access_address.present? -%>

@@ -24,7 +24,7 @@ class ImportedEventFile < ActiveRecord::Base
       event.started_at = data['started_at']
       event.ended_at = data['ended_at']
       category = data['category']
-      library = Library.find(:first, :conditions => {:short_name => data['library_short_name']})
+      library = Library.find(:first, :conditions => {:name => data['library_short_name']})
       library = Library.web if library.blank?
       event.library = library
       if category == "closed"

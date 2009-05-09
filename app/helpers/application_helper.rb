@@ -10,13 +10,13 @@ module ApplicationHelper
   def form_icon(manifestation_form)
     case manifestation_form.name
     when 'print'
-      image_tag('/icons/book.png', :size => '16x16', :alt => manifestation_form.display_name)
+      image_tag('/icons/book.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
     when 'CD'
-      image_tag('/icons/cd.png', :size => '16x16', :alt => manifestation_form.display_name)
+      image_tag('/icons/cd.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
     when 'DVD'
-      image_tag('/icons/dvd.png', :size => '16x16', :alt => manifestation_form.display_name)
+      image_tag('/icons/dvd.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
     when 'file'
-      image_tag('/icons/monitor.png', :size => '16x16', :alt => manifestation_form.display_name)
+      image_tag('/icons/monitor.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => 'unknown')
     end
@@ -27,13 +27,13 @@ module ApplicationHelper
   def expression_form_icon(expression_form)
     case expression_form.name
     when 'text'
-      image_tag('/icons/page_white_text.png', :size => '16x16', :alt => expression_form.display_name)
+      image_tag('/icons/page_white_text.png', :size => '16x16', :alt => expression_form.display_name.localize)
     when 'picture'
-      image_tag('/icons/picture.png', :size => '16x16', :alt => expression_form.display_name)
+      image_tag('/icons/picture.png', :size => '16x16', :alt => expression_form.display_name.localize)
     when 'sound'
-      image_tag('/icons/sound.png', :size => '16x16', :alt => expression_form.display_name)
+      image_tag('/icons/sound.png', :size => '16x16', :alt => expression_form.display_name.localize)
     when 'video'
-      image_tag('/icons/film.png', :size => '16x16', :alt => expression_form.display_name)
+      image_tag('/icons/film.png', :size => '16x16', :alt => expression_form.display_name.localize)
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
     end

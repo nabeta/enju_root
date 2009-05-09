@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= t('page.login') -%>: <%=h @library_group.display_name -%></title>
+  <title><%= t('page.login') -%>: <%=h @library_group.display_name.localize -%></title>
   <%= render :partial => 'page/include' -%>
 </head>
 

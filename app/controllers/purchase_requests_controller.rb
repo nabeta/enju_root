@@ -168,11 +168,11 @@ class PurchaseRequestsController < ApplicationController
     @purchase_request.destroy
 
     respond_to do |format|
-      if @user
-        format.html { redirect_to(user_purchase_requests_url(@user.login)) }
+      if current_user.has_role?('Librarian')
+        format.html { redirect_to(purchase_requests_url) }
         format.xml  { head :ok }
       else
-        format.html { redirect_to(purchase_requests_url) }
+        format.html { redirect_to(user_purchase_requests_url(@user.login)) }
         format.xml  { head :ok }
       end
     end

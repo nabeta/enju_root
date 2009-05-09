@@ -21,14 +21,14 @@
     <%- end -%>
     <%= t('activerecord.models.manifestation') -%> :
     <%=h title_action_name -%> - 
-    <%=h LibraryGroup.site_config.display_name -%>
+    <%=h LibraryGroup.site_config.display_name.localize -%>
   </title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%=h @library_group.display_name -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%=h @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
