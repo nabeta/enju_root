@@ -6,7 +6,7 @@ module ManifestationsHelper
       link_to t('page.back'), :back
     end
   rescue
-    manifestations_path
+    link_to t('page.listing', :model => t('activerecord.models.manifestation')), manifestations_path
   end
 
   def call_number_label(item)

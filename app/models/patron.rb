@@ -203,9 +203,17 @@ class Patron < ActiveRecord::Base
   end
 
   def is_updatable_by(user, parent = nil)
-    if user == self.user || user.has_role?('Librarian')
-      # 管理者は自分自身でのみ更新可能
-      return true unless self.user.has_role?('Administrator')
+    if user == self.user
+      return true
+    end
+    if self.user
+      if self.user.has_role?('Librarian')
+        return true if user.has_role?('Administrator')
+      elsif self.user.has_role?('User')
+        return true if user.has_role?('Librarian')
+      end
+    else
+      return true if user.has_role?('Librarian')
     end
   rescue
     false
