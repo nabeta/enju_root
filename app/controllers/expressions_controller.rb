@@ -75,6 +75,8 @@ class ExpressionsController < ApplicationController
       end
     end
 
+    canonical_url expression_url(@expression)
+
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @expression }

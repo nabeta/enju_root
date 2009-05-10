@@ -618,6 +618,7 @@ ja:
       bookmarked_resource:
         title: タイトル
         url: URL
+        bookmarks_count: ブックマーク回数
       attachment_file:
         attachable_type: 添付可能な種類
         size: ファイルサイズ

@@ -29,6 +29,7 @@
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%=h @library_group.display_name.localize -%>" />
+  <%= canonical_link_tag -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

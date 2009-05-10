@@ -109,15 +109,15 @@ module ApplicationHelper
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket.blank?
       unless book_jacket['asin'].blank?
-        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :border => 0), "http://www.amazon.co.jp/dp/#{book_jacket['asin']}"
+        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.co.jp/dp/#{book_jacket['asin']}"
       else
         unless manifestation.access_address.blank?
         #link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=180", :width => 180, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         #link_to image_tag("http://capture.heartrails.com/medium?#{manifestation.access_address}", :width => 200, :height => 150, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         # TODO: Project Next-L 専用のMozshotサーバを作る
-          link_to image_tag(url_for(:controller => :page, :action => :screen_shot, :url => "http://mozshot.nemui.org/shot?#{manifestation.access_address}"), :width => 128, :height => 128, :alt => manifestation.original_title, :border => 0), manifestation.access_address
+          link_to image_tag(url_for(:controller => :page, :action => :screen_shot, :url => "http://mozshot.nemui.org/shot?#{manifestation.access_address}"), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
         else
-          image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :border => 0)
+          image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
         end
       end
     end

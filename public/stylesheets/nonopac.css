@@ -115,6 +115,14 @@ div#pickup_book_jacket{
   text-align: center;
 }
 
+img.book_jacket{
+  border: 1px solid;
+}
+
+img.screen_shot{
+  border: 0;
+}
+
 div#manifestation_bookmark_buttons{
   clear: both;
   margin-top: 1em;

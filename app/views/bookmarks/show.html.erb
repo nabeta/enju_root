@@ -24,7 +24,7 @@
 </p>
 
 <p>
-  <b><%= ('Bookmarked resource') -%>:</b>
+  <b><%= t('activerecord.models.bookmarked_resource') -%>:</b>
   <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%><br />
   (<%= link_to t('activerecord.models.manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
   (<%= link_to t('page.detail'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%>)
@@ -48,12 +48,12 @@
 </p>
 
 <p>
-<b><%= t('page.updated_at') -%>:</b>
+  <b><%= t('page.updated_at') -%>:</b>
   <%= l(@bookmark.updated_at) -%>
 </p>
 
 <p>
-<b><%= ('Bookmarked count') -%>:</b>
+  <b><%= t('activerecord.attributes.bookmarked_resource.bookmarks_count') -%>:</b>
   <%=h @bookmark.bookmarked_resource.bookmarks_count -%>
 </p>
 

@@ -77,6 +77,7 @@ Rails::Initializer.run do |config|
   config.gem "ratom", :lib => "atom"
   #config.gem "pauldix-feedzirra", :lib => "feedzirra"
   config.gem "damog-feedbag", :lib => "feedbag"
+  config.gem "mbleigh-canonical-url", :lib => "canonical_url"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

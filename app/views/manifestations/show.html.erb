@@ -70,7 +70,7 @@
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= paginate_id_link(@manifestation) -%>
-        <%= link_to t('page.back_to_search_results'), back_to_manifestation_index -%>
+        <%= back_to_manifestation_index -%>
         <!--
         <%= t('page.search_term') -%>:
         <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 20em'} -%>

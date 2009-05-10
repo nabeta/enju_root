@@ -58,6 +58,8 @@ class SubjectsController < ApplicationController
       end
     end
 
+    canonical_url subject_url(@subject)
+
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @subject.to_xml }

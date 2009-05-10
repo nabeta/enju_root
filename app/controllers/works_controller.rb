@@ -54,6 +54,8 @@ class WorksController < ApplicationController
       end
     end
 
+    canonical_url work_url(@work)
+
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @work }

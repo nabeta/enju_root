@@ -17,7 +17,9 @@
     <%=h @tag.name -%>
   </h2>
 
-  (<%= link_to_wikipedia(@tag.name) -%>)
+  <p>
+    (<%= link_to_wikipedia(@tag.name) -%>)
+  </p>
 
 <p>
   <b><%= t('activerecord.attributes.tag.taggings_count') -%>:</b>
