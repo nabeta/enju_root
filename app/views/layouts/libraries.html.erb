@@ -7,7 +7,7 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @library -%>
-    <title><%= h(@library.display_name) -%>: <%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
+    <title><%= h(@library.display_name.localize) -%>: <%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
   <%- end -%>

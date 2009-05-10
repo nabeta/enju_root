@@ -14,7 +14,7 @@
     <%- if @user -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('bookmark.user_bookmark', :login_name => @user.login)) -%>
     <%- else -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('bookmarked_resource.library_group_bookmark', :library_group_name => @library_group.display_name)) -%>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'bookmarked_resources', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => t('bookmarked_resource.library_group_bookmark', :library_group_name => @library_group.display_name.localize)) -%>
     <%- end -%>
   <%- end -%>
 </head>

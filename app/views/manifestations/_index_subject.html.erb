@@ -14,7 +14,7 @@
   <%- form_for :manifestations, :url => subject_manifestations_path(@subject), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), :id => 'searchform_top', :size => 40 -%>
+      <%= text_field_tag 'query', h(@query), :id => 'searchform_top', {:class => 'search_form'} -%>
       <%- if @subject.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
