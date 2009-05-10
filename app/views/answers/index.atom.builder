@@ -2,7 +2,7 @@ atom_feed(:url => answers_url(:format => :atom)) do |feed|
   if @user
     feed.title t('answer.user_answer', :login_name => @user.login)
   else
-    feed.title t('answer.library_group_answer', :library_group_name => @library_group.display_name)
+    feed.title t('answer.library_group_answer', :library_group_name => @library_group.display_name.localize)
   end
   feed.updated(@answers.first ? @answers.first.created_at : Time.zone.now)
 

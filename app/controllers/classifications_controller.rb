@@ -7,11 +7,14 @@ class ClassificationsController < ApplicationController
   # GET /classifications.xml
   def index
     unless params[:query].blank?
-      query = query = params[:query].to_s.strip
+      query = params[:query].to_s.strip
       @query = query.dup
-    end
-    if @classification_type
-      query = "#{query} classification_type_id: #{@classification_type.id}"
+      unless params[:mode] == 'add'
+        query.add_query!(@subject) if @subject
+      end
+      if @classification_type
+        query = "#{query} classification_type_id: #{@classification_type.id}"
+      end
     end
 
     if query

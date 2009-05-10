@@ -92,7 +92,7 @@ class WorkFormsControllerTest < ActionController::TestCase
   def test_admin_should_create_work_form
     UserSession.create users(:admin)
     old_count = WorkForm.count
-    post :create, :work_form => {:name => 'test'}
+    post :create, :work_form => {:name => 'test1'}
     assert_equal old_count+1, WorkForm.count
     
     assert_redirected_to work_form_url(assigns(:work_form))

@@ -68,7 +68,7 @@
 <%- @events.each_with_index do |event, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h event.event_category.display_name.localize -%></td>
-    <td><%= link_to h(event.title), event -%></td>
+    <td><%= link_to h(event.title.localize), event -%></td>
     <td><%= link_to h(event.library.display_name.localize), library_path(event.library.name) -%></td>
     <td>
       <%=h l(event.started_at, :format => :short) -%>

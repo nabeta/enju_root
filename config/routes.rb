@@ -268,6 +268,7 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :concepts
     work.resources :places
     work.resources :subjects
+    work.resources :works
   end
   map.resources :expressions do |expression|
     expression.resource :realize
