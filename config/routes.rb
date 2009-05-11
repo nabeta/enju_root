@@ -1,4 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
+  map.connect "live_validations/:action", :controller => "live_validations"
   map.resources :user_has_shelves
 
   map.connect '/enju_gadget.xml', :controller => 'enju_gadget', :action => 'index', :format => 'xml'
