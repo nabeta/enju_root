@@ -29,7 +29,8 @@
     <%- end -%>
     <%= submit_tag t('page.search') -%>
     <%= link_to t('page.back_to_index'), patron_works_path(@patron) -%>
-   </p>
+  </p>
+  <%= javascript_tag("$('query').focus()") -%>
 <%- end -%>
 
 <table id="index">

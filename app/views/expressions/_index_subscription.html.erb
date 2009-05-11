@@ -27,6 +27,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), subscription_expressions_path(@subscription) -%>
     </p>
+    <%= javascript_tag("$('query').focus()") -%>
   <%- end -%>
 
 <table style="width:100%">

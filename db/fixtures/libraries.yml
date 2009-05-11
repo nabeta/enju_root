@@ -1,6 +1,6 @@
 --- 
 library_00001: 
-  short_name: web
+  name: web
   short_display_name: Web
   name: World Wide Web  
   display_name: World Wide Web
@@ -14,7 +14,7 @@ library_00001:
   call_number_delimiter: "|"
   position: 1
 library_00002: 
-  short_name: yours
+  name: yours
   short_display_name: your_library
   name: Your Library  
   display_name: Your Library
