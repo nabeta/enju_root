@@ -6,6 +6,7 @@
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
       <%= submit_tag t('page.search') -%>
     </p>
+    <%= javascript_tag("$('searchform_top').focus()") -%>
   <%- end -%>
 
   </p>

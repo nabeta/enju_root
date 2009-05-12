@@ -58,7 +58,7 @@ module EnjuPorta
         end
         # TODO: 言語や形態の設定
         expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
-        manifestation = Manifestation.new(:original_title => title, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication, :nbn => nbn)
+        manifestation = Manifestation.new(:original_title => title, :title_transcription => title_transcription, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication, :nbn => nbn)
         work.restrain_indexing = true
         expression.restrain_indexing = true
         #manifestation.restrain_indexing = true
