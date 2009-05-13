@@ -30,7 +30,7 @@ module EnjuAmazon
           "Timestamp=#{timestamp}",
           "Version=2009-01-06"
           ].join("&")
-        message = ["GET", "#{AMAZON_AWS_HOSTNAME}", "/onca/xml", query].join("\n")
+        message = ["GET", AMAZON_AWS_HOSTNAME, "/onca/xml", query].join("\n")
         hash = OpenSSL::HMAC::digest(OpenSSL::Digest::SHA256.new, AMAZON_SECRET_ACCESS_KEY, message)
         encoded_hash = CGI.escape(Base64.encode64(hash).strip)
         amazon_url = "https://#{AMAZON_AWS_HOSTNAME}/onca/xml?#{query}&Signature=#{encoded_hash}"
