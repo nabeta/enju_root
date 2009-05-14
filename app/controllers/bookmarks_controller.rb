@@ -55,7 +55,7 @@ class BookmarksController < ApplicationController
     end
     begin
       #url = URI.decode(params[:url])
-      url = URI.parse(params[:url]).normalize.to_s
+      url = URI.parse(URI.encode(params[:url])).normalize.to_s
       unless url.nil?
         if @bookmarked_resource = BookmarkedResource.find(:first, :conditions => {:url => url})
           if @bookmarked_resource.bookmarked?(current_user)

@@ -57,7 +57,7 @@ class Item < ActiveRecord::Base
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing, :library_id
+  attr_accessor :restrain_indexing
 
   #def after_create
   #  post_to_union_catalog

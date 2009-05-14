@@ -11,8 +11,8 @@
       <%= auto_discovery_link_tag(:rss, user_reserves_url(@user.login, :format => :rss), :title => (t('reserve.user_reserve', :login_name => @user.login) + " (RSS)")) -%>
       <%= auto_discovery_link_tag(:atom, user_reserves_url(@user.login, :format => :atom), :title => (t('reserve.user_reserve', :login_name => @user.login) + " (Atom)")) -%>
     <%- else -%>
-      <%= auto_discovery_link_tag(:rss, reserves_url(:format => :rss), :title => (t('reserve.library_group_reserve', :library_group_name => @library_group.display_name) + " (RSS)")) -%>
-      <%= auto_discovery_link_tag(:atom, reserves_url(:format => :atom), :title => (t('reserve.library_group_reserve', :library_group_name => @library_group.display_name) + " (Atom)")) -%>
+      <%= auto_discovery_link_tag(:rss, reserves_url(:format => :rss), :title => (t('reserve.library_group_reserve', :library_group_name => @library_group.display_name.localize) + " (RSS)")) -%>
+      <%= auto_discovery_link_tag(:atom, reserves_url(:format => :atom), :title => (t('reserve.library_group_reserve', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
     <%- end -%>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />

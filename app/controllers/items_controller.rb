@@ -90,6 +90,8 @@ class ItemsController < ApplicationController
   def show
     @item = Item.find(params[:id])
 
+    canonical_url item_url(@item)
+
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @item }

@@ -24,10 +24,10 @@ class WorksController < ApplicationController
       case
       when @patron
         @works = @patron.works.paginate(:page => params[:page], :order => 'works.id')
-      when @parent_work
-        @works = @parent_work.derived_works.paginate(:page => params[:page], :order => 'works.id')
       when @derived_work
-        @works = @derived_work.parent_works.paginate(:page => params[:page], :order => 'works.id')
+        @works = @derived_work.original_works.paginate(:page => params[:page], :order => 'works.id')
+      when @original_work
+        @works = @original_work.derived_works.paginate(:page => params[:page], :order => 'works.id')
       when @work_merge_list
         @works = @work_merge_list.works.paginate(:page => params[:page])
       else
@@ -53,6 +53,8 @@ class WorksController < ApplicationController
         return
       end
     end
+
+    canonical_url work_url(@work)
 
     respond_to do |format|
       format.html # show.rhtml

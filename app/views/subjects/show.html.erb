@@ -20,6 +20,9 @@
 <h2>
   <%=h @subject.term -%>
 </h2>
+  <p>
+    (<%= link_to_wikipedia(@subject.term) -%>)
+  </p>
 
 <table id="index">
   <tr>
@@ -27,7 +30,7 @@
     <th><%= t('activerecord.models.classification_type') -%></th>
   </tr>
   <%- @subject.classifications.each do |classification| -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(classification.category), classification -%></td>
     <td><%= link_to h(classification.classification_type.name), classification.classification_type -%></td>
   </tr>

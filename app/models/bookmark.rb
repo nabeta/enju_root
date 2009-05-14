@@ -19,8 +19,8 @@ class Bookmark < ActiveRecord::Base
 
   def after_save
     if self.bookmarked_resource
-      self.bookmarked_resource.reload
-      self.bookmarked_resource.save
+      self.bookmarked_resource.send_later(:reload)
+      self.bookmarked_resource.send_later(:save)
     end
   end
 

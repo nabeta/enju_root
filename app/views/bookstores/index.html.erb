@@ -8,19 +8,20 @@
     <th><%= t('activerecord.attributes.bookstore.address') -%></th>
     <th><%= t('activerecord.attributes.bookstore.telephone_number') -%></th>
     <th><%= t('activerecord.attributes.bookstore.fax_number') -%></th>
-    <th><%= t('activerecord.attributes.bookstore.url') -%></th>
   </tr>
 
 <%- @bookstores.each_with_index do |bookstore, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(bookstore.name), bookstore -%></td>
+    <td>
+      <%= link_to h(bookstore.name), bookstore -%><br />
+      <%= link_to h(bookstore.url), bookstore.url -%>
+    </td>
     <td>
       <%=h bookstore.zip_code -%>
       <%=h bookstore.address -%>
     </td>
     <td><%=h bookstore.telephone_number -%></td>
     <td><%=h bookstore.fax_number -%></td>
-    <td><%= link_to h(bookstore.url), bookstore.url -%></td>
     <%- if bookstore.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_bookstore_path(bookstore) -%></td>
       <td><%= link_to t('page.destroy'), bookstore, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

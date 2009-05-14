@@ -13,9 +13,19 @@
 
   <%- form_for :classifications, :url => subject_classifications_path(@subject), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', @query, {:class => 'search_form'} -%>
       <%= submit_tag t('page.search') -%>
+      <%- if SubjectHasClassification.is_creatable_by(current_user) -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+        <%- else -%>
+          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+        <%- end -%>
+      <%- end -%>
     </p>
+    <%= javascript_tag("$('query').focus()") -%>
   <%- end -%>
         
 <table id="index">
@@ -30,8 +40,19 @@
     <td><%= link_to h(classification.category), subject_classification_path(@subject, classification) -%></td>
     <td><%=h classification.note -%></td>
     <td><%=h classification.classification_type.display_name.localize -%></td>
-    <td><%= link_to t('page.edit'), edit_subject_classification_path(@subject, classification) -%></td>
-    <td><%= link_to t('page.destroy'), subject_classification_path(@subject, classification), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <%- if classification.is_deletable_by(current_user) -%>
+      <td>
+        <%= link_to t('page.edit'), edit_classification_path(classification) -%>
+      </td>
+      <td>
+        <%- if params[:mode] == 'add' -%>
+          <%= link_to t('page.add'), new_subject_subject_has_classification_path(@subject, :classification_id => classification.id) unless @subject.classifications.include?(classification) -%>
+        <%- else -%>
+          <%- has_classification = @subject.subject_has_classifications.find_by_classification_id(classification) -%>
+          <%= link_to t('page.destroy'), subject_subject_has_classification_path(@subject, has_classification), :confirm => t('page.are_you_sure'), :method => :delete if has_classification -%>
+        <%- end -%>
+      </td>
+    <%- end -%>
   </tr>
 <%- end -%>
 </table>

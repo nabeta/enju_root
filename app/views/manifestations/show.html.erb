@@ -70,10 +70,10 @@
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= paginate_id_link(@manifestation) -%>
-        <%= link_to t('page.back_to_search_results'), back_to_manifestation_index -%>
+        <%= back_to_manifestation_index -%>
         <!--
         <%= t('page.search_term') -%>:
-        <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :style => 'width: 20em'} -%>
+        <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
         <%= submit_tag t('page.search') -%>
         <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
         -->
@@ -219,7 +219,7 @@
     </tr>
     </table>
 
-    <%- unless @manifestation.items.on_shelf.empty? -%>
+    <%- if @manifestation.items.on_shelf.find(:first) -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
       <%- if @manifestation.bookmarked_resource -%>

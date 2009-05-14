@@ -126,7 +126,7 @@ ja:
     attributes:
       library:
         name: 名前
-        short_name: 短縮名
+        display_name: 表示名
         short_display_name: 短縮表示名
         postal_code: 郵便番号
         region: 都道府県
@@ -618,6 +618,7 @@ ja:
       bookmarked_resource:
         title: タイトル
         url: URL
+        bookmarks_count: ブックマーク回数
       attachment_file:
         attachable_type: 添付可能な種類
         size: ファイルサイズ

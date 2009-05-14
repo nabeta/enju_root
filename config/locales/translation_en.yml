@@ -126,7 +126,7 @@ en:
     attributes:
       library:
         name: Name
-        short_name: Short name
+        display_name: Display name
         short_display_name: Short display name
         postal_code: Postal code
         region: Region
@@ -619,6 +619,7 @@ en:
       bookmarked_resource:
         title: Title
         url: URL
+        bookmarks_count: Bookmarks count
       attachment_file:
         attachable_type: Attachable type
         size: Size

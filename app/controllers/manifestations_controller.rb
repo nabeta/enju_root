@@ -153,6 +153,7 @@ class ManifestationsController < ApplicationController
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     store_location
+    canonical_url manifestation_url(@manifestation)
 
     respond_to do |format|
       format.html # show.rhtml

@@ -55,7 +55,7 @@ class MessageQueue < ActiveRecord::Base
     unless message.blank?
       message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
       message = message.gsub("{manifestations}", self.message_body(:manifestations => options[:manifestations]))
-      message = message.gsub("{library_system_name}", LibraryGroup.site_config.display_name)
+      message = message.gsub("{library_system_name}", LibraryGroup.site_config.display_name.localize)
     end
     self.update_attributes!({:body => message})
   end

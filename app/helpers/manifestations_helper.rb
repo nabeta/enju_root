@@ -1,12 +1,12 @@
 module ManifestationsHelper
   def back_to_manifestation_index
     if session[:params][:manifestation]
-      manifestations_path(:params => session[:params][:manifestation])
+      link_to t('page.back_to_search_results'), manifestations_path(:params => session[:params][:manifestation])
     else
-      manifestations_path
+      link_to t('page.back'), :back
     end
   rescue
-    manifestations_path
+    link_to t('page.listing', :model => t('activerecord.models.manifestation')), manifestations_path
   end
 
   def call_number_label(item)
