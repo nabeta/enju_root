@@ -10,7 +10,7 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.imported_event_file.filename') -%>:</b>
-  <%=h @imported_event_file.filename -%>
+  <%= link_to h(@imported_event_file.filename), imported_event_file_path(@imported_event_file, :format => :download) -%>
 </p>
 
 <p>

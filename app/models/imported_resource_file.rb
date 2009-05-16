@@ -38,7 +38,6 @@ class ImportedResourceFile < ActiveRecord::Base
             work = Work.new
             work.restrain_indexing = true
             work.original_title = data['title']
-            r
             if work.save!
               work.patrons << author_patrons
               imported_object = ImportedObject.new

@@ -14,7 +14,7 @@
 <%- for imported_resource_file in @imported_resource_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h imported_resource_file.db_file_id -%></td>
-    <td><%=h imported_resource_file.filename -%></td>
+    <td><%= link_to h(imported_resource_file.filename), imported_resource_file_path(imported_resource_file, :format => :download) -%></td>
     <td><%=h imported_resource_file.content_type -%></td>
     <td><%=h imported_resource_file.size -%></td>
     <td><%= link_to h(imported_resource_file.user.login), user_path(imported_resource_file.user.login) -%></td>

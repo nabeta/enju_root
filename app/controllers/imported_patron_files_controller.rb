@@ -21,6 +21,7 @@ class ImportedPatronFilesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @imported_patron_file }
+      format.download { send_data @imported_patron_file.db_file.data, :filename => @imported_patron_file.filename, :type => 'application/octet-stream' }
     end
   end
 
