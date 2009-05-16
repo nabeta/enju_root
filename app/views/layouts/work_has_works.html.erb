@@ -4,14 +4,23 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title>WorkHasWorks: <%= controller.action_name -%></title>
-  <%= stylesheet_link_tag 'scaffold' -%>
+  <title><%= t('activerecord.models.work_has_work') -%>: <%=h title_action_name -%></title>
+  <%= render :partial => 'page/include' -%>
 </head>
-<body>
+<body class="yui-skin-sam" id="yahoo-com">
+
+<%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
+
+<div id="content">
 
 <div style="color: green"><%= flash[:notice] -%></div>
 
 <%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
 
 </body>
 </html>

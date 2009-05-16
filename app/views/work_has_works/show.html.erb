@@ -1,15 +1,17 @@
+<div id="content_detail">
+<div id="content_list">
 <p>
   <b>From work:</b>
-  <%=h @work_has_work.from_work_id -%>
+  <%= link_to h(@work_has_work.from_work.original_title), @work_has_work.from_work -%>
 </p>
 
 <p>
   <b>To work:</b>
-  <%=h @work_has_work.to_work_id -%>
+  <%= link_to h(@work_has_work.to_work.original_title), @work_has_work.to_work -%>
 </p>
 
 <p>
-  <b>Type:</b>
+  <b>Expression Relationship type:</b>
   <%=h @work_has_work.type -%>
 </p>
 
@@ -18,6 +20,12 @@
   <%=h @work_has_work.position -%>
 </p>
 
+</div>
+</div>
 
-<%= link_to t('page.edit'), edit_work_has_work_path(@work_has_work) -%> |
-<%= link_to t('page.back'), work_has_works_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_work_has_work_path(@work_has_work) -%></li>
+    <li><%= link_to t('page.back'), work_has_works_path -%></li>
+  </ul>
+</div>

@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.manifestation_has_manifestation')) -%></h1>
+<div id="content_list">
 
 <% form_for(@manifestation_has_manifestation) do |f| -%>
   <%= f.error_messages -%>
@@ -16,13 +18,15 @@
     <%= f.text_field :type -%>
   </p>
   <p>
-    <%= f.label :position -%><br />
-    <%= f.text_field :position -%>
-  </p>
-  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <% end -%>
+</div>
+</div>
 
-<%= link_to t('page.show'), @manifestation_has_manifestation -%> |
-<%= link_to t('page.back'), manifestation_has_manifestations_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @manifestation_has_manifestation -%></li>
+    <li><%= link_to t('page.back'), manifestation_has_manifestations_path -%></li>
+  </ul>
+</div>

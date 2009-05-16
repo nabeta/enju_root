@@ -1,6 +1,8 @@
+<div id="content_detail">
 <h1 class="title">Listing item_has_items</h1>
+<div id="content_list">
 
-<table>
+<table id="index">
   <tr>
     <th>From item</th>
     <th>To item</th>
@@ -10,8 +12,8 @@
 
 <% for item_has_item in @item_has_items -%>
   <tr>
-    <td><%=h item_has_item.from_item_id -%></td>
-    <td><%=h item_has_item.to_item_id -%></td>
+    <td><%= link_to h(item_has_item.from_item.manifestation.original_title), item_has_item.from_item -%></td>
+    <td><%= link_to h(item_has_item.to_item.manifestation.original_title), item_has_item.to_item -%></td>
     <td><%=h item_has_item.type -%></td>
     <td><%=h item_has_item.position -%></td>
     <td><%= link_to t('page.show'), item_has_item -%></td>
@@ -21,6 +23,14 @@
 <% end -%>
 </table>
 
+<%= will_paginate(@item_has_items) -%>
 <br />
 
-<%= link_to t('page.new', :model => t('activerecord.models.item_has_item')), new_item_has_item_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.item_has_item')), new_item_has_item_path -%></li>
+  </ul>
+</div>

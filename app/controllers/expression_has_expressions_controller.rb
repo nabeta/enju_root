@@ -4,7 +4,7 @@ class ExpressionHasExpressionsController < ApplicationController
   # GET /expression_has_expressions
   # GET /expression_has_expressions.xml
   def index
-    @expression_has_expressions = ExpressionHasExpression.find(:all)
+    @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

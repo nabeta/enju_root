@@ -1,7 +1,6 @@
 ja:
   authlogic:
     error_messages:
-      # TODO: 「ログイン名またはパスワードが無効です」とする
       login_blank: を入力してください。
       login_not_found: は存在しません。
       login_invalid: にはログイン名に使用できない文字が含まれています。半角の英数字とアンダーバー、アットマークのみ使用できます。

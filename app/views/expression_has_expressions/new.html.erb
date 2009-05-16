@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression_has_expression')) -%></h1>
+<div id="content_list">
 
 <% form_for(@expression_has_expression) do |f| -%>
   <%= f.error_messages -%>
@@ -16,12 +18,15 @@
     <%= f.text_field :type -%>
   </p>
   <p>
-    <%= f.label :position -%><br />
-    <%= f.text_field :position -%>
-  </p>
-  <p>
     <%= f.submit t('page.create') -%>
   </p>
 <% end -%>
 
-<%= link_to t('page.back'), expression_has_expressions_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), expression_has_expressions_path -%></li>
+  </ul>
+</ul>

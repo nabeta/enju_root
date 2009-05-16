@@ -22,8 +22,8 @@ class Expression < ActiveRecord::Base
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
-  has_many :derived_expressions, :through => :to_expressions, :source => :expression_to_expression
-  has_many :original_expressions, :through => :from_expressions, :source => :expression_from_expression
+  has_many :derived_expressions, :through => :to_expressions, :source => :to_expression
+  has_many :original_expressions, :through => :from_expressions, :source => :from_expression
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   
   validates_associated :expression_form, :language, :frequency_of_issue

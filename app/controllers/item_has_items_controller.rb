@@ -4,7 +4,7 @@ class ItemHasItemsController < ApplicationController
   # GET /item_has_items
   # GET /item_has_items.xml
   def index
-    @item_has_items = ItemHasItem.find(:all)
+    @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -13,8 +13,8 @@ class Work < ActiveRecord::Base
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
   has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
-  has_many :derived_works, :through => :to_works, :source => :work_to_work
-  has_many :original_works, :through => :from_works, :source => :work_from_work
+  has_many :derived_works, :through => :to_works, :source => :to_work
+  has_many :original_works, :through => :from_works, :source => :from_work
   #has_many :work_has_concepts, :dependent => :destroy
   #has_many :concepts, :through => :work_has_concepts
   #has_many :work_has_places, :dependent => :destroy
@@ -68,6 +68,14 @@ class Work < ActiveRecord::Base
 
   def work_merge_lists_ids
     self.work_merge_lists.collect(&:id)
+  end
+
+  def original_work_ids
+    self.original_works.collect(&:id)
+  end
+
+  def derived_work_ids
+    self.derived_works.collect(&:id)
   end
 
 end

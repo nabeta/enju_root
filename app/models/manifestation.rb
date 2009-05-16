@@ -473,11 +473,11 @@ class Manifestation < ActiveRecord::Base
   def self.pickup(keyword = nil)
     return nil if self.cached_numdocs < 5
     resource = nil
+    # TODO: ヒット件数が0件のキーワードがあるときに指摘する
     if keyword
-      resources = self.find_id_by_solr(keyword, :limit => self.cached_numdocs)
-      resource = self.find(resources.results[rand(resources.total_hits)]) rescue nil
+      resource = self.find(self.find_id_by_solr(keyword, :limit => self.cached_numdocs).results.sort_by{rand}.first) rescue nil
     end
-    if resource.blank?
+    if resource.nil?
       while resource.nil?
         resource = self.find(rand(self.cached_numdocs)) rescue nil
       end

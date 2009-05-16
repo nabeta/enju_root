@@ -20,30 +20,36 @@ module EnjuPorta
       end
 
       result = search_z3950(isbn)
-      raise "not found" if result.nil?
+      #raise "not found" if result.nil?
 
       title, title_transcription, date_of_publication, language, work_title, nbn = nil, nil, nil, nil, nil, nil
       authors, publishers, subjects = [], [], []
 
       result.to_s.split("\n").each do |line|
-        if md = /^【title】：+(.*)$/.match(line) 
-          title = md[1].sub(/\.$/, '').tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-        elsif md = /^【titleTranscription】：+(.*)$/.match(line) 
-          title_transcription = md[1].sub(/\.$/, '').tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-        elsif md = /^【creator】\(dcndl:NDLNH\)：+(.*)$/.match(line)
-          authors << md[1].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ') 
-        elsif md = /^【publisher】：+(.*)$/.match(line)
-          publishers << md[1].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
-        elsif md = /^【subject】\(dcndl:NDLSH\)：+(.*)$/.match(line)
-          subjects << md[1].tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-        elsif md = /^【issued】\(dcterms:W3CDTF\)：+(.*)$/.match(line)
-          date_of_publication = Time.mktime(md[1])
-        elsif md = /^【language】\(dcterms:ISO639-2\)：+(.*)$/.match(line)
-          language = md[1]
-        elsif md = /^【description】：原タイトル : +(.*)$/.match(line)
+        if md = /^【(.*?)】：原タイトル：(.*?)$/.match(line)
           work_title = md[1].tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-        elsif md = /^【identifier】\(dcndl:JPNO\)：+(.*)$/.match(line)
-          nbn = "JP-#{md[1]}"
+        elsif md = /^【(.*?)】：(.*?)$/.match(line)
+          case md[1]
+          when 'title'
+            title = md[2].sub(/\.$/, '').tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
+          when 'titleTranscription'
+            title_transcription = md[2].sub(/\.$/, '').tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
+          when 'publisher'
+            publishers << md[2].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ').squeeze(' ')
+          end
+        elsif md = /^【(.*?)】\((.*?)\)：(.*?)$/.match(line)
+          case md[1]
+          when 'creator'
+            authors << md[3].tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')  if md[2] === 'dcndl:NDLNH'
+          when 'subject'
+            subjects << md[3].tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ') if md[2] == 'dcndl:NDLSH'
+          when 'issued'
+            date_of_publication = Time.mktime(md[3]) if md[2] == 'dcterms:W3CDTF'
+          when 'language'
+            language = md[3].downcase if md[2] == 'dcterms:ISO639-2'
+          when 'identifier'
+            nbn = "JP-#{md[3]}" if md[2] == 'dcndl:JPNO'
+          end
         end
       end
 
@@ -56,9 +62,22 @@ module EnjuPorta
         else
           work = Work.new(:original_title => title)
         end
-        # TODO: 言語や形態の設定
-        expression = Expression.new(:original_title => title, :expression_form_id => 1, :frequency_of_issue_id => 1, :language_id => 1)
-        manifestation = Manifestation.new(:original_title => title, :title_transcription => title_transcription, :manifestation_form_id => 1, :language_id => 1, :isbn => isbn, :date_of_publication => date_of_publication, :nbn => nbn)
+        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}) || 1
+        expression = Expression.new(
+          :original_title => title,
+          :expression_form_id => ExpressionForm.find(:first, :conditions => {:name => 'text'}).id,
+          :frequency_of_issue_id => 1,
+          :language_id => language_id
+        )
+        manifestation = Manifestation.new(
+          :original_title => title,
+          :title_transcription => title_transcription,
+          :manifestation_form_id => ManifestationForm.find(:first, :conditions => {:name => 'print'}).id,
+          :language_id => language_id,
+          :isbn => isbn,
+          :date_of_publication => date_of_publication,
+          :nbn => nbn
+        )
         work.restrain_indexing = true
         expression.restrain_indexing = true
         #manifestation.restrain_indexing = true
