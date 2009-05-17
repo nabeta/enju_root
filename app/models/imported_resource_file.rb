@@ -4,9 +4,8 @@ class ImportedResourceFile < ActiveRecord::Base
 
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
-  belongs_to :user
-  has_many :imported_objects, :as => :importable, :dependent => :destroy
-  has_one :imported_object, :as => :imported_file, :dependent => :destroy
+  belongs_to :user, :validate => true
+  has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
   def import
     self.reload
@@ -42,8 +41,7 @@ class ImportedResourceFile < ActiveRecord::Base
               work.patrons << author_patrons
               imported_object = ImportedObject.new
               imported_object.importable = work
-              imported_object.import_file = self
-              imported_object.save
+              self.imported_objects << imported_object
             end
 
             expression = Expression.new
@@ -53,8 +51,7 @@ class ImportedResourceFile < ActiveRecord::Base
             if expression.save!
               imported_object = ImportedObject.new
               imported_object.importable = expression
-              imported_object.import_file = self
-              imported_object.save
+              self.imported_objects << imported_object
             end
 
             manifestation = Manifestation.new
@@ -65,8 +62,7 @@ class ImportedResourceFile < ActiveRecord::Base
               manifestation.patrons << author_patrons
               imported_object= ImportedObject.new
               imported_object.importable = manifestation
-              imported_object.import_file = self
-              imported_object.save
+              self.imported_objects << imported_object
             end
 
             item = Item.new
@@ -76,8 +72,7 @@ class ImportedResourceFile < ActiveRecord::Base
               item.patrons << library.patron
               imported_object= ImportedObject.new
               imported_object.importable = item
-              imported_object.import_file = self
-              imported_object.save
+              self.imported_objects << imported_object
               num[:success] += 1
             end
 
@@ -90,15 +85,16 @@ class ImportedResourceFile < ActiveRecord::Base
       end
       record += 1
     end
+    self.update_attribute(:imported_at, Time.zone.now)
     return num
   end
 
-  def import_marc(marc_file, marc_type)
+  def import_marc(marc_type)
     case marc_type
     when 'marcxml'
-      reader = MARC::XMLReader.new(StringIO.new(marc_file.read))
+      reader = MARC::XMLReader.new(self.db_file.data)
     else
-      reader = MARC::Reader.new(StringIO.new(marc_file.read))
+      reader = MARC::Reader.new(self.db_file.data)
     end
 
     # when 'marc_xml_url'
@@ -147,5 +143,11 @@ class ImportedResourceFile < ActiveRecord::Base
   rescue
     logger.info "#{Time.zone.now} importing resources failed!"
   end
+
+  #def import_jpmarc
+  #  marc = NKF::nkf('-wc', self.db_file.data)
+  #  marc.split("\r\n").each do |record|
+  #  end
+  #end
 
 end

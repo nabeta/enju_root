@@ -6,13 +6,19 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.role')) -%></h1>
+<div id="content_list">
 
 <%= error_messages_for :role -%>
 
 <%- form_for(@role) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.role.name') -%></b><br />
-    <%= f.text_area :name, :class => 'resource_textarea' -%>
+    <%= f.text_field :name, :class => 'resource_title' -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.role.display_name') -%></b><br />
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
@@ -40,4 +46,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

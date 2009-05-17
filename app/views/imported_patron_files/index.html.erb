@@ -4,19 +4,15 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.models.db_file') -%></th>
     <th><%= t('activerecord.attributes.imported_patron_file.filename') -%></th>
-    <th><%= t('activerecord.attributes.imported_patron_file.content_type') -%></th>
-    <th><%= t('activerecord.attributes.imported_patron_file.size') -%></th>
-    <th><%= t('page.user') -%></th>
+    <th><%= t('activerecord.attributes.imported_patron_file.imported_at') -%></th>
+    <th><%= t('activerecord.models.user') -%></th>
   </tr>
 
 <%- for imported_patron_file in @imported_patron_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h imported_patron_file.db_file_id -%></td>
     <td><%=h imported_patron_file.filename -%></td>
-    <td><%=h imported_patron_file.content_type -%></td>
-    <td><%=h imported_patron_file.size -%></td>
+    <td><%= l(imported_resource_file.imported_at) if imported_resource_file.imported_at -%></td>
     <td><%= link_to h(imported_patron_file.user.login), user_path(imported_patron_file.user.login) -%></td>
     <td><%= link_to t('page.show'), imported_patron_file -%></td>
     <td><%= link_to t('page.edit'), edit_imported_patron_file_path(imported_patron_file) -%></td>

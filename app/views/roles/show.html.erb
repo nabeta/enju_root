@@ -6,6 +6,12 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.role')) -%></h1>
+<div id="content_list">
+<p>
+  <b><%= t('activerecord.attributes.role.name') -%>:</b>
+  <%=h @role.name -%>
+</p>
 
 <p>
   <b><%= t('activerecord.attributes.role.display_name') -%>:</b>
@@ -24,12 +30,13 @@
 
 <p>
 <b><%= t('page.created_at') -%>:</b>
-  <%= l(@role.created_at) -%>
+  <%= l(@role.created_at) if @role.created_at -%>
 </p>
 
 <p>
 <b><%= t('page.updated_at') -%>:</b>
-  <%= l(@role.updated_at) -%>
+  <%= l(@role.updated_at) if @role.created_at -%>
 </p>
 
+</div>
 </div>

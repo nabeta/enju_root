@@ -29,6 +29,16 @@
 </p>
 
 <p>
+  <b><%= t('page.created_at') -%>:</b>
+  <%= l(@imported_resource_file.created_at) if @imported_resource_file.created_at -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.imported_resource_file.imported_at') -%>:</b>
+  <%= l(@imported_resource_file.imported_at) if @imported_resource_file.imported_at -%>
+</p>
+
+<p>
   <b><%= t('page.user') -%>:</b>
   <%= link_to h(@imported_resource_file.user.login), user_path(@imported_resource_file.user.login) -%>
 </p>
@@ -36,14 +46,7 @@
 <table id="index">
   <%- @imported_resource_file.imported_objects.each do |object| -%>
     <tr>
-      <td><%= link_to h(object.importable.title), object.importable -%></td>
-      <td><%= link_to h(object.importable.library.display_name.localize), object.importable.library -%></td>
-      <td>
-        <%=h object.importable.start_at -%>
-        -
-        <%=h object.importable.end_at -%>
-
-      </td>
+      <td><%= link_to h("#{object.importable_type} / #{object.importable_id}"), object.importable -%></td>
     </tr>
   <%- end -%>
 </table>
