@@ -4,7 +4,7 @@ class ManifestationHasManifestationsController < ApplicationController
   # GET /manifestation_has_manifestations
   # GET /manifestation_has_manifestations.xml
   def index
-    @manifestation_has_manifestations = ManifestationHasManifestation.find(:all)
+    @manifestation_has_manifestations = ManifestationHasManifestation.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

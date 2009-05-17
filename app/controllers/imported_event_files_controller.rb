@@ -21,6 +21,7 @@ class ImportedEventFilesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @imported_event_file }
+      format.download { send_data @imported_event_file.db_file.data, :filename => @imported_event_file.filename, :type => 'application/octet-stream' }
     end
   end
 
@@ -50,7 +51,7 @@ class ImportedEventFilesController < ApplicationController
       if @imported_event_file.save
         #flash[:notice] = n('%{num} event is imported.', '%{num} events are imported.', num) % {:num => num[:success]}
         #flash[:notice] += n('%{num} event is imported.', '%{num} events are imported.', num) % {:num => num[:failure]} if num[:failure] > 0
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imporeted_event_file'))
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imported_event_file'))
         flash[:notice] += t('imported_event_file.will_be_imported', :minute => 60) # TODO: インポートまでの時間表記
         #@imported_event_file.import
         format.html { redirect_to(@imported_event_file) }

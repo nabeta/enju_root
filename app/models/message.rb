@@ -31,6 +31,10 @@ class Message < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
+  def after_save
+    Notifier.deliver_message_notification(self.receiver)
+  end
+
   # Returns user.login for the sender
   def sender_name
     User.find(sender_id).login || ""

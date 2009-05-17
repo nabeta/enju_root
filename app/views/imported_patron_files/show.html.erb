@@ -10,7 +10,7 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.imported_patron_file.filename') -%>:</b>
-  <%=h @imported_patron_file.filename -%>
+  <%= link_to h(@imported_patron_file.filename), imported_patron_file_path(@imported_patron_file, :format => :download) -%>
 </p>
 
 <p>

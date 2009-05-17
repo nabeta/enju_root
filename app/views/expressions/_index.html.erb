@@ -22,6 +22,7 @@
 
     <%= submit_tag t('page.search') -%>
   </p>
+  <%= javascript_tag("$('query').focus()") -%>
 <%- end -%>
 
 <table id="index">

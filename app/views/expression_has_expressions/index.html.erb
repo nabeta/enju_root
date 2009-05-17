@@ -1,6 +1,8 @@
+<div id="content_detail">
 <h1 class="title">Listing expression_has_expressions</h1>
+<div id="content_list">
 
-<table>
+<table id="index">
   <tr>
     <th>From expression</th>
     <th>To expression</th>
@@ -10,8 +12,8 @@
 
 <% for expression_has_expression in @expression_has_expressions -%>
   <tr>
-    <td><%=h expression_has_expression.from_expression_id -%></td>
-    <td><%=h expression_has_expression.to_expression_id -%></td>
+    <td><%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%></td>
+    <td><%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%></td>
     <td><%=h expression_has_expression.type -%></td>
     <td><%=h expression_has_expression.position -%></td>
     <td><%= link_to t('page.show'), expression_has_expression -%></td>
@@ -21,6 +23,14 @@
 <% end -%>
 </table>
 
+<%= will_paginate(@expression_has_expressions) -%>
 <br />
 
-<%= link_to t('page.new', :model => t('activerecord.models.expression_has_expression')), new_expression_has_expression_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.expression_has_expression')), new_expression_has_expression_path -%></li>
+  </ul>
+</div>

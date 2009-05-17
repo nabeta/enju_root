@@ -12,7 +12,7 @@ class ImportedResourceFile < ActiveRecord::Base
     self.reload
     reader = CSV::Reader.create(self.db_file.data, "\t")
     header = reader.shift
-    num = {:success => 0, :failure => 0}
+    num = {:found => 0, :success => 0, :failure => 0}
     record = 2
     reader.each do |row|
       data = {}
@@ -24,6 +24,7 @@ class ImportedResourceFile < ActiveRecord::Base
       # ISBNが入力してあればそれを優先する
       if data['isbn']
         manifestation = Manifestation.import_isbn(data['isbn']) rescue nil
+        num[:found] += 1
       end
 
       if manifestation.nil?

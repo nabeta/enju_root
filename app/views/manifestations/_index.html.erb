@@ -1,7 +1,6 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
-  <div id="searchform">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
@@ -11,7 +10,6 @@
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
   <%- end -%>
-  </div>
 
 <%- unless @query.blank? -%>
   <%- if @count[:query_result].to_i > 0 -%>

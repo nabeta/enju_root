@@ -127,6 +127,11 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/1
   # GET /manifestations/1.xml
   def show
+    if params[:api]
+      unless my_networks?
+        access_denied; return
+      end
+    end
     if params[:isbn]
       if @manifestation = Manifestation.find_by_isbn(params[:isbn])
         redirect_to manifestation_url(@manifestation)
@@ -157,7 +162,13 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @manifestation }
+      format.xml  {
+        if params[:api] == 'amazon'
+          render :xml => @manifestation.access_amazon
+        else
+          render :xml => @manifestation
+        end
+      }
       format.json { render :json => @manifestation }
       format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }

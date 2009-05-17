@@ -64,9 +64,18 @@ class Bookmark < ActiveRecord::Base
     #end
     title
   rescue OpenURI::HTTPError
-    # TODO 404などの場合の処理
+    # TODO: 404などの場合の処理
     raise "unable to access: #{access_url}"
   #  nil
+  end
+
+  def self.get_canonical_url(url)
+    doc = Nokogiri::HTML(open(url))
+    canonical_url = doc.search("/html/head/link[@rel='canonical']").first['href']
+    # TODO: URLを相対指定している時
+    URI.parse(canonical_url).normalize.to_s
+  rescue
+    nil
   end
 
   def create_bookmark_item

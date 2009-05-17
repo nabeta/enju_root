@@ -279,9 +279,13 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def check_client_ip_address
+  def my_networks?
     return true if LibraryGroup.site_config.my_networks?(request.remote_ip)
-    access_denied
+    false
+  end
+
+  def check_client_ip_address
+    access_denied unless my_networks?
   end
 
   def check_dsbl

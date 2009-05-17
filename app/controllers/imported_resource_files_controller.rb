@@ -21,6 +21,7 @@ class ImportedResourceFilesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @imported_resource_file }
+      format.download { send_data @imported_resource_file.db_file.data, :filename => @imported_resource_file.filename, :type => 'application/octet-stream' }
     end
   end
 
@@ -45,14 +46,14 @@ class ImportedResourceFilesController < ApplicationController
   def create
     @imported_resource_file = ImportedResourceFile.new(params[:imported_resource_file])
     @imported_resource_file.user = current_user
-    #@imporetd_resource_file.file_hash = Digest::SHA1.hexdigest(params[:imported_resource_file][:uploaded_data])
+    #@imported_resource_file.file_hash = Digest::SHA1.hexdigest(params[:imported_resource_file][:uploaded_data])
 
     respond_to do |format|
       if @imported_resource_file.save
         # TODO: 他の形式
         #num = @imported_resource_file.import_csv
         #flash[:notice] = n('%{num} resource is imported.', '%{num} resources are imported', num) % {:num => num}
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imporeted_resource_file'))
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imported_resource_file'))
         flash[:notice] += t('imported_resource_file.will_be_imported', :minute => 60) # TODO: インポートまでの時間表記
 
         #@imported_resource_file.import

@@ -35,6 +35,7 @@
       -->
       <%= link_to t('page.back_to_index'), expression_manifestations_path(@expression) -%>
     </p>
+    <%= javascript_tag("$('query').focus()") -%>
   <%- end -%>
 
 <table id="index">

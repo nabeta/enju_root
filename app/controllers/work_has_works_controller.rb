@@ -4,7 +4,7 @@ class WorkHasWorksController < ApplicationController
   # GET /work_has_works
   # GET /work_has_works.xml
   def index
-    @work_has_works = WorkHasWork.find(:all)
+    @work_has_works = WorkHasWork.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

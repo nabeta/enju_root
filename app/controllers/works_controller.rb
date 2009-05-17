@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
   before_filter :has_permission?
   #before_filter :get_parent
-  before_filter :get_patron
+  before_filter :get_patron, :get_work
   before_filter :get_work_merge_list
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -15,7 +15,12 @@ class WorksController < ApplicationController
       query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@patron) if @patron
-        query += " parent_id: #{@parent.id}" if @parent
+        if @derived_work
+          query += " derived_work_ids: #{@derived_work.id}"
+        end
+        if @original_work
+          query += " original_work_ids: #{@original_work.id}"
+        end
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
       @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact

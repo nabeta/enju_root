@@ -284,8 +284,7 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :resource_has_subjects
     expression.resources :subscribe
     expression.resources :subscriptions
-    expression.resources :expression_from_expressions, :controller => :expressions
-    expression.resources :expression_to_expressions, :controller => :expressions
+    expression.resources :expressions
   end
   map.resources :manifestations do |manifestation|
     manifestation.resources :attachment_files
@@ -298,8 +297,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :expressions
     manifestation.resources :subjects
     manifestation.resources :resource_has_subjects
-    manifestation.resources :manifestation_from_manifestations, :controller => :manifestations
-    manifestation.resources :manifestation_to_manifestations, :controller => :manifestations
+    manifestation.resources :manifestations
   end
   map.resources :items do |item|
     item.resources :owns
@@ -312,8 +310,7 @@ ActionController::Routing::Routes.draw do |map|
     item.resources :donates
     item.resource :checkout_type
     item.resource :inventory_files
-    item.resources :item_from_items, :controller => :items
-    item.resources :item_to_items, :controller => :items
+    item.resources :items
   end
   map.resources :libraries do |library|
     library.resources :shelves do |shelf|

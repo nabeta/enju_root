@@ -1,15 +1,17 @@
+<div id="content_detail">
+<div id="content_list">
 <p>
   <b>From manifestation:</b>
-  <%=h @manifestation_has_manifestation.from_manifestation_id -%>
+  <%= link_to h(@manifestation_has_manifestation.from_manifestation.original_title), @manifestation_has_manifestation.from_manifestation -%>
 </p>
 
 <p>
   <b>To manifestation:</b>
-  <%=h @manifestation_has_manifestation.to_manifestation_id -%>
+  <%= link_to h(@manifestation_has_manifestation.to_manifestation.original_title), @manifestation_has_manifestation.to_manifestation -%>
 </p>
 
 <p>
-  <b>Type:</b>
+  <b>Expression Relationship type:</b>
   <%=h @manifestation_has_manifestation.type -%>
 </p>
 
@@ -18,6 +20,12 @@
   <%=h @manifestation_has_manifestation.position -%>
 </p>
 
+</div>
+</div>
 
-<%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(@manifestation_has_manifestation) -%> |
-<%= link_to t('page.back'), manifestation_has_manifestations_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(@manifestation_has_manifestation) -%></li>
+    <li><%= link_to t('page.back'), manifestation_has_manifestations_path -%></li>
+  </ul>
+</div>

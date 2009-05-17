@@ -50,8 +50,8 @@ div#content{
 
 div.header_and_footer{
   padding: 2px;
-  width: 100%;
-  clear: both
+  clear: both;
+  width: 922px;
 }
 
 div#header_left{
@@ -64,7 +64,7 @@ div#header_left{
 }
 
 div#header_advertisement{
-  width: 280px;
+  width: 250px;
   float: left;
   padding-left: 5px;
   padding-right: 5px;

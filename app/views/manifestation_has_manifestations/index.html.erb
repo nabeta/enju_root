@@ -1,17 +1,19 @@
+<div id="content_detail">
 <h1 class="title">Listing manifestation_has_manifestations</h1>
+<div id="content_list">
 
-<table>
+<table id="index">
   <tr>
     <th>From manifestation</th>
     <th>To manifestation</th>
-    <th>Type</th>
+    <th>Manifestation Relationship type</th>
     <th>Position</th>
   </tr>
 
 <% for manifestation_has_manifestation in @manifestation_has_manifestations -%>
   <tr>
-    <td><%=h manifestation_has_manifestation.from_manifestation_id -%></td>
-    <td><%=h manifestation_has_manifestation.to_manifestation_id -%></td>
+    <td><%= link_to h(manifestation_has_manifestation.from_manifestation.original_title), manifestation_has_manifestation.from_manifestation -%></td>
+    <td><%= link_to h(manifestation_has_manifestation.to_manifestation.original_title), manifestation_has_manifestation.to_manifestation -%></td>
     <td><%=h manifestation_has_manifestation.type -%></td>
     <td><%=h manifestation_has_manifestation.position -%></td>
     <td><%= link_to t('page.show'), manifestation_has_manifestation -%></td>
@@ -21,6 +23,14 @@
 <% end -%>
 </table>
 
+<%= will_paginate(@manifestation_has_manifestations) -%>
 <br />
 
-<%= link_to 'New manifestation_has_manifestation', new_manifestation_has_manifestation_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation_has_manifestation')), new_manifestation_has_manifestation_path -%></li>
+  </ul>
+</div>

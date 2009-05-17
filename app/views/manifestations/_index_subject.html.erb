@@ -30,6 +30,7 @@
       -->
       <%= link_to t('page.back_to_index'), subject_manifestations_path(@subject) -%>
     </p>
+    <%= javascript_tag("$('query').focus()") -%>
   <%- end -%>
 
 <table id="index">
