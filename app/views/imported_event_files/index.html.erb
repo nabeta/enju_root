@@ -4,15 +4,13 @@
 
 <table id="index">
   <tr>
-    <th><%= t('activerecord.models.db_file') -%></th>
     <th><%= t('activerecord.attributes.imported_event_file.filename') -%></th>
     <th><%= t('activerecord.attributes.imported_event_file.imported_at') -%></th>
-    <th><%= t('page.user') -%></th>
+    <th><%= t('activerecord.models.user') -%></th>
   </tr>
 
 <%- for imported_event_file in @imported_event_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h imported_event_file.db_file_id -%></td>
     <td><%=h imported_event_file.filename -%></td>
     <td><%= l(imported_resource_file.imported_at) if imported_resource_file.imported_at -%></td>
     <td><%= link_to h(imported_event_file.user.login), user_path(imported_event_file.user.login) -%></td>

@@ -13,12 +13,12 @@
 
 <%- form_for(@user_group, :url => user_group_path(@user_group)) do |f| -%>
   <p>
-    <b><%= t('activerecord.attributes.user.name') -%></b><br />
-    <%= f.text_area :name, :class => 'resource_textarea' -%>
+    <b><%= t('activerecord.attributes.user_group.name') -%></b><br />
+    <%= f.text_field :name, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.user.display_name') -%></b><br />
+    <b><%= t('activerecord.attributes.user_gruop.display_name') -%></b><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
