@@ -29,6 +29,16 @@
 </p>
 
 <p>
+  <b><%= t('activerecord.attributes.imported_patron_file.created_at') -%>:</b>
+  <%= l(@imported_patron_file.created_at) if @imported_patron_file.created_at -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.imported_patron_file.imported_at') -%>:</b>
+  <%= l(@imported_patron_file.imported_at) if @imported_patron_file.imported_at -%>
+</p>
+
+<p>
   <b><%= t('page.user') -%>:</b>
   <%= link_to h(@imported_patron_file.user.login), user_path(@imported_patron_file.user.login) -%>
 </p>

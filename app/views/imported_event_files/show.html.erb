@@ -29,6 +29,16 @@
 </p>
 
 <p>
+  <b><%= t('activerecord.attributes.imported_event_file.created_at') -%>:</b>
+  <%= l(@imported_event_file.created_at) if @imported_event_file.created_at -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.imported_event_file.imported_at') -%>:</b>
+  <%= l(@imported_event_file.imported_at) if @imported_event_file.imported_at -%>
+</p>
+
+<p>
   <b><%= t('page.user') -%>:</b>
   <%= link_to h(@imported_event_file.user.login), user_path(@imported_event_file.user.login) -%>
 </p>
