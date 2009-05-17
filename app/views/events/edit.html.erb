@@ -18,7 +18,7 @@
   </p>
 
   <p>
-    <b><%= t('page.library') -%></b><br />
+    <b><%= t('activerecord.models.library') -%></b><br />
     <%= f.select(:library_id, @libraries.collect{|l| [l.display_name.localize, l.id]}) -%>
   </p>
 

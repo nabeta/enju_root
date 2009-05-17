@@ -20,7 +20,7 @@ module EnjuPorta
       end
 
       result = search_z3950(isbn)
-      #raise "not found" if result.nil?
+      raise "not found" if result.nil?
 
       title, title_transcription, date_of_publication, language, work_title, nbn = nil, nil, nil, nil, nil, nil
       authors, publishers, subjects = [], [], []
@@ -62,7 +62,7 @@ module EnjuPorta
         else
           work = Work.new(:original_title => title)
         end
-        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}) || 1
+        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id
         expression = Expression.new(
           :original_title => title,
           :expression_form_id => ExpressionForm.find(:first, :conditions => {:name => 'text'}).id,

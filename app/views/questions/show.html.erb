@@ -12,7 +12,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.question')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('page.user') -%>:</b>
+  <b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
 </p>
 

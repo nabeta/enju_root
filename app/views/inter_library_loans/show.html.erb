@@ -12,7 +12,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('page.library') -%>:</b>
+  <b><%= t('activerecord.models.library') -%>:</b>
   <%= link_to h(@inter_library_loan.item.shelf.library.display_name.localize), library_path(@inter_library_loan.item.shelf.library.name) -%>
 </p>
 

@@ -10,7 +10,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.order_list')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('page.user') -%>:</b>
+  <b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@order_list.user.login), user_path(@order_list.user.login) -%>
 </p>
 

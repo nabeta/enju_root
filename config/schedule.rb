@@ -48,7 +48,7 @@ every 1.day, :at => '1:00 am' do
   runner "AttachmentFile.extract_text"
 end
 
-every 1.day, :at => '2:00 am' do
+every 1.hour do
   runner "ImportedPatronFile.import"
   runner "ImportedEventFile.import"
   runner "ImportedResourceFile.import"

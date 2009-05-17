@@ -814,7 +814,6 @@ en:
         bookmarks_count: Bookmark count
 
   page:
-    user: "User"
     user_title: "{{login_name}}'s library"
     login: "Login"
     logout: "Logout"
@@ -824,9 +823,6 @@ en:
     login_name: "Login name"
     password: "Password"
     catalog_search: "Catalog search"
-    library: "Library"
-    language: "Language"
-    subject: "Subject"
     search: "Search"
     search_term: "Search term"
     number_of_manifestations:
@@ -859,7 +855,6 @@ en:
     checkout: "Checkout"
     checkin: "Checkin"
     name: "Name"
-    patron: "Patron"
     are_you_sure: "Are you sure?"
     previous: "Previous"
     next: "Next"
