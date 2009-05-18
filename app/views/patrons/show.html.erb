@@ -89,7 +89,7 @@
             <td><%=h @patron.place -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.language') -%>:</b></td>
+            <td><b><%= t('activerecord.models.language') -%>:</b></td>
             <td><%=h @patron.language.display_name.localize -%></td>
           </tr>
           <%- if deletable(@patron) -%>

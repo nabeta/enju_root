@@ -807,7 +807,6 @@ ja:
         bookmarks_count: ブックマーク回数
 
   page:
-    user: "利用者"
     user_title: "{{login_name}} さんの図書館"
     logged_in_as: "{{login_name}} としてログイン"
     edit_user_profile: "{{login_name}} さんのプロフィールの編集"
@@ -816,9 +815,6 @@ ja:
     login_name: "ログイン名"
     password: "パスワード"
     catalog_search: "資料の検索"
-    library: "図書館"
-    language: "言語"
-    subject: "件名"
     search: "検索"
     search_term: "検索語"
     number_of_manifestations: "{{numdocs}} 件の資料があります。"
@@ -845,7 +841,6 @@ ja:
     checkout: "貸出"
     checkin: "返却"
     name: "名前"
-    patron: "パトロン"
     are_you_sure: "ほんとうですか？"
     previous: "前へ"
     next: "次へ"

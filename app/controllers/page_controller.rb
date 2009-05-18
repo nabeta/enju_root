@@ -97,6 +97,9 @@ class PageController < ApplicationController
     end
   end
 
+  def service
+  end
+
   private
   def get_user
     @user = current_user if logged_in?

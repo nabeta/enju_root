@@ -6,7 +6,7 @@
 <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'pickup', :locale => @locale) do -%>
   <div style="float: left">
     <p>
-    <strong><%= t('page.subject') -%>:</strong>
+    <strong><%= t('activerecord.models.subject') -%>:</strong>
     <%- @manifestation.subjects.each do |subject| -%>
       <%= link_to h(subject.term), manifestations_path(:query => "subject: #{h(subject.term)}") -%>
     <%- end -%>

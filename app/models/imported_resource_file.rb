@@ -22,8 +22,13 @@ class ImportedResourceFile < ActiveRecord::Base
 
       # ISBNが入力してあればそれを優先する
       if data['isbn']
-        manifestation = Manifestation.import_isbn(data['isbn']) rescue nil
-        num[:found] += 1
+        manifestation = Manifestation.find_by_isbn(data['isbn'])
+        if manifestation
+          num[:found] += 1
+        else
+          manifestation = Manifestation.import_isbn(data['isbn']) rescue nil
+          num[:success] += 1 if manifestation
+        end
       end
 
       if manifestation.nil?
