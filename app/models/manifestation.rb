@@ -41,8 +41,8 @@ class Manifestation < ActiveRecord::Base
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher, :access_address,
-    {:isbn => :string}, {:isbn10 => :string}, {:wrong_isbn => :string},
-    {:nbn => :string}, {:issn => :string}, {:tag => :string}, :fulltext,
+    :isbn, :isbn10, {:wrong_isbn => :string},
+    {:nbn => :string}, :issn, :tag, :fulltext,
     {:formtype => :string}, {:formtype_f => :facet},
     {:library => :string}, {:library_f => :facet},
     {:lang => :string}, {:language_f => :facet},

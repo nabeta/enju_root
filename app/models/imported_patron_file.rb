@@ -1,6 +1,7 @@
 class ImportedPatronFile < ActiveRecord::Base
+  include AASM
   include LibrarianRequired
-  named_scope :not_imported, :conditions => {:imported_at => nil}
+  named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
@@ -9,6 +10,16 @@ class ImportedPatronFile < ActiveRecord::Base
 
   validates_associated :user
   validates_presence_of :user
+
+  aasm_column :state
+  aasm_initial_state :pending
+  aasm_state :pending
+  aasm_state :completed
+
+  aasm_event :aasm_import do
+    transitions :from => :pending, :to => :completed,
+      :on_transition => :import
+  end
 
   def import
     self.reload

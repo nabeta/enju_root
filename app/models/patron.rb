@@ -203,7 +203,7 @@ class Patron < ActiveRecord::Base
   end
 
   def is_updatable_by(user, parent = nil)
-    if user == self.user
+    if user and user == self.user
       return true
     end
     if self.user
