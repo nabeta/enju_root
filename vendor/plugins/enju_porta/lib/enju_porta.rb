@@ -62,7 +62,7 @@ module EnjuPorta
         else
           work = Work.new(:original_title => title)
         end
-        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id
+        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id || 1
         expression = Expression.new(
           :original_title => title,
           :expression_form_id => ExpressionForm.find(:first, :conditions => {:name => 'text'}).id,

@@ -400,6 +400,7 @@ ActionController::Routing::Routes.draw do |map|
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
+  #map.service '/service', :controller => 'page', :action => 'service'
   map.sitemap 'sitemap.xml', :controller => 'page', :action => 'sitemap'
 
   # The priority is based upon order of creation: first created -> highest priority.
