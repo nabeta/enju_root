@@ -209,6 +209,14 @@
       </tr>
     <%- end -%>
     <tr>
+      <td><%= t('page.created_at') -%>:</td>
+      <td><%=l @manifestation.created_at if @manifestation.created_at -%></td>
+    </tr>
+    <tr>
+      <td><%= t('page.updated_at') -%>:</td>
+      <td><%=l @manifestation.updated_at if @manifestation.updated_at -%></td>
+    </tr>
+    <tr>
       <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
       <td>
         <!--
