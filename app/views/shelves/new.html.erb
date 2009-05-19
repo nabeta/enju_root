@@ -25,7 +25,9 @@
     <p>
       <b><%= t('activerecord.models.library') -%></b><br />
       <select id="library_id" name="library_id">
-        <%= options_from_collection_for_select(@libraries, "name", "display_name", @shelf.library.display_name.localize) -%>
+        <%- @libraries.each do |library| -%>
+          <option value="<%=h library.name -%>"><%=h library.display_name.localize -%></option>
+        <%- end -%>
       </select>
     </p>
   <%- end -%>

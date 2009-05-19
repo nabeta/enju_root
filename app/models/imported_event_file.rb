@@ -6,7 +6,7 @@ class ImportedEventFile < ActiveRecord::Base
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
   belongs_to :user, :validate => true
-  has_many :imported_object, :as => :imported_file, :dependent => :destroy
+  has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
   aasm_column :state
   aasm_initial_state :pending
