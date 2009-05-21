@@ -1172,6 +1172,7 @@ ja:
     not_available_for_checkout: "この資料の貸出はできません。"
     previous_checkout: "現在貸出中の資料"
     checkout: "上記の資料を貸し出す"
+    ignore_restriction: "制限を無視する"
   checkin:
     item_not_found: "資料が見つかりません。"
     enter_item_identifier: "個別資料番号を入力してください。"

@@ -48,4 +48,8 @@ class ReserveTest < ActiveSupport::TestCase
     assert_equal 1, Reserve.completed.size
   end
 
+  def test_should_expire_all_reservations
+    assert Reserve.expire
+  end
+
 end

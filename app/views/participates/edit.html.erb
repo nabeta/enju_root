@@ -1,5 +1,5 @@
 <div id="content_detail">
-<h1>Editing participate</h1>
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.participate')) -%></h1>
 <div id="content_list">
 
 <% form_for(@participate) do |f| %>
@@ -14,7 +14,7 @@
     <%= f.text_field :event_id %>
   </p>
   <p>
-    <%= f.submit 'Update' %>
+    <%= f.submit t('page.update') %>
   </p>
 <% end %>
 </div>
@@ -22,7 +22,7 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to 'Show', @participate %></li>
-    <li><%= link_to 'Back', participates_path %></li>
+    <li><%= link_to t('page.show'), @participate %></li>
+    <li><%= link_to t('page.back'), participates_path %></li>
   </ul>
 </div>

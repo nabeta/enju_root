@@ -10,9 +10,10 @@ class CheckedItem < ActiveRecord::Base
   
   before_create :set_due_date
 
-  attr_accessor :item_identifier
+  attr_accessor :item_identifier, :ignore_restriction
 
   def available_for_checkout?
+    return true if self.ignore_restriction
     if self.item.blank?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
       return

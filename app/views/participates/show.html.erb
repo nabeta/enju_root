@@ -1,4 +1,5 @@
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.participate')) -%></h1>
 <div id="content_list">
   
 <p>
@@ -16,7 +17,7 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to 'Edit', edit_participate_path(@participate) %></li>
-    <li><%= link_to 'Back', participates_path %></li>
+    <li><%= link_to t('page.edit'), edit_participate_path(@participate) %></li>
+    <li><%= link_to t('page.back'), participates_path %></li>
   </ul>
 </div>

@@ -169,6 +169,15 @@ class CheckedItemsControllerTest < ActionController::TestCase
     assert assigns(:checked_item).errors["base"].include?('Excessed checkout limit.')
   end
 
+  def test_librarian_should_create_checked_item_when_ignore_restriction_is_enabled
+    UserSession.create users(:librarian1)
+    old_count = CheckedItem.count
+    post :create, :checked_item => {:item_identifier => '00004', :ignore_restriction => true}, :basket_id => 1, :mode => 'list'
+    assert_equal old_count+1, CheckedItem.count
+    
+    assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket, :mode => 'list')
+  end
+
   def test_guest_should_not_show_checked_item
     get :show, :id => 1, :basket_id => 1
     assert_response :redirect

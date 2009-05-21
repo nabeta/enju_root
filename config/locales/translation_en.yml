@@ -1195,6 +1195,7 @@ en:
     not_available_for_checkout: "This item is not available for checkout."
     previous_checkout: "Previous checkouts"
     checkout: "Checkout!"
+    ignore_restriction: "Ignore restriction"
   checkin:
     item_not_found: "Item not found."
     enter_item_identifier: "Enter item identifier."

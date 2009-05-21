@@ -265,7 +265,7 @@ class User < ActiveRecord::Base
 
   def send_message(status, options = {})
     queue = MessageQueue.new
-    queue.sender = User.find(1)
+    queue.sender = User.find(1) # TODO: システムからのメッセージ送信者
     queue.receiver = self
     queue.message_template = MessageTemplate.find_by_status(status)
     queue.embed_body(options)
