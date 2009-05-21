@@ -1,0 +1,22 @@
+<div id="content_detail">
+<div id="content_list">
+  
+<p>
+  <b>Patron:</b>
+  <%= link_to h(@participate.patron.full_name), @participate.patron %>
+</p>
+
+<p>
+  <b>Event:</b>
+  <%= link_to h(@participate.event.title), @participate.event %>
+</p>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Edit', edit_participate_path(@participate) %></li>
+    <li><%= link_to 'Back', participates_path %></li>
+  </ul>
+</div>

@@ -29,7 +29,7 @@
       (<%= link_to h(@item.manifestation.original_title), @item.manifestation -%>)
       <%= f.hidden_field :item_identifier, :value => @item.item_identifier -%>
     <%- else -%>
-      <%= f.text_field :item_identifier -%>
+      <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
     <%- end -%>
   </p>
 

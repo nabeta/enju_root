@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :participates
+
   map.connect "live_validations/:action", :controller => "live_validations"
   map.resources :user_has_shelves
 
@@ -222,6 +224,7 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :advertises
     patron.resources :advertisements
     patron.resources :picture_files
+    patron.resources :events
   end
   map.resources :users do |user|
     user.resources :roles
@@ -319,6 +322,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     library.resources :events do |event|
       event.resources :picture_files
+      event.resources :patrons
     end
     library.resources :patrons
   end
@@ -334,6 +338,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :event_categories
   map.resources :events do |event|
     event.resources :picture_files
+    event.resources :patrons
   end
   map.resources :library_groups do |library_group|
     library_group.resources :libraries

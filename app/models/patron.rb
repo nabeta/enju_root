@@ -28,6 +28,8 @@ class Patron < ActiveRecord::Base
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :advertises, :dependent => :destroy
   has_many :advertisements, :through => :advertises
+  has_many :participates, :dependent => :destroy
+  has_many :events, :through => :participates
   #has_many :works_as_subjects, :through => :resource_has_subjects, :as => :subjects
 
   validates_presence_of :full_name, :language, :patron_type, :country

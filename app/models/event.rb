@@ -10,6 +10,8 @@ class Event < ActiveRecord::Base
   belongs_to :library, :validate => true
   has_many :attachment_files, :as => :attachable
   has_many :picture_files, :as => :picture_attachable
+  has_many :participates, :dependent => :destroy
+  has_many :patrons, :through => :participates
 
   #acts_as_taggable_on :tags
   #acts_as_soft_deletable

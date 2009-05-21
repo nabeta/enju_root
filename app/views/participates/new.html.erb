@@ -1,0 +1,27 @@
+<div id="content_detail">
+<h1>New participate</h1>
+<div id="content_list">
+
+<% form_for(@participate) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :patron_id %><br />
+    <%= f.text_field :patron_id %>
+  </p>
+  <p>
+    <%= f.label :event_id %><br />
+    <%= f.text_field :event_id %>
+  </p>
+  <p>
+    <%= f.submit 'Create' %>
+  </p>
+<% end %>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Back', participates_path %></li>
+  </ul>
+</div>

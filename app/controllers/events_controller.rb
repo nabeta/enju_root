@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_filter :has_permission?, :except => :index
-  before_filter :get_library
+  before_filter :get_library, :get_patron
   before_filter :get_libraries, :except => [:index, :destroy]
   #before_filter :get_patron, :only => [:index]
   before_filter :prepare_options
