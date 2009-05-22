@@ -37,7 +37,7 @@ class ReserveTest < ActiveSupport::TestCase
   end
 
   def test_should_send_message_to_library
-    assert Reserve.send_message_to_library('expired')
+    assert Reserve.send_message_to_library('expired', :manifestations => Reserve.not_sent_expiration_notice_to_library.collect(&:manifestation))
   end
 
   def test_should_have_reservations_that_will_expire

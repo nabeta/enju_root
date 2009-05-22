@@ -210,7 +210,9 @@ class Reserve < ActiveRecord::Base
           user.send_message('reservation_expired_for_patron', :manifestations => user.reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
         end
       end
-      Reserve.send_message_to_library('expired', :manifestations => Reserve.not_sent_expiration_notice_to_library.collect(&:manifestation))
+      unless Reserve.not_sent_expiration_notice_to_library.empty?
+        Reserve.send_message_to_library('expired', :manifestations => Reserve.not_sent_expiration_notice_to_library.collect(&:manifestation))
+      end
       logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end
   #rescue
