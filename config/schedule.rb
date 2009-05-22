@@ -49,9 +49,9 @@ every 1.day, :at => '1:00 am' do
 end
 
 every 1.hour do
-  runner "ImportedPatronFile.import"
-  runner "ImportedEventFile.import"
-  runner "ImportedResourceFile.import"
+  runner "ImportedPatronFile.aasm_import!"
+  runner "ImportedEventFile.aasm_import!"
+  runner "ImportedResourceFile.aasm_import!"
 end
 
 every 1.day, :at => '4:00 am' do

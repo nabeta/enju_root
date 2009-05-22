@@ -39,7 +39,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.event.note') -%>:</b>
-  <%=h @event.note -%>
+  <%= auto_link(simple_format(h@event.note)) -%>
 </p>
 
 </div>

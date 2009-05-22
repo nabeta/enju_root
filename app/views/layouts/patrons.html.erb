@@ -13,11 +13,11 @@
       <title><%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
     <%- end -%>
   <%- when @work -%>
-    <title><%= t('patron.work_patron', :work_title => @work.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
+    <title><%= t('patron.work_patron', :work_title => @work.original_title) -%> : <%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- when @expression -%>
-    <title><%= t('patron.expression_patron', :expression_title => @expression.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
+    <title><%= t('patron.expression_patron', :expression_title => @expression.original_title) -%> : <%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- when @expression -%>
-    <title><%= t('patron.manifestation_patron', :manifestation_title => @manifestation.original_title) -%> : <%= ('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
+    <title><%= t('patron.manifestation_patron', :manifestation_title => @manifestation.original_title) -%> : <%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
   <%- end -%>

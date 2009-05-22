@@ -151,13 +151,13 @@ class Reserve < ActiveRecord::Base
     end
   end
 
-  def self.send_message_to_library(status)
+  def self.send_message_to_library(status, options = {})
     system_user = User.find(1) # TODO: システムからのメッセージの発信者
     case status
     when 'expired'
       message_template_to_library = MessageTemplate.find(:first, :conditions => {:status => 'reservation_expired_for_library'})
       queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
-      queue.embed_body(:manifestations => self.not_sent_expiration_notice_to_library.collect(&:manifestation))
+      queue.embed_body(:manifestations => options[:manifestations])
       self.not_sent_expiration_notice_to_library.each do |reserve|
         reserve.update_attribute(:expiration_notice_to_library, true)
       end
@@ -195,22 +195,24 @@ class Reserve < ActiveRecord::Base
   def self.expire
     Reserve.transaction do
       reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
-      reservations.find_in_batches do |reserves|
-        reserves.each {|reserve|
-          # キューに登録した時点では本文は作られないので
-          # 予約の連絡をすませたかどうかを識別できるようにしなければならない
-          # reserve.send_message('expired')
-          reserve.aasm_expire!
-          # reserve.expire
-        }
+      reservations.find_each(:batch_size => reservations.size) do |reserve|
+        # キューに登録した時点では本文は作られないので
+        # 予約の連絡をすませたかどうかを識別できるようにしなければならない
+        # reserve.send_message('expired')
+        reserve.aasm_expire!
+        # reserve.expire
       end
       #Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
       #  reserve.send_message('expired')
       #end
       User.find_each(:batch_size => User.count) do |user|
-        user.send_message('reservation_expired_for_patron', user.reserves.not_sent_expiration_notice_to_patron)
+        unless user.reserves.not_sent_expiration_notice_to_patron.empty?
+          user.send_message('reservation_expired_for_patron', :manifestations => user.reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
+        end
       end
-      Reserve.send_message_to_library('expired') unless reservations.blank?
+      unless Reserve.not_sent_expiration_notice_to_library.empty?
+        Reserve.send_message_to_library('expired', :manifestations => Reserve.not_sent_expiration_notice_to_library.collect(&:manifestation))
+      end
       logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end
   #rescue

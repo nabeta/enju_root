@@ -10,11 +10,11 @@
 
 <p>
   <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
-  <%= f.text_field :login, :value => "" -%>
+  <%= f.text_field :login, :value => "", :class => 'resource_user' -%>
 </p>
 <p>
   <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
-  <%= f.text_field :email, :value => "" -%>
+  <%= f.text_field :email, :value => "", :class => 'resource_user' -%>
 </p>
 <p>
   <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label><br />
@@ -23,6 +23,6 @@
 
 <p><%= f.submit t('user.sign_up') -%></p>
 <%- end -%>
-<%= javascript_tag("$('user_last_name').focus()") -%>
+<%= javascript_tag("$('user_login').focus()") -%>
 </div>
 </div>

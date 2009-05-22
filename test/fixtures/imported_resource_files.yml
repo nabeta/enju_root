@@ -8,6 +8,7 @@ imported_resource_file_00001:
   file_hash: MyString
   user_id: 1
   content_type: text/csv
+  state: completed
 imported_resource_file_00002:
   id: 2
   db_file_id: 2
@@ -16,6 +17,7 @@ imported_resource_file_00002:
   file_hash: MyString
   user_id: 1
   content_type: text/csv
+  state: pending
 imported_resource_file_00003:
   id: 3
   db_file_id: 3
@@ -24,3 +26,4 @@ imported_resource_file_00003:
   file_hash: MyString
   user_id: 1
   content_type: text/csv
+  state: pending

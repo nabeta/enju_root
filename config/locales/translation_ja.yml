@@ -123,6 +123,7 @@ ja:
       family: 家族
       subject_heading_type_has_subject: 件名標目と件名の関係
       user_has_shelf: 利用者と書棚の関係
+      participate: 参加
     attributes:
       library:
         name: 名前
@@ -1171,6 +1172,7 @@ ja:
     not_available_for_checkout: "この資料の貸出はできません。"
     previous_checkout: "現在貸出中の資料"
     checkout: "上記の資料を貸し出す"
+    ignore_restriction: "制限を無視する"
   checkin:
     item_not_found: "資料が見つかりません。"
     enter_item_identifier: "個別資料番号を入力してください。"

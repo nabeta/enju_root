@@ -1,11 +1,22 @@
 class ImportedEventFile < ActiveRecord::Base
+  include AASM
   include LibrarianRequired
-  named_scope :not_imported, :conditions => {:imported_at => nil}
+  named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
   belongs_to :user, :validate => true
-  has_many :imported_object, :as => :imported_file, :dependent => :destroy
+  has_many :imported_objects, :as => :imported_file, :dependent => :destroy
+
+  aasm_column :state
+  aasm_initial_state :pending
+  aasm_state :pending
+  aasm_state :completed
+
+  aasm_event :aasm_import do
+    transitions :from => :pending, :to => :completed,
+      :on_transition => :import
+  end
 
   def import
     self.reload
