@@ -119,12 +119,12 @@ class Patron < ActiveRecord::Base
     name << full_name
     name << full_name_transcription
     name << full_name_alternative
-    name << full_name_without_space
-    name << full_name_transcription_without_space
-    name << full_name_alternative_without_space
-    name << full_name.wakati rescue nil
-    name << full_name_transcription.wakati rescue nil
-    name << full_name_alternative.wakati rescue nil
+    #name << full_name_without_space
+    #name << full_name_transcription_without_space
+    #name << full_name_alternative_without_space
+    #name << full_name.wakati rescue nil
+    #name << full_name_transcription.wakati rescue nil
+    #name << full_name_alternative.wakati rescue nil
     name
   end
 

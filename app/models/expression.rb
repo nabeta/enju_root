@@ -60,9 +60,9 @@ class Expression < ActiveRecord::Base
     title << original_title
     title << title_transcription
     title << title_alternative
-    title << original_title.wakati
-    title << title_transcription.wakati rescue nil
-    title << title_alternative.wakati rescue nil
+    #title << original_title.wakati
+    #title << title_transcription.wakati rescue nil
+    #title << title_alternative.wakati rescue nil
     title
   end
 
