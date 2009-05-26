@@ -21,6 +21,7 @@ class ImportedResourceFile < ActiveRecord::Base
   def import
     self.reload
     reader = CSV::Reader.create(self.db_file.data, "\t")
+    #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
     header = reader.shift
     num = {:found => 0, :success => 0, :failure => 0}
     record = 2
@@ -28,8 +29,8 @@ class ImportedResourceFile < ActiveRecord::Base
       data = {}
       row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
       data.each_value{|v| v.chomp!.to_s}
-      library = Library.find(:first, :conditions => {:name => data['library_short_name']})
-      library = Library.web if library.nil?
+      library = Library.find(:first, :conditions => {:name => data['library_short_name']}) || Library.web
+      shelf = Shelf.find(:first, :conditions => {:name => data['shelf_name']}) || Shelf.web
 
       # ISBNが入力してあればそれを優先する
       if data['isbn']
@@ -42,8 +43,8 @@ class ImportedResourceFile < ActiveRecord::Base
         end
       end
 
-      if manifestation.nil?
-        ImportedResourceFile.transaction do
+      ImportedResourceFile.transaction do
+        if manifestation.nil?
           begin
             authors = data['author'].split
             publishers = data['publisher'].split
@@ -80,24 +81,29 @@ class ImportedResourceFile < ActiveRecord::Base
               imported_object.importable = manifestation
               self.imported_objects << imported_object
             end
-
-            item = Item.new
-            item.restrain_indexing = true
-            item.manifestation = manifestation
-            if item.save!
-              item.patrons << library.patron
-              imported_object= ImportedObject.new
-              imported_object.importable = item
-              self.imported_objects << imported_object
-              num[:success] += 1
-            end
-
-            GC.start if num % 50 == 0
           rescue
             Rails.logger.info("resource import failed: column #{record}")
             num[:failure] += 1
           end
         end
+
+        begin
+          item = Item.new
+          item.restrain_indexing = true
+          item.item_identifier = data['item_identifier']
+          item.shelf = shelf
+          item.manifestation = manifestation
+          if item.save!
+            item.patrons << library.patron
+            imported_object= ImportedObject.new
+            imported_object.importable = item
+            self.imported_objects << imported_object
+            num[:success] += 1
+          end
+        rescue
+          Rails.logger.info("resource registration failed: column #{record}")
+        end
+        GC.start if record % 50 == 0
       end
       record += 1
     end

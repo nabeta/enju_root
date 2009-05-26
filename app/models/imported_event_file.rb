@@ -21,6 +21,7 @@ class ImportedEventFile < ActiveRecord::Base
   def import
     self.reload
     reader = CSV::Reader.create(self.db_file.data, "\t")
+    #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
     header = reader.shift
     num = {:success => 0, :failure => 0}
     record = 2
@@ -47,7 +48,7 @@ class ImportedEventFile < ActiveRecord::Base
           imported_object.importable = event
           self.imported_objects << imported_object
           num[:success] += 1
-          GC.start if num[:success] % 50 == 0
+          GC.start if record % 50 == 0
         end
       rescue
         Rails.logger.info("event import failed: column #{record}")

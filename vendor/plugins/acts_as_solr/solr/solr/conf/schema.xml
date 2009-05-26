@@ -97,7 +97,7 @@
       <analyzer type="index" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
       <!--
-      cmecab^javaを利用する場合は上2行にかえて以下を利用する
+      cmecab-javaを利用する場合は上2行にかえて以下を利用する
       <analyzer type="index">
         <tokenizer class="net.moraleboost.solr.StandardMeCabTokenizerFactory" charset="utf-8" />
       -->
@@ -110,7 +110,7 @@
       <analyzer type="query" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
       <!--
-      cmecab^javaを利用する場合は上2行にかえて以下を利用する
+      cmecab-javaを利用する場合は上2行にかえて以下を利用する
       <analyzer type="query">
         <tokenizer class="net.moraleboost.solr.StandardMeCabTokenizerFactory" charset="utf-8" />
       -->
