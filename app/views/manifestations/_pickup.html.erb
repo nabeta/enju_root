@@ -1,3 +1,4 @@
+<%- if @manifestation -%>
 <div id="pickup_book_jacket">
   <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :action_suffix => 'book_jacket') do -%>
      <%= book_jacket(@manifestation) -%>
@@ -23,4 +24,5 @@
     <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
     <%= render :partial => 'manifestations/holding', :locals => {:manifestation => @manifestation} -%>
   </div>
+<%- end -%>
 <%- end -%>
