@@ -4,7 +4,7 @@ class CopyNameToDisplayName < ActiveRecord::Migration
     models.each do |model|
       sql = "UPDATE #{model} SET display_name = name"
       execute(sql)
-      change_column(model, :name, :text)
+      change_column(model, :display_name, :text)
     end
   end
 
