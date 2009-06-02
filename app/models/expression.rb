@@ -35,7 +35,9 @@ class Expression < ActiveRecord::Base
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
     {:subscription_ids => :integer}, {:required_role_id => :range_integer},
     {:expression_merge_list_ids => :integer}],
-    :facets => [:expression_form_id, :language_id], :offline => proc{|expression| expression.restrain_indexing}, :auto_commit => false
+    :facets => [:expression_form_id, :language_id],
+    :offline => proc{|expression| expression.restrain_indexing},
+    :auto_commit => false
   #acts_as_soft_deletable
   enju_cinii
 

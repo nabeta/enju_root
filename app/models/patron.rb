@@ -36,9 +36,17 @@ class Patron < ActiveRecord::Base
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
 
-  acts_as_solr :fields => [:name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2, :address_1_note, :address_2_note, :other_designation, {:created_at => :date}, {:updated_at => :date}, {:date_of_birth => :date}, {:date_of_death => :date},
-    {:work_ids => :integer}, {:expression_ids => :integer}, {:manifestation_ids => :integer}, {:patron_type_id => :integer}, {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer}],
-    :facets => [:patron_type_id, :date_of_birth], :offline => proc{|patron| patron.restrain_indexing},
+  acts_as_solr :fields => [
+    :name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2,
+    :address_1_note, :address_2_note, :other_designation,
+    {:created_at => :date}, {:updated_at => :date},
+    {:date_of_birth => :date}, {:date_of_death => :date},
+    {:work_ids => :integer}, {:expression_ids => :integer},
+    {:manifestation_ids => :integer}, {:patron_type_id => :integer},
+    {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer}
+  ],
+    :facets => [:patron_type_id, :date_of_birth],
+    :offline => proc{|patron| patron.restrain_indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
