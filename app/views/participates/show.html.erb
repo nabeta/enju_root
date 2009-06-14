@@ -3,12 +3,12 @@
 <div id="content_list">
   
 <p>
-  <b>Patron:</b>
+  <b><%= t('activerecord.models.patron') -%>:</b>
   <%= link_to h(@participate.patron.full_name), @participate.patron %>
 </p>
 
 <p>
-  <b>Event:</b>
+  <b><%= t('activerecord.models.event') -%>:</b>
   <%= link_to h(@participate.event.title), @participate.event %>
 </p>
 

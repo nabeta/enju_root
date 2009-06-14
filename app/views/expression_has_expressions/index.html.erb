@@ -14,7 +14,7 @@
   <tr>
     <td><%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%></td>
     <td><%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%></td>
-    <td><%=h expression_has_expression.type -%></td>
+    <td><%=h expression_has_expression.class.to_s -%></td>
     <td><%=h expression_has_expression.position -%></td>
     <td><%= link_to t('page.show'), expression_has_expression -%></td>
     <td><%= link_to t('page.edit'), edit_expression_has_expression_path(expression_has_expression) -%></td>

@@ -199,6 +199,10 @@
           <%- if @manifestation.nbn -%>
             NBN: <%=h @manifestation.nbn -%>
           <%- end -%>
+          <%- if @manifestation.lccn -%>
+            <br />
+            LCCN: <%=h @manifestation.lccn -%>
+          <%- end -%>
         </td>
       </tr>
     <%- end -%>

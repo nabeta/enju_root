@@ -32,7 +32,7 @@ class UserReserveStat < ActiveRecord::Base
 
   def calculate_count
     self.started_at = Time.zone.now
-    User.find_each(:batch_size => UserReserveStat.not_calculated.size) do |user|
+    User.find_each do |user|
       daily_count = user.reserves.created(self.start_date, self.end_date).size
       if daily_count > 0
         self.users << user

@@ -14,7 +14,7 @@
   <tr>
     <td><%= link_to h(manifestation_has_manifestation.from_manifestation.original_title), manifestation_has_manifestation.from_manifestation -%></td>
     <td><%= link_to h(manifestation_has_manifestation.to_manifestation.original_title), manifestation_has_manifestation.to_manifestation -%></td>
-    <td><%=h manifestation_has_manifestation.type -%></td>
+    <td><%=h manifestation_has_manifestation.class.to_s -%></td>
     <td><%=h manifestation_has_manifestation.position -%></td>
     <td><%= link_to t('page.show'), manifestation_has_manifestation -%></td>
     <td><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(manifestation_has_manifestation) -%></td>

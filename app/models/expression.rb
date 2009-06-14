@@ -11,15 +11,15 @@ class Expression < ActiveRecord::Base
   belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes
-  belongs_to :language, :validate => true
-  belongs_to :frequency_of_issue, :validate => true
+  belongs_to :language #, :validate => true
+  belongs_to :frequency_of_issue #, :validate => true
   has_many :expression_merges, :dependent => :destroy
   has_many :expression_merge_lists, :through => :expression_merges
   has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
-  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :derived_expressions, :through => :to_expressions, :source => :to_expression

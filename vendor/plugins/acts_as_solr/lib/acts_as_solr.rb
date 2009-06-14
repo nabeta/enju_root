@@ -44,7 +44,7 @@ module ActsAsSolr
         else
           url = 'http://localhost:8982/solr'
         end
-        connection = Solr::Connection.new(url)
+        connection = Solr::Connection.new(url, :timeout => 3600)
         return connection.send(request)
       rescue 
         raise "Couldn't connect to the Solr server at #{url}. #{$!}"

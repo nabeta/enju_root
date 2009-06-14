@@ -14,7 +14,7 @@
   <tr>
     <td><%= link_to h(item_has_item.from_item.manifestation.original_title), item_has_item.from_item -%></td>
     <td><%= link_to h(item_has_item.to_item.manifestation.original_title), item_has_item.to_item -%></td>
-    <td><%=h item_has_item.type -%></td>
+    <td><%=h item_has_item.class.to_s -%></td>
     <td><%=h item_has_item.position -%></td>
     <td><%= link_to t('page.show'), item_has_item -%></td>
     <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) -%></td>

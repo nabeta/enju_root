@@ -32,7 +32,7 @@ class UserCheckoutStat < ActiveRecord::Base
 
   def calculate_count
     self.started_at = Time.zone.now
-    User.find_each(:batch_size => UserCheckoutStat.not_calculated.size) do |user|
+    User.find_each do |user|
       daily_count = user.checkouts.completed(self.start_date, self.end_date).size
       if daily_count > 0
         self.users << user

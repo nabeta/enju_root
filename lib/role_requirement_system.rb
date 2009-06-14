@@ -94,7 +94,7 @@ module RoleRequirementSystem
         passed = false
         roles.each { |role|
           passed = true if user.has_role?(role)
-        } unless (user==:false || user==false)
+        } unless (! user || user==:false)
         
         return false unless passed
       }
@@ -108,17 +108,20 @@ module RoleRequirementSystem
       #raise "Because role_requirement extends acts_as_authenticated, You must include AuthenticatedSystem first before including RoleRequirementSystem!" unless klass.included_modules.include?(AuthenticatedSystem)
     end
     
+    def render_optional_error_file(status)
+      render :text => "You don't have access here.", :status => status
+    end
+    
     def access_denied
       if logged_in?
-        render :nothing => true, :status => 401
-        #redirect_to :controller => 'user_sessions', :action => 'new', :status => 401
+        render_optional_error_file(401)
         return false
       else
         super
       end
     end
     
-    def check_roles
+    def check_roles       
       return access_denied unless self.class.user_authorized_for?(current_user, params, binding)
       
       true

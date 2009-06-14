@@ -93,13 +93,13 @@ module ApplicationHelper
     html <<   %(</div>\n)
   end
 
-  def patrons_list(patrons = [], options = {})
+  def patrons_list(patrons = [], options = {}, user = nil)
     return nil if patrons.blank?
     patrons_list = []
     if options[:nolink]
-      patrons_list = patrons.map{|patron| h(patron.full_name)}
+      patrons_list = patrons.map{|patron| h(patron.full_name) if patron.is_readable_by(user)}
     else
-      patrons_list = patrons.map{|patron| link_to(h(patron.full_name), patron)}
+      patrons_list = patrons.map{|patron| link_to(h(patron.full_name), patron) if patron.is_readable_by(user)}
     end
     patrons_list.join(" ")
   end

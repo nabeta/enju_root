@@ -4,8 +4,8 @@
 
 <table id="index">
   <tr>
-    <th>Patron</th>
-    <th>Event</th>
+    <th><%= t('activerecord.models.patron') -%></th>
+    <th><%= t('activerecord.models.event') -%></th>
   </tr>
 
 <% @participates.each do |participate| %>
@@ -19,12 +19,12 @@
 <% end %>
 </table>
 
-<%= will_paginate(@participates) -%>
+<%= will_paginate(@participates, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= link_to 'New participate', new_participate_path %></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.participate')), new_participate_path -%></li>
   </ul>
 </div>

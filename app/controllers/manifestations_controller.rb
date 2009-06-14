@@ -86,9 +86,7 @@ class ManifestationsController < ApplicationController
           @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
           @count[:query_result] = @manifestations.total_entries
         
-          unless query.blank?
-            save_search_history(@query, @manifestations.offset, @count[:total])
-          end
+          save_search_history(@query, @manifestations.offset, @count[:total])
 
           if @manifestations
             session[:manifestation_ids] = manifestation_ids
