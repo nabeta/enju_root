@@ -13,7 +13,7 @@
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
 <div id="content_list">
 <%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
-  <table id="index">
+  <table class="index">
     <tr>
       <th></th>
       <th><%= t('activerecord.models.subject') -%></th>

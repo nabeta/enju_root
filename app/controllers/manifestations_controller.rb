@@ -4,6 +4,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   before_filter :get_subject
+  before_filter :get_manifestation, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
   after_filter :convert_charset, :only => :index
@@ -60,42 +61,58 @@ class ManifestationsController < ApplicationController
 
       unless query.blank?
         query = make_internal_query(query)
-        begin
-          @count[:total] = Manifestation.count_by_solr(total_query)
-          #@tags_count = @count[:total]
+        #if params[:mode] == "worldcat" or params[:page].blank?
+        #
+        #  if params[:worldcat_page]
+        #    worldcat_page = params[:worldcat_page].to_i
+        #  else
+        #    worldcat_page = 1
+        #  end
+        #  @result = Rails.cache.fetch("worldcat_search_#{URI.escape(query)}_page_#{worldcat_page}", :expires_in => 1.week){search_worldcat(:query => query, :page => worldcat_page, :per_page => Manifestation.per_page)}
+        #  if @result
+        #    @worldcat_results = WillPaginate::Collection.create(worldcat_page, @result.header["itemsPerPage"].to_i, @result.header["totalResults"].to_i) do |pager| pager.replace(@result.records) end
+        #  else
+        #    @worldcat_results = []
+        #  end
+        #end
+        #unless params[:mode] == "worldcat"
+          begin
+            @count[:total] = Manifestation.count_by_solr(total_query)
+            #@tags_count = @count[:total]
 
-          if ["all_facet", "manifestation_form_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-            prepare_options
-            render_facet(query)
-            return
-          end
-
-          order = set_search_result_order(params[:sort], params[:mode])
-          #browse = "manifestation_form_f: #{@manifestation_form.name}" if @manifestation_form
-          browse = ""
-
-          manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.cached_numdocs).results
-          if params[:view] == "tag_cloud"
-            if manifestation_ids
-              @tags = Tag.bookmarked(manifestation_ids)
-              render :partial => 'tag_cloud'
+            if ["all_facet", "manifestation_form_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
+              prepare_options
+              render_facet(query)
               return
             end
-          end
 
-          @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
-          @count[:query_result] = @manifestations.total_entries
+            order = set_search_result_order(params[:sort], params[:mode])
+            #browse = "manifestation_form_f: #{@manifestation_form.name}" if @manifestation_form
+            browse = ""
+
+            manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.cached_numdocs).results
+            if params[:view] == "tag_cloud"
+              if manifestation_ids
+                @tags = Tag.bookmarked(manifestation_ids)
+                render :partial => 'tag_cloud'
+                return
+              end
+            end
+
+            @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
+            @count[:query_result] = @manifestations.total_entries
         
-          save_search_history(@query, @manifestations.offset, @count[:total])
+            save_search_history(@query, @manifestations.offset, @count[:total])
 
-          if @manifestations
-            session[:manifestation_ids] = manifestation_ids
+            if @manifestations
+              session[:manifestation_ids] = manifestation_ids
+            end
+          rescue
+            @manifestations = []
+            @count[:total] = 0
+            @count[:query_result] = 0
           end
-        rescue
-          @manifestations = []
-          @count[:total] = 0
-          @count[:query_result] = 0
-        end
+        #end
       else
         # Solrを使わない場合
         get_index_without_solr
@@ -119,6 +136,11 @@ class ManifestationsController < ApplicationController
       format.csv  { render :layout => false }
       format.atom
       format.json { render :json => @manifestations }
+      format.js {
+        render :update do |page|
+          page.replace_html 'worldcat_list', :partial => 'worldcat' if params[:worldcat_page]
+        end
+      }
     end
   end
 
@@ -456,10 +478,8 @@ class ManifestationsController < ApplicationController
       @manifestations = @patron.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['produces.id'])
     when @expression
       @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['embodies.id'])
-    when @parent_manifestation
-      @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
-    when @derived_manifestation
-      @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
+    when @manifestation
+      @manifestations = @manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
     when @subject
       @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else
@@ -476,6 +496,7 @@ class ManifestationsController < ApplicationController
     unless params[:mode] == "add"
       query.add_query!(@expression) unless @expression.blank?
       query.add_query!(@patron) unless @patron.blank?
+      query = "#{query} original_manifestation_ids: #{manifestation_form.name}" if @manifestation
     end
     if @reservable
       query = "#{query} reservable: true"
@@ -509,4 +530,15 @@ class ManifestationsController < ApplicationController
       SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end
   end
+
+  def search_worldcat(search_options, translate_from = I18n.locale, translate_into = 'English', translate_method = 'google')
+    if translate_method == 'mecab'
+      # romanize
+      query = Kakasi::kakasi('-Ha -Ka -Ja -Ea -ka', NKF::nkf('-e', search_options[:query].wakati.yomi))
+    else
+      query = Translate.t(search_options[:query], translate_from, translate_into)
+    end
+    Manifestation.search_worldcat(:query => query, :page => search_options[:page], :per_page => search_options[:per_page])
+  end
+
 end

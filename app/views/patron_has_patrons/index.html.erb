@@ -1,0 +1,36 @@
+<div id="content_detail">
+<h1 class="title">Listing patron_has_patrons</h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th>From patron</th>
+    <th>To patron</th>
+    <th>Patron Relationship type</th>
+    <th>Position</th>
+  </tr>
+
+<% for patron_has_patron in @patron_has_patrons -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(patron_has_patron.from_patron.full_name), patron_has_patron.from_patron -%></td>
+    <td><%= link_to h(patron_has_patron.to_patron.full_name), patron_has_patron.to_patron -%></td>
+    <td><%=h patron_has_patron.class.to_s -%></td>
+    <td><%=h patron_has_patron.position -%></td>
+    <td><%= link_to t('page.show'), patron_has_patron -%></td>
+    <td><%= link_to t('page.edit'), edit_patron_has_patron_path(patron_has_patron) -%></td>
+    <td><%= link_to t('page.destroy'), patron_has_patron, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<% end -%>
+</table>
+
+<%= will_paginate(@patron_has_patrons) -%>
+<br />
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron_has_patron')), new_patron_has_patron_path -%></li>
+  </ul>
+</div>

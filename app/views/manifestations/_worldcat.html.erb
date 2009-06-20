@@ -1,0 +1,18 @@
+<div id="worldcat_list">
+<%- unless @worldcat_results.blank? -%>
+  <table class="index">
+  <%- @worldcat_results.each do |record| -%>
+    <tr>
+      <td>
+        <strong><%= link_to h(record[:title]), h(record[:link]) -%></strong>
+        <br />
+        <%- record[:author].each do |author| -%>
+          <%=h author -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+<%= will_paginate(@worldcat_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :worldcat_page, :class => 'content_pagination') -%>
+<%- end -%>
+</div>

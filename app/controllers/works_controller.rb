@@ -1,7 +1,8 @@
 class WorksController < ApplicationController
   before_filter :has_permission?
   #before_filter :get_parent
-  before_filter :get_patron, :get_work
+  before_filter :get_patron
+  before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -15,12 +16,7 @@ class WorksController < ApplicationController
       query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@patron) if @patron
-        if @derived_work
-          query += " derived_work_ids: #{@derived_work.id}"
-        end
-        if @original_work
-          query += " original_work_ids: #{@original_work.id}"
-        end
+        query += " original_work_ids: #{@work.id}" if @work
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
       @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
@@ -29,10 +25,12 @@ class WorksController < ApplicationController
       case
       when @patron
         @works = @patron.works.paginate(:page => params[:page], :order => 'works.id')
-      when @derived_work
-        @works = @derived_work.original_works.paginate(:page => params[:page], :order => 'works.id')
-      when @original_work
-        @works = @original_work.derived_works.paginate(:page => params[:page], :order => 'works.id')
+      when @work
+        if params[:mode] == 'add'
+          @works = Work.paginate(:page => params[:page], :order => 'works.id')
+        else
+          @works = @work.derived_works.paginate(:page => params[:page], :order => 'works.id')
+        end
       when @work_merge_list
         @works = @work_merge_list.works.paginate(:page => params[:page])
       else

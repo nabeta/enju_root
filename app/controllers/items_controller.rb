@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
   before_filter :get_manifestation, :get_inventory_file
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
+  before_filter :get_item, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   #before_filter :store_location
   after_filter :convert_charset, :only => :index

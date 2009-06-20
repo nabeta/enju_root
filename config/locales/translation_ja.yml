@@ -124,6 +124,7 @@ ja:
       subject_heading_type_has_subject: 件名標目と件名の関係
       user_has_shelf: 利用者と書棚の関係
       participate: 参加
+      patron_has_patron: パトロン間の関係
     attributes:
       library:
         name: 名前

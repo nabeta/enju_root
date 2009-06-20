@@ -1,28 +1,39 @@
-  <table id="manifestation_list">
-    <%- @manifestations.each_with_index do |manifestation, i| -%>
-      <tr class="line<%= cycle("0", "1") -%>">
-        <td><%= itemnum = @manifestations.offset + 1 + i -%></td>
-        <td>
-          <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
-          <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
-        </td>
-      </tr>
-    <%- end -%>
-  </table>
+<div id="tabview">
+  <div id="demo" class="yui-navset yui-navset-top">
+    <ul class="yui-nav">
+      <li title="active" class="selected"><a href="#detail"><em><%=h LibraryGroup.site_config.display_name.localize -%></em></a></li>
+    </ul>
+    <div class="yui-content">
+      <div id="detail">
+        <table id="manifestation_list">
+          <%- @manifestations.each_with_index do |manifestation, i| -%>
+            <tr class="line<%= cycle("0", "1") -%>">
+              <td><%= itemnum = @manifestations.offset + 1 + i -%></td>
+              <td>
+                <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
+                <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
+              </td>
+            </tr>
+          <%- end -%>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 
 <%=
   will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
 -%>
 <br />
 
-  <div>
-    <%- if @manifestations and @manifestations.size > Manifestation.per_page / 2 -%>
-      <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
-        <p>
-          <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_bottom', :class => 'search_form'} -%>
-          <%= submit_tag t('page.search') -%>
-          <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
-        </p>
-      <%- end -%>
+<div>
+  <%- if @manifestations and @manifestations.size > Manifestation.per_page / 2 -%>
+    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+      <p>
+        <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'searchform_bottom', :class => 'search_form'} -%>
+        <%= submit_tag t('page.search') -%>
+        <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
+      </p>
     <%- end -%>
-  </div>
+  <%- end -%>
+</div>

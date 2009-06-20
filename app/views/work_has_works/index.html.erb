@@ -2,7 +2,7 @@
 <h1 class="title">Listing work_has_works</h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
     <th>From work</th>
     <th>To work</th>
@@ -11,7 +11,7 @@
   </tr>
 
 <% for work_has_work in @work_has_works -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(work_has_work.from_work.original_title), work_has_work.from_work -%></td>
     <td><%= link_to h(work_has_work.to_work.original_title), work_has_work.to_work -%></td>
     <td><%=h work_has_work.class.to_s -%></td>

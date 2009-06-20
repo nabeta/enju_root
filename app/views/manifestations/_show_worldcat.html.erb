@@ -1,0 +1,12 @@
+<div id="worldcat">
+  <table class="index">
+    <tr>
+      <td style="width: 200px"><%= ('Summary') -%></td>
+      <td style="width:500px"><%= @manifestation.worldcat_record[:summary] -%></td>
+    </tr>
+    <tr>
+      <td><%= ('Citation') -%></td>
+      <td><%= @manifestation.worldcat_record[:citation] -%></td>
+    </tr>
+  </table>
+</div>    

@@ -6,7 +6,7 @@
   <p><%= link_to textilize_without_paragraph(h(@question.body)), user_question_path(@question.user.login, @question) -%></p>
 <%- end -%>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('activerecord.attributes.answer.body') -%></th>

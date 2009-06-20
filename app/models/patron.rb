@@ -31,6 +31,10 @@ class Patron < ActiveRecord::Base
   has_many :participates, :dependent => :destroy
   has_many :events, :through => :participates
   #has_many :works_as_subjects, :through => :resource_has_subjects, :as => :subjects
+  has_many :to_patrons, :foreign_key => 'from_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
+  has_many :from_patrons, :foreign_key => 'to_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
+  has_many :derived_patrons, :through => :to_patrons, :source => :to_patron
+  has_many :original_patrons, :through => :from_patrons, :source => :from_patron
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
@@ -43,7 +47,8 @@ class Patron < ActiveRecord::Base
     {:date_of_birth => :date}, {:date_of_death => :date},
     {:work_ids => :integer}, {:expression_ids => :integer},
     {:manifestation_ids => :integer}, {:patron_type_id => :integer},
-    {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer}
+    {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer},
+    {:original_patron_ids => :integer}
   ],
     :facets => [:patron_type_id, :date_of_birth],
     :offline => proc{|patron| patron.restrain_indexing},
@@ -196,6 +201,10 @@ class Patron < ActiveRecord::Base
 
   def patron_merge_list_ids
     self.patron_merge_lists.collect(&:id)
+  end
+
+  def original_patron_ids
+    self.derived_patrons.collect(&:id)
   end
 
   def self.is_creatable_by(user, parent = nil)

@@ -34,8 +34,8 @@ class Manifestation < ActiveRecord::Base
   has_many :reserve_stats, :through => :reserve_stat_has_manifestations
   has_many :to_manifestations, :foreign_key => 'from_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
-  has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
-  has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
+  has_many :derived_manifestations, :through => :to_manifestations, :source => :to_manifestation
+  has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   has_one :db_file
 
@@ -57,7 +57,7 @@ class Manifestation < ActiveRecord::Base
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
     {:required_role_id => :range_integer}, {:reservable => :boolean},
-    ],
+    {:original_manifestation_ids => :integer}],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
     :offline => proc{|manifestation| manifestation.restrain_indexing},
@@ -69,6 +69,7 @@ class Manifestation < ActiveRecord::Base
   enju_amazon
   enju_porta
   enju_cinii
+  enju_worldcat
   #acts_as_taggable_on :subject_tags
 
   @@per_page = 10
@@ -399,6 +400,10 @@ class Manifestation < ActiveRecord::Base
 
   def subject_ids
     self.subjects.collect(&:id)
+  end
+
+  def original_manifestation_ids
+    self.original_manifestations.collect(&:id)
   end
 
   def user

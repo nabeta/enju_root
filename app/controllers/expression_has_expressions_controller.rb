@@ -1,10 +1,19 @@
 class ExpressionHasExpressionsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_expression
 
   # GET /expression_has_expressions
   # GET /expression_has_expressions.xml
   def index
-    @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
+    if @expression
+      if params[:mode] == 'add'
+        @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
+      else
+        @expression_has_expressions = @expression.to_expressions.paginate(:all, :page => params[:page])
+      end
+    else
+      @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

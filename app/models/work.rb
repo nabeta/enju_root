@@ -25,7 +25,8 @@ class Work < ActiveRecord::Base
   acts_as_solr :fields => [:title, :context, :note,
     {:created_at => :date}, {:updated_at => :date},
     {:patron_ids => :integer}, {:parent_id => :integer},
-    {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
+    {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer},
+    {:original_work_ids => :integer}],
     :facets => [:work_form_id], 
     :offline => proc{|work| work.restrain_indexing},
     :auto_commit => false

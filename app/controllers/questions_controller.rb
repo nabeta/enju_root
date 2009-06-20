@@ -29,13 +29,13 @@ class QuestionsController < ApplicationController
       end
 
       @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-      refkyo_resource = Question.search_porta(params[:query], 'refkyo', crd_startrecord, Question.crd_per_page)
-      @resources = refkyo_resource.items
       if params[:crd_page]
         crd_page = params[:crd_page].to_i
       else
         crd_page = 1
       end
+      refkyo_resource = Rails.cache.fetch("porta_crd_search_#{URI.escape(query)}_page_#{crd_page}", :expires_in => 1.week){Question.search_porta(query, 'refkyo', crd_startrecord, Question.crd_per_page)}
+      @resources = refkyo_resource.items
       @refkyo_count = refkyo_resource.channel.totalResults.to_i
       if @refkyo_count > 1000
         crd_total_count = 1000

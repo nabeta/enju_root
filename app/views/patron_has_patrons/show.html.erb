@@ -1,0 +1,31 @@
+<div id="content_detail">
+<div id="content_list">
+<p>
+  <b>From patron:</b>
+  <%= link_to h(@patron_has_patron.from_patron.full_name), @patron_has_patron.from_patron -%>
+</p>
+
+<p>
+  <b>To patron:</b>
+  <%= link_to h(@patron_has_patron.to_patron.full_name), @patron_has_patron.to_patron -%>
+</p>
+
+<p>
+  <b>Patron Relationship type:</b>
+  <%=h @patron_has_patron.type -%>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @patron_has_patron.position -%>
+</p>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_patron_has_patron_path(@patron_has_patron) -%></li>
+    <li><%= link_to t('page.back'), patron_has_patrons_path -%></li>
+  </ul>
+</div>

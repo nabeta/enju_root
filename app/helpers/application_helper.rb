@@ -93,7 +93,7 @@ module ApplicationHelper
     html <<   %(</div>\n)
   end
 
-  def patrons_list(patrons = [], options = {}, user = nil)
+  def patrons_list(patrons = [], user = nil, options = {})
     return nil if patrons.blank?
     patrons_list = []
     if options[:nolink]

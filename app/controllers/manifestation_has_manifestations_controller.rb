@@ -1,10 +1,19 @@
 class ManifestationHasManifestationsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_manifestation
 
   # GET /manifestation_has_manifestations
   # GET /manifestation_has_manifestations.xml
   def index
-    @manifestation_has_manifestations = ManifestationHasManifestation.paginate(:all, :page => params[:page])
+    if @manifestation
+      if params[:mode] == 'add'
+        @manifestation_has_manifestations = ManifestationHasManifestation.paginate(:all, :page => params[:page])
+      else
+        @manifestation_has_manifestations = @manifestation.to_manifestations.paginate(:all, :page => params[:page])
+      end
+    else
+      @manifestation_has_manifestations = ManifestationHasManifestation.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

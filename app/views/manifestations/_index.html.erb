@@ -1,6 +1,12 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
+  <%- if @manifestation -%>
+    <h2>
+      [M]
+      <%= link_to h(@manifestation.original_title), @manifestation -%>
+    </h2>
+  <%- end -%>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
@@ -17,8 +23,8 @@
       window.onload = function() {
       Element.show('spinner_all_facet');
       Element.show('spinner_tag_cloud');
-      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")).gsub("&amp;", "&") -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
-      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")).gsub("&amp;", "&") -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
+      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")).gsub('&amp;', '&') -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
+      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")).gsub('&amp;', '&') -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
       return false;
     }
     </script>
@@ -57,10 +63,7 @@
     </div>
 
   <%- else -%>
-    <p>
-      <%= t('page.no_record_found') -%>
-      <%= t('page.you_can_search_following_database') -%>
-    </p>
+    <%= render :partial => 'not_found', :locals => {:manifestations => @manifestations} -%>
     <%- @search_engines.each do |search_engine| -%>
       <p>
         <%= form_tag search_engine.base_url, :method => search_engine.http_method -%>
@@ -120,3 +123,4 @@
     <%- end -%>
   </div>
 </div>
+<%= render :partial => 'page/tabview' -%>

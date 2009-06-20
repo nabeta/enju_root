@@ -2,10 +2,11 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.language')) -%></h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
-    <th><%= t('activerecord.attributes.language.display_name') -%></th>
     <th><%= t('activerecord.attributes.language.native_name') -%></th>
+    <th><%= t('activerecord.attributes.language.name') -%></th>
+    <th><%= t('activerecord.attributes.language.display_name') -%></th>
     <th><%= ('Iso 639 1') -%></th>
     <th><%= ('Iso 639 2') -%></th>
     <th><%= ('Iso 639 3') -%></th>
@@ -13,8 +14,9 @@
 
 <%- for language in @languages -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(language.display_name.localize), language -%></td>
     <td><%=h language.native_name -%></td>
+    <td><%=h language.name -%></td>
+    <td><%= link_to h(language.display_name.localize), language -%></td>
     <td><%=h language.iso_639_1 -%></td>
     <td><%=h language.iso_639_2 -%></td>
     <td><%=h language.iso_639_3 -%></td>

@@ -43,7 +43,7 @@
   <%= link_to h(@imported_patron_file.user.login), user_path(@imported_patron_file.user.login) -%>
 </p>
 
-<table id="index">
+<table class="index">
   <%- @imported_patron_file.imported_objects.each do |object| -%>
     <tr>
       <td><%= link_to h(object.importable.full_name), object.importable -%></td>

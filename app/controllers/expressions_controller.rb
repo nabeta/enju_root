@@ -3,6 +3,7 @@ class ExpressionsController < ApplicationController
   before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_work, :get_manifestation, :get_subscription
+  before_filter :get_expression, :only => :index
   before_filter :get_expression_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -20,6 +21,7 @@ class ExpressionsController < ApplicationController
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@patron) if @patron
         query.add_query!(@work) if @work
+        query += " original_expression_id: #{@expression.id}" if @expression
         query += " subscription_id: #{@subscription.id}" if @subscription
         query += " expression_merge_list_ids: #{@expression_merge_list.id}" if @expression_merge_list
       end
@@ -33,10 +35,8 @@ class ExpressionsController < ApplicationController
         @expressions = @work.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @manifestation
         @expressions = @manifestation.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      when @parent_expression
-        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id')
-      when @derived_expression
-        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :order => 'expressions.id')
+      when @expression
+        @expressions = @expression.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id')
       when @subscription
         @expressions = @subscription.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @expression_merge_list

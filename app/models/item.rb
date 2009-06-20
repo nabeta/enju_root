@@ -51,7 +51,9 @@ class Item < ActiveRecord::Base
   #acts_as_soft_deletable
   enju_union_catalog
 
-  acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:required_role_id => :range_integer}],
+  acts_as_solr :fields => [:item_identifier, :note, :title, :author,
+    :publisher, :library, {:required_role_id => :range_integer},
+    {:original_item_ids => :integer}],
     :facets => [:circulation_status_id],
     :offline => proc{|item| item.restrain_indexing}, :auto_commit => false
 
@@ -211,6 +213,10 @@ class Item < ActiveRecord::Base
         self.item_identifier = nil
       end
     end
+  end
+
+  def original_item_ids
+    self.original_items.collect(&:id)
   end
 
 end

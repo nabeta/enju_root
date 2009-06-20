@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :patron_has_patrons
+
   map.resources :participates
 
   map.connect "live_validations/:action", :controller => "live_validations"
@@ -225,6 +227,7 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :advertisements
     patron.resources :picture_files
     patron.resources :events
+    patron.resources :patrons
   end
   map.resources :users do |user|
     user.resources :roles
@@ -273,6 +276,7 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :places
     work.resources :subjects
     work.resources :works
+    work.resources :work_has_works
   end
   map.resources :expressions do |expression|
     expression.resource :realize

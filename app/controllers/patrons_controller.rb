@@ -2,6 +2,7 @@ class PatronsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
+  before_filter :get_patron, :only => :index
   before_filter :get_patron_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :store_location
@@ -39,12 +40,12 @@ class PatronsController < ApplicationController
         query.add_query!(@work) if @work
         query.add_query!(@expression) if @expression
         query.add_query!(@manifestation) if @manifestation
+        query += " original_patron_ids: #{@patron.id}" if @patron
         query += " patron_merge_list_ids: #{@patron_merge_list.id}" if @patron_merge_list
       end
 
       @patrons = Patron.paginate_by_solr(query, :order => order, :page => params[:page]).compact
       @count[:query_result] = @patrons.total_entries
-      @patrons = Patron.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
     else
       case
       when @work
@@ -53,6 +54,8 @@ class PatronsController < ApplicationController
         @patrons = @expression.patrons.paginate(:page => params[:page])
       when @manifestation
         @patrons = @manifestation.patrons.paginate(:page => params[:page])
+      when @patron
+        @patrons = @patron.derived_patrons.paginate(:page => params[:page])
       when @patron_merge_list
         @patrons = @patron_merge_list.patrons.paginate(:page => params[:page])
       else
@@ -222,22 +225,22 @@ class PatronsController < ApplicationController
 
   private
 
-  def get_patron
-    case
-    when @work
-      @patron = @work.patrons.find(params[:id])
-    when @expression
-      @patron = @expression.patrons.find(params[:id])
-    when @manifestation
-      @patron = @manifestation.patrons.find(params[:id])
-    when @item
-      @patron = @item.patrons.find(params[:id])
-    else
-      @patron = Patron.find(params[:id])
-    end
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
+  #def get_patron
+  #  case
+  #  when @work
+  #    @patron = @work.patrons.find(params[:id])
+  #  when @expression
+  #    @patron = @expression.patrons.find(params[:id])
+  #  when @manifestation
+  #    @patron = @manifestation.patrons.find(params[:id])
+  #  when @item
+  #    @patron = @item.patrons.find(params[:id])
+  #  else
+  #    @patron = Patron.find(params[:id])
+  #  end
+  #rescue ActiveRecord::RecordNotFound
+  #  not_found
+  #end
 
   def prepare_options
     @patron_types = PatronType.find(:all)

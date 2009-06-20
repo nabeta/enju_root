@@ -10,6 +10,12 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
+  <%- if @patron -%>
+    <h2>
+      [P]
+      <%= link_to h(@patron.full_name), @patron -%>
+    </h2>
+  <%- end -%>
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
@@ -18,7 +24,7 @@
   <%= javascript_tag("$('query').focus()") -%>
 <%- end -%>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
     <th><%= t('activerecord.attributes.user.login') -%></th>

@@ -34,7 +34,8 @@ class Expression < ActiveRecord::Base
     {:work_id => :integer}, {:manifestation_ids => :integer},
     {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
     {:subscription_ids => :integer}, {:required_role_id => :range_integer},
-    {:expression_merge_list_ids => :integer}],
+    {:expression_merge_list_ids => :integer},
+    {:original_expression_ids => :integer}],
     :facets => [:expression_form_id, :language_id],
     :offline => proc{|expression| expression.restrain_indexing},
     :auto_commit => false
@@ -103,6 +104,10 @@ class Expression < ActiveRecord::Base
 
   def expression_merge_list_ids
     self.expression_merge_lists.collect(&:id)
+  end
+
+  def original_exprsesion_ids
+    self.original_expressions.collect(&:id)
   end
 
   def subscribed?

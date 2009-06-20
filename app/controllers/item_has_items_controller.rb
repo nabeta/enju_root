@@ -1,10 +1,19 @@
 class ItemHasItemsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_item
 
   # GET /item_has_items
   # GET /item_has_items.xml
   def index
-    @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
+    if @item
+      if params[:mode] == 'add'
+        @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
+      else
+        @item_has_items = @item.to_items.paginate(:all, :page => params[:page])
+      end
+    else
+      @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

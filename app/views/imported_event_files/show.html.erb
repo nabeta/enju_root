@@ -43,7 +43,7 @@
   <%= link_to h(@imported_event_file.user.login), user_path(@imported_event_file.user.login) -%>
 </p>
 
-<table id="index">
+<table class="index">
   <%- @imported_event_file.imported_objects.each do |object| -%>
     <tr>
       <td><%= link_to h(object.importable.title), object.importable -%></td>
