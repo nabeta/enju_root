@@ -9,9 +9,22 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
-  <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
+  <h2>
+    [W]
+    <%= link_to h(@work.original_title), @work -%>
+  </h2>
+  <%- form_for :works, :url => work_works_path(@work), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%- if @work.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
+    <%- end -%>
     <%= submit_tag t('page.search') -%>
    </p>
   <%= javascript_tag("$('query').focus()") -%>
@@ -36,6 +49,16 @@
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td><%= link_to t('page.destroy'), work, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
+      <td>
+        <%- if work.is_deletable_by(current_user) -%>
+          <%- if params[:mode] == "add" -%>
+            <%= link_to t('page.add'), new_work_work_has_work_path(@work, :to_work_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>
+          <%- else -%>
+            <%- work_has_work = @work.to_works.find_by_to_work_id(work.id) -%>
+            <%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete if work_has_work -%>
+          <%- end -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

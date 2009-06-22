@@ -2,6 +2,8 @@
   <%= render :partial => 'index_patron' -%>
 <%- when @expression -%>
   <%= render :partial => 'index_expression' -%>
+<%- when @manifestation -%>
+  <%= render :partial => 'index_manifestation' -%>
 <%- when @subject -%>
   <%= render :partial => 'index_subject' -%>
 <%- else -%>

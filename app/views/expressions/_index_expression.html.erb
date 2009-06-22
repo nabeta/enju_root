@@ -9,15 +9,22 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-<%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
+  <h2>
+    [E]
+    <%= link_to h(@expression.original_title), @expression -%>
+  </h2>
+<%- form_for :expressions, :url => expression_expressions_path(@expression), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
-    <%- if params[:view] == 'serial' -%>
-      <%= check_box_tag 'view', 'serial', :checked => true -%>
-    <%- else -%>
-      <%= check_box_tag 'view', 'serial' -%>
+    <%- if @expression.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
     <%- end -%>
-    <%= t('page.serial') -%>
     <%= submit_tag t('page.search') -%>
   </p>
   <%= javascript_tag("$('query').focus()") -%>
@@ -42,6 +49,16 @@
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
         <td><%= link_to t('page.destroy'), expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
+      <td>
+        <%- if expression.is_deletable_by(current_user) -%>
+          <%- if params[:mode] == "add" -%>
+            <%= link_to t('page.add'), new_expression_expression_has_expression_path(@expression, :to_expression_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
+          <%- else -%>
+            <%- expression_has_expression = @expression.to_expressions.find_by_to_expression_id(expression.id) -%>
+            <%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete if expression_has_expression -%>
+          <%- end -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

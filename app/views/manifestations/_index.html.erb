@@ -1,13 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
-  <%- if @manifestation -%>
-    <h2>
-      [M]
-      <%= link_to h(@manifestation.original_title), @manifestation -%>
-    </h2>
-  <%- end -%>
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+  <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>

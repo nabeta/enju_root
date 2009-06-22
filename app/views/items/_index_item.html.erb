@@ -13,16 +13,23 @@
     <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
 <div id="content_list">
-  <%- if @item -%>
-    <h2>
-      [I]
-      <%= link_to h(@item.manifestation.original_title), @item -%>
-    </h2>
-  <%- end -%>
+  <h2>
+    [I]
+    <%= link_to h(@item.manifestation.original_title), @item -%>
+  </h2>
 
-<%- form_for :items, :url => items_path, :html => {:method => 'get'} do -%>
+<%- form_for :items, :url => item_items_path(@item), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%- if @item.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
+    <%- end -%>
     <%= submit_tag t('page.search') -%>
   </p>
   <%= javascript_tag("$('query').focus()") -%>
@@ -62,20 +69,8 @@
         <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
         <td><%= link_to t('page.destroy'), item_path(item), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
-      <%- if @item -%>
-        <td>
-          <%- if item.is_deletable_by(current_user) -%>
-            <%- if params[:mode] == "add" -%>
-              <%= link_to t('page.add'), new_item_item_has_item_path(@item, :to_item_id => item.id) unless @item.derived_items.include?(item) or @item == item -%>
-            <%- else -%>
-              <%- item_has_item = @item.to_items.find_by_to_item_id(item.id) -%>
-              <%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete if item_has_item -%>
-            <%- end -%>
-          <%- end -%>
-        </td>
-      <%- end -%>
-  </tr>
-<%- end -%>
+    </tr>
+  <%- end -%>
 </table>
 
 <%= will_paginate(@items, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

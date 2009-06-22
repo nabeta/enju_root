@@ -4,6 +4,8 @@
   <%= render :partial => 'index_expression' -%>
 <%- when @manifestation -%>
   <%= render :partial => 'index_manifestation' -%>
+<%- when @patron -%>
+  <%= render :partial => 'index_patron' -%>
 <%- when @patron_merge_list -%>
   <%= render :partial => 'index_patron_merge_list' -%>
 <%- else -%>
