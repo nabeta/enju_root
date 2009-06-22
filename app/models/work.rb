@@ -80,8 +80,4 @@ class Work < ActiveRecord::Base
     self.original_works.collect(&:id)
   end
 
-  def derived_work_ids
-    self.derived_works.collect(&:id)
-  end
-
 end

@@ -36,13 +36,16 @@ class ExpressionsController < ApplicationController
       when @manifestation
         @expressions = @manifestation.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @expression
-        @expressions = @expression.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id')
+        if params[:mode] == 'add'
+          @expressions = Expression.paginate(:all, :page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
+        else
+          @expressions = @expression.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id DESC')
+        end
       when @subscription
         @expressions = @subscription.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       when @expression_merge_list
         @expressions = @expression_merge_list.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       else
-        raise ActiveRecord::RecordNotFound if params[:patron_id] or params[:manifestation_id]
         @expressions = Expression.paginate(:all, :page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
       end
     end

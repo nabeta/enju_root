@@ -27,7 +27,7 @@ class WorksController < ApplicationController
         @works = @patron.works.paginate(:page => params[:page], :order => 'works.id')
       when @work
         if params[:mode] == 'add'
-          @works = Work.paginate(:page => params[:page], :order => 'works.id')
+          @works = Work.paginate(:page => params[:page], :order => 'works.id DESC')
         else
           @works = @work.derived_works.paginate(:page => params[:page], :order => 'works.id')
         end

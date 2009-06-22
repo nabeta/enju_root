@@ -34,7 +34,8 @@ class QuestionsController < ApplicationController
       else
         crd_page = 1
       end
-      refkyo_resource = Rails.cache.fetch("porta_crd_search_#{URI.escape(query)}_page_#{crd_page}", :expires_in => 1.week){Question.search_porta(query, 'refkyo', crd_startrecord, Question.crd_per_page)}
+      #refkyo_resource = Rails.cache.fetch("porta_crd_search_#{URI.escape(query)}_page_#{crd_page}", :expires_in => 1.week){Question.search_porta(query, 'refkyo', crd_startrecord, Question.crd_per_page)}
+      refkyo_resource = Question.search_porta(query, 'refkyo', crd_startrecord, Question.crd_per_page)
       @resources = refkyo_resource.items
       @refkyo_count = refkyo_resource.channel.totalResults.to_i
       if @refkyo_count > 1000

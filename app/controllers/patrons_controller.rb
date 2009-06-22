@@ -55,7 +55,11 @@ class PatronsController < ApplicationController
       when @manifestation
         @patrons = @manifestation.patrons.paginate(:page => params[:page])
       when @patron
-        @patrons = @patron.derived_patrons.paginate(:page => params[:page])
+        if params[:mode] == 'add'
+          @patrons = Patron.paginate(:all, :page => params[:page])
+        else
+          @patrons = @patron.derived_patrons.paginate(:page => params[:page])
+        end
       when @patron_merge_list
         @patrons = @patron_merge_list.patrons.paginate(:page => params[:page])
       else

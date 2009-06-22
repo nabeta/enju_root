@@ -371,6 +371,7 @@ class Manifestation < ActiveRecord::Base
 
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
+      ISBN_Tools.cleanup!(isbn)
       manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :manifestation_form)
       if manifestation.nil?
         if isbn.length == 13

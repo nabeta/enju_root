@@ -479,7 +479,11 @@ class ManifestationsController < ApplicationController
     when @expression
       @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['embodies.id'])
     when @manifestation
-      @manifestations = @manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
+      if params[:mode] == 'add'
+        @manifestations = Manifestation.paginate(:all, :page => params[:page], :order => 'manifestations.id')
+      else
+        @manifestations = @manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id DESC')
+      end
     when @subject
       @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
     else

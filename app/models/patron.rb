@@ -204,7 +204,7 @@ class Patron < ActiveRecord::Base
   end
 
   def original_patron_ids
-    self.derived_patrons.collect(&:id)
+    self.original_patrons.collect(&:id)
   end
 
   def self.is_creatable_by(user, parent = nil)
