@@ -814,7 +814,21 @@ en:
         reserves_count: Reserve count
       bookmark_stat_has_manifestation:
         bookmarks_count: Bookmark count
-
+      work_has_work:
+        from_work: From
+        to_work: To
+      expression_has_expression:
+        from_expression: From
+        to_expression: To
+      manifestation_has_manifestation:
+        from_manifestation: From
+        to_manifestation: To
+      item_has_item:
+        from_item: From
+        to_item: To
+      patron_has_patron:
+        from_patron: From
+        to_patron: To
   page:
     user_title: "{{login_name}}'s library"
     login: "Login"

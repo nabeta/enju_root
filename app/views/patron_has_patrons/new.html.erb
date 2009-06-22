@@ -6,7 +6,7 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :from_patron_id -%><br />
+    <%= f.label t('activerecord.attributes.patron_has_patron.from_patron') -%><br />
     <%- if @patron_has_patron.from_patron -%>
       <%= link_to h(@patron_has_patron.from_patron.full_name), @patron_has_patron.from_patron -%>
       <%= f.hidden_field :from_patron_id -%>
@@ -15,7 +15,7 @@
     <%- end -%>
   </p>
   <p>
-    <%= f.label :to_patron_id -%><br />
+    <%= f.label t('activerecord.attributes.patron_has_patron.to_patron') -%><br />
     <%- if @patron_has_patron.to_patron -%>
       <%= link_to h(@patron_has_patron.to_patron.full_name), @patron_has_patron.to_patron -%>
       <%= f.hidden_field :to_patron_id -%>

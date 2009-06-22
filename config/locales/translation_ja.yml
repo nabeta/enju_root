@@ -807,6 +807,21 @@ ja:
         reserves_count: 資料の予約回数
       bookmark_stat_has_manifestation:
         bookmarks_count: ブックマーク回数
+      work_has_work:
+        from_work: 始点
+        to_work: 終点
+      work_has_work:
+        from_expression: 始点
+        to_expression: 終点
+      expression_has_expression:
+        from_manifestation: 始点
+        to_manifestation: 終点
+      item_has_item:
+        from_item: 始点
+        to_item: 終点
+      patron_has_patron:
+        from_patron: 始点
+        to_patron: 終点
 
   page:
     user_title: "{{login_name}} さんの図書館"

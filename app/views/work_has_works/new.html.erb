@@ -6,7 +6,7 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :from_work_id -%><br />
+    <%= f.label t('activerecord.attributes.work_has_work.from_work') -%><br />
     <%- if @work_has_work.from_work -%>
       <%= link_to h(@work_has_work.from_work.original_title), @work_has_work.from_work -%>
       <%= f.hidden_field :from_work_id -%>
@@ -15,7 +15,7 @@
     <%- end -%>
   </p>
   <p>
-    <%= f.label :to_work_id -%><br />
+    <%= f.label t('activerecord.attributes.work_has_work.to_work') -%><br />
     <%- if @work_has_work.to_work -%>
       <%= link_to h(@work_has_work.to_work.original_title), @work_has_work.to_work -%>
       <%= f.hidden_field :to_work_id -%>

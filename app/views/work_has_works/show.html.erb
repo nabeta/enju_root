@@ -1,23 +1,18 @@
 <div id="content_detail">
 <div id="content_list">
 <p>
-  <b>From work:</b>
+  <b><%= f.label t('activerecord.attributes.work.from_work') -%>:</b>
   <%= link_to h(@work_has_work.from_work.original_title), @work_has_work.from_work -%>
 </p>
 
 <p>
-  <b>To work:</b>
+  <b><%= f.label t('activerecord.attributes.work.to_work') -%>:</b>
   <%= link_to h(@work_has_work.to_work.original_title), @work_has_work.to_work -%>
 </p>
 
 <p>
   <b>Work Relationship type:</b>
   <%=h @work_has_work.type -%>
-</p>
-
-<p>
-  <b>Position:</b>
-  <%=h @work_has_work.position -%>
 </p>
 
 </div>
