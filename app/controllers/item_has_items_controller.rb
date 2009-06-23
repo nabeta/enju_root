@@ -36,6 +36,8 @@ class ItemHasItemsController < ApplicationController
   # GET /item_has_items/new.xml
   def new
     @item_has_item = ItemHasItem.new
+    @item_has_item.from_item = @item
+    @item_has_item.to_item = Item.find(params[:to_item_id]) rescue nil
 
     respond_to do |format|
       format.html # new.html.erb

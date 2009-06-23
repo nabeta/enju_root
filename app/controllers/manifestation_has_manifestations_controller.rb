@@ -36,6 +36,8 @@ class ManifestationHasManifestationsController < ApplicationController
   # GET /manifestation_has_manifestations/new.xml
   def new
     @manifestation_has_manifestation = ManifestationHasManifestation.new
+    @manifestation_has_manifestation.from_manifestation = @manifestation
+    @manifestation_has_manifestation.to_manifestation = Manifestation.find(params[:to_manifestation_id]) rescue nil
 
     respond_to do |format|
       format.html # new.html.erb

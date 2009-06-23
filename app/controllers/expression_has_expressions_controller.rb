@@ -36,6 +36,8 @@ class ExpressionHasExpressionsController < ApplicationController
   # GET /expression_has_expressions/new.xml
   def new
     @expression_has_expression = ExpressionHasExpression.new
+    @expression_has_expression.from_expression = @expression
+    @expression_has_expression.to_expression = Expression.find(params[:to_expression_id]) rescue nil
 
     respond_to do |format|
       format.html # new.html.erb
