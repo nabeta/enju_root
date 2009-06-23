@@ -8,8 +8,8 @@
         <table id="manifestation_list">
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
-              <td style="width:80%"><%= itemnum = @manifestations.offset + 1 + i -%></td>
-              <td>
+              <td><%= itemnum = @manifestations.offset + 1 + i -%></td>
+              <td style="80%">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
               </td>

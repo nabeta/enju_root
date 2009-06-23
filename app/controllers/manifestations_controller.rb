@@ -177,6 +177,10 @@ class ManifestationsController < ApplicationController
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
+    if @manifestation.respond_to?(:worldcat_record)
+      @worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
+    end
+
     store_location
     canonical_url manifestation_url(@manifestation)
 

@@ -118,6 +118,7 @@ class Manifestation < ActiveRecord::Base
 
   def expire_cache
     Rails.cache.delete("Manifestation:numdocs")
+    Rails.cache.delete("worldcat_record_#{self.id}")
   end
 
   def self.cached_numdocs

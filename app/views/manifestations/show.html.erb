@@ -101,10 +101,8 @@
     <%- unless @manifestation.amazon_customer_reviews.blank? -%>
       <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
     <%- end -%>
-    <%- if @manifestation.respond_to?(:worldcat_record) -%>
-      <%- unless @manifestation.worldcat_record.blank? -%>
-        <li><a href="#worldcat"><em><%= ('WorldCat') -%></em></a></li>
-      <%- end -%>
+    <%- unless @worldcat_record.blank? -%>
+      <li><a href="#worldcat"><em><%= ('WorldCat') -%></em></a></li>
     <%- end -%>
   </ul>            
   <div class="yui-content">
@@ -258,10 +256,8 @@
     <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
       <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
     <%- end -%>
-    <%- if @manifestation.respond_to?(:worldcat_record) -%>
-      <%- unless @manifestation.worldcat_record.blank? -%>
-        <%= render :partial => 'manifestations/show_worldcat', :locals => {:manifestation => @manifestation} -%>
-      <%- end -%>
+    <%- unless @worldcat_record.blank? -%>
+      <%= render :partial => 'manifestations/show_worldcat', :locals => {:worldcat_record => @worldcat_record} -%>
     <%- end -%>
   </div>
 </div>
