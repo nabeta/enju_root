@@ -810,10 +810,10 @@ ja:
       work_has_work:
         from_work: 始点
         to_work: 終点
-      work_has_work:
-        from_expression: 始点
-        to_expression: 終点
       expression_has_expression:
+        from_manifestation: 始点
+        to_manifestation: 終点
+      manifestation_has_manifestation:
         from_manifestation: 始点
         to_manifestation: 終点
       item_has_item:

@@ -292,6 +292,7 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :subscribe
     expression.resources :subscriptions
     expression.resources :expressions
+    expression.resources :expression_has_expressions
   end
   map.resources :manifestations do |manifestation|
     manifestation.resources :attachment_files
@@ -305,6 +306,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :subjects
     manifestation.resources :resource_has_subjects
     manifestation.resources :manifestations
+    manifestation.resources :manifestation_has_manifestations
   end
   map.resources :items do |item|
     item.resources :owns
@@ -318,6 +320,7 @@ ActionController::Routing::Routes.draw do |map|
     item.resource :checkout_type
     item.resource :inventory_files
     item.resources :items
+    item.resources :item_has_items
   end
   map.resources :libraries do |library|
     library.resources :shelves do |shelf|
