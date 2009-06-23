@@ -47,18 +47,15 @@
       <td><%=h expression.language.display_name.localize -%></td>
       <%- if expression.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
-        <td><%= link_to t('page.destroy'), expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <%- end -%>
-      <td>
-        <%- if expression.is_deletable_by(current_user) -%>
+        <td>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_expression_expression_has_expression_path(@expression, :to_expression_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
           <%- else -%>
             <%- expression_has_expression = @expression.to_expressions.find_by_to_expression_id(expression.id) -%>
             <%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete if expression_has_expression -%>
           <%- end -%>
-        <%- end -%>
-      </td>
+        </td>
+      <%- end -%>
     </tr>
   <%- end -%>
 </table>

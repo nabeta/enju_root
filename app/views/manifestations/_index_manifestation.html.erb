@@ -43,37 +43,26 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th></th>
+    <th></th>
   </tr>
-  
   <%- for manifestation in @manifestations -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
         <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
       </td>
-      <td>
-        <%- if manifestation.is_deletable_by(current_user) -%>
-          <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :manifestation_id => manifestation.id) unless @manifestation.manifestations.include?(manifestation) -%>
-          <%- else -%>
-            <%- embody = @manifestation.embodies.find_by_manifestation_id(manifestation.id) -%>
-            <%= link_to t('page.destroy'), manifestation_embody_path(@manifestation, embody), :confirm => t('page.are_you_sure'), :method => :delete -%>
-          <%- end -%>
-        <%- end -%>
-      </td>
-      <%- if @manifestation -%>
+      <%- if manifestation.is_deletable_by(current_user) -%>
+        <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>
         <td>
-          <%- if manifestation.is_deletable_by(current_user) -%>
-            <%- if params[:mode] == "add" -%>
-              <%= link_to t('page.add'), new_manifestation_manifestation_has_manifestation_path(@manifestation, :to_manifestation_id => manifestation.id) unless @manifestation.derived_manifestations.include?(manifestation) or @manifestation == manifestation -%>
-            <%- else -%>
-              <%- manifestation_has_manifestation = @manifestation.to_manifestations.find_by_to_manifestation_id(manifestation.id) -%>
-              <%= link_to t('page.destroy'), manifestation_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete if manifestation_has_manifestation -%>
-            <%- end -%>
+          <%- if params[:mode] == "add" -%>
+            <%= link_to t('page.add'), new_manifestation_manifestation_has_manifestation_path(@manifestation, :to_manifestation_id => manifestation.id) unless @manifestation.derived_manifestations.include?(manifestation) or @manifestation == manifestation -%>
+          <%- else -%>
+            <%- manifestation_has_manifestation = @manifestation.to_manifestations.find_by_to_manifestation_id(manifestation.id) -%>
+            <%= link_to t('page.destroy'), manifestation_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete if manifestation_has_manifestation -%>
           <%- end -%>
         </td>
       <%- end -%>
-  </tr>
+    </tr>
   <%- end -%>
 </table>
 

@@ -96,7 +96,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def before_validation_on_create
-    self.isbn = self.isbn.to_s.strip.gsub('-', '')
+    ISBN_Tools.cleanup!(self.isbn)
     if self.isbn.length == 10
       isbn10 = self.isbn.dup
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
@@ -119,6 +119,7 @@ class Manifestation < ActiveRecord::Base
   def expire_cache
     Rails.cache.delete("Manifestation:numdocs")
     Rails.cache.delete("worldcat_record_#{self.id}")
+    Rails.cache.delete("xisbn_manifestations_#{self.id}")
   end
 
   def self.cached_numdocs

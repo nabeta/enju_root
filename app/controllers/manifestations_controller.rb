@@ -180,6 +180,9 @@ class ManifestationsController < ApplicationController
     if @manifestation.respond_to?(:worldcat_record)
       @worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
     end
+    if @manifestation.respond_to?(:xisbn_manifestations)
+      @xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}"){@manifestation.xisbn_manifestations}
+    end
 
     store_location
     canonical_url manifestation_url(@manifestation)

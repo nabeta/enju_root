@@ -57,8 +57,8 @@
             <%- work_has_work = @work.to_works.find_by_to_work_id(work.id) -%>
             <%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete if work_has_work -%>
           <%- end -%>
-        <%- end -%>
-      </td>
+        </td>
+      <%- end -%>
     </tr>
   <%- end -%>
 </table>

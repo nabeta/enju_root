@@ -1,5 +1,5 @@
 <div id="amazon">
-  <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.co.jp/dp/#{manifestation.amazon_book_jacket['asin']}" -%></p>
+  <p><%= link_to t('page.these_reviews_are_from_amazon'), "http://www.amazon.com/dp/#{manifestation.isbn10}" -%></p>
   <%- manifestation.amazon_customer_reviews.each do |review| -%>
     <div class="amazon_summary"><strong><%=h review[:summary] -%></strong> (<%=h review[:date] -%>)</div>
     <p><%= h(review[:content]).gsub('&amp;lt;', '<').gsub('&amp;gt;', '>') -%></p>
