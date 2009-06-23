@@ -829,6 +829,7 @@ en:
       patron_has_patron:
         from_patron: From
         to_patron: To
+
   page:
     user_title: "{{login_name}}'s library"
     login: "Login"
@@ -973,6 +974,7 @@ en:
     sent_email: "Sent email."
     identifier: "Identifier"
     set_locale: "Set locale"
+    add_derivation: "Add a derivation"
   title:
     index: "index"
     show: "show"
@@ -1061,6 +1063,7 @@ en:
     this_item_include_supplement: "This item includes supplements."
     all_item: "All items"
     add_new_copy: "Add a new copy"
+    no_manifestation: "No manifestation"
     no_number: "No number"
   patron:
     library_group_patron: "Patrons of {{library_group_name}}"

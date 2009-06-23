@@ -16,12 +16,9 @@
     <%- end -%>
   </ul>
   <ul>
+    <li><%= link_to t('page.add_derivation'), patron_patrons_path(@patron) -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), patron_works_path(@patron) -%></li>
-  </ul>
-  <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
-  </ul>
-  <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), patron_manifestations_path(@patron) -%></li>
   </ul>
 </div>

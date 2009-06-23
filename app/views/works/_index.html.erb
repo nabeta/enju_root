@@ -22,6 +22,7 @@
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.work.context') -%></th>
     <th></th>
+    <th></th>
   </tr>
   
   <%- for work in @works -%>
@@ -34,7 +35,9 @@
       <td><%=h work.context -%></td>
       <%- if work.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
-        <td><%= link_to t('page.destroy'), work, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+        <td>
+          <%= link_to t('page.add_derivation'), work_works_path(work) -%>
+        </td>
       <%- end -%>
     </tr>
   <%- end -%>

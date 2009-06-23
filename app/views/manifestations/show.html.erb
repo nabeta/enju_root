@@ -43,6 +43,7 @@
 
       <%- if current_user.has_role?('Librarian') -%>
         <ul>
+          <li><%= link_to t('page.add_derivation'), manifestation_manifestations_path(@manifestation) -%></li>
           <%- case when @expression -%>
             <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
           <%- when @patron -%>

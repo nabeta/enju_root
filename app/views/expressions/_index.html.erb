@@ -27,6 +27,8 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
+    <th></th>
+    <th></th>
   </tr>
   
   <%- for expression in @expressions -%>
@@ -40,7 +42,9 @@
       <td><%=h expression.language.display_name.localize -%></td>
       <%- if expression.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
-        <td><%= link_to t('page.destroy'), expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+        <td>
+          <%= link_to t('page.add_derivation'), expression_expressions_path(expression) -%>
+        </td>
       <%- end -%>
     </tr>
   <%- end -%>

@@ -956,6 +956,7 @@ ja:
     sent_email: "電子メールを送信しました。"
     identifier: "識別子"
     set_locale: "言語を設定"
+    add_derivation: "派生資料を追加"
   title:
     index: "一覧"
     show: "表示"
@@ -1043,6 +1044,7 @@ ja:
     this_item_include_supplement: "この資料は付録を含んでいます。"
     all_item: "全ての個別資料"
     add_new_copy: "複本を追加"
+    no_manifestation: "体現形なし"
     no_number: "番号なし"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"

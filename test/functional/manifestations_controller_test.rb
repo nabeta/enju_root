@@ -345,7 +345,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_show_manifestation_with_invalid_isbn
-    get :show, :isbn => "4798002062a"
+    get :show, :isbn => "47980020620"
     assert_response :missing
   end
 

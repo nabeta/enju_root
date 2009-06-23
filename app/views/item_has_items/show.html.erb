@@ -1,12 +1,12 @@
 <div id="content_detail">
 <div id="content_list">
 <p>
-  <b><%= f.label t('activerecord.attributes.item.from_item') -%>:</b>
+  <b><%= t('activerecord.attributes.item.from_item') -%>:</b>
   <%= link_to h(@item_has_item.from_item.manifestation.original_title), @item_has_item.from_item -%>
 </p>
 
 <p>
-  <b><%= f.label t('activerecord.attributes.item.to_item') -%>:</b>
+  <b><%= t('activerecord.attributes.item.to_item') -%>:</b>
   <%= link_to h(@item_has_item.to_item.manifestation.original_title), @item_has_item.to_item -%>
 </p>
 

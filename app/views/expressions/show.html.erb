@@ -2,13 +2,14 @@
 
 <div id="submenu">
   <ul>
-  <%- case when @work -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
-  <%- when @patron -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
-  <%- else -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expressions_path -%></li>
-  <%- end -%>
+    <%- case when @work -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
+    <%- when @patron -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expressions_path -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.add_derivation'), expression_expressions_path(@expression) -%></li>
   </ul>
   <ul>
     <%- if @expression.is_deletable_by(current_user) -%>

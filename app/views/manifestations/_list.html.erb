@@ -8,11 +8,17 @@
         <table id="manifestation_list">
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
-              <td><%= itemnum = @manifestations.offset + 1 + i -%></td>
+              <td style="width:80%"><%= itemnum = @manifestations.offset + 1 + i -%></td>
               <td>
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
               </td>
+              <%- if manifestation.is_deletable_by(current_user) -%>
+                <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>
+                <td>
+                  <%= link_to t('page.add_derivation'), manifestation_manifestations_path(manifestation) -%>
+                </td>
+              <%- end -%>
             </tr>
           <%- end -%>
         </table>
