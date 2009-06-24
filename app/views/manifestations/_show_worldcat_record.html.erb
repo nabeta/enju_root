@@ -1,0 +1,8 @@
+  <tr>
+    <td><%= t('worldcat.summary') -%> (WorldCat)</td>
+    <td style="width:500px"><%=h strip_tags(@worldcat_record[:summary]) -%></td>
+  </tr>
+  <tr>
+    <td><%= t('worldcat.citation') -%> (WorldCat)</td>
+    <td><%=h strip_tags(@manifestation.worldcat_citation) -%></td>
+  </tr>

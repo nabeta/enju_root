@@ -571,6 +571,7 @@ en:
         lock_version: Lock version
         manifestation_form: Manifestation form
         language: Language
+        lccn: LCCN
       user_group:
         name: Name
         display_name: Display name

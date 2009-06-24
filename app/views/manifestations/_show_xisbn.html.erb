@@ -1,15 +1,5 @@
 <%- cache(:id => @manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_worldcat', :locale => @locale) do -%>
 <div id="worldcat">
-  <table class="index">
-    <tr>
-      <td style="width: 200px"><%= ('Summary') -%></td>
-      <td style="width:500px"><%= @worldcat_record[:summary] -%></td>
-    </tr>
-    <tr>
-      <td><%= ('Citation') -%></td>
-      <td><%= @manifestation.worldcat_citation -%></td>
-    </tr>
-  </table>
   <ul>
     <%- @xisbn_manifestations.each do |xisbn| -%>
       <li><%= link_to h(xisbn[:title]), "http://www.worldcat.org/isbn/#{xisbn[:isbn]}" -%>

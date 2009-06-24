@@ -101,7 +101,7 @@
     <%- unless @manifestation.amazon_customer_reviews.blank? -%>
       <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
     <%- end -%>
-    <%- unless @worldcat_record.blank? -%>
+    <%- unless @xisbn_manifestations.blank? -%>
       <li><a href="#worldcat"><em><%= ('WorldCat') -%></em></a></li>
     <%- end -%>
   </ul>            
@@ -194,16 +194,16 @@
       <tr>
         <td><%= t('page.identifier') -%>:</td>
         <td>
-          <%- if @manifestation.isbn -%>
+          <%- if @manifestation.isbn.present? -%>
             ISBN: <%=h @manifestation.isbn -%>
-            <%- if @manifestation.isbn10 -%>
+            <%- if @manifestation.isbn10.present? -%>
               ( <%=h @manifestation.isbn10 -%> )
             <%- end -%>
           <%- end -%>
-          <%- if @manifestation.nbn -%>
+          <%- if @manifestation.nbn.present? -%>
             NBN: <%=h @manifestation.nbn -%>
           <%- end -%>
-          <%- if @manifestation.lccn -%>
+          <%- if @manifestation.lccn.present? -%>
             <br />
             LCCN: <%=h @manifestation.lccn -%>
           <%- end -%>
@@ -233,6 +233,7 @@
         <%= simple_format(h(@manifestation.note)) -%>
       </td>
     </tr>
+    <%= render :partial => 'show_worldcat_record' if @worldcat_record.present? -%>
     </table>
 
     <%- if @manifestation.items.on_shelf.find(:first) -%>
@@ -256,8 +257,8 @@
     <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
       <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
     <%- end -%>
-    <%- unless @worldcat_record.blank? -%>
-      <%= render :partial => 'manifestations/show_worldcat', :locals => {:worldcat_record => @worldcat_record} -%>
+    <%- unless @xisbn_manifestations.blank? -%>
+      <%= render :partial => 'manifestations/show_xisbn' -%>
     <%- end -%>
   </div>
 </div>

@@ -570,6 +570,7 @@ ja:
         lock_version: ロックバージョン
         manifestation_form: 体現形の形態
         language: 言語
+        lccn: LCCN
       user_group:
         name: 名前
         display_name: 表示名
