@@ -1,4 +1,3 @@
-require 'open-uri'
 require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
