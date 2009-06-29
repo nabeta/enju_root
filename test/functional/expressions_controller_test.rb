@@ -22,6 +22,14 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_guest_should_get_index_with_work_id
     get :index, :work_id => 1
     assert_response :success
+    assert assigns(:work)
+    assert assigns(:expressions)
+  end
+
+  def test_guest_should_get_index_with_expression_id
+    get :index, :expression_id => 1
+    assert_response :success
+    assert assigns(:expression)
     assert assigns(:expressions)
   end
 

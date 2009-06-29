@@ -958,6 +958,7 @@ ja:
     identifier: "識別子"
     set_locale: "言語を設定"
     add_derivation: "派生資料を追加"
+    local_record: "自館の情報"
   title:
     index: "一覧"
     show: "表示"

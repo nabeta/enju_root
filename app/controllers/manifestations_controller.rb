@@ -181,7 +181,13 @@ class ManifestationsController < ApplicationController
       @worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
     end
     if @manifestation.respond_to?(:xisbn_manifestations)
-      @xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}"){@manifestation.xisbn_manifestations}
+      if params[:xisbn_page]
+        xisbn_page = params[:xisbn_page].to_i
+      else
+        xisbn_page = 1
+      end
+      @xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}_page_#{xisbn_page}"){@manifestation.xisbn_manifestations(:page => xisbn_page)}
+      #@xisbn_manifestations = @manifestation.xisbn_manifestations(:page => xisbn_page)
     end
 
     store_location
@@ -192,6 +198,8 @@ class ManifestationsController < ApplicationController
       format.xml  {
         if params[:api] == 'amazon'
           render :xml => @manifestation.access_amazon
+        elsif params[:mode] == 'xisbn'
+          render :template => 'manifestations/xisbn'
         else
           render :xml => @manifestation
         end
@@ -199,6 +207,11 @@ class ManifestationsController < ApplicationController
       format.json { render :json => @manifestation }
       format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
+      format.js {
+        render :update do |page|
+          page.replace_html 'xisbn_list', :partial => 'show_xisbn' if params[:xisbn_page]
+        end
+      }
     end
   rescue ActiveRecord::RecordNotFound
     not_found

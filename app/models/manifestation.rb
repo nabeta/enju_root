@@ -56,7 +56,8 @@ class Manifestation < ActiveRecord::Base
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
     {:required_role_id => :range_integer}, {:reservable => :boolean},
-    {:original_manifestation_ids => :integer}],
+    {:original_manifestation_ids => :integer},
+  ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
     :offline => proc{|manifestation| manifestation.restrain_indexing},
@@ -138,6 +139,7 @@ class Manifestation < ActiveRecord::Base
         array << expression.work.title
       end
     end
+    array << worldcat_record[:title]
     array.flatten.compact.sort.uniq
   end
 
@@ -192,7 +194,9 @@ class Manifestation < ActiveRecord::Base
   end
 
   def author
-    authors.collect(&:name).flatten
+    patrons = []
+    patrons << authors.collect(&:name).flatten
+    patrons << worldcat_record[:author]
   end
 
   def editors
@@ -212,7 +216,9 @@ class Manifestation < ActiveRecord::Base
   end
 
   def publisher
-    publishers.collect(&:name).flatten
+    patrons = []
+    patrons << publishers.collect(&:name).flatten
+    patrons << worldcat_record[:publisher]
   end
 
   def shelves

@@ -34,7 +34,7 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.work.context') -%></th>
-    <%- if work.is_deletable_by(current_user) -%>
+    <%- if @work.is_deletable_by(current_user) -%>
       <th></th>
       <th></th>
     <%- end -%>

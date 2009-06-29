@@ -79,7 +79,7 @@ Rails::Initializer.run do |config|
   #config.gem "pauldix-feedzirra", :lib => "feedzirra"
   #config.gem "damog-feedbag", :lib => "feedbag"
   config.gem "mbleigh-canonical-url", :lib => "canonical_url"
-  #config.gem "wcapi"
+  #config.gem "nabeta-wcapi", :lib => "wcapi"
   config.gem "sishen-rtranslate", :lib => "rtranslate"
   #config.gem "alexrabarts-big_sitemap", :lib => "big_sitemap"
 
@@ -106,7 +106,7 @@ end
 
 Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
 Money.default_currency = "JPY"
-RAILS_DEFAULT_LOGGER.auto_flushing = 1
+#RAILS_DEFAULT_LOGGER.auto_flushing = 1
 APICache.start
 
 #require 'jasper-rails'

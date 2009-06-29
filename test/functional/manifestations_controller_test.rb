@@ -42,6 +42,13 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
+  def test_guest_should_get_index_with_manifestation_id
+    get :index, :manifestation_id => 1
+    assert_response :success
+    assert assigns(:manifestation)
+    assert assigns(:manifestations)
+  end
+
   def test_guest_should_get_index_with_patron_id
     get :index, :patron_id => 1
     assert_response :success

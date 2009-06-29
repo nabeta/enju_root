@@ -976,6 +976,7 @@ en:
     identifier: "Identifier"
     set_locale: "Set locale"
     add_derivation: "Add a derivation"
+    local_record: "Local record"
   title:
     index: "index"
     show: "show"

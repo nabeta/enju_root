@@ -18,6 +18,13 @@ class WorksControllerTest < ActionController::TestCase
     assert assigns(:works)
   end
 
+  def test_guest_should_get_index_with_work_id
+    get :index, :work_id => 1
+    assert_response :success
+    assert assigns(:work)
+    assert assigns(:works)
+  end
+
   def test_user_should_get_index
     UserSession.create(User.find(1))
     #UserSession.create users(:user1)

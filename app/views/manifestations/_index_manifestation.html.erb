@@ -20,7 +20,7 @@
   <%- form_for :manifestations, :url => manifestation_manifestations_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
+      <%= text_field_tag 'query', h(@query), {:id => 'query', :class => 'search_form'} -%>
       <%- if @manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>

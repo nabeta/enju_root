@@ -68,7 +68,7 @@ class ItemsController < ApplicationController
         if params[:mode] == 'add'
           @items = Item.paginate(:all, :page => params[:page], :order => order)
         else
-          @items = @parent_item.derived_items.paginate(:page => params[:page], :order => order)
+          @items = @item.derived_items.paginate(:page => params[:page], :order => order)
         end
       else
         @items = Item.paginate :all, :page => params[:page], :order => order

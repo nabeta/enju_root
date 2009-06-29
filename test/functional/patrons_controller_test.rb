@@ -15,6 +15,13 @@ class PatronsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_guest_should_get_index_with_patron
+    get :index, :patron_id => 1
+    assert_response :success
+    assert assigns(:patron)
+    assert assigns(:patrons)
+  end
+
   def test_guest_should_get_index_with_work
     get :index, :work_id => 1
     assert_response :success
