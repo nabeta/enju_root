@@ -1216,6 +1216,7 @@ en:
     previous_checkout: "Previous checkouts"
     checkout: "Checkout!"
     ignore_restriction: "Ignore restriction"
+    already_checked_out: "This item is already checked out."
   checkin:
     item_not_found: "Item not found."
     enter_item_identifier: "Enter item identifier."

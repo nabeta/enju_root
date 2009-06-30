@@ -155,7 +155,8 @@ class Manifestation < ActiveRecord::Base
   end
 
   def url
-    access_address
+    #access_address
+    "#{LibraryGroup.url}manifestations/#{self.id}"
   end
 
   def available_checkout_types(user)

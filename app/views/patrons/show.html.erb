@@ -132,11 +132,11 @@
             </tr>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.date_of_birth') -%>:</b></td>
-              <td><%=h @patron.date_of_birth -%></td>
+              <td><%= l(@patron.date_of_birth) if @patron.date_of_birth -%></td>
             </tr>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.date_of_death') -%>:</b></td>
-              <td><%=h @patron.date_of_death -%></td>
+              <td><%= l(@patron.date_of_death) if @patron.date_of_death -%></td>
             </tr>
           <%- end -%>
           <tr>

@@ -13,7 +13,18 @@ class CheckedItem < ActiveRecord::Base
   attr_accessor :item_identifier, :ignore_restriction
 
   def available_for_checkout?
-    return true if self.ignore_restriction
+    unless self.item
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
+      return
+    end
+
+    if self.item.rent?
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.already_checked_out'))
+      return
+    end
+
+    return true if self.ignore_restriction == "1"
+
     if self.item.blank?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
       return
@@ -27,10 +38,9 @@ class CheckedItem < ActiveRecord::Base
     if self.item.use_restrictions.detect{|r| r.name == 'Not For Loan'}
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
     end
-    if self.item.rent?
-      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.already_checked_out'))
+    if self.in_transaction?
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.in_transcation'))
     end
-    
     if self.item.reserved?
       reserving_user = self.item.manifestation.reserving_users.find(:first, :conditions => {:id => user.id}, :order => :created_at) rescue nil
       unless reserving_user
@@ -72,5 +82,9 @@ class CheckedItem < ActiveRecord::Base
       end
     end
     self.due_date.end_of_day
+  end
+
+  def in_transaction?
+    true if CheckedItem.find(:first, :conditions => {:basket_id => self.basket.id, :item_id => self.item_id})
   end
 end

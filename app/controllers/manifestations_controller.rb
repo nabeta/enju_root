@@ -198,7 +198,7 @@ class ManifestationsController < ApplicationController
       format.xml  {
         if params[:api] == 'amazon'
           render :xml => @manifestation.access_amazon
-        elsif params[:mode] == 'xisbn'
+        elsif params[:mode] == 'related'
           render :template => 'manifestations/xisbn'
         else
           render :xml => @manifestation

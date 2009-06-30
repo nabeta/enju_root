@@ -98,7 +98,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     
     assert_response :success
     #assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
-    assert_equal assigns(:checked_item).errors["base"], 'Item not found.'
+    assert_equal 'Item not found.', assigns(:checked_item).errors["base"]
   end
 
   def test_everyone_should_not_create_checked_item_with_item_not_for_checkout
@@ -111,6 +111,16 @@ class CheckedItemsControllerTest < ActionController::TestCase
     #assert_redirected_to user_basket_checked_items_url(assigns(:basket).user.login, assigns(:basket))
     #assert flash[:message].include?('This item is not available for checkout.')
     assert assigns(:checked_item).errors["base"].include?('This item is not available for checkout.')
+  end
+
+  def test_everyone_should_not_create_checked_item_already_checked_out
+    UserSession.create users(:admin)
+    old_count = CheckedItem.count
+    post :create, :checked_item => {:item_identifier => '00012'}, :basket_id => 8
+    assert_equal old_count, CheckedItem.count
+    
+    assert_response :success
+    assert assigns(:checked_item).errors["base"].include?('In transaction.')
   end
 
   def test_everyone_should_not_create_checked_item_without_basket_id
@@ -162,7 +172,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   
   def test_librarian_should_not_create_checked_item_when_over_checkout_limit
     UserSession.create users(:librarian1)
-    post :create, :checked_item => {:item_identifier => '00004'}, :basket_id => 1
+    post :create, :checked_item => {:item_identifier => '00011'}, :basket_id => 1
     
     assert_response :success
     #assert_redirected_to user_basket_checked_items_path(assigns(:basket).user.login, assigns(:basket))
@@ -172,7 +182,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_librarian_should_create_checked_item_when_ignore_restriction_is_enabled
     UserSession.create users(:librarian1)
     old_count = CheckedItem.count
-    post :create, :checked_item => {:item_identifier => '00004', :ignore_restriction => true}, :basket_id => 1, :mode => 'list'
+    post :create, :checked_item => {:item_identifier => '00011', :ignore_restriction => "1"}, :basket_id => 2, :mode => 'list'
     assert_equal old_count+1, CheckedItem.count
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket, :mode => 'list')

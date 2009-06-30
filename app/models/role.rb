@@ -31,4 +31,8 @@ class Role < ActiveRecord::Base
   def expire_cache
     Rails.cache.delete('Role.all')
   end
+
+  def localized_name
+    display_name.localize
+  end
 end

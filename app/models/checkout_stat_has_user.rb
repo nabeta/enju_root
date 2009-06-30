@@ -4,4 +4,7 @@ class CheckoutStatHasUser < ActiveRecord::Base
   belongs_to :user
 
   validates_uniqueness_of :user_id, :scope => :user_checkout_stat_id
+
+  @@per_page = 10
+  cattr_accessor :per_page
 end
