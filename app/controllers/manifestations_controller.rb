@@ -198,10 +198,15 @@ class ManifestationsController < ApplicationController
       format.xml  {
         if params[:api] == 'amazon'
           render :xml => @manifestation.access_amazon
-        elsif params[:mode] == 'related'
-          render :template => 'manifestations/xisbn'
         else
-          render :xml => @manifestation
+          case params[:mode]
+          when 'related'
+            render :template => 'manifestations/related'
+          when 'mods'
+            render :template => 'manifestations/mods'
+          else
+            render :xml => @manifestation
+          end
         end
       }
       format.json { render :json => @manifestation }
