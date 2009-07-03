@@ -1,0 +1,4 @@
+ja:
+  msie:
+    acceralator: "{{library_name}}用の Internet Explorer 8 アクセラレータ"
+    install_acceralator: "アクセラレータのインストール"

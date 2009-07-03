@@ -32,6 +32,16 @@ class PageControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_guest_should_get_add_on
+    get :add_on
+    assert_response :success
+  end
+
+  def test_guest_should_get_msie_acceralator
+    get :msie_acceralator
+    assert_response :success
+  end
+
   def test_guest_should_not_get_import
     get :import
     assert_response :forbidden

@@ -1,0 +1,4 @@
+en:
+  msie:
+    acceralator: "Internet Explorer 8 acceralator for {{library_name}}"
+    install_acceralator: "Install acceralator"

@@ -959,6 +959,8 @@ ja:
     set_locale: "言語を設定"
     add_derivation: "派生資料を追加"
     local_record: "自館の情報"
+    search_catalog_at: "{{library_name}}の目録を検索"
+    add_on: "アドオン"
   title:
     index: "一覧"
     show: "表示"

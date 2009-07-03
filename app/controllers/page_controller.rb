@@ -1,10 +1,9 @@
 class PageController < ApplicationController
-  before_filter :store_location, :except => [:opensearch, :sitemap, :screen_shot]
-  #before_filter :login_required, :except => [:index, :advanced_search, :opensearch, :about, :message]
-  before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message, :screen_shot]
+  before_filter :store_location, :except => [:opensearch, :sitemap, :screen_shot, :msie_acceralator]
+  before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message, :screen_shot, :add_on, :msie_acceralator]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message, :screen_shot]
+  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message, :screen_shot, :add_on, :msie_acceralator]
 
   caches_page :opensearch, :sitemap
 
@@ -80,6 +79,14 @@ class PageController < ApplicationController
 
   def about
     @title = t('page.about_this_system')
+  end
+
+  def add_on
+    @title = t('page.add_on')
+  end
+
+  def msie_acceralator
+    render :layout => false
   end
 
   def under_construction
