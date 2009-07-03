@@ -19,7 +19,10 @@
     <td><%= link_to h(attachment_file.manifestation.original_title), attachment_file.manifestation -%></td>
     <td><%=h attachment_file.size -%></td>
     <td><%=h attachment_file.content_type -%></td>
+    <td><%= link_to h(attachment_file.filename), attachment_file.public_filename -%></td>
+    <!--
     <td><%= link_to h(attachment_file.filename), attachment_file_path(attachment_file, :format => :download) -%></td>
+    -->
     <%- if deletable(attachment_file) -%>
       <td><%= link_to t('page.show'), attachment_file -%></td>
       <td><%= link_to t('page.edit'), edit_attachment_file_path(attachment_file) -%></td>

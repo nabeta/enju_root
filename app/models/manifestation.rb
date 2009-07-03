@@ -16,7 +16,7 @@ class Manifestation < ActiveRecord::Base
   has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
-  has_one :attachment_file #, :dependent => :destroy
+  has_one :attachment_file, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy
@@ -113,7 +113,8 @@ class Manifestation < ActiveRecord::Base
   end
 
   def after_destroy
-    after_save
+    self.expire_cache
+    send_later(:solr_commit)
   end
 
   def expire_cache
@@ -139,7 +140,7 @@ class Manifestation < ActiveRecord::Base
         array << expression.work.title
       end
     end
-    array << worldcat_record[:title]
+    #array << worldcat_record[:title]
     array.flatten.compact.sort.uniq
   end
 
@@ -197,7 +198,7 @@ class Manifestation < ActiveRecord::Base
   def author
     patrons = []
     patrons << authors.collect(&:name).flatten
-    patrons << worldcat_record[:author]
+    #patrons << worldcat_record[:author]
   end
 
   def editors
@@ -219,7 +220,7 @@ class Manifestation < ActiveRecord::Base
   def publisher
     patrons = []
     patrons << publishers.collect(&:name).flatten
-    patrons << worldcat_record[:publisher]
+    #patrons << worldcat_record[:publisher]
   end
 
   def shelves

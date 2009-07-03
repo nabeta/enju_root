@@ -10,11 +10,11 @@ module EnjuScribd
   end
 
   module InstanceMethods
-    attr_accessor :post_to_scribd, :post_to_twitter
+    attr_accessor :post_to_scribd
     def scribdable?
       return false if RAILS_ENV != 'production'
       if post_to_scribd
-        ScribdFu::CONTENT_TYPES.include?(content_type)
+        ScribdFu::ContentTypes.include?(get_content_type) && ipaper_id.blank?
       else
         false
       end

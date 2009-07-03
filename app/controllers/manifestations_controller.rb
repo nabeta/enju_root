@@ -348,6 +348,7 @@ class ManifestationsController < ApplicationController
   def destroy
     @manifestation = Manifestation.find(params[:id])
     @manifestation.destroy
+    flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.manifestation'))
 
     respond_to do |format|
       format.html { redirect_to manifestations_url }

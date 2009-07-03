@@ -38,7 +38,7 @@ class Subject < ActiveRecord::Base
   acts_as_solr :fields => [:term, :term_transcription, :note, :tags,
     {:manifestation_ids => :integer}, {:classification_ids => :integer},
     {:subject_heading_type_ids => :integer}],
-    :offline => true,
+    #:offline => true,
     :auto_commit => false
   acts_as_tree
 

@@ -59,7 +59,7 @@ Rails::Initializer.run do |config|
   config.gem "friendly_id"
   config.gem "graticule"
   config.gem "calendar_date_select"
-  config.gem "mdarby-scribd_fu", :lib => "scribd_fu"
+  config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
   config.gem "mdarby-restful_acl", :lib => "restful_acl_controller"
   config.gem "shuber-attr_encrypted", :lib => "attr_encrypted"
   config.gem "system_timer"

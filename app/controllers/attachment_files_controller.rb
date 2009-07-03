@@ -53,8 +53,7 @@ class AttachmentFilesController < ApplicationController
     @attachment_file = AttachmentFile.new(params[:attachment_file])
     @attachment_file.post_to_scribd = params[:attachment_file][:post_to_scribd]
     @attachment_file.post_to_twitter = params[:attachment_file][:post_to_twitter]
-    title = params[:attachment_file][:title]
-    @attachment_file.title = title
+    @attachment_file.title = params[:attachment_file][:title]
 
     respond_to do |format|
       if @attachment_file.save

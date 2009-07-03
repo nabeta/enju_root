@@ -112,7 +112,11 @@
     <%- end -%>
 
     <table id="manifestation_detail">
+<%- end -%>
     <%= embed_content(@manifestation) -%>
+<%
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+%>
     <%- if @manifestation.serial -%>
       <tr>
         <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
@@ -188,7 +192,7 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_3', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
@@ -211,10 +215,7 @@
       </tr>
     <%- end -%>
     <%- unless @manifestation.attachment_file.blank? -%>
-      <tr>
-        <td><%= t('activerecord.models.attachment_file') -%>:</td>
-        <td><%= render :partial => 'attachment_file' -%></td>
-      </tr>
+      <%= render :partial => 'attachment_file' -%>
     <%- end -%>
     <tr>
       <td><%= t('page.created_at') -%>:</td>

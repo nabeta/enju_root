@@ -25,6 +25,10 @@ class Advertisement < ActiveRecord::Base
     end
   end
 
+  def after_save
+    expire_cache
+  end
+
   def self.cached_current_ads
     Rails.cache.fetch('Advertisement.current_ads'){Advertisement.current_ads}
   end

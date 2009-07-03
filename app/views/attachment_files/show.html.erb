@@ -24,7 +24,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.attachment_file.filename') -%>:</b>
-  <%=h @attachment_file.filename -%>
+  <%= link_to h(@attachment_file.filename), @attachment_file.public_filename -%>
 </p>
 
 <p>
@@ -49,10 +49,12 @@
   <%=h @attachment_file.thumbnail -%>
 </p>
 
+<!--
 <p>
   <b><%= t('activerecord.models.db_file') -%>:</b>
   <%= link_to h(@attachment_file.filename), attachment_file_path(@attachment_file, :format => :download) -%>
 </p>
+-->
 
 <p>
   <b><%= t('activerecord.attributes.attachment_file.file_hash') -%>:</b>

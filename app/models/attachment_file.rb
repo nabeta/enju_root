@@ -2,12 +2,12 @@ class AttachmentFile < ActiveRecord::Base
   include LibrarianRequired
   named_scope :not_indexed, :conditions => ['indexed_at IS NULL']
   belongs_to :manifestation
-  has_one :db_file
+  #has_one :db_file
 
   named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'id DESC'
 
-  has_attachment
+  has_attachment :storage => :file_system
   validates_as_attachment
   validates_presence_of :manifestation
   validates_associated :manifestation
@@ -17,13 +17,13 @@ class AttachmentFile < ActiveRecord::Base
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :title
+  attr_accessor :title, :post_to_twitter
   
   #before_save :extract_text
 
   def before_validation_on_create
     unless self.manifestation
-      manifestation = Manifestation.create!(:original_title => self.title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}), :post_to_twitter => self.post_to_twitter)
+      manifestation = Manifestation.create!(:original_title => self.title, :manifestation_form => ManifestationForm.find(:first, :conditions => {:name => 'file'}), :post_to_twitter => self.post_to_twitter, :restrain_indexing => true)
       self.manifestation_id = manifestation.id
     end
   end
@@ -66,7 +66,8 @@ class AttachmentFile < ActiveRecord::Base
 
   def digest(options = {:type => 'sha1'})
     if self.file_hash.blank?
-      self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
+      #self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
+      self.file_hash = Digest::SHA1.hexdigest(open(self.file_path).read)
     end
     self.file_hash
   end
