@@ -44,12 +44,5 @@ module EnjuManifestationViewer
       end
     end
 
-    def ipaper_id
-      # scribd_fuで定義
-      if self.attachment_file
-        self.attachment_file.ipaper_id
-      end
-    end
-
   end
 end

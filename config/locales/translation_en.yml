@@ -1238,7 +1238,6 @@ en:
     period: "Period"
   attachment_file:
     invalid_file: "Invalid file."
-    post_to_scribd: "post to Scribd"
   inventory_file:
     not_in_catalog: "Not in catalog"
     not_on_shelf: "Not on shelf"

@@ -1,6 +1,6 @@
-<%- if @manifestation.attachment_file.is_readable_by(current_user) -%>
+<%- if @manifestation.is_readable_by(current_user) -%>
   <tr>
-    <td><%= t('activerecord.models.attachment_file') -%>:</td>
-    <td><%= link_to h(@manifestation.attachment_file.filename), @manifestation.attachment_file.public_filename -%></td>
+    <td><%= t('activerecord.attributes.manifestation.attachment_file') -%>:</td>
+    <td><%= link_to h(@manifestation.attachment_file_name), @manifestation.attachment.url -%></td>
   </tr>
 <%- end -%>

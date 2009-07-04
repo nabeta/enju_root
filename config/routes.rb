@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :shelf_has_manifestations
+
   map.resources :patron_has_patrons
 
   map.resources :participates
@@ -365,6 +367,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :shelves do |shelf|
     shelf.resources :items
     shelf.resources :picture_files
+    shelf.resources :shelf_has_manifestations
+    shelf.resources :manifestations
   end
   map.resources :frequency_of_issues
   map.resources :embodies

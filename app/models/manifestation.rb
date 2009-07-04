@@ -16,7 +16,7 @@ class Manifestation < ActiveRecord::Base
   has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
   belongs_to :language, :validate => true
-  has_one :attachment_file, :dependent => :destroy
+  #has_one :attachment_file, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy
@@ -36,7 +36,9 @@ class Manifestation < ActiveRecord::Base
   has_many :derived_manifestations, :through => :to_manifestations, :source => :to_manifestation
   has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
-  has_one :db_file
+  #has_one :db_file
+  has_many :shelf_has_manifestations, :dependent => :destroy
+  has_many :shelves, :through => :shelf_has_manifestaions
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher, :access_address,
@@ -71,6 +73,9 @@ class Manifestation < ActiveRecord::Base
   enju_cinii
   enju_worldcat
   #acts_as_taggable_on :subject_tags
+  has_attached_file :attachment
+  has_ipaper_and_uses 'Paperclip'
+  enju_scribd
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -604,7 +609,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def fulltext
-    self.attachment_file.fulltext if self.attachment_file
+  #  self.attachment_file.fulltext if self.attachment_file
   end
 
   def digest(options = {:type => 'sha1'})

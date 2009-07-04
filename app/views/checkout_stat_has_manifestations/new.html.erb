@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.checkout_stat_has_manifestation')) -%></h1>
+<div id="content_list">
 
 <% form_for(@checkout_stat_has_manifestation) do |f| -%>
   <%= f.error_messages -%>
@@ -19,5 +21,11 @@
     <%= f.submit t('page.create') -%>
   </p>
 <% end -%>
+</div>
+</div>
 
-<%= link_to t('page.back'), checkout_stat_has_manifestations_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), checkout_stat_has_manifestations_path -%></li>
+  </ul>
+</div>

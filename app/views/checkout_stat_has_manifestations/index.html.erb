@@ -1,6 +1,8 @@
-<h1 class="title">Listing checkout_stat_has_manifestations</h1>
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.checkout_stat_has_manifestation')) -%></h1>
+<div id="content_list">
 
-<table>
+<table class="index">
   <tr>
     <th>Checkout stat</th>
     <th>Manifestation</th>
@@ -8,7 +10,7 @@
   </tr>
 
 <% for checkout_stat_has_manifestation in @checkout_stat_has_manifestations -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h checkout_stat_has_manifestation.manifestation_checkout_stat_id -%></td>
     <td><%=h checkout_stat_has_manifestation.manifestation_id -%></td>
     <td><%=h checkout_stat_has_manifestation.checkouts_count -%></td>
@@ -20,6 +22,12 @@
 </table>
 
 <%= will_paginate(@checkout_stat_has_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
 
-<%= link_to t('page.new', :model => t('activerecord.models.checkout_stat_has_manifestation')), new_checkout_stat_has_manifestation_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.checkout_stat_has_manifestation')), new_checkout_stat_has_manifestation_path -%></li>
+  </ul>
+</div>

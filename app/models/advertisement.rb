@@ -26,7 +26,7 @@ class Advertisement < ActiveRecord::Base
   end
 
   def after_save
-    expire_cache
+    Advertisement.expire_cache
   end
 
   def self.cached_current_ads

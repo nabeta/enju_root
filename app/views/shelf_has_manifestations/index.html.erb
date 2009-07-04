@@ -1,0 +1,30 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.shelf_has_manifestation')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.models.shelf') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
+  </tr>
+
+<% @shelf_has_manifestations.each do |shelf_has_manifestation| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h shelf_has_manifestation.shelf_id %></td>
+    <td><%=h shelf_has_manifestation.manifestation_id %></td>
+    <td><%= link_to t('page.show'), shelf_has_manifestation %></td>
+    <td><%= link_to t('page.edit'), edit_shelf_has_manifestation_path(shelf_has_manifestation) %></td>
+    <td><%= link_to t('page.destroy'), shelf_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= will_paginate(@shelf_has_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.shelf_has_manifestation')), new_shelf_has_manifestation_path -%></li>
+  </ul>
+</div>

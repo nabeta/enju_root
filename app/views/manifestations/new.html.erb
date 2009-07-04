@@ -1,5 +1,11 @@
-<%- if params[:mode] == 'import_isbn' -%>
+<%- case params[:mode] when 'import_isbn' -%>
   <%= render :partial => 'import_isbn' -%>
+<%- when 'attachment' -%>
+  <%= render :partial => 'new_attachment' -%>
 <%- else -%>
-  <%= render :partial => 'new' -%>
+  <%- if @manifestation.attachment -%>
+    <%= render :partial => 'new_attachment' -%>
+  <%- else -%>
+    <%= render :partial => 'new' -%>
+  <%- end -%>
 <%- end -%>

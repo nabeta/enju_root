@@ -125,6 +125,7 @@ ja:
       user_has_shelf: 利用者と書棚の関係
       participate: 参加
       patron_has_patron: パトロン間の関係
+      shelf_has_manifestation: 書棚と体現形の関係
     attributes:
       library:
         name: 名前
@@ -823,6 +824,9 @@ ja:
       patron_has_patron:
         from_patron: 始点
         to_patron: 終点
+      shelf_has_manifestation:
+        shelf: 書棚
+        manifestation: 体現形
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -1215,7 +1219,6 @@ ja:
     period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
-    post_to_scribd: "Scribdに送信する"
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"

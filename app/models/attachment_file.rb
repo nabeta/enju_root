@@ -9,11 +9,12 @@ class AttachmentFile < ActiveRecord::Base
 
   has_attachment :storage => :file_system
   validates_as_attachment
+  has_attached_file :uploaded_data
   validates_presence_of :manifestation
   validates_associated :manifestation
 
-  has_ipaper_and_uses 'AttachmentFu'
-  enju_scribd
+  #has_ipaper_and_uses 'AttachmentFu'
+  #enju_scribd
 
   cattr_accessor :per_page
   @@per_page = 10

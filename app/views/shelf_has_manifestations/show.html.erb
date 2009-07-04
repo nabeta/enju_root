@@ -1,0 +1,26 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.shelf_has_manifestation')) -%></h1>
+<div id="content_list">
+<p>
+  <b>Shelf:</b>
+  <%=h @shelf_has_manifestation.shelf_id %>
+</p>
+
+<p>
+  <b>Manifestation:</b>
+  <%=h @shelf_has_manifestation.manifestation_id %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @shelf_has_manifestation.position %>
+</p>
+</div>
+</div>
+
+<div id="content_detail">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_shelf_has_manifestation_path(@shelf_has_manifestation) %></li>
+    <li><%= link_to t('page.back'), shelf_has_manifestations_path %></li>
+  </ul>
+</div>

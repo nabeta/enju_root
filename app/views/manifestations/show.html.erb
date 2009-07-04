@@ -214,7 +214,7 @@
         </td>
       </tr>
     <%- end -%>
-    <%- unless @manifestation.attachment_file.blank? -%>
+    <%- unless @manifestation.attachment.blank? -%>
       <%= render :partial => 'attachment_file' -%>
     <%- end -%>
     <tr>
