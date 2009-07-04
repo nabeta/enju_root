@@ -2,12 +2,12 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_stat_has_user')) -%></h1>
 <div id="content_list">
 <p>
-  <b>Manifestation checkout stat:</b>
+  <b><%= t('activerecord.models.user_checkout_stat') -%>:</b>
   <%=h @checkout_stat_has_user.user_checkout_stat_id -%>
 </p>
 
 <p>
-  <b>Manifestation:</b>
+  <b><%= t('activerecord.models.user') -%>:</b>
   <%=h @checkout_stat_has_user.user_id -%>
 </p>
 
