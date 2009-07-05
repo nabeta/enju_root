@@ -2,7 +2,7 @@ require 'test_helper'
 
 class SubjectHasClassificationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :subject_has_classifications, :classifications, :concepts, :places, :users, :subjects
+  fixtures :subject_has_classifications, :classifications, :users, :subjects
 
   def test_guest_should_get_index
     get :index

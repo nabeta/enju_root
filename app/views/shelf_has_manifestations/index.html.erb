@@ -10,8 +10,8 @@
 
 <% @shelf_has_manifestations.each do |shelf_has_manifestation| %>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h shelf_has_manifestation.shelf_id %></td>
-    <td><%=h shelf_has_manifestation.manifestation_id %></td>
+    <td><%= link_to h(shelf_has_manifestation.shelf.display_name.localize), shelf_has_manifestation.shelf %></td>
+    <td><%= link_to h(shelf_has_manifestation.manifestation.original_title), shelf_has_manifestation.manifestation %></td>
     <td><%= link_to t('page.show'), shelf_has_manifestation %></td>
     <td><%= link_to t('page.edit'), edit_shelf_has_manifestation_path(shelf_has_manifestation) %></td>
     <td><%= link_to t('page.destroy'), shelf_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete %></td>

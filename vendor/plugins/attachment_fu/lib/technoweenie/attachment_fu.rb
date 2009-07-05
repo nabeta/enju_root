@@ -52,6 +52,8 @@ module Technoweenie # :nodoc:
       #      for the S3 backend.  Setting this sets the :storage to :file_system.
 
       # *  <tt>:storage</tt> - Use :file_system to specify the attachment data is stored with the file system.  Defaults to :db_system.
+      # *  <tt>:cloundfront</tt> - Set to true if you are using S3 storage and want to serve the files through CloudFront.  You will need to
+      #      set a distribution domain in the amazon_s3.yml config file. Defaults to false
       # *  <tt>:bucket_key</tt> - Use this to specify a different bucket key other than :bucket_name in the amazon_s3.yml file.  This allows you to use
       #      different buckets for different models. An example setting would be :image_bucket and the you would need to define the name of the corresponding
       #      bucket in the amazon_s3.yml file.
@@ -80,6 +82,7 @@ module Technoweenie # :nodoc:
         options[:thumbnails]       ||= {}
         options[:thumbnail_class]  ||= self
         options[:s3_access]        ||= :public_read
+        options[:cloudfront]       ||= false
         options[:content_type] = [options[:content_type]].flatten.collect! { |t| t == :image ? Technoweenie::AttachmentFu.content_types : t }.flatten unless options[:content_type].nil?
 
         unless options[:thumbnails].is_a?(Hash)
@@ -99,7 +102,11 @@ module Technoweenie # :nodoc:
         attachment_options[:storage]     ||= parent_options[:storage]
         attachment_options[:path_prefix] ||= attachment_options[:file_system_path]
         if attachment_options[:path_prefix].nil?
-          attachment_options[:path_prefix] = attachment_options[:storage] == :s3 ? table_name : File.join("public", table_name)
+          attachment_options[:path_prefix] = case attachment_options[:storage]
+            when :s3 then table_name
+            when :cloud_files then table_name
+            else File.join("public", table_name)
+          end
         end
         attachment_options[:path_prefix]   = attachment_options[:path_prefix][1..-1] if options[:path_prefix].first == '/'
 
@@ -176,7 +183,6 @@ module Technoweenie # :nodoc:
         base.after_save :after_process_attachment
         base.after_destroy :destroy_file
         base.after_validation :process_attachment
-        base.attr_accessible :uploaded_data
         if defined?(::ActiveSupport::Callbacks)
           base.define_callbacks :after_resize, :after_attachment_saved, :before_thumbnail_saved
         end

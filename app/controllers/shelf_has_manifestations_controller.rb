@@ -5,7 +5,11 @@ class ShelfHasManifestationsController < ApplicationController
   # GET /shelf_has_manifestations
   # GET /shelf_has_manifestations.xml
   def index
-    @shelf_has_manifestations = ShelfHasManifestation.paginate(:all, :page => params[:page])
+    if @shelf
+      @shelf_has_manifestations = @shelf.shelf_has_manifestations.paginate(:all, :page => params[:page])
+    else
+      @shelf_has_manifestations = ShelfHasManifestation.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb

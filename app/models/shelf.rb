@@ -3,8 +3,8 @@ class Shelf < ActiveRecord::Base
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
-  has_many :shelf_has_manifestations, :dependent => :destroy
-  has_many :manifestations, :through => :shelf_has_manifestaions
+  #has_many :shelf_has_manifestations, :dependent => :destroy
+  #has_many :manifestations, :through => :shelf_has_manifestations
   has_one :user_has_shelf, :dependent => :destroy
   has_one :user, :through => :user_has_shelf
 

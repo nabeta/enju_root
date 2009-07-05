@@ -10,9 +10,9 @@ class AddUsersOpenidField < ActiveRecord::Migration
 
   def self.down
     remove_column :users, :openid_identifier
-    [:login, :crypted_password, :password_salt].each do |field|
-      User.all(:conditions => "#{field} is NULL").each { |user| user.update_attribute(field, "") if user.send(field).nil? }
-      change_column :users, field, :string, :default => "", :null => false
-    end
+    #[:login, :crypted_password, :password_salt].each do |field|
+    #  User.all(:conditions => "#{field} is NULL").each { |user| user.update_attribute(field, "") if user.send(field).nil? }
+    #  change_column :users, field, :string, :default => "", :null => false
+    #end
   end
 end

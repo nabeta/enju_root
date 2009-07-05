@@ -4,7 +4,8 @@ class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   #include OnlyLibrarianCanModify
   include LibrarianOwnerRequired
-  named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy
   has_many :exemplifies, :dependent => :destroy
@@ -37,8 +38,8 @@ class Manifestation < ActiveRecord::Base
   has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   #has_one :db_file
-  has_many :shelf_has_manifestations, :dependent => :destroy
-  has_many :shelves, :through => :shelf_has_manifestaions
+  #has_one :shelf_has_manifestation, :dependent => :destroy
+  #has_one :shelf, :through => :shelf_has_manifestation
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher, :access_address,
@@ -145,7 +146,7 @@ class Manifestation < ActiveRecord::Base
         array << expression.work.title
       end
     end
-    #array << worldcat_record[:title]
+    array << worldcat_record[:title]
     array.flatten.compact.sort.uniq
   end
 
@@ -203,7 +204,7 @@ class Manifestation < ActiveRecord::Base
   def author
     patrons = []
     patrons << authors.collect(&:name).flatten
-    #patrons << worldcat_record[:author]
+    patrons << worldcat_record[:author]
   end
 
   def editors
@@ -225,7 +226,7 @@ class Manifestation < ActiveRecord::Base
   def publisher
     patrons = []
     patrons << publishers.collect(&:name).flatten
-    #patrons << worldcat_record[:publisher]
+    patrons << worldcat_record[:publisher]
   end
 
   def shelves
@@ -442,31 +443,6 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
-  # TODO: ビューに移動する
-  def to_oai_dc
-    xml = Builder::XmlMarkup.new
-    xml.tag!("oai_dc:dc",
-      'xmlns:oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/",
-      'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
-      'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
-      'xsi:schemaLocation' =>
-        %{http://www.openarchives.org/OAI/2.0/oai_dc/
-          http://www.openarchives.org/OAI/2.0/oai_dc.xsd}) do
-        xml.tag!('oai_dc:title', original_title)
-        xml.tag!('oai_dc:description', note)
-        self.authors.each do |author|
-          xml.tag!('oai_dc:creator', author.full_name)
-        end
-        self.languages.each do |language|
-          xml.tag!('oai_dc:lang', language.name)
-        end
-        self.subjects.each do |subject|
-          xml.tag!('oai_dc:subject', subject.term)
-        end
-    end
-    xml.target!
-  end
-
   def to_mods
     xml = Builder::XmlMarkup.new
     xml.mods('version' => '3.2'){
@@ -612,11 +588,9 @@ class Manifestation < ActiveRecord::Base
   #  self.attachment_file.fulltext if self.attachment_file
   end
 
-  def digest(options = {:type => 'sha1'})
-    if self.file_hash.blank?
-      self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
-    end
-    self.file_hash
+  def set_digest(options = {:type => 'sha1'})
+    file_hash = Digest::SHA1.hexdigest(self.picture.path)
+    save(false)
   end
 
   def generate_fragment_cache

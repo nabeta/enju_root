@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ResourceHasSubjectsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :resource_has_subjects, :manifestations, :concepts, :places, :subject_heading_types, :users, :subjects, :subject_types
+  fixtures :resource_has_subjects, :manifestations, :subject_heading_types, :users, :subjects, :subject_types
 
   def test_guest_should_get_index
     get :index

@@ -52,6 +52,7 @@ class User < ActiveRecord::Base
   has_many :news_posts
   has_many :user_has_shelves, :dependent => :destroy
   has_many :shelves, :through => :user_has_shelves
+  has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
 
   restful_easy_messages
   #acts_as_soft_deletable

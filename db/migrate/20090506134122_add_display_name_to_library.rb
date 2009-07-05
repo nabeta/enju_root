@@ -7,7 +7,7 @@ class AddDisplayNameToLibrary < ActiveRecord::Migration
 
   def self.down
     remove_column :libraries, :display_name
-    add_column :libraries, :name, :string
     rename_column :libraries, :name, :short_name
+    add_column :libraries, :name, :string
   end
 end

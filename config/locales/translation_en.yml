@@ -293,14 +293,15 @@ en:
         subjectable_type: Subjectable type
       picture_file:
         picture_attachable_type: Picture attachable type
-        size: Size
-        content_type: Content type
+        picture_file_size: Size
+        picture_content_type: Content type
         title: Title
-        filename: Filename
+        picture_file_name: Filename
         height: Height
         width: Width
         thumbnail: Thumbnail
         file_hash: File hash
+        picture_updated_at: Updated at
       work_form:
         name: Name
         display_name: Display name
@@ -830,6 +831,10 @@ en:
       patron_has_patron:
         from_patron: From
         to_patron: To
+      shelf_has_manifestation:
+        shelf: Shelf
+        manifestation: Manifestation
+        position: Position
 
   page:
     user_title: "{{login_name}}'s library"
@@ -1056,6 +1061,7 @@ en:
     web: "Web"
     serial: "Serial"
     send_email: "Email this information"
+    attachment_file: "Attachment file"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

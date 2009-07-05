@@ -22,9 +22,9 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00001).languages
   end
 
-  def test_manifestation_should_show_oai_dc
-    assert manifestations(:manifestation_00001).to_oai_dc
-  end
+  #def test_manifestation_should_show_oai_dc
+  #  assert manifestations(:manifestation_00001).to_oai_dc
+  #end
 
   def test_manifestation_should_get_number_of_pages
     assert_equal 100, manifestations(:manifestation_00001).number_of_pages

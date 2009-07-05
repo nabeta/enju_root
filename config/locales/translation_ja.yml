@@ -293,14 +293,15 @@ ja:
         subjectable_type: 件名付与対象の種類
       picture_file:
         picture_attachable_type: 画像を添付可能な種類
-        size: ファイルサイズ
-        content_type: Content-Type
+        picture_file_size: ファイルサイズ
+        picture_content_type: Content-Type
         title: タイトル
-        filename: ファイル名
+        picture_file_name: ファイル名
         height: 高さ
         width: 幅
         thumbnail: サムネイル
         file_hash: ファイルのハッシュ
+        picture_updated_at: 更新時刻
       work_form:
         name: 名前
         display_name: 表示名
@@ -827,6 +828,7 @@ ja:
       shelf_has_manifestation:
         shelf: 書棚
         manifestation: 体現形
+        position: 位置
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -1041,6 +1043,7 @@ ja:
     web: "Web"
     serial: "定期刊行物"
     send_email: "書誌情報を電子メールで送信する"
+    attachment_file: "添付ファイル"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"

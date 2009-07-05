@@ -5,6 +5,7 @@ class ImportedResourceFile < ActiveRecord::Base
 
   has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_as_attachment
+  #has_attached_file :imported_resource
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 

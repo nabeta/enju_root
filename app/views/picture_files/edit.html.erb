@@ -13,28 +13,28 @@
 
 <%- form_for(@picture_file) do |f| -%>
   <p>
-    <b><%= t('page.attachable') -%></b><br />
-    <%= f.text_field :picture_attachable_id -%>
-  </p>
-
-  <p>
     <b><%= t('activerecord.attributes.picture_file.picture_attachable_type') -%></b><br />
     <%= f.text_field :picture_attachable_type -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.size') -%></b><br />
-    <%= f.text_field :size -%>
+    <b><%= t('page.attachable') -%></b><br />
+    <%= f.text_field :picture_attachable_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.content_type') -%></b><br />
-    <%= f.text_field :content_type -%>
+    <b><%= t('activerecord.attributes.picture_file.picture_file_size') -%></b><br />
+    <%= f.text_field :picture_file_size -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.filename') -%></b><br />
-    <%= f.text_field :filename -%>
+    <b><%= t('activerecord.attributes.picture_file.picture_content_type') -%></b><br />
+    <%= f.text_field :picture_content_type -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.picture_file.picture_file_name') -%></b><br />
+    <%= f.text_field :picture_file_name -%>
   </p>
 
   <p>
@@ -45,21 +45,6 @@
   <p>
     <b><%= t('activerecord.attributes.picture_file.height') -%></b><br />
     <%= f.text_field :height -%>
-  </p>
-
-  <p>
-    <b><%= ('Parent') -%></b><br />
-    <%= f.text_field :parent_id -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.picture_file.thumbnail') -%></b><br />
-    <%= f.text_field :thumbnail -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.models.db_file') -%></b><br />
-    <%= f.text_field :db_file_id -%>
   </p>
 
   <p>

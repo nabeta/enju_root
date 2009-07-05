@@ -13,18 +13,19 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.size') -%>:</b>
-  <%=h @picture_file.size -%>
+  <b><%= t('activerecord.attributes.picture_file.picture_file_size') -%>:</b>
+  <%=h @picture_file.picture_file_size -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.content_type') -%>:</b>
-  <%=h @picture_file.content_type -%>
+  <b><%= t('activerecord.attributes.picture_file.picture_content_type') -%>:</b>
+  <%=h @picture_file.picture_content_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.filename') -%>:</b>
-  <%= link_to h(@picture_file.filename), picture_file_path(@picture_file, :format => @picture_file.extname) -%>
+  <b><%= t('activerecord.attributes.picture_file.picture_file_name') -%>:</b>
+  <%= link_to h(@picture_file.picture_file_name), @picture_file.picture.url -%><br />
+  <%= link_to image_tag(@picture_file.picture.url(:medium)), @picture_file.picture.url -%>
 </p>
 
 <p>
@@ -38,23 +39,13 @@
 </p>
 
 <p>
-  <b><%= ('Parent') -%>:</b>
-  <%=h @picture_file.parent_id -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.picture_file.thumbnail') -%>:</b>
-  <%=h @picture_file.thumbnail -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.models.db_file') -%>:</b>
-  <%=h @picture_file.db_file_id -%>
-</p>
-
-<p>
   <b><%= t('activerecord.attributes.picture_file.file_hash') -%>:</b>
   <%=h @picture_file.file_hash -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.picture_file.picture_updated_at') -%>:</b>
+  <%=h @picture_file.picture_updated_at -%>
 </p>
 
 </div>
