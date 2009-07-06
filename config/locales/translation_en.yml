@@ -150,12 +150,13 @@ en:
         deleted_at: Deleted at
         shared: Shared
       imported_patron_file:
-        filename: Filename
-        content_type: Content type
-        size: Size
+        imported_patron_file_name: Filename
+        imported_patron_content_type: Content type
+        imported_patron_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
+        imported_patron_updated_at: Updated at
       circulation_status:
         name: Name
         display_name: Display name
@@ -580,12 +581,13 @@ en:
         position: Position
         deleted_at: Deleted at
       imported_resource_file:
-        filename: Filename
-        content_type: Content type
-        size: Size
+        imported_resource_file_name: Filename
+        imported_resource_content_type: Content type
+        imported_resource_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
+        imported_resource_updated_at: Updated at
       checkout:
         due_date: Due date
         lock_version: Lock version
@@ -614,12 +616,13 @@ en:
         post_to_union_catalog: Post to union catalog
         valid_period_for_new_user: Valid period for new user
       imported_event_file:
-        filename: Filename
-        content_type: Content type
-        size: Size
+        imported_event_file_name: Filename
+        imported_event_content_type: Content type
+        imported_event_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
+        imported_event_updated_at: Updated at
       bookmarked_resource:
         title: Title
         url: URL

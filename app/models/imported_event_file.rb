@@ -3,9 +3,10 @@ class ImportedEventFile < ActiveRecord::Base
   include LibrarianRequired
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
-  has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
-  validates_as_attachment
-  #has_attached_file :imported_event
+  #has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
+  #validates_as_attachment
+  has_attached_file :imported_event, :path => ":rails_root/private:url"
+  validates_attachment_content_type :imported_event, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
@@ -21,7 +22,9 @@ class ImportedEventFile < ActiveRecord::Base
 
   def import
     self.reload
-    reader = CSV::Reader.create(self.db_file.data, "\t")
+    file = File.open(self.imported_event.path)
+    reader = CSV::Reader.create(file, "\t")
+    file.close
     #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
     header = reader.shift
     num = {:success => 0, :failure => 0}
@@ -58,6 +61,7 @@ class ImportedEventFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
+    file.close
     return num
   end
 

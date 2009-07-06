@@ -21,7 +21,7 @@ class ImportedEventFilesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @imported_event_file }
-      format.download { send_data @imported_event_file.db_file.data, :filename => @imported_event_file.filename, :type => 'application/octet-stream' }
+      format.download  { send_file @imported_event_file.imported_event.path, :filename => @imported_event_file.imported_event_file_name, :type => @imported_event_file.imported_event_content_type, :disposition => 'inline' }
     end
   end
 

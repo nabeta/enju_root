@@ -9,6 +9,7 @@ class PictureFile < ActiveRecord::Base
   #validates_as_attachment
   has_attached_file :picture, :styles => { :medium => "500x500>", :thumb => "100x100>" }, :path => ":rails_root/private:url"
   validates_attachment_presence :picture
+  validates_attachment_content_type :picture, :content_type => %r{image/.*}
 
   validates_associated :picture_attachable
   validates_presence_of :picture_attachable_id, :picture_attachable_type #, :unless => :parent_id, :on => :create

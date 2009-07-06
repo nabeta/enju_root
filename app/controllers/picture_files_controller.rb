@@ -24,6 +24,8 @@ class PictureFilesController < ApplicationController
     case params[:size]
     when 'original'
       size = 'original'
+    when 'thumb'
+      size = 'thumb'
     else
       size = 'medium'
     end
@@ -31,7 +33,7 @@ class PictureFilesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @picture_file }
-      format.download  { send_file @picture_file.picture.path(size), :type => @picture_file.picture_content_type, :disposition => 'inline' }
+      format.download  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => @picture_file.picture_content_type, :disposition => 'inline' }
       format.jpeg  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline' }
       format.gif  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline' }
       format.png  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline' }

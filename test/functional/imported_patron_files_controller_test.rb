@@ -67,7 +67,7 @@ class ImportedPatronFilesControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     old_patrons_count = Patron.count
     assert_difference('ImportedPatronFile.count') do
-      post :create, :imported_patron_file => {:uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_patron_file_sample1.tsv") }
+      post :create, :imported_patron_file => {:imported_patron => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_patron_file_sample1.tsv") }
     end
     assert_difference('Patron.count', 2) do
       assigns(:imported_patron_file).import
@@ -81,7 +81,7 @@ class ImportedPatronFilesControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     old_patrons_count = Patron.count
     assert_difference('ImportedPatronFile.count') do
-      post :create, :imported_patron_file => {:uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_patron_file_sample2.tsv") }
+      post :create, :imported_patron_file => {:imported_patron => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_patron_file_sample2.tsv") }
     end
     assert_difference('Patron.count', 1) do
       assigns(:imported_patron_file).import

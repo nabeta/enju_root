@@ -3,9 +3,10 @@ class ImportedResourceFile < ActiveRecord::Base
   include LibrarianRequired
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
-  has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
-  validates_as_attachment
-  #has_attached_file :imported_resource
+  #has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
+  #validates_as_attachment
+  has_attached_file :imported_resource, :path => ":rails_root/private:url"
+  validates_attachment_content_type :imported_resource, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
@@ -21,7 +22,8 @@ class ImportedResourceFile < ActiveRecord::Base
 
   def import
     self.reload
-    reader = CSV::Reader.create(self.db_file.data, "\t")
+    file = File.open(self.imported_resource.path)
+    reader = CSV::Reader.create(file, "\t")
     #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
     header = reader.shift
     num = {:found => 0, :success => 0, :failure => 0}
@@ -109,16 +111,19 @@ class ImportedResourceFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
+    file.close
     return num
   end
 
   def import_marc(marc_type)
+    file = File.open(self.imported_resource.path)
     case marc_type
     when 'marcxml'
-      reader = MARC::XMLReader.new(self.db_file.data)
+      reader = MARC::XMLReader.new(file)
     else
-      reader = MARC::Reader.new(self.db_file.data)
+      reader = MARC::Reader.new(file)
     end
+    file.close
 
     # when 'marc_xml_url'
     #  url = URI(params[:marc_xml_url])

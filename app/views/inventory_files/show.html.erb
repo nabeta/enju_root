@@ -7,24 +7,20 @@
 
 <div id="content_detail">
 <div id="content_list">
+
 <p>
-  <b><%= t('activerecord.models.db_file') -%> :</b>
-  <%=h @inventory_file.db_file_id -%> 
+  <b><%= t('activerecord.attributes.inventory_file.inventory_file_name') -%> :</b>
+  <%=h @inventory_file.inventory_file_name -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.filename') -%> :</b>
-  <%=h @inventory_file.filename -%> 
+  <b><%= t('activerecord.attributes.inventory_file.inventory_content_type') -%> :</b>
+  <%=h @inventory_file.inventory_content_type -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.content_type') -%> :</b>
-  <%=h @inventory_file.content_type -%> 
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.inventory_file.size') -%> :</b>
-  <%=h @inventory_file.size -%> 
+  <b><%= t('activerecord.attributes.inventory_file.inventory_file_size') -%> :</b>
+  <%=h @inventory_file.inventory_file_size -%> 
 </p>
 
 <p>
