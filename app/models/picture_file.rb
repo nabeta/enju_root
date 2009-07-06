@@ -27,6 +27,6 @@ class PictureFile < ActiveRecord::Base
   end
 
   def extname
-    File.extname(self.attachment_file_name).gsub(/^\./, '') rescue nil
+    File.extname(picture_file_name).gsub(/^\./, '') rescue nil
   end
 end

@@ -25,7 +25,7 @@
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_file_name') -%>:</b>
   <%= link_to h(@picture_file.picture_file_name), @picture_file.picture.url -%><br />
-  <%= link_to image_tag(@picture_file.picture.url(:medium)), @picture_file.picture.url -%>
+  <%= link_to image_tag(picture_file_path(@picture_file, :format => :download)), picture_file_path(@picture_file, :format => :download, :size => 'original') -%>
 </p>
 
 <p>

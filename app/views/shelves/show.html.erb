@@ -23,8 +23,8 @@
 
 <p>
   <b><%= t('activerecord.models.picture_file') -%>:</b><br />
-  <%- @shelf.picture_files.each do |file| -%>
-    <%= image_tag(file.picture.url(:medium)) -%>
+  <%- @shelf.picture_files.each do |picture_file| -%>
+    <%= link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'original') -%>
   <%- end -%>
 </p>
 
