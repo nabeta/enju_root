@@ -7,7 +7,7 @@ class PictureFile < ActiveRecord::Base
   #has_attachment :content_type => :image, #:resize_to => [800,800],
   #  :thumbnails => { :geometry => 'x400' }
   #validates_as_attachment
-  has_attached_file :picture, :styles => { :medium => "500x500>", :thumb => "100x100>" }
+  has_attached_file :picture, :styles => { :medium => "500x500>", :thumb => "100x100>" }, :path => ":rails_root/private:url"
   validates_attachment_presence :picture
 
   validates_associated :picture_attachable

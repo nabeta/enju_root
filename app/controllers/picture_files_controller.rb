@@ -25,9 +25,9 @@ class PictureFilesController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @picture_file }
-      format.jpg  { send_data @picture_file.db_file.data, :filename => @picture_file.filename, :type => 'image/jpeg', :disposition => 'inline' }
-      format.gif  { send_data @picture_file.db_file.data, :filename => @picture_file.filename, :type => 'image/gif', :disposition => 'inline' }
-      format.png  { send_data @picture_file.db_file.data, :filename => @picture_file.filename, :type => 'image/png', :disposition => 'inline' }
+      format.jpg  { send_file @picture_file.picture.path, :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline' }
+      format.gif  { send_file @picture_file.picture.path, :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline' }
+      format.png  { send_file @picture_file.picture.path, :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline' }
     end
   end
 

@@ -45,7 +45,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_updated_at') -%>:</b>
-  <%=h @picture_file.picture_updated_at -%>
+  <%=h l(@picture_file.picture_updated_at) if @picture_file.picture_updated_at -%>
 </p>
 
 </div>
