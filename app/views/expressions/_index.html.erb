@@ -27,8 +27,10 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
-    <th></th>
-    <th></th>
+    <%- if current_user -%>
+      <th></th>
+      <th></th>
+    <%- end -%>
   </tr>
   
   <%- for expression in @expressions -%>

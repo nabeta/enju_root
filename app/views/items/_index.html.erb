@@ -30,8 +30,10 @@
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
-    <th></th>
-    <th></th>
+    <%- if current_user -%>
+      <th></th>
+      <th></th>
+    <%- end -%>
   </tr>
   
   <%- for item in @items -%>

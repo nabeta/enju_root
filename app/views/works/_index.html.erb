@@ -21,8 +21,10 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.work.context') -%></th>
-    <th></th>
-    <th></th>
+    <%- if current_user -%>
+      <th></th>
+      <th></th>
+    <%- end -%>
   </tr>
   
   <%- for work in @works -%>

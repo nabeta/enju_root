@@ -13,7 +13,7 @@ class CreateCountries < ActiveRecord::Migration
   def self.up    
     create_table :countries do |t|
       t.string :name,         :size => 80
-      t.string :display_name
+      t.text :display_name
       t.string :alpha_2,      :size => 2
       t.string :alpha_3,      :size => 3
       t.string :numeric_3, :size => 3

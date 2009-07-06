@@ -2,7 +2,7 @@ class CreateUserGroups < ActiveRecord::Migration
   def self.up
     create_table :user_groups do |t|
       t.string :name, :string
-      t.string :display_name, :string
+      t.text :display_name, :string
       t.text :note
       t.integer :position
       t.timestamps
