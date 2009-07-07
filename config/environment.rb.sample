@@ -46,7 +46,7 @@ Rails::Initializer.run do |config|
   config.gem "RedCloth"
   #config.gem "rmagick", :lib => "RMagick"
   config.gem "extractcontent"
-  config.gem "zoom"
+  #config.gem "zoom"
   config.gem "isbn-tools", :lib => "isbn/tools"
   config.gem "barby"
   config.gem "rubyist-aasm", :lib => "aasm"
@@ -124,3 +124,4 @@ require 'tag_list'
 require 'hostname'
 require 'atom/pub'
 require 'localized_name'
+require 'xml/libxml'
