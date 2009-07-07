@@ -275,7 +275,7 @@ class UsersController < ApplicationController
 
     # 最後の図書館員を削除しようとした
     if @user.has_role?('Librarian')
-      if @user.is_last_librarian?
+      if @user.last_librarian?
         raise
         flash[:notice] = t('user.last_librarian')
       end

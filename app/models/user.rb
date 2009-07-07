@@ -134,6 +134,10 @@ class User < ActiveRecord::Base
   end
 
   def before_destroy
+    # TODO: 貸出記録を残す場合
+    if checkouts.size > 0
+      raise 'This user has items still checked out.'
+    end
     if self.has_role?('Administrator')
       raise 'This is the last administrator in this system.' if Role.find_by_name('Administrator').users.size == 1
     end
@@ -234,13 +238,13 @@ class User < ActiveRecord::Base
   end
 
   def is_deletable_by(user, parent = nil)
-    raise if self.id == 1 or self.checkouts.size > 0 or self.is_last_librarian?
+    raise if self.id == 1 or self.checkouts.size > 0 or self.last_librarian?
     true if user == self || user.has_role?('Librarian')
   rescue
     false
   end
 
-  def is_last_librarian?
+  def last_librarian?
     if self.has_role?('Librarian')
       role = Role.find(:first, :conditions => {:name => 'Librarian'})
       true if role.users.size == 1
