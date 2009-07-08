@@ -109,7 +109,7 @@ module ApplicationHelper
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket.blank?
       unless book_jacket['asin'].blank?
-        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.co.jp/dp/#{book_jacket['asin']}"
+        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.com/dp/#{book_jacket['asin']}"
       else
         unless manifestation.access_address.blank?
         #link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=180", :width => 180, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
