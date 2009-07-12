@@ -1,3 +1,4 @@
 ja:
   twitter:
-    post_to_twitter: "Twitter に送信する"
+    post_to_twitter: "Twitterに送信する"
+    comment: "送信するコメント"

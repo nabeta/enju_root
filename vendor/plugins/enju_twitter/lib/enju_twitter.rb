@@ -29,14 +29,14 @@ module EnjuTwitter
   end
   
   module InstanceMethods
-    attr_accessor :post_to_twitter
-    def send_to_twitter(manifestation_url)
+    attr_accessor :post_to_twitter, :twitter_comment
+    def send_to_twitter
       if RAILS_ENV == "production"
         if Twitter::Status
-          status = "#{original_title.to_s.truncate}: #{note.to_s.split.join(" / ").truncate} #{manifestation_url}"
+          status_manifestation = "#{original_title.to_s.truncate}: #{note.to_s.split.join(" / ").truncate} #{LibraryGroup.url}manifestations/#{id}"
           begin
-            timeout(5){
-              Twitter::Status.post(:update, :status => status)
+            timeout(10){
+              Twitter::Status.post(:update, :status => status_manifestation)
             }
           rescue Timeout::Error
             Twitter.logger.warn 'post timeout!'
