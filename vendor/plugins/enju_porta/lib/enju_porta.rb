@@ -60,7 +60,7 @@ module EnjuPorta
       nbn = doc.find_first('//dc:identifier[@xsi:type="dcndl:JPNO"]').content
 
       Patron.transaction do
-        author_patrons = Manifestation.import_patrons(authors.reverse)
+        author_patrons = Manifestation.import_patrons(authors)
         publisher_patrons = Manifestation.import_patrons(publishers)
 
         if work_title.present?
