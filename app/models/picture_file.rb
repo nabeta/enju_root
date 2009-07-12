@@ -18,7 +18,7 @@ class PictureFile < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  def after_save
+  def after_create
     send_later(:set_digest)
   end
 

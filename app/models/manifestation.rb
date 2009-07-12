@@ -112,6 +112,10 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
+  def after_create
+    send_later(:set_digest)
+  end
+
   def after_save
     self.expire_cache
     send_later(:solr_commit)
@@ -589,7 +593,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(self.picture.path)
+    file_hash = Digest::SHA1.hexdigest(self.attachment.path)
     save(false)
   end
 
