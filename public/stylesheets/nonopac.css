@@ -368,6 +368,10 @@ textarea{
   height: 10em;
 }
 
+input.twitter_text{
+  width:40em;
+}
+
 textarea#message_body{
   width: 40em;
   height: 20em;

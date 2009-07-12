@@ -302,7 +302,7 @@ class ManifestationsController < ApplicationController
         end
 
         # TODO: モデルへ移動
-        @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment) if @manifestation.post_to_twitter
+        @manifestation.send_later(:send_to_twitter) if @manifestation.post_to_twitter
         @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
@@ -334,6 +334,7 @@ class ManifestationsController < ApplicationController
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
+        @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }

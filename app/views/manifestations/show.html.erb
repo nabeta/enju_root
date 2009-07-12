@@ -240,10 +240,16 @@
     <%- if @manifestation.items.on_shelf.find(:first) -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
+      <%- if @manifestation.is_updatable_by(current_user) -%>
+        <%- if @manifestation.respond_to?(:post_to_twitter) -%>
+          <%= render :partial => 'manifestations/post_to_twitter' -%>
+        <%- end -%>
+      <%- end -%>
       <%- if @manifestation.bookmarked_resource -%>
         <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>
       <%- end -%>
+
     </div>
     <%- if @manifestation.related_works.size > 0 -%>
       <%= render :partial => 'manifestations/work_list' -%>

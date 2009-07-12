@@ -39,11 +39,11 @@ module EnjuTwitter
             status_comment = "#{comment} #{manifestation_url}"
           end
           begin
-            timeout(60){
-              Twitter::Status.post(:update, :status => status_manifestation)
+            timeout(30){
               if status_comment
-                sleep(30)
                 Twitter::Status.post(:update, :status => status_comment)
+              else
+                Twitter::Status.post(:update, :status => status_manifestation)
               end
             }
           rescue Timeout::Error
