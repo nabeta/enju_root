@@ -144,6 +144,7 @@ class ItemsController < ApplicationController
     @item = Item.new(params[:item])
     @item.item_identifier = @item.item_identifier.to_s.strip
 
+    @item.indexing = true
     respond_to do |format|
       if @item.save
         Item.transaction do
@@ -176,6 +177,7 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
 
+    @item.indexing = true
     respond_to do |format|
       if @item.update_attributes(params[:item])
         if @item.shelf
@@ -205,6 +207,7 @@ class ItemsController < ApplicationController
   # DELETE /items/1.xml
   def destroy
     @item = Item.find(params[:id])
+    @item.indexing = true
     @item.destroy
 
     respond_to do |format|

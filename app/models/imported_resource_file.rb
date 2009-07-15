@@ -55,7 +55,6 @@ class ImportedResourceFile < ActiveRecord::Base
             publisher_patrons = Manifestation.import_patrons(publishers)
 
             work = Work.new
-            work.restrain_indexing = true
             work.original_title = data['title']
             if work.save!
               work.patrons << author_patrons
@@ -65,7 +64,6 @@ class ImportedResourceFile < ActiveRecord::Base
             end
 
             expression = Expression.new
-            expression.restrain_indexing = true
             expression.original_title = work.original_title
             expression.work = work
             if expression.save!
@@ -75,7 +73,6 @@ class ImportedResourceFile < ActiveRecord::Base
             end
 
             manifestation = Manifestation.new
-            manifestation.restrain_indexing = true
             manifestation.original_title = expression.original_title
             manifestation.expressions << expression
             if manifestation.save!
@@ -92,7 +89,6 @@ class ImportedResourceFile < ActiveRecord::Base
 
         begin
           item = Item.new
-          item.restrain_indexing = true
           item.item_identifier = data['item_identifier']
           item.shelf = shelf
           item.manifestation = manifestation
@@ -134,12 +130,10 @@ class ImportedResourceFile < ActiveRecord::Base
     # TODO
     for record in reader
       work = Work.new(:title => record['245']['a'])
-      work.restrain_indexing = true
       work.work_form = WorkForm.find(1)
       work.save
 
       expression = Expression.new(:title => work.original_title)
-      expression.restrain_indexing = true
       expression.expression_form = ExpressionForm.find(1)
       expression.language = Language.find(1)
       expression.frequency_of_issue = FrequencyOfIssue.find(1)
@@ -147,7 +141,6 @@ class ImportedResourceFile < ActiveRecord::Base
       work.expressions << expression
 
       manifestation = Manifestation.new(:title => expression.original_title)
-      manifestation.restrain_indexing = true
       manifestation.manifestation_form = ManifestationForm.find(1)
       manifestation.language = Language.find(1)
       manifestation.save
@@ -157,7 +150,6 @@ class ImportedResourceFile < ActiveRecord::Base
       publisher = Patron.find_by_full_name(record['700']['a'])
       if publisher.blank?
         publisher = Patron.new(:full_name => full_name)
-        publisher.restrain_indexing = true
         publisher.save
       end
       manifestation.patrons << publisher

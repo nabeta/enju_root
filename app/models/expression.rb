@@ -37,14 +37,14 @@ class Expression < ActiveRecord::Base
     {:expression_merge_list_ids => :integer},
     {:original_expression_ids => :integer}],
     :facets => [:expression_form_id, :language_id],
-    :offline => proc{|expression| expression.restrain_indexing},
+    :offline => proc{|expression| !expression.indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   enju_cinii
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing
+  attr_accessor :indexing
 
   def serial?
     return true if self.frequency_of_issue_id > 1

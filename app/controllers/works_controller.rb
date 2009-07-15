@@ -87,6 +87,7 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(params[:work])
 
+    @work.indexing = true
     respond_to do |format|
       if @work.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
@@ -110,6 +111,7 @@ class WorksController < ApplicationController
   def update
     @work = Work.find(params[:id])
 
+    @work.indexing = true
     respond_to do |format|
       if @work.update_attributes(params[:work])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
@@ -128,6 +130,7 @@ class WorksController < ApplicationController
   # DELETE /works/1.xml
   def destroy
     @work = Work.find(params[:id])
+    @work.indexing = true
     @work.destroy
 
     respond_to do |format|

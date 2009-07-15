@@ -125,6 +125,7 @@ class ExpressionsController < ApplicationController
     params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
     @expression = Expression.new(params[:expression])
 
+    @expression.indexing = true
     respond_to do |format|
       if @expression.save
         Expression.transaction do
@@ -156,6 +157,7 @@ class ExpressionsController < ApplicationController
     @expression = Expression.find(params[:id])
     params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
 
+    @expression.indexing = true
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
@@ -173,6 +175,7 @@ class ExpressionsController < ApplicationController
   # DELETE /expressions/1.xml
   def destroy
     @expression = Expression.find(params[:id])
+    @expression.indexing = true
     @expression.destroy
 
     respond_to do |format|

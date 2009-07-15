@@ -63,7 +63,7 @@ class Manifestation < ActiveRecord::Base
   ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
-    :offline => proc{|manifestation| manifestation.restrain_indexing},
+    :offline => proc{|manifestation| !manifestation.indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
@@ -80,7 +80,7 @@ class Manifestation < ActiveRecord::Base
 
   @@per_page = 10
   cattr_accessor :per_page
-  attr_accessor :restrain_indexing
+  attr_accessor :indexing
 
   validates_presence_of :original_title, :manifestation_form, :language
   validates_associated :manifestation_form, :language
@@ -117,17 +117,18 @@ class Manifestation < ActiveRecord::Base
   end
 
   def after_save
-    self.expire_cache
     send_later(:solr_commit)
-    self.send_later(:generate_fragment_cache)
+    send_later(:expire_cache)
+    #send_later(:generate_fragment_cache)
   end
 
   def after_destroy
-    self.expire_cache
     send_later(:solr_commit)
+    send_later(:expire_cache)
   end
 
   def expire_cache
+    sleep 5
     Rails.cache.delete("Manifestation:numdocs")
     Rails.cache.delete("worldcat_record_#{self.id}")
     Rails.cache.delete("xisbn_manifestations_#{self.id}")
@@ -150,7 +151,7 @@ class Manifestation < ActiveRecord::Base
         array << expression.work.title
       end
     end
-    array << worldcat_record[:title]
+    array << worldcat_record[:title] if worldcat_record
     array.flatten.compact.sort.uniq
   end
 
@@ -208,7 +209,7 @@ class Manifestation < ActiveRecord::Base
   def author
     patrons = []
     patrons << authors.collect(&:name).flatten
-    patrons << worldcat_record[:author]
+    patrons << worldcat_record[:author] if worldcat_record
   end
 
   def editors
@@ -230,7 +231,7 @@ class Manifestation < ActiveRecord::Base
   def publisher
     patrons = []
     patrons << publishers.collect(&:name).flatten
-    patrons << worldcat_record[:publisher]
+    patrons << worldcat_record[:publisher] if worldcat_record
   end
 
   def shelves
@@ -496,7 +497,6 @@ class Manifestation < ActiveRecord::Base
     patron_lists.each do |patron_list|
       unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.restrain_indexing = true
         patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
@@ -598,6 +598,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def generate_fragment_cache
+    sleep 5
     url = "#{LibraryGroup.url}manifestations/#{id}"
     Net::HTTP.get(URI.parse(url))
     url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_index"

@@ -19,7 +19,7 @@ class Basket < ActiveRecord::Base
       checkout = self.user.checkouts.new(:librarian_id => librarian.id, :item_id => checked_item.item.id, :basket_id => self.id, :due_date => checked_item.due_date)
       checked_item.destroy
       checked_item.item.checkout!(self.user)
-      checkout.save
+      checkout.save(false)
     end
   end
 

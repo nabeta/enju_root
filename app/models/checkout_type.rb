@@ -25,4 +25,8 @@ class CheckoutType < ActiveRecord::Base
     self.display_name = self.name if display_name.blank?
   end
 
+  def after_save
+    Rails.cache.delete('CheckoutType.all')
+  end
+
 end

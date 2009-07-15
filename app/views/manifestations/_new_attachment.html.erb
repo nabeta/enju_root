@@ -24,7 +24,6 @@
   <%- if @manifestation.respond_to?(:post_to_twitter) -%>
     <%= render :partial => 'manifestations/post_to_twitter', :locals => {:f => f} -%>
   <%- end -%>
-
   <%- if @manifestation.respond_to?(:post_to_scribd) -%>
     <p>
       <%= t('scribd.post_to_scribd') -%>

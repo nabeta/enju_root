@@ -51,14 +51,14 @@ class Patron < ActiveRecord::Base
     {:original_patron_ids => :integer}
   ],
     :facets => [:patron_type_id, :date_of_birth],
-    :offline => proc{|patron| patron.restrain_indexing},
+    :offline => proc{|patron| !patron.indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing, :user_id
+  attr_accessor :indexing, :user_id
 
   def before_validation_on_create
     self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?

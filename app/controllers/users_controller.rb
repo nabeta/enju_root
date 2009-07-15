@@ -111,7 +111,6 @@ class UsersController < ApplicationController
        end
     end
 
-    #@user.indexing = true
     if params[:user]
       #@user.login = params[:user][:login]
       @user.email = params[:user][:email]
@@ -217,7 +216,6 @@ class UsersController < ApplicationController
         @user.reset_password
       #end
     #end
-    #@user.indexing = true
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
@@ -320,5 +318,9 @@ class UsersController < ApplicationController
 
   def set_operator
     @user.operator = current_user
+  end
+
+  def last_request_update_allowed?
+    true if %w[create update].include?(action_name)
   end
 end

@@ -291,6 +291,7 @@ class ManifestationsController < ApplicationController
       last_issue = @expression.last_issue if @expression
     end
 
+    @manifestation.indexing = true
     respond_to do |format|
       if @manifestation.save
         Manifestation.transaction do
@@ -332,6 +333,7 @@ class ManifestationsController < ApplicationController
     @manifestation = Manifestation.find(params[:id])
     params[:isbn] = params[:isbn].gsub(/\D/, "") if params[:isbn]
     
+    @manifestation.indexing = true
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
         @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
@@ -354,6 +356,7 @@ class ManifestationsController < ApplicationController
   # DELETE /manifestations/1.xml
   def destroy
     @manifestation = Manifestation.find(params[:id])
+    @manifestation.indexing = true
     @manifestation.destroy
     flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.manifestation'))
 

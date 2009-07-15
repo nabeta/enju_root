@@ -1,8 +1,4 @@
-<%- form_for(@manifestation, :html => {:method => :put}) do |f| -%>
-  <p>
-    <b><%= t('twitter.comment') -%></b><br />
-    <%= f.text_field :twitter_comment, :class => 'twitter_text' -%>
-    <%= submit_tag t('twitter.post_to_twitter') -%>
-  </p>
-  <%= javascript_tag("$('manifestation_twitter_comment').focus()") -%>
-<%- end -%>
+<p>
+  <%= t('twitter.post_to_twitter') -%>
+  <%= f.check_box :post_to_twitter -%>
+</p>

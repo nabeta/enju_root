@@ -6,7 +6,7 @@ class Item < ActiveRecord::Base
   named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
   has_one :exemplify, :dependent => :destroy
-  has_one :manifestation, :through => :exemplify, :include => :manifestation_form
+  has_one :manifestation, :through => :exemplify #, :include => :manifestation_form
   #has_many :checkins
   #has_many :checkin_patrons, :through => :checkins
   has_many :checkouts
@@ -55,11 +55,12 @@ class Item < ActiveRecord::Base
     :publisher, :library, {:required_role_id => :range_integer},
     {:original_item_ids => :integer}],
     :facets => [:circulation_status_id],
-    :offline => proc{|item| item.restrain_indexing}, :auto_commit => false
+    #:if => proc{|item| item.indexing}, :auto_commit => false
+    :offline => proc{|item| !item.indexing}, :auto_commit => false
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing
+  attr_accessor :indexing
 
   #def after_create
   #  post_to_union_catalog
@@ -81,7 +82,8 @@ class Item < ActiveRecord::Base
   #  unless self.item_identifier.blank?
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
   #  end
-    self.manifestation.save if self.manifestation
+  # TODO: 排架場所変更の際のインデックス更新のタイミング
+  #  self.manifestation.send_later(:save, false) if self.manifestation
   end
 
   def before_validation_on_create
@@ -124,25 +126,25 @@ class Item < ActiveRecord::Base
   end
 
   def available_for_checkout?
-    circulation_statuses = CirculationStatus.available_for_checkout
+    circulation_statuses = Rails.cache.fetch('CirculationStatus.available_for_checkout'){CirculationStatus.available_for_checkout}
     return true if circulation_statuses.include?(self.circulation_status)
     false
   end
 
   def checkout!(user)
     Item.transaction do
-      self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'On Loan'})
+      self.circulation_status = Rails.cache.fetch('CirculationStatus.on_loan'){CirculationStatus.find(:first, :conditions => {:name => 'On Loan'})}
       if self.reserved_by_user?(user)
         self.next_reservation.update_attributes(:checked_out_at => Time.zone.now)
         self.next_reservation.aasm_complete!
       end
-      self.save!
+      save(false)
     end
   end
 
   def checkin!
-    self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'Available On Shelf'})
-    self.save!
+    self.circulation_status = Rails.cache.fetch('CirculationStatus.available_on_shelf'){CirculationStatus.find(:first, :conditions => {:name => 'Available On Shelf'})}
+    save(false)
   end
 
   def retain(librarian)
@@ -201,17 +203,21 @@ class Item < ActiveRecord::Base
   def set_item_identifier
     if self.item_identifier
       self.item_identifier.strip!
-      unless self.item_identifier.blank?
-        barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
-        if barcode.nil?
-          barcode = Barcode.create(:code_word => self.item_identifier)
-        end
+      #send_later(:create_barcode)
+    else
+      self.item_identifier = nil
+    end
+  end
 
-        self.barcode = barcode
-        self.barcode.save
-      else
-        self.item_identifier = nil
+  def create_barcode
+    unless self.item_identifier.blank?
+      barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
+      if barcode.nil?
+        barcode = Barcode.create(:code_word => self.item_identifier)
       end
+
+      self.barcode = barcode
+      self.barcode.save(false)
     end
   end
 

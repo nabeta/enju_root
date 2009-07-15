@@ -21,6 +21,7 @@ class Work < ActiveRecord::Base
   #has_many :places, :through => :work_has_places
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :resource_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
+  accepts_nested_attributes_for :expressions, :allow_destroy => true
 
   acts_as_solr :fields => [:title, :context, :note,
     {:created_at => :date}, {:updated_at => :date},
@@ -28,7 +29,7 @@ class Work < ActiveRecord::Base
     {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer},
     {:original_work_ids => :integer}],
     :facets => [:work_form_id], 
-    :offline => proc{|work| work.restrain_indexing},
+    :offline => proc{|work| !work.indexing},
     :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
@@ -36,7 +37,7 @@ class Work < ActiveRecord::Base
 
   @@per_page = 10
   cattr_accessor :per_page
-  attr_accessor :restrain_indexing
+  attr_accessor :indexing
 
   validates_associated :work_form
   validates_presence_of :original_title, :work_form

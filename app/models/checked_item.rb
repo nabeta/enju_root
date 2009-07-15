@@ -50,7 +50,7 @@ class CheckedItem < ActiveRecord::Base
     end
 
     checkout_count = self.basket.user.checked_item_count
-    CheckoutType.find(:all).each do |checkout_type|
+    Rails.cache.fetch('CheckoutType.all'){CheckoutType.all}.each do |checkout_type|
       manifestation_form = self.item.manifestation.manifestation_form
       if checkout_count[:"#{checkout_type.name}"] > self.item_checkout_type.checkout_limit
         #errors.add_to_base(('Excessed checkout limit.'))

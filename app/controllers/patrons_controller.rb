@@ -155,6 +155,7 @@ class PatronsController < ApplicationController
       end
     end
 
+    @patron.indexing = true
     respond_to do |format|
       if @patron.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron'))
@@ -188,6 +189,7 @@ class PatronsController < ApplicationController
   def update
     @patron = Patron.find(params[:id])
 
+    @patron.indexing = true
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron'))
@@ -207,6 +209,7 @@ class PatronsController < ApplicationController
   # DELETE /patrons/1.xml
   def destroy
     @patron = Patron.find(params[:id])
+    @patron.indexing = true
 
     if @patron.user
       if @patron.user.has_role?('Librarian')

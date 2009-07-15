@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
   named_scope :suspended, :conditions => {:suspended => true}
   acts_as_solr :fields => [:login, :email, :patron_name, :note, {:required_role_id => :range_integer}],
-    :auto_commit => false, :offline => proc{|user| user.last_request_at_changed?}
+    :auto_commit => false, :offline => proc{|user| user.last_request_at_changed? }
 
   has_one :patron
   #belongs_to :patron, :polymorphic => true
@@ -84,16 +84,15 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validate_on_update :verify_password
 
+  acts_as_authentic {|c|
+    c.validate_email_field = false
+  }
+
   def verify_password
     errors.add(:old_password) if self.password_not_verified
   end
 
   #before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
-
-  acts_as_authentic {|c|
-    #c.transition_from_restful_authentication = true
-    c.validate_email_field = false
-  }
 
   #def before_validation
   #  self.full_name = self.patron.full_name if self.patron
@@ -103,8 +102,7 @@ class User < ActiveRecord::Base
     # TODO: last_request_atを無効にすることも考える
     unless last_request_at_changed?
       if self.patron
-        self.patron.restrain_indexing = true
-        self.patron.save
+        self.patron.send_later(:save)
       end
     end
   end
@@ -134,10 +132,18 @@ class User < ActiveRecord::Base
   end
 
   def before_destroy
+    check_item_before_destroy
+    check_role_before_destroy
+  end
+
+  def check_item_before_destroy
     # TODO: 貸出記録を残す場合
     if checkouts.size > 0
       raise 'This user has items still checked out.'
     end
+  end
+
+  def check_role_before_destroy
     if self.has_role?('Administrator')
       raise 'This is the last administrator in this system.' if Role.find_by_name('Administrator').users.size == 1
     end

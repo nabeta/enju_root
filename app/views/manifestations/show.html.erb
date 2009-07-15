@@ -242,7 +242,7 @@
     <%- end -%>
       <%- if @manifestation.is_updatable_by(current_user) -%>
         <%- if @manifestation.respond_to?(:post_to_twitter) -%>
-          <%= render :partial => 'manifestations/post_to_twitter' -%>
+          <%= render :partial => 'manifestations/twitter_comment' -%>
         <%- end -%>
       <%- end -%>
       <%- if @manifestation.bookmarked_resource -%>
