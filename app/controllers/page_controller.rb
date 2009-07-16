@@ -1,16 +1,28 @@
 class PageController < ApplicationController
-  before_filter :store_location
-  before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on]
+  before_filter :store_location, :except => [:index, :msie_acceralator, :opensearch]
+  before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :about, :message, :add_on]
+  require_role 'Librarian', :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
 
   def index
     if logged_in?
       redirect_to user_url(current_user.login)
-    else
-      redirect_to :controller => 'public_page', :action => 'index'
+      return
     end
+    @numdocs = Manifestation.cached_numdocs
+    # TODO: タグ下限の設定
+    @tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
+    @manifestation = Manifestation.pickup
+    @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
+  end
+
+  def msie_acceralator
+    render :layout => false
+  end
+
+  def opensearch
+    render :layout => false
   end
 
   def patron

@@ -320,6 +320,11 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'guest shoud show manifestation screen shot' do
+    get :show, :id => 22, :mode => 'screen_shot'
+    assert_response :success
+  end
+
   def test_guest_should_show_manifestation_with_holding
     get :show, :id => 1, :mode => 'holding'
     assert_response :success

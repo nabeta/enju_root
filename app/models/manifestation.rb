@@ -636,4 +636,15 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
+  def screen_shot
+    if access_address.present?
+      url = "http://mozshot.nemui.org/shot?#{access_address}"
+      thumb = Rails.cache.fetch("manifestation_screen_shot_#{id}"){open(url).read}
+      file = Tempfile.new('thumb')
+      file.puts thumb
+      file.close
+      return file
+    end
+  end
+
 end

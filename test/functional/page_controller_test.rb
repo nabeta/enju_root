@@ -6,8 +6,7 @@ class PageControllerTest < ActionController::TestCase
 
   def test_guest_should_get_index
     get :index
-    assert_response :redirect
-    assert_redirected_to :controller => 'public_page', :action => 'index'
+    assert_response :success
   end
 
   def test_user_should_get_user_show
@@ -144,6 +143,16 @@ class PageControllerTest < ActionController::TestCase
   def test_librarian_should_get_management
     UserSession.create users(:librarian1)
     get :management
+    assert_response :success
+  end
+
+  test "guest_should_get_opensearch" do
+    get :opensearch
+    assert_response :success
+  end
+
+  test "guest_should_get_msie_acceralator" do
+    get :msie_acceralator
     assert_response :success
   end
 

@@ -415,7 +415,7 @@ ActionController::Routing::Routes.draw do |map|
   map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
-  map.opensearch 'opensearch.xml', :controller => 'public_page', :action => 'opensearch'
+  map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
   #map.service '/service', :controller => 'page', :action => 'service'
 
   # The priority is based upon order of creation: first created -> highest priority.
@@ -429,7 +429,7 @@ ActionController::Routing::Routes.draw do |map|
   # This route can be invoked with purchase_url(:id => product.id)
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "public_page", :action => 'index'
+  map.root :controller => "page", :action => 'index'
 
   # See how all your routes lay out with "rake routes"
 

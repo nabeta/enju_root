@@ -10,7 +10,7 @@ xml.rss('version' => "2.0",
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => inter_library_loans_url(:format => :rss)
     xml.tag! "atom:link", :rel => 'alternate', :href => inter_library_loans_url
-    #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/public_page/opensearch"
+    #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
     #unless params[:query].blank?
     #  xml.tag! "opensearch:totalResults", @count[:query_result]
     #  xml.tag! "opensearch:startIndex", @inter_library_loans.offset + 1

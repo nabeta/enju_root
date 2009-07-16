@@ -17,7 +17,7 @@ xml.rss('version' => "2.0",
     end
     xml.language @locale
     xml.ttl "60"
-    #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/public_page/opensearch"
+    #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?
       xml.tag! "opensearch:totalResults", @count[:query_result]
       xml.tag! "opensearch:startIndex", @purchase_requests.offset + 1

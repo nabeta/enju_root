@@ -163,13 +163,17 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
 
-    if params[:mode] == 'send_email'
+    case params[:mode]
+    when 'send_email'
       if logged_in?
         Notifier.deliver_manifestation_info(current_user, @manifestation)
         flash[:notice] = t('page.sent_email')
         redirect_to manifestation_url(@manifestation)
         return
       end
+    when 'generate_cache'
+      check_client_ip_address
+      return
     end
 
     return if render_mode(params[:mode])
@@ -503,6 +507,11 @@ class ManifestationsController < ApplicationController
       render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation}
     when 'pickup'
       render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation}
+    when 'screen_shot'
+      if @manifestation.screen_shot
+        mime = MIME.check_magics(@manifestation.screen_shot.open)
+        send_file @manifestation.screen_shot.path, :type => mime.to_s, :disposition => 'inline'
+      end
     else
       false
     end
