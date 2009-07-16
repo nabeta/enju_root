@@ -1,21 +1,16 @@
 class PageController < ApplicationController
-  before_filter :store_location, :except => [:opensearch, :sitemap, :screen_shot, :msie_acceralator]
-  before_filter :require_user, :except => [:index, :advanced_search, :opensearch, :about, :message, :screen_shot, :add_on, :msie_acceralator]
+  before_filter :store_location
+  before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :opensearch, :sitemap, :about, :message, :screen_shot, :add_on, :msie_acceralator]
-
-  caches_page :opensearch, :sitemap
+  require_role 'Librarian', :except => [:index, :advanced_search, :about, :message, :add_on]
 
   def index
     if logged_in?
       redirect_to user_url(current_user.login)
+    else
+      redirect_to :controller => 'public_page', :action => 'index'
     end
-    @numdocs = Manifestation.cached_numdocs
-    # TODO: タグ下限の設定
-    @tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
-    @manifestation = Manifestation.pickup
-    @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
   end
 
   def patron
@@ -69,14 +64,6 @@ class PageController < ApplicationController
     @title = t('page.export')
   end
   
-  def opensearch
-    render :layout => false
-  end
-
-  def sitemap
-    render :layout => false
-  end
-
   def about
     @title = t('page.about_this_system')
   end
@@ -85,23 +72,8 @@ class PageController < ApplicationController
     @title = t('page.add_on')
   end
 
-  def msie_acceralator
-    render :layout => false
-  end
-
   def under_construction
     @title = t('page.under_construction')
-  end
-
-  def screen_shot
-    thumb = Page.get_screen_shot(params[:url])
-    if thumb
-      file = Tempfile.new('thumb')
-      file.puts thumb
-      file.close
-      mime = MIME.check(file.path)
-      send_data thumb, :filename => File.basename(file.path), :type => mime.type, :disposition => 'inline'
-    end
   end
 
   def service

@@ -276,5 +276,11 @@
   -%>
 </div>
 
+<%- if params[:mode] == 'generate_cache' -%>
+  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
+  <%= render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation} -%>
+  <%= render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation} -%>
+<%- end -%>
+
 </div>
 </div>

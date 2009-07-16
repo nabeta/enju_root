@@ -6,7 +6,8 @@ class PageControllerTest < ActionController::TestCase
 
   def test_guest_should_get_index
     get :index
-    assert_response :success
+    assert_response :redirect
+    assert_redirected_to :controller => 'public_page', :action => 'index'
   end
 
   def test_user_should_get_user_show
@@ -22,11 +23,6 @@ class PageControllerTest < ActionController::TestCase
     assert assigns(:libraries)
   end
 
-  def test_guest_should_get_opensearch
-    get :opensearch
-    assert_response :success
-  end
-
   def test_guest_should_get_about
     get :about
     assert_response :success
@@ -34,11 +30,6 @@ class PageControllerTest < ActionController::TestCase
 
   def test_guest_should_get_add_on
     get :add_on
-    assert_response :success
-  end
-
-  def test_guest_should_get_msie_acceralator
-    get :msie_acceralator
     assert_response :success
   end
 
@@ -153,11 +144,6 @@ class PageControllerTest < ActionController::TestCase
   def test_librarian_should_get_management
     UserSession.create users(:librarian1)
     get :management
-    assert_response :success
-  end
-
-  def test_should_get_screen_shot
-    get :screen_shot, :url => 'http://next-l.slis.keio.ac.jp/'
     assert_response :success
   end
 

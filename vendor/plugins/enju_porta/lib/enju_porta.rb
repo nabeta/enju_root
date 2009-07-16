@@ -50,7 +50,7 @@ module EnjuPorta
           :date_of_publication => date_of_publication,
           :nbn => nbn
         )
-        manifestation.restrain_indexing = false
+        manifestation.indexing = true
         manifestation.patrons << publisher_patrons
         manifestation.save(false)
 
@@ -131,8 +131,6 @@ module EnjuPorta
           :frequency_of_issue_id => 1,
           :language_id => language_id
         )
-        work.restrain_indexing = true
-        expression.restrain_indexing = true
         work.save!
         work.patrons << author_patrons
         work.expressions << expression

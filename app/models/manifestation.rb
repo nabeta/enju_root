@@ -119,7 +119,7 @@ class Manifestation < ActiveRecord::Base
   def after_save
     send_later(:solr_commit)
     send_later(:expire_cache)
-    #send_later(:generate_fragment_cache)
+    send_later(:generate_fragment_cache)
   end
 
   def after_destroy
@@ -599,14 +599,41 @@ class Manifestation < ActiveRecord::Base
 
   def generate_fragment_cache
     sleep 5
-    url = "#{LibraryGroup.url}manifestations/#{id}"
+    url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
     Net::HTTP.get(URI.parse(url))
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_index"
-    Net::HTTP.get(URI.parse(url))
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_authors"
-    Net::HTTP.get(URI.parse(url))
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=pickup"
-    Net::HTTP.get(URI.parse(url))
+  end
+
+  def extract_text
+    extractor = ExtractContent::Extractor.new
+    text = Tempfile::new("text")
+    case self.attachment_content_type
+    when "application/pdf"
+      system("pdftotext -q -enc UTF-8 -raw #{attachment(:path)} #{text.path}")
+      self.fulltext = text.read
+    when "application/msword"
+      system("antiword #{attachment(:path)} 2> /dev/null > #{text.path}")
+      self.fulltext = text.read
+    when "application/vnd.ms-excel"
+      system("xlhtml #{attachment(:path)} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    when "application/vnd.ms-powerpoint"
+      system("ppthtml #{attachment(:path)} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    when "text/html"
+      # TODO: 日本語以外
+      system("elinks --dump 1 #{attachment(:path)} 2> /dev/null | nkf -w > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    end
+
+    #self.indexed_at = Time.zone.now
+    self.save(false)
+    text.close
+  end
+
+  def self.extract_text
+    AttachmentFile.not_indexed.find_each do |file|
+      file.extract_text
+    end
   end
 
 end

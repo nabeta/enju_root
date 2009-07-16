@@ -108,7 +108,7 @@ end
 Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
 Money.default_currency = "JPY"
 #RAILS_DEFAULT_LOGGER.auto_flushing = 1
-APICache.start
+#APICache.start
 
 #require 'jasper-rails'
 require 'solr_modified'
