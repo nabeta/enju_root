@@ -63,12 +63,12 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
-  def test_guest_should_get_index_with_subject
-    get :index, :subject_id => 1
-    assert_response :success
-    assert assigns(:subject)
-    assert assigns(:manifestations)
-  end
+  #def test_guest_should_get_index_with_subject
+  #  get :index, :subject_id => 1
+  #  assert_response :success
+  #  assert assigns(:subject)
+  #  assert assigns(:manifestations)
+  #end
 
   def test_guest_should_get_index_with_query
     get :index, :query => '2005'

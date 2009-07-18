@@ -1,7 +1,7 @@
 class WorksController < ApplicationController
   before_filter :has_permission?
   #before_filter :get_parent
-  before_filter :get_patron
+  before_filter :get_patron, :get_subject
   before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -16,6 +16,7 @@ class WorksController < ApplicationController
       query = query.gsub('　', ' ')
       unless params[:mode] == 'add'
         query.add_query!(@patron) if @patron
+        query.add_query!(@subject) if @subject
         query += " original_work_ids: #{@work.id}" if @work
         query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
       end
@@ -30,6 +31,12 @@ class WorksController < ApplicationController
           @works = Work.paginate(:page => params[:page], :order => 'works.id DESC')
         else
           @works = @work.derived_works.paginate(:page => params[:page], :order => 'works.id')
+        end
+      when @subject
+        if params[:mode] == 'add'
+          @works = Work.paginate(:page => params[:page], :order => 'works.id DESC')
+        else
+          @works = @subject.works.paginate(:page => params[:page], :order => 'works.id', :total_entries => @subject.resource_has_subjects.size)
         end
       when @work_merge_list
         @works = @work_merge_list.works.paginate(:page => params[:page])
@@ -56,6 +63,7 @@ class WorksController < ApplicationController
         return
       end
     end
+    @subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.resource_has_subjects.size)
 
     canonical_url work_url(@work)
 
@@ -63,6 +71,11 @@ class WorksController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @work }
       format.json { render :json => @work }
+      format.js {
+        render :update do |page|
+          page.replace_html 'subject_list', :partial => 'show_subject_list' if params[:subject_page]
+        end
+      }
     end
   end
 

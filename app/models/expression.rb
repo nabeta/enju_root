@@ -5,9 +5,9 @@ class Expression < ActiveRecord::Base
   named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
   named_scope :not_serials, :conditions => ['frequency_of_issue_id = 1']
   has_one :reify, :dependent => :destroy
-  has_one :work, :through => :reify, :include => [:work_form]
+  has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy
-  has_many :manifestations, :through => :embodies, :include => [:manifestation_form]
+  has_many :manifestations, :through => :embodies
   belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes
@@ -15,8 +15,8 @@ class Expression < ActiveRecord::Base
   belongs_to :frequency_of_issue #, :validate => true
   has_many :expression_merges, :dependent => :destroy
   has_many :expression_merge_lists, :through => :expression_merges
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
@@ -94,20 +94,8 @@ class Expression < ActiveRecord::Base
     self.subscriptions.collect(&:id)
   end
 
-  def manifestation_ids
-    self.manifestations.collect(&:id)
-  end
-
-  def patron_ids
-    self.patrons.collect(&:id)
-  end
-
   def expression_merge_list_ids
     self.expression_merge_lists.collect(&:id)
-  end
-
-  def original_exprsesion_ids
-    self.original_expressions.collect(&:id)
   end
 
   def subscribed?

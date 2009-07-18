@@ -4,11 +4,11 @@ class Work < ActiveRecord::Base
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :reifies, :include => [:expression_form]
+  has_many :expressions, :through => :reifies
   belongs_to :work_form #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  has_many :resource_has_subjects, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
@@ -69,16 +69,8 @@ class Work < ActiveRecord::Base
     self.expressions.serials
   end
 
-  def patron_ids
-    self.patrons.collect(&:id)
-  end
-
   def work_merge_lists_ids
     self.work_merge_lists.collect(&:id)
-  end
-
-  def original_work_ids
-    self.original_works.collect(&:id)
   end
 
 end

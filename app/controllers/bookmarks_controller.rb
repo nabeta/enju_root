@@ -153,7 +153,7 @@ class BookmarksController < ApplicationController
 
     respond_to do |format|
       if @bookmark.save!
-        @bookmark.bookmarked_resource.manifestation.save!
+        @bookmark.bookmarked_resource.manifestation.save(false)
         unless @bookmark.shelved?
           @bookmark.create_bookmark_item
         end

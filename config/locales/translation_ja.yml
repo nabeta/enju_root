@@ -291,6 +291,8 @@ ja:
         old_password: 古いパスワード
         locale: 言語
       resource_has_subject:
+        work: 著作形
+        subject: 件名
         subjectable_type: 件名付与対象の種類
       picture_file:
         picture_attachable_type: 画像を添付可能な種類
@@ -1236,6 +1238,8 @@ ja:
     create_order_list: "発注リストを作成してください。"
     specify_purchase_request: "購入依頼を指定してください。"
   resource_has_subject:
+    add_work: "著作形を追加する"
+    add_subject: "件名を追加する"
     subjectable: "件名付与対象"
   library_group:
     configuration: "図書館の設定"

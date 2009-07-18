@@ -21,8 +21,8 @@ class Patron < ActiveRecord::Base
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   belongs_to :patron_type #, :validate => true
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
@@ -185,26 +185,6 @@ class Patron < ActiveRecord::Base
     false
   rescue
     false
-  end
-
-  def work_ids
-    self.works.collect(&:id)
-  end
-
-  def expression_ids
-    self.expressions.collect(&:id)
-  end
-
-  def manifestation_ids
-    self.manifestations.collect(&:id)
-  end
-
-  def patron_merge_list_ids
-    self.patron_merge_lists.collect(&:id)
-  end
-
-  def original_patron_ids
-    self.original_patrons.collect(&:id)
   end
 
   def self.is_creatable_by(user, parent = nil)

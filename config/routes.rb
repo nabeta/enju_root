@@ -171,7 +171,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :subjects do |subject|
-    subject.resources :manifestations
+    subject.resources :works
     subject.resources :resource_has_subjects
     subject.resources :classifications
     subject.resources :subject_has_classifications
@@ -272,8 +272,8 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :work_merges
     work.resources :work_merge_lists
     work.resources :resource_has_subjects
-    work.resources :work_from_works, :controller => :works
-    work.resources :work_to_works, :controller => :works
+    #work.resources :work_from_works, :controller => :works
+    #work.resources :work_to_works, :controller => :works
     work.resources :concepts
     work.resources :places
     work.resources :subjects
@@ -290,7 +290,7 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :manifestations
     expression.resources :expression_merges
     expression.resources :expression_merge_lists
-    expression.resources :resource_has_subjects
+    #expression.resources :resource_has_subjects
     expression.resources :subscribe
     expression.resources :subscriptions
     expression.resources :expressions
@@ -305,8 +305,8 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :exemplifies
     manifestation.resources :items
     manifestation.resources :expressions
-    manifestation.resources :subjects
-    manifestation.resources :resource_has_subjects
+    #manifestation.resources :subjects
+    #manifestation.resources :resource_has_subjects
     manifestation.resources :manifestations
     manifestation.resources :manifestation_has_manifestations
   end
@@ -317,7 +317,7 @@ ActionController::Routing::Routes.draw do |map|
     item.resource :manifestation
     item.resources :item_has_use_restrictions
     item.resources :inter_library_loans
-    item.resources :resource_has_subjects
+    #item.resources :resource_has_subjects
     item.resources :donates
     item.resource :checkout_type
     item.resource :inventory_files

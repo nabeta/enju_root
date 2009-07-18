@@ -14,6 +14,7 @@
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), work_patrons_path(@work) -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject'), work_subjects_path(@work) -%></li>
   </ul>
 </div>
 
@@ -74,6 +75,7 @@
             <td><%= l(@work.updated_at) -%></td>
           </tr>
         </table>
+        <%= render :partial => 'works/show_subject_list' -%>
       </div>
       <%- unless @work.patrons.empty? -%>
         <%= render :partial => 'works/patron_list' -%>

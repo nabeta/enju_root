@@ -221,8 +221,4 @@ class Item < ActiveRecord::Base
     end
   end
 
-  def original_item_ids
-    self.original_items.collect(&:id)
-  end
-
 end

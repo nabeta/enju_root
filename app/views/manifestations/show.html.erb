@@ -180,7 +180,6 @@
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
         <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
-          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
         <%- end -%>
       </td>
     </tr>

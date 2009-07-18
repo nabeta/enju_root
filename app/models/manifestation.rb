@@ -12,7 +12,7 @@ class Manifestation < ActiveRecord::Base
   has_many :items, :through => :exemplifies, :dependent => :destroy
   has_many :produces, :dependent => :destroy
   has_many :patrons, :through => :produces, :order => 'produces.position'
-  has_one :manifestation_api_response, :dependent => :destroy
+  #has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :manifestation_form #, :validate => true
@@ -21,8 +21,8 @@ class Manifestation < ActiveRecord::Base
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
   #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
@@ -114,6 +114,7 @@ class Manifestation < ActiveRecord::Base
 
   def after_create
     send_later(:set_digest)
+    Rails.cache.delete("Manifestation:numdocs")
   end
 
   def after_save
@@ -124,14 +125,15 @@ class Manifestation < ActiveRecord::Base
 
   def after_destroy
     send_later(:solr_commit)
+    Rails.cache.delete("Manifestation:numdocs")
     send_later(:expire_cache)
   end
 
   def expire_cache
     sleep 5
-    Rails.cache.delete("Manifestation:numdocs")
-    Rails.cache.delete("worldcat_record_#{self.id}")
-    Rails.cache.delete("xisbn_manifestations_#{self.id}")
+    Rails.cache.delete("worldcat_record_#{id}")
+    Rails.cache.delete("xisbn_manifestations_#{id}")
+    Rails.cache.fetch("manifestation_screen_shot_#{id}")
   end
 
   def self.cached_numdocs
@@ -318,6 +320,10 @@ class Manifestation < ActiveRecord::Base
   def formtype_f
     formtype
   end
+
+  def subjects
+    works.collect(&:subjects).flatten
+  end
   
   def subject
     subjects.collect(&:term) + subjects.collect(&:term_transcription)
@@ -407,24 +413,12 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def expression_ids
-    self.expressions.collect(&:id)
+  def subjects
+    self.works.collect(&:subjects).flatten
   end
-
-  def patron_ids
-    self.patrons.collect(&:id)
-  end
-
-  #def subjects
-  #  self.works.collect(&:subjects).flatten
-  #end
 
   def subject_ids
     self.subjects.collect(&:id)
-  end
-
-  def original_manifestation_ids
-    self.original_manifestations.collect(&:id)
   end
 
   def user

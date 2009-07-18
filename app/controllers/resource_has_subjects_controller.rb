@@ -3,15 +3,21 @@ class ResourceHasSubjectsController < ApplicationController
   before_filter :get_subject
   before_filter :get_patron
   before_filter :get_work
-  before_filter :get_expression
-  before_filter :get_manifestation
-  before_filter :get_item
+  #before_filter :get_expression
+  #before_filter :get_manifestation
+  #before_filter :get_item
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /resource_has_subjects
   # GET /resource_has_subjects.xml
   def index
-    @resource_has_subjects = ResourceHasSubject.paginate(:all, :page => params[:page])
+    if @work
+      @resource_has_subjects = @work.resource_has_subjects.paginate(:all, :page => params[:page])
+    elsif @subject
+      @resource_has_subjects = @subject.resource_has_subjects.paginate(:all, :page => params[:page])
+    else
+      @resource_has_subjects = ResourceHasSubject.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -34,6 +40,7 @@ class ResourceHasSubjectsController < ApplicationController
   # GET /resource_has_subjects/new.xml
   def new
     @resource_has_subject = ResourceHasSubject.new
+    @resource_has_subject.work = @work
     @resource_has_subject.subject = @subject
 
     respond_to do |format|
@@ -51,13 +58,13 @@ class ResourceHasSubjectsController < ApplicationController
   # POST /resource_has_subjects.xml
   def create
     @resource_has_subject = ResourceHasSubject.new(params[:resource_has_subject])
-    begin
-      klass = params[:resource_has_subject][:subjectable_type].to_s.constantize
-      object = klass.find(params[:resource_has_subject][:subjectable_id])
-      @resource_has_subject.subjectable = object
-    rescue
-      nil
-    end
+    #begin
+    #  klass = params[:resource_has_subject][:subjectable_type].to_s.constantize
+    #  object = klass.find(params[:resource_has_subject][:subjectable_id])
+    #  @resource_has_subject.subjectable = object
+    #rescue
+    #  nil
+    #end
 
     respond_to do |format|
       if @resource_has_subject.save
@@ -102,15 +109,15 @@ class ResourceHasSubjectsController < ApplicationController
       when @work
         format.html { redirect_to(work_resource_has_subjects_url(@work)) }
         format.xml  { head :ok }
-      when @expression
-        format.html { redirect_to(expression_resource_has_subjects_url(@expression)) }
-        format.xml  { head :ok }
-      when @manifestation
-        format.html { redirect_to(manifestation_resource_has_subjects_url(@manifestation)) }
-        format.xml  { head :ok }
-      when @item
-        format.html { redirect_to(item_resource_has_subjects_url(@item)) }
-        format.xml  { head :ok }
+      #when @expression
+      #  format.html { redirect_to(expression_resource_has_subjects_url(@expression)) }
+      #  format.xml  { head :ok }
+      #when @manifestation
+      #  format.html { redirect_to(manifestation_resource_has_subjects_url(@manifestation)) }
+      #  format.xml  { head :ok }
+      #when @item
+      #  format.html { redirect_to(item_resource_has_subjects_url(@item)) }
+      #  format.xml  { head :ok }
       when @subject
         format.html { redirect_to(subject_resource_has_subjects_url(@subject)) }
         format.xml  { head :ok }

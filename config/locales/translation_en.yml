@@ -291,6 +291,8 @@ en:
         old_password: Old password
         locale: Locale
       resource_has_subject:
+        work: Work
+        subject: Subject
         subjectable_type: Subjectable type
       picture_file:
         picture_attachable_type: Picture attachable type
@@ -1258,6 +1260,8 @@ en:
     create_order_list: "You should create an order list."
     specify_purchase_request: "You should specify the purchase request."
   resource_has_subject:
+    add_work: "Add a work"
+    add_subject: "Add a subject"
     subjectable: "Subjectable"
   library_group:
     configuration: "Library configuration"

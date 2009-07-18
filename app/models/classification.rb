@@ -1,7 +1,7 @@
 class Classification < ActiveRecord::Base
   include OnlyAdministratorCanModify
   has_many :subject_has_classifications, :dependent => :destroy
-  has_many :subjects, :through => :subject_has_classifications, :include => :subject_type
+  has_many :subjects, :through => :subject_has_classifications
   belongs_to :classification_type, :validate => true
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_has_classifications
 
@@ -17,10 +17,6 @@ class Classification < ActiveRecord::Base
 
   def subject
     self.subjects.collect(&:term) + self.subjects.collect(&:term_transcription)
-  end
-
-  def subject_ids
-    self.subjects.collect(&:id)
   end
 
 end

@@ -1,15 +1,19 @@
 <div id="submenu">
   <ul>
     <%- if Subject.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_work_subject_path(@work) -%></li>
     <%- end -%>
   </ul>
 </div>
 
 <div id="content_detail">
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
-<%- form_for :subjects, :url => manifestation_subjects_path(@manifestation), :html => {:method => 'get'} do -%>
 <div id="content_list">
+  <h2>
+    <%= link_to h(@work.original_title), @work -%>
+  </h2>
+
+<%- form_for :subjects, :url => work_subjects_path(@work), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
@@ -33,25 +37,23 @@
     <th></th>
   </tr>
   <%- subjects.each do |subject| -%>
-    <%- unless subject.nil? -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= link_to h(subject.term), subject -%></td>
       <td><%= subject.note -%></td>
-      <td>
-        <%- if subject.is_deletable_by(current_user) -%>
+      <%- if subject.is_deletable_by(current_user) -%>
+        <td>
           <%= link_to t('page.edit'), edit_subject_path(subject) -%>
-        <%- end -%>
-      </td>
-      <td>
-        <%- if params[:mode] == 'add' -%>
-          <%= link_to t('page.add'), new_manifestation_resource_has_subject_path(@manifestation, :subject_id => subject.id) unless @manifestation.subjects.include?(subject) -%>
-        <%- else -%>
-          <%- has_subject = @manifestation.resource_has_subjects.find_by_subject_id(subject) -%>
-          <%= link_to t('page.destroy'), manifestation_resource_has_subject_path(@manifestation, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
-        <%- end -%>
-      </td>
+        </td>
+        <td>
+          <%- if params[:mode] == 'add' -%>
+            <%= link_to t('page.add'), new_work_resource_has_subject_path(@work, :subject_id => subject.id) unless @work.subjects.include?(subject) -%>
+          <%- else -%>
+            <%- has_subject = @work.resource_has_subjects.find_by_subject_id(subject) -%>
+            <%= link_to t('page.destroy'), work_resource_has_subject_path(@work, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%- end -%>
+        </td>
+      <%- end -%>
     </tr>
-    <%- end -%>
   <%- end -%>
 </table>
 
