@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :extents
+
   map.resources :shelf_has_manifestations
 
   map.resources :patron_has_patrons
@@ -108,15 +110,15 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :item_has_checkout_types
 
-  map.resources :manifestation_form_has_checkout_types
+  map.resources :carrier_type_has_checkout_types
 
   map.resources :user_group_has_checkout_types
 
   map.resources :checkout_types do |checkout_type|
     checkout_type.resources :user_groups
     checkout_type.resources :user_group_has_checkout_types
-    checkout_type.resources :manifestation_forms
-    checkout_type.resources :manifestation_form_has_checkout_types
+    checkout_type.resources :carrier_types
+    checkout_type.resources :carrier_type_has_checkout_types
   end
 
   map.resources :search_engines
@@ -360,9 +362,9 @@ ActionController::Routing::Routes.draw do |map|
     order.resources :order_lists
     order.resources :purchase_requests
   end
-  map.resources :manifestation_forms do |manifestation_form|
-    manifestation_form.resources :manifestation_form_has_checkout_types
-    manifestation_form.resources :checkout_types
+  map.resources :carrier_types do |carrier_type|
+    carrier_type.resources :carrier_type_has_checkout_types
+    carrier_type.resources :checkout_types
   end
   map.resources :shelves do |shelf|
     shelf.resources :items
@@ -370,7 +372,7 @@ ActionController::Routing::Routes.draw do |map|
     shelf.resources :shelf_has_manifestations
     shelf.resources :manifestations
   end
-  map.resources :frequency_of_issues
+  map.resources :frequency
   map.resources :embodies
   map.resources :languages
   map.resources :countries

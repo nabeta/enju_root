@@ -36,8 +36,8 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.manifestation_form') -%></b>
-    <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name.localize, m.id]}) -%>
+    <b><%= t('activerecord.models.carrier_type') -%></b>
+    <%= f.select(:carrier_type_id, @carrier_types.collect{|m| [m.display_name.localize, m.id]}) -%>
   </p>
 
   <p>

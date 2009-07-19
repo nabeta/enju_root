@@ -22,7 +22,7 @@ class ManifestationsController < ApplicationController
 
       @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
 
-      #@manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
+      #@carrier_type = CarrierType.find(:first, :conditions => {:name => params[:formtype]})
       @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
 
       query = make_query(params[:query], {
@@ -80,14 +80,14 @@ class ManifestationsController < ApplicationController
             @count[:total] = Manifestation.count_by_solr(total_query)
             #@tags_count = @count[:total]
 
-            if ["all_facet", "manifestation_form_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
+            if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
               prepare_options
               render_facet(query)
               return
             end
 
             order = set_search_result_order(params[:sort], params[:mode])
-            #browse = "manifestation_form_f: #{@manifestation_form.name}" if @manifestation_form
+            #browse = "carrier_type_f: #{@carrier_type.name}" if @carrier_type
             browse = ""
 
             manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.cached_numdocs).results
@@ -472,8 +472,8 @@ class ManifestationsController < ApplicationController
       case params[:view]
       when "all_facet"
         render :partial => 'all_facet'
-      when "manifestation_form_facet"
-        render :partial => 'manifestation_form_facet'
+      when "carrier_type_facet"
+        render :partial => 'carrier_type_facet'
       when "language_facet"
         render :partial => 'language_facet'
       when "library_facet"
@@ -520,9 +520,9 @@ class ManifestationsController < ApplicationController
   def get_index_without_solr
     case
     when @patron
-      @manifestations = @patron.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['produces.id'])
+      @manifestations = @patron.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['produces.id'])
     when @expression
-      @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['embodies.id'])
+      @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['embodies.id'])
     when @manifestation
       if params[:mode] == 'add'
         @manifestations = Manifestation.paginate(:all, :page => params[:page], :order => 'manifestations.id')
@@ -530,9 +530,9 @@ class ManifestationsController < ApplicationController
         @manifestations = @manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id DESC')
       end
     when @subject
-      @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
+      @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['resource_has_subjects.id'])
     else
-      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :manifestation_form, :order => ['manifestations.id'])
+      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :carrier_type, :order => ['manifestations.id'])
       @manifestations = []
     end
     @count[:total] = @manifestations.size
@@ -545,16 +545,16 @@ class ManifestationsController < ApplicationController
     unless params[:mode] == "add"
       query.add_query!(@expression) unless @expression.blank?
       query.add_query!(@patron) unless @patron.blank?
-      query = "#{query} original_manifestation_ids: #{manifestation_form.name}" if @manifestation
+      query = "#{query} original_manifestation_ids: #{carrier_type.name}" if @manifestation
     end
     if @reservable
       query = "#{query} reservable: true"
     end
-    #query.add_query!(@manifestation_form) unless @manifestation_form.blank?
+    #query.add_query!(@carrier_type) unless @carrier_type.blank?
     query.add_query!(@subject_by_term) unless @subject_by_term.blank?
     unless params[:formtype].blank?
-      manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
-      query = "#{query} formtype: #{manifestation_form.name}"
+      carrier_type = CarrierType.find(:first, :conditions => {:name => params[:formtype]})
+      query = "#{query} formtype: #{carrier_type.name}"
     end
     unless params[:library].blank?
       library_list = params[:library].split.uniq.join(' ')
@@ -568,9 +568,10 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    @manifestation_forms = Rails.cache.fetch('ManifestationForm.all'){ManifestationForm.all}
+    @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
     @roles = Rails.cache.fetch('Role.all'){Role.all}
     @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @frequencies = Frequency.find(:all)
   end
 
   def save_search_history(query, offset = 0, total = 0)

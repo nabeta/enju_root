@@ -3,10 +3,10 @@ require 'test_helper'
 class CheckedItemsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :checked_items, :baskets, :items, :manifestations, :exemplifies,
-    :expressions, :works, :realizes, :embodies, :manifestation_forms,
+    :expressions, :works, :realizes, :embodies, :carrier_types,
     :item_has_use_restrictions, :use_restrictions,
     :checkout_types, :user_group_has_checkout_types,
-    :checkouts, :reserves, :circulation_statuses, :manifestation_form_has_checkout_types,
+    :checkouts, :reserves, :circulation_statuses, :carrier_type_has_checkout_types,
     :users, :roles, :patrons, :patron_types, :user_groups
 
   def test_guest_should_not_get_index

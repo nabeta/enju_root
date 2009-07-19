@@ -2,9 +2,9 @@ require 'test_helper'
 
 class ExpressionsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :expressions, :expression_forms, :languages, :frequency_of_issues,
+  fixtures :expressions, :expression_forms, :languages, :frequencies,
     :works, :work_forms, :embodies, :realizes, :reifies,
-    :manifestations, :manifestation_forms, :embodies,
+    :manifestations, :carrier_types, :embodies,
     :patrons, :users, :languages
 
   def test_guest_should_get_index

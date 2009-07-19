@@ -109,8 +109,8 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
-  def get_manifestation_form
-    @manifestation_form = ManifestationForm.find(params[:manifestation_form_id]) if params[:manifestation_form_id]
+  def get_carrier_type
+    @carrier_type = CarrierType.find(params[:carrier_type_id]) if params[:carrier_type_id]
   rescue ActiveRecord::RecordNotFound
     not_found
   end

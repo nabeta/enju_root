@@ -62,11 +62,12 @@ class Work < ActiveRecord::Base
   end
   
   def manifestations
-    expressions.not_serials.collect(&:manifestations).flatten.uniq
+    expressions.collect(&:manifestations).flatten.uniq
   end
 
   def serials
-    self.expressions.serials
+    nil
+    #self.expressions.serials
   end
 
   def work_merge_lists_ids

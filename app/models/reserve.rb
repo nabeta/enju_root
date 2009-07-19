@@ -96,7 +96,7 @@ class Reserve < ActiveRecord::Base
   end
 
   #def self.reached_reservation_limit?(user, manifestation)
-  #  return true if user.user_group.user_group_has_checkout_types.available_for_manifestation_form(manifestation.manifestation_form).find(:all, :conditions => {:user_group_id => user.user_group.id}).collect(&:reservation_limit).max <= user.reserves.waiting.size
+  #  return true if user.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).find(:all, :conditions => {:user_group_id => user.user_group.id}).collect(&:reservation_limit).max <= user.reserves.waiting.size
   #  false
   #end
 

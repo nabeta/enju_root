@@ -10,7 +10,7 @@ class UsersControllerTest < ActionController::TestCase
 
   setup :activate_authlogic
   fixtures :users, :roles, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements, :tags, :taggings,
-    :manifestations, :manifestation_forms, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces
+    :manifestations, :carrier_types, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces
 
   #def test_should_allow_signup
   #  assert_difference 'User.count' do

@@ -3,7 +3,7 @@ require 'test_helper'
 class ExemplifiesControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :exemplifies, :items, :manifestations, :patrons, :users,
-    :manifestation_forms, :circulation_statuses
+    :carrier_types, :circulation_statuses
 
   def test_guest_should_get_index
     get :index

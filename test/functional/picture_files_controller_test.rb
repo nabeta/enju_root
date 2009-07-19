@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PictureFilesControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :picture_files, :manifestations, :manifestation_forms, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
+  fixtures :picture_files, :manifestations, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
 
   def test_guest_should_get_index
     get :index

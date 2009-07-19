@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PatronsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :patrons, :users, :patron_types, :manifestations, :manifestation_forms, :expressions, :works, :embodies, :roles,
+  fixtures :patrons, :users, :patron_types, :manifestations, :carrier_types, :expressions, :works, :embodies, :roles,
     :creates, :realizes, :produces, :owns, :languages, :countries
 
   def test_guest_should_get_index

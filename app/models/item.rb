@@ -6,7 +6,7 @@ class Item < ActiveRecord::Base
   named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
   has_one :exemplify, :dependent => :destroy
-  has_one :manifestation, :through => :exemplify #, :include => :manifestation_form
+  has_one :manifestation, :through => :exemplify #, :include => :carrier_type
   #has_many :checkins
   #has_many :checkin_patrons, :through => :checkins
   has_many :checkouts

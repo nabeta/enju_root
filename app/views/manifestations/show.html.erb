@@ -24,7 +24,7 @@
           <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
         <%- end -%>
 
-      <%- unless @manifestation.manifestation_form.name == 'file' -%>
+      <%- unless @manifestation.carrier_type.name == 'file' -%>
         <li>
           <%- if current_user.has_role?('Librarian') -%>
             <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
@@ -144,7 +144,7 @@
     <tr>
       <td style="width: 200px"><%=h t('page.form') -%>:</td>
       <td style="width: 500px">
-        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name.localize -%>
+        <%= form_icon(@manifestation.carrier_type) -%> <%=h @manifestation.carrier_type.display_name.localize -%>
       </td>
     </tr>
     <tr>

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EmbodiesControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :embodies, :expressions, :manifestations, :expression_forms, :manifestation_forms, :languages, :frequency_of_issues,
+  fixtures :embodies, :expressions, :manifestations, :expression_forms, :carrier_types, :languages, :frequencies,
     :works, :work_forms, :patrons, :users, :realizes, :produces
 
   def test_guest_should_get_index

@@ -17,20 +17,10 @@
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
       <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>
-    <%- if @expression.serial? -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%></li>
-    <%- else -%>
-      <li></li>
-    <%- end -%>
   </ul>
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
-    <%- if @expression.serial? -%>
-      <%- if Manifestation.is_creatable_by(current_user) -%>
-        <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@expression) -%></li>
-      <%- end -%>
-    <%- end -%>
   </ul>
 </div>
 <div id="content_detail">
@@ -86,16 +76,6 @@
               <%=h @expression.expression_form.display_name.localize -%>
             </td>
           </tr>
-          <%- if @expression.serial? -%>
-            <tr>
-              <td><b><%= t('activerecord.models.frequency_of_issue') -%>:</b></td>
-              <td><%=h @expression.frequency_of_issue.display_name.localize -%></td>
-            </tr>
-            <tr>
-              <td><b><%= t('activerecord.attributes.expression.issn') -%>:</b></td>
-              <td><%=h @expression.issn -%></td>
-            </tr>
-          <%- end -%>
           <tr>
             <td><b><%= t('activerecord.attributes.expression.feed_url') -%>:</b></td>
             <td><%=h @expression.feed_url -%></td>

@@ -6,6 +6,8 @@ class Manifestation < ActiveRecord::Base
   include LibrarianOwnerRequired
   #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  named_scope :serials, :conditions => ['frequency_id > 1']
+  named_scope :not_serials, :conditions => ['frequency_id = 1']
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy
   has_many :exemplifies, :dependent => :destroy
@@ -15,7 +17,8 @@ class Manifestation < ActiveRecord::Base
   #has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user
-  belongs_to :manifestation_form #, :validate => true
+  belongs_to :carrier_type #, :validate => true
+  belongs_to :extent #, :validate => true
   belongs_to :language, :validate => true
   #has_one :attachment_file, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
@@ -40,6 +43,7 @@ class Manifestation < ActiveRecord::Base
   #has_one :db_file
   #has_one :shelf_has_manifestation, :dependent => :destroy
   #has_one :shelf, :through => :shelf_has_manifestation
+  belongs_to :frequency #, :validate => true
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher, :access_address,
@@ -82,8 +86,8 @@ class Manifestation < ActiveRecord::Base
   cattr_accessor :per_page
   attr_accessor :indexing
 
-  validates_presence_of :original_title, :manifestation_form, :language
-  validates_associated :manifestation_form, :language
+  validates_presence_of :original_title, :carrier_type, :language
+  validates_associated :carrier_type, :language
   validates_numericality_of :start_page, :end_page, :allow_blank => true
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
   validates_uniqueness_of :isbn, :allow_blank => true
@@ -153,7 +157,7 @@ class Manifestation < ActiveRecord::Base
         array << expression.work.title
       end
     end
-    array << worldcat_record[:title] if worldcat_record
+    #array << worldcat_record[:title] if worldcat_record
     array.flatten.compact.sort.uniq
   end
 
@@ -174,7 +178,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def available_checkout_types(user)
-    user.user_group.user_group_has_checkout_types.available_for_manifestation_form(self.manifestation_form)
+    user.user_group.user_group_has_checkout_types.available_for_carrier_type(self.carrier_type)
   end
 
   def checkout_period(user)
@@ -190,11 +194,12 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial
-    self.expressions.serials.find(:first, :conditions => ['embodies.manifestation_id = ?', self.id])
+    false
+  #  self.expressions.serials.find(:first, :conditions => ['embodies.manifestation_id = ?', self.id])
   end
 
   def serial?
-    return true if self.serial
+  #  return true if self.serial
     false
   end
 
@@ -211,7 +216,7 @@ class Manifestation < ActiveRecord::Base
   def author
     patrons = []
     patrons << authors.collect(&:name).flatten
-    patrons << worldcat_record[:author] if worldcat_record
+    #patrons << worldcat_record[:author] if worldcat_record
   end
 
   def editors
@@ -233,7 +238,7 @@ class Manifestation < ActiveRecord::Base
   def publisher
     patrons = []
     patrons << publishers.collect(&:name).flatten
-    patrons << worldcat_record[:publisher] if worldcat_record
+    #patrons << worldcat_record[:publisher] if worldcat_record
   end
 
   def shelves
@@ -314,7 +319,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def formtype
-    self.manifestation_form.name
+    self.carrier_type.name
   end
   
   def formtype_f
@@ -398,14 +403,14 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
-      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :manifestation_form)
+      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :carrier_type)
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :manifestation_form)
+        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :carrier_type)
       end
     end
     return manifestation
@@ -500,7 +505,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_serial_number(expression)
-    if expression.serial? and expression.last_issue
+    if self.serial? and self.last_issue
       unless expression.last_issue.serial_number_list.blank?
         self.serial_number_list = expression.last_issue.serial_number_list.to_i + 1
         unless expression.last_issue.issue_number_list.blank?

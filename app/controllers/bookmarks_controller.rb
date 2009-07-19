@@ -124,7 +124,7 @@ class BookmarksController < ApplicationController
 
         unless @bookmarked_resource.manifestation
           @bookmarked_resource.manifestation = Manifestation.new(:original_title => @bookmarked_resource.title, :access_address => url)
-          @bookmarked_resource.manifestation.manifestation_form = ManifestationForm.find(:first, :conditions => {:name => 'file'})
+          @bookmarked_resource.manifestation.carrier_type = CarrierType.find(:first, :conditions => {:name => 'file'})
           #@bookmarked_resource.manifestation.save!
           work = Work.create!(:original_title => @bookmarked_resource.title)
           expression = Expression.new(:original_title => work.original_title)

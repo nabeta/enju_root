@@ -1,6 +1,6 @@
 <h4><%= t('page.form') -%></h4>
 <ul>
-  <%- @manifestation_forms.each do |form| -%>
+  <%- @carrier_types.each do |form| -%>
     <%- if @facet_results["formtype_f_facet"]["#{form.name}"] -%>
       <li>
       <%= form_icon(form) -%>

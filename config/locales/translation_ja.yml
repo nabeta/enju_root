@@ -53,7 +53,7 @@ ja:
       realize: 実現
       reify: 具体化
       subject_as_concept: 件名概念として
-      frequency_of_issue: 発行頻度
+      frequency: 発行頻度
       expression_merge_list: 表現形の併合リスト
       use_restriction: 利用制限
       subject: 件名
@@ -76,7 +76,7 @@ ja:
       bookmark: ブックマーク
       create: 作成
       db_file: データベースのファイル
-      manifestation_form: 体現形の形態
+      carrier_type: 体現形の形態
       manifestation: 体現形
       user_group: 利用者グループ
       imported_resource_file: インポートされる資料のファイル
@@ -99,7 +99,7 @@ ja:
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      manifestation_form_has_checkout_type: 体現形の種類と貸出ルールの関係
+      carrier_type_has_checkout_type: 体現形の種類と貸出ルールの関係
       user_group_has_checkout_type: 利用者グループと貸出ルールの関係
       tag: タグ
       bookmark_stat: ブックマーク統計
@@ -449,7 +449,7 @@ ja:
         position: 位置
       subject_as_concept:
         term: 用語
-      frequency_of_issue:
+      frequency:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -542,7 +542,7 @@ ja:
         position: 位置
       db_file:
         data: データ
-      manifestation_form:
+      carrier_type:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -573,7 +573,7 @@ ja:
         note: 注記
         repository_content: リポジトリのコンテンツ
         lock_version: ロックバージョン
-        manifestation_form: 体現形の形態
+        carrier_type: 体現形の形態
         language: 言語
         lccn: LCCN
       user_group:
@@ -695,7 +695,7 @@ ja:
         size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
-      manifestation_form_has_checkout_type:
+      carrier_type_has_checkout_type:
         note: 注記
         position: 位置
       user_group_has_checkout_type:

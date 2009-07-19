@@ -3,8 +3,8 @@ require 'test_helper'
 class CheckoutsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :checkouts, :users, :patrons, :roles, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,
-    :user_group_has_checkout_types, :manifestation_form_has_checkout_types,
-    :manifestations, :manifestation_forms,
+    :user_group_has_checkout_types, :carrier_type_has_checkout_types,
+    :manifestations, :carrier_types,
     :items, :circulation_statuses, :exemplifies
 
   def test_guest_should_not_get_index

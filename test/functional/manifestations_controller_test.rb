@@ -2,9 +2,9 @@ require 'test_helper'
 
 class ManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :manifestations, :manifestation_forms, :resource_has_subjects, :languages, :subjects, :subject_types,
+  fixtures :manifestations, :carrier_types, :resource_has_subjects, :languages, :subjects, :subject_types,
     :works, :work_forms, :realizes,
-    :expressions, :expression_forms, :frequency_of_issues,
+    :expressions, :expression_forms, :frequencies,
     :items, :libraries, :shelves, :languages, :exemplifies,
     :embodies, :patrons, :user_groups, :users, :bookmarks, :bookmarked_resources, :roles
 
@@ -82,8 +82,8 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:facet_results)
   end
 
-  def test_guest_should_get_index_manifestation_form_facet
-    get :index, :query => '2005', :view => 'manifestation_form_facet'
+  def test_guest_should_get_index_carrier_type_facet
+    get :index, :query => '2005', :view => 'carrier_type_facet'
     assert_response :success
     assert assigns(:facet_results)
   end
@@ -210,7 +210,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_manifestation
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1 }
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
     assert_equal old_count, Manifestation.count
     
     assert_redirected_to new_user_session_url
@@ -219,7 +219,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   #def test_user_should_not_create_manifestation
   #  UserSession.create users(:user1)
   #  assert_no_difference('Manifestation.count') do
-  #    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1 }
+  #    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
   #  end
   #  
   #  assert_response :forbidden
@@ -228,7 +228,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_user_should_create_manifestation
     UserSession.create users(:user1)
     assert_difference('Manifestation.count') do
-      post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1 }
+      post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
     end
     
     assert_response :redirect
@@ -240,7 +240,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   #def test_librarian_should_not_create_manifestation_without_expression
   #  UserSession.create users(:librarian1)
   #  old_count = Manifestation.count
-  #  post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
+  #  post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }
   #  assert_equal old_count, Manifestation.count
   #  
   #  assert_response :redirect
@@ -251,7 +251,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_librarian_should_create_manifestation_without_expression
     UserSession.create users(:librarian1)
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }
     assert_equal old_count + 1, Manifestation.count
     
     assert_response :redirect
@@ -263,7 +263,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_manifestation_without_title
     UserSession.create users(:librarian1)
     old_count = Manifestation.count
-    post :create, :manifestation => { :manifestation_form_id => 1, :language_id => 1 }, :expression_id => 1
+    post :create, :manifestation => { :carrier_type_id => 1, :language_id => 1 }, :expression_id => 1
     assert_equal old_count, Manifestation.count
     
     assert_response :success
@@ -272,7 +272,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_librarian_should_create_manifestation_with_expression
     UserSession.create users(:librarian1)
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }, :expression_id => 1
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }, :expression_id => 1
     assert_equal old_count+1, Manifestation.count
     
     assert assigns(:expression)
@@ -306,7 +306,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_admin_should_create_manifestation_with_expression
     UserSession.create users(:admin)
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }, :expression_id => 1
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }, :expression_id => 1
     assert_equal old_count+1, Manifestation.count
     
     assert assigns(:expression)

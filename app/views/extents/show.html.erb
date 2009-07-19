@@ -1,0 +1,23 @@
+<p>
+  <b>Name:</b>
+  <%=h @extent.name %>
+</p>
+
+<p>
+  <b>Display name:</b>
+  <%=h @extent.display_name %>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%=h @extent.note %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%=h @extent.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_extent_path(@extent) %> |
+<%= link_to 'Back', extents_path %>

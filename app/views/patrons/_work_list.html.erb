@@ -11,7 +11,7 @@
               <li>
               [M]
               <%= link_to h(manifestation.original_title), manifestation -%>
-              <%= form_icon(manifestation.manifestation_form) -%>
+              <%= form_icon(manifestation.carrier_type) -%>
               <%- manifestation.expressions.each do |expression| -%>
                 <%= expression_form_icon(expression.expression_form) -%>
               <%- end -%>

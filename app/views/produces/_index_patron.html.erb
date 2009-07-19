@@ -23,7 +23,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(produce.manifestation.original_title), produce.manifestation -%>
-      <%= form_icon(produce.manifestation.manifestation_form) -%><br />
+      <%= form_icon(produce.manifestation.carrier_type) -%><br />
       <%= patrons_list(produce.manifestation.authors) -%>
       <%= patrons_list(produce.manifestation.editors) -%>
       <%= patrons_list(produce.manifestation.patrons) -%>

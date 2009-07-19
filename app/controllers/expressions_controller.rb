@@ -130,9 +130,9 @@ class ExpressionsController < ApplicationController
       if @expression.save
         Expression.transaction do
           @work.expressions << @expression
-          if @expression.serial?
-            @expression.patrons << @work.patrons
-          end
+          #if @expression.serial?
+          #  @expression.patrons << @work.patrons
+          #end
         end
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
@@ -186,7 +186,6 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @frequency_of_issues = FrequencyOfIssue.find(:all)
     @expression_forms = ExpressionForm.find(:all)
     @languages = Rails.cache.fetch('Language.all'){Language.all}
   end

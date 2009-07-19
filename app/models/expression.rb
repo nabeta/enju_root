@@ -2,8 +2,6 @@ class Expression < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
 
-  named_scope :serials, :conditions => ['frequency_of_issue_id > 1']
-  named_scope :not_serials, :conditions => ['frequency_of_issue_id = 1']
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy
@@ -12,7 +10,6 @@ class Expression < ActiveRecord::Base
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes
   belongs_to :language #, :validate => true
-  belongs_to :frequency_of_issue #, :validate => true
   has_many :expression_merges, :dependent => :destroy
   has_many :expression_merge_lists, :through => :expression_merges
   #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
@@ -26,13 +23,13 @@ class Expression < ActiveRecord::Base
   has_many :original_expressions, :through => :from_expressions, :source => :from_expression
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   
-  validates_associated :expression_form, :language, :frequency_of_issue
-  validates_presence_of :expression_form, :language, :frequency_of_issue
+  validates_associated :expression_form, :language
+  validates_presence_of :expression_form, :language
   
   acts_as_tree
   acts_as_solr :fields => [:title, {:issn => :string}, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
     {:work_id => :integer}, {:manifestation_ids => :integer},
-    {:patron_ids => :integer}, {:frequency_of_issue_id => :range_integer},
+    {:patron_ids => :integer},
     {:subscription_ids => :integer}, {:required_role_id => :range_integer},
     {:expression_merge_list_ids => :integer},
     {:original_expression_ids => :integer}],
@@ -46,11 +43,6 @@ class Expression < ActiveRecord::Base
   @@per_page = 10
   attr_accessor :indexing
 
-  def serial?
-    return true if self.frequency_of_issue_id > 1
-    false
-  end
-  
   def title
     title_array = titles
     #title_array << self.work.titles if self.work

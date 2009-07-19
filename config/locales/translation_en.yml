@@ -53,7 +53,7 @@ en:
       realize: Realize
       reify: Reify
       subject_as_concept: Subject as concept
-      frequency_of_issue: Frequency of issue
+      frequency: Frequency of issue
       expression_merge_list: Expression merge list
       use_restriction: Use restriction
       subject: Subject
@@ -76,7 +76,7 @@ en:
       bookmark: Bookmark
       create: Create
       db_file: DB file
-      manifestation_form: Manifestation form
+      carrier_type: Manifestation form
       manifestation: Manifestation
       user_group: User group
       imported_resource_file: Imported resource file
@@ -99,7 +99,7 @@ en:
       manifestation_api_response: Manifestation API Response
       request_type: Request type
       inventory_file: Inventory file
-      manifestation_form_has_checkout_type: Manifestation form has checkout type
+      carrier_type_has_checkout_type: Manifestation form has checkout type
       user_group_has_checkout_type: User group has checkout type
       tag: Tag
       bookmark_stat: Bookmark stat
@@ -449,7 +449,7 @@ en:
         position: Position
       subject_as_concept:
         term: Term
-      frequency_of_issue:
+      frequency:
         name: Name
         display_name: Display name
         note: Note
@@ -542,7 +542,7 @@ en:
         position: Position
       db_file:
         data: Data
-      manifestation_form:
+      carrier_type:
         name: Name
         display_name: Display name
         note: Note
@@ -573,7 +573,7 @@ en:
         note: Note
         repository_content: Repository content
         lock_version: Lock version
-        manifestation_form: Manifestation form
+        carrier_type: Manifestation form
         language: Language
         lccn: LCCN
       user_group:
@@ -695,7 +695,7 @@ en:
         size: Size
         file_hash: File hash
         note: Note
-      manifestation_form_has_checkout_type:
+      carrier_type_has_checkout_type:
         note: Note
         position: Position
       user_group_has_checkout_type:

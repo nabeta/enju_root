@@ -7,16 +7,16 @@ module ApplicationHelper
     h(LibraryGroup.site_config.name)
   end
   
-  def form_icon(manifestation_form)
-    case manifestation_form.name
+  def form_icon(carrier_type)
+    case carrier_type.name
     when 'print'
-      image_tag('/icons/book.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/book.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     when 'CD'
-      image_tag('/icons/cd.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/cd.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     when 'DVD'
-      image_tag('/icons/dvd.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/dvd.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     when 'file'
-      image_tag('/icons/monitor.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/monitor.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => 'unknown')
     end

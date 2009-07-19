@@ -232,7 +232,7 @@ class ItemsController < ApplicationController
     @bookstores = Bookstore.find(:all, :order => :position)
     @use_restrictions = UseRestriction.find(:all)
     if @manifestation
-      @checkout_types = CheckoutType.available_for_manifestation_form(@manifestation.manifestation_form)
+      @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)
     else
       @checkout_types = CheckoutType.find(:all)
     end

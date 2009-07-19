@@ -136,12 +136,12 @@ class ImportedResourceFile < ActiveRecord::Base
       expression = Expression.new(:title => work.original_title)
       expression.expression_form = ExpressionForm.find(1)
       expression.language = Language.find(1)
-      expression.frequency_of_issue = FrequencyOfIssue.find(1)
       expression.save
       work.expressions << expression
 
       manifestation = Manifestation.new(:title => expression.original_title)
-      manifestation.manifestation_form = ManifestationForm.find(1)
+      manifestation.carrier_type = CarrierType.find(1)
+      manifestation.frequency = Frequency.find(1)
       manifestation.language = Language.find(1)
       manifestation.save
       expression.manifestations << manifestation

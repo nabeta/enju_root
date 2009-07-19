@@ -1,0 +1,22 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_frequency_path(@frequency) -%></li>
+    <li><%= link_to t('page.back'), frequencys_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<div id="content_list">
+
+<p>
+  <b><%= t('activerecord.attributes.frequency.display_name') -%>:</b>
+  <%=h @frequency.display_name.localize -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.frequency.note') -%>:</b>
+  <%=h @frequency.note -%>
+</p>
+
+</div>
+</div>

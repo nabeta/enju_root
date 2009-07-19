@@ -2,9 +2,9 @@ require 'test_helper'
 
 class ReservesControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :reserves, :items, :manifestations, :manifestation_forms,
+  fixtures :reserves, :items, :manifestations, :carrier_types,
     :users, :user_groups, :roles, :checkout_types,
-    :user_group_has_checkout_types, :manifestation_form_has_checkout_types,
+    :user_group_has_checkout_types, :carrier_type_has_checkout_types,
     :request_status_types, :message_templates, :message_queues
 
   def test_guest_should_not_get_index

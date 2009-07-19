@@ -1,6 +1,6 @@
-class CreateFrequencyOfIssues < ActiveRecord::Migration
+class CreateExtents < ActiveRecord::Migration
   def self.up
-    create_table :frequency_of_issues do |t|
+    create_table :extents do |t|
       t.string :name
       t.text :display_name
       t.text :note
@@ -11,6 +11,6 @@ class CreateFrequencyOfIssues < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :frequency_of_issues
+    drop_table :extents
   end
 end

@@ -10,7 +10,7 @@ xml.mods('version' => "3.2",
       xml.namePart author.full_name
     }
   }
-  xml.typeOfResource @manifestation.manifestation_form.name
+  xml.typeOfResource @manifestation.carrier_type.name
   xml.originInfo{
     @manifestation.patrons.each do |patron|
       xml.publisher patron.full_name
@@ -21,7 +21,7 @@ xml.mods('version' => "3.2",
     xml.languageTerm @manifestation.expressions.first.language.name, 'authority' => 'iso639-2b', 'type' => 'code'
   }
   xml.physicalDescription{
-    xml.form @manifestation.manifestation_form.name, 'authority' => 'marcform'
+    xml.form @manifestation.carrier_type.name, 'authority' => 'marcform'
   }
   xml.subject{
     @manifestation.subjects.collect{|subject|

@@ -1,0 +1,26 @@
+<h1>Listing extents</h1>
+
+<table class="index">
+  <tr>
+    <th>Name</th>
+    <th>Display name</th>
+    <th>Note</th>
+    <th>Position</th>
+  </tr>
+
+<% @extents.each do |extent| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h extent.name %></td>
+    <td><%=h extent.display_name %></td>
+    <td><%=h extent.note %></td>
+    <td><%=h extent.position %></td>
+    <td><%= link_to 'Show', extent %></td>
+    <td><%= link_to 'Edit', edit_extent_path(extent) %></td>
+    <td><%= link_to 'Destroy', extent, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New extent', new_extent_path %>

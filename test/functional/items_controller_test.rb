@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :manifestation_forms, :languages, :reserves,
+  fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :carrier_types, :languages, :reserves,
     :libraries, :patrons, :users, :inventories, :inventory_files
 
   def test_guest_should_get_index
