@@ -186,12 +186,6 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_guest_should_show_expression_with_issn
-    get :show, :issn => "00000000"
-    assert_response :redirect
-    assert_redirected_to expression_url(assigns(:expression))
-  end
-
   def test_user_should_show_expression
     UserSession.create users(:user1)
     get :show, :id => 1

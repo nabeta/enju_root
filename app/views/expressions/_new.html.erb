@@ -67,11 +67,6 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.frequency_of_issue') -%></b><br />
-    <%= f.select(:frequency_of_issue_id, @frequency_of_issues.collect{|i| [i.display_name.localize, i.id]}) -%>
-  </p>
-
-  <p>
     <b><%= t('activerecord.attributes.expression.feed_url') -%></b><br />
     <%= f.text_field :feed_url, :class => 'resource_url' -%>
   </p>

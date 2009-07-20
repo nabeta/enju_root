@@ -75,7 +75,6 @@ ja:
       search_engine: 検索エンジン
       bookmark: ブックマーク
       create: 作成
-      db_file: データベースのファイル
       carrier_type: 体現形の形態
       manifestation: 体現形
       user_group: 利用者グループ
@@ -126,6 +125,7 @@ ja:
       participate: 参加
       patron_has_patron: パトロン間の関係
       shelf_has_manifestation: 書棚と体現形の関係
+      extent: 大きさ
     attributes:
       library:
         name: 名前
@@ -540,9 +540,12 @@ ja:
         note: 注記
       create:
         position: 位置
-      db_file:
-        data: データ
       carrier_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      extent:
         name: 名前
         display_name: 表示名
         note: 注記

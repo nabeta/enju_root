@@ -44,7 +44,7 @@ module EnjuPorta
         manifestation = Manifestation.new(
           :original_title => title,
           :title_transcription => title_transcription,
-          :manifestation_form_id => ManifestationForm.find(:first, :conditions => {:name => 'print'}).id,
+          :carrier_type_id => CarrierType.find(:first, :conditions => {:name => 'print'}).id,
           :language_id => language_id,
           :isbn => isbn,
           :date_of_publication => date_of_publication,

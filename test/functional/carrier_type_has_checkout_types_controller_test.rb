@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ManifestationFormHasCheckoutTypesControllerTest < ActionController::TestCase
+class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :carrier_type_has_checkout_types, :users, :carrier_types, :checkout_types
 
@@ -56,45 +56,45 @@ class ManifestationFormHasCheckoutTypesControllerTest < ActionController::TestCa
   end
   
   def test_guest_should_not_create_carrier_type_has_checkout_type
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => { }
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_carrier_type_has_checkout_type
     UserSession.create users(:user1)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => { }
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_carrier_type_has_checkout_type
     UserSession.create users(:librarian1)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => { }
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_carrier_type_has_checkout_type_already_created
     UserSession.create users(:admin)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => {:carrier_type_id =>1, :checkout_type_id => 1}
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_response :success
   end
 
   def test_admin_should_create_carrier_type_has_checkout_type
     UserSession.create users(:admin)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => {:carrier_type_id =>1, :checkout_type_id => 3}
-    assert_equal old_count+1, ManifestationFormHasCheckoutType.count
+    assert_equal old_count+1, CarrierTypeHasCheckoutType.count
     
     assert_redirected_to carrier_type_has_checkout_type_url(assigns(:carrier_type_has_checkout_type))
   end
@@ -170,36 +170,36 @@ class ManifestationFormHasCheckoutTypesControllerTest < ActionController::TestCa
   end
   
   def test_guest_should_not_destroy_carrier_type_has_checkout_type
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_carrier_type_has_checkout_type
     UserSession.create users(:user1)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_carrier_type_has_checkout_type
     UserSession.create users(:librarian1)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
-    assert_equal old_count, ManifestationFormHasCheckoutType.count
+    assert_equal old_count, CarrierTypeHasCheckoutType.count
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_carrier_type_has_checkout_type
     UserSession.create users(:admin)
-    old_count = ManifestationFormHasCheckoutType.count
+    old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
-    assert_equal old_count-1, ManifestationFormHasCheckoutType.count
+    assert_equal old_count-1, CarrierTypeHasCheckoutType.count
     
     assert_redirected_to carrier_type_has_checkout_types_url
   end

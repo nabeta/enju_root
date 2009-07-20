@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
-    :frequency_of_issues, :work_forms, :expression_forms, :manifestation_forms, :countries, :patron_types
+    :frequencies, :work_forms, :expression_forms, :carrier_types, :countries, :patron_types
 
   # Replace this with your real tests.
   def test_manifestation_should_embody_expression

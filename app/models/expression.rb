@@ -27,7 +27,7 @@ class Expression < ActiveRecord::Base
   validates_presence_of :expression_form, :language
   
   acts_as_tree
-  acts_as_solr :fields => [:title, {:issn => :string}, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
+  acts_as_solr :fields => [:title, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
     {:work_id => :integer}, {:manifestation_ids => :integer},
     {:patron_ids => :integer},
     {:subscription_ids => :integer}, {:required_role_id => :range_integer},

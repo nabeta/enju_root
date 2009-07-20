@@ -8,6 +8,7 @@ class CreateManifestations < ActiveRecord::Migration
       t.string :classification_number
       t.string :manifestation_identifier
       t.datetime :date_of_publication
+      t.datetime :copyright_date
       t.timestamps
       t.datetime :deleted_at
       t.string :access_address

@@ -372,7 +372,7 @@ ActionController::Routing::Routes.draw do |map|
     shelf.resources :shelf_has_manifestations
     shelf.resources :manifestations
   end
-  map.resources :frequency
+  map.resources :frequencies
   map.resources :embodies
   map.resources :languages
   map.resources :countries

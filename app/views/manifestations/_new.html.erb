@@ -51,6 +51,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.models.frequency') -%></b><br />
+    <%= f.select(:frequency_id, @frequencies.collect{|frequency| [frequency.display_name.localize, frequency.id]}) -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.attributes.manifestation.date_of_publication') -%></b>
     <%= f.date_select :date_of_publication, :include_blank => true -%>
   </p>

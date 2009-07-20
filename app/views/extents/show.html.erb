@@ -1,23 +1,23 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_extent_path(@extent) -%></li>
+    <li><%= link_to t('page.back'), extents_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.extent')) -%></h1>
+<div id="content_list">
+
 <p>
-  <b>Name:</b>
-  <%=h @extent.name %>
+  <b><%= t('activerecord.attributes.extent.display_name') -%>:</b>
+  <%=h @extent.display_name.localize -%>
 </p>
 
 <p>
-  <b>Display name:</b>
-  <%=h @extent.display_name %>
+  <b><%= t('activerecord.attributes.extent.note') -%>:</b>
+  <%=h @extent.note -%>
 </p>
 
-<p>
-  <b>Note:</b>
-  <%=h @extent.note %>
-</p>
-
-<p>
-  <b>Position:</b>
-  <%=h @extent.position %>
-</p>
-
-
-<%= link_to 'Edit', edit_extent_path(@extent) %> |
-<%= link_to 'Back', extents_path %>
+</div>
+</div>

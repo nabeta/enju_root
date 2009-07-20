@@ -75,8 +75,8 @@ en:
       search_engine: Search engine
       bookmark: Bookmark
       create: Create
-      db_file: DB file
-      carrier_type: Manifestation form
+      carrier_type: Carrier Type
+      extent: Extent
       manifestation: Manifestation
       user_group: User group
       imported_resource_file: Imported resource file
@@ -99,7 +99,7 @@ en:
       manifestation_api_response: Manifestation API Response
       request_type: Request type
       inventory_file: Inventory file
-      carrier_type_has_checkout_type: Manifestation form has checkout type
+      carrier_type_has_checkout_type: Carrier type has checkout type
       user_group_has_checkout_type: User group has checkout type
       tag: Tag
       bookmark_stat: Bookmark stat
@@ -540,9 +540,12 @@ en:
         note: Note
       create:
         position: Position
-      db_file:
-        data: Data
       carrier_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      extent:
         name: Name
         display_name: Display name
         note: Note
