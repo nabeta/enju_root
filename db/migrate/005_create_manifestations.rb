@@ -45,6 +45,7 @@ class CreateManifestations < ActiveRecord::Migration
       t.string :state
       t.integer :required_score, :default => 0, :null => false
       t.integer :frequency_id, :default => 1, :null => false
+      t.boolean :subscription_master, :default => false, :null => false
     end
     add_index :manifestations, :parent_id
     add_index :manifestations, :carrier_type_id

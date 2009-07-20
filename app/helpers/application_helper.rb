@@ -54,7 +54,7 @@ module ApplicationHelper
 
   def serial_title_link(manifestation)
     # FIXME: 最初の1誌だけが取得されるが…
-    link_to h(manifestation.serial.original_title), expression_path(manifestation.serial)
+    link_to h(manifestation.original_title), manifestation_path(manifestation)
   rescue
     nil
   end

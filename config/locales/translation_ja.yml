@@ -577,6 +577,8 @@ ja:
         carrier_type: 体現形の形態
         language: 言語
         lccn: LCCN
+        issn: ISSN
+        subscription_master: 購読マスタ
       user_group:
         name: 名前
         display_name: 表示名

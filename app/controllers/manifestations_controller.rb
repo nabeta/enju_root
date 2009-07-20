@@ -5,6 +5,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_expression
   before_filter :get_subject
   before_filter :get_manifestation, :only => :index
+  before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
   after_filter :convert_charset, :only => :index
@@ -529,11 +530,11 @@ class ManifestationsController < ApplicationController
       else
         @manifestations = @manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id DESC')
       end
-    when @subject
-      @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['resource_has_subjects.id'])
+    when @subscription
+      @manifestations = @subscription.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['manifestations.id'])
     else
       #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :carrier_type, :order => ['manifestations.id'])
-      @manifestations = []
+      @manifestations = WillPaginate::Collection.create(1, 1, 0) do |pager| pager.replace([]) end
     end
     @count[:total] = @manifestations.size
     @count[:query_result] = @manifestations.size
@@ -545,6 +546,7 @@ class ManifestationsController < ApplicationController
     unless params[:mode] == "add"
       query.add_query!(@expression) unless @expression.blank?
       query.add_query!(@patron) unless @patron.blank?
+      query.add_query!(@subscription) unless @subscription.blank?
       query = "#{query} original_manifestation_ids: #{carrier_type.name}" if @manifestation
     end
     if @reservable

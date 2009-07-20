@@ -6,6 +6,7 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subscribe')) -%></h1>
+<div id="content_list">
 
 <table class="index">
   <tr>
@@ -24,4 +25,7 @@
 <%- end -%>
 </table>
 
+<%= will_paginate(@subscribes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+
+</div>
 </div>

@@ -66,6 +66,7 @@ class Manifestation < ActiveRecord::Base
     {:user => :string}, {:price => :range_float},
     {:required_role_id => :range_integer}, {:reservable => :boolean},
     {:original_manifestation_ids => :integer},
+    {:subscription_ids => :integer},
   ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
@@ -201,7 +202,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial?
-    false
+    true if subscription_master
   end
 
   def serials

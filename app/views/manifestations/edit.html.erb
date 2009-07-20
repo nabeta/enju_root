@@ -46,7 +46,12 @@
   </p>
 
   <p>
-    <%- if @manifestation.serial -%>
+    <b><%= t('activerecord.attributes.manifestation.subscription_master') -%></b>
+    <%= f.check_box :subscription_master -%>
+  </p>
+
+  <p>
+    <%- if @manifestation.serial? -%>
       <%= render :partial => 'edit_serial', :locals => {:f => f} -%>
     <%- else -%>
       <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
@@ -56,7 +61,7 @@
     <%- end -%>
   </p>
 
-  <%- unless @manifestation.serial -%>
+  <%- unless @manifestation.serial? -%>
     <p>
       <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
       <%= f.text_field :isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>

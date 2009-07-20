@@ -4,6 +4,8 @@
   <%= render :partial => 'index_expression' -%>
 <%- when @manifestation -%>
   <%= render :partial => 'index_manifestation' -%>
+<%- when @subscription -%>
+  <%= render :partial => 'index_subscription' -%>
 <%- else -%>
   <%= render :partial => 'index' -%>
 <%- end -%>

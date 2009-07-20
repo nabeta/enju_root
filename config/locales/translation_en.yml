@@ -577,6 +577,8 @@ en:
         carrier_type: Manifestation form
         language: Language
         lccn: LCCN
+        issn: ISSN
+        subscription_master: Subscription master
       user_group:
         name: Name
         display_name: Display name

@@ -1,0 +1,64 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_subscription_manifestation_path(@subscription) -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
+<div id="content_list">
+  <h2 class="resource_title">
+    <%= link_to h(@subscription.title), @subscription -%>
+  </h2>
+
+  <%- form_for :manifestations, :url => subscription_manifestations_path(@subscription), :html => {:method => 'get'} do -%>
+    <p>
+      <%= t('page.search_term') -%>:
+      <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
+      <%- if @subscription.is_deletable_by(current_user) -%>
+        <%- if params[:mode] == 'add' -%>
+          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+        <%- else -%>
+          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+        <%- end -%>
+      <%- end -%>
+      <%= submit_tag t('page.search') -%>
+      <!--
+      <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
+      -->
+      <%= link_to t('page.back_to_index'), subscription_manifestations_path(@subscription) -%>
+    </p>
+    <%= javascript_tag("$('query').focus()") -%>
+  <%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('page.title') -%></th>
+    <th></th>
+  </tr>
+  
+<%- for manifestation in @manifestations -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
+      <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
+    </td>
+    <td>
+      <%- if manifestation.is_deletable_by(current_user) -%>
+        <%- if params[:mode] == "add" -%>
+          <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :manifestation_id => manifestation.id) unless @subscription.manifestations.include?(manifestation) -%>
+        <%- else -%>
+          <%- subscribe = @subscription.subscribes.find_by_manifestation_id(manifestation.id) -%>
+          <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, subscribe), :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+  </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>

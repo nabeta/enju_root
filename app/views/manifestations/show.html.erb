@@ -54,7 +54,7 @@
           <ul>
             <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
             <%- if @manifestation.serial? -%>
-              <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@manifestation.serial) -%></li>
+              <li><%= link_to t('manifestation.add_next_issue'), new_manifestation_manifestation_has_manifestation_path(@manifestation) -%></li>
             <%- end -%>
           </ul>
           <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
@@ -117,12 +117,12 @@
 <%
   cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
 %>
-    <%- if @manifestation.serial -%>
+    <%- if @manifestation.serial? -%>
       <tr>
         <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
         <td style="width: 500px"><%= serial_title_link(@manifestation) -%>
-          <%- if @manifestation.serial.issn? -%>
-            (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
+          <%- if @manifestation.issn.present? -%>
+            (<%= t('activerecord.attributes.manifestation.issn') -%>: <%=h @manifestation.issn -%>)
           <%- end -%>
         </td>
       </tr>

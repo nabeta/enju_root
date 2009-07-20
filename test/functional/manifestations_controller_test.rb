@@ -6,7 +6,8 @@ class ManifestationsControllerTest < ActionController::TestCase
     :works, :work_forms, :realizes,
     :expressions, :expression_forms, :frequencies,
     :items, :libraries, :shelves, :languages, :exemplifies,
-    :embodies, :patrons, :user_groups, :users, :bookmarks, :bookmarked_resources, :roles
+    :embodies, :patrons, :user_groups, :users, :bookmarks, :bookmarked_resources, :roles,
+    :subscriptions, :subscribes
 
   def test_guest_should_get_index
     assert_no_difference('SearchHistory.count') do
@@ -63,12 +64,25 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
-  #def test_guest_should_get_index_with_subject
-  #  get :index, :subject_id => 1
-  #  assert_response :success
-  #  assert assigns(:subject)
-  #  assert assigns(:manifestations)
-  #end
+  def test_guest_should_not_get_index_with_subscription
+    get :index, :subscription_id => 1
+    assert_response :redirect
+    assert_redirected_to new_user_session_url
+  end
+
+  def test_user_should_not_get_index_with_subscription
+    UserSession.create users(:user1)
+    get :index, :subscription_id => 1
+    assert_response :forbidden
+  end
+
+  def test_librarian_should_get_index_with_subscription
+    UserSession.create users(:librarian1)
+    get :index, :subscription_id => 1
+    assert_response :success
+    assert assigns(:subscription)
+    assert assigns(:manifestations)
+  end
 
   def test_guest_should_get_index_with_query
     get :index, :query => '2005'
@@ -90,6 +104,12 @@ class ManifestationsControllerTest < ActionController::TestCase
 
   def test_guest_should_get_index_language_facet
     get :index, :query => '2005', :view => 'language_facet'
+    assert_response :success
+    assert assigns(:facet_results)
+  end
+
+  def test_guest_should_get_index_carrier_type_facet
+    get :index, :query => '2005', :view => 'carrier_type_facet'
     assert_response :success
     assert assigns(:facet_results)
   end

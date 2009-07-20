@@ -60,6 +60,11 @@
     <%= f.date_select :date_of_publication, :include_blank => true -%>
   </p>
 
+  <p>
+    <b><%= t('activerecord.attributes.manifestation.subscription_master') -%></b>
+    <%= f.check_box :subscription_master -%>
+  </p>
+  
   <%- if @expression -%>
     <p>
       <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
