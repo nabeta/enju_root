@@ -1,9 +1,9 @@
 class Subscribe < ActiveRecord::Base
   include LibrarianRequired
   belongs_to :subscription, :counter_cache => true, :validate => true
-  belongs_to :expression, :validate => true
+  belongs_to :manifestation, :validate => true
 
-  validates_associated :subscription, :expression
-  validates_presence_of :subscription, :expression, :start_on, :end_on
-  validates_uniqueness_of :expression_id, :scope => :subscription_id
+  validates_associated :subscription, :manifestation
+  validates_presence_of :subscription, :manifestation, :start_on, :end_on
+  validates_uniqueness_of :manifestation_id, :scope => :subscription_id
 end

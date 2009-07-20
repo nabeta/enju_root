@@ -21,6 +21,7 @@ class Work < ActiveRecord::Base
   #has_many :places, :through => :work_has_places
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :resource_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
+  belongs_to :medium_of_performance
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
   acts_as_solr :fields => [:title, :context, :note,

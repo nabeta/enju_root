@@ -18,7 +18,6 @@ class CreateUsers < ActiveRecord::Migration
       t.string :last_login_ip, :string
       t.string :current_login_ip, :string
 
-      t.references :patron, :polymorphic => true
       t.integer :library_id, :default => 1, :null => false
       t.integer :user_group_id, :default => 1, :null => false
       t.integer :reserves_count, :default => 0, :null => false
@@ -43,7 +42,6 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :required_score, :default => 0, :null => false
     end
     add_index :users, :login, :unique => true
-    add_index :users, :patron_id, :unique => true
     add_index :users, :user_group_id
     add_index :users, :required_role_id
     add_index :users, :user_number, :unique => true

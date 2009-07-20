@@ -17,6 +17,7 @@ class CreateWorks < ActiveRecord::Migration
       t.integer :required_role_id, :default => 1, :null => false
       t.string :state
       t.integer :required_score, :default => 0, :null => false
+      t.integer :medium_of_performance_id, :default => 1, :null => false
     end
     add_index :works, :work_form_id
     add_index :works, :parent_id

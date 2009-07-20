@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :content_types
+
+  map.resources :medium_of_performances
+
   map.resources :extents
 
   map.resources :shelf_has_manifestations
@@ -131,7 +135,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :subscriptions do |subscription|
     subscription.resources :subscribes
-    subscription.resources :expressions
+    subscription.resources :manifestations
   end
 
   map.resources :subscriptions

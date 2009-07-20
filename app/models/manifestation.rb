@@ -199,8 +199,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial?
-  #  return true if self.serial
-    false
+    return true unless self.serials.empty?
   end
 
   def next_reservation

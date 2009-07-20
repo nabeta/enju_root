@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), extent_path(@extent) -%></li>
-    <li><%= link_to t('page.back'), extents_path -%></li>
+    <li><%= link_to t('page.show'), @extent -%></li>
+    <li><%= link_to t('page.back'), extentes_path -%></li>
   </ul>
 </div>
 
@@ -12,11 +12,6 @@
 <%= error_messages_for :extent -%>
 
 <%- form_for(@extent) do |f| -%>
-  <p>
-    <b><%= t('activerecord.attributes.extent.name') -%></b><br />
-    <%= f.text_field :name, :class => 'resource_title' -%>
-  </p>
-
   <p>
     <b><%= t('activerecord.attributes.extent.display_name') -%></b><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>

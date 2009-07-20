@@ -1,0 +1,28 @@
+<h1>Editing medium_of_performance</h1>
+
+<% form_for(@medium_of_performance) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :display_name %><br />
+    <%= f.text_area :display_name %>
+  </p>
+  <p>
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
+  </p>
+  <p>
+    <%= f.label :position %><br />
+    <%= f.text_field :position %>
+  </p>
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @medium_of_performance %> |
+<%= link_to 'Back', medium_of_performances_path %>

@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if CarrierType.is_creatable_by(current_user) -%>
+    <%- if CirculationStatus.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.extent')), new_extent_path -%></li>
     <%- end -%>
   </ul>
@@ -14,17 +14,17 @@
   <tr>
     <th><%= t('activerecord.attributes.extent.name') -%></th>
     <th><%= t('activerecord.attributes.extent.display_name') -%></th>
-    <th><%= t('activerecord.attributes.extent.note') -%></th>
   </tr>
-  
-<%- for extent in @extents -%>
+
+<%- for extent in @extentes -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(extent.name), extent -%></td>
     <td><%= link_to h(extent.display_name.localize), extent -%></td>
-    <td><%=h extent.note -%></td>
     <%- if extent.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_extent_path(extent) -%></td>
-      <td><%= link_to t('page.destroy'), extent_path(extent), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), extent, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= extent.first? ? '' : link_to('▲', {:action => 'update', :position  => (extent.position  > 1 ? extent.position - 1 : 1), :id => extent.id}, :method => :put) -%></td>
+      <td><%= extent.last? ? '' : link_to('▼', {:action => 'update', :position => (extent.position + 1), :id => extent.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

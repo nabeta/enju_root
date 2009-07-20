@@ -1,0 +1,26 @@
+<h1>Listing medium_of_performances</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Display name</th>
+    <th>Note</th>
+    <th>Position</th>
+  </tr>
+
+<% @medium_of_performances.each do |medium_of_performance| %>
+  <tr>
+    <td><%=h medium_of_performance.name %></td>
+    <td><%=h medium_of_performance.display_name %></td>
+    <td><%=h medium_of_performance.note %></td>
+    <td><%=h medium_of_performance.position %></td>
+    <td><%= link_to 'Show', medium_of_performance %></td>
+    <td><%= link_to 'Edit', edit_medium_of_performance_path(medium_of_performance) %></td>
+    <td><%= link_to 'Destroy', medium_of_performance, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New medium_of_performance', new_medium_of_performance_path %>

@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <%- if CirculationStatus.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.content_type')), new_content_type_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.content_type')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.content_type.name') -%></th>
+    <th><%= t('activerecord.attributes.content_type.display_name') -%></th>
+  </tr>
+
+<%- for content_type in @content_typees -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(content_type.name), content_type -%></td>
+    <td><%= link_to h(content_type.display_name.localize), content_type -%></td>
+    <%- if content_type.is_deletable_by(current_user) -%>
+      <td><%= link_to t('page.edit'), edit_content_type_path(content_type) -%></td>
+      <td><%= link_to t('page.destroy'), content_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= content_type.first? ? '' : link_to('▲', {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%></td>
+      <td><%= content_type.last? ? '' : link_to('▼', {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%></td>
+    <%- end -%>
+  </tr>
+<%- end -%>
+</table>
+
+</div>
+</div>
