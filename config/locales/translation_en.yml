@@ -417,6 +417,7 @@ en:
         url: URL
         price: Price
         lock_version: Lock version
+        checkout_type: Checkout type
       barcode:
         barcode_type: Barcode type
         barcodable_type: Barcodable type

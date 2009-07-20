@@ -10,7 +10,7 @@
       <%=h @manifestation.original_title -%> :
     <%- end -%>
     <%- if @item -%>
-      (<%=h @item.shelf.library.name -%>) :
+      (<%=h @item.shelf.library.display_name.localize -%>) :
     <%- end -%>
     <%=h title_action_name -%>
   </title>

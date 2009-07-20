@@ -37,6 +37,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.models.checkout_type') -%></b><br />
+    <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name.localize, c.id]}) -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.models.circulation_status') -%></b><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name.localize, c.id]}) -%>
   </p>

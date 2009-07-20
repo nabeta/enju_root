@@ -108,8 +108,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :news_feeds
 
-  map.resources :item_has_checkout_types
-
   map.resources :carrier_type_has_checkout_types
 
   map.resources :user_group_has_checkout_types

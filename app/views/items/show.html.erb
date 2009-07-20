@@ -33,8 +33,13 @@
 </p>
 
 <p>
+  <b><%= t('activerecord.attributes.item.checkout_type') -%>:</b>
+  <%= link_to h(@item.checkout_type.display_name.localize), @item.checkout_type -%>
+</p>
+
+<p>
   <b><%= t('activerecord.models.circulation_status') -%>:</b>
-  <%=h @item.circulation_status.display_name.localize -%>
+  <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
   <%- if logged_in? -%>
     <%- if current_user.has_role?('Librarian') -%>
       <%- unless @item.checkouts.not_returned.blank? -%>
