@@ -1,6 +1,8 @@
 <div id="submenu">
   <ul>
-    <%- if CirculationStatus.is_creatable_by(current_user) -%>
+    <%- if @user_group -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_content_type')), new_user_group_user_group_has_content_type_path(@user_group) -%></li>
+    <%- else -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.content_type')), new_content_type_path -%></li>
     <%- end -%>
   </ul>
@@ -14,21 +16,26 @@
   <tr>
     <th><%= t('activerecord.attributes.content_type.name') -%></th>
     <th><%= t('activerecord.attributes.content_type.display_name') -%></th>
+    <th><%= t('activerecord.attributes.content_type.note') -%></th>
   </tr>
 
-<%- for content_type in @content_typees -%>
+<%- for content_type in @content_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(content_type.name), content_type -%></td>
     <td><%= link_to h(content_type.display_name.localize), content_type -%></td>
-    <%- if content_type.is_deletable_by(current_user) -%>
-      <td><%= link_to t('page.edit'), edit_content_type_path(content_type) -%></td>
-      <td><%= link_to t('page.destroy'), content_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= content_type.first? ? '' : link_to('▲', {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%></td>
-      <td><%= content_type.last? ? '' : link_to('▼', {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%></td>
+    <td><%=h content_type.note -%></td>
+    <td><%= link_to t('page.edit'), edit_content_type_path(content_type) -%></td>
+    <td><%= link_to t('page.destroy'), content_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <%- unless @user_group -%>
+      <%- if content_type.is_deletable_by(current_user) -%>
+        <td><%= content_type.first? ? '' : link_to('▲', {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%></td>
+        <td><%= content_type.last? ? '' : link_to('▼', {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%></td>
+      <%- end -%>
     <%- end -%>
   </tr>
 <%- end -%>
 </table>
 
+<%= will_paginate(@content_types, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>
 </div>

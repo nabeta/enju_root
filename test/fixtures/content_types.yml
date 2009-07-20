@@ -1,13 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  display_name: MyText
+  id: 1
+  name: Cartographic Dataset
+  display_name: Cartographic Dataset
   note: MyText
   position: 1
 
 two:
-  name: MyString
-  display_name: MyText
+  id: 2
+  name: Cartographic Image
+  display_name: Cartographic Image
   note: MyText
-  position: 1
+  position: 2

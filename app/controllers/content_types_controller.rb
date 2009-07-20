@@ -1,8 +1,10 @@
 class ContentTypesController < ApplicationController
+  before_filter :has_permission?
+
   # GET /content_types
   # GET /content_types.xml
   def index
-    @content_types = ContentType.all
+    @content_types = ContentType.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_subscription_path(@subscription) -%></li>
-    <li><%= link_to t('expression.add'), subscription_expressions_path(@subscription) -%></li>
+    <li><%= link_to t('manifestation.add'), subscription_manifestations_path(@subscription) -%></li>
     <li><%= link_to t('page.back'), subscriptions_path -%></li>
   </ul>
 </div>
@@ -22,13 +22,12 @@
   <tr>
     <th><%= t('page.title') -%></th>
   </tr>
-  <%- @subscription.expressions.each do |expression| -%>
+  <%- @subscription.manifestations.each do |manifestation| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <strong><%= link_to h(expression.original_title), expression -%></strong>
+        <strong><%= link_to h(manifestation.original_title), manifestation -%></strong>
         <br />
-        <%= patrons_list(expression.work.patrons)%>
-        <%= patrons_list(expression.patrons) -%>
+        <%= patrons_list(manifestation.patrons) -%>
       </td>
     </tr>
   <%- end -%>

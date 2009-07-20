@@ -126,6 +126,8 @@ ja:
       patron_has_patron: パトロン間の関係
       shelf_has_manifestation: 書棚と体現形の関係
       extent: 大きさ
+      medium_of_performance: 演奏手段
+      content_type: 内容の種類
     attributes:
       library:
         name: 名前
@@ -546,11 +548,6 @@ ja:
         display_name: 表示名
         note: 注記
         position: 位置
-      extent:
-        name: 名前
-        display_name: 表示名
-        note: 注記
-        position: 位置
       manifestation:
         original_title: 原題
         title_alternative: 代替タイトル
@@ -837,6 +834,26 @@ ja:
       shelf_has_manifestation:
         shelf: 書棚
         manifestation: 体現形
+        position: 位置
+      medium_of_performance:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      content_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      extent:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      content_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
         position: 位置
 
   page:

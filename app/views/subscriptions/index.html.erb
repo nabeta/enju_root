@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
-    <%- if @expression -%>
-      <li><%= link_to t('page.add', :model => t('activerecord.models.expression')), subscriptions_path -%></li>
+    <%- if @manifestation -%>
+      <li><%= link_to t('page.add', :model => t('activerecord.models.manifestation')), subscriptions_path -%></li>
     <%- else -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.subscription')), new_subscription_path -%></li>
     <%- end -%>
@@ -21,7 +21,7 @@
 <%- for subscription in @subscriptions -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(subscription.title), subscription -%></td>
-    <td><%= subscription.expressions.size -%></td>
+    <td><%= subscription.manifestations.size -%></td>
     <td><%= link_to t('page.edit'), edit_subscription_path(subscription) -%></td>
     <td><%= link_to t('page.destroy'), subscription, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

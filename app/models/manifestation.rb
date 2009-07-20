@@ -44,6 +44,8 @@ class Manifestation < ActiveRecord::Base
   #has_one :shelf_has_manifestation, :dependent => :destroy
   #has_one :shelf, :through => :shelf_has_manifestation
   belongs_to :frequency #, :validate => true
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscriptions, :through => :subscribes
 
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher, :access_address,
@@ -199,7 +201,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial?
-    return true unless self.serials.empty?
+    false
+  end
+
+  def serials
+    []
   end
 
   def next_reservation

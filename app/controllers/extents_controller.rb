@@ -4,7 +4,7 @@ class ExtentsController < ApplicationController
   # GET /extents
   # GET /extents.xml
   def index
-    @extents = Extent.all
+    @extents = Extent.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

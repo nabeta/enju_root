@@ -14,14 +14,13 @@ class Expression < ActiveRecord::Base
   has_many :expression_merge_lists, :through => :expression_merges
   #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :resource_has_subjects
-  has_many :subscribes, :dependent => :destroy
-  has_many :subscriptions, :through => :subscribes
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :derived_expressions, :through => :to_expressions, :source => :to_expression
   has_many :original_expressions, :through => :from_expressions, :source => :from_expression
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
+  belongs_to :content_type
   
   validates_associated :expression_form, :language
   validates_presence_of :expression_form, :language
@@ -30,7 +29,7 @@ class Expression < ActiveRecord::Base
   acts_as_solr :fields => [:title, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
     {:work_id => :integer}, {:manifestation_ids => :integer},
     {:patron_ids => :integer},
-    {:subscription_ids => :integer}, {:required_role_id => :range_integer},
+    {:required_role_id => :range_integer},
     {:expression_merge_list_ids => :integer},
     {:original_expression_ids => :integer}],
     :facets => [:expression_form_id, :language_id],
@@ -80,10 +79,6 @@ class Expression < ActiveRecord::Base
 
   def work_id
     self.work.id if self.work
-  end
-
-  def subscription_ids
-    self.subscriptions.collect(&:id)
   end
 
   def expression_merge_list_ids

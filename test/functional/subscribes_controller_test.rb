@@ -3,7 +3,7 @@ require 'test_helper'
 class SubscribesControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :subscribes, :subscriptions, :users, :patrons, :patron_types,
-    :languages, :roles, :manifestations, :manifestation_forms, :works, :work_forms
+    :languages, :roles, :manifestations, :carrier_types, :works, :work_forms
 
   def test_guest_should_not_get_index
     get :index

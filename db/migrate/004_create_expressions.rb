@@ -23,11 +23,14 @@ class CreateExpressions < ActiveRecord::Migration
       t.string :feed_url
       t.string :state
       t.integer :required_score, :default => 0, :null => false
+      t.integer :content_type_id, :default => 1, :null => false
+      t.datetime :date_of_expression
     end
     add_index :expressions, :parent_id
     add_index :expressions, :language_id
     add_index :expressions, :expression_form_id
     add_index :expressions, :required_role_id
+    add_index :expressions, :content_type_id
     #add_index :expressions, :issn
   end
 

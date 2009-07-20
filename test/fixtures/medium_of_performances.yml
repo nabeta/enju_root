@@ -1,13 +1,15 @@
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
-  name: MyString
-  display_name: MyText
+  id: 1
+  name: Unaccompanied
+  display_name: Unaccompanied
   note: MyText
   position: 1
 
 two:
-  name: MyString
-  display_name: MyText
+  id: 2
+  name: Accompanied
+  display_name: Accompanied
   note: MyText
-  position: 1
+  position: 2

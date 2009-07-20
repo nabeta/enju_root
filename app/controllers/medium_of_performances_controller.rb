@@ -1,8 +1,10 @@
 class MediumOfPerformancesController < ApplicationController
+  before_filter :has_permission?
+
   # GET /medium_of_performances
   # GET /medium_of_performances.xml
   def index
-    @medium_of_performances = MediumOfPerformance.all
+    @medium_of_performances = MediumOfPerformance.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

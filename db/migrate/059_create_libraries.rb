@@ -24,7 +24,7 @@ class CreateLibraries < ActiveRecord::Migration
     end
     add_index :libraries, :patron_id, :unique => true
     add_index :libraries, :library_group_id
-    add_index :libraries, :short_name, :unique => true
+    add_index :libraries, :name, :unique => true
   end
 
   def self.down

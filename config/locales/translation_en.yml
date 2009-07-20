@@ -76,7 +76,6 @@ en:
       bookmark: Bookmark
       create: Create
       carrier_type: Carrier Type
-      extent: Extent
       manifestation: Manifestation
       user_group: User group
       imported_resource_file: Imported resource file
@@ -125,6 +124,9 @@ en:
       user_has_shelf: User to shelf relationship
       participate: Participate
       patron_has_patron: Patron to patron relationship
+      extent: Extent
+      medium_of_performance: Medium of performance
+      content_type: Content type
     attributes:
       library:
         name: Name
@@ -546,11 +548,6 @@ en:
         display_name: Display name
         note: Note
         position: Position
-      extent:
-        name: Name
-        display_name: Display name
-        note: Note
-        position: Position
       manifestation:
         original_title: Original title
         title_alternative: Titlte alternative
@@ -843,6 +840,26 @@ en:
       shelf_has_manifestation:
         shelf: Shelf
         manifestation: Manifestation
+        position: Position
+      medium_of_performance:
+        name: Name
+        display_name: Displayname
+        note: Note
+        position: Position
+      content_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      extent:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      content_type:
+        name: Name
+        display_name: Display name
+        note: Note
         position: Position
 
   page:
