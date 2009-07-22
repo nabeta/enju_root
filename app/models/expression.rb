@@ -48,7 +48,7 @@ class Expression < ActiveRecord::Base
     :facets => [:expression_form_id, :language_id],
     :offline => proc{|expression| !expression.indexing},
     :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   enju_cinii
 
   cattr_accessor :per_page

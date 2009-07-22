@@ -44,7 +44,7 @@ class Work < ActiveRecord::Base
     :facets => [:work_form_id], 
     :offline => proc{|work| !work.indexing},
     :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_soft_deletable
   acts_as_tree
   has_one :mods_import
 
