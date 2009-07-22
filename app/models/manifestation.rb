@@ -47,6 +47,41 @@ class Manifestation < ActiveRecord::Base
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
 
+  searchable do
+    text :title, :author, :publisher, :fulltext
+    text :subject, :note
+    string :isbn
+    string :isbn10
+    string :wrong_isbn
+    string :lccn
+    string :nbn
+    string :tag, :multiple => true
+    string :formtype
+    string :library, :multiple => true
+    string :lang, :multiple => true
+    string :shelf, :multiple => true
+    string :user, :multiple => true
+    string :sort_title
+    time :created_at
+    time :updated_at
+    time :date_of_publication
+    integer :patron_ids, :multiple => true
+    integer :item_ids, :multiple => true
+    integer :original_manifestation_ids, :multiple => true
+    integer :expression_ids, :multiple => true
+    integer :subscription_ids, :multiple => true
+    integer :required_role_id
+    integer :height
+    integer :width
+    integer :depth
+    integer :volume_number, :multiple => true
+    integer :issue_number, :multiple => true
+    integer :serial_number, :multiple => true
+    float :price
+    boolean :reservable
+    boolean :subscription_master
+  end
+
   acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
     :title, :author, :publisher, :access_address,
     :isbn, :isbn10, {:wrong_isbn => :string}, :lccn,
@@ -58,15 +93,15 @@ class Manifestation < ActiveRecord::Base
     :related_titles, :patron, {:shelf => :string},
     {:pubdate => :date}, {:number_of_pages => :range_integer},
     {:height => :range_float}, {:width => :range_float},
-    {:depth => :range_float}, {:sortable_title => :string}, :note,
+    {:depth => :range_float}, {:sort_title => :string}, :note,
     {:volume_number => :range_integer}, {:issue_number => :range_integer},
     {:expression_ids => :integer}, {:patron_ids => :integer},
-    {:subject_ids => :integer},
     {:serial_number => :range_integer},
     {:user => :string}, {:price => :range_float},
     {:required_role_id => :range_integer}, {:reservable => :boolean},
     {:original_manifestation_ids => :integer},
     {:subscription_ids => :integer},
+    {:subscription_master => :boolean},
   ],
     :facets => [:formtype_f, :subject_f, :language_f, :library_f],
     #:if => proc{|manifestation| !manifestation.serial?},
@@ -318,7 +353,7 @@ class Manifestation < ActiveRecord::Base
     []
   end
 
-  def sortable_title
+  def sort_title
     # 並べ替えの順番に使う項目を指定する
     # TODO: 読みが入力されていない資料
     self.title_transcription

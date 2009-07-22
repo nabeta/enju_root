@@ -25,6 +25,19 @@ class Expression < ActiveRecord::Base
   validates_associated :expression_form, :language
   validates_presence_of :expression_form, :language
   
+  searchable do
+    text :title, :summarization, :context, :note, :author
+    time :created_at
+    time :updated_at
+    integer :patron_ids, :multiple => true
+    integer :manifestation_ids, :multiple => true
+    integer :expression_merge_list_ids, :multiple => true
+    integer :work_id
+    integer :expression_form_id
+    integer :language_id
+    integer :required_role_id
+    integer :original_expression_ids
+  end
   acts_as_tree
   acts_as_solr :fields => [:title, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
     {:work_id => :integer}, {:manifestation_ids => :integer},
@@ -35,7 +48,7 @@ class Expression < ActiveRecord::Base
     :facets => [:expression_form_id, :language_id],
     :offline => proc{|expression| !expression.indexing},
     :auto_commit => false
-  #acts_as_soft_deletable
+  acts_as_soft_deletable
   enju_cinii
 
   cattr_accessor :per_page

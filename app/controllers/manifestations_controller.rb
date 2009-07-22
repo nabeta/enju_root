@@ -450,7 +450,7 @@ class ManifestationsController < ApplicationController
     else
       case sort
       when 'title'
-        order = 'sortable_title asc'
+        order = 'sort_title asc'
       when 'date'
         order = 'pubdate desc'
       else
@@ -546,7 +546,10 @@ class ManifestationsController < ApplicationController
     unless params[:mode] == "add"
       query.add_query!(@expression) unless @expression.blank?
       query.add_query!(@patron) unless @patron.blank?
-      query.add_query!(@subscription) unless @subscription.blank?
+      unless @subscription.blank?
+        query.add_query!(@subscription)
+        query = "#{query} subscription_master: true"
+      end
       query = "#{query} original_manifestation_ids: #{carrier_type.name}" if @manifestation
     end
     if @reservable
