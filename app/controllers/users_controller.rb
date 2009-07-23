@@ -10,17 +10,15 @@ class UsersController < ApplicationController
 
   def index
     query = params[:query] ||= nil
-    #browse = nil
-    order = nil
+    @query = query.dup
     @count = {}
-    unless query.blank?
-      @query = query.dup
-      @users = User.paginate_by_solr(query, :order => order, :page => params[:page]).compact
-      @count[:query_result] = @users.total_entries
-    else
-      @users = User.paginate(:all, :page => params[:page])
-      @count[:query_result] = User.count_by_solr("[* TO *]")
+    user_ids = User.search_ids do
+      unless query.blank?
+        keywords query
+      end
     end
+    @users = User.paginate(:conditions => {:id => user_ids}, :page => params[:page])
+    @count[:query_result] = @users.total_entries
     
     respond_to do |format|
       format.html # index.rhtml
@@ -76,7 +74,7 @@ class UsersController < ApplicationController
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(params[:id])
+      @user = User.find(:first, :conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -100,7 +98,7 @@ class UsersController < ApplicationController
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(params[:id])
+      @user = User.find(:first, :conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -248,8 +246,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user = User.find(params[:id])
+    @user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした
     if current_user == @user

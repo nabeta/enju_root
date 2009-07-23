@@ -19,8 +19,13 @@ class User < ActiveRecord::Base
   named_scope :administrators, :include => ['roles'], :conditions => ['roles.name = ?', 'Administrator']
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
   named_scope :suspended, :conditions => {:suspended => true}
-  acts_as_solr :fields => [:login, :email, :patron_name, :note, {:required_role_id => :range_integer}],
-    :auto_commit => false, :offline => proc{|user| user.last_request_at_changed? }
+
+  searchable do
+    text :login, :email, :patron_name, :note
+    string :login
+    string :email
+    integer :required_role_id
+  end
 
   has_one :patron
   #belongs_to :patron, :polymorphic => true

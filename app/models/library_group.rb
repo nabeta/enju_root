@@ -60,11 +60,10 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def self.solr_reindex(num = 500)
-    Patron.rebuild_solr_index(num)
-    Work.rebuild_solr_index(num)
-    Expression.rebuild_solr_index(num)
-    Manifestation.rebuild_solr_index(num)
-    Item.rebuild_solr_index(num)
+    Patron.reindex(:batch_size => num)
+    Work.reindex(:batch_size => num)
+    Expression.reindex(:batch_size => num)
+    Manifestation.reindex(:batch_size => num)
     logger.info "#{Time.zone.now} optimized!"
   rescue StandardError, Timeout::Error
     logger.info "#{Time.zone.now} optimization failed!"

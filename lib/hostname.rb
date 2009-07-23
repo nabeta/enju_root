@@ -28,7 +28,7 @@ class String
 
   def rewrite_bookmark_url
     url = URI.parse(self)
-    if url.host == BOOKMARK_HOSTNAME and url.port == BOOKMARK_PORT_NUMBER.to_i
+    if url.host == BOOKMARK_HOSTNAME and url.port == BOOKMARK_PORT_NUMBER
       url.host = LIBRARY_WEB_HOSTNAME
       url.port = LIBRARY_WEB_PORT_NUMBER
     end

@@ -25,8 +25,7 @@ class Work < ActiveRecord::Base
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
   searchable do
-    text :title
-    text :context, :note
+    text :title, :context, :note
     time :created_at
     time :updated_at
     integer :patron_ids, :multiple => true
@@ -36,15 +35,15 @@ class Work < ActiveRecord::Base
     integer :work_form_id
   end
 
-  acts_as_solr :fields => [:title, :context, :note,
-    {:created_at => :date}, {:updated_at => :date},
-    {:patron_ids => :integer}, {:parent_id => :integer},
-    {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer},
-    {:original_work_ids => :integer}],
-    :facets => [:work_form_id], 
-    :offline => proc{|work| !work.indexing},
-    :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_solr :fields => [:title, :context, :note,
+  #  {:created_at => :date}, {:updated_at => :date},
+  #  {:patron_ids => :integer}, {:parent_id => :integer},
+  #  {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer},
+  #  {:original_work_ids => :integer}],
+  #  :facets => [:work_form_id], 
+  #  :offline => proc{|work| !work.indexing},
+  #  :auto_commit => false
+  #acts_as_soft_deletable
   acts_as_tree
   has_one :mods_import
 

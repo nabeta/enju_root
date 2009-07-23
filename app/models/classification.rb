@@ -8,7 +8,12 @@ class Classification < ActiveRecord::Base
   validates_associated :classification_type
   validates_presence_of :category, :classification_type
   validates_uniqueness_of :category, :scope => :classification_type_id
-  acts_as_solr :fields => [:category, :note, :subject, {:subject_ids => :integer}, {:classification_type_id => :integer}], :auto_commit => false
+  searchable do
+    text :category, :note, :subject
+    integer :subject_ids, :multiple => true
+    integer :classification_type_id
+  end
+  #acts_as_solr :fields => [:category, :note, :subject, {:subject_ids => :integer}, {:classification_type_id => :integer}], :auto_commit => false
   acts_as_tree
   #acts_as_taggable_on :tags
 

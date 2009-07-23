@@ -35,11 +35,20 @@ class Subject < ActiveRecord::Base
   validates_associated :use_term, :subject_type
   validates_presence_of :term, :subject_type
 
-  acts_as_solr :fields => [:term, :term_transcription, :note,
-    {:work_ids => :integer}, {:classification_ids => :integer},
-    {:subject_heading_type_ids => :integer}],
-    #:offline => true,
-    :auto_commit => false
+  searchable do
+    text :term, :term_transcription, :note
+    string :term
+    time :created_at
+    time :updated_at
+    integer :work_ids, :multiple => true
+    integer :classification_ids, :multiple => true
+    integer :subject_heading_type_ids, :multiple => true
+  end
+  #acts_as_solr :fields => [:term, :term_transcription, :note,
+  #  {:work_ids => :integer}, {:classification_ids => :integer},
+  #  {:subject_heading_type_ids => :integer}],
+  #  #:offline => true,
+  #  :auto_commit => false
   acts_as_tree
 
   @@per_page = 10

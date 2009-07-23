@@ -3,7 +3,7 @@ class ManifestationsController < ApplicationController
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
-  before_filter :get_subject
+  before_filter :get_subject_by_term, :only => :index
   before_filter :get_manifestation, :only => :index
   before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
@@ -16,40 +16,34 @@ class ManifestationsController < ApplicationController
   def index
     @seconds = Benchmark.realtime do
       @numdocs = Manifestation.cached_numdocs
+      search = Sunspot.new_search(Manifestation)
 
 	    if logged_in?
 	      @user = current_user if @user.nil?
 	    end
 
-      @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
-
-      #@carrier_type = CarrierType.find(:first, :conditions => {:name => params[:formtype]})
       @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
 
-      query = make_query(params[:query], {
-        :mode => params[:mode],
-        :sort => params[:sort],
-        :tag => params[:tag],
-        :author => params[:author],
-        :publisher => params[:publisher],
-        :isbn => params[:isbn],
-        :pubdate_from => params[:pubdate_from],
-        :pubdate_to => params[:pubdate_to],
-        :number_of_pages_at_least => params[:number_of_pages_at_least],
-        :number_of_pages_at_most => params[:number_of_pages_at_most],
-        #:formtype => params[:formtype],
-        #:library => params[:library],
-        #:language => params[:language],
-        #:subject => params[:subject],
-      })
-      session[:manifestation_ids] = [] unless session[:manifestation_ids]
-      session[:params] = {} unless session[:params]
-      session[:params][:manifestation] = params.merge(:view => nil)
+      query = params[:query].to_s
+      #query = make_query(params[:query], {
+      #  :mode => params[:mode],
+      #  :sort => params[:sort],
+      #  :tag => params[:tag],
+      #  :author => params[:author],
+      #  :publisher => params[:publisher],
+      #  :isbn => params[:isbn],
+      #  :pubdate_from => params[:pubdate_from],
+      #  :pubdate_to => params[:pubdate_to],
+      #  :number_of_pages_at_least => params[:number_of_pages_at_least],
+      #  :number_of_pages_at_most => params[:number_of_pages_at_most],
+      #})
+      #session[:manifestation_ids] = [] unless session[:manifestation_ids]
+      #session[:params] = {} unless session[:params]
+      #session[:params][:manifestation] = params.merge(:view => nil)
       if params[:reservable] == "true"
         @reservable = "true"
       end
 
-      @query = query.dup
       manifestations = {}
       @count = {}
       if params[:format] == 'csv'
@@ -57,11 +51,14 @@ class ManifestationsController < ApplicationController
       end
 
       # 絞り込みを行わない状態のクエリ
+      @query = query.dup
       query = query.gsub('　', ' ')
       total_query = query
+      search.query.keywords = query
 
       unless query.blank?
-        query = make_internal_query(query)
+        search = make_internal_query(search)
+      end 
         #if params[:mode] == "worldcat" or params[:page].blank?
         #
         #  if params[:worldcat_page]
@@ -77,48 +74,48 @@ class ManifestationsController < ApplicationController
         #  end
         #end
         #unless params[:mode] == "worldcat"
-          begin
-            @count[:total] = Manifestation.count_by_solr(total_query)
-            #@tags_count = @count[:total]
+      begin
+        @count[:total] = (Sunspot.search(Manifestation) do
+          keywords total_query
+        end).total
+        #@tags_count = @count[:total]
 
-            if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-              prepare_options
-              render_facet(query)
-              return
-            end
+        if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
+          prepare_options
+          render_facet(search)
+          return
+        end
 
-            order = set_search_result_order(params[:sort], params[:mode])
-            #browse = "carrier_type_f: #{@carrier_type.name}" if @carrier_type
-            browse = ""
+        #order = set_search_result_order(params[:sort], params[:mode])
+        manifestation_ids = Manifestation.search_ids do
+          keywords query
+        #  order_by order
+          paginate :page => 1, :per_page => Manifestation.cached_numdocs
+        end
 
-            manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.cached_numdocs).results
-            if params[:view] == "tag_cloud"
-              if manifestation_ids
-                @tags = Tag.bookmarked(manifestation_ids)
-                render :partial => 'tag_cloud'
-                return
-              end
-            end
-
-            @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
-            @count[:query_result] = @manifestations.total_entries
-        
-            save_search_history(@query, @manifestations.offset, @count[:total])
-
-            if @manifestations
-              session[:manifestation_ids] = manifestation_ids
-            end
-          rescue
-            @manifestations = []
-            @count[:total] = 0
-            @count[:query_result] = 0
+        if params[:view] == "tag_cloud"
+          if manifestation_ids
+            @tags = Tag.bookmarked(manifestation_ids)
+            render :partial => 'tag_cloud'
+            return
           end
-        #end
-      else
-        # Solrを使わない場合
-        get_index_without_solr
-      end
+        end
 
+        page = params[:page] || 1
+        search.query.paginate(page.to_i, Manifestation.per_page)
+        @manifestations = search.execute!.results
+        @count[:query_result] = @manifestations.total_entries
+
+        save_search_history(@query, @manifestations.offset, @count[:total])
+
+        if @manifestations
+          session[:manifestation_ids] = manifestation_ids
+        end
+      rescue
+        @manifestations = WillPaginate::Collection.create(1, Manifestation.per_page, 0) do end
+        @count[:total] = 0
+        @count[:query_result] = 0
+      end
     end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
@@ -374,12 +371,13 @@ class ManifestationsController < ApplicationController
   private
 
   def make_query(query, options = {})
+    # TODO: integerやstringもqfに含める
     query = query.to_s.strip
-    if options[:mode] == 'recent'
-      query = "#{query} created_at: [NOW-1MONTH TO NOW]"
-    end
-    #unless options[:formtype].blank?
-    #  query = "#{query} formtype: #{options[:formtype]}"
+    #if options[:mode] == 'recent'
+    #  query = "#{query} created_at_time: [NOW-1MONTH TO NOW]"
+    #end
+    #unless options[:carrier_type].blank?
+    #  query = "#{query} carrier_type: #{options[:carrier_type]}"
     #end
 
     #unless options[:library].blank?
@@ -391,47 +389,47 @@ class ManifestationsController < ApplicationController
     #  query = "#{query} lang: #{options[:language]}"
     #end
 
-    unless options[:tag].blank?
-      query = "#{query} tag: #{options[:tag]}"
-    end
+    #unless options[:tag].blank?
+    #  query = "#{query} tag_string: #{options[:tag]}"
+    #end
 
     unless options[:author].blank?
-      query = "#{query} author: #{options[:author]}"
+      query = "#{query} author_text: #{options[:author]}"
     end
 
-    unless options[:isbn].blank?
-      query = "#{query} isbn: #{options[:isbn]}"
-    end
+    #unless options[:isbn].blank?
+    #  query = "#{query} isbn_string: #{options[:isbn]}"
+    #end
 
     unless options[:publisher].blank?
-      query = "#{query} publisher: #{options[:publisher]}"
+      query = "#{query} publisher_text: #{options[:publisher]}"
     end
 
-    unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
-      number_of_pages = {}
-      number_of_pages['at_least'] = options[:number_of_pages_at_least].to_i
-      number_of_pages['at_most'] = options[:number_of_pages_at_most].to_i
-      number_of_pages['at_least'] = "*" if number_of_pages['at_least'] == 0
-      number_of_pages['at_most'] = "*" if number_of_pages['at_most'] == 0
+    #unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
+    #  number_of_pages = {}
+    #  number_of_pages['at_least'] = options[:number_of_pages_at_least].to_i
+    #  number_of_pages['at_most'] = options[:number_of_pages_at_most].to_i
+    #  number_of_pages['at_least'] = "*" if number_of_pages['at_least'] == 0
+    #  number_of_pages['at_most'] = "*" if number_of_pages['at_most'] == 0
+    #
+    #  query = "#{query} number_of_pages: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
+    #end
 
-      query = "#{query} number_of_pages: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
-    end
-
-    unless options[:pubdate_from].blank? and options[:pubdate_to].blank?
-      pubdate = {}
-      if options[:pubdate_from].blank?
-        pubdate['from'] = "*"
-      else
-        pubdate['from'] = Time.zone.local(options[:pubdate_from]).utc.iso8601
-      end
-
-      if options[:pubdate_to].blank?
-        pubdate['to'] = "*"
-      else
-        pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
-      end
-      query = "#{query} pubdate: [#{pubdate['from']} TO #{pubdate['to']}]"
-    end
+    #unless options[:pubdate_from].blank? and options[:pubdate_to].blank?
+    #  pubdate = {}
+    #  if options[:pubdate_from].blank?
+    #    pubdate['from'] = "*"
+    #  else
+    #    pubdate['from'] = Time.zone.local(options[:pubdate_from]).utc.iso8601
+    #  end
+    #
+    #  if options[:pubdate_to].blank?
+    #    pubdate['to'] = "*"
+    #  else
+    #    pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
+    #  end
+    #  query = "#{query} pubdate: [#{pubdate['from']} TO #{pubdate['to']}]"
+    #end
 
     query = query.strip
     if query == '[* TO *]'
@@ -459,27 +457,36 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def get_facet(query)
-    result = Manifestation.find_by_solr(query, {:facets => {:zeros => false, :fields => [:formtype_f, :library_f, :language_f, :subject_f]}})
-    return result.facets["facet_fields"]
-  rescue
-    nil
+  def get_facet(search)
+    search.query.add_field_facet(:carrier_type)
+    search.query.add_field_facet(:library)
+    search.query.add_field_facet(:language)
+    search.query.add_field_facet(:subject)
+    search.execute!
   end
 
-  def render_facet(query)
-    @facet_results = get_facet(query)
-    @facet_query = query
-    unless @facet_results.blank?
+  def render_facet(search)
+    results = get_facet(search)
+    @facet_query = search.query.to_params[:q]
+    unless results.blank?
       case params[:view]
       when "all_facet"
+        @carrier_type_facet = results.facet(:carrier_type)
+        @language_facet = results.facet(:language)
+        @library_facet = results.facet(:library)
+        @subject_facet = results.facet(:subject)
         render :partial => 'all_facet'
       when "carrier_type_facet"
+        @carrier_type_facet = results.facet(:carrier_type)
         render :partial => 'carrier_type_facet'
       when "language_facet"
+        @language_facet = results.facet(:language)
         render :partial => 'language_facet'
       when "library_facet"
+        @library_facet = results.facet(:library)
         render :partial => 'library_facet'
       when "subject_facet"
+        @subject_facet = results.facet(:subject)
         render :partial => 'subject_facet'
       else
         render :nothing => true
@@ -518,58 +525,32 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def get_index_without_solr
-    case
-    when @patron
-      @manifestations = @patron.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['produces.id'])
-    when @expression
-      @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['embodies.id'])
-    when @manifestation
-      if params[:mode] == 'add'
-        @manifestations = Manifestation.paginate(:all, :page => params[:page], :order => 'manifestations.id')
-      else
-        @manifestations = @manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id DESC')
-      end
-    when @subscription
-      @manifestations = @subscription.manifestations.paginate(:page => params[:page], :include => :carrier_type, :order => ['manifestations.id'])
-    else
-      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :carrier_type, :order => ['manifestations.id'])
-      @manifestations = WillPaginate::Collection.create(1, 1, 0) do |pager| pager.replace([]) end
-    end
-    @count[:total] = @manifestations.size
-    @count[:query_result] = @manifestations.size
-    #flash[:notice] = ('Enter your search term.')
-  end
-
-  def make_internal_query(query)
+  def make_internal_query(search)
     # 内部的なクエリ
     unless params[:mode] == "add"
-      query.add_query!(@expression) unless @expression.blank?
-      query.add_query!(@patron) unless @patron.blank?
+      search.query.add_restriction(:expression_id, :equal_to, @expression.id) if @expression
+      search.query.add_restriction(:patron_id, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:original_manifestation_ids, :equal_to, @manifestation.id) if @manifestation
       unless @subscription.blank?
-        query.add_query!(@subscription)
-        query = "#{query} subscription_master: true"
+        search.query.add_restriction(:subscription_id, :equal_to, @subscription.id)
+        search.query.add_restriction(:subscription_master, :equal_to, true)
       end
-      query = "#{query} original_manifestation_ids: #{carrier_type.name}" if @manifestation
     end
-    if @reservable
-      query = "#{query} reservable: true"
-    end
-    #query.add_query!(@carrier_type) unless @carrier_type.blank?
-    query.add_query!(@subject_by_term) unless @subject_by_term.blank?
-    unless params[:formtype].blank?
-      carrier_type = CarrierType.find(:first, :conditions => {:name => params[:formtype]})
-      query = "#{query} formtype: #{carrier_type.name}"
+    search.query.add_restriction(:reservable, :equal_to, true) if @reservable
+    search.query.add_restriction(:subject, :equal_to, @subject_by_term) if @subject_by_term
+    unless params[:carrier_type].blank?
+      carrier_type = CarrierType.find(:first, :conditions => {:name => params[:carrier_type]})
+      search.query.keywords = "#{search.query.to_params[:q]} carrier_type: (#{carrier_type.name})"
     end
     unless params[:library].blank?
       library_list = params[:library].split.uniq.join(' ')
-      query = "#{query} library: (#{library_list})"
+      search.query.keywords = "#{search.query.to_params[:q]} library: (#{library_list})"
     end
     unless params[:language].blank?
       language_list = params[:language].split.uniq.join(' ')
-      query = "#{query} lang: (#{language_list})"
+      search.query.keywords = "#{search.query.to_params[:q]} language: (#{language_list})"
     end
-    return query
+    return search
   end
 
   def prepare_options
@@ -582,7 +563,7 @@ class ManifestationsController < ApplicationController
   def save_search_history(query, offset = 0, total = 0)
     check_dsbl if LibraryGroup.site_config.use_dsbl
     if logged_in?
-      SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+      @history = SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end
   end
 
@@ -596,4 +577,7 @@ class ManifestationsController < ApplicationController
     Manifestation.search_worldcat(:query => query, :page => search_options[:page], :per_page => search_options[:per_page])
   end
 
+  def get_subject_by_term
+    @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
+  end
 end

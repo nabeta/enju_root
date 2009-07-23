@@ -24,7 +24,7 @@ class NewsFeedTest < ActiveSupport::TestCase
   #  assert news_feeds(:news_feed_00005).content
   #end
 
-  def test_should_get_local_feed
-    assert news_feeds(:news_feed_00006).content
-  end
+  #def test_should_get_local_feed
+  #  assert news_feeds(:news_feed_00006).content
+  #end
 end

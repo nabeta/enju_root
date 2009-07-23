@@ -40,19 +40,36 @@ class Patron < ActiveRecord::Base
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
 
-  acts_as_solr :fields => [
-    :name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2,
-    :address_1_note, :address_2_note, :other_designation,
-    {:created_at => :date}, {:updated_at => :date},
-    {:date_of_birth => :date}, {:date_of_death => :date},
-    {:work_ids => :integer}, {:expression_ids => :integer},
-    {:manifestation_ids => :integer}, {:patron_type_id => :integer},
-    {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer},
-    {:original_patron_ids => :integer}
-  ],
-    :facets => [:patron_type_id, :date_of_birth],
-    :offline => proc{|patron| !patron.indexing},
-    :auto_commit => false
+  searchable do
+    text :name, :place, :address_1, :address_2, :other_designation
+    string :zip_code_1
+    string :zip_code_2
+    time :created_at
+    time :updated_at
+    time :date_of_birth
+    time :date_of_death
+    integer :work_ids, :multiple => true
+    integer :expression_ids, :multiple => true
+    integer :manifestation_ids, :multiple => true
+    integer :patron_merge_list_ids, :multiple => true
+    integer :original_patron_ids, :multiple => true
+    integer :required_role_id
+    integer :patron_type_id
+  end
+
+  #acts_as_solr :fields => [
+  #  :name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2,
+  #  :address_1_note, :address_2_note, :other_designation,
+  #  {:created_at => :date}, {:updated_at => :date},
+  #  {:date_of_birth => :date}, {:date_of_death => :date},
+  #  {:work_ids => :integer}, {:expression_ids => :integer},
+  #  {:manifestation_ids => :integer}, {:patron_type_id => :integer},
+  #  {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer},
+  #  {:original_patron_ids => :integer}
+  #],
+  #  :facets => [:patron_type_id, :date_of_birth],
+  #  :offline => proc{|patron| !patron.indexing},
+  #  :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
 

@@ -10,40 +10,23 @@ class WorksController < ApplicationController
   # GET /works.xml
   def index
     query = params[:query].to_s.strip
+    search = Sunspot.new_search(Work)
+    @count = {}
     unless query.blank?
-      @count = {}
       @query = query.dup
       query = query.gsub('　', ' ')
-      unless params[:mode] == 'add'
-        query.add_query!(@patron) if @patron
-        query.add_query!(@subject) if @subject
-        query += " original_work_ids: #{@work.id}" if @work
-        query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
-      end
-      @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
-      @count[:total] = @works.total_entries
-    else
-      case
-      when @patron
-        @works = @patron.works.paginate(:page => params[:page], :order => 'works.id')
-      when @work
-        if params[:mode] == 'add'
-          @works = Work.paginate(:page => params[:page], :order => 'works.id DESC')
-        else
-          @works = @work.derived_works.paginate(:page => params[:page], :order => 'works.id')
-        end
-      when @subject
-        if params[:mode] == 'add'
-          @works = Work.paginate(:page => params[:page], :order => 'works.id DESC')
-        else
-          @works = @subject.works.paginate(:page => params[:page], :order => 'works.id', :total_entries => @subject.resource_has_subjects.size)
-        end
-      when @work_merge_list
-        @works = @work_merge_list.works.paginate(:page => params[:page])
-      else
-        @works = Work.paginate(:all, :page => params[:page], :order => 'works.id')
-      end
+      search.query.keywords = query
     end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:subject_ids, :equal_to, @subject.id) if @subject
+      search.query.add_restriction(:original_work_ids, :equal_to, @work.id) if @work
+      search.query.add_restriction(:work_merge_ids, :equal_to, @work_merge_list.id) if @work_merge_list
+    end
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Work.per_page)
+    @works = search.execute!.results
+    @count[:total] = @works.total_entries
 
     respond_to do |format|
       format.html # index.rhtml

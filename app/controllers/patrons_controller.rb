@@ -18,55 +18,34 @@ class PatronsController < ApplicationController
     query = params[:query].to_s.strip
     @query = query.dup
     query = query.gsub('　', ' ')
-
-    if params[:mode] == 'recent'
-      query = "#{query} created_at: [NOW-1MONTH TO NOW]"
-    end
-
-    browse = nil
     order = nil
     @count = {}
 
+    search = Sunspot.new_search(Patron)
+
+    if params[:mode] == 'recent'
+      query = "#{query} created_at_time: [NOW-1MONTH TO NOW]"
+    end
+    unless query.blank?
+      search.query.keywords = query
+    end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
+      search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
+      search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
+      search.query.add_restriction(:original_patron_ids, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:patron_merge_ids, :equal_to, @patron_merge_list.id) if @patron_merge_list
+    end
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " required_role_id: [* TO 2]"
-      end
-    else
-      query += " required_role_id: 1"
-    end
-
-    unless query.blank?
-      unless params[:mode] == 'add'
-        query.add_query!(@work) if @work
-        query.add_query!(@expression) if @expression
-        query.add_query!(@manifestation) if @manifestation
-        query += " original_patron_ids: #{@patron.id}" if @patron
-        query += " patron_merge_list_ids: #{@patron_merge_list.id}" if @patron_merge_list
-      end
-
-      @patrons = Patron.paginate_by_solr(query, :order => order, :page => params[:page]).compact
-      @count[:query_result] = @patrons.total_entries
-    else
-      case
-      when @work
-        @patrons = @work.patrons.paginate(:page => params[:page])
-      when @expression
-        @patrons = @expression.patrons.paginate(:page => params[:page])
-      when @manifestation
-        @patrons = @manifestation.patrons.paginate(:page => params[:page])
-      when @patron
-        if params[:mode] == 'add'
-          @patrons = Patron.paginate(:all, :page => params[:page])
-        else
-          @patrons = @patron.derived_patrons.paginate(:page => params[:page])
-        end
-      when @patron_merge_list
-        @patrons = @patron_merge_list.patrons.paginate(:page => params[:page])
+        search.query.add_restriction(:required_role_id, :less_than, 2)
       else
-        @patrons = Patron.paginate(:all, :page => params[:page])
+        search.query.add_restriction(:required_role_id, :equal_to, 1)
       end
-
     end
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Patron.per_page)
+    @patrons = search.execute!.results
 
     respond_to do |format|
       format.html # index.rhtml

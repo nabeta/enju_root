@@ -36,19 +36,19 @@ class Expression < ActiveRecord::Base
     integer :expression_form_id
     integer :language_id
     integer :required_role_id
-    integer :original_expression_ids
+    integer :original_expression_ids, :multiple => true
   end
   acts_as_tree
-  acts_as_solr :fields => [:title, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
-    {:work_id => :integer}, {:manifestation_ids => :integer},
-    {:patron_ids => :integer},
-    {:required_role_id => :range_integer},
-    {:expression_merge_list_ids => :integer},
-    {:original_expression_ids => :integer}],
-    :facets => [:expression_form_id, :language_id],
-    :offline => proc{|expression| !expression.indexing},
-    :auto_commit => false
-  acts_as_soft_deletable
+  #acts_as_solr :fields => [:title, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
+  #  {:work_id => :integer}, {:manifestation_ids => :integer},
+  #  {:patron_ids => :integer},
+  #  {:required_role_id => :range_integer},
+  #  {:expression_merge_list_ids => :integer},
+  #  {:original_expression_ids => :integer}],
+  #  :facets => [:expression_form_id, :language_id],
+  #  :offline => proc{|expression| !expression.indexing},
+  #  :auto_commit => false
+  #acts_as_soft_deletable
   enju_cinii
 
   cattr_accessor :per_page

@@ -7,32 +7,22 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.xml
   def index
+    search = Sunspot.new_search(Subject)
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-      unless params[:mode] == 'add'
-        query.add_query!(@work) if @work
-        query.add_query!(@classification) if @classification
-        query.add_query!(@subject_heading_type) if @subject_heading_type
-      end
-      @subjects = Subject.paginate_by_solr(query, :page => params[:page]).compact
-    else
-      case
-      when @work
-        if params[:mode] == 'add'
-          @subjects = Subject.paginate(:page => params[:page], :order => 'subjects.id DESC')
-        else
-          @subjects = @work.subjects.paginate(:page => params[:page], :order => 'subjects.id', :total_entries => @work.resource_has_subjects.size)
-        end
-      when @classification
-        @subjects = @classification.subjects.paginate(:page => params[:page], :order => 'subjects.id')
-      when @subject_heading_type
-        @subjects = @subject_heading_type.subjects.paginate(:page => params[:page], :order => 'subjects.id')
-      else
-        @subjects = Subject.paginate(:all, :page => params[:page], :order => 'subjects.id')
-      end
+      search.query.keywords = query
     end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
+      search.query.add_restriction(:classification_ids, :equal_to, @classification.id) if @classification
+      search.query.add_restriction(:subject_heading_type_ids, :equal_to, @subject_heading_type.id) if @subject_heading_type
+    end
+
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Subject.per_page)
+    @subjects = search.execute!.results
     session[:params] = {} unless session[:params]
     session[:params][:subject] = params
 

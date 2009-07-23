@@ -56,11 +56,16 @@ class Manifestation < ActiveRecord::Base
     string :lccn
     string :nbn
     string :tag, :multiple => true
-    string :formtype
+    string :carrier_type do
+      carrier_type.name
+    end
     string :library, :multiple => true
-    string :lang, :multiple => true
+    string :language, :multiple => true do
+      language.name
+    end
     string :shelf, :multiple => true
     string :user, :multiple => true
+    string :subject, :multiple => true
     string :sort_title
     time :created_at
     time :updated_at
@@ -71,6 +76,7 @@ class Manifestation < ActiveRecord::Base
     integer :expression_ids, :multiple => true
     integer :subscription_ids, :multiple => true
     integer :required_role_id
+    integer :carrier_type_id
     integer :height
     integer :width
     integer :depth
@@ -82,31 +88,31 @@ class Manifestation < ActiveRecord::Base
     boolean :subscription_master
   end
 
-  acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
-    :title, :author, :publisher, :access_address,
-    :isbn, :isbn10, {:wrong_isbn => :string}, :lccn,
-    {:nbn => :string}, :issn, :tag, :fulltext,
-    {:formtype => :string}, {:formtype_f => :facet},
-    {:library => :string}, {:library_f => :facet},
-    {:lang => :string}, {:language_f => :facet},
-    :subject, :subject_f,
-    :related_titles, :patron, {:shelf => :string},
-    {:pubdate => :date}, {:number_of_pages => :range_integer},
-    {:height => :range_float}, {:width => :range_float},
-    {:depth => :range_float}, {:sort_title => :string}, :note,
-    {:volume_number => :range_integer}, {:issue_number => :range_integer},
-    {:expression_ids => :integer}, {:patron_ids => :integer},
-    {:serial_number => :range_integer},
-    {:user => :string}, {:price => :range_float},
-    {:required_role_id => :range_integer}, {:reservable => :boolean},
-    {:original_manifestation_ids => :integer},
-    {:subscription_ids => :integer},
-    {:subscription_master => :boolean},
-  ],
-    :facets => [:formtype_f, :subject_f, :language_f, :library_f],
-    #:if => proc{|manifestation| !manifestation.serial?},
-    :offline => proc{|manifestation| !manifestation.indexing},
-    :auto_commit => false
+  #acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
+  #  :title, :author, :publisher, :access_address,
+  #  :isbn, :isbn10, {:wrong_isbn => :string}, :lccn,
+  #  {:nbn => :string}, :issn, :tag, :fulltext,
+  #  {:carrier_type => :string}, {:carrier_type_f => :facet},
+  #  {:library => :string}, {:library_f => :facet},
+  #  {:lang => :string}, {:language_f => :facet},
+  #  :subject, :subject_f,
+  #  :related_titles, :patron, {:shelf => :string},
+  #  {:pubdate => :date}, {:number_of_pages => :range_integer},
+  #  {:height => :range_float}, {:width => :range_float},
+  #  {:depth => :range_float}, {:sort_title => :string}, :note,
+  #  {:volume_number => :range_integer}, {:issue_number => :range_integer},
+  #  {:expression_ids => :integer}, {:patron_ids => :integer},
+  #  {:serial_number => :range_integer},
+  #  {:user => :string}, {:price => :range_float},
+  #  {:required_role_id => :range_integer}, {:reservable => :boolean},
+  #  {:original_manifestation_ids => :integer},
+  #  {:subscription_ids => :integer},
+  #  {:subscription_master => :boolean},
+  #],
+  #  :facets => [:carrier_type_f, :subject_f, :language_f, :library_f],
+  #  #:if => proc{|manifestation| !manifestation.serial?},
+  #  :offline => proc{|manifestation| !manifestation.indexing},
+  #  :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
   enju_twitter
@@ -160,13 +166,13 @@ class Manifestation < ActiveRecord::Base
   end
 
   def after_save
-    send_later(:solr_commit)
+  #  send_later(:solr_commit)
     send_later(:expire_cache)
     send_later(:generate_fragment_cache)
   end
 
   def after_destroy
-    send_later(:solr_commit)
+  #  send_later(:solr_commit)
     Rails.cache.delete("Manifestation:numdocs")
     send_later(:expire_cache)
   end
@@ -179,7 +185,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def self.cached_numdocs
-    Rails.cache.fetch("Manifestation:numdocs"){Manifestation.numdocs}
+    Rails.cache.fetch("Manifestation:numdocs"){Manifestation.search.total}
   end
 
   def full_title
@@ -359,14 +365,6 @@ class Manifestation < ActiveRecord::Base
     self.title_transcription
   end
 
-  def formtype
-    self.carrier_type.name
-  end
-  
-  def formtype_f
-    formtype
-  end
-
   def subjects
     works.collect(&:subjects).flatten
   end
@@ -375,20 +373,12 @@ class Manifestation < ActiveRecord::Base
     subjects.collect(&:term) + subjects.collect(&:term_transcription)
   end
 
-  def subject_f
-    subjects.collect(&:term)
-  end
-
   def library
     library_names = []
     self.items.each do |item|
       library_names << item.shelf.library.name
     end
     library_names.uniq
-  end
-
-  def library_f
-    library
   end
 
   def volume_number
@@ -421,10 +411,6 @@ class Manifestation < ActiveRecord::Base
 
   def lang
     languages.collect(&:name)
-  end
-
-  def language_f
-    lang
   end
 
   def number_of_contents
@@ -516,7 +502,12 @@ class Manifestation < ActiveRecord::Base
     resource = nil
     # TODO: ヒット件数が0件のキーワードがあるときに指摘する
     if keyword
-      resource = self.find(self.find_id_by_solr(keyword, :limit => self.cached_numdocs).results.sort_by{rand}.first) rescue nil
+      response = Sunspot.search(Manifestation) do
+        keywords keyword
+        order_by_random
+        paginate :page => 1, :per_page => 1
+      end
+      resource = response.results.first
     end
     if resource.nil?
       while resource.nil?
