@@ -29,8 +29,12 @@ class ExpressionsController < ApplicationController
 
     end
     page = params[:page] || 1
-    search.query.paginate(params.to_i, Expression.per_page)
-    @expressions = search.execute!.results
+    search.query.paginate(page.to_i, Expression.per_page)
+    begin
+      @expressions = search.execute!.results
+    rescue
+      @expressions = WillPaginate::Collection.create(1,1,0) do end
+    end
     @count[:total] = @expressions.total_entries
 
     respond_to do |format|
@@ -108,9 +112,9 @@ class ExpressionsController < ApplicationController
     params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
     @expression = Expression.new(params[:expression])
 
-    @expression.indexing = true
     respond_to do |format|
       if @expression.save
+        @expression.index
         Expression.transaction do
           @work.expressions << @expression
           #if @expression.serial?
@@ -140,9 +144,9 @@ class ExpressionsController < ApplicationController
     @expression = Expression.find(params[:id])
     params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
 
-    @expression.indexing = true
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
+        @expression.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
@@ -158,8 +162,8 @@ class ExpressionsController < ApplicationController
   # DELETE /expressions/1.xml
   def destroy
     @expression = Expression.find(params[:id])
-    @expression.indexing = true
     @expression.destroy
+    @expression.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to expressions_url }

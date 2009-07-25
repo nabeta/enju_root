@@ -40,10 +40,13 @@ class Patron < ActiveRecord::Base
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
 
-  searchable do
+  searchable :auto_index => false do
     text :name, :place, :address_1, :address_2, :other_designation
     string :zip_code_1
     string :zip_code_2
+    string :login do
+      user.login if user
+    end
     time :created_at
     time :updated_at
     time :date_of_birth
@@ -57,25 +60,12 @@ class Patron < ActiveRecord::Base
     integer :patron_type_id
   end
 
-  #acts_as_solr :fields => [
-  #  :name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2,
-  #  :address_1_note, :address_2_note, :other_designation,
-  #  {:created_at => :date}, {:updated_at => :date},
-  #  {:date_of_birth => :date}, {:date_of_death => :date},
-  #  {:work_ids => :integer}, {:expression_ids => :integer},
-  #  {:manifestation_ids => :integer}, {:patron_type_id => :integer},
-  #  {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer},
-  #  {:original_patron_ids => :integer}
-  #],
-  #  :facets => [:patron_type_id, :date_of_birth],
-  #  :offline => proc{|patron| !patron.indexing},
-  #  :auto_commit => false
   #acts_as_soft_deletable
   acts_as_tree
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :indexing, :user_id
+  attr_accessor :user_id
 
   def before_validation_on_create
     self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?

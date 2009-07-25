@@ -10,7 +10,7 @@ class Advertisement < ActiveRecord::Base
   validates_presence_of :title, :body, :started_at, :ended_at
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
-  searchable do
+  searchable :auto_index => false do
     text :title, :body, :note, :url
     string :url
     time :created_at
@@ -18,7 +18,6 @@ class Advertisement < ActiveRecord::Base
     time :started_at
     time :ended_at
   end
-  #acts_as_solr :fields => [:title, :body, {:url => :string}, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
   #acts_as_soft_deletable
 
   @@per_page = 10

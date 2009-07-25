@@ -35,7 +35,7 @@ class Subject < ActiveRecord::Base
   validates_associated :use_term, :subject_type
   validates_presence_of :term, :subject_type
 
-  searchable do
+  searchable :auto_index => false do
     text :term, :term_transcription, :note
     string :term
     time :created_at
@@ -44,11 +44,7 @@ class Subject < ActiveRecord::Base
     integer :classification_ids, :multiple => true
     integer :subject_heading_type_ids, :multiple => true
   end
-  #acts_as_solr :fields => [:term, :term_transcription, :note,
-  #  {:work_ids => :integer}, {:classification_ids => :integer},
-  #  {:subject_heading_type_ids => :integer}],
-  #  #:offline => true,
-  #  :auto_commit => false
+  #acts_as_soft_deletable
   acts_as_tree
 
   @@per_page = 10

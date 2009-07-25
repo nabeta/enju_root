@@ -144,9 +144,9 @@ class ItemsController < ApplicationController
     @item = Item.new(params[:item])
     @item.item_identifier = @item.item_identifier.to_s.strip
 
-    @item.indexing = true
     respond_to do |format|
       if @item.save
+        @item.index
         Item.transaction do
           @manifestation.items << @item
           @item.reload
@@ -177,9 +177,9 @@ class ItemsController < ApplicationController
   def update
     @item = Item.find(params[:id])
 
-    @item.indexing = true
     respond_to do |format|
       if @item.update_attributes(params[:item])
+        @item.index
         if @item.shelf
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
@@ -207,8 +207,8 @@ class ItemsController < ApplicationController
   # DELETE /items/1.xml
   def destroy
     @item = Item.find(params[:id])
-    @item.indexing = true
     @item.destroy
+    @item.remove_from_index
 
     respond_to do |format|
       if @item.manifestation

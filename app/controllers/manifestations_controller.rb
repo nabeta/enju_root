@@ -24,11 +24,11 @@ class ManifestationsController < ApplicationController
 
       @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
 
-      query = params[:query].to_s
-      #query = make_query(params[:query], {
+      #query = params[:query].to_s
+      query = make_query(params[:query], {
       #  :mode => params[:mode],
       #  :sort => params[:sort],
-      #  :tag => params[:tag],
+        :tag => params[:tag],
       #  :author => params[:author],
       #  :publisher => params[:publisher],
       #  :isbn => params[:isbn],
@@ -36,7 +36,7 @@ class ManifestationsController < ApplicationController
       #  :pubdate_to => params[:pubdate_to],
       #  :number_of_pages_at_least => params[:number_of_pages_at_least],
       #  :number_of_pages_at_most => params[:number_of_pages_at_most],
-      #})
+      })
       #session[:manifestation_ids] = [] unless session[:manifestation_ids]
       #session[:params] = {} unless session[:params]
       #session[:params][:manifestation] = params.merge(:view => nil)
@@ -53,7 +53,7 @@ class ManifestationsController < ApplicationController
       # 絞り込みを行わない状態のクエリ
       @query = query.dup
       query = query.gsub('　', ' ')
-      total_query = query
+      total_query = query.dup
       search.query.keywords = query
 
       unless query.blank?
@@ -74,7 +74,7 @@ class ManifestationsController < ApplicationController
         #  end
         #end
         #unless params[:mode] == "worldcat"
-      begin
+      #begin
         @count[:total] = (Sunspot.search(Manifestation) do
           keywords total_query
         end).total
@@ -111,11 +111,11 @@ class ManifestationsController < ApplicationController
         if @manifestations
           session[:manifestation_ids] = manifestation_ids
         end
-      rescue
-        @manifestations = WillPaginate::Collection.create(1, Manifestation.per_page, 0) do end
-        @count[:total] = 0
-        @count[:query_result] = 0
-      end
+      #rescue
+      #  @manifestations = WillPaginate::Collection.create(1, Manifestation.per_page, 0) do end
+      #  @count[:total] = 0
+      #  @count[:query_result] = 0
+      #end
     end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
@@ -220,8 +220,8 @@ class ManifestationsController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
+  #rescue ActiveRecord::RecordNotFound
+  #  not_found
   end
 
   # GET /manifestations/new
@@ -293,9 +293,9 @@ class ManifestationsController < ApplicationController
       last_issue = @expression.last_issue if @expression
     end
 
-    @manifestation.indexing = true
     respond_to do |format|
       if @manifestation.save
+        @manifestation.index
         Manifestation.transaction do
           # 雑誌の場合、出版者を自動的に追加
           if @expression
@@ -335,9 +335,9 @@ class ManifestationsController < ApplicationController
     @manifestation = Manifestation.find(params[:id])
     params[:isbn] = params[:isbn].gsub(/\D/, "") if params[:isbn]
     
-    @manifestation.indexing = true
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
+        @manifestation.index
         @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
@@ -358,8 +358,8 @@ class ManifestationsController < ApplicationController
   # DELETE /manifestations/1.xml
   def destroy
     @manifestation = Manifestation.find(params[:id])
-    @manifestation.indexing = true
     @manifestation.destroy
+    @manifestation.remove_from_index
     flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.manifestation'))
 
     respond_to do |format|
@@ -389,9 +389,9 @@ class ManifestationsController < ApplicationController
     #  query = "#{query} lang: #{options[:language]}"
     #end
 
-    #unless options[:tag].blank?
-    #  query = "#{query} tag_string: #{options[:tag]}"
-    #end
+    unless options[:tag].blank?
+      query = "#{query} tag_text: #{options[:tag]}"
+    end
 
     unless options[:author].blank?
       query = "#{query} author_text: #{options[:author]}"

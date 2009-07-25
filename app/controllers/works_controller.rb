@@ -25,7 +25,11 @@ class WorksController < ApplicationController
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Work.per_page)
-    @works = search.execute!.results
+    begin
+      @works = search.execute!.results
+    rescue
+      @works = WillPaginate::Collection.create(1,1,0) do end
+    end
     @count[:total] = @works.total_entries
 
     respond_to do |format|
@@ -83,9 +87,9 @@ class WorksController < ApplicationController
   def create
     @work = Work.new(params[:work])
 
-    @work.indexing = true
     respond_to do |format|
       if @work.save
+        @work.index
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
         if @patron
           @patron.works << @work
@@ -107,9 +111,9 @@ class WorksController < ApplicationController
   def update
     @work = Work.find(params[:id])
 
-    @work.indexing = true
     respond_to do |format|
       if @work.update_attributes(params[:work])
+        @work.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
         format.xml  { head :ok }
@@ -126,8 +130,8 @@ class WorksController < ApplicationController
   # DELETE /works/1.xml
   def destroy
     @work = Work.find(params[:id])
-    @work.indexing = true
     @work.destroy
+    @work.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to works_url }

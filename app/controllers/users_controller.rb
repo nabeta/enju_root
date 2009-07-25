@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   ssl_allowed :index, :new, :edit, :create, :update, :destroy
 
   def index
-    query = params[:query] ||= nil
+    query = params[:query].to_s
     @query = query.dup
     @count = {}
     user_ids = User.search_ids do
@@ -152,6 +152,7 @@ class UsersController < ApplicationController
 
     #@user.update_attributes(params[:user]) do |result|
     @user.save do |result|
+      @user.index
       respond_to do |format|
         #if @user.update_attributes(params[:user])
         if result
@@ -221,6 +222,7 @@ class UsersController < ApplicationController
     @user.activate
 
     @user.save do |result|
+      @user.index
       respond_to do |format|
         if result
           flash[:temporary_password] = @user.password
@@ -286,6 +288,7 @@ class UsersController < ApplicationController
     end
 
     @user.destroy
+    @user.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to(users_url) }

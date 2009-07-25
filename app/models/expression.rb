@@ -25,8 +25,11 @@ class Expression < ActiveRecord::Base
   validates_associated :expression_form, :language
   validates_presence_of :expression_form, :language
   
-  searchable do
-    text :title, :summarization, :context, :note, :author
+  searchable :auto_index => false do
+    text :title, :summarization, :context, :note
+    text :author do
+      authors.collect(&:full_name) + authors.collect(&:full_name_transcription) if authors
+    end
     time :created_at
     time :updated_at
     integer :patron_ids, :multiple => true
@@ -39,21 +42,11 @@ class Expression < ActiveRecord::Base
     integer :original_expression_ids, :multiple => true
   end
   acts_as_tree
-  #acts_as_solr :fields => [:title, :summarization, :context, :note, {:created_at => :date}, {:updated_at => :date}, :author,
-  #  {:work_id => :integer}, {:manifestation_ids => :integer},
-  #  {:patron_ids => :integer},
-  #  {:required_role_id => :range_integer},
-  #  {:expression_merge_list_ids => :integer},
-  #  {:original_expression_ids => :integer}],
-  #  :facets => [:expression_form_id, :language_id],
-  #  :offline => proc{|expression| !expression.indexing},
-  #  :auto_commit => false
   #acts_as_soft_deletable
   enju_cinii
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :indexing
 
   def title
     title_array = titles
@@ -74,12 +67,7 @@ class Expression < ActiveRecord::Base
   end
 
   def authors
-    self.reload
     self.work.patrons if self.work
-  end
-
-  def author
-    authors.collect(&:full_name) + authors.collect(&:full_name_transcription) if authors
   end
 
   def last_issue

@@ -2,7 +2,7 @@
 <%- unless @subject_facet.rows.blank? -%>
 <ul>
   <%- @subject_facet.rows[0..19].each do |facet| -%>
-    <%- subject = Subject.find(facet.value) -%>
+    <%- subject = Subject.find(:first, :conditions => {:term => facet.value}) -%>
     <li>
       <%= link_to "#{h(subject.term)} (#{facet.count})", url_for(:params => params.merge(:page => nil, :subject => h(subject.term), :view => nil)) -%>
     </li>
