@@ -54,10 +54,11 @@ namespace :enju do
     end
   end
 
-  desc 'Expire sessions.'
-  task :expire_session do
-    expire_sessions(1.week.from_now)
-    puts "expired sessions!"
+  desc 'Rebuild solr index.'
+    task :reindex do
+      %w(Patron Work Expression Manifestation Item Subject Question).each do |class_name|
+      Object.const_get(class_name).reindex
+    end
   end
 
 end
