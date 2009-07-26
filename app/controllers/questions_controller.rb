@@ -10,48 +10,29 @@ class QuestionsController < ApplicationController
     session[:params][:question] = params
 
     @count = {}
-    @refkyo_count = 0
 
-    crd_startrecord = (params[:crd_page].to_i - 1) * Question.crd_per_page + 1
-    if crd_startrecord < 1
-      crd_startrecord = 1
-    end
-
+    search = Sunspot.new_search(Question)
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-
-      if @user
-        if logged_in?
-          query = "#{query} login: #{@user.login}" unless current_user.has_role?('Librarian')
-        end
-      end
-
-      @questions = Question.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-      if params[:crd_page]
-        crd_page = params[:crd_page].to_i
-      else
-        crd_page = 1
-      end
-      refkyo_resource = Question.search_porta(query, {:dpid => 'refkyo', :item => 'any', :raw => false, :startrecord => crd_startrecord, :per_page => Question.crd_per_page})
-      @resources = refkyo_resource.items
-      @refkyo_count = refkyo_resource.channel.totalResults.to_i
-      if @refkyo_count > 1000
-        crd_total_count = 1000
-      else
-        crd_total_count = @refkyo_count
-      end
-      @crd_results = WillPaginate::Collection.create(crd_page, Question.crd_per_page, crd_total_count) do |pager| pager.replace(@resources) end
-    else
-      if @user
-        @questions = @user.questions.paginate(:all, :page => params[:page], :order => ['questions.updated_at DESC'])
-      else
-        @questions = Question.paginate(:all, :page => params[:page], :order => ['questions.updated_at DESC'])
-      end
+      search.query.keywords = query
     end
 
-    @count[:query_result] = @questions.size
+    if @user
+      if logged_in?
+        search.query.add_restriction(:login, :equal_to, @user.login) unless current_user.has_role?('Librarian')
+      end
+    end
+    search.query.order_by(:updated_at, :desc)
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Question.per_page)
+    @questions = search.execute!.results
+    @count[:query_result] = @questions.total_entries
+
+    if query
+      search_porta_crd(query)
+    end
 
     respond_to do |format|
       format.html # index.rhtml
@@ -152,6 +133,29 @@ class QuestionsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     not_found
+  end
+
+  private
+  def search_porta_crd(query)
+    @refkyo_count = 0
+    crd_startrecord = (params[:crd_page].to_i - 1) * Question.crd_per_page + 1
+    if crd_startrecord < 1
+      crd_startrecord = 1
+    end
+    if params[:crd_page]
+      crd_page = params[:crd_page].to_i
+    else
+      crd_page = 1
+    end
+    refkyo_resource = Question.search_porta(query, {:dpid => 'refkyo', :item => 'any', :raw => false, :startrecord => crd_startrecord, :per_page => Question.crd_per_page})
+    @resources = refkyo_resource.items
+    @refkyo_count = refkyo_resource.channel.totalResults.to_i
+    if @refkyo_count > 1000
+      crd_total_count = 1000
+    else
+      crd_total_count = @refkyo_count
+    end
+    @crd_results = WillPaginate::Collection.create(crd_page, Question.crd_per_page, crd_total_count) do |pager| pager.replace(@resources) end
   end
 
 end

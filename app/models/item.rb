@@ -51,16 +51,17 @@ class Item < ActiveRecord::Base
   #acts_as_soft_deletable
   enju_union_catalog
 
-  acts_as_solr :fields => [:item_identifier, :note, :title, :author,
-    :publisher, :library, {:required_role_id => :range_integer},
-    {:original_item_ids => :integer}],
-    :facets => [:circulation_status_id],
-    #:if => proc{|item| item.indexing}, :auto_commit => false
-    :offline => proc{|item| !item.indexing}, :auto_commit => false
+  searchable :auto_index => false do
+    text :item_identifier, :note, :title, :author, :publisher, :library
+    string :item_identifier
+    string :library
+    integer :required_role_id
+    integer :original_item_ids, :multiple => true
+    integer :circulation_status_id
+  end
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :indexing
 
   #def after_create
   #  post_to_union_catalog
@@ -167,19 +168,23 @@ class Item < ActiveRecord::Base
   end
 
   def title
-    self.manifestation.original_title if self.manifestation
+    manifestation.original_title if manifestation
   end
 
   def author
-    self.manifestation.author if self.manifestation
+    manifestation.author if manifestation
   end
 
   def publisher
-    self.manifestation.publisher if self.manifestation
+    manifestation.publisher if manifestation
   end
 
   def library
-    self.shelf.library.name if self.shelf
+    shelf.library.name if shelf
+  end
+
+  def shelf_name
+    shelf.name
   end
 
   def hold?(library)

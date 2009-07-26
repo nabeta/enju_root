@@ -146,7 +146,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.find(params[:user_id]) if params[:user_id]
+    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     return @user
 
@@ -214,12 +214,6 @@ class ApplicationController < ActionController::Base
 
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
-
-  def get_subscription_list
-    @subscription_list = SubscriptionList.find(params[:subscription_list_id]) if params[:subscription_list_id]
   rescue ActiveRecord::RecordNotFound
     not_found
   end

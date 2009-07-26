@@ -8,10 +8,13 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :title, :user
   validates_associated :user
 
+  searchable :auto_index => false do
+    text :title, :note
+    time :created_at
+    time :updated_at
+    integer :manifestation_ids, :multiple => true
+  end
   #acts_as_soft_deletable
-  acts_as_solr :fields => [:title, :note,
-    {:created_at => :date}, {:updated_at => :date},
-    {:manifestation_ids => :integer}]
 
   @@per_page = 10
   cattr_accessor :per_page

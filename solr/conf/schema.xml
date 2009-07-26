@@ -26,7 +26,7 @@
     <field indexed='true' multiValued='false' name='id' stored='true' type='string' />
     <field indexed='true' multiValued='true' name='type' stored='false' type='string' />
     <field indexed='true' multiValued='false' name='class_name' stored='false' type='string' />
-    <field indexed='true' multiValued='true' name='text' stored='false' type='text' />
+    <field indexed='true' multiValued='true' name='text' stored='true' type='text' />
     <dynamicField indexed='true' multiValued='true' name='*_text' stored='false' type='text' />
     <dynamicField indexed='true' name='random_*' stored='false' type='rand' />
     <dynamicField indexed='true' multiValued='false' name='*_b' stored='false' type='boolean' />
@@ -49,9 +49,28 @@
     <dynamicField indexed='true' multiValued='true' name='*_dms' stored='true' type='date' />
     <dynamicField indexed='true' multiValued='true' name='*_ims' stored='true' type='sint' />
     <dynamicField indexed='true' multiValued='true' name='*_sms' stored='true' type='string' />
+
+    <field indexed='true' multiValued='true' name='title' stored='true' type='text' />
+    <field indexed='true' multiValued='true' name='author' stored='true' type='text' />
+    <field indexed='true' multiValued='true' name='publisher' stored='true' type='text' />
+    <field indexed='true' multiValued='true' name='isbn' stored='false' type='string' />
+    <field indexed='true' multiValued='true' name='issn' stored='false' type='string' />
+    <field indexed='true' multiValued='true' name='tag' stored='true' type='string' />
+    <field indexed='true' multiValued='true' name='library' stored='true' type='string' />
+    <field indexed='true' multiValued='true' name='login' stored='true' type='string' />
+    <field indexed='true' multiValued='true' name='email' stored='true' type='string' />
   </fields>
   <uniqueKey>id</uniqueKey>
   <defaultSearchField>text</defaultSearchField>
   <solrQueryParser defaultOperator='AND' />
   <copyField dest='text' source='*_text' />
+  <copyField dest='title' source='title_text' />
+  <copyField dest='author' source='author_text' />
+  <copyField dest='publisher' source='publisher_text' />
+  <copyField dest='isbn' source='isbn_s' />
+  <copyField dest='issn' source='issn_s' />
+  <copyField dest='tag' source='tag_s' />
+  <copyField dest='library' source='library_s' />
+  <copyField dest='login' source='login_s' />
+  <copyField dest='email' source='email_s' />
 </schema>

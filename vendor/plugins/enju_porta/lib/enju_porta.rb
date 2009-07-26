@@ -50,7 +50,6 @@ module EnjuPorta
           :date_of_publication => date_of_publication,
           :nbn => nbn
         )
-        manifestation.indexing = true
         manifestation.patrons << publisher_patrons
         manifestation.save(false)
 

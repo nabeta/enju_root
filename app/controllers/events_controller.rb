@@ -14,6 +14,7 @@ class EventsController < ApplicationController
     query = params[:query].to_s.strip
     @query = query.dup
     query = query.gsub('　', ' ')
+    search = Sunspot.new_search(Event)
 
     if params[:date].present?
       date = params[:date].to_s
@@ -22,21 +23,22 @@ class EventsController < ApplicationController
       else
         @events = Event.on(date).paginate(:all, :page => params[:page])
       end
-    elsif params[:tag].present?
-      if @library.present?
-        query = params[:query] + " library_id: #{@library.id}"
+    elsif params[:tag] or params[:query]
+      search.query.add_restriction(:library_id, :equal_to, @library.id) if @library
+      if params[:tag].present?
+        tag = params[:tag].to_s
+        search.query.add_restriction(:tag, :equal_to, tag)
       end
-      query = "#{query} tag_list: #{params[:tag]}"
-      @events = Event.paginate_by_solr(query, :page => params[:page])
-    elsif params[:query].present?
-      if @library.present?
-        query = params[:query] + " library_id: #{@library.id}"
-      else
-        query = params[:query]
+      if params[:query].present?
+        query = params[:query] if params[:query].present?
+        search.query.keywords = query
       end
-      @events = Event.paginate_by_solr(query, :page => params[:page])
+      page = params[:page] || 1
+      search.query.paginate(page.to_i, Event.per_page)
+      @events = search.execute!.results
     else
       case params[:mode]
+      # TODO: Solrを使って書き直す
       when 'all'
         if @library.present?
           @events = @library.events.paginate(:page => params[:page], :order => ['started_at DESC'])
@@ -57,7 +59,7 @@ class EventsController < ApplicationController
           @events = Event.upcoming(Time.zone.now.to_s).paginate(:all, :page => params[:page], :order => ['started_at DESC'])
         end
       end
-      @count[:query_result] = @events.size
+      @count[:query_result] = @events.total_entries
     end
 
     respond_to do |format|

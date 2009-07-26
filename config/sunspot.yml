@@ -1,0 +1,19 @@
+common: &common
+  solr:
+    hostname: 127.0.0.1
+    port: 8982
+
+production:
+  <<: *common
+  solr:
+    port: 8983
+
+development:
+  <<: *common
+  solr:
+    port: 8982
+
+test:
+  <<: *common
+  solr:
+    port: 8981
