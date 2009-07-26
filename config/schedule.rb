@@ -45,13 +45,13 @@ every 1.day, :at => '1:00 am' do
   runner "ManifestationCheckoutStat.calculate_stat"
   runner "ManifestationReserveStat.calculate_stat"
   runner "BookmarkStat.calculate_stat"
-  runner "AttachmentFile.extract_text"
 end
 
 every 1.hour do
   runner "ImportedPatronFile.aasm_import!"
   runner "ImportedEventFile.aasm_import!"
   runner "ImportedResourceFile.aasm_import!"
+  runner "Rails.cache.delete('Manifestation.search.total')"
 end
 
 every 1.day, :at => '4:00 am' do
