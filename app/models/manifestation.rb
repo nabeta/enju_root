@@ -89,6 +89,7 @@ class Manifestation < ActiveRecord::Base
   has_attached_file :attachment
   has_ipaper_and_uses 'Paperclip'
   enju_scribd
+  enju_mozshot
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -608,18 +609,6 @@ class Manifestation < ActiveRecord::Base
     #self.indexed_at = Time.zone.now
     self.save(false)
     text.close
-  end
-
-  # TODO: プラグインへ移動
-  def screen_shot
-    if access_address.present?
-      url = "http://mozshot.nemui.org/shot?#{access_address}"
-      thumb = Rails.cache.fetch("manifestation_screen_shot_#{id}"){open(url).read}
-      file = Tempfile.new('thumb')
-      file.puts thumb
-      file.close
-      return file
-    end
   end
 
 end
