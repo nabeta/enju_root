@@ -1,8 +1,8 @@
 <h4><%= t('activerecord.models.library') -%></h4>
 <ul>
   <%- libraries = params[:library].to_s.split -%>
-  <%- current_libraries = libraries.dup -%>
   <%- @library_facet.rows.each do |facet| -%>
+    <%- current_libraries = libraries.dup -%>
     <li>
     <%- library = Library.find(:first, :conditions => {:name => facet.value}) -%>
       <%- if current_libraries.include?(library.name) -%><strong><%- end -%>

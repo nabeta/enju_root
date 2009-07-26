@@ -26,20 +26,22 @@ class ManifestationsController < ApplicationController
 
       #query = params[:query].to_s
       query = make_query(params[:query], {
-      #  :mode => params[:mode],
-      #  :sort => params[:sort],
+        :mode => params[:mode],
+        :sort => params[:sort],
         :tag => params[:tag],
-      #  :author => params[:author],
-      #  :publisher => params[:publisher],
-      #  :isbn => params[:isbn],
+        #:language => params[:language],
+        #:library => params[:library],
+        #:author => params[:author],
+        #:publisher => params[:publisher],
+        #:isbn => params[:isbn],
       #  :pubdate_from => params[:pubdate_from],
       #  :pubdate_to => params[:pubdate_to],
       #  :number_of_pages_at_least => params[:number_of_pages_at_least],
       #  :number_of_pages_at_most => params[:number_of_pages_at_most],
       })
-      #session[:manifestation_ids] = [] unless session[:manifestation_ids]
-      #session[:params] = {} unless session[:params]
-      #session[:params][:manifestation] = params.merge(:view => nil)
+      session[:manifestation_ids] = [] unless session[:manifestation_ids]
+      session[:params] = {} unless session[:params]
+      session[:params][:manifestation] = params.merge(:view => nil)
       if params[:reservable] == "true"
         @reservable = "true"
       end
@@ -373,33 +375,33 @@ class ManifestationsController < ApplicationController
   def make_query(query, options = {})
     # TODO: integerやstringもqfに含める
     query = query.to_s.strip
-    #if options[:mode] == 'recent'
-    #  query = "#{query} created_at_time: [NOW-1MONTH TO NOW]"
-    #end
-    #unless options[:carrier_type].blank?
-    #  query = "#{query} carrier_type: #{options[:carrier_type]}"
-    #end
+    if options[:mode] == 'recent'
+      query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
+    end
+    unless options[:carrier_type].blank?
+      query = "#{query} carrier_type_s: #{options[:carrier_type]}"
+    end
 
-    #unless options[:library].blank?
-    #  library_list = options[:library].split.uniq.join(' and ')
-    #  query = "#{query} library: #{library_list}"
-    #end
+    unless options[:library].blank?
+      library_list = options[:library].split.uniq.join(' and ')
+      query = "#{query} library_sm: #{library_list}"
+    end
 
-    #unless options[:language].blank?
-    #  query = "#{query} lang: #{options[:language]}"
-    #end
+    unless options[:language].blank?
+      query = "#{query} language_sm: #{options[:language]}"
+    end
 
     unless options[:tag].blank?
-      query = "#{query} tag_text: #{options[:tag]}"
+      query = "#{query} tag_sm: #{options[:tag]}"
     end
 
     unless options[:author].blank?
       query = "#{query} author_text: #{options[:author]}"
     end
 
-    #unless options[:isbn].blank?
-    #  query = "#{query} isbn_string: #{options[:isbn]}"
-    #end
+    unless options[:isbn].blank?
+      query = "#{query} isbn_sm: #{options[:isbn]}"
+    end
 
     unless options[:publisher].blank?
       query = "#{query} publisher_text: #{options[:publisher]}"
@@ -539,16 +541,20 @@ class ManifestationsController < ApplicationController
     search.query.add_restriction(:reservable, :equal_to, true) if @reservable
     search.query.add_restriction(:subject, :equal_to, @subject_by_term) if @subject_by_term
     unless params[:carrier_type].blank?
-      carrier_type = CarrierType.find(:first, :conditions => {:name => params[:carrier_type]})
-      search.query.keywords = "#{search.query.to_params[:q]} carrier_type: (#{carrier_type.name})"
+      search.query.add_restriction(:carrier_type, :equal_to, params[:carrier_type])
     end
     unless params[:library].blank?
-      library_list = params[:library].split.uniq.join(' ')
-      search.query.keywords = "#{search.query.to_params[:q]} library: (#{library_list})"
+      library_list = params[:library].split.uniq
+      library_list.each do |library|
+        search.query.add_restriction(:library, :equal_to, library)
+      end
+      #search.query.keywords = "#{search.query.to_params[:q]} library_s: (#{library_list})"
     end
     unless params[:language].blank?
-      language_list = params[:language].split.uniq.join(' ')
-      search.query.keywords = "#{search.query.to_params[:q]} language: (#{language_list})"
+      language_list = params[:language].split.uniq
+      language_list.each do |language|
+        search.query.add_restriction(:language, :equal_to, language)
+      end
     end
     return search
   end

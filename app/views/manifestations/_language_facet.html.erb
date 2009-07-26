@@ -1,8 +1,8 @@
 <h4><%= t('activerecord.models.language') -%></h4>
 <ul>
   <%- languages = params[:language].to_s.split -%>
-  <%- current_languages = languages.dup -%>
   <%- @language_facet.rows.each do |facet| -%>
+    <%- current_languages = languages.dup -%>
     <li>
       <%- language = Language.find(:first, :conditions => {:name => facet.value}) -%>
       <%- if current_languages.include?(language.name) -%><strong><%- end -%>

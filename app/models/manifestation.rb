@@ -43,9 +43,9 @@ class Manifestation < ActiveRecord::Base
 
   searchable :auto_index => false do
     text :title, :fulltext, :tag, :note, :author, :editor, :publisher, :subject
-    string :isbn
-    string :isbn10
-    string :wrong_isbn
+    string :isbn, :multiple => true do
+      [isbn, isbn10, wrong_isbn]
+    end
     string :lccn
     string :nbn
     string :tag, :multiple => true
@@ -53,9 +53,7 @@ class Manifestation < ActiveRecord::Base
       carrier_type.name
     end
     string :library, :multiple => true
-    string :language, :multiple => true do
-      language.name
-    end
+    string :language, :multiple => true
     string :shelf, :multiple => true
     string :user, :multiple => true
     string :subject, :multiple => true
@@ -348,6 +346,10 @@ class Manifestation < ActiveRecord::Base
     self.expressions.collect(&:language).uniq
   end
 
+  def language
+    languages.collect(&:name)
+  end
+
   def number_of_contents
     self.expressions.size - self.expressions.serials.size
   end
@@ -381,14 +383,14 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
-      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :carrier_type)
+      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :carrier_type)
+        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
       end
     end
     return manifestation
