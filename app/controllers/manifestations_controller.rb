@@ -3,7 +3,6 @@ class ManifestationsController < ApplicationController
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
-  before_filter :get_subject_by_term, :only => :index
   before_filter :get_manifestation, :only => :index
   before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
@@ -31,9 +30,11 @@ class ManifestationsController < ApplicationController
         :tag => params[:tag],
         #:language => params[:language],
         #:library => params[:library],
-        #:author => params[:author],
-        #:publisher => params[:publisher],
-        #:isbn => params[:isbn],
+        :author => params[:author],
+        :publisher => params[:publisher],
+        :isbn => params[:isbn],
+        #:subject => params[:subject],
+        #:carrier_type => params[:carrier_type],
       #  :pubdate_from => params[:pubdate_from],
       #  :pubdate_to => params[:pubdate_to],
       #  :number_of_pages_at_least => params[:number_of_pages_at_least],
@@ -382,14 +383,18 @@ class ManifestationsController < ApplicationController
       query = "#{query} carrier_type_s: #{options[:carrier_type]}"
     end
 
-    unless options[:library].blank?
-      library_list = options[:library].split.uniq.join(' and ')
-      query = "#{query} library_sm: #{library_list}"
-    end
+    #unless options[:library].blank?
+    #  library_list = options[:library].split.uniq.join(' and ')
+    #  query = "#{query} library_sm: #{library_list}"
+    #end
 
-    unless options[:language].blank?
-      query = "#{query} language_sm: #{options[:language]}"
-    end
+    #unless options[:language].blank?
+    #  query = "#{query} language_sm: #{options[:language]}"
+    #end
+
+    #unless options[:subject].blank?
+    #  query = "#{query} subject_sm: #{options[:subject]}"
+    #end
 
     unless options[:tag].blank?
       query = "#{query} tag_sm: #{options[:tag]}"
@@ -539,7 +544,6 @@ class ManifestationsController < ApplicationController
       end
     end
     search.query.add_restriction(:reservable, :equal_to, true) if @reservable
-    search.query.add_restriction(:subject, :equal_to, @subject_by_term) if @subject_by_term
     unless params[:carrier_type].blank?
       search.query.add_restriction(:carrier_type, :equal_to, params[:carrier_type])
     end
@@ -555,6 +559,10 @@ class ManifestationsController < ApplicationController
       language_list.each do |language|
         search.query.add_restriction(:language, :equal_to, language)
       end
+    end
+    unless params[:subject].blank?
+      @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
+      search.query.add_restriction(:subject, :equal_to, @subject_by_term.term)
     end
     return search
   end
@@ -583,7 +591,4 @@ class ManifestationsController < ApplicationController
     Manifestation.search_worldcat(:query => query, :page => search_options[:page], :per_page => search_options[:per_page])
   end
 
-  def get_subject_by_term
-    @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
-  end
 end
