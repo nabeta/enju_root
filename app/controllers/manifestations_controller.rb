@@ -15,18 +15,16 @@ class ManifestationsController < ApplicationController
   def index
     @seconds = Benchmark.realtime do
       @numdocs = Manifestation.cached_numdocs
-      search = Sunspot.new_search(Manifestation)
 
 	    if logged_in?
 	      @user = current_user if @user.nil?
 	    end
 
-      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
-
       #query = params[:query].to_s
       query = make_query(params[:query], {
         :mode => params[:mode],
-        :sort => params[:sort],
+        :sort_by => params[:sort_by],
+        :order => params[:order],
         :tag => params[:tag],
         #:language => params[:language],
         #:library => params[:library],
@@ -56,69 +54,77 @@ class ManifestationsController < ApplicationController
       # 絞り込みを行わない状態のクエリ
       @query = query.dup
       query = query.gsub('　', ' ')
-      total_query = query.dup
-      search.query.keywords = query
 
+      total_query = @query.dup
+      #if total_query.blank?
+      #  @count[:total] = 0
+      #else
+      @count[:total] = get_total_count(total_query)
+      #end
+      #total_query = query.dup
+      #if total_query.blank?
+      #  @count[:total] = 0
+      #else
+      #  count = Sunspot.new_search(Manifestation)
+      #  count.query.keywords = total_query
+      #  @count[:total] = count.execute!.total
+      #end
+
+      search = Sunspot.new_search(Manifestation)
+      search = make_internal_query(search)
       unless query.blank?
-        search = make_internal_query(search)
-      end 
-        #if params[:mode] == "worldcat" or params[:page].blank?
-        #
-        #  if params[:worldcat_page]
-        #    worldcat_page = params[:worldcat_page].to_i
-        #  else
-        #    worldcat_page = 1
-        #  end
-        #  @result = Rails.cache.fetch("worldcat_search_#{URI.escape(query)}_page_#{worldcat_page}", :expires_in => 1.week){search_worldcat(:query => query, :page => worldcat_page, :per_page => Manifestation.per_page)}
-        #  if @result
-        #    @worldcat_results = WillPaginate::Collection.create(worldcat_page, @result.header["itemsPerPage"].to_i, @result.header["totalResults"].to_i) do |pager| pager.replace(@result.records) end
-        #  else
-        #    @worldcat_results = []
-        #  end
-        #end
-        #unless params[:mode] == "worldcat"
-      #begin
-        @count[:total] = (Sunspot.search(Manifestation) do
-          keywords total_query
-        end).total
-        #@tags_count = @count[:total]
-
-        if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-          prepare_options
-          render_facet(search)
-          return
-        end
-
-        #order = set_search_result_order(params[:sort], params[:mode])
+        search.query.keywords = query
         manifestation_ids = Manifestation.search_ids do
           keywords query
         #  order_by order
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
         end
-
-        if params[:view] == "tag_cloud"
-          if manifestation_ids
-            @tags = Tag.bookmarked(manifestation_ids)
-            render :partial => 'tag_cloud'
-            return
-          end
-        end
-
-        page = params[:page] || 1
-        search.query.paginate(page.to_i, Manifestation.per_page)
-        @manifestations = search.execute!.results
-        @count[:query_result] = @manifestations.total_entries
-
-        save_search_history(@query, @manifestations.offset, @count[:total])
-
-        if @manifestations
-          session[:manifestation_ids] = manifestation_ids
-        end
-      #rescue
-      #  @manifestations = WillPaginate::Collection.create(1, Manifestation.per_page, 0) do end
-      #  @count[:total] = 0
-      #  @count[:query_result] = 0
+      end 
+      #if params[:mode] == "worldcat" or params[:page].blank?
+      #
+      #  if params[:worldcat_page]
+      #    worldcat_page = params[:worldcat_page].to_i
+      #  else
+      #    worldcat_page = 1
+      #  end
+      #  @result = Rails.cache.fetch("worldcat_search_#{URI.escape(query)}_page_#{worldcat_page}", :expires_in => 1.week){search_worldcat(:query => query, :page => worldcat_page, :per_page => Manifestation.per_page)}
+      #  if @result
+      #    @worldcat_results = WillPaginate::Collection.create(worldcat_page, @result.header["itemsPerPage"].to_i, @result.header["totalResults"].to_i) do |pager| pager.replace(@result.records) end
+      #  else
+      #    @worldcat_results = []
+      #  end
       #end
+      #unless params[:mode] == "worldcat"
+      #@tags_count = @count[:total]
+
+      if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
+        prepare_options
+        render_facet(search)
+        return
+      end
+
+      if params[:view] == "tag_cloud"
+        if manifestation_ids
+          @tags = Tag.bookmarked(manifestation_ids)
+          render :partial => 'tag_cloud'
+          return
+        end
+      end
+
+      sort = set_search_result_order(params[:sort_by], params[:order])
+      search.query.order_by sort[:sort_by], sort[:order]
+
+      page = params[:page] || 1
+      search.query.paginate(page.to_i, Manifestation.per_page)
+      @manifestations = search.execute!.results
+      @count[:query_result] = @manifestations.total_entries
+
+      save_search_history(@query, @manifestations.offset, @count[:query_result])
+      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
+
+      if @manifestations
+        session[:manifestation_ids] = manifestation_ids
+      end
     end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
@@ -379,9 +385,10 @@ class ManifestationsController < ApplicationController
     if options[:mode] == 'recent'
       query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
     end
-    unless options[:carrier_type].blank?
-      query = "#{query} carrier_type_s: #{options[:carrier_type]}"
-    end
+
+    #unless options[:carrier_type].blank?
+    #  query = "#{query} carrier_type_s: #{options[:carrier_type]}"
+    #end
 
     #unless options[:library].blank?
     #  library_list = options[:library].split.uniq.join(' and ')
@@ -448,20 +455,27 @@ class ManifestationsController < ApplicationController
     return query
   end
 
-  def set_search_result_order(sort, mode)
+  def set_search_result_order(sort_by, order)
+    sort = {}
     # TODO: ページ数や大きさでの並べ替え
-    if mode == 'recent'
-      order = 'created_at desc'
+    case sort_by
+    when 'title'
+      sort[:sort_by] = 'sort_title'
+      sort[:order] = 'asc'
+    when 'date'
+      sort[:sort_by] = 'date_of_publication'
+      sort[:order] = 'desc'
     else
-      case sort
-      when 'title'
-        order = 'sort_title asc'
-      when 'date'
-        order = 'pubdate desc'
-      else
-        order = 'created_at desc' # デフォルトの並び方
-      end
+      # デフォルトの並び方
+      sort[:sort_by] = 'created_at'
+      sort[:order] = 'desc'
     end
+    if order == 'asc'
+      sort[:order] = 'asc'
+    elsif order == 'desc'
+      sort[:order] = 'desc'
+    end
+    sort
   end
 
   def get_facet(search)
@@ -535,11 +549,11 @@ class ManifestationsController < ApplicationController
   def make_internal_query(search)
     # 内部的なクエリ
     unless params[:mode] == "add"
-      search.query.add_restriction(:expression_id, :equal_to, @expression.id) if @expression
-      search.query.add_restriction(:patron_id, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
+      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
       search.query.add_restriction(:original_manifestation_ids, :equal_to, @manifestation.id) if @manifestation
       unless @subscription.blank?
-        search.query.add_restriction(:subscription_id, :equal_to, @subscription.id)
+        search.query.add_restriction(:subscription_ids, :equal_to, @subscription.id)
         search.query.add_restriction(:subscription_master, :equal_to, true)
       end
     end
@@ -591,4 +605,13 @@ class ManifestationsController < ApplicationController
     Manifestation.search_worldcat(:query => query, :page => search_options[:page], :per_page => search_options[:per_page])
   end
 
+  def get_total_count(total_query)
+    if total_query.present?
+      count = Sunspot.new_search(Manifestation)
+      count.query.keywords = total_query
+      count.execute!.total
+    else
+      0
+    end
+  end
 end

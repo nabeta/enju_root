@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   include RoleRequirementSystem
   include SslRequirement
 
-  #include ExceptionNotifiable
+  include ExceptionNotifiable
 
   filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 

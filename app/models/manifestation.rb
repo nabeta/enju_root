@@ -335,10 +335,6 @@ class Manifestation < ActiveRecord::Base
     serial_number_list.gsub(/\D/, ' ').split(" ") if serial_number_list
   end
 
-  def pubdate
-    self.date_of_publication
-  end
-
   def forms
     self.expressions.collect(&:expression_form).uniq
   end

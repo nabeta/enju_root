@@ -137,10 +137,7 @@ div#content_detail{
 }
 
 div#content_list{
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 10px;
 }
 
 div#manifestation_footer{

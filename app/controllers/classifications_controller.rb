@@ -13,8 +13,8 @@ class ClassificationsController < ApplicationController
       search.query.keywords = query
     end
     unless params[:mode] == 'add'
-      search.query.add_restriction(:subject_id, :equal_to, @subject.id) if @subject
-      search.query.add_restriction(:classification_id, :equal_to, @classification.id) if @classification
+      search.query.add_restriction(:subject_ids, :equal_to, @subject.id) if @subject
+      search.query.add_restriction(:classification_type_id, :equal_to, @classification_type.id) if @classification_type
     end
 
     page = params[:page] || 1
