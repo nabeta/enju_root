@@ -74,6 +74,9 @@ class Manifestation < ActiveRecord::Base
     integer :volume_number, :multiple => true
     integer :issue_number, :multiple => true
     integer :serial_number, :multiple => true
+    integer :start_page
+    integer :end_page
+    integer :number_of_pages
     float :price
     boolean :reservable
     boolean :subscription_master
@@ -353,7 +356,7 @@ class Manifestation < ActiveRecord::Base
 
   def number_of_pages
     if self.start_page and self.end_page
-      pages = self.end_page.to_i - self.start_page.to_i + 1
+      page = self.end_page.to_i - self.start_page.to_i + 1
     end
   end
 

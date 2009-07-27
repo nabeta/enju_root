@@ -33,10 +33,10 @@ class ManifestationsController < ApplicationController
         :isbn => params[:isbn],
         #:subject => params[:subject],
         #:carrier_type => params[:carrier_type],
-      #  :pubdate_from => params[:pubdate_from],
-      #  :pubdate_to => params[:pubdate_to],
-      #  :number_of_pages_at_least => params[:number_of_pages_at_least],
-      #  :number_of_pages_at_most => params[:number_of_pages_at_most],
+        :pubdate_from => params[:pubdate_from],
+        :pubdate_to => params[:pubdate_to],
+        :number_of_pages_at_least => params[:number_of_pages_at_least],
+        :number_of_pages_at_most => params[:number_of_pages_at_most],
       })
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
@@ -390,10 +390,10 @@ class ManifestationsController < ApplicationController
     #  query = "#{query} carrier_type_s: #{options[:carrier_type]}"
     #end
 
-    #unless options[:library].blank?
-    #  library_list = options[:library].split.uniq.join(' and ')
-    #  query = "#{query} library_sm: #{library_list}"
-    #end
+    unless options[:library].blank?
+      library_list = options[:library].split.uniq.join(' and ')
+      query = "#{query} library_sm: #{library_list}"
+    end
 
     #unless options[:language].blank?
     #  query = "#{query} language_sm: #{options[:language]}"
@@ -419,31 +419,31 @@ class ManifestationsController < ApplicationController
       query = "#{query} publisher_text: #{options[:publisher]}"
     end
 
-    #unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
-    #  number_of_pages = {}
-    #  number_of_pages['at_least'] = options[:number_of_pages_at_least].to_i
-    #  number_of_pages['at_most'] = options[:number_of_pages_at_most].to_i
-    #  number_of_pages['at_least'] = "*" if number_of_pages['at_least'] == 0
-    #  number_of_pages['at_most'] = "*" if number_of_pages['at_most'] == 0
-    #
-    #  query = "#{query} number_of_pages: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
-    #end
+    unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
+      number_of_pages = {}
+      number_of_pages['at_least'] = options[:number_of_pages_at_least].to_i
+      number_of_pages['at_most'] = options[:number_of_pages_at_most].to_i
+      number_of_pages['at_least'] = "*" if number_of_pages['at_least'] == 0
+      number_of_pages['at_most'] = "*" if number_of_pages['at_most'] == 0
 
-    #unless options[:pubdate_from].blank? and options[:pubdate_to].blank?
-    #  pubdate = {}
-    #  if options[:pubdate_from].blank?
-    #    pubdate['from'] = "*"
-    #  else
-    #    pubdate['from'] = Time.zone.local(options[:pubdate_from]).utc.iso8601
-    #  end
-    #
-    #  if options[:pubdate_to].blank?
-    #    pubdate['to'] = "*"
-    #  else
-    #    pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
-    #  end
-    #  query = "#{query} pubdate: [#{pubdate['from']} TO #{pubdate['to']}]"
-    #end
+      query = "#{query} number_of_pages_i: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
+    end
+
+    unless options[:pubdate_from].blank? and options[:pubdate_to].blank?
+      pubdate = {}
+      if options[:pubdate_from].blank?
+        pubdate['from'] = "*"
+      else
+        pubdate['from'] = Time.zone.local(options[:pubdate_from]).utc.iso8601
+      end
+
+      if options[:pubdate_to].blank?
+        pubdate['to'] = "*"
+      else
+        pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
+      end
+      query = "#{query} date_of_publication_d: [#{pubdate['from']} TO #{pubdate['to']}]"
+    end
 
     query = query.strip
     if query == '[* TO *]'

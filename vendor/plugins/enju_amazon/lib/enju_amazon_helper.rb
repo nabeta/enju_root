@@ -1,5 +1,5 @@
 module EnjuAmazonHelper
-  def amazon_link(country = COUNTRY_CODE, asin = nil)
+  def amazon_link(asin, country = COUNTRY_CODE)
     return nil if asin.blank?
     case country
     when 'ca'
