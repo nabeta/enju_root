@@ -247,6 +247,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   #def test_librarian_should_not_create_manifestation_without_expression
@@ -270,6 +271,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_librarian_should_not_create_manifestation_without_title
@@ -291,6 +293,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_librarian_should_import_manifestation_with_isbn
@@ -303,6 +306,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation).nbn
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_librarian_should_not_import_manifestation_with_wrong_isbn
@@ -325,6 +329,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_guest_should_show_manifestation
@@ -460,12 +465,14 @@ class ManifestationsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :manifestation => { }
     assert_redirected_to manifestation_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
   
   def test_admin_should_update_manifestation
     UserSession.create users(:admin)
     put :update, :id => 1, :manifestation => { }
     assert_redirected_to manifestation_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
   
   def test_guest_should_not_destroy_manifestation

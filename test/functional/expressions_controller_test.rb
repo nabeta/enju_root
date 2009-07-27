@@ -146,6 +146,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Expression.count
     
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_librarian_should_create_expression_without_expression_form_id
@@ -158,6 +159,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert assigns(:expression).expression_form
     assert assigns(:expression).reify
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_librarian_should_create_expression_without_language_id
@@ -170,6 +172,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert assigns(:expression).language
     assert assigns(:expression).reify
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_admin_should_create_expression
@@ -179,6 +182,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Expression.count
     
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_guest_should_show_expression
@@ -267,12 +271,14 @@ class ExpressionsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :expression => { }
     assert_redirected_to expression_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
   
   def test_admin_should_update_expression
     UserSession.create users(:admin)
     put :update, :id => 1, :expression => { }
     assert_redirected_to expression_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
   
   def test_guest_should_not_destroy_expression
