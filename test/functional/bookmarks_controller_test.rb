@@ -111,6 +111,7 @@ class BookmarksControllerTest < ActionController::TestCase
     
     #assert_redirected_to user_bookmarked_resource_url(users(:user1).login, assigns(:bookmark).bookmarked_resource)
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
 
   def test_user_should_not_create_other_users_bookmark
@@ -122,6 +123,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
     assert_equal users(:user1), assigns(:bookmark).user
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
 
   def test_user_should_create_bookmark_with_tag_list
@@ -134,6 +136,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_nil assigns(:bookmark).bookmarked_resource.manifestation.items.first.item_identifier
     #assert_equal 1, assigns(:bookmark).bookmarked_resource.manifestation.items.size
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
 
   def test_user_should_create_bookmark_with_tag_list_include_wide_space
@@ -147,6 +150,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal 1, assigns(:bookmark).bookmarked_resource.manifestation.items.size
     #assert_redirected_to user_bookmarked_resource_url(users(:user1).login, assigns(:bookmark).bookmarked_resource)
     assert_redirected_to manifestation_url(assigns(:bookmark).bookmarked_resource.manifestation)
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
 
   def test_user_should_not_create_bookmark_without_url
@@ -245,6 +249,7 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :bookmark => { }
     assert_response :redirect
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
 
   def test_user_should_not_update_other_user_bookmark
@@ -270,6 +275,7 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => { }
     assert_response :redirect
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
   
   def test_user_should_add_tags_to_bookmark
@@ -277,6 +283,7 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => 'search', :title => 'test'}
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
     assert_equal ['search'], assigns(:bookmark).tag_list
+    assigns(:bookmark).bookmarked_resource.manifestation.remove_from_index!
   end
   
   def test_guest_should_not_destroy_bookmark

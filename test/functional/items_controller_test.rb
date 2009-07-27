@@ -154,6 +154,7 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Item.count
     
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
 
   def test_admin_should_create_item
@@ -163,6 +164,7 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Item.count
     
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
 
   def test_guest_should_show_item
@@ -251,12 +253,14 @@ class ItemsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
   
   def test_admin_should_update_item
     UserSession.create users(:admin)
     put :update, :id => 1, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
   
   def test_guest_should_not_destroy_item

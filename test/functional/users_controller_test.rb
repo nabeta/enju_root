@@ -34,6 +34,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :redirect
       assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
+    assigns(:user).remove_from_index!
   end
 
   #def test_librarian_should_not_allow_signup_without_patron_id_and_name
@@ -51,6 +52,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :redirect
       assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
+    assigns(:user).remove_from_index!
   end
 
   def test_librarian_should_require_login_on_signup
@@ -71,6 +73,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :redirect
       assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
+    assigns(:user).remove_from_index!
   end
 
   def test_librarian_should_not_require_password_confirmation_on_signup
@@ -82,6 +85,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :redirect
       assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
+    assigns(:user).remove_from_index!
   end
 
   def test_librarian_should_not_require_email_on_signup
@@ -93,6 +97,7 @@ class UsersControllerTest < ActionController::TestCase
       assert_response :redirect
       assert_redirected_to new_user_patron_url(assigns(:user).login)
     end
+    assigns(:user).remove_from_index!
   end
   
   def test_guest_should_not_get_index
@@ -124,6 +129,7 @@ class UsersControllerTest < ActionController::TestCase
     UserSession.create users(:user1)
     put :update, :id => users(:user1).login, :user => { }
     assert_redirected_to user_url(assigns(:user).login)
+    assigns(:user).remove_from_index!
   end
 
   #def test_user_should_not_update_myself_without_login
@@ -139,6 +145,7 @@ class UsersControllerTest < ActionController::TestCase
     #assert_response :success
     assert_redirected_to user_url(assigns(:user).login)
     assert assigns(:user).valid_password?('user1password')
+    assigns(:user).remove_from_index!
   end
 
   def test_user_should_update_my_password
@@ -148,6 +155,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal 'User was successfully updated.', flash[:notice]
     assert assigns(:user).valid_password?('new_user1')
     assert !assigns(:user).valid_password?('user1password')
+    assigns(:user).remove_from_index!
   end
 
   def test_user_should_not_update_my_password_without_current_password
@@ -195,6 +203,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => users(:user1).login, :user => {:keyword_list => 'test'}
     assert_redirected_to user_url(assigns(:user).login)
     assert_equal assigns(:user).keyword_list, 'test'
+    assigns(:user).remove_from_index!
   end
 
   def test_user_should_not_update_other_user
@@ -207,6 +216,7 @@ class UsersControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => users(:user1).login, :user => {:user_number => '00003', :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
+    assigns(:user).remove_from_index!
   end
 
   def test_librarian_should_not_update_other_role
@@ -221,6 +231,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => users(:user1).login, :user => {:role_id => 4, :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert assigns(:user).roles.include?(Role.find(4))
+    assigns(:user).remove_from_index!
   end
 
   def test_librarian_should_update_other_user_group
@@ -228,6 +239,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => users(:user1).login, :user => {:user_group_id => 3, :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert_equal assigns(:user).user_group_id, 3
+    assigns(:user).remove_from_index!
   end
 
   def test_librarian_should_update_other_note
@@ -235,6 +247,7 @@ class UsersControllerTest < ActionController::TestCase
     put :update, :id => users(:user1).login, :user => {:note => 'test', :locale => 'en'}
     assert_redirected_to user_url(assigns(:user).login)
     assert_equal assigns(:user).note, 'test'
+    assigns(:user).remove_from_index!
   end
 
   def test_guest_should_get_new
