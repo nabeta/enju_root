@@ -83,22 +83,6 @@ class ManifestationsController < ApplicationController
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
         end
       end 
-      #if params[:mode] == "worldcat" or params[:page].blank?
-      #
-      #  if params[:worldcat_page]
-      #    worldcat_page = params[:worldcat_page].to_i
-      #  else
-      #    worldcat_page = 1
-      #  end
-      #  @result = Rails.cache.fetch("worldcat_search_#{URI.escape(query)}_page_#{worldcat_page}", :expires_in => 1.week){search_worldcat(:query => query, :page => worldcat_page, :per_page => Manifestation.per_page)}
-      #  if @result
-      #    @worldcat_results = WillPaginate::Collection.create(worldcat_page, @result.header["itemsPerPage"].to_i, @result.header["totalResults"].to_i) do |pager| pager.replace(@result.records) end
-      #  else
-      #    @worldcat_results = []
-      #  end
-      #end
-      #unless params[:mode] == "worldcat"
-      #@tags_count = @count[:total]
 
       if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
         prepare_options

@@ -35,7 +35,7 @@ class CreateUsers < ActiveRecord::Migration
       t.boolean :share_bookmarks, :default => false, :null => false
       t.boolean :save_search_history, :default => false, :null => false
       t.boolean :save_checkout_history, :default => false, :null => false
-      t.integer :required_role_id, :null => false
+      t.integer :required_role_id, :default => 1, :null => false
       t.text :keyword_list
       t.string :user_number
       t.string :state
