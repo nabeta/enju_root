@@ -46,6 +46,7 @@ class Manifestation < ActiveRecord::Base
     string :isbn, :multiple => true do
       [isbn, isbn10, wrong_isbn]
     end
+    string :issn
     string :lccn
     string :nbn
     string :tag, :multiple => true
@@ -53,7 +54,9 @@ class Manifestation < ActiveRecord::Base
       carrier_type.name
     end
     string :library, :multiple => true
-    string :language, :multiple => true
+    string :language, :multiple => true do
+      languages.collect(&:name)
+    end
     string :shelf, :multiple => true
     string :user, :multiple => true
     string :subject, :multiple => true
@@ -111,7 +114,7 @@ class Manifestation < ActiveRecord::Base
     #  errors.add(:date_of_publication) unless date
     #end
 
-    unless self.isbn.blank?
+    if self.isbn.present?
       errors.add(:isbn) unless ISBN_Tools.is_valid?(self.isbn)
     end
   end
@@ -125,6 +128,10 @@ class Manifestation < ActiveRecord::Base
     end
   rescue
     nil
+  end
+
+  def before_validation_on_update
+    ISBN_Tools.cleanup!(self.isbn) if self.isbn.present?
   end
 
   def after_create
@@ -344,10 +351,6 @@ class Manifestation < ActiveRecord::Base
 
   def languages
     self.expressions.collect(&:language).uniq
-  end
-
-  def language
-    languages.collect(&:name)
   end
 
   def number_of_contents

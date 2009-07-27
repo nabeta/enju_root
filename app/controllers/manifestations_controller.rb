@@ -31,6 +31,9 @@ class ManifestationsController < ApplicationController
         :author => params[:author],
         :publisher => params[:publisher],
         :isbn => params[:isbn],
+        :issn => params[:issn],
+        :lccn => params[:lccn],
+        :nbn => params[:nbn],
         #:subject => params[:subject],
         #:carrier_type => params[:carrier_type],
         :pubdate_from => params[:pubdate_from],
@@ -229,8 +232,8 @@ class ManifestationsController < ApplicationController
         end
       }
     end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # GET /manifestations/new
@@ -342,7 +345,6 @@ class ManifestationsController < ApplicationController
   # PUT /manifestations/1.xml
   def update
     @manifestation = Manifestation.find(params[:id])
-    params[:isbn] = params[:isbn].gsub(/\D/, "") if params[:isbn]
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
@@ -413,6 +415,18 @@ class ManifestationsController < ApplicationController
 
     unless options[:isbn].blank?
       query = "#{query} isbn_sm: #{options[:isbn]}"
+    end
+
+    unless options[:issn].blank?
+      query = "#{query} issn_sm: #{options[:issn]}"
+    end
+
+    unless options[:lccn].blank?
+      query = "#{query} lccn_sm: #{options[:lccn]}"
+    end
+
+    unless options[:nbn].blank?
+      query = "#{query} nbn_sm: #{options[:nbn]}"
     end
 
     unless options[:publisher].blank?
