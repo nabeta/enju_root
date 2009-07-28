@@ -93,6 +93,7 @@ class MessagesControllerTest < Test::Unit::TestCase
     assert_response :forbidden
     message_post_delete_state = Message.find(messages(:abby_to_sam_1))
     assert_equal message_pre_delete_state.receiver_deleted, message_post_delete_state.receiver_deleted
+    assert_not_nil m.read_at
   end
   
   def test_should_reply_to_message
