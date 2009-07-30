@@ -139,7 +139,7 @@ class Item < ActiveRecord::Base
         self.next_reservation.update_attributes(:checked_out_at => Time.zone.now)
         self.next_reservation.aasm_complete!
       end
-      save(false)
+      save!
     end
   end
 

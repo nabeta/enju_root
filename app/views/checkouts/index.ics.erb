@@ -1,28 +1,13 @@
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:Project Next-L Enju
-CALSCALE:GREGORIAN
-X-WR-CALNAME:Library due date
-METHOD:PUBLISH
-X-WR-TIMEZONE:<%= Time.zone.tzinfo.identifier -%>
-BEGIN:VTIMEZONE
-TZID:<%= Time.zone.tzinfo.identifier -%>
-LAST-MODIFIED;VALUE=DATE:20080124
-BEGIN:STANDARD
-DTSTART:19510908T020000
-TZOFFSETTO:+0900
-TZOFFSETFROM:+0900
-TZNAME:<%= Time.zone.now.zone -%>
-END:STANDARD
-END:VTIMEZONE
-<%- for checkout in @checkouts -%>
-BEGIN:VEVENT
-DTSTAMP;EZID=Asia/Japan:20080121T153953
-DTSTART;VALUE=DATE:<%=h checkout.due_date.strftime("%Y%m%d") -%>
-DTEND;VALUE=DATE:<%=h checkout.due_date.strftime("%Y%m%d") -%>
-UID:<%=h checkout.created_at.iso8601 -%>@<%= checkout.item.shelf.library.name -%>
-<%= NKF::nkf('-Ww -f74', "SUMMARY:#{h(checkout.item.manifestation.original_title)}") -%>
-<%= NKF::nkf('-Ww -f74', ("DESCRIPTION:" + h(checkout.item.manifestation.original_title))) -%>
-END:VEVENT
-<%- end -%>
-END:VCALENDAR
+<%=
+checkouts = @checkouts
+RiCal.Calendar do
+  checkouts.each do |checkout|
+    event do
+      description checkout.item.manifestation.original_title
+      dtstart     checkout.created_at
+      dtend       checkout.due_date
+      location    checkout.item.shelf.library.address
+    end
+  end
+end.to_s
+-%>

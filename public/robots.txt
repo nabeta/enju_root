@@ -15,6 +15,8 @@ Disallow: bookmark_stats
 #Disallow: bookmarked_resources
 Disallow: bookmarks
 Disallow: bookstores
+Disallow: carrier_type_has_checkout_types
+Disallow: carrier_types
 Disallow: checked_items
 Disallow: checkins
 Disallow: checkout_stat_has_manifestations
@@ -38,8 +40,9 @@ Disallow: expression_has_expressions
 Disallow: expression_merge_lists
 Disallow: expression_merges
 #Disallow: expressions
+Disallow: extents
 Disallow: families
-Disallow: frequency_of_issues
+Disallow: frequencies
 Disallow: imported_event_files
 Disallow: imported_objects
 Disallow: imported_patron_files
@@ -55,11 +58,10 @@ Disallow: layouts
 Disallow: libraries
 Disallow: library_groups
 Disallow: manifestation_checkout_stats
-Disallow: manifestation_form_has_checkout_types
-Disallow: manifestation_forms
 Disallow: manifestation_has_manifestations
 Disallow: manifestation_reserve_stats
 #Disallow: manifestations
+Disallow: medium_of_performances
 Disallow: message_queues
 Disallow: message_templates
 Disallow: messages
