@@ -12,12 +12,14 @@ class UsersController < ApplicationController
     query = params[:query].to_s
     @query = query.dup
     @count = {}
-    user_ids = User.search_ids do
-      unless query.blank?
+    unless query.blank?
+      user_ids = User.search_ids do
         keywords query
       end
+      @users = User.paginate(:conditions => {:id => user_ids}, :page => params[:page])
+    else
+      @users = User.paginate(:page => params[:page])
     end
-    @users = User.paginate(:conditions => {:id => user_ids}, :page => params[:page])
     @count[:query_result] = @users.total_entries
     
     respond_to do |format|
