@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:Project Next-L Enju
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Library events
+METHOD:PUBLISH
+X-WR-TIMEZONE:<%= Time.zone.tzinfo.identifier -%>
+BEGIN:VTIMEZONE
+TZID:<%= Time.zone.tzinfo.identifier -%>
+LAST-MODIFIED;VALUE=DATE:20080124
+BEGIN:STANDARD
+DTSTART:19510908T020000
+TZOFFSETTO:+0900
+TZOFFSETFROM:+0900
+TZNAME:<%= Time.zone.now.zone -%>
+END:STANDARD
+END:VTIMEZONE
+<%- for event in @events -%>
+BEGIN:VEVENT
+DTSTAMP;EZID=Asia/Japan:20080121T153953
+DTSTART;VALUE=DATE:<%=h event.started_at.strftime("%Y%m%d") -%>
+DTEND;VALUE=DATE:<%=h event.ended_at.strftime("%Y%m%d") -%>
+UID:<%=h event.created_at.iso8601 -%>@<%= event.library.name -%>
+<%= NKF::nkf('-Ww -f74', "SUMMARY:#{h(event.title)}") -%>
+<%= NKF::nkf('-Ww -f74', ("DESCRIPTION:" + h(event.note))) -%>
+END:VEVENT
+<%- end -%>
+END:VCALENDAR

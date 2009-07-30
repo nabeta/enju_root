@@ -15,6 +15,7 @@ class EventsController < ApplicationController
     @query = query.dup
     query = query.gsub('　', ' ')
     search = Sunspot.new_search(Event)
+    search.query.keywords = query
 
     if params[:date].present?
       date = params[:date].to_s
@@ -28,10 +29,6 @@ class EventsController < ApplicationController
       if params[:tag].present?
         tag = params[:tag].to_s
         search.query.add_restriction(:tag, :equal_to, tag)
-      end
-      if params[:query].present?
-        query = params[:query] if params[:query].present?
-        search.query.keywords = query
       end
       page = params[:page] || 1
       search.query.paginate(page.to_i, Event.per_page)
@@ -68,6 +65,7 @@ class EventsController < ApplicationController
       format.rss  { render :layout => false }
       format.csv
       format.atom
+      format.ics
     end
   end
 
