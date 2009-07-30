@@ -11,27 +11,6 @@
       <%- end -%>
     <%- end -%>
     <li><%= link_to t('event.all_libraries'), events_path -%></li>
-    <%- case params[:mode] when 'all' -%>
-      <%- if @library -%>
-        <li><%= link_to t('event.past'), library_events_path(@library.name, :mode => 'past') -%></li>
-        <li><%= link_to t('event.upcoming'), library_events_path(@library.name, :mode => 'upcoming') -%></li>
-      <%- else -%>
-        <li><%= link_to t('event.past'), events_path(:mode => 'past') -%>
-        <li><%= link_to t('event.upcoming'), events_path(:mode => 'upcoming') -%></li>
-      <%- end -%>
-    <%- when 'past' -%>
-      <%- if @library -%>
-        <li><%= link_to t('event.upcoming'), library_events_path(@library, :mode => 'upcoming') -%></li>
-      <%- else -%>
-        <li><%= link_to t('event.upcoming'), events_path(:mode => 'upcoming') -%></li>
-      <%- end -%>
-    <%- else -%>
-      <%- if @library -%>
-        <li><%= link_to t('event.past'), library_events_path(@library, :mode => 'past') -%></li>
-      <%- else -%>
-        <li><%= link_to t('event.past'), events_path(:mode => 'past') -%></li>
-      <%- end -%>
-    <%- end -%>
   </ul>
   <p>
     <%- if @library -%>
