@@ -1,7 +1,7 @@
 class CreateRestfulEasyMessages < ActiveRecord::Migration
   def self.up
     create_table :messages, :force => true do |t|
-      t.boolean  :receiver_deleted, :receiver_purged, :sender_deleted, :sender_purged, :default => false
+      t.boolean  :receiver_deleted, :receiver_purged, :sender_deleted, :sender_purged
       t.datetime :read_at
       t.integer  :receiver_id, :sender_id
       t.string   :subject, :null => false

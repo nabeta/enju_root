@@ -12,7 +12,7 @@ checked_item_00002:
 checked_item_00003:
   id: 3
   item_id: 6
-  basket_id: 8
+  basket_id: 9
   due_date: <%= 1.week.from_now %>
 checked_item_00004:
   id: 4

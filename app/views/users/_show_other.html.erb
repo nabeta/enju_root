@@ -1,5 +1,5 @@
 <div id="left_pane">
-  <h1 class="title"><%= link_to h(@user.login), user_path(@user.login), :class => 'title' -%></h1>
+  <h1 class="title"><%=h @user.login -%></h1>
   <div id="user_box">
     <%- if flash[:temporary_password] -%>
       <p><%= t('user.your_temporary_password_is') -%>: </p>
