@@ -18,8 +18,8 @@
     <td><%=h country.numeric_3 -%></td>
     <%- if country.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_country_path(country) -%></td>
-      <td><%= country.first? ? '' : link_to('▲', {:action => 'update', :position  => (country.position  > 1 ? country.position - 1 : 1), :id => country.id}, :method => :put) -%></td>
-      <td><%= country.last? ? '' : link_to('▼', {:action => 'update', :position => (country.position + 1), :id => country.id}, :method => :put) -%></td>
+      <td><%= country.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (country.position  > 1 ? country.position - 1 : 1), :id => country.id}, :method => :put) -%></td>
+      <td><%= country.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (country.position + 1), :id => country.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

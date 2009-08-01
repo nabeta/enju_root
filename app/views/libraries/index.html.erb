@@ -40,8 +40,8 @@
     <%- if library.is_updatable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_library_path(library.name) -%></td>
       <td><%= link_to t('page.destroy'), library_path(library.name), :confirm => t('page.are_you_sure'), :method => :delete unless library.web? -%></td>
-      <td><%= library.first? ? '' : link_to('▲', {:action => 'update', :position => (library.position  > 1 ? library.position - 1 : 1), :id => library.name}, :method => :put) -%></td>
-      <td><%= library.last? ? '' : link_to('▼', {:action => 'update', :position => (library.position + 1), :id => library.name}, :method => :put) -%></td>
+      <td><%= library.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (library.position  > 1 ? library.position - 1 : 1), :id => library.id}, :method => :put) -%></td>
+      <td><%= library.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (library.position + 1), :id => library.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

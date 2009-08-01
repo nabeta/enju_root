@@ -28,8 +28,8 @@
     <td><%= link_to t('page.destroy'), extent, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- unless @user_group -%>
       <%- if extent.is_deletable_by(current_user) -%>
-        <td><%= extent.first? ? '' : link_to('▲', {:action => 'update', :position  => (extent.position  > 1 ? extent.position - 1 : 1), :id => extent.id}, :method => :put) -%></td>
-        <td><%= extent.last? ? '' : link_to('▼', {:action => 'update', :position => (extent.position + 1), :id => extent.id}, :method => :put) -%></td>
+        <td><%= extent.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (extent.position  > 1 ? extent.position - 1 : 1), :id => extent.id}, :method => :put) -%></td>
+        <td><%= extent.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (extent.position + 1), :id => extent.id}, :method => :put) -%></td>
       <%- end -%>
     <%- end -%>
   </tr>

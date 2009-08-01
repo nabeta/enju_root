@@ -995,6 +995,8 @@ ja:
     local_record: "自館の情報"
     search_catalog_at: "{{library_name}}の目録を検索"
     add_on: "アドオン"
+    asc: "昇順"
+    desc: "降順"
   title:
     index: "一覧"
     show: "表示"

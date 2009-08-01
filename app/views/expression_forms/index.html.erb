@@ -25,8 +25,8 @@
     <%- if expression_form.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_expression_form_path(expression_form) -%></td>
       <td><%= link_to t('page.destroy'), expression_form_path(expression_form), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= expression_form.first? ? '' : link_to('▲', {:action => 'update', :positin  => (expression_form.position > 1 ? expression_form.position - 1 : 1), :id => expression_form.id}, :method => :put) -%></td>
-      <td><%= expression_form.last? ? '' : link_to('▼', {:action => 'update', :positio => (expression_form.position + 1), :id => expression_form.id}, :method => :put) -%></td>
+      <td><%= expression_form.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (expression_form.position  > 1 ? expression_form.position - 1 : 1), :id => expression_form.id}, :method => :put) -%></td>
+      <td><%= expression_form.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (expression_form.position + 1), :id => expression_form.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

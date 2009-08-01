@@ -26,8 +26,8 @@
     </td>
     <%- if embody.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), embody, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= embody.first? ? '' : link_to('▲', {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
-      <td><%= embody.last? ? '' : link_to('▼', {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%></td>
+      <td><%= embody.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
+      <td><%= embody.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

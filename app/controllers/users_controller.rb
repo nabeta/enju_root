@@ -15,8 +15,8 @@ class UsersController < ApplicationController
 
     sort = {:sort_by => 'created_at', :order => 'desc'}
     case params[:sort_by]
-    when 'name'
-      sort[:sort_by] = 'name'
+    when 'login'
+      sort[:sort_by] = 'login'
     end
     case params[:order]
     when 'asc'

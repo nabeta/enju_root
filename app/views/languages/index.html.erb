@@ -22,8 +22,8 @@
     <td><%=h language.iso_639_3 -%></td>
     <%- if language.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_language_path(language) -%></td>
-      <td><%= language.first? ? '' : link_to('▲', {:action => 'update', :position  => (language.position  > 1 ? language.position - 1 : 1), :id => language.id}, :method => :put) -%></td>
-      <td><%= language.last? ? '' : link_to('▼', {:action => 'update', :position => (language.position + 1), :id => language.id}, :method => :put) -%></td>
+      <td><%= language.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (language.position  > 1 ? language.position - 1 : 1), :id => language.id}, :method => :put) -%></td>
+      <td><%= language.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (language.position + 1), :id => language.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

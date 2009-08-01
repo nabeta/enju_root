@@ -1012,6 +1012,8 @@ en:
     local_record: "Local record"
     search_catalog_at: "Search catalog at {{library_name}}"
     add_on: "Add-ons"
+    asc: "ascendent"
+    desc: "descendent"
   title:
     index: "index"
     show: "show"

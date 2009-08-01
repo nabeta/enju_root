@@ -17,8 +17,8 @@
     <%- if create.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), work_create_path(@work, create) -%></td>
       <td><%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= create.first? ? '' : link_to('▲', {:action => 'update', :position => (create.position > 1 ? create.position - 1 : 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
-      <td><%= create.last? ? '' : link_to('▼', {:action => 'update', :position => (create.position + 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
+      <td><%= create.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position => (create.position > 1 ? create.position - 1 : 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
+      <td><%= create.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (create.position + 1), :id => create.id, :work_id => @work.id}, :method => :put) -%></td>
     <%- end -%>
     </tr>
 <%- end -%>

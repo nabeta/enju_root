@@ -28,8 +28,8 @@
     <td><%= link_to t('page.destroy'), medium_of_performance, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- unless @user_group -%>
       <%- if medium_of_performance.is_deletable_by(current_user) -%>
-        <td><%= medium_of_performance.first? ? '' : link_to('▲', {:action => 'update', :position  => (medium_of_performance.position  > 1 ? medium_of_performance.position - 1 : 1), :id => medium_of_performance.id}, :method => :put) -%></td>
-        <td><%= medium_of_performance.last? ? '' : link_to('▼', {:action => 'update', :position => (medium_of_performance.position + 1), :id => medium_of_performance.id}, :method => :put) -%></td>
+        <td><%= medium_of_performance.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (medium_of_performance.position  > 1 ? medium_of_performance.position - 1 : 1), :id => medium_of_performance.id}, :method => :put) -%></td>
+        <td><%= medium_of_performance.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (medium_of_performance.position + 1), :id => medium_of_performance.id}, :method => :put) -%></td>
       <%- end -%>
     <%- end -%>
   </tr>
