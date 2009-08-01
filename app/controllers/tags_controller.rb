@@ -8,18 +8,33 @@ class TagsController < ApplicationController
     session[:params] ={} unless session[:params]
     session[:params][:tag] = params
 
-    if params[:order] == 'name'
-      order = 'name'
-    elsif params[:order] == 'taggings_count'
-      order = 'taggings_count desc'
-    else
-      order = 'created_at desc'
+    sort = {:sort_by => 'created_at', :sort => 'desc'}
+    case params[:sort_by]
+    when 'name'
+      sort[:sort_by] = 'name'
     end
-    #if @user
-    #  @tags = @user.owned_tags.paginate(:all, :page => params[:page], :order => order, :conditions => ['taggings_count > 0'])
-    #else
-      @tags = Tag.paginate_by_sql("SELECT * FROM tags WHERE taggings_count > 0 ORDER BY #{order}", :page => params[:page])
-    #end
+    case params[:order]
+    when 'asc'
+      sort[:order] = 'asc'
+    when 'desc'
+      sort[:order] = 'desc'
+    end
+
+    query = @query = params[:query].to_s.strip
+    page = params[:page] || 1
+
+    if query.present?
+      tag_ids = Tag.search_ids do
+        keywords query
+        order_by sort[:sort_by], sort[:order]
+        paginate :page => page.to_i, :per_page => Tag.per_page
+      end
+      @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page)
+    else
+      @tags = Tag.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+    end
+
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @tags }
