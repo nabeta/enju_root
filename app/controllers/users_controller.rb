@@ -12,13 +12,30 @@ class UsersController < ApplicationController
     query = params[:query].to_s
     @query = query.dup
     @count = {}
+
+    sort = {:sort_by => 'created_at', :order => 'desc'}
+    case params[:sort_by]
+    when 'name'
+      sort[:sort_by] = 'name'
+    end
+    case params[:order]
+    when 'asc'
+      sort[:order] = 'asc'
+    when 'desc'
+      sort[:order] = 'desc'
+    end
+
+    query = params[:query]
+    page = params[:page] || 1
+
     unless query.blank?
       user_ids = User.search_ids do
         keywords query
+        order_by sort[:sort_by], sort[:order]
       end
-      @users = User.paginate(:conditions => {:id => user_ids}, :page => params[:page])
+      @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
     else
-      @users = User.paginate(:page => params[:page])
+      @users = User.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
     end
     @count[:query_result] = @users.total_entries
     

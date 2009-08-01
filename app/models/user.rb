@@ -21,13 +21,17 @@ class User < ActiveRecord::Base
   named_scope :suspended, :conditions => {:suspended => true}
 
   searchable :auto_index => false do
-    text :login, :email, :note
+    text :login, :email, :note, :user_number
     text :name do
       patron.name if patron
     end
     string :login
     string :email
+    string :user_number
     integer :required_role_id
+    date :created_at
+    date :updated_at
+    boolean :suspended
   end
 
   has_one :patron
