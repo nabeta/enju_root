@@ -69,6 +69,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
       post :create, :inventory_file => {:inventory => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/inventory_file_sample.txt") }
     end
     assert_equal old_count + 3, Inventory.count
+    assert_equal 'librarian1', assigns(:inventory_file).user.login
 
     assert_redirected_to inventory_file_url(assigns(:inventory_file))
   end

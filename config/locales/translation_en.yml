@@ -693,9 +693,9 @@ en:
         note: Note
         position: Position
       inventory_file:
-        filename: Filename
-        content_type: Content type
-        size: Size
+        inventory_file_name: Filename
+        inventory_content_type: Content type
+        inventory_file_size: Size
         file_hash: File hash
         note: Note
       carrier_type_has_checkout_type:

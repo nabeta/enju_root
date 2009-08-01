@@ -693,9 +693,9 @@ ja:
         note: 注記
         position: 位置
       inventory_file:
-        filename: ファイル名
-        content_type: Content-Type
-        size: ファイルサイズ
+        inventory_file_name: ファイル名
+        inventory_content_type: Content-Type
+        inventory_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
       carrier_type_has_checkout_type:
