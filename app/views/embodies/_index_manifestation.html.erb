@@ -15,19 +15,24 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.models.expression') -%></th>
   </tr>
 
 <%- for embody in @embodies -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
+      <%- if embody.is_deletable_by(current_user) -%>
+        <%= embody.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
+        <%= embody.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
+    <td>
       <%= link_to h(embody.expression.original_title), embody.expression -%>
       <%= expression_form_icon(embody.expression.expression_form) -%>
     </td>
     <%- if embody.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), embody, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= embody.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
-      <td><%= embody.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

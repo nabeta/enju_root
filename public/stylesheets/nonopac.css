@@ -419,4 +419,8 @@ input.search_form_short{
   width: 250px;
 }
 
+th#position{
+  width: 40px;
+}
+
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

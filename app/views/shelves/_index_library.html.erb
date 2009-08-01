@@ -12,19 +12,24 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.shelf.name') -%></th>
     <th><%= t('activerecord.models.library') -%></th>
   </tr>
   
 <%- @shelves.each_with_index do |shelf, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if shelf.is_deletable_by(current_user) -%>
+        <%= shelf.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size= > '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (shelf.position  > 1 ? shelf.position - 1 : 1), :id => shelf.id}, :method => :put) -%>
+        <%= shelf.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (shelf.position + 1), :id => shelf.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(shelf.display_name.localize), shelf -%></td>
     <td><%= link_to h(shelf.library.display_name.localize), library_path(shelf.library.name) -%></td>
     <%- if shelf.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_library_shelf_path(shelf.library.name, shelf) -%></td>
       <td><%= link_to t('page.destroy'), shelf_path(shelf), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= shelf.first? ? '' : link_to(image_tag('arrow_up.png', :size= > '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (shelf.position  > 1 ? shelf.position - 1 : 1), :id => shelf.id}, :method => :put) -%></td>
-      <td><%= shelf.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (shelf.position + 1), :id => shelf.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

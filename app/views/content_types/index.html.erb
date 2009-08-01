@@ -14,6 +14,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.content_type.name') -%></th>
     <th><%= t('activerecord.attributes.content_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.content_type.note') -%></th>
@@ -21,17 +22,19 @@
 
 <%- for content_type in @content_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- unless @user_group -%>
+        <%- if content_type.is_deletable_by(current_user) -%>
+          <%= content_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%>
+          <%= content_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(content_type.name), content_type -%></td>
     <td><%= link_to h(content_type.display_name.localize), content_type -%></td>
     <td><%=h content_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_content_type_path(content_type) -%></td>
     <td><%= link_to t('page.destroy'), content_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- unless @user_group -%>
-      <%- if content_type.is_deletable_by(current_user) -%>
-        <td><%= content_type.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%></td>
-        <td><%= content_type.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%></td>
-      <%- end -%>
-    <%- end -%>
   </tr>
 <%- end -%>
 </table>

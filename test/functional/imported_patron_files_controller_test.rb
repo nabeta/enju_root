@@ -73,6 +73,7 @@ class ImportedPatronFilesControllerTest < ActionController::TestCase
       assigns(:imported_patron_file).import
     end
     assert_equal '田辺浩介', Patron.find(:first, :order => 'id DESC').full_name
+
     assert_equal 'librarian1', assigns(:imported_patron_file).user.login
     assert_redirected_to imported_patron_file_path(assigns(:imported_patron_file))
   end

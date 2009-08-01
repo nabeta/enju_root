@@ -14,6 +14,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.extent.name') -%></th>
     <th><%= t('activerecord.attributes.extent.display_name') -%></th>
     <th><%= t('activerecord.attributes.extent.note') -%></th>
@@ -21,17 +22,19 @@
 
 <%- for extent in @extents -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <%- unless @user_group -%>
+      <%- if extent.is_deletable_by(current_user) -%>
+        <td>
+          <%= extent.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (extent.position  > 1 ? extent.position - 1 : 1), :id => extent.id}, :method => :put) -%>
+          <%= extent.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (extent.position + 1), :id => extent.id}, :method => :put) -%>
+        </td>
+      <%- end -%>
+    <%- end -%>
     <td><%= link_to h(extent.name), extent -%></td>
     <td><%= link_to h(extent.display_name.localize), extent -%></td>
     <td><%=h extent.note -%></td>
     <td><%= link_to t('page.edit'), edit_extent_path(extent) -%></td>
     <td><%= link_to t('page.destroy'), extent, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- unless @user_group -%>
-      <%- if extent.is_deletable_by(current_user) -%>
-        <td><%= extent.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (extent.position  > 1 ? extent.position - 1 : 1), :id => extent.id}, :method => :put) -%></td>
-        <td><%= extent.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (extent.position + 1), :id => extent.id}, :method => :put) -%></td>
-      <%- end -%>
-    <%- end -%>
   </tr>
 <%- end -%>
 </table>

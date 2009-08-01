@@ -12,6 +12,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.library.name') -%></th>
     <th>
       <%= t('activerecord.attributes.library.telephone_number_1') -%>
@@ -26,6 +27,12 @@
 <%- @libraries.each_with_index do |library, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
+      <%- if library.is_deletable_by(current_user) -%>
+        <%= library.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (library.position  > 1 ? library.position - 1 : 1), :id => library.id}, :method => :put) -%>
+        <%= library.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (library.position + 1), :id => library.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
+    <td>
       <%= link_to h(library.display_name.localize), library_path(library.name) -%>
       <br />
       <%=h library.postal_code -%>
@@ -37,11 +44,9 @@
       <%=h library.telephone_number_2 -%>
     </td>
     <td><%=h library.fax_number -%></td>
-    <%- if library.is_updatable_by(current_user) -%>
+    <%- if library.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_library_path(library.name) -%></td>
       <td><%= link_to t('page.destroy'), library_path(library.name), :confirm => t('page.are_you_sure'), :method => :delete unless library.web? -%></td>
-      <td><%= library.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (library.position  > 1 ? library.position - 1 : 1), :id => library.id}, :method => :put) -%></td>
-      <td><%= library.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (library.position + 1), :id => library.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

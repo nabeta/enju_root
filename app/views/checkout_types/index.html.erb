@@ -14,6 +14,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.checkout_type.name') -%></th>
     <th><%= t('activerecord.attributes.checkout_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.checkout_type.note') -%></th>
@@ -21,17 +22,19 @@
 
 <%- for checkout_type in @checkout_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- unless @user_group -%>
+        <%- if checkout_type.is_deletable_by(current_user) -%>
+          <%= checkout_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (checkout_type.position  > 1 ? checkout_type.position - 1 : 1), :id => checkout_type.id}, :method => :put) -%>
+          <%= checkout_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (checkout_type.position + 1), :id => checkout_type.id}, :method => :put) -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(checkout_type.name), checkout_type -%></td>
     <td><%= link_to h(checkout_type.display_name.localize), checkout_type -%></td>
     <td><%=h checkout_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_checkout_type_path(checkout_type) -%></td>
     <td><%= link_to t('page.destroy'), checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- unless @user_group -%>
-      <%- if checkout_type.is_deletable_by(current_user) -%>
-        <td><%= checkout_type.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (checkout_type.position  > 1 ? checkout_type.position - 1 : 1), :id => checkout_type.id}, :method => :put) -%></td>
-        <td><%= checkout_type.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (checkout_type.position + 1), :id => checkout_type.id}, :method => :put) -%></td>
-      <%- end -%>
-    <%- end -%>
   </tr>
 <%- end -%>
 </table>

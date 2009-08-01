@@ -12,17 +12,22 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.frequency.display_name') -%></th>
   </tr>
 
 <%- for frequency in @frequencies -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if frequency.is_deletable_by(current_user) -%>
+        <%= frequency.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (frequency.position  > 1 ? frequency.position - 1 : 1), :id => frequency.id}, :method => :put) -%>
+        <%= frequency.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (frequency.position + 1), :id => frequency.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(frequency.display_name.localize), frequency -%></td>
     <%- if frequency.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_frequency_path(frequency) -%></td>
       <td><%= link_to t('page.destroy'), frequency, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= frequency.first? ? '' : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (frequency.position  > 1 ? frequency.position - 1 : 1), :id => frequency.id}, :method => :put) -%></td>
-      <td><%= frequency.last? ? '' : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (frequency.position + 1), :id => frequency.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>
