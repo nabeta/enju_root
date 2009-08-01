@@ -74,6 +74,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
     #assert_equal old_manifestations_count + 5, Manifestation.count
     #assert_equal old_patrons_count + 4, Patron.count
 
+    assert_equal 'librarian1', assigns(:imported_resource_file).user.login
     assert_redirected_to imported_resource_file_path(assigns(:imported_resource_file))
   end
 
