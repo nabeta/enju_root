@@ -21,9 +21,15 @@ class PurchaseRequest < ActiveRecord::Base
     string :url
     float :price
     integer :user_id
+    integer :order_list_id do
+      order_list.id if order_list
+    end
     time :pubdate
     time :accepted_at
     time :denied_at
+    boolean :ordered do
+      order_list.try(:ordered_at).present? ? true : false
+    end
   end
   #acts_as_soft_deletable
 

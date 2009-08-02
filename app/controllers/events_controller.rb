@@ -38,7 +38,11 @@ class EventsController < ApplicationController
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Event.per_page)
-    @events = search.execute!.results
+    begin
+      @events = search.execute!.results
+    rescue RSolr::RequestError
+      @events = WillPaginate::Collection.create(1,1,0) do end
+    end
     @count[:query_result] = @events.total_entries
 
     respond_to do |format|

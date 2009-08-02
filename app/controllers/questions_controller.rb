@@ -27,7 +27,11 @@ class QuestionsController < ApplicationController
     search.query.order_by(:updated_at, :desc)
     page = params[:page] || 1
     search.query.paginate(page.to_i, Question.per_page)
-    @questions = search.execute!.results
+    begin
+      @questions = search.execute!.results
+    rescue RSolr::RequestError
+      @questions = WillPaginate::Collection.create(1,1,0) do end
+    end
     @count[:query_result] = @questions.total_entries
 
     if query

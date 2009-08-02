@@ -82,7 +82,7 @@ class ManifestationsController < ApplicationController
         #  order_by order
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
         end
-      end 
+      end
 
       if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
         prepare_options
@@ -136,6 +136,9 @@ class ManifestationsController < ApplicationController
         end
       }
     end
+  rescue RSolr::RequestError
+    redirect_to manifestations_url
+    return
   end
 
   # GET /manifestations/1

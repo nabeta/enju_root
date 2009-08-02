@@ -88,7 +88,11 @@ class MessagesController < ApplicationController
     search.query.add_restriction(:sender_deleted, :equal_to, false)
     search.query.order_by :created_at, :desc
     search.query.paginate page.to_i, Message.per_page
-    @messages = search.execute!.results
+    begin
+      @messages = search.execute!.results
+    rescue RSolr::RequestError
+      @messages = WillPaginate::Collection.create(1,1,0) do end
+    end
     
     respond_to do |format|
       format.html { render :action => "index" }

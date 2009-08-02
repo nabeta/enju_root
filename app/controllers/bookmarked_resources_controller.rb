@@ -67,6 +67,9 @@ class BookmarkedResourcesController < ApplicationController
       format.rss  { render :layout => false }
       format.csv
     end
+  rescue RSolr::RequestError
+    redirect_to user_bookmarked_resources_url(current_user.login)
+    return
   end
 
   # GET /bookmarked_resources/1

@@ -27,7 +27,7 @@ class WorksController < ApplicationController
     search.query.paginate(page.to_i, Work.per_page)
     begin
       @works = search.execute!.results
-    rescue
+    rescue RSolr::RequestError
       @works = WillPaginate::Collection.create(1,1,0) do end
     end
     @count[:total] = @works.total_entries

@@ -44,8 +44,12 @@ class PatronsController < ApplicationController
       end
     end
     page = params[:page] || 1
-    search.query.paginate(page.to_i, Patron.per_page)
-    @patrons = search.execute!.results
+    begin
+      search.query.paginate(page.to_i, Patron.per_page)
+      @patrons = search.execute!.results
+    rescue RSolr::RequestError
+      @patrons = WillPaginate::Collection.create(1,1,0) do end
+    end
 
     respond_to do |format|
       format.html # index.rhtml

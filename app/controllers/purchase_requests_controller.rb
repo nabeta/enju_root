@@ -18,28 +18,26 @@ class PurchaseRequestsController < ApplicationController
 
     @count = {}
     PurchaseRequest.per_page = 65534 if params[:format] == 'csv'
-    case
-    when @user
-      @purchase_requests = @user.purchase_requests.paginate(:page => params[:page], :order => ['purchase_requests.created_at'])
-    when @order_list
-      case params[:mode]
-      when 'not_ordered'
-        @purchase_requests = PurchaseRequest.not_ordered.paginate(:all, :page => params[:page], :conditions => ['order_list_id = ?', @order_list.id])
-      when 'ordered'
-        @purchase_requests = PurchaseRequest.ordered.paginate(:all, :page => params[:page], :conditions => ['order_list_id = ?', @order_list.id])
-      else
-        @purchase_requests = @order_list.purchase_requests.paginate(:page => params[:page], :order => ['purchase_requests.created_at'])
-      end
-    else
-      case params[:mode]
-      when 'not_ordered'
-        @purchase_requests = PurchaseRequest.not_ordered.paginate(:all, :page => params[:page], :order => ['purchase_requests.created_at'])
-      when 'ordered'
-        @purchase_requests = PurchaseRequest.ordered.paginate(:all, :page => params[:page], :order => ['purchase_requests.created_at'])
-      else
-        @purchase_requests = PurchaseRequest.paginate(:all, :page => params[:page], :order => ['purchase_requests.created_at'])
-      end
+
+    @query = params[:query].to_s.strip
+
+    search = Sunspot.new_search(PurchaseRequest)
+    search.query.keywords = @query if @query.present?
+    search.query.add_restriction(:user_id, :equal_to, @user.id) if @user
+    search.query.add_restriction(:order_list_id, :equal_to, @order_list.id) if @order_list
+    case params[:mode]
+    when 'not_ordered'
+      search.query.add_restriction(:ordered, :equal_to, false)
+    when 'ordered'
+      search.query.add_restriction(:ordered, :equal_to, true)
     end
+
+    #begin
+      @purchase_requests = search.execute!.results
+    #rescue
+    #  @purchase_requests = WillPaginate::Collection.create(1,1,0) do end
+    #end
+
     @count[:query_result] = @purchase_requests.size
 
     respond_to do |format|

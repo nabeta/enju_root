@@ -24,12 +24,16 @@ class TagsController < ApplicationController
     page = params[:page] || 1
 
     if query.present?
-      tag_ids = Tag.search_ids do
-        keywords query
-        order_by sort[:sort_by], sort[:order]
-        paginate :page => page.to_i, :per_page => Tag.per_page
+      begin
+        tag_ids = Tag.search_ids do
+          keywords query
+          order_by sort[:sort_by], sort[:order]
+          paginate :page => page.to_i, :per_page => Tag.per_page
+        end
+        @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page)
+      rescue RSolr::RequestError
+        @tags = WillPaginate::Collection.create(1,1,0) do end
       end
-      @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page)
     else
       @tags = Tag.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
     end

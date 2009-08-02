@@ -18,8 +18,12 @@ class ClassificationsController < ApplicationController
     end
 
     page = params[:page] || 1
-    search.query.paginate(page.to_i, Classification.per_page)
-    @classifications = search.execute!.results
+    begin
+      search.query.paginate(page.to_i, Classification.per_page)
+      @classifications = search.execute!.results
+    rescue RSolr::RequestError
+      @classifications = WillPaginate::Collection.create(1,1,0) do end
+    end
 
     session[:params] = {} unless session[:params]
     session[:params][:classification] = params

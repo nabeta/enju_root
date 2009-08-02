@@ -22,7 +22,11 @@ class SubjectsController < ApplicationController
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Subject.per_page)
-    @subjects = search.execute!.results
+    begin
+      @subjects = search.execute!.results
+    rescue RSolr::RequestError
+      @subjects = WillPaginate::Collection.create(1,1,0) do end
+    end
     session[:params] = {} unless session[:params]
     session[:params][:subject] = params
 

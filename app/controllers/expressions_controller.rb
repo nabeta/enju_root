@@ -32,7 +32,7 @@ class ExpressionsController < ApplicationController
     search.query.paginate(page.to_i, Expression.per_page)
     begin
       @expressions = search.execute!.results
-    rescue
+    rescue RSolr::RequestError
       @expressions = WillPaginate::Collection.create(1,1,0) do end
     end
     @count[:total] = @expressions.total_entries

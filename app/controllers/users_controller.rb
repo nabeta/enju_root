@@ -29,11 +29,15 @@ class UsersController < ApplicationController
     page = params[:page] || 1
 
     unless query.blank?
-      user_ids = User.search_ids do
-        keywords query
-        order_by sort[:sort_by], sort[:order]
+      begin
+        user_ids = User.search_ids do
+          keywords query
+          order_by sort[:sort_by], sort[:order]
+        end
+        @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
+      rescue RSolr::RequestError
+        @users = WillPaginate::Collection.create(1,1,0) do end
       end
-      @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
     else
       @users = User.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
     end
