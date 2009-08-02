@@ -9,6 +9,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
+    <%= javascript_tag("$('query').focus()") -%>
   <%- end -%>
 
 <%- unless @query.blank? -%>

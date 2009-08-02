@@ -8,7 +8,8 @@ class MessagesController < ApplicationController
 
   # GET /messages
   def index
-    redirect_to inbox_user_messages_url
+    query = params[:query].to_s.strip
+    redirect_to inbox_user_messages_url(params.merge(:query => query))
   end
   
   # GET /messages/1
@@ -78,13 +79,14 @@ class MessagesController < ApplicationController
   def inbox
     session[:mail_box] = "inbox"
     #@messages = rezm_user.inbox_messages.paginate(:page => params[:page])
-    query = @query = params[:query].to_s
+    @query = params[:query].to_s.strip
     page = params[:page] || 1
     search = Sunspot.new_search(Message)
-    search.query.keywords = query if query.present?
+    search.query.keywords = @query if @query.present?
     search.query.add_restriction(:receiver_id, :equal_to, rezm_user.id)
     search.query.add_restriction(:receiver_deleted, :equal_to, false)
     search.query.add_restriction(:sender_deleted, :equal_to, false)
+    search.query.order_by :created_at, :desc
     search.query.paginate page.to_i, Message.per_page
     @messages = search.execute!.results
     
