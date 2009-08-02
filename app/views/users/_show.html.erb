@@ -3,7 +3,7 @@
   <h1 class="title"><%=h t('page.user_title', :login_name => @user.login) -%></h1>
   <div id="user_search_form">  
 
-  <%- form_tag({:controller => 'manifestations'}, {:method => 'get', :name => 'searchform'}) do -%>
+  <%- form_tag({:controller => 'manifestations'}, {:method => 'get', :name => 'search_form'}) do -%>
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:class => 'search_form_short'} -%>
