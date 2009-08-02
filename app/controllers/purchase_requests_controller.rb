@@ -32,11 +32,11 @@ class PurchaseRequestsController < ApplicationController
       search.query.add_restriction(:ordered, :equal_to, true)
     end
 
-    #begin
+    begin
       @purchase_requests = search.execute!.results
-    #rescue
-    #  @purchase_requests = WillPaginate::Collection.create(1,1,0) do end
-    #end
+    rescue RSolr::RequestError
+      @purchase_requests = WillPaginate::Collection.create(1,1,0) do end
+    end
 
     @count[:query_result] = @purchase_requests.size
 
