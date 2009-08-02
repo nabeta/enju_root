@@ -7,6 +7,7 @@ class CreateSubjectHeadingTypeHasSubjects < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :subject_heading_type_has_subjects, :subject_id
   end
 
   def self.down
