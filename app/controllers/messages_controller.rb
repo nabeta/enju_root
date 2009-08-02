@@ -77,7 +77,16 @@ class MessagesController < ApplicationController
   # Displays all new and read and undeleted messages in the User's inbox
   def inbox
     session[:mail_box] = "inbox"
-    @messages = rezm_user.inbox_messages.paginate(:page => params[:page])
+    #@messages = rezm_user.inbox_messages.paginate(:page => params[:page])
+    query = @query = params[:query].to_s
+    page = params[:page] || 1
+    search = Sunspot.new_search(Message)
+    search.query.keywords = query if query.present?
+    search.query.add_restriction(:receiver_id, :equal_to, rezm_user.id)
+    search.query.add_restriction(:receiver_deleted, :equal_to, false)
+    search.query.add_restriction(:sender_deleted, :equal_to, false)
+    search.query.paginate page.to_i, Message.per_page
+    @messages = search.execute!.results
     
     respond_to do |format|
       format.html { render :action => "index" }
