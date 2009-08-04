@@ -29,8 +29,8 @@ class User < ActiveRecord::Base
     string :email
     string :user_number
     integer :required_role_id
-    date :created_at
-    date :updated_at
+    time :created_at
+    time :updated_at
     boolean :suspended
   end
 
