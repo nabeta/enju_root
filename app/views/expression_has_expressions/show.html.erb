@@ -1,12 +1,13 @@
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_has_expression')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.expression.from_expression') -%>:</b>
+  <b><%= t('activerecord.attributes.expression_has_expression.from_expression') -%>:</b>
   <%= link_to h(@expression_has_expression.from_expression.original_title), @expression_has_expression.from_expression -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.expression.to_expression') -%>:</b>
+  <b><%= t('activerecord.attributes.expression_has_expression.to_expression') -%>:</b>
   <%= link_to h(@expression_has_expression.to_expression.original_title), @expression_has_expression.to_expression -%>
 </p>
 

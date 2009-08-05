@@ -57,7 +57,7 @@ class ManifestationHasManifestationsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_has_manifestation.save
-        flash[:notice] = 'ManifestationHasManifestation was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation_has_manifestation'))
         format.html { redirect_to(@manifestation_has_manifestation) }
         format.xml  { render :xml => @manifestation_has_manifestation, :status => :created, :location => @manifestation_has_manifestation }
       else
@@ -74,7 +74,7 @@ class ManifestationHasManifestationsController < ApplicationController
 
     respond_to do |format|
       if @manifestation_has_manifestation.update_attributes(params[:manifestation_has_manifestation])
-        flash[:notice] = 'ManifestationHasManifestation was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation_has_manifestation'))
         format.html { redirect_to(@manifestation_has_manifestation) }
         format.xml  { head :ok }
       else

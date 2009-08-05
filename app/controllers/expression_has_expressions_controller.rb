@@ -57,7 +57,7 @@ class ExpressionHasExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression_has_expression.save
-        flash[:notice] = 'ExpressionHasExpression was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_has_expression'))
         format.html { redirect_to(@expression_has_expression) }
         format.xml  { render :xml => @expression_has_expression, :status => :created, :location => @expression_has_expression }
       else
@@ -74,7 +74,7 @@ class ExpressionHasExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression_has_expression.update_attributes(params[:expression_has_expression])
-        flash[:notice] = 'ExpressionHasExpression was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_has_expression'))
         format.html { redirect_to(@expression_has_expression) }
         format.xml  { head :ok }
       else

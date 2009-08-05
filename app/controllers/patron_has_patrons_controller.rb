@@ -57,7 +57,7 @@ class PatronHasPatronsController < ApplicationController
 
     respond_to do |format|
       if @patron_has_patron.save
-        flash[:notice] = 'PatronHasPatron was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron_has_patron'))
         format.html { redirect_to(@patron_has_patron) }
         format.xml  { render :xml => @patron_has_patron, :status => :created, :location => @patron_has_patron }
       else
@@ -74,7 +74,7 @@ class PatronHasPatronsController < ApplicationController
 
     respond_to do |format|
       if @patron_has_patron.update_attributes(params[:patron_has_patron])
-        flash[:notice] = 'PatronHasPatron was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron_has_patron'))
         format.html { redirect_to(@patron_has_patron) }
         format.xml  { head :ok }
       else

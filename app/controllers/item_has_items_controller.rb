@@ -57,7 +57,7 @@ class ItemHasItemsController < ApplicationController
 
     respond_to do |format|
       if @item_has_item.save
-        flash[:notice] = 'ItemHasItem was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item_has_item'))
         format.html { redirect_to(@item_has_item) }
         format.xml  { render :xml => @item_has_item, :status => :created, :location => @item_has_item }
       else
@@ -74,7 +74,7 @@ class ItemHasItemsController < ApplicationController
 
     respond_to do |format|
       if @item_has_item.update_attributes(params[:item_has_item])
-        flash[:notice] = 'ItemHasItem was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item_has_item'))
         format.html { redirect_to(@item_has_item) }
         format.xml  { head :ok }
       else

@@ -57,7 +57,7 @@ class WorkHasWorksController < ApplicationController
 
     respond_to do |format|
       if @work_has_work.save
-        flash[:notice] = 'WorkHasWork was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_has_work'))
         format.html { redirect_to(@work_has_work) }
         format.xml  { render :xml => @work_has_work, :status => :created, :location => @work_has_work }
       else
@@ -74,7 +74,7 @@ class WorkHasWorksController < ApplicationController
 
     respond_to do |format|
       if @work_has_work.update_attributes(params[:work_has_work])
-        flash[:notice] = 'WorkHasWork was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_has_work'))
         format.html { redirect_to(@work_has_work) }
         format.xml  { head :ok }
       else

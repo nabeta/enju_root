@@ -67,6 +67,7 @@ class Manifestation < ActiveRecord::Base
     integer :patron_ids, :multiple => true
     integer :item_ids, :multiple => true
     integer :original_manifestation_ids, :multiple => true
+    integer :derived_manifestation_ids, :multiple => true
     integer :expression_ids, :multiple => true
     integer :subscription_ids, :multiple => true
     integer :required_role_id
@@ -611,6 +612,17 @@ class Manifestation < ActiveRecord::Base
     #self.indexed_at = Time.zone.now
     self.save(false)
     text.close
+  end
+
+  def derived_manifestations_by_solr(options = {})
+    page = options[:page] || 1
+    sort_by = options[:sort_by] || 'created_at'
+    order = options[:order] || 'desc'
+    search = Sunspot.new_search(Manifestation)
+    search.query.add_restriction(:original_manifestation_ids, :equal_to, self.id)
+    search.query.paginate page.to_i, Manifestation.per_page
+    search.query.order_by sort_by, order
+    search.execute!.results
   end
 
 end
