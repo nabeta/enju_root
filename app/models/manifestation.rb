@@ -97,6 +97,7 @@ class Manifestation < ActiveRecord::Base
   has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
+  enju_oai_pmh
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -416,41 +417,6 @@ class Manifestation < ActiveRecord::Base
     else
       []
     end
-  end
-
-  def oai_identifier
-    "oai:#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.id}"
-  end
-
-  def self.find_by_oai_identifier(oai_identifier)
-    base_url = "oai:#{LIBRARY_WEB_HOSTNAME}/manifestations/"
-    begin
-      Manifestation.find(oai_identifier.gsub(base_url, '').to_i)
-    rescue
-      nil
-    end
-  end
-
-  def to_mods
-    xml = Builder::XmlMarkup.new
-    xml.mods('version' => '3.2'){
-      xml.titleInfo{
-        xml.title self.original_title
-      }
-      xml.name{
-        self.authors.each do |author|
-          xml.namePart author.full_name
-        end
-      }
-    }
-    xml.identifier("#{LibraryGroup.url}manifestations/#{self.id}", 'type' => 'uri')
-    xml.originInfo{
-      self.publishers.each do |publisher|
-        xml.publisher publisher.full_name
-      end
-      xml.dateIssued self.date_of_publication.iso8601 if self.date_of_publication
-    }
-    xml.target!
   end
 
   # TODO: よりよい推薦方法
