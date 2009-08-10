@@ -11,11 +11,15 @@ class OAI::Provider::ActiveRecordWrapper
 
     return esc_values
   end
+
+  def sets
+    Manifestation.all(:limit => 100)
+  end
 end
 
 class OaiProvider < OAI::Provider::Base
   repository_name LibraryGroup.site_config.name
-  repository_url "http://" + LibraryGroup.url + "manifestations"
+  repository_url LibraryGroup.url + "manifestations"
   record_prefix "oai:" + LIBRARY_WEB_HOSTNAME # + "/manifestations"
   admin_email LibraryGroup.site_config.email
   source_model OAI::Provider::ActiveRecordWrapper.new(Manifestation, :limit => 100)

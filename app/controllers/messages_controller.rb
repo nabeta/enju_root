@@ -5,11 +5,16 @@ class MessagesController < ApplicationController
   # Restful_authentication Filter
   before_filter :rezm_login_required
   before_filter :set_rezm_user
+  before_filter :get_user, :only => :index
 
   # GET /messages
   def index
-    query = params[:query].to_s.strip
-    redirect_to inbox_user_messages_url(params.merge(:query => query))
+    if params[:query]
+      query = params[:query].to_s.strip
+      redirect_to inbox_user_messages_url(params.merge(:query => query))
+    else
+      redirect_to inbox_user_messages_url
+    end
   end
   
   # GET /messages/1

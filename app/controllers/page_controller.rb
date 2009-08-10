@@ -3,7 +3,7 @@ class PageController < ApplicationController
   before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
   before_filter :get_libraries, :only => [:advanced_search]
   before_filter :get_user # 上書き注意
-  require_role 'Librarian', :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
+  before_filter :check_librarian, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
 
   def index
     if logged_in?
@@ -94,6 +94,12 @@ class PageController < ApplicationController
   private
   def get_user
     @user = current_user if logged_in?
+  end
+
+  def check_librarian
+    unless current_user.has_role?('Librarian')
+      access_denied
+    end
   end
   
 end
