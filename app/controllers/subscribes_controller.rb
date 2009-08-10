@@ -1,12 +1,12 @@
 class SubscribesController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?
-  before_filter :get_subscription, :get_expression
+  before_filter :get_subscription, :get_manifestation
 
   # GET /subscribes
   # GET /subscribes.xml
   def index
-    @subscribes = Subscribe.find(:all)
+    @subscribes = Subscribe.paginate(:all, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -30,7 +30,7 @@ class SubscribesController < ApplicationController
   def new
     @subscribe = Subscribe.new
     @subscribe.subscription = @subscription
-    @subscribe.expression = @expression
+    @subscribe.manifestation = @manifestation
 
     respond_to do |format|
       format.html # new.html.erb

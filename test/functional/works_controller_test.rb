@@ -18,6 +18,13 @@ class WorksControllerTest < ActionController::TestCase
     assert assigns(:works)
   end
 
+  def test_guest_should_get_index_with_work_id
+    get :index, :work_id => 1
+    assert_response :success
+    assert assigns(:work)
+    assert assigns(:works)
+  end
+
   def test_user_should_get_index
     UserSession.create(User.find(1))
     #UserSession.create users(:user1)
@@ -96,6 +103,7 @@ class WorksControllerTest < ActionController::TestCase
     assert_equal old_count+1, Work.count
     
     assert_redirected_to work_patrons_url(assigns(:work))
+    assigns(:work).remove_from_index!
   end
 
   def test_librarian_should_create_work
@@ -105,6 +113,7 @@ class WorksControllerTest < ActionController::TestCase
     assert_equal old_count+1, Work.count
     
     assert_redirected_to work_patrons_url(assigns(:work))
+    assigns(:work).remove_from_index!
   end
 
   def test_admin_should_create_work
@@ -114,6 +123,7 @@ class WorksControllerTest < ActionController::TestCase
     assert_equal old_count+1, Work.count
     
     assert_redirected_to work_patrons_url(assigns(:work))
+    assigns(:work).remove_from_index!
   end
 
   def test_guest_should_show_work
@@ -190,12 +200,14 @@ class WorksControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :work => { }
     assert_redirected_to work_url(assigns(:work))
+    assigns(:work).remove_from_index!
   end
   
   def test_admin_should_update_work
     UserSession.create users(:admin)
     put :update, :id => 1, :work => { }
     assert_redirected_to work_url(assigns(:work))
+    assigns(:work).remove_from_index!
   end
   
   def test_guest_should_not_destroy_work

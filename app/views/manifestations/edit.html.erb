@@ -36,8 +36,8 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.manifestation_form') -%></b>
-    <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name.localize, m.id]}) -%>
+    <b><%= t('activerecord.models.carrier_type') -%></b>
+    <%= f.select(:carrier_type_id, @carrier_types.collect{|m| [m.display_name.localize, m.id]}) -%>
   </p>
 
   <p>
@@ -46,7 +46,12 @@
   </p>
 
   <p>
-    <%- if @manifestation.serial -%>
+    <b><%= t('activerecord.attributes.manifestation.subscription_master') -%></b>
+    <%= f.check_box :subscription_master -%>
+  </p>
+
+  <p>
+    <%- if @manifestation.serial? -%>
       <%= render :partial => 'edit_serial', :locals => {:f => f} -%>
     <%- else -%>
       <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
@@ -56,7 +61,7 @@
     <%- end -%>
   </p>
 
-  <%- unless @manifestation.serial -%>
+  <%- unless @manifestation.serial? -%>
     <p>
       <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
       <%= f.text_field :isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
@@ -64,6 +69,10 @@
     <p>
       <b><%= t('activerecord.attributes.manifestation.wrong_isbn') -%></b>
       <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+    </p>
+    <p>
+      <b><%= t('activerecord.attributes.manifestation.lccn') -%></b>
+      <%= f.text_field :lccn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
     </p>
   <%- end -%>
 

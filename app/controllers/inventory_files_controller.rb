@@ -43,6 +43,7 @@ class InventoryFilesController < ApplicationController
   # POST /inventory_files.xml
   def create
     @inventory_file = InventoryFile.new(params[:inventory_file])
+    @inventory_file.user = current_user
 
     respond_to do |format|
       if @inventory_file.save

@@ -3,8 +3,8 @@ require 'test_helper'
 class CheckinsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :checkins, :checkouts, :users, :patrons, :roles, :user_groups, :reserves, :baskets, :library_groups, :checkout_types, :patron_types,
-    :user_group_has_checkout_types, :manifestation_form_has_checkout_types,
-    :manifestations, :manifestation_forms,
+    :user_group_has_checkout_types, :carrier_type_has_checkout_types,
+    :manifestations, :carrier_types,
     :items, :circulation_statuses, :exemplifies,
     :shelves, :request_status_types,
     :expressions, :expression_forms, :languages, :message_templates

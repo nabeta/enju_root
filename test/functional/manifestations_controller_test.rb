@@ -2,11 +2,13 @@ require 'test_helper'
 
 class ManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :manifestations, :manifestation_forms, :resource_has_subjects, :languages, :concepts, :places, :subjects, :subject_types,
+  fixtures :manifestations, :carrier_types, :resource_has_subjects, :languages, :subjects, :subject_types,
     :works, :work_forms, :realizes,
-    :expressions, :expression_forms, :frequency_of_issues,
+    :expressions, :expression_forms, :frequencies,
     :items, :libraries, :shelves, :languages, :exemplifies,
-    :embodies, :patrons, :user_groups, :users, :bookmarks, :bookmarked_resources, :roles
+    :embodies, :patrons, :user_groups, :users,
+    :bookmarks, :bookmarked_resources, :roles,
+    :subscriptions, :subscribes
 
   def test_guest_should_get_index
     assert_no_difference('SearchHistory.count') do
@@ -42,6 +44,13 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
+  def test_guest_should_get_index_with_manifestation_id
+    get :index, :manifestation_id => 1
+    assert_response :success
+    assert assigns(:manifestation)
+    assert assigns(:manifestations)
+  end
+
   def test_guest_should_get_index_with_patron_id
     get :index, :patron_id => 1
     assert_response :success
@@ -56,12 +65,28 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
-  def test_guest_should_get_index_with_subject
-    get :index, :subject_id => 1
+  def test_guest_should_get_index_with_subscription
+    get :index, :subscription_id => 1
     assert_response :success
-    assert assigns(:subject)
+    #assert_response :redirect
+    assert assigns(:subscription)
     assert assigns(:manifestations)
+    #assert_redirected_to new_user_session_url
   end
+
+  #def test_user_should_not_get_index_with_subscription
+  #  UserSession.create users(:user1)
+  #  get :index, :subscription_id => 1
+  #  assert_response :forbidden
+  #end
+
+  #def test_librarian_should_get_index_with_subscription
+  #  UserSession.create users(:librarian1)
+  #  get :index, :subscription_id => 1
+  #  assert_response :success
+  #  assert assigns(:subscription)
+  #  assert assigns(:manifestations)
+  #end
 
   def test_guest_should_get_index_with_query
     get :index, :query => '2005'
@@ -72,46 +97,40 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_guest_should_get_index_all_facet
     get :index, :query => '2005', :view => 'all_facet'
     assert_response :success
-    assert assigns(:facet_results)
+    assert assigns(:carrier_type_facet)
+    assert assigns(:language_facet)
+    assert assigns(:library_facet)
+    assert assigns(:subject_facet)
   end
 
-  def test_guest_should_get_index_manifestation_form_facet
-    get :index, :query => '2005', :view => 'manifestation_form_facet'
+  def test_guest_should_get_index_carrier_type_facet
+    get :index, :query => '2005', :view => 'carrier_type_facet'
     assert_response :success
-    assert assigns(:facet_results)
+    assert assigns(:carrier_type_facet)
   end
 
   def test_guest_should_get_index_language_facet
     get :index, :query => '2005', :view => 'language_facet'
     assert_response :success
-    assert assigns(:facet_results)
+    assert assigns(:language_facet)
   end
 
   def test_guest_should_get_index_library_facet
     get :index, :query => '2005', :view => 'library_facet'
     assert_response :success
-    assert assigns(:facet_results)
+    assert assigns(:library_facet)
   end
 
   def test_guest_should_get_index_subject_facet
     get :index, :query => '2005', :view => 'subject_facet'
     assert_response :success
-    assert assigns(:facet_results)
+    assert assigns(:subject_facet)
   end
 
   def test_guest_should_get_index_tag_cloud
     get :index, :query => '2005', :view => 'tag_cloud'
     assert_response :success
     assert assigns(:tags)
-  end
-
-  def test_user_should_save_search_history
-    old_search_history_count = SearchHistory.count
-    UserSession.create users(:admin)
-    get :index, :query => '2005'
-    assert_response :success
-    assert assigns(:manifestations)
-    assert_equal old_search_history_count + 1, SearchHistory.count
   end
 
   #def test_user_should_save_search_history_when_allowed
@@ -203,7 +222,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_manifestation
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1 }
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
     assert_equal old_count, Manifestation.count
     
     assert_redirected_to new_user_session_url
@@ -212,7 +231,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   #def test_user_should_not_create_manifestation
   #  UserSession.create users(:user1)
   #  assert_no_difference('Manifestation.count') do
-  #    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1 }
+  #    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
   #  end
   #  
   #  assert_response :forbidden
@@ -221,19 +240,20 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_user_should_create_manifestation
     UserSession.create users(:user1)
     assert_difference('Manifestation.count') do
-      post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1 }
+      post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
     end
     
     assert_response :redirect
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   #def test_librarian_should_not_create_manifestation_without_expression
   #  UserSession.create users(:librarian1)
   #  old_count = Manifestation.count
-  #  post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
+  #  post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }
   #  assert_equal old_count, Manifestation.count
   #  
   #  assert_response :redirect
@@ -244,19 +264,20 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_librarian_should_create_manifestation_without_expression
     UserSession.create users(:librarian1)
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }
     assert_equal old_count + 1, Manifestation.count
     
     assert_response :redirect
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_librarian_should_not_create_manifestation_without_title
     UserSession.create users(:librarian1)
     old_count = Manifestation.count
-    post :create, :manifestation => { :manifestation_form_id => 1, :language_id => 1 }, :expression_id => 1
+    post :create, :manifestation => { :carrier_type_id => 1, :language_id => 1 }, :expression_id => 1
     assert_equal old_count, Manifestation.count
     
     assert_response :success
@@ -265,13 +286,14 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_librarian_should_create_manifestation_with_expression
     UserSession.create users(:librarian1)
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }, :expression_id => 1
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }, :expression_id => 1
     assert_equal old_count+1, Manifestation.count
     
     assert assigns(:expression)
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_librarian_should_import_manifestation_with_isbn
@@ -284,6 +306,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation).nbn
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_librarian_should_not_import_manifestation_with_wrong_isbn
@@ -299,17 +322,23 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_admin_should_create_manifestation_with_expression
     UserSession.create users(:admin)
     old_count = Manifestation.count
-    post :create, :manifestation => { :original_title => 'test', :manifestation_form_id => 1, :language_id => 1 }, :expression_id => 1
+    post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1, :language_id => 1 }, :expression_id => 1
     assert_equal old_count+1, Manifestation.count
     
     assert assigns(:expression)
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
 
   def test_guest_should_show_manifestation
     get :show, :id => 1
+    assert_response :success
+  end
+
+  test 'guest shoud show manifestation screen shot' do
+    get :show, :id => 22, :mode => 'screen_shot'
     assert_response :success
   end
 
@@ -345,7 +374,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_show_manifestation_with_invalid_isbn
-    get :show, :isbn => "4798002062a"
+    get :show, :isbn => "47980020620"
     assert_response :missing
   end
 
@@ -436,12 +465,14 @@ class ManifestationsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :manifestation => { }
     assert_redirected_to manifestation_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
   
   def test_admin_should_update_manifestation
     UserSession.create users(:admin)
     put :update, :id => 1, :manifestation => { }
     assert_redirected_to manifestation_url(assigns(:manifestation))
+    assigns(:manifestation).remove_from_index!
   end
   
   def test_guest_should_not_destroy_manifestation

@@ -1,4 +1,0 @@
-wpaas_test:
-  adapter: mysql
-  username: root
-  database: wpaas_test

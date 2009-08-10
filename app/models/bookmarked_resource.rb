@@ -1,4 +1,3 @@
-require 'open-uri'
 class BookmarkedResource < ActiveRecord::Base
   include OnlyLibrarianCanModify
 

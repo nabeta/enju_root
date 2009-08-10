@@ -7,6 +7,13 @@ class Tag < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
 
+  searchable :auto_index => false do
+    text :name
+    string :name
+    time :created_at
+    time :updated_at
+  end
+
   def subjects
     Manifestation.find_by_solr("tag: #{name}", :limit => taggings_count).results.collect(&:subjects).flatten
   end

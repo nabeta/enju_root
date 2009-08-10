@@ -1,23 +1,19 @@
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_has_manifestation')) -%></h1>
 <div id="content_list">
 <p>
-  <b>From manifestation:</b>
+  <b><%= t('activerecord.attributes.manifestation_has_manifestation.from_manifestation') -%>:</b>
   <%= link_to h(@manifestation_has_manifestation.from_manifestation.original_title), @manifestation_has_manifestation.from_manifestation -%>
 </p>
 
 <p>
-  <b>To manifestation:</b>
+  <b><%= t('activerecord.attributes.manifestation_has_manifestation.to_manifestation') -%>:</b>
   <%= link_to h(@manifestation_has_manifestation.to_manifestation.original_title), @manifestation_has_manifestation.to_manifestation -%>
 </p>
 
 <p>
-  <b>Expression Relationship type:</b>
+  <b>Manifestation Relationship type:</b>
   <%=h @manifestation_has_manifestation.type -%>
-</p>
-
-<p>
-  <b>Position:</b>
-  <%=h @manifestation_has_manifestation.position -%>
 </p>
 
 </div>

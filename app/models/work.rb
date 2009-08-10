@@ -4,13 +4,13 @@ class Work < ActiveRecord::Base
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :reifies, :include => [:expression_form]
+  has_many :expressions, :through => :reifies
   belongs_to :work_form #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  has_many :resource_has_subjects, :dependent => :destroy
   has_many :subjects, :through => :resource_has_subjects
-  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
   has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
   has_many :derived_works, :through => :to_works, :source => :to_work
@@ -21,16 +21,29 @@ class Work < ActiveRecord::Base
   #has_many :places, :through => :work_has_places
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :resource_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
+  belongs_to :medium_of_performance
+  accepts_nested_attributes_for :expressions, :allow_destroy => true
 
-  acts_as_solr :fields => [:title, :context, :note, {:created_at => :date}, {:updated_at => :date}, {:patron_ids => :integer}, {:parent_id => :integer}, {:required_role_id => :range_integer}, {:work_merge_list_ids => :integer}],
-    :facets => [:work_form_id], 
-    :offline => proc{|work| work.restrain_indexing}, :auto_commit => false
+  searchable :auto_index => false do
+    text :title, :context, :note, :author
+    text :author do
+      patrons.collect(&:full_name) + patrons.collect(&:full_name_transcription)
+    end
+    time :created_at
+    time :updated_at
+    integer :patron_ids, :multiple => true
+    integer :work_merge_list_ids, :multiple => true
+    integer :original_work_ids, :multiple => true
+    integer :required_role_id
+    integer :work_form_id
+  end
+
   #acts_as_soft_deletable
   acts_as_tree
+  has_one :mods_import
 
   @@per_page = 10
   cattr_accessor :per_page
-  attr_accessor :restrain_indexing
 
   validates_associated :work_form
   validates_presence_of :original_title, :work_form
@@ -48,34 +61,23 @@ class Work < ActiveRecord::Base
     title << original_title
     title << title_transcription
     title << title_alternative
-    title << original_title.wakati
-    title << title_transcription.wakati rescue nil
-    title << title_alternative.wakati rescue nil
+    #title << original_title.wakati
+    #title << title_transcription.wakati rescue nil
+    #title << title_alternative.wakati rescue nil
     title
   end
   
   def manifestations
-    expressions.not_serials.collect(&:manifestations).flatten.uniq
+    expressions.collect(&:manifestations).flatten.uniq
   end
 
   def serials
-    self.expressions.serials
-  end
-
-  def patron_ids
-    self.patrons.collect(&:id)
+    nil
+    #self.expressions.serials
   end
 
   def work_merge_lists_ids
     self.work_merge_lists.collect(&:id)
-  end
-
-  def original_work_ids
-    self.original_works.collect(&:id)
-  end
-
-  def derived_work_ids
-    self.derived_works.collect(&:id)
   end
 
 end

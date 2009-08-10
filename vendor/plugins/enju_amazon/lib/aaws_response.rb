@@ -1,2 +1,0 @@
-class AawsResponse < ManifestationApiResponse
-end

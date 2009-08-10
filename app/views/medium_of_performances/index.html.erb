@@ -1,0 +1,44 @@
+<div id="submenu">
+  <ul>
+    <%- if @user_group -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_medium_of_performance')), new_user_group_user_group_has_medium_of_performance_path(@user_group) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.medium_of_performance')), new_medium_of_performance_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.medium_of_performance')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th id="position"></th>
+    <th><%= t('activerecord.attributes.medium_of_performance.name') -%></th>
+    <th><%= t('activerecord.attributes.medium_of_performance.display_name') -%></th>
+    <th><%= t('activerecord.attributes.medium_of_performance.note') -%></th>
+  </tr>
+
+<%- for medium_of_performance in @medium_of_performances -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- unless @user_group -%>
+        <%- if medium_of_performance.is_deletable_by(current_user) -%>
+          <%= medium_of_performance.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (medium_of_performance.position  > 1 ? medium_of_performance.position - 1 : 1), :id => medium_of_performance.id}, :method => :put) -%>
+          <%= medium_of_performance.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (medium_of_performance.position + 1), :id => medium_of_performance.id}, :method => :put) -%>
+        <%- end -%>
+      <%- end -%>
+    </td>
+    <td><%= link_to h(medium_of_performance.name), medium_of_performance -%></td>
+    <td><%= link_to h(medium_of_performance.display_name.localize), medium_of_performance -%></td>
+    <td><%=h medium_of_performance.note -%></td>
+    <td><%= link_to t('page.edit'), edit_medium_of_performance_path(medium_of_performance) -%></td>
+    <td><%= link_to t('page.destroy'), medium_of_performance, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@medium_of_performances, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>

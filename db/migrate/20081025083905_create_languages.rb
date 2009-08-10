@@ -8,7 +8,7 @@ class CreateLanguages < ActiveRecord::Migration
     create_table :languages do |t|
       t.string :name
       t.string :native_name
-      t.string :display_name
+      t.text :display_name
       t.string :iso_639_1,        :size => 3
       t.string :iso_639_2,        :size => 3
       t.string :iso_639_3,        :size => 3

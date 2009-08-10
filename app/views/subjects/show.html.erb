@@ -8,8 +8,9 @@
     <%- if SubjectHasClassification.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
       <li><%= link_to t('page.destroy'), subject_path(@subject), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.classification')), subject_classifications_path(@subject) -%></li>
     <%- end -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.classification')), subject_classifications_path(@subject) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject')), subject_works_path(@subject) -%></li>
   </ul>
 </div>
 
@@ -24,7 +25,7 @@
     (<%= link_to_wikipedia(@subject.term) -%>)
   </p>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.attributes.classification.category') -%></th>
     <th><%= t('activerecord.models.classification_type') -%></th>
@@ -42,6 +43,9 @@
   <%=h @subject.note -%>
 </p>
 
+<%= render :partial => 'subjects/show_work_list' -%>
+
 <%- end -%>
+
 </div>
 </div>

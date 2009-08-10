@@ -2,21 +2,24 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.message_template')) -%></h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.message_template.status') -%></th>
     <th><%= t('activerecord.attributes.message_template.title') -%></th>
   </tr>
 
 <%- for message_template in @message_templates -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= message_template.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (message_template.position  > 1 ? message_template.position - 1 : 1), :id => message_template.id}, :method => :put) -%>
+      <%= message_template.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (message_template.position + 1), :id => message_template.id}, :method => :put) -%>
+    </td>
     <td><%= link_to h(message_template.status), message_template -%></td>
     <td><%=h message_template.title -%></td>
     <%- if message_template.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_message_template_path(message_template) -%></td>
       <td><%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= message_template.first? ? '' : link_to('▲', {:action => 'update', :position  => (message_template.position  > 1 ? message_template.position - 1 : 1), :id => message_template.id}, :method => :put) -%></td>
-      <td><%= message_template.last? ? '' : link_to('▼', {:action => 'update', :position => (message_template.position + 1), :id => message_template.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

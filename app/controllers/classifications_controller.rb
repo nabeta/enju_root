@@ -6,23 +6,23 @@ class ClassificationsController < ApplicationController
   # GET /classifications
   # GET /classifications.xml
   def index
+    search = Sunspot.new_search(Classification)
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
+      search.query.keywords = query
     end
     unless params[:mode] == 'add'
-      query.add_query!(@subject) if @subject
-      query = "#{query} classification_type_id: #{@classification_type.id}" if @classification_type
+      search.query.add_restriction(:subject_ids, :equal_to, @subject.id) if @subject
+      search.query.add_restriction(:classification_type_id, :equal_to, @classification_type.id) if @classification_type
     end
 
-    if query
-      @classifications = Classification.paginate_by_solr(query, :page => params[:page]).compact
-    else
-      if @subject
-        @classifications = @subject.classifications.paginate(:page => params[:page])
-      else
-        @classifications = Classification.paginate(:all, :page => params[:page])
-      end
+    page = params[:page] || 1
+    begin
+      search.query.paginate(page.to_i, Classification.per_page)
+      @classifications = search.execute!.results
+    rescue RSolr::RequestError
+      @classifications = WillPaginate::Collection.create(1,1,0) do end
     end
 
     session[:params] = {} unless session[:params]

@@ -10,8 +10,9 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event_category')) -%></h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.event_category.name') -%></th>
     <th><%= t('activerecord.attributes.event_category.display_name') -%></th>
     <th><%= t('activerecord.attributes.event_category.note') -%></th>
@@ -19,14 +20,18 @@
 
 <%- for event_category in @event_categories -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if event_category.is_deletable_by(current_user) -%>
+        <%= event_category.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (event_category.position  > 1 ? event_category.position - 1 : 1), :id => event_category.id}, :method => :put) -%></td>
+        <%= event_category.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (event_category.position + 1), :id => event_category.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(event_category.name), event_category -%></td>
     <td><%= link_to h(event_category.display_name.localize), event_category -%></td>
     <td><%=h event_category.note -%></td>
     <%- if event_category.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_event_category_path(event_category) -%></td>
       <td><%= link_to t('page.destroy'), event_category, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= event_category.first? ? '' : link_to('▲', {:action => 'update', :position => (event_category.position  > 1 ? event_category.position - 1 : 1), :id => event_category.id}, :method => :put) -%></td>
-      <td><%= event_category.last? ? '' : link_to('▼', {:action => 'update', :position => (event_category.position + 1), :id => event_category.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

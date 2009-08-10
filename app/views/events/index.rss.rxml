@@ -25,9 +25,9 @@ xml.rss('version' => "2.0",
         xml.pubDate event.created_at.rfc2822
         xml.link event_url(event)
         xml.guid event_url(event), :isPermaLink => "true"
-        event.tag_list.each do |tag|
-          xml.category tag
-        end
+        #event.tags.each do |tag|
+        #  xml.category tag.name
+        #end
       end
     end
   }

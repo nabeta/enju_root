@@ -1,9 +1,9 @@
 class OaiController < ApplicationController
   def provide
     # Remove controller and action from the options.  Rails adds them automatically.
-    if params[:identifier]
-      params[:identifier] = extract_id_from_oai_identifier(params[:identifier])
-    end
+    #if params[:identifier]
+    #  params[:identifier] = extract_id_from_oai_identifier(params[:identifier])
+    #end
 
     if params[:verb] == 'GetRecord'
       raise ActiveRecord::RecordNotFound unless params[:identifier]
@@ -19,7 +19,7 @@ class OaiController < ApplicationController
 
   private
   def extract_id_from_oai_identifier(oai_identifier)
-    base_url = "oai:#{LIBRARY_WEB_HOSTNAME}/manifestations/"
+    base_url = "oai:#{LIBRARY_WEB_HOSTNAME}/"
     if oai_identifier =~ /^#{base_url}/
       id = oai_identifier.gsub(base_url, '').to_s
     end

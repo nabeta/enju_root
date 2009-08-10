@@ -15,7 +15,7 @@
                   <%- unless work.original_title == manifestation.original_title and work.expressions.size == 1 -%>
                     <li>[M]
                     <%= link_to h(manifestation.original_title), manifestation -%>
-                    <%= form_icon(manifestation.manifestation_form) -%>
+                    <%= form_icon(manifestation.carrier_type) -%>
                     <%- manifestation.expressions.each do |expression| -%>
                       <%= link_to expression_form_icon(expression.expression_form), expression -%>
                     <%- end -%>

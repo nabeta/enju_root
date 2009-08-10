@@ -8,11 +8,13 @@ class CreateManifestations < ActiveRecord::Migration
       t.string :classification_number
       t.string :manifestation_identifier
       t.datetime :date_of_publication
+      t.datetime :copyright_date
       t.timestamps
       t.datetime :deleted_at
       t.string :access_address
       t.integer :language_id, :default => 1, :null => false
-      t.integer :manifestation_form_id, :default => 1, :null => false
+      t.integer :carrier_type_id, :default => 1, :null => false
+      t.integer :extent_id, :default => 1, :null => false
       t.integer :start_page
       t.integer :end_page
       t.decimal :height
@@ -26,7 +28,7 @@ class CreateManifestations < ActiveRecord::Migration
       #t.text :filename
       #t.string :content_type
       #t.integer :size
-      #t.text :fulltext
+      t.text :fulltext
       t.string :volume_number_list
       t.string :issue_number_list
       t.string :serial_number_list
@@ -42,13 +44,16 @@ class CreateManifestations < ActiveRecord::Migration
       t.integer :required_role_id, :default => 1, :null => false
       t.string :state
       t.integer :required_score, :default => 0, :null => false
+      t.integer :frequency_id, :default => 1, :null => false
+      t.boolean :subscription_master, :default => false, :null => false
     end
     add_index :manifestations, :parent_id
-    add_index :manifestations, :manifestation_form_id
+    add_index :manifestations, :carrier_type_id
     add_index :manifestations, :required_role_id
     add_index :manifestations, :isbn
     add_index :manifestations, :nbn
     add_index :manifestations, :access_address
+    add_index :manifestations, :frequency_id
   end
 
   def self.down

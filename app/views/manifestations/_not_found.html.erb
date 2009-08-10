@@ -1,0 +1,19 @@
+<div id="tabview">
+  <div id="demo" class="yui-navset yui-navset-top">
+    <ul class="yui-nav">
+      <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
+      <li><a href="#worldcat"><em><%= 'WorldCat' -%></em></a></li>
+    </ul>
+    <div class="yui-content">
+      <div id="detail">
+        <p>
+          <%= t('page.no_record_found') -%>
+          <%= t('page.you_can_search_following_database') -%>
+        </p>
+      </div>
+      <div id="worldcat">
+        <%= render :partial => 'worldcat' -%>
+      </div>
+    </div>
+  </div>
+</div>

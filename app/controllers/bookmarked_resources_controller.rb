@@ -23,33 +23,36 @@ class BookmarkedResourcesController < ApplicationController
     session[:params] = {} unless session[:params]
     session[:params][:manifestation] = nil
 
+    search = Sunspot.new_search(Manifestation)
     @count = {}
-    query = make_query(params[:query], {:tag => params[:tag]})
-    @query = query.dup
-    query.add_query!(@user) if @user
-
+    query = params[:query]
+    #query = make_query(params[:query], {:tag => params[:tag]})
     unless query.blank?
-      @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
+      @query = query.dup
+      search.query.keywords = query
+    end
+    if @user
+      search.query.add_restriction(:user, :equal_to, @user.login)
     else
-      if @user
-        #query = "user: #{@user.login}"
-        @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-      else
-        if logged_in?
-          if current_user.has_role?('Librarian')
-            query = "user: [* TO *]"
-            @bookmarked_resources = Manifestation.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-          else
-            redirect_to user_bookmarks_url(current_user.login)
-            return
-          end
-        else
-          access_denied
+      if logged_in?
+        unless current_user.has_role?('Librarian')
+          redirect_to user_bookmarks_url(current_user.login)
           return
         end
+      else
+        access_denied
+        return
       end
     end
-    bookmarked_resource_ids = Manifestation.find_id_by_solr(query, :order => 'updated_at desc', :limit => Manifestation.numdocs).results.compact
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, BookmarkedResource.per_page)
+    @bookmarked_resources = search.execute!.results
+
+    bookmarked_resource_ids = Manifestation.search_ids do
+      keywords query
+      order_by :updated_at, :desc
+      paginate :page => 1, :per_page => Manifestation.per_page
+    end
     @count[:query_result] = @bookmarked_resources.total_entries
     session[:bookmarked_resource_ids] = bookmarked_resource_ids
     #rescue
@@ -64,6 +67,9 @@ class BookmarkedResourcesController < ApplicationController
       format.rss  { render :layout => false }
       format.csv
     end
+  rescue RSolr::RequestError
+    redirect_to user_bookmarked_resources_url(current_user.login)
+    return
   end
 
   # GET /bookmarked_resources/1

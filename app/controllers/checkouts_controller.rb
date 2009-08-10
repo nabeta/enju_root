@@ -55,7 +55,7 @@ class CheckoutsController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @checkouts.to_xml }
       format.rss  { render :layout => false }
-      format.ics  { render :layout => false }
+      format.ics
       format.csv
       format.atom
     end

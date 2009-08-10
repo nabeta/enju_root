@@ -1,6 +1,6 @@
 --- 
 manifestation_00001: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: "4798002062"
   updated_at: 2007-11-19 16:59:00.293393 +09:00
@@ -19,7 +19,7 @@ manifestation_00001:
   end_page: 100
   repository_content: true
 manifestation_00002: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: "4915724824"
   updated_at: 2007-11-19 16:59:00.991512 +09:00
@@ -36,7 +36,7 @@ manifestation_00002:
   created_at: 2007-11-19 16:59:00.991512 +09:00
   repository_content: false
 manifestation_00003: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: "4897063590"
   updated_at: 2007-11-19 16:59:01.618359 +09:00
@@ -55,7 +55,7 @@ manifestation_00003:
   exemplifies_count: 3
   created_at: 2007-11-19 16:59:01.618359 +09:00
 manifestation_00004: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: 0471412791
   updated_at: 2007-11-19 16:59:02.275738 +09:00
@@ -71,7 +71,7 @@ manifestation_00004:
   exemplifies_count: 0
   created_at: 2007-11-19 16:59:02.275738 +09:00
 manifestation_00005: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: ""
   updated_at: 2007-11-19 16:58:54.333183 +09:00
@@ -89,7 +89,7 @@ manifestation_00005:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:54.333183 +09:00
 manifestation_00006: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: ""
   updated_at: 2007-11-19 16:58:56.255684 +09:00
@@ -107,7 +107,7 @@ manifestation_00006:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:56.255684 +09:00
 manifestation_00007: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: 0470844701
   updated_at: 2007-11-19 16:58:56.892741 +09:00
@@ -123,7 +123,7 @@ manifestation_00007:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:56.892741 +09:00
 manifestation_00008: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: "4798101028"
   updated_at: 2007-11-19 16:58:57.463333 +09:00
@@ -139,7 +139,7 @@ manifestation_00008:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:57.463333 +09:00
 manifestation_00009: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: "4641143331"
   updated_at: 2007-11-19 16:58:58.166195 +09:00
@@ -157,7 +157,7 @@ manifestation_00009:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:58.166195 +09:00
 manifestation_00010: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   language_id: 1
   isbn: "9784774127804"
   updated_at: 2007-11-19 16:58:58.799724 +09:00
@@ -173,7 +173,7 @@ manifestation_00010:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:58.799724 +09:00
 manifestation_00021: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   isbn: "4822281167"
   updated_at: 2007-11-19 16:58:58.799724 +09:00
   original_title: "Web\xE3\x82\xB5\xE3\x83\xBC\xE3\x83\x93\xE3\x82\xB9\xE5\xAE\x8C\xE5\x85\xA8\xE6\xA7\x8B\xE7\xAF\x89\xE3\x82\xAC\xE3\x82\xA4\xE3\x83\x89"
@@ -188,7 +188,7 @@ manifestation_00021:
   exemplifies_count: 0
   created_at: 2007-11-19 16:58:58.799724 +09:00
 manifestation_00022: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   isbn: 
   updated_at: 2007-11-19 16:58:58.799724 +09:00
   original_title: "YouTube - Open Source ILS Song"
@@ -203,7 +203,7 @@ manifestation_00022:
   exemplifies_count: 0
   created_at: 2008-04-17 00:34:01 +09:00
 manifestation_00023: 
-  manifestation_form_id: 1
+  carrier_type_id: 1
   isbn: 
   created_at: 2008-04-17 00:34:01 +09:00
   original_title: "世界の美しい図書館集めてみた【第一弾】"

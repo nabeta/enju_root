@@ -5,24 +5,15 @@ resource_has_subject_00001:
   updated_at: 2008-06-06 15:11:29.667289 +09:00
   subject_id: 1
   id: 1
-  subject_type: Subject
-  subjectable_id: 1
-  subjectable_type: Manifestation
 resource_has_subject_00002: 
   work_id: 1
   created_at: 2008-06-06 15:11:33.311274 +09:00
   updated_at: 2008-06-06 15:11:33.311274 +09:00
   subject_id: 2
   id: 2
-  subject_type: Subject
-  subjectable_id: 1
-  subjectable_type: Manifestation
 resource_has_subject_00003: 
   work_id: 1
   created_at: 2008-06-06 15:11:37.290715 +09:00
   updated_at: 2008-06-06 15:11:37.290715 +09:00
   subject_id: 3
   id: 3
-  subject_type: Subject
-  subjectable_id: 1
-  subjectable_type: Manifestation

@@ -53,7 +53,7 @@ ja:
       realize: 実現
       reify: 具体化
       subject_as_concept: 件名概念として
-      frequency_of_issue: 発行頻度
+      frequency: 発行頻度
       expression_merge_list: 表現形の併合リスト
       use_restriction: 利用制限
       subject: 件名
@@ -75,8 +75,7 @@ ja:
       search_engine: 検索エンジン
       bookmark: ブックマーク
       create: 作成
-      db_file: データベースのファイル
-      manifestation_form: 体現形の形態
+      carrier_type: 体現形の形態
       manifestation: 体現形
       user_group: 利用者グループ
       imported_resource_file: インポートされる資料のファイル
@@ -99,7 +98,7 @@ ja:
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      manifestation_form_has_checkout_type: 体現形の種類と貸出ルールの関係
+      carrier_type_has_checkout_type: 体現形の種類と貸出ルールの関係
       user_group_has_checkout_type: 利用者グループと貸出ルールの関係
       tag: タグ
       bookmark_stat: ブックマーク統計
@@ -124,6 +123,11 @@ ja:
       subject_heading_type_has_subject: 件名標目と件名の関係
       user_has_shelf: 利用者と書棚の関係
       participate: 参加
+      patron_has_patron: パトロン間の関係
+      shelf_has_manifestation: 書棚と体現形の関係
+      extent: 大きさ
+      medium_of_performance: 演奏手段
+      content_type: 内容の種類
     attributes:
       library:
         name: 名前
@@ -148,12 +152,13 @@ ja:
         shared: 質問を公開する
         deleted_at: 削除時刻
       imported_patron_file:
-        filename: ファイル名
-        content_type: Content-Type
-        size: ファイルサイズ
+        imported_patron_file_name: ファイル名
+        imported_patron_content_type: Content-Type
+        imported_patron_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
+        imported_patron_updated_at: 更新時刻
       circulation_status:
         name: 名前
         display_name: 表示名
@@ -288,17 +293,20 @@ ja:
         old_password: 古いパスワード
         locale: 言語
       resource_has_subject:
+        work: 著作形
+        subject: 件名
         subjectable_type: 件名付与対象の種類
       picture_file:
         picture_attachable_type: 画像を添付可能な種類
-        size: ファイルサイズ
-        content_type: Content-Type
+        picture_file_size: ファイルサイズ
+        picture_content_type: Content-Type
         title: タイトル
-        filename: ファイル名
+        picture_file_name: ファイル名
         height: 高さ
         width: 幅
         thumbnail: サムネイル
         file_hash: ファイルのハッシュ
+        picture_updated_at: 更新時刻
       work_form:
         name: 名前
         display_name: 表示名
@@ -411,6 +419,7 @@ ja:
         url: URL
         price: 購入価格
         lock_version: ロックバージョン
+        checkout_type: 貸出種別
       barcode:
         barcode_type: バーコードの種類
         barcodable_type: バーコード付与対象の種類
@@ -443,7 +452,7 @@ ja:
         position: 位置
       subject_as_concept:
         term: 用語
-      frequency_of_issue:
+      frequency:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -534,9 +543,7 @@ ja:
         note: 注記
       create:
         position: 位置
-      db_file:
-        data: データ
-      manifestation_form:
+      carrier_type:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -567,8 +574,11 @@ ja:
         note: 注記
         repository_content: リポジトリのコンテンツ
         lock_version: ロックバージョン
-        manifestation_form: 体現形の形態
+        carrier_type: 体現形の形態
         language: 言語
+        lccn: LCCN
+        issn: ISSN
+        subscription_master: 購読マスタ
       user_group:
         name: 名前
         display_name: 表示名
@@ -576,12 +586,13 @@ ja:
         position: 位置
         deleted_at: 削除時刻
       imported_resource_file:
-        filename: ファイル名
-        content_type: Content-Type
-        size: ファイルサイズ
+        imported_resource_file_name: ファイル名
+        imported_resource_content_type: Content-Type
+        imported_resource_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
+        imported_resource_updated_at: 更新時刻
       checkout:
         due_date: 期日
         lock_version: ロックバージョン
@@ -610,12 +621,13 @@ ja:
         post_to_union_catalog: 総合目録に登録する
         valid_period_for_new_user: 新規ユーザの有効日数
       imported_event_file:
-        filename: ファイル名
-        content_type: Content-Type
-        size: ファイルサイズ
+        imported_event_file_name: ファイル名
+        imported_event_content_type: Content-Type
+        imported_event_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
+        imported_event_updated_at: 更新時刻
       bookmarked_resource:
         title: タイトル
         url: URL
@@ -681,12 +693,12 @@ ja:
         note: 注記
         position: 位置
       inventory_file:
-        filename: ファイル名
-        content_type: Content-Type
-        size: ファイルサイズ
+        inventory_file_name: ファイル名
+        inventory_content_type: Content-Type
+        inventory_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
-      manifestation_form_has_checkout_type:
+      carrier_type_has_checkout_type:
         note: 注記
         position: 位置
       user_group_has_checkout_type:
@@ -806,6 +818,45 @@ ja:
         reserves_count: 資料の予約回数
       bookmark_stat_has_manifestation:
         bookmarks_count: ブックマーク回数
+      work_has_work:
+        from_work: 始点
+        to_work: 終点
+      expression_has_expression:
+        from_manifestation: 始点
+        to_manifestation: 終点
+      manifestation_has_manifestation:
+        from_manifestation: 始点
+        to_manifestation: 終点
+      item_has_item:
+        from_item: 始点
+        to_item: 終点
+      patron_has_patron:
+        from_patron: 始点
+        to_patron: 終点
+      shelf_has_manifestation:
+        shelf: 書棚
+        manifestation: 体現形
+        position: 位置
+      medium_of_performance:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      content_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      extent:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      content_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -940,6 +991,12 @@ ja:
     sent_email: "電子メールを送信しました。"
     identifier: "識別子"
     set_locale: "言語を設定"
+    add_derivation: "派生資料を追加"
+    local_record: "自館の情報"
+    search_catalog_at: "{{library_name}}の目録を検索"
+    add_on: "アドオン"
+    asc: "昇順"
+    desc: "降順"
   title:
     index: "一覧"
     show: "表示"
@@ -1016,6 +1073,7 @@ ja:
     web: "Web"
     serial: "定期刊行物"
     send_email: "書誌情報を電子メールで送信する"
+    attachment_file: "添付ファイル"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
@@ -1027,6 +1085,7 @@ ja:
     this_item_include_supplement: "この資料は付録を含んでいます。"
     all_item: "全ての個別資料"
     add_new_copy: "複本を追加"
+    no_manifestation: "体現形なし"
     no_number: "番号なし"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
@@ -1173,6 +1232,7 @@ ja:
     previous_checkout: "現在貸出中の資料"
     checkout: "上記の資料を貸し出す"
     ignore_restriction: "制限を無視する"
+    already_checked_out: "この資料はすでに貸し出されています。"
   checkin:
     item_not_found: "資料が見つかりません。"
     enter_item_identifier: "個別資料番号を入力してください。"
@@ -1192,7 +1252,6 @@ ja:
     period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
-    post_to_scribd: "Scribdに送信する"
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"
@@ -1204,6 +1263,8 @@ ja:
     create_order_list: "発注リストを作成してください。"
     specify_purchase_request: "購入依頼を指定してください。"
   resource_has_subject:
+    add_work: "著作形を追加する"
+    add_subject: "件名を追加する"
     subjectable: "件名付与対象"
   library_group:
     configuration: "図書館の設定"

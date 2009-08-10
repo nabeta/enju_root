@@ -1,30 +1,30 @@
-require 'open-uri'
 require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   #include OnlyLibrarianCanModify
   include LibrarianOwnerRequired
-  named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  named_scope :serials, :conditions => ['frequency_id > 1']
+  named_scope :not_serials, :conditions => ['frequency_id = 1']
   has_many :embodies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy
   has_many :exemplifies, :dependent => :destroy
   has_many :items, :through => :exemplifies, :dependent => :destroy
   has_many :produces, :dependent => :destroy
   has_many :patrons, :through => :produces, :order => 'produces.position'
-  has_one :manifestation_api_response, :dependent => :destroy
+  #has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user
-  belongs_to :manifestation_form #, :validate => true
+  belongs_to :carrier_type #, :validate => true
+  belongs_to :extent #, :validate => true
   belongs_to :language, :validate => true
-  has_one :attachment_file #, :dependent => :destroy
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
-  #has_many :children, :class_name => 'Manifestation', :foreign_key => :parent_id
-  #belongs_to :parent, :class_name => 'Manifestation', :foreign_key => :parent_id
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :checkout_stat_has_manifestations
   has_many :checkout_stats, :through => :checkout_stat_has_manifestations
@@ -34,49 +34,76 @@ class Manifestation < ActiveRecord::Base
   has_many :reserve_stats, :through => :reserve_stat_has_manifestations
   has_many :to_manifestations, :foreign_key => 'from_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
-  has_many :derived_manifestations, :through => :to_manifestations, :source => :manifestation_to_manifestation
-  has_many :original_manifestations, :through => :from_manifestations, :source => :manifestation_from_manifestation
+  has_many :derived_manifestations, :through => :to_manifestations, :source => :to_manifestation
+  has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
-  has_one :db_file
+  belongs_to :frequency #, :validate => true
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscriptions, :through => :subscribes
 
-  acts_as_solr :fields => [{:created_at => :date}, {:updated_at => :date},
-    :title, :author, :publisher, :access_address,
-    :isbn, :isbn10, {:wrong_isbn => :string},
-    {:nbn => :string}, :issn, :tag, :fulltext,
-    {:formtype => :string}, {:formtype_f => :facet},
-    {:library => :string}, {:library_f => :facet},
-    {:lang => :string}, {:language_f => :facet},
-    :subject, :subject_f,
-    :related_titles, :patron, {:shelf => :string},
-    {:pubdate => :date}, {:number_of_pages => :range_integer},
-    {:height => :range_float}, {:width => :range_float},
-    {:depth => :range_float}, {:sortable_title => :string}, :note,
-    {:volume_number => :range_integer}, {:issue_number => :range_integer},
-    {:expression_ids => :integer}, {:patron_ids => :integer},
-    {:subject_ids => :integer},
-    {:serial_number => :range_integer},
-    {:user => :string}, {:price => :range_float},
-    {:required_role_id => :range_integer}, {:reservable => :boolean},
-    ],
-    :facets => [:formtype_f, :subject_f, :language_f, :library_f],
-    #:if => proc{|manifestation| !manifestation.serial?},
-    :offline => proc{|manifestation| manifestation.restrain_indexing},
-    :auto_commit => false
-  #acts_as_soft_deletable
+  searchable :auto_index => false do
+    text :title, :fulltext, :tag, :note, :author, :editor, :publisher, :subject
+    string :isbn, :multiple => true do
+      [isbn, isbn10, wrong_isbn]
+    end
+    string :issn
+    string :lccn
+    string :nbn
+    string :tag, :multiple => true
+    string :carrier_type do
+      carrier_type.name
+    end
+    string :library, :multiple => true
+    string :language, :multiple => true do
+      languages.collect(&:name)
+    end
+    string :shelf, :multiple => true
+    string :user, :multiple => true
+    string :subject, :multiple => true
+    string :sort_title
+    time :created_at
+    time :updated_at
+    time :date_of_publication
+    integer :patron_ids, :multiple => true
+    integer :item_ids, :multiple => true
+    integer :original_manifestation_ids, :multiple => true
+    integer :derived_manifestation_ids, :multiple => true
+    integer :expression_ids, :multiple => true
+    integer :subscription_ids, :multiple => true
+    integer :required_role_id
+    integer :carrier_type_id
+    integer :height
+    integer :width
+    integer :depth
+    integer :volume_number, :multiple => true
+    integer :issue_number, :multiple => true
+    integer :serial_number, :multiple => true
+    integer :start_page
+    integer :end_page
+    integer :number_of_pages
+    float :price
+    boolean :reservable
+    boolean :subscription_master
+  end
+
   acts_as_tree
   enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_porta
   enju_cinii
-  #acts_as_taggable_on :subject_tags
+  enju_worldcat
+  has_attached_file :attachment
+  has_ipaper_and_uses 'Paperclip'
+  enju_scribd
+  enju_mozshot
+  enju_oai_pmh
 
   @@per_page = 10
   cattr_accessor :per_page
-  attr_accessor :restrain_indexing
 
-  validates_presence_of :original_title, :manifestation_form, :language
-  validates_associated :manifestation_form, :language
+  validates_presence_of :original_title, :carrier_type, :language
+  validates_associated :carrier_type, :language
   validates_numericality_of :start_page, :end_page, :allow_blank => true
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
   validates_uniqueness_of :isbn, :allow_blank => true
@@ -89,13 +116,13 @@ class Manifestation < ActiveRecord::Base
     #  errors.add(:date_of_publication) unless date
     #end
 
-    unless self.isbn.blank?
+    if self.isbn.present?
       errors.add(:isbn) unless ISBN_Tools.is_valid?(self.isbn)
     end
   end
 
   def before_validation_on_create
-    self.isbn = self.isbn.to_s.strip.gsub('-', '')
+    ISBN_Tools.cleanup!(self.isbn)
     if self.isbn.length == 10
       isbn10 = self.isbn.dup
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
@@ -105,22 +132,34 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
+  def before_validation_on_update
+    ISBN_Tools.cleanup!(self.isbn) if self.isbn.present?
+  end
+
+  def after_create
+    send_later(:set_digest)
+    Rails.cache.delete("Manifestation.search.total")
+  end
+
   def after_save
-    self.expire_cache
-    send_later(:solr_commit)
-    self.send_later(:generate_fragment_cache)
+    send_later(:expire_cache)
+    send_later(:generate_fragment_cache)
   end
 
   def after_destroy
-    after_save
+    Rails.cache.delete("Manifestation.search.total")
+    send_later(:expire_cache)
   end
 
   def expire_cache
-    Rails.cache.delete("Manifestation:numdocs")
+    sleep 5
+    Rails.cache.delete("worldcat_record_#{id}")
+    Rails.cache.delete("xisbn_manifestations_#{id}")
+    Rails.cache.fetch("manifestation_screen_shot_#{id}")
   end
 
   def self.cached_numdocs
-    Rails.cache.fetch("Manifestation:numdocs"){Manifestation.numdocs}
+    Rails.cache.fetch("Manifestation.search.total"){Manifestation.search.total}
   end
 
   def full_title
@@ -136,6 +175,7 @@ class Manifestation < ActiveRecord::Base
         array << expression.work.title
       end
     end
+    #array << worldcat_record[:title] if worldcat_record
     array.flatten.compact.sort.uniq
   end
 
@@ -144,18 +184,19 @@ class Manifestation < ActiveRecord::Base
     title << original_title
     title << title_transcription
     title << title_alternative
-    title << original_title.wakati
-    title << title_transcription.wakati rescue nil
-    title << title_alternative.wakati rescue nil
+    #title << original_title.wakati
+    #title << title_transcription.wakati rescue nil
+    #title << title_alternative.wakati rescue nil
     title
   end
 
   def url
-    access_address
+    #access_address
+    "#{LibraryGroup.url}manifestations/#{self.id}"
   end
 
   def available_checkout_types(user)
-    user.user_group.user_group_has_checkout_types.available_for_manifestation_form(self.manifestation_form)
+    user.user_group.user_group_has_checkout_types.available_for_carrier_type(self.carrier_type)
   end
 
   def checkout_period(user)
@@ -171,12 +212,16 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial
-    self.expressions.serials.find(:first, :conditions => ['embodies.manifestation_id = ?', self.id])
+    false
+  #  self.expressions.serials.find(:first, :conditions => ['embodies.manifestation_id = ?', self.id])
   end
 
   def serial?
-    return true if self.serial
-    false
+    true if subscription_master
+  end
+
+  def serials
+    []
   end
 
   def next_reservation
@@ -189,10 +234,6 @@ class Manifestation < ActiveRecord::Base
     (self.related_works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
   end
 
-  def author
-    authors.collect(&:name).flatten
-  end
-
   def editors
     patrons = []
     self.expressions.each do |expression|
@@ -201,16 +242,8 @@ class Manifestation < ActiveRecord::Base
     patrons -= authors
   end
 
-  def editor
-    editors.collect(&:name).flatten
-  end
-
   def publishers
     self.patrons
-  end
-
-  def publisher
-    publishers.collect(&:name).flatten
   end
 
   def shelves
@@ -284,38 +317,22 @@ class Manifestation < ActiveRecord::Base
     []
   end
 
-  def sortable_title
+  def sort_title
     # 並べ替えの順番に使う項目を指定する
     # TODO: 読みが入力されていない資料
     self.title_transcription
   end
 
-  def formtype
-    self.manifestation_form.name
+  def subjects
+    works.collect(&:subjects).flatten
   end
   
-  def formtype_f
-    formtype
-  end
-  
-  def subject
-    subjects.collect(&:term) + subjects.collect(&:term_transcription)
-  end
-
-  def subject_f
-    subjects.collect(&:term)
-  end
-
   def library
     library_names = []
     self.items.each do |item|
       library_names << item.shelf.library.name
     end
     library_names.uniq
-  end
-
-  def library_f
-    library
   end
 
   def volume_number
@@ -330,14 +347,6 @@ class Manifestation < ActiveRecord::Base
     serial_number_list.gsub(/\D/, ' ').split(" ") if serial_number_list
   end
 
-  def pubdate
-    self.date_of_publication
-  end
-
-  def issn
-    self.serial.issn if self.serial
-  end
-
   def forms
     self.expressions.collect(&:expression_form).uniq
   end
@@ -346,22 +355,30 @@ class Manifestation < ActiveRecord::Base
     self.expressions.collect(&:language).uniq
   end
 
-  def lang
-    languages.collect(&:name)
-  end
-
-  def language_f
-    lang
-  end
-
   def number_of_contents
     self.expressions.size - self.expressions.serials.size
   end
 
   def number_of_pages
     if self.start_page and self.end_page
-      pages = self.end_page.to_i - self.start_page.to_i + 1
+      page = self.end_page.to_i - self.start_page.to_i + 1
     end
+  end
+
+  def publisher
+    publishers.collect(&:name).flatten
+  end
+
+  def author
+    authors.collect(&:name).flatten
+  end
+
+  def editor
+    editors.collect(&:name).flatten
+  end
+
+  def subject
+    subjects.collect(&:term) + subjects.collect(&:term_transcription)
   end
 
   def isbn13
@@ -370,14 +387,15 @@ class Manifestation < ActiveRecord::Base
 
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
-      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :manifestation_form)
+      ISBN_Tools.cleanup!(isbn)
+      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn}, :include => :manifestation_form)
+        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
       end
     end
     return manifestation
@@ -385,17 +403,9 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def expression_ids
-    self.expressions.collect(&:id)
+  def subjects
+    self.works.collect(&:subjects).flatten
   end
-
-  def patron_ids
-    self.patrons.collect(&:id)
-  end
-
-  #def subjects
-  #  self.works.collect(&:subjects).flatten
-  #end
 
   def subject_ids
     self.subjects.collect(&:id)
@@ -409,73 +419,18 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
-  def oai_identifier
-    "oai:#{LIBRARY_WEB_HOSTNAME}/manifestations/#{self.id}"
-  end
-
-  def self.find_by_oai_identifier(oai_identifier)
-    base_url = "oai:#{LIBRARY_WEB_HOSTNAME}/manifestations/"
-    begin
-      Manifestation.find(oai_identifier.gsub(base_url, '').to_i)
-    rescue
-      nil
-    end
-  end
-
-  # TODO: ビューに移動する
-  def to_oai_dc
-    xml = Builder::XmlMarkup.new
-    xml.tag!("oai_dc:dc",
-      'xmlns:oai_dc' => "http://www.openarchives.org/OAI/2.0/oai_dc/",
-      'xmlns:dc' => "http://purl.org/dc/elements/1.1/",
-      'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
-      'xsi:schemaLocation' =>
-        %{http://www.openarchives.org/OAI/2.0/oai_dc/
-          http://www.openarchives.org/OAI/2.0/oai_dc.xsd}) do
-        xml.tag!('oai_dc:title', original_title)
-        xml.tag!('oai_dc:description', note)
-        self.authors.each do |author|
-          xml.tag!('oai_dc:creator', author.full_name)
-        end
-        self.languages.each do |language|
-          xml.tag!('oai_dc:lang', language.name)
-        end
-        self.subjects.each do |subject|
-          xml.tag!('oai_dc:subject', subject.term)
-        end
-    end
-    xml.target!
-  end
-
-  def to_mods
-    xml = Builder::XmlMarkup.new
-    xml.mods('version' => '3.2'){
-      xml.titleInfo{
-        xml.title self.original_title
-      }
-      xml.name{
-        self.authors.each do |author|
-          xml.namePart author.full_name
-        end
-      }
-    }
-    xml.identifier("#{LibraryGroup.url}manifestations/#{self.id}", 'type' => 'uri')
-    xml.originInfo{
-      self.publishers.each do |publisher|
-        xml.publisher publisher.full_name
-      end
-      xml.dateIssued self.date_of_publication.iso8601 if self.date_of_publication
-    }
-    xml.target!
-  end
-
   # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
     return nil if self.cached_numdocs < 5
     resource = nil
     # TODO: ヒット件数が0件のキーワードがあるときに指摘する
     if keyword
-      resource = self.find(self.find_id_by_solr(keyword, :limit => self.cached_numdocs).results.sort_by{rand}.first) rescue nil
+      response = Sunspot.search(Manifestation) do
+        keywords keyword
+        order_by_random
+        paginate :page => 1, :per_page => 1
+      end
+      resource = response.results.first
     end
     if resource.nil?
       while resource.nil?
@@ -496,7 +451,6 @@ class Manifestation < ActiveRecord::Base
     patron_lists.each do |patron_list|
       unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.restrain_indexing = true
         patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
       end
       patron.save
@@ -506,7 +460,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_serial_number(expression)
-    if expression.serial? and expression.last_issue
+    if self.serial? and self.last_issue
       unless expression.last_issue.serial_number_list.blank?
         self.serial_number_list = expression.last_issue.serial_number_list.to_i + 1
         unless expression.last_issue.issue_number_list.blank?
@@ -588,26 +542,53 @@ class Manifestation < ActiveRecord::Base
     nil
   end
 
-  def fulltext
-    self.attachment_file.fulltext if self.attachment_file
-  end
-
-  def digest(options = {:type => 'sha1'})
-    if self.file_hash.blank?
-      self.file_hash = Digest::SHA1.hexdigest(self.db_file.data)
-    end
-    self.file_hash
+  def set_digest(options = {:type => 'sha1'})
+    file_hash = Digest::SHA1.hexdigest(self.attachment.path)
+    save(false)
   end
 
   def generate_fragment_cache
-    url = "#{LibraryGroup.url}manifestations/#{id}"
+    sleep 5
+    url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
     Net::HTTP.get(URI.parse(url))
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_index"
-    Net::HTTP.get(URI.parse(url))
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=show_authors"
-    Net::HTTP.get(URI.parse(url))
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=pickup"
-    Net::HTTP.get(URI.parse(url))
+  end
+
+  def extract_text
+    extractor = ExtractContent::Extractor.new
+    text = Tempfile::new("text")
+    case self.attachment_content_type
+    when "application/pdf"
+      system("pdftotext -q -enc UTF-8 -raw #{attachment(:path)} #{text.path}")
+      self.fulltext = text.read
+    when "application/msword"
+      system("antiword #{attachment(:path)} 2> /dev/null > #{text.path}")
+      self.fulltext = text.read
+    when "application/vnd.ms-excel"
+      system("xlhtml #{attachment(:path)} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    when "application/vnd.ms-powerpoint"
+      system("ppthtml #{attachment(:path)} 2> /dev/null > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    when "text/html"
+      # TODO: 日本語以外
+      system("elinks --dump 1 #{attachment(:path)} 2> /dev/null | nkf -w > #{text.path}")
+      self.fulltext = extractor.analyse(text.read)
+    end
+
+    #self.indexed_at = Time.zone.now
+    self.save(false)
+    text.close
+  end
+
+  def derived_manifestations_by_solr(options = {})
+    page = options[:page] || 1
+    sort_by = options[:sort_by] || 'created_at'
+    order = options[:order] || 'desc'
+    search = Sunspot.new_search(Manifestation)
+    search.query.add_restriction(:original_manifestation_ids, :equal_to, self.id)
+    search.query.paginate page.to_i, Manifestation.per_page
+    search.query.order_by sort_by, order
+    search.execute!.results
   end
 
 end

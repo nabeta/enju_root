@@ -6,25 +6,22 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.inventory_file')) -%></h1>
 <div id="content_list">
+
 <p>
-  <b><%= t('activerecord.models.db_file') -%> :</b>
-  <%=h @inventory_file.db_file_id -%> 
+  <b><%= t('activerecord.attributes.inventory_file.inventory_file_name') -%> :</b>
+  <%=h @inventory_file.inventory_file_name -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.filename') -%> :</b>
-  <%=h @inventory_file.filename -%> 
+  <b><%= t('activerecord.attributes.inventory_file.inventory_content_type') -%> :</b>
+  <%=h @inventory_file.inventory_content_type -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.content_type') -%> :</b>
-  <%=h @inventory_file.content_type -%> 
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.inventory_file.size') -%> :</b>
-  <%=h @inventory_file.size -%> 
+  <b><%= t('activerecord.attributes.inventory_file.inventory_file_size') -%> :</b>
+  <%=h @inventory_file.inventory_file_size -%> 
 </p>
 
 <p>
@@ -34,7 +31,7 @@
 
 <p>
   <b><%= t('activerecord.models.user') -%> :</b>
-  <%=h @inventory_file.user_id -%> 
+  <%= link_to h(@inventory_file.user.login), user_path(@inventory_file.user.login) -%> 
 </p>
 
 <p>

@@ -1,12 +1,13 @@
 <h4><%= t('activerecord.models.language') -%></h4>
 <ul>
   <%- languages = params[:language].to_s.split -%>
-  <%- @languages.each do |language| -%>
+  <%- @language_facet.rows.each do |facet| -%>
     <%- current_languages = languages.dup -%>
-    <%- if @facet_results["language_f_facet"]["#{language.name}"] -%>
+    <%- language = Language.find(:first, :conditions => {:name => facet.value}) -%>
+    <%- if language -%>
       <li>
-      <%- if current_languages.include?(language.name) -%><strong><%- end -%>
-        <%= link_to h("#{language.display_name.localize} (" + @facet_results["language_f_facet"]["#{language.name}"].to_i.to_s + ")"), url_for(:params => params.merge(:page => nil, :language => (current_languages << language.name).uniq.join(' '), :form => nil, :view => nil)) -%>
+        <%- if current_languages.include?(language.name) -%><strong><%- end -%>
+        <%= link_to h("#{language.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:page => nil, :language => (current_languages << language.name).uniq.join(' '), :carrier_type => nil, :view => nil)) -%>
         <%- if current_languages.include?(language.name) -%></strong><%- end -%>
       </li>
     <%- end -%>

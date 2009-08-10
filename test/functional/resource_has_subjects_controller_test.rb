@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ResourceHasSubjectsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :resource_has_subjects, :manifestations, :concepts, :places, :subject_heading_types, :users, :subjects, :subject_types
+  fixtures :resource_has_subjects, :works, :subject_heading_types, :users, :subjects, :subject_types
 
   def test_guest_should_get_index
     get :index
@@ -16,8 +16,8 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     assert assigns(:resource_has_subjects)
   end
 
-  def test_guest_should_get_index_with_manifestation_id
-    get :index, :manifestation_id => 1
+  def test_guest_should_get_index_with_work_id
+    get :index, :work_id => 1
     assert_response :success
     assert assigns(:resource_has_subjects)
   end
@@ -78,7 +78,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_librarian_should_not_create_resource_has_subject_without_manifestation_id
+  def test_librarian_should_not_create_resource_has_subject_without_work_id
     UserSession.create users(:librarian1)
     old_count = ResourceHasSubject.count
     post :create, :resource_has_subject => { :subject_id => 1 }
@@ -90,7 +90,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_resource_has_subject_already_created
     UserSession.create users(:librarian1)
     old_count = ResourceHasSubject.count
-    post :create, :resource_has_subject => {:subject_id => 1, :subjectable_id => 1, :subjectable_type => 'Manifestation'}
+    post :create, :resource_has_subject => {:subject_id => 1, :work_id => 1}
     #post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1, :subject_type => 'Place' }
     assert_equal old_count, ResourceHasSubject.count
     
@@ -100,7 +100,7 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   def test_librarian_should_create_resource_has_subject_not_created_yet
     UserSession.create users(:librarian1)
     old_count = ResourceHasSubject.count
-    post :create, :resource_has_subject => {:subject_id => 2, :subjectable_id => 2, :subjectable_type => 'Manifestation'}
+    post :create, :resource_has_subject => {:subject_id => 2, :work_id => 2}
     #post :create, :resource_has_subject => { :subject_id => 1, :work_id => 1, :subject_type => 'Place' }
     assert_equal old_count+1, ResourceHasSubject.count
     
@@ -173,8 +173,8 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
   
   #def test_librarian_should_update_resource_has_subject_with_position
   #  UserSession.create users(:librarian1)
-  #  put :update, :id => 1, :resource_has_subject => { }, :manifestation_id => 1, :position => 1
-  #  assert_redirected_to manifestation_resource_has_subjects_url(assigns(:manifestation))
+  #  put :update, :id => 1, :resource_has_subject => { }, :work_id => 1, :position => 1
+  #  assert_redirected_to work_resource_has_subjects_url(assigns(:work))
   #end
   
   def test_guest_should_not_destroy_resource_has_subject
@@ -212,12 +212,12 @@ class ResourceHasSubjectsControllerTest < ActionController::TestCase
     assert_redirected_to subject_resource_has_subjects_url(assigns(:subject))
   end
 
-  def test_librarian_should_destroy_resource_has_subject_with_manifestation_id
+  def test_librarian_should_destroy_resource_has_subject_with_work_id
     UserSession.create users(:librarian1)
     old_count = ResourceHasSubject.count
-    delete :destroy, :id => 1, :manifestation_id => 1
+    delete :destroy, :id => 1, :work_id => 1
     assert_equal old_count-1, ResourceHasSubject.count
     
-    assert_redirected_to manifestation_resource_has_subjects_url(assigns(:manifestation))
+    assert_redirected_to work_resource_has_subjects_url(assigns(:work))
   end
 end

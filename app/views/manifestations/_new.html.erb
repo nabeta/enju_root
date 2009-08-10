@@ -17,13 +17,6 @@
     <p>
       <b><%= t('activerecord.models.expression') -%></b><br />
       <%= link_to h(@expression.original_title), @expression -%>
-      <%- if @expression.serial? and !@expression.subscribed? -%>
-        <br />
-        <span class="error_message">
-          <%= t('subscribe.this_subscription_is_expired') -%>
-          <%= link_to t('page.listing', :model => t('activerecord.models.subscription')), expression_subscriptions_path(@expression) -%>
-        </span>
-      <%- end -%>
     </p>
   <%- end -%>
 
@@ -52,9 +45,14 @@
   </p>
   
   <p>
-    <b><%= t('activerecord.models.manifestation_form') -%></b>
-    <%= f.select(:manifestation_form_id, @manifestation_forms.collect{|m| [m.display_name.localize, m.id]}) -%>
+    <b><%= t('activerecord.models.carrier_type') -%></b>
+    <%= f.select(:carrier_type_id, @carrier_types.collect{|m| [m.display_name.localize, m.id]}) -%>
     <!-- TODO: Formの切り替え時に入力項目をAjaxで書き換える -->
+  </p>
+
+  <p>
+    <b><%= t('activerecord.models.frequency') -%></b><br />
+    <%= f.select(:frequency_id, @frequencies.collect{|frequency| [frequency.display_name.localize, frequency.id]}) -%>
   </p>
 
   <p>
@@ -62,18 +60,18 @@
     <%= f.date_select :date_of_publication, :include_blank => true -%>
   </p>
 
+  <p>
+    <b><%= t('activerecord.attributes.manifestation.subscription_master') -%></b>
+    <%= f.check_box :subscription_master -%>
+  </p>
+  
   <%- if @expression -%>
     <p>
-      <%- if @expression.serial? -%>
-        <%= render :partial => 'new_serial', :locals => {:f => f} -%>
-      <%- else -%>
-        <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
-        <%= f.text_field :edition, :class => 'resource_integer' -%>
-        <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
-        <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
-      <%- end -%>
+      <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
+      <%= f.text_field :edition, :class => 'resource_integer' -%>
+      <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
+      <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
     </p>
-    <%- unless @expression.serial? -%>
       <p>
         <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
         <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
@@ -82,7 +80,10 @@
         <b><%= t('activerecord.attributes.manifestation.wrong_isbn') -%></b>
         <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
       </p>
-    <%- end -%>
+      <p>
+        <b><%= t('activerecord.attributes.manifestation.lccn') -%></b>
+        <%= f.text_field :lccn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+      </p>
   <%- end -%>
 
   <p>
@@ -125,10 +126,6 @@
     <b><%= t('activerecord.attributes.manifestation.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
-
-  <%- if @manifestation.respond_to?(:post_to_twitter) -%>
-    <%= render :partial => 'manifestations/post_to_twitter', :locals => {:f => f} -%>
-  <%- end -%>
 
   <p>
     <%= hidden_field_tag :expression_id, @expression.id if @expression -%>

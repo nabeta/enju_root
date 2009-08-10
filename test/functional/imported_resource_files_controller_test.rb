@@ -68,12 +68,13 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
     old_patrons_count = Patron.count
     old_manifestations_count = Manifestation.count
     assert_difference('ImportedResourceFile.count') do
-      post :create, :imported_resource_file => {:uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_resource_file_sample1.tsv") }
+      post :create, :imported_resource_file => {:imported_resource => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_resource_file_sample1.tsv") }
     end
     # 後でバッチで処理する
     #assert_equal old_manifestations_count + 5, Manifestation.count
     #assert_equal old_patrons_count + 4, Patron.count
 
+    assert_equal 'librarian1', assigns(:imported_resource_file).user.login
     assert_redirected_to imported_resource_file_path(assigns(:imported_resource_file))
   end
 
@@ -82,7 +83,7 @@ class ImportedResourceFilesControllerTest < ActionController::TestCase
     old_patrons_count = Patron.count
     old_manifestations_count = Manifestation.count
     assert_difference('ImportedResourceFile.count') do
-      post :create, :imported_resource_file => {:uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/isbn_sample.txt") }
+      post :create, :imported_resource_file => {:imported_resource => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/isbn_sample.txt") }
     end
     # 後でバッチで処理する
     #assert_equal old_manifestations_count + 1, Manifestation.count

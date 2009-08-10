@@ -6,17 +6,31 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :from_manifestation_id -%><br />
-    <%= f.text_field :from_manifestation_id -%>
+    <%= f.label t('activerecord.attributes.manifestation_has_manifestation.from_manifestation') -%><br />
+    <%- if @manifestation_has_manifestation.from_manifestation -%>
+      <%= link_to h(@manifestation_has_manifestation.from_manifestation.original_title), @manifestation_has_manifestation.from_manifestation -%>
+      <%= f.hidden_field :from_manifestation_id -%>
+    <%- else -%>
+      <%= f.text_field :from_manifestation_id -%>
+    <%- end -%>
   </p>
   <p>
-    <%= f.label :to_manifestation_id -%><br />
-    <%= f.text_field :to_manifestation_id -%>
+    <%= f.label t('activerecord.attributes.manifestation_has_manifestation.to_manifestation') -%><br />
+    <%- if @manifestation_has_manifestation.to_manifestation -%>
+      <%= link_to h(@manifestation_has_manifestation.to_manifestation.original_title), @manifestation_has_manifestation.to_manifestation -%>
+      <%= f.hidden_field :to_manifestation_id -%>
+    <%- else -%>
+      <%= f.text_field :to_manifestation_id -%>
+    <%- end -%>
   </p>
+
+  <!--
   <p>
     <%= f.label :type -%><br />
     <%= f.text_field :type -%>
   </p>
+  -->
+
   <p>
     <%= f.submit t('page.create') -%>
   </p>

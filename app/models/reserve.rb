@@ -96,7 +96,7 @@ class Reserve < ActiveRecord::Base
   end
 
   #def self.reached_reservation_limit?(user, manifestation)
-  #  return true if user.user_group.user_group_has_checkout_types.available_for_manifestation_form(manifestation.manifestation_form).find(:all, :conditions => {:user_group_id => user.user_group.id}).collect(&:reservation_limit).max <= user.reserves.waiting.size
+  #  return true if user.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).find(:all, :conditions => {:user_group_id => user.user_group.id}).collect(&:reservation_limit).max <= user.reserves.waiting.size
   #  false
   #end
 
@@ -195,7 +195,7 @@ class Reserve < ActiveRecord::Base
   def self.expire
     Reserve.transaction do
       reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
-      reservations.find_each(:batch_size => reservations.size) do |reserve|
+      reservations.find_each do |reserve|
         # キューに登録した時点では本文は作られないので
         # 予約の連絡をすませたかどうかを識別できるようにしなければならない
         # reserve.send_message('expired')
@@ -205,7 +205,7 @@ class Reserve < ActiveRecord::Base
       #Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
       #  reserve.send_message('expired')
       #end
-      User.find_each(:batch_size => User.count) do |user|
+      User.find_each do |user|
         unless user.reserves.not_sent_expiration_notice_to_patron.empty?
           user.send_message('reservation_expired_for_patron', :manifestations => user.reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
         end

@@ -10,7 +10,14 @@ class Advertisement < ActiveRecord::Base
   validates_presence_of :title, :body, :started_at, :ended_at
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
-  acts_as_solr :fields => [:title, :body, {:url => :string}, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
+  searchable :auto_index => false do
+    text :title, :body, :note, :url
+    string :url
+    time :created_at
+    time :updated_at
+    time :started_at
+    time :ended_at
+  end
   #acts_as_soft_deletable
 
   @@per_page = 10
@@ -23,6 +30,10 @@ class Advertisement < ActiveRecord::Base
         errors.add(:ended_at)
       end
     end
+  end
+
+  def after_save
+    Advertisement.expire_cache
   end
 
   def self.cached_current_ads

@@ -79,7 +79,8 @@ class BasketsController < ApplicationController
 
     #@checkout_count = @basket.user.checkouts.count
     respond_to do |format|
-      if @basket.update_attributes({})
+      #if @basket.update_attributes({})
+      if @basket.save(false)
         # 貸出完了時
         flash[:notice] = t('basket.checkout_completed')
         format.html { redirect_to(user_checkouts_url(@basket.user.login)) }

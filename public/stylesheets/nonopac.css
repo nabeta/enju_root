@@ -137,10 +137,7 @@ div#content_detail{
 }
 
 div#content_list{
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
+  padding: 10px;
 }
 
 div#manifestation_footer{
@@ -242,11 +239,11 @@ table#manifestation_list{
   width: 100%;
 }
 
-table#index{
+table.index{
   width: 100%;
 }
 
-div#searchform{
+div#search_form{
   padding-top: 10px;
 }
 
@@ -368,6 +365,10 @@ textarea{
   height: 10em;
 }
 
+input.twitter_text{
+  width:40em;
+}
+
 textarea#message_body{
   width: 40em;
   height: 20em;
@@ -416,6 +417,10 @@ input.search_form{
 
 input.search_form_short{
   width: 250px;
+}
+
+th#position{
+  width: 40px;
 }
 
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

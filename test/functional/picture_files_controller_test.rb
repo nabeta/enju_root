@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PictureFilesControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :picture_files, :manifestations, :manifestation_forms, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
+  fixtures :picture_files, :manifestations, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
 
   def test_guest_should_get_index
     get :index
@@ -79,7 +79,7 @@ class PictureFilesControllerTest < ActionController::TestCase
 
   def test_guest_should_not_create_picture_file
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture_attachable_id => 1, :uploaded_data => 'test upload', :title => 'test upload'}
+      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture_attachable_id => 1, :picture => 'test upload'}
     end
 
     assert_response :redirect
@@ -89,7 +89,7 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_user_should_not_create_picture_file
     UserSession.create users(:user1)
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture_attachable_id => 1, :title => 'test upload'}
+      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture_attachable_id => 1}
     end
 
     assert_response :forbidden
@@ -98,7 +98,7 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_picture_file_without_picture_attachable_type
     UserSession.create users(:librarian1)
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_id => 1, :uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif"), :title => 'test upload'}
+      post :create, :picture_file => {:picture_attachable_id => 1, :picture => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif")}
     end
 
     assert_response :success
@@ -108,17 +108,17 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_picture_file_without_picture_attachable_id
     UserSession.create users(:librarian1)
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif"), :title => 'test upload'}
+      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif")}
     end
 
     assert_response :success
     #assert_redirected_to picture_file_url(assigns(:picture_file))
   end
 
-  def test_librarian_should_not_create_picture_file_without_uploaded_data
+  def test_librarian_should_not_create_picture_file_without_attachment
     UserSession.create users(:librarian1)
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture_attachable_id => 1, :title => 'test upload'}
+      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture_attachable_id => 1}
     end
 
     assert_response :success
@@ -127,11 +127,10 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_create_picture_file
     UserSession.create users(:librarian1)
     old_count = PictureFile.count
-    assert_difference('PictureFile.count', 2) do
-      post :create, :picture_file => {:picture_attachable_type => 'Shelf', :picture_attachable_id => 1, :uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif"), :title => 'test upload'}
+    assert_difference('PictureFile.count', 1) do
+      post :create, :picture_file => {:picture_attachable_type => 'Shelf', :picture_attachable_id => 1, :picture => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif")}
     end
 
-    assert_not_nil assigns(:picture_file).file_hash
     assert assigns(:picture_file).picture_attachable
     assert_redirected_to picture_file_url(assigns(:picture_file))
     #assert_nil assigns(:picture_file).errors
@@ -190,19 +189,20 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_update_picture_file_without_picture_attachable_id
     UserSession.create users(:librarian1)
     put :update, :id => picture_files(:picture_file_00001), :picture_file => {:picture_attachable_id => nil}
-    assert_redirected_to picture_file_url(assigns(:picture_file))
+    assert_response :success
   end
 
-  def test_librarian_should_update_picture_file_without_picture_attachable_type
+  def test_librarian_should_not_update_picture_file_without_picture_attachable_type
     UserSession.create users(:librarian1)
     put :update, :id => picture_files(:picture_file_00001), :picture_file => {:picture_attachable_type => nil}
-    assert_redirected_to picture_file_url(assigns(:picture_file))
+    assert_response :success
   end
 
-  def test_librarian_should_update_picture_file
+  def test_librarian_should_not_update_picture_file
     UserSession.create users(:librarian1)
     put :update, :id => picture_files(:picture_file_00001), :picture_file => { }
-    assert_redirected_to picture_file_url(assigns(:picture_file))
+    assert_response :success
+    #assert_redirected_to picture_file_url(assigns(:picture_file))
   end
 
   def test_guest_should_not_destroy_picture_file
@@ -225,7 +225,7 @@ class PictureFilesControllerTest < ActionController::TestCase
 
   def test_librarian_should_destroy_picture_file
     UserSession.create users(:librarian1)
-    assert_difference('PictureFile.count', -2) do
+    assert_difference('PictureFile.count', -1) do
       delete :destroy, :id => picture_files(:picture_file_00001)
     end
 

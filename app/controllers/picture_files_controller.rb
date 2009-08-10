@@ -21,13 +21,22 @@ class PictureFilesController < ApplicationController
   # GET /picture_files/1.xml
   def show
     @picture_file = PictureFile.find(params[:id])
+    case params[:size]
+    when 'original'
+      size = 'original'
+    when 'thumb'
+      size = 'thumb'
+    else
+      size = 'medium'
+    end
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @picture_file }
-      format.jpg  { send_data @picture_file.db_file.data, :filename => @picture_file.filename, :type => 'image/jpeg', :disposition => 'inline' }
-      format.gif  { send_data @picture_file.db_file.data, :filename => @picture_file.filename, :type => 'image/gif', :disposition => 'inline' }
-      format.png  { send_data @picture_file.db_file.data, :filename => @picture_file.filename, :type => 'image/png', :disposition => 'inline' }
+      format.download  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => @picture_file.picture_content_type, :disposition => 'inline' }
+      format.jpeg  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline' }
+      format.gif  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline' }
+      format.png  { send_file @picture_file.picture.path(size), :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline' }
     end
   end
 
@@ -60,8 +69,6 @@ class PictureFilesController < ApplicationController
 
     respond_to do |format|
       if @picture_file.save
-        PictureFile.find_by_sql(['UPDATE picture_files SET file_hash = ? WHERE id = ?', @picture_file.digest, @picture_file.id])
-
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.picture_file'))
         format.html { redirect_to(@picture_file) }
         format.xml  { render :xml => @picture_file, :status => :created, :location => @picture_file }

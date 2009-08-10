@@ -124,7 +124,7 @@ class BookmarksController < ApplicationController
 
         unless @bookmarked_resource.manifestation
           @bookmarked_resource.manifestation = Manifestation.new(:original_title => @bookmarked_resource.title, :access_address => url)
-          @bookmarked_resource.manifestation.manifestation_form = ManifestationForm.find(:first, :conditions => {:name => 'file'})
+          @bookmarked_resource.manifestation.carrier_type = CarrierType.find(:first, :conditions => {:name => 'file'})
           #@bookmarked_resource.manifestation.save!
           work = Work.create!(:original_title => @bookmarked_resource.title)
           expression = Expression.new(:original_title => work.original_title)
@@ -152,8 +152,9 @@ class BookmarksController < ApplicationController
     end
 
     respond_to do |format|
-      if @bookmark.save!
-        @bookmark.bookmarked_resource.manifestation.save!
+      if @bookmark.save(false)
+        @bookmark.bookmarked_resource.manifestation.save(false)
+        @bookmark.bookmarked_resource.manifestation.index
         unless @bookmark.shelved?
           @bookmark.create_bookmark_item
         end
@@ -194,7 +195,8 @@ class BookmarksController < ApplicationController
       if @bookmark.update_attributes(params[:bookmark])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
         @manifestation = @bookmark.bookmarked_resource.manifestation
-        @manifestation.save
+        @manifestation.save(false)
+        @manifestation.index
         if params[:tag_edit] == 'manifestation'
           format.html { redirect_to manifestation_url(@manifestation) }
           format.xml  { head :ok }

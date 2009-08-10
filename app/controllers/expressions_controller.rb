@@ -3,6 +3,7 @@ class ExpressionsController < ApplicationController
   before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_work, :get_manifestation, :get_subscription
+  before_filter :get_expression, :only => :index
   before_filter :get_expression_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -11,49 +12,38 @@ class ExpressionsController < ApplicationController
   # GET /expressions.xml
   def index
     query = params[:query].to_s.strip
+    search = Sunspot.new_search(Expression)
+    @count = {}
     unless query.blank?
-      @count = {}
       @query = query.dup
       query = query.gsub('　', ' ')
-      query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
-      unless params[:mode] == 'add'
-        query.add_query!(@manifestation) if @manifestation
-        query.add_query!(@patron) if @patron
-        query.add_query!(@work) if @work
-        query += " subscription_id: #{@subscription.id}" if @subscription
-        query += " expression_merge_list_ids: #{@expression_merge_list.id}" if @expression_merge_list
-      end
-      @expressions = Expression.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
-      @count[:total] = @expressions.total_entries
-    else
-      case
-      when @patron
-        @expressions = @patron.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      when @work
-        @expressions = @work.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      when @manifestation
-        @expressions = @manifestation.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      when @parent_expression
-        @expressions = @parent_expresion.derived_expressions.paginate(:page => params[:page], :order => 'expressions.id')
-      when @derived_expression
-        @expressions = @derived_expression.parent_expressions.paginate(:page => params[:page], :order => 'expressions.id')
-      when @subscription
-        @expressions = @subscription.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      when @expression_merge_list
-        @expressions = @expression_merge_list.expressions.paginate(:page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      else
-        raise ActiveRecord::RecordNotFound if params[:patron_id] or params[:manifestation_id]
-        @expressions = Expression.paginate(:all, :page => params[:page], :include => [:expression_form, :language], :order => 'expressions.id')
-      end
+      #query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
+      search.query.keywords = query
     end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
+      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:work_id, :equal_to, @work.id) if @work
+      search.query.add_restriction(:original_expression_ids, :equal_to, @expression.id) if @expression
+      search.query.add_restriction(:expression_merge_ids, :equal_to, @expression_merge_list.id) if @expression_merge_list
+
+    end
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Expression.per_page)
+    begin
+      @expressions = search.execute!.results
+    rescue RSolr::RequestError
+      @expressions = WillPaginate::Collection.create(1,1,0) do end
+    end
+    @count[:total] = @expressions.total_entries
 
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @expressions }
       format.atom
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
+  #rescue ActiveRecord::RecordNotFound
+  #  not_found
   end
 
   # GET /expressions/1
@@ -124,11 +114,12 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.save
+        @expression.index
         Expression.transaction do
           @work.expressions << @expression
-          if @expression.serial?
-            @expression.patrons << @work.patrons
-          end
+          #if @expression.serial?
+          #  @expression.patrons << @work.patrons
+          #end
         end
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
@@ -155,6 +146,7 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
+        @expression.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
@@ -171,6 +163,7 @@ class ExpressionsController < ApplicationController
   def destroy
     @expression = Expression.find(params[:id])
     @expression.destroy
+    @expression.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to expressions_url }
@@ -180,7 +173,6 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @frequency_of_issues = FrequencyOfIssue.find(:all)
     @expression_forms = ExpressionForm.find(:all)
     @languages = Rails.cache.fetch('Language.all'){Language.all}
   end

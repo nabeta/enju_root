@@ -1,1 +1,0 @@
-require 'will_paginate_acts_as_solr'

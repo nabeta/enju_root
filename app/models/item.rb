@@ -6,7 +6,7 @@ class Item < ActiveRecord::Base
   named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
   has_one :exemplify, :dependent => :destroy
-  has_one :manifestation, :through => :exemplify, :include => :manifestation_form
+  has_one :manifestation, :through => :exemplify #, :include => :carrier_type
   #has_many :checkins
   #has_many :checkin_patrons, :through => :checkins
   has_many :checkouts
@@ -26,8 +26,8 @@ class Item < ActiveRecord::Base
   has_many :item_has_use_restrictions, :dependent => :destroy
   has_many :use_restrictions, :through => :item_has_use_restrictions
   has_many :reserves
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   has_many :inter_library_loans, :dependent => :destroy
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   #has_one :item_has_checkout_type, :dependent => :destroy
@@ -51,13 +51,17 @@ class Item < ActiveRecord::Base
   #acts_as_soft_deletable
   enju_union_catalog
 
-  acts_as_solr :fields => [:item_identifier, :note, :title, :author, :publisher, :library, {:required_role_id => :range_integer}],
-    :facets => [:circulation_status_id],
-    :offline => proc{|item| item.restrain_indexing}, :auto_commit => false
+  searchable :auto_index => false do
+    text :item_identifier, :note, :title, :author, :publisher, :library
+    string :item_identifier
+    string :library
+    integer :required_role_id
+    integer :original_item_ids, :multiple => true
+    integer :circulation_status_id
+  end
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing
 
   #def after_create
   #  post_to_union_catalog
@@ -79,7 +83,8 @@ class Item < ActiveRecord::Base
   #  unless self.item_identifier.blank?
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
   #  end
-    self.manifestation.save if self.manifestation
+  # TODO: 排架場所変更の際のインデックス更新のタイミング
+  #  self.manifestation.send_later(:save, false) if self.manifestation
   end
 
   def before_validation_on_create
@@ -122,25 +127,25 @@ class Item < ActiveRecord::Base
   end
 
   def available_for_checkout?
-    circulation_statuses = CirculationStatus.available_for_checkout
+    circulation_statuses = Rails.cache.fetch('CirculationStatus.available_for_checkout'){CirculationStatus.available_for_checkout}
     return true if circulation_statuses.include?(self.circulation_status)
     false
   end
 
   def checkout!(user)
     Item.transaction do
-      self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'On Loan'})
+      self.circulation_status = Rails.cache.fetch('CirculationStatus.on_loan'){CirculationStatus.find(:first, :conditions => {:name => 'On Loan'})}
       if self.reserved_by_user?(user)
         self.next_reservation.update_attributes(:checked_out_at => Time.zone.now)
         self.next_reservation.aasm_complete!
       end
-      self.save!
+      save!
     end
   end
 
   def checkin!
-    self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'Available On Shelf'})
-    self.save!
+    self.circulation_status = Rails.cache.fetch('CirculationStatus.available_on_shelf'){CirculationStatus.find(:first, :conditions => {:name => 'Available On Shelf'})}
+    save(false)
   end
 
   def retain(librarian)
@@ -163,19 +168,23 @@ class Item < ActiveRecord::Base
   end
 
   def title
-    self.manifestation.original_title if self.manifestation
+    manifestation.original_title if manifestation
   end
 
   def author
-    self.manifestation.author if self.manifestation
+    manifestation.author if manifestation
   end
 
   def publisher
-    self.manifestation.publisher if self.manifestation
+    manifestation.publisher if manifestation
   end
 
   def library
-    self.shelf.library.name if self.shelf
+    shelf.library.name if shelf
+  end
+
+  def shelf_name
+    shelf.name
   end
 
   def hold?(library)
@@ -199,17 +208,21 @@ class Item < ActiveRecord::Base
   def set_item_identifier
     if self.item_identifier
       self.item_identifier.strip!
-      unless self.item_identifier.blank?
-        barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
-        if barcode.nil?
-          barcode = Barcode.create(:code_word => self.item_identifier)
-        end
+      #send_later(:create_barcode)
+    else
+      self.item_identifier = nil
+    end
+  end
 
-        self.barcode = barcode
-        self.barcode.save
-      else
-        self.item_identifier = nil
+  def create_barcode
+    unless self.item_identifier.blank?
+      barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
+      if barcode.nil?
+        barcode = Barcode.create(:code_word => self.item_identifier)
       end
+
+      self.barcode = barcode
+      self.barcode.save(false)
     end
   end
 

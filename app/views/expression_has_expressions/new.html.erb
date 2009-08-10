@@ -6,17 +6,29 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :from_expression_id -%><br />
-    <%= f.text_field :from_expression_id -%>
+    <%= f.label t('activerecord.attributes.expression_has_expression.from_expression') -%><br />
+    <%- if @expression_has_expression.from_expression -%>
+      <%= link_to h(@expression_has_expression.from_expression.original_title), @expression_has_expression.from_expression -%>
+      <%= f.hidden_field :from_expression_id -%>
+    <%- else -%>
+      <%= f.text_field :from_expression_id -%>
+    <%- end -%>
   </p>
   <p>
-    <%= f.label :to_expression_id -%><br />
-    <%= f.text_field :to_expression_id -%>
+    <%= f.label t('activerecord.attributes.expression_has_expression.to_expression') -%><br />
+    <%- if @expression_has_expression.to_expression -%>
+      <%= link_to h(@expression_has_expression.to_expression.original_title), @expression_has_expression.to_expression -%>
+      <%= f.hidden_field :to_expression_id -%>
+    <%- else -%>
+      <%= f.text_field :to_expression_id -%>
+    <%- end -%>
   </p>
+  <!--
   <p>
     <%= f.label :type -%><br />
     <%= f.text_field :type -%>
   </p>
+  -->
   <p>
     <%= f.submit t('page.create') -%>
   </p>
@@ -29,4 +41,4 @@
   <ul>
     <li><%= link_to t('page.back'), expression_has_expressions_path -%></li>
   </ul>
-</ul>
+</div>

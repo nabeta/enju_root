@@ -13,7 +13,7 @@
     <li><%= link_to t('activerecord.models.checkout_type'), checkout_types_path -%>
       <ul>
         <li><%= link_to t('activerecord.models.user_group_has_checkout_type'), user_group_has_checkout_types_path -%></li>
-        <li><%= link_to t('activerecord.models.manifestation_form_has_checkout_type'), manifestation_form_has_checkout_types_path -%></li>
+        <li><%= link_to t('activerecord.models.carrier_type_has_checkout_type'), carrier_type_has_checkout_types_path -%></li>
       </ul>
     </li>
     <li><%= link_to t('activerecord.models.event_category'), event_categories_path -%></li>
@@ -31,9 +31,8 @@
   <h2 class="title"><%= t('page.resource') -%></h2>
   <div class="config_box">
   <ul>
-    <li><%= link_to t('activerecord.models.attachment_file'), attachment_files_path -%></li>
-    <li><%= link_to t('activerecord.models.picture_file'), picture_files_path -%></li>
     <li><%= link_to t('activerecord.models.bookmarked_resource'), bookmarked_resources_path -%></li>
+    <li><%= link_to t('activerecord.models.picture_file'), picture_files_path -%></li>
     <li><%= link_to t('activerecord.models.order_list'), order_lists_path -%></li>
     <li><%= link_to t('activerecord.models.subscription'), subscriptions_path -%></li>
     <li><%= link_to t('activerecord.models.donate'), donates_path -%></li>
@@ -61,15 +60,18 @@
   <ul>
     <li><%= link_to t('activerecord.models.work_form'), work_forms_path -%></li>
     <li><%= link_to t('activerecord.models.expression_form'), expression_forms_path -%></li>
-    <li><%= link_to t('activerecord.models.manifestation_form'), manifestation_forms_path -%></li>
+    <li><%= link_to t('activerecord.models.carrier_type'), carrier_types_path -%></li>
     <li><%= link_to t('activerecord.models.circulation_status'), circulation_statuses_path -%></li>
     <li><%= link_to t('activerecord.models.patron_type'), patron_types_path -%></li>
     <li><%= link_to t('activerecord.models.language'), languages_path -%></li>
     <li><%= link_to t('activerecord.models.country'), countries_path -%></li>
     <li><%= link_to t('activerecord.models.use_restriction'), use_restrictions_path -%></li>
-    <li><%= link_to t('activerecord.models.frequency_of_issue'), frequency_of_issues_path -%></li>
+    <li><%= link_to t('activerecord.models.frequency'), frequencies_path -%></li>
     <li><%= link_to t('activerecord.models.request_type'), request_types_path -%></li>
     <li><%= link_to t('activerecord.models.request_status_type'), request_status_types_path -%></li>
+    <li><%= link_to t('activerecord.models.extent'), extents_path -%></li>
+    <li><%= link_to t('activerecord.models.content_type'), content_types_path -%></li>
+    <li><%= link_to t('activerecord.models.medium_of_performance'), medium_of_performances_path -%></li>
   </ul>
   </div>
 </div>

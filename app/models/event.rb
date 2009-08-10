@@ -15,7 +15,14 @@ class Event < ActiveRecord::Base
 
   #acts_as_taggable_on :tags
   #acts_as_soft_deletable
-  acts_as_solr :fields => [:title, :note, {:created_at => :date}, {:updated_at => :date}, {:started_at => :date}, {:ended_at => :date}], :auto_commit => false
+  searchable :auto_index => false do
+    text :title, :note
+    integer :library_id
+    time :created_at
+    time :updated_at
+    time :started_at
+    time :ended_at
+  end
 
   validates_presence_of :title, :library, :event_category
   validates_associated :library, :event_category

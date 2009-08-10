@@ -1,0 +1,31 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_carrier_type_path(@carrier_type) -%></li>
+    <li><%= link_to t('page.back'), carrier_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.carrier_type')) -%></h1>
+<div id="content_list">
+
+<p>
+  <b><%= t('activerecord.attributes.carrier_type.display_name') -%>:</b>
+  <%=h @carrier_type.display_name.localize -%>
+</p>
+
+<p>
+<b><%= t('activerecord.models.checkout_type') -%></b>
+<ul>
+  <%- @carrier_type.carrier_type_has_checkout_types.each do |available_checkout_type| -%>
+    <li><%= link_to h(available_checkout_type.checkout_type.display_name.localize), available_checkout_type.checkout_type -%></li>
+  <%- end -%>
+</ul>
+
+<p>
+  <b><%= t('activerecord.attributes.carrier_type.note') -%>:</b>
+  <%=h @carrier_type.note -%>
+</p>
+
+</div>
+</div>

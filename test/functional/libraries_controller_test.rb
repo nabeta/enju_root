@@ -2,7 +2,7 @@ require 'test_helper'
 
 class LibrariesControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :libraries, :users, :corporate_bodies
+  fixtures :libraries, :users
 
   def test_guest_should_get_index
     get :index

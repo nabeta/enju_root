@@ -14,7 +14,7 @@
     <%- end -%>
     <%=h @library_group.display_name.localize -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="http://page/opensearch" title = "<%=h @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title = "<%=h @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

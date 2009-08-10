@@ -1,0 +1,21 @@
+<div id="xisbn_list">
+<%- 
+  #cache(:id => @manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_xisbn', :locale => @locale) do
+-%>
+  <ul>
+    <%- @xisbn_manifestations.each do |xisbn| -%>
+      <li><%= link_to h(xisbn[:title]), "http://www.worldcat.org/isbn/#{xisbn[:isbn]}" -%>
+      <%=h xisbn[:author] -%>
+      <%=h xisbn[:publisher] -%>
+      (<%=h xisbn[:year] -%>)
+      <%- if manifestation = Manifestation.find_by_isbn(xisbn[:isbn]) -%>
+        (<%= link_to t('page.local_record'), manifestation -%>)
+      <%- end -%>
+      </li>
+    <%- end -%>
+  </ul>
+  <%= will_paginate(@xisbn_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :xisbn_page, :class => 'content_pagination') -%>
+<%-
+  #end
+-%>
+</div>    

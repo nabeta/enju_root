@@ -11,7 +11,7 @@
 
 <h3><%= link_to h(@expression.original_title), @expression -%></h3>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.models.manifestation') -%></th>
   </tr>
@@ -20,7 +20,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
-      <%= form_icon(embody.manifestation.manifestation_form) -%>
+      <%= form_icon(embody.manifestation.carrier_type) -%>
     </td>
     <%- if embody.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), embody, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

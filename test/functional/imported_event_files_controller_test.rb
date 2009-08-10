@@ -66,9 +66,10 @@ class ImportedEventFilesControllerTest < ActionController::TestCase
   def test_librarian_should_create_imported_event_file
     UserSession.create users(:librarian1)
     assert_difference('ImportedEventFile.count') do
-      post :create, :imported_event_file => {:uploaded_data => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_event_file_sample1.tsv") }
+      post :create, :imported_event_file => {:imported_event => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_event_file_sample1.tsv") }
     end
 
+    assert_equal 'librarian1', assigns(:imported_event_file).user.login
     assert_redirected_to imported_event_file_url(assigns(:imported_event_file))
   end
 

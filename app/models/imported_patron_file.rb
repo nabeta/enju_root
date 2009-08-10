@@ -3,8 +3,10 @@ class ImportedPatronFile < ActiveRecord::Base
   include LibrarianRequired
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
-  has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
-  validates_as_attachment
+  #has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
+  #validates_as_attachment
+  has_attached_file :imported_patron, :path => ":rails_root/private:url"
+  validates_attachment_content_type :imported_patron, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
@@ -23,7 +25,9 @@ class ImportedPatronFile < ActiveRecord::Base
 
   def import
     self.reload
-    reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
+    file = File.open(self.imported_patron.path)
+    reader = CSV::Reader.create(file, "\t")
+    #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
     header = reader.shift
     num = {:success => 0, :failure => 0, :activated => 0}
     record = 2
@@ -61,7 +65,7 @@ class ImportedPatronFile < ActiveRecord::Base
           imported_object.importable = patron
           self.imported_objects << imported_object
           num[:success] += 1
-          GC.start if num[:success] % 50 == 0
+          GC.start if record % 50 == 0
         end
       rescue
         Rails.logger.info("patron import failed: column #{record}")
@@ -89,6 +93,7 @@ class ImportedPatronFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
+    file.close
     return num
   end
 

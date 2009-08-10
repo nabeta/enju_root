@@ -48,7 +48,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Item)
       expire_editable_fragment(record)
-      expire_editable_fragment(record.manifestation)
+      expire_editable_fragment(record.manifestation, 'show_holding')
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
       end
@@ -145,8 +145,8 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_manifestation_fragment(item.manifestation, 'show_holding')
       end
     when record.is_a?(Checkin)
-      expire_editable_fragment(record.item)
-      expire_editable_fragment(record.item.manifestation)
+      #expire_editable_fragment(record.item)
+      #expire_editable_fragment(record.item.manifestation, "show_holding")
     end
   end
 
@@ -154,10 +154,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     after_save(record)
   end
 
-  def expire_editable_fragment(record)
+  def expire_editable_fragment(record, fragments = nil)
     if record
       if record.is_a?(Manifestation)
-        expire_manifestation_cache(record)
+        expire_manifestation_cache(record, fragments)
       else
         I18n.available_locales.each do |locale|
           expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => true, :locale => locale.to_s)
@@ -167,14 +167,15 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     end
   end
 
-  def expire_manifestation_cache(manifestation)
-    fragments = %w[detail_1 detail_2 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags title]
+  def expire_manifestation_cache(manifestation, fragments)
+    fragments = %w[detail_1 detail_2 detail_3 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags title show_xisbn] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
-    fragments.each do |fragment|
+    Array(fragments).each do |fragment|
       if manifestation
         expire_manifestation_fragment(manifestation, fragment)
       end
     end
+    Rails.cache.delete("xisbn_#{manifestation.id}")
   end
 
   def expire_manifestation_fragment(manifestation, fragment)

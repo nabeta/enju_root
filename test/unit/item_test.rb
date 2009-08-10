@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ItemTest < ActiveSupport::TestCase
-  fixtures :items, :circulation_statuses, :checkouts, :shelves, :manifestations, :manifestation_forms, :exemplifies,
+  fixtures :items, :circulation_statuses, :checkouts, :shelves, :manifestations, :carrier_types, :exemplifies,
     :creates, :realizes, :produces, :owns,
     :languages, :libraries, :users, :patrons, :user_groups, :reserves,
     :expressions, :expression_forms, :reifies, :works, :work_forms, :embodies, :library_groups, :bookstores, :patron_types,

@@ -1,4 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :content_types
+
+  map.resources :medium_of_performances
+
+  map.resources :extents
+
+  map.resources :shelf_has_manifestations
+
+  map.resources :patron_has_patrons
+
   map.resources :participates
 
   map.connect "live_validations/:action", :controller => "live_validations"
@@ -102,17 +112,15 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :news_feeds
 
-  map.resources :item_has_checkout_types
-
-  map.resources :manifestation_form_has_checkout_types
+  map.resources :carrier_type_has_checkout_types
 
   map.resources :user_group_has_checkout_types
 
   map.resources :checkout_types do |checkout_type|
     checkout_type.resources :user_groups
     checkout_type.resources :user_group_has_checkout_types
-    checkout_type.resources :manifestation_forms
-    checkout_type.resources :manifestation_form_has_checkout_types
+    checkout_type.resources :carrier_types
+    checkout_type.resources :carrier_type_has_checkout_types
   end
 
   map.resources :search_engines
@@ -127,7 +135,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :subscriptions do |subscription|
     subscription.resources :subscribes
-    subscription.resources :expressions
+    subscription.resources :manifestations
   end
 
   map.resources :subscriptions
@@ -167,7 +175,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :subjects do |subject|
-    subject.resources :manifestations
+    subject.resources :works
     subject.resources :resource_has_subjects
     subject.resources :classifications
     subject.resources :subject_has_classifications
@@ -225,6 +233,7 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :advertisements
     patron.resources :picture_files
     patron.resources :events
+    patron.resources :patrons
   end
   map.resources :users do |user|
     user.resources :roles
@@ -267,12 +276,13 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :work_merges
     work.resources :work_merge_lists
     work.resources :resource_has_subjects
-    work.resources :work_from_works, :controller => :works
-    work.resources :work_to_works, :controller => :works
+    #work.resources :work_from_works, :controller => :works
+    #work.resources :work_to_works, :controller => :works
     work.resources :concepts
     work.resources :places
     work.resources :subjects
     work.resources :works
+    work.resources :work_has_works
   end
   map.resources :expressions do |expression|
     expression.resource :realize
@@ -284,10 +294,11 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :manifestations
     expression.resources :expression_merges
     expression.resources :expression_merge_lists
-    expression.resources :resource_has_subjects
+    #expression.resources :resource_has_subjects
     expression.resources :subscribe
     expression.resources :subscriptions
     expression.resources :expressions
+    expression.resources :expression_has_expressions
   end
   map.resources :manifestations do |manifestation|
     manifestation.resources :attachment_files
@@ -298,9 +309,10 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :exemplifies
     manifestation.resources :items
     manifestation.resources :expressions
-    manifestation.resources :subjects
-    manifestation.resources :resource_has_subjects
+    #manifestation.resources :subjects
+    #manifestation.resources :resource_has_subjects
     manifestation.resources :manifestations
+    manifestation.resources :manifestation_has_manifestations
   end
   map.resources :items do |item|
     item.resources :owns
@@ -309,11 +321,12 @@ ActionController::Routing::Routes.draw do |map|
     item.resource :manifestation
     item.resources :item_has_use_restrictions
     item.resources :inter_library_loans
-    item.resources :resource_has_subjects
+    #item.resources :resource_has_subjects
     item.resources :donates
     item.resource :checkout_type
     item.resource :inventory_files
     item.resources :items
+    item.resources :item_has_items
   end
   map.resources :libraries do |library|
     library.resources :shelves do |shelf|
@@ -351,15 +364,17 @@ ActionController::Routing::Routes.draw do |map|
     order.resources :order_lists
     order.resources :purchase_requests
   end
-  map.resources :manifestation_forms do |manifestation_form|
-    manifestation_form.resources :manifestation_form_has_checkout_types
-    manifestation_form.resources :checkout_types
+  map.resources :carrier_types do |carrier_type|
+    carrier_type.resources :carrier_type_has_checkout_types
+    carrier_type.resources :checkout_types
   end
   map.resources :shelves do |shelf|
     shelf.resources :items
     shelf.resources :picture_files
+    shelf.resources :shelf_has_manifestations
+    shelf.resources :manifestations
   end
-  map.resources :frequency_of_issues
+  map.resources :frequencies
   map.resources :embodies
   map.resources :languages
   map.resources :countries
@@ -406,7 +421,6 @@ ActionController::Routing::Routes.draw do |map|
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
   #map.service '/service', :controller => 'page', :action => 'service'
-  map.sitemap 'sitemap.xml', :controller => 'page', :action => 'sitemap'
 
   # The priority is based upon order of creation: first created -> highest priority.
   

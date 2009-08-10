@@ -3,7 +3,7 @@ require 'test_helper'
 class BasketsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :baskets, :checked_items, :checkouts, :reserves,
-    :items, :circulation_statuses, :manifestations, :manifestation_forms,
+    :items, :circulation_statuses, :manifestations, :carrier_types,
     :languages, :exemplifies, :users, :roles
 
   def test_guest_should_not_get_index

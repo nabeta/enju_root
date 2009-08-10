@@ -31,7 +31,28 @@ class Message < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  def after_save
+  searchable :auto_index => false do
+    text :body, :subject
+    string :subject
+    integer :receiver_id
+    integer :sender_id
+    time :created_at
+    time :read_at
+    boolean :sender_deleted do
+      sender_deleted ? true : false
+    end
+    boolean :receiver_deleted do
+      receiver_deleted ? true : false
+    end
+    boolean :sender_purged do
+      sender_purged ? true : false
+    end
+    boolean :receiver_purged do
+      receiver_purged ? true : false
+    end
+  end
+
+  def after_create
     Notifier.deliver_message_notification(self.receiver)
   end
 

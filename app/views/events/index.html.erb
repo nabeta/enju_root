@@ -11,27 +11,6 @@
       <%- end -%>
     <%- end -%>
     <li><%= link_to t('event.all_libraries'), events_path -%></li>
-    <%- case params[:mode] when 'all' -%>
-      <%- if @library -%>
-        <li><%= link_to t('event.past'), library_events_path(@library.name, :mode => 'past') -%></li>
-        <li><%= link_to t('event.upcoming'), library_events_path(@library.name, :mode => 'upcoming') -%></li>
-      <%- else -%>
-        <li><%= link_to t('event.past'), events_path(:mode => 'past') -%>
-        <li><%= link_to t('event.upcoming'), events_path(:mode => 'upcoming') -%></li>
-      <%- end -%>
-    <%- when 'past' -%>
-      <%- if @library -%>
-        <li><%= link_to t('event.upcoming'), library_events_path(@library, :mode => 'upcoming') -%></li>
-      <%- else -%>
-        <li><%= link_to t('event.upcoming'), events_path(:mode => 'upcoming') -%></li>
-      <%- end -%>
-    <%- else -%>
-      <%- if @library -%>
-        <li><%= link_to t('event.past'), library_events_path(@library, :mode => 'past') -%></li>
-      <%- else -%>
-        <li><%= link_to t('event.past'), events_path(:mode => 'past') -%></li>
-      <%- end -%>
-    <%- end -%>
   </ul>
   <p>
     <%- if @library -%>
@@ -57,7 +36,15 @@
   <h2><%= t('event.all_libraries') -%></h2>
 <%- end -%>
 
-<table id="index">
+<%- form_for :events, :url => events_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+  <%= javascript_tag("$('query').focus()") -%>
+<%- end -%>
+
+<table class="index">
   <tr>
     <th><%= t('activerecord.models.event_category') -%></th>
     <th><%= t('activerecord.attributes.event.title') -%></th>

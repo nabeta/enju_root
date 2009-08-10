@@ -3,7 +3,7 @@
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.shelf')), new_shelf_path -%></li>
       <li><%= link_to t('page.edit'), edit_shelf_path(@shelf) -%></li>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), library_shelf_picture_files_path(@shelf.library.name, @shelf) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), shelf_picture_files_path(@shelf) -%></li>
       <li>
         <%= link_to t('page.back'), shelves_path -%>
       </li>
@@ -23,8 +23,8 @@
 
 <p>
   <b><%= t('activerecord.models.picture_file') -%>:</b><br />
-  <%- @shelf.picture_files.each do |file| -%>
-    <%= image_tag(picture_file_path(file.thumbnails.first, :format => file.thumbnails.first.extname)) -%>
+  <%- @shelf.picture_files.each do |picture_file| -%>
+    <%= link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'original') -%>
   <%- end -%>
 </p>
 

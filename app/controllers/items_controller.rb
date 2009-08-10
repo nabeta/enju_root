@@ -5,6 +5,7 @@ class ItemsController < ApplicationController
   before_filter :get_manifestation, :get_inventory_file
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
+  before_filter :get_item, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   #before_filter :store_location
   after_filter :convert_charset, :only => :index
@@ -63,10 +64,12 @@ class ItemsController < ApplicationController
           access_denied
           return
         end
-      when @parent_item
-        @items = @parent_item.derived_items.paginate(:page => params[:page], :order => 'items.id')
-      when @derived_item
-        @items = @derived_item.parent_items.paginate(:page => params[:page], :order => 'items.id')
+      when @item
+        if params[:mode] == 'add'
+          @items = Item.paginate(:all, :page => params[:page], :order => order)
+        else
+          @items = @item.derived_items.paginate(:page => params[:page], :order => order)
+        end
       else
         @items = Item.paginate :all, :page => params[:page], :order => order
       end
@@ -143,6 +146,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
+        @item.index
         Item.transaction do
           @manifestation.items << @item
           @item.reload
@@ -175,6 +179,7 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.update_attributes(params[:item])
+        @item.index
         if @item.shelf
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
@@ -203,6 +208,7 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
+    @item.remove_from_index
 
     respond_to do |format|
       if @item.manifestation
@@ -226,7 +232,7 @@ class ItemsController < ApplicationController
     @bookstores = Bookstore.find(:all, :order => :position)
     @use_restrictions = UseRestriction.find(:all)
     if @manifestation
-      @checkout_types = CheckoutType.available_for_manifestation_form(@manifestation.manifestation_form)
+      @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)
     else
       @checkout_types = CheckoutType.find(:all)
     end

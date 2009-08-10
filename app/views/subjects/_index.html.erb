@@ -17,14 +17,13 @@
   <%= javascript_tag("$('query').focus()") -%>
 <%- end -%>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.attributes.subject.term') -%></th>
     <th><%= t('activerecord.attributes.subject.note') -%></th>
     <th></th>
   </tr>
   <%- subjects.each do |subject| -%>
-    <%- unless subject.nil? -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= link_to h(subject.term), subject -%></td>
       <td><%= subject.note -%></td>
@@ -34,7 +33,6 @@
         <%- end -%>
       </td>
     </tr>
-    <%- end -%>
   <%- end -%>
 </table>
 

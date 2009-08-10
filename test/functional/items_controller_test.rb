@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :manifestation_forms, :languages, :reserves,
+  fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :carrier_types, :languages, :reserves,
     :libraries, :patrons, :users, :inventories, :inventory_files
 
   def test_guest_should_get_index
@@ -15,6 +15,13 @@ class ItemsControllerTest < ActionController::TestCase
     get :index, :patron_id => 1
     assert_response :success
     assert assigns(:patron)
+    assert assigns(:items)
+  end
+
+  def test_guest_should_get_index_with_item_id
+    get :index, :item_id => 1
+    assert_response :success
+    assert assigns(:item)
     assert assigns(:items)
   end
 
@@ -147,6 +154,7 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Item.count
     
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
 
   def test_admin_should_create_item
@@ -156,6 +164,7 @@ class ItemsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Item.count
     
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
 
   def test_guest_should_show_item
@@ -244,12 +253,14 @@ class ItemsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
   
   def test_admin_should_update_item
     UserSession.create users(:admin)
     put :update, :id => 1, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_redirected_to item_url(assigns(:item))
+    assigns(:item).remove_from_index!
   end
   
   def test_guest_should_not_destroy_item

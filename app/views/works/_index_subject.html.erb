@@ -1,0 +1,65 @@
+<div id="submenu">
+  <ul>
+    <%- if Work.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_subject_work_path(@subject) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
+<div id="content_list">
+  <h2>
+    <%= link_to h(@subject.term), @subject -%>
+  </h2>
+
+<%- form_for :works, :url => subject_works_path(@subject), :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%- if @subject.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
+    <%- end -%>
+    <%= submit_tag t('page.search') -%>
+    <%= link_to t('page.back_to_index'), subject_works_path(@subject) -%>
+  </p>
+  <%= javascript_tag("$('query').focus()") -%>
+<%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('activerecord.attributes.work.context') -%></th>
+    <th></th>
+  </tr>
+  <%- for work in @works -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(work.original_title), work -%>
+        <br />
+        <%= patrons_list(work.patrons) -%>
+      </td>
+      <td><%=h work.context -%></td>
+      <td>
+        <%- if work.is_deletable_by(current_user) -%>
+          <%- if params[:mode] == "add" -%>
+            <%= link_to t('page.add'), new_subject_resource_has_subject_path(@subject, :work_id => work.id) -%>
+          <%- else -%>
+            <%- has_subject = @subject.resource_has_subjects.find_by_work_id(work.id) -%>
+            <%= link_to t('page.destroy'), subject_resource_has_subject_path(@subject, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%- end -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+
+</div>
+</div>

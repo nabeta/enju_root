@@ -58,6 +58,7 @@ class CheckinsController < ApplicationController
   # POST /checkins
   # POST /checkins.xml
   def create
+    @second = Benchmark.realtime do
     @checkin = @basket.checkins.new(params[:checkin])
 
     flash[:message] = []
@@ -77,7 +78,8 @@ class CheckinsController < ApplicationController
       @checkin.item = item
 
       respond_to do |format|
-        if @checkin.save
+        # 速度を上げるためvalidationを省略している
+        if @checkin.save(false)
           #flash[:message] << t('controller.successfully_created', :model => t('activerecord.models.checkin'))
           flash[:message] << t('checkin.successfully_checked_in', :model => t('activerecord.models.checkin'))
           Checkin.transaction do
@@ -87,7 +89,7 @@ class CheckinsController < ApplicationController
             @checkin.item.checkin!
             if checkout
               checkout.checkin = @checkin
-              checkout.save!
+              checkout.save(false)
               unless checkout.other_library_resource?(current_user.library)
                 flash[:message] << t('checkin.other_library_item')
               end
@@ -135,6 +137,7 @@ class CheckinsController < ApplicationController
       else
         redirect_to user_basket_checkins_url(@basket.user.login, @basket)
       end
+    end
     end
   end
 

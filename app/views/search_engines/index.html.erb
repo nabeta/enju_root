@@ -2,21 +2,24 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.search_engine')) -%></h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.search_engine.name') -%></th>
     <th><%= t('activerecord.attributes.search_engine.note') -%></th>
   </tr>
 
 <%- for search_engine in @search_engines -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= search_engine.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (search_engine.position  > 1 ? search_engine.position - 1 : 1), :id => search_engine.id}, :method => :put) -%>
+      <%= search_engine.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (search_engine.position + 1), :id => search_engine.id}, :method => :put) -%>
+    </td>
     <td><%= link_to h(search_engine.name), search_engine.url -%></td>
     <td><%=h search_engine.note -%></td>
     <td><%= link_to t('page.show'), search_engine -%></td>
     <td><%= link_to t('page.edit'), edit_search_engine_path(search_engine) -%></td>
     <td><%= link_to t('page.destroy'), search_engine, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <td><%= search_engine.first? ? '' : link_to('▲', {:action => 'update', :position  => (search_engine.position  > 1 ? search_engine.position - 1 : 1), :id => search_engine.id}, :method => :put) -%></td>
-    <td><%= search_engine.last? ? '' : link_to('▼', {:action => 'update', :position => (search_engine.position + 1), :id => search_engine.id}, :method => :put) -%></td>
   </tr>
 <%- end -%>
 </table>

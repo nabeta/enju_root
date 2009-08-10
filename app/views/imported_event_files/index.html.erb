@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.imported_event_file')) -%></h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.attributes.imported_event_file.filename') -%></th>
     <th><%= t('activerecord.attributes.imported_event_file.imported_at') -%></th>
@@ -11,7 +11,7 @@
 
 <%- for imported_event_file in @imported_event_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h imported_event_file.filename -%></td>
+    <td><%=h imported_event_file.imported_event_file_name -%></td>
     <td><%= l(imported_event_file.imported_at) if imported_event_file.imported_at -%></td>
     <td><%= link_to h(imported_event_file.user.login), user_path(imported_event_file.user.login) -%></td>
     <td><%= link_to t('page.show'), imported_event_file -%></td>

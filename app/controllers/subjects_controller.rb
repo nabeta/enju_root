@@ -1,34 +1,31 @@
 class SubjectsController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_manifestation
+  before_filter :get_work
   before_filter :get_classification
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /subjects
   # GET /subjects.xml
   def index
+    search = Sunspot.new_search(Subject)
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-      unless params[:mode] == 'add'
-        query.add_query!(@manifestation) if @manifestation
-        query.add_query!(@classification) if @classification
-        query.add_query!(@subject_heading_type) if @subject_heading_type
-      end
-      @subjects = Subject.paginate_by_solr(query, :page => params[:page]).compact
-    else
-      case
-      when @manifestation
-      #@subjects = Subject.find(:all)
-        @subjects = @manifestation.subjects.paginate(:page => params[:page], :order => 'subjects.id')
-      when @classification
-        @subjects = @classification.subjects.paginate(:page => params[:page], :order => 'subjects.id')
-      when @subject_heading_type
-        @subjects = @subject_heading_type.subjects.paginate(:page => params[:page], :order => 'subjects.id')
-      else
-        @subjects = Subject.paginate(:all, :page => params[:page], :order => 'subjects.id')
-      end
+      search.query.keywords = query
+    end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
+      search.query.add_restriction(:classification_ids, :equal_to, @classification.id) if @classification
+      search.query.add_restriction(:subject_heading_type_ids, :equal_to, @subject_heading_type.id) if @subject_heading_type
+    end
+
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Subject.per_page)
+    begin
+      @subjects = search.execute!.results
+    rescue RSolr::RequestError
+      @subjects = WillPaginate::Collection.create(1,1,0) do end
     end
     session[:params] = {} unless session[:params]
     session[:params][:subject] = params
@@ -49,11 +46,12 @@ class SubjectsController < ApplicationController
     end
 
     @subject = Subject.find(params[:id])
+    @works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.resource_has_subjects.size)
 
-    if @manifestation
-      subjected = @subject.manifestations.find(@manifestation) rescue nil
+    if @work
+      subjected = @subject.works.find(@work) rescue nil
       if subjected.blank?
-        redirect_to new_manifestation_resource_has_subject_url(@manifestation, :subject_id => @subject.term)
+        redirect_to new_work_resource_has_subject_url(@work, :subject_id => @subject.term)
         return
       end
     end
@@ -63,6 +61,11 @@ class SubjectsController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @subject.to_xml }
+      format.js {
+        render :update do |page|
+          page.replace_html 'work_list', :partial => 'show_work_list' if params[:work_page]
+        end
+      }
     end
   end
 
@@ -79,8 +82,8 @@ class SubjectsController < ApplicationController
 
   # GET /subjects/1;edit
   def edit
-    if @manifestation
-      @subject = @manifestation.subjects.find(params[:id])
+    if @work
+      @subject = @work.subjects.find(params[:id])
     else
       @subject = Subject.find(params[:id])
     end
@@ -90,8 +93,8 @@ class SubjectsController < ApplicationController
   # POST /subjects
   # POST /subjects.xml
   def create
-    if @manifestation
-      @subject = @manifestation.subjects.new(params[:subject])
+    if @work
+      @subject = @work.subjects.new(params[:subject])
     else
       @subject = Subject.new(params[:subject])
     end
@@ -112,8 +115,8 @@ class SubjectsController < ApplicationController
   # PUT /subjects/1
   # PUT /subjects/1.xml
   def update
-    if @manifestation
-      @subject = @manifestation.subjects.find(params[:id])
+    if @work
+      @subject = @work.subjects.find(params[:id])
     else
       @subject = Subject.find(params[:id])
     end
@@ -134,8 +137,8 @@ class SubjectsController < ApplicationController
   # DELETE /subjects/1
   # DELETE /subjects/1.xml
   def destroy
-    if @manifestation
-      @subject = @manifestation.subjects.find(params[:id])
+    if @work
+      @subject = @work.subjects.find(params[:id])
     else
       @subject = Subject.find(params[:id])
     end

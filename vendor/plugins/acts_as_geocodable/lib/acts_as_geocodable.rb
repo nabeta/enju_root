@@ -1,3 +1,7 @@
+require 'acts_as_geocodable/geocoding'
+require 'acts_as_geocodable/geocode'
+require 'acts_as_geocodable/remote_location'
+
 module CollectiveIdea #:nodoc:
   module Acts #:nodoc:
     module Geocodable #:nodoc:
@@ -35,7 +39,9 @@ module CollectiveIdea #:nodoc:
           
           write_inheritable_attribute :acts_as_geocodable_options, options
           class_inheritable_reader :acts_as_geocodable_options
-
+          
+          define_callbacks :after_geocoding
+          
           has_one :geocoding, :as => :geocodable, :include => :geocode, :dependent => :destroy
           
           after_save :attach_geocode          
@@ -222,30 +228,29 @@ module CollectiveIdea #:nodoc:
         #   be any formula supported by Graticule. The default is <tt>:haversine</tt>.
         #  
         def distance_to(destination, options = {})
-          options = {
-            :units => self.class.acts_as_geocodable_options[:units],
-            :formula => :haversine
-          }.merge(options)
+          units = options[:units] || acts_as_geocodable_options[:units]
+          formula = options[:formula] || :haversine
           
           geocode = self.class.location_to_geocode(destination)
-          self.geocode.distance_to(geocode, options[:units], options[:formula])
+          self.geocode.distance_to(geocode, units, formula)
         end
         
       protected
         
         # Perform the geocoding
         def attach_geocode
-          geocode = Geocode.find_or_create_by_location self.to_location unless self.to_location.attributes.all?(&:blank?)
-          if geocode.nil? || geocode != self.geocode || geocode.new_record?
-            self.geocoding.destroy unless self.geocoding.blank?
-            if geocode
-              self.geocoding = Geocoding.new :geocode => geocode
-              self.update_address self.acts_as_geocodable_options[:normalize_address]
-            end
+          new_geocode = Geocode.find_or_create_by_location self.to_location unless self.to_location.blank?
+          if new_geocode && self.geocode != new_geocode
+            self.geocoding = Geocoding.new :geocode => new_geocode
+            self.update_address self.acts_as_geocodable_options[:normalize_address]
+            callback :after_geocoding
+          elsif !new_geocode && self.geocoding
+            self.geocoding.destroy
           end
         rescue Graticule::Error => e
           logger.warn e.message
         end
+        
         
         def update_address(force = false)
           unless self.geocode.blank?

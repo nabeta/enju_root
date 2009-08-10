@@ -14,7 +14,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.search_engine.url') -%>:</b>
-  <%=h @search_engine.url -%>
+  <%= link_to h(@search_engine.url), @search_engine.url -%>
 </p>
 
 <p>

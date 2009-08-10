@@ -6,6 +6,13 @@ module Wakati
   rescue
     nil
   end
+
+  def yomi
+    m = MeCab::Tagger.new("-O yomi")
+    m.parse(self).strip
+  rescue
+    nil
+  end
 end
 
 class String

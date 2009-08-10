@@ -1,14 +1,15 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+  <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
+      <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%= hidden_field_tag 'reservable', h(@reservable) -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <%- unless @query.blank? -%>
@@ -17,8 +18,8 @@
       window.onload = function() {
       Element.show('spinner_all_facet');
       Element.show('spinner_tag_cloud');
-      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")).gsub("&amp;", "&") -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
-      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")).gsub("&amp;", "&") -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
+      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")).gsub('&amp;', '&') -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
+      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")).gsub('&amp;', '&') -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
       return false;
     }
     </script>
@@ -34,20 +35,20 @@
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
         <%= t('page.sort_by') -%>:
-        <%- if params[:sort].blank? -%>
+        <%- if params[:sort_by].blank? -%>
           <strong><%= t('manifestation.date_of_acquisition') -%></strong>
         <%- else -%>
-          <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort => nil) -%>
+          <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort_by => nil) -%>
         <%- end -%>
-        <%- if params[:sort] == 'date' -%>
+        <%- if params[:sort_by] == 'date' -%>
           <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
         <%- else -%>
-          <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort => 'date') -%>
+          <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort_by => 'date') -%>
         <%- end -%>
-        <%- if params[:sort] == 'title' -%>
+        <%- if params[:sort_by] == 'title' -%>
           <strong><%= t('page.title') -%></strong>
         <%- else -%>
-          <%= link_to t('page.title'), params.merge(:sort => 'title') -%>
+          <%= link_to t('page.title'), params.merge(:sort_by => 'title') -%>
         <%- end -%>
       </p>
     <%- end -%>
@@ -56,44 +57,22 @@
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
     </div>
 
+    <div id="tag_cloud">
+      <h3><%= t('activerecord.models.tag') -%></h3>
+      <div id="tag_cloud_list" style="display: none"></div>
+      <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
+        :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
+    </div>
   <%- else -%>
-    <p>
-      <%= t('page.no_record_found') -%>
-      <%= t('page.you_can_search_following_database') -%>
-    </p>
-    <%- @search_engines.each do |search_engine| -%>
-      <p>
-        <%= form_tag search_engine.base_url, :method => search_engine.http_method -%>
-          <%= link_to h(search_engine.name), h(search_engine.url) -%>
-          <%= submit_tag t('page.search') -%>
-          <br />
-          <%=h search_engine.note -%>
-          <%= hidden_field_tag search_engine.query_param, h(@query) -%>
-          <%- if search_engine.search_params(@query) -%>
-            <%- search_engine.search_params(@query).each{|k, v| -%>
-              <%= hidden_field_tag k, h(v) -%>
-            <%- } -%>
-          <%- end -%>
-        </form>
-      </p>
-    <%- end -%>
+    <%= render :partial => 'not_found', :locals => {:manifestations => @manifestations} -%>
+    <%= render :partial => 'search_engine' -%>
   <%- end -%>
 <%- else -%>
   <p><%= t('page.enter_search_term') -%></p>
-  <%= javascript_tag("$('searchform_top').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
-<%- if @count[:query_result] > 0 -%>
-  <div id="tag_cloud">
-    <h3><%= t('activerecord.models.tag') -%></h3>
-    <div id="tag_cloud_list" style="display: none"></div>
-    <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
-      :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
-  </div>
-<%- end -%>
-
-    <div class="autopagerize_insert_before">
-    </div>
+    <div class="autopagerize_insert_before"></div>
 
   </div>
 </div>
@@ -120,3 +99,4 @@
     <%- end -%>
   </div>
 </div>
+<%= render :partial => 'page/tabview' -%>

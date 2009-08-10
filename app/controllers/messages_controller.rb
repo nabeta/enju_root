@@ -5,10 +5,16 @@ class MessagesController < ApplicationController
   # Restful_authentication Filter
   before_filter :rezm_login_required
   before_filter :set_rezm_user
+  before_filter :get_user, :only => :index
 
   # GET /messages
   def index
-    redirect_to inbox_user_messages_url
+    if params[:query]
+      query = params[:query].to_s.strip
+      redirect_to inbox_user_messages_url(params.merge(:query => query))
+    else
+      redirect_to inbox_user_messages_url
+    end
   end
   
   # GET /messages/1
@@ -77,7 +83,21 @@ class MessagesController < ApplicationController
   # Displays all new and read and undeleted messages in the User's inbox
   def inbox
     session[:mail_box] = "inbox"
-    @messages = rezm_user.inbox_messages.paginate(:page => params[:page])
+    #@messages = rezm_user.inbox_messages.paginate(:page => params[:page])
+    @query = params[:query].to_s.strip
+    page = params[:page] || 1
+    search = Sunspot.new_search(Message)
+    search.query.keywords = @query if @query.present?
+    search.query.add_restriction(:receiver_id, :equal_to, rezm_user.id)
+    search.query.add_restriction(:receiver_deleted, :equal_to, false)
+    search.query.add_restriction(:sender_deleted, :equal_to, false)
+    search.query.order_by :created_at, :desc
+    search.query.paginate page.to_i, Message.per_page
+    begin
+      @messages = search.execute!.results
+    rescue RSolr::RequestError
+      @messages = WillPaginate::Collection.create(1,1,0) do end
+    end
     
     respond_to do |format|
       format.html { render :action => "index" }

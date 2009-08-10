@@ -2,6 +2,7 @@ class PatronsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
+  before_filter :get_patron, :only => :index
   before_filter :get_patron_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :store_location
@@ -17,48 +18,37 @@ class PatronsController < ApplicationController
     query = params[:query].to_s.strip
     @query = query.dup
     query = query.gsub('　', ' ')
-
-    if params[:mode] == 'recent'
-      query = "#{query} created_at: [NOW-1MONTH TO NOW]"
-    end
-
-    browse = nil
     order = nil
     @count = {}
 
+    search = Sunspot.new_search(Patron)
+
+    if params[:mode] == 'recent'
+      query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
+    end
+    unless query.blank?
+      search.query.keywords = query
+    end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
+      search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
+      search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
+      search.query.add_restriction(:original_patron_ids, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:patron_merge_ids, :equal_to, @patron_merge_list.id) if @patron_merge_list
+    end
     if logged_in?
       unless current_user.has_role?('Librarian')
-        query += " required_role_id: [* TO 2]"
-      end
-    else
-      query += " required_role_id: 1"
-    end
-
-    unless query.blank?
-      unless params[:mode] == 'add'
-        query.add_query!(@work) if @work
-        query.add_query!(@expression) if @expression
-        query.add_query!(@manifestation) if @manifestation
-        query += " patron_merge_list_ids: #{@patron_merge_list.id}" if @patron_merge_list
-      end
-
-      @patrons = Patron.paginate_by_solr(query, :order => order, :page => params[:page]).compact
-      @count[:query_result] = @patrons.total_entries
-      @patrons = Patron.paginate_by_solr(query, :page => params[:page], :order => 'updated_at desc').compact
-    else
-      case
-      when @work
-        @patrons = @work.patrons.paginate(:page => params[:page])
-      when @expression
-        @patrons = @expression.patrons.paginate(:page => params[:page])
-      when @manifestation
-        @patrons = @manifestation.patrons.paginate(:page => params[:page])
-      when @patron_merge_list
-        @patrons = @patron_merge_list.patrons.paginate(:page => params[:page])
+        search.query.add_restriction(:required_role_id, :less_than, 2)
       else
-        @patrons = Patron.paginate(:all, :page => params[:page])
+        search.query.add_restriction(:required_role_id, :equal_to, 1)
       end
-
+    end
+    page = params[:page] || 1
+    begin
+      search.query.paginate(page.to_i, Patron.per_page)
+      @patrons = search.execute!.results
+    rescue RSolr::RequestError
+      @patrons = WillPaginate::Collection.create(1,1,0) do end
     end
 
     respond_to do |format|
@@ -150,6 +140,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       if @patron.save
+        @patron.index
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron'))
         case
         when @work
@@ -183,6 +174,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
+        @patron.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron'))
         format.html { redirect_to patron_url(@patron) }
         format.xml  { head :ok }
@@ -211,6 +203,7 @@ class PatronsController < ApplicationController
     end
 
     @patron.destroy
+    @patron.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to patrons_url }
@@ -222,22 +215,22 @@ class PatronsController < ApplicationController
 
   private
 
-  def get_patron
-    case
-    when @work
-      @patron = @work.patrons.find(params[:id])
-    when @expression
-      @patron = @expression.patrons.find(params[:id])
-    when @manifestation
-      @patron = @manifestation.patrons.find(params[:id])
-    when @item
-      @patron = @item.patrons.find(params[:id])
-    else
-      @patron = Patron.find(params[:id])
-    end
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
+  #def get_patron
+  #  case
+  #  when @work
+  #    @patron = @work.patrons.find(params[:id])
+  #  when @expression
+  #    @patron = @expression.patrons.find(params[:id])
+  #  when @manifestation
+  #    @patron = @manifestation.patrons.find(params[:id])
+  #  when @item
+  #    @patron = @item.patrons.find(params[:id])
+  #  else
+  #    @patron = Patron.find(params[:id])
+  #  end
+  #rescue ActiveRecord::RecordNotFound
+  #  not_found
+  #end
 
   def prepare_options
     @patron_types = PatronType.find(:all)

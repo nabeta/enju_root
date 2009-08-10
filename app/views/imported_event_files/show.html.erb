@@ -9,18 +9,18 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_event_file')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.imported_event_file.filename') -%>:</b>
-  <%= link_to h(@imported_event_file.filename), imported_event_file_path(@imported_event_file, :format => :download) -%>
+  <b><%= t('activerecord.attributes.imported_event_file.imported_event_file_name') -%>:</b>
+  <%= link_to h(@imported_event_file.imported_event_file_name), imported_event_file_path(@imported_event_file, :format => :download) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.imported_event_file.content_type') -%>:</b>
-  <%=h @imported_event_file.content_type -%>
+  <b><%= t('activerecord.attributes.imported_event_file.imported_event_content_type') -%>:</b>
+  <%=h @imported_event_file.imported_event_content_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.imported_event_file.size') -%>:</b>
-  <%=h @imported_event_file.size -%>
+  <b><%= t('activerecord.attributes.imported_event_file.imported_event_file_size') -%>:</b>
+  <%=h @imported_event_file.imported_event_file_size -%>
 </p>
 
 <p>
@@ -43,7 +43,7 @@
   <%= link_to h(@imported_event_file.user.login), user_path(@imported_event_file.user.login) -%>
 </p>
 
-<table id="index">
+<table class="index">
   <%- @imported_event_file.imported_objects.each do |object| -%>
     <tr>
       <td><%= link_to h(object.importable.title), object.importable -%></td>

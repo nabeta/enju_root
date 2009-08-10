@@ -1,5 +1,4 @@
 <div style="color: red"><%=h flash[:message].to_s -%></div>
-
 <%- remote_form_for @checkin, :html => {:method => :post}, :update => :checkin_list, :url => user_basket_checkins_path(@basket.user.login, @basket, :mode => 'list') do |f| -%>
 
   <p><%= t('activerecord.attributes.item.item_identifier') -%>:
@@ -8,7 +7,7 @@
     <%= submit_tag t('checkin.checkin') -%></p>
 <%- end -%>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.item') -%></th>

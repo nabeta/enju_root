@@ -1,0 +1,68 @@
+<div id="submenu">
+  <ul>
+    <%- if Work.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
+<div id="content_list">
+  <h2>
+    [W]
+    <%= link_to h(@work.original_title), @work -%>
+  </h2>
+  <%- form_for :works, :url => work_works_path(@work), :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%- if @work.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
+    <%- end -%>
+    <%= submit_tag t('page.search') -%>
+   </p>
+  <%= javascript_tag("$('query').focus()") -%>
+  <%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('activerecord.attributes.work.context') -%></th>
+    <%- if @work.is_deletable_by(current_user) -%>
+      <th></th>
+      <th></th>
+    <%- end -%>
+  </tr>
+  
+  <%- for work in @works -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(work.original_title), work -%>
+        <br />
+        <%= patrons_list(work.patrons, current_user) -%>
+      </td>
+      <td><%=h work.context -%></td>
+      <%- if work.is_deletable_by(current_user) -%>
+        <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
+        <td>
+          <%- if params[:mode] == "add" -%>
+            <%= link_to t('page.add'), new_work_work_has_work_path(@work, :to_work_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>
+          <%- else -%>
+            <%- work_has_work = @work.to_works.find_by_to_work_id(work.id) -%>
+            <%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete if work_has_work -%>
+          <%- end -%>
+        </td>
+      <%- end -%>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>

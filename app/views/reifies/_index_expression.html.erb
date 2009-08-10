@@ -14,13 +14,20 @@
     <%= link_to h(@expression.original_title), @expression -%>
   </h2>
 
-<table id="index">
+<table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.models.expression') -%></th>
   </tr>
 
 <%- for reify in @reifies -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if reify.is_deletable_by(current_user) -%>
+        <%= reify.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position => (reify.position > 1 ? reify.position - 1 : 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%>
+        <%= reify.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (reify.position + 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td>
       <%= link_to h(reify.expression.original_title), reify.expression -%>
       <%= expression_form_icon(@expression.expression_form) -%>
@@ -30,8 +37,6 @@
     </td>
     <%- if reify.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), expression_reify_path(@expression, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= reify.first? ? '' : link_to('▲', {:action => 'update', :position => (reify.position > 1 ? reify.position - 1 : 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%></td>
-      <td><%= reify.last? ? '' : link_to('▼', {:action => 'update', :position => (reify.position + 1), :id => reify.id, :expression_id => @expression.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

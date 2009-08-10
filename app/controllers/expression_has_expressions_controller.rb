@@ -1,10 +1,19 @@
 class ExpressionHasExpressionsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_expression
 
   # GET /expression_has_expressions
   # GET /expression_has_expressions.xml
   def index
-    @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
+    if @expression
+      if params[:mode] == 'add'
+        @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
+      else
+        @expression_has_expressions = @expression.to_expressions.paginate(:all, :page => params[:page])
+      end
+    else
+      @expression_has_expressions = ExpressionHasExpression.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,6 +36,8 @@ class ExpressionHasExpressionsController < ApplicationController
   # GET /expression_has_expressions/new.xml
   def new
     @expression_has_expression = ExpressionHasExpression.new
+    @expression_has_expression.from_expression = @expression
+    @expression_has_expression.to_expression = Expression.find(params[:to_expression_id]) rescue nil
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +57,7 @@ class ExpressionHasExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression_has_expression.save
-        flash[:notice] = 'ExpressionHasExpression was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_has_expression'))
         format.html { redirect_to(@expression_has_expression) }
         format.xml  { render :xml => @expression_has_expression, :status => :created, :location => @expression_has_expression }
       else
@@ -63,7 +74,7 @@ class ExpressionHasExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression_has_expression.update_attributes(params[:expression_has_expression])
-        flash[:notice] = 'ExpressionHasExpression was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_has_expression'))
         format.html { redirect_to(@expression_has_expression) }
         format.xml  { head :ok }
       else

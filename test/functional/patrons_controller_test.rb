@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PatronsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :patrons, :users, :patron_types, :manifestations, :manifestation_forms, :expressions, :works, :embodies, :roles,
+  fixtures :patrons, :users, :patron_types, :manifestations, :carrier_types, :expressions, :works, :embodies, :roles,
     :creates, :realizes, :produces, :owns, :languages, :countries
 
   def test_guest_should_get_index
@@ -13,6 +13,13 @@ class PatronsControllerTest < ActionController::TestCase
   def test_guest_should_get_index_with_query
     get :index, :query => 'Librarian1'
     assert_response :success
+  end
+
+  def test_guest_should_get_index_with_patron
+    get :index, :patron_id => 1
+    assert_response :success
+    assert assigns(:patron)
+    assert assigns(:patrons)
   end
 
   def test_guest_should_get_index_with_work
@@ -77,6 +84,7 @@ class PatronsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_equal assigns(:patron).user, users(:user1)
     assert_redirected_to patron_url(assigns(:patron))
+    assigns(:patron).remove_from_index!
   end
 
   def test_user_should_not_create_patron_without_user_id
@@ -104,6 +112,7 @@ class PatronsControllerTest < ActionController::TestCase
     end
     
     assert_redirected_to patron_url(assigns(:patron))
+    assigns(:patron).remove_from_index!
   end
 
   # TODO: full_name以外での判断
@@ -114,6 +123,7 @@ class PatronsControllerTest < ActionController::TestCase
     end
     
     assert_redirected_to patron_url(assigns(:patron))
+    assigns(:patron).remove_from_index!
   end
 
   def test_guest_should_show_patron
@@ -242,6 +252,7 @@ class PatronsControllerTest < ActionController::TestCase
     UserSession.create users(:user1)
     put :update, :id => users(:user1).patron.id, :patron => { :full_name => 'test' }
     assert_redirected_to patron_url(assigns(:patron))
+    assigns(:patron).remove_from_index!
   end
   
   def test_user_should_not_update_myself_without_name
@@ -254,6 +265,13 @@ class PatronsControllerTest < ActionController::TestCase
     UserSession.create users(:user1)
     put :update, :id => users(:user2).patron.id, :patron => { :full_name => 'test' }
     assert_response :forbidden
+  end
+  
+  def test_librarian_should_update_other_patron
+    UserSession.create users(:librarian1)
+    put :update, :id => users(:user2).patron.id, :patron => { :full_name => 'test' }
+    assert_redirected_to patron_url(assigns(:patron))
+    assigns(:patron).remove_from_index!
   end
   
   def test_guest_should_not_destroy_patron

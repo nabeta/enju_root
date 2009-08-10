@@ -2,20 +2,18 @@
 <h1 class="title">Listing expression_has_expressions</h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
-    <th>From expression</th>
-    <th>To expression</th>
+    <th><%= t('activerecord.attributes.expression_has_expression.from_expression') -%></th>
+    <th><%= t('activerecord.attributes.expression_has_expression.to_expression') -%></th>
     <th>Expression Relationship type</th>
-    <th>Position</th>
   </tr>
 
 <% for expression_has_expression in @expression_has_expressions -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%></td>
     <td><%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%></td>
-    <td><%=h expression_has_expression.type -%></td>
-    <td><%=h expression_has_expression.position -%></td>
+    <td><%=h expression_has_expression.class.to_s -%></td>
     <td><%= link_to t('page.show'), expression_has_expression -%></td>
     <td><%= link_to t('page.edit'), edit_expression_has_expression_path(expression_has_expression) -%></td>
     <td><%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

@@ -7,16 +7,16 @@ module ApplicationHelper
     h(LibraryGroup.site_config.name)
   end
   
-  def form_icon(manifestation_form)
-    case manifestation_form.name
+  def form_icon(carrier_type)
+    case carrier_type.name
     when 'print'
-      image_tag('/icons/book.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/book.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     when 'CD'
-      image_tag('/icons/cd.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/cd.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     when 'DVD'
-      image_tag('/icons/dvd.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/dvd.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     when 'file'
-      image_tag('/icons/monitor.png', :size => '16x16', :alt => manifestation_form.display_name.localize)
+      image_tag('/icons/monitor.png', :size => '16x16', :alt => carrier_type.display_name.localize)
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => 'unknown')
     end
@@ -54,7 +54,7 @@ module ApplicationHelper
 
   def serial_title_link(manifestation)
     # FIXME: 最初の1誌だけが取得されるが…
-    link_to h(manifestation.serial.original_title), expression_path(manifestation.serial)
+    link_to h(manifestation.original_title), manifestation_path(manifestation)
   rescue
     nil
   end
@@ -93,13 +93,13 @@ module ApplicationHelper
     html <<   %(</div>\n)
   end
 
-  def patrons_list(patrons = [], options = {})
+  def patrons_list(patrons = [], user = nil, options = {})
     return nil if patrons.blank?
     patrons_list = []
     if options[:nolink]
-      patrons_list = patrons.map{|patron| h(patron.full_name)}
+      patrons_list = patrons.map{|patron| h(patron.full_name) if patron.is_readable_by(user)}
     else
-      patrons_list = patrons.map{|patron| link_to(h(patron.full_name), patron)}
+      patrons_list = patrons.map{|patron| link_to(h(patron.full_name), patron) if patron.is_readable_by(user)}
     end
     patrons_list.join(" ")
   end
@@ -109,13 +109,13 @@ module ApplicationHelper
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket.blank?
       unless book_jacket['asin'].blank?
-        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.co.jp/dp/#{book_jacket['asin']}"
+        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.com/dp/#{book_jacket['asin']}"
       else
-        unless manifestation.access_address.blank?
+        if manifestation.screen_shot.present?
         #link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=180", :width => 180, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         #link_to image_tag("http://capture.heartrails.com/medium?#{manifestation.access_address}", :width => 200, :height => 150, :alt => manifestation.original_title, :border => 0), manifestation.access_address
         # TODO: Project Next-L 専用のMozshotサーバを作る
-          link_to image_tag(url_for(:controller => :page, :action => :screen_shot, :url => "http://mozshot.nemui.org/shot?#{manifestation.access_address}"), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
+          link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
         else
           image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
         end

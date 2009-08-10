@@ -1,6 +1,7 @@
 class CreatePatrons < ActiveRecord::Migration
   def self.up
     create_table :patrons do |t|
+      t.integer :user_id
       t.integer :parent_id
       t.string :last_name
       t.string :middle_name
@@ -42,11 +43,12 @@ class CreatePatrons < ActiveRecord::Migration
       t.integer :realizes_count, :default => 0, :null => false
       t.integer :produces_count, :default => 0, :null => false
       t.integer :owns_count, :default => 0, :null => false
-      t.integer :resource_has_subjects_count, :default => 0, :null => false
-      t.integer :required_role_id, :null => false
+      #t.integer :resource_has_subjects_count, :default => 0, :null => false
+      t.integer :required_role_id, :default => 1, :null => false
       t.integer :required_score, :default => 0, :null => false
       t.string :state
     end
+    add_index :patrons, :user_id
     add_index :patrons, :parent_id
     add_index :patrons, :patron_type_id
     add_index :patrons, :language_id

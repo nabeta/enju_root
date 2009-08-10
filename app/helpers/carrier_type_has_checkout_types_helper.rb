@@ -1,0 +1,2 @@
+module CarrierTypeHasCheckoutTypesHelper
+end

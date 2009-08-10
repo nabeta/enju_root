@@ -165,7 +165,7 @@ class MessagesController < ApplicationController
       # "inbox"
       if rezm_user.id == message.receiver_id and !message.receiver_deleted
         message.receiver_deleted = true             
-            
+        message.mark_message_read(rezm_user)
       # "outbox"
       elsif rezm_user.id == message.sender_id
         message.sender_deleted = true

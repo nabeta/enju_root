@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
-    :frequency_of_issues, :work_forms, :expression_forms, :manifestation_forms, :countries, :patron_types
+    :frequencies, :work_forms, :expression_forms, :carrier_types, :countries, :patron_types
 
   # Replace this with your real tests.
   def test_manifestation_should_embody_expression
@@ -22,9 +22,9 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00001).languages
   end
 
-  def test_manifestation_should_show_oai_dc
-    assert manifestations(:manifestation_00001).to_oai_dc
-  end
+  #def test_manifestation_should_show_oai_dc
+  #  assert manifestations(:manifestation_00001).to_oai_dc
+  #end
 
   def test_manifestation_should_get_number_of_pages
     assert_equal 100, manifestations(:manifestation_00001).number_of_pages

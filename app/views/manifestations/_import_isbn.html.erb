@@ -9,10 +9,7 @@
 <h1 class="title"><%= t('page.import_record') -%></h1>
 <div id="content_list">
   <%- form_for(@manifestation, :url => manifestations_path(:mode => 'import_isbn')) do |f| -%>
-    <%- if @manifestation.respond_to?(:post_to_twitter) -%>
-      <%= render :partial => 'manifestations/post_to_twitter', :locals => {:f => f} -%>
-    <%- end -%>
-
+    <%= render :partial => 'manifestations/twitter_comment', :locals => {:f => f} -%>
     <%= t('activerecord.attributes.manifestation.isbn') -%>: <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
     <%= submit_tag t('page.import') -%>
 

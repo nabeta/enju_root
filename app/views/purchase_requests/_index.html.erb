@@ -35,7 +35,15 @@
 
 <div id="content_list">
 
-<table id="index">
+<%- form_for :purchase_requests, :url => purchase_requests_path, :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+  <%= javascript_tag("$('query').focus()") -%>
+<%- end -%>
+
+<table class="index">
   <tr>
     <th><%= t('activerecord.attributes.purchase_request.title') -%></th>
     <th><%= t('activerecord.attributes.purchase_request.price') -%></th>

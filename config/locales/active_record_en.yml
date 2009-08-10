@@ -31,6 +31,7 @@ en:
           already_checked_out: "This item is already checked out."
           reserved_item_included: "Reserved item included!"
           excessed_checkout_limit: "Excessed checkout limit."
+          in_transcation: "In transaction."
         checkin:
           already_checked_out: "This item is already checked out."
 

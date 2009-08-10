@@ -24,7 +24,7 @@
           <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
         <%- end -%>
 
-      <%- unless @manifestation.manifestation_form.name == 'file' -%>
+      <%- unless @manifestation.carrier_type.name == 'file' -%>
         <li>
           <%- if current_user.has_role?('Librarian') -%>
             <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
@@ -43,6 +43,7 @@
 
       <%- if current_user.has_role?('Librarian') -%>
         <ul>
+          <li><%= link_to t('page.add_derivation'), manifestation_manifestations_path(@manifestation) -%></li>
           <%- case when @expression -%>
             <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
           <%- when @patron -%>
@@ -53,7 +54,7 @@
           <ul>
             <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
             <%- if @manifestation.serial? -%>
-              <li><%= link_to t('manifestation.add_next_issue'), new_expression_manifestation_path(@manifestation.serial) -%></li>
+              <li><%= link_to t('manifestation.add_next_issue'), new_manifestation_manifestation_has_manifestation_path(@manifestation) -%></li>
             <%- end -%>
           </ul>
           <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
@@ -73,7 +74,7 @@
         <%= back_to_manifestation_index -%>
         <!--
         <%= t('page.search_term') -%>:
-        <%= text_field_tag 'query', h(@query), {:id => 'searchform_top', :class => 'search_form'} -%>
+        <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
         <%= submit_tag t('page.search') -%>
         <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
         -->
@@ -100,6 +101,9 @@
     <%- unless @manifestation.amazon_customer_reviews.blank? -%>
       <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
     <%- end -%>
+    <%- unless @xisbn_manifestations.blank? -%>
+      <li><a href="#worldcat"><em><%= ('WorldCat') -%></em></a></li>
+    <%- end -%>
   </ul>            
   <div class="yui-content">
     <div id="detail">
@@ -108,13 +112,17 @@
     <%- end -%>
 
     <table id="manifestation_detail">
+<%- end -%>
     <%= embed_content(@manifestation) -%>
-    <%- if @manifestation.serial -%>
+<%
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+%>
+    <%- if @manifestation.serial? -%>
       <tr>
         <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
         <td style="width: 500px"><%= serial_title_link(@manifestation) -%>
-          <%- if @manifestation.serial.issn? -%>
-            (<%= t('activerecord.attributes.expression.issn') -%>: <%=h @manifestation.serial.issn -%>)
+          <%- if @manifestation.issn.present? -%>
+            (<%= t('activerecord.attributes.manifestation.issn') -%>: <%=h @manifestation.issn -%>)
           <%- end -%>
         </td>
       </tr>
@@ -136,7 +144,7 @@
     <tr>
       <td style="width: 200px"><%=h t('page.form') -%>:</td>
       <td style="width: 500px">
-        <%= form_icon(@manifestation.manifestation_form) -%> <%=h @manifestation.manifestation_form.display_name.localize -%>
+        <%= form_icon(@manifestation.carrier_type) -%> <%=h @manifestation.carrier_type.display_name.localize -%>
       </td>
     </tr>
     <tr>
@@ -172,7 +180,6 @@
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
         <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
-          (<%= link_to t('page.edit'), manifestation_subjects_path(@manifestation) -%>)
         <%- end -%>
       </td>
     </tr>
@@ -184,29 +191,30 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_3', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
         <td><%= t('page.identifier') -%>:</td>
         <td>
-          <%- if @manifestation.isbn -%>
+          <%- if @manifestation.isbn.present? -%>
             ISBN: <%=h @manifestation.isbn -%>
-            <%- if @manifestation.isbn10 -%>
+            <%- if @manifestation.isbn10.present? -%>
               ( <%=h @manifestation.isbn10 -%> )
             <%- end -%>
           <%- end -%>
-          <%- if @manifestation.nbn -%>
+          <%- if @manifestation.nbn.present? -%>
             NBN: <%=h @manifestation.nbn -%>
+          <%- end -%>
+          <%- if @manifestation.lccn.present? -%>
+            <br />
+            LCCN: <%=h @manifestation.lccn -%>
           <%- end -%>
         </td>
       </tr>
     <%- end -%>
-    <%- unless @manifestation.attachment_file.blank? -%>
-      <tr>
-        <td><%= t('activerecord.models.attachment_file') -%>:</td>
-        <td><%= render :partial => 'attachment_file' -%></td>
-      </tr>
+    <%- unless @manifestation.attachment_file_name.blank? -%>
+      <%= render :partial => 'attachment_file' -%>
     <%- end -%>
     <tr>
       <td><%= t('page.created_at') -%>:</td>
@@ -225,15 +233,22 @@
         <%= simple_format(h(@manifestation.note)) -%>
       </td>
     </tr>
+    <%= render :partial => 'show_worldcat_record' if @worldcat_record.present? -%>
     </table>
 
     <%- if @manifestation.items.on_shelf.find(:first) -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
+      <%- if @manifestation.is_updatable_by(current_user) -%>
+        <%- if @manifestation.respond_to?(:post_to_twitter) -%>
+          <%= render :partial => 'manifestations/twitter_comment' -%>
+        <%- end -%>
+      <%- end -%>
       <%- if @manifestation.bookmarked_resource -%>
         <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
         <%= render :partial => 'bookmarks_for_this_manifestation' -%>
       <%- end -%>
+
     </div>
     <%- if @manifestation.related_works.size > 0 -%>
       <%= render :partial => 'manifestations/work_list' -%>
@@ -248,6 +263,9 @@
     <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
       <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
     <%- end -%>
+    <%- unless @xisbn_manifestations.blank? -%>
+      <%= render :partial => 'manifestations/show_xisbn' -%>
+    <%- end -%>
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
@@ -256,6 +274,12 @@
     end
   -%>
 </div>
+
+<%- if params[:mode] == 'generate_cache' -%>
+  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
+  <%= render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation} -%>
+  <%= render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation} -%>
+<%- end -%>
 
 </div>
 </div>

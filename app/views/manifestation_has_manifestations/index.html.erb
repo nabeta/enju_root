@@ -2,20 +2,18 @@
 <h1 class="title">Listing manifestation_has_manifestations</h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
-    <th>From manifestation</th>
-    <th>To manifestation</th>
+    <th><%= t('activerecord.attributes.manifestation_has_manifestation.from_manifestation') -%></th>
+    <th><%= t('activerecord.attributes.manifestation_has_manifestation.to_manifestation') -%></th>
     <th>Manifestation Relationship type</th>
-    <th>Position</th>
   </tr>
 
 <% for manifestation_has_manifestation in @manifestation_has_manifestations -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(manifestation_has_manifestation.from_manifestation.original_title), manifestation_has_manifestation.from_manifestation -%></td>
     <td><%= link_to h(manifestation_has_manifestation.to_manifestation.original_title), manifestation_has_manifestation.to_manifestation -%></td>
-    <td><%=h manifestation_has_manifestation.type -%></td>
-    <td><%=h manifestation_has_manifestation.position -%></td>
+    <td><%=h manifestation_has_manifestation.class.to_s -%></td>
     <td><%= link_to t('page.show'), manifestation_has_manifestation -%></td>
     <td><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(manifestation_has_manifestation) -%></td>
     <td><%= link_to t('page.destroy'), manifestation_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

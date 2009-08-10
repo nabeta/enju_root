@@ -1,7 +1,8 @@
 class WorksController < ApplicationController
   before_filter :has_permission?
   #before_filter :get_parent
-  before_filter :get_patron, :get_work
+  before_filter :get_patron, :get_subject
+  before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -9,36 +10,27 @@ class WorksController < ApplicationController
   # GET /works.xml
   def index
     query = params[:query].to_s.strip
+    search = Sunspot.new_search(Work)
+    @count = {}
     unless query.blank?
-      @count = {}
       @query = query.dup
       query = query.gsub('　', ' ')
-      unless params[:mode] == 'add'
-        query.add_query!(@patron) if @patron
-        if @derived_work
-          query += " derived_work_ids: #{@derived_work.id}"
-        end
-        if @original_work
-          query += " original_work_ids: #{@original_work.id}"
-        end
-        query += " work_merge_list_ids: #{@work_merge_list.id}" if @work_merge_list
-      end
-      @works = Work.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:language_id]}, :page => params[:page]).compact
-      @count[:total] = @works.total_entries
-    else
-      case
-      when @patron
-        @works = @patron.works.paginate(:page => params[:page], :order => 'works.id')
-      when @derived_work
-        @works = @derived_work.original_works.paginate(:page => params[:page], :order => 'works.id')
-      when @original_work
-        @works = @original_work.derived_works.paginate(:page => params[:page], :order => 'works.id')
-      when @work_merge_list
-        @works = @work_merge_list.works.paginate(:page => params[:page])
-      else
-        @works = Work.paginate(:all, :page => params[:page], :order => 'works.id')
-      end
+      search.query.keywords = query
     end
+    unless params[:mode] == 'add'
+      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:subject_ids, :equal_to, @subject.id) if @subject
+      search.query.add_restriction(:original_work_ids, :equal_to, @work.id) if @work
+      search.query.add_restriction(:work_merge_ids, :equal_to, @work_merge_list.id) if @work_merge_list
+    end
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Work.per_page)
+    begin
+      @works = search.execute!.results
+    rescue RSolr::RequestError
+      @works = WillPaginate::Collection.create(1,1,0) do end
+    end
+    @count[:total] = @works.total_entries
 
     respond_to do |format|
       format.html # index.rhtml
@@ -58,6 +50,7 @@ class WorksController < ApplicationController
         return
       end
     end
+    @subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.resource_has_subjects.size)
 
     canonical_url work_url(@work)
 
@@ -65,6 +58,11 @@ class WorksController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @work }
       format.json { render :json => @work }
+      format.js {
+        render :update do |page|
+          page.replace_html 'subject_list', :partial => 'show_subject_list' if params[:subject_page]
+        end
+      }
     end
   end
 
@@ -91,6 +89,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
+        @work.index
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
         if @patron
           @patron.works << @work
@@ -114,6 +113,7 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.update_attributes(params[:work])
+        @work.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
         format.xml  { head :ok }
@@ -131,6 +131,7 @@ class WorksController < ApplicationController
   def destroy
     @work = Work.find(params[:id])
     @work.destroy
+    @work.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to works_url }

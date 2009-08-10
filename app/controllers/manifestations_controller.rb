@@ -3,7 +3,8 @@ class ManifestationsController < ApplicationController
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
-  before_filter :get_subject
+  before_filter :get_manifestation, :only => :index
+  before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
   after_filter :convert_charset, :only => :index
@@ -19,26 +20,26 @@ class ManifestationsController < ApplicationController
 	      @user = current_user if @user.nil?
 	    end
 
-      @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]}) if params[:subject]
-
-      #@manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
-      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
-
+      #query = params[:query].to_s
       query = make_query(params[:query], {
         :mode => params[:mode],
-        :sort => params[:sort],
+        :sort_by => params[:sort_by],
+        :order => params[:order],
         :tag => params[:tag],
+        #:language => params[:language],
+        #:library => params[:library],
         :author => params[:author],
         :publisher => params[:publisher],
         :isbn => params[:isbn],
+        :issn => params[:issn],
+        :lccn => params[:lccn],
+        :nbn => params[:nbn],
+        #:subject => params[:subject],
+        #:carrier_type => params[:carrier_type],
         :pubdate_from => params[:pubdate_from],
         :pubdate_to => params[:pubdate_to],
         :number_of_pages_at_least => params[:number_of_pages_at_least],
         :number_of_pages_at_most => params[:number_of_pages_at_most],
-        #:formtype => params[:formtype],
-        #:library => params[:library],
-        #:language => params[:language],
-        #:subject => params[:subject],
       })
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
@@ -47,7 +48,6 @@ class ManifestationsController < ApplicationController
         @reservable = "true"
       end
 
-      @query = query.dup
       manifestations = {}
       @count = {}
       if params[:format] == 'csv'
@@ -55,54 +55,63 @@ class ManifestationsController < ApplicationController
       end
 
       # 絞り込みを行わない状態のクエリ
+      @query = query.dup
       query = query.gsub('　', ' ')
-      total_query = query
 
+      total_query = @query.dup
+      #if total_query.blank?
+      #  @count[:total] = 0
+      #else
+      @count[:total] = get_total_count(total_query)
+      #end
+      #total_query = query.dup
+      #if total_query.blank?
+      #  @count[:total] = 0
+      #else
+      #  count = Sunspot.new_search(Manifestation)
+      #  count.query.keywords = total_query
+      #  @count[:total] = count.execute!.total
+      #end
+
+      search = Sunspot.new_search(Manifestation)
+      search = make_internal_query(search)
       unless query.blank?
-        query = make_internal_query(query)
-        begin
-          @count[:total] = Manifestation.count_by_solr(total_query)
-          #@tags_count = @count[:total]
-
-          if ["all_facet", "manifestation_form_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-            prepare_options
-            render_facet(query)
-            return
-          end
-
-          order = set_search_result_order(params[:sort], params[:mode])
-          #browse = "manifestation_form_f: #{@manifestation_form.name}" if @manifestation_form
-          browse = ""
-
-          manifestation_ids = Manifestation.find_id_by_solr(query, :order => order, :limit => Manifestation.cached_numdocs).results
-          if params[:view] == "tag_cloud"
-            if manifestation_ids
-              @tags = Tag.bookmarked(manifestation_ids)
-              render :partial => 'tag_cloud'
-              return
-            end
-          end
-
-          @manifestations = Manifestation.paginate_by_solr(query, :facets => {:browse => browse}, :order => order, :page => params[:page]).compact
-          @count[:query_result] = @manifestations.total_entries
-        
-          unless query.blank?
-            save_search_history(@query, @manifestations.offset, @count[:total])
-          end
-
-          if @manifestations
-            session[:manifestation_ids] = manifestation_ids
-          end
-        rescue
-          @manifestations = []
-          @count[:total] = 0
-          @count[:query_result] = 0
+        search.query.keywords = query
+        manifestation_ids = Manifestation.search_ids do
+          keywords query
+        #  order_by order
+          paginate :page => 1, :per_page => Manifestation.cached_numdocs
         end
-      else
-        # Solrを使わない場合
-        get_index_without_solr
       end
 
+      if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
+        prepare_options
+        render_facet(search)
+        return
+      end
+
+      if params[:view] == "tag_cloud"
+        if manifestation_ids
+          @tags = Tag.bookmarked(manifestation_ids)
+          render :partial => 'tag_cloud'
+          return
+        end
+      end
+
+      sort = set_search_result_order(params[:sort_by], params[:order])
+      search.query.order_by sort[:sort_by], sort[:order]
+
+      page = params[:page] || 1
+      search.query.paginate(page.to_i, Manifestation.per_page)
+      @manifestations = search.execute!.results
+      @count[:query_result] = @manifestations.total_entries
+
+      save_search_history(@query, @manifestations.offset, @count[:query_result])
+      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
+
+      if @manifestations
+        session[:manifestation_ids] = manifestation_ids
+      end
     end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
@@ -121,13 +130,21 @@ class ManifestationsController < ApplicationController
       format.csv  { render :layout => false }
       format.atom
       format.json { render :json => @manifestations }
+      format.js {
+        render :update do |page|
+          page.replace_html 'worldcat_list', :partial => 'worldcat' if params[:worldcat_page]
+        end
+      }
     end
+  rescue RSolr::RequestError
+    redirect_to manifestations_url
+    return
   end
 
   # GET /manifestations/1
   # GET /manifestations/1.xml
   def show
-    if params[:api]
+    if params[:api] or params[:mode] == 'generate_cache'
       unless my_networks?
         access_denied; return
       end
@@ -143,19 +160,36 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
 
-    if params[:mode] == 'send_email'
+    case params[:mode]
+    when 'send_email'
       if logged_in?
         Notifier.deliver_manifestation_info(current_user, @manifestation)
         flash[:notice] = t('page.sent_email')
         redirect_to manifestation_url(@manifestation)
         return
       end
+    when 'generate_cache'
+      check_client_ip_address
+      return
     end
 
     return if render_mode(params[:mode])
 
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
+
+    if @manifestation.respond_to?(:worldcat_record)
+      @worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
+    end
+    if @manifestation.respond_to?(:xisbn_manifestations)
+      if params[:xisbn_page]
+        xisbn_page = params[:xisbn_page].to_i
+      else
+        xisbn_page = 1
+      end
+      @xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}_page_#{xisbn_page}"){@manifestation.xisbn_manifestations(:page => xisbn_page)}
+      #@xisbn_manifestations = @manifestation.xisbn_manifestations(:page => xisbn_page)
+    end
 
     store_location
     canonical_url manifestation_url(@manifestation)
@@ -166,12 +200,24 @@ class ManifestationsController < ApplicationController
         if params[:api] == 'amazon'
           render :xml => @manifestation.access_amazon
         else
-          render :xml => @manifestation
+          case params[:mode]
+          when 'related'
+            render :template => 'manifestations/related'
+          when 'mods'
+            render :template => 'manifestations/mods'
+          else
+            render :xml => @manifestation
+          end
         end
       }
       format.json { render :json => @manifestation }
       format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
+      format.js {
+        render :update do |page|
+          page.replace_html 'xisbn_list', :partial => 'show_xisbn' if params[:xisbn_page]
+        end
+      }
     end
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -233,6 +279,11 @@ class ManifestationsController < ApplicationController
       end
     else
       @manifestation = Manifestation.new(params[:manifestation])
+      @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
+      @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
+      if @manifestation.original_title.blank?
+        @manifestation.original_title = @manifestation.attachment_file_name
+      end
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
       #  redirect_to expressions_url
@@ -243,6 +294,7 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       if @manifestation.save
+        @manifestation.index
         Manifestation.transaction do
           # 雑誌の場合、出版者を自動的に追加
           if @expression
@@ -252,7 +304,8 @@ class ManifestationsController < ApplicationController
         end
 
         # TODO: モデルへ移動
-        @manifestation.send_later(:send_to_twitter, manifestation_url(@manifestation)) if @manifestation.post_to_twitter
+        @manifestation.send_later(:send_to_twitter) if @manifestation.post_to_twitter
+        @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
@@ -279,10 +332,11 @@ class ManifestationsController < ApplicationController
   # PUT /manifestations/1.xml
   def update
     @manifestation = Manifestation.find(params[:id])
-    params[:isbn] = params[:isbn].gsub(/\D/, "") if params[:isbn]
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
+        @manifestation.index
+        @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }
@@ -303,6 +357,8 @@ class ManifestationsController < ApplicationController
   def destroy
     @manifestation = Manifestation.find(params[:id])
     @manifestation.destroy
+    @manifestation.remove_from_index
+    flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.manifestation'))
 
     respond_to do |format|
       format.html { redirect_to manifestations_url }
@@ -313,37 +369,55 @@ class ManifestationsController < ApplicationController
   private
 
   def make_query(query, options = {})
+    # TODO: integerやstringもqfに含める
     query = query.to_s.strip
     if options[:mode] == 'recent'
-      query = "#{query} created_at: [NOW-1MONTH TO NOW]"
+      query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
     end
-    #unless options[:formtype].blank?
-    #  query = "#{query} formtype: #{options[:formtype]}"
+
+    #unless options[:carrier_type].blank?
+    #  query = "#{query} carrier_type_s: #{options[:carrier_type]}"
     #end
 
-    #unless options[:library].blank?
-    #  library_list = options[:library].split.uniq.join(' and ')
-    #  query = "#{query} library: #{library_list}"
-    #end
+    unless options[:library].blank?
+      library_list = options[:library].split.uniq.join(' and ')
+      query = "#{query} library_sm: #{library_list}"
+    end
 
     #unless options[:language].blank?
-    #  query = "#{query} lang: #{options[:language]}"
+    #  query = "#{query} language_sm: #{options[:language]}"
+    #end
+
+    #unless options[:subject].blank?
+    #  query = "#{query} subject_sm: #{options[:subject]}"
     #end
 
     unless options[:tag].blank?
-      query = "#{query} tag: #{options[:tag]}"
+      query = "#{query} tag_sm: #{options[:tag]}"
     end
 
     unless options[:author].blank?
-      query = "#{query} author: #{options[:author]}"
+      query = "#{query} author_text: #{options[:author]}"
     end
 
     unless options[:isbn].blank?
-      query = "#{query} isbn: #{options[:isbn]}"
+      query = "#{query} isbn_sm: #{options[:isbn]}"
+    end
+
+    unless options[:issn].blank?
+      query = "#{query} issn_sm: #{options[:issn]}"
+    end
+
+    unless options[:lccn].blank?
+      query = "#{query} lccn_sm: #{options[:lccn]}"
+    end
+
+    unless options[:nbn].blank?
+      query = "#{query} nbn_sm: #{options[:nbn]}"
     end
 
     unless options[:publisher].blank?
-      query = "#{query} publisher: #{options[:publisher]}"
+      query = "#{query} publisher_text: #{options[:publisher]}"
     end
 
     unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
@@ -353,7 +427,7 @@ class ManifestationsController < ApplicationController
       number_of_pages['at_least'] = "*" if number_of_pages['at_least'] == 0
       number_of_pages['at_most'] = "*" if number_of_pages['at_most'] == 0
 
-      query = "#{query} number_of_pages: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
+      query = "#{query} number_of_pages_i: [#{number_of_pages['at_least']} TO #{number_of_pages['at_most']}]"
     end
 
     unless options[:pubdate_from].blank? and options[:pubdate_to].blank?
@@ -369,7 +443,7 @@ class ManifestationsController < ApplicationController
       else
         pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
       end
-      query = "#{query} pubdate: [#{pubdate['from']} TO #{pubdate['to']}]"
+      query = "#{query} date_of_publication_d: [#{pubdate['from']} TO #{pubdate['to']}]"
     end
 
     query = query.strip
@@ -382,43 +456,59 @@ class ManifestationsController < ApplicationController
     return query
   end
 
-  def set_search_result_order(sort, mode)
+  def set_search_result_order(sort_by, order)
+    sort = {}
     # TODO: ページ数や大きさでの並べ替え
-    if mode == 'recent'
-      order = 'created_at desc'
+    case sort_by
+    when 'title'
+      sort[:sort_by] = 'sort_title'
+      sort[:order] = 'asc'
+    when 'date'
+      sort[:sort_by] = 'date_of_publication'
+      sort[:order] = 'desc'
     else
-      case sort
-      when 'title'
-        order = 'sortable_title asc'
-      when 'date'
-        order = 'pubdate desc'
-      else
-        order = 'created_at desc' # デフォルトの並び方
-      end
+      # デフォルトの並び方
+      sort[:sort_by] = 'created_at'
+      sort[:order] = 'desc'
     end
+    if order == 'asc'
+      sort[:order] = 'asc'
+    elsif order == 'desc'
+      sort[:order] = 'desc'
+    end
+    sort
   end
 
-  def get_facet(query)
-    result = Manifestation.find_by_solr(query, {:facets => {:zeros => false, :fields => [:formtype_f, :library_f, :language_f, :subject_f]}})
-    return result.facets["facet_fields"]
-  rescue
-    nil
+  def get_facet(search)
+    search.query.add_field_facet(:carrier_type)
+    search.query.add_field_facet(:library)
+    search.query.add_field_facet(:language)
+    search.query.add_field_facet(:subject)
+    search.execute!
   end
 
-  def render_facet(query)
-    @facet_results = get_facet(query)
-    @facet_query = query
-    unless @facet_results.blank?
+  def render_facet(search)
+    results = get_facet(search)
+    @facet_query = search.query.to_params[:q]
+    unless results.blank?
       case params[:view]
       when "all_facet"
+        @carrier_type_facet = results.facet(:carrier_type)
+        @language_facet = results.facet(:language)
+        @library_facet = results.facet(:library)
+        @subject_facet = results.facet(:subject)
         render :partial => 'all_facet'
-      when "manifestation_form_facet"
-        render :partial => 'manifestation_form_facet'
+      when "carrier_type_facet"
+        @carrier_type_facet = results.facet(:carrier_type)
+        render :partial => 'carrier_type_facet'
       when "language_facet"
+        @language_facet = results.facet(:language)
         render :partial => 'language_facet'
       when "library_facet"
+        @library_facet = results.facet(:library)
         render :partial => 'library_facet'
       when "subject_facet"
+        @subject_facet = results.facet(:subject)
         render :partial => 'subject_facet'
       else
         render :nothing => true
@@ -447,68 +537,82 @@ class ManifestationsController < ApplicationController
       render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation}
     when 'pickup'
       render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation}
+    when 'screen_shot'
+      if @manifestation.screen_shot
+        mime = MIME.check_magics(@manifestation.screen_shot.open)
+        send_file @manifestation.screen_shot.path, :type => mime.to_s, :disposition => 'inline'
+      end
     else
       false
     end
   end
 
-  def get_index_without_solr
-    case
-    when @patron
-      @manifestations = @patron.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['produces.id'])
-    when @expression
-      @manifestations = @expression.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['embodies.id'])
-    when @parent_manifestation
-      @manifestations = @parent_manifestation.derived_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
-    when @derived_manifestation
-      @manifestations = @derived_manifestation.parent_manifestations.paginate(:page => params[:page], :order => 'manifestations.id')
-    when @subject
-      @manifestations = @subject.manifestations.paginate(:page => params[:page], :include => :manifestation_form, :order => ['resource_has_subjects.id'])
-    else
-      #@manifestations = Manifestation.paginate(:all, :page => params[:page], :include => :manifestation_form, :order => ['manifestations.id'])
-      @manifestations = []
-    end
-    @count[:total] = @manifestations.size
-    @count[:query_result] = @manifestations.size
-    #flash[:notice] = ('Enter your search term.')
-  end
-
-  def make_internal_query(query)
+  def make_internal_query(search)
     # 内部的なクエリ
     unless params[:mode] == "add"
-      query.add_query!(@expression) unless @expression.blank?
-      query.add_query!(@patron) unless @patron.blank?
+      search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
+      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
+      search.query.add_restriction(:original_manifestation_ids, :equal_to, @manifestation.id) if @manifestation
+      unless @subscription.blank?
+        search.query.add_restriction(:subscription_ids, :equal_to, @subscription.id)
+        search.query.add_restriction(:subscription_master, :equal_to, true)
+      end
     end
-    if @reservable
-      query = "#{query} reservable: true"
-    end
-    #query.add_query!(@manifestation_form) unless @manifestation_form.blank?
-    query.add_query!(@subject_by_term) unless @subject_by_term.blank?
-    unless params[:formtype].blank?
-      manifestation_form = ManifestationForm.find(:first, :conditions => {:name => params[:formtype]})
-      query = "#{query} formtype: #{manifestation_form.name}"
+    search.query.add_restriction(:reservable, :equal_to, true) if @reservable
+    unless params[:carrier_type].blank?
+      search.query.add_restriction(:carrier_type, :equal_to, params[:carrier_type])
     end
     unless params[:library].blank?
-      library_list = params[:library].split.uniq.join(' ')
-      query = "#{query} library: (#{library_list})"
+      library_list = params[:library].split.uniq
+      library_list.each do |library|
+        search.query.add_restriction(:library, :equal_to, library)
+      end
+      #search.query.keywords = "#{search.query.to_params[:q]} library_s: (#{library_list})"
     end
     unless params[:language].blank?
-      language_list = params[:language].split.uniq.join(' ')
-      query = "#{query} lang: (#{language_list})"
+      language_list = params[:language].split.uniq
+      language_list.each do |language|
+        search.query.add_restriction(:language, :equal_to, language)
+      end
     end
-    return query
+    unless params[:subject].blank?
+      @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
+      search.query.add_restriction(:subject, :equal_to, @subject_by_term.term)
+    end
+    return search
   end
 
   def prepare_options
-    @manifestation_forms = Rails.cache.fetch('ManifestationForm.all'){ManifestationForm.all}
+    @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
     @roles = Rails.cache.fetch('Role.all'){Role.all}
     @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @frequencies = Frequency.find(:all)
   end
 
   def save_search_history(query, offset = 0, total = 0)
     check_dsbl if LibraryGroup.site_config.use_dsbl
     if logged_in?
-      SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+      @history = SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+    end
+  end
+
+  def search_worldcat(search_options, translate_from = I18n.locale, translate_into = 'English', translate_method = 'google')
+    if translate_method == 'mecab'
+      # romanize
+      query = Kakasi::kakasi('-Ha -Ka -Ja -Ea -ka', NKF::nkf('-e', search_options[:query].wakati.yomi))
+    else
+      query = Translate.t(search_options[:query], translate_from, translate_into)
+    end
+    Manifestation.search_worldcat(:query => query, :page => search_options[:page], :per_page => search_options[:per_page])
+  end
+
+  def get_total_count(total_query)
+    if total_query.present?
+      count = Sunspot.new_search(Manifestation)
+      count.query.keywords = total_query
+      count.execute!.total
+    else
+      0
     end
   end
 end

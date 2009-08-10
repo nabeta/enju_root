@@ -22,13 +22,13 @@ class PageControllerTest < ActionController::TestCase
     assert assigns(:libraries)
   end
 
-  def test_guest_should_get_opensearch
-    get :opensearch
+  def test_guest_should_get_about
+    get :about
     assert_response :success
   end
 
-  def test_guest_should_get_about
-    get :about
+  def test_guest_should_get_add_on
+    get :add_on
     assert_response :success
   end
 
@@ -146,8 +146,13 @@ class PageControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_should_get_screen_shot
-    get :screen_shot, :url => 'http://next-l.slis.keio.ac.jp/'
+  test "guest_should_get_opensearch" do
+    get :opensearch
+    assert_response :success
+  end
+
+  test "guest_should_get_msie_acceralator" do
+    get :msie_acceralator
     assert_response :success
   end
 

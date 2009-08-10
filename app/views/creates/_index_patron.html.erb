@@ -1,9 +1,13 @@
 <div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.create')) -%></h1>
 <div id="content_list">
-<p>Creation for <%= link_to h(@patron.full_name), @patron -%></p>
+  <h2>
+    <%= link_to h(@patron.full_name), @patron -%>
+  </h2>
 
 <table>
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.models.work') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
@@ -11,14 +15,18 @@
 
 <%- for create in @creates -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if create.is_deletable_by(current_user) -%>
+        <%= create.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position => (create.position > 1 ? create.position - 1 : 1), :id => create.id, :patron_id => @patron.id}, :method => :put) -%>
+        <%= create.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (create.position + 1), :id => create.id, :patron_id => @patron.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(create.work.original_title), create.work -%></td>
     <td><%= l(create.created_at) -%></td>
     <td><%= l(create.updated_at) -%></td>
     <%- if create.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), patron_create_path(@patron, create) -%></td>
       <td><%= link_to t('page.destroy'), patron_create_path(@patron, create), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <td><%= create.first? ? '' : link_to('▲', {:action => 'update', :position => (create.position > 1 ? create.position - 1 : 1), :id => create.id, :patron_id => @patron.id}, :method => :put) -%></td>
-      <td><%= create.last? ? '' : link_to('▼', {:action => 'update', :position => (create.position + 1), :id => create.id, :patron_id => @patron.id}, :method => :put) -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

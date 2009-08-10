@@ -14,51 +14,36 @@ class EventsController < ApplicationController
     query = params[:query].to_s.strip
     @query = query.dup
     query = query.gsub('　', ' ')
+    search = Sunspot.new_search(Event)
+    search.query.keywords = query if query.present?
 
+    search.query.add_restriction(:library_id, :equal_to, @library.id) if @library
+    if params[:tag].present?
+      tag = params[:tag].to_s
+      search.query.add_restriction(:tag, :equal_to, tag)
+    end
     if params[:date].present?
       date = params[:date].to_s
-      if @library.present?
-        @events = @library.events.on(date).paginate(:all, :page => params[:page])
-      else
-        @events = Event.on(date).paginate(:all, :page => params[:page])
-      end
-    elsif params[:tag].present?
-      if @library.present?
-        query = params[:query] + " library_id: #{@library.id}"
-      end
-      query = "#{query} tag_list: #{params[:tag]}"
-      @events = Event.paginate_by_solr(query, :page => params[:page])
-    elsif params[:query].present?
-      if @library.present?
-        query = params[:query] + " library_id: #{@library.id}"
-      else
-        query = params[:query]
-      end
-      @events = Event.paginate_by_solr(query, :page => params[:page])
+      search.query.add_restriction(:started_at, :greater_than, Time.zone.parse(date).beginning_of_day)
+      search.query.add_restriction(:started_at, :less_than, Time.zone.parse(date).tomorrow.beginning_of_day)
     else
       case params[:mode]
-      when 'all'
-        if @library.present?
-          @events = @library.events.paginate(:page => params[:page], :order => ['started_at DESC'])
-        else
-          @events = Event.upcoming.paginate(:all, :page => params[:page], :order => ['started_at DESC'])
-        end
+      when 'upcoming'
+        search.query.add_restriction(:started_at, :greater_than, Time.zone.now.beginning_of_day)
       when 'past'
-        if @library.present?
-          @events = @library.events.past(Time.zone.now.to_s).paginate(:page => params[:page], :order => ['started_at DESC'])
-        else
-          @events = Event.past(Time.zone.now.to_s).paginate(:all, :page => params[:page], :order => ['started_at DESC'])
-        end
-      else
-        # デフォルトでは未来のもののみ表示
-        if @library.present?
-          @events = @library.events.upcoming(Time.zone.now.to_s).paginate(:page => params[:page], :order => ['started_at DESC'])
-        else
-          @events = Event.upcoming(Time.zone.now.to_s).paginate(:all, :page => params[:page], :order => ['started_at DESC'])
-        end
+        search.query.add_restriction(:started_at, :less_than, Time.zone.now.beginning_of_day)
       end
-      @count[:query_result] = @events.size
     end
+    search.query.order_by(:started_at, :desc)
+
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Event.per_page)
+    begin
+      @events = search.execute!.results
+    rescue RSolr::RequestError
+      @events = WillPaginate::Collection.create(1,1,0) do end
+    end
+    @count[:query_result] = @events.total_entries
 
     respond_to do |format|
       format.html # index.html.erb
@@ -66,6 +51,7 @@ class EventsController < ApplicationController
       format.rss  { render :layout => false }
       format.csv
       format.atom
+      format.ics
     end
   end
 

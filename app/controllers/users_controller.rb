@@ -5,20 +5,43 @@ class UsersController < ApplicationController
   before_filter :get_patron, :only => :new
   before_filter :store_location, :only => [:index, :show]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
+  #ssl_required :new, :edit, :create, :update, :destroy
+  ssl_allowed :index, :new, :edit, :create, :update, :destroy
 
   def index
-    query = params[:query] ||= nil
-    #browse = nil
-    order = nil
+    query = params[:query].to_s
+    @query = query.dup
     @count = {}
-    unless query.blank?
-      @query = query.dup
-      @users = User.paginate_by_solr(query, :order => order, :page => params[:page]).compact
-      @count[:query_result] = @users.total_entries
-    else
-      @users = User.paginate(:all, :page => params[:page])
-      @count[:query_result] = User.count_by_solr("[* TO *]")
+
+    sort = {:sort_by => 'created_at', :order => 'desc'}
+    case params[:sort_by]
+    when 'login'
+      sort[:sort_by] = 'login'
     end
+    case params[:order]
+    when 'asc'
+      sort[:order] = 'asc'
+    when 'desc'
+      sort[:order] = 'desc'
+    end
+
+    query = params[:query]
+    page = params[:page] || 1
+
+    unless query.blank?
+      begin
+        user_ids = User.search_ids do
+          keywords query
+          order_by sort[:sort_by], sort[:order]
+        end
+        @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
+      rescue RSolr::RequestError
+        @users = WillPaginate::Collection.create(1,1,0) do end
+      end
+    else
+      @users = User.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+    end
+    @count[:query_result] = @users.total_entries
     
     respond_to do |format|
       format.html # index.rhtml
@@ -74,7 +97,7 @@ class UsersController < ApplicationController
   def edit
     #@user = User.find(:first, :conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(params[:id])
+      @user = User.find(:first, :conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -98,7 +121,7 @@ class UsersController < ApplicationController
   def update
     #@user = User.find(:first, :conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(params[:id])
+      @user = User.find(:first, :conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -109,7 +132,6 @@ class UsersController < ApplicationController
        end
     end
 
-    #@user.indexing = true
     if params[:user]
       #@user.login = params[:user][:login]
       @user.email = params[:user][:email]
@@ -153,6 +175,7 @@ class UsersController < ApplicationController
 
     #@user.update_attributes(params[:user]) do |result|
     @user.save do |result|
+      @user.index
       respond_to do |format|
         #if @user.update_attributes(params[:user])
         if result
@@ -215,7 +238,6 @@ class UsersController < ApplicationController
         @user.reset_password
       #end
     #end
-    #@user.indexing = true
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
@@ -223,6 +245,7 @@ class UsersController < ApplicationController
     @user.activate
 
     @user.save do |result|
+      @user.index
       respond_to do |format|
         if result
           flash[:temporary_password] = @user.password
@@ -248,8 +271,8 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
-    @user = User.find(params[:id])
+    @user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした
     if current_user == @user
@@ -273,7 +296,7 @@ class UsersController < ApplicationController
 
     # 最後の図書館員を削除しようとした
     if @user.has_role?('Librarian')
-      if @user.is_last_librarian?
+      if @user.last_librarian?
         raise
         flash[:notice] = t('user.last_librarian')
       end
@@ -288,6 +311,7 @@ class UsersController < ApplicationController
     end
 
     @user.destroy
+    @user.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
@@ -318,5 +342,9 @@ class UsersController < ApplicationController
 
   def set_operator
     @user.operator = current_user
+  end
+
+  def last_request_update_allowed?
+    true if %w[create update].include?(action_name)
   end
 end

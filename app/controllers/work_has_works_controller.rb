@@ -1,10 +1,19 @@
 class WorkHasWorksController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_work
 
   # GET /work_has_works
   # GET /work_has_works.xml
   def index
-    @work_has_works = WorkHasWork.paginate(:all, :page => params[:page])
+    if @work
+      if params[:mode] == 'add'
+        @work_has_works = WorkHasWork.paginate(:all, :page => params[:page])
+      else
+        @work_has_works = @work.to_works.paginate(:all, :page => params[:page])
+      end
+    else
+      @work_has_works = WorkHasWork.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,6 +36,8 @@ class WorkHasWorksController < ApplicationController
   # GET /work_has_works/new.xml
   def new
     @work_has_work = WorkHasWork.new
+    @work_has_work.from_work = @work
+    @work_has_work.to_work = Work.find(params[:to_work_id]) rescue nil
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +57,7 @@ class WorkHasWorksController < ApplicationController
 
     respond_to do |format|
       if @work_has_work.save
-        flash[:notice] = 'WorkHasWork was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_has_work'))
         format.html { redirect_to(@work_has_work) }
         format.xml  { render :xml => @work_has_work, :status => :created, :location => @work_has_work }
       else
@@ -63,7 +74,7 @@ class WorkHasWorksController < ApplicationController
 
     respond_to do |format|
       if @work_has_work.update_attributes(params[:work_has_work])
-        flash[:notice] = 'WorkHasWork was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_has_work'))
         format.html { redirect_to(@work_has_work) }
         format.xml  { head :ok }
       else

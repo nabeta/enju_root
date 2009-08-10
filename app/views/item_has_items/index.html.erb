@@ -2,20 +2,18 @@
 <h1 class="title">Listing item_has_items</h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
-    <th>From item</th>
-    <th>To item</th>
+    <th><%= t('activerecord.attributes.item_has_item.from_item') -%></th>
+    <th><%= t('activerecord.attributes.item_has_item.to_item') -%></th>
     <th>Item Relationship type</th>
-    <th>Position</th>
   </tr>
 
 <% for item_has_item in @item_has_items -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(item_has_item.from_item.manifestation.original_title), item_has_item.from_item -%></td>
     <td><%= link_to h(item_has_item.to_item.manifestation.original_title), item_has_item.to_item -%></td>
-    <td><%=h item_has_item.type -%></td>
-    <td><%=h item_has_item.position -%></td>
+    <td><%=h item_has_item.class.to_s -%></td>
     <td><%= link_to t('page.show'), item_has_item -%></td>
     <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) -%></td>
     <td><%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

@@ -1,4 +1,23 @@
 module EnjuAmazon
+# Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
+#AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
+  case COUNTRY_CODE
+  when 'ca'
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.ca'
+  when 'de'
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.de'
+  when 'fr'
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.fr'
+  when 'jp'
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
+  when 'uk'
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.uk'
+  when 'us'
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
+  else
+    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
+  end
+
   def self.included(base)
     base.extend ClassMethods
   end
@@ -46,8 +65,8 @@ module EnjuAmazon
     end
 
     def access_amazon_proxy
-      access_url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
-      APICache.get(access_url)
+      url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
+      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){open(url).read}
     end
     
     def amazon_book_jacket

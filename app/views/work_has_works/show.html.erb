@@ -1,23 +1,19 @@
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_has_work')) -%></h1>
 <div id="content_list">
 <p>
-  <b>From work:</b>
+  <b><%= t('activerecord.attributes.work_has_work.from_work') -%>:</b>
   <%= link_to h(@work_has_work.from_work.original_title), @work_has_work.from_work -%>
 </p>
 
 <p>
-  <b>To work:</b>
+  <b><%= t('activerecord.attributes.work_has_work.to_work') -%>:</b>
   <%= link_to h(@work_has_work.to_work.original_title), @work_has_work.to_work -%>
 </p>
 
 <p>
-  <b>Expression Relationship type:</b>
+  <b>Work Relationship type:</b>
   <%=h @work_has_work.type -%>
-</p>
-
-<p>
-  <b>Position:</b>
-  <%=h @work_has_work.position -%>
 </p>
 
 </div>

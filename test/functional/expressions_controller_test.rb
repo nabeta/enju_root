@@ -2,9 +2,9 @@ require 'test_helper'
 
 class ExpressionsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :expressions, :expression_forms, :languages, :frequency_of_issues,
+  fixtures :expressions, :expression_forms, :languages, :frequencies,
     :works, :work_forms, :embodies, :realizes, :reifies,
-    :manifestations, :manifestation_forms, :embodies,
+    :manifestations, :carrier_types, :embodies,
     :patrons, :users, :languages
 
   def test_guest_should_get_index
@@ -22,6 +22,14 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_guest_should_get_index_with_work_id
     get :index, :work_id => 1
     assert_response :success
+    assert assigns(:work)
+    assert assigns(:expressions)
+  end
+
+  def test_guest_should_get_index_with_expression_id
+    get :index, :expression_id => 1
+    assert_response :success
+    assert assigns(:expression)
     assert assigns(:expressions)
   end
 
@@ -138,6 +146,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Expression.count
     
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_librarian_should_create_expression_without_expression_form_id
@@ -150,6 +159,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert assigns(:expression).expression_form
     assert assigns(:expression).reify
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_librarian_should_create_expression_without_language_id
@@ -162,6 +172,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert assigns(:expression).language
     assert assigns(:expression).reify
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_admin_should_create_expression
@@ -171,17 +182,12 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Expression.count
     
     assert_redirected_to expression_patrons_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
 
   def test_guest_should_show_expression
     get :show, :id => 1
     assert_response :success
-  end
-
-  def test_guest_should_show_expression_with_issn
-    get :show, :issn => "00000000"
-    assert_response :redirect
-    assert_redirected_to expression_url(assigns(:expression))
   end
 
   def test_user_should_show_expression
@@ -265,12 +271,14 @@ class ExpressionsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :expression => { }
     assert_redirected_to expression_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
   
   def test_admin_should_update_expression
     UserSession.create users(:admin)
     put :update, :id => 1, :expression => { }
     assert_redirected_to expression_url(assigns(:expression))
+    assigns(:expression).remove_from_index!
   end
   
   def test_guest_should_not_destroy_expression

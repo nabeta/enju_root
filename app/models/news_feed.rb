@@ -28,17 +28,17 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def content
-    page_url = URI.parse(url.rewrite_my_url)
-    if page_url.port == 80
-      if Feedbag.feed?(url)
-        feed_url = url
-      else
-        feed_url = Feedbag.find(url).first
-      end
-    else
+    #page_url = URI.parse(url.rewrite_my_url)
+    #if page_url.port == 80
+    #  if Feedbag.feed?(url)
+    #    feed_url = url
+    #  else
+    #    feed_url = Feedbag.find(url).first
+    #  end
+    #else
       # auto-discovery 非対応
       feed_url = url
-    end
+    #end
     if self.body.blank?
       feed = open(feed_url.rewrite_my_url).read
       if rss = RSS::Parser.parse(feed, false)

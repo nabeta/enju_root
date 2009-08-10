@@ -2,19 +2,17 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.resource_has_subject')) -%></h1>
 <div id="content_list">
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('activerecord.models.subject') -%></th>
-    <th><%= t('activerecord.models.subject_type') -%></th>
-    <th><%= t('resource_has_subject.subjectable') -%></th>
+    <th><%= t('activerecord.attributes.resource_has_subject.work') -%></th>
   </tr>
 
 <%- for resource_has_subject in @resource_has_subjects -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(resource_has_subject.subject.term), resource_has_subject.subject -%></td>
-    <td><%= h(resource_has_subject.subject.class.to_s) -%></td>
     <!-- TODO: Manifestation以外 -->
-    <td><%= link_to h(resource_has_subject.subjectable.original_title), resource_has_subject.subjectable -%></td>
+    <td><%= link_to h(resource_has_subject.work.original_title), resource_has_subject.work -%></td>
     <td><%= link_to t('page.show'), resource_has_subject -%></td>
     <td><%= link_to t('page.edit'), edit_resource_has_subject_path(resource_has_subject) -%></td>
     <td><%= link_to t('page.destroy'), resource_has_subject, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

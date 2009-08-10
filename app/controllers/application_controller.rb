@@ -13,9 +13,9 @@ class ApplicationController < ActionController::Base
   # Pick a unique cookie name to distinguish our session data from others'
   #include AuthenticatedSystem
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
-  include RoleRequirementSystem
+  include SslRequirement
 
-  #include ExceptionNotifiable
+  include ExceptionNotifiable
 
   filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
@@ -108,8 +108,8 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
-  def get_manifestation_form
-    @manifestation_form = ManifestationForm.find(params[:manifestation_form_id]) if params[:manifestation_form_id]
+  def get_carrier_type
+    @carrier_type = CarrierType.find(params[:carrier_type_id]) if params[:carrier_type_id]
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -145,7 +145,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.find(params[:user_id]) if params[:user_id]
+    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     return @user
 
@@ -217,12 +217,6 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
-  def get_subscription_list
-    @subscription_list = SubscriptionList.find(params[:subscription_list_id]) if params[:subscription_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
-
   def get_order_list
     @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
   rescue ActiveRecord::RecordNotFound
@@ -268,9 +262,9 @@ class ApplicationController < ActionController::Base
   end
 
   def convert_charset
-    if params[:format] == 'ics'
-      response.body = NKF::nkf('-w -Lw', response.body)
-    elsif params[:format] == 'csv'
+    #if params[:format] == 'ics'
+    #  response.body = NKF::nkf('-w -Lw', response.body)
+    if params[:format] == 'csv'
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"

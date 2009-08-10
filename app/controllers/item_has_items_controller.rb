@@ -1,10 +1,19 @@
 class ItemHasItemsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_item
 
   # GET /item_has_items
   # GET /item_has_items.xml
   def index
-    @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
+    if @item
+      if params[:mode] == 'add'
+        @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
+      else
+        @item_has_items = @item.to_items.paginate(:all, :page => params[:page])
+      end
+    else
+      @item_has_items = ItemHasItem.paginate(:all, :page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,6 +36,8 @@ class ItemHasItemsController < ApplicationController
   # GET /item_has_items/new.xml
   def new
     @item_has_item = ItemHasItem.new
+    @item_has_item.from_item = @item
+    @item_has_item.to_item = Item.find(params[:to_item_id]) rescue nil
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,7 +57,7 @@ class ItemHasItemsController < ApplicationController
 
     respond_to do |format|
       if @item_has_item.save
-        flash[:notice] = 'ItemHasItem was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item_has_item'))
         format.html { redirect_to(@item_has_item) }
         format.xml  { render :xml => @item_has_item, :status => :created, :location => @item_has_item }
       else
@@ -63,7 +74,7 @@ class ItemHasItemsController < ApplicationController
 
     respond_to do |format|
       if @item_has_item.update_attributes(params[:item_has_item])
-        flash[:notice] = 'ItemHasItem was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item_has_item'))
         format.html { redirect_to(@item_has_item) }
         format.xml  { head :ok }
       else

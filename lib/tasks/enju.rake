@@ -37,11 +37,11 @@ namespace :enju do
       user.library = Library.web
       user.user_number = '0'
       user.roles << Role.find_by_name('Administrator')
-      #user.indexing = true
 
       begin
         user.activate
         user.save!
+        user.index
         puts 'Administrator account created.'
       rescue
         puts $!
@@ -54,10 +54,11 @@ namespace :enju do
     end
   end
 
-  desc 'Expire sessions.'
-  task :expire_session do
-    expire_sessions(1.week.from_now)
-    puts "expired sessions!"
+  desc 'Rebuild solr index.'
+  task :reindex do
+    %w(Advertisement Classification Event Expression Item Manifestation Message Patron PurchaseRequest Question Subject Subscription User Work).each do |class_name|
+      Object.const_get(class_name).reindex(:batch_commit => false)
+    end
   end
 
 end

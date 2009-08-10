@@ -3,7 +3,7 @@
     <li><%= link_to t('page.edit'), edit_checkout_type_path(@checkout_type) -%></li>
     <li><%= link_to t('page.back'), checkout_types_path -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_checkout_type')), new_checkout_type_user_group_has_checkout_type_path(@checkout_type) -%></li>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation_form_has_checkout_type')), new_checkout_type_manifestation_form_has_checkout_type_path(@checkout_type) -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.carrier_type_has_checkout_type')), new_checkout_type_carrier_type_has_checkout_type_path(@checkout_type) -%></li>
   </ul>
 </div>
 
@@ -29,10 +29,10 @@
 </ul>
 
 <p>
-<b><%= t('activerecord.models.manifestation_form') -%></b>
+<b><%= t('activerecord.models.carrier_type') -%></b>
 <ul>
-  <%- @checkout_type.manifestation_form_has_checkout_types.each do |available_manifestation_form| -%>
-    <li><%= link_to h(available_manifestation_form.manifestation_form.display_name.localize), available_manifestation_form.manifestation_form -%></li>
+  <%- @checkout_type.carrier_type_has_checkout_types.each do |available_carrier_type| -%>
+    <li><%= link_to h(available_carrier_type.carrier_type.display_name.localize), available_carrier_type.carrier_type -%></li>
   <%- end -%>
 </ul>
 

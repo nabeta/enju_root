@@ -21,8 +21,8 @@ class Patron < ActiveRecord::Base
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
-  has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :resource_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   belongs_to :patron_type #, :validate => true
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
@@ -31,21 +31,41 @@ class Patron < ActiveRecord::Base
   has_many :participates, :dependent => :destroy
   has_many :events, :through => :participates
   #has_many :works_as_subjects, :through => :resource_has_subjects, :as => :subjects
+  has_many :to_patrons, :foreign_key => 'from_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
+  has_many :from_patrons, :foreign_key => 'to_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
+  has_many :derived_patrons, :through => :to_patrons, :source => :to_patron
+  has_many :original_patrons, :through => :from_patrons, :source => :from_patron
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
 
-  acts_as_solr :fields => [:name, :place, :address_1, :address_2, :zip_code_1, :zip_code_2, :address_1_note, :address_2_note, :other_designation, {:created_at => :date}, {:updated_at => :date}, {:date_of_birth => :date}, {:date_of_death => :date},
-    {:work_ids => :integer}, {:expression_ids => :integer}, {:manifestation_ids => :integer}, {:patron_type_id => :integer}, {:required_role_id => :range_integer}, {:patron_merge_list_ids => :integer}],
-    :facets => [:patron_type_id, :date_of_birth], :offline => proc{|patron| patron.restrain_indexing},
-    :auto_commit => false
+  searchable :auto_index => false do
+    text :name, :place, :address_1, :address_2, :other_designation
+    string :zip_code_1
+    string :zip_code_2
+    string :login do
+      user.login if user
+    end
+    time :created_at
+    time :updated_at
+    time :date_of_birth
+    time :date_of_death
+    integer :work_ids, :multiple => true
+    integer :expression_ids, :multiple => true
+    integer :manifestation_ids, :multiple => true
+    integer :patron_merge_list_ids, :multiple => true
+    integer :original_patron_ids, :multiple => true
+    integer :required_role_id
+    integer :patron_type_id
+  end
+
   #acts_as_soft_deletable
   acts_as_tree
 
   cattr_accessor :per_page
   @@per_page = 10
-  attr_accessor :restrain_indexing, :user_id
+  attr_accessor :user_id
 
   def before_validation_on_create
     self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
@@ -119,12 +139,12 @@ class Patron < ActiveRecord::Base
     name << full_name
     name << full_name_transcription
     name << full_name_alternative
-    name << full_name_without_space
-    name << full_name_transcription_without_space
-    name << full_name_alternative_without_space
-    name << full_name.wakati rescue nil
-    name << full_name_transcription.wakati rescue nil
-    name << full_name_alternative.wakati rescue nil
+    #name << full_name_without_space
+    #name << full_name_transcription_without_space
+    #name << full_name_alternative_without_space
+    #name << full_name.wakati rescue nil
+    #name << full_name_transcription.wakati rescue nil
+    #name << full_name_alternative.wakati rescue nil
     name
   end
 
@@ -172,22 +192,6 @@ class Patron < ActiveRecord::Base
     false
   rescue
     false
-  end
-
-  def work_ids
-    self.works.collect(&:id)
-  end
-
-  def expression_ids
-    self.expressions.collect(&:id)
-  end
-
-  def manifestation_ids
-    self.manifestations.collect(&:id)
-  end
-
-  def patron_merge_list_ids
-    self.patron_merge_lists.collect(&:id)
   end
 
   def self.is_creatable_by(user, parent = nil)

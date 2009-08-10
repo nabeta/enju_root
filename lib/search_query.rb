@@ -19,6 +19,8 @@ module SearchQuery
       self.to_s + " classification_ids: #{object.id}"
     when object.is_a?(SubjectHeadingType)
       self.to_s + " subject_heading_type_ids: #{object.id}"
+    when object.is_a?(Subscription)
+      self.to_s + " subscription_ids: #{object.id}"
     else
       self
     end

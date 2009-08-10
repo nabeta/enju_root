@@ -6,12 +6,12 @@
   <h2><%= link_to h(@shelf.display_name.localize), @shelf -%></h2>
 <%- end -%>
 
-<table id="index">
+<table class="index">
   <tr>
     <th><%= t('page.attachable') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.size') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.content_type') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.filename') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.picture_file_size') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.picture_content_type') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.picture_file_name') -%></th>
     <th><%= t('activerecord.attributes.picture_file.height') -%></th>
     <th><%= t('activerecord.attributes.picture_file.width') -%></th>
   </tr>

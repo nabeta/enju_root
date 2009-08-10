@@ -1,0 +1,14 @@
+<div id="subject_list">
+<h2><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h2>
+<table class="index">
+<%- @subjects.each do |subject| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(subject.term), subject -%><br />
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@subjects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :subject_page, :class => 'content_pagination') -%>
+</div>

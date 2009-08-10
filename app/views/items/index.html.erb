@@ -1,5 +1,7 @@
 <%- case when @manifestation -%>
   <%= render :partial => 'index_manifestation' -%>
+<%- when @item -%>
+  <%= render :partial => 'index_item' -%>
 <%- when @inventory_file -%>
   <%= render :partial => 'index_inventory_file' -%>
 <%- else -%>

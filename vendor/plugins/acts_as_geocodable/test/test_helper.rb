@@ -3,9 +3,13 @@ plugin_test_dir = File.dirname(__FILE__)
 
 require 'rubygems'
 require 'test/unit'
+require 'multi_rails_init'
+require 'active_support'
 require 'active_record'
 require 'action_controller'
 require 'active_record/fixtures'
+require 'shoulda'
+require 'matchy'
 require 'mocha'
 
 require plugin_test_dir + '/../init.rb'
@@ -19,7 +23,9 @@ load(File.join(plugin_test_dir, "db", "schema.rb"))
 
 Geocode.geocoder ||= Graticule.service(:bogus).new
 
-class Test::Unit::TestCase #:nodoc:
+class ActiveSupport::TestCase #:nodoc:
+  include ActiveRecord::TestFixtures if ActiveRecord.const_defined?(:TestFixtures)
+  
   self.fixture_path = File.dirname(__FILE__) + "/fixtures/"
   
   # Turn off transactional fixtures if you're working with MyISAM tables in MySQL
@@ -27,20 +33,6 @@ class Test::Unit::TestCase #:nodoc:
   
   # Instantiated fixtures are slow, but give you @david where you otherwise would need people(:david)
   self.use_instantiated_fixtures  = false
-
-  # Add more helper methods to be used by all tests here...
-
-  # http://project.ioni.st/post/217#post-217
-  def assert_difference(object, method = nil, difference = 1)
-    initial_value = object.send(method)
-    yield
-    assert_equal initial_value + difference,
-      object.send(method)
-  end
-
-  def assert_no_difference(object, method, &block)
-    assert_difference object, method, 0, &block
-  end
 
   def assert_geocode_result(result)
     assert_not_nil result

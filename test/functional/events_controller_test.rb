@@ -22,6 +22,12 @@ class EventsControllerTest < ActionController::TestCase
     assert assigns(:events)
   end
 
+  def test_guest_should_get_index_ics
+    get :index, :format => 'ics'
+    assert_response :success
+    assert assigns(:events)
+  end
+
   def test_guest_should_get_index_with_library_id
     get :index, :library_id => 'kamata'
     assert_response :success
@@ -96,6 +102,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
+    assigns(:event).remove_from_index!
   end
 
   def test_librarian_should_create_event_without_category_id
@@ -105,6 +112,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
+    assigns(:event).remove_from_index!
   end
 
   def test_librarian_should_not_create_event_with_invalid_dates
@@ -124,6 +132,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
+    assigns(:event).remove_from_index!
   end
 
   def test_admin_should_create_event
@@ -133,6 +142,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
+    assigns(:event).remove_from_index!
   end
 
   def test_guest_should_show_event
@@ -193,7 +203,7 @@ class EventsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_update_event_without_library_id
+  def test_librarian_should_not_update_event_without_library_id
     UserSession.create users(:librarian1)
     put :update, :id => 1, :event => {:library_id => nil}
     assert_response :success
@@ -203,6 +213,7 @@ class EventsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :event => {:event_category_id => nil}
     assert_response :success
+    assigns(:event).remove_from_index!
   end
   
   def test_librarian_should_not_update_event_with_invalid_date
@@ -216,12 +227,14 @@ class EventsControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     put :update, :id => 1, :event => { }
     assert_redirected_to event_url(assigns(:event))
+    assigns(:event).remove_from_index!
   end
   
   def test_admin_should_update_event
     UserSession.create users(:admin)
     put :update, :id => 1, :event => { }
     assert_redirected_to event_url(assigns(:event))
+    assigns(:event).remove_from_index!
   end
   
   def test_guest_should_not_destroy_event

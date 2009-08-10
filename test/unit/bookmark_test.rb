@@ -4,7 +4,7 @@ class BookmarkTest < ActiveSupport::TestCase
   fixtures :bookmarks, :bookmarked_resources,
     :users, :patrons, :patron_types, :languages, :countries,
     :checked_items, :items, :manifestations, :exemplifies,
-    :expressions, :works, :manifestation_forms, :expression_forms,
+    :expressions, :works, :carrier_types, :expression_forms,
     :shelves, :circulation_statuses, :libraries, :library_groups,
     :users, :user_groups
 
