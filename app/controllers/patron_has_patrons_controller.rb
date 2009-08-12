@@ -1,6 +1,7 @@
 class PatronHasPatronsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_patron
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /patron_has_patrons
   # GET /patron_has_patrons.xml
@@ -61,6 +62,7 @@ class PatronHasPatronsController < ApplicationController
         format.html { redirect_to(@patron_has_patron) }
         format.xml  { render :xml => @patron_has_patron, :status => :created, :location => @patron_has_patron }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @patron_has_patron.errors, :status => :unprocessable_entity }
       end
@@ -94,5 +96,10 @@ class PatronHasPatronsController < ApplicationController
       format.html { redirect_to(patron_has_patrons_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @patron_relationship_types = PatronRelationshipType.all
   end
 end

@@ -1,0 +1,37 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation_relationship_type')), new_manifestation_relationship_type_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation_relationship_type')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th id="position"></th>
+    <th><%= t('activerecord.attributes.manifestation_relationship_type.name') -%></th>
+    <th><%= t('activerecord.attributes.manifestation_relationship_type.display_name') -%></th>
+    <th><%= t('activerecord.attributes.manifestation_relationship_type.note') -%></th>
+  </tr>
+
+<%- for manifestation_relationship_type in @manifestation_relationship_types -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if manifestation_relationship_type.is_deletable_by(current_user) -%>
+        <%= manifestation_relationship_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (manifestation_relationship_type.position  > 1 ? manifestation_relationship_type.position - 1 : 1), :id => manifestation_relationship_type.id}, :method => :put) -%>
+        <%= manifestation_relationship_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (manifestation_relationship_type.position + 1), :id => manifestation_relationship_type.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
+    <td><%= link_to h(manifestation_relationship_type.name), manifestation_relationship_type -%></td>
+    <td><%= link_to h(manifestation_relationship_type.display_name.localize), manifestation_relationship_type -%></td>
+    <td><%=h manifestation_relationship_type.note -%></td>
+    <td><%= link_to t('page.edit'), edit_manifestation_relationship_type_path(manifestation_relationship_type) -%></td>
+    <td><%= link_to t('page.destroy'), manifestation_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+</div>
+</div>

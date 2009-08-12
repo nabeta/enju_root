@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ItemHasItemsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :item_has_items, :items, :users
+  fixtures :item_has_items, :items, :users, :item_relationship_types
 
   test "guest should get index" do
     get :index
@@ -30,7 +30,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
 
   test "guest should not create item_has_item" do
     assert_no_difference('ItemHasItem.count') do
-      post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2}
+      post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2, :item_relationship_type_id => 1}
     end
 
     assert_redirected_to new_user_session_url
@@ -39,7 +39,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   test "user should not create item_has_item" do
     UserSession.create users(:user1)
     assert_no_difference('ItemHasItem.count') do
-      post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2}
+      post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2, :item_relationship_type_id => 1}
     end
 
     assert_response :forbidden
@@ -48,7 +48,7 @@ class ItemHasItemsControllerTest < ActionController::TestCase
   test "librarian should create item_has_item" do
     UserSession.create users(:librarian1)
     assert_difference('ItemHasItem.count') do
-      post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2}
+      post :create, :item_has_item => {:from_item_id => 1, :to_item_id => 2, :item_relationship_type_id => 1}
     end
 
     assert_redirected_to item_has_item_path(assigns(:item_has_item))

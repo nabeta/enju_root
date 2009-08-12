@@ -14,8 +14,7 @@
     <%= f.text_field :to_expression_id -%>
   </p>
   <p>
-    <%= f.label :type -%><br />
-    <%= f.text_field :type -%>
+    <%= f.select(:expression_relationship_type_id, @expression_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
   <p>
     <%= f.submit t('page.update') -%>

@@ -1,6 +1,7 @@
 class WorkHasWorksController < ApplicationController
   before_filter :has_permission?
   before_filter :get_work
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /work_has_works
   # GET /work_has_works.xml
@@ -61,6 +62,7 @@ class WorkHasWorksController < ApplicationController
         format.html { redirect_to(@work_has_work) }
         format.xml  { render :xml => @work_has_work, :status => :created, :location => @work_has_work }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @work_has_work.errors, :status => :unprocessable_entity }
       end
@@ -94,5 +96,10 @@ class WorkHasWorksController < ApplicationController
       format.html { redirect_to(work_has_works_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @work_relationship_types = WorkRelationshipType.all
   end
 end

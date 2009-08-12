@@ -127,6 +127,11 @@ en:
       extent: Extent
       medium_of_performance: Medium of performance
       content_type: Content type
+      patron_relationship_type: Patron relationship type
+      work_relationship_type: Work relationship type
+      expression_relationship_type: Expression relationship type
+      manifestation_relationship_type: Manifestation relationship type
+      item_relationship_type: Item relationship type
     attributes:
       library:
         name: Name
@@ -859,6 +864,31 @@ en:
         note: Note
         position: Position
       content_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      patron_relationship_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      work_relationship_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      expression_relationship_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      manifestation_relationship_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      item_relationship_type:
         name: Name
         display_name: Display name
         note: Note

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :manifestation_has_manifestations, :manifestations, :users
+  fixtures :manifestation_has_manifestations, :manifestations, :users, :manifestation_relationship_types
 
   test "guest should get index" do
     get :index
@@ -30,7 +30,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
 
   test "guest should not create manifestation_has_manifestation" do
     assert_no_difference('ManifestationHasManifestation.count') do
-      post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2}
+      post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2, :manifestation_relationship_type_id => 1}
     end
 
     assert_redirected_to new_user_session_url
@@ -39,7 +39,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   test "user should not create manifestation_has_manifestation" do
     UserSession.create users(:user1)
     assert_no_difference('ManifestationHasManifestation.count') do
-      post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2}
+      post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2, :manifestation_relationship_type_id => 1}
     end
 
     assert_response :forbidden
@@ -48,7 +48,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   test "librarian should create manifestation_has_manifestation" do
     UserSession.create users(:librarian1)
     assert_difference('ManifestationHasManifestation.count') do
-      post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2}
+      post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2, :manifestation_relationship_type_id => 1}
     end
 
     assert_redirected_to manifestation_has_manifestation_path(assigns(:manifestation_has_manifestation))

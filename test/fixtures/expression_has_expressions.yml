@@ -4,8 +4,11 @@ one:
   from_expression_id: 1
   to_expression_id: 1
   position: 1
+  expression_relationship_type_id: 1
 
 two:
   from_expression_id: 2
   to_expression_id: 1
   position: 2
+  expression_relationship_type_id: 1
+

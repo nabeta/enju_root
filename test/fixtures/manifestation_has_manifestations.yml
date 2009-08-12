@@ -4,8 +4,10 @@ one:
   from_manifestation_id: 1
   to_manifestation_id: 1
   position: 1
+  manifestation_relationship_type_id: 1
 
 two:
   from_manifestation_id: 2
   to_manifestation_id: 1
   position: 2
+  manifestation_relationship_type_id: 1

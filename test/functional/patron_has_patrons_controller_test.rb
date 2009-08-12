@@ -2,7 +2,7 @@ require 'test_helper'
 
 class PatronHasPatronsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :patron_has_patrons, :patrons, :users
+  fixtures :patron_has_patrons, :patrons, :users, :patron_relationship_types
 
   test "guest should get index" do
     get :index
@@ -30,7 +30,7 @@ class PatronHasPatronsControllerTest < ActionController::TestCase
 
   test "guest should not create patron_has_patron" do
     assert_no_difference('PatronHasPatron.count') do
-      post :create, :patron_has_patron => {:from_patron_id => 1, :to_patron_id => 2}
+      post :create, :patron_has_patron => {:from_patron_id => 1, :to_patron_id => 2, :patron_relationship_type_id => 1}
     end
 
     assert_redirected_to new_user_session_url
@@ -39,7 +39,7 @@ class PatronHasPatronsControllerTest < ActionController::TestCase
   test "user should not create patron_has_patron" do
     UserSession.create users(:user1)
     assert_no_difference('PatronHasPatron.count') do
-      post :create, :patron_has_patron => {:from_patron_id => 1, :to_patron_id => 2}
+      post :create, :patron_has_patron => {:from_patron_id => 1, :to_patron_id => 2, :patron_relationship_type_id => 1}
     end
 
     assert_response :forbidden
@@ -48,7 +48,7 @@ class PatronHasPatronsControllerTest < ActionController::TestCase
   test "librarian should create patron_has_patron" do
     UserSession.create users(:librarian1)
     assert_difference('PatronHasPatron.count') do
-      post :create, :patron_has_patron => {:from_patron_id => 1, :to_patron_id => 2}
+      post :create, :patron_has_patron => {:from_patron_id => 1, :to_patron_id => 2, :patron_relationship_type_id => 1}
     end
 
     assert_redirected_to patron_has_patron_path(assigns(:patron_has_patron))

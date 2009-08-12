@@ -1,4 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :item_relationship_types
+
+  map.resources :manifestation_relationship_types
+
+  map.resources :expression_relationship_types
+
+  map.resources :work_relationship_types
+
+  map.resources :patron_relationship_types
+
   map.resources :content_types
 
   map.resources :medium_of_performances

@@ -2,7 +2,7 @@ require 'test_helper'
 
 class WorkHasWorksControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :work_has_works, :works, :users
+  fixtures :work_has_works, :works, :users, :work_relationship_types
 
   test "guest should get index" do
     get :index
@@ -30,7 +30,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
 
   test "guest should not create work_has_work" do
     assert_no_difference('WorkHasWork.count') do
-      post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2}
+      post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2, :work_relationship_type_id => 1}
     end
 
     assert_redirected_to new_user_session_url
@@ -39,7 +39,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   test "user should not create work_has_work" do
     UserSession.create users(:user1)
     assert_no_difference('WorkHasWork.count') do
-      post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2}
+      post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2, :work_relationship_type_id => 1}
     end
 
     assert_response :forbidden
@@ -48,7 +48,7 @@ class WorkHasWorksControllerTest < ActionController::TestCase
   test "librarian should create work_has_work" do
     UserSession.create users(:librarian1)
     assert_difference('WorkHasWork.count') do
-      post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2}
+      post :create, :work_has_work => {:from_work_id => 1, :to_work_id => 2, :work_relationship_type_id => 1}
     end
 
     assert_redirected_to work_has_work_path(assigns(:work_has_work))

@@ -1,6 +1,7 @@
 class ItemHasItemsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_item
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /item_has_items
   # GET /item_has_items.xml
@@ -61,6 +62,7 @@ class ItemHasItemsController < ApplicationController
         format.html { redirect_to(@item_has_item) }
         format.xml  { render :xml => @item_has_item, :status => :created, :location => @item_has_item }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @item_has_item.errors, :status => :unprocessable_entity }
       end
@@ -94,5 +96,10 @@ class ItemHasItemsController < ApplicationController
       format.html { redirect_to(item_has_items_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @item_relationship_types = ItemRelationshipType.all
   end
 end

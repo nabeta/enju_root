@@ -46,7 +46,7 @@ class ContentTypesController < ApplicationController
 
     respond_to do |format|
       if @content_type.save
-        flash[:notice] = 'ContentType was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.content_type'))
         format.html { redirect_to(@content_type) }
         format.xml  { render :xml => @content_type, :status => :created, :location => @content_type }
       else
@@ -63,7 +63,7 @@ class ContentTypesController < ApplicationController
 
     respond_to do |format|
       if @content_type.update_attributes(params[:content_type])
-        flash[:notice] = 'ContentType was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.content_type'))
         format.html { redirect_to(@content_type) }
         format.xml  { head :ok }
       else
