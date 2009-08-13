@@ -8,4 +8,15 @@ class ManifestationHasManifestation < ActiveRecord::Base
   validates_uniqueness_of :from_manifestation_id, :scope => :to_manifestation_id
 
   acts_as_list :scope => :from_manifestation
+
+  def before_save
+    Manifestation.find(from_manifestation_id_was).send_later(:save_with_index)
+    Manifestation.find(to_manifestation_id_was).send_later(:save_with_index!)
+  end
+
+  def after_save
+    from_manifestation.send_later(:save_with_index)
+    to_manifestation.send_later(:save_with_index!)
+  end
+
 end

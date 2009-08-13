@@ -8,4 +8,14 @@ class WorkHasWork < ActiveRecord::Base
   validates_uniqueness_of :from_work_id, :scope => :to_work_id
 
   acts_as_list :scope => :from_work
+
+  def before_save
+    Work.find(from_work_id_was).send_later(:save_with_index)
+    Work.find(to_work_id_was).send_later(:save_with_index!)
+  end
+
+  def after_save
+    from_work.send_later(:save_with_index)
+    to_work.send_later(:save_with_index!)
+  end
 end

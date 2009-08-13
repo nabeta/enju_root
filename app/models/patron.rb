@@ -1,6 +1,7 @@
 class Patron < ActiveRecord::Base
   include LibrarianOwnerRequired
   include EnjuFragmentCache
+  include SolrIndex
 
   belongs_to :user #, :validate => true
   has_one :library
