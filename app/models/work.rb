@@ -38,6 +38,7 @@ class Work < ActiveRecord::Base
     integer :original_work_ids, :multiple => true
     integer :required_role_id
     integer :work_form_id
+    integer :subject_ids, :multiple => true
   end
 
   #acts_as_soft_deletable
