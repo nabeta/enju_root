@@ -9,7 +9,7 @@ class ItemHasItem < ActiveRecord::Base
 
   acts_as_list :scope => :from_item
 
-  def before_save
+  def before_update
     Item.find(from_item_id_was).send_later(:save_with_index)
     Item.find(to_item_id_was).send_later(:save_with_index!)
   end

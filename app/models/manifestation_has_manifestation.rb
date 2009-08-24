@@ -9,7 +9,7 @@ class ManifestationHasManifestation < ActiveRecord::Base
 
   acts_as_list :scope => :from_manifestation
 
-  def before_save
+  def before_update
     Manifestation.find(from_manifestation_id_was).send_later(:save_with_index)
     Manifestation.find(to_manifestation_id_was).send_later(:save_with_index!)
   end

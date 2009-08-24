@@ -9,7 +9,7 @@ class ExpressionHasExpression < ActiveRecord::Base
 
   acts_as_list :scope => :from_expression
 
-  def before_save
+  def before_update
     Expression.find(from_expression_id_was).send_later(:save_with_index)
     Expression.find(to_expression_id_was).send_later(:save_with_index!)
   end

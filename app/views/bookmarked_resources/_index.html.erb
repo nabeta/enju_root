@@ -28,7 +28,7 @@
         <%- end -%>
       </td>
       <td><%= l(manifestation.created_at) -%></td>
-      <td><%= link_to t('page.show'), bookmarked_resource_path(manifestation.bookmarked_resource) -%></td>
+      <td><%= link_to t('page.show'), bookmarked_resource_path(manifestation.bookmarked_resource) if manifestation.bookmarked_resource -%></td>
     </tr>
   <%- end -%>
 </table>

@@ -9,7 +9,7 @@ class PatronHasPatron < ActiveRecord::Base
 
   acts_as_list :scope => :from_patron
 
-  def before_save
+  def before_update
     Patron.find(from_patron_id_was).send_later(:save_with_index)
     Patron.find(to_patron_id_was).send_later(:save_with_index!)
   end

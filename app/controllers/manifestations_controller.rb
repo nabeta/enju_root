@@ -555,8 +555,11 @@ class ManifestationsController < ApplicationController
       search.query.add_restriction(:original_manifestation_ids, :equal_to, @manifestation.id) if @manifestation
       unless @subscription.blank?
         search.query.add_restriction(:subscription_ids, :equal_to, @subscription.id)
-        search.query.add_restriction(:subscription_master, :equal_to, true)
       end
+    end
+    if params[:subscription_master] == "true"
+      search.query.add_restriction(:subscription_master, :equal_to, true)
+      @subscription_master = true
     end
     search.query.add_restriction(:reservable, :equal_to, true) if @reservable
     unless params[:carrier_type].blank?

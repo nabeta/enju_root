@@ -9,7 +9,7 @@ class WorkHasWork < ActiveRecord::Base
 
   acts_as_list :scope => :from_work
 
-  def before_save
+  def before_update
     Work.find(from_work_id_was).send_later(:save_with_index)
     Work.find(to_work_id_was).send_later(:save_with_index!)
   end
