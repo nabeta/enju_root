@@ -15,18 +15,7 @@
     [P]
     <%= link_to h(@patron.full_name), @patron -%>
   </h2>
-  <%= f.hidden_field :patron_id -%></p>
-<%- else -%>
-  <p>
-    <%= f.label t('activerecord.attributes.patron.last_name') -%>
-    <%= f.text_field :last_name -%>
-    <%= f.label t('activerecord.attributes.patron.last_name_transcription') -%>
-    <%= f.text_field :last_name_transcription -%><br />
-    <%= f.label t('activerecord.attributes.patron.first_name') -%>
-    <%= f.text_field :first_name -%>
-    <%= f.label t('activerecord.attributes.patron.first_name_transcription') -%>
-    <%= f.text_field :first_name_transcription -%><br />
-  </p>
+  <%= f.hidden_field :patron_id -%>
 <%- end -%>
 
 <p>
@@ -41,28 +30,6 @@
   <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label>
   <%= f.text_field :openid_identifier, :value => "" -%>
 </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.patron.zip_code_1') -%></b>
-    <%= f.text_field :zip_code -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.patron.address_1') -%></b><br />
-    <%= f.text_area :address, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.patron.telephone_number_1') -%></b>
-    <%= f.text_field :telephone_number, :class => 'resource_telephone_number' -%>
-    <b><%= t('activerecord.attributes.patron.fax_number_1') -%></b>
-    <%= f.text_field :fax_number, :class => 'resource_telephone_number' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.patron.address_1_note') -%></b><br />
-    <%= f.text_area :address_note, :class => 'resource_textarea' -%>
-  </p>
 
   <p>
     <label for="expired_at"><%= t('activerecord.attributes.user.expired_at') -%></label>
