@@ -1,6 +1,8 @@
 class Work < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
+  include SolrIndex
+
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
@@ -36,6 +38,7 @@ class Work < ActiveRecord::Base
     integer :original_work_ids, :multiple => true
     integer :required_role_id
     integer :work_form_id
+    integer :subject_ids, :multiple => true
   end
 
   #acts_as_soft_deletable

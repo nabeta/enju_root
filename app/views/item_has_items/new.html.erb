@@ -13,12 +13,9 @@
     <%= f.label t('activerecord.attributes.item_has_item.to_item') -%><br />
     <%= f.text_field :to_item_id -%>
   </p>
-  <!--
   <p>
-    <%= f.label :type -%><br />
-    <%= f.text_field :type -%>
+    <%= f.select(:item_relationship_type_id, @item_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
-  -->
   <p>
     <%= f.submit t('page.create') -%>
   </p>

@@ -128,6 +128,11 @@ ja:
       extent: 大きさ
       medium_of_performance: 演奏手段
       content_type: 内容の種類
+      patron_relationship_type: パトロンの関係の種類
+      work_relationship_type: 著作形の関係の種類
+      expression_relationship_type: 表現形の関係の種類
+      manifestation_relationship_type: 体現形の関係の種類
+      item_relationship_type: 個別資料の関係の種類
     attributes:
       library:
         name: 名前
@@ -853,6 +858,36 @@ ja:
         note: 注記
         position: 位置
       content_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      patron_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      patron_relationship_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      work_relationship_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      expression_relationship_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      manifestation_relationship_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      item_relationship_type:
         name: 名前
         display_name: 表示名
         note: 注記

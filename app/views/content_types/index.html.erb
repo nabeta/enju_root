@@ -1,10 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if @user_group -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_content_type')), new_user_group_user_group_has_content_type_path(@user_group) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.content_type')), new_content_type_path -%></li>
-    <%- end -%>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.content_type')), new_content_type_path -%></li>
   </ul>
 </div>
 
@@ -23,11 +19,9 @@
 <%- for content_type in @content_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- unless @user_group -%>
-        <%- if content_type.is_deletable_by(current_user) -%>
-          <%= content_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%>
-          <%= content_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%>
-        <%- end -%>
+      <%- if content_type.is_deletable_by(current_user) -%>
+        <%= content_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (content_type.position  > 1 ? content_type.position - 1 : 1), :id => content_type.id}, :method => :put) -%>
+        <%= content_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (content_type.position + 1), :id => content_type.id}, :method => :put) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(content_type.name), content_type -%></td>

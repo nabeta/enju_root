@@ -4,6 +4,7 @@ class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   #include OnlyLibrarianCanModify
   include LibrarianOwnerRequired
+  include SolrIndex
   #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   named_scope :serials, :conditions => ['frequency_id > 1']

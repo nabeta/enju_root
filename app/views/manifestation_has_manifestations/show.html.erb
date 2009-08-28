@@ -12,10 +12,9 @@
 </p>
 
 <p>
-  <b>Manifestation Relationship type:</b>
-  <%=h @manifestation_has_manifestation.type -%>
+  <b><%= t('activerecord.models.manifestation_relationship_type') -%>:</b>
+  <%=h @manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>
 </p>
-
 </div>
 </div>
 

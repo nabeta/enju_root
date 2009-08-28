@@ -1,0 +1,37 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.expression_relationship_type')), new_expression_relationship_type_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression_relationship_type')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th id="position"></th>
+    <th><%= t('activerecord.attributes.expression_relationship_type.name') -%></th>
+    <th><%= t('activerecord.attributes.expression_relationship_type.display_name') -%></th>
+    <th><%= t('activerecord.attributes.expression_relationship_type.note') -%></th>
+  </tr>
+
+<%- for expression_relationship_type in @expression_relationship_types -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if expression_relationship_type.is_deletable_by(current_user) -%>
+        <%= expression_relationship_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (expression_relationship_type.position  > 1 ? expression_relationship_type.position - 1 : 1), :id => expression_relationship_type.id}, :method => :put) -%>
+        <%= expression_relationship_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (expression_relationship_type.position + 1), :id => expression_relationship_type.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
+    <td><%= link_to h(expression_relationship_type.name), expression_relationship_type -%></td>
+    <td><%= link_to h(expression_relationship_type.display_name.localize), expression_relationship_type -%></td>
+    <td><%=h expression_relationship_type.note -%></td>
+    <td><%= link_to t('page.edit'), edit_expression_relationship_type_path(expression_relationship_type) -%></td>
+    <td><%= link_to t('page.destroy'), expression_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+</div>
+</div>

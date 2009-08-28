@@ -1,19 +1,19 @@
 <div id="content_detail">
-<h1 class="title">Listing item_has_items</h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item_has_item')) -%></h1>
 <div id="content_list">
 
 <table class="index">
   <tr>
     <th><%= t('activerecord.attributes.item_has_item.from_item') -%></th>
     <th><%= t('activerecord.attributes.item_has_item.to_item') -%></th>
-    <th>Item Relationship type</th>
+    <th><%= t('activerecord.models.item_relationship_type') -%></th>
   </tr>
 
 <% for item_has_item in @item_has_items -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(item_has_item.from_item.manifestation.original_title), item_has_item.from_item -%></td>
     <td><%= link_to h(item_has_item.to_item.manifestation.original_title), item_has_item.to_item -%></td>
-    <td><%=h item_has_item.class.to_s -%></td>
+    <td><%=h item_has_item.item_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), item_has_item -%></td>
     <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) -%></td>
     <td><%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

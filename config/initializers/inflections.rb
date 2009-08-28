@@ -9,3 +9,5 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.irregular 'reserve', 'reserves'
 #   inflect.uncountable %w( fish sheep )
 end
+
+Extlib::Inflection.word('reserve', 'reserves')

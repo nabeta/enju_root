@@ -1,19 +1,19 @@
 <div id="content_detail">
-<h1 class="title">Listing work_has_works</h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work_has_work')) -%></h1>
 <div id="content_list">
 
 <table class="index">
   <tr>
     <th><%= t('activerecord.attributes.work_has_work.from_work') -%></th>
     <th><%= t('activerecord.attributes.work_has_work.to_work') -%></th>
-    <th>Work Relationship type</th>
+    <th><%= t('activerecord.models.work_relationship_type') -%></th>
   </tr>
 
 <% for work_has_work in @work_has_works -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(work_has_work.from_work.original_title), work_has_work.from_work -%></td>
     <td><%= link_to h(work_has_work.to_work.original_title), work_has_work.to_work -%></td>
-    <td><%=h work_has_work.class.to_s -%></td>
+    <td><%=h work_has_work.work_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), work_has_work -%></td>
     <td><%= link_to t('page.edit'), edit_work_has_work_path(work_has_work) -%></td>
     <td><%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

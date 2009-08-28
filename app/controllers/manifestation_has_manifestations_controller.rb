@@ -1,6 +1,7 @@
 class ManifestationHasManifestationsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_manifestation
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /manifestation_has_manifestations
   # GET /manifestation_has_manifestations.xml
@@ -61,6 +62,7 @@ class ManifestationHasManifestationsController < ApplicationController
         format.html { redirect_to(@manifestation_has_manifestation) }
         format.xml  { render :xml => @manifestation_has_manifestation, :status => :created, :location => @manifestation_has_manifestation }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @manifestation_has_manifestation.errors, :status => :unprocessable_entity }
       end
@@ -94,5 +96,10 @@ class ManifestationHasManifestationsController < ApplicationController
       format.html { redirect_to(manifestation_has_manifestations_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @manifestation_relationship_types = ManifestationRelationshipType.all
   end
 end

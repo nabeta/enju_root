@@ -108,7 +108,7 @@ Money.default_currency = "JPY"
 #APICache.start
 
 #require 'jasper-rails'
-require 'solr_modified'
+require 'solr_index'
 require 'tag_modified'
 require 'jcode'
 require 'nkf'

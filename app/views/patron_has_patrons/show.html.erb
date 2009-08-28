@@ -12,10 +12,9 @@
 </p>
 
 <p>
-  <b>Patron Relationship type:</b>
-  <%=h @patron_has_patron.type -%>
+  <b><%= t('activerecord.models.patron_relationship_type') -%>:</b>
+  <%=h @patron_has_patron.patron_relationship_type.display_name.localize -%>
 </p>
-
 </div>
 </div>
 

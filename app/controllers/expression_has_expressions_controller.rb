@@ -1,6 +1,7 @@
 class ExpressionHasExpressionsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_expression
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /expression_has_expressions
   # GET /expression_has_expressions.xml
@@ -61,6 +62,7 @@ class ExpressionHasExpressionsController < ApplicationController
         format.html { redirect_to(@expression_has_expression) }
         format.xml  { render :xml => @expression_has_expression, :status => :created, :location => @expression_has_expression }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @expression_has_expression.errors, :status => :unprocessable_entity }
       end
@@ -94,5 +96,10 @@ class ExpressionHasExpressionsController < ApplicationController
       format.html { redirect_to(expression_has_expressions_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @expression_relationship_types = ExpressionRelationshipType.all
   end
 end

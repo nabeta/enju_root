@@ -23,14 +23,9 @@
       <%= f.text_field :to_manifestation_id -%>
     <%- end -%>
   </p>
-
-  <!--
   <p>
-    <%= f.label :type -%><br />
-    <%= f.text_field :type -%>
+    <%= f.select(:manifestation_relationship_type_id, @manifestation_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
-  -->
-
   <p>
     <%= f.submit t('page.create') -%>
   </p>

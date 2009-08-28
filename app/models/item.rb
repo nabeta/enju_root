@@ -1,6 +1,7 @@
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
+  include SolrIndex
 
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   named_scope :on_shelf, :conditions => ['shelf_id != 1']

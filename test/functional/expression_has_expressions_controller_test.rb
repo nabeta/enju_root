@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :expression_has_expressions, :expressions, :users
+  fixtures :expression_has_expressions, :expressions, :users, :expression_relationship_types
 
   test "guest should get index" do
     get :index
@@ -30,7 +30,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
 
   test "guest should not create expression_has_expression" do
     assert_no_difference('ExpressionHasExpression.count') do
-      post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2}
+      post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2, :expression_relationship_type_id => 1}
     end
 
     assert_redirected_to new_user_session_url
@@ -39,7 +39,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   test "user should not create expression_has_expression" do
     UserSession.create users(:user1)
     assert_no_difference('ExpressionHasExpression.count') do
-      post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2}
+      post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2, :expression_relationship_type_id => 1}
     end
 
     assert_response :forbidden
@@ -48,7 +48,7 @@ class ExpressionHasExpressionsControllerTest < ActionController::TestCase
   test "librarian should create expression_has_expression" do
     UserSession.create users(:librarian1)
     assert_difference('ExpressionHasExpression.count') do
-      post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2}
+      post :create, :expression_has_expression => {:from_expression_id => 1, :to_expression_id => 2, :expression_relationship_type_id => 1}
     end
 
     assert_redirected_to expression_has_expression_path(assigns(:expression_has_expression))
