@@ -14,7 +14,7 @@ class QuestionsControllerTest < ActionController::TestCase
     get :index, :query => 'Yahoo'
     assert_response :success
     assert assigns(:questions)
-    assert assigns(:resources)
+    assert assigns(:crd_results)
   end
 
   def test_user_should_get_my_index

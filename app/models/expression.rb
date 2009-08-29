@@ -44,7 +44,7 @@ class Expression < ActiveRecord::Base
   end
   acts_as_tree
   #acts_as_soft_deletable
-  enju_cinii
+  #enju_cinii
 
   cattr_accessor :per_page
   @@per_page = 10

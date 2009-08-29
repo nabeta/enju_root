@@ -10,15 +10,15 @@
   </ul>
 <%- end -%>
 
-<%- if @resources -%>
+<%- if @crd_results -%>
 <h4><%= link_to t('question.crd'), "http://crd.ndl.go.jp/" -%></h4>
-  <p><%= t('question.number_of_search_results', :count => @refkyo_count) -%><br />
+  <p><%= t('question.number_of_search_results', :count => @crd_results[:count]) -%><br />
   <ul>
-    <%- @resources.each do |resource| -%>
+    <%- @crd_results[:resources].each do |resource| -%>
       <li><%= link_to h(truncate(resource.title)), resource.link -%></li>
     <%- end -%>
   </ul>
-  <%= will_paginate(@crd_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :crd_page, :class => 'sidebar_pagination') -%>
+  <%= will_paginate(@crd_results[:resources], :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :crd_page, :class => 'sidebar_pagination') -%>
 <%- else -%>
   <p><%= link_to t('question.you_can_search_crd'), "http://crd.ndl.go.jp/" -%></p>
 <%- end -%>
