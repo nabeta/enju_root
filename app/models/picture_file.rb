@@ -19,7 +19,7 @@ class PictureFile < ActiveRecord::Base
   @@per_page = 10
 
   def after_create
-    send_later(:set_digest)
+    send_later(:set_digest) if self.picture.path
   end
 
   def set_digest(options = {:type => 'sha1'})

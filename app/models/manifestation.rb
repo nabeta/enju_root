@@ -138,7 +138,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def after_create
-    send_later(:set_digest)
+    send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
   end
 

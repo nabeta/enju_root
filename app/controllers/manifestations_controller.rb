@@ -9,6 +9,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_libraries, :only => :index
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  include WorldcatController
 
   # GET /manifestations
   # GET /manifestations.xml
@@ -594,16 +595,6 @@ class ManifestationsController < ApplicationController
     if logged_in?
       @history = SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end
-  end
-
-  def search_worldcat(search_options, translate_from = I18n.locale, translate_into = 'English', translate_method = 'google')
-    if translate_method == 'mecab'
-      # romanize
-      query = Kakasi::kakasi('-Ha -Ka -Ja -Ea -ka', NKF::nkf('-e', search_options[:query].wakati.yomi))
-    else
-      query = Translate.t(search_options[:query], translate_from, translate_into)
-    end
-    Manifestation.search_worldcat(:query => query, :page => search_options[:page], :per_page => search_options[:per_page])
   end
 
   def get_total_count(total_query)
