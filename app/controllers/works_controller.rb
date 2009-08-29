@@ -89,7 +89,6 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.save
-        @work.index
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
         if @patron
           @patron.works << @work
@@ -113,7 +112,6 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       if @work.update_attributes(params[:work])
-        @work.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
         format.xml  { head :ok }
@@ -131,7 +129,6 @@ class WorksController < ApplicationController
   def destroy
     @work = Work.find(params[:id])
     @work.destroy
-    @work.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to works_url }

@@ -2,7 +2,6 @@
 <%- unless @manifestation.related_works.blank? -%>
   <ul>
     <%- @manifestation.related_works.each do |work| -%>
-      <%- if work.serials.blank? -%>
         <li>[W] <%= link_to h(work.original_title), work -%>
           <%- work.expressions.each do |expression| -%>
             <%= link_to expression_form_icon(expression.expression_form), expression -%>
@@ -32,7 +31,6 @@
             </ul>
           <%- end -%>
         </li>
-      <%- end -%>
     <%- end -%>
   </ul>
 <%- end -%>

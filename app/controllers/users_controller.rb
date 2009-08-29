@@ -102,6 +102,7 @@ class UsersController < ApplicationController
       @user = current_user
     end
     raise ActiveRecord::RecordNotFound if @user.blank?
+    @user_role_id = @user.roles.first.id
 
     if params[:mode] == 'feed_token'
       if params[:disable] == 'true'
@@ -147,9 +148,10 @@ class UsersController < ApplicationController
       end
       if params[:user][:auto_generated_password] == "1"
         @user.reset_password if current_user.has_role?('Librarian')
+      else
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
       end
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
     end
 
     if current_user.has_role?('Librarian')
@@ -175,7 +177,6 @@ class UsersController < ApplicationController
 
     #@user.update_attributes(params[:user]) do |result|
     @user.save do |result|
-      @user.index
       respond_to do |format|
         #if @user.update_attributes(params[:user])
         if result
@@ -245,7 +246,6 @@ class UsersController < ApplicationController
     @user.activate
 
     @user.save do |result|
-      @user.index
       respond_to do |format|
         if result
           flash[:temporary_password] = @user.password
@@ -254,8 +254,8 @@ class UsersController < ApplicationController
           end
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
-          #format.html { redirect_to user_url(@user.login) }
-          format.html { redirect_to new_user_patron_url(@user.login) }
+          format.html { redirect_to user_url(@user.login) }
+          #format.html { redirect_to new_user_patron_url(@user.login) }
           format.xml  { head :ok }
         else
           prepare_options
@@ -311,7 +311,6 @@ class UsersController < ApplicationController
     end
 
     @user.destroy
-    @user.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
@@ -336,7 +335,6 @@ class UsersController < ApplicationController
     @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
     @roles = Role.find(:all)
     @libraries = Library.find(:all)
-    @user_role_id = @user.roles.first.id rescue nil
     @languages = Rails.cache.fetch('Language.all'){Language.all}
   end
 

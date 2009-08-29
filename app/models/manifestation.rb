@@ -145,11 +145,13 @@ class Manifestation < ActiveRecord::Base
   def after_save
     send_later(:expire_cache)
     send_later(:generate_fragment_cache)
+    send_later(:index!)
   end
 
   def after_destroy
     Rails.cache.delete("Manifestation.search.total")
     send_later(:expire_cache)
+    send_later(:remove_from_index!)
   end
 
   def expire_cache

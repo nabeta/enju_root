@@ -294,7 +294,6 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       if @manifestation.save
-        @manifestation.index
         Manifestation.transaction do
           # 雑誌の場合、出版者を自動的に追加
           if @expression
@@ -335,7 +334,6 @@ class ManifestationsController < ApplicationController
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
-        @manifestation.index
         @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
@@ -357,7 +355,6 @@ class ManifestationsController < ApplicationController
   def destroy
     @manifestation = Manifestation.find(params[:id])
     @manifestation.destroy
-    @manifestation.remove_from_index
     flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.manifestation'))
 
     respond_to do |format|

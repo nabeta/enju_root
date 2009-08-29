@@ -114,7 +114,6 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.save
-        @expression.index
         Expression.transaction do
           @work.expressions << @expression
           #if @expression.serial?
@@ -146,7 +145,6 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
-        @expression.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
@@ -163,7 +161,6 @@ class ExpressionsController < ApplicationController
   def destroy
     @expression = Expression.find(params[:id])
     @expression.destroy
-    @expression.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to expressions_url }

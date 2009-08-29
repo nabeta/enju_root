@@ -52,6 +52,7 @@ class Patron < ActiveRecord::Base
     time :updated_at
     time :date_of_birth
     time :date_of_death
+    string :user
     integer :work_ids, :multiple => true
     integer :expression_ids, :multiple => true
     integer :manifestation_ids, :multiple => true
@@ -76,6 +77,14 @@ class Patron < ActiveRecord::Base
     if self.full_name_transcription.blank?
       self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s
     end
+  end
+
+  def after_save
+    send_later(:index!)
+  end
+
+  def after_destroy
+    send_later(:remove_from_index!)
   end
 
   def full_name

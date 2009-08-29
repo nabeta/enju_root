@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
-  validates_presence_of :user_group, :library, :locale
+  validates_presence_of :user_group, :library, :locale, :patron
   #validates_presence_of :user_number
   validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validate_on_update :verify_password
@@ -110,26 +110,17 @@ class User < ActiveRecord::Base
   #  self.full_name = self.patron.full_name if self.patron
   #end
 
-  def after_save
-    # TODO: last_request_atを無効にすることも考える
-    unless last_request_at_changed?
-      if self.patron
-        self.patron.send_later(:save)
-      end
-    end
-  end
-
-  def after_destroy
-    after_save
-  end
-
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
     self.locale = I18n.default_locale
+    self.patron = Patron.create(:full_name => self.login) if self.login
   end
 
-  def set_auto_generated_password
-    self.temporary_password = reset_password
+  def after_save
+    if self.patron
+      self.patron.send_later(:index!)
+    end
+    send_later(:index!)
   end
 
   def before_save
@@ -146,6 +137,11 @@ class User < ActiveRecord::Base
   def before_destroy
     check_item_before_destroy
     check_role_before_destroy
+  end
+
+  def after_destroy
+    self.patron.send_later(:index!)
+    send_later(:remove_from_index!)
   end
 
   def check_item_before_destroy
@@ -165,6 +161,10 @@ class User < ActiveRecord::Base
   def self.authenticate(login, password)
     u = find_by_login(login) # need to get the salt
     u && u.valid_password?(password) ? u : nil
+  end
+
+  def set_auto_generated_password
+    self.temporary_password = reset_password
   end
 
   def reset_checkout_icalendar_token

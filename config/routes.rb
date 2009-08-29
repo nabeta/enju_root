@@ -354,7 +354,7 @@ ActionController::Routing::Routes.draw do |map|
     user_group.resources :checkout_types
   end
   map.resources :work_forms
-  map.resources :calendar_files
+  #map.resources :calendar_files
   map.resources :bookmarked_resources do |bookmarked_resource|
     bookmarked_resource.resources :bookmarks
   end

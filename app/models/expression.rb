@@ -49,6 +49,10 @@ class Expression < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
+  def after_destroy
+    send_later(:remove_from_index)
+  end
+
   def title
     title_array = titles
     #title_array << self.work.titles if self.work

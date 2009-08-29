@@ -146,7 +146,6 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        @item.index
         Item.transaction do
           @manifestation.items << @item
           @item.reload
@@ -179,7 +178,6 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.update_attributes(params[:item])
-        @item.index
         if @item.shelf
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
@@ -208,7 +206,6 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
-    @item.remove_from_index
 
     respond_to do |format|
       if @item.manifestation

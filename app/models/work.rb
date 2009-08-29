@@ -51,6 +51,14 @@ class Work < ActiveRecord::Base
   validates_associated :work_form
   validates_presence_of :original_title, :work_form
 
+  def after_save
+    send_later(:index!)
+  end
+
+  def after_destroy
+    send_later(:remove_from_index!)
+  end
+
   def title
     array = titles
     #if expressions
@@ -74,10 +82,8 @@ class Work < ActiveRecord::Base
     expressions.collect(&:manifestations).flatten.uniq
   end
 
-  def serials
-    nil
-    #self.expressions.serials
-  end
+  #def serials
+  #end
 
   def work_merge_lists_ids
     self.work_merge_lists.collect(&:id)

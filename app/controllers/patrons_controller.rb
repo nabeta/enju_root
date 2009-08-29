@@ -30,6 +30,7 @@ class PatronsController < ApplicationController
       search.query.keywords = query
     end
     unless params[:mode] == 'add'
+      search.query.add_restriction(:user, :equal_to, @user.login) if @user
       search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
       search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
       search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
@@ -140,7 +141,6 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       if @patron.save
-        @patron.index
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.patron'))
         case
         when @work
@@ -174,7 +174,6 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       if @patron.update_attributes(params[:patron])
-        @patron.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron'))
         format.html { redirect_to patron_url(@patron) }
         format.xml  { head :ok }
@@ -203,7 +202,6 @@ class PatronsController < ApplicationController
     end
 
     @patron.destroy
-    @patron.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to patrons_url }

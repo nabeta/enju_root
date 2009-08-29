@@ -84,8 +84,13 @@ class Item < ActiveRecord::Base
   #  unless self.item_identifier.blank?
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
   #  end
-  # TODO: 排架場所変更の際のインデックス更新のタイミング
-  #  self.manifestation.send_later(:save, false) if self.manifestation
+    self.manifestation.send_later(:save, false) if self.manifestation
+    send_later(:index!)
+  end
+
+  def after_destroy
+    self.manifestation.send_later(:save, false) if self.manifestation
+    send_later(:remove_from_index!)
   end
 
   def before_validation_on_create
