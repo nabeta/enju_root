@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   before_filter :store_location, :only => [:index, :show]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   #ssl_required :new, :edit, :create, :update, :destroy
-  ssl_allowed :index, :new, :edit, :create, :update, :destroy
+  ssl_allowed :index, :show, :new, :edit, :create, :update, :destroy
 
   def index
     query = params[:query].to_s
