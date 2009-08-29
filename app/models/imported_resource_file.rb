@@ -130,7 +130,7 @@ class ImportedResourceFile < ActiveRecord::Base
     # TODO
     for record in reader
       work = Work.new(:title => record['245']['a'])
-      work.work_form = WorkForm.find(1)
+      work.form_of_work = FormOfWork.find(1)
       work.save
 
       expression = Expression.new(:title => work.original_title)

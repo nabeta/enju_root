@@ -3,7 +3,7 @@ require 'test_helper'
 class ExpressionsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :expressions, :expression_forms, :languages, :frequencies,
-    :works, :work_forms, :embodies, :realizes, :reifies,
+    :works, :form_of_works, :embodies, :realizes, :reifies,
     :manifestations, :carrier_types, :embodies,
     :patrons, :users, :languages
 

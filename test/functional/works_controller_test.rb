@@ -2,7 +2,7 @@ require 'test_helper'
 
 class WorksControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :works, :work_forms, :expressions, :realizes, :creates, :produces, :reifies,
+  fixtures :works, :form_of_works, :expressions, :realizes, :creates, :produces, :reifies,
     :patrons, :users, :roles
 
   def test_guest_should_get_index
@@ -72,7 +72,7 @@ class WorksControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_work
     old_count = Work.count
-    post :create, :work => { :original_title => 'test', :work_form_id => 1 }
+    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
     assert_equal old_count, Work.count
     
     assert_redirected_to new_user_session_url
@@ -81,7 +81,7 @@ class WorksControllerTest < ActionController::TestCase
   def test_user_should_not_create_work
     UserSession.create users(:user1)
     old_count = Work.count
-    post :create, :work => { :original_title => 'test', :work_form_id => 1 }
+    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
     assert_equal old_count, Work.count
     
     assert_response :forbidden
@@ -90,13 +90,13 @@ class WorksControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_work_without_title
     UserSession.create users(:librarian1)
     old_count = Work.count
-    post :create, :work => { :work_form_id => 1 }
+    post :create, :work => { :form_of_work_id => 1 }
     assert_equal old_count, Work.count
     
     assert_response :success
   end
 
-  def test_librarian_should_create_work_without_work_form_id
+  def test_librarian_should_create_work_without_form_of_work_id
     UserSession.create users(:librarian1)
     old_count = Work.count
     post :create, :work => { :original_title => 'test' }
@@ -109,7 +109,7 @@ class WorksControllerTest < ActionController::TestCase
   def test_librarian_should_create_work
     UserSession.create users(:librarian1)
     old_count = Work.count
-    post :create, :work => { :original_title => 'test', :work_form_id => 1 }
+    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
     assert_equal old_count+1, Work.count
     
     assert_redirected_to work_patrons_url(assigns(:work))
@@ -119,7 +119,7 @@ class WorksControllerTest < ActionController::TestCase
   def test_admin_should_create_work
     UserSession.create users(:admin)
     old_count = Work.count
-    post :create, :work => { :original_title => 'test', :work_form_id => 1 }
+    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
     assert_equal old_count+1, Work.count
     
     assert_redirected_to work_patrons_url(assigns(:work))
@@ -186,13 +186,13 @@ class WorksControllerTest < ActionController::TestCase
   
   def test_librarian_should_not_update_work_without_title
     UserSession.create users(:librarian1)
-    put :update, :id => 1, :work => {:original_title => "", :work_form_id => 1}
+    put :update, :id => 1, :work => {:original_title => "", :form_of_work_id => 1}
     assert_response :success
   end
   
-  def test_librarian_should_not_update_work_without_work_form_id
+  def test_librarian_should_not_update_work_without_form_of_work_id
     UserSession.create users(:librarian1)
-    put :update, :id => 1, :work => {:work_form_id => nil, :original_title => 'test'}
+    put :update, :id => 1, :work => {:form_of_work_id => nil, :original_title => 'test'}
     assert_response :success
   end
   

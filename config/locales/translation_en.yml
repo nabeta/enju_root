@@ -22,7 +22,7 @@ en:
       user: User
       resource_has_subject: Resource has subject
       picture_file: Picture file
-      work_form: Work form
+      form_of_work: Work form
       inter_library_loan: Inter library loan
       message: Message
       classification: Classification
@@ -312,7 +312,7 @@ en:
         thumbnail: Thumbnail
         file_hash: File hash
         picture_updated_at: Updated at
-      work_form:
+      form_of_work:
         name: Name
         display_name: Display name
         note: Note

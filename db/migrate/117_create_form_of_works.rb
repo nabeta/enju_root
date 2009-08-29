@@ -1,6 +1,6 @@
-class CreateWorkForms < ActiveRecord::Migration
+class CreateFormOfWorks < ActiveRecord::Migration
   def self.up
-    create_table :work_forms do |t|
+    create_table :form_of_works do |t|
       t.string :name, :null => false
       t.text :display_name
       t.text :note
@@ -11,6 +11,6 @@ class CreateWorkForms < ActiveRecord::Migration
   end
 
   def self.down
-    drop_table :work_forms
+    drop_table :form_of_works
   end
 end

@@ -353,7 +353,7 @@ ActionController::Routing::Routes.draw do |map|
     user_group.resources :user_group_has_checkout_types
     user_group.resources :checkout_types
   end
-  map.resources :work_forms
+  map.resources :form_of_works
   #map.resources :calendar_files
   map.resources :bookmarked_resources do |bookmarked_resource|
     bookmarked_resource.resources :bookmarks

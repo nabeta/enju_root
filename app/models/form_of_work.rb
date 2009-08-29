@@ -1,4 +1,4 @@
-class WorkForm < ActiveRecord::Base
+class FormOfWork < ActiveRecord::Base
   include OnlyAdministratorCanModify
 
   default_scope :order => "position"

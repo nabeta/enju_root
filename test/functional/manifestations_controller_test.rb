@@ -3,7 +3,7 @@ require 'test_helper'
 class ManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :manifestations, :carrier_types, :resource_has_subjects, :languages, :subjects, :subject_types,
-    :works, :work_forms, :realizes,
+    :works, :form_of_works, :realizes,
     :expressions, :expression_forms, :frequencies,
     :items, :libraries, :shelves, :languages, :exemplifies,
     :embodies, :patrons, :user_groups, :users,

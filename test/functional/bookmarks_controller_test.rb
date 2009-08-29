@@ -3,7 +3,7 @@ require 'test_helper'
 class BookmarksControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :bookmarks, :bookmarked_resources
-  fixtures :works, :work_forms, :expressions, :expression_forms, :frequencies, :languages, :manifestations, :carrier_types, :tags, :taggings, :shelves, :items, :circulation_statuses,
+  fixtures :works, :form_of_works, :expressions, :expression_forms, :frequencies, :languages, :manifestations, :carrier_types, :tags, :taggings, :shelves, :items, :circulation_statuses,
     :creates, :realizes, :produces, :owns,
     :reifies, :embodies, :exemplifies
   fixtures :users, :patrons, :patron_types

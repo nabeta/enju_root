@@ -7,7 +7,7 @@ class Work < ActiveRecord::Base
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :reifies
-  belongs_to :work_form #, :validate => true
+  belongs_to :form_of_work #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
   has_many :resource_has_subjects, :dependent => :destroy
@@ -37,7 +37,7 @@ class Work < ActiveRecord::Base
     integer :work_merge_list_ids, :multiple => true
     integer :original_work_ids, :multiple => true
     integer :required_role_id
-    integer :work_form_id
+    integer :form_of_work_id
     integer :subject_ids, :multiple => true
   end
 
@@ -48,8 +48,8 @@ class Work < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
 
-  validates_associated :work_form
-  validates_presence_of :original_title, :work_form
+  validates_associated :form_of_work
+  validates_presence_of :original_title, :form_of_work
 
   def after_save
     send_later(:index!)
