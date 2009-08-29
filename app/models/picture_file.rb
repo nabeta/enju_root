@@ -23,7 +23,7 @@ class PictureFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(self.picture.path)
+    file_hash = Digest::SHA1.hexdigest(File.open(self.picture.path, 'rb').read)
     save(false)
   end
 

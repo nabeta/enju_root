@@ -546,7 +546,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(self.attachment.path)
+    file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
     save(false)
   end
 
