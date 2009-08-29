@@ -10,4 +10,4 @@ ActiveSupport::Inflector.inflections do |inflect|
 #   inflect.uncountable %w( fish sheep )
 end
 
-Extlib::Inflection.word('reserve', 'reserves')
+#Extlib::Inflection.word('reserve', 'reserves')
