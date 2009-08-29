@@ -18,8 +18,8 @@
       window.onload = function() {
       Element.show('spinner_all_facet');
       Element.show('spinner_tag_cloud');
-      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")).gsub('&amp;', '&') -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
-      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")).gsub('&amp;', '&') -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
+      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")) -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
+      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
       return false;
     }
     </script>
@@ -93,9 +93,9 @@
   <%- end -%>
   <div>
     <%- if params[:library_id].blank? -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)).gsub("&amp;", "&") -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)) -%>
     <%- else -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)).gsub("&amp;", "&") -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)).gsub("&amp;", "&") -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)) -%>
     <%- end -%>
   </div>
 </div>
