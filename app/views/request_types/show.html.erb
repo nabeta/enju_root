@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_request_type_path(@request_type) -%></li>
     <li><%= link_to t('page.back'), request_types_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.request_type')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.request_type.name') -%>:</b>
   <%=h @request_type.name -%>

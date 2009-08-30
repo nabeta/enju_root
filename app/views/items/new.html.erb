@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <%- if @item.manifestation -%>
     <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
@@ -12,9 +12,9 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
-<div class="inner">
+<div id="content_list">
   <%- if @item.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>

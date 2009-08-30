@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_reserve_stat')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.user_reserve_stat.start_date') -%>:</b>
   <%= l(@user_reserve_stat.start_date) -%>
@@ -35,7 +35,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_reserve_stat_path(@user_reserve_stat) -%></li>
     <li><%= link_to t('page.back'), user_reserve_stats_path -%></li>

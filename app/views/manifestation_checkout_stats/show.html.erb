@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_manifestation_checkout_stat_path(@manifestation_checkout_stat) -%></li>
     <li><%= link_to t('page.back'), manifestation_checkout_stats_path -%></li>
@@ -9,9 +9,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_checkout_stat')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.manifestation_checkout_stat.start_date') -%>:</b>
   <%= l(@manifestation_checkout_stat.start_date) -%>

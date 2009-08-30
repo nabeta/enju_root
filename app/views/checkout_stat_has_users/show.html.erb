@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_stat_has_user')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.user_checkout_stat') -%>:</b>
   <%=h @checkout_stat_has_user.user_checkout_stat_id -%>
@@ -18,7 +18,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_checkout_stat_has_user_path(@checkout_stat_has_user) -%></li>
     <li><%= link_to t('page.back'), checkout_stat_has_users_path -%></li>

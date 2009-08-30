@@ -32,10 +32,11 @@ div#narrow_search, div#narrow_library_search{
   color: black;
 }
 
-div#main-navigation, div#bd{
+div#navibar, div#bd{
+  padding-left: 2px;
 }
 
-div#main-navigation{
+div#navibar{
   clear: both;
   width: 100%;
 }
@@ -47,7 +48,8 @@ div#content{
   width: 922px;
 }
 
-div#header, div#main_footer{
+div.header_and_footer{
+  padding: 2px;
   clear: both;
   width: 922px;
 }
@@ -92,7 +94,7 @@ div#search_footer{
   clear: both;
 }
 
-div#sidebar{
+div#submenu{
   margin-top: 5px;
   width: 193px;
   margin-left: -193px;
@@ -126,11 +128,7 @@ div#manifestation_bookmark_buttons{
   margin-top: 1em;
 }
 
-div#wrapper{
-  width: 922px;
-}
-
-div#main{
+div#content_detail{
   width: 710px;
   float: left;
   margin-bottom: 5px;
@@ -138,8 +136,8 @@ div#main{
   border: 1px solid #5970B2;
 }
 
-div.inner{
-  padding: 5px;
+div#content_list{
+  padding: 10px;
 }
 
 div#manifestation_footer{
@@ -177,7 +175,7 @@ div#right_pane_detail{
   word-break: break-all;
 }
 
-div#main_footer{
+div#footer{
   margin-top: 5px;
   padding-left: 2px;
   padding-right: 2px;

@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @reify.expression -%>
     <li><%= link_to t('activerecord.models.expression'), expression_path(@reify.expression) -%></li>
@@ -9,9 +9,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :reify -%>
 

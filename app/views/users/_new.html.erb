@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.user')), users_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
 
-<div class="inner">
+<div id="content_list">
 <%= error_messages_for :user -%>
 <%- form_for(@user) do |f| -%>
 <%- if @patron -%>

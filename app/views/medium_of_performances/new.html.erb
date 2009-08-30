@@ -1,12 +1,12 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back'), medium_of_performances_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.medium_of_performance')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%- form_for(@medium_of_performance) do |f| -%>
   <%= f.error_messages -%>

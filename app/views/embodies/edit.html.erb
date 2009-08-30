@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.embody')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :embody -%>
 
@@ -22,7 +22,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @embody -%></li>
     <li><%= link_to t('page.back'), embodies_path -%></li>

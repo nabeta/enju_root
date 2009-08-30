@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_subject_heading_type_path(@subject_heading_type) -%></li>
     <li><%= link_to t('page.back'), subject_heading_types_path -%></li>
@@ -8,9 +8,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject_heading_type')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <p>
   <b><%= t('activerecord.attributes.subject_heading_type.display_name') -%>:</b>

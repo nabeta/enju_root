@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= rezm_link_to_inbox -%></li>
     <%- if current_user.has_role?('Librarian') -%>
@@ -9,9 +9,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
-<div class="inner">
+<div id="content_list">
 
   <%= flash[:notice] -%> 
   <fieldset>

@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back_to', :model => t('activerecord.models.patron')), expression_patrons_path(@realize.expression) -%></li>
     <li><%= link_to t('page.back_to', :model => t('activerecord.models.expression')), patron_expressions_path(@realize.patron) -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.realize')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.patron') -%>:</b>
   <%= link_to h(@realize.patron.full_name), @realize.patron -%>

@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron_has_patron')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.patron_has_patron.from_patron') -%>:</b>
   <%= link_to h(@patron_has_patron.from_patron.full_name), @patron_has_patron.from_patron -%>
@@ -18,7 +18,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_patron_has_patron_path(@patron_has_patron) -%></li>
     <li><%= link_to t('page.back'), patron_has_patrons_path -%></li>

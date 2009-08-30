@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= rezm_link_to_inbox -%></li>
     <li><%= rezm_link_to_create_message -%></li>
@@ -7,9 +7,9 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.new', :model => t('activerecord.models.message')) -%></h1>
-<div class="inner">
+<div id="content_list">
   <fieldset>
 
     <%- form_for :message, :url => user_messages_path do |form| -%>

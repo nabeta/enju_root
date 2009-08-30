@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression_has_expression')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <% form_for(@expression_has_expression) do |f| -%>
   <%= f.error_messages -%>
@@ -23,7 +23,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @expression_has_expression -%></li>
     <li><%= link_to t('page.back'), expression_has_expressions_path -%></li>

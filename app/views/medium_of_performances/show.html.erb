@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_medium_of_performance_path(@medium_of_performance) -%></li>
     <li><%= link_to t('page.back'), medium_of_performances_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.medium_of_performance')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.medium_of_performance.name') -%>:</b>
   <%=h @medium_of_performance.name -%>

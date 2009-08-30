@@ -1,7 +1,7 @@
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
 
-  <div class="inner">
+  <div id="content_list">
 <%- form_for :bookmarks, :url => bookmarked_resources_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <p>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), bookmarked_resources_path(:format => :rss) -%>
     (<%= link_to 'RSS', bookmarked_resources_path(:format => :rss) -%>)

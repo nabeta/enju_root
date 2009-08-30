@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <%- if @shelf.is_deletable_by(current_user) -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.shelf')), new_shelf_path -%></li>
@@ -10,9 +10,9 @@
     </ul>
 <%- end -%>
 </div>
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.shelf')) -%></h1>
-<div class="inner">
+<div id="content_list">
   <h2 id="resource_title"><%= link_to h(@shelf.library.display_name.localize), library_path(@shelf.library.name) -%>
     <%=h @shelf.display_name.localize -%></h2>
 </p>

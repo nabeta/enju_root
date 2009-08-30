@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.country')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <table class="index">
   <tr>
@@ -34,7 +34,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.new', :model => t('activerecord.models.country')), new_country_path -%></li>
   </ul>

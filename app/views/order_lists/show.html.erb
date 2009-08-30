@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('activerecord.models.purchase_request'), order_list_purchase_requests_path(@order_list) -%></li>
     <li><%= link_to t('page.edit'), edit_order_list_path(@order_list) -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.order_list')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@order_list.user.login), user_path(@order_list.user.login) -%>

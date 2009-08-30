@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <%- if logged_in? -%>
     <div id="call_number_content">
@@ -65,9 +65,9 @@
     </div>
   </div>
 
-  <div class="inner">
+  <div id="content_detail">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
-  <div class="inner">
+  <div id="content_list">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= paginate_id_link(@manifestation) -%>

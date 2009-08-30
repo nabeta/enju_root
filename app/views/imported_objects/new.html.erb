@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.imported_object')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%- form_for(@imported_object) do |f| -%>
   <%= f.error_messages -%>
@@ -29,7 +29,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back'), imported_objects_path -%></li>
   </ul>

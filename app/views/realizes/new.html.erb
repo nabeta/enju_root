@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @realize.patron -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@realize.patron) -%></li>
@@ -9,9 +9,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.realize')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :realize -%>
 

@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :user -%>
 
@@ -52,7 +52,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @user.patron -%>
       <li><%= link_to t('user.patron_profile'), @user.patron -%></li>

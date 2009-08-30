@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_has_shelf')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.user') -%></b>
   <%= link_to h(@user_has_shelf.user.login), user_path(@user_has_shelf.user.login) -%>
@@ -13,7 +13,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_has_shelf_path(@user_has_shelf) -%></li>
     <li><%= link_to t('page.back'), user_has_shelves_path -%></li>

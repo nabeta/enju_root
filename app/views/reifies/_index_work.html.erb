@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if Reify.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_work_reify_path(@work) -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
-<div class="inner">
+<div id="content_list">
   <h2>
     <%= link_to h(@work.original_title), @work -%>
   </h2>

@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_message_queue_path(@message_queue) -%></li>
     <li><%= link_to t('page.back'), message_queues_path -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.message_queue')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('message.sender') -%>:</b>
   <%= link_to h(@message_queue.sender.login), user_path(@message_queue.sender.login) -%>

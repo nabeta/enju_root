@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item_has_item')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <table class="index">
   <tr>
@@ -27,7 +27,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.new', :model => t('activerecord.models.item_has_item')), new_item_has_item_path -%></li>
   </ul>

@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @user -%>
       <li><%= link_to t('page.show'), user_bookmarked_resource_path(@user.login, @bookmarked_resource) -%></li>
@@ -10,9 +10,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :bookmarked_resource -%>
 

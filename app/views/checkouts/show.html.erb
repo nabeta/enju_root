@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} -%>
   <ul>
     <li><%= link_to t('page.edit'), edit_user_checkout_path(@checkout.user.login, @checkout) -%></li>
@@ -10,9 +10,9 @@
 </div>
 
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout')) -%></h1>
-<div class="inner">
+<div id="content_list">
   <%= render :partial => 'manifestations/title', :locals => {:manifestation => @checkout.item.manifestation} -%>
   <p>
     <b><%= t('activerecord.attributes.item.item_identifier') -%></b><br />

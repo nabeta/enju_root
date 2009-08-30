@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.subject_has_classification')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :subject_has_classification -%>
 
@@ -25,7 +25,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back'), subject_has_classifications_path -%></li>
   </ul>

@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_object')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.imported_object.imported_file') -%></b>
   <%= link_to h("#{@imported_object.imported_file_type} / #{@imported_object.imported_file_id}"), @imported_object.imported_file -%>
@@ -14,7 +14,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_imported_object_path(@imported_object) -%></li>
     <li><%= link_to t('page.back'), imported_objects_path -%></li>

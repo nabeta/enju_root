@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @user -%>
       <li><%= link_to t('page.edit'),edit_user_bookmark_path(@user.login, @bookmark) -%></li>
@@ -14,9 +14,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmark')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <p>
   <b><%= t('activerecord.models.user') -%>:</b>

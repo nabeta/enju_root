@@ -9,25 +9,18 @@
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
-<div id="container">
-
-<div id="header">
 <%= render :partial => 'page/header' -%>
 <%= render :partial => 'page/menu' -%>
-</div>
 
-<div id="wrapper">
+<div id="content">
   
 <div style="color: green"><%= flash[:notice] -%></div>
 
 <%= yield  -%>
 
+</div>
+
 <%= render :partial => 'page/footer' -%>
 
-</div>
-
-</div>
-
-</div>
 </body>
 </html>

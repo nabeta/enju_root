@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.language')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <table class="index">
   <tr>
@@ -35,7 +35,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <%- if Country.is_creatable_by(current_user) -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.language')), new_language_path -%></li>

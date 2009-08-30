@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if Bookmark.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_user_bookmark_path(@user) -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmark')) -%></h1>
-<div class="inner">
+<div id="content_list">
   <h2>
     <%= link_to h(@user.original_title), @user -%>
   </h2>

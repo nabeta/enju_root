@@ -1,12 +1,12 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.name) -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.shelf')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :shelf -%>
 

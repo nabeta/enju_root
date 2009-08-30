@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_expression_relationship_type_path(@expression_relationship_type) -%></li>
     <li><%= link_to t('page.back'), expression_relationship_types_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_relationship_type')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.expression_relationship_type.name') -%>:</b>
   <%=h @expression_relationship_type.name -%>

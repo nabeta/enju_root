@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('activerecord.models.user'), imported_patron_files_path -%></li>
     <li><%= link_to t('activerecord.models.event'), imported_event_files_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.import_record') -%></h1>
-<div class="inner">
+<div id="content_list">
   <%- form_for(@manifestation, :url => manifestations_path(:mode => 'import_isbn')) do |f| -%>
     <%= t('activerecord.attributes.manifestation.isbn') -%>: <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
     <%= submit_tag t('page.import') -%>

@@ -1,11 +1,11 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
   </ul>
 </div>
 
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.tag')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%- form_for :tags, :url => tags_path, :html => {:method => 'get'} do -%>
   <p>

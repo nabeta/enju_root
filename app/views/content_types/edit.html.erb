@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @content_type -%></li>
     <li><%= link_to t('page.back'), content_types_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.content_type')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%- form_for(@content_type) do |f| -%>
   <%= f.error_messages -%>

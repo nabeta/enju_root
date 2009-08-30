@@ -1,6 +1,4 @@
-<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.basket')) -%></h1>
-<div class="inner">
 
 <table class="index">
   <tr>
@@ -21,11 +19,6 @@
 
 <%= will_paginate(@baskets, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
-</div>
-</div>
+<br />
 
-<div id="sidebar">
-  <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.basket')), new_user_basket_path(@user.login) -%></li>
-  </ul>
-</div>
+<%= link_to t('page.new', :model => t('activerecord.models.basket')), new_user_basket_path(@user.login) -%>

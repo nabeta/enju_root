@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_imported_patron_file_path(@imported_patron_file) -%></li>
     <li><%= link_to t('page.back'), imported_patron_files_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_patron_file')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.imported_patron_file.imported_patron_file_name') -%>:</b>
   <%= link_to h(@imported_patron_file.imported_patron_file_name), imported_patron_file_path(@imported_patron_file, :format => :download) -%>

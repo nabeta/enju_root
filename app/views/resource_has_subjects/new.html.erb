@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @work -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), work_subjects_path(@work) -%></li>
@@ -8,9 +8,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.resource_has_subject')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%- form_for(@resource_has_subject) do |f| -%>
   <%= f.error_messages -%>

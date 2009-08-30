@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_country_path(@country) -%></li>
     <li><%= link_to t('page.back'), countries_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.country')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <p>
   <b><%= t('activerecord.attributes.country.display_name') -%>:</b>

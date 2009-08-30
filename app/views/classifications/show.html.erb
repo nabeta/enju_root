@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back'), :back -%></li>
     <%- if @classification.is_deletable_by(current_user) -%>
@@ -8,9 +8,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.classification')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.classification.category') -%>:</b>
   <%=h @classification.category -%>

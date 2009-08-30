@@ -1,6 +1,6 @@
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_has_expression')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.expression_has_expression.from_expression') -%>:</b>
   <%= link_to h(@expression_has_expression.from_expression.original_title), @expression_has_expression.from_expression -%>
@@ -18,7 +18,7 @@
 </div>
 </div>
 
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_expression_has_expression_path(@expression_has_expression) -%></li>
     <li><%= link_to t('page.back'), expression_has_expressions_path -%></li>

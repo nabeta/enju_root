@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if updatable(@answer) -%>
       <li><%= link_to t('page.edit'), edit_user_question_answer_path(@answer.question.user.login, @answer.question, @answer) -%></li>
@@ -7,9 +7,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.answer')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.models.user') -%>:</b>
   <%= link_to h(@answer.user.login), user_path(@answer.user.login) -%>

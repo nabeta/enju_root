@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @expression_merge_list -%></li>
     <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression_merge_list')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :expression_merge_list -%>
 

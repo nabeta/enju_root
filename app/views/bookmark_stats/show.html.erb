@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_bookmark_stat_path(@bookmark_stat) -%></li>
     <li><%= link_to t('page.back'), bookmark_stats_path -%></li>
@@ -9,9 +9,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmark_stat')) -%></h1>
-<div class="inner">
+<div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.bookmark_stat.start_date') -%>:</b>
   <%= l(@bookmark_stat.start_date) -%>

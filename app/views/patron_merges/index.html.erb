@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <%- if @patron_merge_list -%>
       <li><%= link_to ('Add a patron'), patron_merge_list_patrons_path(@patron_merge_list) -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="main">
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron_merge')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <table class="index">
   <tr>

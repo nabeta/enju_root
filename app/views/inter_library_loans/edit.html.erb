@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @inter_library_loan -%></li>
     <li><%= link_to t('page.back'), inter_library_loans_path -%></li>
   </ul>
 </div>
 
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%= error_messages_for :inter_library_loan -%>
 

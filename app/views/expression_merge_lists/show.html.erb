@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
     <li><%= link_to t('page.edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
@@ -6,8 +6,8 @@
   </ul>
 </div>
 
-<div class="inner">
-<div class="inner">
+<div id="content_detail">
+<div id="content_list">
 <%- form_for(:expression_merge_list, :url => expression_merge_list_path(@expression_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.title') -%>:</b>

@@ -1,13 +1,13 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @imported_event_file -%></li>
     <li><%= link_to t('page.back'), imported_event_files_path -%></li>
   </ul>
 </div>
 
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.imported_event_file')) -%></h1>
-<div class="inner">
+<div id="content_list">
 
 <%- form_for(@imported_event_file) do |f| -%>
   <%= f.error_messages -%>

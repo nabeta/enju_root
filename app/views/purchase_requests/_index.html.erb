@@ -1,4 +1,4 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(current_user.login)%></li>
     <%- case params[:mode] when 'not_ordered' -%>
@@ -30,10 +30,10 @@
 </ul>
 </div>
 
-<div class="inner">
+<div id="content_detail">
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%></h1>
 
-<div class="inner">
+<div id="content_list">
 
 <%- form_for :purchase_requests, :url => purchase_requests_path, :html => {:method => 'get'} do -%>
   <p>

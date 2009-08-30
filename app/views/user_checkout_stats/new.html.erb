@@ -1,11 +1,11 @@
-<div id="sidebar">
+<div id="submenu">
   <ul>
     <li><%= link_to t('page.back'), user_checkout_stats_path -%></li>
   </ul>
 </div>
 
-<div class="inner">
-<div id="main">
+<div id="content_detail">
+<div id="content_list">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user_checkout_stat')) -%></h1>
 
 <% form_for(@user_checkout_stat) do |f| -%>
