@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @expression_merge_list -%>
       <li><%= link_to ('Add an expression'), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression_merge')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <table class="index">
   <tr>

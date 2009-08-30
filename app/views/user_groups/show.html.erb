@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_group_path(@user_group) -%></li>
     <li><%= link_to t('page.back'), user_groups_path -%></li>
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_group')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.user_group.name') -%>:</b>
   <%=h @user_group.name -%>

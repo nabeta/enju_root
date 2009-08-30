@@ -1,12 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.show'), @advertise -%></li>
     <li><%= link_to t('page.back'), advertises_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.advertise')) -%></h1>
+<div class="inner">
 
 <%- form_for(@advertise) do |f| -%>
   <%= f.error_messages -%>
@@ -24,4 +25,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

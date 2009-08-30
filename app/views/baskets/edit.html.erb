@@ -1,12 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.show'), basket_path(@basket) -%></li>
     <li><%= link_to t('page.back'), user_baskets_path(@basket.user.login) -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.basket')) -%></h1>
+<div class="inner">
 
 <%= error_messages_for :basket -%>
 
@@ -26,4 +27,5 @@
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
+</div>
 </div>

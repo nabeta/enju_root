@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.show'), @patron_relationship_type -%></li>
     <li><%= link_to t('page.back'), patron_relationship_types_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.patron_relationship_type')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%- form_for(@patron_relationship_type) do |f| -%>
   <%= f.error_messages -%>

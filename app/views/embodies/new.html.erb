@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @embody.manifestation -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>
@@ -10,7 +10,7 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
 
 <%= error_messages_for :embody -%>

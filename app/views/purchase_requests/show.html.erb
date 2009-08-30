@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @purchase_request.order_list -%>
       <li><%= link_to t('purchase_request.remove_from_order_list'), order_list_order_path(@purchase_request.order_list, @purchase_request.order), :method => :delete, :confirm => t('page.are_you_sure') -%></li>
@@ -16,9 +16,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.purchase_request')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <p>
 <b><%= t('activerecord.models.user') -%>:</b>

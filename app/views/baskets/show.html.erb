@@ -1,11 +1,12 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_basket_path(@basket.user.login, @basket) -%></li>
     <li><%= link_to t('page.back'), user_baskets_path(@basket.user.login) -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
+<div class="inner">
   <p>
     <b><%= t('activerecord.models.user') -%>:</b>
     <%=h @basket.user.login -%>
@@ -16,4 +17,4 @@
     <%=h @basket.note -%>
   </p>
 </div>
-
+</div>

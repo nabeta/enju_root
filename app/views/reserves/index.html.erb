@@ -1,5 +1,5 @@
 <div style="color: red"><%=h flash[:message].to_s -%></div>
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li>
     <%= link_to t('page.new', :model => t('activerecord.models.reserve')), manifestations_path(:reservable => true) -%>
@@ -27,10 +27,10 @@
   </p>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.reserve')) -%></h1>
 
-<div id="content_list">
+<div class="inner">
 <table class="index">
   <tr>
     <th><%= ('Id') -%></th>

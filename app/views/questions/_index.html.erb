@@ -1,7 +1,7 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%=h t('page.listing', :model => t('activerecord.models.question')) -%></h1>
 
-<div id="content_list">
+<div class="inner">
     <%- form_for :questions, :url => questions_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
@@ -14,6 +14,6 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <%= render :partial => 'crd' -%>
 </div>

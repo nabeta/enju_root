@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.answer')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%- if @question -%>
   <p><%= link_to textilize_without_paragraph(h(@question.body)), user_question_path(@question.user.login, @question) -%></p>
@@ -33,7 +33,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <%- if @question -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.answer')), new_user_question_answer_path(@user.login, @question) -%></li>

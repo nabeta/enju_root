@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_news_post_path(@news_post) -%></li>
     <li><%= link_to t('page.back'), news_posts_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.news_post')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.news_post.title') -%>:</b>
   <%=h @news_post.title -%>

@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_exemplify_path(@exemplify) -%></li>
     <li><%= link_to t('page.back'), exemplifies_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.exemplify')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.models.manifestation') -%>:</b>
   <%= link_to h(@exemplify.manifestation.original_title), @exemplify.manifestation -%>

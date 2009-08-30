@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.overdue'), checkouts_path(:view => 'overdue') -%></li>
   </ul>
@@ -9,9 +9,9 @@
   </p>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.checkout')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <%= render :partial => 'list' -%>
 
 <%- if @checkouts.size == 0 -%>

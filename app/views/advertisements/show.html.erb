@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_advertisement_path(@advertisement) -%></li>
     <li><%= link_to t('page.back'), advertisements_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.advertisement')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.advertisement.title') -%>:</b>
   <%=h @advertisement.title -%>

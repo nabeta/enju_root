@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation_has_manifestation')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.manifestation_has_manifestation.from_manifestation') -%>:</b>
   <%= link_to h(@manifestation_has_manifestation.from_manifestation.original_title), @manifestation_has_manifestation.from_manifestation -%>
@@ -18,7 +18,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(@manifestation_has_manifestation) -%></li>
     <li><%= link_to t('page.back'), manifestation_has_manifestations_path -%></li>

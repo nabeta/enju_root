@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_imported_resource_file_path(@imported_resource_file) -%></li>
     <li><%= link_to t('page.back'), imported_resource_files_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_resource_file')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.imported_resource_file.imported_resource_file_name') -%>:</b>
   <%= link_to h(@imported_resource_file.imported_resource_file_name), imported_resource_file_path(@imported_resource_file, :format => :download) -%>

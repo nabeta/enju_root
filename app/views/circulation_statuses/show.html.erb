@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_circulation_status_path(@circulation_status) -%></li>
     <li><%= link_to t('page.back'), circulation_statuses_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.circulation_status')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.circulation_status.name') -%>:</b>
   <%=h @circulation_status.name -%>

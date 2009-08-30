@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.show'), user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
     <li><%= link_to t('page.back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.answer')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= error_messages_for :answer -%>
 

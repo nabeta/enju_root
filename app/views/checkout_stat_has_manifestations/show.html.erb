@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_stat_has_manifestation')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.models.manifestation_checkout_stat') -%>:</b>
   <%=h @checkout_stat_has_manifestation.manifestation_checkout_stat_id -%>
@@ -18,7 +18,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_checkout_stat_has_manifestation_path(@checkout_stat_has_manifestation) -%></li>
     <li><%= link_to t('page.back'), checkout_stat_has_manifestations_path -%></li>

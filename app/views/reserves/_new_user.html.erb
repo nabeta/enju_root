@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(@user.login) -%></li>
@@ -8,9 +8,9 @@
   </ul>
 </div>
               
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= error_messages_for :reserve -%>
 

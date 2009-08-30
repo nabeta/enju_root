@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.imported_object')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <table class="index">
   <tr>
@@ -23,7 +23,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.new', :model => t('activerecord.models.imported_patron_file')), new_imported_patron_file_path -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.imported_resource_file')), new_imported_resource_file_path -%></li>

@@ -1,12 +1,12 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('expression.add'), expressions_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
-<div id="content_list">
+<div class="inner">
   <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :editable => false, :locale => @locale) do -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- end -%>

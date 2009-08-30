@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @user -%>
       <li><%= link_to t('page.edit'), edit_user_bookmarked_resource_path(@user.login, @bookmarked_resource) -%></li>
@@ -9,9 +9,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmarked_resource')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @bookmarked_resource.manifestation} -%>
 

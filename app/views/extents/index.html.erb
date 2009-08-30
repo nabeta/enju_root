@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @user_group -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_extent')), new_user_group_user_group_has_extent_path(@user_group) -%></li>
@@ -8,9 +8,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.extent')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <table class="index">
   <tr>

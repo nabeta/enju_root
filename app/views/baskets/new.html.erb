@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('activerecord.models.checkin'), checkins_path -%></li>
     <li><%= link_to t('page.search_resource', :model => t('activerecord.models.user')), users_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.basket')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= error_messages_for :basket -%>
 

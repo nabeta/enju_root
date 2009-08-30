@@ -1,11 +1,11 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to ('Back to merge list'), @expression_merge_list -%>
   </ul>
 </div>
 
-<div id="content_detail">
-<div id="content_list">
+<div class="inner">
+<div class="inner">
 <p>Patron(s) for <%= link_to h(@expression_merge_list.title), expression_merge_list_path(@expression_merge_list) -%></p>
 
 <%- form_for :expressions, :url => expression_merge_list_expressions_path(@expression_merge_list), :html => {:method => 'get'} do -%>

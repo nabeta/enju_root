@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.back_to', :model => t('activerecord.models.checkout')), checkouts_path -%></li>
   </ul>
@@ -9,9 +9,9 @@
   </p>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('checkout.listing_overdue_item') -%></h1>
-<div id="content_list">
+<div class="inner">
 
   <%- form_for(:checkouts, :url => checkouts_path, :html => {:method => 'get'}) do -%>
     <p>

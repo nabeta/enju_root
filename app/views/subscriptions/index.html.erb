@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @manifestation -%>
       <li><%= link_to t('page.add', :model => t('activerecord.models.manifestation')), subscriptions_path -%></li>
@@ -8,9 +8,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subscription')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <table class="index">
   <tr>

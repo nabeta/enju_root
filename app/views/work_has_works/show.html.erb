@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_has_work')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.attributes.work_has_work.from_work') -%>:</b>
   <%= link_to h(@work_has_work.from_work.original_title), @work_has_work.from_work -%>
@@ -18,7 +18,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_work_has_work_path(@work_has_work) -%></li>
     <li><%= link_to t('page.back'), work_has_works_path -%></li>

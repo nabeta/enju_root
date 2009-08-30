@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.show'), @message_queue -%></li>
     <li><%= link_to t('page.back'), message_queues_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.message_queue')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%- form_for(@message_queue) do |f| -%>
   <%= f.error_messages -%>

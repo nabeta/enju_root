@@ -13,16 +13,20 @@
 
 <%= render :partial => 'page/header' -%>
 
-<div id="content">
+<div id="container">
+<div id="wrapper">
 
 <div style="color: green"><%= flash[:notice] -%></div>
 <div style="color: green"><%= flash[:reserved] -%></div>
 
 <%= yield  -%>
 
-</div>
-
 <%= render :partial => 'page/footer' -%>
 
+</div>
+
+</div>
+
+</div>
 </body>
 </html>

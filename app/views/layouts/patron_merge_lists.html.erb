@@ -14,13 +14,16 @@
 
 <div style="color: green"><%= flash[:notice] -%></div>
 
-<div id="content">
+<div id="container">
+<div id="wrapper">
 
 <%= yield  -%>
 
+<%= render :partial => 'page/footer' -%>
+
 </div>
 
-<%= render :partial => 'page/footer' -%>
+</div>
 
 </body>
 </html>

@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.checkout_stat_has_user')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <% form_for(@checkout_stat_has_user) do |f| -%>
   <%= f.error_messages -%>
@@ -24,7 +24,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.show'), @checkout_stat_has_user -%></li>
     <li><%= link_to t('page.back'), checkout_stat_has_users_path -%></li>

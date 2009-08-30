@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to ('Add a patron'), patron_merge_list_patrons_path(@patron_merge.patron_merge_list_id) -%></li>
     <li><%= link_to t('page.edit'), edit_patron_merge_path(@patron_merge) -%></li>
@@ -8,7 +8,7 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <p>
 <b><%= t('activerecord.models.patron') -%>:</b>
 <%= link_to h(@patron_merge.patron.full_name), @patron_merge.patron -%>

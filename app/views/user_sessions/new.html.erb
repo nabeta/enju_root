@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
-<div id="content_list">
+<div class="inner">
   <%- if params[:mode] == 'openid' -%>
     <%= render :partial => 'user_sessions/openid_login_banner' -%>
     <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
@@ -11,7 +11,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <%- if params[:mode] == 'openid' -%>
     <%= render :partial => 'user_sessions/openid' -%>
   <%- else -%>

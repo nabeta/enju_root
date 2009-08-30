@@ -1,12 +1,12 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.back'), classification_types_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.classification_type')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= error_messages_for :classification_type -%>
 

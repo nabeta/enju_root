@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
@@ -26,9 +26,9 @@
   <%= render :partial => 'page/login' unless logged_in? -%>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%- if @library -%>
   <h2><%= link_to h(@library.display_name.localize), library_path(@library.name) -%></h2>

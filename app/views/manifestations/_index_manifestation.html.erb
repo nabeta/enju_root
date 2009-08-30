@@ -1,12 +1,12 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_manifestation_manifestation_path(@manifestation) -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
-<div id="content_list">
+<div class="inner">
   <h2 class="resource_title">
     [M]
     <%= link_to h(@manifestation.original_title), @manifestation -%>

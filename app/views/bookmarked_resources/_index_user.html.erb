@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('bookmark.user_bookmark', :login_name => @user.login) -%></h1>
-<div id="content_list">
+<div class="inner">
   <%- form_for :works, :url => user_bookmarked_resources_path(@user.login), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
@@ -15,7 +15,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <p>
     <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), user_bookmarked_resources_path(@user.login, :format => :rss) -%>
     (<%= link_to ('RSS'), user_bookmarked_resources_path(@user.login, :format => :rss) -%>)

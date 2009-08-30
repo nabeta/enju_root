@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
   <%- if @library.is_updatable_by(current_user) -%>
     <li><%= link_to t('page.edit'), edit_library_path(@library.name) -%></li>
@@ -11,10 +11,10 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%=h @library.display_name.localize -%></h1>
 
-<div id="content_list">
+<div class="inner">
 <p>
   <%= t('activerecord.attributes.library.name') -%>: <%=h @library.name -%>
 </p>

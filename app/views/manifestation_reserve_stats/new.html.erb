@@ -1,12 +1,12 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.back'), manifestation_reserve_stats_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation_reserve_stat')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <% form_for(@manifestation_reserve_stat) do |f| -%>
   <%= f.error_messages -%>

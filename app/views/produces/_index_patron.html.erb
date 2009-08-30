@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), patron_manifestations_path(@patron) -%></li>
     <%- if Produce.is_creatable_by(current_user) -%>
@@ -7,9 +7,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
-<div id="content_list">
+<div class="inner">
   <h2>
     <%= link_to h(@patron.full_name), @patron -%>
   </h2>

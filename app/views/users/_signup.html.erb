@@ -1,10 +1,10 @@
-<div id="submenu">
+<div id="sidebar">
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
 
-<div id="content_list">
+<div class="inner">
 <%= error_messages_for :user -%>
 <%- form_for(@user) do |f| -%>
 

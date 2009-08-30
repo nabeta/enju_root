@@ -1,12 +1,12 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.back'), checkout_types_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.checkout_type')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%- form_for(@checkout_type) do |f| -%>
   <%= f.error_messages -%>

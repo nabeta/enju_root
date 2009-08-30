@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.subscription')), subscriptions_path -%></li>
     <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_subscription_expression_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
-<div id="content_list">
+<div class="inner">
   <h2>
     <%= link_to h(@subscription.title), @subscription -%>
   </h2>

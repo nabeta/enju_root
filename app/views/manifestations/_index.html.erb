@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
-<div id="content_list">
+<div class="inner">
   <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
@@ -77,7 +77,7 @@
   </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
   <%- unless @query.blank? -%>
     <h3><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h3>
     <%- if @count[:query_result] > 0 -%>

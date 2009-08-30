@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if @user -%>
       <li><%= link_to t('page.back'), user_purchase_requests_path(@user.login) -%></li>
@@ -8,9 +8,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.purchase_request')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= error_messages_for :purchase_request -%>
 

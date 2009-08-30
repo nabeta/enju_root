@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <%- if params[:mode] == 'not_found' -%>
   <%= reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
   <p>
@@ -42,5 +42,5 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
 </div>

@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if Item.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
@@ -6,13 +6,13 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
   <%- if @manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- else -%>
     <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
-<div id="content_list">
+<div class="inner">
   <h2>
     [I]
     <%= link_to h(@item.manifestation.original_title), @item -%>

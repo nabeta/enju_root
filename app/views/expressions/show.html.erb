@@ -1,6 +1,6 @@
 <%= render :partial => 'page/tabview' -%>
 
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- case when @work -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
@@ -23,9 +23,9 @@
     <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
   </ul>
 </div>
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
-<div id="content_list">
+<div class="inner">
   <%-
     cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale) do
   -%>

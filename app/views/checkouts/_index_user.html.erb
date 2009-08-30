@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- @user.user_group.user_group_has_checkout_types.each do |available_checkout_type| -%>
       <li>
@@ -28,9 +28,9 @@
 
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.checkout')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <%= render :partial => 'list' -%>
 

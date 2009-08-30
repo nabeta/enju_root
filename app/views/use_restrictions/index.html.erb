@@ -1,4 +1,4 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <%- if UseRestriction.is_creatable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.use_restriction')), new_use_restriction_path -%></li >
@@ -6,9 +6,9 @@
   </ul>
 </div>
 
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.use_restriction')) -%></h1>
-<div id="content_list">
+<div class="inner">
 
 <table class="index">
   <tr>

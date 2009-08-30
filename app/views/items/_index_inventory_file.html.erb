@@ -1,6 +1,6 @@
-<div id="content_detail">
+<div class="inner">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <%- case params[:inventory] when 'not_on_shelf' -%>
   <h2><%= t('inventory_file.not_on_shelf') -%></h2>
 <%- when 'not_in catalog' -%>
@@ -42,7 +42,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="sidebar">
 <%- case params[:inventory] when 'not_on_shelf' -%>
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>

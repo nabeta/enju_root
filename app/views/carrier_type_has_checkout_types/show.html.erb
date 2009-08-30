@@ -1,13 +1,13 @@
-<div id="submenu">
+<div id="sidebar">
   <ul>
     <li><%= link_to t('page.edit'), edit_carrier_type_has_checkout_type_path(@carrier_type_has_checkout_type) -%></li>
     <li><%= link_to t('page.back'), carrier_type_has_checkout_types_path -%></li>
   </ul>
 </div>
 
-<div id="content_detail">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.carrier_type_has_checkout_type')) -%></h1>
-<div id="content_list">
+<div class="inner">
 <p>
   <b><%= t('activerecord.models.carrier_type') -%>:</b>
   <%= link_to h(@carrier_type_has_checkout_type.carrier_type.display_name.localize), @carrier_type_has_checkout_type.carrier_type -%>

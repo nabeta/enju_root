@@ -1,6 +1,5 @@
 class WorksController < ApplicationController
   before_filter :has_permission?
-  #before_filter :get_parent
   before_filter :get_patron, :get_subject
   before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
@@ -134,13 +133,6 @@ class WorksController < ApplicationController
       format.html { redirect_to works_url }
       format.xml  { head :ok }
     end
-  end
-
-  private
-  def get_parent
-    @parent = Work.find(params[:parent_id]) if params[:parent_id]
-  rescue
-    nil
   end
 
 end
