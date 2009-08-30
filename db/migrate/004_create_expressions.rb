@@ -8,7 +8,7 @@ class CreateExpressions < ActiveRecord::Migration
       t.text :summarization
       t.text :context
       t.integer :language_id, :default => 1, :null => false
-      t.integer :expression_form_id, :default => 1, :null => false
+      t.integer :content_type_id, :default => 1, :null => false
       #t.string :sequencing_pattern
       #t.boolean :serial, :default => false, :null => false
       #t.string :issn
@@ -28,7 +28,7 @@ class CreateExpressions < ActiveRecord::Migration
     end
     add_index :expressions, :parent_id
     add_index :expressions, :language_id
-    add_index :expressions, :expression_form_id
+    add_index :expressions, :content_type_id
     add_index :expressions, :required_role_id
     add_index :expressions, :content_type_id
     #add_index :expressions, :issn

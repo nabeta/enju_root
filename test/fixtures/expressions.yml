@@ -3,7 +3,7 @@ expression_00001:
   updated_at: 2007-11-19 17:13:59.765356 +09:00
   original_title: 2005
   deleted_at: 
-  expression_form_id: 1
+  content_type_id: 1
   id: 1
   summarization: 
   language_id: 2
@@ -17,7 +17,7 @@ expression_00002:
     57WM5Za244Gv44Ot44Oe44Oz44Gg
 
   deleted_at: 
-  expression_form_id: 1
+  content_type_id: 1
   id: 2
   summarization: 
   language_id: 2
@@ -29,7 +29,7 @@ expression_00003:
   updated_at: 2007-11-19 17:14:00.746085 +09:00
   original_title: "\xE6\x96\xB0\xE8\xA8\xB3 \xE7\xB5\x8C\xE5\x96\xB6\xE8\x80\x85\xE3\x81\xAE\xE5\xBD\xB9\xE5\x89\xB2"
   deleted_at: 
-  expression_form_id: 1
+  content_type_id: 1
   id: 3
   summarization: 
   language_id: 2
@@ -43,7 +43,7 @@ expression_00004:
     57WM5Za25oim55Wl44Go57WE57mU44OH44K244Kk44Oz
 
   deleted_at: 
-  expression_form_id: 1
+  content_type_id: 1
   id: 4
   summarization: 
   language_id: 2
@@ -57,7 +57,7 @@ expression_00005:
     44Op44Kk44OI44CB44Gk44GE44Gm44G+44GZ44GL
 
   deleted_at: 
-  expression_form_id: 1
+  content_type_id: 1
   id: 5
   summarization: 
   language_id: 2
@@ -71,7 +71,7 @@ expression_00006:
     44Op44Kk44OI44CB44Gk44GE44Gm44G+44GZ44GL
 
   deleted_at: 
-  expression_form_id: 1
+  content_type_id: 1
   id: 6
   summarization: 
   language_id: 3

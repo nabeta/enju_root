@@ -5,7 +5,7 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div class="inner">
   <h2>
@@ -41,7 +41,7 @@
     <td>
       [E]
       <%= link_to h(expression.original_title), subscription_expression_path(@subscription, expression) -%>
-      <%= expression_form_icon(expression.expression_form) -%><br />
+      <%= content_type_icon(expression.content_type) -%><br />
       <%= patrons_list(expression.authors) -%>
       <%= patrons_list(expression.patrons) -%>
     </td>

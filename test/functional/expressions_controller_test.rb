@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ExpressionsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :expressions, :expression_forms, :languages, :frequencies,
+  fixtures :expressions, :content_types, :languages, :frequencies,
     :works, :form_of_works, :embodies, :realizes, :reifies,
     :manifestations, :carrier_types, :embodies,
     :patrons, :users, :languages
@@ -114,7 +114,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_expression
     old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1}, :work_id => 1
+    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count, Expression.count
     
     assert_redirected_to new_user_session_url
@@ -123,7 +123,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_everyone_should_not_create_expression_without_work_id
     UserSession.create users(:admin)
     old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1 }
+    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }
     assert_equal old_count, Expression.count
     
     assert_response :redirect
@@ -133,7 +133,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_user_should_not_create_expression
     UserSession.create users(:user1)
     old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1}, :work_id => 1
+    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count, Expression.count
     
     assert_response :forbidden
@@ -142,21 +142,21 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_librarian_should_create_expression
     UserSession.create users(:librarian1)
     old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1}, :work_id => 1
+    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count+1, Expression.count
     
     assert_redirected_to expression_patrons_url(assigns(:expression))
     assigns(:expression).remove_from_index!
   end
 
-  def test_librarian_should_create_expression_without_expression_form_id
+  def test_librarian_should_create_expression_without_content_type_id
     UserSession.create users(:librarian1)
     old_count = Expression.count
     post :create, :expression => { :original_title => 'test', :language_id => 1}, :work_id => 1
     assert_equal old_count+1, Expression.count
     
     assert assigns(:expression)
-    assert assigns(:expression).expression_form
+    assert assigns(:expression).content_type
     assert assigns(:expression).reify
     assert_redirected_to expression_patrons_url(assigns(:expression))
     assigns(:expression).remove_from_index!
@@ -165,7 +165,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_librarian_should_create_expression_without_language_id
     UserSession.create users(:librarian1)
     old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :expression_form_id => 1 }, :work_id => 1
+    post :create, :expression => { :original_title => 'test', :content_type_id => 1 }, :work_id => 1
     assert_equal old_count+1, Expression.count
     
     assert assigns(:expression)
@@ -178,7 +178,7 @@ class ExpressionsControllerTest < ActionController::TestCase
   def test_admin_should_create_expression
     UserSession.create users(:admin)
     old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :expression_form_id => 1, :language_id => 1 }, :work_id => 1
+    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }, :work_id => 1
     assert_equal old_count+1, Expression.count
     
     assert_redirected_to expression_patrons_url(assigns(:expression))
@@ -255,9 +255,9 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_not_update_expression_without_expression_form_id
+  def test_librarian_should_not_update_expression_without_content_type_id
     UserSession.create users(:librarian1)
-    put :update, :id => 1, :expression => {:expression_form_id => nil}
+    put :update, :id => 1, :expression => {:content_type_id => nil}
     assert_response :success
   end
   

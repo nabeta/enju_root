@@ -4,7 +4,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :manifestations, :carrier_types, :resource_has_subjects, :languages, :subjects, :subject_types,
     :works, :form_of_works, :realizes,
-    :expressions, :expression_forms, :frequencies,
+    :expressions, :content_types, :frequencies,
     :items, :libraries, :shelves, :languages, :exemplifies,
     :embodies, :patrons, :user_groups, :users,
     :bookmarks, :bookmarked_resources, :roles,

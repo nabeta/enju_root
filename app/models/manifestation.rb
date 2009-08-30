@@ -351,7 +351,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def forms
-    self.expressions.collect(&:expression_form).uniq
+    self.expressions.collect(&:content_type).uniq
   end
 
   def languages

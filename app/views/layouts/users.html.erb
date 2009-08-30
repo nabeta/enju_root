@@ -20,7 +20,10 @@
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
+<div id="header">
 <%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
+</div>
 <%- if ['index', 'show', 'edit'].include?(controller.action_name) -%>
   <%= render :partial => 'page/menu' -%>
 <%- end -%>

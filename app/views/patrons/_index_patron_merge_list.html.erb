@@ -4,7 +4,7 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div class="inner">
 <p>Patron(s) for <%= link_to h(@patron_merge_list.title), patron_merge_list_path(@patron_merge_list) -%></p>

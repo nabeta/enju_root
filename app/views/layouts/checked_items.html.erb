@@ -11,9 +11,13 @@
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
-<%= render :partial => 'page/header' -%>
-
 <div id="container">
+
+<div id="header">
+<%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
+</div>
+
 <div id="wrapper">
 
 <div style="color: green"><%= flash[:notice] -%></div>

@@ -47,7 +47,7 @@ div#content{
   width: 922px;
 }
 
-div#header, div#footer{
+div#header, div#main_footer{
   clear: both;
   width: 922px;
 }
@@ -177,7 +177,7 @@ div#right_pane_detail{
   word-break: break-all;
 }
 
-div#footer{
+div#main_footer{
   margin-top: 5px;
   padding-left: 2px;
   padding-right: 2px;

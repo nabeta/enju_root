@@ -9,7 +9,7 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="main">
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
 <div class="inner">
 <%- form_for :messages, :url => user_messages_path(current_user.login), :html => {:method => 'get'} do -%>

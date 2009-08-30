@@ -14,7 +14,7 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="main">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
 <div class="inner">
 <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>

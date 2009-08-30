@@ -7,7 +7,6 @@ class Expression < ActiveRecord::Base
   has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy
   has_many :manifestations, :through => :embodies
-  belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes
   belongs_to :language #, :validate => true
@@ -23,8 +22,8 @@ class Expression < ActiveRecord::Base
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   belongs_to :content_type
   
-  validates_associated :expression_form, :language
-  validates_presence_of :expression_form, :language
+  validates_associated :content_type, :language
+  validates_presence_of :content_type, :language
   
   searchable :auto_index => false do
     text :title, :summarization, :context, :note
@@ -37,7 +36,7 @@ class Expression < ActiveRecord::Base
     integer :manifestation_ids, :multiple => true
     integer :expression_merge_list_ids, :multiple => true
     integer :work_id
-    integer :expression_form_id
+    integer :content_type_id
     integer :language_id
     integer :required_role_id
     integer :original_expression_ids, :multiple => true

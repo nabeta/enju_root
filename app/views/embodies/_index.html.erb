@@ -12,11 +12,11 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(embody.expression.original_title), embody.expression -%>
-      <%= expression_form_icon(embody.expression.expression_form) -%>
+      <%= content_type_icon(embody.expression.content_type) -%>
     </td>
     <td>
       <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
-      <%= expression_form_icon(embody.expression.expression_form) -%>
+      <%= content_type_icon(embody.expression.content_type) -%>
     </td>
     <%- if embody.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), embody_path(embody) -%></td>

@@ -134,7 +134,7 @@ class ImportedResourceFile < ActiveRecord::Base
       work.save
 
       expression = Expression.new(:title => work.original_title)
-      expression.expression_form = ExpressionForm.find(1)
+      expression.content_type = ContentType.find(1)
       expression.language = Language.find(1)
       expression.save
       work.expressions << expression

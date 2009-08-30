@@ -4,7 +4,7 @@ class Subject < ActiveRecord::Base
 
   has_many :resource_has_subjects, :dependent => :destroy
   has_many :works, :through => :resource_has_subjects #, :source => :subjectable, :source_type => 'Work'
-  #has_many :expressions, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Expression', :include => :expression_form
+  #has_many :expressions, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Expression', :include => :content_type
   #has_many :manifestations, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Manifestation', :include => :carrier_type
   #has_many :items, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Item'
   #has_many :patrons, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Patron'

@@ -5,7 +5,7 @@
   </ul>
 </div>
 
-<div class="inner">
+<div id="main">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div class="inner">
   <h2>
@@ -40,7 +40,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(expression.original_title), expression -%>
-      <%= expression_form_icon(expression.expression_form) -%>
+      <%= content_type_icon(expression.content_type) -%>
     </td>
     <td><%=h expression.language.display_name.localize -%></td>
     <td>

@@ -43,8 +43,8 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.expression_form') -%></b><br />
-    <%= f.select(:expression_form_id, @expression_forms.collect{|e| [e.display_name.localize, e.id]}) -%>
+    <b><%= t('activerecord.models.content_type') -%></b><br />
+    <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
   </p>
 
   <!--

@@ -127,7 +127,7 @@ module EnjuPorta
         language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id || 1
         expression = Expression.new(
           :original_title => work.title,
-          :expression_form_id => ExpressionForm.find(:first, :conditions => {:name => 'text'}).id,
+          :content_type_id => ContentType.find(:first, :conditions => {:name => 'text'}).id,
           :frequency_of_issue_id => 1,
           :language_id => language_id
         )
