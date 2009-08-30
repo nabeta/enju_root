@@ -30,7 +30,6 @@ class CreateExpressions < ActiveRecord::Migration
     add_index :expressions, :language_id
     add_index :expressions, :content_type_id
     add_index :expressions, :required_role_id
-    add_index :expressions, :content_type_id
     #add_index :expressions, :issn
   end
 
