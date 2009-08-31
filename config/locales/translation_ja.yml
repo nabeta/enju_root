@@ -57,7 +57,7 @@ ja:
       expression_merge_list: 表現形の併合リスト
       use_restriction: 利用制限
       subject: 件名
-      expression_form: 表現形の形態
+      content_type: 表現形の形態
       work_merge: 著作形をマージ
       aaws_response: Aawsの応答
       patron_type: パトロンの種類
@@ -475,7 +475,7 @@ ja:
         scope_note: スコープ注記
         note: 注記
         lock_version: ロックバージョン
-      expression_form:
+      content_type:
         name: 名前
         display_name: 表示名
         note: 注記

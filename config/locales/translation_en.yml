@@ -57,7 +57,7 @@ en:
       expression_merge_list: Expression merge list
       use_restriction: Use restriction
       subject: Subject
-      expression_form: Expression form
+      content_type: Expression form
       work_merge: Work merge
       aaws_response: Aaws response
       patron_type: Patron type
@@ -475,7 +475,7 @@ en:
         scope_note: Scope note
         note: Note
         lock_version: Lock version
-      expression_form:
+      content_type:
         name: Name
         display_name: Display name
         note: Note
