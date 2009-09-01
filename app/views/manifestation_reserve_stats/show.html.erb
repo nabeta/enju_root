@@ -39,7 +39,7 @@
       </td>
       <td><%=h stat.reserves_count -%></td>
     </tr>
-  <% end -%>
+  <%- end -%>
 </table>
 
 <%= will_paginate(@stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

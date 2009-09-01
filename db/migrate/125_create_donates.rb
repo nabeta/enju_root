@@ -1,8 +1,8 @@
 class CreateDonates < ActiveRecord::Migration
   def self.up
     create_table :donates do |t|
-      t.integer :patron_id
-      t.integer :item_id
+      t.integer :patron_id, :null => false
+      t.integer :item_id, :null => false
 
       t.timestamps
     end

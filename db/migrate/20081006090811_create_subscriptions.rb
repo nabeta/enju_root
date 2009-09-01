@@ -5,7 +5,7 @@ class CreateSubscriptions < ActiveRecord::Migration
       t.text :note
       #t.integer :subscription_list_id, :integer
       t.integer :user_id, :null => false
-      t.integer :order_list_id
+      t.integer :order_list_id, :null => false
       t.datetime :deleted_at
       t.integer :subscribes_count, :default => 0, :null => false
 

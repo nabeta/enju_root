@@ -1,8 +1,8 @@
 class CreateItemHasItems < ActiveRecord::Migration
   def self.up
     create_table :item_has_items do |t|
-      t.integer :from_item_id
-      t.integer :to_item_id
+      t.integer :from_item_id, :null => false
+      t.integer :to_item_id, :null => false
       t.string :type
       t.integer :position
 

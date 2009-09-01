@@ -9,7 +9,6 @@ expression_00001:
   language_id: 2
   context: 
   title_transcription: 
-  parent_id: 
   created_at: 2007-11-19 17:13:59.765356 +09:00
 expression_00002: 
   updated_at: 2007-11-19 17:13:22.207527 +09:00
@@ -23,7 +22,6 @@ expression_00002:
   language_id: 2
   context: 
   title_transcription: 
-  parent_id: 
   created_at: 2007-11-19 17:13:22.207527 +09:00
 expression_00003: 
   updated_at: 2007-11-19 17:14:00.746085 +09:00
@@ -35,7 +33,6 @@ expression_00003:
   language_id: 2
   context: 
   title_transcription: 
-  parent_id: 
   created_at: 2007-11-19 17:14:00.746085 +09:00
 expression_00004: 
   updated_at: 2007-11-19 17:14:01.711254 +09:00
@@ -49,7 +46,6 @@ expression_00004:
   language_id: 2
   context: 
   title_transcription: 
-  parent_id: 
   created_at: 2007-11-19 17:14:01.711254 +09:00
 expression_00005: 
   updated_at: 2007-11-19 17:13:58.562779 +09:00
@@ -63,7 +59,6 @@ expression_00005:
   language_id: 2
   context: 
   title_transcription: 
-  parent_id: 
   created_at: 2007-11-19 17:13:58.562779 +09:00
 expression_00006: 
   updated_at: 2007-11-19 17:13:58.562779 +09:00
@@ -77,5 +72,4 @@ expression_00006:
   language_id: 3
   context: 
   title_transcription: 
-  parent_id: 
   created_at: 2007-11-19 17:13:58.562779 +09:00

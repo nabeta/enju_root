@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.patron_has_patron')) -%></h1>
 <div id="content_list">
 
-<% form_for(@patron_has_patron) do |f| -%>
+<%- form_for(@patron_has_patron) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -19,7 +19,7 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
-<% end -%>
+<%- end -%>
 </div>
 </div>
 

@@ -47,18 +47,6 @@
     <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
   </p>
 
-  <!--
-  <p>
-  <b><%= ('Parent') -%></b></br />
-  <%- if @expression.parent.blank? -%>
-    <%= f.hidden_field :parent_id, :value => @expression.parent_id -%>
-  <%- elsif @parent -%>
-      <%= f.hidden_field :parent_id, :value => @parent.id -%>
-      <%=h @parent.title if @parent -%>
-  <%- end -%>
-  </p>
-  -->
-
   <p>
     <b><%= t('activerecord.attributes.expression.note') -%></b><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>

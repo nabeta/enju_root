@@ -41,6 +41,7 @@ class Item < ActiveRecord::Base
   has_many :derived_items, :through => :to_items, :source => :to_item
   has_many :original_items, :through => :from_items, :source => :from_item
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :owns
+  has_many :lending_policies
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type

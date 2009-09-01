@@ -16,7 +16,7 @@
     <th><%= t('activerecord.attributes.frequency.display_name') -%></th>
   </tr>
 
-<%- for frequency in @frequencies -%>
+<%- @frequencies.each do |frequency| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if frequency.is_deletable_by(current_user) -%>

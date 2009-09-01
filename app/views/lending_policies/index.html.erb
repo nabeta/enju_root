@@ -1,0 +1,39 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.lending_policy')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.models.item') -%></th>
+    <th><%= t('activerecord.models.user_group') -%></th>
+    <th><%= t('activerecord.attributes.lending_policy.loan_period') -%></th>
+    <th><%= t('activerecord.attributes.lending_policy.limit_on_number_of_item') -%></th>
+    <th><%= t('activerecord.attributes.lending_policy.renewal') -%></th>
+    <th><%= t('activerecord.attributes.lending_policy.fine') -%></th>
+  </tr>
+
+<%- @lending_policies.each do |lending_policy| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%=h lending_policy.item_id -%></td>
+    <td><%=h lending_policy.user_group_id -%></td>
+    <td><%=h lending_policy.loan_period -%></td>
+    <td><%=h lending_policy.limit_on_number_of_item -%></td>
+    <td><%=h lending_policy.renewal -%></td>
+    <td><%=h lending_policy.fine -%></td>
+    <td><%= link_to t('page.show'), lending_policy -%></td>
+    <td><%= link_to t('page.edit'), edit_lending_policy_path(lending_policy) -%></td>
+    <td><%= link_to t('page.destroy'), lending_policy, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@lending_policies) -%>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.lending_policy')), new_form_of_work_path -%></li>
+  </ul>
+</div>

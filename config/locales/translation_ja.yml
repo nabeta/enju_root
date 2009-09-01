@@ -98,8 +98,8 @@ ja:
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      carrier_type_has_checkout_type: 体現形の種類と貸出ルールの関係
       user_group_has_checkout_type: 利用者グループと貸出ルールの関係
+      carrier_type_has_checkout_type: 体現形の種類と貸出ルールの関係
       tag: タグ
       bookmark_stat: ブックマーク統計
       manifestation_checkout_stat: 資料別貸出統計
@@ -133,6 +133,7 @@ ja:
       expression_relationship_type: 表現形の関係の種類
       manifestation_relationship_type: 体現形の関係の種類
       item_relationship_type: 個別資料の関係の種類
+      lending_policy: 貸出規則
     attributes:
       library:
         name: 名前
@@ -703,9 +704,6 @@ ja:
         inventory_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
-      carrier_type_has_checkout_type:
-        note: 注記
-        position: 位置
       user_group_has_checkout_type:
         checkout_limit: 貸出数の上限
         checkout_period: 貸出期間
@@ -714,6 +712,9 @@ ja:
         reservation_expired_period: 予約の期限切れまでの期間
         set_due_date_before_closing_day: 返却日を閉館日の前日にする
         fixed_due_date: 固定返却日
+        note: 注記
+        position: 位置
+      carrier_type_has_checkout_type:
         note: 注記
         position: 位置
       bookmark_stat:
@@ -890,6 +891,13 @@ ja:
       item_relationship_type:
         name: 名前
         display_name: 表示名
+        note: 注記
+        position: 位置
+      lending_policy:
+        loan_period: 貸出期間
+        limit_on_number_of_item: 貸出冊数の上限
+        renewal: 貸出延長の回数
+        fine: 罰金
         note: 注記
         position: 位置
 

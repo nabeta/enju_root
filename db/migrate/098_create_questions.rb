@@ -1,7 +1,7 @@
 class CreateQuestions < ActiveRecord::Migration
   def self.up
     create_table :questions do |t|
-      t.integer :user_id
+      t.integer :user_id, :null => false
       t.text :body
       t.boolean :shared, :default => true, :null => false
       t.integer :answers_count, :default => 0, :null => false

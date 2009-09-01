@@ -7,7 +7,7 @@
     <th>Reserves count</th>
   </tr>
 
-<% for reserve_stat_has_user in @reserve_stat_has_users -%>
+<%- for reserve_stat_has_user in @reserve_stat_has_users -%>
   <tr>
     <td><%=h reserve_stat_has_user.user_reserve_stat_id -%></td>
     <td><%=h reserve_stat_has_user.user_id -%></td>
@@ -16,7 +16,7 @@
     <td><%= link_to t('page.edit'), edit_reserve_stat_has_user_path(reserve_stat_has_user) -%></td>
     <td><%= link_to t('page.destroy'), reserve_stat_has_user, :confirm => 'Are you sure?', :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@reserve_stat_has_users, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

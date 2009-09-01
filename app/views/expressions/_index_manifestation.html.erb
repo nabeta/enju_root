@@ -36,7 +36,7 @@
     <th></th>
   </tr>
   
-<%- for expression in @expressions -%>
+<%- @expressions.each do |expression| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(expression.original_title), expression -%>
     <%= content_type_icon(expression.content_type) -%></td>

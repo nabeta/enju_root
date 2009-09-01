@@ -63,7 +63,7 @@ class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   test "librarian should create checkout_stat_has_manifestation" do
     UserSession.create users(:librarian1)
     assert_difference('CheckoutStatHasManifestation.count') do
-      post :create, :checkout_stat_has_manifestation => { }
+      post :create, :checkout_stat_has_manifestation => {:manifestation_checkout_stat_id => 1, :manifestation_id => 3}
     end
 
     assert_redirected_to checkout_stat_has_manifestation_path(assigns(:checkout_stat_has_manifestation))

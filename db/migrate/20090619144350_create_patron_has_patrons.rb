@@ -1,8 +1,8 @@
 class CreatePatronHasPatrons < ActiveRecord::Migration
   def self.up
     create_table :patron_has_patrons do |t|
-      t.integer :from_patron_id
-      t.integer :to_patron_id
+      t.integer :from_patron_id, :null => false
+      t.integer :to_patron_id, :null => false
       t.string :type
       t.integer :position
 

@@ -41,9 +41,8 @@ class Expression < ActiveRecord::Base
     integer :required_role_id
     integer :original_expression_ids, :multiple => true
   end
-  acts_as_tree
+  #acts_as_tree
   #acts_as_soft_deletable
-  #enju_cinii
 
   cattr_accessor :per_page
   @@per_page = 10

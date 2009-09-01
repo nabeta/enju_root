@@ -1,0 +1,48 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.lending_policy')) -%></h1>
+<div id="content_list">
+  
+<p>
+  <b>Item:</b>
+  <%=h @lending_policy.item_id -%>
+</p>
+
+<p>
+  <b>User group:</b>
+  <%=h @lending_policy.user_group_id -%>
+</p>
+
+<p>
+  <b>Loan period:</b>
+  <%=h @lending_policy.loan_period -%>
+</p>
+
+<p>
+  <b>Limit on number of item:</b>
+  <%=h @lending_policy.limit_on_number_of_item -%>
+</p>
+
+<p>
+  <b>Renewal:</b>
+  <%=h @lending_policy.renewal -%>
+</p>
+
+<p>
+  <b>Fine:</b>
+  <%=h @lending_policy.fine -%>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%=h @lending_policy.note -%>
+</p>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Edit', edit_lending_policy_path(@lending_policy) -%></li>
+    <li><%= link_to 'Back', lending_policies_path -%></li>
+  </ul>
+</div>

@@ -9,7 +9,7 @@
     <th><%= t('activerecord.attributes.search_engine.note') -%></th>
   </tr>
 
-<%- for search_engine in @search_engines -%>
+<%- @search_engines.each do |search_engine| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= search_engine.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (search_engine.position  > 1 ? search_engine.position - 1 : 1), :id => search_engine.id}, :method => :put) -%>

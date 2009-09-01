@@ -1,7 +1,6 @@
 class CreateExpressions < ActiveRecord::Migration
   def self.up
     create_table :expressions do |t|
-      t.integer :parent_id
       t.text :original_title, :null => false
       t.text :title_transcription
       t.text :title_alternative
@@ -26,7 +25,6 @@ class CreateExpressions < ActiveRecord::Migration
       t.integer :content_type_id, :default => 1, :null => false
       t.datetime :date_of_expression
     end
-    add_index :expressions, :parent_id
     add_index :expressions, :language_id
     add_index :expressions, :content_type_id
     add_index :expressions, :required_role_id

@@ -1,11 +1,3 @@
-  <%- if @parent_expression -%>
-    <p>
-      <b><%= ('Parent') -%></b><br />
-      <%= link_to h(@parent_expression.original_title), expression_path(@parent_expression) -%>
-    </p>
-    <%= f.hidden_field :parent_id, :value => @parent_expression.id -%>
-  <%- end -%>
-
   <p>
     <b><%= t('page.title') -%></b><br />
     <%- if @work -%>

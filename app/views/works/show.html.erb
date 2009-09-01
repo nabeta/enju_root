@@ -4,9 +4,6 @@
     <li><%= link_to t('page.add_derivation'), work_works_path(@work) -%></li>
     <%- if @work.is_deletable_by(current_user) -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
-        <!--
-          <li><%= link_to ('Add a child'), works_path(:parent_id => @work.id) -%></li>
-        -->
       <li><%= link_to t('page.edit'), edit_work_path(@work) -%></li>
       <li><%= link_to t('page.destroy'), @work, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>
@@ -40,9 +37,6 @@
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- unless @work.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
-      <%- end -%>
-      <%- unless @work.children.blank? -%>
-        <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
       <%- unless @work.expressions.empty? -%>
         <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
@@ -79,26 +73,6 @@
       </div>
       <%- unless @work.patrons.empty? -%>
         <%= render :partial => 'works/patron_list' -%>
-      <%- end -%>
-      <%- unless @work.children.blank? -%>
-      <div id="work">
-        <%- if @work.parent -%>
-          <h3><%= ('Parent') -%></h3>
-          <ul>
-            <li><%= link_to h(@work.parent.title), work_path(@work.parent) -%>
-          </ul>
-        <%- end -%>
-        <%- unless @work.children.blank? -%>
-          <h3><%= ('Children') -%></h3>
-          <ul>
-            <%- @work.children.each do |work| -%>
-              <li><%= link_to h(work.original_title), work -%>
-              <%= patrons_list(work.patrons) -%></li>
-              </li>
-            <%- end -%>
-          </ul>
-        <%- end -%>
-      </div>
       <%- end -%>
       <%- unless @work.expressions.empty? -%>
         <%= render :partial => 'works/expression_list' -%>

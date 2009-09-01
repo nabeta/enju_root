@@ -1,8 +1,8 @@
 class CreateUserHasShelves < ActiveRecord::Migration
   def self.up
     create_table :user_has_shelves do |t|
-      t.integer :user_id
-      t.integer :shelf_id
+      t.integer :user_id, :null => false
+      t.integer :shelf_id, :null => false
       t.integer :position
 
       t.timestamps

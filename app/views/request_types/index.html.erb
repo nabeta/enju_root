@@ -14,7 +14,7 @@
     <th><%= t('activerecord.attributes.request_type.display_name') -%></th>
   </tr>
 
-<%- for request_type in @request_types -%>
+<%- @request_types.each do |request_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(request_type.name), request_type -%></td>
     <td><%= link_to h(request_type.display_name.localize), request_type -%></td>

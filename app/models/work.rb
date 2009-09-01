@@ -42,8 +42,7 @@ class Work < ActiveRecord::Base
   end
 
   #acts_as_soft_deletable
-  acts_as_tree
-  has_one :mods_import
+  #acts_as_tree
 
   @@per_page = 10
   cattr_accessor :per_page

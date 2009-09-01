@@ -20,7 +20,7 @@
     <th><%= t('activerecord.attributes.checkout_type.note') -%></th>
   </tr>
 
-<%- for checkout_type in @checkout_types -%>
+<%- @checkout_types.each do |checkout_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- unless @user_group -%>

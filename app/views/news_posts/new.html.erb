@@ -8,7 +8,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.news_post')) -%></h1>
 <div id="content_list">
 
-<% form_for(@news_post) do |f| -%>
+<%- form_for(@news_post) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -42,7 +42,7 @@
   <p>
     <%= f.submit t('page.create') -%>
   </p>
-<% end -%>
+<%- end -%>
 
 </div>
 </div>

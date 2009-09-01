@@ -17,7 +17,7 @@
     <th><%= t('activerecord.attributes.carrier_type.note') -%></th>
   </tr>
   
-<%- for carrier_type in @carrier_types -%>
+<%- @carrier_types.each do |carrier_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(carrier_type.name), carrier_type -%></td>
     <td><%= link_to h(carrier_type.display_name.localize), carrier_type -%></td>

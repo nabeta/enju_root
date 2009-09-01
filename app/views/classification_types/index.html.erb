@@ -17,7 +17,7 @@
     <th><%= t('activerecord.attributes.classification_type.note') -%></th>
   </tr>
 
-<%- for classification_type in @classification_types -%>
+<%- @classification_types.each do |classification_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(classification_type.name), classification_type -%></td>
     <td><%= link_to h(classification_type.display_name.localize), classification_type -%></td>

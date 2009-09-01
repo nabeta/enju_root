@@ -1,7 +1,6 @@
 class CreateWorks < ActiveRecord::Migration
   def self.up
     create_table :works do |t|
-      t.integer :parent_id
       t.text :original_title, :null => false
       t.text :title_transcription
       t.text :title_alternative
@@ -20,7 +19,6 @@ class CreateWorks < ActiveRecord::Migration
       t.integer :medium_of_performance_id, :default => 1, :null => false
     end
     add_index :works, :form_of_work_id
-    add_index :works, :parent_id
     add_index :works, :required_role_id
   end
 

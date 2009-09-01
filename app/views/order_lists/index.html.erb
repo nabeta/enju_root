@@ -15,7 +15,7 @@
     <th><%= t('activerecord.attributes.order_list.note') -%></th>
   </tr>
 
-<%- for order_list in @order_lists -%>
+<%- @order_lists.each do |order_list| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(order_list.title), order_list -%></td>
     <td><%= link_to h(order_list.bookstore.name), order_list.bookstore -%></td>

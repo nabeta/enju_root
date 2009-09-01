@@ -9,7 +9,7 @@
     <th><%= t('activerecord.attributes.user_checkout_stat.note') -%></th>
   </tr>
 
-<% for user_checkout_stat in @user_checkout_stats -%>
+<%- @user_checkout_stats.each do |user_checkout_stat| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= l(user_checkout_stat.start_date) -%></td>
     <td><%= l(user_checkout_stat.end_date) -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_user_checkout_stat_path(user_checkout_stat) -%></td>
     <td><%= link_to t('page.destroy'), user_checkout_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@user_checkout_stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

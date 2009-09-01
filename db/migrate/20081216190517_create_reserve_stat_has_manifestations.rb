@@ -1,8 +1,8 @@
 class CreateReserveStatHasManifestations < ActiveRecord::Migration
   def self.up
     create_table :reserve_stat_has_manifestations do |t|
-      t.integer :manifestation_reserve_stat_id
-      t.integer :manifestation_id
+      t.integer :manifestation_reserve_stat_id, :null => false
+      t.integer :manifestation_id, :null => false
       t.integer :reserves_count
 
       t.timestamps

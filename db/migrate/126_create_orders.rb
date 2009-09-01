@@ -1,8 +1,8 @@
 class CreateOrders < ActiveRecord::Migration
   def self.up
     create_table :orders do |t|
-      t.integer :order_list_id
-      t.integer :purchase_request_id
+      t.integer :order_list_id, :null => false
+      t.integer :purchase_request_id, :null => false
       t.integer :position
       t.string :state
 

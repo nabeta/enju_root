@@ -87,18 +87,18 @@ class Manifestation < ActiveRecord::Base
     boolean :subscription_master
   end
 
-  acts_as_tree
+  #acts_as_tree
   enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_porta
   enju_cinii
-  enju_worldcat
   has_attached_file :attachment
   has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
   enju_oai_pmh
+  enju_worldcat
 
   @@per_page = 10
   cattr_accessor :per_page

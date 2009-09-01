@@ -1,7 +1,7 @@
 class CreateSubjectHeadingTypeHasSubjects < ActiveRecord::Migration
   def self.up
     create_table :subject_heading_type_has_subjects do |t|
-      t.integer :subject_id
+      t.integer :subject_id, :null => false
       t.string :subject_type
       t.integer :subject_heading_type_id, :null => false
 

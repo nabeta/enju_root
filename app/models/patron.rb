@@ -63,7 +63,7 @@ class Patron < ActiveRecord::Base
   end
 
   #acts_as_soft_deletable
-  acts_as_tree
+  #acts_as_tree
 
   cattr_accessor :per_page
   @@per_page = 10

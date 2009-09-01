@@ -22,7 +22,7 @@ en:
       user: User
       resource_has_subject: Resource has subject
       picture_file: Picture file
-      form_of_work: Work form
+      form_of_work: Form of works
       inter_library_loan: Inter library loan
       message: Message
       classification: Classification
@@ -57,7 +57,7 @@ en:
       expression_merge_list: Expression merge list
       use_restriction: Use restriction
       subject: Subject
-      content_type: Expression form
+      content_type: Content type
       work_merge: Work merge
       aaws_response: Aaws response
       patron_type: Patron type
@@ -98,7 +98,6 @@ en:
       manifestation_api_response: Manifestation API Response
       request_type: Request type
       inventory_file: Inventory file
-      carrier_type_has_checkout_type: Carrier type has checkout type
       user_group_has_checkout_type: User group has checkout type
       tag: Tag
       bookmark_stat: Bookmark stat
@@ -132,6 +131,7 @@ en:
       expression_relationship_type: Expression relationship type
       manifestation_relationship_type: Manifestation relationship type
       item_relationship_type: Item relationship type
+      lending_policy: Lending policy
     attributes:
       library:
         name: Name
@@ -703,17 +703,17 @@ en:
         inventory_file_size: Size
         file_hash: File hash
         note: Note
-      carrier_type_has_checkout_type:
-        note: Note
-        position: Position
       user_group_has_checkout_type:
         checkout_limit: Checkout limit
         checkout_period: Checkout period
-        checkout_renewal_limit: Checkoit renewal limit
+        checkout_renewal_limit: Checkout renewal limit
         reservation_limit: Reservation limit
         reservation_expired_period: Reservation expired period
-        set_due_date_before_closing_day: Set due date before closing day
+        set_due_date_before_closing_day: Set due date before the closing day
         fixed_due_date: Fixed due date
+        note: Note
+        position: Position
+      carrier_type_has_checkout_type:
         note: Note
         position: Position
       bookmark_stat:
@@ -891,6 +891,13 @@ en:
       item_relationship_type:
         name: Name
         display_name: Display name
+        note: Note
+        position: Position
+      lending_policy:
+        loan_period: Loan period
+        limit_on_number_of_item: Limit on the number of items
+        renewal: Renewal
+        fine: Fine
         note: Note
         position: Position
 

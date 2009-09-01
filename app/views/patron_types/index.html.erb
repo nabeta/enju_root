@@ -15,7 +15,7 @@
     <th><%= t('activerecord.attributes.patron_type.note') -%></th>
   </tr>
 
-<%- for patron_type in @patron_types -%>
+<%- @patron_types.each do |patron_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(patron_type.name), patron_type -%></td>
     <td><%= link_to h(patron_type.display_name.localize), patron_type -%></td>

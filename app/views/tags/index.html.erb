@@ -30,7 +30,7 @@
     <th><%= t('activerecord.attributes.tag.taggings_count') -%></th>
     <th><%= t('page.created_at') -%></th>
   </tr>
-<%- for tag in @tags -%>
+<%- @tags.each do |tag| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(tag.name), tag_path(tag.name) -%>

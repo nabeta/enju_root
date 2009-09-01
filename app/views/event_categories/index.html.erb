@@ -18,7 +18,7 @@
     <th><%= t('activerecord.attributes.event_category.note') -%></th>
   </tr>
 
-<%- for event_category in @event_categories -%>
+<%- @event_categories.each do |event_category| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if event_category.is_deletable_by(current_user) -%>

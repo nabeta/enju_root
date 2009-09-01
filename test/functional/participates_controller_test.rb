@@ -63,7 +63,7 @@ class ParticipatesControllerTest < ActionController::TestCase
   test "librarian should create participate" do
     UserSession.create users(:librarian1)
     assert_difference('Participate.count') do
-      post :create, :participate => { }
+      post :create, :participate => {:event_id => 1, :patron_id => 3}
     end
 
     assert_redirected_to participate_path(assigns(:participate))

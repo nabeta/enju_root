@@ -14,7 +14,7 @@
     <th><%= t('activerecord.attributes.user_group.note') -%></th>
   </tr>
   
-<%- for user_group in @user_groups -%>
+<%- @user_groups.each do |user_group| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(user_group.display_name.localize), user_group -%></td>
     <td><%=h user_group.note -%></td>

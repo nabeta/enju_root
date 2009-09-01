@@ -82,7 +82,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   def test_librarian_should_create_subscription
     UserSession.create users(:librarian1)
     old_count = Subscription.count
-    post :create, :subscription => { :title => 'test' }
+    post :create, :subscription => { :order_list_id => 1, :title => 'test' }
     assert_equal old_count+1, Subscription.count
     
     assert_redirected_to subscription_url(assigns(:subscription))
@@ -91,7 +91,7 @@ class SubscriptionsControllerTest < ActionController::TestCase
   def test_admin_should_create_subscription
     UserSession.create users(:admin)
     old_count = Subscription.count
-    post :create, :subscription => { :title => 'test' }
+    post :create, :subscription => { :order_list_id => 1, :title => 'test' }
     assert_equal old_count+1, Subscription.count
     
     assert_redirected_to subscription_url(assigns(:subscription))

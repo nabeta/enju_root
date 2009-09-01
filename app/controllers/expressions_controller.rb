@@ -82,7 +82,6 @@ class ExpressionsController < ApplicationController
     #  redirect_to works_path
     #  return
     #end
-    @parent_expression = Expression.find(params[:parent_id]) rescue nil
     @expression = Expression.new
     @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
 
@@ -94,8 +93,6 @@ class ExpressionsController < ApplicationController
 
   # GET /expressions/1;edit
   def edit
-    @parent = Expression.find(params[:parent_id]) rescue nil
-    
     @expression = Expression.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     not_found

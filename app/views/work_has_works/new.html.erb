@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.work_has_work')) -%></h1>
 <div id="content_list">
 
-<% form_for(@work_has_work) do |f| -%>
+<%- form_for(@work_has_work) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -29,7 +29,7 @@
   <p>
     <%= f.submit t('page.create') -%>
   </p>
-<% end -%>
+<%- end -%>
 
 </div>
 </div>

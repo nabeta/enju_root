@@ -63,7 +63,7 @@ class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   test "librarian should create bookmark_stat_has_manifestation" do
     UserSession.create users(:librarian1)
     assert_difference('BookmarkStatHasManifestation.count') do
-      post :create, :bookmark_stat_has_manifestation => { }
+      post :create, :bookmark_stat_has_manifestation => {:bookmark_stat_id => 1, :manifestation_id => 3}
     end
 
     assert_redirected_to bookmark_stat_has_manifestation_path(assigns(:bookmark_stat_has_manifestation))
