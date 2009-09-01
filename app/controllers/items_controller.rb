@@ -119,7 +119,7 @@ class ItemsController < ApplicationController
     @item.manifestation = @manifestation
     @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
-    @item.checkout_type = @item.manifestation.carrier_type.checkout_types.first
+    @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
     respond_to do |format|
       format.html # new.html.erb
