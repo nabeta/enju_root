@@ -146,7 +146,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00011'}, :basket_id => 3
     assert_equal old_count+1, CheckedItem.count
-    #assert_not_nil assigns(:checked_item).due_date
+    assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket)
   end
@@ -156,7 +156,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00011'}, :basket_id => 3, :mode => 'list'
     assert_equal old_count+1, CheckedItem.count
-    #assert_not_nil assigns(:checked_item).due_date
+    assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket, :mode => 'list')
   end
@@ -166,7 +166,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00006'}, :basket_id => 3
     assert_equal old_count+1, CheckedItem.count
-    #assert_not_nil assigns(:checked_item).due_date
+    assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket)
     assert flash[:message].index('This item includes supplements.')
@@ -187,7 +187,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00011', :ignore_restriction => "1"}, :basket_id => 2, :mode => 'list'
     assert_equal old_count+1, CheckedItem.count
-    #assert_not_nil assigns(:checked_item).due_date
+    assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket, :mode => 'list')
   end
