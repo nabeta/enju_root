@@ -11,7 +11,7 @@
   </p>
   <p>
     <%= f.label :user_group_id -%><br />
-    <%= f.text_field :user_group_id -%>
+    <%= f.select :user_group_id, @user_groups.collect{|u| [u.display_name.localize, u.id]} -%>
   </p>
   <p>
     <%= f.label :loan_period -%><br />

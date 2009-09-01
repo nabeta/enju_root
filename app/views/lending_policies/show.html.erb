@@ -10,7 +10,7 @@
 
 <p>
   <b><%= t('activerecord.models.user_group') -%>:</b>
-  <%=h @lending_policy.user_group_id -%>
+  <%= link_to h(@lending_policy.user_group.display_name.localize), @lending_policy.user_group -%>
 </p>
 
 <p>

@@ -41,7 +41,7 @@ class Item < ActiveRecord::Base
   has_many :derived_items, :through => :to_items, :source => :to_item
   has_many :original_items, :through => :from_items, :source => :from_item
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :owns
-  has_many :lending_policies
+  has_many :lending_policies, :dependent => :destroy
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type
@@ -76,6 +76,12 @@ class Item < ActiveRecord::Base
   #def after_destroy
   #  remove_from_union_catalog
   #end
+
+  def after_create
+    UserGroup.find_each do |user_group|
+      LendingPolicy.create(:item_id => self.id, :user_group_id => user_group.id)
+    end
+  end
 
   def before_save
     set_item_identifier

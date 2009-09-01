@@ -1,6 +1,7 @@
 class LendingPoliciesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_group, :get_item
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /lending_policies
   # GET /lending_policies.xml
@@ -84,5 +85,10 @@ class LendingPoliciesController < ApplicationController
       format.html { redirect_to(lending_policies_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @user_groups = UserGroup.all(:order => :position)
   end
 end
