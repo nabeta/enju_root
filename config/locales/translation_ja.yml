@@ -711,7 +711,7 @@ ja:
         reservation_limit: 予約冊数の上限
         reservation_expired_period: 予約の期限切れまでの期間
         set_due_date_before_closing_day: 返却日を閉館日の前日にする
-        fixed_due_date: 固定返却日
+        fixed_due_date: 固定貸出期限
         note: 注記
         position: 位置
       carrier_type_has_checkout_type:
@@ -895,7 +895,7 @@ ja:
         position: 位置
       lending_policy:
         loan_period: 貸出期間
-        limit_on_number_of_item: 貸出冊数の上限
+        fixed_due_date: 固定貸出期限
         renewal: 貸出延長の回数
         fine: 罰金
         note: 注記

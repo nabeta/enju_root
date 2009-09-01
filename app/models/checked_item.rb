@@ -4,7 +4,7 @@ class CheckedItem < ActiveRecord::Base
   belongs_to :basket #, :validate => true
 
   validates_associated :item, :basket
-  validates_presence_of :item, :basket
+  validates_presence_of :item, :basket #, :due_date
   validates_uniqueness_of :item_id, :scope => :basket_id
   validate_on_create :available_for_checkout?
   
@@ -64,24 +64,26 @@ class CheckedItem < ActiveRecord::Base
   end
 
   def set_due_date
-    if self.item_checkout_type.nil?
-      return nil
-    end
+    return nil if self.item_checkout_type.nil?
 
-    if self.item_checkout_type.fixed_due_date.blank?
-      self.due_date = item_checkout_type.checkout_period.days.since Time.zone.today
+    lending_rule = self.item.lending_rule(self.basket.user)
+    return nil if lending_rule.nil?
+
+    if lending_rule.fixed_due_date.blank?
+      #self.due_date = item_checkout_type.checkout_period.days.since Time.zone.today
+      due_date = lending_rule.loan_period.days.since Time.zone.now
     else
-      self.due_date = item_checkout_type.fixed_due_date
+      #self.due_date = item_checkout_type.fixed_due_date
+      due_date = lending_rule.fixed_due_date
     end
     # 返却期限日が閉館日の場合
-    while item.shelf.library.closed?(self.due_date)
+    while item.shelf.library.closed?(due_date)
       if item_checkout_type.set_due_date_before_closing_day
-        self.due_date = self.due_date.yesterday
+        due_date = due_date.yesterday.end_of_day
       else
-        self.due_date = self.due_date.tomorrow
+        due_date = due_date.tomorrow.end_of_day
       end
     end
-    self.due_date.end_of_day
   end
 
   def in_transaction?

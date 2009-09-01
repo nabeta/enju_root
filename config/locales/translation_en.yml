@@ -895,7 +895,7 @@ en:
         position: Position
       lending_policy:
         loan_period: Loan period
-        limit_on_number_of_item: Limit on the number of items
+        fixed_due_date: Fixed due date
         renewal: Renewal
         fine: Fine
         note: Note

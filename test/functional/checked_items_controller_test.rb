@@ -7,7 +7,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     :item_has_use_restrictions, :use_restrictions,
     :checkout_types, :user_group_has_checkout_types,
     :checkouts, :reserves, :circulation_statuses, :carrier_type_has_checkout_types,
-    :users, :roles, :patrons, :patron_types, :user_groups
+    :users, :roles, :patrons, :patron_types, :user_groups, :lending_policies
 
   def test_guest_should_not_get_index
     get :index, :basket_id => 1, :item_id => 1
@@ -146,6 +146,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00011'}, :basket_id => 3
     assert_equal old_count+1, CheckedItem.count
+    #assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket)
   end
@@ -155,6 +156,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00011'}, :basket_id => 3, :mode => 'list'
     assert_equal old_count+1, CheckedItem.count
+    #assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket, :mode => 'list')
   end
@@ -164,6 +166,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00006'}, :basket_id => 3
     assert_equal old_count+1, CheckedItem.count
+    #assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket)
     assert flash[:message].index('This item includes supplements.')
@@ -184,6 +187,7 @@ class CheckedItemsControllerTest < ActionController::TestCase
     old_count = CheckedItem.count
     post :create, :checked_item => {:item_identifier => '00011', :ignore_restriction => "1"}, :basket_id => 2, :mode => 'list'
     assert_equal old_count+1, CheckedItem.count
+    #assert_not_nil assigns(:checked_item).due_date
     
     assert_redirected_to user_basket_checked_items_url(assigns(:checked_item).basket.user.login, assigns(:checked_item).basket, :mode => 'list')
   end

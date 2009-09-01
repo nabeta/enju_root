@@ -51,59 +51,59 @@ class LendingPoliciesControllerTest < ActionController::TestCase
   end
 
   test "guest should show lending_policy" do
-    get :show, :id => lending_policies(:one).to_param
+    get :show, :id => lending_policies(:lending_policy_00001).to_param
     assert_response :success
   end
 
   test "guest should not get edit" do
-    get :edit, :id => lending_policies(:one).to_param
+    get :edit, :id => lending_policies(:lending_policy_00001).to_param
     assert_redirected_to new_user_session_url
   end
 
   test "user should not get edit" do
     UserSession.create users(:user1)
-    get :edit, :id => lending_policies(:one).to_param
+    get :edit, :id => lending_policies(:lending_policy_00001).to_param
     assert_response :forbidden
   end
 
   test "librarian should not get edit" do
     UserSession.create users(:librarian1)
-    get :edit, :id => lending_policies(:one).to_param
+    get :edit, :id => lending_policies(:lending_policy_00001).to_param
     assert_response :forbidden
   end
 
   test "administrator should not get edit" do
     UserSession.create users(:admin)
-    get :edit, :id => lending_policies(:one).to_param
+    get :edit, :id => lending_policies(:lending_policy_00001).to_param
     assert_response :success
   end
 
   test "guest should not update lending_policy" do
-    put :update, :id => lending_policies(:one).to_param, :lending_policy => { }
+    put :update, :id => lending_policies(:lending_policy_00001).to_param, :lending_policy => { }
     assert_redirected_to new_user_session_url
   end
 
   test "user should not update lending_policy" do
     UserSession.create users(:user1)
-    put :update, :id => lending_policies(:one).to_param, :lending_policy => { }
+    put :update, :id => lending_policies(:lending_policy_00001).to_param, :lending_policy => { }
     assert_response :forbidden
   end
 
   test "librarian should not update lending_policy" do
     UserSession.create users(:librarian1)
-    put :update, :id => lending_policies(:one).to_param, :lending_policy => { }
+    put :update, :id => lending_policies(:lending_policy_00001).to_param, :lending_policy => { }
     assert_response :forbidden
   end
 
   test "administrator should not update lending_policy" do
     UserSession.create users(:admin)
-    put :update, :id => lending_policies(:one).to_param, :lending_policy => { }
+    put :update, :id => lending_policies(:lending_policy_00001).to_param, :lending_policy => { }
     assert_redirected_to lending_policy_url(assigns(:lending_policy))
   end
 
   test "guest should not destroy lending_policy" do
     assert_no_difference('LendingPolicy.count') do
-      delete :destroy, :id => lending_policies(:one).to_param
+      delete :destroy, :id => lending_policies(:lending_policy_00001).to_param
     end
 
     assert_redirected_to new_user_session_url
@@ -112,7 +112,7 @@ class LendingPoliciesControllerTest < ActionController::TestCase
   test "user should not destroy lending_policy" do
     UserSession.create users(:user1)
     assert_no_difference('LendingPolicy.count') do
-      delete :destroy, :id => lending_policies(:one).to_param
+      delete :destroy, :id => lending_policies(:lending_policy_00001).to_param
     end
 
     assert_response :forbidden
@@ -121,7 +121,7 @@ class LendingPoliciesControllerTest < ActionController::TestCase
   test "librarian should not destroy lending_policy" do
     UserSession.create users(:librarian1)
     assert_no_difference('LendingPolicy.count') do
-      delete :destroy, :id => lending_policies(:one).to_param
+      delete :destroy, :id => lending_policies(:lending_policy_00001).to_param
     end
 
     assert_response :forbidden
@@ -130,7 +130,7 @@ class LendingPoliciesControllerTest < ActionController::TestCase
   test "admin should not destroy lending_policy" do
     UserSession.create users(:admin)
     assert_difference('LendingPolicy.count', -1) do
-      delete :destroy, :id => lending_policies(:one).to_param
+      delete :destroy, :id => lending_policies(:lending_policy_00001).to_param
     end
 
     assert_redirected_to lending_policies_url

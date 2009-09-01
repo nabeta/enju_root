@@ -233,4 +233,8 @@ class Item < ActiveRecord::Base
     end
   end
 
+  def lending_rule(user)
+    lending_policies.find(:first, :conditions => {:user_group_id => user.user_group.id})
+  end
+
 end

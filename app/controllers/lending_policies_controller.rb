@@ -47,7 +47,7 @@ class LendingPoliciesController < ApplicationController
 
     respond_to do |format|
       if @lending_policy.save
-        flash[:notice] = 'LendingPolicy was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.lending_policy'))
         format.html { redirect_to(@lending_policy) }
         format.xml  { render :xml => @lending_policy, :status => :created, :location => @lending_policy }
       else
@@ -64,7 +64,7 @@ class LendingPoliciesController < ApplicationController
 
     respond_to do |format|
       if @lending_policy.update_attributes(params[:lending_policy])
-        flash[:notice] = 'LendingPolicy was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.lending_policy'))
         format.html { redirect_to(@lending_policy) }
         format.xml  { head :ok }
       else

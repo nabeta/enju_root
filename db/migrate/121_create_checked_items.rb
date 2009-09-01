@@ -3,7 +3,7 @@ class CreateCheckedItems < ActiveRecord::Migration
     create_table :checked_items do |t|
       t.integer :item_id, :null => false
       t.integer :basket_id, :null => false
-      t.datetime :due_date, :null => false
+      t.datetime :due_date #, :null => false
 
       t.timestamps
     end

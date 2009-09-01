@@ -4,7 +4,7 @@ class CreateLendingPolicies < ActiveRecord::Migration
       t.integer :item_id, :null => false
       t.integer :user_group_id, :null => false
       t.integer :loan_period
-      t.integer :limit_on_number_of_item
+      t.datetime :fixed_due_date
       t.integer :renewal
       t.decimal :fine
       t.text :note
