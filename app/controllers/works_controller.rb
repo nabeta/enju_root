@@ -3,6 +3,7 @@ class WorksController < ApplicationController
   before_filter :get_patron, :get_subject
   before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
+  before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /works
@@ -49,7 +50,17 @@ class WorksController < ApplicationController
         return
       end
     end
-    @subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.resource_has_subjects.size)
+    search = Sunspot.new_search(Subject)
+    search.query.add_restriction(:work_ids, :equal_to, @work.id)
+    page = params[:subject_page] || 1
+    search.query.paginate(page.to_i, Subject.per_page)
+    begin
+      @subjects = search.execute!.results
+    rescue RSolr::RequestError
+      @subjects = WillPaginate::Collection.create(1,1,0) do end
+    end
+
+    #@subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.work_has_subjects.size)
 
     canonical_url work_url(@work)
 
@@ -98,6 +109,7 @@ class WorksController < ApplicationController
           format.xml  { render :xml => @work, :status => :created, :location => @work }
         end
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @work.errors, :status => :unprocessable_entity }
       end
@@ -116,6 +128,7 @@ class WorksController < ApplicationController
         format.xml  { head :ok }
         format.json { render :json => @work }
       else
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @work.errors, :status => :unprocessable_entity }
         format.json { render :json => @work, :status => :unprocessable_entity }
@@ -133,6 +146,10 @@ class WorksController < ApplicationController
       format.html { redirect_to works_url }
       format.xml  { head :ok }
     end
+  end
+
+  def prepare_options
+    @form_of_works = FormOfWork.all(:order => :position)
   end
 
 end

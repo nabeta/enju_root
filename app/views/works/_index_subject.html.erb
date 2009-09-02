@@ -48,10 +48,10 @@
       <td>
         <%- if work.is_deletable_by(current_user) -%>
           <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_subject_resource_has_subject_path(@subject, :work_id => work.id) -%>
+            <%= link_to t('page.add'), new_subject_work_has_subject_path(@subject, :work_id => work.id) -%>
           <%- else -%>
-            <%- has_subject = @subject.resource_has_subjects.find_by_work_id(work.id) -%>
-            <%= link_to t('page.destroy'), subject_resource_has_subject_path(@subject, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
+            <%- has_subject = @subject.work_has_subjects.find_by_work_id(work.id) -%>
+            <%= link_to t('page.destroy'), subject_work_has_subject_path(@subject, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
           <%- end -%>
         <%- end -%>
       </td>

@@ -179,7 +179,7 @@
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
-        <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
+        <%- if WorkHasSubject.is_creatable_by(current_user) -%>
         <%- end -%>
       </td>
     </tr>

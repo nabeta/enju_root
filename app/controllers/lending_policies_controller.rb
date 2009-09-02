@@ -52,6 +52,7 @@ class LendingPoliciesController < ApplicationController
         format.html { redirect_to(@lending_policy) }
         format.xml  { render :xml => @lending_policy, :status => :created, :location => @lending_policy }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @lending_policy.errors, :status => :unprocessable_entity }
       end
@@ -69,6 +70,7 @@ class LendingPoliciesController < ApplicationController
         format.html { redirect_to(@lending_policy) }
         format.xml  { head :ok }
       else
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @lending_policy.errors, :status => :unprocessable_entity }
       end

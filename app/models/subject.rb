@@ -2,12 +2,12 @@ class Subject < ActiveRecord::Base
   include OnlyAdministratorCanModify
   include EnjuFragmentCache
 
-  has_many :resource_has_subjects, :dependent => :destroy
-  has_many :works, :through => :resource_has_subjects #, :source => :subjectable, :source_type => 'Work'
-  #has_many :expressions, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Expression', :include => :content_type
-  #has_many :manifestations, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Manifestation', :include => :carrier_type
-  #has_many :items, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Item'
-  #has_many :patrons, :through => :resource_has_subjects, :source => :subjectable, :source_type => 'Patron'
+  has_many :work_has_subjects, :dependent => :destroy
+  has_many :works, :through => :work_has_subjects #, :source => :subjectable, :source_type => 'Work'
+  #has_many :expressions, :through => :work_has_subjects, :source => :subjectable, :source_type => 'Expression', :include => :content_type
+  #has_many :manifestations, :through => :work_has_subjects, :source => :subjectable, :source_type => 'Manifestation', :include => :carrier_type
+  #has_many :items, :through => :work_has_subjects, :source => :subjectable, :source_type => 'Item'
+  #has_many :patrons, :through => :work_has_subjects, :source => :subjectable, :source_type => 'Patron'
 
   #has_many :subject_used_for_terms, :class_name => 'SubjectUsedForTerm', :foreign_key => 'used_for_term_id'
   #has_many :used_for_terms, :through => :subject_used_for_terms, :source => :subject

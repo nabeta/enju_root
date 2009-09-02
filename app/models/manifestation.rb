@@ -24,8 +24,8 @@ class Manifestation < ActiveRecord::Base
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
   has_one :bookmarked_resource, :dependent => :destroy
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :checkout_stat_has_manifestations
   has_many :checkout_stats, :through => :checkout_stat_has_manifestations

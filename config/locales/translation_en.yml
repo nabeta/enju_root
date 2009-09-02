@@ -20,7 +20,7 @@ en:
       language: Language
       patron_merge_list: Patron merge list
       user: User
-      resource_has_subject: Resource has subject
+      work_has_subject: Resource has subject
       picture_file: Picture file
       form_of_work: Form of works
       inter_library_loan: Inter library loan
@@ -297,7 +297,7 @@ en:
         password: Password
         old_password: Old password
         locale: Locale
-      resource_has_subject:
+      work_has_subject:
         work: Work
         subject: Subject
         subjectable_type: Subjectable type
@@ -1321,7 +1321,7 @@ en:
   order:
     create_order_list: "You should create an order list."
     specify_purchase_request: "You should specify the purchase request."
-  resource_has_subject:
+  work_has_subject:
     add_work: "Add a work"
     add_subject: "Add a subject"
     subjectable: "Subjectable"

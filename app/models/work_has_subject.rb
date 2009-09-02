@@ -1,4 +1,4 @@
-class ResourceHasSubject < ActiveRecord::Base
+class WorkHasSubject < ActiveRecord::Base
   include OnlyLibrarianCanModify
   belongs_to :subject #, :counter_cache => true #, :validate => true
   belongs_to :work #, :counter_cache => true

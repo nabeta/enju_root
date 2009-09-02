@@ -20,7 +20,7 @@ ja:
       language: 言語
       patron_merge_list: パトロンの併合リスト
       user: 利用者
-      resource_has_subject: 資料と件名の関係
+      work_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       form_of_work: 著作形の形態
       inter_library_loan: 相互貸借
@@ -298,7 +298,7 @@ ja:
         password: パスワード
         old_password: 古いパスワード
         locale: 言語
-      resource_has_subject:
+      work_has_subject:
         work: 著作形
         subject: 件名
         subjectable_type: 件名付与対象の種類
@@ -1305,7 +1305,7 @@ ja:
   order:
     create_order_list: "発注リストを作成してください。"
     specify_purchase_request: "購入依頼を指定してください。"
-  resource_has_subject:
+  work_has_subject:
     add_work: "著作形を追加する"
     add_subject: "件名を追加する"
     subjectable: "件名付与対象"

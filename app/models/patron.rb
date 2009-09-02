@@ -22,8 +22,8 @@ class Patron < ActiveRecord::Base
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :work_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   belongs_to :patron_type #, :validate => true
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
@@ -31,7 +31,7 @@ class Patron < ActiveRecord::Base
   has_many :advertisements, :through => :advertises
   has_many :participates, :dependent => :destroy
   has_many :events, :through => :participates
-  #has_many :works_as_subjects, :through => :resource_has_subjects, :as => :subjects
+  #has_many :works_as_subjects, :through => :work_has_subjects, :as => :subjects
   has_many :to_patrons, :foreign_key => 'from_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
   has_many :from_patrons, :foreign_key => 'to_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
   has_many :derived_patrons, :through => :to_patrons, :source => :to_patron

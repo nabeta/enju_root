@@ -10,8 +10,8 @@ class Work < ActiveRecord::Base
   belongs_to :form_of_work #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
-  has_many :resource_has_subjects, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  has_many :work_has_subjects, :dependent => :destroy
+  has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
   has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
@@ -21,7 +21,7 @@ class Work < ActiveRecord::Base
   #has_many :concepts, :through => :work_has_concepts
   #has_many :work_has_places, :dependent => :destroy
   #has_many :places, :through => :work_has_places
-  #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :resource_has_subjects
+  #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :work_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
   belongs_to :medium_of_performance
   accepts_nested_attributes_for :expressions, :allow_destroy => true

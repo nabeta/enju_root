@@ -188,7 +188,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :subjects do |subject|
     subject.resources :works
-    subject.resources :resource_has_subjects
+    subject.resources :work_has_subjects
     subject.resources :classifications
     subject.resources :subject_has_classifications
   end
@@ -239,7 +239,7 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :patron_owns_libraries
     patron.resources :patron_merges
     patron.resources :patron_merge_lists
-    patron.resources :resource_has_subjects
+    patron.resources :work_has_subjects
     patron.resources :donates
     patron.resources :advertises
     patron.resources :advertisements
@@ -287,7 +287,7 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :creates
     work.resources :work_merges
     work.resources :work_merge_lists
-    work.resources :resource_has_subjects
+    work.resources :work_has_subjects
     #work.resources :work_from_works, :controller => :works
     #work.resources :work_to_works, :controller => :works
     work.resources :concepts
@@ -306,7 +306,7 @@ ActionController::Routing::Routes.draw do |map|
     expression.resources :manifestations
     expression.resources :expression_merges
     expression.resources :expression_merge_lists
-    #expression.resources :resource_has_subjects
+    #expression.resources :work_has_subjects
     expression.resources :subscribe
     expression.resources :subscriptions
     expression.resources :expressions
@@ -322,7 +322,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :items
     manifestation.resources :expressions
     #manifestation.resources :subjects
-    #manifestation.resources :resource_has_subjects
+    #manifestation.resources :work_has_subjects
     manifestation.resources :manifestations
     manifestation.resources :manifestation_has_manifestations
   end
@@ -333,7 +333,7 @@ ActionController::Routing::Routes.draw do |map|
     item.resource :manifestation
     item.resources :item_has_use_restrictions
     item.resources :inter_library_loans
-    #item.resources :resource_has_subjects
+    #item.resources :work_has_subjects
     item.resources :donates
     item.resource :checkout_type
     item.resource :inventory_files
@@ -401,7 +401,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :library_groups
   map.resources :user_groups
   map.resources :checkins
-  map.resources :resource_has_subjects
+  map.resources :work_has_subjects
   map.resources :reifies
   map.resources :creates
   map.resources :realizes

@@ -46,12 +46,21 @@ class SubjectsController < ApplicationController
     end
 
     @subject = Subject.find(params[:id])
-    @works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.resource_has_subjects.size)
+    search = Sunspot.new_search(Work)
+    search.query.add_restriction(:subject_ids, :equal_to, @subject.id)
+    page = params[:work_page] || 1
+    search.query.paginate(page.to_i, Work.per_page)
+    begin
+      @works = search.execute!.results
+    rescue RSolr::RequestError
+      @works = WillPaginate::Collection.create(1,1,0) do end
+    end
+    #@works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.work_has_subjects.size)
 
     if @work
       subjected = @subject.works.find(@work) rescue nil
       if subjected.blank?
-        redirect_to new_work_resource_has_subject_url(@work, :subject_id => @subject.term)
+        redirect_to new_work_work_has_subject_url(@work, :subject_id => @subject.term)
         return
       end
     end
