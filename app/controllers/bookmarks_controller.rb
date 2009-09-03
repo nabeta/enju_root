@@ -18,11 +18,18 @@ class BookmarksController < ApplicationController
       end
     end
 
-    if @user
-      @bookmarks = @user.bookmarks.paginate(:all, :page => params[:page], :order => ['id DESC'])
-    else
-      @bookmarks = Bookmark.paginate(:all, :page => params[:page], :order => ['id DESC'])
+    search = Sunspot.new_search(Bookmark)
+    query = params[:query].to_s.strip
+    unless query.blank?
+      @query = query.dup
+      search.query.keywords = query
     end
+    search.query.order_by(:updated_at, :desc)
+    search.query.add_restriction(:user_id, :equal_to, @user.id) if @user
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Bookmark.per_page)
+    #@bookmarks = @user.bookmarks.paginate(:all, :page => params[:page], :order => ['id DESC'])
+    @bookmarks = search.execute!.results
     
     respond_to do |format|
       format.html # index.rhtml

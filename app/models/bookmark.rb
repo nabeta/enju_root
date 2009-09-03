@@ -17,14 +17,33 @@ class Bookmark < ActiveRecord::Base
 
   acts_as_taggable_on :tags
 
-  def after_save
-    if self.manifestation
-      self.manifestation.send_later(:save)
+  searchable :auto_index => false do
+    text :title do
+      manifestation.title
     end
+    string :url do
+      manifestation.access_address
+    end
+    integer :user_id
+    integer :manifestation_id
+    time :created_at
+    time :updated_at
+  end
+
+  def after_save
+    save_manifestation
+    send_later(:index!)
   end
 
   def after_destroy
-    after_save
+    save_manifestation
+    send_later(:remove_from_index!)
+  end
+
+  def save_manifestation
+    if self.manifestation
+      self.manifestation.send_later(:save)
+    end
   end
 
   def shelved?

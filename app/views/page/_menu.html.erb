@@ -13,7 +13,7 @@
                     <ul>
                       <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('page.resource')), manifestations_path, :class => 'yuimenuitemlabel' -%></li>
                       <%- if Bookmark.is_indexable_by(current_user) -%>
-                      <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.bookmark')), user_manifestations_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                      <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.bookmark')), user_bookmarks_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                       <%- end -%>
                       <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.question')), questions_path, :class => 'yuimenuitemlabel' -%></li>
                       <li class="yuimenuitem"><%= link_to t('page.search_resource', :model => t('activerecord.models.patron')), patrons_path, :class => 'yuimenuitemlabel' -%></li>

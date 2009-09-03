@@ -25,7 +25,7 @@
 
 <p>
   <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <%= link_to h(@bookmark.manifestation.original_title), h(@bookmark.manifestation.access_address) -%>
+  <%= link_to h(@bookmark.manifestation.original_title), @bookmark.manifestation -%>
 </p>
 
 <p>
