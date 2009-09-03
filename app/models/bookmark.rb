@@ -3,20 +3,16 @@ class Bookmark < ActiveRecord::Base
 
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
-  #belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
   belongs_to :manifestation
   belongs_to :user #, :counter_cache => true, :validate => true
-  #validates_presence_of :user, :bookmarked_resource_id, :title
   validates_presence_of :user_id, :manifestation_id
   #validates_presence_of :url, :on => :create
-  #validates_associated :user, :bookmarked_resource
   validates_associated :user, :manifestation
-  #validates_uniqueness_of :bookmarked_resource_id, :scope => :user_id
   validates_uniqueness_of :manifestation_id, :scope => :user_id
-  #validates_length_of :url, :maximum => 255, :allow_blank => true
+  validates_length_of :url, :maximum => 255, :allow_blank => true
   
-  cattr_accessor :per_page
   attr_accessor :url, :title
+  cattr_accessor :per_page
   @@per_page = 10
 
   acts_as_taggable_on :tags
@@ -30,14 +26,6 @@ class Bookmark < ActiveRecord::Base
   def after_destroy
     after_save
   end
-
-  #def title
-  #  self.bookmarked_resource.title
-  #end
-
-  #def url
-  #  self.bookmarked_resource.url
-  #end
 
   def shelved?
     true unless self.manifestation.items.on_web.empty?

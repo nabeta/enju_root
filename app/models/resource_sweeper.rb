@@ -68,8 +68,8 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => record.user.login)
       expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud')
     when record.is_a?(Tag)
-      record.tagged.each do |bookmark|
-        expire_editable_fragment(bookmark.manifestation)
+      record.taggings.collect(&:taggable).each do |taggable|
+        expire_editable_fragment(taggable)
       end
     when record.is_a?(Subject)
       expire_editable_fragment(record)

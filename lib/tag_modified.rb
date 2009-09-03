@@ -11,7 +11,7 @@ class Tag < ActiveRecord::Base
     time :created_at
     time :updated_at
     integer :bookmark_ids, :multiple => true do
-      tagged.collect(&:id)
+      tagged(Bookmark).collect(&:id)
     end
   end
 
@@ -24,10 +24,14 @@ class Tag < ActiveRecord::Base
 
   def after_save
     #self.tagged.each do |b| b.bookmarked_resource.manifestation.save end
-    self.tagged.each do |b| b.save end
+    self.taggings.collect(&:taggable).each do |t| t.send_later(:save) end
   end
 
-  def tagged
-    self.taggings.collect(&:taggable)
+  def after_destroy
+    after_save
+  end
+
+  def tagged(taggable_type)
+    self.taggings.find(:all, :conditions => {:taggable_type => taggable_type.to_s}).collect(&:taggable)
   end
 end
