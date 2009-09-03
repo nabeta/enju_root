@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class BookmarkTest < ActiveSupport::TestCase
-  fixtures :bookmarks, :bookmarked_resources,
+  fixtures :bookmarks,
     :users, :patrons, :patron_types, :languages, :countries,
     :checked_items, :items, :manifestations, :exemplifies,
     :expressions, :works, :carrier_types, :content_types,
@@ -14,9 +14,9 @@ class BookmarkTest < ActiveSupport::TestCase
 
   def test_bookmark_create_bookmark_item
     old_count = Item.count
-    bookmark = users(:user1).bookmarks.create(:bookmarked_resource_id => 5, :title => 'test')
+    bookmark = users(:user1).bookmarks.create(:manifestation_id => 5, :title => 'test')
     bookmark.create_bookmark_item
-    assert_not_nil bookmarks(:bookmark_00001).bookmarked_resource.manifestation.items
+    assert_not_nil bookmarks(:bookmark_00001).manifestation.items
     assert_equal old_count + 1, Item.count
   end
 

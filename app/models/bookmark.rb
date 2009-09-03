@@ -3,13 +3,17 @@ class Bookmark < ActiveRecord::Base
 
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
-  belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
+  #belongs_to :bookmarked_resource, :counter_cache => true #, :validate => true
+  belongs_to :manifestation
   belongs_to :user #, :counter_cache => true, :validate => true
-  validates_presence_of :user, :bookmarked_resource_id, :title
-  validates_presence_of :url, :on => :create
-  validates_associated :user, :bookmarked_resource
-  validates_uniqueness_of :bookmarked_resource_id, :scope => :user_id
-  validates_length_of :url, :maximum => 255, :allow_blank => true
+  #validates_presence_of :user, :bookmarked_resource_id, :title
+  validates_presence_of :user_id, :manifestation_id
+  #validates_presence_of :url, :on => :create
+  #validates_associated :user, :bookmarked_resource
+  validates_associated :user, :manifestation
+  #validates_uniqueness_of :bookmarked_resource_id, :scope => :user_id
+  validates_uniqueness_of :manifestation_id, :scope => :user_id
+  #validates_length_of :url, :maximum => 255, :allow_blank => true
   
   cattr_accessor :per_page
   attr_accessor :url, :title
@@ -18,8 +22,8 @@ class Bookmark < ActiveRecord::Base
   acts_as_taggable_on :tags
 
   def after_save
-    if self.bookmarked_resource
-      self.bookmarked_resource.send_later(:save)
+    if self.manifestation
+      self.manifestation.send_later(:save)
     end
   end
 
@@ -36,7 +40,7 @@ class Bookmark < ActiveRecord::Base
   #end
 
   def shelved?
-    true unless self.bookmarked_resource.manifestation.items.on_web.empty?
+    true unless self.manifestation.items.on_web.empty?
   end
 
   def self.get_title(string)
@@ -83,12 +87,12 @@ class Bookmark < ActiveRecord::Base
     item = Item.new
     item.circulation_status = circulation_status
     item.shelf = shelf
-    self.bookmarked_resource.manifestation.items << item
+    self.manifestation.items << item
   end
 
   def self.manifestations_count(start_date, end_date, manifestation)
-    if manifestation.bookmarked_resource
-      self.bookmarked(start_date, end_date).count(:all, :conditions => {:bookmarked_resource_id => manifestation.bookmarked_resource.id})
+    if manifestation
+      self.bookmarked(start_date, end_date).count(:all, :conditions => {:manifestation_id => manifestation.id})
     else
       0
     end

@@ -10,10 +10,16 @@ class Tag < ActiveRecord::Base
     string :name
     time :created_at
     time :updated_at
+    integer :bookmark_ids, :multiple => true do
+      tagged.collect(&:id)
+    end
   end
 
-  def self.bookmarked(manifestation_ids)
-    BookmarkedResource.manifestations(manifestation_ids).collect(&:tags).flatten.uniq
+  def self.bookmarked(bookmark_ids)
+    tag_ids = Tag.search_ids do
+      with(:bookmark_ids).any_of bookmark_ids
+    end
+    Tag.find(:all, :conditions => {:id => tag_ids})
   end
 
   def after_save

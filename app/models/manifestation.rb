@@ -23,7 +23,6 @@ class Manifestation < ActiveRecord::Base
   belongs_to :language, :validate => true
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
-  has_one :bookmarked_resource, :dependent => :destroy
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
@@ -41,6 +40,8 @@ class Manifestation < ActiveRecord::Base
   belongs_to :frequency #, :validate => true
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
+  has_many :bookmarks
+  has_many :users, :through => :bookmarks
 
   searchable :auto_index => false do
     text :title, :fulltext, :tag, :note, :author, :editor, :publisher, :subject
@@ -259,8 +260,8 @@ class Manifestation < ActiveRecord::Base
   end
 
   def tags
-    if self.bookmarked_resource
-      self.bookmarked_resource.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
+    unless self.bookmarks.empty?
+      self.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
     else
       []
     end
@@ -415,8 +416,8 @@ class Manifestation < ActiveRecord::Base
   end
 
   def user
-    if self.bookmarked_resource
-      self.bookmarked_resource.bookmarks.collect(&:user).collect(&:login)
+    if self.bookmarks
+      self.bookmarks.collect(&:user).collect(&:login)
     else
       []
     end
@@ -505,13 +506,13 @@ class Manifestation < ActiveRecord::Base
 
   #def bookmarks(start_date = nil, end_date = nil)
   #  if start_date.blank? and end_date.blank?
-  #    if self.bookmarked_resource
-  #      self.bookmarked_resource.bookmarks
+  #    if self.bookmarks
+  #      self.bookmarks
   #    else
   #      []
   #    end
   #  else
-  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
+  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:manifestation_id => self.id})
   #  end
   #end
 
@@ -592,6 +593,14 @@ class Manifestation < ActiveRecord::Base
     search.query.paginate page.to_i, Manifestation.per_page
     search.query.order_by sort_by, order
     search.execute!.results
+  end
+
+  def bookmarked?(user)
+    self.users.include?(user)
+  end
+
+  def bookmarks_count
+    self.bookmarks.size
   end
 
 end

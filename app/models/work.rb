@@ -48,7 +48,7 @@ class Work < ActiveRecord::Base
   cattr_accessor :per_page
 
   validates_associated :form_of_work
-  validates_presence_of :original_title, :form_of_work
+  validates_presence_of :original_title, :form_of_work_id
 
   def after_save
     send_later(:index!)

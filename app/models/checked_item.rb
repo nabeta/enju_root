@@ -4,7 +4,7 @@ class CheckedItem < ActiveRecord::Base
   belongs_to :basket #, :validate => true
 
   validates_associated :item, :basket
-  validates_presence_of :item, :basket #, :due_date
+  validates_presence_of :item_id, :basket_id, :due_date
   validates_uniqueness_of :item_id, :scope => :basket_id
   validate_on_create :available_for_checkout?
   

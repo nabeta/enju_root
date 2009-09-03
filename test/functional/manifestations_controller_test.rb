@@ -7,7 +7,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     :expressions, :content_types, :frequencies,
     :items, :libraries, :shelves, :languages, :exemplifies,
     :embodies, :patrons, :user_groups, :users,
-    :bookmarks, :bookmarked_resources, :roles,
+    :bookmarks, :roles,
     :subscriptions, :subscribes
 
   def test_guest_should_get_index

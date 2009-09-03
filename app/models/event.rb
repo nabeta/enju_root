@@ -24,7 +24,7 @@ class Event < ActiveRecord::Base
     time :ended_at
   end
 
-  validates_presence_of :title, :library, :event_category
+  validates_presence_of :title, :library_id, :event_category_id
   validates_associated :library, :event_category
 
   cattr_accessor :per_page

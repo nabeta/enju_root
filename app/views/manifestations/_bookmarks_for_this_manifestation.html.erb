@@ -1,6 +1,6 @@
-<%- unless @manifestation.bookmarked_resource.bookmarks.empty? -%>
+<%- unless @manifestation.bookmarks.empty? -%>
   <ul>
-  <%- @manifestation.bookmarked_resource.bookmarks.each do |bookmark| -%>
+  <%- @manifestation.bookmarks.each do |bookmark| -%>
     <%- if bookmark.user.share_bookmarks -%>
       <li><%= link_to h(bookmark.user.login), user_bookmark_path(bookmark.user.login, bookmark) -%>
       <%- bookmark.tags.each do |tag| -%>

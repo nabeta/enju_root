@@ -9,7 +9,7 @@ class Answer < ActiveRecord::Base
   after_save :save_questions
 
   validates_associated :user, :question
-  validates_presence_of :user, :question, :body
+  validates_presence_of :user_id, :question_id, :body
 
   cattr_accessor :per_page
   @@per_page = 10

@@ -45,7 +45,7 @@ class User < ActiveRecord::Base
   has_many :reserves, :dependent => :destroy
   has_many :reserved_manifestations, :through => :reserves, :source => :manifestation
   has_many :bookmarks, :dependent => :destroy
-  has_many :bookmarked_resources, :through => :bookmarks
+  has_many :manifestations, :through => :bookmarks
   has_many :search_histories, :dependent => :destroy
   has_many :baskets, :dependent => :destroy
   belongs_to :user_group #, :validate => true

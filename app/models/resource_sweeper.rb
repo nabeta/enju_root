@@ -1,6 +1,6 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
-    Create, Realize, Produce, Own, BookmarkedResource, Bookmark, Tag, Patron,
+    Create, Realize, Produce, Own, Bookmark, Tag, Patron,
     Library, Basket, Checkin
 
   def after_save(record)
@@ -64,14 +64,12 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(Bookmark)
       # Not supported by Memcache
       # expire_fragment(%r{manifestations/\d*})
-      expire_editable_fragment(record.bookmarked_resource.manifestation)
+      expire_editable_fragment(record.manifestation)
       expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => record.user.login)
       expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud')
-    when record.is_a?(BookmarkedResource)
-      expire_editable_fragment(record.manifestation)
     when record.is_a?(Tag)
       record.tagged.each do |bookmark|
-        expire_editable_fragment(bookmark.bookmarked_resource.manifestation)
+        expire_editable_fragment(bookmark.manifestation)
       end
     when record.is_a?(Subject)
       expire_editable_fragment(record)

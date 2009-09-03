@@ -4,7 +4,7 @@ class Exemplify < ActiveRecord::Base
   belongs_to :item #, :validate => true
 
   validates_associated :manifestation, :item
-  validates_presence_of :manifestation, :item
+  validates_presence_of :manifestation_id, :item_id
   validates_uniqueness_of :item_id
 
   acts_as_list :scope => :manifestation_id

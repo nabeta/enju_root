@@ -93,7 +93,8 @@ class ManifestationsController < ApplicationController
 
       if params[:view] == "tag_cloud"
         if manifestation_ids
-          @tags = Tag.bookmarked(manifestation_ids)
+          bookmark_ids = Bookmark.find(:all, :select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
+          @tags = Tag.bookmarked(bookmark_ids)
           render :partial => 'tag_cloud'
           return
         end
@@ -250,7 +251,7 @@ class ManifestationsController < ApplicationController
   def edit
     @manifestation = Manifestation.find(params[:id])
     if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.find(:first, :conditions => {:bookmarked_resource_id => @manifestation.bookmarked_resource.id}) if @manifestation.bookmarked_resource rescue nil
+      @bookmark = current_user.bookmarks.find(:first, :conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location
