@@ -44,14 +44,19 @@ class Manifestation < ActiveRecord::Base
   has_many :users, :through => :bookmarks
 
   searchable :auto_index => false do
-    text :title, :fulltext, :tag, :note, :author, :editor, :publisher, :subject
+    text :title, :fulltext, :note, :author, :editor, :publisher, :subject
+    text :tag do
+      tags.collect(&:name)
+    end
     string :isbn, :multiple => true do
       [isbn, isbn10, wrong_isbn]
     end
     string :issn
     string :lccn
     string :nbn
-    string :tag, :multiple => true
+    string :tag, :multiple => true do
+      tags.collect(&:name)
+    end
     string :carrier_type do
       carrier_type.name
     end
@@ -252,11 +257,6 @@ class Manifestation < ActiveRecord::Base
 
   def shelves
     self.items.collect{|item| item.shelves}.flatten.uniq
-  end
-
-  def tag
-    #tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
-    tags.collect(&:name)
   end
 
   def tags

@@ -24,6 +24,9 @@ class Bookmark < ActiveRecord::Base
     string :url do
       manifestation.access_address
     end
+    string :tag, :multiple => true do
+      tags.collect(&:name)
+    end
     integer :user_id
     integer :manifestation_id
     time :created_at
