@@ -24,7 +24,7 @@ class BookmarksController < ApplicationController
       @query = query.dup
       search.query.keywords = query
     end
-    search.query.order_by(:updated_at, :desc)
+    search.query.order_by(:created_at, :desc)
     search.query.add_restriction(:user_id, :equal_to, @user.id) if @user
     page = params[:page] || 1
     search.query.paginate(page.to_i, Bookmark.per_page)
