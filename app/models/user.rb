@@ -117,10 +117,12 @@ class User < ActiveRecord::Base
   end
 
   def after_save
-    if self.patron
-      self.patron.send_later(:index!)
+    unless last_request_at_changed?
+      if self.patron
+        self.patron.send_later(:index!)
+      end
+      send_later(:index!)
     end
-    send_later(:index!)
   end
 
   def before_save
