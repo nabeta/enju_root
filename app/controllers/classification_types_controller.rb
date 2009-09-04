@@ -62,6 +62,12 @@ class ClassificationTypesController < ApplicationController
   def update
     @classification_type = ClassificationType.find(params[:id])
 
+    if @classification_type and params[:position]
+      @classification_type.insert_at(params[:position])
+      redirect_to classification_types_url
+      return
+    end
+
     respond_to do |format|
       if @classification_type.update_attributes(params[:classification_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.classification_type'))

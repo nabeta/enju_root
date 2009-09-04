@@ -61,6 +61,12 @@ class WorkRelationshipTypesController < ApplicationController
   def update
     @work_relationship_type = WorkRelationshipType.find(params[:id])
 
+    if @work_relationship_type and params[:position]
+      @work_relationship_type.insert_at(params[:position])
+      redirect_to work_relationship_types_url
+      return
+    end
+
     respond_to do |format|
       if @work_relationship_type.update_attributes(params[:work_relationship_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_relationship_type'))

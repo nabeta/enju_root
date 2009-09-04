@@ -62,6 +62,12 @@ class RequestTypesController < ApplicationController
   def update
     @request_type = RequestType.find(params[:id])
 
+    if @request_type and params[:position]
+      @request_type.insert_at(params[:position])
+      redirect_to request_types_url
+      return
+    end
+
     respond_to do |format|
       if @request_type.update_attributes(params[:request_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.request_type'))

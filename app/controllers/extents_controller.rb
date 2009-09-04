@@ -61,6 +61,12 @@ class ExtentsController < ApplicationController
   def update
     @extent = Extent.find(params[:id])
 
+    if @extent and params[:position]
+      @extent.insert_at(params[:position])
+      redirect_to extents_url
+      return
+    end
+
     respond_to do |format|
       if @extent.update_attributes(params[:extent])
         flash[:notice] = 'Extent was successfully updated.'

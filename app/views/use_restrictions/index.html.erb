@@ -12,12 +12,19 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.use_restriction.name') -%></th>
     <th><%= t('activerecord.attributes.use_restriction.display_name') -%></th>
   </tr>
 
 <%- @use_restrictions.each do |use_restriction| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if use_restriction.is_deletable_by(current_user) -%>
+        <%= use_restriction.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (use_restriction.position  > 1 ? use_restriction.position - 1 : 1), :id => use_restriction.id}, :method => :put) -%>
+        <%= use_restriction.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (use_restriction.position + 1), :id => use_restriction.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(use_restriction.name), use_restriction -%></td>
     <td><%= link_to h(use_restriction.display_name.localize), use_restriction -%></td>
     <%- if use_restriction.is_deletable_by(current_user) -%>

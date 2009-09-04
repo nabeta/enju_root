@@ -61,6 +61,12 @@ class ItemRelationshipTypesController < ApplicationController
   def update
     @item_relationship_type = ItemRelationshipType.find(params[:id])
 
+    if @item_relationship_type and params[:position]
+      @item_relationship_type.insert_at(params[:position])
+      redirect_to item_relationship_types_url
+      return
+    end
+
     respond_to do |format|
       if @item_relationship_type.update_attributes(params[:item_relationship_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item_relationship_type'))

@@ -62,6 +62,12 @@ class SubjectHeadingTypesController < ApplicationController
   def update
     @subject_heading_type = SubjectHeadingType.find(params[:id])
 
+    if @subject_heading_type and params[:position]
+      @subject_heading_type.insert_at(params[:position])
+      redirect_to subject_heading_types_url
+      return
+    end
+
     respond_to do |format|
       if @subject_heading_type.update_attributes(params[:subject_heading_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.subject_heading_type'))

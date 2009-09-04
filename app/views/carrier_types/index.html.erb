@@ -12,6 +12,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.carrier_type.name') -%></th>
     <th><%= t('activerecord.attributes.carrier_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.carrier_type.note') -%></th>
@@ -19,6 +20,12 @@
   
 <%- @carrier_types.each do |carrier_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if carrier_type.is_deletable_by(current_user) -%>
+        <%= carrier_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (carrier_type.position  > 1 ? carrier_type.position - 1 : 1), :id => carrier_type.id}, :method => :put) -%>
+        <%= carrier_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (carrier_type.position + 1), :id => carrier_type.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(carrier_type.name), carrier_type -%></td>
     <td><%= link_to h(carrier_type.display_name.localize), carrier_type -%></td>
     <td><%=h carrier_type.note -%></td>

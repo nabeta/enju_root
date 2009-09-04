@@ -62,6 +62,12 @@ class UserGroupsController < ApplicationController
   def update
     @user_group = UserGroup.find(params[:id])
 
+    if @user_group and params[:position]
+      @user_group.insert_at(params[:position])
+      redirect_to user_groups_url
+      return
+    end
+
     respond_to do |format|
       if @user_group.update_attributes(params[:user_group])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user_group'))

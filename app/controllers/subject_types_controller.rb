@@ -62,6 +62,12 @@ class SubjectTypesController < ApplicationController
   def update
     @subject_type = SubjectType.find(params[:id])
 
+    if @subject_type and params[:position]
+      @subject_type.insert_at(params[:position])
+      redirect_to subject_types_url
+      return
+    end
+
     respond_to do |format|
       if @subject_type.update_attributes(params[:subject_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.subject_type'))

@@ -10,6 +10,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.subject_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_type.note') -%></th>
@@ -17,6 +18,12 @@
 
 <%- @subject_types.each do |subject_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if subject_type.is_deletable_by(current_user) -%>
+        <%= subject_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (subject_type.position  > 1 ? subject_type.position - 1 : 1), :id => subject_type.id}, :method => :put) -%>
+        <%= subject_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (subject_type.position + 1), :id => subject_type.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(subject_type.name), subject_type -%></td>
     <td><%= link_to h(subject_type.display_name.localize), subject_type -%></td>
     <td><%=h subject_type.note -%></td>

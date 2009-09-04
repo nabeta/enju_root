@@ -10,12 +10,19 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.user_group.display_name') -%></th>
     <th><%= t('activerecord.attributes.user_group.note') -%></th>
   </tr>
   
 <%- @user_groups.each do |user_group| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if user_group.is_deletable_by(current_user) -%>
+        <%= user_group.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (user_group.position  > 1 ? user_group.position - 1 : 1), :id => user_group.id}, :method => :put) -%>
+        <%= user_group.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (user_group.position + 1), :id => user_group.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(user_group.display_name.localize), user_group -%></td>
     <td><%=h user_group.note -%></td>
     <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>

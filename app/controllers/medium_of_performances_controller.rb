@@ -61,6 +61,12 @@ class MediumOfPerformancesController < ApplicationController
   def update
     @medium_of_performance = MediumOfPerformance.find(params[:id])
 
+    if @medium_of_performance and params[:position]
+      @medium_of_performance.insert_at(params[:position])
+      redirect_to medium_of_performances_url
+      return
+    end
+
     respond_to do |format|
       if @medium_of_performance.update_attributes(params[:medium_of_performance])
         flash[:notice] = 'MediumOfPerformance was successfully updated.'
