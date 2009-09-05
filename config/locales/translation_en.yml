@@ -1078,7 +1078,7 @@ en:
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
     invalid_url: "Invalid URL."
-    specify_title_and_url: "Specify title and URL."
+    specify_title_and_url: "Specify the title and URL of the page."
     already_bookmarked: "This resource is already bookmarked."
   bookmarked_resource:
     add_to_library_bookmark: "Add to library bookmark"

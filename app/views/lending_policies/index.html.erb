@@ -30,13 +30,13 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@lending_policies) -%>
+<%= will_paginate(@lending_policies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.lending_policy')), new_form_of_work_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.lending_policy')), new_lending_policy_path -%></li>
   </ul>
 </div>

@@ -38,6 +38,10 @@ class Bookmark < ActiveRecord::Base
     send_later(:index!)
   end
 
+  def before_validation_on_create
+    create_bookmark
+  end
+
   def after_destroy
     save_manifestation
     send_later(:remove_from_index!)
@@ -89,6 +93,57 @@ class Bookmark < ActiveRecord::Base
     URI.parse(canonical_url).normalize.to_s
   rescue
     nil
+  end
+
+  def check_url
+    begin
+      self.url = URI.parse(self.url).normalize.to_s
+    rescue
+      raise 'invalid_url'
+    end
+
+    # 自館のページをブックマークする場合
+    if URI.parse(self.url).host == LIBRARY_WEB_HOSTNAME
+      path = URI.parse(self.url).path.split('/')
+      if path[1] == 'manifestations' and Manifestation.find(path[2])
+        manifestation = Manifestation.find(path[2])
+      end
+    else
+      manifestation = Manifestation.find(:first, :conditions => {:access_address => self.url}) if self.url.present?
+    end
+  end
+
+  def create_bookmark
+    manifestation = check_url
+    if manifestation
+      if manifestation.bookmarked?(user)
+        raise 'already_bookmarked'
+      end
+    else
+      manifestation = create_manifestation
+    end
+
+    self.manifestation = manifestation
+    create_bookmark_item
+  end
+
+  def create_manifestation
+    manifestation = Manifestation.new(:access_address => url)
+    manifestation.carrier_type = CarrierType.find(:first, :conditions => {:name => 'file'})
+    if self.title.present?
+      manifestation.original_title = self.title
+    else
+      manifestation.original_title = Bookmark.get_title_from_url(url)
+    end
+
+    Bookmark.transaction do
+      manifestation.save
+      work = Work.create!(:original_title => manifestation.original_title)
+      expression = Expression.new(:original_title => work.original_title)
+      work.expressions << expression
+      manifestation.expressions << expression
+    end
+    manifestation
   end
 
   def create_bookmark_item

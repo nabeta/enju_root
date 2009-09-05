@@ -78,8 +78,8 @@ class Item < ActiveRecord::Base
   #end
 
   def after_create
-    UserGroup.find_each do |user_group|
-      LendingPolicy.create(:item_id => self.id, :user_group_id => user_group.id)
+    if manifestation
+      manifestation.create_lending_policy
     end
   end
 

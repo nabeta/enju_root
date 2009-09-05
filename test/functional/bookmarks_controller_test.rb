@@ -76,9 +76,7 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_not_get_my_new_without_url
     UserSession.create users(:user1)
     get :new, :user_id => users(:user1).login
-    #assert_response :redirect
-    #assert_response :success
-    assert_redirected_to new_user_bookmark_url(users(:user1).login)
+    assert_response :success
   end
   
   def test_user_should_not_get_new_with_already_bookmarked_url
@@ -108,6 +106,8 @@ class BookmarksControllerTest < ActionController::TestCase
     old_count = Bookmark.count
     post :create, :bookmark => {:title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
+    assert assigns(:bookmark).manifestation
+    assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
     
     assert_redirected_to manifestation_url(assigns(:bookmark).manifestation)
     assigns(:bookmark).manifestation.remove_from_index!
@@ -158,6 +158,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal old_count, Bookmark.count
     
     assert_response :redirect
+    assert_equal 'Invalid URL.', flash[:notice]
     assert_redirected_to new_user_bookmark_url(users(:user1).login)
   end
 
@@ -168,6 +169,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal old_count, Bookmark.count
     
     assert_response :redirect
+    assert_equal 'This resource is already bookmarked.', flash[:notice]
     assert_redirected_to new_user_bookmark_url(users(:user1).login)
   end
 

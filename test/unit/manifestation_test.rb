@@ -49,4 +49,8 @@ class ManifestationTest < ActiveSupport::TestCase
   def title
     assert manifestations(:manifestation_00001).title
   end
+
+  def test_manifestation_should_create_lending_policy
+    assert manifestations(:manifestation_00001).create_lending_policy
+  end
 end
