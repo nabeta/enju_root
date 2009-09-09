@@ -31,16 +31,15 @@ module EnjuManifestationViewer
 
     def flickr
       if access_address
-        info = {}
         url = URI.parse(access_address)
         paths = url.path.split('/')
         if url.host =~ /^www\.flickr\.com$/ and paths[1] == 'photos' and paths[2]
-          info[:user] = paths[2]
+          info = {}
           if paths[3] == "sets"
+            info[:user] = paths[2]
             info[:set_id] = paths[4]
           end
         end
-        return info
       end
     end
 

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 module EnjuPorta
   def self.included(base)
     base.extend ClassMethods

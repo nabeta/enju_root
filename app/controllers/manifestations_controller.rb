@@ -539,7 +539,7 @@ class ManifestationsController < ApplicationController
     when 'screen_shot'
       if @manifestation.screen_shot
         mime = MIME.check_magics(@manifestation.screen_shot.open)
-        send_file @manifestation.screen_shot.path, :type => mime.to_s, :disposition => 'inline'
+        send_file @manifestation.screen_shot.path, :type => mime.type.to_s, :disposition => 'inline'
       end
     else
       false
