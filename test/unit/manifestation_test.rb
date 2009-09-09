@@ -50,7 +50,8 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00001).title
   end
 
-  def test_manifestation_should_create_lending_policy
-    assert manifestations(:manifestation_00001).create_lending_policy
+  def test_manifestation_should_have_screen_shot
+    assert manifestations(:manifestation_00003).screen_shot
   end
+
 end

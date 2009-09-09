@@ -1,5 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ExemplifyTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
+  def test_manifestation_should_create_lending_policy
+    assert exemplifies(:exemplify_00001).create_lending_policy
+  end
 end

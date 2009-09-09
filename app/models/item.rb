@@ -77,12 +77,6 @@ class Item < ActiveRecord::Base
   #  remove_from_union_catalog
   #end
 
-  def after_create
-    if manifestation
-      manifestation.create_lending_policy
-    end
-  end
-
   def before_save
     set_item_identifier
   end
