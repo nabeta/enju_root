@@ -47,6 +47,10 @@ class Expression < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
+  def after_save
+    send_later(:index!)
+  end
+
   def after_destroy
     send_later(:remove_from_index)
   end

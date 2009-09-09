@@ -19,4 +19,11 @@ class Subscription < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
 
+  def after_save
+    send_later(:index!)
+  end
+
+  def after_destroy
+    send_later(:remove_from_index!)
+  end
 end

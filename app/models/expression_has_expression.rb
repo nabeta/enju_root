@@ -10,12 +10,12 @@ class ExpressionHasExpression < ActiveRecord::Base
   acts_as_list :scope => :from_expression
 
   def before_update
-    Expression.find(from_expression_id_was).send_later(:save_with_index)
-    Expression.find(to_expression_id_was).send_later(:save_with_index!)
+    Expression.find(from_expression_id_was).send_later(:index!)
+    Expression.find(to_expression_id_was).send_later(:index!)
   end
 
   def after_save
-    from_expression.send_later(:save_with_index)
-    to_expression.send_later(:save_with_index!)
+    from_expression.send_later(:index!)
+    to_expression.send_later(:index!)
   end
 end

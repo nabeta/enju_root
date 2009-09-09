@@ -23,4 +23,11 @@ class Classification < ActiveRecord::Base
     self.subjects.collect(&:term) + self.subjects.collect(&:term_transcription)
   end
 
+  def after_save
+    send_later(:index!)
+  end
+
+  def after_destroy
+    send_later(:remove_from_index!)
+  end
 end
