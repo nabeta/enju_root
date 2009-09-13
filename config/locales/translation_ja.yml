@@ -134,6 +134,7 @@ ja:
       manifestation_relationship_type: 体現形の関係の種類
       item_relationship_type: 個別資料の関係の種類
       lending_policy: 貸出規則
+      nii_type: NIIメタデータタイプ
     attributes:
       library:
         name: 名前
@@ -898,6 +899,11 @@ ja:
         fixed_due_date: 固定貸出期限
         renewal: 貸出延長の回数
         fine: 罰金
+        note: 注記
+        position: 位置
+      nii_type:
+        name: 名前
+        display_name: 表示名
         note: 注記
         position: 位置
 

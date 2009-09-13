@@ -1,0 +1,38 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.nii_type')), new_nii_type_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.nii_type')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th id="position"></th>
+    <th><%= t('activerecord.attributes.nii_type.name') -%></th>
+    <th><%= t('activerecord.attributes.nii_type.display_name') -%></th>
+    <th><%= t('activerecord.attributes.nii_type.note') -%></th>
+  </tr>
+
+<%- for nii_type in @nii_types -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if nii_type.is_deletable_by(current_user) -%>
+        <%= nii_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (nii_type.position  > 1 ? nii_type.position - 1 : 1), :id => nii_type.id}, :method => :put) -%>
+        <%= nii_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (nii_type.position + 1), :id => nii_type.id}, :method => :put) -%>
+      <%- end -%>
+    </td>
+    <td><%= link_to h(nii_type.name), nii_type -%></td>
+    <td><%= link_to h(nii_type.display_name.localize), nii_type -%></td>
+    <td><%=h nii_type.note -%></td>
+    <td><%= link_to t('page.edit'), edit_nii_type_path(nii_type) -%></td>
+    <td><%= link_to t('page.destroy'), nii_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@nii_types, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>

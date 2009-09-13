@@ -132,6 +132,7 @@ en:
       manifestation_relationship_type: Manifestation relationship type
       item_relationship_type: Item relationship type
       lending_policy: Lending policy
+      nii_type: NII metadata type
     attributes:
       library:
         name: Name
@@ -898,6 +899,11 @@ en:
         fixed_due_date: Fixed due date
         renewal: Renewal
         fine: Fine
+        note: Note
+        position: Position
+      nii_type:
+        name: Name
+        display_name: Display name
         note: Note
         position: Position
 

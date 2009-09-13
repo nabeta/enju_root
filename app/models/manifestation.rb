@@ -42,6 +42,7 @@ class Manifestation < ActiveRecord::Base
   has_many :subscriptions, :through => :subscribes
   has_many :bookmarks
   has_many :users, :through => :bookmarks
+  belongs_to :nii_type
 
   searchable :auto_index => false do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject

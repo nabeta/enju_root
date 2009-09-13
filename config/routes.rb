@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :nii_types
+
   map.resources :lending_policies
 
   map.resources :item_relationship_types
