@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     unless @user.patron
       redirect_to new_user_patron_url(@user.login); return
     end
-    @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
+    @tags = @user.owned_tags_by_solr
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
     @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}

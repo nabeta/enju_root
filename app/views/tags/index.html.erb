@@ -17,8 +17,8 @@
 
 <p><%= t('page.sort_by') -%>:
   <%= link_to t('activerecord.attributes.tag.name'), tags_path(:order => 'name') -%>
-  <%= link_to t('activerecord.attributes.tag.taggings_count'), tags_path(:order => 'taggings_count') -%>
-  <%= link_to t('page.created_at'), tags_path(:order => 'created_at') -%>
+  <%= link_to t('activerecord.attributes.tag.taggings_count'), tags_path(:sort_by => 'taggings_count') -%>
+  <%= link_to t('page.created_at'), tags_path(:sort_by => 'created_at') -%>
 </p>
 
 <table class="index">

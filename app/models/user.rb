@@ -294,6 +294,11 @@ class User < ActiveRecord::Base
     queue.aasm_send_message!
   end
 
+  def owned_tags_by_solr
+    bookmark_ids = bookmarks.collect(&:id)
+    Tag.bookmarked(bookmark_ids)
+  end
+
   private
   def validate_password_with_openid?
     require_password?
