@@ -34,6 +34,7 @@ class Bookmark < ActiveRecord::Base
   end
 
   def after_save
+    save_tagger
     save_manifestation
     send_later(:index!)
   end
@@ -50,6 +51,14 @@ class Bookmark < ActiveRecord::Base
   def save_manifestation
     if self.manifestation
       self.manifestation.send_later(:save)
+    end
+  end
+
+  def save_tagger
+    #user.tag(self, :with => tag_list, :on => :tags)
+    taggings.each do |tagging|
+      tagging.tagger = user
+      tagging.save(false)
     end
   end
 

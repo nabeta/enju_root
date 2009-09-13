@@ -128,11 +128,14 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_create_bookmark_with_tag_list
     UserSession.create users(:user1)
     old_count = Bookmark.count
+    #old_taggings_count = Tag.find(:first, :conditions => {:name => 'search'}).taggings_count
+    old_taggings_count = 0
     post :create, :bookmark => {:tag_list => 'search', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
     assert_equal ['search'], assigns(:bookmark).tag_list
     assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    assert_equal old_taggings_count+1, Tag.find(:first, :conditions => {:name => 'search'}).taggings_count
     #assert_equal 1, assigns(:bookmark).manifestation.items.size
     assert_redirected_to manifestation_url(assigns(:bookmark).manifestation)
     assigns(:bookmark).manifestation.remove_from_index!

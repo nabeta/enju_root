@@ -35,3 +35,10 @@ class Tag < ActiveRecord::Base
     self.taggings.find(:all, :conditions => {:taggable_type => taggable_type.to_s}).collect(&:taggable)
   end
 end
+
+class Tagging < ActiveRecord::Base #:nodoc:
+  belongs_to :tag, :counter_cache => true
+  belongs_to :taggable, :polymorphic => true
+  belongs_to :tagger, :polymorphic => true
+  validates_presence_of :context
+end
