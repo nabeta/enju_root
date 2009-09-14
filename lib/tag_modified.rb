@@ -20,6 +20,7 @@ class Tag < ActiveRecord::Base
     options = {:order => 'taggings_count DESC'}.merge(options)
     tag_ids = Tag.search_ids do
       with(:bookmark_ids).any_of bookmark_ids
+      paginate(:page => 1, :per_page => Tag.count)
     end
     Tag.find(:all, :conditions => {:id => tag_ids}, :order => options[:order])
   end
