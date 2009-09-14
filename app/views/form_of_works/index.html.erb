@@ -22,8 +22,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if form_of_work.is_deletable_by(current_user) -%>
-        <%= form_of_work.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (form_of_work.position  > 1 ? form_of_work.position - 1 : 1), :id => form_of_work.id}, :method => :put) -%>
-        <%= form_of_work.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (form_of_work.position + 1), :id => form_of_work.id}, :method => :put) -%>
+        <%= move_position(form_of_work) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(form_of_work.name), form_of_work -%></td>

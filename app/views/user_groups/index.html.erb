@@ -19,8 +19,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if user_group.is_deletable_by(current_user) -%>
-        <%= user_group.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (user_group.position  > 1 ? user_group.position - 1 : 1), :id => user_group.id}, :method => :put) -%>
-        <%= user_group.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (user_group.position + 1), :id => user_group.id}, :method => :put) -%>
+        <%= move_position(user_group) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(user_group.display_name.localize), user_group -%></td>

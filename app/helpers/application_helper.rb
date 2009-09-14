@@ -174,4 +174,8 @@ module ApplicationHelper
     h(Language.find(:first, :conditions => {:iso_639_1 => locale}).native_name)
   end
 
+  def move_position(object)
+    render :partial => 'page/position', :locals => {:object => object}
+  end
+
 end

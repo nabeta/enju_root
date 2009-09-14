@@ -16,8 +16,9 @@
 <%- @languages.each do |language| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= language.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (language.position  > 1 ? language.position - 1 : 1), :id => language.id}, :method => :put) -%>
-      <%= language.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (language.position + 1), :id => language.id}, :method => :put) -%>
+      <%- if language.is_deletable_by(current_user) -%>
+        <%= move_position(language) -%>
+      <%- end -%>
     </td>
     <td><%=h language.native_name -%></td>
     <td><%=h language.name -%></td>

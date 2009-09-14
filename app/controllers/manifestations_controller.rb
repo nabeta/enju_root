@@ -588,7 +588,8 @@ class ManifestationsController < ApplicationController
     @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
     @roles = Rails.cache.fetch('Role.all'){Role.all}
     @languages = Rails.cache.fetch('Language.all'){Language.all}
-    @frequencies = Frequency.find(:all)
+    @frequencies = Frequency.all
+    @nii_types = NiiType.all
   end
 
   def save_search_history(query, offset = 0, total = 0)

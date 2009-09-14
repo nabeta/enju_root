@@ -19,8 +19,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if request_status_type.is_deletable_by(current_user) -%>
-        <%= request_status_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (request_status_type.position  > 1 ? request_status_type.position - 1 : 1), :id => request_status_type.id}, :method => :put) -%>
-        <%= request_status_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (request_status_type.position + 1), :id => request_status_type.id}, :method => :put) -%>
+        <%= move_position(request_status_type) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(request_status_type.name), request_status_type -%></td>

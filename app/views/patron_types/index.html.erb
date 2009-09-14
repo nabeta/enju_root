@@ -20,8 +20,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if patron_type.is_deletable_by(current_user) -%>
-        <%= patron_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (patron_type.position  > 1 ? patron_type.position - 1 : 1), :id => patron_type.id}, :method => :put) -%>
-        <%= patron_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (patron_type.position + 1), :id => patron_type.id}, :method => :put) -%>
+        <%= move_position(patron_type) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(patron_type.name), patron_type -%></td>

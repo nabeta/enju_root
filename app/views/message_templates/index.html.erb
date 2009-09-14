@@ -12,8 +12,9 @@
 <%- for message_template in @message_templates -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= message_template.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (message_template.position  > 1 ? message_template.position - 1 : 1), :id => message_template.id}, :method => :put) -%>
-      <%= message_template.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (message_template.position + 1), :id => message_template.id}, :method => :put) -%>
+      <%- if message_template.is_deletable_by(current_user) -%>
+        <%= move_position(message_template) -%>
+      <%- end -%>
     </td>
     <td><%= link_to h(message_template.status), message_template -%></td>
     <td><%=h message_template.title -%></td>

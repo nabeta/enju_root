@@ -12,8 +12,9 @@
 <%- @search_engines.each do |search_engine| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= search_engine.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (search_engine.position  > 1 ? search_engine.position - 1 : 1), :id => search_engine.id}, :method => :put) -%>
-      <%= search_engine.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (search_engine.position + 1), :id => search_engine.id}, :method => :put) -%>
+      <%- if search_engine.is_deletable_by(current_user) -%>
+        <%- move_position(search_engine) -%>
+      <%- end -%>
     </td>
     <td><%= link_to h(search_engine.name), search_engine.url -%></td>
     <td><%=h search_engine.note -%></td>

@@ -1,6 +1,7 @@
 class ContentType < ActiveRecord::Base
   include OnlyAdministratorCanModify
 
+  default_scope :order => 'position'
   has_many :expressions
 
   validates_presence_of :name, :display_name

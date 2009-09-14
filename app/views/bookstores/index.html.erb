@@ -15,8 +15,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if bookstore.is_deletable_by(current_user) -%>
-        <%= bookstore.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (bookstore.position  > 1 ? bookstore.position - 1 : 1), :id => bookstore.id}, :method => :put) -%>
-        <%= bookstore.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (bookstore.position + 1), :id => bookstore.id}, :method => :put) -%>
+        <%= move_position(bookstore) -%>
       <%- end -%>
     </td>
     <td>

@@ -1,6 +1,7 @@
 class MediumOfPerformance < ActiveRecord::Base
   include OnlyAdministratorCanModify
 
+  default_scope :order => 'position'
   has_many :works
 
   validates_presence_of :name, :display_name

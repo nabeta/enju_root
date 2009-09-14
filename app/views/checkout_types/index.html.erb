@@ -25,8 +25,7 @@
     <td>
       <%- unless @user_group -%>
         <%- if checkout_type.is_deletable_by(current_user) -%>
-          <%= checkout_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (checkout_type.position  > 1 ? checkout_type.position - 1 : 1), :id => checkout_type.id}, :method => :put) -%>
-          <%= checkout_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (checkout_type.position + 1), :id => checkout_type.id}, :method => :put) -%>
+          <%= move_position(checkout_type) -%>
         <%- end -%>
       <%- end -%>
     </td>
