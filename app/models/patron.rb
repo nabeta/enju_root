@@ -241,4 +241,20 @@ class Patron < ActiveRecord::Base
     false
   end
 
+  def created(work)
+    creates.find(:first, :conditions => {:id => work.id})
+  end
+
+  def realized(expression)
+    realizes.find(:first, :conditions => {:id => expression.id})
+  end
+
+  def produced(manifestation)
+    produces.find(:first, :conditions => {:id => manifestation.id})
+  end
+
+  def owned(item)
+    owns.find(:first, :conditions => {:id => item.id})
+  end
+
 end

@@ -88,4 +88,12 @@ class Work < ActiveRecord::Base
     self.work_merge_lists.collect(&:id)
   end
 
+  def created(patron)
+    creates.find(:first, :conditions => {:patron_id => patron.id})
+  end
+
+  def reified(expression)
+    reifies.find(:first, :conditions => {:expression_id => expression.id})
+  end
+
 end

@@ -57,8 +57,7 @@
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_patron_produce_path(@patron, :manifestation_id => manifestation.id) -%>
         <%- else -%>
-          <%- produce = @patron.produces.find_by_manifestation_id(manifestation.id) -%>
-          <%= link_to t('page.destroy'), patron_produce_path(@patron, produce), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to t('page.destroy'), patron_produce_path(@patron, @patron.produced), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

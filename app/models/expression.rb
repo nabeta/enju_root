@@ -99,4 +99,12 @@ class Expression < ActiveRecord::Base
     nil
   end
 
+  def reified(patron)
+    reifies.find(:first, :conditions => {:id => patron.id})
+  end
+
+  def embodied(manifestation)
+    embodies.find(:first, :conditions => {:id => manifestation.id})
+  end
+
 end

@@ -482,7 +482,7 @@ class ManifestationsController < ApplicationController
     search.query.add_field_facet(:carrier_type)
     search.query.add_field_facet(:library)
     search.query.add_field_facet(:language)
-    search.query.add_field_facet(:subject)
+    search.query.add_field_facet(:subject_ids)
     search.execute!
   end
 
@@ -495,7 +495,7 @@ class ManifestationsController < ApplicationController
         @carrier_type_facet = results.facet(:carrier_type)
         @language_facet = results.facet(:language)
         @library_facet = results.facet(:library)
-        @subject_facet = results.facet(:subject)
+        @subject_facet = results.facet(:subject_ids)
         render :partial => 'all_facet'
       when "carrier_type_facet"
         @carrier_type_facet = results.facet(:carrier_type)
@@ -507,7 +507,7 @@ class ManifestationsController < ApplicationController
         @library_facet = results.facet(:library)
         render :partial => 'library_facet'
       when "subject_facet"
-        @subject_facet = results.facet(:subject)
+        @subject_facet = results.facet(:subject_ids)
         render :partial => 'subject_facet'
       else
         render :nothing => true

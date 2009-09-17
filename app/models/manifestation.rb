@@ -68,6 +68,9 @@ class Manifestation < ActiveRecord::Base
     string :shelf, :multiple => true
     string :user, :multiple => true
     string :subject, :multiple => true
+    integer :subject_ids, :multiple => true do
+      self.subjects.collect(&:id)
+    end
     string :sort_title
     time :created_at
     time :updated_at
@@ -412,10 +415,6 @@ class Manifestation < ActiveRecord::Base
     self.works.collect(&:subjects).flatten
   end
 
-  def subject_ids
-    self.subjects.collect(&:id)
-  end
-
   def user
     if self.bookmarks
       self.bookmarks.collect(&:user).collect(&:login)
@@ -602,6 +601,14 @@ class Manifestation < ActiveRecord::Base
 
   def bookmarks_count
     self.bookmarks.size
+  end
+
+  def produced(patron)
+    produces.find(:first, :conditions => {:id => patron.id})
+  end
+
+  def embodied(expression)
+    embodies.find(:first, :conditions => {:id => expression.id})
   end
 
 end

@@ -55,8 +55,7 @@
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_work_reify_path(@work, :expression_id => expression.id, :mode => 'add') unless @work.expressions.include?(expression) -%>
         <%- else -%>
-          <%- reify = @work.reifies.find_by_expression_id(expression.id) -%>
-          <%= link_to t('page.destroy'), work_reify_path(@work, reify), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to t('page.destroy'), work_reify_path(@work, @work.reified), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

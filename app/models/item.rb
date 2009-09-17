@@ -237,4 +237,8 @@ class Item < ActiveRecord::Base
     lending_policies.find(:first, :conditions => {:user_group_id => user.user_group.id})
   end
 
+  def owned(patron)
+    owns.find(:first, :conditions => {:id => patron.id})
+  end
+
 end
