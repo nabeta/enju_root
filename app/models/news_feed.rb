@@ -24,10 +24,12 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def expire_cache
+    Rails.cache.delete("news_feed_#{id}_content")
     Rails.cache.delete('NewsFeed.all')
   end
 
-  def content
+  def fetch_content
+    begin
     #page_url = URI.parse(url.rewrite_my_url)
     #if page_url.port == 80
     #  if Feedbag.feed?(url)
@@ -39,30 +41,37 @@ class NewsFeed < ActiveRecord::Base
       # auto-discovery 非対応
       feed_url = url
     #end
-    if self.body.blank?
+    #if self.body.blank?
       feed = open(feed_url.rewrite_my_url).read
-      if rss = RSS::Parser.parse(feed, false)
-        self.update_attributes({:body => feed})
-      end
+      #if rss = RSS::Parser.parse(feed, false)
+      #  self.update_attributes({:body => feed})
+      #end
+    #enda
+    rescue StandardError, Timeout::Error
+      nil
     end
     # tDiary の RSS をパースした際に to_s が空になる
-    # rss = RSS::Parser.parse(self.url)
+    # rss = RSS::Parser.parse(feed)
     # rss.to_s
     # => ""
-    if rss.nil?
+    #if rss.nil?
       begin
-        rss = RSS::Parser.parse(self.body)
+        rss = RSS::Parser.parse(feed)
       rescue RSS::InvalidRSSError
-        rss = RSS::Parser.parse(self.body, false)
+        rss = RSS::Parser.parse(feed, false)
+      rescue RSS::NotWellFormedError
+        nil
       end
-    end
-    return rss
-  rescue
-    nil
+    #end
+    #return rss
+  end
+
+  def content
+    Rails.cache.fetch("news_feed_#{id}_content"){fetch_content}
   end
 
   def force_reload
-    self.update_attributes({:body => nil})
+    expire_cache
     content
   end
 
@@ -72,11 +81,10 @@ class NewsFeed < ActiveRecord::Base
     app.host = LibraryGroup.url
     NewsFeed.find(:all).each do |news_feed|
       news_feed.force_reload
+      app.get("#{LibraryGroup.url}news_feeds/#{news_feed.id}", :mode => 'force_reload')
     end
-    app.get("#{LibraryGroup.url}news_feeds?mode=clear_cache")
     logger.info "#{Time.zone.now} feeds reloaded!"
   rescue
     logger.info "#{Time.zone.now} reloading feeds failed!"
   end
-
 end

@@ -33,9 +33,7 @@
 
   <h3 class="title"><%= t('page.news') -%></h3>
   <div id="news_feed_box">
-    <%- cache(:controller => :news_feeds, :action => :index, :action_suffix => 'list', :locale => @locale) do -%>
-      <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
-    <%- end -%>
+    <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
   </div>
 
 </div>

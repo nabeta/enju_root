@@ -7,9 +7,6 @@ class NewsFeedsController < ApplicationController
   # GET /news_feeds.xml
   def index
     @news_feeds = NewsFeed.paginate(:all, :order => :position, :page => params[:page])
-    if params[:mode] == 'clear_cache'
-      expire_index_cache
-    end
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @news_feeds }
@@ -20,6 +17,9 @@ class NewsFeedsController < ApplicationController
   # GET /news_feeds/1.xml
   def show
     @news_feed = NewsFeed.find(params[:id])
+    if params[:mode] == 'force_reload'
+      expire_cache
+    end
 
     respond_to do |format|
       format.html # show.html.erb
@@ -65,13 +65,13 @@ class NewsFeedsController < ApplicationController
   def update
     @news_feed = NewsFeed.find(params[:id])
 
-    if @language and params[:position]
-      @language.insert_at(params[:position])
-      redirect_to languages_url
+    if @news_feed and params[:position]
+      @news_feed.insert_at(params[:position])
+      redirect_to news_feeds_url
       return
     end
     if params[:mode] == 'force_reload'
-      @news_feed.force_reload
+      expire_cache
     end
 
     respond_to do |format|
@@ -99,9 +99,8 @@ class NewsFeedsController < ApplicationController
   end
 
   private
-  def expire_index_cache
-    I18n.available_locales.each do |locale|
-      expire_fragment(:controller => :news_feeds, :action => :index, :action_suffix => 'list', :locale => locale.to_s)
-    end
+  def expire_cache
+    @news_feed.expire_cache
+    expire_fragment(:controller => :news_feeds, :action => :show, :id => @news_feed.id, :action_suffix => 'title')
   end
 end
