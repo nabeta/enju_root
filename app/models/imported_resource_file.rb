@@ -158,7 +158,7 @@ class ImportedResourceFile < ActiveRecord::Base
 
   def self.import
     ImportedResourceFile.not_imported.each do |file|
-      file.import
+      file.aasm_import!
     end
   rescue
     logger.info "#{Time.zone.now} importing resources failed!"

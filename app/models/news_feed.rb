@@ -1,4 +1,5 @@
 require 'rss'
+require 'action_controller/integration'
 class NewsFeed < ActiveRecord::Base
   include OnlyAdministratorCanModify
 
@@ -26,6 +27,15 @@ class NewsFeed < ActiveRecord::Base
   def expire_cache
     Rails.cache.delete("news_feed_#{id}_content")
     Rails.cache.delete('NewsFeed.all')
+  end
+
+  def expire_fragment_cache
+    app = ActionController::Integration::Session.new
+    app.host = LibraryGroup.url
+    app.get("#{LibraryGroup.url}news_feeds/#{id}", :mode => 'force_reload')
+    logger.info "#{Time.zone.now} feed reloaded! : #{url}"
+  rescue
+    logger.info "#{Time.zone.now} reloading feed failed! : #{url}"
   end
 
   def fetch_content
@@ -76,15 +86,9 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def self.fetch_feeds
-    require 'action_controller/integration'
-    app = ActionController::Integration::Session.new
-    app.host = LibraryGroup.url
     NewsFeed.find(:all).each do |news_feed|
-      news_feed.force_reload
-      app.get("#{LibraryGroup.url}news_feeds/#{news_feed.id}", :mode => 'force_reload')
+      news_feed.expire_cache
+      news_feed.expire_fragment_cache
     end
-    logger.info "#{Time.zone.now} feeds reloaded!"
-  rescue
-    logger.info "#{Time.zone.now} reloading feeds failed!"
   end
 end
