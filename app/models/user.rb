@@ -296,7 +296,11 @@ class User < ActiveRecord::Base
 
   def owned_tags_by_solr
     bookmark_ids = bookmarks.collect(&:id)
-    Tag.bookmarked(bookmark_ids)
+    if bookmark_ids.empty?
+      []
+    else
+      Tag.bookmarked(bookmark_ids)
+    end
   end
 
   private

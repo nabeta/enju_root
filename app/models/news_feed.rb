@@ -69,7 +69,7 @@ class NewsFeed < ActiveRecord::Base
         rss = RSS::Parser.parse(feed)
       rescue RSS::InvalidRSSError
         rss = RSS::Parser.parse(feed, false)
-      rescue RSS::NotWellFormedError
+      rescue #RSS::NotWellFormedError
         nil
       end
     #end
