@@ -436,12 +436,12 @@ class Manifestation < ActiveRecord::Base
       end
       resource = response.results.first
     end
-    if resource.nil?
-      while resource.nil?
-        resource = self.find(rand(self.cached_numdocs)) rescue nil
-      end
-    end
-    return resource
+    #if resource.nil?
+    #  while resource.nil?
+    #    resource = self.find(rand(self.cached_numdocs) + 1) rescue nil
+    #  end
+    #end
+    #return resource
   end
 
   def subscribed?
