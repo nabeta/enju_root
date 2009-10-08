@@ -17,12 +17,14 @@ class Tag < ActiveRecord::Base
   end
 
   def self.bookmarked(bookmark_ids, options = {})
-    options = {:order => 'taggings_count DESC'}.merge(options)
-    tag_ids = Tag.search_ids do
-      with(:bookmark_ids).any_of bookmark_ids
-      paginate(:page => 1, :per_page => Tag.count)
+    unless bookmark_ids.empty?
+      options = {:order => 'taggings_count DESC'}.merge(options)
+      tag_ids = Tag.search_ids do
+        with(:bookmark_ids).any_of bookmark_ids
+        paginate(:page => 1, :per_page => Tag.count)
+      end
+      Tag.find(:all, :conditions => {:id => tag_ids}, :order => options[:order])
     end
-    Tag.find(:all, :conditions => {:id => tag_ids}, :order => options[:order])
   end
 
   def after_save

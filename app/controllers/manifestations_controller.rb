@@ -95,9 +95,11 @@ class ManifestationsController < ApplicationController
         if manifestation_ids
           bookmark_ids = Bookmark.find(:all, :select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
           @tags = Tag.bookmarked(bookmark_ids)
-          render :partial => 'tag_cloud'
-          return
+        else
+          @tags = []
         end
+        render :partial => 'tag_cloud'
+        return
       end
 
       sort = set_search_result_order(params[:sort_by], params[:order])
