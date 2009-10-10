@@ -19,17 +19,23 @@ class PurchaseRequestsController < ApplicationController
     @count = {}
     PurchaseRequest.per_page = 65534 if params[:format] == 'csv'
 
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
+    @query = query.dup
+    mode = params[:mode]
 
     search = Sunspot.new_search(PurchaseRequest)
-    search.query.keywords = @query if @query.present?
-    search.query.add_restriction(:user_id, :equal_to, @user.id) if @user
-    search.query.add_restriction(:order_list_id, :equal_to, @order_list.id) if @order_list
-    case params[:mode]
-    when 'not_ordered'
-      search.query.add_restriction(:ordered, :equal_to, false)
-    when 'ordered'
-      search.query.add_restriction(:ordered, :equal_to, true)
+    user = @user
+    order_list = @order_list
+    search.build do
+      fulltext query if query.present?
+      with(:user_id).equal_to user.id if user
+      with(:order_list_id).equal_to order_list.id if order_list
+      case mode
+      when 'not_ordered'
+        with(:ordered).equal_to false
+      when 'ordered'
+        with(:ordered).equal_to true
+      end
     end
 
     begin

@@ -84,14 +84,18 @@ class MessagesController < ApplicationController
   def inbox
     session[:mail_box] = "inbox"
     #@messages = rezm_user.inbox_messages.paginate(:page => params[:page])
-    @query = params[:query].to_s.strip
+    query = params[:query].to_s.strip
+    @query = query.dup
+    user = rezm_user
     page = params[:page] || 1
     search = Sunspot.new_search(Message)
-    search.query.keywords = @query if @query.present?
-    search.query.add_restriction(:receiver_id, :equal_to, rezm_user.id)
-    search.query.add_restriction(:receiver_deleted, :equal_to, false)
-    search.query.add_restriction(:sender_deleted, :equal_to, false)
-    search.query.order_by :created_at, :desc
+    search.build do
+      fulltext query if query.present?
+      with(:receiver_id).equal_to user.id
+      with(:receiver_deleted).equal_to false
+      with(:sender_deleted).equal_to false
+      order_by(:created_at, :desc)
+    end
     search.query.paginate page.to_i, Message.per_page
     begin
       @messages = search.execute!.results

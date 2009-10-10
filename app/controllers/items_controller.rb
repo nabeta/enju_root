@@ -32,7 +32,16 @@ class ItemsController < ApplicationController
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@patron) if @patron
       end
-      @items = Item.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:holding_library]}, :page => params[:page]).compact
+      search = Sunspot.new_search(Item)
+      search.build do
+        fulltext query
+      end
+      search.query.paginate(page.to_i, Item.per_page)
+      begin
+        @items = search.execute!.results
+      rescue
+        @items = WillPaginate::Collection.create(1,1,0) do end
+      end
       @count[:total] = @items.total_entries
     else
       order = "items.id DESC"

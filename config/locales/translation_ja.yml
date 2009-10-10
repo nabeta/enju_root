@@ -1046,6 +1046,7 @@ ja:
     add_on: "アドオン"
     asc: "昇順"
     desc: "降順"
+    error_occured: "エラーが発生しました。"
   title:
     index: "一覧"
     show: "表示"

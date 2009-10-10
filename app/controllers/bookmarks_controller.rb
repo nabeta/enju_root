@@ -22,10 +22,13 @@ class BookmarksController < ApplicationController
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
-      search.query.keywords = query
     end
-    search.query.order_by(:created_at, :desc)
-    search.query.add_restriction(:user_id, :equal_to, @user.id) if @user
+    user = @user
+    search.build do
+      fulltext query
+      order_by(:created_at, :desc)
+      with(:user_id).equal_to user.id if user
+    end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Bookmark.per_page)
     #@bookmarks = @user.bookmarks.paginate(:all, :page => params[:page], :order => ['id DESC'])

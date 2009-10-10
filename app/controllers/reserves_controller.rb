@@ -141,7 +141,7 @@ class ReservesController < ApplicationController
 
         @reserve.manifestation = @manifestation
       rescue
-        flash[:notice] = ('An error occurred.') if flash[:notice].nil?
+        flash[:notice] = t('page.error_occured') if flash[:notice].nil?
         redirect_to @manifestation
         return
       end

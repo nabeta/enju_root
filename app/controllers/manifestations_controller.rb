@@ -77,9 +77,11 @@ class ManifestationsController < ApplicationController
       search = Sunspot.new_search(Manifestation)
       search = make_internal_query(search)
       unless query.blank?
-        search.query.keywords = query
+        search.build do
+          fulltext query
+        end
         manifestation_ids = Manifestation.search_ids do
-          keywords query
+          fulltext query
         #  order_by order
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
         end
@@ -103,7 +105,9 @@ class ManifestationsController < ApplicationController
       end
 
       sort = set_search_result_order(params[:sort_by], params[:order])
-      search.query.order_by sort[:sort_by], sort[:order]
+      search.build do
+        order_by sort[:sort_by], sort[:order]
+      end
 
       page = params[:page] || 1
       search.query.paginate(page.to_i, Manifestation.per_page)
@@ -141,6 +145,7 @@ class ManifestationsController < ApplicationController
       }
     end
   rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
     redirect_to manifestations_url
     return
   end
@@ -481,10 +486,12 @@ class ManifestationsController < ApplicationController
   end
 
   def get_facet(search)
-    search.query.add_field_facet(:carrier_type)
-    search.query.add_field_facet(:library)
-    search.query.add_field_facet(:language)
-    search.query.add_field_facet(:subject_ids)
+    search.build do
+      facet :carrier_type
+      facet :library
+      facet :language
+      facet :subject_ids
+    end
     search.execute!
   end
 
@@ -551,37 +558,50 @@ class ManifestationsController < ApplicationController
   def make_internal_query(search)
     # 内部的なクエリ
     unless params[:mode] == "add"
-      search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
-      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
-      search.query.add_restriction(:original_manifestation_ids, :equal_to, @manifestation.id) if @manifestation
-      unless @subscription.blank?
-        search.query.add_restriction(:subscription_ids, :equal_to, @subscription.id)
+      expression = @expression
+      patron = @patron
+      manifestation = @manifestation
+      subscription = @subscription
+      reservable = @reservable
+      carrier_type = params[:carrier_type]
+      library = params[:library]
+      subscription_master = params[:subscription_master]
+      language = params[:language]
+      subject = params[:subject]
+      @subscription_master = true if subscription_master == 'true'
+      subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
+      @subject_by_term = subject_by_term
+
+      search.build do
+        with(:expression_ids).equal_to expression.id if expression
+        with(:patron_ids).equal_to patron.id if patron
+        with(:original_manifestation_ids).equal_to manifestation.id if manifestation
+        with(:subscription_ids).equal_to subscription.id if subscription
+        with(:reservable).equal_to true if reservable
+        if subscription_master == "true"
+          with(:subscription_master).equal_to true
+        end
+        unless carrier_type.blank?
+          with(:carrier_type).equal_to carrier_type
+          with(:carrier_type).equal_to carrier_type
+        end
+        unless library.blank?
+          library_list = library.split.uniq
+          library_list.each do |library|
+            with(:library).equal_to library
+          end
+          #search.query.keywords = "#{search.query.to_params[:q]} library_s: (#{library_list})"
+        end
+        unless language.blank?
+          language_list = language.split.uniq
+          language_list.each do |language|
+            with(:language).equal_to language
+          end
+        end
+        unless subject.blank?
+          with(:subject).equal_to subject_by_term.term
+        end
       end
-    end
-    if params[:subscription_master] == "true"
-      search.query.add_restriction(:subscription_master, :equal_to, true)
-      @subscription_master = true
-    end
-    search.query.add_restriction(:reservable, :equal_to, true) if @reservable
-    unless params[:carrier_type].blank?
-      search.query.add_restriction(:carrier_type, :equal_to, params[:carrier_type])
-    end
-    unless params[:library].blank?
-      library_list = params[:library].split.uniq
-      library_list.each do |library|
-        search.query.add_restriction(:library, :equal_to, library)
-      end
-      #search.query.keywords = "#{search.query.to_params[:q]} library_s: (#{library_list})"
-    end
-    unless params[:language].blank?
-      language_list = params[:language].split.uniq
-      language_list.each do |language|
-        search.query.add_restriction(:language, :equal_to, language)
-      end
-    end
-    unless params[:subject].blank?
-      @subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
-      search.query.add_restriction(:subject, :equal_to, @subject_by_term.term)
     end
     return search
   end
@@ -604,7 +624,9 @@ class ManifestationsController < ApplicationController
   def get_total_count(total_query)
     if total_query.present?
       count = Sunspot.new_search(Manifestation)
-      count.query.keywords = total_query
+      count.build do
+        fulltext total_query
+      end
       count.execute!.total
     else
       0

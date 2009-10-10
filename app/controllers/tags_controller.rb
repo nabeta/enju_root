@@ -23,7 +23,7 @@ class TagsController < ApplicationController
     if query.present?
       begin
         tag_ids = Tag.search_ids do
-          keywords query
+          fulltext query
           paginate :page => page.to_i, :per_page => Tag.per_page
         end
         @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")

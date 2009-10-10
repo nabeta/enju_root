@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     unless query.blank?
       begin
         user_ids = User.search_ids do
-          keywords query
+          fulltext query
           order_by sort[:sort_by], sort[:order]
         end
         @users = User.paginate(:conditions => {:id => user_ids}, :page => page)

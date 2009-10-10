@@ -428,14 +428,12 @@ class Manifestation < ActiveRecord::Base
     return nil if self.cached_numdocs < 5
     resource = nil
     # TODO: ヒット件数が0件のキーワードがあるときに指摘する
-    if keyword
-      response = Sunspot.search(Manifestation) do
-        keywords keyword
-        order_by_random
-        paginate :page => 1, :per_page => 1
-      end
-      resource = response.results.first
+    response = Sunspot.search(Manifestation) do
+      fulltext keyword if keyword
+      order_by(:random)
+      paginate :page => 1, :per_page => 1
     end
+    resource = response.results.first
     #if resource.nil?
     #  while resource.nil?
     #    resource = self.find(rand(self.cached_numdocs) + 1) rescue nil
@@ -589,9 +587,11 @@ class Manifestation < ActiveRecord::Base
     sort_by = options[:sort_by] || 'created_at'
     order = options[:order] || 'desc'
     search = Sunspot.new_search(Manifestation)
-    search.query.add_restriction(:original_manifestation_ids, :equal_to, self.id)
+    search.build do
+      with(:original_manifestation_ids).equal_to self.id
+      order_by(:sort_by, order)
+    end
     search.query.paginate page.to_i, Manifestation.per_page
-    search.query.order_by sort_by, order
     search.execute!.results
   end
 

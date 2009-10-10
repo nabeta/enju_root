@@ -73,8 +73,8 @@ Rails::Initializer.run do |config|
   #config.gem "sishen-rtranslate", :lib => "rtranslate"
   #config.gem "alexrabarts-big_sitemap", :lib => "big_sitemap"
   config.gem "thoughtbot-paperclip", :lib => "paperclip"
-  config.gem "outoftime-sunspot", :lib => "sunspot"
-  config.gem "outoftime-sunspot_rails", :lib => "sunspot/rails"
+  config.gem "sunspot", :version => ">=0.10.2"
+  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.10.6"
   config.gem "thoughtbot-factory_girl", :lib => "factory_girl"
   config.gem "rubyredrick-ri_cal", :lib => "ri_cal"
   #config.gem "reagent-fleakr", :lib => "fleakr"
@@ -120,4 +120,4 @@ require 'hostname'
 require 'atom/pub'
 require 'localized_name'
 require 'xml/libxml'
-require 'base_query'
+require 'dismax'

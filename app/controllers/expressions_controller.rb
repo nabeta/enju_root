@@ -18,15 +18,23 @@ class ExpressionsController < ApplicationController
       @query = query.dup
       query = query.gsub('　', ' ')
       #query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
-      search.query.keywords = query
+      search.build do
+        fulltext query
+      end
     end
     unless params[:mode] == 'add'
-      search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
-      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
-      search.query.add_restriction(:work_id, :equal_to, @work.id) if @work
-      search.query.add_restriction(:original_expression_ids, :equal_to, @expression.id) if @expression
-      search.query.add_restriction(:expression_merge_ids, :equal_to, @expression_merge_list.id) if @expression_merge_list
-
+      manifestation = @manifestation
+      patron = @patron
+      work = @work
+      expression = @expression
+      expression_merge_list = @expression_merge_list
+      search.build do
+        with(:manifestation_ids).equal_to manifestation.id if manifestation
+        with(:patron_ids).equal_to patron.id if patron
+        with(:work_id).equal_to work.id if work
+        with(:original_expression_ids).equal_to expression.id if expression
+        with(:expression_merge_ids).equal_to expression_merge_list.id if expression_merge_list
+      end
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)

@@ -15,13 +15,21 @@ class WorksController < ApplicationController
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-      search.query.keywords = query
+      search.build do
+        fulltext query
+      end
     end
     unless params[:mode] == 'add'
-      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
-      search.query.add_restriction(:subject_ids, :equal_to, @subject.id) if @subject
-      search.query.add_restriction(:original_work_ids, :equal_to, @work.id) if @work
-      search.query.add_restriction(:work_merge_ids, :equal_to, @work_merge_list.id) if @work_merge_list
+      patron = @patron
+      subject = @subject
+      work = @work
+      work_merge_list = @work_merge_list
+      search.build do
+        with(:patron_ids).equal_to patron.id if patron
+        with(:subject_ids).equal_to subject.id if subject
+        with(:original_work_ids).equal_to work.id if work
+        with(:work_merge_ids).equal_to work_merge_list.id if work_merge_list
+      end
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Work.per_page)
@@ -51,7 +59,10 @@ class WorksController < ApplicationController
       end
     end
     search = Sunspot.new_search(Subject)
-    search.query.add_restriction(:work_ids, :equal_to, @work.id)
+    work = @work
+    search.build do
+      with(:work_ids).equal_to work.id if work
+    end
     page = params[:subject_page] || 1
     search.query.paginate(page.to_i, Subject.per_page)
     begin

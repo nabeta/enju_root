@@ -17,15 +17,21 @@ class QuestionsController < ApplicationController
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-      search.query.keywords = query
+      search.build do
+        fulltext query
+        order_by(:updated_at, :desc)
+      end
     end
 
     if @user
       if logged_in?
-        search.query.add_restriction(:login, :equal_to, @user.login) unless current_user.has_role?('Librarian')
+        user = @user
+        c_user = current_user
+        search.build do
+          with(:login).equal_to user.login unless user.has_role?('Librarian')
+        end
       end
     end
-    search.query.order_by(:updated_at, :desc)
     page = params[:page] || 1
     search.query.paginate(page.to_i, Question.per_page)
     begin

@@ -27,23 +27,38 @@ class PatronsController < ApplicationController
       query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
     end
     unless query.blank?
-      search.query.keywords = query
-    end
-    unless params[:mode] == 'add'
-      search.query.add_restriction(:user, :equal_to, @user.login) if @user
-      search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
-      search.query.add_restriction(:expression_ids, :equal_to, @expression.id) if @expression
-      search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
-      search.query.add_restriction(:original_patron_ids, :equal_to, @patron.id) if @patron
-      search.query.add_restriction(:patron_merge_ids, :equal_to, @patron_merge_list.id) if @patron_merge_list
-    end
-    if logged_in?
-      unless current_user.has_role?('Librarian')
-        search.query.add_restriction(:required_role_id, :less_than, 2)
-      else
-        search.query.add_restriction(:required_role_id, :equal_to, 1)
+      search.build do
+        fulltext query
       end
     end
+    unless params[:mode] == 'add'
+      user = @user
+      work = @work
+      expression = @expression
+      manifestation = @manifestation
+      patron = @patron
+      patron_merge_list = @patron_merge_list
+      search.build do
+        with(:user).equal_to user.login if user
+        with(:work_ids).equal_to work.id if work
+        with(:expression_ids).equal_to expression.id if expression
+        with(:manifestation_ids).equal_to manifestation.id if manifestation
+        with(:original_patron_ids).equal_to patron.id if patron
+        with(:patron_merge_ids).equal_to patron_merge_list.id if patron_merge_list
+      end
+    end
+
+    if logged_in?
+      user = current_user
+      search.build do
+       unless user.has_role?('Librarian')
+          with(:required_role_id).less_than 2
+        else
+          with(:required_role_id).equal_to 1
+        end
+      end
+    end
+
     page = params[:page] || 1
     begin
       search.query.paginate(page.to_i, Patron.per_page)
