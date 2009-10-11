@@ -17,7 +17,7 @@ class Bookmark < ActiveRecord::Base
 
   acts_as_taggable_on :tags
 
-  searchable :auto_index => false do
+  searchable do
     text :title do
       manifestation.title
     end
@@ -36,7 +36,6 @@ class Bookmark < ActiveRecord::Base
   def after_save
     save_tagger
     save_manifestation
-    send_later(:index!)
   end
 
   def before_validation_on_create
@@ -45,7 +44,6 @@ class Bookmark < ActiveRecord::Base
 
   def after_destroy
     save_manifestation
-    send_later(:remove_from_index!)
   end
 
   def save_manifestation

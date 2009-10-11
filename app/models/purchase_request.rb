@@ -15,7 +15,7 @@ class PurchaseRequest < ActiveRecord::Base
     errors.add(:price) unless self.price.nil? || self.price > 0.0
   end
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :author, :publisher, :url
     string :isbn
     string :url

@@ -35,7 +35,7 @@ class Subject < ActiveRecord::Base
   validates_associated :use_term, :subject_type
   validates_presence_of :term, :subject_type
 
-  searchable :auto_index => false do
+  searchable do
     text :term, :term_transcription, :note
     string :term
     time :created_at
@@ -54,11 +54,4 @@ class Subject < ActiveRecord::Base
   #  self.works.collect(&:tags).flatten
   #end
 
-  def after_save
-    send_later(:index!)
-  end
-
-  def after_destroy
-    send_later(:remove_from_index!)
-  end
 end

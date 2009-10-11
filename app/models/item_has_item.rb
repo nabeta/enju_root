@@ -10,12 +10,16 @@ class ItemHasItem < ActiveRecord::Base
   acts_as_list :scope => :from_item
 
   def before_update
-    Item.find(from_item_id_was).send_later(:index!)
-    Item.find(to_item_id_was).send_later(:index!)
+    Item.find(from_item_id_was).index
+    Item.find(to_item_id_was).index
   end
 
   def after_save
-    from_item.send_later(:index!)
-    to_item.send_later(:index!)
+    from_item.index
+    to_item.index
+  end
+
+  def after_destroy
+    after_save
   end
 end

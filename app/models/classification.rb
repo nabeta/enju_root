@@ -8,7 +8,7 @@ class Classification < ActiveRecord::Base
   validates_associated :classification_type
   validates_presence_of :category, :classification_type_id
   validates_uniqueness_of :category, :scope => :classification_type_id
-  searchable :auto_index => false do
+  searchable do
     text :category, :note, :subject
     integer :subject_ids, :multiple => true
     integer :classification_type_id
@@ -23,11 +23,4 @@ class Classification < ActiveRecord::Base
     self.subjects.collect(&:term) + self.subjects.collect(&:term_transcription)
   end
 
-  def after_save
-    send_later(:index!)
-  end
-
-  def after_destroy
-    send_later(:remove_from_index!)
-  end
 end

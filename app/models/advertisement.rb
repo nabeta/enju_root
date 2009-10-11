@@ -10,7 +10,7 @@ class Advertisement < ActiveRecord::Base
   validates_presence_of :title, :body, :started_at, :ended_at
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :body, :note, :url
     string :url
     time :created_at

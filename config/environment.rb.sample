@@ -56,7 +56,7 @@ Rails::Initializer.run do |config|
   config.gem "shuber-attr_encrypted", :lib => "attr_encrypted"
   config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
-  config.gem "binarylogic-authlogic", :lib => "authlogic"
+  config.gem "authlogic"
   config.gem "money"
   config.gem "javan-whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"

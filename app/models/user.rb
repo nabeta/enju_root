@@ -119,9 +119,9 @@ class User < ActiveRecord::Base
   def after_save
     unless last_request_at_changed?
       if self.patron
-        self.patron.send_later(:index!)
+        self.patron.index
       end
-      send_later(:index!)
+      index
     end
   end
 
@@ -142,8 +142,8 @@ class User < ActiveRecord::Base
   end
 
   def after_destroy
-    self.patron.send_later(:index!)
-    send_later(:remove_from_index!)
+    self.patron.index
+    remove_from_index
   end
 
   def check_item_before_destroy

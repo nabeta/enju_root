@@ -31,7 +31,7 @@ class Message < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  searchable :auto_index => false do
+  searchable do
     text :body, :subject
     string :subject
     integer :receiver_id

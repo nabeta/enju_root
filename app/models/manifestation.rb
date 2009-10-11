@@ -44,7 +44,7 @@ class Manifestation < ActiveRecord::Base
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
     text :tag do
       tags.collect(&:name)
@@ -155,13 +155,11 @@ class Manifestation < ActiveRecord::Base
   def after_save
     send_later(:expire_cache)
     send_later(:generate_fragment_cache)
-    send_later(:index!)
   end
 
   def after_destroy
     Rails.cache.delete("Manifestation.search.total")
     send_later(:expire_cache)
-    send_later(:remove_from_index!)
   end
 
   def expire_cache

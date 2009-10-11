@@ -41,7 +41,7 @@ class Patron < ActiveRecord::Base
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
 
-  searchable :auto_index => false do
+  searchable do
     text :name, :place, :address_1, :address_2, :other_designation
     string :zip_code_1
     string :zip_code_2
@@ -77,14 +77,6 @@ class Patron < ActiveRecord::Base
     if self.full_name_transcription.blank?
       self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s
     end
-  end
-
-  def after_save
-    send_later(:index!)
-  end
-
-  def after_destroy
-    send_later(:remove_from_index!)
   end
 
   def full_name

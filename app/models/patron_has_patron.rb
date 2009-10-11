@@ -10,12 +10,16 @@ class PatronHasPatron < ActiveRecord::Base
   acts_as_list :scope => :from_patron
 
   def before_update
-    Patron.find(from_patron_id_was).send_later(:index!)
-    Patron.find(to_patron_id_was).send_later(:index!)
+    Patron.find(from_patron_id_was).index
+    Patron.find(to_patron_id_was).index
   end
 
   def after_save
-    from_patron.send_later(:index!)
-    to_patron.send_later(:index!)
+    from_patron.index
+    to_patron.index
+  end
+
+  def after_destroy
+    after_save
   end
 end

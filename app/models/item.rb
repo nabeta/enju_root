@@ -53,7 +53,7 @@ class Item < ActiveRecord::Base
   #acts_as_soft_deletable
   enju_union_catalog
 
-  searchable :auto_index => false do
+  searchable do
     text :item_identifier, :note, :title, :author, :publisher, :library
     string :item_identifier
     string :library
@@ -86,12 +86,10 @@ class Item < ActiveRecord::Base
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
   #  end
     self.manifestation.send_later(:save, false) if self.manifestation
-    send_later(:index!)
   end
 
   def after_destroy
     self.manifestation.send_later(:save, false) if self.manifestation
-    send_later(:remove_from_index!)
   end
 
   def before_validation_on_create

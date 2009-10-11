@@ -26,7 +26,7 @@ class Work < ActiveRecord::Base
   belongs_to :medium_of_performance
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :context, :note, :author
     text :author do
       patrons.collect(&:full_name) + patrons.collect(&:full_name_transcription)
@@ -49,14 +49,6 @@ class Work < ActiveRecord::Base
 
   validates_associated :form_of_work
   validates_presence_of :original_title, :form_of_work_id
-
-  def after_save
-    send_later(:index!)
-  end
-
-  def after_destroy
-    send_later(:remove_from_index!)
-  end
 
   def title
     array = titles

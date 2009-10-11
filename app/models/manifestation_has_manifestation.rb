@@ -10,13 +10,16 @@ class ManifestationHasManifestation < ActiveRecord::Base
   acts_as_list :scope => :from_manifestation
 
   def before_update
-    Manifestation.find(from_manifestation_id_was).send_later(:index!)
-    Manifestation.find(to_manifestation_id_was).send_later(:index!)
+    Manifestation.find(from_manifestation_id_was).index
+    Manifestation.find(to_manifestation_id_was).index
   end
 
   def after_save
-    from_manifestation.send_later(:index!)
-    to_manifestation.send_later(:index!)
+    from_manifestation.index
+    to_manifestation.index
   end
 
+  def after_destroy
+    after_save
+  end
 end
