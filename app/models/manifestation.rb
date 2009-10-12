@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base

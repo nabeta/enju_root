@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class LibrariesController < ApplicationController
   before_filter :has_permission?
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]

@@ -4,6 +4,7 @@ ja:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
+        record_invalid: "は不正なレコードです。"
         inclusion: "は一覧にありません。"
         exclusion: "は予約されています。"
         invalid: "は不正な値です。"

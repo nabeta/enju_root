@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Work < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache

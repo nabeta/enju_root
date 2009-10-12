@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Reserve < ActiveRecord::Base
   include AASM
   include LibrarianOwnerRequired

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Bookmark < ActiveRecord::Base
   include LibrarianOwnerRequired
 

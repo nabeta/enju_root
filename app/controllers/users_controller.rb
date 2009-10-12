@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class UsersController < ApplicationController
   #before_filter :reset_params_session
   before_filter :has_permission?

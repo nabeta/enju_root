@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class BookmarksController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user, :only => :new

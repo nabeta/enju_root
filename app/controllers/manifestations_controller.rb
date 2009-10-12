@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class ManifestationsController < ApplicationController
   before_filter :has_permission?, :except => :show
   #before_filter :get_user_if_nil

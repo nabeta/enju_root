@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class UserGroupsController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?

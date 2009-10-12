@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Answer < ActiveRecord::Base
   include LibrarianOwnerRequired
   named_scope :public_answers, :conditions => {:shared => true}

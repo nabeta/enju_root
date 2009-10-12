@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class WorksController < ApplicationController
   before_filter :has_permission?
   before_filter :get_patron, :get_subject

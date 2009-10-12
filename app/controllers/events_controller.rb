@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class EventsController < ApplicationController
   before_filter :has_permission?, :except => :index
   before_filter :get_library, :get_patron

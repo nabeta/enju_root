@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'timeout'
 class Question < ActiveRecord::Base
   include LibrarianOwnerRequired

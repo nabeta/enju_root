@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache

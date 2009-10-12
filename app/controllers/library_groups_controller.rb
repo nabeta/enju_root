@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class LibraryGroupsController < ApplicationController
   before_filter :has_permission?
 

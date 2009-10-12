@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'mathn'
 class Library < ActiveRecord::Base
   include OnlyAdministratorCanModify

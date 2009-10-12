@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class ReservesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
