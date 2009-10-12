@@ -18,6 +18,10 @@ class LibraryGroup < ActiveRecord::Base
     after_save
   end
 
+  def before_validation
+    self.display_name = self.name if display_name.blank?
+  end
+
   def expire_cache
     Rails.cache.delete("LibraryGroup:#{id}")
   end

@@ -40,7 +40,7 @@ class Library < ActiveRecord::Base
     Rails.cache.delete('Library.all')
   end
 
-  def before_validation_on_create
+  def before_validation
     self.display_name = self.name if display_name.blank?
   end
 
