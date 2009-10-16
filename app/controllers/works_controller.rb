@@ -29,7 +29,7 @@ class WorksController < ApplicationController
         with(:patron_ids).equal_to patron.id if patron
         with(:subject_ids).equal_to subject.id if subject
         with(:original_work_ids).equal_to work.id if work
-        with(:work_merge_ids).equal_to work_merge_list.id if work_merge_list
+        with(:work_merge_list_ids).equal_to work_merge_list.id if work_merge_list
       end
     end
     page = params[:page] || 1

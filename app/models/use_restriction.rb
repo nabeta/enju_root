@@ -1,6 +1,7 @@
 class UseRestriction < ActiveRecord::Base
   include AdministratorRequired
 
+  default_scope :order => 'position'
   has_many :item_has_use_restrictions
   has_many :items, :through => :item_has_use_restrictions
 

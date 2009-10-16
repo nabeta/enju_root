@@ -34,7 +34,7 @@ class ExpressionsController < ApplicationController
         with(:patron_ids).equal_to patron.id if patron
         with(:work_id).equal_to work.id if work
         with(:original_expression_ids).equal_to expression.id if expression
-        with(:expression_merge_ids).equal_to expression_merge_list.id if expression_merge_list
+        with(:expression_merge_list_ids).equal_to expression_merge_list.id if expression_merge_list
       end
     end
     page = params[:page] || 1

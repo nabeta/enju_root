@@ -45,7 +45,7 @@ class PatronsController < ApplicationController
         with(:expression_ids).equal_to expression.id if expression
         with(:manifestation_ids).equal_to manifestation.id if manifestation
         with(:original_patron_ids).equal_to patron.id if patron
-        with(:patron_merge_ids).equal_to patron_merge_list.id if patron_merge_list
+        with(:patron_merge_list_ids).equal_to patron_merge_list.id if patron_merge_list
       end
     end
 
