@@ -62,8 +62,8 @@ module EnjuPorta
         #end
       end
 
-      #manifestation.create_frbr_instance(doc.to_s)
-      manifestation.send_later(:create_frbr_instance, doc.to_s)
+      manifestation.create_frbr_instance(doc.to_s)
+      #manifestation.send_later(:create_frbr_instance, doc.to_s)
       return manifestation
     end
 
@@ -104,9 +104,12 @@ module EnjuPorta
   module InstanceMethods
     def create_frbr_instance(xml)
       doc = self.class.return_xml(self.isbn)
-      title, title_transcription, date_of_publication, language, work_title, nbn = nil, nil, nil, nil, nil, nil
+      title = {}
+      date_of_publication, language, nbn = nil, nil, nil
       authors, publishers, subjects = [], [], []
-      work_title = doc.find('//dcterms:alternative').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:manifestation] = doc.find('//item/title').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:transcription] = doc.find('//item/dcndl:titleTranscription').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:original] = doc.find('//dcterms:alternative').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
       # authors
       doc.find('//dc:creator[@xsi:type="dcndl:NDLNH"]').to_a.each do |creator|
         authors << creator.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
@@ -120,16 +123,15 @@ module EnjuPorta
 
       Patron.transaction do
         author_patrons = Manifestation.import_patrons(authors)
-        if work_title.present?
-          work = Work.new(:original_title => work_title)
+        if title[:original].present?
+          work = Work.new(:original_title => title[:original])
         else
-          work = Work.new(:original_title => self.original_title)
+          work = Work.new(:original_title => title[:manifestation], :title_transcription => title[:transcription])
         end
         language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id || 1
         expression = Expression.new(
-          :original_title => work.title,
+          :original_title => work.original_title,
           :content_type_id => ContentType.find(:first, :conditions => {:name => 'text'}).id,
-          :frequency_of_issue_id => 1,
           :language_id => language_id
         )
         work.save!
