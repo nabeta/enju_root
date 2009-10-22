@@ -1,6 +1,6 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
-    Create, Realize, Produce, Own, Bookmark, Tag, Patron,
+    Create, Realize, Produce, Own, Bookmark, Tag, Patron, Language,
     Library, Basket, Checkin
 
   def after_save(record)
@@ -142,8 +142,12 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_manifestation_fragment(item.manifestation, 'show_holding')
       end
     when record.is_a?(Checkin)
-      #expire_editable_fragment(record.item)
-      #expire_editable_fragment(record.item.manifestation, "show_holding")
+      expire_editable_fragment(record.item)
+      expire_editable_fragment(record.item.manifestation, "show_holding")
+    when record.is_a?(Language)
+      Language.all.each do |language|
+        expire_fragment(:locale => language.iso_639_1)
+      end
     end
   end
 

@@ -7,6 +7,7 @@
         <div id="services" class="yuimenubar yuimenubarnav">
           <div class="bd">
             <ul class="first-of-type">
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'search') do -%>
               <li class="yuimenubaritem first-of-type"><%= link_to t('page.search'), "#", :class => 'yuimenuitemlabel' -%>
                 <div id="search" class="yuimenu">
                   <div class="bd">                    
@@ -26,6 +27,8 @@
                   </div>
                 </div>                    
               </li>
+              <%- end -%>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'message') do -%>
               <%- if logged_in? -%>
                 <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '#', :class => 'yuimenubaritemlabel' -%>
                   <div id="message" class="yuimenu">
@@ -42,6 +45,7 @@
               <%- else -%>
                 <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '/page/message', :class => 'yuimenubaritemlabel' -%>
                 </li>
+              <%- end -%>
               <%- end -%>
               <li class="yuimenubaritem"><%= link_to t('page.circulation'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
@@ -88,9 +92,10 @@
                         <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
-                  </div>                    
+                  </div>
                 <%- end -%>
               </li>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'request') do -%>
               <li class="yuimenubaritem"><%= link_to t('page.request'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <div id="request" class="yuimenu">
@@ -107,9 +112,10 @@
                         <li class="yuimenuitem"><%= link_to t('activerecord.models.question'), user_questions_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
-                  </div>                    
+                  </div>
                 <%- end -%>
               </li>
+              <%- end -%>
               <li class="yuimenubaritem"><%= link_to t('activerecord.models.event'), "#", :class => 'yuimenubaritemlabel' -%>
               <%- if @library_group -%>
                   <div id="event" class="yuimenu">
@@ -126,9 +132,10 @@
                       </ul>
                     </div>
                     <%- end -%>
-                  </div>                    
+                  </div>
                 <%- end -%>
               </li>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'configuration') do -%>
               <li class="yuimenubaritem"><%= link_to t('page.management'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <%- if current_user.has_role?('Librarian') -%>
@@ -161,7 +168,8 @@
                   <%- end -%>
                 <%- end -%>
               </li>
-            </ul>            
+              <%- end -%>
+            </ul>
           </div>
         </div>
       </div>

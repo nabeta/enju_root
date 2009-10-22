@@ -125,14 +125,11 @@ module ApplicationHelper
     nil
   end
 
-  def advertisement_pickup
-    advertisement = Advertisement.pickup
-    if advertisement
-      unless advertisement.url.blank?
-        link_to h(advertisement.body), advertisement.url
-      else
-        h(advertisement.body)
-      end
+  def advertisement_pickup(advertisement)
+    unless advertisement.url.blank?
+      link_to h(advertisement.body), advertisement.url
+    else
+      h(advertisement.body)
     end
   rescue
     nil

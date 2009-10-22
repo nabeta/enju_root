@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
 
   filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
-  before_filter :get_library_group, :set_locale, :set_available_languages
+  before_filter :get_library_group, :set_locale, :set_available_languages,
+    :pickup_advertisement
   #before_filter :has_permission?
 
   def get_library_group
@@ -300,6 +301,10 @@ class ApplicationController < ActionController::Base
 
   def store_page
     flash[:page] = params[:page].to_i if params[:page]
+  end
+
+  def pickup_advertisement
+    @picked_advertisement = Advertisement.pickup
   end
 
   def profile
