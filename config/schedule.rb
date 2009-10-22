@@ -24,9 +24,7 @@ set :environment, :production
 set :cron_log, "#{RAILS_ROOT}/log/cron_log.log"
 
 every 5.minute do
-  runner "Session.expire"
-  #runner "AawsResponse.expire"
-  runner "MessageQueue.send_messages"
+  runner "LibraryGroup.cron_job"
 end
 
 every 1.hour do

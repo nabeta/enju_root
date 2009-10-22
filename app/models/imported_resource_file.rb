@@ -49,41 +49,20 @@ class ImportedResourceFile < ActiveRecord::Base
       ImportedResourceFile.transaction do
         if manifestation.nil?
           begin
-            authors = data['author'].split
-            publishers = data['publisher'].split
+            authors = data['author'].split(';')
+            publishers = data['publisher'].split(';')
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
 
-            work = Work.new
-            work.original_title = data['title']
-            if work.save!
-              work.patrons << author_patrons
-              imported_object = ImportedObject.new
-              imported_object.importable = work
-              self.imported_objects << imported_object
-            end
+            work = self.import_work(data['title'], author_patrons)
+            expression = self.import_expression(work)
+            manifestation = self.import_manifestation(expression, data['isbn'])
 
-            expression = Expression.new
-            expression.original_title = work.original_title
-            expression.work = work
-            if expression.save!
-              imported_object = ImportedObject.new
-              imported_object.importable = expression
-              self.imported_objects << imported_object
-            end
-
-            manifestation = Manifestation.new
-            manifestation.original_title = expression.original_title
-            manifestation.expressions << expression
-            if manifestation.save!
-              manifestation.patrons << publisher_patrons
-              imported_object= ImportedObject.new
-              imported_object.importable = manifestation
-              self.imported_objects << imported_object
-            end
-          Rails.logger.info("resource import successed: column #{record}")
+            Rails.logger.info("resource import successed: column #{record}")
           rescue
-            Rails.logger.info("resource import failed: column #{record}")
+            manifestation.errors.each do |e|
+              Rails.logger.info("resource import failed: column #{record}: #{e.message}")
+            end
             num[:failure] += 1
           end
         end
@@ -92,17 +71,16 @@ class ImportedResourceFile < ActiveRecord::Base
           item = Item.new
           item.item_identifier = data['item_identifier']
           item.shelf = shelf
-          item.manifestation = manifestation
-          if item.save!
+          if manifestation.items << item
             item.patrons << library.patron
             imported_object= ImportedObject.new
             imported_object.importable = item
             self.imported_objects << imported_object
             num[:success] += 1
           end
-        Rails.logger.info("resource registration successed: column #{record}")
-        rescue
-          Rails.logger.info("resource registration failed: column #{record}")
+          Rails.logger.info("resource registration successed: column #{record}")
+        rescue Exception => e
+          Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
         end
         GC.start if record % 50 == 0
       end
@@ -111,6 +89,38 @@ class ImportedResourceFile < ActiveRecord::Base
     self.update_attribute(:imported_at, Time.zone.now)
     file.close
     return num
+  end
+
+  def import_work(title, patrons)
+    work = Work.new
+    work.original_title = title
+    if work.patrons << patrons
+      imported_object = ImportedObject.new
+      imported_object.importable = work
+      self.imported_objects << imported_object
+    end
+    return work
+  end
+
+  def import_expression(work)
+    expression = Expression.new(:original_title => work.original_title)
+    if work.expressions << expression
+      imported_object = ImportedObject.new
+      imported_object.importable = expression
+      self.imported_objects << imported_object
+    end
+    return expression
+  end
+
+  def import_manifestation(expression, isbn)
+    manifestation = Manifestation.new(:isbn => isbn)
+    manifestation.original_title = expression.original_title
+    if manifestation.expressions << expression
+      manifestation.patrons << publisher_patrons
+      imported_object= ImportedObject.new
+      imported_object.importable = manifestation
+      self.imported_objects << imported_object
+    end
   end
 
   def import_marc(marc_type)
@@ -123,7 +133,7 @@ class ImportedResourceFile < ActiveRecord::Base
     end
     file.close
 
-    # when 'marc_xml_url'
+    #when 'marc_xml_url'
     #  url = URI(params[:marc_xml_url])
     #  xml = open(url).read
     #  reader = MARC::XMLReader.new(StringIO.new(xml))

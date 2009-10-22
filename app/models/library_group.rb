@@ -74,4 +74,9 @@ class LibraryGroup < ActiveRecord::Base
     logger.info "#{Time.zone.now} optimization failed!"
   end
 
+  def cron_job
+    Session.expire
+    MessageQueue.send_messages
+  end
+
 end

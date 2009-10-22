@@ -129,7 +129,7 @@ class Manifestation < ActiveRecord::Base
     #end
 
     if self.isbn.present?
-      errors.add(:isbn) unless ISBN_Tools.is_valid?(self.isbn)
+      errors.add(:isbn, 'ISBN is invalid') unless ISBN_Tools.is_valid?(self.isbn)
     end
   end
 

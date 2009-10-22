@@ -18,7 +18,7 @@
       <%= t('checkout.number_of_day_overdue') -%>:
       <%= text_field_tag 'days_overdue', h(@days_overdue), :class => 'resource_integer' -%>
       <%= hidden_field_tag 'view', 'overdue' -%>
-      <%= submit_tag t('page.submit') -%>
+      <%= submit_tag t('page.search') -%>
     </p>
   <%- end -%>
 
