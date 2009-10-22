@@ -122,14 +122,14 @@ class Manifestation < ActiveRecord::Base
   validates_uniqueness_of :nbn, :allow_blank => true
   validates_format_of :access_address, :with => URI::regexp(%w(http https)) , :allow_blank => true
 
-  def validate
+  def set_wrong_isbn
     #unless self.date_of_publication.blank?
     #  date = Time.parse(self.date_of_publication.to_s) rescue nil
     #  errors.add(:date_of_publication) unless date
     #end
 
-    if self.isbn.present?
-      errors.add(:isbn, 'ISBN is invalid') unless ISBN_Tools.is_valid?(self.isbn)
+    if isbn.present?
+      wrong_isbn = isbn unless ISBN_Tools.is_valid?(isbn)
     end
   end
 
@@ -140,6 +140,7 @@ class Manifestation < ActiveRecord::Base
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
       self.isbn10 = isbn10
     end
+    set_wrong_isbn
   rescue
     nil
   end

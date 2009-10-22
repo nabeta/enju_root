@@ -48,40 +48,36 @@ class ImportedResourceFile < ActiveRecord::Base
 
       ImportedResourceFile.transaction do
         if manifestation.nil?
-          begin
+          #begin
             authors = data['author'].split(';')
             publishers = data['publisher'].split(';')
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
 
-            work = self.import_work(data['title'], author_patrons)
-            expression = self.import_expression(work)
-            manifestation = self.import_manifestation(expression, data['isbn'])
+            work = self.class.import_work(data['title'], author_patrons)
+            save_imported_object(work)
+            expression = self.class.import_expression(work)
+            save_imported_object(expression)
+            manifestation = self.class.import_manifestation(expression, data['isbn'], publisher_patrons)
+            save_imported_object(manifestation)
 
             Rails.logger.info("resource import successed: column #{record}")
-          rescue
-            manifestation.errors.each do |e|
-              Rails.logger.info("resource import failed: column #{record}: #{e.message}")
-            end
-            num[:failure] += 1
-          end
+          #rescue Exception => e
+          #  Rails.logger.info("resource import failed: column #{record}: #{e.message}")
+          #  num[:failure] += 1
+          #end
         end
 
-        begin
-          item = Item.new
-          item.item_identifier = data['item_identifier']
-          item.shelf = shelf
-          if manifestation.items << item
-            item.patrons << library.patron
-            imported_object= ImportedObject.new
-            imported_object.importable = item
-            self.imported_objects << imported_object
+        #begin
+          if manifestation
+            item = self.class.import_item(manifestation, data['item_identifier'], shelf)
+            save_imported_object(item)
             num[:success] += 1
+            Rails.logger.info("resource registration successed: column #{record}")
           end
-          Rails.logger.info("resource registration successed: column #{record}")
-        rescue Exception => e
-          Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
-        end
+        #rescue Exception => e
+        #  Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
+        #end
         GC.start if record % 50 == 0
       end
       record += 1
@@ -91,36 +87,48 @@ class ImportedResourceFile < ActiveRecord::Base
     return num
   end
 
-  def import_work(title, patrons)
+  def self.import_work(title, patrons)
     work = Work.new
     work.original_title = title
-    if work.patrons << patrons
-      imported_object = ImportedObject.new
-      imported_object.importable = work
-      self.imported_objects << imported_object
+    if work.save!
+      work.patrons << patrons
     end
     return work
   end
 
-  def import_expression(work)
+  def self.import_expression(work)
     expression = Expression.new(:original_title => work.original_title)
-    if work.expressions << expression
-      imported_object = ImportedObject.new
-      imported_object.importable = expression
-      self.imported_objects << imported_object
+    if expression.save!
+      work.expressions << expression
     end
     return expression
   end
 
-  def import_manifestation(expression, isbn)
+  def self.import_manifestation(expression, isbn, patrons)
     manifestation = Manifestation.new(:isbn => isbn)
     manifestation.original_title = expression.original_title
-    if manifestation.expressions << expression
-      manifestation.patrons << publisher_patrons
-      imported_object= ImportedObject.new
-      imported_object.importable = manifestation
-      self.imported_objects << imported_object
+    if manifestation.save!
+      manifestation.expressions << expression
+      manifestation.patrons << patrons
     end
+    return manifestation
+  end
+
+  def self.import_item(manifestation, item_identifier, shelf)
+    item = Item.new
+    item.item_identifier = item_identifier
+    item.shelf = shelf
+    if item.save!
+      manifestation.items << item
+      item.patrons << shelf.library.patron
+    end
+    return item
+  end
+
+  def save_imported_object(record)
+    imported_object = ImportedObject.new
+    imported_object.importable = record
+    imported_objects << imported_object
   end
 
   def import_marc(marc_type)

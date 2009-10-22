@@ -48,7 +48,7 @@ Rails::Initializer.run do |config|
   #config.gem "jpmobile"
   config.gem "prawn"
   #config.gem "commonthread-flickr_fu", :lib => "flickr_fu"
-  config.gem "friendly_id"
+  config.gem "norman-friendly_id", :lib => "friendly_id"
   config.gem "collectiveidea-graticule", :lib => "graticule"
   #config.gem "calendar_date_select"
   config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
