@@ -47,6 +47,6 @@ class Advertisement < ActiveRecord::Base
   def self.pickup
     ids = Advertisement.cached_current_ads.collect(&:id)
     id = ids.at(rand(ids.size))
-    advertisement = Advertisement.find(id)
+    advertisement = Advertisement.find(id) rescue nil
   end
 end

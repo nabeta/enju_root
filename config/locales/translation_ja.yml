@@ -1214,7 +1214,7 @@ ja:
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
-    will_be_impoted: "{{minute}} 分以内にインポートされます。"
+    will_be_imported: "{{minute}} 分以内にインポートされます。"
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"

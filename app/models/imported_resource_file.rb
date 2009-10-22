@@ -76,11 +76,12 @@ class ImportedResourceFile < ActiveRecord::Base
             manifestation.original_title = expression.original_title
             manifestation.expressions << expression
             if manifestation.save!
-              manifestation.patrons << author_patrons
+              manifestation.patrons << publisher_patrons
               imported_object= ImportedObject.new
               imported_object.importable = manifestation
               self.imported_objects << imported_object
             end
+          Rails.logger.info("resource import successed: column #{record}")
           rescue
             Rails.logger.info("resource import failed: column #{record}")
             num[:failure] += 1
@@ -99,6 +100,7 @@ class ImportedResourceFile < ActiveRecord::Base
             self.imported_objects << imported_object
             num[:success] += 1
           end
+        Rails.logger.info("resource registration successed: column #{record}")
         rescue
           Rails.logger.info("resource registration failed: column #{record}")
         end

@@ -1228,7 +1228,7 @@ en:
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
-    will_be_impoted:
+    will_be_imported:
       one: "Resource will be impored in a {{minute}} minute."
       other: "Resource will be impored in {{minute}} minutes."
   event:
