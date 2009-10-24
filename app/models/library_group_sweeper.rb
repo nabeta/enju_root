@@ -1,7 +1,7 @@
 class LibraryGroupSweeper < ActionController::Caching::Sweeper
   observe LibraryGroup
   def after_save(record)
-    expire_fragment(:library_group_id => record.id)
+    expire_fragment(:controller => 'library_groups', :id => record.id, :action_suffix => 'header')
   end
 
   def after_destroy(record)
