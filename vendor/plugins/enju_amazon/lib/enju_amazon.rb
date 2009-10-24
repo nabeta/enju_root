@@ -36,6 +36,7 @@ module EnjuAmazon
     end
 
     def access_amazon
+      raise "Access key is not set" if AMAZON_ACCESS_KEY == 'REPLACE_WITH_YOUR_AMAZON_KEY'
       unless self.isbn.blank?
         timestamp = CGI.escape(Time.now.utc.iso8601)
         query = [

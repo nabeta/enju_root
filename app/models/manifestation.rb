@@ -109,7 +109,7 @@ class Manifestation < ActiveRecord::Base
   enju_scribd
   enju_mozshot
   enju_oai_pmh
-  enju_worldcat
+  #enju_worldcat
 
   @@per_page = 10
   cattr_accessor :per_page

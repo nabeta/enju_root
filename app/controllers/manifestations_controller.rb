@@ -10,7 +10,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_libraries, :only => :index
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
-  include WorldcatController
+  #include WorldcatController
 
   # GET /manifestations
   # GET /manifestations.xml
