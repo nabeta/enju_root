@@ -48,7 +48,7 @@ class ImportedResourceFile < ActiveRecord::Base
 
       ImportedResourceFile.transaction do
         if manifestation.nil?
-          #begin
+          begin
             authors = data['author'].split(';')
             publishers = data['publisher'].split(';')
             author_patrons = Manifestation.import_patrons(authors)
@@ -62,22 +62,22 @@ class ImportedResourceFile < ActiveRecord::Base
             save_imported_object(manifestation)
 
             Rails.logger.info("resource import successed: column #{record}")
-          #rescue Exception => e
-          #  Rails.logger.info("resource import failed: column #{record}: #{e.message}")
-          #  num[:failure] += 1
-          #end
+          rescue Exception => e
+            Rails.logger.info("resource import failed: column #{record}: #{e.message}")
+            num[:failure] += 1
+          end
         end
 
-        #begin
+        begin
           if manifestation
             item = self.class.import_item(manifestation, data['item_identifier'], shelf)
             save_imported_object(item)
             num[:success] += 1
             Rails.logger.info("resource registration successed: column #{record}")
           end
-        #rescue Exception => e
-        #  Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
-        #end
+        rescue Exception => e
+          Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
+        end
         GC.start if record % 50 == 0
       end
       record += 1
@@ -90,38 +90,37 @@ class ImportedResourceFile < ActiveRecord::Base
   def self.import_work(title, patrons)
     work = Work.new
     work.original_title = title
-    if work.save!
+    #if work.save!
       work.patrons << patrons
-    end
+    #end
     return work
   end
 
   def self.import_expression(work)
     expression = Expression.new(:original_title => work.original_title)
-    if expression.save!
+    #if expression.save!
       work.expressions << expression
-    end
+    #end
     return expression
   end
 
   def self.import_manifestation(expression, isbn, patrons)
     manifestation = Manifestation.new(:isbn => isbn)
     manifestation.original_title = expression.original_title
-    if manifestation.save!
+    #if manifestation.save!
       manifestation.expressions << expression
       manifestation.patrons << patrons
-    end
+    #end
     return manifestation
   end
 
   def self.import_item(manifestation, item_identifier, shelf)
-    item = Item.new
-    item.item_identifier = item_identifier
+    item = Item.new(:item_identifier => item_identifier)
     item.shelf = shelf
-    if item.save!
+    #if item.save!
       manifestation.items << item
       item.patrons << shelf.library.patron
-    end
+    #end
     return item
   end
 
