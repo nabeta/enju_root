@@ -7,7 +7,7 @@
         <div id="services" class="yuimenubar yuimenubarnav">
           <div class="bd">
             <ul class="first-of-type">
-              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'search') do -%>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'search', :locale => @locale) do -%>
               <li class="yuimenubaritem first-of-type"><%= link_to t('page.search'), "#", :class => 'yuimenuitemlabel' -%>
                 <div id="search" class="yuimenu">
                   <div class="bd">                    
@@ -28,7 +28,7 @@
                 </div>                    
               </li>
               <%- end -%>
-              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'message') do -%>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'message', :locale => @locale) do -%>
               <%- if logged_in? -%>
                 <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '#', :class => 'yuimenubaritemlabel' -%>
                   <div id="message" class="yuimenu">
@@ -95,7 +95,7 @@
                   </div>
                 <%- end -%>
               </li>
-              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'request') do -%>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'request', :locale => @locale) do -%>
               <li class="yuimenubaritem"><%= link_to t('page.request'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <div id="request" class="yuimenu">
@@ -135,7 +135,7 @@
                   </div>
                 <%- end -%>
               </li>
-              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'configuration') do -%>
+              <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'configuration', :locale => @locale) do -%>
               <li class="yuimenubaritem"><%= link_to t('page.management'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <%- if current_user.has_role?('Librarian') -%>

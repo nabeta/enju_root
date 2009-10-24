@@ -1,5 +1,5 @@
 <div class="header_and_footer">
-  <%- cache(:controller => 'library_groups', :id => LibraryGroup.site_config.id, :action_suffix => 'header') do -%>
+  <%- cache(:controller => 'library_groups', :id => LibraryGroup.site_config.id, :action_suffix => 'header', :locale => @locale) do -%>
     <div id="header_left">
       <h2><a href="/" title="<%=h LibraryGroup.site_config.display_name.localize -%>"><%=h LibraryGroup.site_config.display_name.localize -%></a></h2>
     </div>
