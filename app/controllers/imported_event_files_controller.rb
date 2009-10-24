@@ -48,11 +48,11 @@ class ImportedEventFilesController < ApplicationController
     @imported_event_file.user = current_user
 
     respond_to do |format|
-      if @imported_event_file.save
+      if @imported_event_file.save!
         #flash[:notice] = n('%{num} event is imported.', '%{num} events are imported.', num) % {:num => num[:success]}
         #flash[:notice] += n('%{num} event is imported.', '%{num} events are imported.', num) % {:num => num[:failure]} if num[:failure] > 0
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.imported_event_file'))
-        flash[:notice] += t('import.will_be_imported', :minute => 60) # TODO: インポートまでの時間表記
+        flash[:notice] << t('import.will_be_imported', :minute => 60).to_s # TODO: インポートまでの時間表記
         #@imported_event_file.import
         format.html { redirect_to(@imported_event_file) }
         format.xml  { render :xml => @imported_event_file, :status => :created, :location => @imported_event_file }
@@ -61,9 +61,9 @@ class ImportedEventFilesController < ApplicationController
         format.xml  { render :xml => @imported_event_file.errors, :status => :unprocessable_entity }
       end
     end
-  rescue
-    flash[:notice] = t('attachment_file.invalid_file')
-    redirect_to new_imported_event_file_url
+  #rescue
+  #  flash[:notice] = t('attachment_file.invalid_file')
+  #  redirect_to new_imported_event_file_url
   end
 
   # PUT /imported_event_files/1

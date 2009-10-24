@@ -43,41 +43,41 @@ Rails::Initializer.run do |config|
   config.gem "extractcontent"
   config.gem "isbn-tools", :lib => "isbn/tools"
   config.gem "barby"
-  config.gem "rubyist-aasm", :lib => "aasm"
-  config.gem "mislav-will_paginate", :lib => "will_paginate"
+  config.gem "aasm"
+  config.gem "will_paginate"
   #config.gem "jpmobile"
   config.gem "prawn"
   #config.gem "commonthread-flickr_fu", :lib => "flickr_fu"
-  config.gem "norman-friendly_id", :lib => "friendly_id"
-  config.gem "collectiveidea-graticule", :lib => "graticule"
+  config.gem "friendly_id"
+  config.gem "graticule"
   #config.gem "calendar_date_select"
   config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
-  config.gem "mdarby-restful_acl", :lib => "restful_acl_controller"
+  config.gem "restful_acl", :lib => "restful_acl_controller"
   config.gem "shuber-attr_encrypted", :lib => "attr_encrypted"
   config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
   config.gem "authlogic"
   config.gem "money"
-  config.gem "javan-whenever", :lib => false
+  config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "mbleigh-acts-as-taggable-on", :lib => "acts-as-taggable-on"
+  config.gem "acts-as-taggable-on"
   #config.gem "mloughran-api_cache", :lib => "api_cache"
   config.gem "memcache-client", :lib => "memcache"
   config.gem "shared-mime-info"
   config.gem "authlogic-oid", :lib => "authlogic_openid"
-  config.gem "collectiveidea-delayed_job", :lib => "delayed_job"
+  config.gem "delayed_job"
   config.gem "ratom", :lib => "atom"
   #config.gem "damog-feedbag", :lib => "feedbag"
   config.gem "mbleigh-canonical-url", :lib => "canonical_url"
   #config.gem "nabeta-wcapi", :lib => "wcapi"
   #config.gem "sishen-rtranslate", :lib => "rtranslate"
   #config.gem "alexrabarts-big_sitemap", :lib => "big_sitemap"
-  config.gem "thoughtbot-paperclip", :lib => "paperclip"
+  config.gem "paperclip"
   config.gem "sunspot", :version => ">=0.10.2"
   config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.10.6"
-  config.gem "thoughtbot-factory_girl", :lib => "factory_girl"
-  config.gem "rubyredrick-ri_cal", :lib => "ri_cal"
-  #config.gem "reagent-fleakr", :lib => "fleakr"
+  config.gem "factory_girl"
+  config.gem "ri_cal"
+  #config.gem "fleakr"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
@@ -107,7 +107,6 @@ Money.default_currency = "JPY"
 
 #require 'jasper-rails'
 require 'solr_index'
-require 'tag_modified'
 require 'jcode'
 require 'nkf'
 require 'csv'
