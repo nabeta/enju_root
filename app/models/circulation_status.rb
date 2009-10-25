@@ -18,4 +18,7 @@ class CirculationStatus < ActiveRecord::Base
     Rails.cache.delete('CirculationStatus.available_for_checkout')
   end
 
+  def after_destroy
+    after_save
+  end
 end

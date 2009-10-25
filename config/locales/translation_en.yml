@@ -133,6 +133,7 @@ en:
       item_relationship_type: Item relationship type
       lending_policy: Lending policy
       nii_type: NII metadata type
+      license: License
     attributes:
       library:
         name: Name
@@ -902,6 +903,11 @@ en:
         note: Note
         position: Position
       nii_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      license:
         name: Name
         display_name: Display name
         note: Note

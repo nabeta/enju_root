@@ -1,0 +1,31 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), licenses_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.license')) -%></h1>
+<div id="content_list">
+
+<%- form_for(@license) do |f| -%>
+  <%= f.error_messages -%>
+  <p>
+    <%= f.label t('activerecord.attributes.license.name') -%><br />
+    <%= f.text_field :name, :class => 'resource_title' -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.license.display_name') -%><br />
+    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.license.note') -%><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+  <p>
+    <%= f.submit t('page.create') -%>
+  </p>
+<%- end -%>
+
+</div>
+</div>

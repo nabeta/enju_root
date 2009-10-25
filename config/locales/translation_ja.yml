@@ -135,6 +135,7 @@ ja:
       item_relationship_type: 個別資料の関係の種類
       lending_policy: 貸出規則
       nii_type: NIIメタデータタイプ
+      license: ライセンス
     attributes:
       library:
         name: 名前
@@ -902,6 +903,11 @@ ja:
         note: 注記
         position: 位置
       nii_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      license:
         name: 名前
         display_name: 表示名
         note: 注記

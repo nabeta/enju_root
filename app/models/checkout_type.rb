@@ -29,4 +29,7 @@ class CheckoutType < ActiveRecord::Base
     Rails.cache.delete('CheckoutType.all')
   end
 
+  def after_destroy
+    after_save
+  end
 end

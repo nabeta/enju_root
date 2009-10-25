@@ -1,0 +1,37 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.license')), new_license_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.license')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th id="position"></th>
+    <th><%= t('activerecord.attributes.license.name') -%></th>
+    <th><%= t('activerecord.attributes.license.display_name') -%></th>
+    <th><%= t('activerecord.attributes.license.note') -%></th>
+  </tr>
+
+<%- @licenses.each do |license| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if license.is_deletable_by(current_user) -%>
+        <%= move_position(license) -%>
+      <%- end -%>
+    </td>
+    <td><%= link_to h(license.name), license -%></td>
+    <td><%= link_to h(license.display_name.localize), license -%></td>
+    <td><%=h license.note -%></td>
+    <td><%= link_to t('page.edit'), edit_license_path(license) -%></td>
+    <td><%= link_to t('page.destroy'), license, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@licenses, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
