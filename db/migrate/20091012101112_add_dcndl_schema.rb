@@ -19,7 +19,6 @@ class AddDcndlSchema < ActiveRecord::Migration
     remove_column :manifestations, :abstract
     remove_column :manifestations, :available_at
     remove_column :manifestations, :valid_until
-    remove_column :manifestations, :date_copyrighted
     remove_column :manifestations, :date_submitted
     remove_column :manifestations, :date_accepted
     remove_column :manifestations, :date_caputured
