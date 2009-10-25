@@ -15,19 +15,17 @@ class CheckedItem < ActiveRecord::Base
   def available_for_checkout?
     unless self.item
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
-      return
+      return false
     end
 
     if self.item.rent?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.already_checked_out'))
-      return
     end
 
     return true if self.ignore_restriction == "1"
 
     if self.item.blank?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
-      return
     end
     unless self.item.available_for_checkout?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
@@ -41,10 +39,12 @@ class CheckedItem < ActiveRecord::Base
     if self.in_transaction?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.in_transcation'))
     end
+    unless self.item_checkout_type
+      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
+    end
     if self.item.reserved?
       reserving_user = self.item.manifestation.reserving_users.find(:first, :conditions => {:id => user.id}, :order => :created_at) rescue nil
       unless reserving_user
-        #errors.add_to_base(('Reserved item included!'))
         errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.reserved_item_included'))
       end
     end
@@ -53,10 +53,10 @@ class CheckedItem < ActiveRecord::Base
     Rails.cache.fetch('CheckoutType.all'){CheckoutType.all}.each do |checkout_type|
       #carrier_type = self.item.manifestation.carrier_type
       if checkout_count[:"#{checkout_type.name}"] > self.item_checkout_type.checkout_limit
-        #errors.add_to_base(('Excessed checkout limit.'))
         errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.excessed_checkout_limit'))
       end
     end
+    return false unless errors["base"]
   end
 
   def item_checkout_type
