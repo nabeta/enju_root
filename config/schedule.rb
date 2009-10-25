@@ -32,24 +32,15 @@ every 1.hour do
 end
 
 every 1.day, :at => '0:00 am' do
-  runner "Reserve.expire"
-  runner "Basket.expire"
-  runner "NewsFeed.fetch_feeds"
+  runner "Reserve.expire; Basket.expire; NewsFeed.fetch_feeds"
 end
 
 every 1.day, :at => '1:00 am' do
-  runner "UserCheckoutStat.calculate_stat"
-  runner "UserReserveStat.calculate_stat"
-  runner "ManifestationCheckoutStat.calculate_stat"
-  runner "ManifestationReserveStat.calculate_stat"
-  runner "BookmarkStat.calculate_stat"
+  runner "UserCheckoutStat.calculate_stat; UserReserveStat.calculate_stat; ManifestationCheckoutStat.calculate_stat; ManifestationReserveStat.calculate_stat; BookmarkStat.calculate_stat"
 end
 
 every 1.hour do
-  runner "ImportedPatronFile.import"
-  runner "ImportedEventFile.import"
-  runner "ImportedResourceFile.import"
-  runner "Rails.cache.delete('Manifestation.search.total')"
+  runner "ImportedPatronFile.import; ImportedEventFile.import; ImportedResourceFile.import; Rails.cache.delete('Manifestation.search.total')"
 end
 
 every 1.day, :at => '3:00 am' do
@@ -58,9 +49,5 @@ every 1.day, :at => '3:00 am' do
 end
 
 every 1.day, :at => '9:00 am' do
-  runner "Checkout.send_due_date_notification(1)"
-end
-
-every 1.day, :at => '9:00 am' do
-  runner "Checkout.send_overdue_notification"
+  runner "Checkout.send_due_date_notification(1); Checkout.send_overdue_notification"
 end
