@@ -12,7 +12,6 @@
   <tr>
     <th id="position"></th>
     <th><%= t('activerecord.attributes.license.name') -%></th>
-    <th><%= t('activerecord.attributes.license.display_name') -%></th>
     <th><%= t('activerecord.attributes.license.note') -%></th>
   </tr>
 
@@ -23,8 +22,11 @@
         <%= move_position(license) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(license.name), license -%></td>
-    <td><%= link_to h(license.display_name.localize), license -%></td>
+    <td>
+      <%= link_to h(license.display_name.localize), license -%>
+      <br />
+      (<%= link_to h(license.name), license -%>)
+    </td>
     <td><%=h license.note -%></td>
     <td><%= link_to t('page.edit'), edit_license_path(license) -%></td>
     <td><%= link_to t('page.destroy'), license, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

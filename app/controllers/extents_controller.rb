@@ -46,7 +46,7 @@ class ExtentsController < ApplicationController
 
     respond_to do |format|
       if @extent.save
-        flash[:notice] = 'Extent was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.nii_type'))
         format.html { redirect_to(@extent) }
         format.xml  { render :xml => @extent, :status => :created, :location => @extent }
       else
@@ -69,7 +69,7 @@ class ExtentsController < ApplicationController
 
     respond_to do |format|
       if @extent.update_attributes(params[:extent])
-        flash[:notice] = 'Extent was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.nii_type'))
         format.html { redirect_to(@extent) }
         format.xml  { head :ok }
       else

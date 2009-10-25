@@ -12,19 +12,21 @@
   <tr>
     <th id="position"></th>
     <th><%= t('activerecord.attributes.nii_type.name') -%></th>
-    <th><%= t('activerecord.attributes.nii_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.nii_type.note') -%></th>
   </tr>
 
-<%- for nii_type in @nii_types -%>
+<%- @nii_types.each do |nii_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if nii_type.is_deletable_by(current_user) -%>
         <%= move_position(nii_type) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(nii_type.name), nii_type -%></td>
-    <td><%= link_to h(nii_type.display_name.localize), nii_type -%></td>
+    <td>
+      <%= link_to h(nii_type.display_name.localize), nii_type -%>
+      <br />
+      (<%= link_to h(nii_type.name), nii_type -%>)
+    </td>
     <td><%=h nii_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_nii_type_path(nii_type) -%></td>
     <td><%= link_to t('page.destroy'), nii_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

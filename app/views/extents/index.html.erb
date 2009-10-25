@@ -12,7 +12,6 @@
   <tr>
     <th id="position"></th>
     <th><%= t('activerecord.attributes.extent.name') -%></th>
-    <th><%= t('activerecord.attributes.extent.display_name') -%></th>
     <th><%= t('activerecord.attributes.extent.note') -%></th>
   </tr>
 
@@ -23,8 +22,11 @@
         <%= move_position(extent) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(extent.name), extent -%></td>
-    <td><%= link_to h(extent.display_name.localize), extent -%></td>
+    <td>
+      <%= link_to h(extent.display_name.localize), extent -%>
+      <br />
+      (<%= link_to h(extent.name), extent -%>)
+    </td>
     <td><%=h extent.note -%></td>
     <td><%= link_to t('page.edit'), edit_extent_path(extent) -%></td>
     <td><%= link_to t('page.destroy'), extent, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

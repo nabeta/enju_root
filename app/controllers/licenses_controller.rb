@@ -46,7 +46,7 @@ class LicensesController < ApplicationController
 
     respond_to do |format|
       if @license.save
-        flash[:notice] = 'License was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.license'))
         format.html { redirect_to(@license) }
         format.xml  { render :xml => @license, :status => :created, :location => @license }
       else
@@ -69,7 +69,7 @@ class LicensesController < ApplicationController
 
     respond_to do |format|
       if @license.update_attributes(params[:license])
-        flash[:notice] = 'License was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.license'))
         format.html { redirect_to(@license) }
         format.xml  { head :ok }
       else
