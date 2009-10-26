@@ -53,7 +53,7 @@ class CheckedItem < ActiveRecord::Base
     checkout_count = self.basket.user.checked_item_count
     Rails.cache.fetch('CheckoutType.all'){CheckoutType.all}.each do |checkout_type|
       #carrier_type = self.item.manifestation.carrier_type
-      if checkout_count[:"#{checkout_type.name}"] > self.item_checkout_type.checkout_limit
+      if checkout_count[:"#{checkout_type.name}"] + self.basket.checked_items.size >= self.item_checkout_type.checkout_limit
         errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.excessed_checkout_limit'))
       end
     end
