@@ -89,6 +89,16 @@ class Item < ActiveRecord::Base
     self.manifestation.send_later(:save, false) if self.manifestation
   end
 
+  #def after_create
+  #  create_lending_policy
+  #end
+
+  #def create_lending_policy
+  #  self.checkout_type.user_group_has_checkout_types.each do |c|
+  #    LendingPolicy.create(:item_id => self.id, :loan_period => c.checkout_period, :user_group_id => c.user_group_id)
+  #  end
+  #end
+
   def after_destroy
     self.manifestation.send_later(:save, false) if self.manifestation
   end

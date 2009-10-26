@@ -116,7 +116,17 @@ class CheckedItemsControllerTest < ActionController::TestCase
   def test_everyone_should_not_create_checked_item_already_checked_out
     UserSession.create users(:admin)
     old_count = CheckedItem.count
-    post :create, :checked_item => {:item_identifier => '00012'}, :basket_id => 8
+    post :create, :checked_item => {:item_identifier => '00013'}, :basket_id => 8
+    assert_equal old_count, CheckedItem.count
+    
+    assert_response :success
+    assert assigns(:checked_item).errors["base"].include?('This item is already checked out.')
+  end
+
+  def test_everyone_should_not_create_checked_item_in_transaction
+    UserSession.create users(:admin)
+    old_count = CheckedItem.count
+    post :create, :checked_item => {:item_identifier => '00006'}, :basket_id => 9
     assert_equal old_count, CheckedItem.count
     
     assert_response :success

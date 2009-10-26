@@ -4,16 +4,16 @@ class CheckedItem < ActiveRecord::Base
   belongs_to :basket #, :validate => true
 
   validates_associated :item, :basket
-  validates_presence_of :item_id, :basket_id #, :due_date
+  validates_presence_of :item_id, :basket_id, :due_date
   validates_uniqueness_of :item_id, :scope => :basket_id
   validate_on_create :available_for_checkout?
   
-  before_create :set_due_date
+  before_validation_on_create :set_due_date
 
   attr_accessor :item_identifier, :ignore_restriction
 
   def available_for_checkout?
-    unless self.item
+    if self.item.blank?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
       return false
     end
@@ -22,26 +22,27 @@ class CheckedItem < ActiveRecord::Base
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.already_checked_out'))
     end
 
-    return true if self.ignore_restriction == "1"
-
-    if self.item.blank?
-      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.item_not_found'))
-    end
     unless self.item.available_for_checkout?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
+      return false
     end
-    if self.item_checkout_type.nil?
+
+    if self.item_checkout_type.blank?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.this_group_cannot_checkout'))
+      return false
     end
+    # ここまでは絶対に貸出ができない場合
+
+    return true if self.ignore_restriction == "1"
+
     if self.item.use_restrictions.detect{|r| r.name == 'Not For Loan'}
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
     end
+
     if self.in_transaction?
       errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.in_transcation'))
     end
-    unless self.item_checkout_type
-      errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.not_available_for_checkout'))
-    end
+
     if self.item.reserved?
       reserving_user = self.item.manifestation.reserving_users.find(:first, :conditions => {:id => user.id}, :order => :created_at) rescue nil
       unless reserving_user
@@ -56,11 +57,14 @@ class CheckedItem < ActiveRecord::Base
         errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.excessed_checkout_limit'))
       end
     end
+    
     return false unless errors["base"]
   end
 
   def item_checkout_type
     self.basket.user.user_group.user_group_has_checkout_types.available_for_item(self.item).first
+  rescue
+    nil
   end
 
   def set_due_date
@@ -84,6 +88,7 @@ class CheckedItem < ActiveRecord::Base
         self.due_date = due_date.tomorrow.end_of_day
       end
     end
+    return self.due_date
   end
 
   def in_transaction?
