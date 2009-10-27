@@ -92,14 +92,14 @@ ja:
       message_queue: 送信待ちのメッセージ
       answer: 回答
       bookstore: 書店
-      checkout_type: 貸出ルール
+      checkout_type: 貸出区分
       classification_type: 分類型
       country: 国と地域
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      user_group_has_checkout_type: 利用者グループと貸出ルールの関係
-      carrier_type_has_checkout_type: 体現形の種類と貸出ルールの関係
+      user_group_has_checkout_type: 利用者グループと貸出区分の関係
+      carrier_type_has_checkout_type: 体現形の種類と貸出区分の関係
       tag: タグ
       bookmark_stat: ブックマーク統計
       manifestation_checkout_stat: 資料別貸出統計
@@ -1143,6 +1143,7 @@ ja:
     add_new_copy: "複本を追加"
     no_manifestation: "体現形なし"
     no_number: "番号なし"
+    add_lending_policy: "貸出規則の追加"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"

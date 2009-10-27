@@ -1155,6 +1155,7 @@ en:
     add_new_copy: "Add a new copy"
     no_manifestation: "No manifestation"
     no_number: "No number"
+    add_lending_policy: "Add a new lending policy"
   patron:
     library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"

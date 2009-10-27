@@ -15,8 +15,8 @@
 <%- @lending_policies.each do |lending_policy| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(lending_policy.item.manifestation.original_title), lending_policy.item.manifestation -%><br />
-      (<%= link_to h(lending_policy.item.item_identifier), lending_policy.item -%>)
+      <%= link_to h(lending_policy.item.item_identifier), lending_policy.item -%><br />
+      (<%= link_to h(lending_policy.item.manifestation.original_title), lending_policy.item.manifestation -%>)
     </td>
     <td><%= link_to h(lending_policy.user_group.display_name.localize), lending_policy.user_group -%></td>
     <td><%=h lending_policy.loan_period -%></td>
@@ -37,6 +37,10 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.lending_policy')), new_lending_policy_path -%></li>
+    <%- if @item -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.lending_policy')), new_item_lending_policy_path(@item) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.lending_policy')), new_lending_policy_path -%></li>
+    <%- end -%>
   </ul>
 </div>

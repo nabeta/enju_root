@@ -6,31 +6,31 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label :item_id -%><br />
+    <%= f.label :item_id, t('activerecord.models.item') -%><br />
     <%= f.text_field :item_id -%>
   </p>
   <p>
-    <%= f.label :user_group_id -%><br />
+    <%= f.label :user_group_id, t('activerecord.models.user_group') -%><br />
     <%= f.select :user_group_id, @user_groups.collect{|u| [u.display_name.localize, u.id]} -%>
   </p>
   <p>
-    <%= f.label :loan_period -%><br />
+    <%= f.label :loan_period, t('activerecord.attributes.lending_policy.loan_period') -%><br />
     <%= f.text_field :loan_period -%>
   </p>
   <p>
-    <%= f.label :fixed_due_date -%><br />
+    <%= f.label :fixed_due_date, t('activerecord.attributes.lending_policy.fixed_due_date') -%><br />
     <%= f.text_field :fixed_due_date -%>
   </p>
   <p>
-    <%= f.label :renewal -%><br />
+    <%= f.label :renewal, t('activerecord.attributes.lending_policy.renewal') -%><br />
     <%= f.text_field :renewal -%>
   </p>
   <p>
-    <%= f.label :fine -%><br />
+    <%= f.label :fine, t('activerecord.attributes.lending_policy.fine') -%><br />
     <%= f.text_field :fine -%>
   </p>
   <p>
-    <%= f.label :note -%><br />
+    <%= f.label :note, t('activerecord.attributes.lending_policy.note') -%><br />
     <%= f.text_area :note -%>
   </p>
   <p>

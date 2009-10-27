@@ -343,6 +343,7 @@ ActionController::Routing::Routes.draw do |map|
     item.resource :inventory_files
     item.resources :items
     item.resources :item_has_items
+    item.resources :lending_policies
   end
   map.resources :libraries do |library|
     library.resources :shelves do |shelf|

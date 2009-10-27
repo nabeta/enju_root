@@ -6,7 +6,11 @@ class LendingPoliciesController < ApplicationController
   # GET /lending_policies
   # GET /lending_policies.xml
   def index
-    @lending_policies = LendingPolicy.paginate(:page => params[:page])
+    if @item
+      @lending_policies = @item.lending_policies.paginate(:page => params[:page])
+    else
+      @lending_policies = LendingPolicy.paginate(:page => params[:page])
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,6 +33,7 @@ class LendingPoliciesController < ApplicationController
   # GET /lending_policies/new.xml
   def new
     @lending_policy = LendingPolicy.new
+    @lending_policy.item = @item
 
     respond_to do |format|
       format.html # new.html.erb
