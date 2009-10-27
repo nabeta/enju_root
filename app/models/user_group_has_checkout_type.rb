@@ -12,4 +12,26 @@ class UserGroupHasCheckoutType < ActiveRecord::Base
 
   acts_as_list :scope => :user_group_id
 
+  def after_create
+    create_lending_policy
+  end
+
+  def after_update
+    update_lending_policy
+  end
+
+  def create_lending_policy
+    self.checkout_type.items.each do |item|
+      item.lending_policies.create(:user_group_id => self.user_group_id, :loan_period => self.checkout_period, :renewal => self.checkout_renewal_limit)
+    end
+  end
+
+  def update_lending_policy
+    self.checkout_type.items.each do |item|
+      item.lending_policies.each do |lending_policy|
+        lending_policy.update_attributes({:loan_period => self.checkout_period, :renewal => self.checkout_renewal_limit}) if lending_policy.user_group == self.user_group
+      end
+    end
+  end
+
 end
