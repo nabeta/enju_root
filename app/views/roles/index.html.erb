@@ -10,7 +10,7 @@
     <th><%= t('page.updated_at') -%></th>
   </tr>
   
-<%- for role in @roles -%>
+<%- @roles.each do |role| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(role.name), role -%></td>
     <td><%= link_to h(role.display_name.localize), role -%></td>

@@ -25,6 +25,7 @@
       <%= button_to_remote t('page.reset'), :update => 'feed_token', :url => edit_user_path(@user.login, :mode => 'feed_token'), :method => :get -%>
       <%= button_to_remote t('page.delete'), :update => 'feed_token', :url => edit_user_path(@user.login, :mode => 'feed_token', :disable => true), :method => :get -%>
     </div>
+    <br />
   </p>
 
   <p>

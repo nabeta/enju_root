@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Classification < ActiveRecord::Base
   include OnlyAdministratorCanModify
   has_many :subject_has_classifications, :dependent => :destroy
@@ -6,9 +7,9 @@ class Classification < ActiveRecord::Base
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :subject_has_classifications
 
   validates_associated :classification_type
-  validates_presence_of :category, :classification_type
+  validates_presence_of :category, :classification_type_id
   validates_uniqueness_of :category, :scope => :classification_type_id
-  searchable :auto_index => false do
+  searchable do
     text :category, :note, :subject
     integer :subject_ids, :multiple => true
     integer :classification_type_id

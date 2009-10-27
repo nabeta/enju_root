@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
@@ -23,9 +24,8 @@ class Manifestation < ActiveRecord::Base
   belongs_to :language, :validate => true
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :orders, :dependent => :destroy
-  has_one :bookmarked_resource, :dependent => :destroy
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :checkout_stat_has_manifestations
   has_many :checkout_stats, :through => :checkout_stat_has_manifestations
@@ -41,16 +41,24 @@ class Manifestation < ActiveRecord::Base
   belongs_to :frequency #, :validate => true
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
+  has_many :bookmarks
+  has_many :users, :through => :bookmarks
+  belongs_to :nii_type
 
-  searchable :auto_index => false do
-    text :title, :fulltext, :tag, :note, :author, :editor, :publisher, :subject
+  searchable do
+    text :title, :fulltext, :note, :author, :editor, :publisher, :subject
+    text :tag do
+      tags.collect(&:name)
+    end
     string :isbn, :multiple => true do
       [isbn, isbn10, wrong_isbn]
     end
     string :issn
     string :lccn
     string :nbn
-    string :tag, :multiple => true
+    string :tag, :multiple => true do
+      tags.collect(&:name)
+    end
     string :carrier_type do
       carrier_type.name
     end
@@ -61,6 +69,9 @@ class Manifestation < ActiveRecord::Base
     string :shelf, :multiple => true
     string :user, :multiple => true
     string :subject, :multiple => true
+    integer :subject_ids, :multiple => true do
+      self.subjects.collect(&:id)
+    end
     string :sort_title
     time :created_at
     time :updated_at
@@ -87,18 +98,18 @@ class Manifestation < ActiveRecord::Base
     boolean :subscription_master
   end
 
-  acts_as_tree
+  #acts_as_tree
   enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_porta
   enju_cinii
-  enju_worldcat
   has_attached_file :attachment
   has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
   enju_oai_pmh
+  #enju_worldcat
 
   @@per_page = 10
   cattr_accessor :per_page
@@ -111,14 +122,14 @@ class Manifestation < ActiveRecord::Base
   validates_uniqueness_of :nbn, :allow_blank => true
   validates_format_of :access_address, :with => URI::regexp(%w(http https)) , :allow_blank => true
 
-  def validate
+  def set_wrong_isbn
     #unless self.date_of_publication.blank?
     #  date = Time.parse(self.date_of_publication.to_s) rescue nil
     #  errors.add(:date_of_publication) unless date
     #end
 
-    if self.isbn.present?
-      errors.add(:isbn) unless ISBN_Tools.is_valid?(self.isbn)
+    if isbn.present?
+      wrong_isbn = isbn unless ISBN_Tools.is_valid?(isbn)
     end
   end
 
@@ -129,6 +140,7 @@ class Manifestation < ActiveRecord::Base
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
       self.isbn10 = isbn10
     end
+    set_wrong_isbn
   rescue
     nil
   end
@@ -138,7 +150,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def after_create
-    send_later(:set_digest)
+    send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
   end
 
@@ -251,14 +263,9 @@ class Manifestation < ActiveRecord::Base
     self.items.collect{|item| item.shelves}.flatten.uniq
   end
 
-  def tag
-    #tags.collect{|t| Array(t.name) + t.synonym.to_s.split}.flatten
-    tags.collect(&:name)
-  end
-
   def tags
-    if self.bookmarked_resource
-      self.bookmarked_resource.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
+    unless self.bookmarks.empty?
+      self.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
     else
       []
     end
@@ -349,7 +356,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def forms
-    self.expressions.collect(&:expression_form).uniq
+    self.expressions.collect(&:content_type).uniq
   end
 
   def languages
@@ -408,13 +415,9 @@ class Manifestation < ActiveRecord::Base
     self.works.collect(&:subjects).flatten
   end
 
-  def subject_ids
-    self.subjects.collect(&:id)
-  end
-
   def user
-    if self.bookmarked_resource
-      self.bookmarked_resource.bookmarks.collect(&:user).collect(&:login)
+    if self.bookmarks
+      self.bookmarks.collect(&:user).collect(&:login)
     else
       []
     end
@@ -425,20 +428,18 @@ class Manifestation < ActiveRecord::Base
     return nil if self.cached_numdocs < 5
     resource = nil
     # TODO: ヒット件数が0件のキーワードがあるときに指摘する
-    if keyword
-      response = Sunspot.search(Manifestation) do
-        keywords keyword
-        order_by_random
-        paginate :page => 1, :per_page => 1
-      end
-      resource = response.results.first
+    response = Sunspot.search(Manifestation) do
+      fulltext keyword if keyword
+      order_by(:random)
+      paginate :page => 1, :per_page => 1
     end
-    if resource.nil?
-      while resource.nil?
-        resource = self.find(rand(self.cached_numdocs)) rescue nil
-      end
-    end
-    return resource
+    resource = response.results.first
+    #if resource.nil?
+    #  while resource.nil?
+    #    resource = self.find(rand(self.cached_numdocs) + 1) rescue nil
+    #  end
+    #end
+    #return resource
   end
 
   def subscribed?
@@ -503,13 +504,13 @@ class Manifestation < ActiveRecord::Base
 
   #def bookmarks(start_date = nil, end_date = nil)
   #  if start_date.blank? and end_date.blank?
-  #    if self.bookmarked_resource
-  #      self.bookmarked_resource.bookmarks
+  #    if self.bookmarks
+  #      self.bookmarks
   #    else
   #      []
   #    end
   #  else
-  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:bookmarked_resource_id => self.bookmarked_resource.id})
+  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:manifestation_id => self.id})
   #  end
   #end
 
@@ -544,7 +545,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(self.attachment.path)
+    file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
     save(false)
   end
 
@@ -586,10 +587,28 @@ class Manifestation < ActiveRecord::Base
     sort_by = options[:sort_by] || 'created_at'
     order = options[:order] || 'desc'
     search = Sunspot.new_search(Manifestation)
-    search.query.add_restriction(:original_manifestation_ids, :equal_to, self.id)
+    search.build do
+      with(:original_manifestation_ids).equal_to self.id
+      order_by(:sort_by, order)
+    end
     search.query.paginate page.to_i, Manifestation.per_page
-    search.query.order_by sort_by, order
     search.execute!.results
+  end
+
+  def bookmarked?(user)
+    self.users.include?(user)
+  end
+
+  def bookmarks_count
+    self.bookmarks.size
+  end
+
+  def produced(patron)
+    produces.find(:first, :conditions => {:id => patron.id})
+  end
+
+  def embodied(expression)
+    embodies.find(:first, :conditions => {:id => expression.id})
   end
 
 end

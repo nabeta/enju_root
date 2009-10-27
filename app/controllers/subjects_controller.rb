@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class SubjectsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_work
@@ -12,12 +13,19 @@ class SubjectsController < ApplicationController
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-      search.query.keywords = query
+      search.build do
+        fulltext query
+      end
     end
     unless params[:mode] == 'add'
-      search.query.add_restriction(:work_ids, :equal_to, @work.id) if @work
-      search.query.add_restriction(:classification_ids, :equal_to, @classification.id) if @classification
-      search.query.add_restriction(:subject_heading_type_ids, :equal_to, @subject_heading_type.id) if @subject_heading_type
+      work = @work
+      classification = @classification
+      subject_heading_type = @subject_heading_type
+      search.build do
+        with(:work_ids).equal_to work.id if work
+        with(:classification_ids).equal_to classification.id if classification
+        with(:subject_heading_type_ids).equal_to subject_heading_type.id if subject_heading_type
+      end
     end
 
     page = params[:page] || 1
@@ -46,12 +54,24 @@ class SubjectsController < ApplicationController
     end
 
     @subject = Subject.find(params[:id])
-    @works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.resource_has_subjects.size)
+    search = Sunspot.new_search(Work)
+    subject = @subject
+    search.build do
+      with(:subject_ids).equal_to subject.id if subject
+    end
+    page = params[:work_page] || 1
+    search.query.paginate(page.to_i, Work.per_page)
+    begin
+      @works = search.execute!.results
+    rescue RSolr::RequestError
+      @works = WillPaginate::Collection.create(1,1,0) do end
+    end
+    #@works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.work_has_subjects.size)
 
     if @work
       subjected = @subject.works.find(@work) rescue nil
       if subjected.blank?
-        redirect_to new_work_resource_has_subject_url(@work, :subject_id => @subject.term)
+        redirect_to new_work_work_has_subject_url(@work, :subject_id => @subject.term)
         return
       end
     end

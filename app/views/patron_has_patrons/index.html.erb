@@ -9,7 +9,7 @@
     <th><%= t('activerecord.models.patron_relationship_type') -%></th>
   </tr>
 
-<% for patron_has_patron in @patron_has_patrons -%>
+<%- @patron_has_patrons.each do |patron_has_patron| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(patron_has_patron.from_patron.full_name), patron_has_patron.from_patron -%></td>
     <td><%= link_to h(patron_has_patron.to_patron.full_name), patron_has_patron.to_patron -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_patron_has_patron_path(patron_has_patron) -%></td>
     <td><%= link_to t('page.destroy'), patron_has_patron, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@patron_has_patrons) -%>

@@ -61,6 +61,12 @@ class PatronRelationshipTypesController < ApplicationController
   def update
     @patron_relationship_type = PatronRelationshipType.find(params[:id])
 
+    if @patron_relationship_type and params[:position]
+      @patron_relationship_type.insert_at(params[:position])
+      redirect_to patron_relationship_types_url
+      return
+    end
+
     respond_to do |format|
       if @patron_relationship_type.update_attributes(params[:patron_relationship_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron_relationship_type'))

@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'timeout'
 class Question < ActiveRecord::Base
   include LibrarianOwnerRequired
@@ -9,7 +10,7 @@ class Question < ActiveRecord::Base
   validates_associated :user
   validates_presence_of :user, :body
   #acts_as_soft_deletable
-  searchable :auto_index => false do
+  searchable do
     text :body, :answer_body
     string :login
     time :created_at

@@ -1,10 +1,6 @@
 <div id="submenu">
   <ul>
-    <%- if @user_group -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.user_group_has_medium_of_performance')), new_user_group_user_group_has_medium_of_performance_path(@user_group) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.medium_of_performance')), new_medium_of_performance_path -%></li>
-    <%- end -%>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.medium_of_performance')), new_medium_of_performance_path -%></li>
   </ul>
 </div>
 
@@ -23,11 +19,8 @@
 <%- for medium_of_performance in @medium_of_performances -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- unless @user_group -%>
-        <%- if medium_of_performance.is_deletable_by(current_user) -%>
-          <%= medium_of_performance.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (medium_of_performance.position  > 1 ? medium_of_performance.position - 1 : 1), :id => medium_of_performance.id}, :method => :put) -%>
-          <%= medium_of_performance.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (medium_of_performance.position + 1), :id => medium_of_performance.id}, :method => :put) -%>
-        <%- end -%>
+      <%- if medium_of_performance.is_deletable_by(current_user) -%>
+        <%= move_position(medium_of_performance) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(medium_of_performance.name), medium_of_performance -%></td>

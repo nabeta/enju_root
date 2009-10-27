@@ -7,7 +7,7 @@ class CheckinsControllerTest < ActionController::TestCase
     :manifestations, :carrier_types,
     :items, :circulation_statuses, :exemplifies,
     :shelves, :request_status_types,
-    :expressions, :expression_forms, :languages, :message_templates
+    :expressions, :content_types, :languages, :message_templates
 
   def test_guest_should_not_get_index
     get :index

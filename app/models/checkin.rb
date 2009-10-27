@@ -5,7 +5,7 @@ class Checkin < ActiveRecord::Base
   belongs_to :librarian, :class_name => 'User' #, :validate => true
   belongs_to :basket #, :validate => true
 
-  validates_presence_of :item, :basket
+  validates_presence_of :item_id, :basket_id
   validates_associated :item, :librarian, :basket
 
   attr_accessor :item_identifier

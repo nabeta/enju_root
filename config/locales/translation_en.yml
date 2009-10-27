@@ -20,9 +20,9 @@ en:
       language: Language
       patron_merge_list: Patron merge list
       user: User
-      resource_has_subject: Resource has subject
+      work_has_subject: Resource has subject
       picture_file: Picture file
-      work_form: Work form
+      form_of_work: Form of works
       inter_library_loan: Inter library loan
       message: Message
       classification: Classification
@@ -57,7 +57,7 @@ en:
       expression_merge_list: Expression merge list
       use_restriction: Use restriction
       subject: Subject
-      expression_form: Expression form
+      content_type: Content type
       work_merge: Work merge
       aaws_response: Aaws response
       patron_type: Patron type
@@ -98,7 +98,6 @@ en:
       manifestation_api_response: Manifestation API Response
       request_type: Request type
       inventory_file: Inventory file
-      carrier_type_has_checkout_type: Carrier type has checkout type
       user_group_has_checkout_type: User group has checkout type
       tag: Tag
       bookmark_stat: Bookmark stat
@@ -132,6 +131,9 @@ en:
       expression_relationship_type: Expression relationship type
       manifestation_relationship_type: Manifestation relationship type
       item_relationship_type: Item relationship type
+      lending_policy: Lending policy
+      nii_type: NII metadata type
+      license: License
     attributes:
       library:
         name: Name
@@ -297,7 +299,7 @@ en:
         password: Password
         old_password: Old password
         locale: Locale
-      resource_has_subject:
+      work_has_subject:
         work: Work
         subject: Subject
         subjectable_type: Subjectable type
@@ -312,7 +314,7 @@ en:
         thumbnail: Thumbnail
         file_hash: File hash
         picture_updated_at: Updated at
-      work_form:
+      form_of_work:
         name: Name
         display_name: Display name
         note: Note
@@ -475,7 +477,7 @@ en:
         scope_note: Scope note
         note: Note
         lock_version: Lock version
-      expression_form:
+      content_type:
         name: Name
         display_name: Display name
         note: Note
@@ -703,17 +705,17 @@ en:
         inventory_file_size: Size
         file_hash: File hash
         note: Note
-      carrier_type_has_checkout_type:
-        note: Note
-        position: Position
       user_group_has_checkout_type:
         checkout_limit: Checkout limit
         checkout_period: Checkout period
-        checkout_renewal_limit: Checkoit renewal limit
+        checkout_renewal_limit: Checkout renewal limit
         reservation_limit: Reservation limit
         reservation_expired_period: Reservation expired period
-        set_due_date_before_closing_day: Set due date before closing day
+        set_due_date_before_closing_day: Set due date before the closing day
         fixed_due_date: Fixed due date
+        note: Note
+        position: Position
+      carrier_type_has_checkout_type:
         note: Note
         position: Position
       bookmark_stat:
@@ -893,6 +895,23 @@ en:
         display_name: Display name
         note: Note
         position: Position
+      lending_policy:
+        loan_period: Loan period
+        fixed_due_date: Fixed due date
+        renewal: Renewal
+        fine: Fine
+        note: Note
+        position: Position
+      nii_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      license:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
 
   page:
     user_title: "{{login_name}}'s library"
@@ -1044,6 +1063,7 @@ en:
     add_on: "Add-ons"
     asc: "ascendent"
     desc: "descendent"
+    error_occured: "An error occured."
   title:
     index: "index"
     show: "show"
@@ -1071,7 +1091,7 @@ en:
     add_to_my_bookmark: "Add to my bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
     invalid_url: "Invalid URL."
-    specify_title_and_url: "Specify title and URL."
+    specify_title_and_url: "Specify the title and URL of the page."
     already_bookmarked: "This resource is already bookmarked."
   bookmarked_resource:
     add_to_library_bookmark: "Add to library bookmark"
@@ -1135,6 +1155,7 @@ en:
     add_new_copy: "Add a new copy"
     no_manifestation: "No manifestation"
     no_number: "No number"
+    add_lending_policy: "Add a new lending policy"
   patron:
     library_group_patron: "Patrons of {{library_group_name}}"
     work_patron: "Creaters of {{work_title}}"
@@ -1214,7 +1235,7 @@ en:
   import:
     from_file: "from file"
     from_isbn: "from ISBN"
-    will_be_impoted:
+    will_be_imported:
       one: "Resource will be impored in a {{minute}} minute."
       other: "Resource will be impored in {{minute}} minutes."
   event:
@@ -1314,7 +1335,7 @@ en:
   order:
     create_order_list: "You should create an order list."
     specify_purchase_request: "You should specify the purchase request."
-  resource_has_subject:
+  work_has_subject:
     add_work: "Add a work"
     add_subject: "Add a subject"
     subjectable: "Subjectable"

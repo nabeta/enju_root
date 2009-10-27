@@ -1,8 +1,8 @@
 class CreateManifestationHasManifestations < ActiveRecord::Migration
   def self.up
     create_table :manifestation_has_manifestations do |t|
-      t.integer :from_manifestation_id
-      t.integer :to_manifestation_id
+      t.integer :from_manifestation_id, :null => false
+      t.integer :to_manifestation_id, :null => false
       t.string :type
       t.integer :position
 

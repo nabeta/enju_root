@@ -1,8 +1,8 @@
 class CreateWorkHasWorks < ActiveRecord::Migration
   def self.up
     create_table :work_has_works do |t|
-      t.integer :from_work_id
-      t.integer :to_work_id
+      t.integer :from_work_id, :null => false
+      t.integer :to_work_id, :null => false
       t.string :type
       t.integer :position
 

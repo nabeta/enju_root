@@ -1833,10 +1833,8 @@ language_00028:
   native_name: 
 language_00112: 
   position: 112
-  name: !binary |  
-  display_name: !binary |
-    TcSBb3Jp
-
+  name: Maori
+  display_name: Māorii
   iso_639_1: mi
   iso_639_2: mao
   iso_639_3: mri

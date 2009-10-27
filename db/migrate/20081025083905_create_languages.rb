@@ -6,7 +6,7 @@ class CreateLanguages < ActiveRecord::Migration
 
   def self.up
     create_table :languages do |t|
-      t.string :name
+      t.string :name, :null => false
       t.string :native_name
       t.text :display_name
       t.string :iso_639_1,        :size => 3
@@ -15,7 +15,7 @@ class CreateLanguages < ActiveRecord::Migration
       t.text :note
       t.integer :position
     end
-    add_index :languages, :name
+    add_index :languages, :name, :unique => true
     add_index :languages, :iso_639_1
     add_index :languages, :iso_639_2
     add_index :languages, :iso_639_3

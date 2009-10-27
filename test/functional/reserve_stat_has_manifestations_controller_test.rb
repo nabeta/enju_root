@@ -63,7 +63,7 @@ class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   test "librarian should create reserve_stat_has_manifestation" do
     UserSession.create users(:librarian1)
     assert_difference('ReserveStatHasManifestation.count') do
-      post :create, :reserve_stat_has_manifestation => { }
+      post :create, :reserve_stat_has_manifestation => {:manifestation_reserve_stat_id => 1, :manifestation_id => 3}
     end
 
     assert_redirected_to reserve_stat_has_manifestation_path(assigns(:reserve_stat_has_manifestation))

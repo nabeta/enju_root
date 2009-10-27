@@ -1,6 +1,6 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
-    Create, Realize, Produce, Own, BookmarkedResource, Bookmark, Tag, Patron,
+    Create, Realize, Produce, Own, Bookmark, Tag, Patron, Language,
     Library, Basket, Checkin
 
   def after_save(record)
@@ -64,14 +64,11 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(Bookmark)
       # Not supported by Memcache
       # expire_fragment(%r{manifestations/\d*})
-      expire_editable_fragment(record.bookmarked_resource.manifestation)
-      expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => record.user.login)
-      expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud')
-    when record.is_a?(BookmarkedResource)
       expire_editable_fragment(record.manifestation)
+      expire_tag_cloud(record)
     when record.is_a?(Tag)
-      record.tagged.each do |bookmark|
-        expire_editable_fragment(bookmark.bookmarked_resource.manifestation)
+      record.taggings.collect(&:taggable).each do |taggable|
+        expire_editable_fragment(taggable)
       end
     when record.is_a?(Subject)
       expire_editable_fragment(record)
@@ -145,8 +142,12 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_manifestation_fragment(item.manifestation, 'show_holding')
       end
     when record.is_a?(Checkin)
-      #expire_editable_fragment(record.item)
-      #expire_editable_fragment(record.item.manifestation, "show_holding")
+      expire_editable_fragment(record.item)
+      expire_editable_fragment(record.item.manifestation, "show_holding")
+    when record.is_a?(Language)
+      Language.all.each do |language|
+        expire_fragment(:controller => 'page', :locale => language.iso_639_1)
+      end
     end
   end
 
@@ -171,9 +172,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     fragments = %w[detail_1 detail_2 detail_3 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags title show_xisbn] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     Array(fragments).each do |fragment|
-      if manifestation
-        expire_manifestation_fragment(manifestation, fragment)
-      end
+      expire_manifestation_fragment(manifestation, fragment)
+    end
+    manifestation.bookmarks.each do |bookmark|
+      expire_tag_cloud(bookmark)
     end
     Rails.cache.delete("xisbn_#{manifestation.id}")
   end
@@ -185,5 +187,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s)
       end
     end
+  end
+
+  def expire_tag_cloud(bookmark)
+    expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => bookmark.user.login)
+    expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud')
   end
 end

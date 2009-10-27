@@ -42,7 +42,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.manifestation.date_of_publication') -%></b>
-    <%= f.date_select :date_of_publication, :include_blank => true -%>
+    <%= f.text_field :date_of_publication -%>
   </p>
 
   <p>
@@ -102,13 +102,6 @@
     <b><%= t('activerecord.attributes.manifestation.access_address') -%></b><br />
     <%= f.text_field :access_address, :class => 'resource_url' -%>
   </p>
-
-  <!--
-  <p>
-    <b><%= ('Classification number') -%></b><br />
-    <%= f.text_field :classification_number -%>
-  </p>
-  -->
 
   <p>
     <b><%= t('activerecord.attributes.manifestation.repository_content') -%></b>

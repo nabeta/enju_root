@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class ClassificationsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_subject, :get_classification_type
@@ -10,11 +11,17 @@ class ClassificationsController < ApplicationController
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
-      search.query.keywords = query
+      search.build do
+        fulltext query
+      end
     end
     unless params[:mode] == 'add'
-      search.query.add_restriction(:subject_ids, :equal_to, @subject.id) if @subject
-      search.query.add_restriction(:classification_type_id, :equal_to, @classification_type.id) if @classification_type
+      subject = @subject
+      classification_type = @classification_type
+      search.build do
+        with(:subject_ids).equal_to subject.id if subject
+        with(:classification_type_id).equal_to classification_type.id if classification_type
+      end
     end
 
     page = params[:page] || 1

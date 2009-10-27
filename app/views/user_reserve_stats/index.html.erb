@@ -9,7 +9,7 @@
     <th><%= t('activerecord.attributes.user_reserve_stat.note') -%></th>
   </tr>
 
-<% for user_reserve_stat in @user_reserve_stats -%>
+<%- @user_reserve_stats.each do |user_reserve_stat| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= l(user_reserve_stat.start_date) -%></td>
     <td><%= l(user_reserve_stat.end_date) -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_user_reserve_stat_path(user_reserve_stat) -%></td>
     <td><%= link_to t('page.destroy'), user_reserve_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@user_reserve_stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

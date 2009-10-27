@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Expression < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
@@ -7,14 +8,13 @@ class Expression < ActiveRecord::Base
   has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy
   has_many :manifestations, :through => :embodies
-  belongs_to :expression_form #, :validate => true
   has_many :realizes, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :realizes
   belongs_to :language #, :validate => true
   has_many :expression_merges, :dependent => :destroy
   has_many :expression_merge_lists, :through => :expression_merges
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
   has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
@@ -23,10 +23,10 @@ class Expression < ActiveRecord::Base
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   belongs_to :content_type
   
-  validates_associated :expression_form, :language
-  validates_presence_of :expression_form, :language
+  validates_associated :content_type, :language
+  validates_presence_of :content_type, :language
   
-  searchable :auto_index => false do
+  searchable do
     text :title, :summarization, :context, :note
     text :author do
       authors.collect(&:full_name) + authors.collect(&:full_name_transcription) if authors
@@ -37,14 +37,13 @@ class Expression < ActiveRecord::Base
     integer :manifestation_ids, :multiple => true
     integer :expression_merge_list_ids, :multiple => true
     integer :work_id
-    integer :expression_form_id
+    integer :content_type_id
     integer :language_id
     integer :required_role_id
     integer :original_expression_ids, :multiple => true
   end
-  acts_as_tree
+  #acts_as_tree
   #acts_as_soft_deletable
-  enju_cinii
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -91,6 +90,14 @@ class Expression < ActiveRecord::Base
     return true if self.subscribe.end_on > Time.zone.now
   rescue
     nil
+  end
+
+  def reified(patron)
+    reifies.find(:first, :conditions => {:id => patron.id})
+  end
+
+  def embodied(manifestation)
+    embodies.find(:first, :conditions => {:id => manifestation.id})
   end
 
 end

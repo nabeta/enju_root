@@ -1,6 +1,8 @@
+# -*- encoding: utf-8 -*-
 class QuestionsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil, :except => [:edit]
+  include PortaController
 
   # GET /questions
   # GET /questions.xml
@@ -16,15 +18,21 @@ class QuestionsController < ApplicationController
     unless query.blank?
       @query = query.dup
       query = query.gsub('　', ' ')
-      search.query.keywords = query
+      search.build do
+        fulltext query
+        order_by(:updated_at, :desc)
+      end
     end
 
     if @user
       if logged_in?
-        search.query.add_restriction(:login, :equal_to, @user.login) unless current_user.has_role?('Librarian')
+        user = @user
+        c_user = current_user
+        search.build do
+          with(:login).equal_to user.login unless user.has_role?('Librarian')
+        end
       end
     end
-    search.query.order_by(:updated_at, :desc)
     page = params[:page] || 1
     search.query.paginate(page.to_i, Question.per_page)
     begin
@@ -35,7 +43,7 @@ class QuestionsController < ApplicationController
     @count[:query_result] = @questions.total_entries
 
     if query
-      search_porta_crd(query)
+      @crd_results = search_porta_crd(query, :page => params[:crd_page])
     end
 
     respond_to do |format|
@@ -137,29 +145,6 @@ class QuestionsController < ApplicationController
     end
   rescue ActiveRecord::RecordNotFound
     not_found
-  end
-
-  private
-  def search_porta_crd(query)
-    @refkyo_count = 0
-    crd_startrecord = (params[:crd_page].to_i - 1) * Question.crd_per_page + 1
-    if crd_startrecord < 1
-      crd_startrecord = 1
-    end
-    if params[:crd_page]
-      crd_page = params[:crd_page].to_i
-    else
-      crd_page = 1
-    end
-    refkyo_resource = Question.search_porta(query, {:dpid => 'refkyo', :item => 'any', :raw => false, :startrecord => crd_startrecord, :per_page => Question.crd_per_page})
-    @resources = refkyo_resource.items
-    @refkyo_count = refkyo_resource.channel.totalResults.to_i
-    if @refkyo_count > 1000
-      crd_total_count = 1000
-    else
-      crd_total_count = @refkyo_count
-    end
-    @crd_results = WillPaginate::Collection.create(crd_page, Question.crd_per_page, crd_total_count) do |pager| pager.replace(@resources) end
   end
 
 end

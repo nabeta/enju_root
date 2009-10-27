@@ -4,7 +4,7 @@ class Embody < ActiveRecord::Base
   belongs_to :manifestation #, :counter_cache => true #, :validate => true
 
   validates_associated :expression, :manifestation
-  validates_presence_of :expression, :manifestation
+  validates_presence_of :expression_id, :manifestation_id
   validates_uniqueness_of :manifestation_id, :scope => :expression_id
   
   @@per_page = 10

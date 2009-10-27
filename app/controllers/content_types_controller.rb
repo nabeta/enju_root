@@ -61,6 +61,12 @@ class ContentTypesController < ApplicationController
   def update
     @content_type = ContentType.find(params[:id])
 
+    if @content_type and params[:position]
+      @content_type.insert_at(params[:position])
+      redirect_to content_types_url
+      return
+    end
+
     respond_to do |format|
       if @content_type.update_attributes(params[:content_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.content_type'))

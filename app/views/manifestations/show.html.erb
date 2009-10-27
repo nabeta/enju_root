@@ -16,10 +16,8 @@
         <%- if current_user.email.present? -%>
         <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :confirm => t('page.are_you_sure') -%></li>
         <%- end -%>
-        <%- if @manifestation.bookmarked_resource -%>
-          <%- if @manifestation.bookmarked_resource.bookmarked?(current_user) -%>
-            <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.find_by_bookmarked_resource_id(@manifestation.bookmarked_resource)), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-          <%- end -%>
+        <%- if @manifestation.bookmarked?(current_user) -%>
+          <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.find(:first, :conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
         <%- else -%>
           <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
         <%- end -%>
@@ -179,7 +177,7 @@
           <%= link_to h(subject.term), subject -%>
           <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
         <%- end -%>
-        <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
+        <%- if WorkHasSubject.is_creatable_by(current_user) -%>
         <%- end -%>
       </td>
     </tr>
@@ -239,15 +237,8 @@
     <%- if @manifestation.items.on_shelf.find(:first) -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
-      <%- if @manifestation.is_updatable_by(current_user) -%>
-        <%- if @manifestation.respond_to?(:post_to_twitter) -%>
-          <%= render :partial => 'manifestations/twitter_comment' -%>
-        <%- end -%>
-      <%- end -%>
-      <%- if @manifestation.bookmarked_resource -%>
-        <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
-        <%= render :partial => 'bookmarks_for_this_manifestation' -%>
-      <%- end -%>
+      <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
+      <%= render :partial => 'bookmarks_for_this_manifestation' -%>
 
     </div>
     <%- if @manifestation.related_works.size > 0 -%>
@@ -273,6 +264,11 @@
   <%
     end
   -%>
+      <%- if @manifestation.is_updatable_by(current_user) -%>
+        <%- if @manifestation.respond_to?(:post_to_twitter) -%>
+          <%= render :partial => 'manifestations/twitter_comment' -%>
+        <%- end -%>
+      <%- end -%>
 </div>
 
 <%- if params[:mode] == 'generate_cache' -%>

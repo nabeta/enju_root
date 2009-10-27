@@ -46,7 +46,7 @@ class MediumOfPerformancesController < ApplicationController
 
     respond_to do |format|
       if @medium_of_performance.save
-        flash[:notice] = 'MediumOfPerformance was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.medium_of_performance'))
         format.html { redirect_to(@medium_of_performance) }
         format.xml  { render :xml => @medium_of_performance, :status => :created, :location => @medium_of_performance }
       else
@@ -61,9 +61,15 @@ class MediumOfPerformancesController < ApplicationController
   def update
     @medium_of_performance = MediumOfPerformance.find(params[:id])
 
+    if @medium_of_performance and params[:position]
+      @medium_of_performance.insert_at(params[:position])
+      redirect_to medium_of_performances_url
+      return
+    end
+
     respond_to do |format|
       if @medium_of_performance.update_attributes(params[:medium_of_performance])
-        flash[:notice] = 'MediumOfPerformance was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.medium_of_performance'))
         format.html { redirect_to(@medium_of_performance) }
         format.xml  { head :ok }
       else

@@ -10,7 +10,7 @@ class Advertisement < ActiveRecord::Base
   validates_presence_of :title, :body, :started_at, :ended_at
   validates_length_of :url, :maximum => 255, :allow_blank => true
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :body, :note, :url
     string :url
     time :created_at
@@ -47,6 +47,6 @@ class Advertisement < ActiveRecord::Base
   def self.pickup
     ids = Advertisement.cached_current_ads.collect(&:id)
     id = ids.at(rand(ids.size))
-    advertisement = Advertisement.find(id)
+    advertisement = Advertisement.find(id) rescue nil
   end
 end

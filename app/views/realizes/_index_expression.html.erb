@@ -30,7 +30,7 @@
     </td>
     <td>
       <%= link_to h(realize.expression.original_title), realize.expression -%>
-      <%= expression_form_icon(@expression.expression_form) -%>
+      <%= content_type_icon(@expression.content_type) -%>
       <br />
       <%= patrons_list(@expression.authors) -%>
       <%= patrons_list(@expression.patrons) -%>

@@ -9,7 +9,7 @@
     <th><%= t('activerecord.models.expression_relationship_type') -%></th>
   </tr>
 
-<% for expression_has_expression in @expression_has_expressions -%>
+<%- @expression_has_expressions.each do |expression_has_expression| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%></td>
     <td><%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_expression_has_expression_path(expression_has_expression) -%></td>
     <td><%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@expression_has_expressions) -%>

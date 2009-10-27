@@ -11,13 +11,13 @@
     <%- end -%>
     <li><%= link_to t('page.add_derivation'), expression_expressions_path(@expression) -%></li>
   </ul>
-  <ul>
-    <%- if @expression.is_deletable_by(current_user) -%>
+  <%- if @expression.is_deletable_by(current_user) -%>
+    <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
       <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
       <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-    <%- end -%>
-  </ul>
+    </ul>
+  <%- end -%>
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
@@ -32,7 +32,7 @@
   <h2 id="resource_title">
     [E]
     <%=h @expression.original_title -%>
-    <%= expression_form_icon(@expression.expression_form) -%>
+    <%= content_type_icon(@expression.content_type) -%>
   </h2>
 
   <p>
@@ -70,10 +70,10 @@
             <td><%=h @expression.language.display_name.localize -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.models.expression_form') -%>:</b></td>
+            <td><b><%= t('activerecord.models.content_type') -%>:</b></td>
             <td>
-              <%= expression_form_icon(@expression.expression_form) -%>
-              <%=h @expression.expression_form.display_name.localize -%>
+              <%= content_type_icon(@expression.content_type) -%>
+              <%=h @expression.content_type.display_name.localize -%>
             </td>
           </tr>
           <tr>

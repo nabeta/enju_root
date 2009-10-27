@@ -9,7 +9,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.bookmark_stat')) -%></h1>
 <div id="content_list">
 
-<% form_for(@bookmark_stat) do |f| -%>
+<%- form_for(@bookmark_stat) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -27,7 +27,7 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
-<% end -%>
+<%- end -%>
 
 </div>
 </div>

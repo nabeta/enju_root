@@ -2,7 +2,7 @@ class CreateOrderLists < ActiveRecord::Migration
   def self.up
     create_table :order_lists do |t|
       t.integer :user_id, :null => false
-      t.integer :bookstore_id
+      t.integer :bookstore_id, :null => false
       t.text :title, :null => false
       t.text :note
       t.datetime :ordered_at

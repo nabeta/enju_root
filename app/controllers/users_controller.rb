@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class UsersController < ApplicationController
   #before_filter :reset_params_session
   before_filter :has_permission?
@@ -6,7 +7,7 @@ class UsersController < ApplicationController
   before_filter :store_location, :only => [:index, :show]
   #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   #ssl_required :new, :edit, :create, :update, :destroy
-  ssl_allowed :index, :new, :edit, :create, :update, :destroy
+  ssl_allowed :index, :show, :new, :edit, :create, :update, :destroy
 
   def index
     query = params[:query].to_s
@@ -31,7 +32,7 @@ class UsersController < ApplicationController
     unless query.blank?
       begin
         user_ids = User.search_ids do
-          keywords query
+          fulltext query
           order_by sort[:sort_by], sort[:order]
         end
         @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
@@ -58,7 +59,7 @@ class UsersController < ApplicationController
     unless @user.patron
       redirect_to new_user_patron_url(@user.login); return
     end
-    @tags = @user.owned_tags.find(:all, :order => 'tags.taggings_count DESC')
+    @tags = @user.owned_tags_by_solr
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
     @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
@@ -102,6 +103,7 @@ class UsersController < ApplicationController
       @user = current_user
     end
     raise ActiveRecord::RecordNotFound if @user.blank?
+    @user_role_id = @user.roles.first.id
 
     if params[:mode] == 'feed_token'
       if params[:disable] == 'true'
@@ -147,9 +149,10 @@ class UsersController < ApplicationController
       end
       if params[:user][:auto_generated_password] == "1"
         @user.reset_password if current_user.has_role?('Librarian')
+      else
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
       end
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
     end
 
     if current_user.has_role?('Librarian')
@@ -175,7 +178,6 @@ class UsersController < ApplicationController
 
     #@user.update_attributes(params[:user]) do |result|
     @user.save do |result|
-      @user.index
       respond_to do |format|
         #if @user.update_attributes(params[:user])
         if result
@@ -245,7 +247,6 @@ class UsersController < ApplicationController
     @user.activate
 
     @user.save do |result|
-      @user.index
       respond_to do |format|
         if result
           flash[:temporary_password] = @user.password
@@ -254,8 +255,8 @@ class UsersController < ApplicationController
           end
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
-          #format.html { redirect_to user_url(@user.login) }
-          format.html { redirect_to new_user_patron_url(@user.login) }
+          format.html { redirect_to user_url(@user.login) }
+          #format.html { redirect_to new_user_patron_url(@user.login) }
           format.xml  { head :ok }
         else
           prepare_options
@@ -311,7 +312,6 @@ class UsersController < ApplicationController
     end
 
     @user.destroy
-    @user.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to(users_url) }
@@ -336,7 +336,6 @@ class UsersController < ApplicationController
     @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
     @roles = Role.find(:all)
     @libraries = Library.find(:all)
-    @user_role_id = @user.roles.first.id rescue nil
     @languages = Rails.cache.fetch('Language.all'){Language.all}
   end
 

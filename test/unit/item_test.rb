@@ -4,7 +4,7 @@ class ItemTest < ActiveSupport::TestCase
   fixtures :items, :circulation_statuses, :checkouts, :shelves, :manifestations, :carrier_types, :exemplifies,
     :creates, :realizes, :produces, :owns,
     :languages, :libraries, :users, :patrons, :user_groups, :reserves,
-    :expressions, :expression_forms, :reifies, :works, :work_forms, :embodies, :library_groups, :bookstores, :patron_types,
+    :expressions, :content_types, :reifies, :works, :form_of_works, :embodies, :library_groups, :bookstores, :patron_types,
     :message_templates, :message_queues, :barcodes, :request_status_types
 
   # Replace this with your real tests.

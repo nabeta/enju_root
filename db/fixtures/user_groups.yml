@@ -4,3 +4,4 @@ user_group_00001:
   display_name: "First group"
   id: 1
   note: ""
+  position: 1

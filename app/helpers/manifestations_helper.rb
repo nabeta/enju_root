@@ -37,10 +37,14 @@ module ManifestationsHelper
       current_seq = session[:manifestation_ids].index(manifestation.id)
       if current_seq
         unless manifestation.id == session[:manifestation_ids].first
-          links << link_to(t('page.previous'), manifestation_path(session[:manifestation_ids][current_seq - 1]))
+          links << link_to(t('page.next'), manifestation_path(session[:manifestation_ids][current_seq - 1]))
+        else
+          links << t('page.next').to_s
         end
         unless manifestation.id == session[:manifestation_ids].last
-          links << link_to(t('page.next'), manifestation_path(session[:manifestation_ids][current_seq + 1]))
+          links << link_to(t('page.previous'), manifestation_path(session[:manifestation_ids][current_seq + 1]))
+        else
+          links << t('page.previous').to_s
         end
       end
     end

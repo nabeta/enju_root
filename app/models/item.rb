@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Item < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
@@ -27,8 +28,8 @@ class Item < ActiveRecord::Base
   has_many :item_has_use_restrictions, :dependent => :destroy
   has_many :use_restrictions, :through => :item_has_use_restrictions
   has_many :reserves
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :work_has_subjects
   has_many :inter_library_loans, :dependent => :destroy
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   #has_one :item_has_checkout_type, :dependent => :destroy
@@ -41,6 +42,7 @@ class Item < ActiveRecord::Base
   has_many :derived_items, :through => :to_items, :source => :to_item
   has_many :original_items, :through => :from_items, :source => :from_item
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :owns
+  has_many :lending_policies, :dependent => :destroy
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type
@@ -52,7 +54,7 @@ class Item < ActiveRecord::Base
   #acts_as_soft_deletable
   enju_union_catalog
 
-  searchable :auto_index => false do
+  searchable do
     text :item_identifier, :note, :title, :author, :publisher, :library
     string :item_identifier
     string :library
@@ -84,8 +86,21 @@ class Item < ActiveRecord::Base
   #  unless self.item_identifier.blank?
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
   #  end
-  # TODO: 排架場所変更の際のインデックス更新のタイミング
-  #  self.manifestation.send_later(:save, false) if self.manifestation
+    self.manifestation.send_later(:save, false) if self.manifestation
+  end
+
+  #def after_create
+  #  create_lending_policy
+  #end
+
+  #def create_lending_policy
+  #  self.checkout_type.user_group_has_checkout_types.each do |c|
+  #    LendingPolicy.create(:item_id => self.id, :loan_period => c.checkout_period, :user_group_id => c.user_group_id)
+  #  end
+  #end
+
+  def after_destroy
+    self.manifestation.send_later(:save, false) if self.manifestation
   end
 
   def before_validation_on_create
@@ -225,6 +240,14 @@ class Item < ActiveRecord::Base
       self.barcode = barcode
       self.barcode.save(false)
     end
+  end
+
+  def lending_rule(user)
+    lending_policies.find(:first, :conditions => {:user_group_id => user.user_group.id})
+  end
+
+  def owned(patron)
+    owns.find(:first, :conditions => {:id => patron.id})
   end
 
 end

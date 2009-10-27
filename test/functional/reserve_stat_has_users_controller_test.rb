@@ -63,7 +63,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
   test "librarian should create reserve_stat_has_user" do
     UserSession.create users(:librarian1)
     assert_difference('ReserveStatHasUser.count') do
-      post :create, :reserve_stat_has_user => { }
+      post :create, :reserve_stat_has_user => {:user_reserve_stat_id => 1, :user_id => 3}
     end
 
     assert_redirected_to reserve_stat_has_user_path(assigns(:reserve_stat_has_user))

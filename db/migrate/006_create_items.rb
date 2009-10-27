@@ -1,7 +1,6 @@
 class CreateItems < ActiveRecord::Migration
   def self.up
     create_table :items do |t|
-      t.integer :parent_id
       t.string :call_number
       t.string :item_identifier
       t.integer :circulation_status_id, :null => false
@@ -22,7 +21,6 @@ class CreateItems < ActiveRecord::Migration
       t.string :state
       t.integer :required_score, :default => 0, :null => false
     end
-    add_index :items, :parent_id
     add_index :items, :circulation_status_id
     add_index :items, :checkout_type_id
     add_index :items, :shelf_id

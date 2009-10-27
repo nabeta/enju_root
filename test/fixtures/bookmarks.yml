@@ -1,7 +1,7 @@
 --- 
 bookmark_00001: 
   updated_at: 2007-11-21 21:38:47.964470 +09:00
-  bookmarked_resource_id: 1
+  manifestation_id: 1
   user_id: 1
   id: 1
   note: !binary |
@@ -10,28 +10,28 @@ bookmark_00001:
   created_at: 2007-11-21 21:38:47.964470 +09:00
 bookmark_00002: 
   updated_at: 2007-11-21 21:43:26.704516 +09:00
-  bookmarked_resource_id: 2
+  manifestation_id: 2
   user_id: 2
   id: 2
   note: ""
   created_at: 2007-11-21 21:40:28.457279 +09:00
 bookmark_00003: 
   updated_at: 2007-11-21 21:43:26.704516 +09:00
-  bookmarked_resource_id: 3
+  manifestation_id: 3
   user_id: 3
   id: 3
   note: ""
   created_at: 2007-11-21 21:40:28.457279 +09:00
 bookmark_00004: 
   updated_at: 2007-11-21 21:43:26.704516 +09:00
-  bookmarked_resource_id: 1
+  manifestation_id: 1
   user_id: 4
   id: 4
   note: ""
   created_at: 2007-11-21 21:40:28.457279 +09:00
 bookmark_00005: 
   updated_at: 2007-11-21 21:43:26.704516 +09:00
-  bookmarked_resource_id: 2
+  manifestation_id: 2
   user_id: 5
   id: 5
   note: ""

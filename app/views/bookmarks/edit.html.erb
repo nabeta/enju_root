@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.showing', :model => t('activerecord.models.bookmarked_resource')), bookmarked_resource_path(@bookmark.bookmarked_resource) -%></li>
+    <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @bookmark.manifestation -%></li>
     <li><%= link_to t('page.show'), user_bookmark_path(@bookmark.user.login, @bookmark) -%></li>
     <li><%= link_to t('page.back'), user_bookmarks_path(@bookmark.user.login) -%></li>
   </ul>
@@ -15,10 +15,10 @@
 <%- form_for(@bookmark, :url => user_bookmark_path(@bookmark.user.login, @bookmark), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.title') -%></b><br />
-  <%- if @bookmark.bookmarked_resource -%>
-    <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%>
+  <%- if @bookmark.manifestation -%>
+    <%= link_to h(@bookmark.manifestation.original_title), h(@bookmark.manifestation.access_address) -%>
   <%- else -%>
-    <%= f.text_field :bookmarked_resource_id -%>
+    <%= f.text_field :manifestation_id -%>
   <%- end -%>
   </p>
 

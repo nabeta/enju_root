@@ -12,12 +12,18 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.use_restriction.name') -%></th>
     <th><%= t('activerecord.attributes.use_restriction.display_name') -%></th>
   </tr>
 
-<%- for use_restriction in @use_restrictions -%>
+<%- @use_restrictions.each do |use_restriction| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if use_restriction.is_deletable_by(current_user) -%>
+        <%= move_position(use_restriction) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(use_restriction.name), use_restriction -%></td>
     <td><%= link_to h(use_restriction.display_name.localize), use_restriction -%></td>
     <%- if use_restriction.is_deletable_by(current_user) -%>

@@ -26,12 +26,10 @@
     <li><%= link_to t('activerecord.models.barcode'), barcodes_path -%></li>
   </ul>
   </div>
-</div>
-<div id="right_pane">
   <h2 class="title"><%= t('page.resource') -%></h2>
   <div class="config_box">
   <ul>
-    <li><%= link_to t('activerecord.models.bookmarked_resource'), bookmarked_resources_path -%></li>
+    <li><%= link_to t('activerecord.models.bookmark'), bookmarks_path -%></li>
     <li><%= link_to t('activerecord.models.picture_file'), picture_files_path -%></li>
     <li><%= link_to t('activerecord.models.order_list'), order_lists_path -%></li>
     <li><%= link_to t('activerecord.models.subscription'), subscriptions_path -%></li>
@@ -43,6 +41,8 @@
   </ul>
   </div>
 
+</div>
+<div id="right_pane">
   <h2 class="title"><%= t('page.subject_and_classification') -%></h2>
   <div class="config_box">
   <ul>
@@ -58,8 +58,8 @@
   <h2 class="title"><%= t('page.form') -%></h2>
   <div class="config_box">
   <ul>
-    <li><%= link_to t('activerecord.models.work_form'), work_forms_path -%></li>
-    <li><%= link_to t('activerecord.models.expression_form'), expression_forms_path -%></li>
+    <li><%= link_to t('activerecord.models.form_of_work'), form_of_works_path -%></li>
+    <li><%= link_to t('activerecord.models.content_type'), content_types_path -%></li>
     <li><%= link_to t('activerecord.models.carrier_type'), carrier_types_path -%></li>
     <li><%= link_to t('activerecord.models.circulation_status'), circulation_statuses_path -%></li>
     <li><%= link_to t('activerecord.models.patron_type'), patron_types_path -%></li>
@@ -77,6 +77,7 @@
     <li><%= link_to t('activerecord.models.expression_relationship_type'), expression_relationship_types_path -%></li>
     <li><%= link_to t('activerecord.models.manifestation_relationship_type'), manifestation_relationship_types_path -%></li>
     <li><%= link_to t('activerecord.models.item_relationship_type'), item_relationship_types_path -%></li>
+    <li><%= link_to t('activerecord.models.license'), licenses_path -%></li>
   </ul>
   </div>
 </div>

@@ -61,6 +61,12 @@ class ManifestationRelationshipTypesController < ApplicationController
   def update
     @manifestation_relationship_type = ManifestationRelationshipType.find(params[:id])
 
+    if @manifestation_relationship_type and params[:position]
+      @manifestation_relationship_type.insert_at(params[:position])
+      redirect_to manifestation_relationship_types_url
+      return
+    end
+
     respond_to do |format|
       if @manifestation_relationship_type.update_attributes(params[:manifestation_relationship_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation_relationship_type'))

@@ -61,6 +61,12 @@ class ExpressionRelationshipTypesController < ApplicationController
   def update
     @expression_relationship_type = ExpressionRelationshipType.find(params[:id])
 
+    if @expression_relationship_type and params[:position]
+      @expression_relationship_type.insert_at(params[:position])
+      redirect_to expression_relationship_types_url
+      return
+    end
+
     respond_to do |format|
       if @expression_relationship_type.update_attributes(params[:expression_relationship_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_relationship_type'))

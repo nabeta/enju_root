@@ -8,17 +8,14 @@ class TagsController < ApplicationController
     session[:params] ={} unless session[:params]
     session[:params][:tag] = params
 
-    sort = {:sort_by => 'created_at', :sort => 'desc'}
+    sort = {:sort_by => 'created_at', :order => 'desc'}
     case params[:sort_by]
     when 'name'
       sort[:sort_by] = 'name'
+    when 'taggings_count'
+      sort[:sort_by] = 'taggings_count'
     end
-    case params[:order]
-    when 'asc'
-      sort[:order] = 'asc'
-    when 'desc'
-      sort[:order] = 'desc'
-    end
+    sort[:order] = 'asc' if params[:order] == 'asc'
 
     query = @query = params[:query].to_s.strip
     page = params[:page] || 1
@@ -26,11 +23,10 @@ class TagsController < ApplicationController
     if query.present?
       begin
         tag_ids = Tag.search_ids do
-          keywords query
-          order_by sort[:sort_by], sort[:order]
+          fulltext query
           paginate :page => page.to_i, :per_page => Tag.per_page
         end
-        @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page)
+        @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
       rescue RSolr::RequestError
         @tags = WillPaginate::Collection.create(1,1,0) do end
       end

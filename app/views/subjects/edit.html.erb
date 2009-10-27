@@ -8,7 +8,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
 
-<% form_for(@subject) do |f| -%>
+<%- form_for(@subject) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <b><%= t('activerecord.models.subject_type') -%></b>
@@ -26,6 +26,6 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
-<% end -%>
+<%- end -%>
 </div>
 </div>

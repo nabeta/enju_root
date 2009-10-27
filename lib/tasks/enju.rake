@@ -56,7 +56,7 @@ namespace :enju do
 
   desc 'Rebuild solr index.'
   task :reindex do
-    %w(Advertisement Classification Event Expression Item Manifestation Message Patron PurchaseRequest Question Subject Subscription User Work).each do |class_name|
+    %w(Advertisement Bookmark Classification Event Expression Item Manifestation Message Patron PurchaseRequest Question Subject Subscription Tag User Work).each do |class_name|
       Object.const_get(class_name).reindex(:batch_commit => false)
     end
   end

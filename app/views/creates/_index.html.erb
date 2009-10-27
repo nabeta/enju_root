@@ -8,7 +8,7 @@
     <th><%= t('activerecord.models.work') -%></th>
   </tr>
 
-<%- for create in @creates -%>
+<%- @creates.each do |create| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(create.patron.full_name), create.patron -%></td>
     <td><%= link_to h(create.work.original_title), create.work -%></td>

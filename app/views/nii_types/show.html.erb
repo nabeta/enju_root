@@ -1,0 +1,27 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_nii_type_path(@nii_type) -%></li>
+    <li><%= link_to t('page.back'), nii_types_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.nii_type')) -%></h1>
+<div id="content_list">
+<p>
+  <b><%= t('activerecord.attributes.nii_type.name') -%>:</b>
+  <%=h @nii_type.name -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.nii_type.display_name') -%>:</b>
+  <%=h @nii_type.display_name.localize -%>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.nii_type.note') -%>:</b>
+  <%=h @nii_type.note -%>
+</p>
+
+</div>
+</div>

@@ -9,7 +9,7 @@
     <th><%= t('activerecord.attributes.manifestation_reserve_stat.note') -%></th>
   </tr>
 
-<% for manifestation_reserve_stat in @manifestation_reserve_stats -%>
+<%- for manifestation_reserve_stat in @manifestation_reserve_stats -%>
   <tr>
     <td><%= l(manifestation_reserve_stat.start_date) -%></td>
     <td><%= l(manifestation_reserve_stat.end_date) -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_manifestation_reserve_stat_path(manifestation_reserve_stat) -%></td>
     <td><%= link_to t('page.destroy'), manifestation_reserve_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@manifestation_reserve_stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

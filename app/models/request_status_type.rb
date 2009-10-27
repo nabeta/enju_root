@@ -10,5 +10,4 @@ class RequestStatusType < ActiveRecord::Base
   def before_validation_on_create
     self.display_name = self.name if display_name.blank?
   end
-
 end

@@ -10,12 +10,16 @@ class WorkHasWork < ActiveRecord::Base
   acts_as_list :scope => :from_work
 
   def before_update
-    Work.find(from_work_id_was).send_later(:save_with_index)
-    Work.find(to_work_id_was).send_later(:save_with_index!)
+    Work.find(from_work_id_was).index
+    Work.find(to_work_id_was).index
   end
 
   def after_save
-    from_work.send_later(:save_with_index)
-    to_work.send_later(:save_with_index!)
+    from_work.index
+    to_work.index
+  end
+
+  def after_destroy
+    after_save
   end
 end

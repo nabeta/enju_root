@@ -17,7 +17,7 @@
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
-    <%- if ResourceHasSubject.is_creatable_by(current_user) -%>
+    <%- if WorkHasSubject.is_creatable_by(current_user) -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -46,10 +46,10 @@
         </td>
         <td>
           <%- if params[:mode] == 'add' -%>
-            <%= link_to t('page.add'), new_work_resource_has_subject_path(@work, :subject_id => subject.id) unless @work.subjects.include?(subject) -%>
+            <%= link_to t('page.add'), new_work_work_has_subject_path(@work, :subject_id => subject.id) unless @work.subjects.include?(subject) -%>
           <%- else -%>
-            <%- has_subject = @work.resource_has_subjects.find_by_subject_id(subject) -%>
-            <%= link_to t('page.destroy'), work_resource_has_subject_path(@work, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
+            <%- has_subject = @work.work_has_subjects.find_by_subject_id(subject) -%>
+            <%= link_to t('page.destroy'), work_work_has_subject_path(@work, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
           <%- end -%>
         </td>
       <%- end -%>

@@ -10,6 +10,7 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.subject_heading_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.note') -%></th>
@@ -17,6 +18,11 @@
 
 <%- for subject_heading_type in @subject_heading_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if subject_heading_type.is_deletable_by(current_user) -%>
+        <%= move_position(subject_heading_type) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(subject_heading_type.name), subject_heading_type -%></td>
     <td><%= link_to h(subject_heading_type.display_name.localize), subject_heading_type -%></td>
     <td><%=h subject_heading_type.note -%></td>

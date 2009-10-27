@@ -62,6 +62,12 @@ class UseRestrictionsController < ApplicationController
   def update
     @use_restriction = UseRestriction.find(params[:id])
 
+    if @use_restriction and params[:position]
+      @use_restriction.insert_at(params[:position])
+      redirect_to use_restrictions_url
+      return
+    end
+
     respond_to do |format|
       if @use_restriction.update_attributes(params[:use_restriction])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.use_restriction'))

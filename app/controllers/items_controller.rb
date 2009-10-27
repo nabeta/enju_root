@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class ItemsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
@@ -32,7 +33,16 @@ class ItemsController < ApplicationController
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@patron) if @patron
       end
-      @items = Item.paginate_by_solr(query, :facets => {:zeros => true, :fields => [:holding_library]}, :page => params[:page]).compact
+      search = Sunspot.new_search(Item)
+      search.build do
+        fulltext query
+      end
+      search.query.paginate(page.to_i, Item.per_page)
+      begin
+        @items = search.execute!.results
+      rescue
+        @items = WillPaginate::Collection.create(1,1,0) do end
+      end
       @count[:total] = @items.total_entries
     else
       order = "items.id DESC"
@@ -119,6 +129,7 @@ class ItemsController < ApplicationController
     @item.manifestation = @manifestation
     @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
+    @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
     respond_to do |format|
       format.html # new.html.erb
@@ -146,7 +157,6 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        @item.index
         Item.transaction do
           @manifestation.items << @item
           @item.reload
@@ -179,7 +189,6 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.update_attributes(params[:item])
-        @item.index
         if @item.shelf
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
@@ -208,7 +217,6 @@ class ItemsController < ApplicationController
   def destroy
     @item = Item.find(params[:id])
     @item.destroy
-    @item.remove_from_index
 
     respond_to do |format|
       if @item.manifestation

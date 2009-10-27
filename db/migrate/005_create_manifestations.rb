@@ -1,7 +1,6 @@
 class CreateManifestations < ActiveRecord::Migration
   def self.up
     create_table :manifestations do |t|
-      t.integer :parent_id
       t.text :original_title, :null => false
       t.text :title_alternative
       t.text :title_transcription
@@ -47,7 +46,6 @@ class CreateManifestations < ActiveRecord::Migration
       t.integer :frequency_id, :default => 1, :null => false
       t.boolean :subscription_master, :default => false, :null => false
     end
-    add_index :manifestations, :parent_id
     add_index :manifestations, :carrier_type_id
     add_index :manifestations, :required_role_id
     add_index :manifestations, :isbn

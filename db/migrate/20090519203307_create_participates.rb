@@ -1,8 +1,8 @@
 class CreateParticipates < ActiveRecord::Migration
   def self.up
     create_table :participates do |t|
-      t.integer :patron_id
-      t.integer :event_id
+      t.integer :patron_id, :null => false
+      t.integer :event_id, :null => false
       t.integer :position
 
       t.timestamps

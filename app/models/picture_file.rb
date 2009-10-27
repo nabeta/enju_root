@@ -19,11 +19,11 @@ class PictureFile < ActiveRecord::Base
   @@per_page = 10
 
   def after_create
-    send_later(:set_digest)
+    send_later(:set_digest) if self.picture.path
   end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(self.picture.path)
+    file_hash = Digest::SHA1.hexdigest(File.open(self.picture.path, 'rb').read)
     save(false)
   end
 

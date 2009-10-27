@@ -17,7 +17,7 @@
     <th><%= t('activerecord.models.manifestation') -%></th>
   </tr>
   
-<%- for own in @owns -%>
+<%- @owns.each do |own| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(own.patron.full_name), own.patron -%></td>
     <td>

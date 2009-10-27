@@ -3,7 +3,8 @@ require 'test_helper'
 class ItemsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :items, :circulation_statuses, :shelves, :orders, :manifestations, :exemplifies, :carrier_types, :languages, :reserves,
-    :libraries, :patrons, :users, :inventories, :inventory_files
+    :libraries, :patrons, :users, :inventories, :inventory_files,
+    :user_groups, :lending_policies
 
   def test_guest_should_get_index
     get :index
@@ -150,8 +151,10 @@ class ItemsControllerTest < ActionController::TestCase
   def test_librarian_should_create_item
     UserSession.create users(:librarian1)
     old_count = Item.count
+    old_lending_policy_count = LendingPolicy.count
     post :create, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_equal old_count+1, Item.count
+    assert_equal old_lending_policy_count+UserGroup.count, LendingPolicy.count
     
     assert_redirected_to item_url(assigns(:item))
     assigns(:item).remove_from_index!

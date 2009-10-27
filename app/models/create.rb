@@ -4,7 +4,7 @@ class Create < ActiveRecord::Base
   belongs_to :work #, :counter_cache => true #, :validate => true
 
   validates_associated :patron, :work
-  validates_presence_of :patron, :work
+  validates_presence_of :patron_id, :work_id
   validates_uniqueness_of :work_id, :scope => :patron_id
 
   acts_as_list :scope => :work

@@ -8,7 +8,7 @@
     <th><%= t('activerecord.models.advertisement') -%></th>
   </tr>
 
-<%- for advertise in @advertises -%>
+<%- @advertises.each do |advertise| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(advertise.patron.full_name), advertise.patron -%></td>
     <td><%= link_to h(advertise.advertisement.title), advertise.advertisement -%></td>

@@ -12,13 +12,19 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.classification_type.name') -%></th>
     <th><%= t('activerecord.attributes.classification_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.classification_type.note') -%></th>
   </tr>
 
-<%- for classification_type in @classification_types -%>
+<%- @classification_types.each do |classification_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if classification_type.is_deletable_by(current_user) -%>
+        <%= move_position(classification_type) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(classification_type.name), classification_type -%></td>
     <td><%= link_to h(classification_type.display_name.localize), classification_type -%></td>
     <td><%=h classification_type.note -%></td>

@@ -9,14 +9,13 @@
     <th><%= t('activerecord.attributes.news_feed.url') -%></th>
   </tr>
 
-<%- for news_feed in @news_feeds -%>
+<%- @news_feeds.each do |news_feed| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <%- if news_feed.is_deletable_by(current_user) -%>
-      <td>
-        <%= news_feed.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (news_feed.position  > 1 ? news_feed.position - 1 : 1), :id => news_feed.id}, :method => :put) -%>
-        <%= news_feed.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (news_feed.position + 1), :id => news_feed.id}, :method => :put) -%>
-      </td>
-    <%- end -%>
+    <td>
+      <%- if news_feed.is_deletable_by(current_user) -%>
+        <%= move_position(news_feed) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(news_feed.title), news_feed -%></td>
     <td><%= link_to h(news_feed.url), news_feed.url -%></td>
     <%- if news_feed.is_deletable_by(current_user) -%>

@@ -68,7 +68,7 @@ class ShelvesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_shelf
     old_count = Shelf.count
-    post :create, :shelf => { :name => 'My shelf', :library_id => 2 }
+    post :create, :shelf => { :name => 'My shelf' }, :library_id => 'kamata'
     assert_equal old_count, Shelf.count
     
     assert_redirected_to new_user_session_url
@@ -77,7 +77,7 @@ class ShelvesControllerTest < ActionController::TestCase
   def test_user_should_not_create_shelf
     UserSession.create users(:user1)
     old_count = Shelf.count
-    post :create, :shelf => { :name => 'My shelf', :library_id => 2 }
+    post :create, :shelf => { :name => 'My shelf' }, :library_id => 'kamata'
     assert_equal old_count, Shelf.count
     
     assert_response :forbidden
@@ -86,7 +86,7 @@ class ShelvesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_shelf
     UserSession.create users(:librarian1)
     old_count = Shelf.count
-    post :create, :shelf => { :name => 'My shelf', :library_id => 2 }
+    post :create, :shelf => { :name => 'My shelf' }, :library_id => 'kamata'
     assert_equal old_count, Shelf.count
     
     assert_response :forbidden
@@ -95,7 +95,7 @@ class ShelvesControllerTest < ActionController::TestCase
   def test_admin_should_not_create_shelf_without_name
     UserSession.create users(:admin)
     old_count = Shelf.count
-    post :create, :shelf => { :name => nil, :library_id => 2 }
+    post :create, :shelf => { :name => nil }, :library_id => 'kamata'
     assert_equal old_count, Shelf.count
     
     assert_response :success
@@ -104,8 +104,19 @@ class ShelvesControllerTest < ActionController::TestCase
   def test_admin_should_create_shelf
     UserSession.create users(:admin)
     old_count = Shelf.count
-    post :create, :shelf => { :name => 'My shelf', :library_id => 2 }
+    post :create, :shelf => { :name => 'My shelf' }
     assert_equal old_count+1, Shelf.count
+    assert_equal 'web', assigns(:shelf).library.name
+    
+    assert_redirected_to shelf_url(assigns(:shelf))
+  end
+
+  def test_admin_should_create_shelf_with_library
+    UserSession.create users(:admin)
+    old_count = Shelf.count
+    post :create, :shelf => { :name => 'My shelf' }, :library_id => 'kamata'
+    assert_equal old_count+1, Shelf.count
+    assert_equal 'kamata', assigns(:shelf).library.name
     
     assert_redirected_to shelf_url(assigns(:shelf))
   end

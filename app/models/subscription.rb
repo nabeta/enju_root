@@ -8,7 +8,7 @@ class Subscription < ActiveRecord::Base
   validates_presence_of :title, :user
   validates_associated :user
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :note
     time :created_at
     time :updated_at

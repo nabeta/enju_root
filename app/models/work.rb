@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Work < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
@@ -7,11 +8,11 @@ class Work < ActiveRecord::Base
   has_many :patrons, :through => :creates, :order => 'creates.position'
   has_many :reifies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :reifies
-  belongs_to :work_form #, :validate => true
+  belongs_to :form_of_work #, :validate => true
   has_many :work_merges, :dependent => :destroy
   has_many :work_merge_lists, :through => :work_merges
-  has_many :resource_has_subjects, :dependent => :destroy
-  has_many :subjects, :through => :resource_has_subjects
+  has_many :work_has_subjects, :dependent => :destroy
+  has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
   has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
@@ -21,12 +22,12 @@ class Work < ActiveRecord::Base
   #has_many :concepts, :through => :work_has_concepts
   #has_many :work_has_places, :dependent => :destroy
   #has_many :places, :through => :work_has_places
-  #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :resource_has_subjects
+  #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :work_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
   belongs_to :medium_of_performance
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
-  searchable :auto_index => false do
+  searchable do
     text :title, :context, :note, :author
     text :author do
       patrons.collect(&:full_name) + patrons.collect(&:full_name_transcription)
@@ -37,19 +38,18 @@ class Work < ActiveRecord::Base
     integer :work_merge_list_ids, :multiple => true
     integer :original_work_ids, :multiple => true
     integer :required_role_id
-    integer :work_form_id
+    integer :form_of_work_id
     integer :subject_ids, :multiple => true
   end
 
   #acts_as_soft_deletable
-  acts_as_tree
-  has_one :mods_import
+  #acts_as_tree
 
   @@per_page = 10
   cattr_accessor :per_page
 
-  validates_associated :work_form
-  validates_presence_of :original_title, :work_form
+  validates_associated :form_of_work
+  validates_presence_of :original_title, :form_of_work_id
 
   def title
     array = titles
@@ -74,13 +74,19 @@ class Work < ActiveRecord::Base
     expressions.collect(&:manifestations).flatten.uniq
   end
 
-  def serials
-    nil
-    #self.expressions.serials
-  end
+  #def serials
+  #end
 
   def work_merge_lists_ids
     self.work_merge_lists.collect(&:id)
+  end
+
+  def created(patron)
+    creates.find(:first, :conditions => {:patron_id => patron.id})
+  end
+
+  def reified(expression)
+    reifies.find(:first, :conditions => {:expression_id => expression.id})
   end
 
 end

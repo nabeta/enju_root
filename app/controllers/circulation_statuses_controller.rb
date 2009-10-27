@@ -61,9 +61,9 @@ class CirculationStatusesController < ApplicationController
   def update
     @circulation_status = CirculationStatus.find(params[:id])
 
-    if @shelf and params[:position]
-      @shelf.insert_at(params[:position])
-      redirect_to shelves_url
+    if @circulation_status and params[:position]
+      @circulation_status.insert_at(params[:position])
+      redirect_to circulation_status_url
       return
     end
 

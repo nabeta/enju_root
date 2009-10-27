@@ -9,7 +9,7 @@
     <th><%= t('activerecord.models.item_relationship_type') -%></th>
   </tr>
 
-<% for item_has_item in @item_has_items -%>
+<%- @item_has_items.each do |item_has_item| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(item_has_item.from_item.manifestation.original_title), item_has_item.from_item -%></td>
     <td><%= link_to h(item_has_item.to_item.manifestation.original_title), item_has_item.to_item -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_item_has_item_path(item_has_item) -%></td>
     <td><%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@item_has_items) -%>

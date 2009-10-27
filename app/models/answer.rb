@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Answer < ActiveRecord::Base
   include LibrarianOwnerRequired
   named_scope :public_answers, :conditions => {:shared => true}
@@ -9,7 +10,7 @@ class Answer < ActiveRecord::Base
   after_save :save_questions
 
   validates_associated :user, :question
-  validates_presence_of :user, :question, :body
+  validates_presence_of :user_id, :question_id, :body
 
   cattr_accessor :per_page
   @@per_page = 10

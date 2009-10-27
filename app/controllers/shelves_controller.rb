@@ -50,8 +50,11 @@ class ShelvesController < ApplicationController
   # POST /shelves.xml
   def create
     @shelf = Shelf.new(params[:shelf])
-    #@shelf.library = @library
-    @shelf.library = Library.web unless current_user.has_role?('Librarian')
+    if @library
+      @shelf.library = @library
+    else
+      @shelf.library = Library.web #unless current_user.has_role?('Librarian')
+    end
 
     respond_to do |format|
       if @shelf.save

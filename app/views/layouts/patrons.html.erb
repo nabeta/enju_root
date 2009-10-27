@@ -7,7 +7,7 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- case when @patron -%>
-    <%- if @patron.full_name -%>
+    <%- if @patron.full_name.present? -%>
       <title><%=h @patron.full_name -%> : <%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>
     <%- else -%>
       <title><%= t('activerecord.models.patron') -%>: <%=h title_action_name -%></title>

@@ -30,20 +30,17 @@
     <%= f.text_field :title_alternative, :class => 'resource_title' -%>
   </p>
   
-  <%- unless @patron.blank? -%>
-  <p>
-    <b><%= ('Creator') -%></b><br />
-    <%=h @patron.full_name -%>
-  </p>
-  <%- end -%>
-
   <p>
     <b><%= t('activerecord.attributes.work.context') -%></b><br />
     <%= f.text_area :context, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <%= f.hidden_field :parent_id, :value => @parent.id, :class => 'resource_textarea' if @parent -%>
+    <b><%= t('activerecord.models.form_of_work') -%></b><br />
+    <%= f.select(:form_of_work_id, @form_of_works.collect{|w| [w.display_name.localize, w.id]}) -%>
+  </p>
+
+  <p>
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>

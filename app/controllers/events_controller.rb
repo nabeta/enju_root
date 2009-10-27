@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class EventsController < ApplicationController
   before_filter :has_permission?, :except => :index
   before_filter :get_library, :get_patron
@@ -14,27 +15,28 @@ class EventsController < ApplicationController
     query = params[:query].to_s.strip
     @query = query.dup
     query = query.gsub('　', ' ')
-    search = Sunspot.new_search(Event)
-    search.query.keywords = query if query.present?
+    tag = params[:tag].to_s if params[:tag].present?
+    date = params[:date].to_s if params[:date].present?
+    mode = params[:mode]
 
-    search.query.add_restriction(:library_id, :equal_to, @library.id) if @library
-    if params[:tag].present?
-      tag = params[:tag].to_s
-      search.query.add_restriction(:tag, :equal_to, tag)
-    end
-    if params[:date].present?
-      date = params[:date].to_s
-      search.query.add_restriction(:started_at, :greater_than, Time.zone.parse(date).beginning_of_day)
-      search.query.add_restriction(:started_at, :less_than, Time.zone.parse(date).tomorrow.beginning_of_day)
-    else
-      case params[:mode]
-      when 'upcoming'
-        search.query.add_restriction(:started_at, :greater_than, Time.zone.now.beginning_of_day)
-      when 'past'
-        search.query.add_restriction(:started_at, :less_than, Time.zone.now.beginning_of_day)
+    search = Sunspot.new_search(Event)
+    library = @library
+    search.build do
+      fulltext query if query.present?
+      with(:library_id).equal_to library.id if library
+      #with(:tag).equal_to tag
+      if date
+        with(:started_at).greater_than Time.zone.parse(date).beginning_of_day
+        with(:started_at).less_than Time.zone.parse(date).tomorrow.beginning_of_day
       end
+      case mode
+      when 'upcoming'
+        with(:started_at).greater_than Time.zone.now.beginning_of_day
+      when 'past'
+        with(:started_at).less_than Time.zone.now.beginning_of_day
+      end
+      order_by(:started_at, :desc)
     end
-    search.query.order_by(:started_at, :desc)
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Event.per_page)

@@ -10,7 +10,7 @@
     <th><%= t('advertisement.period') -%></th>
   </tr>
 
-<%- for advertisement in @advertisements -%>
+<%- @advertisements.each do |advertisement| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(advertisement.title), advertisement -%></td>
     <td><%= link_to h(advertisement.url), advertisement.url -%></td>

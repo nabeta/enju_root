@@ -49,17 +49,19 @@
       <%= render :partial => 'libraries/map', :locals => {:library => @library} if @library.geocode -%>
       </div>
       <div id="tab2">
-        <ul>
-          <%- @library.users.librarians.each do |librarian| -%>
-            <li>
-              <%= link_to h(librarian.login), librarian.patron -%>
-              <%- unless librarian.note.blank? -%>
-                <br />
-                <%=h librarian.note -%>
-              <%- end -%>
-            </li>
-          <%- end -%>
-        </ul>
+        <%- unless @library.users.librarians.empty? -%>
+          <ul>
+            <%- @library.users.librarians.each do |librarian| -%>
+              <li>
+                <%= link_to h(librarian.login), librarian.patron -%>
+                <%- unless librarian.note.blank? -%>
+                  <br />
+                  <%=h librarian.note -%>
+                <%- end -%>
+              </li>
+            <%- end -%>
+          </ul>
+        <%- end -%>
       </div>
       <div id="tab3">
 

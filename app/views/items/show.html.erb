@@ -38,6 +38,15 @@
 </p>
 
 <p>
+  <b><%= t('activerecord.models.lending_policy') -%>:</b>
+  <ul>
+    <%- @item.lending_policies.each do |lending_policy| -%>
+      <li><%= link_to h(lending_policy.user_group.display_name.localize), lending_policy -%></li>
+    <%- end -%>
+  </ul>
+</p>
+
+<p>
   <b><%= t('activerecord.models.circulation_status') -%>:</b>
   <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
   <%- if logged_in? -%>

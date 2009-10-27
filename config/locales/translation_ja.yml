@@ -20,9 +20,9 @@ ja:
       language: 言語
       patron_merge_list: パトロンの併合リスト
       user: 利用者
-      resource_has_subject: 資料と件名の関係
+      work_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
-      work_form: 著作形の形態
+      form_of_work: 著作形の形態
       inter_library_loan: 相互貸借
       message: メッセージ
       classification: 分類
@@ -57,7 +57,7 @@ ja:
       expression_merge_list: 表現形の併合リスト
       use_restriction: 利用制限
       subject: 件名
-      expression_form: 表現形の形態
+      content_type: 表現形の形態
       work_merge: 著作形をマージ
       aaws_response: Aawsの応答
       patron_type: パトロンの種類
@@ -92,14 +92,14 @@ ja:
       message_queue: 送信待ちのメッセージ
       answer: 回答
       bookstore: 書店
-      checkout_type: 貸出ルール
+      checkout_type: 貸出区分
       classification_type: 分類型
       country: 国と地域
       manifestation_api_response: 体現形APIの応答
       request_type: 依頼の種類
       inventory_file: 蔵書点検ファイル
-      carrier_type_has_checkout_type: 体現形の種類と貸出ルールの関係
-      user_group_has_checkout_type: 利用者グループと貸出ルールの関係
+      user_group_has_checkout_type: 利用者グループと貸出区分の関係
+      carrier_type_has_checkout_type: 体現形の種類と貸出区分の関係
       tag: タグ
       bookmark_stat: ブックマーク統計
       manifestation_checkout_stat: 資料別貸出統計
@@ -133,6 +133,9 @@ ja:
       expression_relationship_type: 表現形の関係の種類
       manifestation_relationship_type: 体現形の関係の種類
       item_relationship_type: 個別資料の関係の種類
+      lending_policy: 貸出規則
+      nii_type: NIIメタデータタイプ
+      license: ライセンス
     attributes:
       library:
         name: 名前
@@ -297,7 +300,7 @@ ja:
         password: パスワード
         old_password: 古いパスワード
         locale: 言語
-      resource_has_subject:
+      work_has_subject:
         work: 著作形
         subject: 件名
         subjectable_type: 件名付与対象の種類
@@ -312,7 +315,7 @@ ja:
         thumbnail: サムネイル
         file_hash: ファイルのハッシュ
         picture_updated_at: 更新時刻
-      work_form:
+      form_of_work:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -475,7 +478,7 @@ ja:
         scope_note: スコープ注記
         note: 注記
         lock_version: ロックバージョン
-      expression_form:
+      content_type:
         name: 名前
         display_name: 表示名
         note: 注記
@@ -703,9 +706,6 @@ ja:
         inventory_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
-      carrier_type_has_checkout_type:
-        note: 注記
-        position: 位置
       user_group_has_checkout_type:
         checkout_limit: 貸出数の上限
         checkout_period: 貸出期間
@@ -713,7 +713,10 @@ ja:
         reservation_limit: 予約冊数の上限
         reservation_expired_period: 予約の期限切れまでの期間
         set_due_date_before_closing_day: 返却日を閉館日の前日にする
-        fixed_due_date: 固定返却日
+        fixed_due_date: 固定貸出期限
+        note: 注記
+        position: 位置
+      carrier_type_has_checkout_type:
         note: 注記
         position: 位置
       bookmark_stat:
@@ -892,6 +895,23 @@ ja:
         display_name: 表示名
         note: 注記
         position: 位置
+      lending_policy:
+        loan_period: 貸出期間
+        fixed_due_date: 固定貸出期限
+        renewal: 貸出延長の回数
+        fine: 罰金
+        note: 注記
+        position: 位置
+      nii_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      license:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -1032,6 +1052,7 @@ ja:
     add_on: "アドオン"
     asc: "昇順"
     desc: "降順"
+    error_occured: "エラーが発生しました。"
   title:
     index: "一覧"
     show: "表示"
@@ -1122,6 +1143,7 @@ ja:
     add_new_copy: "複本を追加"
     no_manifestation: "体現形なし"
     no_number: "番号なし"
+    add_lending_policy: "貸出規則の追加"
   patron:
     library_group_patron: "{{library_group_name}} のパトロン"
     work_patron: "{{work_title}} の著作者"
@@ -1199,7 +1221,7 @@ ja:
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
-    will_be_impoted: "{{minute}} 分以内にインポートされます。"
+    will_be_imported: "{{minute}} 分以内にインポートされます。"
   event:
     library_group_event: "{{library_group_name}} での催し物"
     all_libraries: "全ての図書館"
@@ -1297,7 +1319,7 @@ ja:
   order:
     create_order_list: "発注リストを作成してください。"
     specify_purchase_request: "購入依頼を指定してください。"
-  resource_has_subject:
+  work_has_subject:
     add_work: "著作形を追加する"
     add_subject: "件名を追加する"
     subjectable: "件名付与対象"

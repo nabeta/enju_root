@@ -3,7 +3,7 @@
     <%- if @user -%>
       <li><%= link_to t('page.edit'),edit_user_bookmark_path(@user.login, @bookmark) -%></li>
       <li><%= link_to t('page.destroy'), user_bookmark_path(@user.login, @bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-      <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), @bookmark.bookmarked_resource.manifestation -%></li>
+      <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), @bookmark.manifestation -%></li>
       <li><%= link_to t('page.back'), user_bookmarks_path(@user.login) -%></li>
     <%- else -%>
       <li><%= link_to t('page.edit'),edit_bookmark_path(@bookmark) -%></li>
@@ -24,16 +24,14 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.models.bookmarked_resource') -%>:</b>
-  <%= link_to h(@bookmark.bookmarked_resource.title), h(@bookmark.bookmarked_resource.url) -%><br />
-  (<%= link_to t('activerecord.models.manifestation'), @bookmark.bookmarked_resource.manifestation -%>)
-  (<%= link_to t('page.detail'), bookmarked_resource_path(@bookmark.bookmarked_resource) -%>)
+  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <%= link_to h(@bookmark.manifestation.original_title), @bookmark.manifestation -%>
 </p>
 
 <p>
   <b><%= t('page.tag') -%>:</b>
   <%- @bookmark.tags.collect {|tag| -%>
-  <%= link_to h(tag.name), user_bookmarked_resources_path(@bookmark.user.login, :tag => tag.name) -%>
+  <%= link_to h(tag.name), user_manifestations_path(@bookmark.user.login, :tag => tag.name) -%>
   <%- } -%></td>
 </p>
 
@@ -54,7 +52,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.bookmarked_resource.bookmarks_count') -%>:</b>
-  <%=h @bookmark.bookmarked_resource.bookmarks_count -%>
+  <%=h @bookmark.manifestation.bookmarks_count -%>
 </p>
 
 </div>

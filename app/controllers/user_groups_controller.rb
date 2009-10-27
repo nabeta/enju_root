@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class UserGroupsController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?
@@ -61,6 +62,12 @@ class UserGroupsController < ApplicationController
   # PUT /user_groups/1.xml
   def update
     @user_group = UserGroup.find(params[:id])
+
+    if @user_group and params[:position]
+      @user_group.insert_at(params[:position])
+      redirect_to user_groups_url
+      return
+    end
 
     respond_to do |format|
       if @user_group.update_attributes(params[:user_group])

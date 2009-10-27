@@ -24,16 +24,16 @@ module ApplicationHelper
     image_tag('/icons/help.png', :size => '16x16', :alt => 'unknown')
   end
 
-  def expression_form_icon(expression_form)
-    case expression_form.name
+  def content_type_icon(content_type)
+    case content_type.name
     when 'text'
-      image_tag('/icons/page_white_text.png', :size => '16x16', :alt => expression_form.display_name.localize)
+      image_tag('/icons/page_white_text.png', :size => '16x16', :alt => content_type.display_name.localize)
     when 'picture'
-      image_tag('/icons/picture.png', :size => '16x16', :alt => expression_form.display_name.localize)
+      image_tag('/icons/picture.png', :size => '16x16', :alt => content_type.display_name.localize)
     when 'sound'
-      image_tag('/icons/sound.png', :size => '16x16', :alt => expression_form.display_name.localize)
+      image_tag('/icons/sound.png', :size => '16x16', :alt => content_type.display_name.localize)
     when 'video'
-      image_tag('/icons/film.png', :size => '16x16', :alt => expression_form.display_name.localize)
+      image_tag('/icons/film.png', :size => '16x16', :alt => content_type.display_name.localize)
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
     end
@@ -125,14 +125,11 @@ module ApplicationHelper
     nil
   end
 
-  def advertisement_pickup
-    advertisement = Advertisement.pickup
-    if advertisement
-      unless advertisement.url.blank?
-        link_to h(advertisement.body), advertisement.url
-      else
-        h(advertisement.body)
-      end
+  def advertisement_pickup(advertisement)
+    unless advertisement.url.blank?
+      link_to h(advertisement.body), advertisement.url
+    else
+      h(advertisement.body)
     end
   rescue
     nil
@@ -172,6 +169,10 @@ module ApplicationHelper
 
   def locale_native_name(locale)
     h(Language.find(:first, :conditions => {:iso_639_1 => locale}).native_name)
+  end
+
+  def move_position(object)
+    render :partial => 'page/position', :locals => {:object => object}
   end
 
 end

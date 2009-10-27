@@ -63,7 +63,7 @@ class CheckoutStatHasUsersControllerTest < ActionController::TestCase
   test "librarian should create checkout_stat_has_user" do
     UserSession.create users(:librarian1)
     assert_difference('CheckoutStatHasUser.count') do
-      post :create, :checkout_stat_has_user => { }
+      post :create, :checkout_stat_has_user => {:user_checkout_stat_id => 1, :user_id => 3}
     end
 
     assert_redirected_to checkout_stat_has_user_path(assigns(:checkout_stat_has_user))

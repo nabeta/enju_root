@@ -9,7 +9,7 @@
     <th>Checkouts count</th>
   </tr>
 
-<% for checkout_stat_has_user in @checkout_stat_has_users -%>
+<%- for checkout_stat_has_user in @checkout_stat_has_users -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%=h checkout_stat_has_user.user_checkout_stat_id -%></td>
     <td><%=h checkout_stat_has_user.user_id -%></td>
@@ -18,7 +18,7 @@
     <td><%= link_to t('page.edit'), edit_checkout_stat_has_user_path(checkout_stat_has_user) -%></td>
     <td><%= link_to t('page.destroy'), checkout_stat_has_user, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
-<% end -%>
+<%- end -%>
 </table>
 
 <%= will_paginate(@checkout_stat_has_users, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>

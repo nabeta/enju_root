@@ -36,12 +36,12 @@
     <th><%= t('activerecord.models.language') -%></th>
   </tr>
   
-<%- for expression in @expressions -%>
+<%- @expressions.each do |expression| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
       <%= link_to h(expression.original_title), subscription_expression_path(@subscription, expression) -%>
-      <%= expression_form_icon(expression.expression_form) -%><br />
+      <%= content_type_icon(expression.content_type) -%><br />
       <%= patrons_list(expression.authors) -%>
       <%= patrons_list(expression.patrons) -%>
     </td>

@@ -10,12 +10,18 @@
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.attributes.user_group.display_name') -%></th>
     <th><%= t('activerecord.attributes.user_group.note') -%></th>
   </tr>
   
-<%- for user_group in @user_groups -%>
+<%- @user_groups.each do |user_group| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%- if user_group.is_deletable_by(current_user) -%>
+        <%= move_position(user_group) -%>
+      <%- end -%>
+    </td>
     <td><%= link_to h(user_group.display_name.localize), user_group -%></td>
     <td><%=h user_group.note -%></td>
     <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>

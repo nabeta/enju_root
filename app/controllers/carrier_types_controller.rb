@@ -55,6 +55,12 @@ class CarrierTypesController < ApplicationController
   def update
     @carrier_type = CarrierType.find(params[:id])
 
+    if @carrier_type and params[:position]
+      @carrier_type.insert_at(params[:position])
+      redirect_to carrier_types_url
+      return
+    end
+
     respond_to do |format|
       if @carrier_type.update_attributes(params[:carrier_type])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.carrier_type'))

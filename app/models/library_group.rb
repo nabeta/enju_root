@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class LibraryGroup < ActiveRecord::Base
   #include Singleton
   include OnlyAdministratorCanModify
@@ -15,6 +16,10 @@ class LibraryGroup < ActiveRecord::Base
 
   def after_destroy
     after_save
+  end
+
+  def before_validation
+    self.display_name = self.name if display_name.blank?
   end
 
   def expire_cache

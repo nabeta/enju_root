@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class Patron < ActiveRecord::Base
   include LibrarianOwnerRequired
   include EnjuFragmentCache
@@ -22,8 +23,8 @@ class Patron < ActiveRecord::Base
   belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
-  #has_many :resource_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :resource_has_subjects
+  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
+  #has_many :subjects, :through => :work_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   belongs_to :patron_type #, :validate => true
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
@@ -31,7 +32,7 @@ class Patron < ActiveRecord::Base
   has_many :advertisements, :through => :advertises
   has_many :participates, :dependent => :destroy
   has_many :events, :through => :participates
-  #has_many :works_as_subjects, :through => :resource_has_subjects, :as => :subjects
+  #has_many :works_as_subjects, :through => :work_has_subjects, :as => :subjects
   has_many :to_patrons, :foreign_key => 'from_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
   has_many :from_patrons, :foreign_key => 'to_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
   has_many :derived_patrons, :through => :to_patrons, :source => :to_patron
@@ -41,7 +42,7 @@ class Patron < ActiveRecord::Base
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
 
-  searchable :auto_index => false do
+  searchable do
     text :name, :place, :address_1, :address_2, :other_designation
     string :zip_code_1
     string :zip_code_2
@@ -52,6 +53,7 @@ class Patron < ActiveRecord::Base
     time :updated_at
     time :date_of_birth
     time :date_of_death
+    string :user
     integer :work_ids, :multiple => true
     integer :expression_ids, :multiple => true
     integer :manifestation_ids, :multiple => true
@@ -62,7 +64,7 @@ class Patron < ActiveRecord::Base
   end
 
   #acts_as_soft_deletable
-  acts_as_tree
+  #acts_as_tree
 
   cattr_accessor :per_page
   @@per_page = 10
@@ -230,6 +232,22 @@ class Patron < ActiveRecord::Base
     true if user.has_role?('Librarian')
   rescue
     false
+  end
+
+  def created(work)
+    creates.find(:first, :conditions => {:id => work.id})
+  end
+
+  def realized(expression)
+    realizes.find(:first, :conditions => {:id => expression.id})
+  end
+
+  def produced(manifestation)
+    produces.find(:first, :conditions => {:id => manifestation.id})
+  end
+
+  def owned(item)
+    owns.find(:first, :conditions => {:id => item.id})
   end
 
 end

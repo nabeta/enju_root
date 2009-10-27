@@ -20,8 +20,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if expression_relationship_type.is_deletable_by(current_user) -%>
-        <%= expression_relationship_type.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (expression_relationship_type.position  > 1 ? expression_relationship_type.position - 1 : 1), :id => expression_relationship_type.id}, :method => :put) -%>
-        <%= expression_relationship_type.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (expression_relationship_type.position + 1), :id => expression_relationship_type.id}, :method => :put) -%>
+        <%= move_position(expression_relationship_type) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(expression_relationship_type.name), expression_relationship_type -%></td>

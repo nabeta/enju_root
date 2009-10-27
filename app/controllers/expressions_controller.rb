@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 class ExpressionsController < ApplicationController
   before_filter :has_permission?, :except => :show
   before_filter :get_user_if_nil
@@ -18,15 +19,23 @@ class ExpressionsController < ApplicationController
       @query = query.dup
       query = query.gsub('　', ' ')
       #query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
-      search.query.keywords = query
+      search.build do
+        fulltext query
+      end
     end
     unless params[:mode] == 'add'
-      search.query.add_restriction(:manifestation_ids, :equal_to, @manifestation.id) if @manifestation
-      search.query.add_restriction(:patron_ids, :equal_to, @patron.id) if @patron
-      search.query.add_restriction(:work_id, :equal_to, @work.id) if @work
-      search.query.add_restriction(:original_expression_ids, :equal_to, @expression.id) if @expression
-      search.query.add_restriction(:expression_merge_ids, :equal_to, @expression_merge_list.id) if @expression_merge_list
-
+      manifestation = @manifestation
+      patron = @patron
+      work = @work
+      expression = @expression
+      expression_merge_list = @expression_merge_list
+      search.build do
+        with(:manifestation_ids).equal_to manifestation.id if manifestation
+        with(:patron_ids).equal_to patron.id if patron
+        with(:work_id).equal_to work.id if work
+        with(:original_expression_ids).equal_to expression.id if expression
+        with(:expression_merge_list_ids).equal_to expression_merge_list.id if expression_merge_list
+      end
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)
@@ -82,7 +91,6 @@ class ExpressionsController < ApplicationController
     #  redirect_to works_path
     #  return
     #end
-    @parent_expression = Expression.find(params[:parent_id]) rescue nil
     @expression = Expression.new
     @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
 
@@ -94,8 +102,6 @@ class ExpressionsController < ApplicationController
 
   # GET /expressions/1;edit
   def edit
-    @parent = Expression.find(params[:parent_id]) rescue nil
-    
     @expression = Expression.find(params[:id])
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -114,7 +120,6 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.save
-        @expression.index
         Expression.transaction do
           @work.expressions << @expression
           #if @expression.serial?
@@ -146,7 +151,6 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
-        @expression.index
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
         format.html { redirect_to expression_url(@expression) }
         format.xml  { head :ok }
@@ -163,7 +167,6 @@ class ExpressionsController < ApplicationController
   def destroy
     @expression = Expression.find(params[:id])
     @expression.destroy
-    @expression.remove_from_index
 
     respond_to do |format|
       format.html { redirect_to expressions_url }
@@ -173,7 +176,7 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @expression_forms = ExpressionForm.find(:all)
+    @content_types = ContentType.find(:all)
     @languages = Rails.cache.fetch('Language.all'){Language.all}
   end
 end

@@ -2,7 +2,16 @@ require 'httparty'
 class UserSessionsController < ApplicationController
   before_filter :require_no_user, :only => [:new, :create]
   before_filter :require_user, :only => :destroy
-  before_filter :access_denied, :except => [:new, :create, :destroy]
+  #before_filter :access_denied, :except => [:show, :new, :create, :destroy]
+  ssl_allowed :show, :new, :create, :destroy
+  
+  def show
+    if logged_in?
+      redirect_to user_path(current_user.login)
+    else
+      redirect_to new_user_session_url
+    end
+  end
   
   def new
     @user_session = UserSession.new
@@ -23,6 +32,7 @@ class UserSessionsController < ApplicationController
         if @user_session.user.suspended?
           flash[:notice] = t('user_session.your_account_is_suspended')
           render :action => :new
+          @user_session.destroy
           return
         else
           flash[:notice] = t('user_session.logged_in')

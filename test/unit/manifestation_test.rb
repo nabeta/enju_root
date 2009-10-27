@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../test_helper'
 class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
-    :frequencies, :work_forms, :expression_forms, :carrier_types, :countries, :patron_types
+    :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types
 
   # Replace this with your real tests.
   def test_manifestation_should_embody_expression
@@ -49,4 +49,9 @@ class ManifestationTest < ActiveSupport::TestCase
   def title
     assert manifestations(:manifestation_00001).title
   end
+
+  def test_manifestation_should_have_screen_shot
+    assert manifestations(:manifestation_00003).screen_shot
+  end
+
 end

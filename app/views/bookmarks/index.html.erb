@@ -1,7 +1,5 @@
-<%- if @work -%>
+<%- if @user -%>
   <%= render :partial => 'index_user' -%>
-<%- elsif @expression -%>
-  <%= render :partial => 'index_bookmarked_resource' -%>
 <%- else -%>
   <%= render :partial => 'index' -%>
 <%- end -%>

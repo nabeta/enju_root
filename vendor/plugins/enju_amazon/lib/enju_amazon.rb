@@ -36,6 +36,7 @@ module EnjuAmazon
     end
 
     def access_amazon
+      raise "Access key is not set" if AMAZON_ACCESS_KEY == 'REPLACE_WITH_YOUR_AMAZON_KEY'
       unless self.isbn.blank?
         timestamp = CGI.escape(Time.now.utc.iso8601)
         query = [
@@ -65,6 +66,7 @@ module EnjuAmazon
     end
 
     def access_amazon_proxy
+      raise "Access key is not set" if AMAZON_ACCESS_KEY == 'REPLACE_WITH_YOUR_AMAZON_KEY'
       url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
       Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){open(url).read}
     end

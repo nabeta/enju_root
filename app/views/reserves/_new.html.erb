@@ -16,7 +16,7 @@
 
 <%- form_for(@reserve) do |f| -%>
   <p>
-  <% if @reserve.manifestation -%>
+  <%- if @reserve.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
     <%= f.hidden_field :manifestation_id -%>
   <%- else -%>

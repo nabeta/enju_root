@@ -1,8 +1,8 @@
 class CreateItemHasUseRestrictions < ActiveRecord::Migration
   def self.up
     create_table :item_has_use_restrictions do |t|
-      t.integer :item_id
-      t.integer :use_restriction_id
+      t.integer :item_id, :null => false
+      t.integer :use_restriction_id, :null => false
 
       t.timestamps
     end

@@ -18,7 +18,7 @@
     <th><%= t('page.updated_at') -%></th>
   </tr>
 
-<%- for order in @orders -%>
+<%- @orders.each do |order| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(order.order_list.title), order.order_list -%></td>
     <td><%= link_to h(order.purchase_request.title), purchase_request_path(order.purchase_request) -%></td>

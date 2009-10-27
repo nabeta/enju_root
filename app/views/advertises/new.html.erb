@@ -6,6 +6,7 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.advertise')) -%></h1>
+<div id="content_list">
 
 <%- form_for(@advertise) do |f| -%>
   <%= f.error_messages -%>
@@ -23,4 +24,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

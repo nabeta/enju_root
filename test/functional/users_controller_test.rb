@@ -50,7 +50,7 @@ class UsersControllerTest < ActionController::TestCase
     assert_difference 'User.count' do
       create_user_without_patron_id
       assert_response :redirect
-      assert_redirected_to new_user_patron_url(assigns(:user).login)
+      assert_redirected_to user_url(assigns(:user).login)
     end
     assigns(:user).remove_from_index!
   end
@@ -68,10 +68,9 @@ class UsersControllerTest < ActionController::TestCase
     UserSession.create users(:librarian1)
     assert_difference 'User.count' do
       create_user(:password => nil)
-      #assert assigns(:user).errors.on(:password)
       #assert_response :success
       assert_response :redirect
-      assert_redirected_to new_user_patron_url(assigns(:user).login)
+      assert_redirected_to user_url(assigns(:user).login)
     end
     assigns(:user).remove_from_index!
   end
@@ -83,7 +82,7 @@ class UsersControllerTest < ActionController::TestCase
       #assert assigns(:user).errors.on(:password_confirmation)
       #assert_response :success
       assert_response :redirect
-      assert_redirected_to new_user_patron_url(assigns(:user).login)
+      assert_redirected_to user_url(assigns(:user).login)
     end
     assigns(:user).remove_from_index!
   end
@@ -95,7 +94,7 @@ class UsersControllerTest < ActionController::TestCase
       #assert assigns(:user).errors.on(:email)
       #assert_response :success
       assert_response :redirect
-      assert_redirected_to new_user_patron_url(assigns(:user).login)
+      assert_redirected_to user_url(assigns(:user).login)
     end
     assigns(:user).remove_from_index!
   end
