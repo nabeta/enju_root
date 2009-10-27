@@ -3,10 +3,10 @@ class CreateLendingPolicies < ActiveRecord::Migration
     create_table :lending_policies do |t|
       t.integer :item_id, :null => false
       t.integer :user_group_id, :null => false
-      t.integer :loan_period
+      t.integer :loan_period, :default => 0, :null => false
       t.datetime :fixed_due_date
-      t.integer :renewal
-      t.decimal :fine
+      t.integer :renewal, :default => 0, :null => false
+      t.decimal :fine, :default => 0, :null => false
       t.text :note
       t.integer :position
 
