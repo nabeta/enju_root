@@ -28,11 +28,11 @@ every 5.minute do
 end
 
 every 1.hour do
-  runner "Advertisement.expire_cache"
+  runner "Advertisement.expire_cache; NewsFeed.fetch_feeds"
 end
 
 every 1.day, :at => '0:00 am' do
-  runner "Reserve.expire; Basket.expire; NewsFeed.fetch_feeds"
+  runner "Reserve.expire; Basket.expire"
 end
 
 every 1.day, :at => '1:00 am' do
