@@ -74,12 +74,13 @@ class ImportedPatronFile < ActiveRecord::Base
 
       unless data['login'].blank?
         begin
-          user = User.new
-          user.login =  data['login'].to_s.chomp
-          user.email = data['email'].to_s.chomp
-          user.user_number = data['user_number'].to_s.chomp
-          user.password = data['password'].to_s.chomp
-          user.password_confirmation = data['password'].to_s.chomp
+          user = User.new(
+            :login => data['login'].to_s.chomp,
+            :email => data['email'].to_s.chomp,
+            :user_number => data['user_number'].to_s.chomp,
+            :password => data['password'].to_s.chomp,
+            :password_confirmation => data['password'].to_s.chomp
+          )
           if user.password.blank?
             user.set_auto_generated_password
           end
@@ -88,6 +89,8 @@ class ImportedPatronFile < ActiveRecord::Base
           user.library = library
           user.patron = patron
           user.save!
+          role = Role.find(:first, :conditions => {:name => data['role']}) || Role.find(2)
+          user.roles << role
           num[:activated] += 1
         rescue
           Rails.logger.info("user import failed: column #{record}")
