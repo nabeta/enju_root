@@ -93,8 +93,8 @@ class User < ActiveRecord::Base
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
   validates_presence_of :user_group, :library, :locale, :patron
-  #validates_presence_of :user_number
-  validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
+  #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
+  validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validate_on_update :verify_password
 
   acts_as_authentic {|c|
@@ -198,6 +198,11 @@ class User < ActiveRecord::Base
 
   def activate
     self.suspended = false
+  end
+
+  def activate!
+    activate
+    save!
   end
 
   def checked_item_count
