@@ -1,6 +1,6 @@
 <tr>
   <td style="width: 200px"><%=h t('page.video') -%>:</td>
   <td style="width: 500px">
-    <iframe width="312" height="176" src="http://www.nicovideo.jp/thumb/<%=h @manifestation.nicovideo_id -%>" scrolling="no" style="border:solid 1px #CCC;" frameborder="0"><a href="http://www.nicovideo.jp/watch/<%=h @manifestation.nicovideo_id -%>"><%=h @manifestation.original_title -%></a></iframe>
+    <script type="text/javascript" src="http://ext.nicovideo.jp/thumb_watch/<%=h @manifestation.nicovideo_id -%>"></script><noscript><a href="http://www.nicovideo.jp/watch/<%=h @manifestation.nicovideo_id -%>"><%=h @manifestation.original_title -%></a></noscript>
   </td>
 </tr>

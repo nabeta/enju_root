@@ -77,10 +77,14 @@ class ImportedPatronFile < ActiveRecord::Base
           user = User.new
           user.login =  data['login'].to_s.chomp
           user.email = data['email'].to_s.chomp
+          user.user_number = data['user_number'].to_s.chomp
           user.password = data['password'].to_s.chomp
           user.password_confirmation = data['password'].to_s.chomp
-          library = Library.find(:first, :conditions => {:name => data['library_short_name'].to_s.chomp})
-          library = Library.web if library.blank?
+          if user.password.blank?
+            user.set_auto_generated_password
+          end
+          library = Library.find(:first, :conditions => {:name => data['library_short_name'].to_s.chomp}) || Library.web
+          user_group = UserGroup.find(:first, :conditions => {:name => data['user_group_name']}) || UserGroup.first
           user.library = library
           user.patron = patron
           user.save!

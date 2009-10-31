@@ -84,7 +84,7 @@ class ImportedPatronFilesControllerTest < ActionController::TestCase
     assert_difference('ImportedPatronFile.count') do
       post :create, :imported_patron_file => {:imported_patron => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/imported_patron_file_sample2.tsv") }
     end
-    assert_difference('Patron.count', 1) do
+    assert_difference('User.count', 1) do
       assigns(:imported_patron_file).import
     end
     #assert_equal old_patrons_count + 1, Patron.count
