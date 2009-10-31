@@ -43,7 +43,7 @@
       <%= link_to h(user.login), user_path(user.login) -%>
       <br />
       <%- if user.patron -%>
-        <%= link_to user.patron.full_name if current_user.has_role?('Librarian') -%>
+        <%= link_to h(user.patron.full_name), user.patron if current_user.has_role?('Librarian') -%>
       <%- end -%>
     </td>
     <td><%=h user.user_number -%></td>
