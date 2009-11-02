@@ -22,26 +22,21 @@ class ImportedResourceFile < ActiveRecord::Base
 
   def import
     self.reload
-    file = File.open(self.imported_resource.path)
-    reader = CSV::Reader.create(file, "\t")
-    #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
-    header = reader.shift
     num = {:found => 0, :success => 0, :failure => 0}
     record = 2
-    reader.each do |row|
-      data = {}
-      row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
-      data.each_value{|v| v.chomp!.to_s}
-      library = Library.find(:first, :conditions => {:name => data['library_short_name']}) || Library.web
-      shelf = Shelf.find(:first, :conditions => {:name => data['shelf_name']}) || Shelf.web
+    file = FasterCSV.open(self.imported_resource.path, :col_sep => "\t")
+    rows = FasterCSV.open(self.imported_resource.path, :headers => file.first, :col_sep => "\t")
+    rows.shift
+    rows.each do |row|
+      shelf = Shelf.find(:first, :conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
       # ISBNが入力してあればそれを優先する
-      if data['isbn']
-        manifestation = Manifestation.find_by_isbn(data['isbn'])
+      if row['isbn']
+        manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
         if manifestation
           num[:found] += 1
         else
-          manifestation = Manifestation.import_isbn(data['isbn']) rescue nil
+          manifestation = Manifestation.import_isbn(row['isbn'].to_s.strip) rescue nil
           num[:success] += 1 if manifestation
         end
       end
@@ -49,16 +44,16 @@ class ImportedResourceFile < ActiveRecord::Base
       ImportedResourceFile.transaction do
         if manifestation.nil?
           begin
-            authors = data['author'].split(';')
-            publishers = data['publisher'].split(';')
+            authors = row['author'].to_s.split(';')
+            publishers = row['publisher'].to_s.split(';')
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
 
-            work = self.class.import_work(data['title'], author_patrons)
+            work = self.class.import_work(row['title'], author_patrons)
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
-            manifestation = self.class.import_manifestation(expression, data['isbn'], publisher_patrons)
+            manifestation = self.class.import_manifestation(expression, row['isbn'], publisher_patrons)
             save_imported_object(manifestation)
 
             Rails.logger.info("resource import successed: column #{record}")
@@ -70,7 +65,7 @@ class ImportedResourceFile < ActiveRecord::Base
 
         begin
           if manifestation
-            item = self.class.import_item(manifestation, data['item_identifier'], shelf)
+            item = self.class.import_item(manifestation, row['item_identifier'], shelf)
             save_imported_object(item)
             num[:success] += 1
             Rails.logger.info("resource registration successed: column #{record}")
@@ -83,7 +78,6 @@ class ImportedResourceFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
-    file.close
     return num
   end
 

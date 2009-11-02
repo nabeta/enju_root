@@ -22,24 +22,19 @@ class ImportedEventFile < ActiveRecord::Base
 
   def import
     self.reload
-    file = File.open(self.imported_event.path)
-    reader = CSV::Reader.create(file, "\t")
-    file.close
-    #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
-    header = reader.shift
     num = {:success => 0, :failure => 0}
     record = 2
-    reader.each do |row|
-      data = {}
-      row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
-      data.each_value{|v| v.chomp!.to_s}
+    file = FasterCSV.open(self.imported_event.path, :col_sep => "\t")
+    rows = FasterCSV.open(self.imported_event.path, :headers => file.first, :col_sep => "\t")
+    rows.shift
+    rows.each do |row|
       event = Event.new
-      event.title = data['title']
-      event.note = data['note']
-      event.started_at = data['started_at']
-      event.ended_at = data['ended_at']
-      category = data['category']
-      library = Library.find(:first, :conditions => {:name => data['library_short_name']})
+      event.title = row['title']
+      event.note = row['note']
+      event.started_at = row['started_at']
+      event.ended_at = row['ended_at']
+      category = row['category']
+      library = Library.find(:first, :conditions => {:name => row['library_short_name']})
       library = Library.web if library.blank?
       event.library = library
       if category == "closed"
