@@ -32,7 +32,7 @@ every 1.hour do
 end
 
 every 1.day, :at => '0:00 am' do
-  runner "Reserve.expire; Basket.expire"
+  runner "Reserve.expire; Basket.expire; User.lock_expired_users"
 end
 
 every 1.day, :at => '1:00 am' do

@@ -1195,6 +1195,7 @@ ja:
     library_group_answer: "{{library_group_name}} の寄せた回答"
     specify_question: "質問を指定してください。"
   basket:
+    this_account_is_suspended: "このアカウントは停止されています。"
     checkout_completed: "貸出が完了しました。"
   checkout:
     user_checkout: "{{login_name}} さんの貸出資料"

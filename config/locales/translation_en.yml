@@ -1209,6 +1209,7 @@ en:
     library_group_answer: "Answers from {{library_group_name}}"
     specify_question: "Specify the question."
   basket:
+    this_account_is_suspended: "This account is suspended."
     checkout_completed: "Checkout completed."
   checkout:
     user_checkout: "{{login_name}}'s checkouts"

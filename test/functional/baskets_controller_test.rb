@@ -85,6 +85,16 @@ class BasketsControllerTest < ActionController::TestCase
     assert_redirected_to user_basket_checked_items_url(users(:user1).login, assigns(:basket))
   end
 
+  def test_librarian_should_not_create_basket_when_user_is_suspended
+    UserSession.create users(:librarian1)
+    old_count = Basket.count
+    post :create, :basket => {:user_number => users(:user3).user_number }
+    assert_equal old_count, Basket.count
+    
+    assert assigns(:basket).errors["base"].include?('This account is suspended.')
+    assert_response :success
+  end
+
   def test_guest_should_not_show_basket
     get :show, :id => 1, :user_id => users(:admin).login
     assert_response :redirect

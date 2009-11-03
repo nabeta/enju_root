@@ -128,13 +128,13 @@ class User < ActiveRecord::Base
 
   def before_save
     return if self.has_role?('Administrator')
-    lock = nil
+    locked = nil
     unless self.expired_at.blank?
-      lock = true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+      locked = true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
     end
-    #lock = true if self.user_number.blank?
+    #locked = true if self.user_number.blank?
 
-    self.suspended = true if lock
+    self.suspended = true if locked
   end
 
   def before_destroy
@@ -194,6 +194,16 @@ class User < ActiveRecord::Base
   def suspended?
     return true if self.suspended
     false
+  end
+
+  def self.lock_expired_users
+    User.fine_each do |user|
+      user.lock if user.expired?
+    end
+  end
+
+  def expired?
+    true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
   end
 
   def activate

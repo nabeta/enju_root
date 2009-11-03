@@ -164,3 +164,20 @@ patron_00010:
   patron_type_id: 1
   required_role_id: 1
   created_at: 2007-11-19 17:24:50.153417 +09:00
+patron_00011: 
+  place: ""
+  last_name: User3
+  first_name: 
+  full_name: User3
+  updated_at: 2007-11-21 22:02:35.579396 +09:00
+  other_designation: ""
+  id: 11
+  date_of_birth: 2000-01-01
+  date_of_death: 
+  address_1: 
+  language_id: 1
+  country_id: 1
+  patron_type_id: 1
+  required_role_id: 1
+  created_at: 2007-11-19 17:24:50.153417 +09:00
+  user_id: 6
