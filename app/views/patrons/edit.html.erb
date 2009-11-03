@@ -46,12 +46,12 @@
 
   <p>
     <b><%= t('activerecord.attributes.patron.date_of_birth') -%></b><br />
-    <%= f.date_select :date_of_birth, :include_blank => true -%>
+    <%= f.text_field :date_of_birth -%>
   </p>
 
   <p>
     <b><%= t('activerecord.attributes.patron.date_of_death') -%></b><br />
-    <%= f.date_select :date_of_death, :include_blank => true -%>
+    <%= f.text_field :date_of_death -%>
   </p>
 
   <p>
