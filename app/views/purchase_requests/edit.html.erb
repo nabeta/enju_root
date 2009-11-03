@@ -40,7 +40,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.purchase_request.date_of_publication') -%></b><br />
-    <%= f.date_select :date_of_publication, :include_blank => true -%>
+    <%= f.date_text_field :date_of_publication, :class => 'date_field' -%>
   </p>
 
   <p>

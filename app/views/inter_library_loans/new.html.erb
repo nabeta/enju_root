@@ -18,7 +18,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
-    <%= f.date_select :requested_at -%>
+    <%= f.date_text_field :requested_at, :class => 'date_field' -%>
   </p>
 
   <p>

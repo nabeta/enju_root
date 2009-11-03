@@ -175,7 +175,7 @@ user3:
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
   required_role_id: 3
-  checkout_icalendar_token: e3e0277cbba03183c3a12d2b740f3eabebd7df0d
+  checkout_icalendar_token: 
   user_number: "00006"
   single_access_token: dummy
   perishable_token: dummy

@@ -415,8 +415,8 @@ ja:
         note: 注記
         position: 位置
       subscribe:
-        start_on: 開始日
-        end_on: 終了日
+        started_on: 開始日
+        ended_on: 終了日
       checkin:
       item:
         call_number: 請求記号

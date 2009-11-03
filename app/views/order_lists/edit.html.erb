@@ -22,7 +22,7 @@
   </p>
   <p>
     <b><%= t('activerecord.attributes.order_list.ordered_at') -%></b><br />
-    <%= f.date_select :ordered_at -%>
+    <%= f.date_text_field :ordered_at, :class => 'date_field' -%>
   </p>
   <p>
     <b><%= t('activerecord.attributes.order_list.note') -%></b><br />

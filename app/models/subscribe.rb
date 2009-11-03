@@ -4,6 +4,6 @@ class Subscribe < ActiveRecord::Base
   belongs_to :manifestation, :validate => true
 
   validates_associated :subscription, :manifestation
-  validates_presence_of :subscription, :manifestation, :start_on, :end_on
+  validates_presence_of :subscription, :manifestation, :started_on, :ended_on
   validates_uniqueness_of :manifestation_id, :scope => :subscription_id
 end

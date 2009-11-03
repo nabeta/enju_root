@@ -414,8 +414,8 @@ en:
         note: Note
         position: Position
       subscribe:
-        start_on: Start on
-        end_on: End on
+        started_on: Start on
+        ended_on: End on
       checkin:
       item:
         call_number: Call number
