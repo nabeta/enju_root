@@ -247,7 +247,7 @@ class Item < ActiveRecord::Base
   end
 
   def owned(patron)
-    owns.find(:first, :conditions => {:id => patron.id})
+    owns.find(:first, :conditions => {:patron_id => patron.id})
   end
 
 end

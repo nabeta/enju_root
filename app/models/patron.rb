@@ -235,19 +235,19 @@ class Patron < ActiveRecord::Base
   end
 
   def created(work)
-    creates.find(:first, :conditions => {:id => work.id})
+    creates.find(:first, :conditions => {:work_id => work.id})
   end
 
   def realized(expression)
-    realizes.find(:first, :conditions => {:id => expression.id})
+    realizes.find(:first, :conditions => {:expression_id => expression.id})
   end
 
   def produced(manifestation)
-    produces.find(:first, :conditions => {:id => manifestation.id})
+    produces.find(:first, :conditions => {:manifestation_id => manifestation.id})
   end
 
   def owned(item)
-    owns.find(:first, :conditions => {:id => item.id})
+    owns.find(:first, :conditions => {:item_id => item.id})
   end
 
 end

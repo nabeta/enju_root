@@ -93,11 +93,11 @@ class Expression < ActiveRecord::Base
   end
 
   def reified(patron)
-    reifies.find(:first, :conditions => {:id => patron.id})
+    reifies.find(:first, :conditions => {:patron_id => patron.id})
   end
 
   def embodied(manifestation)
-    embodies.find(:first, :conditions => {:id => manifestation.id})
+    embodies.find(:first, :conditions => {:manifestation_id => manifestation.id})
   end
 
 end
