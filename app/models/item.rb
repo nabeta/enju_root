@@ -66,6 +66,8 @@ class Item < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
+  attr_accessor :library_url
+
   #def after_create
   #  post_to_union_catalog
   #end
@@ -248,6 +250,10 @@ class Item < ActiveRecord::Base
 
   def owned(patron)
     owns.find(:first, :conditions => {:patron_id => patron.id})
+  end
+
+  def library_url
+    "#{LibraryGroup.url}libraries/#{self.shelf.library.name}"
   end
 
 end

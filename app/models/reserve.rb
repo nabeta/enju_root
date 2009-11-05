@@ -8,7 +8,7 @@ class Reserve < ActiveRecord::Base
   named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
   named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
   #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
-  named_scope :will_expire, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state != ?', datetime, 'expired'], :order => 'expired_at'}}
+  named_scope :will_expire, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'hold'], :order => 'expired_at'}}
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
   #named_scope :expired_notified, :conditions => {:state => 'expired'}

@@ -21,11 +21,11 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.subscribe.started_on') -%><br />
-    <%= f.date_text_field :started_on, :class => 'date_field' -%>
+    <%= f.date_text_field :started_on, :class => 'date_field', :blank => true -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.subscribe.ended_on') -%><br />
-    <%= f.date_text_field :ended_on, :class => 'date_field' -%>
+    <%= f.date_text_field :ended_on, :class => 'date_field', :blank => true -%>
   </p>
   <p>
     <%= f.submit t('page.update') -%>

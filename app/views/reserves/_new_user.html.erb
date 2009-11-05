@@ -37,7 +37,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.reserve.expired_at') -%></b><br />
-    <%= f.date_text_field :expired_at, :class => 'date_field' -%>
+    <%= f.date_text_field :expired_at, :class => 'date_field', :blank => true -%>
   </p>
 
   <p>

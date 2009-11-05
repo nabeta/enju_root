@@ -57,7 +57,7 @@
 
   <p>
     <b><%= t('activerecord.attributes.manifestation.date_of_publication') -%></b>
-    <%= f.date_text_field :date_of_publication, :class => 'date_field' -%>
+    <%= f.date_text_field :date_of_publication, :class => 'date_field', :blank => true -%>
   </p>
 
   <p>
