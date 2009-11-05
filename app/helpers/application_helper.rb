@@ -63,36 +63,6 @@ module ApplicationHelper
     link_to h(tag), manifestations_path(:tag => tag.name)
   end
 
-  def render_tag_cloud(tags, options = {})
-    return nil if tags.nil?
-    # TODO: add options to specify different limits and sorts
-    #tags = Tag.find(:all, :limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
-    
-    # TODO: add option to specify which classes you want and overide this if you want?
-    classes = %w(popular v-popular vv-popular vvv-popular vvvv-popular)
-    
-    max, min = 0, 0
-    tags.each do |tag|
-      #if options[:max] or options[:min]
-      #  max = options[:max].to_i
-      #  min = options[:min].to_i
-      #end
-      max = tag.taggings_count if tag.taggings_count.to_i > max
-      min = tag.taggings_count if tag.taggings_count.to_i < min
-    end
-    divisor = ((max - min) / classes.size) + 1
-    
-    html =    %(<div class="hTagcloud">\n)
-    html <<   %(  <ul class="popularity">\n)
-    tags.each do |tag|
-      html << %(  <li>)
-      html << link_to(h(tag.name), manifestations_url(:tag => tag.name), :class => classes[(tag.taggings_count - min) / divisor]) 
-      html << %(  </li>\n) # FIXME: IEのために文末の空白を入れている
-    end
-    html <<   %(  </ul>\n)
-    html <<   %(</div>\n)
-  end
-
   def patrons_list(patrons = [], user = nil, options = {})
     return nil if patrons.blank?
     patrons_list = []
