@@ -54,7 +54,7 @@ class Message < ActiveRecord::Base
   end
 
   def after_create
-    Notifier.deliver_message_notification(self.receiver)
+    Notifier.send_later :deliver_message_notification, self.receiver if self.receiver.email.present?
   end
 
   # Returns user.login for the sender

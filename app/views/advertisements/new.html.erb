@@ -25,11 +25,11 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.started_at') -%><br />
-    <%= f.date_select :started_at -%>
+    <%= f.datetime_text_field :started_at, :class => 'date_field', :value => @advertisement.started_at.to_s -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.ended_at') -%><br />
-    <%= f.date_select :ended_at -%>
+    <%= f.datetime_text_field :ended_at, :class => 'date_field' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.note') -%><br />

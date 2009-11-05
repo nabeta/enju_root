@@ -1,3 +1,9 @@
 <div class="tag_cloud">
-  <%= render_tag_cloud(tags) -%>
+  <div class="hTagcloud">
+    <ul class="popularity">
+      <% tag_cloud(@tags, ['popular', 'v-popular', 'vv-popular', 'vvv-popular', 'vvvv-popular'] ) do |tag, css_class| %>
+        <li><%= link_to h(tag.name), manifestations_path(:tag => tag.name), :class => css_class %></li>
+      <% end %>
+    </ul>
+  </div>
 </div>

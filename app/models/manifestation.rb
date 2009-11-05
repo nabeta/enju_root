@@ -604,11 +604,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def produced(patron)
-    produces.find(:first, :conditions => {:id => patron.id})
+    produces.find(:first, :conditions => {:patron_id => patron.id})
   end
 
   def embodied(expression)
-    embodies.find(:first, :conditions => {:id => expression.id})
+    embodies.find(:first, :conditions => {:expression_id => expression.id})
   end
 
 end

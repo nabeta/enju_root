@@ -12,8 +12,9 @@ class PageController < ApplicationController
     end
     @numdocs = Manifestation.cached_numdocs
     # TODO: タグ下限の設定
-    @tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
-    @manifestation = Manifestation.pickup
+    #@tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
+    @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
+    @manifestation = Manifestation.pickup rescue nil
     @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
   end
 

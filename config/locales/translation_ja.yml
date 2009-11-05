@@ -415,8 +415,8 @@ ja:
         note: 注記
         position: 位置
       subscribe:
-        start_on: 開始日
-        end_on: 終了日
+        started_on: 開始日
+        ended_on: 終了日
       checkin:
       item:
         call_number: 請求記号
@@ -1195,6 +1195,7 @@ ja:
     library_group_answer: "{{library_group_name}} の寄せた回答"
     specify_question: "質問を指定してください。"
   basket:
+    this_account_is_suspended: "このアカウントは停止されています。"
     checkout_completed: "貸出が完了しました。"
   checkout:
     user_checkout: "{{login_name}} さんの貸出資料"

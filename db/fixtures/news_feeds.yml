@@ -5,9 +5,11 @@ news_feed_00001:
   title: "Project Next-L Wiki"
   url: http://next-l.slis.keio.ac.jp/wiki/wiki.cgi?action=RSS
   body: 
+  position: 1
 
 news_feed_00002:
   id: 2
   title: "Kosuke Tanabe's diary"
-  url: http://kamata.lib.teu.ac.jp/~tanabe/diary/index.rdf
+  url: http://d.hatena.ne.jp/nabeta/rss
   body: 
+  position: 2

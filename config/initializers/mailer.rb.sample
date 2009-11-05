@@ -6,5 +6,6 @@
 #  :domain  => 'library.example.jp',
 #  :user_name  => "postmaster@library.example.jp",
 #  :password  => 'yourpassword',
-#  :authentication  => :login
+#  :authentication  => :login,
+#  :enable_starttls_auto => false
 #}

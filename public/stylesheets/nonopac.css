@@ -360,6 +360,10 @@ input.year_field, input.month_field, input.day_field{
   ime-mode: disabled;
 }
 
+input.date_field{
+  ime-mode: disabled;
+}
+
 textarea{
   width: 40em;
   height: 10em;

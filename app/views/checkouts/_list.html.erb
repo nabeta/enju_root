@@ -1,5 +1,6 @@
 <table class="index">
   <tr>
+    <th><%= t('activerecord.models.user') -%></th>
     <th class="checked_item_title"><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
     <th><%= t('activerecord.attributes.checkout.due_date') -%></th>
@@ -10,6 +11,11 @@
 <%- if @checkouts -%>
   <%- @checkouts.each_with_index do |checkout, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to h(checkout.user.login), user_path(checkout.user.login) -%>
+      <br>
+      (<%= link_to h(checkout.user.user_number), user_path(checkout.user.login) -%>)
+    </td>
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => checkout.item.manifestation} -%>
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => checkout.item.manifestation} -%>

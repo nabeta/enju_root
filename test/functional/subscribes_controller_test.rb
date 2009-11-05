@@ -80,7 +80,7 @@ class SubscribesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_create_already_created
     UserSession.create users(:librarian1)
     old_count = Subscribe.count
-    post :create, :subscribe => { :start_on => Date.today.to_s, :end_on => Date.tomorrow.to_s, :manifestation_id => 1, :subscription_id => 1 }
+    post :create, :subscribe => { :started_on => Date.today.to_s, :ended_on => Date.tomorrow.to_s, :manifestation_id => 1, :subscription_id => 1 }
     assert_equal old_count, Subscribe.count
     
     assert_response :success
@@ -89,7 +89,7 @@ class SubscribesControllerTest < ActionController::TestCase
   def test_librarian_should_create_subscribe_not_created_yet
     UserSession.create users(:librarian1)
     old_count = Subscribe.count
-    post :create, :subscribe => { :start_on => Date.today.to_s, :end_on => Date.tomorrow.to_s, :manifestation_id => 3, :subscription_id => 1 }
+    post :create, :subscribe => { :started_on => Date.today.to_s, :ended_on => Date.tomorrow.to_s, :manifestation_id => 3, :subscription_id => 1 }
     assert_equal old_count+1, Subscribe.count
     
     assert_redirected_to subscribe_url(assigns(:subscribe))

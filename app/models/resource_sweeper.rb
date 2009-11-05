@@ -190,7 +190,9 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_tag_cloud(bookmark)
-    expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => bookmark.user.login)
-    expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud')
+    I18n.available_locales.each do |locale|
+      expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => bookmark.user.login, :locale => locale)
+      expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud', :locale => locale)
+    end
   end
 end

@@ -36,4 +36,8 @@ class ItemTest < ActiveSupport::TestCase
     assert_equal false, items(:item_00012).available_for_checkout?
   end
 
+  def test_should_have_library_url
+    assert_equal "#{LibraryGroup.url}libraries/web", items(:item_00001).library_url
+  end
+
 end

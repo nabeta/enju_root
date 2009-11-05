@@ -25,39 +25,35 @@ class ImportedPatronFile < ActiveRecord::Base
 
   def import
     self.reload
-    file = File.open(self.imported_patron.path)
-    reader = CSV::Reader.create(file, "\t")
-    #reader = CSV::Reader.create(NKF.nkf("-w", self.db_file.data), "\t")
-    header = reader.shift
     num = {:success => 0, :failure => 0, :activated => 0}
     record = 2
-    reader.each do |row|
-      data = {}
-      row.each_with_index { |cell, j| data[header[j].to_s.strip] = cell.to_s.strip }
-      data.each_value{|v| v.chomp!.to_s}
+    file = FasterCSV.open(self.imported_patron.path, :col_sep => "\t")
+    rows = FasterCSV.open(self.imported_patron.path, :headers => file.first, :col_sep => "\t")
+    rows.shift
+    rows.each do |row|
       begin
         patron = Patron.new
-        patron.first_name = data['first_name']
-        patron.middle_name = data['middle_name']
-        patron.last_name = data['last_name']
-        patron.first_name_transcription = data['first_name_transcription']
-        patron.middle_name_transcription = data['middle_name_transcription']
-        patron.last_name_transcription = data['last_name_transcription']
+        patron.first_name = row['first_name']
+        patron.middle_name = row['middle_name']
+        patron.last_name = row['last_name']
+        patron.first_name_transcription = row['first_name_transcription']
+        patron.middle_name_transcription = row['middle_name_transcription']
+        patron.last_name_transcription = row['last_name_transcription']
 
-        patron.full_name = data['full_name']
-        patron.full_name_transcription = data['full_name_transcription']
-        patron.full_name = data['last_name'] + data['middle_name'] + data['first_name'] if patron.full_name.blank?
+        patron.full_name = row['full_name']
+        patron.full_name_transcription = row['full_name_transcription']
+        patron.full_name = row['last_name'] + row['middle_name'] + row['first_name'] if patron.full_name.blank?
 
-        patron.address_1 = data['address_1']
-        patron.address_2 = data['address_2']
-        patron.zip_code_1 = data['zip_code_1']
-        patron.zip_code_2 = data['zip_code_2']
-        patron.telephone_number_1 = data['telephone_number_1']
-        patron.telephone_number_2 = data['telephone_number_2']
-        patron.fax_number_1 = data['fax_number_1']
-        patron.fax_number_2 = data['fax_number_2']
-        patron.note = data['note']
-        country = Country.find_by_name(data['country'])
+        patron.address_1 = row['address_1']
+        patron.address_2 = row['address_2']
+        patron.zip_code_1 = row['zip_code_1']
+        patron.zip_code_2 = row['zip_code_2']
+        patron.telephone_number_1 = row['telephone_number_1']
+        patron.telephone_number_2 = row['telephone_number_2']
+        patron.fax_number_1 = row['fax_number_1']
+        patron.fax_number_2 = row['fax_number_2']
+        patron.note = row['note']
+        country = Country.find_by_name(row['country'])
         patron.country = country if country.present?
 
         if patron.save!
@@ -72,18 +68,24 @@ class ImportedPatronFile < ActiveRecord::Base
         num[:failure] += 1
       end
 
-      unless data['login'].blank?
+      unless row['login'].blank?
         begin
           user = User.new
-          user.login =  data['login'].to_s.chomp
-          user.email = data['email'].to_s.chomp
-          user.password = data['password'].to_s.chomp
-          user.password_confirmation = data['password'].to_s.chomp
-          library = Library.find(:first, :conditions => {:name => data['library_short_name'].to_s.chomp})
-          library = Library.web if library.blank?
+          user.login = row['login'].to_s.chomp
+          user.email = row['email'].to_s.chomp
+          user_number = row['user_number'].to_s.chomp
+          user.password = row['password'].to_s.chomp
+          user.password_confirmation = row['password'].to_s.chomp
+          if user.password.blank?
+            user.set_auto_generated_password
+          end
+          library = Library.find(:first, :conditions => {:name => row['library_short_name'].to_s.chomp}) || Library.web
+          user_group = UserGroup.find(:first, :conditions => {:name => row['user_group_name']}) || UserGroup.first
           user.library = library
           user.patron = patron
-          user.save!
+          user.activate!
+          role = Role.find(:first, :conditions => {:name => row['role']}) || Role.find(2)
+          user.roles << role
           num[:activated] += 1
         rescue
           Rails.logger.info("user import failed: column #{record}")
@@ -93,7 +95,6 @@ class ImportedPatronFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
-    file.close
     return num
   end
 

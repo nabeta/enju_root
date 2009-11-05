@@ -93,8 +93,8 @@ class User < ActiveRecord::Base
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
   validates_presence_of :user_group, :library, :locale, :patron
-  #validates_presence_of :user_number
-  validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
+  #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
+  validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validate_on_update :verify_password
 
   acts_as_authentic {|c|
@@ -128,13 +128,13 @@ class User < ActiveRecord::Base
 
   def before_save
     return if self.has_role?('Administrator')
-    lock = nil
+    locked = nil
     unless self.expired_at.blank?
-      lock = true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+      locked = true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
     end
-    #lock = true if self.user_number.blank?
+    #locked = true if self.user_number.blank?
 
-    self.suspended = true if lock
+    self.suspended = true if locked
   end
 
   def before_destroy
@@ -196,8 +196,23 @@ class User < ActiveRecord::Base
     false
   end
 
+  def self.lock_expired_users
+    User.fine_each do |user|
+      user.lock if user.expired?
+    end
+  end
+
+  def expired?
+    true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+  end
+
   def activate
     self.suspended = false
+  end
+
+  def activate!
+    activate
+    save!
   end
 
   def checked_item_count

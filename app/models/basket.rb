@@ -12,6 +12,12 @@ class Basket < ActiveRecord::Base
   validates_presence_of :user_id, :on => :create
 
   cattr_accessor :user_number
+
+  def validate
+    if self.user
+      errors.add_to_base(I18n.t('basket.this_account_is_suspended')) if self.user.suspended?
+    end
+  end
   
   def basket_checkout(librarian)
     return nil if self.checked_items.size == 0
