@@ -47,6 +47,7 @@
   <%- @imported_patron_file.imported_objects.each do |object| -%>
     <tr>
       <td><%= link_to h(object.importable.full_name), object.importable -%></td>
+      <td><%= link_to h(object.importable.user.login), user_path(object.importable.login) if object.importable.user -%></td>
       <td><%= l(object.created_at) -%></td>
     </tr>
   <%- end -%>

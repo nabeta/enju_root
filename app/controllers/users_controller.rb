@@ -61,7 +61,7 @@ class UsersController < ApplicationController
     end
     @tags = @user.owned_tags_by_solr
 
-    @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first)
+    @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
     @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
 
     respond_to do |format|
