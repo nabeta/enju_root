@@ -77,13 +77,18 @@ class ManifestationsController < ApplicationController
 
       search = Sunspot.new_search(Manifestation)
       search = make_internal_query(search)
+      sort = set_search_result_order(params[:sort_by], params[:order])
+      search.build do
+        order_by sort[:sort_by], sort[:order]
+      end
+
       unless query.blank?
         search.build do
           fulltext query
         end
         manifestation_ids = Manifestation.search_ids do
           fulltext query
-        #  order_by order
+          order_by sort[:sort_by], sort[:order]
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
         end
       end
@@ -105,11 +110,6 @@ class ManifestationsController < ApplicationController
         return
       end
 
-      sort = set_search_result_order(params[:sort_by], params[:order])
-      search.build do
-        order_by sort[:sort_by], sort[:order]
-      end
-
       page = params[:page] || 1
       search.query.paginate(page.to_i, Manifestation.per_page)
       @manifestations = search.execute!.results
@@ -120,10 +120,12 @@ class ManifestationsController < ApplicationController
 
       if @manifestations
         session[:manifestation_ids] = manifestation_ids
+      else
+        session[:manifestation_ids] = nil
       end
 
       # TODO: 検索結果が少ない場合にも表示させる
-      unless @manifestations
+      if manifestation_ids.blank?
         if query.respond_to?(:suggest_tags)
           @suggested_tag = query.suggest_tags.first
         end
