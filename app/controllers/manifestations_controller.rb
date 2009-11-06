@@ -123,7 +123,7 @@ class ManifestationsController < ApplicationController
       end
 
       # TODO: 検索結果が少ない場合にも表示させる
-      if manifestation_ids.empty?
+      unless @manifestations
         if query.respond_to?(:suggest_tags)
           @suggested_tag = query.suggest_tags.first
         end

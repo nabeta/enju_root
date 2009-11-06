@@ -41,6 +41,8 @@ class ApplicationController < ActionController::Base
       locale = I18n.default_locale
     end
     I18n.locale = @locale = session[:locale] = locale
+  rescue
+    I18n.locale = @locale = I18n.default_locale
   end
 
   def set_available_languages
