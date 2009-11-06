@@ -1053,6 +1053,7 @@ ja:
     asc: "昇順"
     desc: "降順"
     error_occured: "エラーが発生しました。"
+    did_you_mean: "もしかして"
   title:
     index: "一覧"
     show: "表示"

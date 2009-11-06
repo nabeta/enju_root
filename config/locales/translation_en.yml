@@ -1064,6 +1064,7 @@ en:
     asc: "ascendent"
     desc: "descendent"
     error_occured: "An error occured."
+    did_you_mean: "Did you mean"
   title:
     index: "index"
     show: "show"

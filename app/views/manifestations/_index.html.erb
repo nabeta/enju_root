@@ -64,8 +64,11 @@
         :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
     </div>
   <%- else -%>
+    <!-- TODO: 検索結果が少ない場合にも表示させる -->
+    <%- if @suggested_tag -%>
+      <p><%= t('page.did_you_mean') -%>: <%= link_to h(@suggested_tag.name), manifestations_path(:tag => @suggested_tag.name) -%></p>
+    <%- end -%>
     <%= render :partial => 'not_found', :locals => {:manifestations => @manifestations} -%>
-    <%= render :partial => 'search_engine' -%>
   <%- end -%>
 <%- else -%>
   <p><%= t('page.enter_search_term') -%></p>

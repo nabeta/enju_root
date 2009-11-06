@@ -115,11 +115,18 @@ class ManifestationsController < ApplicationController
       @manifestations = search.execute!.results
       @count[:query_result] = @manifestations.total_entries
 
-      save_search_history(@query, @manifestations.offset, @count[:query_result])
+      save_search_history(query, @manifestations.offset, @count[:query_result])
       @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
 
       if @manifestations
         session[:manifestation_ids] = manifestation_ids
+      end
+
+      # TODO: 検索結果が少ない場合にも表示させる
+      if manifestation_ids.empty?
+        if query.respond_to?(:suggest_tags)
+          @suggested_tag = query.suggest_tags.first
+        end
       end
     end
 
