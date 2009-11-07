@@ -58,6 +58,16 @@ class CheckoutsController < ApplicationController
       format.ics
       format.csv
       format.atom
+      format.pdf {
+        prawnto :prawn => {
+          :page_layout => :portrait, # 縦
+          :page_size => "A4",
+          :left_margin => 36,
+          :right_margin => 24,
+          :top_margin => 24,
+          :bottom_margin => 24},
+        :inline => false
+      }
     end
 
   rescue ActiveRecord::RecordNotFound
