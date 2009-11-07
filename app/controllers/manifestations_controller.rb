@@ -111,11 +111,16 @@ class ManifestationsController < ApplicationController
       end
 
       page = params[:page] || 1
-      search.query.paginate(page.to_i, Manifestation.per_page)
-      @manifestations = search.execute!.results
-      @count[:query_result] = @manifestations.total_entries
+      unless query.blank?
+        search.query.paginate(page.to_i, Manifestation.per_page)
+        @manifestations = search.execute!.results
+        @count[:query_result] = @manifestations.total_entries
+        save_search_history(query, @manifestations.offset, @count[:query_result])
+      else
+        @manifestations = WillPaginate::Collection.create(1,1,0) do end
+        @count[:query_result] = 0
+      end
 
-      save_search_history(query, @manifestations.offset, @count[:query_result])
       @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
 
       if @manifestations
@@ -152,6 +157,12 @@ class ManifestationsController < ApplicationController
         render :update do |page|
           page.replace_html 'worldcat_list', :partial => 'worldcat' if params[:worldcat_page]
         end
+      }
+      format.pdf {
+        prawnto :prawn => {
+          :page_layout => :landscape,
+          :page_size => "A4"},
+        :inline => true
       }
     end
   rescue RSolr::RequestError

@@ -58,6 +58,12 @@ class CheckoutsController < ApplicationController
       format.ics
       format.csv
       format.atom
+      format.pdf {
+        prawnto :prawn => {
+          :page_layout => :portrait,
+          :page_size => "A4"},
+        :inline => true
+      }
     end
 
   rescue ActiveRecord::RecordNotFound
