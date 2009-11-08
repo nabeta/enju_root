@@ -16,6 +16,8 @@ class Event < ActiveRecord::Base
 
   #acts_as_taggable_on :tags
   #acts_as_soft_deletable
+  has_event_calendar
+
   searchable do
     text :title, :note
     integer :library_id
