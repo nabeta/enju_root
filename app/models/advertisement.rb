@@ -18,6 +18,7 @@ class Advertisement < ActiveRecord::Base
     time :started_at
     time :ended_at
   end
+  #acts_as_list
   #acts_as_soft_deletable
 
   @@per_page = 10
@@ -36,8 +37,8 @@ class Advertisement < ActiveRecord::Base
     Advertisement.expire_cache
   end
 
-  def self.cached_current_ads
-    Rails.cache.fetch('Advertisement.current_ads'){Advertisement.current_ads}
+  def self.cached_current_ad_ids
+    Rails.cache.fetch('Advertisement.current_ads'){Advertisement.current_ads.collect(&:id)}
   end
 
   def self.expire_cache
@@ -45,7 +46,7 @@ class Advertisement < ActiveRecord::Base
   end
 
   def self.pickup
-    ids = Advertisement.cached_current_ads.collect(&:id)
+    ids = Advertisement.cached_current_ad_ids
     id = ids.at(rand(ids.size))
     advertisement = Advertisement.find(id) rescue nil
   end
