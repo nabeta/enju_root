@@ -18,7 +18,7 @@ class Advertisement < ActiveRecord::Base
     time :started_at
     time :ended_at
   end
-  #acts_as_list
+  acts_as_list
   #acts_as_soft_deletable
 
   @@per_page = 10
@@ -47,7 +47,6 @@ class Advertisement < ActiveRecord::Base
 
   def self.pickup
     ids = Advertisement.cached_current_ad_ids
-    id = ids.at(rand(ids.size))
-    advertisement = Advertisement.find(id) rescue nil
+    advertisement = Advertisement.find(ids.at(rand(ids.size))) rescue nil
   end
 end
