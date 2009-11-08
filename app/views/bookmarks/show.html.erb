@@ -8,8 +8,7 @@
     <%- else -%>
       <li><%= link_to t('page.edit'),edit_bookmark_path(@bookmark) -%></li>
       <li><%= link_to t('page.destroy'), bookmark_path(@bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-      <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), session[:return_to] if session[:return_to] -%></li>
-      <li><%= link_to t('page.back'), bookmarks_path -%></li>
+      <li><%= link_to t('page.back'), :back -%></li>
     <%- end -%>
   </ul>
 </div>
