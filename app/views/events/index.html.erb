@@ -10,7 +10,11 @@
         <li><%= link_to t('event.import_event'), imported_event_files_path -%></li>
       <%- end -%>
     <%- end -%>
-    <li><%= link_to t('event.all_libraries'), events_path -%></li>
+  </ul>
+  <ul>
+    <%- Library.all.each do |library| -%>
+      <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
+    <%- end -%>
   </ul>
   <p>
     <%- if @library -%>
@@ -43,6 +47,23 @@
   </p>
   <%= javascript_tag("$('query').focus()") -%>
 <%- end -%>
+
+<p>
+  <%- case params[:mode]
+      when 'upcoming' -%>
+    <%= link_to t('event.all'), params.merge(:mode => nil) -%>
+    <strong><%= t('event.upcoming') -%></strong>
+    <%= link_to t('event.past'), params.merge(:mode => 'past') -%>
+  <%- when 'past' -%>
+    <%= link_to t('event.all'), params.merge(:mode => nil) -%>
+    <%= link_to t('event.upcoming'), params.merge(:mode => 'upcoming') -%>
+    <strong><%= t('event.past') -%></strong>
+  <%- else -%>
+    <strong><%= t('event.all') -%></strong>
+    <%= link_to t('event.upcoming'), params.merge(:mode => 'upcoming') -%>
+    <%= link_to t('event.past'), params.merge(:mode => 'past') -%>
+  <%- end -%>
+</p>
 
 <table class="index">
   <tr>
