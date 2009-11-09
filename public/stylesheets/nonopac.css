@@ -364,6 +364,10 @@ input.date_field{
   ime-mode: disabled;
 }
 
+input.short_name{
+  ime-mode: disabled;
+}
+
 textarea{
   width: 40em;
   height: 10em;
