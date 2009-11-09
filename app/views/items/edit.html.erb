@@ -21,7 +21,7 @@
     <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%- @libraries.each do |library| -%>
-        <option value="<%=h library.name -%>"><%=h library.display_name.localize -%></option>
+        <option value="<%=h library.name -%>"<%= " selected='selected'" if @item.shelf.library == library -%>><%=h library.display_name.localize -%></option>
       <%- end -%>
     </select>
     <span id="item1">

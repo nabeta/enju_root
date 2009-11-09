@@ -233,7 +233,7 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    @libraries = Library.physicals
+    @libraries = Library.all
     @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
     @shelves = Shelf.find(:all, :order => :position)
     @circulation_statuses = CirculationStatus.find(:all)

@@ -66,6 +66,7 @@ class Item < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
+  attr_accessor :library_name
   attr_accessor :library_url
 
   #def after_create
