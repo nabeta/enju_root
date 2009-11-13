@@ -362,7 +362,6 @@ ActionController::Routing::Routes.draw do |map|
     user_group.resources :checkout_types
   end
   map.resources :form_of_works
-  #map.resources :calendar_files
   map.resources :bookmarked_resources do |bookmarked_resource|
     bookmarked_resource.resources :bookmarks
   end
@@ -430,7 +429,6 @@ ActionController::Routing::Routes.draw do |map|
   map.error '/error', :controller => 'user_sessions', :action => 'new'
   map.denied '/denied', :controller => 'user_sessions', :action => 'new'
   #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
-  map.calendar '/calendar/:date', :controller => 'events', :action => 'index'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.login  '/login', :controller => 'user_sessions', :action => 'new'
   map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'

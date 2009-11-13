@@ -16,6 +16,9 @@
       <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
     <%- end -%>
   </ul>
+  <ul>
+    <li><%= link_to t('page.calendar'), '/calendar' -%></li>
+  </ul>
   <p>
     <%- if @library -%>
       <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), library_events_path(@library.name, :format => :rss) -%>
@@ -79,9 +82,9 @@
     <td><%= link_to h(event.title.localize), event -%></td>
     <td><%= link_to h(event.library.display_name.localize), library_path(event.library.name) -%></td>
     <td>
-      <%=h l(event.started_at, :format => :short) -%>
+      <%=h l(event.start_at, :format => :short) -%>
       -
-      <%=h l(event.ended_at, :format => :short) -%>
+      <%=h l(event.end_at, :format => :short) -%>
     </td>
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>

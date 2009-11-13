@@ -511,8 +511,8 @@ en:
       event:
         title: Title
         note: Note
-        started_at: Started at
-        ended_at: Ended at
+        start_at: Start at
+        end_at: End at
         deleted_at: Deleted at
       embody:
         position: Position
@@ -1065,6 +1065,7 @@ en:
     desc: "descendent"
     error_occured: "An error occured."
     did_you_mean: "Did you mean"
+    calendar: "Calendar"
   title:
     index: "index"
     show: "show"

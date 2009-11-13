@@ -37,16 +37,20 @@ class Advertisement < ActiveRecord::Base
     Advertisement.expire_cache
   end
 
+  def self.current_advertisements
+    Advertisement.find(:all, :conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id)
+  end
+
   def self.cached_current_ad_ids
-    Rails.cache.fetch('Advertisement.current_ads'){Advertisement.current_ads.collect(&:id)}
+    Rails.cache.fetch('Advertisement.current_advertisements'){Advertisement.current_advertisements}.collect(&:id)
   end
 
   def self.expire_cache
-    Rails.cache.delete('Advertisement.current_ads')
+    Rails.cache.delete('Advertisement.current_advertisements')
   end
 
   def self.pickup
-    ids = Advertisement.current_ads.collect(&:id)
+    ids = Advertisement.cached_current_ad_ids
     advertisement = Advertisement.find(ids.at(rand(ids.size))) rescue nil
   end
 end

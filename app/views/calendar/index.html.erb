@@ -1,6 +1,15 @@
 <!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
 <%= stylesheet_link_tag "event_calendar" %>
 
-<h1>Calendar</h1>
+<div id="content_detail">
+  <h1 class="title"><%= t('page.calendar') -%></h1>
+  <div id="content_list">
+    <%= event_calendar %>
+  </div>
+</div>
 
-<%= event_calendar %>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.event')), events_path -%></li>
+  </ul>
+</div>

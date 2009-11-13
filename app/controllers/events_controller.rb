@@ -26,16 +26,16 @@ class EventsController < ApplicationController
       with(:library_id).equal_to library.id if library
       #with(:tag).equal_to tag
       if date
-        with(:started_at).greater_than Time.zone.parse(date).beginning_of_day
-        with(:started_at).less_than Time.zone.parse(date).tomorrow.beginning_of_day
+        with(:start_at).greater_than Time.zone.parse(date).beginning_of_day
+        with(:start_at).less_than Time.zone.parse(date).tomorrow.beginning_of_day
       end
       case mode
       when 'upcoming'
-        with(:started_at).greater_than Time.zone.now.beginning_of_day
+        with(:start_at).greater_than Time.zone.now.beginning_of_day
       when 'past'
-        with(:started_at).less_than Time.zone.now.beginning_of_day
+        with(:start_at).less_than Time.zone.now.beginning_of_day
       end
-      order_by(:started_at, :desc)
+      order_by(:start_at, :desc)
     end
 
     page = params[:page] || 1
@@ -82,7 +82,7 @@ class EventsController < ApplicationController
     else
       date = Time.zone.now.beginning_of_day
     end
-    @event = Event.new(:started_at => date, :ended_at => date)
+    @event = Event.new(:start_at => date, :end_at => date)
 
     respond_to do |format|
       format.html # new.html.erb

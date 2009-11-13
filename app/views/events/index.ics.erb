@@ -4,8 +4,8 @@ RiCal.Calendar do
   events.each do |event|
     event do
       description event.title
-      dtstart     event.started_at
-      dtend       event.ended_at
+      dtstart     event.start_at
+      dtend       event.end_at
       location    event.library.address
     end
   end

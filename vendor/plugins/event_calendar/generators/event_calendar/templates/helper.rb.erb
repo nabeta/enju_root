@@ -1,6 +1,6 @@
-module CalendarHelper
+module <%= view_name.classify %>Helper
   def month_link(month_date)
-    link_to(I18n.l(month_date, :format => :only_month), {:month => month_date.month, :year => month_date.year}, :class => 'month_link')
+    link_to(month_date.strftime("%B"), {:month => month_date.month, :year => month_date.year}, :class => 'month_link')
   end
   
   # custom options for this calendar
@@ -9,7 +9,7 @@ module CalendarHelper
       :year => @year,
       :month => @month,
       :event_strips => @event_strips,
-      :month_name_text => I18n.l(@shown_month, :format => :only_year_and_month),
+      :month_name_text => @shown_month.strftime("%B %Y"),
       :previous_month_text => "<< " + month_link(@shown_month.last_month),
       :next_month_text => month_link(@shown_month.next_month) + " >>"
     }

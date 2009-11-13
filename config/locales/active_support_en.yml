@@ -23,6 +23,8 @@ en:
       short: "%m/%d/%y %H:%M"
       long: "%A, %B %d, %Y %H:%M:%S %Z"
       only_date: "%b %d, %Y"
+      only_year_and_month: "%m %Y"
+      only_month: "%m"
     am: "AM"
     pm: "PM"
       

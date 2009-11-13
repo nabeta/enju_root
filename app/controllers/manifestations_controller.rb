@@ -309,8 +309,12 @@ class ManifestationsController < ApplicationController
       end
     else
       @manifestation = Manifestation.new(params[:manifestation])
-      @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-      @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
+      if @manifestation.respond_to?(:post_to_twitter)
+        @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
+      end
+      if @manifestation.respond_to?(:post_to_scribd)
+        @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
+      end
       if @manifestation.original_title.blank?
         @manifestation.original_title = @manifestation.attachment_file_name
       end
@@ -333,8 +337,12 @@ class ManifestationsController < ApplicationController
         end
 
         # TODO: モデルへ移動
-        @manifestation.send_later(:send_to_twitter) if @manifestation.post_to_twitter
-        @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
+        if @manifestation.respond_to?(:post_to_twitter)
+          @manifestation.send_later(:send_to_twitter) if @manifestation.post_to_twitter
+        end
+        if @manifestation.respond_to?(:post_to_scribd)
+          @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
+        end
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
