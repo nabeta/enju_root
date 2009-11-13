@@ -87,14 +87,6 @@
 
         </div>
 
-        <div id="tab4">
-          <h3><%= link_to t('activerecord.models.event'), library_events_path(@library.name) -%></h3>
-
-          <div id="library_calendar" style="text-align:left">
-            <%= render :partial => 'calendar' -%>
-          </div>
-        </div>
-
         <%- if @library.is_updatable_by(current_user) -%>
         <div id="tab5">
           <h3><%= t('page.configuration') -%></h3>

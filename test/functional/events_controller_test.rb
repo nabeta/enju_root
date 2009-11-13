@@ -81,7 +81,7 @@ class EventsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_event
     old_count = Event.count
-    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
+    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :start_at => '2008-02-05', :end_at => '2008-02-08' }
     assert_equal old_count, Event.count
     
     assert_redirected_to new_user_session_url
@@ -89,7 +89,7 @@ class EventsControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_event
     old_count = Event.count
-    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
+    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :start_at => '2008-02-05', :end_at => '2008-02-08' }
     assert_equal old_count, Event.count
     
     assert_redirected_to new_user_session_url
@@ -98,7 +98,7 @@ class EventsControllerTest < ActionController::TestCase
   def test_librarian_should_create_event_without_library_id
     UserSession.create users(:librarian1)
     old_count = Event.count
-    post :create, :event => { :title => 'test', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
+    post :create, :event => { :title => 'test', :event_category_id => 1, :start_at => '2008-02-05', :end_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
@@ -108,7 +108,7 @@ class EventsControllerTest < ActionController::TestCase
   def test_librarian_should_create_event_without_category_id
     UserSession.create users(:librarian1)
     old_count = Event.count
-    post :create, :event => { :title => 'test', :library_id => '1', :started_at => '2008-02-05', :ended_at => '2008-02-08' }
+    post :create, :event => { :title => 'test', :library_id => '1', :start_at => '2008-02-05', :end_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
@@ -118,17 +118,17 @@ class EventsControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_event_with_invalid_dates
     UserSession.create users(:librarian1)
     old_count = Event.count
-    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-08', :ended_at => '2008-02-05' }
+    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :start_at => '2008-02-08', :end_at => '2008-02-05' }
     assert_equal old_count, Event.count
     
     assert_response :success
-    assert assigns(:event).errors.on(:started_at)
+    assert assigns(:event).errors.on(:start_at)
   end
 
   def test_librarian_should_create_event
     UserSession.create users(:librarian1)
     old_count = Event.count
-    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
+    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :start_at => '2008-02-05', :end_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
@@ -138,7 +138,7 @@ class EventsControllerTest < ActionController::TestCase
   def test_admin_should_create_event
     UserSession.create users(:admin)
     old_count = Event.count
-    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :started_at => '2008-02-05', :ended_at => '2008-02-08' }
+    post :create, :event => { :title => 'test', :library_id => '1', :event_category_id => 1, :start_at => '2008-02-05', :end_at => '2008-02-08' }
     assert_equal old_count+1, Event.count
     
     assert_redirected_to event_url(assigns(:event))
@@ -218,9 +218,9 @@ class EventsControllerTest < ActionController::TestCase
   
   def test_librarian_should_not_update_event_with_invalid_date
     UserSession.create users(:librarian1)
-    put :update, :id => 1, :event => {:started_at => '2008-02-08', :ended_at => '2008-02-05' }
+    put :update, :id => 1, :event => {:start_at => '2008-02-08', :end_at => '2008-02-05' }
     assert_response :success
-    assert assigns(:event).errors.on(:started_at)
+    assert assigns(:event).errors.on(:start_at)
   end
   
   def test_librarian_should_update_event

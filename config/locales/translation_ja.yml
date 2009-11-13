@@ -512,8 +512,8 @@ ja:
       event:
         title: タイトル
         note: 注記
-        started_at: 開始時刻
-        ended_at: 終了時刻
+        start_at: 開始時刻
+        end_at: 終了時刻
         deleted_at: 削除時刻
       embody:
         position: 位置
@@ -1054,6 +1054,7 @@ ja:
     desc: "降順"
     error_occured: "エラーが発生しました。"
     did_you_mean: "もしかして"
+    calendar: "カレンダー"
   title:
     index: "一覧"
     show: "表示"
