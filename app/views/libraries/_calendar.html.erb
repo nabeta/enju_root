@@ -1,17 +1,11 @@
-<p>
-  <%= link_to_remote t('page.previous'), :update => 'library_calendar', :url => library_path(@library.name, :date => (@date - 1.month).strftime('%Y-%m-%d')), :method => :get -%>
-  <%= link_to_remote t('page.this_month'), :update => 'library_calendar', :url => library_path(@library.name, :date => Time.zone.now.strftime('%Y-%m-%d')), :method => :get -%>
-  <%= link_to_remote t('page.next'), :update => 'library_calendar', :url => library_path(@library.name, :date => (@date + 1.month).strftime('%Y-%m-%d')), :method => :get -%>
-</p>
-<%= calendar(:year => @date.year, :month => @date.month) do |date|
-  cal_text = (link_to h(date.mday), "/calendar/" + date.strftime("%Y-%m-%d")) + "<br />"
-  events = @library.events.on(date.to_s)
-  if events.present?
-    events.each do |event|
-      cal_text += (link_to h(event.title), event)  + "<br />"
-    end
-    [cal_text, {:class => 'specialDay'}]
-  else
-    [cal_text, {:class => 'day'}]
-  end
-end -%>
+(<%= link_to t('page.calendar'), :controller => :calendar, :action => :index, :library_id => @library.name -%>)
+<ul>
+  <%- @events.each do |event| -%>
+    <li>
+      <%= link_to h(event.title), event -%>
+      (<%= l(event.start_at) -%> - <%= l(event.end_at) -%>)
+    </li>
+  <%- end -%>
+</ul>
+
+<%= will_paginate(@events, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :event_page, :class => 'content_pagination') -%>

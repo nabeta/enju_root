@@ -1344,3 +1344,6 @@ en:
     subjectable: "Subjectable"
   library_group:
     configuration: "Library configuration"
+  calendar:
+    calendar: "Calendar"
+    library_calendar: "Calendar of events at {{library_name}}"

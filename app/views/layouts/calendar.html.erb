@@ -4,7 +4,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%=h@library_group.display_name.localize -%></title>
+  <%- if @library -%>
+    <title><%=h t('calendar.library_calendar', :library_name => @library.display_name.localize) -%> - <%=h LibraryGroup.site_config.display_name.localize -%></title>
+  <%- else -%>
+    <title><%=h t('calendar.calendar') -%> - <%=h LibraryGroup.site_config.display_name.localize -%></title>
+  <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%= render :partial => 'page/include' -%>
 </head>

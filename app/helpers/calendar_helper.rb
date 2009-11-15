@@ -17,7 +17,7 @@ module CalendarHelper
 
   def event_calendar
     calendar event_calendar_opts do |event|
-      "<a href='/events/#{event.id}' title=\"#{h(event.name)}: #{event.start_at} to #{event.end_at}\"><div>#{h(event.name)}</div></a>"
+      "<a href='/events/#{event.id}' title=\"#{h(event.name)}: #{event.start_at} to #{event.end_at}\"><div>#{h(event.name)} (#{event.library.display_name.localize})</div></a>"
     end
   end
 end

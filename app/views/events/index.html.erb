@@ -1,5 +1,8 @@
 <div id="submenu">
   <ul>
+    <li><%= link_to t('page.calendar'), '/calendar' -%></li>
+  </ul>
+  <ul>
     <%- if logged_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <%- if @library -%>
@@ -15,9 +18,6 @@
     <%- Library.all.each do |library| -%>
       <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
     <%- end -%>
-  </ul>
-  <ul>
-    <li><%= link_to t('page.calendar'), '/calendar' -%></li>
   </ul>
   <p>
     <%- if @library -%>

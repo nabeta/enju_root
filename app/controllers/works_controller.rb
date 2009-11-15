@@ -60,7 +60,7 @@ class WorksController < ApplicationController
       end
     end
     search = Sunspot.new_search(Subject)
-    work = @work
+    work = @work.dup
     search.build do
       with(:work_ids).equal_to work.id if work
     end
