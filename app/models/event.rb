@@ -6,6 +6,7 @@ class Event < ActiveRecord::Base
   named_scope :on, lambda {|datetime| {:conditions => ['start_at >= ? AND end_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day + 1]}}
   named_scope :past, lambda {|datetime| {:conditions => ['end_at <= ?', Time.zone.parse(datetime).beginning_of_day]}}
   named_scope :upcoming, lambda {|datetime| {:conditions => ['start_at >= ?', Time.zone.parse(datetime).beginning_of_day]}}
+  named_scope :at, lambda {|library| {:conditions => {:library_id => library.id}}}
 
   belongs_to :event_category, :validate => true
   belongs_to :library, :validate => true

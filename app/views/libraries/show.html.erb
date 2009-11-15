@@ -12,94 +12,98 @@
 </div>
 
 <div id="content_detail">
-<h1 class="title"><%=h @library.display_name.localize -%></h1>
+  <h1 class="title"><%=h @library.display_name.localize -%></h1>
 
-<div id="content_list">
-<p>
-  <%= t('activerecord.attributes.library.name') -%>: <%=h @library.name -%>
-</p>
+  <div id="content_list">
+  <p>
+    <%= t('activerecord.attributes.library.name') -%>: <%=h @library.name -%>
+  </p>
 
-<%- unless @library.web? -%>
-<p>
-  <%= t('library.address') -%>: <%=h @library.postal_code -%> <%=h @library.address -%>
-  <br />
-  <%= t('activerecord.attributes.library.telephone_number_1') -%>: <%=h @library.telephone_number_1 -%>
-  <%= t('activerecord.attributes.library.telephone_number_2') -%>: <%=h @library.telephone_number_2 -%>
-  <br />
-  <%= t('activerecord.attributes.library.fax_number') -%>: <%=h @library.fax_number -%>
-</p>
-<p>
-  <%=h @library.note -%>
-</p>
+  <%- unless @library.web? -%>
+  <p>
+    <%= t('library.address') -%>: <%=h @library.postal_code -%> <%=h @library.address -%>
+    <br />
+    <%= t('activerecord.attributes.library.telephone_number_1') -%>: <%=h @library.telephone_number_1 -%>
+    <%= t('activerecord.attributes.library.telephone_number_2') -%>: <%=h @library.telephone_number_2 -%>
+    <br />
+    <%= t('activerecord.attributes.library.fax_number') -%>: <%=h @library.fax_number -%>
+  </p>
+  <p>
+    <%=h @library.note -%>
+  </p>
 
-<div id="tabview">
-  
-  <div id="demo" class="yui-navset yui-navset-top">
-    <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#tab1"><em><%= t('library.map') -%></em></a></li>
-      <li><a href="#tab2"><em><%= t('library.staff') -%></em></a></li>
-      <li><a href="#tab3"><em><%= t('activerecord.models.shelf') -%></em></a></li>
-      <li><a href="#tab4"><em><%= t('activerecord.models.event') -%></em></a></li>
-      <%- if @library.is_updatable_by(current_user) -%>
-        <li><a href="#tab5"><em><%= t('page.configuration') -%></em></a></li>
-      <%- end -%>
-    </ul>
-    <div class="yui-content">
-      <div id="tab1">
-      <%= render :partial => 'libraries/map', :locals => {:library => @library} if @library.geocode -%>
-      </div>
-      <div id="tab2">
-        <%- unless @library.users.librarians.empty? -%>
-          <ul>
-            <%- @library.users.librarians.each do |librarian| -%>
-              <li>
-                <%= link_to h(librarian.login), librarian.patron -%>
-                <%- unless librarian.note.blank? -%>
-                  <br />
-                  <%=h librarian.note -%>
-                <%- end -%>
-              </li>
-            <%- end -%>
-          </ul>
+  <div id="tabview">
+    <div id="demo" class="yui-navset yui-navset-top">
+      <ul class="yui-nav">
+        <li title="active" class="selected"><a href="#tab1"><em><%= t('library.map') -%></em></a></li>
+        <li><a href="#tab2"><em><%= t('library.staff') -%></em></a></li>
+        <li><a href="#tab3"><em><%= t('activerecord.models.shelf') -%></em></a></li>
+        <li><a href="#tab4"><em><%= t('activerecord.models.event') -%></em></a></li>
+        <%- if @library.is_updatable_by(current_user) -%>
+          <li><a href="#tab5"><em><%= t('page.configuration') -%></em></a></li>
         <%- end -%>
-      </div>
-      <div id="tab3">
-
-        <table class="index">
-          <tr>
-            <th><%= t('activerecord.models.shelf') -%></th>
-            <th><%= t('library.number_of_item') -%></th>
-            <th><%= t('activerecord.attributes.shelf.note') -%></th>
-          </tr>
-          <%- @library.shelves.each do |shelf| -%>
-          <tr>
-            <td>
-              <%= link_to h(shelf.display_name.localize), library_shelf_path(@library.name, shelf) -%>
-              <%- shelf.picture_files.each do |picture_file| -%>
-                <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), picture_file_path(picture_file, :format => MIME.check(picture_file.picture.path).subtype), :class => "thickbox", :rel => "shelf_#{h(shelf.id)}" -%>
+      </ul>
+      <div class="yui-content">
+        <div id="tab1">
+          <%= render :partial => 'libraries/map', :locals => {:library => @library} if @library.geocode -%>
+        </div>
+        <div id="tab2">
+          <%- unless @library.users.librarians.empty? -%>
+            <ul>
+              <%- @library.users.librarians.each do |librarian| -%>
+                <li>
+                  <%= link_to h(librarian.login), librarian.patron -%>
+                  <%- unless librarian.note.blank? -%>
+                    <br />
+                    <%=h librarian.note -%>
+                  <%- end -%>
+                </li>
               <%- end -%>
-            </td>
-            <td><%=h shelf.items_count -%></td>
-            <td><%=h shelf.note -%></td>
-          </tr>
+            </ul>
           <%- end -%>
-        </table>
+        </div>
+        <div id="tab3">
+          <table class="index">
+            <tr>
+              <th><%= t('activerecord.models.shelf') -%></th>
+              <th><%= t('library.number_of_item') -%></th>
+              <th><%= t('activerecord.attributes.shelf.note') -%></th>
+            </tr>
+            <%- @library.shelves.each do |shelf| -%>
+              <tr>
+                <td>
+                  <%= link_to h(shelf.display_name.localize), library_shelf_path(@library.name, shelf) -%>
+                  <%- shelf.picture_files.each do |picture_file| -%>
+                    <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), picture_file_path(picture_file, :format => MIME.check(picture_file.picture.path).subtype), :class => "thickbox", :rel => "shelf_#{h(shelf.id)}" -%>
+                  <%- end -%>
+                </td>
+                <td><%=h shelf.items_count -%></td>
+                <td><%=h shelf.note -%></td>
+              </tr>
+            <%- end -%>
+          </table>
+        </div>
 
+        <div id="tab4">
+          <h3><%= link_to t('activerecord.models.event'), library_events_path(@library.name) -%></h3>
+          <div id="library_calendar" style="text-align:left">
+            <%= render :partial => 'calendar' -%>
+          </div>
         </div>
 
         <%- if @library.is_updatable_by(current_user) -%>
-        <div id="tab5">
-          <h3><%= t('page.configuration') -%></h3>
-          <p>
-            <b><%= t('activerecord.attributes.library.call_number_rows') -%>:</b>
-            <%=h @library.call_number_rows -%>
-          </p>
+          <div id="tab5">
+            <h3><%= t('page.configuration') -%></h3>
+            <p>
+              <strong><%= t('activerecord.attributes.library.call_number_rows') -%>:</strong>
+              <%=h @library.call_number_rows -%>
+            </p>
 
-          <p>
-            <b><%= t('activerecord.attributes.library.call_number_delimiter') -%>:</b>
-            <%=h @library.call_number_delimiter -%>
-          </p>
-        </div>
+            <p>
+              <strong><%= t('activerecord.attributes.library.call_number_delimiter') -%>:</strong>
+              <%=h @library.call_number_delimiter -%>
+            </p>
+          </div>
         <%- end -%>
 
       </div>

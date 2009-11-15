@@ -20,12 +20,19 @@ class LibrariesController < ApplicationController
   def show
     @library = Library.find(:first, :conditions => {:name => params[:id]}, :include => :shelves)
     raise ActiveRecord::RecordNotFound if @library.nil?
-    if params[:date]
-      @date = Time.parse(params[:date]) rescue Time.zone.now
-      render :partial => 'calendar'
-      return
-    else
-      @date = Time.zone.now
+
+    search = Sunspot.new_search(Event)
+    library = @library.dup
+    search.build do
+      with(:library_id).equal_to library.id
+      order_by(:start_at, :desc)
+    end
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, Event.per_page)
+    begin
+      @events = search.execute!.results
+    rescue RSolr::RequestError
+      @events = WillPaginate::Collection.create(1,1,0) do end
     end
 
     respond_to do |format|
