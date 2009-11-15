@@ -11,6 +11,6 @@ class EventTest < ActiveSupport::TestCase
   def test_set_all_day_beginning_of_day
     events(:event_00008).all_day = true
     end_at = events(:event_00008).end_at
-    assert_equal events(:event_00008).set_all_day, (end_at - 1.day).end_of_day
+    assert_equal events(:event_00008).set_all_day, end_at.end_of_day
   end
 end
