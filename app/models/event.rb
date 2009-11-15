@@ -41,6 +41,14 @@ class Event < ActiveRecord::Base
     if self.end_at.blank?
       self.end_at = Time.zone.today.end_of_day
     end
+
+    set_all_day
+  end
+
+  def set_all_day
+    if self.all_day
+      self.end_at = self.end_at.end_of_day
+    end
   end
 
   def validate
