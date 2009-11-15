@@ -34,7 +34,7 @@ class Event < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  def before_save
+  def before_validation
     if self.start_at.blank?
       self.start_at = Time.zone.today.beginning_of_day
     end
@@ -48,11 +48,7 @@ class Event < ActiveRecord::Base
   def set_all_day
     if self.all_day
       self.start_at = self.start_at.beginning_of_day
-      if self.end_at == self.end_at.beginning_of_day
-        self.end_at = (self.end_at - 1.day).end_of_day
-      else
-        self.end_at = self.end_at.end_of_day
-      end
+      self.end_at = self.end_at.end_of_day
     end
   end
 

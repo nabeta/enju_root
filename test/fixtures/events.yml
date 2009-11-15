@@ -95,10 +95,10 @@ event_00007:
 event_00008: 
   updated_at: 2008-02-05 21:00:53.926050 +09:00
   event_category_id: 1
-  end_at: 2008-02-08 15:00:00 +09:00
+  end_at: 2008-02-05 15:00:00 +09:00
   title: test
   deleted_at: 
-  start_at: 2008-02-05 16:00:00 +09:00
+  start_at: 2008-02-05 15:00:00 +09:00
   id: 8
   note: test
   library_id: 2
