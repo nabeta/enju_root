@@ -514,6 +514,7 @@ en:
         start_at: Start at
         end_at: End at
         deleted_at: Deleted at
+        all_day: All day
       embody:
         position: Position
       item_has_use_restriction:
