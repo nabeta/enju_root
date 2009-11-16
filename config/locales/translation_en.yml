@@ -344,6 +344,7 @@ en:
         imported_file_type: Imported file type
         importable: Imported resource
         importable_type: Importable type
+        line_number: Line number
       exemplify:
         position: Position
       own:
