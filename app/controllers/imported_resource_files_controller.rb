@@ -17,11 +17,17 @@ class ImportedResourceFilesController < ApplicationController
   # GET /imported_resource_files/1.xml
   def show
     @imported_resource_file = ImportedResourceFile.find(params[:id])
+    @imported_objects = @imported_resource_file.imported_objects.paginate(:page => params[:object_page], :per_page => ImportedObject.per_page)
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @imported_resource_file }
       format.download  { send_file @imported_resource_file.imported_resource.path, :filename => @imported_resource_file.imported_resource_file_name, :type => @imported_resource_file.imported_resource_content_type, :disposition => 'inline' }
+      format.js {
+        render :update do |page|
+          page.replace_html 'object_list', :partial => 'show_object_list' if params[:object_page]
+        end
+      }
     end
   end
 

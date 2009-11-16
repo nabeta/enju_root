@@ -345,6 +345,7 @@ ja:
         imported_file_type: インポート用ファイルの種類
         importable: インポートされた資料
         importable_type: インポートされた資料の種類
+        line_number: 行番号
       exemplify:
         position: 位置
       own:

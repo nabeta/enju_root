@@ -43,13 +43,7 @@
   <%= link_to h(@imported_resource_file.user.login), user_path(@imported_resource_file.user.login) -%>
 </p>
 
-<table class="index">
-  <%- @imported_resource_file.imported_objects.each do |object| -%>
-    <tr>
-      <td><%= link_to h("#{object.importable_type} / #{object.importable_id}"), object.importable -%></td>
-    </tr>
-  <%- end -%>
-</table>
+<%= render :partial => 'show_object_list', :locals => {:imported_objects => @imported_objects} -%>
 
 </div>
 </div>

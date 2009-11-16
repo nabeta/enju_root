@@ -56,7 +56,7 @@ class ImportedResourceFile < ActiveRecord::Base
             manifestation = self.class.import_manifestation(expression, row['isbn'], publisher_patrons)
             save_imported_object(manifestation)
 
-            Rails.logger.info("resource import successed: column #{record}")
+            Rails.logger.info("resource import succeeded: column #{record}")
           rescue Exception => e
             Rails.logger.info("resource import failed: column #{record}: #{e.message}")
             num[:failure] += 1
@@ -68,7 +68,7 @@ class ImportedResourceFile < ActiveRecord::Base
             item = self.class.import_item(manifestation, row['item_identifier'], shelf)
             save_imported_object(item)
             num[:success] += 1
-            Rails.logger.info("resource registration successed: column #{record}")
+            Rails.logger.info("resource registration succeeded: column #{record}")
           end
         rescue Exception => e
           Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
