@@ -36,7 +36,7 @@ class UsersController < ApplicationController
         user_ids = User.search_ids do
           fulltext query
           order_by sort[:sort_by], sort[:order]
-          with(:required_role_id).less_than (role.id+1)
+          with(:required_role_id).less_than role.id+1
         end
         @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
       rescue RSolr::RequestError
