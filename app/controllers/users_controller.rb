@@ -29,12 +29,14 @@ class UsersController < ApplicationController
 
     query = params[:query]
     page = params[:page] || 1
+    role = current_user.try(:highest_role) || Role.find(1)
 
     unless query.blank?
       begin
         user_ids = User.search_ids do
           fulltext query
           order_by sort[:sort_by], sort[:order]
+          with(:required_role_id).less_than (role.id+1)
         end
         @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
       rescue RSolr::RequestError

@@ -319,6 +319,13 @@ class ApplicationController < ActionController::Base
     response.content_type = "text/plain"
   end
 
+  def set_role_query(user, search)
+    role = user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than (role.id+1)
+    end
+  end
+
   private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)

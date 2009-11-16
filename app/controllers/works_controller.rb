@@ -20,6 +20,9 @@ class WorksController < ApplicationController
         fulltext query
       end
     end
+
+    set_role_query(current_user, search)
+
     unless params[:mode] == 'add'
       patron = @patron
       subject = @subject

@@ -26,6 +26,9 @@ class ItemsController < ApplicationController
       end
     end
 
+    search = Sunspot.new_search(Item)
+    set_role_query(current_user, search)
+
     unless query.blank?
       @count = {}
       @query = query.dup
@@ -33,7 +36,6 @@ class ItemsController < ApplicationController
         query.add_query!(@manifestation) if @manifestation
         query.add_query!(@patron) if @patron
       end
-      search = Sunspot.new_search(Item)
       search.build do
         fulltext query
       end

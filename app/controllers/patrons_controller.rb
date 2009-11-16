@@ -23,6 +23,7 @@ class PatronsController < ApplicationController
     @count = {}
 
     search = Sunspot.new_search(Patron)
+    set_role_query(current_user, search)
 
     if params[:mode] == 'recent'
       query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
