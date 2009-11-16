@@ -86,10 +86,12 @@ class ManifestationsController < ApplicationController
         search.build do
           fulltext query
         end
+        role = current_user.try(:highest_role)
         manifestation_ids = Manifestation.search_ids do
           fulltext query
           order_by sort[:sort_by], sort[:order]
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
+          with(:required_role_id).less_than (role.id+1)
         end
       end
 
@@ -600,6 +602,8 @@ class ManifestationsController < ApplicationController
       @subscription_master = true if subscription_master == 'true'
       subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
       @subject_by_term = subject_by_term
+
+      set_role_query(current_user, search)
 
       search.build do
         with(:expression_ids).equal_to expression.id if expression

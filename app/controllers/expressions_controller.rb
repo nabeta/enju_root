@@ -23,6 +23,9 @@ class ExpressionsController < ApplicationController
         fulltext query
       end
     end
+
+    set_role_query(current_user, search)
+
     unless params[:mode] == 'add'
       manifestation = @manifestation
       patron = @patron
