@@ -257,4 +257,7 @@ class Item < ActiveRecord::Base
     "#{LibraryGroup.url}libraries/#{self.shelf.library.name}"
   end
 
+  def manifestation_url
+    URI.parse("#{LibraryGroup.url}manifestations/#{self.manifestation.id}").normalize.to_s if self.manifestation
+  end
 end

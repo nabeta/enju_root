@@ -12,4 +12,13 @@ class Embody < ActiveRecord::Base
 
   acts_as_list :scope => :manifestation
 
+  def after_save
+    expression.index!
+    manifestation.index!
+  end
+
+  def after_destroy
+    after_save
+  end
+
 end

@@ -12,6 +12,15 @@ class Exemplify < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
 
+  def after_save
+    manifestation.index!
+    item.index!
+  end
+
+  def after_destroy
+    after_save
+  end
+
   def after_create
     create_lending_policy
   end

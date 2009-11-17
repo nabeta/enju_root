@@ -12,4 +12,13 @@ class Reify < ActiveRecord::Base
   
   acts_as_list :scope => :work
 
+  def after_save
+    work.index!
+    expression.index!
+  end
+
+  def after_destroy
+    after_save
+  end
+
 end

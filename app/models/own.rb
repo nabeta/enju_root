@@ -13,4 +13,13 @@ class Own < ActiveRecord::Base
   @@per_page = 10
   attr_accessor :item_identifier
 
+  def after_save
+    patron.index!
+    item.index!
+  end
+
+  def after_destroy
+    after_save
+  end
+
 end

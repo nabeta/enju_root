@@ -86,12 +86,12 @@ class ManifestationsController < ApplicationController
         search.build do
           fulltext query
         end
-        role = current_user.try(:highest_role)
+        role = current_user.try(:highest_role) || Role.find(1)
         manifestation_ids = Manifestation.search_ids do
           fulltext query
           order_by sort[:sort_by], sort[:order]
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
-          with(:required_role_id).less_than (role.id+1)
+          with(:required_role_id).less_than role.id+1
         end
       end
 
