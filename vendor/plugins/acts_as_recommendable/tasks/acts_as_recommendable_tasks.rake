@@ -2,7 +2,7 @@ namespace :recommendations do
   task :build => [:environment] do
     MadeByMany::ActsAsRecommendable::Logic.module_eval do
       # This will need to change to your specific model:
-      options = User.aar_options
+      options = Patron.aar_options
       
       puts 'Finding items...'
 

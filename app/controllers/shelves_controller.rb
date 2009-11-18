@@ -74,6 +74,7 @@ class ShelvesController < ApplicationController
   # PUT /shelves/1.xml
   def update
     @shelf = Shelf.find(params[:id])
+    @shelf.library = @library
 
     if @shelf and params[:position]
       @shelf.insert_at(params[:position])

@@ -65,6 +65,7 @@ class Patron < ActiveRecord::Base
 
   #acts_as_soft_deletable
   #acts_as_tree
+  #acts_as_recommendable :items, :through => :owns
 
   cattr_accessor :per_page
   @@per_page = 10
