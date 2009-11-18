@@ -24,6 +24,7 @@
     <%- end -%>
   </p>
   <p>
+    <%= f.label t('activerecord.models.work_relationship_type') -%><br />
     <%= f.select(:work_relationship_type_id, @work_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
   <p>

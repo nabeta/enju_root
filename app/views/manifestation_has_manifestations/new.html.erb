@@ -24,6 +24,7 @@
     <%- end -%>
   </p>
   <p>
+    <%= f.label t('activerecord.models.manifestation_relationship_type') -%><br />
     <%= f.select(:manifestation_relationship_type_id, @manifestation_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
   <p>

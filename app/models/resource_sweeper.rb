@@ -48,7 +48,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Item)
       expire_editable_fragment(record)
-      expire_editable_fragment(record.manifestation, 'show_holding')
+      expire_editable_fragment(record.manifestation, ['show_holding', 'detail_3'])
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
       end

@@ -162,7 +162,6 @@ class ItemsController < ApplicationController
         Item.transaction do
           @manifestation.items << @item
           @item.reload
-          @item.send_later(:post_to_union_catalog)
 
           if @item.shelf
             @item.shelf.library.patron.items << @item
@@ -174,6 +173,7 @@ class ItemsController < ApplicationController
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
+        @item.send_later(:post_to_union_catalog)
         format.html { redirect_to(@item) }
         format.xml  { render :xml => @item, :status => :created, :location => @item }
       else
