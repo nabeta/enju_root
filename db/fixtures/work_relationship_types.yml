@@ -1,0 +1,49 @@
+--- 
+work_relationship_type_00001:
+  id: 1
+  name: Successor
+  display_name: Successor
+  note: 
+  position: 1
+
+work_relationship_type_00002:
+  id: 2
+  name: Supplement
+  display_name: Supplement
+  note: 
+  position: 2
+
+work_relationship_type_00003:
+  id: 3
+  name: Complement
+  display_name: Complement
+  note: 
+  position: 3
+
+work_relationship_type_00004:
+  id: 4
+  name: Summarization
+  display_name: Summarization
+  note: 
+  position: 4
+
+work_relationship_type_00005:
+  id: 5
+  name: Adaptation
+  display_name: Adaptation
+  note: 
+  position: 5
+
+work_relationship_type_00006:
+  id: 6
+  name: Transformation
+  display_name: Transformation
+  note: 
+  position: 6
+
+work_relationship_type_00007:
+  id: 7
+  name: Imitation
+  display_name: Imitation
+  note: 
+  position: 7

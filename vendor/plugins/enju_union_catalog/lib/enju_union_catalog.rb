@@ -34,14 +34,14 @@ module EnjuUnionCatalog
       return false if self.item_identifier.blank?
       self.reload
       local_library = self.shelf.library
-      resource = UnionCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn}) rescue nil
-      if resource.nil?
+      manifestation = UnionCatalog::Manifestation.find(:first, :params => {:isbn => self.manifestation.isbn}) rescue nil
+      if manifestation.nil?
         #resource = UnionCatalog::Manifestation.create(:title => self.manifestation.original_title, :library_url => library_url, :author => self.manifestation.authors.collect(&:full_name).join(" / "), :publisher => self.manifestation.publishers.collect(&:full_name).join(" / "), :isbn => self.manifestation.isbn, :local_manifestation_id => self.manifestation.id)
         work = UnionCatalog::Work.create(:original_title => self.manifestation.original_title)
         expression = UnionCatalog::Expression.create(:original_title => self.manifestation.original_title, :new_work_id => work.id)
         manifestation = UnionCatalog::Manifestation.create(:original_title => self.manifestation.original_title, :isbn => self.manifestation.isbn, :new_expression_id => expression.id)
-        item = UnionCatalog::Item.create(:item_identifier => self.item_identifier, :library_url => self.library_url, :new_manifestation_id => manifestation.id, :local_url => self.manifestation_url)
       end
+      item = UnionCatalog::Item.create(:item_identifier => self.item_identifier, :library_url => self.library_url, :new_manifestation_id => manifestation.id, :local_url => self.manifestation_url)
 
       #library = UnionCatalog::Library.find(:first, :params => {:url => library_url})
       #if library.nil?
