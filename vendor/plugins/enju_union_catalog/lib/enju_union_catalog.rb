@@ -40,7 +40,7 @@ module EnjuUnionCatalog
         work = UnionCatalog::Work.create(:original_title => self.manifestation.original_title)
         expression = UnionCatalog::Expression.create(:original_title => self.manifestation.original_title, :new_work_id => work.id)
         manifestation = UnionCatalog::Manifestation.create(:original_title => self.manifestation.original_title, :isbn => self.manifestation.isbn, :new_expression_id => expression.id)
-        item = UnionCatalog::Item.create(:item_identifier => self.item_identifier, :library_url => self.library_url, :new_manifestation_id => manifestation.id)
+        item = UnionCatalog::Item.create(:item_identifier => self.item_identifier, :library_url => self.library_url, :new_manifestation_id => manifestation.id, :local_url => self.manifestation_url)
       end
 
       #library = UnionCatalog::Library.find(:first, :params => {:url => library_url})
@@ -52,19 +52,16 @@ module EnjuUnionCatalog
       #UnionCatalog::Own.create(:manifestation_id => resource.id, :library_id => library.id, :url => manifestation_url, :library_url => library_url)
     end
 
-    def update_union_catalog
+    def update_union_catalog(old_url)
       return false if self.item_identifier.blank?
-      local_library = self.shelf.library
-      own = UnionCatalog::Own.find(:first, :params => {:url => self.manifestation_url, :library_url => self.library_url})
-      own.library_url = self.library_url
+      own = UnionCatalog::Own.find(:first, :params => {:url => old_url})
       own.url = self.manifestation_url
       own.save
     end
 
     def remove_from_union_catalog
       return false if self.item_identifier.blank?
-      manifestation_url = URI.parse("#{LibraryGroup.url}manifestations/#{self.manifestation.id}").normalize.to_s
-      own = UnionCatalog::Own.find(:first, :params => {:url => manifestation_url})
+      own = UnionCatalog::Own.find(:first, :params => {:url => self.manifestation_url})
       own.destroy
     end
 
