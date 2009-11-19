@@ -660,6 +660,7 @@ class ManifestationsController < ApplicationController
       count.build do
         fulltext total_query
       end
+      set_role_query(current_user, count)
       count.execute!.total
     else
       0
