@@ -9,14 +9,17 @@
 </div>
 
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron_merge')) -%></h1>
+<div id="content_list">
 <p>
 <b><%= t('activerecord.models.patron') -%>:</b>
 <%= link_to h(@patron_merge.patron.full_name), @patron_merge.patron -%>
 </p>
 
 <p>
-<b><%= ('Patron merge list') -%>:</b>
+<b><%= t('activerecord.models.patron_merge_list') -%>:</b>
 <%= link_to h(@patron_merge.patron_merge_list.title), patron_merge_list_path(@patron_merge.patron_merge_list) -%>
 </p>
 
+</div>
 </div>
