@@ -8,7 +8,7 @@ module OwnerRequired
   end
 
   def is_readable_by(user, parent = nil)
-    true if user == self.user
+    return true if user == self.user
   end
 
   def is_updatable_by(user, parent = nil)

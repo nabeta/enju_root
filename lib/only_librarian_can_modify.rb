@@ -17,8 +17,14 @@ module OnlyLibrarianCanModify
   end
 
   module InstanceMethods
+    include RoleRequired
+
     def is_readable_by(user, parent = nil)
-      true
+      if self.respond_to?(:required_role_id)
+        true if self.role_accepted?(user)
+      else
+        true
+      end
     end
 
     def is_updatable_by(user, parent = nil)

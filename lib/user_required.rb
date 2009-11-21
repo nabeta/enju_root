@@ -16,7 +16,10 @@ module UserRequired
 
   module InstanceMethods
     def is_readable_by(user, parent = nil)
-      true if user.has_role?('Librarian')
+      return true if user.has_role?('Librarian')
+      if role = user.try(:highest_role)
+        return true if self.required_role_id <= role.id
+      end
     end
 
     def is_updatable_by(user, parent = nil)
