@@ -20,9 +20,12 @@ module AdministratorRequired
   end
 
   module InstanceMethods
+    #include RoleRequired
+
     def is_readable_by(user, parent = nil)
       #true if user.has_role?('Administrator')
-      true if user.has_role?('Librarian')
+      return true if user.has_role?('Librarian')
+      return true if self.role_accepted?(user)
     rescue
       false
     end
