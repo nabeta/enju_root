@@ -58,7 +58,7 @@ ja:
       use_restriction: 利用制限
       subject: 件名
       content_type: 表現形の形態
-      work_merge: 著作形をマージ
+      work_merge: 著作形の併合
       aaws_response: Aawsの応答
       patron_type: パトロンの種類
       work_merge_list: 著作形の併合リスト
@@ -68,7 +68,7 @@ ja:
       event: 催し物
       embody: 具体化
       item_has_use_restriction: 項目を制限している
-      expression_merge: 表現のマージ
+      expression_merge: 表現形の併合
       request_status_type: 依頼の状態の種類
       news_feed: お知らせのフィード
       news_post: 図書館からのお知らせ

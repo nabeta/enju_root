@@ -1,7 +1,6 @@
 class EmbodiesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_manifestation, :get_expression
-  before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /embodies
@@ -99,8 +98,4 @@ class EmbodiesController < ApplicationController
     end
   end
 
-  private
-  def prepare_options
-    @expression_to_manifestation_rel_types = ExpressionToManifestationRelType.all
-  end
 end
