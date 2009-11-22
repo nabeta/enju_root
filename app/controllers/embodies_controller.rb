@@ -1,6 +1,7 @@
 class EmbodiesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_manifestation, :get_expression
+  before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /embodies
@@ -61,6 +62,7 @@ class EmbodiesController < ApplicationController
         format.html { redirect_to(@embody) }
         format.xml  { render :xml => @embody, :status => :created, :location => @embody }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @embody.errors, :status => :unprocessable_entity }
       end
@@ -78,6 +80,7 @@ class EmbodiesController < ApplicationController
         format.html { redirect_to(@embody) }
         format.xml  { head :ok }
       else
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @embody.errors, :status => :unprocessable_entity }
       end
@@ -94,5 +97,10 @@ class EmbodiesController < ApplicationController
       format.html { redirect_to(embodies_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def prepare_options
+    @expression_to_manifestation_rel_types = ExpressionToManifestationRelType.all
   end
 end

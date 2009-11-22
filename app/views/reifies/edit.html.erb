@@ -13,13 +13,18 @@
 
 <%- form_for(@reify, :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.work') -%></b><br />
+    <b><%= t('activerecord.models.work') -%></b><br />
     <%= f.text_field :work_id -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.models.expression') -%></b><br />
+    <b><%= t('activerecord.models.expression') -%></b><br />
     <%= f.text_field :expression_id -%>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.models.work_to_expression_rel_type') -%><br />
+    <%= f.select(:work_to_expression_rel_type_id, @work_to_expression_rel_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
 
   <p>

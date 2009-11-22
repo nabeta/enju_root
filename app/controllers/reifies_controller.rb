@@ -2,6 +2,7 @@ class ReifiesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_work, :get_expression
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /reifies
   # GET /reifies.xml
@@ -52,6 +53,7 @@ class ReifiesController < ApplicationController
         format.html { redirect_to(@reify) }
         format.xml  { render :xml => @reify, :status => :created, :location => @reify }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @reify.errors, :status => :unprocessable_entity }
       end
@@ -76,6 +78,7 @@ class ReifiesController < ApplicationController
         format.html { redirect_to reify_url(@reify) }
         format.xml  { head :ok }
       else
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @reify.errors, :status => :unprocessable_entity }
       end
@@ -99,4 +102,8 @@ class ReifiesController < ApplicationController
     end
   end
 
+  private
+  def prepare_options
+    @work_to_expression_rel_types = WorkToExpressionRelType.all
+  end
 end

@@ -25,7 +25,6 @@
       <%= f.text_field :work_id -%>
     <%- end -%>
   </p>
-
   <p>
     <b><%= t('activerecord.models.expression') -%></b><br />
     <%- if @reify.expression -%>
@@ -35,7 +34,10 @@
       <%= f.text_field :expression_id -%>
     <%- end -%>
   </p>
-
+  <p>
+    <%= f.label t('activerecord.models.work_to_expression_rel_type') -%><br />
+    <%= f.select(:relationship_type_id, @work_to_expression_rel_types.collect{|r| [r.display_name.localize, r.id]}) -%>
+  </p>
   <p>
     <%= f.submit t('page.create') -%>
   </p>
