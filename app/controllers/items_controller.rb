@@ -149,12 +149,12 @@ class ItemsController < ApplicationController
   # POST /items
   # POST /items.xml
   def create
+    @item = Item.new(params[:item])
     unless @manifestation
       flash[:notice] = t('item.specify_manifestation')
       redirect_to manifestations_url
       return
     end
-    @item = Item.new(params[:item])
     @item.item_identifier = @item.item_identifier.to_s.strip
 
     respond_to do |format|

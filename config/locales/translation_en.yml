@@ -134,6 +134,8 @@ en:
       lending_policy: Lending policy
       nii_type: NII metadata type
       license: License
+      work_to_expression_rel_type: Work-to-Expression relationship type
+      expression_to_manifestation_rel_type: Expression-to-Manifestation relationship type
     attributes:
       library:
         name: Name
@@ -910,6 +912,16 @@ en:
         note: Note
         position: Position
       license:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      work_to_expression_rel_type:
+        name: Name
+        display_name: Display name
+        note: Note
+        position: Position
+      expression_to_manifestation_rel_type:
         name: Name
         display_name: Display name
         note: Note
