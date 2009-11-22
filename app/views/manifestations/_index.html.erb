@@ -14,16 +14,6 @@
 
 <%- unless @query.blank? -%>
   <%- if @count[:query_result].to_i > 0 -%>
-    <script type="text/javascript">
-      window.onload = function() {
-      Element.show('spinner_all_facet');
-      Element.show('spinner_tag_cloud');
-      new Ajax.Updater('all_facet_list', '<%= url_for(:params => params.merge(:view => "all_facet")) -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_all_facet'), Element.show('all_facet_list')}});
-      new Ajax.Updater('tag_cloud_list', '<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', {method: 'get', asynchronous:true, evalScripts:true, onSuccess:function(request){Element.hide('spinner_tag_cloud'), Element.show('tag_cloud_list')}});
-      return false;
-    }
-    </script>
-
     <p>
       <%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
       <%- if @reservable -%>
@@ -59,9 +49,9 @@
 
     <div id="tag_cloud">
       <h3><%= t('activerecord.models.tag') -%></h3>
-      <div id="tag_cloud_list" style="display: none"></div>
+      <div id="tag_cloud_list"></div>
       <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
-        :style => 'padding-bottom: 15px; padding-left: 40px; display: none' -%>
+        :style => 'padding-bottom: 15px; padding-left: 40px;' -%>
     </div>
   <%- else -%>
     <!-- TODO: 検索結果が少ない場合にも表示させる -->
@@ -87,9 +77,9 @@
 
       <div id="all_facet_box">
         <h3><%= t('page.facet') -%></h3>
-        <div id="all_facet_list" style="display: none"></div>
+        <div id="all_facet_list"></div>
         <%= image_tag 'spinner.gif', :id => 'spinner_all_facet',
-          :style => 'margin-top: 10px; margin-left: 40px; display: none' -%>
+          :style => 'margin-top: 10px; margin-left: 40px;' -%>
       </div>
 
     <%- end -%>
@@ -103,3 +93,18 @@
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
+
+<script type="text/javascript">
+  window.onload = function() {
+    jQuery("#all_facet_list").load('<%= url_for(:params => params.merge(:view => "all_facet")) -%>', hideFacetSpinner);
+    jQuery("#tag_cloud_list").load('<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', null, hideTagCloudSpinner);
+  }
+
+  function hideFacetSpinner(){
+    jQuery("#spinner_all_facet").hide();
+  }
+
+  function hideTagCloudSpinner(){
+    jQuery("#spinner_tag_cloud").hide();
+  }
+</script>

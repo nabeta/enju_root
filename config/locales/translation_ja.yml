@@ -136,6 +136,8 @@ ja:
       lending_policy: 貸出規則
       nii_type: NIIメタデータタイプ
       license: ライセンス
+      work_to_expression_rel_type: 著作形と表現形の関係の種類
+      expression_to_manifestation_rel_type: 表現形と体現形の関係の種類
     attributes:
       library:
         name: 名前
@@ -910,6 +912,16 @@ ja:
         note: 注記
         position: 位置
       license:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      work_to_expression_rel_type:
+        name: 名前
+        display_name: 表示名
+        note: 注記
+        position: 位置
+      expression_to_manifestation_rel_type:
         name: 名前
         display_name: 表示名
         note: 注記
