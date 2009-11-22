@@ -4,6 +4,6 @@ class AddRelationshipTypeToReify < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :reifies, :relationship_type
+    remove_column :reifies, :relationship_type_id
   end
 end
