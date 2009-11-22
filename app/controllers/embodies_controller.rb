@@ -61,7 +61,6 @@ class EmbodiesController < ApplicationController
         format.html { redirect_to(@embody) }
         format.xml  { render :xml => @embody, :status => :created, :location => @embody }
       else
-        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @embody.errors, :status => :unprocessable_entity }
       end
@@ -79,7 +78,6 @@ class EmbodiesController < ApplicationController
         format.html { redirect_to(@embody) }
         format.xml  { head :ok }
       else
-        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @embody.errors, :status => :unprocessable_entity }
       end
