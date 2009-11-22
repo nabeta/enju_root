@@ -4,6 +4,6 @@ class AddRelationshipTypeToEmbody < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :embodies, :relationship_type
+    remove_column :embodies, :relationship_type_id
   end
 end
