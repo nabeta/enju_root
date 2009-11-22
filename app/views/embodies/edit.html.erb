@@ -16,12 +16,6 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.models.expression_to_manifestation_rel_type') -%><br />
-    <%= f.select(:expression_to_manifestation_rel_type_id, @expression_to_manifestation_rel_types.collect{|r| [r.display_name.localize, r.id]}) -%>
-  </p>
-
-
-  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
