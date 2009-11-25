@@ -55,45 +55,45 @@ class PatronRelationshipTypesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_patron_relationship_type
-    old_count = PatronRelationshipType.count
-    post :create, :patron_relationship_type => { }
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      post :create, :patron_relationship_type => { }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_patron_relationship_type
     UserSession.create users(:user1)
-    old_count = PatronRelationshipType.count
-    post :create, :patron_relationship_type => { }
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      post :create, :patron_relationship_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_patron_relationship_type
     UserSession.create users(:librarian1)
-    old_count = PatronRelationshipType.count
-    post :create, :patron_relationship_type => { }
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      post :create, :patron_relationship_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_patron_relationship_type_without_name
     UserSession.create users(:admin)
-    old_count = PatronRelationshipType.count
-    post :create, :patron_relationship_type => { }
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      post :create, :patron_relationship_type => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_patron_relationship_type
     UserSession.create users(:admin)
-    old_count = PatronRelationshipType.count
-    post :create, :patron_relationship_type => {:name => 'test', :display_name => 'test'}
-    assert_equal old_count+1, PatronRelationshipType.count
+    assert_difference('PatronRelationshipType.count') do
+      post :create, :patron_relationship_type => {:name => 'test', :display_name => 'test'}
+    end
     
     assert_redirected_to patron_relationship_type_url(assigns(:patron_relationship_type))
   end
@@ -183,27 +183,27 @@ class PatronRelationshipTypesControllerTest < ActionController::TestCase
 
   def test_user_should_not_destroy_patron_relationship_type
     UserSession.create users(:user1)
-    old_count = PatronRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_patron_relationship_type
     UserSession.create users(:librarian1)
-    old_count = PatronRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_patron_relationship_type
     UserSession.create users(:admin)
-    old_count = PatronRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, PatronRelationshipType.count
+    assert_difference('PatronRelationshipType.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to patron_relationship_types_url
   end

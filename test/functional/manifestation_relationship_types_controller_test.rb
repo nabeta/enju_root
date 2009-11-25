@@ -55,45 +55,45 @@ class ManifestationRelationshipTypesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_manifestation_relationship_type
-    old_count = ManifestationRelationshipType.count
-    post :create, :manifestation_relationship_type => { }
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      post :create, :manifestation_relationship_type => { }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_manifestation_relationship_type
     UserSession.create users(:user1)
-    old_count = ManifestationRelationshipType.count
-    post :create, :manifestation_relationship_type => { }
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      post :create, :manifestation_relationship_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_manifestation_relationship_type
     UserSession.create users(:librarian1)
-    old_count = ManifestationRelationshipType.count
-    post :create, :manifestation_relationship_type => { }
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      post :create, :manifestation_relationship_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_manifestation_relationship_type_without_name
     UserSession.create users(:admin)
-    old_count = ManifestationRelationshipType.count
-    post :create, :manifestation_relationship_type => { }
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      post :create, :manifestation_relationship_type => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_manifestation_relationship_type
     UserSession.create users(:admin)
-    old_count = ManifestationRelationshipType.count
-    post :create, :manifestation_relationship_type => {:name => 'test', :display_name => 'test'}
-    assert_equal old_count+1, ManifestationRelationshipType.count
+    assert_difference('ManifestationRelationshipType.count') do
+      post :create, :manifestation_relationship_type => {:name => 'test', :display_name => 'test'}
+    end
     
     assert_redirected_to manifestation_relationship_type_url(assigns(:manifestation_relationship_type))
   end
@@ -183,27 +183,27 @@ class ManifestationRelationshipTypesControllerTest < ActionController::TestCase
 
   def test_user_should_not_destroy_manifestation_relationship_type
     UserSession.create users(:user1)
-    old_count = ManifestationRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_manifestation_relationship_type
     UserSession.create users(:librarian1)
-    old_count = ManifestationRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_manifestation_relationship_type
     UserSession.create users(:admin)
-    old_count = ManifestationRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, ManifestationRelationshipType.count
+    assert_difference('ManifestationRelationshipType.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to manifestation_relationship_types_url
   end

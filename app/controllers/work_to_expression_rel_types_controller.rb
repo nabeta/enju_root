@@ -1,4 +1,6 @@
 class WorkToExpressionRelTypesController < ApplicationController
+  before_filter :has_permission?
+
   # GET /work_to_expression_rel_types
   # GET /work_to_expression_rel_types.xml
   def index
@@ -44,7 +46,7 @@ class WorkToExpressionRelTypesController < ApplicationController
 
     respond_to do |format|
       if @work_to_expression_rel_type.save
-        flash[:notice] = 'WorkToExpressionRelType was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_to_expression_rel_type'))
         format.html { redirect_to(@work_to_expression_rel_type) }
         format.xml  { render :xml => @work_to_expression_rel_type, :status => :created, :location => @work_to_expression_rel_type }
       else
@@ -61,7 +63,7 @@ class WorkToExpressionRelTypesController < ApplicationController
 
     respond_to do |format|
       if @work_to_expression_rel_type.update_attributes(params[:work_to_expression_rel_type])
-        flash[:notice] = 'WorkToExpressionRelType was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_to_expression_rel_type'))
         format.html { redirect_to(@work_to_expression_rel_type) }
         format.xml  { head :ok }
       else

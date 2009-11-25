@@ -55,45 +55,45 @@ class ItemRelationshipTypesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_item_relationship_type
-    old_count = ItemRelationshipType.count
-    post :create, :item_relationship_type => { }
-    assert_equal old_count, ItemRelationshipType.count
+    assert_no_difference('ItemRelationshipType.count') do
+      post :create, :item_relationship_type => { }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_item_relationship_type
     UserSession.create users(:user1)
-    old_count = ItemRelationshipType.count
-    post :create, :item_relationship_type => { }
-    assert_equal old_count, ItemRelationshipType.count
+    assert_no_difference('ItemRelationshipType.count') do
+      post :create, :item_relationship_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_item_relationship_type
     UserSession.create users(:librarian1)
-    old_count = ItemRelationshipType.count
-    post :create, :item_relationship_type => { }
-    assert_equal old_count, ItemRelationshipType.count
+    assert_no_difference('ItemRelationshipType.count') do
+      post :create, :item_relationship_type => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_item_relationship_type_without_name
     UserSession.create users(:admin)
-    old_count = ItemRelationshipType.count
-    post :create, :item_relationship_type => { }
-    assert_equal old_count, ItemRelationshipType.count
+    assert_no_difference('ItemRelationshipType.count') do
+      post :create, :item_relationship_type => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_item_relationship_type
     UserSession.create users(:admin)
-    old_count = ItemRelationshipType.count
-    post :create, :item_relationship_type => {:name => 'test', :display_name => 'test'}
-    assert_equal old_count+1, ItemRelationshipType.count
+    assert_difference('ItemRelationshipType.count') do
+      post :create, :item_relationship_type => {:name => 'test', :display_name => 'test'}
+    end
     
     assert_redirected_to item_relationship_type_url(assigns(:item_relationship_type))
   end
@@ -183,27 +183,27 @@ class ItemRelationshipTypesControllerTest < ActionController::TestCase
 
   def test_user_should_not_destroy_item_relationship_type
     UserSession.create users(:user1)
-    old_count = ItemRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, ItemRelationshipType.count
+    assert_no_difference('ItemRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_item_relationship_type
     UserSession.create users(:librarian1)
-    old_count = ItemRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, ItemRelationshipType.count
+    assert_no_difference('ItemRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_item_relationship_type
     UserSession.create users(:admin)
-    old_count = ItemRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, ItemRelationshipType.count
+    assert_difference('ItemRelationshipType.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to item_relationship_types_url
   end
