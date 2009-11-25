@@ -16,6 +16,7 @@ class ItemsController < ApplicationController
   # GET /items.xml
   def index
     query = params[:query].to_s.strip
+    @count = {}
     if logged_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
@@ -26,64 +27,59 @@ class ItemsController < ApplicationController
       end
     end
 
-    search = Sunspot.new_search(Item)
-    set_role_query(current_user, search)
-
-    unless query.blank?
-      @count = {}
-      @query = query.dup
-      unless params[:mode] == 'add'
-        query.add_query!(@manifestation) if @manifestation
-        query.add_query!(@patron) if @patron
-      end
-      search.build do
-        fulltext query
-      end
-      search.query.paginate(page.to_i, Item.per_page)
-      begin
-        @items = search.execute!.results
-      rescue
-        @items = WillPaginate::Collection.create(1,1,0) do end
-      end
-      @count[:total] = @items.total_entries
-    else
-      order = "items.id DESC"
-      case
-      when @patron
-        @items = @patron.items.paginate(:page => params[:page], :order => order)
-      when @manifestation
-        @items = @manifestation.items.paginate(:page => params[:page], :order => order)
-        #if @items.blank?
-        #  redirect_to new_manifestation_item_path(@manifestation)
-        #  return
-        #end
-      when @shelf
-        @items = @shelf.items.paginate(:page => params[:page], :order => order)
-      when @inventory_file
-        if logged_in?
-          if current_user.has_role?('Librarian')
-            case params[:inventory]
-            when 'not_on_shelf'
-              @items = Item.inventory_items(@inventory_file, 'not_on_shelf').paginate(:page => params[:page], :order => order)
-            when 'not_in_catalog'
-              @items = Item.inventory_items(@inventory_file, 'not_in_catalog').paginate(:page => params[:page], :order => order)
-            else
-              @items = @inventory_file.items.paginate(:page => params[:page], :order => order)
-            end
+    if @inventory_file
+      if logged_in?
+        if current_user.has_role?('Librarian')
+          case params[:inventory]
+          when 'not_on_shelf'
+            mode = 'not_on_shelf'
+          when 'not_in_catalog'
+            mode = 'not_in_catalog'
           end
-        end
-        if @items.nil?
+          order = 'id'
+          @items = Item.inventory_items(@inventory_file, mode).paginate(:page => params[:page], :order => order) rescue [].paginate
+        else
           access_denied
           return
         end
-      when @item
-        if params[:mode] == 'add'
-          @items = Item.paginate(:all, :page => params[:page], :order => order)
-        else
-          @items = @item.derived_items.paginate(:page => params[:page], :order => order)
-        end
       else
-        @items = Item.paginate :all, :page => params[:page], :order => order
+        redirect_to new_user_session_url
+        return
+      end
+    else
+      search = Sunspot.new_search(Item)
+      set_role_query(current_user, search)
+
+      @query = query.dup
+      unless query.blank?
+        search.build do
+          fulltext query
+        end
+      end
+
+      patron = @patron
+      manifestation = @manifestation
+      shelf = @shelf
+      unless params[:mode] == 'add'
+        search.build do
+          with(:patron_ids).equal_to patron.id if patron
+          with(:manifestation_id).equal_to manifestation.id if manifestation
+          with(:shelf_id).equal_to shelf.id if shelf
+        end
+      end
+
+      search.build do
+        order_by(:created_at, :desc)
+      end
+
+      page = params[:page] || 1
+      search.query.paginate(page.to_i, Item.per_page)
+      begin
+        @items = search.execute!.results
+        @count[:total] = @items.total_entries
+      rescue
+        @items = WillPaginate::Collection.create(1,1,0) do end
+        @count[:total] = 0
       end
     end
 

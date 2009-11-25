@@ -2,6 +2,7 @@ class Reify < ActiveRecord::Base
   include OnlyLibrarianCanModify
   belongs_to :work #, :counter_cache => true #, :validate => true
   belongs_to :expression #, :validate => true
+  belongs_to :relationship_type, :class_name => 'WorkToExpressionRelType'
 
   validates_associated :work, :expression
   validates_presence_of :work, :expression

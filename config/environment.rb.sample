@@ -54,7 +54,7 @@ Rails::Initializer.run do |config|
   config.gem "graticule"
   #config.gem "calendar_date_select"
   config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
-  config.gem "restful_acl", :lib => "restful_acl_controller"
+  config.gem "restful_acl"
   #config.gem "strongbox"
   config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
@@ -62,7 +62,7 @@ Rails::Initializer.run do |config|
   config.gem "money"
   config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "acts-as-taggable-on", :version => "1.0.8"
+  config.gem "acts-as-taggable-on"
   #config.gem "mloughran-api_cache", :lib => "api_cache"
   config.gem "memcache-client", :lib => "memcache"
   config.gem "shared-mime-info"
@@ -125,3 +125,4 @@ require 'atom/pub'
 require 'localized_name'
 require 'xml/libxml'
 require 'dismax'
+require 'acts_as_taggable_on_modified'

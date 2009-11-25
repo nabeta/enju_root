@@ -61,6 +61,14 @@ class Item < ActiveRecord::Base
     integer :required_role_id
     integer :original_item_ids, :multiple => true
     integer :circulation_status_id
+    integer :manifestation_id do
+      manifestation.id if manifestation
+    end
+    integer :shelf_id
+    integer :patron_ids, :multiple => true
+    integer :inventory_file_ids, :multiple => true
+    time :created_at
+    time :updated_at
   end
 
   cattr_accessor :per_page
