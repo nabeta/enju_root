@@ -233,10 +233,13 @@
     </tr>
     <%= render :partial => 'show_worldcat_record' if @worldcat_record.present? -%>
     </table>
-
+  <%- end -%>
     <%- if @manifestation.items.on_shelf.find(:first) -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
+<%
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_4', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+%>
       <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
       <%= render :partial => 'bookmarks_for_this_manifestation' -%>
 
