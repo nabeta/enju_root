@@ -35,6 +35,7 @@
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
+      <li><a href="#related"><em><%= t('page.related') -%></em></a></li>
       <%- unless @work.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
       <%- end -%>
@@ -71,6 +72,9 @@
         </table>
         <%= render :partial => 'works/show_subject_list' -%>
       </div>
+      <%- if @work.derived_works.present? or @work.original_works.present? -%>
+        <%= render :partial => 'works/work_list' -%>
+      <%- end -%>
       <%- unless @work.patrons.empty? -%>
         <%= render :partial => 'works/patron_list' -%>
       <%- end -%>

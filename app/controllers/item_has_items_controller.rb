@@ -2,6 +2,7 @@ class ItemHasItemsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_item
   before_filter :prepare_options, :only => [:new, :edit]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /item_has_items
   # GET /item_has_items.xml

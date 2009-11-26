@@ -2,6 +2,7 @@ class ExpressionHasExpressionsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_expression
   before_filter :prepare_options, :only => [:new, :edit]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /expression_has_expressions
   # GET /expression_has_expressions.xml

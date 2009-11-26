@@ -834,8 +834,8 @@ ja:
         from_work: 始点
         to_work: 終点
       expression_has_expression:
-        from_manifestation: 始点
-        to_manifestation: 終点
+        from_expression: 始点
+        to_expression: 終点
       manifestation_has_manifestation:
         from_manifestation: 始点
         to_manifestation: 終点
@@ -1069,6 +1069,7 @@ ja:
     error_occured: "エラーが発生しました。"
     did_you_mean: "もしかして"
     calendar: "カレンダー"
+    related: "関連"
   title:
     index: "一覧"
     show: "表示"

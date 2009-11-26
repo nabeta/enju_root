@@ -2,6 +2,7 @@ class PatronHasPatronsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_patron
   before_filter :prepare_options, :only => [:new, :edit]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /patron_has_patrons
   # GET /patron_has_patrons.xml

@@ -1080,6 +1080,7 @@ en:
     error_occured: "An error occured."
     did_you_mean: "Did you mean"
     calendar: "Calendar"
+    related: "Related"
   title:
     index: "index"
     show: "show"

@@ -156,7 +156,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         end
       end
     when record.is_a?(ExpressionHasExpression)
-      expire_editable_fragment(record.work)
       expire_editable_fragment(record.from_expression)
       expire_editable_fragment(record.from_expression.work)
       record.from_expression.manifestations.each do |manifestation|

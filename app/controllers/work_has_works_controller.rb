@@ -2,6 +2,7 @@ class WorkHasWorksController < ApplicationController
   before_filter :has_permission?
   before_filter :get_work
   before_filter :prepare_options, :only => [:new, :edit]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /work_has_works
   # GET /work_has_works.xml

@@ -233,10 +233,6 @@ class Manifestation < ActiveRecord::Base
     true if subscription_master
   end
 
-  def serials
-    []
-  end
-
   def next_reservation
     self.reserves.find(:first, :order => ['reserves.created_at'])
   end
@@ -319,8 +315,8 @@ class Manifestation < ActiveRecord::Base
   end
   
   def related_manifestations
-    serials = self.expressions.serials.collect(&:manifestations)
-    manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact - serials - Array(self)
+    # TODO: 定期刊行物をモデルとビューのどちらで抜くか
+    manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact + self.original_manifestations + self.derived_manifestations - Array(self)
   rescue
     []
   end

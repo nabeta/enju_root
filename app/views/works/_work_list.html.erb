@@ -1,0 +1,40 @@
+<div class="work">
+  <ul>
+    <%- @work.original_works.each do |work| -%>
+      <li>
+        [W]
+        <%= link_to h(work.original_title), work -%>
+        <%= patrons_list(work.patrons) -%>
+        <%- unless work.expressions.blank? -%>
+          <ul>
+            <%- work.expressions.each do |expression| -%>
+              <li>
+              [E]
+              <%= link_to h(expression.original_title), expression -%>
+              <%= patrons_list(expression.patrons) -%>
+              </li>
+            <%- end -%>
+          </ul>
+        <%- end -%>
+      </li>
+    <%- end -%>
+    <%- @work.derived_works.each do |work| -%>
+      <li>
+        [W]
+        <%= link_to h(work.original_title), work -%>
+        <%= patrons_list(work.patrons) -%>
+        <%- unless work.expressions.blank? -%>
+          <ul>
+            <%- work.expressions.each do |expression| -%>
+              <li>
+              [E]
+              <%= link_to h(expression.original_title), expression -%>
+              <%= patrons_list(expression.patrons) -%>
+              </li>
+            <%- end -%>
+          </ul>
+        <%- end -%>
+      </li>
+    <%- end -%>
+  </ul>
+</div>

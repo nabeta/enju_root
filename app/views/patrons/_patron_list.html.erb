@@ -1,0 +1,16 @@
+<div class="patron">
+  <ul>
+    <%- @patron.original_patrons.each do |patron| -%>
+      <li>
+        [P]
+        <%= link_to h(patron.full_name), patron -%>
+      </li>
+    <%- end -%>
+    <%- @patron.derived_patrons.each do |patron| -%>
+      <li>
+        [P]
+        <%= link_to h(patron.full_name), patron -%>
+      </li>
+    <%- end -%>
+  </ul>
+</div>

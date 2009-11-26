@@ -48,6 +48,7 @@
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
       <%- end -%>
       <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
+      <li><a href="#related"><em><%= t('page.related') -%></em></a></li>
       <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
     </ul>
     <div class="yui-content">
@@ -99,6 +100,9 @@
       <%- end -%>
       <%- if @expression.work -%>
         <%= render :partial => 'expressions/work_list' -%>
+      <%- end -%>
+      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
+        <%= render :partial => 'expressions/expression_list' -%>
       <%- end -%>
       <%- if @expression.work -%>
         <%= render :partial => 'expressions/manifestation_list' -%>

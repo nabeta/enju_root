@@ -2,6 +2,7 @@ class ManifestationHasManifestationsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_manifestation
   before_filter :prepare_options, :only => [:new, :edit]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /manifestation_has_manifestations
   # GET /manifestation_has_manifestations.xml
