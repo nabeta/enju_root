@@ -1,7 +1,42 @@
 <div id="manifestation">
-  <%- unless @manifestation.related_manifestations.blank? -%>
+  <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
     <ul>
-      <%- @manifestation.related_manifestations.each do |manifestation| -%>
+      <%- @manifestation.original_manifestations.each do |manifestation| -%>
+        <%- unless manifestation == @manifestation -%>
+          <li>
+            [M] <%= link_to h(manifestation.original_title), manifestation -%>
+            <%= form_icon(manifestation.carrier_type) -%>
+            <%- manifestation.expressions.each do |expression| -%>
+              <%= link_to content_type_icon(expression.content_type), expression -%>
+            <%- end -%>
+            <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
+            <%= patrons_list(manifestation.authors, current_user) -%>
+            <%= patrons_list(manifestation.editors, current_user) -%>
+            <%= patrons_list(manifestation.publishers, current_user) -%>
+            <%- if manifestation.date_of_publication -%>
+              (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+            <%- end -%>
+            <%- unless manifestation.works.blank? -%>
+              <ul>
+                <%- manifestation.works.each do |work| -%>
+                  <%- unless work.original_title == manifestation.original_title -%>
+                    <li>
+                      [W]
+                      <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
+                      <%= link_to h(work.original_title), work -%>
+                      <%- work.expressions.each do |expression| -%>
+                        <%= link_to content_type_icon(expression.content_type), expression -%>
+                      <%- end -%>
+                      <%= patrons_list(work.patrons, current_user) -%>
+                    </li>
+                  <%- end -%>
+                <%- end -%>
+              </ul>
+            <%- end -%>
+          </li>
+        <%- end -%>
+      <%- end -%>
+      <%- @manifestation.derived_manifestations.each do |manifestation| -%>
         <%- unless manifestation == @manifestation -%>
           <li>
             [M] <%= link_to h(manifestation.original_title), manifestation -%>
@@ -39,4 +74,3 @@
     </ul>
   <%- end -%>
 </div>
-

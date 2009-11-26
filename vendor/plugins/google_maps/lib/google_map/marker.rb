@@ -48,15 +48,15 @@ module GoogleMap
     def to_js
       js = []
 
-      h = ", title: '#{marker_hover_text}'" if marker_hover_text
+      h = ", title: '#{escape_javascript(marker_hover_text)}'" if marker_hover_text
 
       # If a icon is specified, use it in marker creation.
       i = ", { icon: #{icon.dom_id} #{h} }" if icon
       i = ", { icon: new GIcon( G_DEFAULT_ICON, '#{marker_icon_path}') #{h} }" if marker_icon_path
 		
-      options = 'draggable: true' if self.draggable
-      js << "#{dom_id} = new GMarker( new GLatLng( #{lat}, #{lng} )#{i}, {#{options}} );"
-      js << "GEvent.bind(#{dom_id}, \"dragend\", #{dom_id}, #{self.dragstart});" if dragstart
+      options = ', { draggable: true }' if self.draggable
+      js << "#{dom_id} = new GMarker( new GLatLng( #{lat}, #{lng} ) #{i} #{options} );"
+      js << "GEvent.bind(#{dom_id}, \"dragstart\", #{dom_id}, #{self.dragstart});" if dragstart
       js << "GEvent.bind(#{dom_id}, \"dragend\", #{dom_id}, #{self.dragend});" if dragend
       
       if self.html

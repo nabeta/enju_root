@@ -2,19 +2,19 @@
 
 patron_relationship_type_00001:
   id: 1
-  name: see_also
+  name: See also
   display_name: See also
   note: 
   position: 1
 patron_relationship_type_00002:
   id: 2
-  name: member
+  name: Member
   display_name: Member
   note: 
   position: 2
 patron_relationship_type_00003:
   id: 3
-  name: child
+  name: Child
   display_name: Child
   note: 
   position: 3

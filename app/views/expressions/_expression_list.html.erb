@@ -1,0 +1,18 @@
+<div class="expression">
+  <ul>
+    <%- @expression.original_expressions.each do |expression| -%>
+      <li>
+        [E]
+        <%= link_to h(expression.original_title), expression -%>
+        <%= patrons_list(expression.patrons) -%>
+      </li>
+    <%- end -%>
+    <%- @expression.derived_expressions.each do |expression| -%>
+      <li>
+        [E]
+        <%= link_to h(expression.original_title), expression -%>
+        <%= patrons_list(expression.patrons) -%>
+      </li>
+    <%- end -%>
+  </ul>
+</div>

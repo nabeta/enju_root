@@ -151,12 +151,13 @@ class ItemsController < ApplicationController
       redirect_to manifestations_url
       return
     end
+    @item.manifestation = @manifestation
     @item.item_identifier = @item.item_identifier.to_s.strip
+    @item.creator = current_user
 
     respond_to do |format|
       if @item.save
         Item.transaction do
-          @manifestation.items << @item
           @item.reload
 
           if @item.shelf
@@ -169,7 +170,7 @@ class ItemsController < ApplicationController
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
-        @item.send_later(:post_to_union_catalog)
+        @item.send_later(:post_to_union_catalog) if LibraryGroup.site_config.post_to_union_catalog
         format.html { redirect_to(@item) }
         format.xml  { render :xml => @item, :status => :created, :location => @item }
       else

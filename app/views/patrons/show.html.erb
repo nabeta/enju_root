@@ -153,6 +153,9 @@
           </tr>
         </table>
       </div>
+      <%- if @patron.derived_patrons.present? or @patron.original_patrons.present? -%>
+        <%= render :partial => 'patrons/patron_list' -%>
+      <%- end -%>
       <%- unless @works.blank? -%>
         <%= render :partial => 'patrons/work_list', :locals => {:works => @works} -%>
       <%- end -%>

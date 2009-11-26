@@ -43,6 +43,7 @@ class Item < ActiveRecord::Base
   has_many :original_items, :through => :from_items, :source => :from_item
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :owns
   has_many :lending_policies, :dependent => :destroy
+  belongs_to :creator, :class_name => 'User'
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type
@@ -53,6 +54,7 @@ class Item < ActiveRecord::Base
   #acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
+  versioned
 
   searchable do
     text :item_identifier, :note, :title, :author, :publisher, :library
@@ -74,8 +76,8 @@ class Item < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  attr_accessor :library_name
-  attr_accessor :library_url
+  attr_accessor :library_name, :library_url, :local_url
+  attr_accessor :new_manifestation_id
 
   #def after_create
   #  post_to_union_catalog

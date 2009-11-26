@@ -93,8 +93,8 @@
     <%- if @manifestation.related_works.size > 0 -%>
       <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
     <%- end -%>
-    <%- if @manifestation.related_manifestations.size > 0 -%>
-      <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.related_manifestations.size -%>)</em></a></li>
+    <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
+      <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.original_manifestations.size + @manifestation.derived_manifestations.size -%>)</em></a></li>
     <%- end -%>
     <%- unless @manifestation.amazon_customer_reviews.blank? -%>
       <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
@@ -244,7 +244,7 @@
     <%- if @manifestation.related_works.size > 0 -%>
       <%= render :partial => 'manifestations/work_list' -%>
     <%- end -%>
-    <%- unless @manifestation.related_manifestations.blank? -%>
+    <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
       <%= render :partial => 'manifestations/manifestation_list' -%>
     <%- end -%>
     <!--

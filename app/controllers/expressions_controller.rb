@@ -61,20 +61,14 @@ class ExpressionsController < ApplicationController
   # GET /expressions/1
   # GET /expressions/1.xml
   def show
-    if params[:issn]
-      issn = params[:issn].strip
-      @expression = Expression.find(:first, :conditions => {:issn => issn})
-      redirect_to @expression and return
+    case when @work
+      @expression = @work.expressions.find(params[:id])
+    when @manifestation
+      @expression = @manifestation.expressions.find(params[:id])
+    when @patron
+      @expression = @patron.expressions.find(params[:id])
     else
-      case when @work
-        @expression = @work.expressions.find(params[:id])
-      when @manifestation
-        @expression = @manifestation.expressions.find(params[:id])
-      when @patron
-        @expression = @patron.expressions.find(params[:id])
-      else
-        @expression = Expression.find(params[:id])
-      end
+      @expression = Expression.find(params[:id])
     end
 
     canonical_url expression_url(@expression)
@@ -118,8 +112,8 @@ class ExpressionsController < ApplicationController
       redirect_to works_path
       return
     end
-    params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
     @expression = Expression.new(params[:expression])
+    @expression.creator = current_user
 
     respond_to do |format|
       if @expression.save

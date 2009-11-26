@@ -54,7 +54,7 @@ Rails::Initializer.run do |config|
   config.gem "graticule"
   #config.gem "calendar_date_select"
   config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
-  config.gem "restful_acl"
+  config.gem "restful_acl", :version => ">=2.1.3"
   #config.gem "strongbox"
   config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
@@ -82,6 +82,7 @@ Rails::Initializer.run do |config|
   #config.gem "fleakr"
   config.gem "fastercsv"
   config.gem "Text", :lib => "text"
+  config.gem "vestal_versions"
   #config.gem "event_calendar"
 
   # Only load the plugins named here, in the order given (default is alphabetical).

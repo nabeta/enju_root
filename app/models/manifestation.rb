@@ -44,6 +44,7 @@ class Manifestation < ActiveRecord::Base
   has_many :bookmarks
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
+  belongs_to :creator, :class_name => 'User'
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
@@ -110,9 +111,11 @@ class Manifestation < ActiveRecord::Base
   enju_mozshot
   enju_oai_pmh
   #enju_worldcat
+  versioned
 
   @@per_page = 10
   cattr_accessor :per_page
+  attr_accessor :new_expression_id
 
   validates_presence_of :original_title, :carrier_type, :language
   validates_associated :carrier_type, :language
@@ -233,10 +236,6 @@ class Manifestation < ActiveRecord::Base
     true if subscription_master
   end
 
-  def serials
-    []
-  end
-
   def next_reservation
     self.reserves.find(:first, :order => ['reserves.created_at'])
   end
@@ -319,8 +318,8 @@ class Manifestation < ActiveRecord::Base
   end
   
   def related_manifestations
-    serials = self.expressions.serials.collect(&:manifestations)
-    manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact - serials - Array(self)
+    # TODO: 定期刊行物をモデルとビューのどちらで抜くか
+    manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact + self.original_manifestations + self.derived_manifestations - Array(self)
   rescue
     []
   end
