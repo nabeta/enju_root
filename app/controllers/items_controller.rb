@@ -152,6 +152,7 @@ class ItemsController < ApplicationController
       return
     end
     @item.item_identifier = @item.item_identifier.to_s.strip
+    @item.creator = current_user
 
     respond_to do |format|
       if @item.save
@@ -169,7 +170,7 @@ class ItemsController < ApplicationController
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
-        @item.send_later(:post_to_union_catalog)
+        @item.send_later(:post_to_union_catalog) if LibraryGroup.site_config.post_to_union_catalog
         format.html { redirect_to(@item) }
         format.xml  { render :xml => @item, :status => :created, :location => @item }
       else

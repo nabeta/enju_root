@@ -119,8 +119,8 @@ Advanced Marker Usage
 ======================================================
 
 # Available icon classes:
-# GoogleMap::LetterIcon.new('A')
-# GoogleMap::SmallIcon.new('yellow')
+# GoogleMap::LetterIcon.new(@map, 'A') # letter must be uppercase
+# GoogleMap::SmallIcon.new(@map, 'yellow')
 
 maps_controller.rb
 --------------------------
@@ -128,7 +128,7 @@ class MapsController < ApplicationController
 	def	show
 		@map = GoogleMap::Map.new
   		@map.markers << GoogleMap::Marker.new(	:map => @map, 
-												:icon => GoogleMap::SmallIcon.new('blue'),
+												:icon => GoogleMap::SmallIcon.new(@map, 'blue'),
 												:lat => 47.6597, 
 												:lng => -122.318,
 												:html => 'My House',
