@@ -258,6 +258,7 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/new
   def new
     @manifestation = Manifestation.new
+    @original_manifestation = get_manifestation
     unless params[:mode] == 'import_isbn'
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
@@ -280,6 +281,7 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/1;edit
   def edit
     @manifestation = Manifestation.find(params[:id])
+    @original_manifestation = get_manifestation
     if params[:mode] == 'tag_edit'
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
@@ -332,6 +334,9 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       if @manifestation.save
         Manifestation.transaction do
+          if @original_manifestation = get_manifestation
+            @manifestation.derived_manifestations << @original_manifestation
+          end
           # 雑誌の場合、出版者を自動的に追加
           if @expression
             @expression.manifestations << @manifestation
@@ -589,6 +594,17 @@ class ManifestationsController < ApplicationController
 
   def make_internal_query(search)
     # 内部的なクエリ
+    set_role_query(current_user, search)
+
+    subscription_master = params[:subscription_master]
+    @subscription_master = true if subscription_master == 'true'
+
+    search.build do
+      if subscription_master == "true"
+        with(:subscription_master).equal_to true
+      end
+    end
+
     unless params[:mode] == "add"
       expression = @expression
       patron = @patron
@@ -597,14 +613,10 @@ class ManifestationsController < ApplicationController
       reservable = @reservable
       carrier_type = params[:carrier_type]
       library = params[:library]
-      subscription_master = params[:subscription_master]
       language = params[:language]
       subject = params[:subject]
-      @subscription_master = true if subscription_master == 'true'
       subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
       @subject_by_term = subject_by_term
-
-      set_role_query(current_user, search)
 
       search.build do
         with(:expression_ids).equal_to expression.id if expression
@@ -612,9 +624,6 @@ class ManifestationsController < ApplicationController
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
         with(:subscription_ids).equal_to subscription.id if subscription
         with(:reservable).equal_to true if reservable
-        if subscription_master == "true"
-          with(:subscription_master).equal_to true
-        end
         unless carrier_type.blank?
           with(:carrier_type).equal_to carrier_type
           with(:carrier_type).equal_to carrier_type
