@@ -151,13 +151,13 @@ class ItemsController < ApplicationController
       redirect_to manifestations_url
       return
     end
+    @item.manifestation = @manifestation
     @item.item_identifier = @item.item_identifier.to_s.strip
     @item.creator = current_user
 
     respond_to do |format|
       if @item.save
         Item.transaction do
-          @manifestation.items << @item
           @item.reload
 
           if @item.shelf

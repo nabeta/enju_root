@@ -115,6 +115,7 @@ class Manifestation < ActiveRecord::Base
 
   @@per_page = 10
   cattr_accessor :per_page
+  attr_accessor :new_expression_id
 
   validates_presence_of :original_title, :carrier_type, :language
   validates_associated :carrier_type, :language

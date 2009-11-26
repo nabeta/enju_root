@@ -76,8 +76,8 @@ class Item < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  attr_accessor :library_name
-  attr_accessor :library_url
+  attr_accessor :library_name, :library_url, :local_url
+  attr_accessor :new_manifestation_id
 
   #def after_create
   #  post_to_union_catalog

@@ -50,6 +50,7 @@ class Expression < ActiveRecord::Base
 
   cattr_accessor :per_page
   @@per_page = 10
+  attr_accessor :new_work_id
 
   def title
     title_array = titles
