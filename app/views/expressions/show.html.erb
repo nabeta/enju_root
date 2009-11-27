@@ -43,12 +43,12 @@
 
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#detail"><em><%= t('activerecord.models.expression') -%></em></a></li>
+      <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- unless @expression.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
       <%- end -%>
       <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
-      <li><a href="#related"><em><%= t('page.related') -%></em></a></li>
+      <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
       <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
     </ul>
     <div class="yui-content">

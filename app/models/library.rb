@@ -45,7 +45,7 @@ class Library < ActiveRecord::Base
   end
 
   def closed?(date)
-    events.closing_days.collect{|c| c.started_at.beginning_of_day}.include?(date.beginning_of_day)
+    events.closing_days.collect{|c| c.start_at.beginning_of_day}.include?(date.beginning_of_day)
   end
 
   def web?
