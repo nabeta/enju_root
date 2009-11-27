@@ -49,9 +49,9 @@
       <td><%= link_to h(object.importable.title), object.importable -%></td>
       <td><%= link_to h(object.importable.library.display_name.localize), object.importable.library -%></td>
       <td>
-        <%= l(object.importable.started_at) -%>
+        <%= l(object.importable.start_at) -%>
         -
-        <%= l(object.importable.ended_at) -%>
+        <%= l(object.importable.end_at) -%>
 
       </td>
     </tr>

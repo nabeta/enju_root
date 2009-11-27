@@ -31,8 +31,8 @@ class ImportedEventFile < ActiveRecord::Base
       event = Event.new
       event.title = row['title']
       event.note = row['note']
-      event.started_at = row['started_at']
-      event.ended_at = row['ended_at']
+      event.start_at = row['start_at']
+      event.end_at = row['end_at']
       category = row['category']
       library = Library.find(:first, :conditions => {:name => row['library_short_name']})
       library = Library.web if library.blank?
