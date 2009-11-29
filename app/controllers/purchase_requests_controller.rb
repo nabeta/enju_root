@@ -2,8 +2,9 @@ class PurchaseRequestsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
   before_filter :get_order_list
-  after_filter :convert_charset, :only => :index
   before_filter :store_page, :only => :index
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
+  after_filter :convert_charset, :only => :index
  
   # GET /purchase_requests
   # GET /purchase_requests.xml

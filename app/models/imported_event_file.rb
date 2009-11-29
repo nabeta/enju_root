@@ -26,6 +26,7 @@ class ImportedEventFile < ActiveRecord::Base
     record = 2
     file = FasterCSV.open(self.imported_event.path, :col_sep => "\t")
     rows = FasterCSV.open(self.imported_event.path, :headers => file.first, :col_sep => "\t")
+    file.close
     rows.shift
     rows.each do |row|
       event = Event.new
@@ -56,7 +57,8 @@ class ImportedEventFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
-    file.close
+    Sunspot.commit
+    rows.close
     return num
   end
 

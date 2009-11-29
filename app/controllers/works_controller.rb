@@ -6,6 +6,7 @@ class WorksController < ApplicationController
   before_filter :get_work_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /works
   # GET /works.xml

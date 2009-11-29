@@ -2,6 +2,7 @@ class SubscriptionsController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?
   before_filter :get_expression
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /subscriptions
   # GET /subscriptions.xml

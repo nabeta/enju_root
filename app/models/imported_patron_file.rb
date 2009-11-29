@@ -29,6 +29,7 @@ class ImportedPatronFile < ActiveRecord::Base
     record = 2
     file = FasterCSV.open(self.imported_patron.path, :col_sep => "\t")
     rows = FasterCSV.open(self.imported_patron.path, :headers => file.first, :col_sep => "\t")
+    file.close
     rows.shift
     rows.each do |row|
       begin
@@ -95,6 +96,8 @@ class ImportedPatronFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
+    Sunspot.commit
+    rows.close
     return num
   end
 

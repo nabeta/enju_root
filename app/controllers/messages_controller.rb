@@ -7,6 +7,7 @@ class MessagesController < ApplicationController
   before_filter :rezm_login_required
   before_filter :set_rezm_user
   before_filter :get_user, :only => :index
+  after_filter :solr_commit, :only => [:create, :destroy]
 
   # GET /messages
   def index

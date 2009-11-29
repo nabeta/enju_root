@@ -2,6 +2,7 @@
 class QuestionsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil, :except => [:edit]
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
   include PortaController
 
   # GET /questions
