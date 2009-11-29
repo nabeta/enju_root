@@ -8,6 +8,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   #include WorldcatController

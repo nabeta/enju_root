@@ -3,6 +3,7 @@ class SubjectsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_work
   before_filter :get_classification
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /subjects

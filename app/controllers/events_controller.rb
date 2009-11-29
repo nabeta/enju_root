@@ -5,8 +5,9 @@ class EventsController < ApplicationController
   before_filter :get_libraries, :except => [:index, :destroy]
   #before_filter :get_patron, :only => [:index]
   before_filter :prepare_options
-  after_filter :convert_charset, :only => :index
   before_filter :store_page, :only => :index
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
+  after_filter :convert_charset, :only => :index
 
   # GET /events
   # GET /events.xml

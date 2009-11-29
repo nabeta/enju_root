@@ -9,6 +9,7 @@ class ItemsController < ApplicationController
   before_filter :get_item, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   #before_filter :store_location
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 

@@ -326,6 +326,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def solr_commit
+    Sunspot.commit
+  end
+
   private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)

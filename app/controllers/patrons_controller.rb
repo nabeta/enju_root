@@ -7,6 +7,7 @@ class PatronsController < ApplicationController
   before_filter :get_patron_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :store_location
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
   # GET /patrons
