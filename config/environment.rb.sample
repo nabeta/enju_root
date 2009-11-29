@@ -54,7 +54,7 @@ Rails::Initializer.run do |config|
   config.gem "graticule"
   #config.gem "calendar_date_select"
   config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
-  config.gem "restful_acl", :version => ">=2.1.3"
+  config.gem "restful_acl", :version => ">=3.0.0"
   #config.gem "strongbox"
   config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
@@ -120,6 +120,7 @@ require 'barby/outputter/png_outputter'
 require 'search_query'
 require 'suggest_tag'
 require 'restful_acl_controller'
+require 'restful_acl_errors'
 require 'tag_list'
 require 'hostname'
 require 'atom/pub'
