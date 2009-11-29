@@ -89,7 +89,7 @@
             <td><b><%= t('activerecord.models.language') -%>:</b></td>
             <td><%=h @patron.language.display_name.localize -%></td>
           </tr>
-          <%- if deletable(@patron) -%>
+          <%- if @patron.is_deletable_by(current_user) -%>
             <tr>
               <td><b><%= t('activerecord.attributes.patron.zip_code_1') -%>:</b></td>
               <td><%=h @patron.zip_code_1 -%></td>

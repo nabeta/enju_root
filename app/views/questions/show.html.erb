@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
-    <%- if updatable(@question) -%>
+    <%- if @question.is_updatable_by(current_user) -%>
       <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), questions_path -%></li>
