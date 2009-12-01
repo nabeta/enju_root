@@ -8,6 +8,7 @@ class ItemsController < ApplicationController
   before_filter :get_library, :only => [:new]
   before_filter :get_item, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
+  before_filter :get_version, :only => [:show]
   #before_filter :store_location
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   after_filter :convert_charset, :only => :index
@@ -101,6 +102,7 @@ class ItemsController < ApplicationController
   # GET /items/1.xml
   def show
     @item = Item.find(params[:id])
+    @item.revert_to(@version) if @version
 
     canonical_url item_url(@item)
 

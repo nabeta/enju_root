@@ -7,6 +7,7 @@ class PatronsController < ApplicationController
   before_filter :get_patron_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :store_location
+  before_filter :get_version, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
@@ -94,6 +95,7 @@ class PatronsController < ApplicationController
     else
       @patron = Patron.find(params[:id])
     end
+    @patron.revert_to(@version) if @version
 
     #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
     @works = @patron.works.paginate(:page => params[:work_list_page])

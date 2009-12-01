@@ -1081,6 +1081,7 @@ en:
     did_you_mean: "Did you mean"
     calendar: "Calendar"
     related: "Related"
+    history: "History"
   title:
     index: "index"
     show: "show"

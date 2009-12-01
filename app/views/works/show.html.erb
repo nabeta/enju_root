@@ -20,7 +20,7 @@
 <div id="content_list">
 
   <%-
-    cache(:id => @work.id, :action => :show, :controller => :works, :editable => @work.is_updatable_by(current_user), :locale => @locale) do
+    cache(:id => @work.id, :action => :show, :controller => :works, :editable => @work.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
   <h2 id="resource_title">
     [W]
@@ -45,6 +45,7 @@
       <%- unless @work.manifestations.empty? -%>
         <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
       <%- end -%>
+      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
     <div class="yui-content">
       <div id="detail">
@@ -59,6 +60,12 @@
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
             <td>
               <%=h @work.context -%>
+            </td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.attributes.work.note') -%>:</b></td>
+            <td>
+              <%=h @work.note -%>
             </td>
           </tr>
           <tr>
@@ -84,6 +91,7 @@
       <%- unless @work.manifestations.empty? -%>
         <%= render :partial => 'works/expression_list' -%>
       <%- end -%>
+      <%= render :partial => 'history_list' -%>
     </div>
   </div>
 </div>

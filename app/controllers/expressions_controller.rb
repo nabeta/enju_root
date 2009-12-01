@@ -7,6 +7,7 @@ class ExpressionsController < ApplicationController
   before_filter :get_expression, :only => :index
   before_filter :get_expression_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
+  before_filter :get_version, :only => [:show]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
@@ -71,6 +72,7 @@ class ExpressionsController < ApplicationController
     else
       @expression = Expression.find(params[:id])
     end
+    @expression.revert_to(@version) if @version
 
     canonical_url expression_url(@expression)
 

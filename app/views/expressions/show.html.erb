@@ -27,7 +27,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale) do
+    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
   <h2 id="resource_title">
     [E]
@@ -50,6 +50,7 @@
       <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
       <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
       <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
+      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
     <div class="yui-content">
       <div id="detail">
@@ -107,6 +108,7 @@
       <%- if @expression.work -%>
         <%= render :partial => 'expressions/manifestation_list' -%>
       <%- end -%>
+      <%= render :partial => 'history_list' -%>
     </div>
   </div>
 </div>

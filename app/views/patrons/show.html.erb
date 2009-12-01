@@ -27,7 +27,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @patron.id, :action => :show, :controller => :patrons, :editable => @patron.is_updatable_by(current_user), :locale => @locale) do
+    cache(:id => @patron.id, :action => :show, :controller => :patrons, :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
   <h2 id="resource_title">
     [P]
@@ -55,6 +55,7 @@
       <%- unless @patron.manifestations.empty? -%>
         <li><a href="#manifestation"><em><%= t('activerecord.models.manifestation') -%></em></a></li>
       <%- end -%>
+      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
     <div class="yui-content">
       <div id="detail">
@@ -165,6 +166,7 @@
       <%- unless @manifestations.blank? -%>
         <%= render :partial => 'patrons/manifestation_list', :locals => {:manifestations => @manifestations} -%>
       <%- end -%>
+      <%= render :partial => 'history_list' -%>
     </div>
   </div>
 </div>
