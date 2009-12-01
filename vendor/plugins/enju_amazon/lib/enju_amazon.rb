@@ -73,14 +73,12 @@ module EnjuAmazon
     
     def amazon_book_jacket
       response = amazon
-      doc = REXML::Document.new(response)
-      r = Array.new
-      r = REXML::XPath.match(doc, '/ItemLookupResponse/Items/Item/')
+      doc = Nokogiri::XML(response)
       bookjacket = {}
-      bookjacket['url'] = REXML::XPath.first(r[0], 'MediumImage/URL/text()').to_s
-      bookjacket['width'] = REXML::XPath.first(r[0], 'MediumImage/Width/text()').to_s.to_i
-      bookjacket['height'] = REXML::XPath.first(r[0], 'MediumImage/Height/text()').to_s.to_i
-      bookjacket['asin'] = REXML::XPath.first(r[0], 'ASIN/text()').to_s
+      bookjacket['url'] = doc.at(:Item).at('MediumImage/URL').inner_text
+      bookjacket['width'] = doc.at(:Item).at('MediumImage/Width').inner_text.to_i
+      bookjacket['height'] = doc.at(:Item).at('MediumImage/Height').inner_text.to_i
+      bookjacket['asin'] = doc.at(:Item).at('ASIN').inner_text
 
       if bookjacket['url'].blank?
         raise "Can't get bookjacket"
@@ -93,18 +91,18 @@ module EnjuAmazon
 
     def amazon_customer_reviews
       reviews = []
-      doc = REXML::Document.new(self.amazon)
+      doc = Nokogiri::XML(self.amazon)
       reviews = []
-      doc.elements.each('/ItemLookupResponse/Items/Item/CustomerReviews/Review') do |item|
+      doc.at(:Item).search('Review') do |item|
         reviews << item
       end
 
       comments = []
       reviews.each do |review|
         r = {}
-        r[:date] =  review.elements['Date/text()'].to_s
-        r[:summary] =  review.elements['Summary/text()'].to_s
-        r[:content] =  review.elements['Content/text()'].to_s
+        r[:date] =  review.at('Date').inner_text
+        r[:summary] =  review.at('Summary').inner_text
+        r[:content] =  review.at('Content').inner_text
         comments << r
       end
       return comments
