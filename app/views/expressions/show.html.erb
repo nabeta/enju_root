@@ -35,6 +35,9 @@
     <%= content_type_icon(@expression.content_type) -%>
   </h2>
 
+  <%- if @version -%>
+    <p>(<%= l(@expression.versions.find(@version).created_at) -%>)</p>
+  <%- end -%>
   <p>
     <%= patrons_list(@expression.work.patrons) -%>
     <%= patrons_list(@expression.patrons) -%>
@@ -47,9 +50,15 @@
       <%- unless @expression.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
       <%- end -%>
-      <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
-      <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
-      <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
+      <%- if @expression.work -%>
+        <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
+      <%- end -%>
+      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
+        <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
+      <%- end -%>
+      <%- unless @expression.manifestations.empty? -%>
+        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
+      <%- end -%>
       <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
     <div class="yui-content">
@@ -105,7 +114,7 @@
       <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
         <%= render :partial => 'expressions/expression_list' -%>
       <%- end -%>
-      <%- if @expression.work -%>
+      <%- unless @expression.manifestations.empty? -%>
         <%= render :partial => 'expressions/manifestation_list' -%>
       <%- end -%>
       <%= render :partial => 'history_list' -%>

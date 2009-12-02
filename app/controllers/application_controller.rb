@@ -331,7 +331,8 @@ class ApplicationController < ActionController::Base
   end
 
   def get_version
-    @version = params[:version].to_i if params[:version]
+    @version = params[:version_id].to_i if params[:version_id]
+    @version = nil if @version == 0
   end
 
   private

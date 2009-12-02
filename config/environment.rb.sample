@@ -82,7 +82,7 @@ Rails::Initializer.run do |config|
   #config.gem "fleakr"
   config.gem "fastercsv"
   config.gem "Text", :lib => "text"
-  config.gem "vestal_versions"
+  config.gem "paper_trail"
   #config.gem "event_calendar"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
@@ -127,4 +127,3 @@ require 'atom/pub'
 require 'localized_name'
 require 'xml/libxml'
 require 'dismax'
-require 'acts_as_taggable_on_modified'

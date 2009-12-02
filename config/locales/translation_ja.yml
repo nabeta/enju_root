@@ -1071,6 +1071,7 @@ ja:
     calendar: "カレンダー"
     related: "関連"
     history: "履歴"
+    current_version: "最新版"
   title:
     index: "一覧"
     show: "表示"

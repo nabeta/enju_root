@@ -1082,6 +1082,7 @@ en:
     calendar: "Calendar"
     related: "Related"
     history: "History"
+    current_version: "Current version"
   title:
     index: "index"
     show: "show"

@@ -34,6 +34,9 @@
     <%=h @patron.full_name -%>
   </h2>
 
+  <%- if @version -%>
+    <p>(<%= l(@patron.versions.find(@version).created_at) -%>)</p>
+  <%- end -%>
   <p>
     (<%= link_to_wikipedia(@patron.full_name_without_space) -%>)
     <%- if !@patron.user && @patron.is_updatable_by(current_user)-%>

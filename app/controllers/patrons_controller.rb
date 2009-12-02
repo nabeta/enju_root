@@ -95,7 +95,7 @@ class PatronsController < ApplicationController
     else
       @patron = Patron.find(params[:id])
     end
-    @patron.revert_to(@version) if @version
+    @patron = @patron.versions.find(@version).reify if @version
 
     #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
     @works = @patron.works.paginate(:page => params[:work_list_page])

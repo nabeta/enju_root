@@ -28,7 +28,6 @@ class Work < ActiveRecord::Base
   belongs_to :creator, :class_name => 'User'
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true
-  versioned
 
   searchable do
     text :title, :context, :note, :author
@@ -47,6 +46,7 @@ class Work < ActiveRecord::Base
 
   #acts_as_soft_deletable
   #acts_as_tree
+  has_paper_trail
 
   @@per_page = 10
   cattr_accessor :per_page

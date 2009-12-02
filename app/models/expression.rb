@@ -27,8 +27,6 @@ class Expression < ActiveRecord::Base
   validates_associated :content_type, :language
   validates_presence_of :content_type, :language
   
-  versioned
-
   searchable do
     text :title, :summarization, :context, :note
     text :author do
@@ -47,6 +45,7 @@ class Expression < ActiveRecord::Base
   end
   #acts_as_tree
   #acts_as_soft_deletable
+  has_paper_trail
 
   cattr_accessor :per_page
   @@per_page = 10
