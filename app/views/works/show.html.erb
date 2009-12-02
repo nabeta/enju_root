@@ -16,16 +16,19 @@
 </div>
 
 <div id="content_detail">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work')) -%></h1>
+  <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
 
   <%-
-    cache(:id => @work.id, :action => :show, :controller => :works, :editable => @work.is_updatable_by(current_user), :locale => @locale) do
+    cache(:id => @work.id, :action => :show, :controller => :works, :editable => @work.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
   <h2 id="resource_title">
     [W]
     <%=h @work.original_title -%>
   </h2>
+  <%- if @version -%>
+    <p>(<%= l(@work.versions.find(@version).created_at) -%>)</p>
+  <%- end -%>
 
   <p>
     <%= patrons_list(@work.patrons) -%>
@@ -35,7 +38,9 @@
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <li><a href="#work"><em><%= t('page.related') -%></em></a></li>
+      <%- if @work.derived_works.present? or @work.original_works.present? -%>
+        <li><a href="#work"><em><%= t('page.related') -%></em></a></li>
+      <%- end -%>
       <%- unless @work.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
       <%- end -%>
@@ -45,6 +50,7 @@
       <%- unless @work.manifestations.empty? -%>
         <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
       <%- end -%>
+      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
     <div class="yui-content">
       <div id="detail">
@@ -59,6 +65,12 @@
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
             <td>
               <%=h @work.context -%>
+            </td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.attributes.work.note') -%>:</b></td>
+            <td>
+              <%=h @work.note -%>
             </td>
           </tr>
           <tr>
@@ -84,6 +96,7 @@
       <%- unless @work.manifestations.empty? -%>
         <%= render :partial => 'works/expression_list' -%>
       <%- end -%>
+      <%= render :partial => 'history_list' -%>
     </div>
   </div>
 </div>

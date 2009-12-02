@@ -80,9 +80,12 @@
   <%- end -%>
 
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
+  <%- if @version -%>
+    <p>(<%= l(@manifestation.versions.find(@version).created_at) -%>)</p>
+  <%- end -%>
 <!-- cache start -->
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
 %>
 
   <div id="tabview">
@@ -102,6 +105,7 @@
     <%- unless @xisbn_manifestations.blank? -%>
       <li><a href="#worldcat"><em><%= ('WorldCat') -%></em></a></li>
     <%- end -%>
+    <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
   </ul>            
   <div class="yui-content">
     <div id="detail">
@@ -113,7 +117,7 @@
 <%- end -%>
     <%= embed_content(@manifestation) -%>
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
 %>
     <%- if @manifestation.serial? -%>
       <tr>
@@ -189,7 +193,7 @@
       </td>
     </tr>
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_3', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_3', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
 %>
     <%- unless @manifestation.serial? -%>
       <tr>
@@ -238,7 +242,7 @@
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_4', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale) do
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_4', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
 %>
       <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
       <%= render :partial => 'bookmarks_for_this_manifestation' -%>
@@ -260,6 +264,7 @@
     <%- unless @xisbn_manifestations.blank? -%>
       <%= render :partial => 'manifestations/show_xisbn' -%>
     <%- end -%>
+    <%= render :partial => 'history_list' -%>
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>

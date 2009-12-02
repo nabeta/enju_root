@@ -1,0 +1,9 @@
+<div id="history">
+  <ul>
+    <li><%= link_to l(@item.updated_at), @item -%>
+    (<%= t('page.current_version') -%>)</li>
+    <%- @item.versions.reverse.each do |version| -%>
+      <li><%= link_to l(version.created_at), item_path(@item, :version_id => version.id) -%></li>
+    <%- end -%>
+  </ul>
+</div>

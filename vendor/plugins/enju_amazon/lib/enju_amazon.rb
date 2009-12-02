@@ -93,7 +93,7 @@ module EnjuAmazon
       reviews = []
       doc = Nokogiri::XML(self.amazon)
       reviews = []
-      doc.at(:Item).search('Review') do |item|
+      doc.at(:Item).search('Review').each do |item|
         reviews << item
       end
 
@@ -106,8 +106,8 @@ module EnjuAmazon
         comments << r
       end
       return comments
-    rescue
-      []
+    #rescue
+    #  []
     end
 
   end

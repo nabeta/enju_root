@@ -5,6 +5,7 @@ class WorksController < ApplicationController
   before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
+  before_filter :get_version, :only => [:show]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
@@ -56,6 +57,8 @@ class WorksController < ApplicationController
   # GET /works/1.xml
   def show
     @work = Work.find(params[:id])
+    @work = @work.versions.find(@version).reify if @version
+
     if @patron
       created = @work.patrons.find(@patron) rescue nil
       if created.blank?

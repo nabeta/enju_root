@@ -54,7 +54,7 @@ class Item < ActiveRecord::Base
   #acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
-  versioned
+  has_paper_trail
 
   searchable do
     text :item_identifier, :note, :title, :author, :publisher, :library

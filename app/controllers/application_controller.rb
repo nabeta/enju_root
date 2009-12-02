@@ -330,6 +330,11 @@ class ApplicationController < ActionController::Base
     Sunspot.commit
   end
 
+  def get_version
+    @version = params[:version_id].to_i if params[:version_id]
+    @version = nil if @version == 0
+  end
+
   private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)

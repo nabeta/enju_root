@@ -8,6 +8,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
+  before_filter :get_version, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -192,6 +193,7 @@ class ManifestationsController < ApplicationController
     else
       @manifestation = Manifestation.find(params[:id])
     end
+    @manifestation = @manifestation.versions.find(@version).reify if @version
 
     case params[:mode]
     when 'send_email'
