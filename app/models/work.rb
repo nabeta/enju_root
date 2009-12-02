@@ -25,7 +25,6 @@ class Work < ActiveRecord::Base
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :work_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
   belongs_to :medium_of_performance
-  belongs_to :creator, :class_name => 'User'
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 

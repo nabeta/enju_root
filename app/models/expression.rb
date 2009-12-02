@@ -22,7 +22,6 @@ class Expression < ActiveRecord::Base
   has_many :original_expressions, :through => :from_expressions, :source => :from_expression
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   belongs_to :content_type
-  belongs_to :creator, :class_name => 'User'
   
   validates_associated :content_type, :language
   validates_presence_of :content_type, :language

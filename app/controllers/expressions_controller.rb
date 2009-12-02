@@ -116,7 +116,6 @@ class ExpressionsController < ApplicationController
       return
     end
     @expression = Expression.new(params[:expression])
-    @expression.creator = current_user
 
     respond_to do |format|
       if @expression.save

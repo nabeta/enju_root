@@ -332,7 +332,6 @@ class ManifestationsController < ApplicationController
       #end
       last_issue = @expression.last_issue if @expression
     end
-    @manifestation.creator = current_user
 
     respond_to do |format|
       if @manifestation.save
