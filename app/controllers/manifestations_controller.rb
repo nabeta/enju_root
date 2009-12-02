@@ -586,8 +586,8 @@ class ManifestationsController < ApplicationController
       render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation}
     when 'screen_shot'
       if @manifestation.screen_shot
-        mime = MIME.check_magics(@manifestation.screen_shot.open)
-        send_file @manifestation.screen_shot.path, :type => mime.type.to_s, :disposition => 'inline'
+        mime = FileWrapper.get_mime(@manifestation.screen_shot.path)
+        send_file @manifestation.screen_shot.path, :type => mime, :disposition => 'inline'
       end
     else
       false

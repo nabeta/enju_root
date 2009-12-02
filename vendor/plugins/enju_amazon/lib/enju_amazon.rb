@@ -106,8 +106,8 @@ module EnjuAmazon
         comments << r
       end
       return comments
-    #rescue
-    #  []
+    rescue
+      []
     end
 
   end
