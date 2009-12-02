@@ -156,7 +156,6 @@ class ItemsController < ApplicationController
     end
     @item.manifestation = @manifestation
     @item.item_identifier = @item.item_identifier.to_s.strip
-    @item.creator = current_user
 
     respond_to do |format|
       if @item.save

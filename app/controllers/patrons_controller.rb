@@ -158,7 +158,6 @@ class PatronsController < ApplicationController
         access_denied; return
       end
     end
-    @patron.creator = current_user
 
     respond_to do |format|
       if @patron.save

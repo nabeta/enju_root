@@ -37,7 +37,6 @@ class Patron < ActiveRecord::Base
   has_many :from_patrons, :foreign_key => 'to_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
   has_many :derived_patrons, :through => :to_patrons, :source => :to_patron
   has_many :original_patrons, :through => :from_patrons, :source => :from_patron
-  belongs_to :creator, :class_name => 'User'
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country

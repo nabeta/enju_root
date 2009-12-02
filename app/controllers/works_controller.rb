@@ -115,7 +115,6 @@ class WorksController < ApplicationController
   # POST /works.xml
   def create
     @work = Work.new(params[:work])
-    @work.creator = current_user
 
     respond_to do |format|
       if @work.save

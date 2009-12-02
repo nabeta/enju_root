@@ -44,7 +44,6 @@ class Manifestation < ActiveRecord::Base
   has_many :bookmarks
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
-  belongs_to :creator, :class_name => 'User'
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
