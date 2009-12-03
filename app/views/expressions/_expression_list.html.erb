@@ -1,17 +1,19 @@
 <div class="expression">
   <ul>
-    <%- @expression.original_expressions.each do |expression| -%>
+    <%- @expression.from_expressions.each do |expression_has_expression| -%>
       <li>
         [E]
-        <%= link_to h(expression.original_title), expression -%>
-        <%= patrons_list(expression.patrons) -%>
+        (<%= h(expression_has_expression.expression_relationship_type.display_name.localize) -%>)
+        <%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%>
+        <%= patrons_list(expression_has_expression.from_expression.patrons) -%>
       </li>
     <%- end -%>
-    <%- @expression.derived_expressions.each do |expression| -%>
+    <%- @expression.to_expressions.each do |expression_has_expression| -%>
       <li>
         [E]
-        <%= link_to h(expression.original_title), expression -%>
-        <%= patrons_list(expression.patrons) -%>
+        (<%= h(expression_has_expression.expression_relationship_type.display_name.localize) -%>)
+        <%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%>
+        <%= patrons_list(expression_has_expression.to_expression.patrons) -%>
       </li>
     <%- end -%>
   </ul>

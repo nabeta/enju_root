@@ -1,9 +1,12 @@
 <div id="history">
   <ul>
-    <li><%= link_to l(@expression.updated_at), @expression -%>
-    (<%= t('page.current_version') -%>)</li>
-    <%- @expression.versions.reverse.each do |version| -%>
-      <li><%= link_to l(version.created_at), expression_path(@expression, :version_id => version.id) -%></li>
+    <%- @expression.versions.reverse.each_with_index do |version, i| -%>
+      <li>
+        <%= link_to l(version.created_at), expression_path(@expression, :version_id => version.id) -%>
+        <%- if i == 0 -%>
+          (<%= t('page.current_version') -%>)
+        <%- end -%>
+      </li>
     <%- end -%>
   </ul>
 </div>

@@ -1,13 +1,14 @@
 <div class="work">
   <ul>
-    <%- @work.original_works.each do |work| -%>
+    <%- @work.from_works.each do |work_has_work| -%>
       <li>
         [W]
-        <%= link_to h(work.original_title), work -%>
-        <%= patrons_list(work.patrons) -%>
-        <%- unless work.expressions.blank? -%>
+        (<%= h(work_has_work.work_relationship_type.display_name.localize) -%>)
+        <%= link_to h(work_has_work.from_work.original_title), work_has_work.from_work -%>
+        <%= patrons_list(work_has_work.from_work.patrons) -%>
+        <%- unless work_has_work.from_work.expressions.blank? -%>
           <ul>
-            <%- work.expressions.each do |expression| -%>
+            <%- work_has_work.from_work.expressions.each do |expression| -%>
               <li>
               [E]
               <%= link_to h(expression.original_title), expression -%>
@@ -18,14 +19,15 @@
         <%- end -%>
       </li>
     <%- end -%>
-    <%- @work.derived_works.each do |work| -%>
+    <%- @work.to_works.each do |work_has_work| -%>
       <li>
         [W]
-        <%= link_to h(work.original_title), work -%>
-        <%= patrons_list(work.patrons) -%>
-        <%- unless work.expressions.blank? -%>
+        (<%= h(work_has_work.work_relationship_type.display_name.localize) -%>)
+        <%= link_to h(work_has_work.to_work.original_title), work_has_work.to_work -%>
+        <%= patrons_list(work_has_work.to_work.patrons) -%>
+        <%- unless work_has_work.to_work.expressions.blank? -%>
           <ul>
-            <%- work.expressions.each do |expression| -%>
+            <%- work_has_work.to_work.expressions.each do |expression| -%>
               <li>
               [E]
               <%= link_to h(expression.original_title), expression -%>
