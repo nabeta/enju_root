@@ -62,10 +62,10 @@ Rails::Initializer.run do |config|
   config.gem "money"
   config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "acts-as-taggable-on"
+  config.gem "acts-as-taggable-on", :version => ">=1.0.11"
   #config.gem "mloughran-api_cache", :lib => "api_cache"
   config.gem "memcache-client", :lib => "memcache"
-  config.gem "shared-mime-info"
+  #config.gem "shared-mime-info"
   config.gem "authlogic-oid", :lib => "authlogic_openid"
   config.gem "delayed_job"
   config.gem "ratom", :lib => "atom"
@@ -83,6 +83,7 @@ Rails::Initializer.run do |config|
   config.gem "fastercsv"
   config.gem "Text", :lib => "text"
   config.gem "paper_trail"
+  config.gem "file_wrapper"
   #config.gem "event_calendar"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
