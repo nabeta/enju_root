@@ -1,9 +1,12 @@
 <div id="history">
   <ul>
-    <li><%= link_to l(@patron.updated_at), @patron -%>
-    (<%= t('page.current_version') -%>)</li>
-    <%- @patron.versions.reverse.each do |version| -%>
-      <li><%= link_to l(version.created_at), patron_path(@patron, :version_id => version.id) -%></li>
+    <%- @patron.versions.reverse.each_with_index do |version, i| -%>
+      <li>
+        <%= link_to l(version.created_at), patron_path(@patron, :version_id => version.id) -%>
+        <%- if i == 0 -%>
+          (<%= t('page.current_version') -%>)
+        <%- end -%>
+      </li>
     <%- end -%>
   </ul>
 </div>

@@ -1,15 +1,17 @@
 <div class="patron">
   <ul>
-    <%- @patron.original_patrons.each do |patron| -%>
+    <%- @patron.from_patrons.each do |patron_has_patron| -%>
       <li>
         [P]
-        <%= link_to h(patron.full_name), patron -%>
+        (<%= h(patron_has_patron.patron_relationship_type.display_name.localize) -%>)
+        <%= link_to h(patron_has_patron.from_patron.full_name), patron_has_patron.from_patron -%>
       </li>
     <%- end -%>
-    <%- @patron.derived_patrons.each do |patron| -%>
+    <%- @patron.to_patrons.each do |patron_has_patron| -%>
       <li>
         [P]
-        <%= link_to h(patron.full_name), patron -%>
+        (<%= h(patron_has_patron.patron_relationship_type.display_name.localize) -%>)
+        <%= link_to h(patron_has_patron.to_patron.full_name), patron_has_patron.to_patron -%>
       </li>
     <%- end -%>
   </ul>

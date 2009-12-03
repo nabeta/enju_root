@@ -49,6 +49,9 @@
   <div id="demo" class="yui-navset yui-navset-top">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
+      <%- if @patron.derived_patrons.present? or @patron.original_patrons.present? -%>
+        <li><a href="#related"><em><%= t('page.related') -%></em></a></li>
+      <%- end -%>
       <%- unless @patron.works.empty? -%>
         <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
       <%- end -%>
