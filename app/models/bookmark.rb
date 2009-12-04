@@ -49,7 +49,8 @@ class Bookmark < ActiveRecord::Base
 
   def save_manifestation
     if self.manifestation
-      self.manifestation.index
+      self.manifestation.save
+      self.manifestation.send_later(:index!)
     end
   end
 
