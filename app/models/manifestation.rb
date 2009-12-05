@@ -15,7 +15,7 @@ class Manifestation < ActiveRecord::Base
   has_many :exemplifies, :dependent => :destroy
   has_many :items, :through => :exemplifies, :dependent => :destroy
   has_many :produces, :dependent => :destroy
-  has_many :patrons, :through => :produces, :order => 'produces.position'
+  has_many :patrons, :through => :produces, :order => 'produces.position', :include => :required_role
   #has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user

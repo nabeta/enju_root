@@ -5,7 +5,7 @@ class Work < ActiveRecord::Base
   include SolrIndex
 
   has_many :creates, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :creates, :order => 'creates.position'
+  has_many :patrons, :through => :creates, :order => 'creates.position', :include => :required_role
   has_many :reifies, :dependent => :destroy, :order => :position
   has_many :expressions, :through => :reifies
   belongs_to :form_of_work #, :validate => true
