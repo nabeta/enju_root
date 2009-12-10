@@ -1,3 +1,6 @@
+<%
+  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'show_holding', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+    %>
 <table style="width: 100%">
   <tr>
     <th><%=h t('activerecord.models.library') -%></th>
@@ -37,6 +40,7 @@
     </tr>
   <%- end -%>
 </table>
+<%- end -%>
 
 <%- if request.xhr? -%>
   <script type="text/javascript" language="JavaScript">

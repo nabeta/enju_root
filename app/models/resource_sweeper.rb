@@ -220,7 +220,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   def expire_manifestation_cache(manifestation, fragments)
     fragments = %w[detail_1 detail_2 detail_3 detail_4 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags title show_xisbn] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
-    Array(fragments).each do |fragment|
+    fragments.each do |fragment|
       expire_manifestation_fragment(manifestation, fragment)
     end
     manifestation.bookmarks.each do |bookmark|

@@ -1,6 +1,6 @@
 atom_feed do |feed|
   feed.title "#{@rezm_user.login}'s Inbox"
-  feed.updated @messages.first.created_at
+  feed.updated(@messages.first ? @messages.first.created_at : Time.zone.now)
   
   for message in @messages
     feed.entry(message, :url => user_message_url(rezm_user.login, message)) do |entry|

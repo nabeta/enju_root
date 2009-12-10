@@ -9,7 +9,7 @@ class Expression < ActiveRecord::Base
   has_many :embodies, :dependent => :destroy
   has_many :manifestations, :through => :embodies
   has_many :realizes, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :realizes, :include => :required_role
+  has_many :patrons, :through => :realizes
   belongs_to :language #, :validate => true
   has_many :expression_merges, :dependent => :destroy
   has_many :expression_merge_lists, :through => :expression_merges
