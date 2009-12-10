@@ -252,7 +252,8 @@ ActionController::Routing::Routes.draw do |map|
     patron.resources :advertisements
     patron.resources :picture_files
     patron.resources :events
-    patron.resources :patrons
+    patron.resources :patrons, :only => [:index, :new]
+    patron.resources :patron_has_patrons
   end
   map.resources :users do |user|
     user.resources :roles
@@ -300,7 +301,7 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :concepts
     work.resources :places
     work.resources :subjects
-    work.resources :works
+    work.resources :works, :only => [:index, :new]
     work.resources :work_has_works
   end
   map.resources :expressions do |expression|
@@ -316,7 +317,7 @@ ActionController::Routing::Routes.draw do |map|
     #expression.resources :work_has_subjects
     expression.resources :subscribe
     expression.resources :subscriptions
-    expression.resources :expressions
+    expression.resources :expressions, :only => [:index, :new]
     expression.resources :expression_has_expressions
   end
   map.resources :manifestations do |manifestation|
@@ -330,7 +331,7 @@ ActionController::Routing::Routes.draw do |map|
     manifestation.resources :expressions
     #manifestation.resources :subjects
     #manifestation.resources :work_has_subjects
-    manifestation.resources :manifestations
+    manifestation.resources :manifestations, :only => [:index, :new]
     manifestation.resources :manifestation_has_manifestations
   end
   map.resources :items do |item|
@@ -344,7 +345,7 @@ ActionController::Routing::Routes.draw do |map|
     item.resources :donates
     item.resource :checkout_type
     item.resource :inventory_files
-    item.resources :items
+    item.resources :items, :only => [:index, :new]
     item.resources :item_has_items
     item.resources :lending_policies
   end

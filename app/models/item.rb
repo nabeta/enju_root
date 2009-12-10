@@ -16,7 +16,7 @@ class Item < ActiveRecord::Base
   has_many :reserves
   has_many :reserved_patrons, :through => :reserves
   has_many :owns
-  has_many :patrons, :through => :owns, :include => :required_role
+  has_many :patrons, :through => :owns
   belongs_to :shelf, :counter_cache => true, :validate => true
   has_many :checked_items, :dependent => :destroy
   has_many :baskets, :through => :checked_items
