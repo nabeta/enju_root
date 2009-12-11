@@ -6,7 +6,7 @@
         <%- unless manifestation == @manifestation -%>
           <li>
             [M]
-            <%=h manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>
+            (<%=h manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>)
             <%= link_to h(manifestation.original_title), manifestation -%>
             <%= form_icon(manifestation.carrier_type) -%>
             <%- manifestation.expressions.each do |expression| -%>
@@ -44,7 +44,7 @@
         <%- unless manifestation == @manifestation -%>
           <li>
             [M]
-            <%=h manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>
+            (<%=h manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>)
             <%= link_to h(manifestation.original_title), manifestation -%>
             <%= form_icon(manifestation.carrier_type) -%>
             <%- manifestation.expressions.each do |expression| -%>

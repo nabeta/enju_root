@@ -232,8 +232,8 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   def expire_manifestation_fragment(manifestation, fragment)
     if manifestation
       I18n.available_locales.each do |locale|
-        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true, :locale => locale.to_s)
-        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s)
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true, :locale => locale.to_s, :user_id => nil)
+        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s, :user_id => nil)
       end
     end
   end
