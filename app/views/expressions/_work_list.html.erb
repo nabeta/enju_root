@@ -3,7 +3,7 @@
     <li>
       [W]
       <%= link_to h(@expression.work.original_title), @expression.work if @expression.work -%>
-      <%= patrons_list(@expression.work.patrons) -%>
+      <%= raw patrons_list(@expression.work.patrons) -%>
       <%- unless @expression.manifestations.blank? -%>
         <ul>
           <%- @expression.manifestations.each do |manifestation| -%>
@@ -14,9 +14,9 @@
             <%- manifestation.expressions.each do |expression| -%>
               <%= content_type_icon(expression.content_type) -%>
             <%- end -%>
-            <%= patrons_list(manifestation.authors) -%>
-            <%= patrons_list(manifestation.editors) -%>
-            <%= patrons_list(manifestation.publishers) -%>
+            <%= raw patrons_list(manifestation.authors) -%>
+            <%= raw patrons_list(manifestation.editors) -%>
+            <%= raw patrons_list(manifestation.publishers) -%>
             <%- if manifestation.date_of_publication -%>
               (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
             <%- end -%>

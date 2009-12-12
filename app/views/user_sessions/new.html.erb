@@ -5,7 +5,7 @@
     <%= render :partial => 'user_sessions/openid_login_banner' -%>
     <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
   <%- else -%>
-    <%= textilize(h(@library_group.login_banner)) unless params[:mode] == 'openid' -%>
+    <%= sanitize(textilize(@library_group.login_banner)) unless params[:mode] == 'openid' -%>
     <p><%= link_to t('user_session.login_with_openid'), new_user_session_url(:mode => 'openid') -%></p>
   <%- end -%>
 </div>

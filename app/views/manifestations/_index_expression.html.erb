@@ -12,8 +12,8 @@
     <%= link_to h(@expression.original_title), @expression -%>
   </h2>
   <p>
-    <%= patrons_list(@expression.authors) -%>
-    <%= patrons_list(@expression.patrons) -%>
+    <%= raw patrons_list(@expression.authors) -%>
+    <%= raw patrons_list(@expression.patrons) -%>
   </p>
 
   <%- form_for :manifestations, :url => expression_manifestations_path(@expression), :html => {:method => 'get'} do -%>

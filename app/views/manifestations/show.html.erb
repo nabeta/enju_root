@@ -68,7 +68,7 @@
   <div id="content_list">
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
-        <%= paginate_id_link(@manifestation) -%>
+        <%= raw paginate_id_link(@manifestation) -%>
         <%= back_to_manifestation_index -%>
         <!--
         <%= t('page.search_term') -%>:
@@ -232,7 +232,7 @@
         <!--
           <%= editable_content_tag(:div, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2, :cols => 40}) %>
           -->
-        <%= simple_format(h(@manifestation.note)) -%>
+        <%= raw simple_format(h(@manifestation.note)) -%>
       </td>
     </tr>
     <%= render :partial => 'show_worldcat_record' if @worldcat_record.present? -%>

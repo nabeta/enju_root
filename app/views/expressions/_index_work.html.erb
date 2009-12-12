@@ -13,7 +13,7 @@
     <%= link_to h(@work.original_title), @work -%>
   </h2>
   <p>
-    <%= patrons_list(@work.patrons) -%>
+    <%= raw patrons_list(@work.patrons) -%>
   </p>
 
   <%- form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
@@ -46,8 +46,8 @@
       [E]
       <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
       <%= content_type_icon(expression.content_type) -%><br />
-      <%= patrons_list(expression.authors) -%>
-      <%= patrons_list(expression.patrons) -%>
+      <%= raw patrons_list(expression.authors) -%>
+      <%= raw patrons_list(expression.patrons) -%>
     </td>
     <td><%=h expression.language.display_name.localize -%></td>
     <td>

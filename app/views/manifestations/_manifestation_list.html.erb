@@ -13,9 +13,9 @@
               <%= link_to content_type_icon(expression.content_type), expression -%>
             <%- end -%>
             <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
-            <%= patrons_list(manifestation.authors, current_user) -%>
-            <%= patrons_list(manifestation.editors, current_user) -%>
-            <%= patrons_list(manifestation.publishers, current_user) -%>
+            <%= raw patrons_list(manifestation.authors, current_user) -%>
+            <%= raw patrons_list(manifestation.editors, current_user) -%>
+            <%= raw patrons_list(manifestation.publishers, current_user) -%>
             <%- if manifestation.date_of_publication -%>
               (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
             <%- end -%>
@@ -30,7 +30,7 @@
                       <%- work.expressions.each do |expression| -%>
                         <%= link_to content_type_icon(expression.content_type), expression -%>
                       <%- end -%>
-                      <%= patrons_list(work.patrons, current_user) -%>
+                      <%= raw patrons_list(work.patrons, current_user) -%>
                     </li>
                   <%- end -%>
                 <%- end -%>
@@ -51,9 +51,9 @@
               <%= link_to content_type_icon(expression.content_type), expression -%>
             <%- end -%>
             <%= link_to image_tag('/icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
-            <%= patrons_list(manifestation.authors, current_user) -%>
-            <%= patrons_list(manifestation.editors, current_user) -%>
-            <%= patrons_list(manifestation.publishers, current_user) -%>
+            <%= raw patrons_list(manifestation.authors, current_user) -%>
+            <%= raw patrons_list(manifestation.editors, current_user) -%>
+            <%= raw patrons_list(manifestation.publishers, current_user) -%>
             <%- if manifestation.date_of_publication -%>
               (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
             <%- end -%>
@@ -68,7 +68,7 @@
                       <%- work.expressions.each do |expression| -%>
                         <%= link_to content_type_icon(expression.content_type), expression -%>
                       <%- end -%>
-                      <%= patrons_list(work.patrons, current_user) -%>
+                      <%= raw patrons_list(work.patrons, current_user) -%>
                     </li>
                   <%- end -%>
                 <%- end -%>

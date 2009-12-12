@@ -38,7 +38,7 @@
       <%= link_to h(expression.original_title), expression_merge_list_expression_path(@expression_merge_list, expression) -%>
       <%= content_type_icon(expression.content_type) -%>
       <br />
-      <%= patrons_list(expression.patrons) -%>
+      <%= raw patrons_list(expression.patrons) -%>
     </td>
     <td><%=h expression.language.display_name.localize -%></td>
     <td>

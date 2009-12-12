@@ -27,7 +27,7 @@
       <td>
         <strong><%= link_to h(manifestation.original_title), manifestation -%></strong>
         <br />
-        <%= patrons_list(manifestation.patrons) -%>
+        <%= raw patrons_list(manifestation.patrons) -%>
       </td>
     </tr>
   <%- end -%>

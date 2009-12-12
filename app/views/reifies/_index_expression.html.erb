@@ -32,8 +32,8 @@
       <%= link_to h(reify.expression.original_title), reify.expression -%>
       <%= content_type_icon(@expression.content_type) -%>
       <br />
-      <%= patrons_list(@expression.authors) -%>
-      <%= patrons_list(@expression.patrons) -%>
+      <%= raw patrons_list(@expression.authors) -%>
+      <%= raw patrons_list(@expression.patrons) -%>
     </td>
     <%- if reify.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.destroy'), expression_reify_path(@expression, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

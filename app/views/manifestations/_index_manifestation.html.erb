@@ -12,9 +12,9 @@
     <%= link_to h(@manifestation.original_title), @manifestation -%>
   </h2>
   <p>
-    <%= patrons_list(@manifestation.authors) -%>
-    <%= patrons_list(@manifestation.editors) -%>
-    <%= patrons_list(@manifestation.patrons) -%>
+    <%= raw patrons_list(@manifestation.authors) -%>
+    <%= raw patrons_list(@manifestation.editors) -%>
+    <%= raw patrons_list(@manifestation.patrons) -%>
   </p>
 
   <%- form_for :manifestations, :url => manifestation_manifestations_path(@manifestation), :html => {:method => 'get'} do -%>
