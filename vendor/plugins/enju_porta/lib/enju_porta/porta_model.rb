@@ -18,7 +18,7 @@ module EnjuPorta
       end
 
       doc = return_xml(isbn)
-      raise "not found" if doc.find_first('//openSearch:totalResults').content.to_i == 0
+      raise "not found" if doc.at('//openSearch:totalResults').content.to_i == 0
 
       date_of_publication, language, nbn = nil, nil, nil
 
@@ -28,10 +28,10 @@ module EnjuPorta
       title = get_title(doc)
 
       # date of publication
-      date_of_publication = Time.mktime(doc.find_first('//dcterms:issued[@xsi:type="dcterms:W3CDTF"]').content)
+      date_of_publication = Time.mktime(doc.at('//dcterms:issued[@xsi:type="dcterms:W3CDTF"]').content)
 
       language = get_language(doc)
-      nbn = doc.find_first('//dc:identifier[@xsi:type="dcndl:JPNO"]').content
+      nbn = doc.at('//dc:identifier[@xsi:type="dcndl:JPNO"]').content
 
       Patron.transaction do
         publisher_patrons = self.import_patrons(publishers)
@@ -76,11 +76,11 @@ module EnjuPorta
 
     def return_xml(isbn)
       xml = self.search_porta(isbn, {:dpid => 'zomoku', :item => 'isbn', :raw => true}).to_s
-      doc = LibXML::XML::Document.string(xml).root
-      if doc.find_first('//openSearch:totalResults').content.to_i == 0
+      doc = Nokogiri::XML(xml)
+      if doc.at('//openSearch:totalResults').content.to_i == 0
         isbn = normalize_isbn(isbn)
         xml = self.search_porta(isbn, {:dpid => 'zomoku', :item => 'isbn', :raw => true}).to_s
-        doc = LibXML::XML::Document.string(xml).root
+        doc = Nokogiri::XML(xml)
       end
       return doc
     end
@@ -95,15 +95,15 @@ module EnjuPorta
 
     def get_title(doc)
       title = {}
-      title[:manifestation] = doc.find('//item/title').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-      title[:transcription] = doc.find('//item/dcndl:titleTranscription').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-      title[:original] = doc.find('//dcterms:alternative').to_a.collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:manifestation] = doc.xpath('//item/title').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:transcription] = doc.xpath('//item/dcndl:titleTranscription').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:original] = doc.xpath('//dcterms:alternative').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
       return title
     end
 
     def get_authors(doc)
       authors = []
-      doc.find('//dc:creator[@xsi:type="dcndl:NDLNH"]').to_a.each do |creator|
+      doc.xpath('//dc:creator[@xsi:type="dcndl:NDLNH"]').each do |creator|
         authors << creator.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return authors
@@ -111,7 +111,7 @@ module EnjuPorta
 
     def get_subjects(doc)
       subjects = []
-      doc.find('//dc:subject[@xsi:type="dcndl:NDLSH"]').to_a.each do |subject|
+      doc.xpath('//dc:subject[@xsi:type="dcndl:NDLSH"]').each do |subject|
         subjects << subject.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return subjects
@@ -119,12 +119,12 @@ module EnjuPorta
 
     def get_language(doc)
       # TODO: 言語が複数ある場合
-      language = doc.find('//dc:language[@xsi:type="dcterms:ISO639-2"]').first.content.downcase
+      language = doc.xpath('//dc:language[@xsi:type="dcterms:ISO639-2"]').first.content.downcase
     end
 
     def get_publishers(doc)
       publishers = []
-      doc.find('//dc:publisher').to_a.each do |publisher|
+      doc.xpath('//dc:publisher').each do |publisher|
         publishers << publisher.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return publishers
