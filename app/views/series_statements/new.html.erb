@@ -1,0 +1,36 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.series_statement')) -%></h1>
+<div id="content_list">
+<h1>New series_statement</h1>
+
+<% form_for(@series_statement) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :numbering %><br />
+    <%= f.text_field :numbering %>
+  </p>
+  <p>
+    <%= f.label :title_subseries %><br />
+    <%= f.text_field :title_subseries %>
+  </p>
+  <p>
+    <%= f.label :numbering_subseries %><br />
+    <%= f.text_field :numbering_subseries %>
+  </p>
+  <p>
+    <%= f.submit t('page.create') %>
+  </p>
+<% end %>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), series_statements_path %></li>
+  </ul>
+</div>

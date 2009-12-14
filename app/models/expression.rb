@@ -72,14 +72,6 @@ class Expression < ActiveRecord::Base
     self.work.patrons if self.work
   end
 
-  def last_issue
-    if self.serial?
-      self.manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
-    end
-  rescue
-    nil
-  end
-
   def work_id
     self.work.id if self.work
   end

@@ -41,6 +41,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.models.frequency') -%></b>
+    <%= f.select(:frequency_id, @frequencies.collect{|frequency| [frequency.display_name.localize, frequency.id]}) -%>
+  </p>
+
+  <p>
     <b><%= t('activerecord.attributes.manifestation.date_of_publication') -%></b>
     <%= f.date_text_field :date_of_publication, :class => 'date_field', :blank => true -%>
   </p>
@@ -50,14 +55,23 @@
     <%= f.check_box :subscription_master -%>
   </p>
 
+  <%- if @manifestation.series_statement -%>
+    <p>
+      <b><%= t('activerecord.models.series_statement') -%></b>
+      <%= link_to @manifestation.series_statement.title, @manifestation.series_statement -%>
+    </p>
+  <%- end -%>
+
   <p>
     <%- if @manifestation.serial? -%>
-      <%= render :partial => 'edit_serial', :locals => {:f => f} -%>
+      <%= render :partial => 'serial_form', :locals => {:f => f} -%>
     <%- else -%>
-      <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
-      <%= f.text_field :edition, :class => 'resource_integer' -%>
-      <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
-      <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
+      <p>
+        <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
+        <%= f.text_field :edition, :class => 'resource_integer' -%>
+        <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
+        <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
+      </p>
     <%- end -%>
   </p>
 

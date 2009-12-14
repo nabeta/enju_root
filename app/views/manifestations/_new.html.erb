@@ -51,7 +51,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.frequency') -%></b><br />
+    <b><%= t('activerecord.models.frequency') -%></b>
     <%= f.select(:frequency_id, @frequencies.collect{|frequency| [frequency.display_name.localize, frequency.id]}) -%>
   </p>
 
@@ -65,25 +65,22 @@
     <%= f.check_box :subscription_master -%>
   </p>
   
-  <%- if @expression -%>
+  <%- if @manifestation.series_statement -%>
+    <p>
+      <b><%= t('activerecord.models.series_statement') -%></b>
+      <%= link_to @manifestation.series_statement.title, @manifestation.series_statement -%>
+    </p>
+  <%- end -%>
+
+  <%- if @manifestation.serial? -%>
+    <%= render :partial => 'serial_form', :locals => {:f => f} -%>
+  <%- else -%>
     <p>
       <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
       <%= f.text_field :edition, :class => 'resource_integer' -%>
       <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
       <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
     </p>
-      <p>
-        <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
-        <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
-      </p>
-      <p>
-        <b><%= t('activerecord.attributes.manifestation.wrong_isbn') -%></b>
-        <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
-      </p>
-      <p>
-        <b><%= t('activerecord.attributes.manifestation.lccn') -%></b>
-        <%= f.text_field :lccn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
-      </p>
   <%- end -%>
 
   <p>

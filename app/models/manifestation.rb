@@ -44,6 +44,7 @@ class Manifestation < ActiveRecord::Base
   has_many :bookmarks
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
+  belongs_to :series_statement
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
@@ -96,6 +97,7 @@ class Manifestation < ActiveRecord::Base
     float :price
     boolean :reservable
     boolean :subscription_master
+    integer :series_statement_id
   end
 
   #acts_as_tree
@@ -232,7 +234,17 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial?
-    true if subscription_master
+    return true if subscription_master
+    return true if frequency_id > 1
+    false
+  end
+
+  def last_issue
+    if self.serial?
+      self.derived_manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
+    end
+  rescue
+    nil
   end
 
   def next_reservation
@@ -459,23 +471,23 @@ class Manifestation < ActiveRecord::Base
     return patrons
   end
 
-  def set_serial_number(expression)
+  def set_serial_number(manifestation)
     if self.serial? and self.last_issue
-      unless expression.last_issue.serial_number_list.blank?
-        self.serial_number_list = expression.last_issue.serial_number_list.to_i + 1
-        unless expression.last_issue.issue_number_list.blank?
-          self.issue_number_list = expression.last_issue.issue_number_list.split.last.to_i + 1
+      unless manifestation.last_issue.serial_number_list.blank?
+        self.serial_number_list = manifestation.last_issue.serial_number_list.to_i + 1
+        unless manifestation.last_issue.issue_number_list.blank?
+          self.issue_number_list = manifestation.last_issue.issue_number_list.split.last.to_i + 1
         else
-          self.issue_number_list = expression.last_issue.issue_number_list
+          self.issue_number_list = manifestation.last_issue.issue_number_list
         end
-        self.volume_number_list = expression.last_issue.volume_number_list
+        self.volume_number_list = manifestation.last_issue.volume_number_list
       else
         unless expression.last_issue.issue_number_list.blank?
-          self.issue_number_list = expression.last_issue.issue_number_list.split.last.to_i + 1
-          self.volume_number_list = expression.last_issue.volume_number_list
+          self.issue_number_list = manifestation.last_issue.issue_number_list.split.last.to_i + 1
+          self.volume_number_list = manifestation.last_issue.volume_number_list
         else
-          unless expression.last_issue.volume_number_list.blank?
-            self.volume_number_list = expression.last_issue.volume_number_list.split.last.to_i + 1
+          unless manifestation.last_issue.volume_number_list.blank?
+            self.volume_number_list = manifestation.last_issue.volume_number_list.split.last.to_i + 1
           end
         end
       end

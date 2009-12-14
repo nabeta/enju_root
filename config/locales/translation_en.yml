@@ -136,6 +136,7 @@ en:
       license: License
       work_to_expression_rel_type: Work-to-Expression relationship type
       expression_to_manifestation_rel_type: Expression-to-Manifestation relationship type
+      series_statement: Series statement
     attributes:
       library:
         name: Name

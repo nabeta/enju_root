@@ -5,6 +5,7 @@ class ManifestationsController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   before_filter :get_manifestation, :only => :index
+  before_filter :get_series_statement, :only => [:index, :new, :edit]
   before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
@@ -262,15 +263,16 @@ class ManifestationsController < ApplicationController
   def new
     @manifestation = Manifestation.new
     @original_manifestation = get_manifestation
+    @manifestation.series_statement = @series_statement
     unless params[:mode] == 'import_isbn'
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
       #  redirect_to expressions_url
       #  return
       #end
-      if @expression
-        @manifestation.original_title = @expression.original_title
-        @manifestation.set_serial_number(@expression)
+      if @original_manifestation
+        @manifestation.original_title = @original_manifestation.original_title
+        @manifestation.set_serial_number(@original_manifestation)
       end
     end
     @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
@@ -285,6 +287,7 @@ class ManifestationsController < ApplicationController
   def edit
     @manifestation = Manifestation.find(params[:id])
     @original_manifestation = get_manifestation
+    @manifestation.series_statement = @series_statement
     if params[:mode] == 'tag_edit'
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}

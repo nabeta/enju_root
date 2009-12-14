@@ -138,6 +138,7 @@ ja:
       license: ライセンス
       work_to_expression_rel_type: 著作形と表現形の関係の種類
       expression_to_manifestation_rel_type: 表現形と体現形の関係の種類
+      series_statement: 定期刊行物の記述
     attributes:
       library:
         name: 名前
