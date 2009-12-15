@@ -228,11 +228,6 @@ class Manifestation < ActiveRecord::Base
     expression.manifestations.detect{|manifestation| manifestation == self}
   end
 
-  def serial
-    false
-  #  self.expressions.serials.find(:first, :conditions => ['embodies.manifestation_id = ?', self.id])
-  end
-
   def serial?
     #return true if subscription_master
     return true if frequency_id > 1

@@ -122,7 +122,7 @@
     <%- if @manifestation.serial? -%>
       <tr>
         <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
-        <td style="width: 500px"><%= serial_title_link(@manifestation) -%>
+        <td style="width: 500px"><%= link_to @manifestation.series_statement.title, @manifestation.series_statement -%>
           <%- if @manifestation.issn.present? -%>
             (<%= t('activerecord.attributes.manifestation.issn') -%>: <%=h @manifestation.issn -%>)
           <%- end -%>
