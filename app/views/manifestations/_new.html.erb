@@ -60,10 +60,12 @@
     <%= f.date_text_field :date_of_publication, :class => 'date_field', :blank => true -%>
   </p>
 
+  <!--
   <p>
     <b><%= t('activerecord.attributes.manifestation.subscription_master') -%></b>
     <%= f.check_box :subscription_master -%>
-  </p>
+    </p>
+  -->
   
   <%- if @manifestation.series_statement -%>
     <p>

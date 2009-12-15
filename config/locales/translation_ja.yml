@@ -446,6 +446,7 @@ ja:
         note: 注記
         lock_version: ロックバージョン
         deleted_at: 削除時刻
+        parent_of_series: シリーズの親
       purchase_request:
         title: タイトル
         author: 著者
@@ -927,6 +928,11 @@ ja:
         display_name: 表示名
         note: 注記
         position: 位置
+      series_statement:
+        title: シリーズ名
+        numbering: シリーズ番号
+        title_subseries: 副シリーズ名
+        numbering_subseries: 副シリーズ番号
 
   page:
     user_title: "{{login_name}} さんの図書館"

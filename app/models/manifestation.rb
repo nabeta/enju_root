@@ -234,17 +234,40 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial?
-    return true if subscription_master
+    #return true if subscription_master
     return true if frequency_id > 1
     false
   end
 
-  def last_issue
-    if self.serial?
-      self.derived_manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
-    end
-  rescue
-    nil
+  def parent_of_series
+    id = self.id
+    Work.search do
+      with(:manifestation_ids).equal_to id
+      with(:parent_of_series).equal_to true
+    end.results.first
+    # TODO: parent_of_series をシリーズ中にひとつしか作れないようにする
+  end
+
+  def create_next_issue_work_and_expression
+    return nil unless parent_of_series
+    work = Work.create(
+      :original_title => parent_of_series.original_title,
+      :title_alternative => parent_of_series.title_alternative,
+      :title_transcription => parent_of_series.title_transcription,
+      :context => parent_of_series.context,
+      :form_of_work_id => parent_of_series.form_of_work_id,
+      :medium_of_performance_id => parent_of_series.medium_of_performance_id,
+      :required_role_id => parent_of_series.required_role_id
+    )
+    expression = Expression.new(
+      :original_title => parent_of_series.original_title,
+      :title_alternative => parent_of_series.title_alternative,
+      :title_transcription => parent_of_series.title_transcription,
+      :language_id => self.language_id
+    )
+    work.expressions << expression
+    work.patrons << parent_of_series.patrons
+    self.expressions << expression
   end
 
   def next_reservation
@@ -471,27 +494,28 @@ class Manifestation < ActiveRecord::Base
     return patrons
   end
 
-  def set_serial_number(manifestation)
-    if self.serial? and self.last_issue
-      unless manifestation.last_issue.serial_number_list.blank?
-        self.serial_number_list = manifestation.last_issue.serial_number_list.to_i + 1
-        unless manifestation.last_issue.issue_number_list.blank?
-          self.issue_number_list = manifestation.last_issue.issue_number_list.split.last.to_i + 1
+  def set_serial_number
+    if m = series_statement.last_issue
+      unless m.serial_number_list.blank?
+        self.serial_number_list = m.serial_number_list.to_i + 1
+        unless m.issue_number_list.blank?
+          self.issue_number_list = m.issue_number_list.split.last.to_i + 1
         else
-          self.issue_number_list = manifestation.last_issue.issue_number_list
+          self.issue_number_list = m.issue_number_list
         end
-        self.volume_number_list = manifestation.last_issue.volume_number_list
+        self.volume_number_list = m.volume_number_list
       else
-        unless expression.last_issue.issue_number_list.blank?
-          self.issue_number_list = manifestation.last_issue.issue_number_list.split.last.to_i + 1
-          self.volume_number_list = manifestation.last_issue.volume_number_list
+        unless m.issue_number_list.blank?
+          self.issue_number_list = m.issue_number_list.split.last.to_i + 1
+          self.volume_number_list = m.volume_number_list
         else
-          unless manifestation.last_issue.volume_number_list.blank?
-            self.volume_number_list = manifestation.last_issue.volume_number_list.split.last.to_i + 1
+          unless m.volume_number_list.blank?
+            self.volume_number_list = m.volume_number_list.split.last.to_i + 1
           end
         end
       end
     end
+    return self
   end
 
   def is_reserved_by(user = nil)

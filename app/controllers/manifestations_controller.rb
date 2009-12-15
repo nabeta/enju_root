@@ -272,7 +272,9 @@ class ManifestationsController < ApplicationController
       #end
       if @original_manifestation
         @manifestation.original_title = @original_manifestation.original_title
-        @manifestation.set_serial_number(@original_manifestation)
+      end
+      if @series_statement
+        @manifestation = @series_statement.last_issue.set_serial_number
       end
     end
     @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
@@ -343,9 +345,8 @@ class ManifestationsController < ApplicationController
             @manifestation.derived_manifestations << @original_manifestation
           end
           # 雑誌の場合、出版者を自動的に追加
-          if @expression
-            @expression.manifestations << @manifestation
-            @manifestation.patrons << last_issue.patrons if last_issue
+          if @series_statement
+            @manifestation.create_next_issue_work_and_expression
           end
         end
 

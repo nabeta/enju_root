@@ -5,6 +5,7 @@ class CreateSeriesStatements < ActiveRecord::Migration
       t.text :numbering
       t.text :title_subseries
       t.text :numbering_subseries
+      t.integer :position
 
       t.timestamps
     end

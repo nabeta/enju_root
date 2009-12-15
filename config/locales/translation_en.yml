@@ -445,6 +445,7 @@ en:
         note: Note
         lock_version: Lock version
         deleted_at: Deleted at
+        parent_of_series: Parent of series
       purchase_request:
         title: Title
         author: Author
@@ -927,6 +928,11 @@ en:
         display_name: Display name
         note: Note
         position: Position
+      series_statement:
+        title: Title
+        numbering: Numbering
+        title_subseries: Title subseries
+        numbering_subseries: Numbering subseries
 
   page:
     user_title: "{{login_name}}'s library"

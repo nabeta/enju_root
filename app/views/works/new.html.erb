@@ -41,6 +41,11 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.attributes.work.parent_of_series') -%></b>
+    <%= f.check_box :parent_of_series -%>
+  </p>
+
+  <p>
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>

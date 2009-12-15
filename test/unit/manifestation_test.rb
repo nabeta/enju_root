@@ -54,4 +54,8 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00003).screen_shot
   end
 
+  def test_manifestation_should_not_have_parent_of_series
+    assert_nil manifestations(:manifestation_00001).parent_of_series
+  end
+
 end

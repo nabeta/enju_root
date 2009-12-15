@@ -29,7 +29,9 @@
           <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
         <%- end -%>
+        <!--
         <%= check_box_tag 'subscription_master', true, @subscription_master -%> <%= t('activerecord.attributes.manifestation.subscription_master') -%>
+        -->
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <!--
