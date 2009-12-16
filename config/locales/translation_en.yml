@@ -1090,6 +1090,7 @@ en:
     related: "Related"
     history: "History"
     current_version: "Current version"
+    select: "Select"
   title:
     index: "index"
     show: "show"
@@ -1371,3 +1372,5 @@ en:
   calendar:
     calendar: "Calendar"
     library_calendar: "Calendar of events at {{library_name}}"
+  series_statement:
+    edit: "Edit series statement"

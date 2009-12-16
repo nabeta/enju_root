@@ -2,7 +2,8 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
     Create, Realize, Produce, Own, Bookmark, Tag, Patron, Language,
     Library, Basket, Checkin, WorkHasWork, ExpressionHasExpression,
-    ManifestationHasManifestation, ItemHasItem, PatronHasPatron
+    ManifestationHasManifestation, ItemHasItem, PatronHasPatron,
+    SeriesStatement
 
   def after_save(record)
     case
@@ -196,6 +197,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(Language)
       Language.all.each do |language|
         expire_fragment(:controller => 'page', :locale => language.iso_639_1)
+      end
+    when record.is_a?(SeriesStatement)
+      record.manifestations.each do |manifestation|
+        expire_editable_fragment(manifestation, "detail_2")
       end
     end
   end

@@ -1,39 +1,5 @@
-<div id="content_detail">
-<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.series_statement')) -%></h1>
-<div id="content_list">
-<table class="index">
-  <tr>
-    <th id="position"></th>
-    <th><%= t('activerecord.attributes.series_statement.title') -%></th>
-    <th><%= t('activerecord.attributes.series_statement.numbering') -%></th>
-    <th><%= t('activerecord.attributes.series_statement.title_subseries') -%></th>
-    <th><%= t('activerecord.attributes.series_statement.numbering_subseries') -%></th>
-  </tr>
-
-<% @series_statements.each do |series_statement| %>
-  <tr class="line<%= cycle("0", "1") -%>">
-    <td>
-      <%- if series_statement.is_deletable_by(current_user) -%>
-        <%= move_position(series_statement) -%>
-      <%- end -%>
-    </td>
-    <td><%= link_to series_statement.title, series_statement %></td>
-    <td><%= series_statement.numbering %></td>
-    <td><%= series_statement.title_subseries %></td>
-    <td><%= series_statement.numbering_subseries %></td>
-    <td><%= link_to t('page.edit'), edit_series_statement_path(series_statement) %></td>
-    <td><%= link_to t('page.destroy'), series_statement, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<%= will_paginate(@series_statements) -%>
-
-</div>
-</div>
-
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.series_statement')), new_series_statement_path -%></li>
-  </ul>
-</div>
+<%- if @manifestation -%>
+  <%= render :partial => 'index_manifestation' -%>
+<%- else -%>
+  <%= render :partial => 'index' -%>
+<%- end -%>

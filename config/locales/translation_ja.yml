@@ -1079,6 +1079,7 @@ ja:
     related: "関連"
     history: "履歴"
     current_version: "最新版"
+    select: "選択"
   title:
     index: "一覧"
     show: "表示"
@@ -1355,3 +1356,5 @@ ja:
   calendar:
     calendar: "カレンダー"
     library_calendar: "{{library_name}}のカレンダー"
+  series_statement:
+    edit: "シリーズ情報の編集"

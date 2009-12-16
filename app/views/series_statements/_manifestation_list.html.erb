@@ -1,0 +1,14 @@
+<div id="manifestation_list">
+<h2><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h2>
+<table class="index">
+<%- @manifestations.each do |manifestation| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <%= link_to manifestation.original_title, manifestation -%><br />
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :manifestation_page, :class => 'content_pagination') -%>
+</div>

@@ -273,11 +273,9 @@ class ManifestationsController < ApplicationController
       if @original_manifestation
         @manifestation.original_title = @original_manifestation.original_title
       end
-      if @series_statement
-        @manifestation = @series_statement.last_issue.set_serial_number
-      end
     end
     @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
+    @manifestation = @manifestation.set_serial_number
 
     respond_to do |format|
       format.html # new.html.erb
@@ -289,7 +287,7 @@ class ManifestationsController < ApplicationController
   def edit
     @manifestation = Manifestation.find(params[:id])
     @original_manifestation = get_manifestation
-    @manifestation.series_statement = @series_statement
+    @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
       @bookmark = current_user.bookmarks.find(:first, :conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
@@ -335,7 +333,6 @@ class ManifestationsController < ApplicationController
       #  redirect_to expressions_url
       #  return
       #end
-      last_issue = @expression.last_issue if @expression
     end
 
     respond_to do |format|

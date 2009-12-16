@@ -229,8 +229,9 @@ class Manifestation < ActiveRecord::Base
   end
 
   def serial?
-    #return true if subscription_master
-    return true if frequency_id > 1
+    return true if series_statement
+    #return true if parent_of_series
+    #return true if frequency_id > 1
     false
   end
 
@@ -311,16 +312,6 @@ class Manifestation < ActiveRecord::Base
 
   def shelf
     self.items.collect{|i| i.shelf.library.name + i.shelf.name}
-  end
-
-  def related_root_works
-    works = []
-    self.expressions.each do |expression|
-      works << expression.work.root
-      #works << e.work.parent
-      #works << e.work.children
-    end
-    return works.uniq
   end
 
   def related_works(options = {:include_ancestors => false})
@@ -490,7 +481,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_serial_number
-    if m = series_statement.last_issue
+    if m = series_statement.try(:last_issue)
+      self.original_title = m.original_title
+      self.title_transcription = m.title_transcription
+      self.title_alternative = m.title_alternative
+      self.issn = m.issn
       unless m.serial_number_list.blank?
         self.serial_number_list = m.serial_number_list.to_i + 1
         unless m.issue_number_list.blank?

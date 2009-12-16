@@ -24,6 +24,17 @@
 
 <%- form_for(@manifestation) do |f| -%>
   <p>
+    <%- if @manifestation.series_statement -%>
+      <b><%= t('activerecord.models.series_statement') -%></b>
+      <%= link_to @manifestation.series_statement.title, @manifestation.series_statement -%>
+      (<%= link_to t('series_statement.edit'), series_statements_path -%>)
+    <%- else -%>
+      <b><%= t('activerecord.models.series_statement') -%></b>
+      (<%= link_to t('series_statement.edit'), series_statements_path -%>)
+    <%- end -%>
+  </p>
+
+  <p>
     <b><%= t('page.title') -%></b><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>
   </p>
@@ -68,13 +79,6 @@
   -->
   
   <%- if @manifestation.series_statement -%>
-    <p>
-      <b><%= t('activerecord.models.series_statement') -%></b>
-      <%= link_to @manifestation.series_statement.title, @manifestation.series_statement -%>
-    </p>
-  <%- end -%>
-
-  <%- if @manifestation.serial? -%>
     <%= render :partial => 'serial_form', :locals => {:f => f} -%>
   <%- else -%>
     <p>
@@ -82,6 +86,19 @@
       <%= f.text_field :edition, :class => 'resource_integer' -%>
       <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
       <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
+    </p>
+
+    <p>
+      <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
+      <%= f.text_field :isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+    </p>
+    <p>
+      <b><%= t('activerecord.attributes.manifestation.wrong_isbn') -%></b>
+      <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+    </p>
+    <p>
+      <b><%= t('activerecord.attributes.manifestation.lccn') -%></b>
+      <%= f.text_field :lccn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
     </p>
   <%- end -%>
 
