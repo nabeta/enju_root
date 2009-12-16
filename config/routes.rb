@@ -1,4 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :series_statements do |series_statement|
+    series_statement.resources :manifestations
+  end
+
   map.resources :work_to_expression_rel_types
 
   map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', :year => Time.zone.now.year, :month => Time.zone.now.month

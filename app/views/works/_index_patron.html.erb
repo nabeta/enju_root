@@ -44,7 +44,7 @@
       <td>
         <%= link_to h(work.original_title), work -%>
         <br />
-        <%= patrons_list(work.patrons) -%>
+        <%= raw patrons_list(work.patrons) -%>
       </td>
       <td><%=h work.context -%></td>
       <td>

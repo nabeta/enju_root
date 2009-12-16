@@ -1,11 +1,11 @@
-<%
+<%-
   map = GoogleMap::Map.new
   map.markers << GoogleMap::Marker.new(:map => map, 
                                      :lat => library.geocode.latitude, 
                                      :lng => library.geocode.longitude,
                                      :html => h(library.display_name.localize))
-%>
-<%= map.to_html %>
+-%>
+<%= raw map.to_html -%>
 <div style="width: 500px; height: 500px;">
-  <%= map.div %>
+  <%= raw map.div -%>
 </div>

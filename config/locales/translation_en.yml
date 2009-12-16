@@ -136,6 +136,7 @@ en:
       license: License
       work_to_expression_rel_type: Work-to-Expression relationship type
       expression_to_manifestation_rel_type: Expression-to-Manifestation relationship type
+      series_statement: Series statement
     attributes:
       library:
         name: Name
@@ -444,6 +445,7 @@ en:
         note: Note
         lock_version: Lock version
         deleted_at: Deleted at
+        parent_of_series: Parent of series
       purchase_request:
         title: Title
         author: Author
@@ -926,6 +928,11 @@ en:
         display_name: Display name
         note: Note
         position: Position
+      series_statement:
+        title: Title
+        numbering: Numbering
+        title_subseries: Title subseries
+        numbering_subseries: Numbering subseries
 
   page:
     user_title: "{{login_name}}'s library"
@@ -1083,6 +1090,7 @@ en:
     related: "Related"
     history: "History"
     current_version: "Current version"
+    select: "Select"
   title:
     index: "index"
     show: "show"
@@ -1364,3 +1372,5 @@ en:
   calendar:
     calendar: "Calendar"
     library_calendar: "Calendar of events at {{library_name}}"
+  series_statement:
+    edit: "Edit series statement"

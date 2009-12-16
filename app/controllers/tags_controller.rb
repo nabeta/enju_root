@@ -22,18 +22,17 @@ class TagsController < ApplicationController
 
     if query.present?
       begin
-        tag_ids = Tag.search_ids do
+        @tags = Tag.search do
           fulltext query
           paginate :page => page.to_i, :per_page => Tag.per_page
-        end
-        @tags = Tag.paginate(:conditions => {:id => tag_ids}, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+          order_by sort[:sort_by], sort[:order]
+        end.results
       rescue RSolr::RequestError
         @tags = WillPaginate::Collection.create(1,1,0) do end
       end
     else
       @tags = Tag.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
     end
-
 
     respond_to do |format|
       format.html # index.html.erb

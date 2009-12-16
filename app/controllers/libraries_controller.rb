@@ -7,7 +7,29 @@ class LibrariesController < ApplicationController
   # GET /libraries
   # GET /libraries.xml
   def index
-    @libraries = Library.paginate(:all, :page => params[:page])
+    sort = {:sort_by => 'created_at', :order => 'desc'}
+    case params[:sort_by]
+    when 'name'
+      sort[:sort_by] = 'name'
+    end
+    sort[:order] = 'asc' if params[:order] == 'asc'
+
+    query = @query = params[:query].to_s.strip
+    page = params[:page] || 1
+
+    if query.present?
+      begin
+        @libraries = Library.search do
+          fulltext query
+          paginate :page => page.to_i, :per_page => Tag.per_page
+          order_by sort[:sort_by], sort[:order]
+        end.results
+      rescue RSolr::RequestError
+        @libraries = WillPaginate::Collection.create(1,1,0) do end
+      end
+    else
+      @libraries = Library.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+    end
 
     respond_to do |format|
       format.html # index.rhtml

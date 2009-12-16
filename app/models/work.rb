@@ -41,6 +41,10 @@ class Work < ActiveRecord::Base
     integer :required_role_id
     integer :form_of_work_id
     integer :subject_ids, :multiple => true
+    boolean :parent_of_series
+    integer :manifestation_ids, :multiple => true do
+      expressions.collect(&:manifestations).flatten.collect(&:id)
+    end
   end
 
   #acts_as_soft_deletable

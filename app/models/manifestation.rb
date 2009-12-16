@@ -44,6 +44,7 @@ class Manifestation < ActiveRecord::Base
   has_many :bookmarks
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
+  belongs_to :series_statement
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
@@ -96,6 +97,7 @@ class Manifestation < ActiveRecord::Base
     float :price
     boolean :reservable
     boolean :subscription_master
+    integer :series_statement_id
   end
 
   #acts_as_tree
@@ -226,13 +228,42 @@ class Manifestation < ActiveRecord::Base
     expression.manifestations.detect{|manifestation| manifestation == self}
   end
 
-  def serial
+  def serial?
+    return true if series_statement
+    #return true if parent_of_series
+    #return true if frequency_id > 1
     false
-  #  self.expressions.serials.find(:first, :conditions => ['embodies.manifestation_id = ?', self.id])
   end
 
-  def serial?
-    true if subscription_master
+  def parent_of_series
+    id = self.id
+    Work.search do
+      with(:manifestation_ids).equal_to id
+      with(:parent_of_series).equal_to true
+    end.results.first
+    # TODO: parent_of_series をシリーズ中にひとつしか作れないようにする
+  end
+
+  def create_next_issue_work_and_expression
+    return nil unless parent_of_series
+    work = Work.create(
+      :original_title => parent_of_series.original_title,
+      :title_alternative => parent_of_series.title_alternative,
+      :title_transcription => parent_of_series.title_transcription,
+      :context => parent_of_series.context,
+      :form_of_work_id => parent_of_series.form_of_work_id,
+      :medium_of_performance_id => parent_of_series.medium_of_performance_id,
+      :required_role_id => parent_of_series.required_role_id
+    )
+    expression = Expression.new(
+      :original_title => parent_of_series.original_title,
+      :title_alternative => parent_of_series.title_alternative,
+      :title_transcription => parent_of_series.title_transcription,
+      :language_id => self.language_id
+    )
+    work.expressions << expression
+    work.patrons << parent_of_series.patrons
+    self.expressions << expression
   end
 
   def next_reservation
@@ -281,16 +312,6 @@ class Manifestation < ActiveRecord::Base
 
   def shelf
     self.items.collect{|i| i.shelf.library.name + i.shelf.name}
-  end
-
-  def related_root_works
-    works = []
-    self.expressions.each do |expression|
-      works << expression.work.root
-      #works << e.work.parent
-      #works << e.work.children
-    end
-    return works.uniq
   end
 
   def related_works(options = {:include_ancestors => false})
@@ -459,27 +480,32 @@ class Manifestation < ActiveRecord::Base
     return patrons
   end
 
-  def set_serial_number(expression)
-    if self.serial? and self.last_issue
-      unless expression.last_issue.serial_number_list.blank?
-        self.serial_number_list = expression.last_issue.serial_number_list.to_i + 1
-        unless expression.last_issue.issue_number_list.blank?
-          self.issue_number_list = expression.last_issue.issue_number_list.split.last.to_i + 1
+  def set_serial_number
+    if m = series_statement.try(:last_issue)
+      self.original_title = m.original_title
+      self.title_transcription = m.title_transcription
+      self.title_alternative = m.title_alternative
+      self.issn = m.issn
+      unless m.serial_number_list.blank?
+        self.serial_number_list = m.serial_number_list.to_i + 1
+        unless m.issue_number_list.blank?
+          self.issue_number_list = m.issue_number_list.split.last.to_i + 1
         else
-          self.issue_number_list = expression.last_issue.issue_number_list
+          self.issue_number_list = m.issue_number_list
         end
-        self.volume_number_list = expression.last_issue.volume_number_list
+        self.volume_number_list = m.volume_number_list
       else
-        unless expression.last_issue.issue_number_list.blank?
-          self.issue_number_list = expression.last_issue.issue_number_list.split.last.to_i + 1
-          self.volume_number_list = expression.last_issue.volume_number_list
+        unless m.issue_number_list.blank?
+          self.issue_number_list = m.issue_number_list.split.last.to_i + 1
+          self.volume_number_list = m.volume_number_list
         else
-          unless expression.last_issue.volume_number_list.blank?
-            self.volume_number_list = expression.last_issue.volume_number_list.split.last.to_i + 1
+          unless m.volume_number_list.blank?
+            self.volume_number_list = m.volume_number_list.split.last.to_i + 1
           end
         end
       end
     end
+    return self
   end
 
   def is_reserved_by(user = nil)

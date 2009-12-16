@@ -51,13 +51,6 @@ module ApplicationHelper
     image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
   end
 
-  def serial_title_link(manifestation)
-    # FIXME: 最初の1誌だけが取得されるが…
-    link_to h(manifestation.original_title), manifestation_path(manifestation)
-  rescue
-    nil
-  end
-
   def link_to_tag(tag)
     link_to h(tag), manifestations_path(:tag => tag.name)
   end

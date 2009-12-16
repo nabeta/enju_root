@@ -34,12 +34,11 @@ class UsersController < ApplicationController
 
     unless query.blank?
       begin
-        user_ids = User.search_ids do
+        @users = User.search do
           fulltext query
           order_by sort[:sort_by], sort[:order]
           with(:required_role_id).less_than role.id+1
-        end
-        @users = User.paginate(:conditions => {:id => user_ids}, :page => page)
+        end.results
       rescue RSolr::RequestError
         @users = WillPaginate::Collection.create(1,1,0) do end
       end

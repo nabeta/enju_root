@@ -28,6 +28,16 @@
   </p>
 
   <p>
+    <b><%= t('activerecord.models.form_of_work') -%></b><br />
+    <%= f.select(:form_of_work_id, @form_of_works.collect{|w| [w.display_name.localize, w.id]}) -%>
+  </p>
+
+  <p>
+    <b><%= t('activerecord.attributes.work.parent_of_series') -%></b>
+    <%= f.check_box :parent_of_series -%>
+  </p>
+
+  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>

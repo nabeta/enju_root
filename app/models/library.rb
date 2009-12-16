@@ -18,6 +18,12 @@ class Library < ActiveRecord::Base
   has_friendly_id :name
   acts_as_geocodable
 
+  searchable do
+    text :name, :display_name, :note, :address
+    time :created_at
+    time :updated_at
+  end
+
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
   validates_presence_of :name, :display_name, :short_display_name, :library_group, :patron
@@ -28,6 +34,7 @@ class Library < ActiveRecord::Base
   @@per_page = 10
 
   def after_save
+    index!
     expire_cache
   end
 

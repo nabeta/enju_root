@@ -138,6 +138,7 @@ ja:
       license: ライセンス
       work_to_expression_rel_type: 著作形と表現形の関係の種類
       expression_to_manifestation_rel_type: 表現形と体現形の関係の種類
+      series_statement: 定期刊行物の記述
     attributes:
       library:
         name: 名前
@@ -445,6 +446,7 @@ ja:
         note: 注記
         lock_version: ロックバージョン
         deleted_at: 削除時刻
+        parent_of_series: シリーズの親
       purchase_request:
         title: タイトル
         author: 著者
@@ -926,6 +928,11 @@ ja:
         display_name: 表示名
         note: 注記
         position: 位置
+      series_statement:
+        title: シリーズ名
+        numbering: シリーズ番号
+        title_subseries: 副シリーズ名
+        numbering_subseries: 副シリーズ番号
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -1072,6 +1079,7 @@ ja:
     related: "関連"
     history: "履歴"
     current_version: "最新版"
+    select: "選択"
   title:
     index: "一覧"
     show: "表示"
@@ -1348,3 +1356,5 @@ ja:
   calendar:
     calendar: "カレンダー"
     library_calendar: "{{library_name}}のカレンダー"
+  series_statement:
+    edit: "シリーズ情報の編集"

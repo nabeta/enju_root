@@ -214,6 +214,12 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
+  def get_series_statement
+    @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
+  rescue ActiveRecord::RecordNotFound
+    not_found
+  end
+
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
   rescue ActiveRecord::RecordNotFound

@@ -10,6 +10,20 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.library')) -%></h1>
 <div id="content_list">
 
+<%- form_for :libraries, :url => libraries_path, :html => {:method => 'get'} do -%>
+  <p>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
+    <%= submit_tag t('page.search') -%>
+  </p>
+  <%= javascript_tag("$('query').focus()") -%>
+<%- end -%>
+
+<p>
+  <%= t('page.sort_by') -%>:
+  <%= link_to t('activerecord.attributes.tag.name'), libraries_path(:order => 'name') -%>
+  <%= link_to t('page.created_at'), libraries_path(:sort_by => 'created_at') -%>
+</p>
+
 <table class="index">
   <tr>
     <th id="position"></th>

@@ -1,0 +1,20 @@
+<p>
+  <b><%= t('activerecord.attributes.manifestation.edition') -%></b>
+  <%= f.text_field :edition, :class => 'resource_integer' -%>
+  <b><%= t('activerecord.attributes.manifestation.volume_number_list') -%></b>
+  <%= f.text_field :volume_number_list, :class => 'resource_integer' -%>
+  <b><%= t('activerecord.attributes.manifestation.serial_number_list') -%></b>
+  <%= f.text_field :serial_number_list, :class => 'resource_integer', :style => 'ime-mode: disabled' -%>
+</p>
+<p>
+  <b><%= t('activerecord.attributes.manifestation.isbn') -%></b>
+  <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
+  <b><%= t('activerecord.attributes.manifestation.wrong_isbn') -%></b>
+  <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+</p>
+<p>
+  <b><%= t('activerecord.attributes.manifestation.issn') -%></b>
+  <%= f.text_field :issn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+  <b><%= t('activerecord.attributes.manifestation.lccn') -%></b>
+  <%= f.text_field :lccn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+</p>

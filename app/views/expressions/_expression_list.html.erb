@@ -5,7 +5,7 @@
         [E]
         (<%= h(expression_has_expression.expression_relationship_type.display_name.localize) -%>)
         <%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%>
-        <%= patrons_list(expression_has_expression.from_expression.patrons) -%>
+        <%= raw patrons_list(expression_has_expression.from_expression.patrons) -%>
       </li>
     <%- end -%>
     <%- @expression.to_expressions.each do |expression_has_expression| -%>
@@ -13,7 +13,7 @@
         [E]
         (<%= h(expression_has_expression.expression_relationship_type.display_name.localize) -%>)
         <%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%>
-        <%= patrons_list(expression_has_expression.to_expression.patrons) -%>
+        <%= raw patrons_list(expression_has_expression.to_expression.patrons) -%>
       </li>
     <%- end -%>
   </ul>
