@@ -53,7 +53,7 @@ Rails::Initializer.run do |config|
   config.gem "friendly_id"
   config.gem "graticule"
   #config.gem "calendar_date_select"
-  config.gem "nabeta-scribd_fu", :lib => "scribd_fu"
+  config.gem "scribd_fu"
   config.gem "restful_acl", :version => ">=3.0.0"
   #config.gem "strongbox"
   config.gem "system_timer"
@@ -128,3 +128,4 @@ require 'atom/pub'
 require 'localized_name'
 require 'xml/libxml'
 require 'dismax'
+require 'scribd_fu'
