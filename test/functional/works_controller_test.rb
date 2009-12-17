@@ -3,7 +3,7 @@ require 'test_helper'
 class WorksControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :works, :form_of_works, :expressions, :realizes, :creates, :produces, :reifies,
-    :patrons, :users, :roles
+    :patrons, :users, :roles, :subscriptions, :subscribes
 
   def test_guest_should_get_index
     get :index
@@ -45,6 +45,15 @@ class WorksControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert assigns(:works)
+  end
+
+  def test_guest_should_get_index_with_subscription
+    get :index, :subscription_id => 1
+    assert_response :success
+    #assert_response :redirect
+    assert assigns(:subscription)
+    assert assigns(:works)
+    #assert_redirected_to new_user_session_url
   end
 
   def test_guest_should_not_get_new

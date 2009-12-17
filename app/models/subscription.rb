@@ -19,4 +19,8 @@ class Subscription < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
 
+  def subscribed(work)
+    subscribes.find(:first, :conditions => {:work_id => work.id})
+  end
+
 end

@@ -20,12 +20,12 @@
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_file_size') -%>:</b>
-  <%=h @picture_file.picture_file_size -%>
+  <%= @picture_file.picture_file_size -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_content_type') -%>:</b>
-  <%=h @picture_file.picture_content_type -%>
+  <%= @picture_file.picture_content_type -%>
 </p>
 
 <p>
@@ -36,22 +36,22 @@
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.width') -%>:</b>
-  <%=h @picture_file.width -%>
+  <%= @picture_file.width -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.height') -%>:</b>
-  <%=h @picture_file.height -%>
+  <%= @picture_file.height -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.file_hash') -%>:</b>
-  <%=h @picture_file.file_hash -%>
+  <%= @picture_file.file_hash -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_updated_at') -%>:</b>
-  <%=h l(@picture_file.picture_updated_at) if @picture_file.picture_updated_at -%>
+  <%= l(@picture_file.picture_updated_at) if @picture_file.picture_updated_at -%>
 </p>
 
 </div>

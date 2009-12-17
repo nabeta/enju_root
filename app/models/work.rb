@@ -98,4 +98,13 @@ class Work < ActiveRecord::Base
     reifies.find(:first, :conditions => {:expression_id => expression.id})
   end
 
+  def subscribed?(time = Time.zone.now)
+    if subscribe = subscribes.find(:first, :order => 'end_at DESC')
+      if subscribe.end_at
+        return true if subscribe.start_at <= time and subscribe.end_at >= time
+      end
+    end
+    false
+  end
+
 end

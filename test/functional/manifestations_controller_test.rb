@@ -65,15 +65,6 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
-  def test_guest_should_get_index_with_subscription
-    get :index, :subscription_id => 1
-    assert_response :success
-    #assert_response :redirect
-    assert assigns(:subscription)
-    assert assigns(:manifestations)
-    #assert_redirected_to new_user_session_url
-  end
-
   #def test_user_should_not_get_index_with_subscription
   #  UserSession.create users(:user1)
   #  get :index, :subscription_id => 1

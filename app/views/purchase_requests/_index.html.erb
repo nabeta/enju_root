@@ -26,7 +26,7 @@
 
 <h4><%= t('page.bookmarklet') -%></h4>
 <ul>
-  <li><a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
+  <li><a href="javascript:window.location.href='<%= new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
 </ul>
 </div>
 
@@ -55,11 +55,11 @@
       <td>
         <%= link_to h(purchase_request.title), purchase_request -%>
         <br />
-        <%=h purchase_request.author -%>
-        <%=h purchase_request.publisher -%>
-        <%=h purchase_request.date_of_publication -%>
+        <%= purchase_request.author -%>
+        <%= purchase_request.publisher -%>
+        <%= purchase_request.date_of_publication -%>
       </td>
-      <td><%=h purchase_request.price -%></td>
+      <td><%= purchase_request.price -%></td>
       <td>
         <%= link_to h(purchase_request.order_list.title), order_list_purchase_requests_path(purchase_request.order_list) if purchase_request.order_list -%>
       </td>
