@@ -10,12 +10,12 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.news_post.title') -%>:</b>
-  <%=h @news_post.title -%>
+  <%= @news_post.title -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.news_post.body') -%>:</b>
-  <%=h @news_post.body -%>
+  <%= @news_post.body -%>
 </p>
 
 <p>
@@ -25,7 +25,7 @@
 
 <p>
   <b><%= t('role.required_role') -%>:</b>
-  <%=h @news_post.required_role.display_name.localize -%>
+  <%= @news_post.required_role.display_name.localize -%>
 </p>
 
 <p>
@@ -40,7 +40,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.news_post.note') -%>:</b>
-  <%=h @news_post.note -%>
+  <%= @news_post.note -%>
 </p>
 
 </div>

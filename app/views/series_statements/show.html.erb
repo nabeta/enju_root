@@ -3,22 +3,22 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.attributes.series_statement.title') -%></b>
-  <%=h @series_statement.title %>
+  <%= @series_statement.title %>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.series_statement.numbering') -%></b>
-  <%=h @series_statement.numbering %>
+  <%= @series_statement.numbering %>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.series_statement.title_subseries') -%></b>
-  <%=h @series_statement.title_subseries %>
+  <%= @series_statement.title_subseries %>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.series_statement.numbering_subseries') -%></b>
-  <%=h @series_statement.numbering_subseries %>
+  <%= @series_statement.numbering_subseries %>
 </p>
 
   <%= render :partial => 'manifestation_list' -%>

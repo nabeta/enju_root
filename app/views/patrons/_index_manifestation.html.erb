@@ -47,11 +47,11 @@
   <%- @patrons.each do |patron| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= link_to h(patron.full_name), patron -%></td>
-      <td><%=h patron.patron_type.display_name.localize -%></td>
-      <td><%=h patron.other_designation -%></td>
-      <td><%=h patron.place -%></td>
-      <td><%=h patron.date_of_birth -%></td>
-      <td><%=h patron.date_of_death -%></td>
+      <td><%= patron.patron_type.display_name.localize -%></td>
+      <td><%= patron.other_designation -%></td>
+      <td><%= patron.place -%></td>
+      <td><%= patron.date_of_birth -%></td>
+      <td><%= patron.date_of_death -%></td>
       <td>
         <%- if patron.is_deletable_by(current_user) -%>
           <%- if params[:mode] == 'add' -%>

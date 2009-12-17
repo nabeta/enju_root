@@ -24,7 +24,7 @@
   -%>
   <h2 id="resource_title">
     [W]
-    <%=h @work.original_title -%>
+    <%= @work.original_title -%>
   </h2>
   <%- if @version -%>
     <p>(<%= l(@work.versions.find(@version).created_at) -%>)</p>
@@ -58,19 +58,31 @@
           <tr>
             <td style="width: 200px"><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
             <td>
-              <%=h @work.title_transcription -%>
+              <%= @work.title_transcription -%>
+            </td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.models.form_of_work') -%>:</b></td>
+            <td>
+              <%= link_to @work.form_of_work.display_name.localize, @work.form_of_work -%>
+            </td>
+          </tr>
+          <tr>
+            <td><b><%= t('activerecord.attributes.work.parent_of_series') -%>:</b></td>
+            <td>
+              <%= @work.parent_of_series -%>
             </td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
             <td>
-              <%=h @work.context -%>
+              <%= @work.context -%>
             </td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.work.note') -%>:</b></td>
             <td>
-              <%=h @work.note -%>
+              <%= @work.note -%>
             </td>
           </tr>
           <tr>

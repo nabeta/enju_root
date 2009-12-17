@@ -80,12 +80,6 @@ class Expression < ActiveRecord::Base
     self.expression_merge_lists.collect(&:id)
   end
 
-  def subscribed?
-    return true if self.subscribe.end_on > Time.zone.now
-  rescue
-    nil
-  end
-
   def reified(patron)
     reifies.find(:first, :conditions => {:patron_id => patron.id})
   end

@@ -1,14 +1,14 @@
 class SubscriptionsController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?
-  before_filter :get_expression
+  before_filter :get_work
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /subscriptions
   # GET /subscriptions.xml
   def index
-    if @expression
-      @subscriptions = @expression.subscriptions.paginate(:page => params[:page])
+    if @work
+      @subscriptions = @work.subscriptions.paginate(:page => params[:page])
     else
       @subscriptions = Subscription.paginate(:all, :page => params[:page])
     end

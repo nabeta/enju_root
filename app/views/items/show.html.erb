@@ -1,4 +1,4 @@
-<div style="color: red"><%=h flash[:message] -%></div>
+<div style="color: red"><%= flash[:message] -%></div>
 
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
@@ -64,24 +64,24 @@
 
 <p>
   <b><%= t('activerecord.attributes.item.call_number') -%>:</b>
-  <%=h @item.call_number -%>
+  <%= @item.call_number -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.item.item_identifier') -%>:</b>
-  <%=h @item.item_identifier -%>
+  <%= @item.item_identifier -%>
   <br />
   <%= image_tag("#{barcode_url(@item.barcode)}.png", :alt => @item.item_identifier) if @item.barcode -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.item.price') -%>:</b>
-  <%=h @item.price -%>
+  <%= @item.price -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.item.url') -%>:</b>
-  <%=h @item.url -%>
+  <%= @item.url -%>
 </p>
 
 <p>

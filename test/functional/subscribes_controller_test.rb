@@ -43,7 +43,7 @@ class SubscribesControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_subscribe
     old_count = Subscribe.count
-    post :create, :subscribe => { :manifestation_id => 1, :subscription_id => 1 }
+    post :create, :subscribe => { :work_id => 1, :subscription_id => 1 }
     assert_equal old_count, Subscribe.count
     
     assert_response :redirect
@@ -53,13 +53,13 @@ class SubscribesControllerTest < ActionController::TestCase
   def test_user_should_not_create_subscribe
     UserSession.create users(:user1)
     old_count = Subscribe.count
-    post :create, :subscribe => { :manifestation_id => 1, :subscription_id => 1 }
+    post :create, :subscribe => { :work_id => 1, :subscription_id => 1 }
     assert_equal old_count, Subscribe.count
     
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_create_create_without_manifestation_id
+  def test_librarian_should_not_create_create_without_work_id
     UserSession.create users(:librarian1)
     old_count = Subscribe.count
     post :create, :subscribe => { :subscription_id => 1 }
@@ -71,7 +71,7 @@ class SubscribesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_create_without_subscription_id
     UserSession.create users(:librarian1)
     old_count = Subscribe.count
-    post :create, :subscribe => { :manifestation_id => 1 }
+    post :create, :subscribe => { :work_id => 1 }
     assert_equal old_count, Subscribe.count
     
     assert_response :success
@@ -80,7 +80,7 @@ class SubscribesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_create_already_created
     UserSession.create users(:librarian1)
     old_count = Subscribe.count
-    post :create, :subscribe => { :started_on => Date.today.to_s, :ended_on => Date.tomorrow.to_s, :manifestation_id => 1, :subscription_id => 1 }
+    post :create, :subscribe => { :start_at => Time.zone.now.to_s, :end_at => 1.day.from_now.to_s, :work_id => 1, :subscription_id => 1 }
     assert_equal old_count, Subscribe.count
     
     assert_response :success
@@ -89,7 +89,7 @@ class SubscribesControllerTest < ActionController::TestCase
   def test_librarian_should_create_subscribe_not_created_yet
     UserSession.create users(:librarian1)
     old_count = Subscribe.count
-    post :create, :subscribe => { :started_on => Date.today.to_s, :ended_on => Date.tomorrow.to_s, :manifestation_id => 3, :subscription_id => 1 }
+    post :create, :subscribe => { :start_at => Time.zone.now.to_s, :end_at => 1.day.from_now.to_s, :work_id => 3, :subscription_id => 1 }
     assert_equal old_count+1, Subscribe.count
     
     assert_redirected_to subscribe_url(assigns(:subscribe))
@@ -121,13 +121,13 @@ class SubscribesControllerTest < ActionController::TestCase
   
   def test_user_should_not_get_edit
     UserSession.create users(:user1)
-    get :edit, :id => 1, :manifestation_id => 1
+    get :edit, :id => 1, :work_id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
     UserSession.create users(:librarian1)
-    get :edit, :id => 1, :manifestation_id => 1
+    get :edit, :id => 1, :work_id => 1
     assert_response :success
   end
   
@@ -143,9 +143,9 @@ class SubscribesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_not_update_create_without_manifestation_id
+  def test_librarian_should_not_update_create_without_work_id
     UserSession.create users(:librarian1)
-    put :update, :id => 1, :subscribe => {:manifestation_id => nil}
+    put :update, :id => 1, :subscribe => {:work_id => nil}
     assert_response :success
   end
   

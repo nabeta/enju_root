@@ -31,7 +31,7 @@
   -%>
   <h2 id="resource_title">
     [E]
-    <%=h @expression.original_title -%>
+    <%= @expression.original_title -%>
     <%= content_type_icon(@expression.content_type) -%>
   </h2>
 
@@ -66,34 +66,34 @@
         <table class="index">
           <tr>
             <td><b><%= t('activerecord.attributes.expression.title_transcription') -%>:</b></td>
-            <td><%=h @expression.title_transcription -%></td>
+            <td><%= @expression.title_transcription -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.expression.summarization') -%>:</b></td>
-            <td><%=h @expression.summarization -%></td>
+            <td><%= @expression.summarization -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.expression.context') -%>:</b></td>
-            <td><%=h @expression.context -%></td>
+            <td><%= @expression.context -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.models.language') -%>:</b></td>
-            <td><%=h @expression.language.display_name.localize -%></td>
+            <td><%= @expression.language.display_name.localize -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.models.content_type') -%>:</b></td>
             <td>
               <%= content_type_icon(@expression.content_type) -%>
-              <%=h @expression.content_type.display_name.localize -%>
+              <%= @expression.content_type.display_name.localize -%>
             </td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.expression.feed_url') -%>:</b></td>
-            <td><%=h @expression.feed_url -%></td>
+            <td><%= @expression.feed_url -%></td>
           </tr>
           <tr>
             <td><b><%= t('activerecord.attributes.expression.note') -%>:</b></td>
-            <td><%=h @expression.note -%></td>
+            <td><%= @expression.note -%></td>
           </tr>
           <tr>
             <td><b><%= t('page.created_at') -%>:</b></td>

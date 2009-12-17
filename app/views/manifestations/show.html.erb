@@ -121,10 +121,10 @@
 %>
     <%- if @manifestation.serial? -%>
       <tr>
-        <td style="width: 200px"><%=h t('manifestation.serial') -%>:</td>
+        <td style="width: 200px"><%= t('manifestation.serial') -%>:</td>
         <td style="width: 500px"><%= link_to @manifestation.series_statement.title, @manifestation.series_statement -%>
           <%- if @manifestation.issn.present? -%>
-            (<%= t('activerecord.attributes.manifestation.issn') -%>: <%=h @manifestation.issn -%>)
+            (<%= t('activerecord.attributes.manifestation.issn') -%>: <%= @manifestation.issn -%>)
           <%- end -%>
         </td>
       </tr>
@@ -132,21 +132,21 @@
         <td><%= t('page.number') -%>:</td>
         <td>
           <%- unless @manifestation.volume_number.blank? -%>
-            <%= t('activerecord.attributes.manifestation.volume_number_list') -%>: <%=h @manifestation.volume_number.join("/") -%>
+            <%= t('activerecord.attributes.manifestation.volume_number_list') -%>: <%= @manifestation.volume_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.issue_number_list.blank? -%>
-            <%= t('manifestation.issue_number') -%>: <%=h @manifestation.issue_number.join("/") -%>
+            <%= t('manifestation.issue_number') -%>: <%= @manifestation.issue_number.join("/") -%>
           <%- end -%>
           <%- unless @manifestation.serial_number_list.blank? -%>
-            <%= t('manifestation.serial_number') -%>: <%=h @manifestation.serial_number.join("/") -%>
+            <%= t('manifestation.serial_number') -%>: <%= @manifestation.serial_number.join("/") -%>
           <%- end -%>
         </td>
       </tr>
     <%- end -%>
     <tr>
-      <td style="width: 200px"><%=h t('page.form') -%>:</td>
+      <td style="width: 200px"><%= t('page.form') -%>:</td>
       <td style="width: 500px">
-        <%= form_icon(@manifestation.carrier_type) -%> <%=h @manifestation.carrier_type.display_name.localize -%>
+        <%= form_icon(@manifestation.carrier_type) -%> <%= @manifestation.carrier_type.display_name.localize -%>
       </td>
     </tr>
     <tr>
@@ -154,21 +154,21 @@
       <td><%= language_list(@manifestation.languages) -%></td>
     </tr>
     <tr>
-      <td><%=h t('manifestation.physical_description') -%>:</td>
+      <td><%= t('manifestation.physical_description') -%>:</td>
       <td>
         <%- if @manifestation.number_of_pages -%>
-          <%=h @manifestation.number_of_pages -%> p. 
-          (<%=h @manifestation.start_page -%> - <%=h @manifestation.end_page -%>)
+          <%= @manifestation.number_of_pages -%> p. 
+          (<%= @manifestation.start_page -%> - <%= @manifestation.end_page -%>)
         <%- end -%>
         <!-- TODO: センチメートル以外の単位 -->
         <%- if @manifestation.height -%>
-          <%=h @manifestation.height -%> cm.
+          <%= @manifestation.height -%> cm.
         <%- end -%>
       </td>
     </tr>
     <tr>
       <td><%= t('activerecord.attributes.manifestation.price') -%></td>
-      <td><%=h @manifestation.price -%></td>
+      <td><%= @manifestation.price -%></td>
     </tr>
   <%
     end
@@ -200,17 +200,17 @@
         <td><%= t('page.identifier') -%>:</td>
         <td>
           <%- if @manifestation.isbn.present? -%>
-            ISBN: <%=h @manifestation.isbn -%>
+            ISBN: <%= @manifestation.isbn -%>
             <%- if @manifestation.isbn10.present? -%>
-              ( <%=h @manifestation.isbn10 -%> )
+              ( <%= @manifestation.isbn10 -%> )
             <%- end -%>
           <%- end -%>
           <%- if @manifestation.nbn.present? -%>
-            NBN: <%=h @manifestation.nbn -%>
+            NBN: <%= @manifestation.nbn -%>
           <%- end -%>
           <%- if @manifestation.lccn.present? -%>
             <br />
-            LCCN: <%=h @manifestation.lccn -%>
+            LCCN: <%= @manifestation.lccn -%>
           <%- end -%>
         </td>
       </tr>

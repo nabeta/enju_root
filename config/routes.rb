@@ -158,7 +158,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :subscriptions do |subscription|
     subscription.resources :subscribes
-    subscription.resources :manifestations
+    subscription.resources :works
   end
 
   map.resources :subscriptions
@@ -302,11 +302,13 @@ ActionController::Routing::Routes.draw do |map|
     work.resources :work_has_subjects
     #work.resources :work_from_works, :controller => :works
     #work.resources :work_to_works, :controller => :works
-    work.resources :concepts
-    work.resources :places
+    #work.resources :concepts
+    #work.resources :places
     work.resources :subjects
     work.resources :works, :only => [:index, :new]
     work.resources :work_has_works
+    work.resources :subscribes
+    work.resources :subscriptions
   end
   map.resources :expressions do |expression|
     expression.resource :realize

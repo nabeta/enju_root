@@ -11,13 +11,13 @@
 <table class="index">
   <tr>
     <th><%= t('activerecord.models.subscription') -%></th>
-    <th><%= t('activerecord.models.manifestation') -%></th>
+    <th><%= t('activerecord.models.work') -%></th>
   </tr>
 
 <%- @subscribes.each do |subscribe| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(subscribe.subscription.title), subscribe.subscription -%></td>
-    <td><%= link_to h(subscribe.manifestation.original_title), subscribe.manifestation -%></td>
+    <td><%= link_to h(subscribe.work.original_title), subscribe.work -%></td>
     <td><%= link_to t('page.show'), subscribe -%></td>
     <td><%= link_to t('page.edit'), edit_subscribe_path(subscribe) -%></td>
     <td><%= link_to t('page.destroy'), subscribe, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

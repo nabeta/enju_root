@@ -6,7 +6,6 @@ class ManifestationsController < ApplicationController
   before_filter :get_expression
   before_filter :get_manifestation, :only => :index
   before_filter :get_series_statement, :only => [:index, :new, :edit]
-  before_filter :get_subscription, :only => :index
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_libraries, :only => :index
   before_filter :get_version, :only => [:show]
@@ -599,20 +598,10 @@ class ManifestationsController < ApplicationController
     # 内部的なクエリ
     set_role_query(current_user, search)
 
-    subscription_master = params[:subscription_master]
-    @subscription_master = true if subscription_master == 'true'
-
-    search.build do
-      if subscription_master == "true"
-        with(:subscription_master).equal_to true
-      end
-    end
-
     unless params[:mode] == "add"
       expression = @expression
       patron = @patron
       manifestation = @manifestation
-      subscription = @subscription
       reservable = @reservable
       carrier_type = params[:carrier_type]
       library = params[:library]
@@ -625,7 +614,6 @@ class ManifestationsController < ApplicationController
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
-        with(:subscription_ids).equal_to subscription.id if subscription
         with(:reservable).equal_to true if reservable
         unless carrier_type.blank?
           with(:carrier_type).equal_to carrier_type

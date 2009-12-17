@@ -39,8 +39,6 @@ class Manifestation < ActiveRecord::Base
   has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   belongs_to :frequency #, :validate => true
-  has_many :subscribes, :dependent => :destroy
-  has_many :subscriptions, :through => :subscribes
   has_many :bookmarks
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
@@ -82,7 +80,6 @@ class Manifestation < ActiveRecord::Base
     integer :original_manifestation_ids, :multiple => true
     integer :derived_manifestation_ids, :multiple => true
     integer :expression_ids, :multiple => true
-    integer :subscription_ids, :multiple => true
     integer :required_role_id
     integer :carrier_type_id
     integer :height
@@ -96,7 +93,6 @@ class Manifestation < ActiveRecord::Base
     integer :number_of_pages
     float :price
     boolean :reservable
-    boolean :subscription_master
     integer :series_statement_id
   end
 
@@ -459,12 +455,6 @@ class Manifestation < ActiveRecord::Base
     #  end
     #end
     #return resource
-  end
-
-  def subscribed?
-    self.expressions.each do |expression|
-      return true if expression.subscribed?
-    end
   end
 
   def self.import_patrons(patron_lists)

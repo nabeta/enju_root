@@ -1,7 +1,13 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_picture_file_path(@picture_file) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), picture_files_path -%></li>
+    <%- case when @manifestation -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>
+    <%- when @shelf -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), shelf_picture_files_path(@shelf) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), picture_files_path -%></li>
+    <%- end -%>
   </ul>
 </div>
 
@@ -14,38 +20,38 @@
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_file_size') -%>:</b>
-  <%=h @picture_file.picture_file_size -%>
+  <%= @picture_file.picture_file_size -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_content_type') -%>:</b>
-  <%=h @picture_file.picture_content_type -%>
+  <%= @picture_file.picture_content_type -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_file_name') -%>:</b>
-  <%= link_to h(@picture_file.picture_file_name), @picture_file.picture.url -%><br />
+  <%= link_to h(@picture_file.picture_file_name), picture_file_path(@picture_file, :format => :download, :size => 'original') -%><br />
   <%= link_to image_tag(picture_file_path(@picture_file, :format => :download)), picture_file_path(@picture_file, :format => :download, :size => 'original') -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.width') -%>:</b>
-  <%=h @picture_file.width -%>
+  <%= @picture_file.width -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.height') -%>:</b>
-  <%=h @picture_file.height -%>
+  <%= @picture_file.height -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.file_hash') -%>:</b>
-  <%=h @picture_file.file_hash -%>
+  <%= @picture_file.file_hash -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.picture_file.picture_updated_at') -%>:</b>
-  <%=h l(@picture_file.picture_updated_at) if @picture_file.picture_updated_at -%>
+  <%= l(@picture_file.picture_updated_at) if @picture_file.picture_updated_at -%>
 </p>
 
 </div>

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class WorksController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_patron, :get_subject
+  before_filter :get_patron, :get_subject, :get_subscription
   before_filter :get_work, :only => :index
   before_filter :get_work_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
@@ -28,11 +28,13 @@ class WorksController < ApplicationController
     unless params[:mode] == 'add'
       patron = @patron
       subject = @subject
+      subscription = @subscription
       work = @work
       work_merge_list = @work_merge_list
       search.build do
         with(:patron_ids).equal_to patron.id if patron
         with(:subject_ids).equal_to subject.id if subject
+        with(:subscription_ids).equal_to subscription.id if subscription
         with(:original_work_ids).equal_to work.id if work
         with(:work_merge_list_ids).equal_to work_merge_list.id if work_merge_list
       end

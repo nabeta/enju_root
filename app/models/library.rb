@@ -34,7 +34,6 @@ class Library < ActiveRecord::Base
   @@per_page = 10
 
   def after_save
-    index!
     expire_cache
   end
 

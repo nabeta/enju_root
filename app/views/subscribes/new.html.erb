@@ -1,7 +1,7 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('activerecord.models.subscription'), subscription_path(@subscription) if @subscription -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), subscription_manifestations_path(@subscription) if @subscription -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), subscription_works_path(@subscription) if @subscription -%>
   </ul>
 </div>
 
@@ -23,21 +23,21 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.manifestation') -%></b><br />
-    <%- if @manifestation -%>
-		  <%= link_to h(@manifestation.original_title), @manifestation -%>
-      <%= f.hidden_field :manifestation_id, :value => @manifestation.id -%>
+    <b><%= t('activerecord.models.work') -%></b><br />
+    <%- if @work -%>
+		  <%= link_to h(@work.original_title), @work -%>
+      <%= f.hidden_field :work_id, :value => @work.id -%>
     <%- else -%>
-      <%= f.text_field :manifestation_id, :value => params[:manifestation_id] -%>
+      <%= f.text_field :work_id, :value => params[:work_id] -%>
     <%- end -%>
   </p>
   <p>
-    <%= f.label t('activerecord.attributes.subscribe.started_on') -%><br />
-    <%= f.date_text_field :started_on, :class => 'date_field', :blank => true -%>
+    <%= f.label t('activerecord.attributes.subscribe.start_at') -%><br />
+    <%= f.date_text_field :start_at, :class => 'date_field', :blank => true -%>
   </p>
   <p>
-    <%= f.label t('activerecord.attributes.subscribe.ended_on') -%><br />
-    <%= f.date_text_field :ended_on, :class => 'date_field', :blank => true -%>
+    <%= f.label t('activerecord.attributes.subscribe.end_at') -%><br />
+    <%= f.date_text_field :end_at, :class => 'date_field', :blank => true -%>
   </p>
 
   <p>

@@ -19,7 +19,7 @@
 <div id="content_list">
 <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
 <h2>
-  <%=h @subject.term -%>
+  <%= @subject.term -%>
 </h2>
   <p>
     (<%= link_to_wikipedia(@subject.term) -%>)
@@ -40,7 +40,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.subject.note') -%>:</b>
-  <%=h @subject.note -%>
+  <%= @subject.note -%>
 </p>
 
 <%= render :partial => 'subjects/show_work_list' -%>
