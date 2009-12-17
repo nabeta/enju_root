@@ -1,7 +1,7 @@
 class SubscribesController < ApplicationController
   before_filter :check_client_ip_address
   before_filter :has_permission?
-  before_filter :get_subscription, :get_manifestation
+  before_filter :get_subscription, :get_work
 
   # GET /subscribes
   # GET /subscribes.xml
@@ -29,8 +29,8 @@ class SubscribesController < ApplicationController
   # GET /subscribes/new.xml
   def new
     @subscribe = Subscribe.new
-    @subscribe.subscription = @subscription
-    @subscribe.manifestation = @manifestation
+    @subscribe.subscription = @subscription if @subscription
+    @subscribe.work = @work if @work
 
     respond_to do |format|
       format.html # new.html.erb

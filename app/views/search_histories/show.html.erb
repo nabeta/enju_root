@@ -8,12 +8,12 @@
 <div id="content_list">
 <p>
   <b>Operation:</b>
-  <%=h @search_history.operation -%>
+  <%= @search_history.operation -%>
 </p>
 
 <p>
   <b>Version:</b>
-  <%=h @search_history.version -%>
+  <%= @search_history.version -%>
 </p>
 
 <p>
@@ -23,37 +23,37 @@
 
 <p>
 <b><%= t('activerecord.attributes.search_history.start_record') -%>:</b>
-  <%=h @search_history.start_record -%>
+  <%= @search_history.start_record -%>
 </p>
 
 <p>
 <b><%= ('Maximum records') -%>:</b>
-  <%=h @search_history.maximum_records -%>
+  <%= @search_history.maximum_records -%>
 </p>
 
 <p>
   <b>Record packing:</b>
-  <%=h @search_history.record_packing -%>
+  <%= @search_history.record_packing -%>
 </p>
 
 <p>
   <b>Record schema:</b>
-  <%=h @search_history.record_schema -%>
+  <%= @search_history.record_schema -%>
 </p>
 
 <p>
   <b>Result set ttl:</b>
-  <%=h @search_history.result_set_ttl -%>
+  <%= @search_history.result_set_ttl -%>
 </p>
 
 <p>
   <b>Stylesheet:</b>
-  <%=h @search_history.stylesheet -%>
+  <%= @search_history.stylesheet -%>
 </p>
 
 <p>
   <b>Extra request data:</b>
-  <%=h @search_history.extra_request_data -%>
+  <%= @search_history.extra_request_data -%>
 </p>
 
 <p>
@@ -63,7 +63,7 @@
 
 <p>
 <b><%= t('activerecord.models.user') -%>:</b>
-  <%=h @search_history.user.login if @search_history.user -%>
+  <%= @search_history.user.login if @search_history.user -%>
 </p>
 
 </div>

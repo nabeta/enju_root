@@ -14,12 +14,12 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.event')) -%></h1>
 <div id="content_list">
 <h2 id="resource_title">
-  <%=h @event.title.localize -%>
+  <%= @event.title.localize -%>
 </h2>
 
 <p>
   <b><%= t('activerecord.models.event_category') -%>:</b>
-  <%=h @event.event_category.display_name.localize -%>
+  <%= @event.event_category.display_name.localize -%>
 </p>
 
 <p>
@@ -29,12 +29,12 @@
 
 <p>
   <b><%= t('activerecord.attributes.event.start_at') -%>:</b>
-  <%=h l(@event.start_at, :format => :short) -%>
+  <%= l(@event.start_at, :format => :short) -%>
 </p>
 
 <p>
   <b><%= t('activerecord.attributes.event.end_at') -%>:</b>
-  <%=h l(@event.end_at, :format => :short) -%>
+  <%= l(@event.end_at, :format => :short) -%>
 </p>
 
 <p>

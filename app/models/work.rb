@@ -25,6 +25,8 @@ class Work < ActiveRecord::Base
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :work_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
   belongs_to :medium_of_performance
+  has_many :subscribes, :dependent => :destroy
+  has_many :subscriptions, :through => :subscribes
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
@@ -45,6 +47,7 @@ class Work < ActiveRecord::Base
     integer :manifestation_ids, :multiple => true do
       expressions.collect(&:manifestations).flatten.collect(&:id)
     end
+    integer :subscription_ids, :multiple => true
   end
 
   #acts_as_soft_deletable

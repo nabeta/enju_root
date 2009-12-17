@@ -3,6 +3,7 @@ class LibrariesController < ApplicationController
   before_filter :has_permission?
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /libraries
   # GET /libraries.xml

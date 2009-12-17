@@ -1,7 +1,7 @@
 class Subscription < ActiveRecord::Base
   include LibrarianRequired
   has_many :subscribes, :dependent => :destroy
-  has_many :manifestations, :through => :subscribes
+  has_many :works, :through => :subscribes
   belongs_to :user, :validate => true
   belongs_to :order_list, :validate => true
 
@@ -12,7 +12,7 @@ class Subscription < ActiveRecord::Base
     text :title, :note
     time :created_at
     time :updated_at
-    integer :manifestation_ids, :multiple => true
+    integer :work_ids, :multiple => true
   end
   #acts_as_soft_deletable
 

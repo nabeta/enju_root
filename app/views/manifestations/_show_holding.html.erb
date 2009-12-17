@@ -3,11 +3,11 @@
     %>
 <table style="width: 100%">
   <tr>
-    <th><%=h t('activerecord.models.library') -%></th>
-    <th><%=h t('activerecord.models.shelf') -%></th>
-    <th><%=h t('activerecord.attributes.item.call_number') -%></th>
-    <th><%=h t('activerecord.attributes.item.item_identifier') -%></th>
-    <th><%=h t('activerecord.models.circulation_status') -%></th>
+    <th><%= t('activerecord.models.library') -%></th>
+    <th><%= t('activerecord.models.shelf') -%></th>
+    <th><%= t('activerecord.attributes.item.call_number') -%></th>
+    <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
+    <th><%= t('activerecord.models.circulation_status') -%></th>
   </tr>
   <%- for item in manifestation.items.on_shelf -%>
     <tr>
@@ -19,7 +19,7 @@
         <%= render :partial => 'items/shelf_picture', :locals => {:item => item} -%>
       </td>
       <td>
-        <%=h item.call_number -%>
+        <%= item.call_number -%>
       </td>
       <td>
         <%- unless item.item_identifier.blank? -%>
@@ -29,11 +29,11 @@
         <%- end -%>
       </td>
       <td>
-        <%=h item.circulation_status.display_name.localize if item.circulation_status -%>
+        <%= item.circulation_status.display_name.localize if item.circulation_status -%>
         <%- if item.rent? -%>
           (
             <%= t('activerecord.attributes.checkout.due_date') -%>:
-            <%=h l(item.checkouts.first.due_date, :format => :short) -%>
+            <%= l(item.checkouts.first.due_date, :format => :short) -%>
           )
         <%- end -%>
       </td>

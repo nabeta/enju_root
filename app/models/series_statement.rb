@@ -10,14 +10,6 @@ class SeriesStatement < ActiveRecord::Base
     integer :manifestation_ids, :multiple => true
   end
 
-  def after_save
-    index!
-  end
-
-  def after_destroy
-    after_save
-  end
-
   def last_issue
     manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
   end

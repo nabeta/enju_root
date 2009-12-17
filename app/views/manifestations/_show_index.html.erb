@@ -1,11 +1,11 @@
 <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_index', :locale => @locale) do -%>
   <strong><%= link_to h(manifestation.original_title), manifestation -%></strong>
   <%- if manifestation.serial? -%>
-    <%=h manifestation.volume_number_list -%>
+    <%= manifestation.volume_number_list -%>
     <%- unless manifestation.issue_number_list.blank? -%>
-      (<%=h manifestation.issue_number_list -%>)
+      (<%= manifestation.issue_number_list -%>)
     <%- end -%>
-    <%=h manifestation.serial_number_list -%>
+    <%= manifestation.serial_number_list -%>
   <%- end -%>
   <%= form_icon(manifestation.carrier_type) -%>
   <%= image_tag('/icons/newspaper.png', :size => '16x16', :alt => t('manifestation.serial')) if manifestation.serial? -%>
@@ -14,7 +14,7 @@
     <%= link_to content_type_icon(expression.content_type), expression -%>
   <%- end -%>
   <br />
-  <div id="author_list_<%=h manifestation.id -%>">
+  <div id="author_list_<%= manifestation.id -%>">
     <%= render :partial => 'manifestations/show_authors', :locals => {:manifestation => manifestation} -%>
   </div>
 <%- end -%>

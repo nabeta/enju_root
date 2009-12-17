@@ -2,6 +2,7 @@ class SeriesStatementsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_manifestation, :only => [:index, :new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /series_statements
   # GET /series_statements.xml
