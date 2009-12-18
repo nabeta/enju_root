@@ -1,6 +1,6 @@
 <div id="left_pane">
 
-  <h1 class="title"><%=h t('page.user_title', :login_name => @user.login) -%></h1>
+  <h1 class="title"><%= t('page.user_title', :login_name => @user.login) -%></h1>
   <div id="user_search_form">  
 
   <%- form_tag({:controller => 'manifestations'}, {:method => 'get', :name => 'search_form'}) do -%>
@@ -13,7 +13,7 @@
   <%- end -%>
   <%= javascript_tag("$('query').focus()") -%>
 
-    <p><%=h t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
+    <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
 
   <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
 

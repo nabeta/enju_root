@@ -13,7 +13,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= l(user_reserve_stat.start_date) -%></td>
     <td><%= l(user_reserve_stat.end_date) -%></td>
-    <td><%=h user_reserve_stat.note -%></td>
+    <td><%= user_reserve_stat.note -%></td>
     <td><%= link_to t('page.show'), user_reserve_stat -%></td>
     <td><%= link_to t('page.edit'), edit_user_reserve_stat_path(user_reserve_stat) -%></td>
     <td><%= link_to t('page.destroy'), user_reserve_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

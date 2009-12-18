@@ -25,7 +25,7 @@
     </td>
     <td><%= link_to h(content_type.name), content_type -%></td>
     <td><%= link_to h(content_type.display_name.localize), content_type -%></td>
-    <td><%=h content_type.note -%></td>
+    <td><%= content_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_content_type_path(content_type) -%></td>
     <td><%= link_to t('page.destroy'), content_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

@@ -7,12 +7,12 @@
   <title>
     <%= t('activerecord.models.item') -%> :
     <%- if @manifestation -%>
-      <%=h @manifestation.original_title -%> :
+      <%= @manifestation.original_title -%> :
     <%- end -%>
     <%- if @item -%>
-      (<%=h @item.shelf.library.display_name.localize -%>) :
+      (<%= @item.shelf.library.display_name.localize -%>) :
     <%- end -%>
-    <%=h title_action_name -%>
+    <%= title_action_name -%>
   </title>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />

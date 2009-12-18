@@ -5,9 +5,9 @@
   <ul>
     <%- @xisbn_manifestations.each do |xisbn| -%>
       <li><%= link_to h(xisbn[:title]), "http://www.worldcat.org/isbn/#{xisbn[:isbn]}" -%>
-      <%=h xisbn[:author] -%>
-      <%=h xisbn[:publisher] -%>
-      (<%=h xisbn[:year] -%>)
+      <%= xisbn[:author] -%>
+      <%= xisbn[:publisher] -%>
+      (<%= xisbn[:year] -%>)
       <%- if manifestation = Manifestation.find_by_isbn(xisbn[:isbn]) -%>
         (<%= link_to t('page.local_record'), manifestation -%>)
       <%- end -%>

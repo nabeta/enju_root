@@ -47,7 +47,7 @@
         <br />
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
-      <td><%=h work.context -%></td>
+      <td><%= work.context -%></td>
       <%- if work.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td>

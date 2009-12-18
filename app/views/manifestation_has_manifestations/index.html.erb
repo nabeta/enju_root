@@ -13,7 +13,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(manifestation_has_manifestation.from_manifestation.original_title), manifestation_has_manifestation.from_manifestation -%></td>
     <td><%= link_to h(manifestation_has_manifestation.to_manifestation.original_title), manifestation_has_manifestation.to_manifestation -%></td>
-    <td><%=h manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%></td>
+    <td><%= manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), manifestation_has_manifestation -%></td>
     <td><%= link_to t('page.edit'), edit_manifestation_has_manifestation_path(manifestation_has_manifestation) -%></td>
     <td><%= link_to t('page.destroy'), manifestation_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

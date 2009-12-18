@@ -27,7 +27,7 @@
     </td>
     <td><%= link_to h(carrier_type.name), carrier_type -%></td>
     <td><%= link_to h(carrier_type.display_name.localize), carrier_type -%></td>
-    <td><%=h carrier_type.note -%></td>
+    <td><%= carrier_type.note -%></td>
     <%- if carrier_type.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_carrier_type_path(carrier_type) -%></td>
       <td><%= link_to t('page.destroy'), carrier_type_path(carrier_type), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

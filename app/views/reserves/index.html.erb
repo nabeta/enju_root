@@ -1,4 +1,4 @@
-<div style="color: red"><%=h flash[:message].to_s -%></div>
+<div style="color: red"><%= flash[:message].to_s -%></div>
 <div id="submenu">
   <ul>
     <li>
@@ -47,7 +47,7 @@
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
     </td>
-    <td><%=h reserve.request_status_type.display_name.localize -%></td>
+    <td><%= reserve.request_status_type.display_name.localize -%></td>
     <td><%= l(reserve.expired_at, :format => :only_date) -%></td>
     <%- if reserve.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.show'), user_reserve_path(reserve.user.login, reserve) -%></td>

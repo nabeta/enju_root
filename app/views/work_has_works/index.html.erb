@@ -13,7 +13,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(work_has_work.from_work.original_title), work_has_work.from_work -%></td>
     <td><%= link_to h(work_has_work.to_work.original_title), work_has_work.to_work -%></td>
-    <td><%=h work_has_work.work_relationship_type.display_name.localize -%></td>
+    <td><%= work_has_work.work_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), work_has_work -%></td>
     <td><%= link_to t('page.edit'), edit_work_has_work_path(work_has_work) -%></td>
     <td><%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

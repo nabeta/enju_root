@@ -9,9 +9,9 @@
 
 <%- for reserve_stat_has_manifestation in @reserve_stat_has_manifestations -%>
   <tr>
-    <td><%=h reserve_stat_has_manifestation.manifestation_reserve_stat_id -%></td>
-    <td><%=h reserve_stat_has_manifestation.manifestation_id -%></td>
-    <td><%=h reserve_stat_has_manifestation.reserves_count -%></td>
+    <td><%= reserve_stat_has_manifestation.manifestation_reserve_stat_id -%></td>
+    <td><%= reserve_stat_has_manifestation.manifestation_id -%></td>
+    <td><%= reserve_stat_has_manifestation.reserves_count -%></td>
     <td><%= link_to t('page.show'), reserve_stat_has_manifestation -%></td>
     <td><%= link_to t('page.edit'), edit_reserve_stat_has_manifestation_path(reserve_stat_has_manifestation) -%></td>
     <td><%= link_to t('page.destroy'), reserve_stat_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

@@ -21,7 +21,7 @@
               <%= raw patrons_list(manifestation.editors) -%>
               <%= raw patrons_list(manifestation.publishers) -%>
               <%- if manifestation.date_of_publication -%>
-                (<%=h manifestation.date_of_publication.strftime('%Y') -%>)
+                (<%= manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>
               </li>
             <%- end -%>

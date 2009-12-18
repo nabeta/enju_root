@@ -12,7 +12,7 @@
 <%- for imported_object in @imported_objects -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h("#{imported_object.imported_file_type} / #{imported_object.imported_file_id}"), imported_object.imported_file -%></td>
-    <td><%=h imported_object.line_number -%></td>
+    <td><%= imported_object.line_number -%></td>
     <td><%= link_to h("#{imported_object.importable_type} / #{imported_object.importable_id}"), imported_object.importable -%></td>
     <td><%= link_to t('page.show'), imported_object -%></td>
     <td><%= link_to t('page.edit'), edit_imported_object_path(imported_object) -%></td>

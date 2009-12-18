@@ -13,7 +13,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(patron_has_patron.from_patron.full_name), patron_has_patron.from_patron -%></td>
     <td><%= link_to h(patron_has_patron.to_patron.full_name), patron_has_patron.to_patron -%></td>
-    <td><%=h patron_has_patron.patron_relationship_type.display_name.localize -%></td>
+    <td><%= patron_has_patron.patron_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), patron_has_patron -%></td>
     <td><%= link_to t('page.edit'), edit_patron_has_patron_path(patron_has_patron) -%></td>
     <td><%= link_to t('page.destroy'), patron_has_patron, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

@@ -17,7 +17,7 @@
       <%- end -%>
     </td>
     <td><%= link_to h(message_template.status), message_template -%></td>
-    <td><%=h message_template.title -%></td>
+    <td><%= message_template.title -%></td>
     <%- if message_template.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_message_template_path(message_template) -%></td>
       <td><%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

@@ -56,7 +56,7 @@
           <%= link_to h(item.item_identifier), item -%>
         <%- end -%>
       </td>
-      <td><%=h item.call_number -%></td>
+      <td><%= item.call_number -%></td>
       <td>
         <%- if item.manifestation -%>
           <%= render :partial => "manifestations/show_index", :locals => {:manifestation => item.manifestation} -%>
@@ -66,7 +66,7 @@
       </td>
       <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
       <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
-      <td><%=h item.circulation_status.display_name.localize -%></td>
+      <td><%= item.circulation_status.display_name.localize -%></td>
       <%- if item.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
         <td>

@@ -19,7 +19,7 @@
       -
       <%= l(news_post.end_date) -%>
     </td>
-    <td><%=h news_post.required_role.display_name.localize -%></td>
+    <td><%= news_post.required_role.display_name.localize -%></td>
     <td><%= link_to t('page.edit'), edit_news_post_path(news_post) -%></td>
     <td><%= link_to t('page.destroy'), news_post, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

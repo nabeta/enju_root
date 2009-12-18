@@ -25,7 +25,7 @@
     </td>
     <td><%= link_to h(item_relationship_type.name), item_relationship_type -%></td>
     <td><%= link_to h(item_relationship_type.display_name.localize), item_relationship_type -%></td>
-    <td><%=h item_relationship_type.note -%></td>
+    <td><%= item_relationship_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_item_relationship_type_path(item_relationship_type) -%></td>
     <td><%= link_to t('page.destroy'), item_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

@@ -20,7 +20,7 @@
   </p>
   <p>
     <b><%= t('activerecord.attributes.checkout.due_date') -%></b><br />
-    <%=h l(@checkout.due_date, :format => :short) -%>
+    <%= l(@checkout.due_date, :format => :short) -%>
   </p>
   <%- if @checkout.is_deletable_by(current_user) -%>
     <p>

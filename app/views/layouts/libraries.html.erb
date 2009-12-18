@@ -8,12 +8,12 @@
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @library -%>
     <%- if @library.display_name -%>
-      <title><%= h(@library.display_name.localize) -%>: <%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
+      <title><%= h(@library.display_name.localize) -%>: <%= t('activerecord.models.library') -%>: <%= title_action_name -%></title>
     <%- else -%>
-      <title><%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
+      <title><%= t('activerecord.models.library') -%>: <%= title_action_name -%></title>
     <%- end -%>
   <%- else -%>
-    <title><%= t('activerecord.models.library') -%>: <%=h title_action_name -%></title>
+    <title><%= t('activerecord.models.library') -%>: <%= title_action_name -%></title>
   <%- end -%>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />

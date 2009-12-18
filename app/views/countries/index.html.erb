@@ -19,9 +19,9 @@
       <%- end -%>
     </td>
     <td><%= link_to h(country.display_name.localize), country -%></td>
-    <td><%=h country.alpha_2 -%></td>
-    <td><%=h country.alpha_3 -%></td>
-    <td><%=h country.numeric_3 -%></td>
+    <td><%= country.alpha_2 -%></td>
+    <td><%= country.alpha_3 -%></td>
+    <td><%= country.numeric_3 -%></td>
     <%- if country.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_country_path(country) -%></td>
     <%- end -%>

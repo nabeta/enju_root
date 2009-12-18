@@ -12,7 +12,7 @@
 <%- for checkout_stat_has_manifestation in @checkout_stat_has_manifestations -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= checkout_stat_has_manifestation.manifestation_checkout_stat_id -%></td>
-    <td><%= checkout_stat_has_manifestation.manifestation_id -%></td>
+    <td><%= link_to h(checkout_stat_has_manifestation.manifestation.original_title), checkout_stat_has_manifestation.manifestation -%></td>
     <td><%= checkout_stat_has_manifestation.checkouts_count -%></td>
     <td><%= link_to t('page.show'), checkout_stat_has_manifestation -%></td>
     <td><%= link_to t('page.edit'), edit_checkout_stat_has_manifestation_path(checkout_stat_has_manifestation) -%></td>

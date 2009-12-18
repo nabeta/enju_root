@@ -14,7 +14,7 @@
 <%- form_for(@role) do |f| -%>
   <p>
     <b><%= t('activerecord.attributes.role.name') -%></b><br />
-    <%=h @role.name -%>
+    <%= @role.name -%>
     <%= f.hidden_field :name -%>
   </p>
 

@@ -21,7 +21,7 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => checkout.item.manifestation} -%>
     </td>
     <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
-    <td><%=h l(checkout.due_date, :format => :only_date) -%></td>
+    <td><%= l(checkout.due_date, :format => :only_date) -%></td>
     <td><%= link_to t('page.show'), user_checkout_path(checkout.user.login, checkout) -%>
     <td>
       <%- if checkout.is_updatable_by(current_user) -%>

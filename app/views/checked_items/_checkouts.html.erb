@@ -14,7 +14,7 @@
         <%= render :partial => 'manifestations/holding', :locals => {:manifestation => checkout.item.manifestation} -%>
       </td>
       <td><%= link_to h(checkout.item.item_identifier), checkout.item -%></td>
-      <td><%=h l(checkout.due_date, :format => :only_date) -%></td>
+      <td><%= l(checkout.due_date, :format => :only_date) -%></td>
     </tr>
   <%- end -%>
 </table>

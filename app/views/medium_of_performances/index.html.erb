@@ -25,7 +25,7 @@
     </td>
     <td><%= link_to h(medium_of_performance.name), medium_of_performance -%></td>
     <td><%= link_to h(medium_of_performance.display_name.localize), medium_of_performance -%></td>
-    <td><%=h medium_of_performance.note -%></td>
+    <td><%= medium_of_performance.note -%></td>
     <td><%= link_to t('page.edit'), edit_medium_of_performance_path(medium_of_performance) -%></td>
     <td><%= link_to t('page.destroy'), medium_of_performance, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

@@ -24,7 +24,7 @@
       <%= link_to h(message_queue.receiver.login), user_path(message_queue.receiver.login) -%>
     </td>
     <td><%= link_to h(message_queue.message_template.status), message_template_path(message_queue.message_template) -%></td>
-    <td><%=h message_queue.subject -%></td>
+    <td><%= message_queue.subject -%></td>
     <td><%= l(message_queue.created_at) -%></td>
     <td><%= l(message_queue.sent_at) if message_queue.sent_at -%></td>
     <td><%= link_to t('page.show'), message_queue -%></td>

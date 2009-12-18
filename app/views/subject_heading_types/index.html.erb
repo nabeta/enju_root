@@ -25,7 +25,7 @@
     </td>
     <td><%= link_to h(subject_heading_type.name), subject_heading_type -%></td>
     <td><%= link_to h(subject_heading_type.display_name.localize), subject_heading_type -%></td>
-    <td><%=h subject_heading_type.note -%></td>
+    <td><%= subject_heading_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_subject_heading_type_path(subject_heading_type) -%></td>
     <td><%= link_to t('page.destroy'), subject_heading_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

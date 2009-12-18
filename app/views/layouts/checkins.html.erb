@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= t('activerecord.models.checkin') -%>: <%=h title_action_name -%></title>
+  <title><%= t('activerecord.models.checkin') -%>: <%= title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%=h @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 

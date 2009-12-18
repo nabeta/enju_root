@@ -12,24 +12,24 @@
 </div>
 
 <div id="content_detail">
-  <h1 class="title"><%=h @library.display_name.localize -%></h1>
+  <h1 class="title"><%= @library.display_name.localize -%></h1>
 
   <div id="content_list">
   <p>
-    <%= t('activerecord.attributes.library.name') -%>: <%=h @library.name -%>
+    <%= t('activerecord.attributes.library.name') -%>: <%= @library.name -%>
   </p>
 
   <%- unless @library.web? -%>
   <p>
-    <%= t('library.address') -%>: <%=h @library.postal_code -%> <%=h @library.address -%>
+    <%= t('library.address') -%>: <%= @library.postal_code -%> <%= @library.address -%>
     <br />
-    <%= t('activerecord.attributes.library.telephone_number_1') -%>: <%=h @library.telephone_number_1 -%>
-    <%= t('activerecord.attributes.library.telephone_number_2') -%>: <%=h @library.telephone_number_2 -%>
+    <%= t('activerecord.attributes.library.telephone_number_1') -%>: <%= @library.telephone_number_1 -%>
+    <%= t('activerecord.attributes.library.telephone_number_2') -%>: <%= @library.telephone_number_2 -%>
     <br />
-    <%= t('activerecord.attributes.library.fax_number') -%>: <%=h @library.fax_number -%>
+    <%= t('activerecord.attributes.library.fax_number') -%>: <%= @library.fax_number -%>
   </p>
   <p>
-    <%=h @library.note -%>
+    <%= @library.note -%>
   </p>
 
   <div id="tabview">
@@ -55,7 +55,7 @@
                   <%= link_to h(librarian.login), librarian.patron -%>
                   <%- unless librarian.note.blank? -%>
                     <br />
-                    <%=h librarian.note -%>
+                    <%= librarian.note -%>
                   <%- end -%>
                 </li>
               <%- end -%>
@@ -77,8 +77,8 @@
                     <%= link_to image_tag('/icons/picture.png', :size => '16x16', :alt => t('page.picture')), picture_file_path(picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :class => "thickbox", :rel => "shelf_#{h(shelf.id)}" -%>
                   <%- end -%>
                 </td>
-                <td><%=h shelf.items_count -%></td>
-                <td><%=h shelf.note -%></td>
+                <td><%= shelf.items_count -%></td>
+                <td><%= shelf.note -%></td>
               </tr>
             <%- end -%>
           </table>
@@ -96,12 +96,12 @@
             <h3><%= t('page.configuration') -%></h3>
             <p>
               <strong><%= t('activerecord.attributes.library.call_number_rows') -%>:</strong>
-              <%=h @library.call_number_rows -%>
+              <%= @library.call_number_rows -%>
             </p>
 
             <p>
               <strong><%= t('activerecord.attributes.library.call_number_delimiter') -%>:</strong>
-              <%=h @library.call_number_delimiter -%>
+              <%= @library.call_number_delimiter -%>
             </p>
           </div>
         <%- end -%>

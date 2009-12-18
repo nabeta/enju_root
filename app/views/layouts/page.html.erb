@@ -10,11 +10,11 @@
   <meta name="description" content="Project Next-L Enju, an open source integrated library system developed by Project Next-L" />
   <title>
     <%- if @title -%>
-      <%=h @title -%> - 
+      <%= @title -%> - 
     <%- end -%>
-    <%=h @library_group.display_name.localize -%></title>
+    <%= @library_group.display_name.localize -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title = "<%=h @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title = "<%= @library_group.display_name.localize -%>" />
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
