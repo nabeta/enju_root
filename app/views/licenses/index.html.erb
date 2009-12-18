@@ -27,7 +27,7 @@
       <br />
       (<%= link_to h(license.name), license -%>)
     </td>
-    <td><%=h license.note -%></td>
+    <td><%= license.note -%></td>
     <td><%= link_to t('page.edit'), edit_license_path(license) -%></td>
     <td><%= link_to t('page.destroy'), license, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

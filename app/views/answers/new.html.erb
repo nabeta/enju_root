@@ -16,7 +16,7 @@
 
   <p>
     <b><%= t('activerecord.models.question') -%></b><br />
-    <%=h @answer.question.body -%>
+    <%= @answer.question.body -%>
     <%= f.hidden_field :question_id, :value => @answer.question.id -%>
   </p>
 

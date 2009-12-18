@@ -4,11 +4,11 @@
 <div id="content_detail">
   <%- if @library -%>
     <h1 class="title">
-      <%=h t('calendar.library_calendar', :library_name => @library.display_name.localize) -%>
+      <%= t('calendar.library_calendar', :library_name => @library.display_name.localize) -%>
     </h1>
   <%- else -%>
     <h1 class="title">
-      <%=h t('calendar.calendar') -%>
+      <%= t('calendar.calendar') -%>
     </h1>
   <%- end -%>
 

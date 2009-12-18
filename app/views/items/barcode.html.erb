@@ -5,7 +5,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <%= render :partial => 'page/include' -%>
-  <title><%= t('activerecord.models.barcode') -%> - <%=h @library_group.display_name.local.localize -%></title>
+  <title><%= t('activerecord.models.barcode') -%> - <%= @library_group.display_name.local.localize -%></title>
 </head>
 
 <body style="width: 210mm; padding-left: 5mm; padding-right: 5mm">
@@ -20,10 +20,10 @@
             <%= link_to image_tag("#{barcode_url(item.barcode)}.png", :alt => item.item_identifier), item -%>
           <%- end -%>
           <br />
-          <%=h item.item_identifier -%>
+          <%= item.item_identifier -%>
         </div>
         <div style="font-size: 10pt" -%>
-          <%=h @library_group.display_name.localize -%>
+          <%= @library_group.display_name.localize -%>
         </div>
       </td>
     <%- if i != 0 and (i + 1) % 4 == 0 -%>

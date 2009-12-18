@@ -24,7 +24,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.bookmark_stat.note') -%>:</b>
-  <%=h @bookmark_stat.note -%>
+  <%= @bookmark_stat.note -%>
 </p>
 
 <table class="index">
@@ -37,7 +37,7 @@
       <td>
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => stat.manifestation} -%>
       </td>
-      <td><%=h stat.bookmarks_count -%></td>
+      <td><%= stat.bookmarks_count -%></td>
     </tr>
   <%- end -%>
 </table>

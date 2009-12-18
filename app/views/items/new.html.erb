@@ -27,7 +27,7 @@
     <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
     <select id="library_id" name="library_id">
       <%- @libraries.each do |library| -%>
-        <option value="<%=h library.name -%>"><%=h library.display_name.localize -%></option>
+        <option value="<%= library.name -%>"><%= library.display_name.localize -%></option>
       <%- end -%>
     </select>
     <span id="item1">
@@ -76,7 +76,7 @@
   <b><%= t('activerecord.models.use_restriction') -%></b> # TODO: 互いに矛盾する利用制限を指定させない<br />
     <%- @use_restrictions.each do |use_restriction| -%>
       <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
-      <%=h use_restriction.display_name.localize -%><br />
+      <%= use_restriction.display_name.localize -%><br />
     <%- end -%>
   </p>
   -->

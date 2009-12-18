@@ -13,7 +13,7 @@
 <%- form_for(@basket) do |f| -%>
   <p>
   <b><%= t('activerecord.models.user') -%></b><br />
-    <%=h @basket.user.login -%>
+    <%= @basket.user.login -%>
     <%= f.hidden_field :user_id -%>
   </p>
 

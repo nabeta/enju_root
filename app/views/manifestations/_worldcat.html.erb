@@ -7,7 +7,7 @@
         <strong><%= link_to h(record[:title]), h(record[:link]) -%></strong>
         <br />
         <%- record[:author].each do |author| -%>
-          <%=h author -%>
+          <%= author -%>
         <%- end -%>
       </td>
     </tr>

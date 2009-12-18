@@ -46,7 +46,7 @@
         <%= link_to h(user.patron.full_name), user.patron if current_user.has_role?('Librarian') -%>
       <%- end -%>
     </td>
-    <td><%=h user.user_number -%></td>
+    <td><%= user.user_number -%></td>
     <td><%= l(user.created_at) if user.created_at -%></td>
     <td>
       <%= link_to t('activerecord.models.checkout'), new_basket_path(:user_number => user.user_number) unless user.user_number.blank? -%>

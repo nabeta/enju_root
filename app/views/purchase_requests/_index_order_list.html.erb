@@ -12,7 +12,7 @@
   </p>
   <h4><%= t('page.bookmarklet') -%></h4>
   <ul>
-    <li><a href="javascript:window.location.href='<%=h new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
+    <li><a href="javascript:window.location.href='<%= new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
   </ul>
 </div>
 
@@ -22,7 +22,7 @@
 <h2 class="resource_title"><%= link_to h(@order_list.title), @order_list -%></h2>
 <p>
   <%= t('activerecord.attributes.order_list.ordered_at') -%>: <%= l(@order_list.ordered_at) if @order_list.ordered_at -%>
-  <%= t('order_list.total_price') -%>: <%=h @order_list.total_price -%>
+  <%= t('order_list.total_price') -%>: <%= @order_list.total_price -%>
 </p>
 
 <%- form_for :purchase_requests, :url => order_list_purchase_requests_path(@order_list), :html => {:method => 'get'} do -%>
@@ -44,11 +44,11 @@
       <td>
         <%= link_to h(purchase_request.title), purchase_request -%>
         <br />
-        <%=h purchase_request.author -%>
-        <%=h purchase_request.publisher -%>
-        <%=h purchase_request.pubdate -%>
+        <%= purchase_request.author -%>
+        <%= purchase_request.publisher -%>
+        <%= purchase_request.pubdate -%>
       </td>
-      <td><%=h purchase_request.price -%></td>
+      <td><%= purchase_request.price -%></td>
       <td><%= link_to t('page.edit'), edit_user_purchase_request_path(purchase_request.user.login, purchase_request) -%></td>
       <td>
         <%- if purchase_request.is_deletable_by(current_user) -%>

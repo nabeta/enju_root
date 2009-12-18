@@ -6,7 +6,7 @@
       <%- bookmark.tags.each do |tag| -%>
         [<%= link_to h(tag.name), manifestations_path(:tag => tag.name) -%>]
       <%- end -%>
-      <%=h bookmark.note -%>
+      <%= bookmark.note -%>
       <%- if logged_in? and current_user == bookmark.user -%>
         <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), edit_user_bookmark_path(bookmark.user.login, bookmark) -%>
       <%- end -%>

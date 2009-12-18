@@ -9,9 +9,9 @@
 
 <%- for basket in @baskets -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h basket.user.login -%></td>
-    <td><%=h basket.note -%></td>
-    <td><%=h basket.updated_at -%></td>
+    <td><%= basket.user.login -%></td>
+    <td><%= basket.note -%></td>
+    <td><%= basket.updated_at -%></td>
     <td><%= link_to t('page.show'), user_basket_path(basket.user.login, basket) -%></td>
   </tr>
 <%- end -%>

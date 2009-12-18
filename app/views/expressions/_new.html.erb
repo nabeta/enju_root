@@ -34,7 +34,7 @@
   <%- unless @patron.blank? -%>
     <p>
       <b><%= t('page.author') -%></b><br />
-      <%=h @patron.full_name -%>
+      <%= @patron.full_name -%>
     </p>
   <%- end -%>
 

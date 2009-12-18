@@ -18,7 +18,7 @@
   <p>
     <b><%= t('activerecord.models.user') -%></b><br />
     <%= link_to h(@user.patron.full_name), @user.patron -%>
-    (<%=h @user.login -%>)
+    (<%= @user.login -%>)
   </p>
 
   <p>

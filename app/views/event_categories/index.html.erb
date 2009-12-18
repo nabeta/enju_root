@@ -27,7 +27,7 @@
     </td>
     <td><%= link_to h(event_category.name), event_category -%></td>
     <td><%= link_to h(event_category.display_name.localize), event_category -%></td>
-    <td><%=h event_category.note -%></td>
+    <td><%= event_category.note -%></td>
     <%- if event_category.is_deletable_by(current_user) -%>
       <td><%= link_to t('page.edit'), edit_event_category_path(event_category) -%></td>
       <td><%= link_to t('page.destroy'), event_category, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

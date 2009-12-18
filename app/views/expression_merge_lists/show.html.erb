@@ -12,7 +12,7 @@
 <%- form_for(:expression_merge_list, :url => expression_merge_list_path(@expression_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
   <b><%= t('page.title') -%>:</b>
-    <%=h @expression_merge_list.title -%>
+    <%= @expression_merge_list.title -%>
   </p>
 
   <ul>

@@ -8,27 +8,27 @@
   <meta http-equiv="content-script-type" content="text/javascript" />
   <title>
     <%- case when @patron -%>
-      <%=h @patron.full_name -%> : 
+      <%= @patron.full_name -%> : 
     <%- when @expression -%>
-      <%=h @expression.original_title -%> : 
+      <%= @expression.original_title -%> : 
     <%- when @query.present? -%>
-      <%=h @query -%> : 
+      <%= @query -%> : 
     <%- end -%>     
     <%- if @manifestation -%>
       <%- if @manifestation.original_title -%>
-        <%=h @manifestation.original_title -%> : 
+        <%= @manifestation.original_title -%> : 
       <%- end -%>
     <%- end -%>
     <%= t('activerecord.models.manifestation') -%> :
-    <%=h title_action_name -%> - 
-    <%=h LibraryGroup.site_config.display_name.localize -%>
+    <%= title_action_name -%> - 
+    <%= LibraryGroup.site_config.display_name.localize -%>
   </title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (RSS)")) -%>
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%=h @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%= canonical_link_tag %>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">

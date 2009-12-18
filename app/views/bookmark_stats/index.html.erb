@@ -13,7 +13,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= l(bookmark_stat.start_date) -%></td>
     <td><%= l(bookmark_stat.end_date) -%></td>
-    <td><%=h bookmark_stat.note -%></td>
+    <td><%= bookmark_stat.note -%></td>
     <td><%= link_to t('page.show'), bookmark_stat -%></td>
     <td><%= link_to t('page.edit'), edit_bookmark_stat_path(bookmark_stat) -%></td>
     <td><%= link_to t('page.destroy'), bookmark_stat, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

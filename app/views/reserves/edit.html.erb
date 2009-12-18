@@ -14,7 +14,7 @@
 <%- form_for(@reserve, :url => user_reserve_path(@reserve.user.login, @reserve)) do |f| -%>
   <p>
     <b><%= t('activerecord.models.patron') -%></b><br />
-    <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%=h @reserve.user.login -%>)
+    <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%= @reserve.user.login -%>)
   </p>
 
   <p>

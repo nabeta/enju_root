@@ -44,7 +44,7 @@
         <select id="library_top" name="library">
           <option value=""><%= t('advanced_search.all_libraries') -%></option>
           <%- @libraries.each do |library| -%>
-            <option value="<%=h library.name -%>"><%=h library.display_name.localize -%></option>
+            <option value="<%= library.name -%>"><%= library.display_name.localize -%></option>
           <%- end -%>
         </select>
       </td>

@@ -27,7 +27,7 @@
       <br />
       (<%= link_to h(nii_type.name), nii_type -%>)
     </td>
-    <td><%=h nii_type.note -%></td>
+    <td><%= nii_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_nii_type_path(nii_type) -%></td>
     <td><%= link_to t('page.destroy'), nii_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

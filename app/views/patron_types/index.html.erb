@@ -25,7 +25,7 @@
     </td>
     <td><%= link_to h(patron_type.name), patron_type -%></td>
     <td><%= link_to h(patron_type.display_name.localize), patron_type -%></td>
-    <td><%=h patron_type.note -%></td>
+    <td><%= patron_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_patron_type_path(patron_type) -%></td>
     <td><%= link_to t('page.destroy'), patron_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

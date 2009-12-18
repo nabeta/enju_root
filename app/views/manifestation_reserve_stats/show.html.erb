@@ -24,7 +24,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.manifestation_reserve_stat.note') -%>:</b>
-  <%=h @manifestation_reserve_stat.note -%>
+  <%= @manifestation_reserve_stat.note -%>
 </p>
 
 <table class="index">
@@ -37,7 +37,7 @@
       <td>
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => stat.manifestation} -%>
       </td>
-      <td><%=h stat.reserves_count -%></td>
+      <td><%= stat.reserves_count -%></td>
     </tr>
   <%- end -%>
 </table>

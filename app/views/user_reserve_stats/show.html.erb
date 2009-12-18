@@ -13,7 +13,7 @@
 
 <p>
   <b><%= t('activerecord.attributes.user_reserve_stat.note') -%>:</b>
-  <%=h @user_reserve_stat.note -%>
+  <%= @user_reserve_stat.note -%>
 </p>
 
 <table class="index">
@@ -26,7 +26,7 @@
       <td>
         <%= link_to h(stat.user.login), user_path(stat.user.login) -%>
       </td>
-      <td><%=h stat.reserves_count -%></td>
+      <td><%= stat.reserves_count -%></td>
     </tr>
   <%- end -%>
 </table>

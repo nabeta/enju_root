@@ -5,7 +5,7 @@
       <br />
       <%= link_to h(item.shelf.display_name.localize), library_shelf_path(item.shelf.library.name, item.shelf) -%>
       <br />
-      <%=h item.circulation_status.display_name.localize if item.circulation_status -%>
+      <%= item.circulation_status.display_name.localize if item.circulation_status -%>
 
     </td>
     <td class="call_number_table">
@@ -15,7 +15,7 @@
             <%- if @call_numbers[i].blank? -%>
               <td class="call_number_label">&nbsp;</td>
             <%- else -%>
-              <td class="call_number_label"><%=h @call_numbers[i] -%></td>
+              <td class="call_number_label"><%= @call_numbers[i] -%></td>
             <%- end -%>
           </tr>
         <%- i += 1; end -%>

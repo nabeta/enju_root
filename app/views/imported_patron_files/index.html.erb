@@ -11,7 +11,7 @@
 
 <%- for imported_patron_file in @imported_patron_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%=h imported_patron_file.imported_patron_file_name -%></td>
+    <td><%= imported_patron_file.imported_patron_file_name -%></td>
     <td><%= l(imported_patron_file.imported_at) if imported_patron_file.imported_at -%></td>
     <td><%= link_to h(imported_patron_file.user.login), user_path(imported_patron_file.user.login) -%></td>
     <td><%= link_to t('page.show'), imported_patron_file -%></td>

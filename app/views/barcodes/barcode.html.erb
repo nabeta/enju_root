@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= t('activerecord.models.barcode') -%> - <%=h @library_group.display_name.localize -%></title>
+  <title><%= t('activerecord.models.barcode') -%> - <%= @library_group.display_name.localize -%></title>
 </head>
 
 <body style="width: 210mm; padding-left: 5mm; padding-right: 5mm">
@@ -19,10 +19,10 @@
             <%= link_to image_tag("#{barcode_url(barcode)}.png", :alt => barcode.code_word), barcode.barcodable -%>
           <%- end -%>
           <br />
-          <%=h barcode.code_word -%>
+          <%= barcode.code_word -%>
         </div>
         <div style="font-size: 10pt" -%>
-          <%=h @library_group.display_name.localize -%>
+          <%= @library_group.display_name.localize -%>
         </div>
       </td>
     <%- if i != 0 and (i + 1) % 4 == 0 -%>

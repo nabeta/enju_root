@@ -19,10 +19,10 @@
       (<%= link_to h(lending_policy.item.manifestation.original_title), lending_policy.item.manifestation -%>)
     </td>
     <td><%= link_to h(lending_policy.user_group.display_name.localize), lending_policy.user_group -%></td>
-    <td><%=h lending_policy.loan_period -%></td>
-    <td><%=h lending_policy.fixed_due_date -%></td>
-    <td><%=h lending_policy.renewal -%></td>
-    <td><%=h lending_policy.fine -%></td>
+    <td><%= lending_policy.loan_period -%></td>
+    <td><%= lending_policy.fixed_due_date -%></td>
+    <td><%= lending_policy.renewal -%></td>
+    <td><%= lending_policy.fine -%></td>
     <td><%= link_to t('page.show'), lending_policy -%></td>
     <td><%= link_to t('page.edit'), edit_lending_policy_path(lending_policy) -%></td>
     <td><%= link_to t('page.destroy'), lending_policy, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

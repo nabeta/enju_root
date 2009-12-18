@@ -25,7 +25,7 @@
     </td>
     <td><%= link_to h(patron_relationship_type.name), patron_relationship_type -%></td>
     <td><%= link_to h(patron_relationship_type.display_name.localize), patron_relationship_type -%></td>
-    <td><%=h patron_relationship_type.note -%></td>
+    <td><%= patron_relationship_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_patron_relationship_type_path(patron_relationship_type) -%></td>
     <td><%= link_to t('page.destroy'), patron_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>
