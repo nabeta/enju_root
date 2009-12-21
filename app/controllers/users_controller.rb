@@ -92,14 +92,10 @@ class UsersController < ApplicationController
     @user.openid_identifier = flash[:openid_identifier]
     #@user_groups = UserGroup.find(:all)
     @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
-    begin
-      if @patron.user
-        redirect_to patron_url(@patron)
-        flash[:notice] = t('page.already_activated')
-        return
-      end
-    rescue
-      nil
+    if @patron.try(:user)
+      redirect_to patron_url(@patron)
+      flash[:notice] = t('page.already_activated')
+      return
     end
     @user.patron_id = @patron.id if @patron
     @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
@@ -178,7 +174,7 @@ class UsersController < ApplicationController
         expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
         begin
           @user.expired_at = Time.zone.parse(expired_at_array.join("-"))
-        rescue
+        rescue ArgumentError
           flash[:notice] = t('page.invalid_date')
           redirect_to edit_user_url(@user.login)
           return

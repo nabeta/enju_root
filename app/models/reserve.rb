@@ -175,15 +175,19 @@ class Reserve < ActiveRecord::Base
   end
 
   def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
+    if user.try(:has_role?, 'User')
+      true
+    else
+      false
+    end
   end
 
   def self.is_creatable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
+    if user.try(:has_role?, 'User')
+      true
+    else
+      false
+    end
   end
 
   def is_updatable_by(user, parent = nil)

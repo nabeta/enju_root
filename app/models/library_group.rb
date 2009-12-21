@@ -50,7 +50,7 @@ class LibraryGroup < ActiveRecord::Base
       begin
         network = IPAddr.new(allowed_network)
         return true if network.include?(client_ip)
-      rescue
+      rescue ArgumentError
         nil
       end
     end

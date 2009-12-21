@@ -106,11 +106,7 @@ class Bookmark < ActiveRecord::Base
   end
 
   def check_url
-    begin
-      self.url = URI.parse(self.url).normalize.to_s
-    rescue
-      raise 'invalid_url'
-    end
+    self.url = URI.parse(self.url).normalize.to_s
 
     # 自館のページをブックマークする場合
     if URI.parse(self.url).host == LIBRARY_WEB_HOSTNAME
@@ -121,6 +117,8 @@ class Bookmark < ActiveRecord::Base
     else
       manifestation = Manifestation.find(:first, :conditions => {:access_address => self.url}) if self.url.present?
     end
+  rescue URI::InvalidURIError
+    raise 'invalid_url'
   end
 
   def create_bookmark
@@ -174,15 +172,19 @@ class Bookmark < ActiveRecord::Base
   end
 
   def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
+    if user.try(:has_role?, 'User')
+      true
+    else
+      false
+    end
   end
 
   def is_readable_by(user, parent = nil)
-    true if user.has_role?('Librarian')
-  rescue
-    false
+    if user.try(:has_role?, 'Librarian')
+      true
+    else
+      false
+    end
   end
 
   #def is_updatable_by(user, parent = nil)

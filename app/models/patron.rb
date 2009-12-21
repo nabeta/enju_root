@@ -128,15 +128,11 @@ class Patron < ActiveRecord::Base
   end
 
   def full_name_transcription_without_space
-    self.full_name_transcription.gsub(/\s/, "")
-  rescue
-    nil
+    full_name_transcription.to_s.gsub(/\s/, "")
   end
 
   def full_name_alternative_without_space
-    self.full_name_alternative.gsub(/\s/, "")
-  rescue
-    nil
+    full_name_alternative.to_s.gsub(/\s/, "")
   end
 
   def name
@@ -195,21 +191,23 @@ class Patron < ActiveRecord::Base
     return true if user == self.user
     return true if user.has_role?(self.user.required_role.name)
     false
-  rescue
+  rescue NoMethodError
     false
   end
 
   def self.is_creatable_by(user, parent = nil)
     #true if user.has_role?('Librarian')
-    true if user.has_role?('User')
-  rescue
-    false
+    if user.try(:has_role?, 'User')
+      true
+    else
+      false
+    end
   end
 
   def is_readable_by(user, parent = nil)
     # TODO: role id を使わない制御
     true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
-  rescue
+  rescue NoMethodError
     false
   end
 
@@ -226,14 +224,16 @@ class Patron < ActiveRecord::Base
     else
       return true if user.has_role?('Librarian')
     end
-  rescue
+  rescue NoMethodError
     false
   end
 
   def is_deletable_by(user, parent = nil)
-    true if user.has_role?('Librarian')
-  rescue
-    false
+    if user.try(:has_role?, 'Librarian')
+      true
+    else
+      false
+    end
   end
 
   def created(work)

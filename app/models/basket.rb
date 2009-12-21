@@ -33,8 +33,6 @@ class Basket < ActiveRecord::Base
   def self.expire
     Basket.will_expire(Time.zone.now.beginning_of_day).destroy_all
     logger.info "#{Time.zone.now} baskets expired!"
-  rescue
-    logger.info "#{Time.zone.now} expiring baskets failed!"
   end
 
 end

@@ -76,7 +76,7 @@ class EventsController < ApplicationController
     if params[:date]
       begin
         date = Time.zone.parse(params[:date])
-      rescue
+      rescue ArgumentError
         date = Time.zone.now.beginning_of_day
         flash[:notice] = t('page.invalid_date')
       end

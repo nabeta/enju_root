@@ -19,7 +19,7 @@ module ApplicationHelper
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => 'unknown')
     end
-  rescue
+  rescue NoMethodError
     image_tag('/icons/help.png', :size => '16x16', :alt => 'unknown')
   end
 
@@ -36,7 +36,7 @@ module ApplicationHelper
     else
       image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
     end
-  rescue
+  rescue NoMethodError
     image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
   end
 
@@ -46,9 +46,9 @@ module ApplicationHelper
       image_tag('/icons/user.png', :size => '16x16', :alt => ('Person'))
     when 'CorporateBody'
       image_tag('/icons/group.png', :size => '16x16', :alt => ('CorporateBody'))
+    else
+      image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
     end
-  rescue
-    image_tag('/icons/help.png', :size => '16x16', :alt => ('unknown'))
   end
 
   def link_to_tag(tag)
@@ -113,8 +113,8 @@ module ApplicationHelper
         end
       end
     end
-  rescue
-    nil
+  #rescue NoMethodError
+  #  nil
   end
 
   def advertisement_pickup(advertisement)
@@ -123,7 +123,7 @@ module ApplicationHelper
     else
       h(advertisement.body)
     end
-  rescue
+  rescue NoMethodError
     nil
   end
 
