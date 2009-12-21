@@ -56,7 +56,7 @@ Rails::Initializer.run do |config|
   config.gem "scribd_fu"
   config.gem "restful_acl", :version => ">=3.0.0"
   #config.gem "strongbox"
-  config.gem "system_timer"
+  #config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
   config.gem "authlogic"
   config.gem "money"
@@ -68,7 +68,7 @@ Rails::Initializer.run do |config|
   #config.gem "shared-mime-info"
   config.gem "authlogic-oid", :lib => "authlogic_openid"
   config.gem "delayed_job"
-  config.gem "ratom", :lib => "atom"
+  #config.gem "ratom", :lib => "atom"
   #config.gem "damog-feedbag", :lib => "feedbag"
   config.gem "canonical-url", :lib => "canonical_url"
   #config.gem "nabeta-wcapi", :lib => "wcapi"
@@ -122,6 +122,6 @@ require 'search_query'
 require 'suggest_tag'
 require 'tag_list'
 require 'hostname'
-require 'atom/pub'
+#require 'atom/pub'
 require 'localized_name'
 require 'dismax'
