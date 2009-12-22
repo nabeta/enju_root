@@ -134,14 +134,15 @@ class Manifestation < ActiveRecord::Base
   end
 
   def before_validation_on_create
+    return nil unless self.isbn
     ISBN_Tools.cleanup!(self.isbn)
     if self.isbn.length == 10
       isbn10 = self.isbn.dup
-      self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn.to_s)
+      self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn)
       self.isbn10 = isbn10
     end
     set_wrong_isbn
-  rescue
+  rescue NoMethodError
     nil
   end
 
@@ -269,7 +270,7 @@ class Manifestation < ActiveRecord::Base
   def authors
     patron_ids = []
     # 著編者
-    (self.related_works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
+    (self.works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
   end
 
   def editors
@@ -302,42 +303,15 @@ class Manifestation < ActiveRecord::Base
 
   def patron
     self.patrons.collect(&:name) + self.expressions.collect{|e| e.patrons.collect(&:name) + e.work.patrons.collect(&:name)}.flatten
-  rescue
-    []
   end
 
   def shelf
     self.items.collect{|i| i.shelf.library.name + i.shelf.name}
   end
 
-  def related_works(options = {:include_ancestors => false})
-    works = []
-    if options[:include_ancestors]
-      works = (self.works + self.works.collect{|w| w.ancestors}.flatten).uniq
-    else
-      works = self.works
-    end
-
-    if self.serial
-      works - Array([self.serial.work])
-    else
-      works.compact
-    end
-  rescue
-    []
-  end
-
-  def related_titles
-    (related_works(:include_ancestors => true).collect(&:title) + related_works(:include_ancestors => true).collect(&:title_transcription) + self.expressions.collect(&:title) + self.expressions.collect(&:title_transcription) + related_manifestations.collect(&:title) + related_manifestations.collect(&:title_transcription)).uniq
-  rescue
-    []
-  end
-  
   def related_manifestations
     # TODO: 定期刊行物をモデルとビューのどちらで抜くか
     manifestations = self.works.collect{|w| w.expressions.collect{|e| e.manifestations}}.flatten.uniq.compact + self.original_manifestations + self.derived_manifestations - Array(self)
-  rescue
-    []
   end
 
   def sort_title
@@ -422,7 +396,7 @@ class Manifestation < ActiveRecord::Base
       end
     end
     return manifestation
-  rescue
+  rescue NoMethodError
     nil
   end
 
@@ -527,36 +501,6 @@ class Manifestation < ActiveRecord::Base
   #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:manifestation_id => self.id})
   #  end
   #end
-
-  def fetch_expression_feed
-    if self.serial?
-      begin
-        rss = RSS::Parser.parse(self.serial.feed_url)
-      rescue RSS::InvalidRSSError
-        rss = RSS::Parser.parse(self.serial.feed_url, false)
-      end
-
-      # 出版日を調べる
-      /\[(.*?)\]/ =~ rss.items.first.description
-      if self.date_of_publication == Time.zone.parse($1)
-        rss.items.each do |item|
-          manifestation = Manifestation.find(:first, :conditions => {:access_address => item.link})
-          if manifestation.blank?
-            Manifestation.transaction do
-              work = Work.create(:original_title => item.title)
-              expression = Expression.new(:original_title => item.title)
-              work.expressions << expression
-              manifestation = Manifestation.new(:original_title => item.title, :access_address => item.link)
-              expression.manifestations << manifestation
-              self.expressions << expression
-            end
-          end
-        end
-      end
-    end
-  rescue
-    nil
-  end
 
   def set_digest(options = {:type => 'sha1'})
     file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)

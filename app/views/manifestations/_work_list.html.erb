@@ -1,7 +1,7 @@
 <div id="work">
-<%- unless @manifestation.related_works.blank? -%>
+<%- unless @manifestation.works.blank? -%>
   <ul>
-    <%- @manifestation.related_works.each do |work| -%>
+    <%- @manifestation.works.each do |work| -%>
         <li>[W] <%= link_to h(work.original_title), work -%>
           <%- work.expressions.each do |expression| -%>
             <%= link_to content_type_icon(expression.content_type), expression -%>

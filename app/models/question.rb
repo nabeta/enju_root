@@ -39,8 +39,7 @@ class Question < ActiveRecord::Base
   end
 
   def is_readable_by(user, parent = nil)
-    true if user == self.user || self.shared? || user.has_role?('Librarian')
-  rescue
+    return true if user == self.user || self.shared? || user.try(:has_role?, 'Librarian')
     false
   end
 

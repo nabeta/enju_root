@@ -99,16 +99,15 @@ class ShelvesController < ApplicationController
   # DELETE /shelves/1.xml
   def destroy
     @shelf = Shelf.find(params[:id])
-    raise if @shelf.id == 1
-
+    if @shelf.id == 1
+      access_denied; return
+    end
     @shelf.destroy
 
     respond_to do |format|
       format.html { redirect_to library_shelves_url(@shelf.library.name) }
       format.xml  { head :ok }
     end
-  rescue
-    access_denied
   end
 
 end

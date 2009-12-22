@@ -20,9 +20,11 @@ class Answer < ActiveRecord::Base
   end
 
   def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
+    if user.try(:has_role?, 'User')
+      true
+    else
+      false
+    end
   end
 
   def is_readable_by(user, parent = nil)

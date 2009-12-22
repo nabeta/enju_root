@@ -82,11 +82,8 @@ class PurchaseRequestsController < ApplicationController
       access_denied; return
     end
 
-    if @user
-      @purchase_request = @user.purchase_requests.new
-    else
-      @purchase_request = PurchaseRequest.new
-    end
+    @purchase_request = PurchaseRequest.new
+    @purchase_request.user = @user if @user
     begin
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
       title = Bookmark.get_title(params[:title])

@@ -245,9 +245,11 @@ class User < ActiveRecord::Base
   end
 
   def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('Librarian')
-  rescue
-    false
+    if user.try(:has_role?, 'Librarian')
+      true
+    else
+      false
+    end
   end
 
   def self.is_creatable_by(user, parent = nil)
@@ -258,19 +260,20 @@ class User < ActiveRecord::Base
   end
 
   def is_readable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
+    if user.try(:has_role?, 'User')
+      true
+    else
+      false
+    end
   end
 
   def is_updatable_by(user, parent = nil)
-    true if user == self || user.has_role?('Librarian')
-  rescue
+    return true if user == self || user.try(:has_role?, 'Librarian')
     false
   end
 
   def is_deletable_by(user, parent = nil)
-    raise if self.id == 1 or self.checkouts.size > 0 or self.last_librarian?
+    raise if self.id == 1 || self.checkouts.size > 0 || self.last_librarian?
     true if user == self || user.has_role?('Librarian')
   rescue
     false
@@ -301,13 +304,15 @@ class User < ActiveRecord::Base
   end
 
   def send_message(status, options = {})
-    queue = MessageQueue.new
-    queue.sender = User.find(1) # TODO: システムからのメッセージ送信者
-    queue.receiver = self
-    queue.message_template = MessageTemplate.find_by_status(status)
-    queue.embed_body(options)
-    queue.save!
-    queue.aasm_send_message!
+    MessageQueue.transaction do
+      queue = MessageQueue.new
+      queue.sender = User.find(1) # TODO: システムからのメッセージ送信者
+      queue.receiver = self
+      queue.message_template = MessageTemplate.find_by_status(status)
+      queue.embed_body(options)
+      queue.save!
+      queue.aasm_send_message!
+    end
   end
 
   def owned_tags_by_solr

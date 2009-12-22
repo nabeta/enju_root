@@ -93,8 +93,8 @@
 <div id="demo" class="yui-navset yui-navset-top">
   <ul class="yui-nav">
     <li class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-    <%- if @manifestation.related_works.size > 0 -%>
-      <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.related_works.size -%>)</em></a></li>
+    <%- if @manifestation.works.size > 0 -%>
+      <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.works.size -%>)</em></a></li>
     <%- end -%>
     <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
       <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.original_manifestations.size + @manifestation.derived_manifestations.size -%>)</em></a></li>
@@ -248,7 +248,7 @@
       <%= render :partial => 'bookmarks_for_this_manifestation' -%>
 
     </div>
-    <%- if @manifestation.related_works.size > 0 -%>
+    <%- if @manifestation.works.size > 0 -%>
       <%= render :partial => 'manifestations/work_list' -%>
     <%- end -%>
     <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>

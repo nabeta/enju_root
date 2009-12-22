@@ -32,10 +32,12 @@ class Shelf < ActiveRecord::Base
   end
 
   def is_deletable_by(user, parent = nil)
-    raise if self.id == 1
-    true if user.has_role?('Administrator')
-  rescue
-    false
+    return false if self.id == 1
+    if user.try(:has_role?, 'Administrator')
+      true
+    else
+      false
+    end
   end
 
 end
