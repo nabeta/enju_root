@@ -75,8 +75,8 @@ Rails::Initializer.run do |config|
   #config.gem "sishen-rtranslate", :lib => "rtranslate"
   #config.gem "sitemap_generator"
   config.gem "paperclip"
-  config.gem "sunspot", :version => ">=0.10.2"
-  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.10.6"
+  config.gem "sunspot", :version => ">=0.10.8"
+  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.11.4"
   config.gem "factory_girl"
   config.gem "ri_cal"
   #config.gem "fleakr"
@@ -85,6 +85,8 @@ Rails::Initializer.run do |config|
   config.gem "paper_trail"
   config.gem "file_wrapper"
   #config.gem "event_calendar"
+  #config.gem "sru"
+  #config.gem "cql-ruby", :lib => "cql_ruby"
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named

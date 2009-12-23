@@ -3,16 +3,16 @@
 <div id="content_list">
 <p>
   <b><%= t('activerecord.models.manifestation_checkout_stat') -%>:</b>
-  <%= @checkout_stat_has_manifestation.manifestation_checkout_stat_id -%>
+  <%= link_to h(@checkout_stat_has_manifestation.manifestation_checkout_stat.id), @checkout_stat_has_manifestation.manifestation_checkout_stat -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <%= @checkout_stat_has_manifestation.manifestation_id -%>
+  <%= link_to h(@checkout_stat_has_manifestation.manifestation.original_title), @checkout_stat_has_manifestation.manifestation -%>
 </p>
 
 <p>
-  <b>Checkouts count:</b>
+  <b><%= t('activerecord.attributes.checkout_stat_has_manifestation.checkouts_count') -%>:</b>
   <%= @checkout_stat_has_manifestation.checkouts_count -%>
 </p>
 </div>

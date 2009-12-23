@@ -1,18 +1,27 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmark_stat_has_manifestation')) -%></h1>
+<div id="content_list">
 <p>
-  <b>Bookmark stat:</b>
-  <%= @bookmark_stat_has_manifestation.bookmark_stat_id -%>
+  <b><%= t('activerecord.models.bookmark_stat') -%>:</b>
+  <%= link_to h(@bookmark_stat_has_manifestation.bookmark_stat.id), @bookmark_stat_has_manifestation.bookmark_stat -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <%= @bookmark_stat_has_manifestation.manifestation_id -%>
+  <%= link_to h(@bookmark_stat_has_manifestation.manifestation.original_title), @bookmark_stat_has_manifestation.manifestation -%>
 </p>
 
 <p>
-  <b>Bookmarks count:</b>
+  <b><%= t('activerecord.attributes.bookmark_stat_has_manifestation.bookmarks_count') -%>:</b>
   <%= @bookmark_stat_has_manifestation.bookmarks_count -%>
 </p>
 
+</div>
+</div>
 
-<%= link_to t('page.edit'), edit_bookmark_stat_has_manifestation_path(@bookmark_stat_has_manifestation) -%> |
-<%= link_to t('page.back'), bookmark_stat_has_manifestations_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_bookmark_stat_has_manifestation_path(@bookmark_stat_has_manifestation) -%></li>
+    <li><%= link_to t('page.back'), bookmark_stat_has_manifestations_path -%></li>
+  </ul>
+</div>

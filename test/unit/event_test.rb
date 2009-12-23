@@ -13,4 +13,8 @@ class EventTest < ActiveSupport::TestCase
     end_at = events(:event_00008).end_at
     assert_equal events(:event_00008).set_all_day, end_at.end_of_day
   end
+
+  def test_event_should_respond_to_name
+    assert_equal events(:event_00001).name, events(:event_00001).title
+  end
 end

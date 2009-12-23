@@ -42,11 +42,11 @@ class ManifestationTest < ActiveSupport::TestCase
     assert_equal manifestations(:manifestation_00023).nicovideo_id, 'sm3015373'
   end
 
-  def test_pickup
+  def test_manifestation_should_respond_to_pickup
     assert Manifestation.pickup
   end
 
-  def title
+  def test_manifestation_should_respond_to_title
     assert manifestations(:manifestation_00001).title
   end
 
@@ -56,6 +56,14 @@ class ManifestationTest < ActiveSupport::TestCase
 
   def test_manifestation_should_not_have_parent_of_series
     assert_nil manifestations(:manifestation_00001).parent_of_series
+  end
+
+  def test_manifestation_should_response_to_extract_text
+    assert_nil manifestations(:manifestation_00001).extract_text
+  end
+
+  def test_manifestation_should_response_to_derived_manifestations_by_solr
+    assert manifestations(:manifestation_00001).derived_manifestations_by_solr
   end
 
 end

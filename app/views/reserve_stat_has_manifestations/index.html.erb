@@ -1,16 +1,18 @@
-<h1 class="title">Listing reserve_stat_has_manifestations</h1>
+<div id="content_detail">
+<h1 class="title"><%= t('activerecord.models.reserve_stat_has_manifestation') -%></h1>
+<div id="content_list">
 
-<table>
+<table class="index">
   <tr>
-    <th>Reserve stat</th>
+    <th><%= t('activerecord.models.manifestation_reserve_stat') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
-    <th>Reserves count</th>
+    <th><%= t('activerecord.attributes.reserve_stat_has_manifestation.reserves_count') -%></th>
   </tr>
 
-<%- for reserve_stat_has_manifestation in @reserve_stat_has_manifestations -%>
-  <tr>
-    <td><%= reserve_stat_has_manifestation.manifestation_reserve_stat_id -%></td>
-    <td><%= reserve_stat_has_manifestation.manifestation_id -%></td>
+<%- @reserve_stat_has_manifestations.each do |reserve_stat_has_manifestation| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(reserve_stat_has_manifestation.manifestation_reserve_stat.id), reserve_stat_has_manifestation.manifestation_reserve_stat -%></td>
+    <td><%= link_to h(reserve_stat_has_manifestation.manifestation.original_title), reserve_stat_has_manifestation.manifestation -%></td>
     <td><%= reserve_stat_has_manifestation.reserves_count -%></td>
     <td><%= link_to t('page.show'), reserve_stat_has_manifestation -%></td>
     <td><%= link_to t('page.edit'), edit_reserve_stat_has_manifestation_path(reserve_stat_has_manifestation) -%></td>
@@ -19,7 +21,13 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@reserve_stat_has_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
+<%= will_paginate(@reserve_stat_has_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%></li>
 
-<%= link_to t('page.new', :model => t('activerecord.models.reserve_stat_has_manifestation')), new_reserve_stat_has_manifestation_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.reserve_stat_has_manifestation')), new_reserve_stat_has_manifestation_path -%></li>
+  </ul>
+</div>

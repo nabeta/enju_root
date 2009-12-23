@@ -1,18 +1,26 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.reserve_stat_has_manifestation')) -%></h1>
+<div id="content_list">
 <p>
-  <b>Reserve stat:</b>
-  <%= @reserve_stat_has_manifestation.manifestation_reserve_stat_id -%>
+  <b><%= t('activerecord.models.manifestation_reserve_stat') -%></b>
+  <%= link_to h(@reserve_stat_has_manifestation.manifestation_reserve_stat.id), @reserve_stat_has_manifestation.manifestation_reserve_stat -%>
 </p>
 
 <p>
   <b><%= t('activerecord.models.manifestation') -%>:</b>
-  <%= @reserve_stat_has_manifestation.manifestation_id -%>
+  <%= link_to h(@reserve_stat_has_manifestation.manifestation.original_title), @reserve_stat_has_manifestation.manifestation -%>
 </p>
 
 <p>
-  <b>Reserves count:</b>
+  <b><%= t('activerecord.attributes.reserve_stat_has_manifestation.reserves_count') -%></b>
   <%= @reserve_stat_has_manifestation.reserves_count -%>
 </p>
+</div>
+</div>
 
-
-<%= link_to t('page.edit'), edit_reserve_stat_has_manifestation_path(@reserve_stat_has_manifestation) -%> |
-<%= link_to t('page.back'), reserve_stat_has_manifestations_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_reserve_stat_has_manifestation_path(@reserve_stat_has_manifestation) -%></li>
+    <li><%= link_to t('page.back'), reserve_stat_has_manifestations_path -%></li>
+  </ul>
+</div>

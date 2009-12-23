@@ -1,16 +1,18 @@
-<h1 class="title">Listing reserve_stat_has_users</h1>
+<div id="content_detail">
+<h1 class="title"><%= t('activerecord.models.reserve_stat_has_user') -%></h1>
+<div id="content_list">
 
-<table>
+<table class="index">
   <tr>
-    <th>User reserve</th>
+    <th><%= t('activerecord.models.user_reserve_stat') -%></th>
     <th><%= t('activerecord.models.user') -%></th>
-    <th>Reserves count</th>
+    <th><%= t('activerecord.attributes.reserve_stat_has_user.reserves_count') -%></th>
   </tr>
 
-<%- for reserve_stat_has_user in @reserve_stat_has_users -%>
-  <tr>
-    <td><%= reserve_stat_has_user.user_reserve_stat_id -%></td>
-    <td><%= reserve_stat_has_user.user_id -%></td>
+<%- @reserve_stat_has_users.each do |reserve_stat_has_user| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(reserve_stat_has_user.user_reserve_stat.id), reserve_stat_has_user.user_reserve_stat -%></td>
+    <td><%= link_to h(reserve_stat_has_user.user.login), user_path(reserve_stat_has_user.user.login) -%></td>
     <td><%= reserve_stat_has_user.reserves_count -%></td>
     <td><%= link_to t('page.show'), reserve_stat_has_user -%></td>
     <td><%= link_to t('page.edit'), edit_reserve_stat_has_user_path(reserve_stat_has_user) -%></td>
@@ -20,6 +22,12 @@
 </table>
 
 <%= will_paginate(@reserve_stat_has_users, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-<br />
 
-<%= link_to t('page.new', :model => t('activerecord.models.reserve_stat_has_user')), new_reserve_stat_has_user_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.reserve_stat_has_user')), new_reserve_stat_has_user_path -%></li>
+  </ul>
+</div>
