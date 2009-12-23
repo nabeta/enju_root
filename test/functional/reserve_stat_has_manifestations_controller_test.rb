@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReserveStatHasManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :reserve_stat_has_manifestations, :users
+  fixtures :reserve_stat_has_manifestations, :users, :manifestations, :manifestation_reserve_stats
 
   test "guest should not get index" do
     get :index

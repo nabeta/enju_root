@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReserveStatHasUsersControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :reserve_stat_has_users, :users
+  fixtures :reserve_stat_has_users, :users, :user_reserve_stats
 
   test "guest should not get index" do
     get :index
@@ -118,7 +118,7 @@ class ReserveStatHasUsersControllerTest < ActionController::TestCase
 
   test "librarian should update reserve_stat_has_user" do
     UserSession.create users(:librarian1)
-    put :update, :id => reserve_stat_has_users(:one).id, :reserve_stat_has_user => {:user_reserve_stat_id => 1, :user_id => 2}
+    put :update, :id => reserve_stat_has_users(:one).id, :reserve_stat_has_user => {:user_reserve_stat_id => 1, :user_id => 3}
     assert_redirected_to reserve_stat_has_user_path(assigns(:reserve_stat_has_user))
   end
 

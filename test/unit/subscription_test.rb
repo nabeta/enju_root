@@ -1,7 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class SubscriptionTest < ActiveSupport::TestCase
-  fixtures :subscriptions
+  fixtures :subscriptions, :works, :subscribes
 
-  # Replace this with your real tests.
+  def test_subscription_should_respond_to_subscribed
+    assert_nil subscriptions(:subscription_00001).subscribed(Work.first)
+  end
 end

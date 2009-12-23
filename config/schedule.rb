@@ -45,7 +45,6 @@ end
 
 every 1.day, :at => '3:00 am' do
   rake "enju:reindex"
-  #runner "LibraryGroup.solr_reindex(500)"
 end
 
 every 1.day, :at => '9:00 am' do

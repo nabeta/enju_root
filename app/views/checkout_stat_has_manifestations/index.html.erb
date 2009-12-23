@@ -4,14 +4,14 @@
 
 <table class="index">
   <tr>
-    <th>Checkout stat</th>
-    <th>Manifestation</th>
-    <th>Checkouts count</th>
+    <th><%= t('activerecord.models.manifestation_checkout_stat') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
+    <th><%= t('activerecord.attributes.checkout_stat_has_manifestation.checkouts_count') -%></th>
   </tr>
 
 <%- for checkout_stat_has_manifestation in @checkout_stat_has_manifestations -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= checkout_stat_has_manifestation.manifestation_checkout_stat_id -%></td>
+    <td><%= link_to h(checkout_stat_has_manifestation.manifestation_checkout_stat.id), checkout_stat_has_manifestation.manifestation_checkout_stat -%></td>
     <td><%= link_to h(checkout_stat_has_manifestation.manifestation.original_title), checkout_stat_has_manifestation.manifestation -%></td>
     <td><%= checkout_stat_has_manifestation.checkouts_count -%></td>
     <td><%= link_to t('page.show'), checkout_stat_has_manifestation -%></td>

@@ -544,10 +544,11 @@ class Manifestation < ActiveRecord::Base
     page = options[:page] || 1
     sort_by = options[:sort_by] || 'created_at'
     order = options[:order] || 'desc'
+    manifestation_id = id
     search = Sunspot.new_search(Manifestation)
     search.build do
-      with(:original_manifestation_ids).equal_to self.id
-      order_by(:sort_by, order)
+      with(:original_manifestation_ids).equal_to manifestation_id
+      order_by(sort_by, order)
     end
     search.query.paginate page.to_i, Manifestation.per_page
     search.execute!.results

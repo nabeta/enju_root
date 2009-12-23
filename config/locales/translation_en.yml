@@ -137,6 +137,11 @@ en:
       work_to_expression_rel_type: Work-to-Expression relationship type
       expression_to_manifestation_rel_type: Expression-to-Manifestation relationship type
       series_statement: Series statement
+      checkout_stat_has_manifestation: Checkout stat has manifestation
+      checkout_stat_has_user: Checkout stat has user
+      reserve_stat_has_manifestation: Reserve stat has manifestation
+      reserve_stat_has_user: Reserve stat has user
+
     attributes:
       library:
         name: Name

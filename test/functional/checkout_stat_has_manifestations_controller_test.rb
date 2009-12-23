@@ -2,7 +2,7 @@ require 'test_helper'
 
 class CheckoutStatHasManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :checkout_stat_has_manifestations, :users
+  fixtures :checkout_stat_has_manifestations, :users, :manifestations, :manifestation_checkout_stats
 
   test "guest should not get index" do
     get :index
