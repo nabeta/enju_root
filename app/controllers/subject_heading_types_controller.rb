@@ -1,11 +1,15 @@
 class SubjectHeadingTypesController < ApplicationController
-  before_filter :check_client_ip_address
+  before_filter :check_client_ip_address, :get_subject
   before_filter :has_permission?
 
   # GET /subject_heading_types
   # GET /subject_heading_types.xml
   def index
-    @subject_heading_types = SubjectHeadingType.find(:all, :order => :position)
+    if @subject
+      @subject_heading_types = @subject.subject_heading_types
+    else
+      @subject_heading_types = SubjectHeadingType.all
+    end
 
     respond_to do |format|
       format.html # index.html.erb

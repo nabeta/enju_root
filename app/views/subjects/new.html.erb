@@ -12,7 +12,7 @@
   <%= f.error_messages -%>
   <p>
     <b><%= t('activerecord.models.subject_type') -%></b>
-    <%= f.select(:subject_type_id, @subject_types.collect{|p| [p.display_name.localize, p.id]}) -%>
+    <%= f.select(:subject_type_id, @subject_types.collect{|s| [s.display_name.localize, s.id]}) -%>
   </p>
 
   <p>

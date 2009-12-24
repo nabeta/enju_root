@@ -169,8 +169,9 @@ class WorksController < ApplicationController
     end
   end
 
+  private
   def prepare_options
-    @form_of_works = FormOfWork.all(:order => :position)
+    @form_of_works = FormOfWork.all
   end
 
 end
