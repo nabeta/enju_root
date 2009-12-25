@@ -84,6 +84,7 @@ Rails::Initializer.run do |config|
   config.gem "Text", :lib => "text"
   config.gem "paper_trail"
   config.gem "file_wrapper"
+  config.gem "acts_as_geocodable"
   #config.gem "event_calendar"
   #config.gem "sru"
   #config.gem "cql-ruby", :lib => "cql_ruby"
