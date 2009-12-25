@@ -5,6 +5,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(work.original_title), work -%><br />
+      <%= raw patrons_list(work.patrons) -%><br />
     </td>
   </tr>
 <%- end -%>

@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :acts_as_geocodable do
+# task :rails_xss do
 #   # Task goes here
 # end

@@ -1,5 +1,6 @@
 class SubjectHeadingTypeHasSubjectsController < ApplicationController
   before_filter :has_permission?
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /subject_heading_type_has_subjects
   # GET /subject_heading_type_has_subjects.xml

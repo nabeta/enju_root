@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 class SubjectsController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_work
-  before_filter :get_classification
+  before_filter :get_work, :get_subject_heading_type, :get_classification
+  before_filter :prepare_options, :only => :new
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -93,7 +93,6 @@ class SubjectsController < ApplicationController
   # GET /subjects/new
   def new
     @subject = Subject.new
-    @subject_types = SubjectType.find(:all)
 
     respond_to do |format|
       format.html # new.html.erb
@@ -126,7 +125,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to subject_url(@subject) }
         format.xml  { render :xml => @subject, :status => :created, :location => @subject }
       else
-        @subject_types = SubjectType.find(:all)
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @subject.errors.to_xml }
       end
@@ -148,7 +147,7 @@ class SubjectsController < ApplicationController
         format.html { redirect_to subject_url(@subject) }
         format.xml  { head :ok }
       else
-        @subject_types = SubjectType.find(:all)
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @subject.errors.to_xml }
       end
@@ -171,4 +170,8 @@ class SubjectsController < ApplicationController
     end
   end
 
+  private
+  def prepare_options
+    @subject_types = SubjectType.find(:all)
+  end
 end

@@ -202,6 +202,7 @@ ActionController::Routing::Routes.draw do |map|
     subject.resources :work_has_subjects
     subject.resources :classifications
     subject.resources :subject_has_classifications
+    subject.resources :subject_heading_types
   end
 
   map.resources :patron_merge_lists do |patron_merge_list|

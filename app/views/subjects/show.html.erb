@@ -10,7 +10,8 @@
       <li><%= link_to t('page.destroy'), subject_path(@subject), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.classification')), subject_classifications_path(@subject) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject')), subject_works_path(@subject) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), subject_works_path(@subject) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject_heading_type')), subject_subject_heading_types_path(@subject) -%></li>
   </ul>
 </div>
 
@@ -23,6 +24,12 @@
 </h2>
   <p>
     (<%= link_to_wikipedia(@subject.term) -%>)
+  </p>
+
+  <p>
+    <%- @subject.subject_heading_types.each do |subject_heading_type| -%>
+      <%= link_to h(subject_heading_type.display_name.localize), subject_heading_type -%>
+    <%- end -%>
   </p>
 
 <table class="index">
