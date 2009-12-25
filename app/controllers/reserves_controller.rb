@@ -10,12 +10,21 @@ class ReservesController < ApplicationController
   # GET /reserves
   # GET /reserves.xml
   def index
-    begin
-      if !current_user.has_role?('Librarian')
-        raise unless current_user == @user
+    if logged_in?
+      begin
+        if !current_user.has_role?('Librarian')
+          raise unless current_user == @user
+        end
+      rescue
+        if @user
+          unless current_user == @user
+            access_denied; return
+          end
+        else
+          redirect_to user_reserves_path(current_user.login)
+          return
+        end
       end
-    rescue
-      access_denied; return
     end
 
     if params[:mode] == 'hold' and current_user.has_role?('Librarian')

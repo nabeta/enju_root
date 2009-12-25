@@ -40,8 +40,13 @@ class CheckoutsController < ApplicationController
         if current_user == @user
           @checkouts = current_user.checkouts.not_returned.find(:all, :order => 'created_at DESC')
         else
-          access_denied
-          return
+          if @user
+            access_denied
+            return
+          else
+            redirect_to user_checkouts_path(current_user.login)
+            return
+          end
         end
       end
     else

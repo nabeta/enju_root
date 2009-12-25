@@ -29,23 +29,28 @@
               </li>
               <%- end -%>
               <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'message', :locale => @locale) do -%>
-              <%- if logged_in? -%>
                 <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '#', :class => 'yuimenubaritemlabel' -%>
-                  <div id="message" class="yuimenu">
-                    <div class="bd">                    
-                      <ul>
-                        <li class="yuimenuitem"><%= link_to t('message.inbox'), user_messages_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
-                        <%- if current_user.has_role?('Librarian') -%>
-                          <li class="yuimenuitem"><%= link_to t('activerecord.models.message_queue'), message_queues_path, :class => 'yuimenuitemlabel' -%></li>
-                        <%- end -%>
-                      </ul>
+                  <%- if logged_in? -%>
+                    <div id="message" class="yuimenu">
+                      <div class="bd">                    
+                        <ul>
+                          <li class="yuimenuitem"><%= link_to t('message.inbox'), user_messages_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                          <%- if current_user.has_role?('Librarian') -%>
+                            <li class="yuimenuitem"><%= link_to t('activerecord.models.message_queue'), message_queues_path, :class => 'yuimenuitemlabel' -%></li>
+                          <%- end -%>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
+                  <%- else -%>
+                    <div id="message" class="yuimenu">
+                      <div class="bd">                    
+                        <ul>
+                          <li class="yuimenuitem"><%= link_to t('message.inbox'), '/page/message', :class => 'yuimenuitemlabel' -%></li>
+                        </ul>
+                      </div>
+                    </div>
+                  <%- end -%>
                 </li>
-              <%- else -%>
-                <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '/page/message', :class => 'yuimenubaritemlabel' -%>
-                </li>
-              <%- end -%>
               <%- end -%>
               <li class="yuimenubaritem"><%= link_to t('page.circulation'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
@@ -68,6 +73,14 @@
                       </ul>
                     </div>
                   </div>
+                <%- else -%>
+                  <div id="circulation" class="yuimenu">
+                    <div class="bd">
+                      <ul>
+                        <li class="yuimenuitem"><%= link_to t('page.checkout_history'), checkouts_path, :class => 'yuimenuitemlabel' -%></li>
+                      </ul>
+                    </div>
+                  </div>
                 <%- end -%>
               </li>
               <li class="yuimenubaritem">
@@ -78,7 +91,7 @@
                     <%= link_to t('activerecord.models.bookmark'), '#', :class => 'yuimenubaritemlabel' -%>
                   <%- end -%>
                 <%- else -%>
-                  <%= link_to t('activerecord.models.bookmark'), bookmarks_path, :class => 'yuimenubaritemlabel' -%>
+                  <%= link_to t('activerecord.models.bookmark'), '#', :class => 'yuimenubaritemlabel' -%>
                 <%- end -%>
                 <%- if logged_in? -%>
                   <div id="bookmark" class="yuimenu">
@@ -90,6 +103,14 @@
                           <li class="yuimenuitem"><%= link_to t('page.upload_file'), new_manifestation_path(:mode => 'attachment'), :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
                         <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
+                      </ul>
+                    </div>
+                  </div>
+                <%- else -%>
+                  <div id="bookmark" class="yuimenu">
+                    <div class="bd">                    
+                      <ul>
+                        <li class="yuimenuitem"><%= link_to t('page.listing', :model => t('activerecord.models.bookmark')), bookmarks_path, :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
                   </div>
@@ -110,6 +131,14 @@
                         </li>
                         <li class="yuimenuitem"><%= link_to t('activerecord.models.purchase_request'), user_purchase_requests_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                         <li class="yuimenuitem"><%= link_to t('activerecord.models.question'), user_questions_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
+                      </ul>
+                    </div>
+                  </div>
+                <%- else -%>
+                  <div id="request" class="yuimenu">
+                    <div class="bd">                    
+                      <ul>
+                        <li class="yuimenuitem"><%= link_to t('activerecord.models.question'), questions_path, :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
                   </div>
