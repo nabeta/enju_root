@@ -20,6 +20,13 @@ class ReservesControllerTest < ActionController::TestCase
     assert assigns(:reserves)
   end
 
+  def test_user_should_be_redirected_to_my_index
+    UserSession.create users(:user1)
+    get :index
+    assert_response :redirect
+    assert_redirected_to user_reserves_url(users(:user1).login)
+  end
+
   def test_user_should_get_my_index_feed
     UserSession.create users(:user1)
     get :index, :user_id => users(:user1).login, :format => 'rss'

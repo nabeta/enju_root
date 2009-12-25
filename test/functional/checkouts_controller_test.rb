@@ -16,7 +16,8 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_everyone_should_not_get_index_without_user_id
     UserSession.create users(:user1)
     get :index
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to user_checkouts_url(users(:user1).login)
   end
 
   def test_user_should_get_my_index
@@ -49,7 +50,8 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_user_should_not_get_overdue_index
     UserSession.create users(:user1)
     get :index, :view => 'overdue'
-    assert_response :forbidden
+    assert_response :redirect
+    assert_redirected_to user_checkouts_url(users(:user1).login)
   end
 
   def test_librarian_should_get_index

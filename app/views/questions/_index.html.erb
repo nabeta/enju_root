@@ -15,5 +15,8 @@
 </div>
 
 <div id="submenu">
+  <ul>
+    <li><%= link_to t('question.my'), new_user_session_path(:redirection => 'question') -%></li>
+  </ul>
   <%= render :partial => 'crd' -%>
 </div>

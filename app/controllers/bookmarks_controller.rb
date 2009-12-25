@@ -12,10 +12,17 @@ class BookmarksController < ApplicationController
     if logged_in?
       begin
         if !current_user.has_role?('Librarian')
-          raise unless @user.share_bookmarks? or current_user == @user
+          raise unless @user.share_bookmarks?
         end
       rescue
-        access_denied; return
+        if @user
+          unless current_user == @user
+            access_denied; return
+          end
+        else
+          redirect_to user_bookmarks_path(current_user.login)
+          return
+        end
       end
     end
 
