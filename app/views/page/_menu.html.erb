@@ -8,7 +8,7 @@
           <div class="bd">
             <ul class="first-of-type">
               <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'search', :locale => @locale) do -%>
-              <li class="yuimenubaritem first-of-type"><%= link_to t('page.search'), "#", :class => 'yuimenuitemlabel' -%>
+              <li class="yuimenubaritem first-of-type"><%= link_to t('page.search'), "#search", :class => 'yuimenuitemlabel' -%>
                 <div id="search" class="yuimenu">
                   <div class="bd">                    
                     <ul>
@@ -29,7 +29,7 @@
               </li>
               <%- end -%>
               <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'message', :locale => @locale) do -%>
-                <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '#', :class => 'yuimenubaritemlabel' -%>
+                <li class="yuimenubaritem"><%= link_to t('activerecord.models.message'), '#message', :class => 'yuimenubaritemlabel' -%>
                   <%- if logged_in? -%>
                     <div id="message" class="yuimenu">
                       <div class="bd">                    
@@ -52,7 +52,7 @@
                   <%- end -%>
                 </li>
               <%- end -%>
-              <li class="yuimenubaritem"><%= link_to t('page.circulation'), '#', :class => 'yuimenubaritemlabel' -%>
+              <li class="yuimenubaritem"><%= link_to t('page.circulation'), '#circulation', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <div id="circulation" class="yuimenu">
                     <div class="bd">
@@ -86,12 +86,12 @@
               <li class="yuimenubaritem">
                 <%- if logged_in? -%>
                   <%- if current_user.has_role?('Librarian') -%>
-                    <%= link_to t('page.acquisition'), '#', :class => 'yuimenuitemlabel' -%>
+                    <%= link_to t('page.acquisition'), '#acquisition', :class => 'yuimenuitemlabel' -%>
                   <%- else -%>
-                    <%= link_to t('activerecord.models.bookmark'), '#', :class => 'yuimenubaritemlabel' -%>
+                    <%= link_to t('activerecord.models.bookmark'), '#bookmark', :class => 'yuimenubaritemlabel' -%>
                   <%- end -%>
                 <%- else -%>
-                  <%= link_to t('activerecord.models.bookmark'), '#', :class => 'yuimenubaritemlabel' -%>
+                  <%= link_to t('activerecord.models.bookmark'), '#bookmark', :class => 'yuimenubaritemlabel' -%>
                 <%- end -%>
                 <%- if logged_in? -%>
                   <div id="bookmark" class="yuimenu">
@@ -117,7 +117,7 @@
                 <%- end -%>
               </li>
               <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'request', :locale => @locale) do -%>
-              <li class="yuimenubaritem"><%= link_to t('page.request'), '#', :class => 'yuimenubaritemlabel' -%>
+              <li class="yuimenubaritem"><%= link_to t('page.request'), '#request', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <div id="request" class="yuimenu">
                     <div class="bd">                    
@@ -145,7 +145,7 @@
                 <%- end -%>
               </li>
               <%- end -%>
-              <li class="yuimenubaritem"><%= link_to t('activerecord.models.event'), "#", :class => 'yuimenubaritemlabel' -%>
+              <li class="yuimenubaritem"><%= link_to t('activerecord.models.event'), "#event", :class => 'yuimenubaritemlabel' -%>
               <%- if @library_group -%>
                   <div id="event" class="yuimenu">
                     <%- unless @library_group.physical_libraries.blank? -%>
@@ -166,7 +166,7 @@
                 <%- end -%>
               </li>
               <%- cache(:controller => 'page', :user => current_user.try(:login), :menu => 'configuration', :locale => @locale) do -%>
-              <li class="yuimenubaritem"><%= link_to t('page.management'), '#', :class => 'yuimenubaritemlabel' -%>
+              <li class="yuimenubaritem"><%= link_to t('page.management'), '#management', :class => 'yuimenubaritemlabel' -%>
                 <%- if logged_in? -%>
                   <%- if current_user.has_role?('Librarian') -%>
                     <div id="management" class="yuimenu">
