@@ -138,6 +138,8 @@
                   <div id="request" class="yuimenu">
                     <div class="bd">                    
                       <ul>
+                        <li class="yuimenuitem"><%= link_to t('activerecord.models.reserve'), reserves_path, :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('activerecord.models.purchase_request'), purchase_requests_path, :class => 'yuimenuitemlabel' -%></li>
                         <li class="yuimenuitem"><%= link_to t('activerecord.models.question'), questions_path, :class => 'yuimenuitemlabel' -%></li>
                       </ul>
                     </div>
@@ -196,6 +198,14 @@
                       </div>
                     </div>
                   <%- end -%>
+                <%- else -%>
+                  <div id="management" class="yuimenu">
+                    <div class="bd">                    
+                      <ul>
+                        <li class="yuimenuitem"><%= link_to t('page.login'), new_user_session_path, :class => 'yuimenuitemlabel' -%></li>
+                      </ul>
+                    </div>
+                  </div>
                 <%- end -%>
               </li>
               <%- end -%>
