@@ -9,12 +9,21 @@ class PurchaseRequestsController < ApplicationController
   # GET /purchase_requests
   # GET /purchase_requests.xml
   def index
-    begin
-      if !current_user.has_role?('Librarian')
-        raise unless current_user == @user
+    if logged_in?
+      begin
+        if !current_user.has_role?('Librarian')
+          raise unless current_user == @user
+        end
+      rescue
+        if @user
+          unless current_user == @user
+            access_denied; return
+          end
+        else
+          redirect_to user_purchase_requests_path(current_user.login)
+          return
+        end
       end
-    rescue
-      access_denied; return
     end
 
     @count = {}
