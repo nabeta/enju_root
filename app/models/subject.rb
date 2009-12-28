@@ -51,8 +51,4 @@ class Subject < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :per_page
 
-  #def tags
-  #  self.works.collect(&:tags).flatten
-  #end
-
 end
