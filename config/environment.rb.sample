@@ -62,7 +62,7 @@ Rails::Initializer.run do |config|
   config.gem "money"
   config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "acts-as-taggable-on", :version => ">=1.0.11"
+  config.gem "acts-as-taggable-on", :version => ">=1.0.16"
   #config.gem "mloughran-api_cache", :lib => "api_cache"
   config.gem "memcache-client", :lib => "memcache"
   #config.gem "shared-mime-info"
@@ -92,6 +92,7 @@ Rails::Initializer.run do |config|
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
   # config.plugins = [ :exception_notification, :ssl_requirement, :all ]
+x
 
   # Skip frameworks you're not going to use. To use Rails without a database,
   # you must remove the Active Record framework.
@@ -113,14 +114,13 @@ end
 Geocode.geocoder = Graticule.service(:google).new GOOGLE_APPLICATION_ID
 Money.default_currency = "JPY"
 #RAILS_DEFAULT_LOGGER.auto_flushing = 1
-#APICache.start
 
 #require 'jasper-rails'
 require 'solr_index'
 require 'jcode'
 require 'nkf'
 require 'digest/sha1'
-require 'barby/outputter/png_outputter'
+#require 'barby/outputter/png_outputter'
 require 'search_query'
 require 'suggest_tag'
 require 'tag_list'
