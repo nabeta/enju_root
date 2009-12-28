@@ -28,7 +28,7 @@ class Subject < ActiveRecord::Base
   has_many :use_terms, :class_name => 'Subject', :foreign_key => :use_term_id
   belongs_to :use_term, :class_name => 'Subject', :foreign_key => :use_term_id, :validate => true
   has_many :subject_has_classifications, :dependent => :destroy
-  has_many :classifications, :through => :subject_has_classifications, :include => :classification_type
+  has_many :classifications, :through => :subject_has_classifications
   belongs_to :subject_type, :validate => true
   has_many :subject_heading_type_has_subjects
   has_many :subject_heading_types, :through => :subject_heading_type_has_subjects
