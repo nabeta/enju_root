@@ -131,9 +131,15 @@ module ApplicationHelper
     case ActiveRecord::Base.configurations[RAILS_ENV]['adapter']
     when 'postgresql'
       link_to 'PostgreSQL', 'http://www.postgresql.org/'
+    when 'jdbcpostgresql'
+      link_to 'PostgreSQL', 'http://www.postgresql.org/'
     when 'mysql'
       link_to 'MySQL', 'http://www.mysql.org/'
+    when 'jdbcmysql'
+      link_to 'MySQL', 'http://www.mysql.org/'
     when 'sqlite3'
+      link_to 'SQLite', 'http://www.sqlite.org/'
+    when 'jdbcsqlite3'
       link_to 'SQLite', 'http://www.sqlite.org/'
     end
   end
