@@ -1,4 +1,4 @@
-require 'MeCab'
+#require 'MeCab'
 module Wakati
   def wakati
     m = MeCab::Tagger.new("-O wakati")
