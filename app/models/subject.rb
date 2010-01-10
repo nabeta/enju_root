@@ -42,7 +42,7 @@ class Subject < ActiveRecord::Base
     time :created_at
     time :updated_at
     integer :work_ids, :multiple => true
-    integer :classification_ids
+    integer :classification_ids, :multiple => true
     integer :subject_heading_type_ids, :multiple => true
   end
   #acts_as_soft_deletable
