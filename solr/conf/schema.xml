@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema version="0.9" name="sunspot">
   <types>
+    <!--
     <fieldtype class="solr.TextField" positionIncrementGap="100" name="text">
       <analyzer>
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.StandardFilterFactory"/>
         <filter class="solr.LowerCaseFilterFactory"/>
+      </analyzer>
+    </fieldtype>
+    -->
+    <fieldtype class='solr.TextField' name='text'>
+      <analyzer type="index" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
+        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+        <filter class='solr.StandardFilterFactory' />
+        <filter class='solr.LowerCaseFilterFactory' />
+        <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
+        <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
       </analyzer>
     </fieldtype>
     <fieldtype class="solr.RandomSortField" name="rand"/>
