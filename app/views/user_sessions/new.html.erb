@@ -1,7 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
 <div id="content_list">
-  <%- if params[:mode] == 'openid' -%>
+  <%- case params[:mode] when 'openid' -%>
     <%= render :partial => 'user_sessions/openid_login_banner' -%>
     <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
   <%- else -%>
@@ -12,7 +12,7 @@
 </div>
 
 <div id="submenu">
-  <%- if params[:mode] == 'openid' -%>
+  <%- case params[:mode] when 'openid' -%>
     <%= render :partial => 'user_sessions/openid' -%>
   <%- else -%>
     <%= render :partial => 'user_sessions/password' -%>
