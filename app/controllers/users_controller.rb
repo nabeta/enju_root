@@ -72,7 +72,7 @@ class UsersController < ApplicationController
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
-    @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
+    @news_feeds = NewsFeed.all
 
     respond_to do |format|
       format.html # show.rhtml
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
     @user = User.new
     @user.openid_identifier = flash[:openid_identifier]
     #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
+    @user_groups = UserGroup.all
     if @patron.try(:user)
       redirect_to patron_url(@patron)
       flash[:notice] = t('page.already_activated')
@@ -339,10 +339,10 @@ class UsersController < ApplicationController
 
   def prepare_options
     #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
-    @roles = Role.find(:all)
-    @libraries = Library.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @user_groups = UserGroup.all
+    @roles = Role.all
+    @libraries = Library.all
+    @languages = Language.all
   end
 
   def set_operator

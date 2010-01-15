@@ -175,7 +175,7 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @content_types = ContentType.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @content_types = ContentType.all
+    @languages = Language.all
   end
 end
