@@ -25,7 +25,7 @@ class Language < ActiveRecord::Base
   end
 
   def self.available_languages
-    Language.find(:all, :conditions => {:iso_639_1 => I18n.available_locales.map{|l| l.to_s}})
+    Rails.cache.fetch('Language.available_languages'){Language.find(:all, :conditions => {:iso_639_1 => I18n.available_locales.map{|l| l.to_s}})}
   end
 
   def before_validation_on_create

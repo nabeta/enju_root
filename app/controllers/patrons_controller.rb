@@ -251,10 +251,10 @@ class PatronsController < ApplicationController
   #end
 
   def prepare_options
-    @patron_types = PatronType.find(:all)
-    @countries = Country.find(:all)
-    @roles = Role.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @patron_types = PatronType.all
+    @countries = Country.all
+    @roles = Role.all
+    @languages = Language.all
   end
 
 end

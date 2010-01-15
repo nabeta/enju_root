@@ -125,7 +125,7 @@ class ManifestationsController < ApplicationController
         @count[:query_result] = 0
       end
 
-      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
+      @search_engines = SearchEngine.all
 
       if @manifestations
         session[:manifestation_ids] = manifestation_ids
@@ -214,7 +214,8 @@ class ManifestationsController < ApplicationController
     @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     if @manifestation.respond_to?(:worldcat_record)
-      @worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
+      #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
+      @worldcat_record = @manifestation.worldcat_record
     end
     if @manifestation.respond_to?(:xisbn_manifestations)
       if params[:xisbn_page]
@@ -222,8 +223,8 @@ class ManifestationsController < ApplicationController
       else
         xisbn_page = 1
       end
-      @xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}_page_#{xisbn_page}"){@manifestation.xisbn_manifestations(:page => xisbn_page)}
-      #@xisbn_manifestations = @manifestation.xisbn_manifestations(:page => xisbn_page)
+      #@xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}_page_#{xisbn_page}"){@manifestation.xisbn_manifestations(:page => xisbn_page)}
+      @xisbn_manifestations = @manifestation.xisbn_manifestations(:page => xisbn_page)
     end
 
     store_location
@@ -641,9 +642,9 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
-    @roles = Rails.cache.fetch('Role.all'){Role.all}
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    @carrier_types = CarrierType.all
+    @roles = Role.all
+    @languages = Language.all
     @frequencies = Frequency.all
     @nii_types = NiiType.all
   end
