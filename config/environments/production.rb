@@ -25,4 +25,4 @@ config.cache_store = :mem_cache_store
 # config.action_mailer.raise_delivery_errors = false
 
 # Enable threaded mode
-config.threadsafe!
+# config.threadsafe!
