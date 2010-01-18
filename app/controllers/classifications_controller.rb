@@ -56,7 +56,7 @@ class ClassificationsController < ApplicationController
   # GET /classifications/new
   # GET /classifications/new.xml
   def new
-    @classification_types = ClassificationType.find(:all)
+    @classification_types = ClassificationType.all
     @classification = Classification.new
 
     respond_to do |format|
@@ -68,7 +68,7 @@ class ClassificationsController < ApplicationController
   # GET /classifications/1/edit
   def edit
     @classification = Classification.find(params[:id])
-    @classification_types = ClassificationType.find(:all)
+    @classification_types = ClassificationType.all
   end
 
   # POST /classifications

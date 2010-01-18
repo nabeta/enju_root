@@ -36,7 +36,7 @@ class MessageQueuesController < ApplicationController
   # GET /message_queues/new.xml
   def new
     @message_queue = MessageQueue.new
-    @message_templates = MessageTemplate.find(:all)
+    @message_templates = MessageTemplate.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -47,7 +47,7 @@ class MessageQueuesController < ApplicationController
   # GET /message_queues/1/edit
   def edit
     @message_queue = MessageQueue.find(params[:id])
-    @message_templates = MessageTemplate.find(:all)
+    @message_templates = MessageTemplate.all
   end
 
   # POST /message_queues
@@ -61,7 +61,7 @@ class MessageQueuesController < ApplicationController
         format.html { redirect_to(@message_queue) }
         format.xml  { render :xml => @message_queue, :status => :created, :location => @message_queue }
       else
-        @message_templates = MessageTemplate.find(:all)
+        @message_templates = MessageTemplate.all
         format.html { render :action => "new" }
         format.xml  { render :xml => @message_queue.errors, :status => :unprocessable_entity }
       end
@@ -79,7 +79,7 @@ class MessageQueuesController < ApplicationController
         format.html { redirect_to(@message_queue) }
         format.xml  { head :ok }
       else
-        @message_templates = MessageTemplate.find(:all)
+        @message_templates = MessageTemplate.all
         format.html { render :action => "edit" }
         format.xml  { render :xml => @message_queue.errors, :status => :unprocessable_entity }
       end

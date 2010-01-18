@@ -6,7 +6,7 @@ class RolesController < ApplicationController
   # GET /roles
   # GET /roles.xml
   def index
-    @roles = Role.find(:all)
+    @roles = Role.all
 
     respond_to do |format|
       format.html # index.rhtml

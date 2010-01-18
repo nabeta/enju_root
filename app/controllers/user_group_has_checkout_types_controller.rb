@@ -96,7 +96,7 @@ class UserGroupHasCheckoutTypesController < ApplicationController
 
   private
   def prepare_options
-    @checkout_types = CheckoutType.find(:all)
-    @user_groups = UserGroup.find(:all)
+    @checkout_types = CheckoutType.all
+    @user_groups = UserGroup.all
   end
 end

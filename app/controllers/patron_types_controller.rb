@@ -5,7 +5,7 @@ class PatronTypesController < ApplicationController
   # GET /patron_types
   # GET /patron_types.xml
   def index
-    @patron_types = PatronType.find(:all)
+    @patron_types = PatronType.all
 
     respond_to do |format|
       format.html # index.html.erb

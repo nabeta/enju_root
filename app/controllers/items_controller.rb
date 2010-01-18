@@ -234,16 +234,20 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    @libraries = Library.all
+    if ENV['RAILS_ENV'] == 'production'
+      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+    else
+      @libraries = Library.all
+    end
     @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
     @shelves = Shelf.find(:all, :order => :position)
-    @circulation_statuses = CirculationStatus.find(:all)
+    @circulation_statuses = CirculationStatus.all
     @bookstores = Bookstore.find(:all, :order => :position)
-    @use_restrictions = UseRestriction.find(:all)
+    @use_restrictions = UseRestriction.all
     if @manifestation
       @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)
     else
-      @checkout_types = CheckoutType.find(:all)
+      @checkout_types = CheckoutType.all
     end
   end
 

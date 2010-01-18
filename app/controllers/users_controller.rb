@@ -90,7 +90,6 @@ class UsersController < ApplicationController
     end
     @user = User.new
     @user.openid_identifier = flash[:openid_identifier]
-    #@user_groups = UserGroup.find(:all)
     @user_groups = UserGroup.all
     if @patron.try(:user)
       redirect_to patron_url(@patron)
@@ -338,11 +337,17 @@ class UsersController < ApplicationController
   end
 
   def prepare_options
-    #@user_groups = UserGroup.find(:all)
-    @user_groups = UserGroup.all
-    @roles = Role.all
-    @libraries = Library.all
-    @languages = Language.all
+    if ENV['RAILS_ENV'] == 'production'
+      @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+    else
+      @user_groups = UserGroup.all
+      @roles = Role.all
+      @libraries = Library.all
+      @languages = Language.all
+    end
   end
 
   def set_operator

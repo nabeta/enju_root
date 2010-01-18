@@ -642,11 +642,19 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    @carrier_types = CarrierType.all
-    @roles = Role.all
-    @languages = Language.all
-    @frequencies = Frequency.all
-    @nii_types = NiiType.all
+    if ENV['RAILS_ENV'] == 'production'
+      @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+      @frequencies = Rails.cache.fetch('Frequency.all'){Frequency.all}
+      @nii_types = Rails.cache.fetch('NiiType.all'){NiiType.all}
+    else
+      @carrier_types = CarrierType.all
+      @roles = Role.all
+      @languages = Language.all
+      @frequencies = Frequency.all
+      @nii_types = NiiType.all
+    end
   end
 
   def save_search_history(query, offset = 0, total = 0)

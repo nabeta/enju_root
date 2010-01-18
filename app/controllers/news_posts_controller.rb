@@ -35,7 +35,7 @@ class NewsPostsController < ApplicationController
   # GET /news_posts/new.xml
   def new
     @news_post = NewsPost.new
-    @roles = Role.find(:all)
+    @roles = Role.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,14 +46,14 @@ class NewsPostsController < ApplicationController
   # GET /news_posts/1/edit
   def edit
     @news_post = NewsPost.find(params[:id])
-    @roles = Role.find(:all)
+    @roles = Role.all
   end
 
   # POST /news_posts
   # POST /news_posts.xml
   def create
     @news_post = NewsPost.new(params[:news_post])
-    @roles = Role.find(:all)
+    @roles = Role.all
     @news_post.user = current_user
 
     respond_to do |format|
@@ -72,7 +72,7 @@ class NewsPostsController < ApplicationController
   # PUT /news_posts/1.xml
   def update
     @news_post = NewsPost.find(params[:id])
-    @roles = Role.find(:all)
+    @roles = Role.all
 
     respond_to do |format|
       if @news_post.update_attributes(params[:news_post])
