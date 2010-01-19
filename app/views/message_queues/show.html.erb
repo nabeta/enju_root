@@ -10,42 +10,42 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.message_queue')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('message.sender') -%>:</b>
+  <strong><%= t('message.sender') -%>:</strong>
   <%= link_to h(@message_queue.sender.login), user_path(@message_queue.sender.login) -%>
 </p>
 
 <p>
-  <b><%= t('message.receiver') -%>:</b>
+  <strong><%= t('message.receiver') -%>:</strong>
   <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@message_queue.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@message_queue.updated_at) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.message_queue.sent_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.message_queue.sent_at') -%>:</strong>
   <%= l(@message_queue.sent_at) if @message_queue.sent_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.message_template') -%>:</b>
+  <strong><%= t('activerecord.models.message_template') -%>:</strong>
   <%= link_to h(@message_queue.message_template.status), message_template_path( @message_queue.message_template) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.message.subject') -%>:</b>
+  <strong><%= t('activerecord.attributes.message.subject') -%>:</strong>
   <%= @message_queue.subject -%>
 </p>
 
 <div>
-  <b><%= t('activerecord.attributes.message.body') -%>:</b>
+  <strong><%= t('activerecord.attributes.message.body') -%>:</strong>
   <%= auto_link(textilize(h(@message_queue.body))) -%>
 </div>
 

@@ -7,28 +7,29 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.message')) -%></h1>
-
-<%= error_messages_for :message -%>
+<div id="content_list">
 
 <%- form_for(@message) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('message.sender') -%></b><br />
+    <%= f.label t('message.sender') -%><br />
     <%= @message.sender.login -%>
     <%= f.hidden_field :sender_id -%>
   </p>
 
   <p>
-    <b><%= t('message.receiver') -%></b><br />
+    <%= f.label t('message.receiver') -%><br />
     <%= f.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.message.subject') -%></b><br />
+    <%= f.label t('activerecord.attributes.message.subject') -%><br />
     <%= f.text_field :subject, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.message.body') -%></b><br />
+    <%= f.label t('activerecord.attributes.message.body') -%><br />
     <%= f.text_area :body, :id => 'message_body' -%>
   </p>
 
@@ -37,4 +38,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

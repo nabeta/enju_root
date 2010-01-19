@@ -9,32 +9,32 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.role')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.role.name') -%>:</b>
+  <strong><%= t('activerecord.attributes.role.name') -%>:</strong>
   <%= @role.name -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.role.display_name') -%>:</b>
+  <strong><%= t('activerecord.attributes.role.display_name') -%>:</strong>
   <%= @role.display_name.localize -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.role.score') -%>:</b>
+  <strong><%= t('activerecord.attributes.role.score') -%>:</strong>
   <%= @role.score -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.role.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.role.note') -%>:</strong>
   <%= @role.note -%>
 </p>
 
 <p>
-<b><%= t('page.created_at') -%>:</b>
+<strong><%= t('page.created_at') -%>:</strong>
   <%= l(@role.created_at) if @role.created_at -%>
 </p>
 
 <p>
-<b><%= t('page.updated_at') -%>:</b>
+<strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@role.updated_at) if @role.created_at -%>
 </p>
 

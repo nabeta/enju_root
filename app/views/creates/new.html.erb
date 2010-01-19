@@ -13,11 +13,11 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.create')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :create -%>
-
 <%- form_for(@create) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-  <b><%= t('activerecord.models.patron') -%></b><br />
+    <%= f.label t('activerecord.models.patron') -%><br />
     <%- if @create.patron -%>
 		  <%= link_to h(@create.patron.full_name), @create.patron -%>
       <%= f.hidden_field :patron_id -%>
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-  <b><%= t('activerecord.models.work') -%></b><br />
+    <%= f.label t('activerecord.models.work') -%><br />
     <%- if @create.work -%>
 		  <%= link_to h(@create.work.original_title), @create.work -%>
       <%= f.hidden_field :work_id -%>

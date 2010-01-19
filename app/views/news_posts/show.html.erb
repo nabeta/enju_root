@@ -9,37 +9,37 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.news_post')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.news_post.title') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_post.title') -%>:</strong>
   <%= @news_post.title -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.news_post.body') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_post.body') -%>:</strong>
   <%= @news_post.body -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.user') -%>:</b>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@news_post.user.login), user_path(@news_post.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('role.required_role') -%>:</b>
+  <strong><%= t('role.required_role') -%>:</strong>
   <%= @news_post.required_role.display_name.localize -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.news_post.start_date') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_post.start_date') -%>:</strong>
   <%= l(@news_post.start_date) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.news_post.end_date') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_post.end_date') -%>:</strong>
   <%= l(@news_post.end_date) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.news_post.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_post.note') -%>:</strong>
   <%= @news_post.note -%>
 </p>
 

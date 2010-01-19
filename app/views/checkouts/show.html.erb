@@ -15,16 +15,16 @@
 <div id="content_list">
   <%= render :partial => 'manifestations/title', :locals => {:manifestation => @checkout.item.manifestation} -%>
   <p>
-    <b><%= t('activerecord.attributes.item.item_identifier') -%></b><br />
+    <strong><%= t('activerecord.attributes.item.item_identifier') -%></strong><br />
     <%= link_to h(@checkout.item.item_identifier), @checkout.item -%>
   </p>
   <p>
-    <b><%= t('activerecord.attributes.checkout.due_date') -%></b><br />
+    <strong><%= t('activerecord.attributes.checkout.due_date') -%></strong><br />
     <%= l(@checkout.due_date, :format => :short) -%>
   </p>
   <%- if @checkout.is_deletable_by(current_user) -%>
     <p>
-      <b><%= t('checkout.current_user') -%></b><br />
+      <strong><%= t('checkout.current_user') -%></strong><br />
       <%= link_to h(@checkout.user.login), user_path(@checkout.user.login) -%>
     </p>
   <%- end -%>

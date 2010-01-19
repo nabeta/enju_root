@@ -14,43 +14,43 @@
 <div id="content_detail">
 <div id="content_list">
 <p>
-  <b><%= t('page.attachable') -%>:</b>
+  <strong><%= t('page.attachable') -%>:</strong>
   <%= link_to h(@picture_file.picture_attachable_type), @picture_file.picture_attachable -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.picture_file_size') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.picture_file_size') -%>:</strong>
   <%= @picture_file.picture_file_size -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.picture_content_type') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.picture_content_type') -%>:</strong>
   <%= @picture_file.picture_content_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.picture_file_name') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.picture_file_name') -%>:</strong>
   <%= link_to h(@picture_file.picture_file_name), picture_file_path(@picture_file, :format => :download, :size => 'original') -%><br />
   <%= link_to image_tag(picture_file_path(@picture_file, :format => :download)), picture_file_path(@picture_file, :format => :download, :size => 'original') -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.width') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.width') -%>:</strong>
   <%= @picture_file.width -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.height') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.height') -%>:</strong>
   <%= @picture_file.height -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.file_hash') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.file_hash') -%>:</strong>
   <%= @picture_file.file_hash -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.picture_file.picture_updated_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.picture_file.picture_updated_at') -%>:</strong>
   <%= l(@picture_file.picture_updated_at) if @picture_file.picture_updated_at -%>
 </p>
 

@@ -35,6 +35,7 @@ class PatronMergesController < ApplicationController
   # GET /patron_merges/new.xml
   def new
     @patron_merge = PatronMerge.new
+    @patron_merge.patron = @patron
 
     respond_to do |format|
       format.html # new.html.erb

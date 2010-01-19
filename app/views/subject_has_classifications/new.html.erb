@@ -2,9 +2,9 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.subject_has_classification')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :subject_has_classification -%>
-
 <%- form_for(@subject_has_classification) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
     <%= f.label t('activerecord.models.subject') -%><br />
     <%= link_to h(@subject_has_classification.subject.term), @subject_has_classification.subject if @subject_has_classification.subject -%>

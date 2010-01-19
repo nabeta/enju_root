@@ -2,12 +2,12 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_has_shelf')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.user') -%></b>
+  <strong><%= t('activerecord.models.user') -%></strong>
   <%= link_to h(@user_has_shelf.user.login), user_path(@user_has_shelf.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.shelf') -%></b>
+  <strong><%= t('activerecord.models.shelf') -%></strong>
   <%= link_to h(@user_has_shelf.shelf), @user_has_shelf.shelf -%>
 </p>
 </div>

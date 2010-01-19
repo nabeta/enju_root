@@ -2,20 +2,19 @@
 <h1 class="title"><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :user -%>
-
 <%- form_for(@user, :url => user_path(@user.login)) do |f| -%>
+  <%= f.error_messages -%>
 
   <%= render :partial => 'users/edit_credential', :locals => {:f => f} -%>
   
 <p style="clear: both">
   <p>
-    <b><%= t('activerecord.attributes.user.keyword_list') -%></b><br />
+    <%= f.label t('activerecord.attributes.user.keyword_list') -%><br />
     <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('user.reset_checkout_icalendar_url') -%></b><br />
+    <%= f.label t('user.reset_checkout_icalendar_url') -%><br />
     <div id="feed_token">
       <%- if @user.checkout_icalendar_token -%>
         <%= link_to checkouts_url(:icalendar_token => @user.checkout_icalendar_token, :format => :ics), checkouts_url(:icalendar_token => @user.checkout_icalendar_token, :format => :ics) -%>
@@ -29,7 +28,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.user.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.user.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 

@@ -11,27 +11,27 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.answer')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.user') -%>:</b>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@answer.user.login), user_path(@answer.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.question') -%>:</b>
+  <strong><%= t('activerecord.models.question') -%>:</strong>
   <%= @answer.question.body -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.answer.body') -%>:</b>
+<strong><%= t('activerecord.attributes.answer.body') -%>:</strong>
   <%= @answer.body -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@answer.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@answer.updated_at) -%>
 </p>
 

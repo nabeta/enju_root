@@ -8,16 +8,15 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.donate')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :donate -%>
-
 <%- form_for(@donate) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.models.patron') -%></b><br />
+    <%= f.label t('activerecord.models.patron') -%><br />
     <%= f.text_field :patron_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.item') -%></b><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%= f.text_field :item_id -%>
   </p>
 

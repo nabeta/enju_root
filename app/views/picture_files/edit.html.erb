@@ -9,41 +9,41 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.picture_file')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :picture_file -%>
-
 <%- form_for(@picture_file) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.attributes.picture_file.picture_attachable_type') -%></b><br />
+    <%= f.label t('activerecord.attributes.picture_file.picture_attachable_type') -%><br />
     <%= f.text_field :picture_attachable_type -%>
   </p>
 
   <p>
-    <b><%= t('page.attachable') -%></b><br />
+    <%= f.label t('page.attachable') -%><br />
     <%= f.text_field :picture_attachable_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.picture_file_size') -%></b><br />
+    <%= f.label t('activerecord.attributes.picture_file.picture_file_size') -%><br />
     <%= f.text_field :picture_file_size -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.picture_content_type') -%></b><br />
+    <%= f.label t('activerecord.attributes.picture_file.picture_content_type') -%><br />
     <%= f.text_field :picture_content_type -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.picture_file_name') -%></b><br />
+    <%= f.label t('activerecord.attributes.picture_file.picture_file_name') -%><br />
     <%= f.text_field :picture_file_name -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.width') -%></b><br />
+    <%= f.label t('activerecord.attributes.picture_file.width') -%><br />
     <%= f.text_field :width -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.picture_file.height') -%></b><br />
+    <%= f.label t('activerecord.attributes.picture_file.height') -%><br />
     <%= f.text_field :height -%>
   </p>
 

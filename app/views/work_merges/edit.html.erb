@@ -9,18 +9,17 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.work_merge')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :work_merge -%>
-
 <%- form_for(@work_merge) do |f| -%>
+  <%= f.error_messages -%>
 
   <p>
-  <b><%= t('activerecord.models.work') -%></b><br />
-  <%= f.text_field :work_id, :value => @work_merge.work_id -%>
+    <%= f.label t('activerecord.models.work') -%><br />
+    <%= f.text_field :work_id, :value => @work_merge.work_id -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.models.work_merge_list') -%></b><br />
-  <%= f.text_field :work_merge_list_id, :value => @work_merge.work_merge_list_id -%>
+    <%= f.label t('activerecord.models.work_merge_list') -%><br />
+    <%= f.text_field :work_merge_list_id, :value => @work_merge.work_merge_list_id -%>
   </p>
 
   <p>

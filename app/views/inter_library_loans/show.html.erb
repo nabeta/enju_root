@@ -12,43 +12,43 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.library') -%>:</b>
+  <strong><%= t('activerecord.models.library') -%>:</strong>
   <%= link_to h(@inter_library_loan.item.shelf.library.display_name.localize), library_path(@inter_library_loan.item.shelf.library.name) -%>
 </p>
 
 <p>
-  <b><%= t('inter_library_loan.borrowing_library') -%>:</b>
+  <strong><%= t('inter_library_loan.borrowing_library') -%>:</strong>
   <%= link_to h(@inter_library_loan.borrowing_library.display_name.localize), library_path(@inter_library_loan.borrowing_library.name) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.item') -%>:</b>
+  <strong><%= t('activerecord.models.item') -%>:</strong>
   <%= link_to h(@inter_library_loan.item.item_identifier), @inter_library_loan.item -%>
   (<%= link_to h(@inter_library_loan.item.manifestation.original_title), @inter_library_loan.item.manifestation -%>)
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.inter_library_loan.requested_at') -%>:</strong>
   <%= l(@inter_library_loan.requested_at) if @inter_library_loan.requested_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.inter_library_loan.shipped_at') -%>:</strong>
   <%= l(@inter_library_loan.shipped_at) if @inter_library_loan.shipped_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inter_library_loan.received_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.inter_library_loan.received_at') -%>:</strong>
   <%= l(@inter_library_loan.received_at) if @inter_library_loan.received_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inter_library_loan.return_shipped_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.inter_library_loan.return_shipped_at') -%>:</strong>
   <%= l(@inter_library_loan.return_shipped_at) if @inter_library_loan.return_shipped_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inter_library_loan.return_received_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.inter_library_loan.return_received_at') -%>:</strong>
   <%= l(@inter_library_loan.return_received_at) if @inter_library_loan.return_received_at -%>
 </p>
 

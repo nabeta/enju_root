@@ -16,7 +16,7 @@
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
   <p>
-    <b><%= t('activerecord.models.bookstore') -%></b><br />
+    <%= f.label t('activerecord.models.bookstore') -%><br />
     <%= f.select(:bookstore_id, @bookstores.collect{|b| [b.name, b.id]}) -%>
   </p>
   <p>

@@ -26,19 +26,19 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.models.picture_file') -%>:</b><br />
+  <strong><%= t('activerecord.models.picture_file') -%>:</strong><br />
   <%- @shelf.picture_files.each do |picture_file| -%>
     <%= link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'original') -%>
   <%- end -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@shelf.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@shelf.updated_at) -%>
 </p>
 

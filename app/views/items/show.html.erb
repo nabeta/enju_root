@@ -30,19 +30,19 @@
     <p>(<%= l(@item.versions.find(@version).created_at) -%>)</p>
   <%- end -%>
 <p>
-  <b><%= t('activerecord.models.shelf') -%>:</b>
+  <strong><%= t('activerecord.models.shelf') -%>:</strong>
   <%= link_to h(@item.shelf.display_name.localize), shelf_path(@item.shelf_id) -%>
   <%= render :partial => 'items/shelf_picture', :locals => {:item => @item} -%>
   (<%= link_to h(@item.shelf.library.display_name.localize), library_path(@item.shelf.library.name) -%>)
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item.checkout_type') -%>:</b>
+  <strong><%= t('activerecord.attributes.item.checkout_type') -%>:</strong>
   <%= link_to h(@item.checkout_type.display_name.localize), @item.checkout_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.lending_policy') -%>:</b>
+  <strong><%= t('activerecord.models.lending_policy') -%>:</strong>
   <ul>
     <%- @item.lending_policies.each do |lending_policy| -%>
       <li><%= link_to h(lending_policy.user_group.display_name.localize), lending_policy -%></li>
@@ -51,7 +51,7 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.models.circulation_status') -%>:</b>
+  <strong><%= t('activerecord.models.circulation_status') -%>:</strong>
   <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
   <%- if logged_in? -%>
     <%- if current_user.has_role?('Librarian') -%>
@@ -63,29 +63,29 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item.call_number') -%>:</b>
+  <strong><%= t('activerecord.attributes.item.call_number') -%>:</strong>
   <%= @item.call_number -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item.item_identifier') -%>:</b>
+  <strong><%= t('activerecord.attributes.item.item_identifier') -%>:</strong>
   <%= @item.item_identifier -%>
   <br />
   <%= image_tag("#{barcode_url(@item.barcode)}.png", :alt => @item.item_identifier) if @item.barcode -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item.price') -%>:</b>
+  <strong><%= t('activerecord.attributes.item.price') -%>:</strong>
   <%= @item.price -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item.url') -%>:</b>
+  <strong><%= t('activerecord.attributes.item.url') -%>:</strong>
   <%= @item.url -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item.include_supplements') -%>:</b>
+  <strong><%= t('activerecord.attributes.item.include_supplements') -%>:</strong>
   <%- if @item.include_supplements -%>
     <%= ('Yes') -%>
   <%- else -%>
@@ -95,7 +95,7 @@
 
 <!--
 <p>
-  <b><%= t('activerecord.models.use_restriction') -%>:</b>
+  <strong><%= t('activerecord.models.use_restriction') -%>:</strong>
   <ul>
     <%- @item.use_restrictions.each do |use_restriction| -%>
       <li><%= link_to h(use_restriction.display_name.localize), use_restriction_path(use_restriction) -%></li>
@@ -107,7 +107,7 @@
 <%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
 <%- if @item.is_updatable_by(current_user) -%>
   <p>
-    <b><%= t('item.donor') -%>:</b>
+    <strong><%= t('item.donor') -%>:</strong>
     <%- @item.donors.each do |patron| -%>
       <%= link_to h(patron.full_name), patron -%>
     <%- end -%>
@@ -115,12 +115,12 @@
 <%- end -%>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@item.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@item.updated_at) -%>
 </p>
 <%- end -%>

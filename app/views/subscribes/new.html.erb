@@ -9,11 +9,10 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.subscribe')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :subscribe -%>
-
 <%- form_for(@subscribe) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.models.subscription') -%></b><br />
+    <%= f.label t('activerecord.models.subscription') -%><br />
     <%- if @subscription -%>
 		  <%= link_to h(@subscription.title), @subscription -%>
       <%= f.hidden_field :subscription_id, :value => @subscription.id -%>
@@ -23,7 +22,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.work') -%></b><br />
+    <%= f.label t('activerecord.models.work') -%><br />
     <%- if @work -%>
 		  <%= link_to h(@work.original_title), @work -%>
       <%= f.hidden_field :work_id, :value => @work.id -%>

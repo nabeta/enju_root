@@ -9,11 +9,10 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.patron_merge_list')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :patron_merge_list -%>
-
 <%- form_for(@patron_merge_list) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.attributes.patron_merge_list.title') -%></b><br />
+    <%= f.label t('activerecord.attributes.patron_merge_list.title') -%><br />
     <%= f.text_field :title -%>
   </p>
 

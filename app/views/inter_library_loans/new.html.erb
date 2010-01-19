@@ -8,21 +8,21 @@
   <h1 class="title"><%= t('page.new', :model => t('activerecord.models.inter_library_loan')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :inter_library_loan -%>
-
 <%- form_for(@inter_library_loan) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('inter_library_loan.borrowing_library') -%></b><br />
+    <%= f.label t('inter_library_loan.borrowing_library') -%><br />
     <%= f.select(:borrowing_library_id, @libraries.collect{|l| [l.display_name.localize, l.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.inter_library_loan.requested_at') -%></b><br />
+    <%= f.label t('activerecord.attributes.inter_library_loan.requested_at') -%><br />
     <%= f.date_text_field :requested_at, :class => 'date_field' -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.models.item') -%></b><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%- if @item -%>
       <%= link_to h(@item.shelf.library.display_name.localize), library_path(@item.shelf.library.name) -%>
       <%= link_to h(@item.item_identifier), @item -%>

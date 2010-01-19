@@ -35,6 +35,7 @@ class ExpressionMergesController < ApplicationController
   # GET /expression_merges/new.xml
   def new
     @expression_merge = ExpressionMerge.new
+    @expression_merge.expression = @expression if @expression
 
     respond_to do |format|
       format.html # new.html.erb

@@ -2,17 +2,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_stat_has_manifestation')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.manifestation_checkout_stat') -%>:</b>
+  <strong><%= t('activerecord.models.manifestation_checkout_stat') -%>:</strong>
   <%= link_to h(@checkout_stat_has_manifestation.manifestation_checkout_stat.id), @checkout_stat_has_manifestation.manifestation_checkout_stat -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
   <%= link_to h(@checkout_stat_has_manifestation.manifestation.original_title), @checkout_stat_has_manifestation.manifestation -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.checkout_stat_has_manifestation.checkouts_count') -%>:</b>
+  <strong><%= t('activerecord.attributes.checkout_stat_has_manifestation.checkouts_count') -%>:</strong>
   <%= @checkout_stat_has_manifestation.checkouts_count -%>
 </p>
 </div>

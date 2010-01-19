@@ -18,39 +18,39 @@
 <div id="content_list">
 
 <p>
-  <b><%= t('activerecord.models.user') -%>:</b>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@bookmark.user.login), user_path(@bookmark.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
   <%= link_to h(@bookmark.manifestation.original_title), @bookmark.manifestation -%>
 </p>
 
 <p>
-  <b><%= t('page.tag') -%>:</b>
+  <strong><%= t('page.tag') -%>:</strong>
   <%- @bookmark.tags.collect {|tag| -%>
   <%= link_to h(tag.name), user_manifestations_path(@bookmark.user.login, :tag => tag.name) -%>
   <%- } -%></td>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.bookmark.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.bookmark.note') -%>:</strong>
   <%= @bookmark.note -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@bookmark.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@bookmark.updated_at) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.bookmarked_resource.bookmarks_count') -%>:</b>
+  <strong><%= t('activerecord.attributes.bookmarked_resource.bookmarks_count') -%>:</strong>
   <%= @bookmark.manifestation.bookmarks_count -%>
 </p>
 

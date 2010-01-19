@@ -12,41 +12,41 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :work -%>
-
 <%- form_for(@work) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('page.title') -%></b><br />
+    <%= f.label t('page.title') -%><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>
   </p>
   
   <p>
-    <b><%= t('activerecord.attributes.work.title_transcription') -%></b><br />
+    <%= f.label t('activerecord.attributes.work.title_transcription') -%><br />
     <%= f.text_field :title_transcription, :class => 'resource_title' -%>
   </p>
   
   <p>
-    <b><%= t('activerecord.attributes.work.title_alternative') -%></b><br />
+    <%= f.label t('activerecord.attributes.work.title_alternative') -%><br />
     <%= f.text_field :title_alternative, :class => 'resource_title' -%>
   </p>
   
   <p>
-    <b><%= t('activerecord.models.form_of_work') -%></b><br />
+    <%= f.label t('activerecord.models.form_of_work') -%><br />
     <%= f.select(:form_of_work_id, @form_of_works.collect{|w| [w.display_name.localize, w.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.work.parent_of_series') -%></b>
+    <%= f.label t('activerecord.attributes.work.parent_of_series') -%>
     <%= f.check_box :parent_of_series -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.work.context') -%></b><br />
+    <%= f.label t('activerecord.attributes.work.context') -%><br />
     <%= f.text_area :context, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.work.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.work.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 

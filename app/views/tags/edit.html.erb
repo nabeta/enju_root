@@ -9,11 +9,10 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.tag')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :tag -%>
-
 <%- form_for(@tag, :url => tag_path(@tag.name)) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.attributes.tag.name') -%></b><br />
+    <%= f.label t('activerecord.attributes.tag.name') -%><br />
     <%= f.text_field :name, :value => @tag.name -%>
   </p>
 

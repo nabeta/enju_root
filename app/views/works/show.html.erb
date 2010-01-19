@@ -56,41 +56,41 @@
       <div id="detail">
         <table class="index">
           <tr>
-            <td style="width: 200px"><b><%= t('activerecord.attributes.work.title_transcription') -%>:</b></td>
+            <td style="width: 200px"><strong><%= t('activerecord.attributes.work.title_transcription') -%>:</strong></td>
             <td>
               <%= @work.title_transcription -%>
             </td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.models.form_of_work') -%>:</b></td>
+            <td><strong><%= t('activerecord.models.form_of_work') -%>:</strong></td>
             <td>
               <%= link_to @work.form_of_work.display_name.localize, @work.form_of_work -%>
             </td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.work.parent_of_series') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.work.parent_of_series') -%>:</strong></td>
             <td>
               <%= @work.parent_of_series -%>
             </td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.work.context') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.work.context') -%>:</strong></td>
             <td>
               <%= @work.context -%>
             </td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.work.note') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.work.note') -%>:</strong></td>
             <td>
               <%= @work.note -%>
             </td>
           </tr>
           <tr>
-            <td><b><%= t('page.created_at') -%>:</b></td>
+            <td><strong><%= t('page.created_at') -%>:</strong></td>
             <td><%= l(@work.created_at) -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.updated_at') -%>:</b></td>
+            <td><strong><%= t('page.updated_at') -%>:</strong></td>
             <td><%= l(@work.updated_at) -%></td>
           </tr>
         </table>

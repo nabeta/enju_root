@@ -9,13 +9,13 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_has_subject')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.work_has_subject.work') -%>:</b>
+  <strong><%= t('activerecord.attributes.work_has_subject.work') -%>:</strong>
   <!-- TODO: Manifestation以外 -->
   <%= link_to h(@work_has_subject.work.original_title), @work_has_subject.work if @work_has_subject.work -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.work_has_subject.subject') -%>:</b>
+  <strong><%= t('activerecord.attributes.work_has_subject.subject') -%>:</strong>
   <%= link_to h(@work_has_subject.subject.term), @work_has_subject.subject -%>
 </p>
 

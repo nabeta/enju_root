@@ -9,37 +9,37 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.imported_patron_file')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.imported_patron_file.imported_patron_file_name') -%>:</b>
+  <strong><%= t('activerecord.attributes.imported_patron_file.imported_patron_file_name') -%>:</strong>
   <%= link_to h(@imported_patron_file.imported_patron_file_name), imported_patron_file_path(@imported_patron_file, :format => :download) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.imported_patron_file.imported_patron_content_type') -%>:</b>
+  <strong><%= t('activerecord.attributes.imported_patron_file.imported_patron_content_type') -%>:</strong>
   <%= @imported_patron_file.imported_patron_content_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.imported_patron_file.imported_patron_file_size') -%>:</b>
+  <strong><%= t('activerecord.attributes.imported_patron_file.imported_patron_file_size') -%>:</strong>
   <%= @imported_patron_file.imported_patron_file_size -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.imported_patron_file.file_hash') -%>:</b>
+  <strong><%= t('activerecord.attributes.imported_patron_file.file_hash') -%>:</strong>
   <%= @imported_patron_file.file_hash -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@imported_patron_file.created_at) if @imported_patron_file.created_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.imported_patron_file.imported_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.imported_patron_file.imported_at') -%>:</strong>
   <%= l(@imported_patron_file.imported_at) if @imported_patron_file.imported_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.user') -%>:</b>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@imported_patron_file.user.login), user_path(@imported_patron_file.user.login) -%>
 </p>
 

@@ -9,12 +9,12 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject_heading_type_has_subject')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.subject') %></b>
+  <strong><%= t('activerecord.models.subject') %></strong>
   <%= link_to h(@subject_heading_type_has_subject.subject.term), @subject_heading_type_has_subject.subject %>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.subject_heading_type') %></b>
+  <strong><%= t('activerecord.models.subject_heading_type') %></strong>
   <%= link_to h(@subject_heading_type_has_subject.subject_heading_type.display_name.localize), @subject_heading_type_has_subject.subject_heading_type %>
 </p>
 </div>

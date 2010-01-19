@@ -3,25 +3,27 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
-
 <div id="content_list">
-<%= error_messages_for :user -%>
+  
 <%- form_for(@user) do |f| -%>
+  <%= f.error_messages -%>
+  
+  <p>
+    <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
+    <%= f.text_field :login, :value => "", :class => 'resource_user' -%>
+  </p>
+  <p>
+    <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
+    <%= f.text_field :email, :value => "", :class => 'resource_user' -%>
+  </p>
+  <p>
+    <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label><br />
+      <%= f.text_field :openid_identifier, :class => 'resource_url' -%>
+  </p>
 
-<p>
-  <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
-  <%= f.text_field :login, :value => "", :class => 'resource_user' -%>
-</p>
-<p>
-  <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
-  <%= f.text_field :email, :value => "", :class => 'resource_user' -%>
-</p>
-<p>
-  <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label><br />
-  <%= f.text_field :openid_identifier, :class => 'resource_url' -%>
-</p>
-
-<p><%= f.submit t('user.sign_up') -%></p>
+  <p>
+    <%= f.submit t('user.sign_up') -%>
+  </p>
 <%- end -%>
 <%= javascript_tag("$('user_login').focus()") -%>
 </div>

@@ -1,5 +1,5 @@
   <p>
-    <b><%= t('page.title') -%></b><br />
+    <%= f.label t('page.title') -%><br />
     <%- if @work -%>
       <%= f.text_field :original_title, :value => @work.original_title, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>
@@ -10,7 +10,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.expression.title_transcription') -%></b><br />
+    <%= f.label t('activerecord.attributes.expression.title_transcription') -%><br />
     <%- if @work -%>
       <%= f.text_field :title_transcription, :value => @work.title_transcription, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>
@@ -21,7 +21,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.expression.title_alternative') -%></b><br />
+    <%= f.label t('activerecord.attributes.expression.title_alternative') -%><br />
     <%- if @work -%>
       <%= f.text_field :title_alternative, :value => @work.title_alternative, :class => 'resource_title' -%>
     <%- elsif @manifestation -%>
@@ -33,38 +33,38 @@
 
   <%- unless @patron.blank? -%>
     <p>
-      <b><%= t('page.author') -%></b><br />
+      <%= f.label t('page.author') -%><br />
       <%= @patron.full_name -%>
     </p>
   <%- end -%>
 
   <p>
-    <b><%= t('activerecord.attributes.expression.summarization') -%></b><br />
+    <%= f.label t('activerecord.attributes.expression.summarization') -%><br />
     <%= f.text_area :summarization, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.expression.context') -%></b><br />
+    <%= f.label t('activerecord.attributes.expression.context') -%><br />
     <%= f.text_area :context, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.language') -%></b><br />
+    <%= f.label t('activerecord.models.language') -%><br />
     <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.content_type') -%></b><br />
+    <%= f.label t('activerecord.models.content_type') -%><br />
     <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.expression.feed_url') -%></b><br />
+    <%= f.label t('activerecord.attributes.expression.feed_url') -%><br />
     <%= f.text_field :feed_url, :class => 'resource_url' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.expression.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.expression.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
