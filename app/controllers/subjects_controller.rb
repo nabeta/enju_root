@@ -107,7 +107,7 @@ class SubjectsController < ApplicationController
     else
       @subject = Subject.find(params[:id])
     end
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
   end
 
   # POST /subjects
@@ -172,6 +172,6 @@ class SubjectsController < ApplicationController
 
   private
   def prepare_options
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
   end
 end

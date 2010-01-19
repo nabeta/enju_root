@@ -8,21 +8,21 @@
 <h1 class="title"><%=  t('page.new', :model => t('activerecord.models.classification')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :classification -%>
-
 <%- form_for(@classification) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.attributes.classification.category') -%></b><br />
+    <%= f.label t('activerecord.attributes.classification.category') -%><br />
     <%= f.text_field :category -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.classification.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.classification.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.classification_type') -%></b><br />
+    <%= f.label t('activerecord.models.classification_type') -%><br />
     <%= f.select(:classification_type_id, @classification_types.collect{|c| [c.name, c.id]}) -%>
   </p>
 

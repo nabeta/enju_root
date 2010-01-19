@@ -18,27 +18,27 @@
 </h2>
 
 <p>
-  <b><%= t('activerecord.models.event_category') -%>:</b>
+  <strong><%= t('activerecord.models.event_category') -%>:</strong>
   <%= @event.event_category.display_name.localize -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.library') -%>:</b>
+  <strong><%= t('activerecord.models.library') -%>:</strong>
   <%= link_to h(@event.library.display_name.localize), library_path(@event.library.name) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.event.start_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.event.start_at') -%>:</strong>
   <%= l(@event.start_at, :format => :short) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.event.end_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.event.end_at') -%>:</strong>
   <%= l(@event.end_at, :format => :short) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.event.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.event.note') -%>:</strong>
   <%= auto_link(simple_format(h(@event.note))) -%>
 </p>
 

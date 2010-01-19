@@ -9,17 +9,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.carrier_type_has_checkout_type')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.carrier_type') -%>:</b>
+  <strong><%= t('activerecord.models.carrier_type') -%>:</strong>
   <%= link_to h(@carrier_type_has_checkout_type.carrier_type.display_name.localize), @carrier_type_has_checkout_type.carrier_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.checkout_type') -%>:</b>
+  <strong><%= t('activerecord.models.checkout_type') -%>:</strong>
   <%= link_to h(@carrier_type_has_checkout_type.checkout_type.display_name.localize), @carrier_type_has_checkout_type.checkout_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.carrier_type_has_checkout_type.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.carrier_type_has_checkout_type.note') -%>:</strong>
   <%= @carrier_type_has_checkout_type.note -%>
 </p>
 

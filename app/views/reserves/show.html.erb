@@ -21,32 +21,32 @@
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
 
 <p>
-  <b><%= t('activerecord.models.user') -%>:</b>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@reserve.user.login), user_path(@reserve.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.request_status_type') -%>:</b>
+  <strong><%= t('activerecord.models.request_status_type') -%>:</strong>
   <%= @reserve.request_status_type.display_name.localize -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@reserve.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.reserve.canceled_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.reserve.canceled_at') -%>:</strong>
   <%= l(@reserve.canceled_at) if @reserve.canceled_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.reserve.expired_at') -%>:</b>
+  <strong><%= t('activerecord.attributes.reserve.expired_at') -%>:</strong>
   <%= l(@reserve.expired_at, :format => :only_date) if @reserve.expired_at -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.reserve.checked_out_at') -%>:</b>
+<strong><%= t('activerecord.attributes.reserve.checked_out_at') -%>:</strong>
   <%= l(@reserve.checked_out_at) if @reserve.checked_out_at -%>
 </p>
 

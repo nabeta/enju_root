@@ -174,7 +174,6 @@ class ApplicationController < ActionController::Base
   end
 
   def get_libraries
-    #@libraries = Library.find(:all) rescue []
     @libraries = Library.all
   end
 

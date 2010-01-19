@@ -35,6 +35,7 @@ class WorkMergesController < ApplicationController
   # GET /work_merges/new.xml
   def new
     @work_merge = WorkMerge.new
+    @work_merge.work = @work if @work
 
     respond_to do |format|
       format.html # new.html.erb

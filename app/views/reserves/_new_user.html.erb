@@ -12,11 +12,11 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.reserve')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :reserve -%>
-
 <%- form_for(@reserve) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.models.user') -%></b><br />
+    <%= f.label t('activerecord.models.user') -%><br />
     <%= link_to h(@user.patron.full_name), @user.patron -%>
     (<%= @user.login -%>)
   </p>
@@ -36,7 +36,7 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.reserve.expired_at') -%></b><br />
+    <%= f.label t('activerecord.attributes.reserve.expired_at') -%><br />
     <%= f.date_text_field :expired_at, :class => 'date_field', :blank => true -%>
   </p>
 

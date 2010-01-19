@@ -10,17 +10,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.checkout_type')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.checkout_type.name') -%>:</b>
+  <strong><%= t('activerecord.attributes.checkout_type.name') -%>:</strong>
   <%= @checkout_type.name -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.checkout_type.display_name') -%>:</b>
+  <strong><%= t('activerecord.attributes.checkout_type.display_name') -%>:</strong>
   <%= @checkout_type.display_name.localize -%>
 </p>
 
 <p>
-<b><%= t('activerecord.models.user_group') -%></b>
+<strong><%= t('activerecord.models.user_group') -%></strong>
 <ul>
   <%- @checkout_type.user_group_has_checkout_types.each do |available_user_group| -%>
     <li><%= link_to h(available_user_group.user_group.display_name.localize), available_user_group.user_group -%></li>
@@ -28,7 +28,7 @@
 </ul>
 
 <p>
-  <b><%= t('activerecord.attributes.checkout_type.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.checkout_type.note') -%>:</strong>
   <%= @checkout_type.note -%>
 </p>
 

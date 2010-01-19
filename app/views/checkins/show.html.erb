@@ -7,12 +7,12 @@
 
 <div id="content_detail">
 <p>
-<b><%= t('activerecord.models.item') -%>:</b>
+<strong><%= t('activerecord.models.item') -%>:</strong>
   <%= link_to h(@checkin.item.manifestation.original_title), @checkin.item -%>
 </p>
 
 <p>
-<b><%= ('Librarian') -%>:</b>
+<strong><%= ('Librarian') -%>:</strong>
   <%= link_to h(@checkin.librarian.login), user_path(@checkin.librarian.login) -%>
 </p>
 

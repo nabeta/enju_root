@@ -33,7 +33,7 @@ class ItemHasUseRestrictionsController < ApplicationController
   # GET /item_has_use_restrictions/new.xml
   def new
     @item_has_use_restriction = ItemHasUseRestriction.new
-    @use_restrictions = UseRestriction.find(:all)
+    @use_restrictions = UseRestriction.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -44,7 +44,7 @@ class ItemHasUseRestrictionsController < ApplicationController
   # GET /item_has_use_restrictions/1/edit
   def edit
     @item_has_use_restriction = ItemHasUseRestriction.find(params[:id])
-    @use_restrictions = UseRestriction.find(:all)
+    @use_restrictions = UseRestriction.all
   end
 
   # POST /item_has_use_restrictions
@@ -58,7 +58,7 @@ class ItemHasUseRestrictionsController < ApplicationController
         format.html { redirect_to(@item_has_use_restriction) }
         format.xml  { render :xml => @item_has_use_restriction, :status => :created, :location => @item_has_use_restriction }
       else
-        @use_restrictions = UseRestriction.find(:all)
+        @use_restrictions = UseRestriction.all
         format.html { render :action => "new" }
         format.xml  { render :xml => @item_has_use_restriction.errors, :status => :unprocessable_entity }
       end
@@ -76,7 +76,7 @@ class ItemHasUseRestrictionsController < ApplicationController
         format.html { redirect_to(@item_has_use_restriction) }
         format.xml  { head :ok }
       else
-        @use_restrictions = UseRestriction.find(:all)
+        @use_restrictions = UseRestriction.all
         format.html { render :action => "edit" }
         format.xml  { render :xml => @item_has_use_restriction.errors, :status => :unprocessable_entity }
       end

@@ -20,7 +20,7 @@
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
   <p>
-    <b><%= t('role.required_role') -%></b>
+    <%= f.label t('role.required_role') -%>
     <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
   <p>

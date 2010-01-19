@@ -9,22 +9,22 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subscribe')) -%></h1>
 <div id='content_list'>
 <p>
-  <b><%= t('activerecord.models.subscription') -%>:</b>
+  <strong><%= t('activerecord.models.subscription') -%>:</strong>
   <%= link_to h(@subscribe.subscription.title), @subscribe.subscription -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.work') -%>:</b>
+  <strong><%= t('activerecord.models.work') -%>:</strong>
   <%= link_to h(@subscribe.work.original_title), @subscribe.work -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.subscribe.start_at') -%>:<b>
+  <strong><%= t('activerecord.attributes.subscribe.start_at') -%>:<strong>
   <%=l @subscribe.start_at -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.subscribe.end_at') -%>:<b>
+  <strong><%= t('activerecord.attributes.subscribe.end_at') -%>:<strong>
   <%=l @subscribe.end_at -%>
 </p>
 

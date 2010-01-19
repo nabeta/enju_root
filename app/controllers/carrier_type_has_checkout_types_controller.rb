@@ -6,7 +6,7 @@ class CarrierTypeHasCheckoutTypesController < ApplicationController
   # GET /carrier_type_has_checkout_types
   # GET /carrier_type_has_checkout_types.xml
   def index
-    @carrier_type_has_checkout_types = CarrierTypeHasCheckoutType.find(:all)
+    @carrier_type_has_checkout_types = CarrierTypeHasCheckoutType.all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -94,6 +94,6 @@ class CarrierTypeHasCheckoutTypesController < ApplicationController
   private
   def prepare_options
     @checkout_types = CheckoutType.find(:all, :order => :position)
-    @carrier_types = CarrierType.find(:all)
+    @carrier_types = CarrierType.all
   end
 end

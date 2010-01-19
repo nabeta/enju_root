@@ -10,12 +10,12 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_merge')) -%></h1>
 <div id="content_list">
 <p>
-<b><%= t('activerecord.models.work') -%>:</b>
+<strong><%= t('activerecord.models.work') -%>:</strong>
 <%= link_to h(@work_merge.work.original_title), work_path(@work_merge.work) -%>
 </p>
 
 <p>
-<b><%= t('activerecord.models.work_merge_list') -%>:</b>
+<strong><%= t('activerecord.models.work_merge_list') -%>:</strong>
 <%= link_to h(@work_merge.work_merge_list.title), work_merge_list_path(@work_merge.work_merge_list_id) -%>
 </p>
 

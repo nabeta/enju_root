@@ -10,15 +10,15 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :item -%>
+<%- form_for(@item) do |f| -%>
+  <%= f.error_messages -%>
 
-<%- form_for(@item, :html => { :method => :put }) do |f| -%>
   <%- if @item.manifestation -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
 
   <p>
-    <b><%= t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%></b><br />
+    <%= f.label t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%><br />
     <select id="library_id" name="library_id">
       <%- @libraries.each do |library| -%>
         <option value="<%= library.name -%>"<%= " selected='selected'" if @item.shelf.library == library -%>><%= library.display_name.localize -%></option>
@@ -31,38 +31,38 @@
   </p>
 
   <p>
-    <b><%= t('activerecord.models.checkout_type') -%></b><br />
+    <%= f.label t('activerecord.models.checkout_type') -%><br />
     <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name.localize, c.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.circulation_status') -%></b><br />
+    <%= f.label t('activerecord.models.circulation_status') -%><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name.localize, c.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.item.call_number') -%></b><br />
+    <%= f.label t('activerecord.attributes.item.call_number') -%><br />
     <%= f.text_field :call_number -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.item.price') -%></b><br />
+    <%= f.label t('activerecord.attributes.item.price') -%><br />
     <%= f.text_field :price -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.item.url') -%></b><br />
+    <%= f.label t('activerecord.attributes.item.url') -%><br />
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
  
   <p>
-    <b><%= t('activerecord.attributes.item.include_supplements') -%></b>
+    <%= f.label t('activerecord.attributes.item.include_supplements') -%>
     <%= f.check_box :include_supplements -%>
   </p>
  
   <!--
   <p>
-  <b><%= t('activerecord.models.use_restriction') -%>:</b><br />
+  <%= f.label t('activerecord.models.use_restriction') -%>:<br />
   <%- @use_restrictions.each do |use_restriction| -%>
     <%= check_box_tag "use_restriction_id[]", use_restriction.id, @item.use_restrictions.include?(use_restriction), :id => "use_restriction_id_#{use_restriction.id}" -%>
     <%= use_restriction.display_name.localize -%><br />
@@ -71,7 +71,7 @@
   -->
 
   <p>
-    <b><%= t('activerecord.attributes.item.item_identifier') -%></b><br />
+    <%= f.label t('activerecord.attributes.item.item_identifier') -%><br />
     <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
   </p>
  

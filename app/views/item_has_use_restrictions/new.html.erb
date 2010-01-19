@@ -1,10 +1,9 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.item_has_use_restriction')) -%></h1>
 
-<%= error_messages_for :item_has_use_restriction -%>
-
 <%- form_for(@item_has_use_restriction) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.models.item') -%></b><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%- if @item -%>
       <%= link_to h(@item.item_identifier), @item -%> (<%= link_to h(@item.manifestation.original_title), @item.manifestation -%>)
       <%= f.hidden_field :item_id, :value => @item.id -%>
@@ -14,7 +13,7 @@
   </p>
 
   <p>
-    <b><%= ('Use restriction') -%></b><br />
+    <%= f.label t('activerecord.models.use_restriction') -%><br />
     <%= f.select(:use_restriction_id, @use_restrictions.collect{|u| [u.name, u.id]}) -%>
   </p>
 

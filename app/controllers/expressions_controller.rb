@@ -175,7 +175,12 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @content_types = ContentType.all
-    @languages = Language.all
+    if ENV['RAILS_ENV'] == 'production'
+      @content_types = Rails.cache.fetch('ContentType.all'){ContentType.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+    else
+      @content_types = ContentType.all
+      @languages = Language.all
+    end
   end
 end
