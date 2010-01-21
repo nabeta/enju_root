@@ -26,6 +26,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if can_view(@message)
         @message.mark_message_read(rezm_user)
+        @message.expire_top_page_cache
         format.html # show.html.erb
       else
         headers["Status"] = "Forbidden"

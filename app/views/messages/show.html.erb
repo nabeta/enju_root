@@ -36,12 +36,12 @@
       
       <p>
         <label for="message_body" ><strong><%= t('activerecord.attributes.message.body') -%>:</strong></label>  
-        <%= auto_link(simple_format(h(@message.body))) -%>
+        <%= raw auto_link(simple_format(h(@message.body))) -%>
       </p>
 
   </fieldset>
   
-  <%= rezm_button_to_reply(@message) -%>
-  <%= rezm_button_to_delete(@message) -%>
+  <%= raw rezm_button_to_reply(@message) -%>
+  <%= raw rezm_button_to_delete(@message) -%>
 </div>
 </div>
