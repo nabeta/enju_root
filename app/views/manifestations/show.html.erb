@@ -14,7 +14,7 @@
     <%- if logged_in? -%>
       <ul>
         <%- if current_user.email.present? -%>
-        <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :confirm => t('page.are_you_sure') -%></li>
+          <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :confirm => t('page.are_you_sure') -%></li>
         <%- end -%>
         <%- if @manifestation.bookmarked?(current_user) -%>
           <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.find(:first, :conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
@@ -60,8 +60,8 @@
         </ul>
       <%- end -%>
     <%- end -%>
-    </div>
   </div>
+</div>
 
   <div id="content_detail">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
