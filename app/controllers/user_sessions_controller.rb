@@ -57,6 +57,8 @@ class UserSessionsController < ApplicationController
     flash[:notice] = t('user_session.logged_out')
     redirect_back_or_default new_user_session_url
     #session[:return_to] = nil
+  rescue
+    redirect_to new_user_session_url
   end
 
 end

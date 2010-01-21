@@ -47,12 +47,14 @@
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
     </div>
 
+    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale do -%>
     <div id="tag_cloud">
       <h3><%= t('activerecord.models.tag') -%></h3>
       <div id="tag_cloud_list"></div>
       <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
         :style => 'padding-bottom: 15px; padding-left: 40px;' -%>
     </div>
+    <%- end -%>
   <%- else -%>
     <!-- TODO: 検索結果が少ない場合にも表示させる -->
     <%- if @suggested_tag -%>
@@ -74,14 +76,14 @@
   <%- unless @query.blank? -%>
     <h3><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h3>
     <%- if @count[:query_result] > 0 -%>
-
+      <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'all_facet', :locale => @locale do -%>
       <div id="all_facet_box">
         <h3><%= t('page.facet') -%></h3>
         <div id="all_facet_list"></div>
         <%= image_tag 'spinner.gif', :id => 'spinner_all_facet',
           :style => 'margin-top: 10px; margin-left: 40px;' -%>
       </div>
-
+      <%- end -%>
     <%- end -%>
   <%- end -%>
   <div>

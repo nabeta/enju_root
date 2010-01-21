@@ -10,6 +10,8 @@ COUNTRY_CODE = 'jp'
 # パトロンの名前を入力する際、姓を先に表示する
 FAMILY_NAME_FIRST = true
 
+WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
+
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present

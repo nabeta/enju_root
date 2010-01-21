@@ -55,6 +55,14 @@ class Message < ActiveRecord::Base
 
   def after_create
     Notifier.send_later :deliver_message_notification, self.receiver if self.receiver.email.present?
+    self.expire_top_page_cache
+  end
+
+  def self.expire_top_page_cache
+    I18n.available_locales.each do |locale|
+      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/#{sender.login}?name=message&locale=#{@locale}")
+      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/#{receiver.login}?name=message&locale=#{@locale}")
+    end
   end
 
   # Returns user.login for the sender
