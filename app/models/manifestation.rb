@@ -153,7 +153,7 @@ class Manifestation < ActiveRecord::Base
   def after_create
     send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
-    self.expire_top_page_cache
+    Manifestation.expire_top_page_cache
   end
 
   def after_save
@@ -164,7 +164,7 @@ class Manifestation < ActiveRecord::Base
   def after_destroy
     Rails.cache.delete("Manifestation.search.total")
     send_later(:expire_cache)
-    self.expire_top_page_cache
+    Manifestation.expire_top_page_cache
   end
 
   def expire_cache

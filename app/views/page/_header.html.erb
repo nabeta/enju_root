@@ -14,7 +14,7 @@
         <%= t('page.logged_in_as', :login_name => current_user.login) -%>
         <br />
         <%= link_to t('page.account'), edit_user_path(current_user.login) -%>
-        <%= link_to t('page.logout'), user_session_path, :method => :delete, :confirm => t('page.are_you_sure') %>
+        <%= link_to t('page.logout'), '/logout', :confirm => t('page.are_you_sure') %>
       <%- end -%>
     <%- else -%>
       <%= link_to t('page.login'), new_user_session_path unless controller_name == 'user_sessions' -%>

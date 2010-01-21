@@ -6,7 +6,7 @@
     <%- end -%>
   </div>
 
-  <%- cache :name => 'message', :locale => @locale do -%>
+  <%- cache :controller => 'users', :action => 'show', :id => @user.login, :action_suffix => 'message', :locale => @locale do -%>
   <h3 class="title"><%= t('activerecord.models.message') -%></h3>
   <div id="message_box">
     <%- if current_user.unread_messages.size > 0 -%>
