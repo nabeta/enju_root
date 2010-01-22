@@ -1,9 +1,13 @@
 module Sunspot
   module Query
     class Dismax
+      attr_writer :minimum_match, :phrase_slop, :query_phrase_slop, :tie
+
       def initialize(keywords)
         @keywords = keywords
         @fulltext_fields = {}
+        @boost_queries = []
+        @highlights = []
       end
 
       # 
@@ -17,11 +21,25 @@ module Sunspot
         if @phrase_fields
           params[:pf] = @phrase_fields.map { |field| field.to_boosted_field }.join(' ')
         end
-        if @boost_query
-          params[:bq] = @boost_query.to_boolean_phrase
+        unless @boost_queries.empty?
+          params[:bq] = @boost_queries.map do |boost_query|
+            boost_query.to_boolean_phrase
+          end
         end
-        if @highlight
-          Sunspot::Util.deep_merge!(params, @highlight.to_params)
+        if @minimum_match
+          params[:mm] = @minimum_match
+        end
+        if @phrase_slop
+          params[:ps] = @phrase_slop
+        end
+        if @query_phrase_slop
+          params[:qs] = @query_phrase_slop
+        end
+        if @tie
+          params[:tie] = @tie
+        end
+        @highlights.each do |highlight|
+          Sunspot::Util.deep_merge!(params, highlight.to_params)
         end
         params
       end
@@ -30,7 +48,8 @@ module Sunspot
       # Assign a new boost query and return it.
       #
       def create_boost_query(factor)
-        @boost_query = BoostQuery.new(factor)
+        @boost_queries << boost_query = BoostQuery.new(factor)
+        boost_query
       end
 
       # 
@@ -53,8 +72,8 @@ module Sunspot
       # Highlighting object won't pass field names at all, which means
       # the dismax's :qf parameter will be used by Solr.
       #
-      def set_highlight(fields=[], options={})
-        @highlight = Highlighting.new(fields, options)
+      def add_highlight(fields=[], options={})
+        @highlights << Highlighting.new(fields, options)
       end
 
       # 
