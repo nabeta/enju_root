@@ -10,10 +10,10 @@ class CheckoutsController < ApplicationController
   # GET /checkouts.xml
 
   def index
-    @library_group = LibraryGroup.find(:first)
+    @library_group = LibraryGroup.first
 
     if params[:icalendar_token].present?
-      icalendar_user = User.find(:first, :conditions => {:checkout_icalendar_token => params[:icalendar_token]})
+      icalendar_user = User.first(:conditions => {:checkout_icalendar_token => params[:icalendar_token]})
       if icalendar_user.blank?
         raise ActiveRecord::RecordNotFound
       else

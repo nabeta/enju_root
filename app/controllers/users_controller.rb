@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     unless @user.patron
@@ -105,9 +105,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(:first, :conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -130,9 +130,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(:first, :conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -260,7 +260,7 @@ class UsersController < ApplicationController
         if result
           flash[:temporary_password] = @user.password
           User.transaction do
-            @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+            @user.roles << Role.first(:conditions => {:name => 'User'})
           end
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
@@ -281,7 +281,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした
@@ -314,7 +314,7 @@ class UsersController < ApplicationController
 
     # 最後の管理者を削除しようとした
     if @user.has_role?('Administrator')
-      if Role.find(:first, :conditions => {:name => 'Administrator'}).users.size == 1
+      if Role.first(:conditions => {:name => 'Administrator'}).users.size == 1
         raise
         flash[:notice] = t('user.last_administrator')
       end
