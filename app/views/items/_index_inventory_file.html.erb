@@ -2,11 +2,11 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
 <%- case params[:inventory] when 'not_on_shelf' -%>
-  <h2><%= t('inventory_file.not_on_shelf') -%></h2>
+  <h2 class="resource_title"><%= t('inventory_file.not_on_shelf') -%></h2>
 <%- when 'not_in catalog' -%>
-  <h2><%= t('inventory_file.not_in_catalog') -%></h2>
+  <h2 class="resource_title"><%= t('inventory_file.not_in_catalog') -%></h2>
 <%- else -%>
-  <h2><%= t('item.all_item') -%></h2>
+  <h2 class="resource_title"><%= t('item.all_item') -%></h2>
 <%- end -%>
 </div>
 
