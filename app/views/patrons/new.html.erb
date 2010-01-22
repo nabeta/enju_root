@@ -124,6 +124,7 @@
     <%= f.hidden_field :user_id -%>
     <%= f.submit t('page.create') -%>
   </p>
+  <%= javascript_tag("$('patron_patron_type_id').focus()") -%>
 <%- end -%>
 </div>
 </div>

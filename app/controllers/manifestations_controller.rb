@@ -272,6 +272,10 @@ class ManifestationsController < ApplicationController
       #end
       if @original_manifestation
         @manifestation.original_title = @original_manifestation.original_title
+        @manifestation.title_transcription = @original_manifestation.title_transcription
+      elsif @expression
+        @manifestation.original_title = @expression.original_title
+        @manifestation.title_transcription = @expression.title_transcription
       end
     end
     @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})

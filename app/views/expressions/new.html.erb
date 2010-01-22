@@ -5,7 +5,5 @@
 <%- when @manifestation -%>
   <%= render :partial => 'new_manifestation' -%>
 <%- else -%>
-  <%- form_for(@expression) do |f| -%>
-    <%= render :partial => 'new', :locals => {:f => f} -%>
-  <%- end -%>
+  <%= render :partial => 'new' -%>
 <%- end -%>

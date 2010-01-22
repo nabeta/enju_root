@@ -1,5 +1,6 @@
 <div id="submenu">
   <ul>
+    <li><%= link_to t('work.add'), works_path -%></li>
     <li><%= link_to t('activerecord.models.user'), imported_patron_files_path -%></li>
     <li><%= link_to t('activerecord.models.event'), imported_event_files_path -%></li>
   </ul>
@@ -15,8 +16,5 @@
   <%- end -%>
   <%= javascript_tag("$('manifestation_isbn').focus()") -%>
 
-  <p>
-    <%= link_to t('work.add'), works_path -%>
-  </p>
 </div>
 </div>

@@ -92,6 +92,10 @@ class ExpressionsController < ApplicationController
     #  return
     #end
     @expression = Expression.new
+    if @work
+      @expression.original_title = @work.original_title
+      @expression.title_transcription = @work.title_transcription
+    end
     @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
 
     respond_to do |format|

@@ -36,19 +36,11 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.manifestation.title_transcription') -%><br />
-    <%- if @expression -%>
-      <%= f.text_field :title_transcription, :value => @expression.title_transcription, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :title_transcription, :class => 'resource_title' -%>
-    <%- end -%>
+    <%= f.text_field :title_transcription, :class => 'resource_title' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.manifestation.title_alternative') -%><br />
-    <%- if @expression -%>
-      <%= f.text_field :title_alternative, :value => @expression.title_alternative, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :title_alternative, :class => 'resource_title' -%>
-    <%- end -%>
+    <%= f.text_field :title_alternative, :class => 'resource_title' -%>
   </p>
   
   <p>
@@ -145,6 +137,7 @@
     <%= hidden_field_tag :manifestation_id, @original_manifestation.id if @original_manifestation -%>
     <%= submit_tag t('page.create') -%>
   </p>
+  <%= javascript_tag("$('manifestation_original_title').focus()") -%>
 <%- end -%>
 </div>
 </div>
