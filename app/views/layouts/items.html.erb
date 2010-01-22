@@ -8,6 +8,8 @@
     <%= t('activerecord.models.item') -%> :
     <%- if @manifestation -%>
       <%= @manifestation.original_title -%> :
+    <%- elsif @item.try(:manifestation) -%>
+      <%= @item.manifestation.original_title -%> :
     <%- end -%>
     <%- if @item -%>
       (<%= @item.shelf.library.display_name.localize -%>) :

@@ -13,8 +13,7 @@
 
   <%- form_for :manifestations, :url => series_statement_manifestations_path(@series_statement), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%- if @series_statement.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -30,7 +29,7 @@
       -->
       <%= link_to t('page.back_to_index'), series_statement_manifestations_path(@series_statement) -%>
     </p>
-    <%= javascript_tag("$('query').focus()") -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
