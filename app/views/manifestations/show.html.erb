@@ -17,7 +17,7 @@
           <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :confirm => t('page.are_you_sure') -%></li>
         <%- end -%>
         <%- if @manifestation.bookmarked?(current_user) -%>
-          <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.find(:first, :conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+          <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.first(:conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
         <%- else -%>
           <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
         <%- end -%>
@@ -238,7 +238,7 @@
     <%= render :partial => 'show_worldcat_record' if @worldcat_record.present? -%>
     </table>
   <%- end -%>
-    <%- if @manifestation.items.on_shelf.find(:first) -%>
+    <%- if @manifestation.items.on_shelf.first -%>
       <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
     <%- end -%>
 <%

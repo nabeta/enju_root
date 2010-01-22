@@ -1,4 +1,4 @@
-<%- if manifestation.items.on_shelf.find(:first) -%>
+<%- if manifestation.items.on_shelf.first -%>
   (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
   <div class="holding" id="holding_<%= manifestation.id -%>"></div>
 <%- end -%>

@@ -129,7 +129,7 @@ class ItemsController < ApplicationController
     @item = Item.new
     @item.manifestation = @manifestation
     @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
-    @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
+    @item.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'})
     @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
     respond_to do |format|
@@ -194,7 +194,7 @@ class ItemsController < ApplicationController
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
           #else
-          #  @item.owns.find(:first).update_attribute(:patron_id, @item.shelf.library.patron_id)
+          #  @item.owns.first.update_attribute(:patron_id, @item.shelf.library.patron_id)
           #end
         end
         use_restrictions = UseRestriction.find(:all, :conditions => ['id IN (?)', params[:use_restriction_id]])
