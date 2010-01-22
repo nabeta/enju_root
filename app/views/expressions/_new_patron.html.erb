@@ -11,7 +11,7 @@
 <%- form_for(:expression, :url => patron_expressions_path(@patron)) do |f| -%>
   <%= f.error_messages -%>
 
-  <%= render :partial => 'new', :locals => {:f => f} -%>
+  <%= render :partial => 'form', :locals => {:f => f} -%>
 <%- end -%>
 
 </div>

@@ -1,73 +1,18 @@
-  <p>
-    <%= f.label t('page.title') -%><br />
-    <%- if @work -%>
-      <%= f.text_field :original_title, :value => @work.original_title, :class => 'resource_title' -%>
-    <%- elsif @manifestation -%>
-      <%= f.text_field :original_title, :value => @manifestation.original_title, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :original_title, :class => 'resource_title' -%>
-    <%- end -%>
-  </p>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), expressions_path -%></li>
+  </ul>
+</div>
 
-  <p>
-    <%= f.label t('activerecord.attributes.expression.title_transcription') -%><br />
-    <%- if @work -%>
-      <%= f.text_field :title_transcription, :value => @work.title_transcription, :class => 'resource_title' -%>
-    <%- elsif @manifestation -%>
-      <%= f.text_field :title_transcription, :value => @manifestation.title_transcription, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :title_transcription, :class => 'resource_title' -%>
-    <%- end -%>
-  </p>
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
 
-  <p>
-    <%= f.label t('activerecord.attributes.expression.title_alternative') -%><br />
-    <%- if @work -%>
-      <%= f.text_field :title_alternative, :value => @work.title_alternative, :class => 'resource_title' -%>
-    <%- elsif @manifestation -%>
-      <%= f.text_field :title_alternative, :value => @manifestation.title_alternative, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :title_alternative, :class => 'resource_title' -%>
-    <%- end -%>
-  </p>
+<%- form_for(@expression) do |f| -%>
+  <%= f.error_messages -%>
 
-  <%- unless @patron.blank? -%>
-    <p>
-      <%= f.label t('page.author') -%><br />
-      <%= @patron.full_name -%>
-    </p>
-  <%- end -%>
+  <%= render :partial => 'form', :locals => {:f => f} -%>
+<%- end -%>
 
-  <p>
-    <%= f.label t('activerecord.attributes.expression.summarization') -%><br />
-    <%= f.text_area :summarization, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.expression.context') -%><br />
-    <%= f.text_area :context, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.models.language') -%><br />
-    <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.models.content_type') -%><br />
-    <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.expression.feed_url') -%><br />
-    <%= f.text_field :feed_url, :class => 'resource_url' -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.expression.note') -%><br />
-    <%= f.text_area :note, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <%= submit_tag t('page.create') -%>
-  </p>
+</div>
+</div>
