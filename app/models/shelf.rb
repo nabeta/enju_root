@@ -40,4 +40,10 @@ class Shelf < ActiveRecord::Base
     end
   end
 
+  def first?
+    # 必ずposition順に並んでいる
+    return true if library.shelves.first.position == position
+    false
+  end
+
 end
