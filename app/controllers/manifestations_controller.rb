@@ -105,7 +105,7 @@ class ManifestationsController < ApplicationController
 
       if params[:view] == "tag_cloud"
         if manifestation_ids
-          bookmark_ids = Bookmark.find(:all, :select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
+          bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
           @tags = Tag.bookmarked(bookmark_ids)
         else
           @tags = []
@@ -211,7 +211,7 @@ class ManifestationsController < ApplicationController
     return if render_mode(params[:mode])
 
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
-    @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
+    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     if @manifestation.respond_to?(:worldcat_record)
       #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
@@ -278,7 +278,7 @@ class ManifestationsController < ApplicationController
         @manifestation.title_transcription = @expression.title_transcription
       end
     end
-    @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
+    @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
     @manifestation = @manifestation.set_serial_number
 
     respond_to do |format|
@@ -293,7 +293,7 @@ class ManifestationsController < ApplicationController
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.find(:first, :conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
+      @bookmark = current_user.bookmarks.first(:conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location
@@ -612,7 +612,7 @@ class ManifestationsController < ApplicationController
       library = params[:library]
       language = params[:language]
       subject = params[:subject]
-      subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
+      subject_by_term = Subject.first(:conditions => {:term => params[:subject]})
       @subject_by_term = subject_by_term
 
       search.build do

@@ -115,7 +115,7 @@ class Bookmark < ActiveRecord::Base
         manifestation = Manifestation.find(path[2])
       end
     else
-      manifestation = Manifestation.find(:first, :conditions => {:access_address => self.url}) if self.url.present?
+      manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
     end
   rescue URI::InvalidURIError
     raise 'invalid_url'
@@ -137,7 +137,7 @@ class Bookmark < ActiveRecord::Base
 
   def create_manifestation
     manifestation = Manifestation.new(:access_address => url)
-    manifestation.carrier_type = CarrierType.find(:first, :conditions => {:name => 'file'})
+    manifestation.carrier_type = CarrierType.first(:conditions => {:name => 'file'})
     if self.title.present?
       manifestation.original_title = self.title
     else
@@ -156,7 +156,7 @@ class Bookmark < ActiveRecord::Base
 
   def create_bookmark_item
     shelf = Shelf.web
-    circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'Not Available'})
+    circulation_status = CirculationStatus.first(:conditions => {:name => 'Not Available'})
     item = Item.new
     item.circulation_status = circulation_status
     item.shelf = shelf

@@ -29,7 +29,7 @@ class ImportedResourceFile < ActiveRecord::Base
     file.close
     rows.shift
     rows.each do |row|
-      shelf = Shelf.find(:first, :conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
+      shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
       # ISBNが入力してあればそれを優先する
       if row['isbn']

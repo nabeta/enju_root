@@ -11,7 +11,7 @@ class SeriesStatement < ActiveRecord::Base
   end
 
   def last_issue
-    manifestations.find(:first, :conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
+    manifestations.first(:conditions => 'date_of_publication IS NOT NULL', :order => 'date_of_publication DESC')
   end
 
 end

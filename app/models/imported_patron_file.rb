@@ -80,12 +80,12 @@ class ImportedPatronFile < ActiveRecord::Base
           if user.password.blank?
             user.set_auto_generated_password
           end
-          library = Library.find(:first, :conditions => {:name => row['library_short_name'].to_s.chomp}) || Library.web
-          user_group = UserGroup.find(:first, :conditions => {:name => row['user_group_name']}) || UserGroup.first
+          library = Library.first(:conditions => {:name => row['library_short_name'].to_s.chomp}) || Library.web
+          user_group = UserGroup.first(:conditions => {:name => row['user_group_name']}) || UserGroup.first
           user.library = library
           user.patron = patron
           user.activate!
-          role = Role.find(:first, :conditions => {:name => row['role']}) || Role.find(2)
+          role = Role.first(:conditions => {:name => row['role']}) || Role.find(2)
           user.roles << role
           num[:activated] += 1
         rescue

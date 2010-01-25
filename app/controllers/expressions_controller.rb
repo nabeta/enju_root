@@ -96,7 +96,7 @@ class ExpressionsController < ApplicationController
       @expression.original_title = @work.original_title
       @expression.title_transcription = @work.title_transcription
     end
-    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
+    @expression.language = Language.first(:conditions => {:iso_639_1 => @locale})
 
     respond_to do |format|
       format.html # new.html.erb

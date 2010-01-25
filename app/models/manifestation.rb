@@ -272,7 +272,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def next_reservation
-    self.reserves.find(:first, :order => ['reserves.created_at'])
+    self.reserves.first(:order => ['reserves.created_at'])
   end
 
   def authors
@@ -393,14 +393,14 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
-      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
+      manifestation = Manifestation.first(:conditions => {:isbn => isbn})
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
+        manifestation = Manifestation.first(:conditions => {:isbn => isbn})
       end
     end
     return manifestation
@@ -442,9 +442,9 @@ class Manifestation < ActiveRecord::Base
   def self.import_patrons(patron_lists)
     patrons = []
     patron_lists.each do |patron_list|
-      unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
+      unless patron = Patron.first(:conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
+        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
       end
       patron.save
       patrons << patron
@@ -482,7 +482,7 @@ class Manifestation < ActiveRecord::Base
 
   def is_reserved_by(user = nil)
     if user
-      return true if Reserve.waiting.find(:first, :conditions => {:user_id => user.id, :manifestation_id => self.id})
+      return true if Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
     else
       return true if self.reserves.present?
     end
@@ -495,7 +495,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def checkouts(start_date, end_date)
-    Checkout.completed(start_date, end_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
+    Checkout.completed(start_date, end_date).all(:conditions => {:item_id => self.items.collect(&:id)})
   end
 
   #def bookmarks(start_date = nil, end_date = nil)
@@ -571,11 +571,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def produced(patron)
-    produces.find(:first, :conditions => {:patron_id => patron.id})
+    produces.first(:conditions => {:patron_id => patron.id})
   end
 
   def embodied(expression)
-    embodies.find(:first, :conditions => {:expression_id => expression.id})
+    embodies.first(:conditions => {:expression_id => expression.id})
   end
 
 end

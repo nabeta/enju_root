@@ -148,7 +148,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     return @user
 
@@ -158,7 +158,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_if_nil
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
   end
   
   def get_user_group
