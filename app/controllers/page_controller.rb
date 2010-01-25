@@ -12,7 +12,7 @@ class PageController < ApplicationController
     end
     @numdocs = Manifestation.cached_numdocs
     # TODO: タグ下限の設定
-    #@tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
+    #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
     @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
     @manifestation = Manifestation.pickup rescue nil
     if ENV['RAILS_ENV'] == 'production'
@@ -56,9 +56,6 @@ class PageController < ApplicationController
   
   def acquisition
     @title = t('page.acquisition')
-    #@resource = Resource.new
-    #@carrier_types = CarrierType.find(:all, :order => 'position')
-    #@languages = Language.find(:all, :order => 'position')
   end
 
   def management

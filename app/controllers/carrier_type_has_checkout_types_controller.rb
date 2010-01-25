@@ -93,7 +93,7 @@ class CarrierTypeHasCheckoutTypesController < ApplicationController
 
   private
   def prepare_options
-    @checkout_types = CheckoutType.find(:all, :order => :position)
+    @checkout_types = CheckoutType.all
     @carrier_types = CarrierType.all
   end
 end

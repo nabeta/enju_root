@@ -128,7 +128,7 @@ class ItemsController < ApplicationController
     end
     @item = Item.new
     @item.manifestation = @manifestation
-    @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
+    @circulation_statuses = CirculationStatus.all(:conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'})
     @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
@@ -197,7 +197,7 @@ class ItemsController < ApplicationController
           #  @item.owns.first.update_attribute(:patron_id, @item.shelf.library.patron_id)
           #end
         end
-        use_restrictions = UseRestriction.find(:all, :conditions => ['id IN (?)', params[:use_restriction_id]])
+        use_restrictions = UseRestriction.all(:conditions => ['id IN (?)', params[:use_restriction_id]])
         ItemHasUseRestriction.delete_all(['item_id = ?', @item.id])
         @item.use_restrictions << use_restrictions
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item'))
@@ -239,10 +239,10 @@ class ItemsController < ApplicationController
     else
       @libraries = Library.all
     end
-    @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
-    @shelves = Shelf.find(:all, :order => :position)
+    @library = Library.first(:order => :position, :include => :shelves) if @library.blank?
+    @shelves = Shelf.all
     @circulation_statuses = CirculationStatus.all
-    @bookstores = Bookstore.find(:all, :order => :position)
+    @bookstores = Bookstore.all
     @use_restrictions = UseRestriction.all
     if @manifestation
       @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)

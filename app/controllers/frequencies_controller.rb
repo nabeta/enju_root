@@ -4,7 +4,7 @@ class FrequenciesController < ApplicationController
   # GET /frequencies
   # GET /frequencies.xml
   def index
-    @frequencies = Frequency.find(:all, :order => :position)
+    @frequencies = Frequency.all
 
     respond_to do |format|
       format.html # index.html.erb

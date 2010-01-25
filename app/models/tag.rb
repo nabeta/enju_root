@@ -23,7 +23,7 @@ class Tag < ActiveRecord::Base
         with(:bookmark_ids).any_of bookmark_ids
         paginate(:page => 1, :per_page => Tag.count)
       end
-      Tag.find(:all, :conditions => {:id => tag_ids}, :order => options[:order])
+      Tag.all(:conditions => {:id => tag_ids}, :order => options[:order])
     end
   end
 
@@ -36,6 +36,6 @@ class Tag < ActiveRecord::Base
   end
 
   def tagged(taggable_type)
-    self.taggings.find(:all, :conditions => {:taggable_type => taggable_type.to_s}).collect(&:taggable)
+    self.taggings.all(:conditions => {:taggable_type => taggable_type.to_s}).collect(&:taggable)
   end
 end

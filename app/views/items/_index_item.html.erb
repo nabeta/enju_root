@@ -13,7 +13,7 @@
     <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
   <%- end -%>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     [I]
     <%= link_to h(@item.manifestation.original_title), @item -%>
   </h2>

@@ -29,7 +29,7 @@
   <%-
     cache(:id => @patron.id, :action => :show, :controller => :patrons, :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
-  <h2 id="resource_title">
+  <h2 class="resource_title">
     [P]
     <%= @patron.full_name -%>
   </h2>

@@ -4,7 +4,7 @@ class CirculationStatusesController < ApplicationController
   # GET /circulation_statuses
   # GET /circulation_statuses.xml
   def index
-    @circulation_statuses = CirculationStatus.find(:all, :order => :position)
+    @circulation_statuses = CirculationStatus.all
 
     respond_to do |format|
       format.html # index.html.erb

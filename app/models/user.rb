@@ -232,12 +232,12 @@ class User < ActiveRecord::Base
   end
 
   def reached_reservation_limit?(manifestation)
-    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).find(:all, :conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
+    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).all(:conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
     false
   end
 
   def highest_role
-    self.roles.find(:first, :order => ['id DESC'])
+    self.roles.first(:order => ['id DESC'])
   end
 
   def is_admin?
@@ -281,7 +281,7 @@ class User < ActiveRecord::Base
 
   def last_librarian?
     if self.has_role?('Librarian')
-      role = Role.find(:first, :conditions => {:name => 'Librarian'})
+      role = Role.first(:conditions => {:name => 'Librarian'})
       true if role.users.size == 1
     end
   end

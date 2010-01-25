@@ -49,7 +49,7 @@ class SubjectsController < ApplicationController
   # GET /subjects/1.xml
   def show
     if params[:term]
-      subject = Subject.find(:first, :conditions => {:term => params[:term]})
+      subject = Subject.first(:conditions => {:term => params[:term]})
       redirected_to subject
       return
     end

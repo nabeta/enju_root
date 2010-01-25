@@ -5,7 +5,7 @@ class RequestStatusTypesController < ApplicationController
   # GET /request_status_types
   # GET /request_status_types.xml
   def index
-    @request_status_types = RequestStatusType.find(:all, :order => :position)
+    @request_status_types = RequestStatusType.all
 
     respond_to do |format|
       format.html # index.html.erb

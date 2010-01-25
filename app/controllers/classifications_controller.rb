@@ -82,7 +82,7 @@ class ClassificationsController < ApplicationController
         format.html { redirect_to(@classification) }
         format.xml  { render :xml => @classification, :status => :created, :location => @classification }
       else
-        @classification_types = ClassificationType.find(:all, :order => :id)
+        @classification_types = ClassificationType.all
         format.html { render :action => "new" }
         format.xml  { render :xml => @classification.errors, :status => :unprocessable_entity }
       end
@@ -100,7 +100,7 @@ class ClassificationsController < ApplicationController
         format.html { redirect_to(@classification) }
         format.xml  { head :ok }
       else
-        @classification_types = ClassificationType.find(:all, :order => :id)
+        @classification_types = ClassificationType.all
         format.html { render :action => "edit" }
         format.xml  { render :xml => @classification.errors, :status => :unprocessable_entity }
       end

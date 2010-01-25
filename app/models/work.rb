@@ -91,15 +91,15 @@ class Work < ActiveRecord::Base
   end
 
   def created(patron)
-    creates.find(:first, :conditions => {:patron_id => patron.id})
+    creates.first(:conditions => {:patron_id => patron.id})
   end
 
   def reified(expression)
-    reifies.find(:first, :conditions => {:expression_id => expression.id})
+    reifies.first(:conditions => {:expression_id => expression.id})
   end
 
   def subscribed?(time = Time.zone.now)
-    if subscribe = subscribes.find(:first, :order => 'end_at DESC')
+    if subscribe = subscribes.first(:order => 'end_at DESC')
       if subscribe.end_at
         return true if subscribe.start_at <= time and subscribe.end_at >= time
       end

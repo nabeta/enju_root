@@ -35,11 +35,11 @@ class ImportedEventFile < ActiveRecord::Base
       event.start_at = row['start_at']
       event.end_at = row['end_at']
       category = row['category']
-      library = Library.find(:first, :conditions => {:name => row['library_short_name']})
+      library = Library.first(:conditions => {:name => row['library_short_name']})
       library = Library.web if library.blank?
       event.library = library
       if category == "closed"
-        event.event_category = EventCagetory.find(:first, :conditions => {:name => 'closed'})
+        event.event_category = EventCagetory.first(:conditions => {:name => 'closed'})
       end
 
       begin

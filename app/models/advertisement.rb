@@ -38,7 +38,7 @@ class Advertisement < ActiveRecord::Base
   end
 
   def self.current_advertisements
-    Advertisement.find(:all, :conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id)
+    Advertisement.all(:conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id)
   end
 
   def self.cached_current_ad_ids

@@ -19,7 +19,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
 <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
-<h2>
+<h2 class="resource_title">
   <%= @subject.term -%>
 </h2>
   <p>

@@ -75,7 +75,7 @@ class BookmarksController < ApplicationController
       #url = URI.decode(params[:url])
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
       unless url.nil?
-        if @manifestation = Manifestation.find(:first, :conditions => {:access_address => url})
+        if @manifestation = Manifestation.first(:conditions => {:access_address => url})
           if @manifestation.bookmarked?(current_user)
             raise 'already_bookmarked'
           end
@@ -126,7 +126,7 @@ class BookmarksController < ApplicationController
           format.html { redirect_to manifestation_url(@bookmark.manifestation) }
           format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
         else
-          @user = User.find(:first, :conditions => {:login => params[:user_id]})
+          @user = User.first(:conditions => {:login => params[:user_id]})
           format.html { render :action => "new" }
           format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }
         end
