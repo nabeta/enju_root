@@ -1,23 +1,4 @@
 module EnjuAmazon
-# Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
-#AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
-  case COUNTRY_CODE
-  when 'ca'
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.ca'
-  when 'de'
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.de'
-  when 'fr'
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.fr'
-  when 'jp'
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.jp'
-  when 'uk'
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.uk'
-  when 'us'
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
-  else
-    AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
-  end
-
   def self.included(base)
     base.extend ClassMethods
   end
@@ -92,7 +73,7 @@ module EnjuAmazon
     def amazon_customer_reviews
       doc = Nokogiri::XML(self.amazon)
       reviews = []
-      doc.xpath('//xmlns:Review', {'xmlns' => 'https://webservices.amazon.com/AWSECommerceService/2009-01-06'}).each do |item|
+      doc.xpath('//xmlns:Review').each do |item|
         r = {}
         r[:date] = item.at('xmlns:Date').inner_text
         r[:summary] = item.at('xmlns:Summary').inner_text

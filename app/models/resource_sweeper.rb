@@ -3,7 +3,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     Create, Realize, Produce, Own, Bookmark, Tag, Patron, Language,
     Library, Basket, Checkin, WorkHasWork, ExpressionHasExpression,
     ManifestationHasManifestation, ItemHasItem, PatronHasPatron,
-    SeriesStatement, SubjectHeadingType
+    SeriesStatement, SubjectHeadingType, PictureFile
 
   def after_save(record)
     case
@@ -204,6 +204,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(SubjectHeadingTypeHasSubject)
       expire_editable_fragment(record.subject)
+    when record.is_a?(PictureFile)
+      if record.picture_attachable.is_a?(Manifestation)
+        expire_editable_fragment(manifestation, "picture_file")
+      end
     end
   end
 
@@ -225,7 +229,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_manifestation_cache(manifestation, fragments)
-    fragments = %w[detail_1 detail_2 detail_3 detail_4 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags title show_xisbn] if fragments.nil?
+    fragments = %w[detail_1 detail_2 detail_3 detail_4 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_editors_and_publishers show_holding tags title show_xisbn picture_file] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
       expire_manifestation_fragment(manifestation, fragment)
