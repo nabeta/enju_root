@@ -24,7 +24,7 @@
     #'yui/build/assets/skins/sam/treeview',
     'yui/build/assets/skins/sam/menu'
 -%>
-<%= stylesheet_link_tag 'colorbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet' -%>
+<%= stylesheet_link_tag 'colorbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', :cache => 'include' -%>
 <%= raw calendar_date_select_includes -%>
 <script type="text/javascript">
   YAHOO.util.Event.onContentReady("services", function () {
