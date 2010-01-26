@@ -1174,6 +1174,7 @@ en:
     serial: "Serial"
     send_email: "Email this information"
     attachment_file: "Attachment file"
+    other_view: "Other views"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

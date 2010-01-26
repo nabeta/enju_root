@@ -31,13 +31,7 @@
     <%- end -%>
   </p>
 
-  <%- unless @patron.blank? -%>
-    <p>
-      <%= f.label t('page.author') -%><br />
-      <%= @patron.full_name -%>
-    </p>
-  <%- end -%>
-
+  <!--
   <p>
     <%= f.label t('activerecord.attributes.expression.summarization') -%><br />
     <%= f.text_area :summarization, :class => 'resource_textarea' -%>
@@ -47,6 +41,7 @@
     <%= f.label t('activerecord.attributes.expression.context') -%><br />
     <%= f.text_area :context, :class => 'resource_textarea' -%>
   </p>
+  -->
 
   <p>
     <%= f.label t('activerecord.models.language') -%><br />

@@ -1,4 +1,4 @@
-<%= raw javascript_include_tag 'jquery-1.3.2.min', 'jquery-ui', 'jquery.highlight-3', :cache => 'include_jquery' -%>
+<%= raw javascript_include_tag 'jquery-1.3.2.min', 'jquery-ui', 'jquery.highlight-3', 'jquery.colorbox-min', :cache => 'include_jquery' -%>
 <script type="text/javascript">
     jQuery.noConflict();
 </script>
@@ -24,7 +24,7 @@
     #'yui/build/assets/skins/sam/treeview',
     'yui/build/assets/skins/sam/menu'
 -%>
-<%= stylesheet_link_tag 'thickbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', :cache => 'include' -%>
+<%= stylesheet_link_tag 'colorbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet' -%>
 <%= raw calendar_date_select_includes -%>
 <script type="text/javascript">
   YAHOO.util.Event.onContentReady("services", function () {
