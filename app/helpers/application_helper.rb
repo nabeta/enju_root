@@ -110,7 +110,7 @@ module ApplicationHelper
         # TODO: Project Next-L 専用のMozshotサーバを作る
           link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
         else
-          if picture_file = picture_files.first
+          if picture_file = manifestation.picture_files.first
             link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'thumb')
           else
             image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
