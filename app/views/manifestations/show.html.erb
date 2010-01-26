@@ -1,20 +1,22 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- unless @manifestation.picture_files.empty? -%>
-    <ul>
-      <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
-        <%- if i == 0 -%>
-          <li><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
-        <%- else -%>
-          <li style="display: none"><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
+    <%- unless @manifestation.picture_files.empty? -%>
+      <ul>
+        <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
+          <%- if i == 0 -%>
+            <li><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
+          <%- else -%>
+            <li style="display: none"><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
+          <%- end -%>
         <%- end -%>
-      <%- end -%>
-    </ul>
-    <script type="text/javascript">
-      jQuery(document).ready(function(){
-        jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
-      })
-    </script>
+      </ul>
+      <script type="text/javascript">
+        jQuery(document).ready(function(){
+          jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
+        })
+      </script>
+    <%- end -%>
   <%- end -%>
   <%- if logged_in? -%>
     <div id="call_number_content">

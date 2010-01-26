@@ -1,6 +1,7 @@
 class PictureFilesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_attachable, :only => [:index, :new]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /picture_files
   # GET /picture_files.xml

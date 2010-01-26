@@ -98,10 +98,11 @@ module ApplicationHelper
 
   def book_jacket(manifestation)
     return nil if manifestation.nil?
+    # TODO: Amazon優先でよい？
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket.blank?
       unless book_jacket['asin'].blank?
-        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.com/dp/#{book_jacket['asin']}"
+        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://#{AMAZON_HOSTNAME}/dp/#{book_jacket['asin']}"
       else
         if manifestation.screen_shot.present?
         #link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=180", :width => 180, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
@@ -109,7 +110,11 @@ module ApplicationHelper
         # TODO: Project Next-L 専用のMozshotサーバを作る
           link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
         else
-          image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
+          if picture_file = picture_files.first
+            link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'thumb')
+          else
+            image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
+          end
         end
       end
     end
