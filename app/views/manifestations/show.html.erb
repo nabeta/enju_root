@@ -10,12 +10,22 @@
             <li style="display: none"><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
           <%- end -%>
         <%- end -%>
+        <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>
+        <%- if current_user.try(:has_role?, 'Librarian') -%>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
+        <%- end -%>
       </ul>
       <script type="text/javascript">
         jQuery(document).ready(function(){
           jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
         })
       </script>
+    <%- else -%>
+      <%- if current_user.try(:has_role?, 'Librarian') -%>
+        <ul>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
+        </ul>
+      <%- end -%>
     <%- end -%>
   <%- end -%>
   <%- if logged_in? -%>

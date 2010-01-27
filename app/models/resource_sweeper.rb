@@ -189,7 +189,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(Basket)
       record.items.each do |item|
         expire_editable_fragment(item)
-        expire_manifestation_fragment(item.manifestation, 'show_holding')
+        expire_editable_fragment(item.manifestation, 'show_holding')
       end
     when record.is_a?(Checkin)
       expire_editable_fragment(record.item)
@@ -206,7 +206,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       expire_editable_fragment(record.subject)
     when record.is_a?(PictureFile)
       if record.picture_attachable.is_a?(Manifestation)
-        expire_editable_fragment(manifestation, "picture_file")
+        expire_editable_fragment(record.picture_attachable, ['picture_file', 'book_jacket'])
       end
     end
   end

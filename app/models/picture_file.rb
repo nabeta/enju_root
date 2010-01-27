@@ -13,10 +13,16 @@ class PictureFile < ActiveRecord::Base
 
   validates_associated :picture_attachable
   validates_presence_of :picture_attachable_id, :picture_attachable_type #, :unless => :parent_id, :on => :create
-  default_scope :order => 'id DESC'
+  default_scope :order => 'position'
+  # http://railsforum.com/viewtopic.php?id=11615
+  acts_as_list :scope => 'picture_attachable_id=#{picture_attachable_id} AND picture_attachable_type=\'#{picture_attachable_type}\''
 
   cattr_accessor :per_page
   @@per_page = 10
+
+  def before_save
+    picture_attachable_id_string = picture_attachable_id.to_s + picture_attachable_type.to_s
+  end
 
   def after_create
     send_later(:set_digest) if self.picture.path

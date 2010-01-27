@@ -1,10 +1,10 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_picture_file_path(@picture_file) -%></li>
-    <%- case when @manifestation -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>
-    <%- when @shelf -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), shelf_picture_files_path(@shelf) -%></li>
+    <%- case when @picture_file.picture_attachable.is_a?(Shelf) -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), shelf_picture_files_path(@picture_file.picture_attachable) -%></li>
+    <%- when @picture_file.picture_attachable.is_a?(Manifestation) -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@picture_file.picture_attachable) -%></li>
     <%- else -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), picture_files_path -%></li>
     <%- end -%>

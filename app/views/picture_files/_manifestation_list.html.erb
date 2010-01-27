@@ -14,9 +14,9 @@
     <td><%= picture_file.height -%></td>
     <td><%= picture_file.width -%></td>
     <%- if picture_file.is_deletable_by(current_user) -%>
-      <td><%= link_to t('page.show'), shelf_picture_file_path(shelf, picture_file) -%></td>
-      <td><%= link_to t('page.edit'), edit_shelf_picture_file_path(shelf, picture_file) -%></td>
-      <td><%= link_to t('page.destroy'), shelf_picture_file_path(shelf, picture_file), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.show'), manifestation_picture_file_path(manifestation, picture_file) -%></td>
+      <td><%= link_to t('page.edit'), edit_manifestation_picture_file_path(manifestation, picture_file) -%></td>
+      <td><%= link_to t('page.destroy'), manifestation_picture_file_path(manifestation, picture_file), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>
