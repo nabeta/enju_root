@@ -4,10 +4,19 @@
     <%- unless @manifestation.picture_files.empty? -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
-          <%- if i == 0 -%>
-            <li><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
+          <%- if @manifestation.amazon -%>
+            <%- if i == 0 -%>
+              <li><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- else -%>
+              <li style="display: none"><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- end -%>
           <%- else -%>
-            <li style="display: none"><%= link_to t('manifestation.other_view'), manifestation_picture_file_path(@manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{@manifestation.id}" -%></li>
+            <%- next if i == 0 -%>
+            <%- if i == 1 -%>
+              <li><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- else -%>
+              <li style="display: none"><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- end -%>
           <%- end -%>
         <%- end -%>
         <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>

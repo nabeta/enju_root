@@ -20,10 +20,6 @@ class PictureFile < ActiveRecord::Base
   cattr_accessor :per_page
   @@per_page = 10
 
-  def before_save
-    picture_attachable_id_string = picture_attachable_id.to_s + picture_attachable_type.to_s
-  end
-
   def after_create
     send_later(:set_digest) if self.picture.path
   end

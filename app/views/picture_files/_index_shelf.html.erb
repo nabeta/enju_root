@@ -1,0 +1,51 @@
+<div id="content_detail">
+  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.picture_file')) -%></h1>
+<div id="content_list">
+
+<h2 class="resource_title"><%= link_to h(@shelf.display_name.localize), @shelf -%></h2>
+
+<table class="index">
+  <tr>
+    <th id="position"></th>
+    <th><%= t('page.attachable') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.picture_file_size') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.picture_content_type') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.picture_file_name') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.height') -%></th>
+    <th><%= t('activerecord.attributes.picture_file.width') -%></th>
+  </tr>
+  <%- for picture_file in @picture_files -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%- if picture_file.is_deletable_by(current_user) -%>
+          <%= move_position(picture_file) -%>
+        <%- end -%>
+      </td>
+      <td>
+        <%= link_to "#{h(picture_file.picture_attachable_type)}/#{h(picture_file.picture_attachable_id)}", picture_file.picture_attachable if picture_file.picture_attachable -%>
+      </td>
+      <td><%= picture_file.picture_file_size -%></td>
+      <td><%= picture_file.picture_content_type -%></td>
+      <td><%= link_to h(picture_file.picture_file_name), picture_file_path(picture_file, :format => :download, :size => 'original') -%></td>
+      <td><%= picture_file.height -%></td>
+      <td><%= picture_file.width -%></td>
+      <%- if picture_file.is_deletable_by(current_user) -%>
+        <td><%= link_to t('page.show'), picture_file -%></td>
+        <td><%= link_to t('page.edit'), edit_picture_file_path(picture_file) -%></td>
+        <td><%= link_to t('page.destroy'), picture_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <%- end -%>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@picture_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <%- if PictureFile.is_creatable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_shelf_picture_file_path(@shelf) -%></li>
+    </ul>
+  <%- end -%>
+</div>

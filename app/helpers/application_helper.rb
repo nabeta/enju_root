@@ -111,7 +111,7 @@ module ApplicationHelper
           link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
         else
           if picture_file = manifestation.picture_files.first
-            link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'thumb')
+            link_to image_tag(picture_file_path(picture_file, :format => :download, :size => 'thumb')), picture_file_path(picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{manifestation.id}"
           else
             image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
           end
@@ -176,6 +176,15 @@ module ApplicationHelper
 
   def move_position(object)
     render :partial => 'page/position', :locals => {:object => object}
+  end
+
+  def link_to_custom_book_jacket(object, picture_file)
+    case
+    when object.is_a?(Manifestation)
+      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{object.id}" 
+    when object.is_a?(Patron)
+      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "patron_#{object.id}" 
+    end
   end
 
 end
