@@ -178,8 +178,13 @@ module ApplicationHelper
     render :partial => 'page/position', :locals => {:object => object}
   end
 
-  def link_to_custom_book_jacket(manifestation, picture_file)
-    link_to t('manifestation.other_view'), manifestation_picture_file_path(manifestation, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{manifestation.id}" 
+  def link_to_custom_book_jacket(object, picture_file)
+    case
+    when object.is_a?(Manifestation)
+      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{object.id}" 
+    when object.is_a?(Patron)
+      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "patron_#{object.id}" 
+    end
   end
 
 end

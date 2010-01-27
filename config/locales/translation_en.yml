@@ -1096,6 +1096,7 @@ en:
     history: "History"
     current_version: "Current version"
     select: "Select"
+    other_view: "Other views"
   title:
     index: "index"
     show: "show"
@@ -1174,7 +1175,6 @@ en:
     serial: "Serial"
     send_email: "Email this information"
     attachment_file: "Attachment file"
-    other_view: "Other views"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

@@ -205,8 +205,11 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(SubjectHeadingTypeHasSubject)
       expire_editable_fragment(record.subject)
     when record.is_a?(PictureFile)
-      if record.picture_attachable.is_a?(Manifestation)
+      case
+      when record.picture_attachable.is_a?(Manifestation)
         expire_editable_fragment(record.picture_attachable, ['picture_file', 'book_jacket'])
+      when record.picture_attachable.is_a?(Patron)
+        expire_editable_fragment(record.picture_attachable, ['picture_file'])
       end
     end
   end
@@ -223,6 +226,12 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         I18n.available_locales.each do |locale|
           expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => true, :locale => locale.to_s)
           expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => false, :locale => locale.to_s)
+          if fragments
+            fragments.each do |fragment|
+              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :editable => true, :locale => locale.to_s)
+              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s)
+            end
+          end
         end
       end
     end

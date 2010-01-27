@@ -1,4 +1,5 @@
 <%- form_for(:picture_file, :url => manifestation_picture_files_path(@manifestation), :html => { :multipart => true, :method => :post }) do |f| -%>
+  <%= f.error_messages -%>
   <p>
     <%= f.label t('page.attachable') -%><br />
     <%= link_to h(@manifestation.original_title), @manifestation -%>
@@ -15,5 +16,3 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
-<%= link_to t('page.back'), manifestation_picture_files_path(@manifestation) -%>
-
