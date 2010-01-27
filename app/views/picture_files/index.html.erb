@@ -3,11 +3,14 @@
 <div id="content_list">
 
 <%- if @shelf -%>
-  <h2><%= link_to h(@shelf.display_name.localize), @shelf -%></h2>
+  <h2 class="resource_title"><%= link_to h(@shelf.display_name.localize), @shelf -%></h2>
+<%- elsif @manifestation -%>
+  <h2 class="resource_title">[M]<%= link_to h(@manifestation.original_title), @manifestation -%></h2>
 <%- end -%>
 
 <table class="index">
   <tr>
+    <th id="position"></th>
     <th><%= t('page.attachable') -%></th>
     <th><%= t('activerecord.attributes.picture_file.picture_file_size') -%></th>
     <th><%= t('activerecord.attributes.picture_file.picture_content_type') -%></th>
@@ -17,6 +20,8 @@
   </tr>
   <%- if @shelf -%>
     <%= render :partial => 'picture_files/shelf_list', :locals => {:picture_files => @picture_files, :shelf => @shelf} -%>
+  <%- elsif @manifestation -%>
+    <%= render :partial => 'picture_files/manifestation_list', :locals => {:picture_files => @picture_files, :manifestation => @manifestation} -%>
   <%- else -%>
     <%= render :partial => 'picture_files/list', :locals => {:picture_files => @picture_files} -%>
   <%- end -%>
@@ -29,11 +34,10 @@
 <div id="submenu">
   <%- if PictureFile.is_creatable_by(current_user) -%>
     <ul>
-      <%- if @manifestation -%>
-        <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
-      <%- end -%>
       <%- if @shelf -%>
         <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_shelf_picture_file_path(@shelf) -%></li>
+      <%- elsif @manifestation -%>
+        <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
       <%- end -%>
     </ul>
   <%- end -%>
