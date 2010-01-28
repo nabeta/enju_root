@@ -1187,6 +1187,7 @@ ja:
     publication: "出版物"
     recent_publication: "最近の出版物"
     all_publication: "全ての出版物"
+    other_address: "他の住所"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"

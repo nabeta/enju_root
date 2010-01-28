@@ -1,5 +1,7 @@
 <%- if manifestation.items.on_shelf.first -%>
-  (<%= link_to_remote t('page.holding'), :update => "holding_#{manifestation.id}", :url => {:controller => :manifestations, :action => :show, :id => manifestation.id, :mode => 'holding'}, :method => :get -%>)
-  <div class="holding" id="holding_<%= manifestation.id -%>"></div>
+  (<%= link_to_function t('page.holding'), "jQuery('#holding_#{manifestation.id}').toggle()" -%>)
+  <div class="holding" id="holding_<%= manifestation.id -%>" style="display: none">
+    <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => manifestation} -%>
+  </div>
 <%- end -%>
 <%= link_to h(manifestation.access_address), manifestation.access_address if manifestation.access_address.present? -%>

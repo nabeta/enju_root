@@ -1200,6 +1200,7 @@ en:
     publication: "Publications"
     recent_publication: "Recent publications"
     all_publication: "All publications"
+    other_address: "The other address"
   message:
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"

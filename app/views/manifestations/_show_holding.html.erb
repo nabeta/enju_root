@@ -1,5 +1,5 @@
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'show_holding', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+  cache(:id => manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'show_holding', :editable => manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
     %>
 <table style="width: 100%">
   <tr>
