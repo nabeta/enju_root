@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :import_queues
+
   map.resources :series_statements do |series_statement|
     series_statement.resources :manifestations
   end

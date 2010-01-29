@@ -141,6 +141,7 @@ en:
       checkout_stat_has_user: Checkout stat has user
       reserve_stat_has_manifestation: Reserve stat has manifestation
       reserve_stat_has_user: Reserve stat has user
+      import_queue: Import queue
 
     attributes:
       library:
@@ -938,6 +939,9 @@ en:
         numbering: Numbering
         title_subseries: Title subseries
         numbering_subseries: Numbering subseries
+      import_queue:
+        isbn: ISBN
+        state: State
 
   page:
     user_title: "{{login_name}}'s library"
@@ -991,7 +995,7 @@ en:
     publisher: "Publisher"
     feed: "Feed"
     back_to_index: "Back to index"
-    import: "Import"
+    import: "Import from file"
     import_record: "Import records"
     export: "Export"
     detail: "Detail"
@@ -1037,6 +1041,7 @@ en:
     checkout_history: "Checkout history"
     recommendation: "Recommendation"
     add_manually: "Add manually"
+    import: "Import"
     import_from_file: "Import from file"
     import_from_network: "Import from networks"
     no_record_found: "No records found."

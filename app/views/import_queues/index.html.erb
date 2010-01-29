@@ -1,0 +1,38 @@
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.import_queue')), new_import_queue_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.import_queue')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th>Id</th>
+    <th><%= t('activerecord.attributes.import_queue.isbn') -%></th>
+    <th><%= t('page.created_at') -%></th>
+    <th><%= t('activerecord.attributes.import_queue.state') -%></th>
+    <th><%= t('activerecord.models.manifestation') -%></th>
+  </tr>
+
+<%- @import_queues.each do |import_queue| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= import_queue.id -%></td>
+    <td><%= import_queue.isbn -%></td>
+    <td><%=l import_queue.created_at -%></td>
+    <td><%= import_queue.state -%></td>
+    <td><%= link_to import_queue.manifestation.original_title, import_queue.manifestation if import_queue.manifestation -%></td>
+    <td>
+      <%- if import_queue.is_deletable_by(current_user) -%>
+        <%= link_to t('page.destroy'), import_queue, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@import_queues, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>

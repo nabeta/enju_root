@@ -1,0 +1,34 @@
+<div id="submenu">
+  <ul>
+    <%- if @import_queue.is_updatable_by(current_user) -%>
+      <li><%= link_to t('page.edit'), edit_import_queue_path(@import_queue) -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.back'), import_queues_path -%></li>
+  </ul>
+</div>
+
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.import_queue')) -%></h1>
+<div id="content_list">
+<p>
+  <strong><%= t('activerecord.attributes.import_queue.isbn') -%>:</strong>
+  <%= @import_queue.isbn -%>
+</p>
+
+<p>
+  <strong><%= t('page.created_at') -%>:</strong>
+  <%=l @import_queue.created_at -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.import_queue.state') -%>:</strong>
+  <%= @import_queue.state -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
+  <%= link_to @import_queue.manifestation.original_title, @import_queue.manifestation if @import_queue.manifestation -%>
+</p>
+
+</div>
+</div>
