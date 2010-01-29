@@ -43,6 +43,7 @@ class Manifestation < ActiveRecord::Base
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
   belongs_to :series_statement
+  has_one :import_queue
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
@@ -176,7 +177,7 @@ class Manifestation < ActiveRecord::Base
 
   def self.expire_top_page_cache
     I18n.available_locales.each do |locale|
-      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/page/index?name=search_form&locale=#{@locale}")
+      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/?locale=#{locale}&name=search_form")
     end
   end
 

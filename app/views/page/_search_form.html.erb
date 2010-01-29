@@ -7,7 +7,6 @@
   </p>
 <%- end -%>
 <%= javascript_tag("$('query').focus()") -%>
-
 <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
 
 <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>

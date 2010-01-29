@@ -143,6 +143,8 @@ ja:
       checkout_stat_has_user: 利用者別貸出統計
       reserve_stat_has_manifestation: 資料別予約統計
       reserve_stat_has_user: 利用者別予約統計
+      import_queue: インポートキュー
+
     attributes:
       library:
         name: 名前
@@ -937,6 +939,9 @@ ja:
         numbering: シリーズ番号
         title_subseries: 副シリーズ名
         numbering_subseries: 副シリーズ番号
+      import_queue:
+        isbn: ISBN
+        state: 状態
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -984,6 +989,7 @@ ja:
     feed: "フィード"
     back_to_index: "一覧に戻る"
     import: "インポート"
+    import_from_file: "ファイルからのインポート"
     import_record: "書誌レコードのインポート"
     export: "エクスポート"
     detail: "詳細"
