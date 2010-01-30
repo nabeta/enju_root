@@ -3,7 +3,7 @@ ja:
     models:
       library: 図書館
       question: 質問
-      imported_patron_file: パトロンのインポート用ファイル
+      patron_import_file: パトロンのインポート用ファイル
       circulation_status: 貸出状態
       inventory: 蔵書点検
       patron: パトロン
@@ -78,14 +78,14 @@ ja:
       carrier_type: 体現形の形態
       manifestation: 体現形
       user_group: 利用者グループ
-      imported_resource_file: インポートされる資料のファイル
+      resource_import_file: インポートされる資料のファイル
       checkout: 貸出
       subscription: 購読
       message_template: メッセージテンプレート
       patron_merge: パトロンの併合
       subject_related_term: 件名の関連語
       library_group: 図書館グループ
-      imported_event_file: 催し物ファイルのインポート
+      event_import_file: 催し物ファイルのインポート
       bookmarked_resource: ブックマークされた資料
       attachment_file: 添付ファイル
       reserve: 予約
@@ -168,10 +168,10 @@ ja:
         body: 本文
         shared: 質問を公開する
         deleted_at: 削除時刻
-      imported_patron_file:
-        imported_patron_file_name: ファイル名
+      patron_import_file:
+        patron_import_file_name: ファイル名
         imported_patron_content_type: Content-Type
-        imported_patron_file_size: ファイルサイズ
+        patron_import_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
@@ -605,10 +605,10 @@ ja:
         note: 注記
         position: 位置
         deleted_at: 削除時刻
-      imported_resource_file:
-        imported_resource_file_name: ファイル名
+      resource_import_file:
+        resource_import_file_name: ファイル名
         imported_resource_content_type: Content-Type
-        imported_resource_file_size: ファイルサイズ
+        resource_import_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
@@ -640,10 +640,10 @@ ja:
         login_banner: ログイン画面でのメッセージ
         post_to_union_catalog: 総合目録に登録する
         valid_period_for_new_user: 新規ユーザの有効日数
-      imported_event_file:
-        imported_event_file_name: ファイル名
+      event_import_file:
+        event_import_file_name: ファイル名
         imported_event_content_type: Content-Type
-        imported_event_file_size: ファイルサイズ
+        event_import_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
@@ -1370,3 +1370,7 @@ ja:
     library_calendar: "{{library_name}}のカレンダー"
   series_statement:
     edit: "シリーズ情報の編集"
+  state:
+    pending: "処理待ち"
+    cancaled: "中止"
+    completed: "完了"

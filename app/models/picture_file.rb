@@ -2,7 +2,6 @@ class PictureFile < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :attached, :conditions => ['picture_attachable_id > 0']
   belongs_to :picture_attachable, :polymorphic => true, :validate => true
-  #belongs_to :db_file
 
   #has_attachment :content_type => :image, #:resize_to => [800,800],
   #  :thumbnails => { :geometry => 'x400' }

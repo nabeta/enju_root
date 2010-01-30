@@ -169,9 +169,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :patron_types
 
   map.resources :imported_files
-  map.resources :imported_patron_files
-  map.resources :imported_event_files
-  map.resources :imported_resource_files
+  map.resources :patron_import_files
+  map.resources :event_import_files
+  map.resources :resource_import_files
   map.resources :attachment_files
   map.resources :picture_files
 
@@ -287,9 +287,9 @@ ActionController::Routing::Routes.draw do |map|
       basket.resources :checkins
     end
     user.resources :tags
-    user.resources :imported_event_files
-    user.resources :imported_patron_files
-    user.resources :imported_resource_files
+    user.resources :event_import_files
+    user.resources :patron_import_files
+    user.resources :resource_import_files
     user.resources :order_lists
     user.resources :subscriptions
     user.resources :patrons

@@ -1,0 +1,2 @@
+module ResourceImportFilesHelper
+end

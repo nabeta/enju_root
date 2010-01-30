@@ -52,9 +52,7 @@ class User < ActiveRecord::Base
   belongs_to :user_group #, :validate => true
   has_many :purchase_requests
   belongs_to :library, :counter_cache => true, :validate => true
-  has_many :imported_files
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
-  has_many :imported_resources
   #has_one :imported_object, :as => :importable
   has_many :order_lists
   has_many :subscriptions
@@ -66,6 +64,7 @@ class User < ActiveRecord::Base
   has_many :user_has_shelves, :dependent => :destroy
   has_many :shelves, :through => :user_has_shelves
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
+  has_many :import_requests
 
   restful_easy_messages
   #acts_as_soft_deletable

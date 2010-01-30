@@ -10,7 +10,7 @@
         <%- else -%>
           <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
         <%- end -%>
-        <li><%= link_to t('event.import_event'), imported_event_files_path -%></li>
+        <li><%= link_to t('event.import_event'), event_import_files_path -%></li>
       <%- end -%>
     <%- end -%>
   </ul>

@@ -1,0 +1,32 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron_import_file')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.patron_import_file.patron_import_file_name') -%></th>
+    <th><%= t('activerecord.attributes.patron_import_file.imported_at') -%></th>
+    <th><%= t('activerecord.models.user') -%></th>
+  </tr>
+
+<%- for patron_import_file in @patron_import_files -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= patron_import_file.patron_import_file_name -%></td>
+    <td><%= l(patron_import_file.imported_at) if patron_import_file.imported_at -%></td>
+    <td><%= link_to h(patron_import_file.user.login), user_path(patron_import_file.user.login) -%></td>
+    <td><%= link_to t('page.show'), patron_import_file -%></td>
+    <td><%= link_to t('page.edit'), edit_patron_import_file_path(patron_import_file) -%></td>
+    <td><%= link_to t('page.destroy'), patron_import_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@patron_import_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron_import_file')), new_patron_import_file_path -%></li>
+  </ul>
+</div>

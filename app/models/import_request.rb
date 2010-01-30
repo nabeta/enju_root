@@ -3,10 +3,13 @@ class ImportRequest < ActiveRecord::Base
   include AASM
 
   default_scope :order => 'id DESC'
-  validates_presence_of :isbn
+  belongs_to :manifestation
+  belongs_to :user
+
+  validates_presence_of :isbn, :user_id
+  validates_associated :user
   validates_uniqueness_of :isbn
   validates_length_of :isbn, :is => 13
-  belongs_to :manifestation
 
   aasm_column :state
   aasm_state :pending

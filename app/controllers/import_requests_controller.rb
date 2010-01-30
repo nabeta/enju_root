@@ -4,7 +4,7 @@ class ImportRequestsController < ApplicationController
   # GET /import_requests
   # GET /import_requests.xml
   def index
-    @import_requests = ImportRequest.paginate(:page => params[:page])
+    @import_requests = ImportRequest.paginate(:page => params[:page], :per_page => 10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -43,6 +43,7 @@ class ImportRequestsController < ApplicationController
   # POST /import_requests.xml
   def create
     @import_request = ImportRequest.new(params[:import_request])
+    @import_request.user = current_user
 
     respond_to do |format|
       if @import_request.save
