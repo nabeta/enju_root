@@ -43,6 +43,7 @@ class ImportRequestsController < ApplicationController
   # POST /import_requests.xml
   def create
     @import_request = ImportRequest.new(params[:import_request])
+    @import_request.user = current_user
 
     respond_to do |format|
       if @import_request.save

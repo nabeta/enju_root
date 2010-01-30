@@ -11,6 +11,16 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.import_request')) -%></h1>
 <div id="content_list">
 <p>
+  <strong>Id:</strong>
+  <%= @import_request.id -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
+  <%= link_to @import_request.user.login, user_path(@import_request.user.login) -%>
+</p>
+
+<p>
   <strong><%= t('activerecord.attributes.import_request.isbn') -%>:</strong>
   <%= @import_request.isbn -%>
 </p>

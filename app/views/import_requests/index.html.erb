@@ -11,6 +11,7 @@
 <table class="index">
   <tr>
     <th>Id</th>
+    <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('activerecord.attributes.import_request.isbn') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('activerecord.attributes.import_request.state') -%></th>
@@ -20,7 +21,8 @@
 
 <%- @import_requests.each do |import_request| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= import_request.id -%></td>
+    <td><%= link_to import_request.id, import_request -%></td>
+    <td><%= link_to import_request.user.login, user_path(import_request.user.login) -%></td>
     <td><%= import_request.isbn -%></td>
     <td><%=l import_request.created_at -%></td>
     <td><%= i18n_state(import_request.state) -%></td>
