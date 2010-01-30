@@ -58,7 +58,7 @@ module ApplicationHelper
   def render_tag_cloud(tags, options = {})
     return nil if tags.nil?
     # TODO: add options to specify different limits and sorts
-    #tags = Tag.find(:all, :limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
+    #tags = Tag.all(:limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
     
     # TODO: add option to specify which classes you want and overide this if you want?
     classes = %w(popular v-popular vv-popular vvv-popular vvvv-popular)
@@ -167,11 +167,11 @@ module ApplicationHelper
   end
 
   def locale_display_name(locale)
-    h(Language.find(:first, :conditions => {:iso_639_1 => locale}).display_name)
+    h(Language.first(:conditions => {:iso_639_1 => locale}).display_name)
   end
 
   def locale_native_name(locale)
-    h(Language.find(:first, :conditions => {:iso_639_1 => locale}).native_name)
+    h(Language.first(:conditions => {:iso_639_1 => locale}).native_name)
   end
 
   def move_position(object)
