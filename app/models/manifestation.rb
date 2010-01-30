@@ -43,7 +43,7 @@ class Manifestation < ActiveRecord::Base
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
   belongs_to :series_statement
-  has_one :import_queue
+  has_one :import_request
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject

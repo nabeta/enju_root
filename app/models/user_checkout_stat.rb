@@ -8,10 +8,11 @@ class UserCheckoutStat < ActiveRecord::Base
 
   validates_presence_of :start_date, :end_date
 
-  aasm_initial_state :pending
   aasm_column :state
   aasm_state :pending
   aasm_state :completed
+
+  aasm_initial_state :pending
 
   aasm_event :aasm_calculate do
     transitions :from => :pending, :to => :completed,

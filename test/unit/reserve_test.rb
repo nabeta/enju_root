@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class ReserveTest < ActiveSupport::TestCase
-  fixtures :reserves, :request_status_types, :message_queues
+  fixtures :reserves, :request_status_types, :message_requests
 
   # Replace this with your real tests.
   def test_should_have_next_reservation
@@ -24,16 +24,16 @@ class ReserveTest < ActiveSupport::TestCase
   end
 
   def test_should_send_accepted_message
-    old_count = MessageQueue.count
+    old_count = MessageRequest.count
     assert reserves(:reserve_00002).send_message('accepted')
     # 予約者と図書館の両方に送られる
-    assert_equal old_count + 2, MessageQueue.count
+    assert_equal old_count + 2, MessageRequest.count
   end
 
   def test_should_send_expired_message
-    old_count = MessageQueue.count
+    old_count = MessageRequest.count
     assert reserves(:reserve_00002).send_message('expired')
-    assert_equal old_count + 1, MessageQueue.count
+    assert_equal old_count + 1, MessageRequest.count
   end
 
   def test_should_send_message_to_library

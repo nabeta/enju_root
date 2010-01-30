@@ -5,7 +5,7 @@ class ReservesControllerTest < ActionController::TestCase
   fixtures :reserves, :items, :manifestations, :carrier_types,
     :users, :user_groups, :roles, :checkout_types,
     :user_group_has_checkout_types, :carrier_type_has_checkout_types,
-    :request_status_types, :message_templates, :message_queues
+    :request_status_types, :message_templates, :message_requests
 
   def test_guest_should_not_get_index
     get :index, :user_id => 1
@@ -309,11 +309,11 @@ class ReservesControllerTest < ActionController::TestCase
 
   def test_user_should_cancel_my_reserve
     UserSession.create users(:user1)
-    old_message_queues_count = MessageQueue.count
+    old_message_requests_count = MessageRequest.count
     put :update, :id => 3, :user_id => users(:user1).login, :reserve => {:user_number => users(:user1).user_number}, :mode => 'cancel'
     assert_equal 'Reservation was canceled.', flash[:notice]
     assert_equal 'canceled', assigns(:reserve).state
-    assert_equal old_message_queues_count + 2, MessageQueue.count
+    assert_equal old_message_requests_count + 2, MessageRequest.count
     assert_redirected_to user_reserve_url(users(:user1).login, assigns(:reserve))
   end
 
@@ -343,11 +343,11 @@ class ReservesControllerTest < ActionController::TestCase
 
   def test_librarian_should_cancel_other_reserve
     UserSession.create users(:librarian1)
-    old_message_queues_count = MessageQueue.count
+    old_message_requests_count = MessageRequest.count
     put :update, :id => 3, :user_id => users(:user1).login, :reserve => {:user_number => users(:user1).user_number}, :mode => 'cancel'
     assert_equal 'Reservation was canceled.', flash[:notice]
     assert_equal 'canceled', assigns(:reserve).state
-    assert_equal old_message_queues_count + 2, MessageQueue.count
+    assert_equal old_message_requests_count + 2, MessageRequest.count
     assert_redirected_to user_reserve_url(users(:user1).login, assigns(:reserve))
   end
 

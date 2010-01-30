@@ -304,14 +304,14 @@ class User < ActiveRecord::Base
   end
 
   def send_message(status, options = {})
-    MessageQueue.transaction do
-      queue = MessageQueue.new
-      queue.sender = User.find(1) # TODO: システムからのメッセージ送信者
-      queue.receiver = self
-      queue.message_template = MessageTemplate.find_by_status(status)
-      queue.embed_body(options)
-      queue.save!
-      queue.aasm_send_message!
+    MessageRequest.transaction do
+      request = MessageRequest.new
+      request.sender = User.find(1) # TODO: システムからのメッセージ送信者
+      request.receiver = self
+      request.message_template = MessageTemplate.find_by_status(status)
+      request.embed_body(options)
+      request.save!
+      request.aasm_send_message!
     end
   end
 

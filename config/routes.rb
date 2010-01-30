@@ -1,5 +1,5 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :import_queues
+  map.resources :import_requests
 
   map.resources :series_statements do |series_statement|
     series_statement.resources :manifestations
@@ -177,7 +177,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :exemplifies
 
-  map.resources :message_queues
+  map.resources :message_requests
 
   map.resources :message_templates
 

@@ -89,7 +89,7 @@ ja:
       bookmarked_resource: ブックマークされた資料
       attachment_file: 添付ファイル
       reserve: 予約
-      message_queue: 送信待ちのメッセージ
+      message_request: メッセージの送信リクエスト
       answer: 回答
       bookstore: 書店
       checkout_type: 貸出区分
@@ -143,7 +143,7 @@ ja:
       checkout_stat_has_user: 利用者別貸出統計
       reserve_stat_has_manifestation: 資料別予約統計
       reserve_stat_has_user: 利用者別予約統計
-      import_queue: インポートキュー
+      import_request: インポートのリクエスト
 
     attributes:
       library:
@@ -670,7 +670,7 @@ ja:
         expired_at: 有効期限（この日以降は不要）
         deleted_at: 削除時刻
         state: 状態
-      message_queue:
+      message_request:
         sent_at: 送信時刻
         deleted_at: 削除時刻
       answer:
@@ -939,7 +939,7 @@ ja:
         numbering: シリーズ番号
         title_subseries: 副シリーズ名
         numbering_subseries: 副シリーズ番号
-      import_queue:
+      import_request:
         isbn: ISBN
         state: 状態
 
@@ -1352,7 +1352,7 @@ ja:
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"
-  message_queue:
+  message_request:
     not_sent: "送信待ち"
     sent: "送信済み"
     all: "全てのメッセージ"

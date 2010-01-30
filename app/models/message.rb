@@ -27,7 +27,7 @@ class Message < ActiveRecord::Base
                       #:message => ("is too long.  No one wants to read that.  The maximum length is %d characters.")
                       #:message => I18n.t('message.too_long', :count => :maximum)
 
-  belongs_to :message_queue
+  belongs_to :message_request
 
   cattr_accessor :per_page
   @@per_page = 10
