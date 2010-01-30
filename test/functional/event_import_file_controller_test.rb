@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EventImportFilesControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :event_import_files, :users, :roles, :patrons, :db_files,
+  fixtures :event_import_files, :users, :roles, :patrons,
     :user_groups, :libraries, :library_groups, :patron_types, :languages,
     :events, :event_categories,
     :imported_objects
