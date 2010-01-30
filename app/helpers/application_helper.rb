@@ -187,4 +187,17 @@ module ApplicationHelper
     end
   end
 
+  def i18n_state(state)
+    case state
+    when 'pending'
+      t('state.pending')
+    when 'cancaled'
+      t('state.cancaled')
+    when 'completed'
+      t('state.completed')
+    else
+      state
+    end
+  end
+
 end

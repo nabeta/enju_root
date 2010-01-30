@@ -3,7 +3,7 @@ en:
     models:
       library: Library
       question: Question
-      imported_patron_file: Imported patron file
+      patron_import_file: Imported patron file
       circulation_status: Circulation status
       inventory: Inventory
       patron: Patron
@@ -78,14 +78,14 @@ en:
       carrier_type: Carrier Type
       manifestation: Manifestation
       user_group: User group
-      imported_resource_file: Imported resource file
+      resource_import_file: Imported resource file
       checkout: Checkout
       subscription: Subscription
       message_template: Message template
       patron_merge: Patron merge
       subject_related_term: Subject related term
       library_group: Library group
-      imported_event_file: Imported event file
+      event_import_file: Imported event file
       bookmarked_resource: Bookmarked resource
       attachment_file: Attachment file
       reserve: Reserve
@@ -167,10 +167,10 @@ en:
         share_question: Share question
         deleted_at: Deleted at
         shared: Shared
-      imported_patron_file:
-        imported_patron_file_name: Filename
+      patron_import_file:
+        patron_import_file_name: Filename
         imported_patron_content_type: Content type
-        imported_patron_file_size: Size
+        patron_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
@@ -604,10 +604,10 @@ en:
         note: Note
         position: Position
         deleted_at: Deleted at
-      imported_resource_file:
-        imported_resource_file_name: Filename
+      resource_import_file:
+        resource_import_file_name: Filename
         imported_resource_content_type: Content type
-        imported_resource_file_size: Size
+        resource_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
@@ -639,10 +639,10 @@ en:
         login_banner: Login banner
         post_to_union_catalog: Post to union catalog
         valid_period_for_new_user: Valid period for new user
-      imported_event_file:
-        imported_event_file_name: Filename
+      event_import_file:
+        event_import_file_name: Filename
         imported_event_content_type: Content type
-        imported_event_file_size: Size
+        event_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
@@ -1386,3 +1386,7 @@ en:
     library_calendar: "Calendar of events at {{library_name}}"
   series_statement:
     edit: "Edit series statement"
+  state:
+    pending: "Pending"
+    cancaled: "Cancaled"
+    completed: "Completed"
