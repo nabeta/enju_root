@@ -17,7 +17,7 @@
       <td>
       </td>
       <td>
-        <%= link_to "#{h(picture_file.picture_attachable_type)}/#{h(picture_file.picture_attachable_id)}", picture_file.picture_attachable if picture_file.picture_attachable -%>
+        <%= link_to h("#{h(picture_file.picture_attachable_type)}/#{h(picture_file.picture_attachable_id)}"), picture_file.picture_attachable if picture_file.picture_attachable -%>
       </td>
       <td><%= picture_file.picture_file_size -%></td>
       <td><%= picture_file.picture_content_type -%></td>

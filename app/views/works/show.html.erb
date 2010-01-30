@@ -64,7 +64,7 @@
           <tr>
             <td><strong><%= t('activerecord.models.form_of_work') -%>:</strong></td>
             <td>
-              <%= link_to @work.form_of_work.display_name.localize, @work.form_of_work -%>
+              <%= link_to h(@work.form_of_work.display_name.localize), @work.form_of_work -%>
             </td>
           </tr>
           <tr>

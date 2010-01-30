@@ -17,7 +17,7 @@
 <div id="content_list">
 <p>
   <strong><%= t('page.attachable') -%>:</strong>
-  <%= link_to "#{(@picture_file.picture_attachable_type)}/#{(@picture_file.picture_attachable_id)}", @picture_file.picture_attachable if @picture_file.picture_attachable -%>
+  <%= link_to h("#{(@picture_file.picture_attachable_type)}/#{(@picture_file.picture_attachable_id)}"), @picture_file.picture_attachable if @picture_file.picture_attachable -%>
 </p>
 
 <p>

@@ -17,7 +17,7 @@
 
 <p>
   <strong><%= t('activerecord.models.user') -%>:</strong>
-  <%= link_to @import_request.user.login, user_path(@import_request.user.login) -%>
+  <%= link_to h(@import_request.user.login), user_path(@import_request.user.login) -%>
 </p>
 
 <p>
@@ -37,7 +37,7 @@
 
 <p>
   <strong><%= t('activerecord.models.manifestation') -%>:</strong>
-  <%= link_to @import_request.manifestation.original_title, @import_request.manifestation if @import_request.manifestation -%>
+  <%= link_to h(@import_request.manifestation.original_title), @import_request.manifestation if @import_request.manifestation -%>
 </p>
 
 </div>
