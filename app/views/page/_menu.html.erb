@@ -36,7 +36,7 @@
                         <ul>
                           <li class="yuimenuitem"><%= link_to t('message.inbox'), user_messages_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                           <%- if current_user.has_role?('Librarian') -%>
-                            <li class="yuimenuitem"><%= link_to t('activerecord.models.message_queue'), message_queues_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('activerecord.models.message_request'), message_requests_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                         </ul>
                       </div>
@@ -99,7 +99,7 @@
                   <div id="bookmark" class="yuimenu">
                     <div class="bd">                    
                       <ul>
-                        <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_import_queue_path, :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_import_request_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- if current_user.has_role?('Librarian') -%>
                           <li class="yuimenuitem"><%= link_to t('page.import_from_file'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.upload_file'), new_manifestation_path(:mode => 'attachment'), :class => 'yuimenuitemlabel' -%></li>

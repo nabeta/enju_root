@@ -5,7 +5,7 @@ class ItemTest < ActiveSupport::TestCase
     :creates, :realizes, :produces, :owns,
     :languages, :libraries, :users, :patrons, :user_groups, :reserves,
     :expressions, :content_types, :reifies, :works, :form_of_works, :embodies, :library_groups, :bookstores, :patron_types,
-    :message_templates, :message_queues, :barcodes, :request_status_types
+    :message_templates, :message_requests, :barcodes, :request_status_types
 
   # Replace this with your real tests.
   def test_item_is_rent
@@ -27,9 +27,9 @@ class ItemTest < ActiveSupport::TestCase
   end
 
   def test_item_should_be_retained
-    old_count = MessageQueue.count
+    old_count = MessageRequest.count
     assert items(:item_00013).retain(users(:librarian1))
-    assert_equal old_count + 1, MessageQueue.count
+    assert_equal old_count + 1, MessageRequest.count
   end
 
   def test_claimed_item_should_not_be_checked_out

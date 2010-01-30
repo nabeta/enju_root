@@ -36,8 +36,6 @@ class Reserve < ActiveRecord::Base
   @@per_page = 10
   cattr_accessor :user_number
 
-  aasm_initial_state :pending
-
   aasm_column :state
   aasm_state :pending
   aasm_state :requested
@@ -45,6 +43,8 @@ class Reserve < ActiveRecord::Base
   aasm_state :canceled
   aasm_state :expired
   aasm_state :completed
+
+  aasm_initial_state :pending
 
   aasm_event :aasm_request do
     transitions :from => :pending, :to => :requested,
@@ -124,27 +124,27 @@ class Reserve < ActiveRecord::Base
       case status
       when 'accepted'
         message_template_to_patron = MessageTemplate.first(:conditions => {:status => 'reservation_accepted'})
-        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.embed_body(:manifestations => Array[self.manifestation])
-        queue.aasm_send_message! # 受付時は即時送信
+        request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        request.embed_body(:manifestations => Array[self.manifestation])
+        request.aasm_send_message! # 受付時は即時送信
         message_template_to_library = MessageTemplate.first(:conditions => {:status => 'reservation_accepted'})
-        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
-        queue.embed_body(:manifestations => Array[self.manifestation])
-        queue.aasm_send_message! # 受付時は即時送信
+        request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
+        request.embed_body(:manifestations => Array[self.manifestation])
+        request.aasm_send_message! # 受付時は即時送信
       when 'canceled'
         message_template_to_patron = MessageTemplate.first(:conditions => {:status => 'reservation_canceled_for_patron'})
-        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.embed_body(:manifestations => Array[self.manifestation])
-        queue.aasm_send_message! # キャンセル時は即時送信
+        request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        request.embed_body(:manifestations => Array[self.manifestation])
+        request.aasm_send_message! # キャンセル時は即時送信
         message_template_to_library = MessageTemplate.first(:conditions => {:status => 'reservation_canceled_for_library'})
-        queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
-        queue.embed_body(:manifestations => Array[self.manifestation])
-        queue.aasm_send_message! # キャンセル時は即時送信
+        request = MessageRequest.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+        request.embed_body(:manifestations => Array[self.manifestation])
+        request.aasm_send_message! # キャンセル時は即時送信
       when 'expired'
         message_template_to_patron = MessageTemplate.first(:conditions => {:status => 'reservation_expired_for_patron'})
-        queue = MessageQueue.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
-        queue.embed_body(:manifestations => Array[self.manifestation])
-        queue.aasm_send_message! # 期限切れ時は利用者にのみ即時送信
+        request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
+        request.embed_body(:manifestations => Array[self.manifestation])
+        request.aasm_send_message! # 期限切れ時は利用者にのみ即時送信
         self.update_attribute(:expiration_notice_to_patron, true)
       else
         raise 'status not defined'
@@ -157,15 +157,15 @@ class Reserve < ActiveRecord::Base
     case status
     when 'expired'
       message_template_to_library = MessageTemplate.first(:conditions => {:status => 'reservation_expired_for_library'})
-      queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
-      queue.embed_body(:manifestations => options[:manifestations])
+      request = MessageRequest.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+      request.embed_body(:manifestations => options[:manifestations])
       self.not_sent_expiration_notice_to_library.each do |reserve|
         reserve.update_attribute(:expiration_notice_to_library, true)
       end
     #when 'canceled'
     #  message_template_to_library = MessageTemplate.first(:conditions => {:status => 'reservation_canceled_for_library'})
-    #  queue = MessageQueue.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
-    #  queue.embed_body(:manifestations => self.not_sent_expiration_notice_to_library.collect(&:manifestation))
+    #  request = MessageRequest.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
+    #  request.embed_body(:manifestations => self.not_sent_expiration_notice_to_library.collect(&:manifestation))
     #  self.not_sent_cancel_notice_to_library.each do |reserve|
     #    reserve.update_attribute(:expiration_notice_to_library, true)
     #  end

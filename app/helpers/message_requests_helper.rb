@@ -1,0 +1,2 @@
+module MessageRequestsHelper
+end

@@ -15,9 +15,9 @@
     <%- form_for :message, :url => user_messages_path do |form| -%>
       <p>
         <label for="message_recepient"><%= t('message.recipient') -%>:</label><br />
-        <%- if @message_queue -%>
-          <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
-          <%= form.hidden_field :recipient, :value => h(@message_queue.receiver.login) -%>
+        <%- if @message_request -%>
+          <%= link_to h(@message_request.receiver.login), user_path(@message_request.receiver.login) -%>
+          <%= form.hidden_field :recipient, :value => h(@message_request.receiver.login) -%>
         <%- else -%>
           <%= form.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
         <%- end -%>

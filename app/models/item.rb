@@ -183,10 +183,10 @@ class Item < ActiveRecord::Base
         reservation.item = self
         reservation.aasm_retain!
         reservation.update_attributes({:request_status_type => RequestStatusType.find_by_name('Available For Pickup')})
-        queue = MessageQueue.new(:sender_id => librarian.id, :receiver_id => reservation.user_id)
+        request = MessageRequest.new(:sender_id => librarian.id, :receiver_id => reservation.user_id)
         message_template = MessageTemplate.find_by_status('item_received')
-        queue.message_template = message_template
-        queue.save!
+        request.message_template = message_template
+        request.save!
       end
     end
   end
