@@ -8,7 +8,7 @@ class ImportRequest < ActiveRecord::Base
 
   validates_presence_of :isbn, :user_id
   validates_associated :user
-  validates_uniqueness_of :isbn
+  #validates_uniqueness_of :isbn
   validates_length_of :isbn, :is => 13
 
   aasm_column :state
