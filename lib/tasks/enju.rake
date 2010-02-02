@@ -48,6 +48,8 @@ namespace :enju do
         exit
       end
 
+      Patron.reindex
+      Library.reindex
       puts 'Inititalized successfully.'
     else
       puts 'It seems that you have imported initial data.'
