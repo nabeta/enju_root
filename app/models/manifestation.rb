@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require 'wakati'
+#require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
