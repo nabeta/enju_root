@@ -169,12 +169,12 @@ en:
         shared: Shared
       patron_import_file:
         patron_import_file_name: Filename
-        imported_patron_content_type: Content type
+        patron_import_content_type: Content type
         patron_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
-        imported_patron_updated_at: Updated at
+        patron_import_updated_at: Updated at
       circulation_status:
         name: Name
         display_name: Display name
@@ -606,12 +606,12 @@ en:
         deleted_at: Deleted at
       resource_import_file:
         resource_import_file_name: Filename
-        imported_resource_content_type: Content type
+        resource_import_content_type: Content type
         resource_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
-        imported_resource_updated_at: Updated at
+        resource_import_updated_at: Updated at
       checkout:
         due_date: Due date
         lock_version: Lock version
@@ -641,12 +641,12 @@ en:
         valid_period_for_new_user: Valid period for new user
       event_import_file:
         event_import_file_name: Filename
-        imported_event_content_type: Content type
+        event_import_content_type: Content type
         event_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
-        imported_event_updated_at: Updated at
+        event_import_updated_at: Updated at
       bookmarked_resource:
         title: Title
         url: URL

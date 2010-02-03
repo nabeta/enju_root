@@ -27,7 +27,8 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def self.site_config
-    Rails.cache.fetch('LibraryGroup:1'){LibraryGroup.find(1)}
+    #Rails.cache.fetch('LibraryGroup:1'){LibraryGroup.find(1)}
+    LibraryGroup.find(1)
   end
 
   def self.url

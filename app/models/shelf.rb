@@ -48,4 +48,8 @@ class Shelf < ActiveRecord::Base
     false
   end
 
+  def localized_display_name
+    display_name.localize
+  end
+
 end
