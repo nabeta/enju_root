@@ -4,11 +4,13 @@ class CreateImportRequests < ActiveRecord::Migration
       t.string :isbn
       t.string :state
       t.integer :manifestation_id
+      t.integer :user_id, :null => false
 
       t.timestamps
     end
     add_index :import_requests, :isbn
     add_index :import_requests, :manifestation_id
+    add_index :import_requests, :user_id
   end
 
   def self.down

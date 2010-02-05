@@ -40,6 +40,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :user_number
       t.string :state
       t.integer :required_score, :default => 0, :null => false
+      t.string :locale
     end
     add_index :users, :login, :unique => true
     add_index :users, :user_group_id

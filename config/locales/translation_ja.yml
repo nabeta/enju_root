@@ -86,7 +86,6 @@ ja:
       subject_related_term: 件名の関連語
       library_group: 図書館グループ
       event_import_file: 催し物ファイルのインポート
-      bookmarked_resource: ブックマークされた資料
       attachment_file: 添付ファイル
       reserve: 予約
       message_request: メッセージの送信リクエスト
@@ -561,6 +560,7 @@ ja:
         position: 位置
       bookmark:
         note: 注記
+        url: URL
       create:
         position: 位置
       carrier_type:
@@ -648,10 +648,6 @@ ja:
         note: 注記
         imported_at: インポート時刻
         event_import_updated_at: 更新時刻
-      bookmarked_resource:
-        title: タイトル
-        url: URL
-        bookmarks_count: ブックマーク回数
       attachment_file:
         attachable_type: 添付可能な種類
         size: ファイルサイズ
@@ -1121,11 +1117,6 @@ ja:
     specify_title_and_url: "タイトルとURLを指定してください。"
     already_bookmarked: "すでにブックマークに登録されています。"
     user_bookmark: "{{login_name}} さんのブックマーク"
-  bookmarked_resource:
-    add_to_library_bookmark: "図書館のブックマークに追加"
-    library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
-    number_of_bookmark: "ブックマーク数"
-    bookmark_count: "{{count}} 回"
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"

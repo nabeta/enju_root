@@ -8,21 +8,21 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.bookmark')) -%></h1>
 <div id="content_list">
 
-<%- form_for(:bookmark, :url => user_bookmarks_path(@user.login)) do |f| -%>
+<%- form_for(@bookmark, :url => user_bookmarks_path(@user.login)) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
     <%= f.label t('page.title') -%><br />
-    <%= f.text_field :title, :value => h(@title), :class => 'resource_title' -%>
+    <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.bookmarked_resource.url') -%><br />
-    <%- if params[:url] -%>
-      <%= link_to h(params[:url]), h(params[:url]) -%>
-      <%= f.hidden_field :url, :value => h(params[:url]), :class => 'resource_url' -%>
+    <%= f.label t('activerecord.attributes.bookmark.url') -%><br />
+    <%- if @bookmark.url -%>
+      <%= link_to h(@bookmark.url), @bookmark.url -%>
+      <%= f.hidden_field :url, :class => 'resource_url' -%>
     <%- else -%>
-      <%= f.text_field :url, :value => h(params[:url]), :class => 'resource_url' -%>
+      <%= f.text_field :url, :class => 'resource_url' -%>
     <%- end -%>
   </p>
 

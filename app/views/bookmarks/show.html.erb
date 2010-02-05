@@ -28,6 +28,11 @@
 </p>
 
 <p>
+  <strong><%= t('activerecord.attributes.bookmark.url') -%>:</strong>
+  <%= link_to h(@bookmark.url), @bookmark.url -%>
+</p>
+
+<p>
   <strong><%= t('page.tag') -%>:</strong>
   <%- @bookmark.tags.collect {|tag| -%>
   <%= link_to h(tag.name), user_manifestations_path(@bookmark.user.login, :tag => tag.name) -%>
@@ -47,11 +52,6 @@
 <p>
   <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@bookmark.updated_at) -%>
-</p>
-
-<p>
-  <strong><%= t('activerecord.attributes.bookmarked_resource.bookmarks_count') -%>:</strong>
-  <%= @bookmark.manifestation.bookmarks_count -%>
 </p>
 
 </div>

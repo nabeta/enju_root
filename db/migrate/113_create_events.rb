@@ -5,8 +5,9 @@ class CreateEvents < ActiveRecord::Migration
       t.integer :event_category_id, :default => 1, :null => false
       t.string :title
       t.text :note
-      t.datetime :started_at
-      t.datetime :ended_at
+      t.datetime :start_at
+      t.datetime :end_at
+      t.boolean :all_day, :default => false, :null => false
       t.datetime :deleted_at
 
       t.timestamps

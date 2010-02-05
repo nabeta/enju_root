@@ -6,6 +6,7 @@ class CreateImportedObjects < ActiveRecord::Migration
       t.integer :importable_id
       t.string :importable_type
       t.string :state
+      t.integer :line_number
 
       t.timestamps
     end
