@@ -1112,6 +1112,7 @@ ja:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
+    add_to_library_bookmark: "図書館のブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
     invalid_url: "無効なURLです。"
     specify_title_and_url: "タイトルとURLを指定してください。"
