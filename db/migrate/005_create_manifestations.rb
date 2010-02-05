@@ -23,6 +23,9 @@ class CreateManifestations < ActiveRecord::Migration
       t.string :isbn10
       t.string :wrong_isbn
       t.string :nbn
+      t.string :lccn
+      t.string :oclc_number
+      t.string :issn
       t.decimal :price # TODO: 通貨単位
       #t.text :filename
       #t.string :content_type
@@ -45,13 +48,18 @@ class CreateManifestations < ActiveRecord::Migration
       t.integer :required_score, :default => 0, :null => false
       t.integer :frequency_id, :default => 1, :null => false
       t.boolean :subscription_master, :default => false, :null => false
+      t.integer :series_statement_id
     end
     add_index :manifestations, :carrier_type_id
     add_index :manifestations, :required_role_id
     add_index :manifestations, :isbn
     add_index :manifestations, :nbn
+    add_index :manifestations, :lccn
+    add_index :manifestations, :oclc_number
+    add_index :manifestations, :issn
     add_index :manifestations, :access_address
     add_index :manifestations, :frequency_id
+    add_index :manifestations, :series_statement_id
   end
 
   def self.down

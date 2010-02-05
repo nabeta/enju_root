@@ -1,17 +1,19 @@
 class CreateSubjects < ActiveRecord::Migration
   def self.up
     create_table :subjects do |t|
-      t.column :parent_id, :integer
-      t.column :use_term_id, :integer
-      t.column :term, :string
-      t.column :term_transcription, :text
-      t.column :subject_type_id, :integer, :null => false
-      t.column :scope_note, :text
-      t.column :note, :text
-      t.column :resource_has_subjects_count, :integer, :default => 0, :null => false
-      t.column :lock_version, :integer, :default => 0, :null => false
-      t.column :created_at, :datetime
-      t.column :updated_at, :datetime
+      t.integer :parent_id
+      t.integer :use_term_id
+      t.string :term
+      t.text :term_transcription
+      t.integer :subject_type_id, :null => false
+      t.text :scope_note
+      t.text :note
+      t.integer :required_role_id, :default => 1, :null => false
+      t.integer :work_has_subjects_count, :default => 0, :null => false
+      t.integer :lock_version, :default => 0, :null => false
+      t.datetime :created_at
+      t.datetime :updated_at
+      t.datetime :deleted_at
     end
     add_index :subjects, :term
     add_index :subjects, :parent_id

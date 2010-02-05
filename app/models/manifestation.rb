@@ -159,7 +159,7 @@ class Manifestation < ActiveRecord::Base
 
   def after_save
     send_later(:expire_cache)
-    #send_later(:generate_fragment_cache)
+    send_later(:generate_fragment_cache)
   end
 
   def after_destroy
@@ -169,7 +169,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def expire_cache
-    sleep 5
+    sleep 3
     Rails.cache.delete("worldcat_record_#{id}")
     Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
@@ -517,7 +517,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def generate_fragment_cache
-    sleep 5
+    sleep 3
     url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
     Net::HTTP.get(URI.parse(url))
   end

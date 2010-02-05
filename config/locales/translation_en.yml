@@ -86,7 +86,6 @@ en:
       subject_related_term: Subject related term
       library_group: Library group
       event_import_file: Imported event file
-      bookmarked_resource: Bookmarked resource
       attachment_file: Attachment file
       reserve: Reserve
       message_request: Message request
@@ -560,6 +559,7 @@ en:
         position: Position
       bookmark:
         note: Note
+        url: URL
       create:
         position: Position
       carrier_type:
@@ -647,10 +647,6 @@ en:
         note: Note
         imported_at: Imported at
         event_import_updated_at: Updated at
-      bookmarked_resource:
-        title: Title
-        url: URL
-        bookmarks_count: Bookmarks count
       attachment_file:
         attachable_type: Attachable type
         size: Size
@@ -1131,13 +1127,6 @@ en:
     invalid_url: "Invalid URL."
     specify_title_and_url: "Specify the title and URL of the page."
     already_bookmarked: "This resource is already bookmarked."
-  bookmarked_resource:
-    add_to_library_bookmark: "Add to library bookmark"
-    library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
-    number_of_bookmark: "the number bookmarks"
-    bookmark_count:
-      one: "1 bookmarks"
-      other: "{{count}} bookmarks"
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"

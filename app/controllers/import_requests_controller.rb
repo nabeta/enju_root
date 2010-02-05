@@ -49,7 +49,7 @@ class ImportRequestsController < ApplicationController
       if @import_request.save
         @import_request.send_later(:import)
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.import_request'))
-        format.html { redirect_to(@import_request) }
+        format.html { redirect_to new_import_request_path }
         format.xml  { render :xml => @import_request, :status => :created, :location => @import_request }
       else
         format.html { render :action => "new" }
