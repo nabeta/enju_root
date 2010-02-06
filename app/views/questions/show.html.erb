@@ -16,10 +16,10 @@
   <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
 </p>
 
-<div>
+<p>
   <strong><%= t('activerecord.attributes.question.body') -%>:</strong>
   <%= textilize_without_paragraph(h(@question.body)) -%>
-</div>
+</p>
 
 <p>
 <strong><%= t('activerecord.attributes.question.shared') -%>:</strong>
@@ -41,9 +41,9 @@
 </p>
 
 <ul>
-<%- for answer in @question.answers -%>
-  <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= textilize_without_paragraph(h(answer.body)) -%></li>
-<%- end -%>
+  <%- for answer in @question.answers.public_answers -%>
+    <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= textilize_without_paragraph(h(answer.body)) -%></li>
+  <%- end -%>
 </ul>
 
 </div>
