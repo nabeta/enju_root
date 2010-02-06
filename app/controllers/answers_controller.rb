@@ -2,14 +2,18 @@
 class AnswersController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil, :except => [:edit]
-  before_filter :get_question, :only => [:new]
+  before_filter :get_question, :only => [:index, :new]
 
   # GET /answers
   # GET /answers.xml
   def index
     begin
       if !current_user.has_role?('Librarian')
-        raise unless @user.share_bookmarks? or current_user == @user
+        if @question
+          raise unless @question.shared?
+        else
+          raise unless current_user == @user
+        end
       end
     rescue
       access_denied; return
@@ -30,7 +34,7 @@ class AnswersController < ApplicationController
           if @question.user == current_user
             @answers = @question.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
           else
-            @answers = @question.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
+            @answers = @question.answers.public_answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
           end
         elsif @user
           if @user == current_user
