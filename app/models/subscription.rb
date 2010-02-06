@@ -20,7 +20,7 @@ class Subscription < ActiveRecord::Base
   cattr_accessor :per_page
 
   def subscribed(work)
-    subscribes.find(:first, :conditions => {:work_id => work.id})
+    subscribes.first(:conditions => {:work_id => work.id})
   end
 
 end

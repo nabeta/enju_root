@@ -14,11 +14,11 @@
 
   <div id="content_list">
     <%- if @library -%>
-      <h2 id="resource_title">
+      <h2 class="resource_title">
         <%= link_to h(@library.display_name.localize), library_path(@library.name) -%>
       </h2>
     <%- else -%>
-      <h2 id="resource_title">
+      <h2 class="resource_title">
         <%= t('event.all_libraries') -%>
       </h2>
     <%- end -%>

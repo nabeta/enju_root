@@ -2,17 +2,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmark_stat_has_manifestation')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.bookmark_stat') -%>:</b>
+  <strong><%= t('activerecord.models.bookmark_stat') -%>:</strong>
   <%= link_to h(@bookmark_stat_has_manifestation.bookmark_stat.id), @bookmark_stat_has_manifestation.bookmark_stat -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
   <%= link_to h(@bookmark_stat_has_manifestation.manifestation.original_title), @bookmark_stat_has_manifestation.manifestation -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.bookmark_stat_has_manifestation.bookmarks_count') -%>:</b>
+  <strong><%= t('activerecord.attributes.bookmark_stat_has_manifestation.bookmarks_count') -%>:</strong>
   <%= @bookmark_stat_has_manifestation.bookmarks_count -%>
 </p>
 

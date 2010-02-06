@@ -4,7 +4,7 @@ class ImportedObjectsControllerTest < ActionController::TestCase
   setup :activate_authlogic
   fixtures :imported_objects, :users, :patrons, :events,
     :languages, :user_groups, :libraries, :library_groups, :patron_types,
-    :imported_event_files, :imported_patron_files, :imported_resource_files
+    :event_import_files, :patron_import_files, :resource_import_files
 
   def test_librarian_should_get_index
     UserSession.create users(:librarian1)

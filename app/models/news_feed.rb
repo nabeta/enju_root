@@ -86,7 +86,7 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def self.fetch_feeds
-    NewsFeed.find(:all).each do |news_feed|
+    NewsFeed.all.each do |news_feed|
       news_feed.expire_cache
       news_feed.expire_fragment_cache
     end

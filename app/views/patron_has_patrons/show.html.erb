@@ -2,17 +2,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron_has_patron')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.patron_has_patron.from_patron') -%>:</b>
+  <strong><%= t('activerecord.attributes.patron_has_patron.from_patron') -%>:</strong>
   <%= link_to h(@patron_has_patron.from_patron.full_name), @patron_has_patron.from_patron -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.patron_has_patron.to_patron') -%>:</b>
+  <strong><%= t('activerecord.attributes.patron_has_patron.to_patron') -%>:</strong>
   <%= link_to h(@patron_has_patron.to_patron.full_name), @patron_has_patron.to_patron -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.patron_relationship_type') -%>:</b>
+  <strong><%= t('activerecord.models.patron_relationship_type') -%>:</strong>
   <%= @patron_has_patron.patron_relationship_type.display_name.localize -%>
 </p>
 </div>

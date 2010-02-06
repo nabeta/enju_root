@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-require 'wakati'
+#require 'wakati'
 require 'timeout'
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
@@ -43,6 +43,7 @@ class Manifestation < ActiveRecord::Base
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
   belongs_to :series_statement
+  has_one :import_request
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
@@ -114,7 +115,7 @@ class Manifestation < ActiveRecord::Base
   cattr_accessor :per_page
   attr_accessor :new_expression_id
 
-  validates_presence_of :original_title, :carrier_type, :language
+  validates_presence_of :original_title, :carrier_type_id, :language_id
   validates_associated :carrier_type, :language
   validates_numericality_of :start_page, :end_page, :allow_blank => true
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
@@ -153,23 +154,31 @@ class Manifestation < ActiveRecord::Base
   def after_create
     send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
+    Manifestation.expire_top_page_cache
   end
 
   def after_save
     send_later(:expire_cache)
-    #send_later(:generate_fragment_cache)
+    send_later(:generate_fragment_cache)
   end
 
   def after_destroy
     Rails.cache.delete("Manifestation.search.total")
     send_later(:expire_cache)
+    Manifestation.expire_top_page_cache
   end
 
   def expire_cache
-    sleep 5
+    sleep 3
     Rails.cache.delete("worldcat_record_#{id}")
     Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
+  end
+
+  def self.expire_top_page_cache
+    I18n.available_locales.each do |locale|
+      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/?locale=#{locale}&name=search_form")
+    end
   end
 
   def self.cached_numdocs
@@ -264,7 +273,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def next_reservation
-    self.reserves.find(:first, :order => ['reserves.created_at'])
+    self.reserves.first(:order => ['reserves.created_at'])
   end
 
   def authors
@@ -385,14 +394,14 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
-      manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
+      manifestation = Manifestation.first(:conditions => {:isbn => isbn})
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.find(:first, :conditions => {:isbn => isbn})
+        manifestation = Manifestation.first(:conditions => {:isbn => isbn})
       end
     end
     return manifestation
@@ -434,9 +443,9 @@ class Manifestation < ActiveRecord::Base
   def self.import_patrons(patron_lists)
     patrons = []
     patron_lists.each do |patron_list|
-      unless patron = Patron.find(:first, :conditions => {:full_name => patron_list})
+      unless patron = Patron.first(:conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.required_role = Role.find(:first, :conditions => {:name => 'Guest'})
+        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
       end
       patron.save
       patrons << patron
@@ -474,7 +483,7 @@ class Manifestation < ActiveRecord::Base
 
   def is_reserved_by(user = nil)
     if user
-      return true if Reserve.waiting.find(:first, :conditions => {:user_id => user.id, :manifestation_id => self.id})
+      return true if Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
     else
       return true if self.reserves.present?
     end
@@ -487,7 +496,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def checkouts(start_date, end_date)
-    Checkout.completed(start_date, end_date).find(:all, :conditions => {:item_id => self.items.collect(&:id)})
+    Checkout.completed(start_date, end_date).all(:conditions => {:item_id => self.items.collect(&:id)})
   end
 
   #def bookmarks(start_date = nil, end_date = nil)
@@ -508,7 +517,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def generate_fragment_cache
-    sleep 5
+    sleep 3
     url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
     Net::HTTP.get(URI.parse(url))
   end
@@ -563,11 +572,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def produced(patron)
-    produces.find(:first, :conditions => {:patron_id => patron.id})
+    produces.first(:conditions => {:patron_id => patron.id})
   end
 
   def embodied(expression)
-    embodies.find(:first, :conditions => {:expression_id => expression.id})
+    embodies.first(:conditions => {:expression_id => expression.id})
   end
 
 end

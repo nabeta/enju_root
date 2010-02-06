@@ -24,7 +24,7 @@ class Expression < ActiveRecord::Base
   belongs_to :content_type
   
   validates_associated :content_type, :language
-  validates_presence_of :content_type, :language
+  validates_presence_of :content_type_id, :language_id
   
   searchable do
     text :title, :summarization, :context, :note
@@ -81,11 +81,11 @@ class Expression < ActiveRecord::Base
   end
 
   def reified(patron)
-    reifies.find(:first, :conditions => {:patron_id => patron.id})
+    reifies.first(:conditions => {:patron_id => patron.id})
   end
 
   def embodied(manifestation)
-    embodies.find(:first, :conditions => {:manifestation_id => manifestation.id})
+    embodies.first(:conditions => {:manifestation_id => manifestation.id})
   end
 
 end

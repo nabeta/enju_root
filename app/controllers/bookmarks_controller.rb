@@ -71,21 +71,22 @@ class BookmarksController < ApplicationController
       access_denied
       return
     end
+    @bookmark = Bookmark.new(params[:bookmark])
     begin
       #url = URI.decode(params[:url])
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
-      unless url.nil?
-        if @manifestation = Manifestation.find(:first, :conditions => {:access_address => url})
+      if url
+        @bookmark.url = url
+        if @manifestation = Manifestation.first(:conditions => {:access_address => url})
           if @manifestation.bookmarked?(current_user)
             raise 'already_bookmarked'
           end
-          @title = @manifestation.original_title
+          @bookmark.title = @manifestation.original_title
         else
-          @manifestation = Manifestation.new(:access_address => url)
           #@title = Bookmark.get_title(URI.encode(url), root_url)
           #@title = Bookmark.get_title(url, root_url)
-          @title = Bookmark.get_title(params[:title])
-          @title = Bookmark.get_title_from_url(url) if @title.nil?
+          @bookmark.title = Bookmark.get_title(params[:title])
+          @bookmark.title = Bookmark.get_title_from_url(url) if @bookmark.title.nil?
         end
       else
         raise 'invalid_url'
@@ -123,10 +124,11 @@ class BookmarksController < ApplicationController
       begin
         if @bookmark.save
           flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
-          format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+          #format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+          format.html { redirect_to(@bookmark) }
           format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
         else
-          @user = User.find(:first, :conditions => {:login => params[:user_id]})
+          @user = current_user
           format.html { render :action => "new" }
           format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }
         end
@@ -158,14 +160,15 @@ class BookmarksController < ApplicationController
     else
       @bookmark = Bookmark.find(params[:id])
     end
-    @bookmark.title = @bookmark.manifestation.original_title
+    @bookmark.title = @bookmark.manifestation.try(:original_title)
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
         @bookmark.manifestation.save
         if params[:tag_edit] == 'manifestation'
-          format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+          #format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+          format.html { redirect_to(@bookmark) }
           format.xml  { head :ok }
         else
           format.html { redirect_to user_bookmark_url(@bookmark.user.login, @bookmark) }

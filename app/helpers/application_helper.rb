@@ -58,7 +58,7 @@ module ApplicationHelper
   def render_tag_cloud(tags, options = {})
     return nil if tags.nil?
     # TODO: add options to specify different limits and sorts
-    #tags = Tag.find(:all, :limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
+    #tags = Tag.all(:limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
     
     # TODO: add option to specify which classes you want and overide this if you want?
     classes = %w(popular v-popular vv-popular vvv-popular vvvv-popular)
@@ -98,10 +98,11 @@ module ApplicationHelper
 
   def book_jacket(manifestation)
     return nil if manifestation.nil?
+    # TODO: Amazon優先でよい？
     book_jacket = manifestation.amazon_book_jacket
     unless book_jacket.blank?
       unless book_jacket['asin'].blank?
-        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://www.amazon.com/dp/#{book_jacket['asin']}"
+        link_to image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => manifestation.original_title, :class => 'book_jacket'), "http://#{AMAZON_HOSTNAME}/dp/#{book_jacket['asin']}"
       else
         if manifestation.screen_shot.present?
         #link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=180", :width => 180, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
@@ -109,7 +110,11 @@ module ApplicationHelper
         # TODO: Project Next-L 専用のMozshotサーバを作る
           link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
         else
-          image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
+          if picture_file = manifestation.picture_files.first
+            link_to image_tag(picture_file_path(picture_file, :format => :download, :size => 'thumb')), picture_file_path(picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{manifestation.id}"
+          else
+            image_tag(book_jacket['url'], :width => book_jacket['width'], :height => book_jacket['height'], :alt => ('no image'), :class => 'book_jacket')
+          end
         end
       end
     end
@@ -131,9 +136,15 @@ module ApplicationHelper
     case ActiveRecord::Base.configurations[RAILS_ENV]['adapter']
     when 'postgresql'
       link_to 'PostgreSQL', 'http://www.postgresql.org/'
+    when 'jdbcpostgresql'
+      link_to 'PostgreSQL', 'http://www.postgresql.org/'
     when 'mysql'
       link_to 'MySQL', 'http://www.mysql.org/'
+    when 'jdbcmysql'
+      link_to 'MySQL', 'http://www.mysql.org/'
     when 'sqlite3'
+      link_to 'SQLite', 'http://www.sqlite.org/'
+    when 'jdbcsqlite3'
       link_to 'SQLite', 'http://www.sqlite.org/'
     end
   end
@@ -156,15 +167,37 @@ module ApplicationHelper
   end
 
   def locale_display_name(locale)
-    h(Language.find(:first, :conditions => {:iso_639_1 => locale}).display_name)
+    h(Language.first(:conditions => {:iso_639_1 => locale}).display_name)
   end
 
   def locale_native_name(locale)
-    h(Language.find(:first, :conditions => {:iso_639_1 => locale}).native_name)
+    h(Language.first(:conditions => {:iso_639_1 => locale}).native_name)
   end
 
   def move_position(object)
     render :partial => 'page/position', :locals => {:object => object}
+  end
+
+  def link_to_custom_book_jacket(object, picture_file)
+    case
+    when object.is_a?(Manifestation)
+      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "manifestation_#{object.id}" 
+    when object.is_a?(Patron)
+      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => FileWrapper.get_mime(picture_file.picture.path).split('/')[1]), :rel => "patron_#{object.id}" 
+    end
+  end
+
+  def i18n_state(state)
+    case state
+    when 'pending'
+      t('state.pending')
+    when 'cancaled'
+      t('state.cancaled')
+    when 'completed'
+      t('state.completed')
+    else
+      state
+    end
   end
 
 end

@@ -5,15 +5,12 @@ LIBRARY_WEB_PORT_NUMBER = 3000
 BOOKMARK_HOSTNAME = 'localhost'
 BOOKMARK_PORT_NUMBER = 3001
 
-AMAZON_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_KEY'
-AMAZON_SECRET_ACCESS_KEY = 'REPLACE_WITH_YOUR_AMAZON_SECRET_KEY'
-GOOGLE_APPLICATION_ID = 'REPLACE_WITH_YOUR_GOOGLE_APPLICATION_ID'
-WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
-
 COUNTRY_CODE = 'jp'
 
 # パトロンの名前を入力する際、姓を先に表示する
 FAMILY_NAME_FIRST = true
+
+WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
 
 # Be sure to restart your server when you modify this file
 
@@ -76,8 +73,8 @@ Rails::Initializer.run do |config|
   #config.gem "sitemap_generator"
   config.gem "paperclip"
   config.gem "sunspot", :version => ">=0.10.8"
-  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.11.4"
-  config.gem "factory_girl"
+  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.11.5"
+  #config.gem "factory_girl"
   config.gem "ri_cal"
   #config.gem "fleakr"
   config.gem "fastercsv"
@@ -85,6 +82,7 @@ Rails::Initializer.run do |config|
   config.gem "paper_trail"
   config.gem "file_wrapper"
   config.gem "acts_as_geocodable"
+  config.gem "smurf"
   #config.gem "event_calendar"
   #config.gem "sru"
   #config.gem "cql-ruby", :lib => "cql_ruby"
@@ -119,11 +117,10 @@ require 'solr_index'
 require 'jcode'
 require 'nkf'
 require 'digest/sha1'
-#require 'barby/outputter/png_outputter'
+require 'barby/outputter/png_outputter'
 require 'search_query'
 require 'suggest_tag'
 require 'tag_list'
 require 'hostname'
 #require 'atom/pub'
 require 'localized_name'
-require 'dismax'

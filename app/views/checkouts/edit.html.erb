@@ -7,7 +7,6 @@
 </div>
 
 <div id="content_detail">
-  
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.checkout')) -%></h1>
 <div id="content_list">
 
@@ -15,7 +14,7 @@
   
 <h3><%= t('checkout.renewal') -%></h3>
 <%- if @checkout.checkout_renewable? -%>
-  <%- form_for :checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put } do |f| -%>
+  <%- form_for(@checkout, :url => user_checkout_path(@checkout.user.login, @checkout)) do |f| -%>
     <%= t('checkout.new_due_date') -%>: <%= l(@renew_due_date, :format => :only_date) if @renew_due_date -%>
     <%= f.hidden_field :due_date, :value => @renew_due_date -%>
     <br />
@@ -27,10 +26,11 @@
 
 <h3><%= t('checkout.editing_due_date') -%></h3>
 
-<%= error_messages_for :checkout -%>
+<%- form_for(@checkout, :url => user_checkout_path(@checkout.user.login, @checkout)) do |f| -%>
+  <%= f.error_messages -%>
 
-<%- form_for(@checkout, :url => user_checkout_path(@checkout.user.login, @checkout), :html => { :method => :put }) do |f| -%>
-  <p><label for="checkout_due_date"><%= t('activerecord.attributes.checkout.due_date') -%></label>
+  <p>
+    <label for="checkout_due_date"><%= t('activerecord.attributes.checkout.due_date') -%></label>
     <%= f.hidden_field :user_id -%>
     <%= f.hidden_field :item_id -%>
     <%= f.date_text_field :due_date, :class => 'date_field', :value => @renew_due_date  -%>

@@ -9,16 +9,16 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.reify')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :reify -%>
+<%- form_for(@reify) do |f| -%>
+  <%= f.error_messages -%>
 
-<%- form_for(@reify, :html => { :method => :put }) do |f| -%>
   <p>
-    <b><%= t('activerecord.models.work') -%></b><br />
+    <%= f.label t('activerecord.models.work') -%><br />
     <%= f.text_field :work_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.expression') -%></b><br />
+    <%= f.label t('activerecord.models.expression') -%><br />
     <%= f.text_field :expression_id -%>
   </p>
 

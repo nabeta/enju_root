@@ -105,7 +105,7 @@ class ManifestationsController < ApplicationController
 
       if params[:view] == "tag_cloud"
         if manifestation_ids
-          bookmark_ids = Bookmark.find(:all, :select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
+          bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
           @tags = Tag.bookmarked(bookmark_ids)
         else
           @tags = []
@@ -125,7 +125,7 @@ class ManifestationsController < ApplicationController
         @count[:query_result] = 0
       end
 
-      @search_engines = Rails.cache.fetch('SearchEngine.all'){SearchEngine.all}
+      @search_engines = SearchEngine.all
 
       if @manifestations
         session[:manifestation_ids] = manifestation_ids
@@ -211,10 +211,11 @@ class ManifestationsController < ApplicationController
     return if render_mode(params[:mode])
 
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
-    @reserve = current_user.reserves.find(:first, :conditions => {:manifestation_id => @manifestation}) if logged_in?
+    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if logged_in?
 
     if @manifestation.respond_to?(:worldcat_record)
-      @worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
+      #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
+      @worldcat_record = @manifestation.worldcat_record
     end
     if @manifestation.respond_to?(:xisbn_manifestations)
       if params[:xisbn_page]
@@ -222,8 +223,8 @@ class ManifestationsController < ApplicationController
       else
         xisbn_page = 1
       end
-      @xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}_page_#{xisbn_page}"){@manifestation.xisbn_manifestations(:page => xisbn_page)}
-      #@xisbn_manifestations = @manifestation.xisbn_manifestations(:page => xisbn_page)
+      #@xisbn_manifestations = Rails.cache.fetch("xisbn_manifestations_#{@manifestation.id}_page_#{xisbn_page}"){@manifestation.xisbn_manifestations(:page => xisbn_page)}
+      @xisbn_manifestations = @manifestation.xisbn_manifestations(:page => xisbn_page)
     end
 
     store_location
@@ -271,9 +272,13 @@ class ManifestationsController < ApplicationController
       #end
       if @original_manifestation
         @manifestation.original_title = @original_manifestation.original_title
+        @manifestation.title_transcription = @original_manifestation.title_transcription
+      elsif @expression
+        @manifestation.original_title = @expression.original_title
+        @manifestation.title_transcription = @expression.title_transcription
       end
     end
-    @manifestation.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
+    @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
     @manifestation = @manifestation.set_serial_number
 
     respond_to do |format|
@@ -288,7 +293,7 @@ class ManifestationsController < ApplicationController
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.find(:first, :conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
+      @bookmark = current_user.bookmarks.first(:conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location
@@ -607,7 +612,7 @@ class ManifestationsController < ApplicationController
       library = params[:library]
       language = params[:language]
       subject = params[:subject]
-      subject_by_term = Subject.find(:first, :conditions => {:term => params[:subject]})
+      subject_by_term = Subject.first(:conditions => {:term => params[:subject]})
       @subject_by_term = subject_by_term
 
       search.build do
@@ -641,11 +646,19 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
-    @roles = Rails.cache.fetch('Role.all'){Role.all}
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
-    @frequencies = Frequency.all
-    @nii_types = NiiType.all
+    if ENV['RAILS_ENV'] == 'production'
+      @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+      @frequencies = Rails.cache.fetch('Frequency.all'){Frequency.all}
+      @nii_types = Rails.cache.fetch('NiiType.all'){NiiType.all}
+    else
+      @carrier_types = CarrierType.all
+      @roles = Role.all
+      @languages = Language.all
+      @frequencies = Frequency.all
+      @nii_types = NiiType.all
+    end
   end
 
   def save_search_history(query, offset = 0, total = 0)

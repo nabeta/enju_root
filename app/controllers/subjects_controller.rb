@@ -49,7 +49,7 @@ class SubjectsController < ApplicationController
   # GET /subjects/1.xml
   def show
     if params[:term]
-      subject = Subject.find(:first, :conditions => {:term => params[:term]})
+      subject = Subject.first(:conditions => {:term => params[:term]})
       redirected_to subject
       return
     end
@@ -107,7 +107,7 @@ class SubjectsController < ApplicationController
     else
       @subject = Subject.find(params[:id])
     end
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
   end
 
   # POST /subjects
@@ -172,6 +172,6 @@ class SubjectsController < ApplicationController
 
   private
   def prepare_options
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
   end
 end

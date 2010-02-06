@@ -12,32 +12,32 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.question')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.user') -%>:</b>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
 </p>
 
 <div>
-  <b><%= t('activerecord.attributes.question.body') -%>:</b>
+  <strong><%= t('activerecord.attributes.question.body') -%>:</strong>
   <%= textilize_without_paragraph(h(@question.body)) -%>
 </div>
 
 <p>
-<b><%= t('activerecord.attributes.question.shared') -%>:</b>
+<strong><%= t('activerecord.attributes.question.shared') -%>:</strong>
   <%= @question.shared -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@question.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@question.updated_at) -%>
 </p>
 
 <p>
-<b><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</b>
+<strong><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</strong>
 </p>
 
 <ul>

@@ -7,17 +7,18 @@
 
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.create')) -%></h1>
+<div id="content_list">
 
-<%= error_messages_for :create -%>
+<%- form_for(@create) do |f| -%>
+  <%= f.error_messages -%>
 
-<%- form_for(@create, :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.patron') -%></b><br />
+    <%= f.label t('activerecord.models.patron') -%><br />
     <%= f.text_field :patron_id -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.models.work') -%></b><br />
+    <%= f.label t('activerecord.models.work') -%><br />
     <%= f.text_field :work_id -%>
   </p>
 
@@ -26,4 +27,5 @@
   </p>
 <%- end -%>
 
+</div>
 </div>

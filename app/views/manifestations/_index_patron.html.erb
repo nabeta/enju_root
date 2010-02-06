@@ -9,15 +9,14 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     <%= link_to h(@patron.full_name), @patron -%>
   </h2>
 
   <%- form_for :manifestations, :url => patron_manifestations_path(@patron), :html => {:method => 'get'} do -%>
 
     <p>
-      <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <!--
       <%= link_to h(t('page.advanced_search')), :controller => :page, :action => :advanced_search, :patron_id => h(@patron.id) -%>
       -->
@@ -32,7 +31,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), patron_manifestations_path(@patron) -%>
     </p>
-    <%= javascript_tag("$('query').focus()") -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <!--

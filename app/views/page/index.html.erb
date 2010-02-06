@@ -1,19 +1,9 @@
 <div id="left_pane">
   <h1 class="title"><%= t('page.catalog_search') -%></h1>
   <div id="user_search_form">
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
-      <div>
-        <%= t('page.search_term') -%>:
-        <%= text_field_tag 'query', nil, :class => 'search_form_short' -%>
-        <%= submit_tag t('page.search') -%><br />
-        (<%= link_to t('page.advanced_search'), '/page/advanced_search' -%>)
-      </div>
+    <%- cache :controller => 'page', :action => 'index', :name => 'search_form', :locale => @locale do -%>
+      <%= render :partial => 'search_form' -%>
     <%- end -%>
-    <%= javascript_tag("$('query').focus()") -%>
-
-      <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
-
-    <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
   </div>
 
   <h3 class="title"><%= t('page.news') -%></h3>

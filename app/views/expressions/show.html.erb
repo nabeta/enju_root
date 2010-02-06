@@ -29,7 +29,7 @@
   <%-
     cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
-  <h2 id="resource_title">
+  <h2 class="resource_title">
     [E]
     <%= @expression.original_title -%>
     <%= content_type_icon(@expression.content_type) -%>
@@ -65,42 +65,38 @@
       <div id="detail">
         <table class="index">
           <tr>
-            <td><b><%= t('activerecord.attributes.expression.title_transcription') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.expression.title_transcription') -%>:</strong></td>
             <td><%= @expression.title_transcription -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.expression.summarization') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.expression.summarization') -%>:</strong></td>
             <td><%= @expression.summarization -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.expression.context') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.expression.context') -%>:</strong></td>
             <td><%= @expression.context -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.models.language') -%>:</b></td>
+            <td><strong><%= t('activerecord.models.language') -%>:</strong></td>
             <td><%= @expression.language.display_name.localize -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.models.content_type') -%>:</b></td>
+            <td><strong><%= t('activerecord.models.content_type') -%>:</strong></td>
             <td>
               <%= content_type_icon(@expression.content_type) -%>
               <%= @expression.content_type.display_name.localize -%>
             </td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.expression.feed_url') -%>:</b></td>
-            <td><%= @expression.feed_url -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.attributes.expression.note') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.expression.note') -%>:</strong></td>
             <td><%= @expression.note -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.created_at') -%>:</b></td>
+            <td><strong><%= t('page.created_at') -%>:</strong></td>
             <td><%= l(@expression.created_at) -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.updated_at') -%>:</b></td>
+            <td><strong><%= t('page.updated_at') -%>:</strong></td>
             <td><%= l(@expression.updated_at) -%></td>
           </tr>
         </table>

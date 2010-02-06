@@ -27,7 +27,8 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def self.site_config
-    Rails.cache.fetch('LibraryGroup:1'){LibraryGroup.find(1)}
+    #Rails.cache.fetch('LibraryGroup:1'){LibraryGroup.find(1)}
+    LibraryGroup.find(1)
   end
 
   def self.url
@@ -40,7 +41,7 @@ class LibraryGroup < ActiveRecord::Base
 
   def physical_libraries
     # 物理的な図書館 = IDが1以外
-    self.libraries.find(:all, :conditions => ['id != 1'])
+    self.libraries.all(:conditions => ['id != 1'])
   end
 
   def my_networks?(ip_address)

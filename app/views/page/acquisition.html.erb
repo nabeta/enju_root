@@ -9,24 +9,15 @@
 
 <ul>
   <li><%= link_to t('page.add', :model => t('page.resource')), works_path -%></li>
-  <!--
-  <li><%= link_to t('activerecord.models.patron'), patrons_path -%></li>
-  <li><%= link_to t('activerecord.models.work'), works_path -%></li>
-  <li><%= link_to t('activerecord.models.expression'), expressions_path -%>
-  単行本や雑誌に収録されている、論文や記事を1本追加します。また、新しい逐次刊行物を追加します。</li>
-  <li><%= link_to t('activerecord.models.manifestation'), manifestations_path -%>
-  単行本や雑誌を1冊追加します。また、すでに書誌が登録されている資料について、図書館の所蔵を1冊追加します。</li>
-  <li><%= link_to t('activerecord.models.item'), items_path -%></li>
-  -->
 </ul>
 
 <h3><%= t('page.import') -%></h3>
 
 <ul>
   <!--
-  <li><%= link_to ('MARC'), :controller => 'import', :action => 'marc' -%></li
+  <li><%= link_to 'MARC', :controller => 'import', :action => 'marc' -%></li
   -->
-  <li><%= link_to ('ISBN'), new_manifestation_path(:mode => 'import_isbn') -%></li>
+  <li><%= link_to 'ISBN', new_import_request_path -%></li>
 </ul>
 </div>
 </div>

@@ -8,27 +8,27 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression_merge')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :expression_merge -%>
-
 <%- form_for(@expression_merge) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-  <b><%= t('activerecord.models.expression') -%></b><br />
-  <%- if @expression -%>
-    <%= link_to h(@expression.original_title), expression_path(@expression) -%>
-    <%= f.hidden_field :expression_id, :value => @expression.id -%>
-  <%- else -%>
-    <%= f.text_field :expression_id, :value => params[:expression_id] -%>
-  <%- end -%>
+    <%= f.label t('activerecord.models.expression') -%><br />
+    <%- if @expression -%>
+      <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+      <%= f.hidden_field :expression_id -%>
+    <%- else -%>
+      <%= f.text_field :expression_id -%>
+    <%- end -%>
   </p>
 
   <p>
-  <b><%= ('Expression merge list') -%></b><br />
-  <%- if @expression_merge_list -%>
-    <%= link_to h(@expression_merge_list.title), expression_merge_list_path(@expression_merge_list) -%>
-    <%= f.hidden_field :expression_merge_list_id, :value => @expression_merge_list.id -%>
-  <%- else -%>
-    <%= f.text_field :expression_merge_list_id, :value => params[:expression_merge_list_id] -%>
-  <%- end -%>
+    <%= f.label t('activerecord.models.expression_merge_list') -%><br />
+    <%- if @expression_merge_list -%>
+      <%= link_to h(@expression_merge_list.title), expression_merge_list_path(@expression_merge_list) -%>
+      <%= f.hidden_field :expression_merge_list_id, :value => @expression_merge_list.id -%>
+    <%- else -%>
+      <%= f.text_field :expression_merge_list_id, :value => params[:expression_merge_list_id] -%>
+    <%- end -%>
   </p>
 
   <p>

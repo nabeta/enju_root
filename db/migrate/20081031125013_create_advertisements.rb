@@ -12,6 +12,8 @@ class CreateAdvertisements < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :advertisements, :started_at
+    add_index :advertisements, :ended_at
   end
 
   def self.down

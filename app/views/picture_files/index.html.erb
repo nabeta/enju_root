@@ -1,40 +1,9 @@
-<div id="content_detail">
-  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.picture_file')) -%></h1>
-<div id="content_list">
-
-<%- if @shelf -%>
-  <h2><%= link_to h(@shelf.display_name.localize), @shelf -%></h2>
+<%- case when @shelf -%>
+  <%= render :partial => 'index_shelf' -%>
+<%- when @manifestation -%>
+  <%= render :partial => 'index_manifestation' -%>
+<%- when @patron -%>
+  <%= render :partial => 'index_patron' -%>
+<%- else -%>
+  <%= render :partial => 'index' -%>
 <%- end -%>
-
-<table class="index">
-  <tr>
-    <th><%= t('page.attachable') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.picture_file_size') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.picture_content_type') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.picture_file_name') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.height') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.width') -%></th>
-  </tr>
-  <%- if @shelf -%>
-    <%= render :partial => 'picture_files/shelf_list', :locals => {:picture_files => @picture_files, :shelf => @shelf} -%>
-  <%- else -%>
-    <%= render :partial => 'picture_files/list', :locals => {:picture_files => @picture_files} -%>
-  <%- end -%>
-</table>
-
-<%= will_paginate(@picture_files, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
-</div>
-</div>
-
-<div id="submenu">
-  <%- if PictureFile.is_creatable_by(current_user) -%>
-    <ul>
-      <%- if @manifestation -%>
-        <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
-      <%- end -%>
-      <%- if @shelf -%>
-        <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_shelf_picture_file_path(@shelf) -%></li>
-      <%- end -%>
-    </ul>
-  <%- end -%>
-</div>

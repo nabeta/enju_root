@@ -1,4 +1,36 @@
 <div id="submenu">
+  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
+    <%- unless @patron.picture_files.empty? -%>
+      <div id="manifestation_book_jacket">
+        <%= patron_custom_book_jacket(@patron) -%>
+      </div>
+      <ul>
+        <%- @patron.picture_files.each_with_index do |picture_file, i| -%>
+          <%- next if i == 0 -%>
+          <%- if i == 1 -%>
+            <li><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
+          <%- else -%>
+            <li style="display: none"><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
+          <%- end -%>
+        <%- end -%>
+        <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), patron_picture_files_path(@patron) -%></li>
+        <%- if current_user.try(:has_role?, 'Librarian') -%>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
+        <%- end -%>
+      </ul>
+      <script type="text/javascript">
+        jQuery(document).ready(function(){
+          jQuery("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
+        })
+      </script>
+    <%- else -%>
+      <%- if current_user.try(:has_role?, 'Librarian') -%>
+        <ul>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
+        </ul>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
   <ul>
     <li><%= link_to t('page.back'), patrons_path -%></li>
     <%- if @patron.is_updatable_by(current_user) -%>
@@ -29,7 +61,7 @@
   <%-
     cache(:id => @patron.id, :action => :show, :controller => :patrons, :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do
   -%>
-  <h2 id="resource_title">
+  <h2 class="resource_title">
     [P]
     <%= @patron.full_name -%>
   </h2>
@@ -67,95 +99,95 @@
       <div id="detail">
         <table class="index">
           <tr>
-            <td><b><%= t('activerecord.attributes.patron.full_name') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.patron.full_name') -%>:</strong></td>
             <td><%= @patron.full_name -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.patron.full_name_transcription') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.patron.full_name_transcription') -%>:</strong></td>
             <td><%= @patron.full_name_transcription -%></td>
           </tr>
           <%- if @patron.user -%>
             <tr>
-              <td><b><%= t('activerecord.attributes.user.login') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.user.login') -%>:</strong></td>
               <td><%= link_to h(@patron.user.login), edit_user_path(@patron.user.login) -%></td>
             </tr>
           <%- end -%>
           <tr>
-            <td><b><%= t('activerecord.models.patron_type') -%>:</b></td>
+            <td><strong><%= t('activerecord.models.patron_type') -%>:</strong></td>
             <td><%= @patron.patron_type.display_name.localize -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.patron.other_designation') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.patron.other_designation') -%>:</strong></td>
             <td><%= @patron.other_designation -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.attributes.patron.place') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.patron.place') -%>:</strong></td>
             <td><%= @patron.place -%></td>
           </tr>
           <tr>
-            <td><b><%= t('activerecord.models.language') -%>:</b></td>
+            <td><strong><%= t('activerecord.models.language') -%>:</strong></td>
             <td><%= @patron.language.display_name.localize -%></td>
           </tr>
           <%- if @patron.is_deletable_by(current_user) -%>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.zip_code_1') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.zip_code_1') -%>:</strong></td>
               <td><%= @patron.zip_code_1 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.address_1') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.address_1') -%>:</strong></td>
               <td><%= @patron.address_1 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.telephone_number_1') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.telephone_number_1') -%>:</strong></td>
               <td><%= @patron.telephone_number_1 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.fax_number_1') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.fax_number_1') -%>:</strong></td>
               <td><%= @patron.fax_number_1 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.address_1_note') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.address_1_note') -%>:</strong></td>
               <td><%= @patron.address_1_note -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.zip_code_2') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.zip_code_2') -%>:</strong></td>
               <td><%= @patron.zip_code_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.address_2') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.address_2') -%>:</strong></td>
               <td><%= @patron.address_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.telephone_number_2') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.telephone_number_2') -%>:</strong></td>
               <td><%= @patron.telephone_number_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.fax_number_2') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.fax_number_2') -%>:</strong></td>
               <td><%= @patron.fax_number_2 -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.address_2_note') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.address_2_note') -%>:</strong></td>
               <td><%= @patron.address_2_note -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.date_of_birth') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.date_of_birth') -%>:</strong></td>
               <td><%= l(@patron.date_of_birth) if @patron.date_of_birth -%></td>
             </tr>
             <tr>
-              <td><b><%= t('activerecord.attributes.patron.date_of_death') -%>:</b></td>
+              <td><strong><%= t('activerecord.attributes.patron.date_of_death') -%>:</strong></td>
               <td><%= l(@patron.date_of_death) if @patron.date_of_death -%></td>
             </tr>
           <%- end -%>
           <tr>
-            <td><b><%= t('activerecord.attributes.patron.note') -%>:</b></td>
+            <td><strong><%= t('activerecord.attributes.patron.note') -%>:</strong></td>
             <td><%= @patron.note -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.created_at') -%>:</b></td>
+            <td><strong><%= t('page.created_at') -%>:</strong></td>
             <td><%= l(@patron.created_at) -%></td>
           </tr>
           <tr>
-            <td><b><%= t('page.updated_at') -%>:</b></td>
+            <td><strong><%= t('page.updated_at') -%>:</strong></td>
             <td><%= l(@patron.updated_at) -%></td>
           </tr>
         </table>

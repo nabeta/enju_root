@@ -8,7 +8,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     [W]
     <%= link_to h(@work.original_title), @work -%>
   </h2>
@@ -18,7 +18,7 @@
 
   <%- form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%- if @work.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -31,13 +31,14 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), work_expressions_path(@work) -%>
     </p>
-    <%= javascript_tag("$('query').focus()") -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <table style="width:100%">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
+    <th></th>
   </tr>
   
 <%- @expressions.each do |expression| -%>
@@ -46,14 +47,14 @@
       [E]
       <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
       <%= content_type_icon(expression.content_type) -%><br />
-      <%= raw patrons_list(expression.authors) -%>
-      <%= raw patrons_list(expression.patrons) -%>
+      <%= raw patrons_list(expression.authors, current_user) -%>
+      <%= raw patrons_list(expression.patrons, current_user) -%>
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
       <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
-          <%= link_to t('page.add'), new_work_reify_path(@work, :expression_id => expression.id, :mode => 'add') unless @work.expressions.include?(expression) -%>
+          <%= link_to t('page.add'), new_work_reify_path(@work, :expression_id => expression.id) unless @work.expressions.include?(expression) -%>
         <%- else -%>
           <%= link_to t('page.destroy'), work_reify_path(@work, @work.reified(expression)), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>

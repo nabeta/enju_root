@@ -17,20 +17,21 @@
   </h2>
 
 <%- form_for :patrons, :url => work_patrons_path(@work), :html => {:method => 'get'} do -%>
-<p>
-  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
-  <%- if @work.is_deletable_by(current_user) -%>
-    <%- if params[:mode] == 'add' -%>
-      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-    <%- else -%>
-      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%- if @work.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
     <%- end -%>
-  <%- end -%>
-  <%= submit_tag t('page.search') -%>
-  <%= link_to t('page.back_to_index'), work_patrons_path(@work) -%>
-</p>
+    <%= submit_tag t('page.search') -%>
+    <%= link_to t('page.back_to_index'), work_patrons_path(@work) -%>
+  </p>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">

@@ -52,9 +52,7 @@ class User < ActiveRecord::Base
   belongs_to :user_group #, :validate => true
   has_many :purchase_requests
   belongs_to :library, :counter_cache => true, :validate => true
-  has_many :imported_files
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
-  has_many :imported_resources
   #has_one :imported_object, :as => :importable
   has_many :order_lists
   has_many :subscriptions
@@ -66,6 +64,7 @@ class User < ActiveRecord::Base
   has_many :user_has_shelves, :dependent => :destroy
   has_many :shelves, :through => :user_has_shelves
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
+  has_many :import_requests
 
   restful_easy_messages
   #acts_as_soft_deletable
@@ -114,7 +113,9 @@ class User < ActiveRecord::Base
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
     self.locale = I18n.default_locale
-    self.patron = Patron.create(:full_name => self.login) if self.login
+    unless self.patron
+      self.patron = Patron.create(:full_name => self.login) if self.login
+    end
   end
 
   def after_save
@@ -217,7 +218,7 @@ class User < ActiveRecord::Base
 
   def checked_item_count
     checkout_count = {}
-    CheckoutType.find(:all).each do |checkout_type|
+    CheckoutType.all.each do |checkout_type|
       # 資料種別ごとの貸出中の冊数を計算
       checkout_count[:"#{checkout_type.name}"] = self.checkouts.count_by_sql(["
         SELECT count(item_id) FROM checkouts
@@ -232,12 +233,12 @@ class User < ActiveRecord::Base
   end
 
   def reached_reservation_limit?(manifestation)
-    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).find(:all, :conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
+    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).all(:conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
     false
   end
 
   def highest_role
-    self.roles.find(:first, :order => ['id DESC'])
+    self.roles.first(:order => ['id DESC'])
   end
 
   def is_admin?
@@ -281,7 +282,7 @@ class User < ActiveRecord::Base
 
   def last_librarian?
     if self.has_role?('Librarian')
-      role = Role.find(:first, :conditions => {:name => 'Librarian'})
+      role = Role.first(:conditions => {:name => 'Librarian'})
       true if role.users.size == 1
     end
   end
@@ -304,14 +305,14 @@ class User < ActiveRecord::Base
   end
 
   def send_message(status, options = {})
-    MessageQueue.transaction do
-      queue = MessageQueue.new
-      queue.sender = User.find(1) # TODO: システムからのメッセージ送信者
-      queue.receiver = self
-      queue.message_template = MessageTemplate.find_by_status(status)
-      queue.embed_body(options)
-      queue.save!
-      queue.aasm_send_message!
+    MessageRequest.transaction do
+      request = MessageRequest.new
+      request.sender = User.find(1) # TODO: システムからのメッセージ送信者
+      request.receiver = self
+      request.message_template = MessageTemplate.find_by_status(status)
+      request.embed_body(options)
+      request.save!
+      request.aasm_send_message!
     end
   end
 

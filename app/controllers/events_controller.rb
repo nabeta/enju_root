@@ -148,7 +148,7 @@ class EventsController < ApplicationController
 
   private
   def prepare_options
-    @event_categories = EventCategory.find(:all)
+    @event_categories = EventCategory.all
   end
 
 end

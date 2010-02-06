@@ -14,20 +14,20 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :embody -%>
-
 <%- form_for(@embody) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-  <b><%= t('activerecord.models.expression') -%></b><br />
-  <%- if @embody.expression -%>
-    <%= link_to h(@embody.expression.original_title), @embody.expression -%>
-    <%= f.hidden_field :expression_id -%>
-  <%- else -%>
-    <%= f.text_field :expression_id -%>
-  <%- end -%>
+    <%= f.label t('activerecord.models.expression') -%><br />
+    <%- if @embody.expression -%>
+      <%= link_to h(@embody.expression.original_title), @embody.expression -%>
+      <%= f.hidden_field :expression_id -%>
+    <%- else -%>
+      <%= f.text_field :expression_id -%>
+    <%- end -%>
   </p>
   <p>
-    <b><%= t('activerecord.models.manifestation') -%></b><br />
+    <%= f.label t('activerecord.models.manifestation') -%><br />
     <%- if @embody.manifestation -%>
       <%= link_to h(@embody.manifestation.original_title), @embody.manifestation -%>
       <%= f.hidden_field :manifestation_id -%>

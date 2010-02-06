@@ -188,14 +188,14 @@ h1{
   margin-bottom: 10px;
 }
 
-#resource_title{
-  line-height: 140%;
-}
-
 h2{
   font-size: 160%;
   margin-top: 5px;
   margin-bottom: 10px;
+}
+
+h2.resource_title{
+  line-height: 140%;
 }
 
 h3{
@@ -426,5 +426,7 @@ input.search_form_short{
 th#position{
   width: 40px;
 }
+
+.highlight { background-color: yellow }
 
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

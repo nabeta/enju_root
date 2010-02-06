@@ -5,7 +5,7 @@ class SubjectTypesController < ApplicationController
   # GET /subject_types
   # GET /subject_types.xml
   def index
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
 
     respond_to do |format|
       format.html # index.html.erb

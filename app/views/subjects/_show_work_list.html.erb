@@ -1,11 +1,12 @@
 <div id="work_list">
-<h2><%= t('page.listing', :model => t('activerecord.models.work')) -%></h2>
+<h2 class="resource_title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h2>
 <table class="index">
 <%- @works.each do |work| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
+      [W]
       <%= link_to h(work.original_title), work -%><br />
-      <%= raw patrons_list(work.patrons) -%><br />
+      <%= raw patrons_list(work.patrons) -%>
     </td>
   </tr>
 <%- end -%>

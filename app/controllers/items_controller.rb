@@ -128,8 +128,8 @@ class ItemsController < ApplicationController
     end
     @item = Item.new
     @item.manifestation = @manifestation
-    @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
-    @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
+    @circulation_statuses = CirculationStatus.all(:conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
+    @item.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'})
     @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
     respond_to do |format|
@@ -194,10 +194,10 @@ class ItemsController < ApplicationController
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
           #else
-          #  @item.owns.find(:first).update_attribute(:patron_id, @item.shelf.library.patron_id)
+          #  @item.owns.first.update_attribute(:patron_id, @item.shelf.library.patron_id)
           #end
         end
-        use_restrictions = UseRestriction.find(:all, :conditions => ['id IN (?)', params[:use_restriction_id]])
+        use_restrictions = UseRestriction.all(:conditions => ['id IN (?)', params[:use_restriction_id]])
         ItemHasUseRestriction.delete_all(['item_id = ?', @item.id])
         @item.use_restrictions << use_restrictions
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item'))
@@ -234,16 +234,20 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    @libraries = Library.all
-    @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
-    @shelves = Shelf.find(:all, :order => :position)
-    @circulation_statuses = CirculationStatus.find(:all)
-    @bookstores = Bookstore.find(:all, :order => :position)
-    @use_restrictions = UseRestriction.find(:all)
+    if ENV['RAILS_ENV'] == 'production'
+      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+    else
+      @libraries = Library.all
+    end
+    @library = Library.first(:order => :position, :include => :shelves) if @library.blank?
+    @shelves = Shelf.all
+    @circulation_statuses = CirculationStatus.all
+    @bookstores = Bookstore.all
+    @use_restrictions = UseRestriction.all
     if @manifestation
       @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)
     else
-      @checkout_types = CheckoutType.find(:all)
+      @checkout_types = CheckoutType.all
     end
   end
 

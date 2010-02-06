@@ -3,7 +3,7 @@ ja:
     models:
       library: 図書館
       question: 質問
-      imported_patron_file: パトロンのインポート用ファイル
+      patron_import_file: パトロンのインポート用ファイル
       circulation_status: 貸出状態
       inventory: 蔵書点検
       patron: パトロン
@@ -78,18 +78,17 @@ ja:
       carrier_type: 体現形の形態
       manifestation: 体現形
       user_group: 利用者グループ
-      imported_resource_file: インポートされる資料のファイル
+      resource_import_file: インポートされる資料のファイル
       checkout: 貸出
       subscription: 購読
       message_template: メッセージテンプレート
       patron_merge: パトロンの併合
       subject_related_term: 件名の関連語
       library_group: 図書館グループ
-      imported_event_file: 催し物ファイルのインポート
-      bookmarked_resource: ブックマークされた資料
+      event_import_file: 催し物ファイルのインポート
       attachment_file: 添付ファイル
       reserve: 予約
-      message_queue: 送信待ちのメッセージ
+      message_request: メッセージの送信リクエスト
       answer: 回答
       bookstore: 書店
       checkout_type: 貸出区分
@@ -143,6 +142,8 @@ ja:
       checkout_stat_has_user: 利用者別貸出統計
       reserve_stat_has_manifestation: 資料別予約統計
       reserve_stat_has_user: 利用者別予約統計
+      import_request: インポートのリクエスト
+
     attributes:
       library:
         name: 名前
@@ -166,14 +167,14 @@ ja:
         body: 本文
         shared: 質問を公開する
         deleted_at: 削除時刻
-      imported_patron_file:
-        imported_patron_file_name: ファイル名
-        imported_patron_content_type: Content-Type
-        imported_patron_file_size: ファイルサイズ
+      patron_import_file:
+        patron_import_file_name: ファイル名
+        patron_import_content_type: Content-Type
+        patron_import_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
-        imported_patron_updated_at: 更新時刻
+        patron_import_updated_at: 更新時刻
       circulation_status:
         name: 名前
         display_name: 表示名
@@ -559,6 +560,7 @@ ja:
         position: 位置
       bookmark:
         note: 注記
+        url: URL
       create:
         position: 位置
       carrier_type:
@@ -603,14 +605,14 @@ ja:
         note: 注記
         position: 位置
         deleted_at: 削除時刻
-      imported_resource_file:
-        imported_resource_file_name: ファイル名
-        imported_resource_content_type: Content-Type
-        imported_resource_file_size: ファイルサイズ
+      resource_import_file:
+        resource_import_file_name: ファイル名
+        resource_import_content_type: Content-Type
+        resource_import_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
-        imported_resource_updated_at: 更新時刻
+        resource_import_updated_at: 更新時刻
       checkout:
         due_date: 期日
         lock_version: ロックバージョン
@@ -638,18 +640,14 @@ ja:
         login_banner: ログイン画面でのメッセージ
         post_to_union_catalog: 総合目録に登録する
         valid_period_for_new_user: 新規ユーザの有効日数
-      imported_event_file:
-        imported_event_file_name: ファイル名
-        imported_event_content_type: Content-Type
-        imported_event_file_size: ファイルサイズ
+      event_import_file:
+        event_import_file_name: ファイル名
+        event_import_content_type: Content-Type
+        event_import_file_size: ファイルサイズ
         file_hash: ファイルのハッシュ
         note: 注記
         imported_at: インポート時刻
-        imported_event_updated_at: 更新時刻
-      bookmarked_resource:
-        title: タイトル
-        url: URL
-        bookmarks_count: ブックマーク回数
+        event_import_updated_at: 更新時刻
       attachment_file:
         attachable_type: 添付可能な種類
         size: ファイルサイズ
@@ -668,7 +666,7 @@ ja:
         expired_at: 有効期限（この日以降は不要）
         deleted_at: 削除時刻
         state: 状態
-      message_queue:
+      message_request:
         sent_at: 送信時刻
         deleted_at: 削除時刻
       answer:
@@ -937,6 +935,9 @@ ja:
         numbering: シリーズ番号
         title_subseries: 副シリーズ名
         numbering_subseries: 副シリーズ番号
+      import_request:
+        isbn: ISBN
+        state: 状態
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -984,6 +985,7 @@ ja:
     feed: "フィード"
     back_to_index: "一覧に戻る"
     import: "インポート"
+    import_from_file: "ファイルからのインポート"
     import_record: "書誌レコードのインポート"
     export: "エクスポート"
     detail: "詳細"
@@ -1084,6 +1086,7 @@ ja:
     history: "履歴"
     current_version: "最新版"
     select: "選択"
+    other_view: "他の画像"
   title:
     index: "一覧"
     show: "表示"
@@ -1109,16 +1112,12 @@ ja:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
     add_to_my_bookmark: "ブックマークに追加する"
+    add_to_library_bookmark: "図書館のブックマークに追加する"
     remove_from_my_bookmark: "ブックマークから削除する"
     invalid_url: "無効なURLです。"
     specify_title_and_url: "タイトルとURLを指定してください。"
     already_bookmarked: "すでにブックマークに登録されています。"
     user_bookmark: "{{login_name}} さんのブックマーク"
-  bookmarked_resource:
-    add_to_library_bookmark: "図書館のブックマークに追加"
-    library_group_bookmark: "{{library_group_name}} でブックマークされた資料"
-    number_of_bookmark: "ブックマーク数"
-    bookmark_count: "{{count}} 回"
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"
@@ -1186,6 +1185,7 @@ ja:
     publication: "出版物"
     recent_publication: "最近の出版物"
     all_publication: "全ての出版物"
+    other_address: "他の住所"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"
@@ -1344,7 +1344,7 @@ ja:
   inventory_file:
     not_in_catalog: "目録に存在しない資料"
     not_on_shelf: "書架に存在しない資料"
-  message_queue:
+  message_request:
     not_sent: "送信待ち"
     sent: "送信済み"
     all: "全てのメッセージ"
@@ -1362,3 +1362,7 @@ ja:
     library_calendar: "{{library_name}}のカレンダー"
   series_statement:
     edit: "シリーズ情報の編集"
+  state:
+    pending: "処理待ち"
+    cancaled: "中止"
+    completed: "完了"

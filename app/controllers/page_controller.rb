@@ -2,7 +2,7 @@ class PageController < ApplicationController
   before_filter :store_location, :except => [:index, :msie_acceralator, :opensearch]
   before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
   before_filter :get_libraries, :only => [:advanced_search]
-  before_filter :get_user # 上書き注意
+  #before_filter :get_user # 上書き注意
   before_filter :check_librarian, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
 
   def index
@@ -12,10 +12,14 @@ class PageController < ApplicationController
     end
     @numdocs = Manifestation.cached_numdocs
     # TODO: タグ下限の設定
-    #@tags = Tag.find(:all, :limit => 50, :order => 'taggings_count DESC')
+    #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
     @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
     @manifestation = Manifestation.pickup rescue nil
-    @news_feeds = LibraryGroup.site_config.news_feeds rescue nil
+    if ENV['RAILS_ENV'] == 'production'
+      @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
+    else
+      @news_feeds = NewsFeed.all
+    end
   end
 
   def msie_acceralator
@@ -52,9 +56,6 @@ class PageController < ApplicationController
   
   def acquisition
     @title = t('page.acquisition')
-    #@resource = Resource.new
-    #@carrier_types = CarrierType.find(:all, :order => 'position')
-    #@languages = Language.find(:all, :order => 'position')
   end
 
   def management

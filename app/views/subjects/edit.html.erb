@@ -11,7 +11,7 @@
 <%- form_for(@subject) do |f| -%>
   <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.models.subject_type') -%></b>
+    <%= f.label t('activerecord.models.subject_type') -%>
     <%= f.select(:subject_type_id, @subject_types.collect{|p| [p.display_name.localize, p.id]}) -%>
   </p>
 

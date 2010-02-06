@@ -2,7 +2,7 @@ require 'test_helper'
 
 class BookmarkStatHasManifestationsControllerTest < ActionController::TestCase
   setup :activate_authlogic
-  fixtures :bookmark_stat_has_manifestations, :users
+  fixtures :bookmark_stat_has_manifestations, :users, :manifestations, :bookmark_stats
 
   test "guest should not get index" do
     get :index

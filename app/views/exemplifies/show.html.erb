@@ -9,12 +9,12 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.exemplify')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
   <%= link_to h(@exemplify.manifestation.original_title), @exemplify.manifestation -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.item') -%>:</b>
+  <strong><%= t('activerecord.models.item') -%>:</strong>
   <%= link_to h(@exemplify.item.item_identifier), @exemplify.item -%>
 </p>
 

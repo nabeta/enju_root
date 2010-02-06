@@ -6,7 +6,7 @@ class LibraryGroupsController < ApplicationController
   # GET /library_groups
   # GET /library_groups.xml
   def index
-    @library_groups = LibraryGroup.find(:all)
+    @library_groups = LibraryGroup.all
 
     respond_to do |format|
       format.html # index.rhtml

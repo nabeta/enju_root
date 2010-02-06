@@ -12,22 +12,22 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.classification')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.classification.category') -%>:</b>
+  <strong><%= t('activerecord.attributes.classification.category') -%>:</strong>
   <%= @classification.category -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.classification.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.classification.note') -%>:</strong>
   <%= @classification.note -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.classification_type') -%>:</b>
+  <strong><%= t('activerecord.models.classification_type') -%>:</strong>
   <%= link_to h(@classification.classification_type.name), @classification.classification_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.subject') -%>:</b>
+  <strong><%= t('activerecord.models.subject') -%>:</strong>
 </p>
 <table class="index">
   <tr>

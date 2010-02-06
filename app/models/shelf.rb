@@ -1,5 +1,7 @@
 class Shelf < ActiveRecord::Base
   include OnlyAdministratorCanModify
+
+  default_scope :order => "position"
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
@@ -38,6 +40,16 @@ class Shelf < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def first?
+    # 必ずposition順に並んでいる
+    return true if library.shelves.first.position == position
+    false
+  end
+
+  def localized_display_name
+    display_name.localize
   end
 
 end

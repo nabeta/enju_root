@@ -3,38 +3,38 @@
 <div id="content_list">
   
 <p>
-  <b><%= t('activerecord.models.item') -%>:</b>
+  <strong><%= t('activerecord.models.item') -%>:</strong>
   <%= link_to h(@lending_policy.item.item_identifier), @lending_policy.item -%>
   (<%= link_to h(@lending_policy.item.manifestation.original_title), @lending_policy.item.manifestation -%>)
 </p>
 
 <p>
-  <b><%= t('activerecord.models.user_group') -%>:</b>
+  <strong><%= t('activerecord.models.user_group') -%>:</strong>
   <%= link_to h(@lending_policy.user_group.display_name.localize), @lending_policy.user_group -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.lending_policy.loan_period') -%>:</b>
+  <strong><%= t('activerecord.attributes.lending_policy.loan_period') -%>:</strong>
   <%= @lending_policy.loan_period -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.lending_policy.fixed_due_date') -%>:</b>
+  <strong><%= t('activerecord.attributes.lending_policy.fixed_due_date') -%>:</strong>
   <%= @lending_policy.fixed_due_date -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.lending_policy.renewal') -%>:</b>
+  <strong><%= t('activerecord.attributes.lending_policy.renewal') -%>:</strong>
   <%= @lending_policy.renewal -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.lending_policy.fine') -%>:</b>
+  <strong><%= t('activerecord.attributes.lending_policy.fine') -%>:</strong>
   <%= @lending_policy.fine -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.lending_policy.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.lending_policy.note') -%>:</strong>
   <%= @lending_policy.note -%>
 </p>
 

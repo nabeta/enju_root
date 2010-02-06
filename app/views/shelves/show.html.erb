@@ -17,7 +17,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.shelf')) -%></h1>
 <div id="content_list">
-  <h2 id="resource_title"><%= link_to h(@shelf.library.display_name.localize), library_path(@shelf.library.name) -%>
+  <h2 class="resource_title"><%= link_to h(@shelf.library.display_name.localize), library_path(@shelf.library.name) -%>
     <%= @shelf.display_name.localize -%></h2>
 </p>
 
@@ -26,19 +26,19 @@
 </p>
 
 <p>
-  <b><%= t('activerecord.models.picture_file') -%>:</b><br />
+  <strong><%= t('activerecord.models.picture_file') -%>:</strong><br />
   <%- @shelf.picture_files.each do |picture_file| -%>
     <%= link_to image_tag(picture_file_path(picture_file, :format => :download)), picture_file_path(picture_file, :format => :download, :size => 'original') -%>
   <%- end -%>
 </p>
 
 <p>
-  <b><%= t('page.created_at') -%>:</b>
+  <strong><%= t('page.created_at') -%>:</strong>
   <%= l(@shelf.created_at) -%>
 </p>
 
 <p>
-  <b><%= t('page.updated_at') -%>:</b>
+  <strong><%= t('page.updated_at') -%>:</strong>
   <%= l(@shelf.updated_at) -%>
 </p>
 

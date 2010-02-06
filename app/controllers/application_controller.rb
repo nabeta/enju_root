@@ -46,7 +46,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_available_languages
-    @available_languages = Rails.cache.fetch('Language.available'){Language.available_languages}
+    @available_languages = Language.available_languages
   end
 
   def reset_params_session
@@ -148,7 +148,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     return @user
 
@@ -158,7 +158,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_if_nil
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
   end
   
   def get_user_group
@@ -174,8 +174,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_libraries
-    #@libraries = Library.find(:all) rescue []
-    @libraries = Rails.cache.fetch('Library.all'){Library.find(:all)}
+    @libraries = Library.all
   end
 
   def get_library_group

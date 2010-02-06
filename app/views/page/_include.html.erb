@@ -1,30 +1,30 @@
-<%= raw javascript_include_tag 'jquery', 'jquery-ui' -%>
+<%= raw javascript_include_tag 'jquery-1.3.2.min', 'jquery-ui', 'jquery.highlight-3', 'jquery.colorbox-min', :cache => 'include_jquery' -%>
 <script type="text/javascript">
     jQuery.noConflict();
 </script>
-<%= raw javascript_include_tag :defaults -%>
+<%= raw javascript_include_tag :defaults, :cache => 'defaults' -%>
 <%= raw javascript_include_tag 'yui/build/yahoo/yahoo-min',
     'yui/build/yahoo-dom-event/yahoo-dom-event',
     'yui/build/element/element-min',
     'yui/build/connection/connection-min',
     'yui/build/container/container_core-min',
     'yui/build/tabview/tabview-min',
-    'yui/build/treeview/treeview-min',
-    'yui/build/history/history-min',
+    #'yui/build/treeview/treeview-min',
+    #'yui/build/history/history-min',
     'yui/build/menu/menu-min',
-    :cache => true
+    :cache => 'include_yui'
 -%>
-<%= raw javascript_include_tag 'scriptaculous', 'builder', 'thickbox', 'in_place_editor_with_empty_text', :cache => 'include' -%>
+<%= raw javascript_include_tag 'scriptaculous', 'builder', 'in_place_editor_with_empty_text', :cache => 'include' -%>
 <%= stylesheet_link_tag 'yui/build/reset-fonts-grids/reset-fonts-grids',
     'yui/build/fonts/fonts-min',
     'yui/build/base/base-min',
-    :cache => true
+    :cache => 'include_yui'
 -%>
 <%= stylesheet_link_tag 'yui/build/assets/skins/sam/tabview',
-    'yui/build/assets/skins/sam/treeview',
+    #'yui/build/assets/skins/sam/treeview',
     'yui/build/assets/skins/sam/menu'
 -%>
-<%= stylesheet_link_tag 'thickbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', 'thickbox_login', :cache => 'include' -%>
+<%= stylesheet_link_tag 'colorbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', :cache => 'include' -%>
 <%= raw calendar_date_select_includes -%>
 <script type="text/javascript">
   YAHOO.util.Event.onContentReady("services", function () {

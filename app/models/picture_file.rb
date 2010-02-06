@@ -2,7 +2,6 @@ class PictureFile < ActiveRecord::Base
   include OnlyLibrarianCanModify
   named_scope :attached, :conditions => ['picture_attachable_id > 0']
   belongs_to :picture_attachable, :polymorphic => true, :validate => true
-  #belongs_to :db_file
 
   #has_attachment :content_type => :image, #:resize_to => [800,800],
   #  :thumbnails => { :geometry => 'x400' }
@@ -13,7 +12,9 @@ class PictureFile < ActiveRecord::Base
 
   validates_associated :picture_attachable
   validates_presence_of :picture_attachable_id, :picture_attachable_type #, :unless => :parent_id, :on => :create
-  default_scope :order => 'id DESC'
+  default_scope :order => 'position'
+  # http://railsforum.com/viewtopic.php?id=11615
+  acts_as_list :scope => 'picture_attachable_id=#{picture_attachable_id} AND picture_attachable_type=\'#{picture_attachable_type}\''
 
   cattr_accessor :per_page
   @@per_page = 10

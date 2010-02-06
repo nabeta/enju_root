@@ -1,6 +1,6 @@
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.back'), picture_files_path -%></li>
+    <li><%= link_to t('page.back'), :back -%></li>
   </ul>
 </div>
 
@@ -8,7 +8,6 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.picture_file')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :picture_file -%>
 <%- case when @manifestation -%>
   <%= render :partial => 'new_manifestation' -%>
 <%- when @event -%>
@@ -19,9 +18,10 @@
   <%= render :partial => 'new_patron' -%>
 <%- else -%>
   <%- form_for(:picture_file, :url => picture_files_path, :html => { :multipart => true, :method => :post }) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-  <b><%= t('page.title') -%></b><br />
-  <%= f.text_field :title -%>
+    <%= f.label t('page.title') -%><br />
+    <%= f.text_field :title -%>
   </p>
 
   <%= f.hidden_field :picture_attachable_id -%>
@@ -29,8 +29,8 @@
   <%= f.hidden_field :picture_attachable_type -%>
 
   <p>
-  <b><%= t('page.file') -%></b><br />
-  <%= f.file_field :picture -%>
+    <%= f.label t('page.file') -%><br />
+    <%= f.file_field :picture -%>
   </p>
 
   <p>

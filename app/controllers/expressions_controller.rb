@@ -92,7 +92,11 @@ class ExpressionsController < ApplicationController
     #  return
     #end
     @expression = Expression.new
-    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
+    if @work
+      @expression.original_title = @work.original_title
+      @expression.title_transcription = @work.title_transcription
+    end
+    @expression.language = Language.first(:conditions => {:iso_639_1 => @locale})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -175,7 +179,12 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @content_types = ContentType.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @content_types = Rails.cache.fetch('ContentType.all'){ContentType.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+    else
+      @content_types = ContentType.all
+      @languages = Language.all
+    end
   end
 end

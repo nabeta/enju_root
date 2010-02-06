@@ -19,7 +19,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
 <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
-<h2>
+<h2 class="resource_title">
   <%= @subject.term -%>
 </h2>
   <p>
@@ -27,7 +27,7 @@
   </p>
 
   <p>
-    <%- @subject.subject_heading_types.each do |subject_heading_type| -%>
+    <%- @subject.subject_heading_types.uniq.each do |subject_heading_type| -%>
       <%= link_to h(subject_heading_type.display_name.localize), subject_heading_type -%>
     <%- end -%>
   </p>
@@ -46,7 +46,7 @@
 </table>
 
 <p>
-  <b><%= t('activerecord.attributes.subject.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.subject.note') -%>:</strong>
   <%= @subject.note -%>
 </p>
 

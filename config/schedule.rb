@@ -24,7 +24,7 @@ set :environment, :production
 set :cron_log, "#{RAILS_ROOT}/log/cron_log.log"
 
 every 5.minute do
-  runner "Session.expire; MessageQueue.send_messages"
+  runner "Session.expire; MessageRequest.send_messages"
 end
 
 every 1.hour do
@@ -40,7 +40,7 @@ every 1.day, :at => '1:00 am' do
 end
 
 every 1.hour do
-  runner "ImportedPatronFile.import; ImportedEventFile.import; ImportedResourceFile.import; Rails.cache.delete('Manifestation.search.total')"
+  runner "PatronImportFile.import; EventImportFile.import; ResourceImportFile.import; Rails.cache.delete('Manifestation.search.total')"
 end
 
 every 1.day, :at => '3:00 am' do

@@ -4,7 +4,7 @@ class CarrierTypesController < ApplicationController
   # GET /carrier_types
   # GET /carrier_types.xml
   def index
-    @carrier_types = CarrierType.find(:all, :order => :position)
+    @carrier_types = CarrierType.all
 
     respond_to do |format|
       format.html # index.rhtml

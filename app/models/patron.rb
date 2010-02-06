@@ -73,7 +73,7 @@ class Patron < ActiveRecord::Base
   attr_accessor :user_id
 
   def before_validation_on_create
-    self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
+    self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
     if self.full_name.blank?
       self.full_name = [last_name, middle_name, first_name].split(" ").to_s
     end
@@ -237,19 +237,19 @@ class Patron < ActiveRecord::Base
   end
 
   def created(work)
-    creates.find(:first, :conditions => {:work_id => work.id})
+    creates.first(:conditions => {:work_id => work.id})
   end
 
   def realized(expression)
-    realizes.find(:first, :conditions => {:expression_id => expression.id})
+    realizes.first(:conditions => {:expression_id => expression.id})
   end
 
   def produced(manifestation)
-    produces.find(:first, :conditions => {:manifestation_id => manifestation.id})
+    produces.first(:conditions => {:manifestation_id => manifestation.id})
   end
 
   def owned(item)
-    owns.find(:first, :conditions => {:item_id => item.id})
+    owns.first(:conditions => {:item_id => item.id})
   end
 
 end

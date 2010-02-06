@@ -8,28 +8,29 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
 
 <div id="content_list">
-<%= error_messages_for :user -%>
 <%- form_for(@user) do |f| -%>
-<%- if @patron -%>
-  <h2 id="resource_title">
-    [P]
-    <%= link_to h(@patron.full_name), @patron -%>
-  </h2>
-  <%= f.hidden_field :patron_id -%>
-<%- end -%>
+  <%= f.error_messages -%>
 
-<p>
-  <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
-  <%= f.text_field :login, :value => "" -%>
-</p>
-<p>
-  <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
-  <%= f.text_field :email, :value => "" -%>
-</p>
-<p>
-  <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label>
-  <%= f.text_field :openid_identifier, :value => "" -%>
-</p>
+  <%- if @patron -%>
+    <h2 class="resource_title">
+      [P]
+      <%= link_to h(@patron.full_name), @patron -%>
+    </h2>
+    <%= f.hidden_field :patron_id -%>
+  <%- end -%>
+
+  <p>
+    <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
+    <%= f.text_field :login, :value => "", :class => 'resource_user' -%>
+  </p>
+  <p>
+    <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
+    <%= f.text_field :email, :value => "", :class => 'resource_user' -%>
+  </p>
+  <p>
+    <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label>
+    <%= f.text_field :openid_identifier, :value => "", :class => 'resource_user' -%>
+  </p>
 
   <p>
     <label for="expired_at"><%= t('activerecord.attributes.user.expired_at') -%></label>
@@ -38,11 +39,15 @@
     <%= f.select(:user_group_id, @user_groups.collect{|u| [u.name, u.id]}) -%>
   </p>
 
-<p><label for="user_number"><%= t('activerecord.attributes.user.user_number') -%></label>
-<%= f.text_field :user_number, :value => "" -%></p>
+  <p>
+    <label for="user_number"><%= t('activerecord.attributes.user.user_number') -%></label>
+    <%= f.text_field :user_number, :value => "", :class => 'resource_user' -%>
+  </p>
 
-<p><%= f.submit t('user.sign_up') -%></p>
+  <p>
+    <%= f.submit t('user.sign_up') -%>
+  </p>
 <%- end -%>
-<%= javascript_tag("$('user_last_name').focus()") -%>
+<%= javascript_tag("$('login').focus()") -%>
 </div>
 </div>

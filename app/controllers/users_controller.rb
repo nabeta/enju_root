@@ -62,7 +62,7 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     unless @user.patron
@@ -72,7 +72,11 @@ class UsersController < ApplicationController
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
-    @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
+    else
+      @news_feeds = NewsFeed.all
+    end
 
     respond_to do |format|
       format.html # show.rhtml
@@ -90,8 +94,7 @@ class UsersController < ApplicationController
     end
     @user = User.new
     @user.openid_identifier = flash[:openid_identifier]
-    #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
+    @user_groups = UserGroup.all
     if @patron.try(:user)
       redirect_to patron_url(@patron)
       flash[:notice] = t('page.already_activated')
@@ -102,9 +105,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(:first, :conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -127,9 +130,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(:first, :conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -257,7 +260,7 @@ class UsersController < ApplicationController
         if result
           flash[:temporary_password] = @user.password
           User.transaction do
-            @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+            @user.roles << Role.first(:conditions => {:name => 'User'})
           end
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
@@ -278,7 +281,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした
@@ -311,7 +314,7 @@ class UsersController < ApplicationController
 
     # 最後の管理者を削除しようとした
     if @user.has_role?('Administrator')
-      if Role.find(:first, :conditions => {:name => 'Administrator'}).users.size == 1
+      if Role.first(:conditions => {:name => 'Administrator'}).users.size == 1
         raise
         flash[:notice] = t('user.last_administrator')
       end
@@ -338,11 +341,17 @@ class UsersController < ApplicationController
   end
 
   def prepare_options
-    #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
-    @roles = Role.find(:all)
-    @libraries = Library.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+    else
+      @user_groups = UserGroup.all
+      @roles = Role.all
+      @libraries = Library.all
+      @languages = Language.all
+    end
   end
 
   def set_operator

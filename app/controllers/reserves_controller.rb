@@ -251,9 +251,9 @@ class ReservesController < ApplicationController
   private
   def get_user_number
     if params[:reserve][:user_number]
-      user = User.find(:first, :conditions => {:user_number => params[:reserve][:user_number]})
+      user = User.first(:conditions => {:user_number => params[:reserve][:user_number]})
     #elsif params[:reserve][:user_id]
-    #  user = User.find(:first, :conditions => {:id => params[:reserve][:user_id]})
+    #  user = User.first(:conditions => {:id => params[:reserve][:user_id]})
     end
   rescue
     nil

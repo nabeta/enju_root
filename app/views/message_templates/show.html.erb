@@ -9,17 +9,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.message_template')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.message_template.status') -%>:</b>
+  <strong><%= t('activerecord.attributes.message_template.status') -%>:</strong>
   <%= @message_template.status -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.message_template.title') -%>:</b>
+  <strong><%= t('activerecord.attributes.message_template.title') -%>:</strong>
   <%= @message_template.title -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.message_template.body') -%>:</b><br />
+  <strong><%= t('activerecord.attributes.message_template.body') -%>:</strong><br />
   <%= h(@message_template.body).gsub("\n", '<br />') -%>
 </p>
 </div>

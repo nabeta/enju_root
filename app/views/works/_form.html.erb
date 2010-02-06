@@ -1,0 +1,38 @@
+  <%= f.error_messages -%>
+  <p>
+    <%= f.label t('page.title') -%><br />
+    <%= f.text_field :original_title, :class => 'resource_title' -%>
+  </p>
+  
+  <p>
+    <%= f.label t('activerecord.attributes.work.title_transcription') -%><br />
+    <%= f.text_field :title_transcription, :class => 'resource_title' -%>
+  </p>
+  
+  <p>
+    <%= f.label t('activerecord.attributes.work.title_alternative') -%><br />
+    <%= f.text_field :title_alternative, :class => 'resource_title' -%>
+  </p>
+  
+  <p>
+    <%= f.label t('activerecord.models.form_of_work') -%><br />
+    <%= f.select(:form_of_work_id, @form_of_works.collect{|w| [w.display_name.localize, w.id]}) -%>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.work.parent_of_series') -%>
+    <%= f.check_box :parent_of_series -%>
+  </p>
+
+  <!--
+  <p>
+    <%= f.label t('activerecord.attributes.work.context') -%><br />
+    <%= f.text_area :context, :class => 'resource_textarea' -%>
+  </p>
+  -->
+
+  <p>
+    <%= f.label t('activerecord.attributes.work.note') -%><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+  <%= javascript_tag("$('work_original_title').focus()") -%>
