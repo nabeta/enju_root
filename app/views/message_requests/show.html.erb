@@ -1,11 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_message_request_path(@message_request) -%></li>
-    <li><%= link_to t('page.back'), message_requests_path -%></li>
-    <li><%= link_to t('message.send'), new_user_message_path(current_user.login, :message_request_id => @message_request.id) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.message_request')) -%></h1>
 <div id="content_list">
@@ -50,4 +42,12 @@
 </div>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_message_request_path(@message_request) -%></li>
+    <li><%= link_to t('page.back'), message_requests_path -%></li>
+    <li><%= link_to t('message.send'), new_user_message_path(current_user.login, :message_request_id => @message_request.id) -%></li>
+  </ul>
 </div>

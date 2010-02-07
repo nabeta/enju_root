@@ -1,4 +1,6 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.role')) -%></h1>
+<div id="content_list">
 
 <table class="index">
   <tr>
@@ -25,6 +27,11 @@
 <%- end -%>
 </table>
 
-<br />
+</div>
+</div>
 
-<%= link_to t('page.new', :model => t('activerecord.models.role')), new_role_path -%>
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.role')), new_role_path -%></li>
+  </ul>
+</div>

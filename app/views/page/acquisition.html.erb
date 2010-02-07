@@ -1,14 +1,9 @@
-<div id="submenu">
-  <ul>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.acquisition') -%></h1>
 <div id="content_list">
 
 <ul>
-  <li><%= link_to t('page.add', :model => t('page.resource')), works_path -%></li>
+  <li><%= link_to t('page.add', :model => t('activerecord.models.work')), works_path -%></li>
 </ul>
 
 <h3><%= t('page.import') -%></h3>
@@ -20,4 +15,9 @@
   <li><%= link_to 'ISBN', new_import_request_path -%></li>
 </ul>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+  </ul>
 </div>

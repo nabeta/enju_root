@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_library_group_path(@library_group) -%></li>
-    <li><%= link_to t('page.back'), library_groups_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.library_group')) -%></h1>
 <div id="content_list">
@@ -79,4 +72,11 @@
 </ul>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_library_group_path(@library_group) -%></li>
+    <li><%= link_to t('page.back'), library_groups_path -%></li>
+  </ul>
 </div>

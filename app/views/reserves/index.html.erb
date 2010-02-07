@@ -1,35 +1,6 @@
 <div style="color: red"><%= flash[:message].to_s -%></div>
-<div id="submenu">
-  <ul>
-    <li>
-    <%= link_to t('page.new', :model => t('activerecord.models.reserve')), manifestations_path(:reservable => true) -%>
-    <br />
-    (<%= t('page.search_resource', :model => t('page.resource')) -%>)
-    </li>
-    <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to t('reserve.all_reservation'), reserves_path -%></li>
-      <li><%= link_to t('reserve.my_reservation'), user_reserves_path(current_user.login) -%></li>
-    <%- end -%>
-    <%- if @user -%>
-      <li><%= link_to t('page.checkout'), user_checkouts_path(@user.login) -%></li>
-    <%- end -%>
-  </ul>
-  <p>
-    <%- if @user -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
-      (<%= link_to ('RSS'), user_reserves_path(@user.login, :format => :rss) -%>)
-      (<%= link_to ('CSV'), user_reserves_path(@user.login, :format => :csv, :locale => @locale) -%>)
-    <%- else -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
-      (<%= link_to ('RSS'), reserves_path(:format => :rss) -%>)
-      (<%= link_to ('CSV'), reserves_path(:format => :csv, :locale => @locale) -%>)
-    <%- end -%>
-  </p>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.reserve')) -%></h1>
-
 <div id="content_list">
 <table class="index">
   <tr>
@@ -67,4 +38,32 @@
 <%= will_paginate(@reserves, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li>
+    <%= link_to t('page.new', :model => t('activerecord.models.reserve')), manifestations_path(:reservable => true) -%>
+    <br />
+    (<%= t('page.search_resource', :model => t('page.resource')) -%>)
+    </li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= link_to t('reserve.all_reservation'), reserves_path -%></li>
+      <li><%= link_to t('reserve.my_reservation'), user_reserves_path(current_user.login) -%></li>
+    <%- end -%>
+    <%- if @user -%>
+      <li><%= link_to t('page.checkout'), user_checkouts_path(@user.login) -%></li>
+    <%- end -%>
+  </ul>
+  <p>
+    <%- if @user -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
+      (<%= link_to 'RSS', user_reserves_path(@user.login, :format => :rss) -%>)
+      (<%= link_to 'CSV', user_reserves_path(@user.login, :format => :csv, :locale => @locale) -%>)
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
+      (<%= link_to 'RSS', reserves_path(:format => :rss) -%>)
+      (<%= link_to 'CSV', reserves_path(:format => :csv, :locale => @locale) -%>)
+    <%- end -%>
+  </p>
 </div>

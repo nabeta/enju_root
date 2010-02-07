@@ -1,12 +1,5 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.user')), users_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
-
 <div id="content_list">
 <%- form_for(@user) do |f| -%>
   <%= f.error_messages -%>
@@ -50,4 +43,10 @@
 <%- end -%>
 <%= javascript_tag("$('login').focus()") -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.user')), users_path -%></li>
+  </ul>
 </div>

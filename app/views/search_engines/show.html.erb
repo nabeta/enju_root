@@ -1,11 +1,5 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_search_engine_path(@search_engine) -%></li>
-    <li><%= link_to t('page.back'), search_engines_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.search_engine')) -%></h1>
 <div id="content_list">
 <p>
   <strong><%= t('activerecord.attributes.search_engine.name') -%>:</strong>
@@ -43,4 +37,11 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_search_engine_path(@search_engine) -%></li>
+    <li><%= link_to t('page.back'), search_engines_path -%></li>
+  </ul>
 </div>

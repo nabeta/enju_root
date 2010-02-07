@@ -1,12 +1,3 @@
-<div id="submenu">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <ul>
-    <%- if Item.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => @manifestation.id -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
@@ -63,4 +54,13 @@
 
 <%= will_paginate(@items, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
+  <ul>
+    <%- if Item.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => @manifestation.id -%></li>
+    <%- end -%>
+  </ul>
 </div>

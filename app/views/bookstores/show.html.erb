@@ -1,11 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_bookstore_path(@bookstore) -%></li>
-    <li><%= link_to t('page.back'), bookstores_path -%></li>
-    <li><%= link_to t('activerecord.models.order_list'), bookstore_order_lists_path(@bookstore) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookstore')) -%></h1>
 <div id="content_list">
@@ -45,4 +37,12 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_bookstore_path(@bookstore) -%></li>
+    <li><%= link_to t('page.back'), bookstores_path -%></li>
+    <li><%= link_to t('activerecord.models.order_list'), bookstore_order_lists_path(@bookstore) -%></li>
+  </ul>
 </div>

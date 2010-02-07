@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.work_has_subject')), work_has_subjects_path -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject')), subjects_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_has_subject')) -%></h1>
 <div id="content_list">
@@ -20,4 +13,11 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work_has_subject')), work_has_subjects_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject')), subjects_path -%></li>
+  </ul>
 </div>

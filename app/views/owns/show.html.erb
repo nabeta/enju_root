@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.patron')), item_patrons_path(@own.item) -%></li>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.item')), patron_items_path(@own.patron) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.own')) -%></h1>
 <div id="content_list">
@@ -20,4 +13,11 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.patron')), item_patrons_path(@own.item) -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.item')), patron_items_path(@own.patron) -%></li>
+  </ul>
 </div>

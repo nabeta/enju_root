@@ -1,28 +1,5 @@
 <%= render :partial => 'page/tabview' -%>
 
-<div id="submenu">
-  <ul>
-    <%- case when @work -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
-    <%- when @patron -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expressions_path -%></li>
-    <%- end -%>
-    <li><%= link_to t('page.add_derivation'), expression_expressions_path(@expression) -%></li>
-  </ul>
-  <%- if @expression.is_deletable_by(current_user) -%>
-    <ul>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
-      <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
-      <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-    </ul>
-  <%- end -%>
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
-  </ul>
-</div>
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
@@ -120,4 +97,28 @@
 <%= render :partial => 'page/tabview' -%>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- case when @work -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
+    <%- when @patron -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expressions_path -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.add_derivation'), expression_expressions_path(@expression) -%></li>
+  </ul>
+  <%- if @expression.is_deletable_by(current_user) -%>
+    <ul>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
+      <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
+      <li><%= link_to t('page.destroy'), @expression, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    </ul>
+  <%- end -%>
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
+  </ul>
 </div>

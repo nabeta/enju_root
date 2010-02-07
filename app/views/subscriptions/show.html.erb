@@ -1,12 +1,5 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_subscription_path(@subscription) -%></li>
-    <li><%= link_to t('work.add'), subscription_works_path(@subscription) -%></li>
-    <li><%= link_to t('page.back'), subscriptions_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subscription')) -%></h1>
 <div id="content_list">
 <p>
   <strong><%= t('page.title') -%>:</strong>
@@ -34,4 +27,12 @@
 </table>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_subscription_path(@subscription) -%></li>
+    <li><%= link_to t('work.add'), subscription_works_path(@subscription) -%></li>
+    <li><%= link_to t('page.back'), subscriptions_path -%></li>
+  </ul>
 </div>

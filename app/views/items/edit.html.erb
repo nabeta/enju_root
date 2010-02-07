@@ -1,11 +1,3 @@
-<div id="submenu">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
-  <ul>
-    <li><%= link_to t('page.show'), @item -%></li>
-    <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
@@ -83,4 +75,12 @@
   <%= javascript_tag("$('library_id').focus()") -%>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
+  <ul>
+    <li><%= link_to t('page.show'), @item -%></li>
+    <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
+  </ul>
 </div>

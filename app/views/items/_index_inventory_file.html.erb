@@ -48,21 +48,21 @@
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
     <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
     <%= link_to t('inventory_file.not_in_catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
-    (<%= link_to ('CSV'), inventory_file_items_path(@inventory_file, :format => :csv, :inventory => 'not_on_shelf', :locale => @locale) -%>)
+    (<%= link_to 'CSV', inventory_file_items_path(@inventory_file, :format => :csv, :inventory => 'not_on_shelf', :locale => @locale) -%>)
   </p>
 <%- when 'not_in catalog' -%>
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
     <%= link_to t('item.all_item'), inventory_file_items_path(@inventory_file) -%>
     <%= link_to t('inventory_file.not_on_shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
-    (<%= link_to ('CSV'), inventory_file_items_path(@inventory_file, :format => :csv, :inventory => 'not_in_catalog', :locale => @locale) -%>)
+    (<%= link_to 'CSV', inventory_file_items_path(@inventory_file, :format => :csv, :inventory => 'not_in_catalog', :locale => @locale) -%>)
   </p>
 <%- else -%>
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>
     <%= link_to t('inventory_file.not_on_shelf'), inventory_file_items_path(@inventory_file, :inventory => 'not_on_shelf') -%>
     <%= link_to t('inventory_file.not_in_catalog'), inventory_file_items_path(@inventory_file, :inventory => 'not_in_catalog') -%>
-    (<%= link_to ('CSV'), inventory_file_items_path(@inventory_file, :format => :csv, :locale => @locale) -%>)
+    (<%= link_to 'CSV', inventory_file_items_path(@inventory_file, :format => :csv, :locale => @locale) -%>)
   </p>
 <%- end -%>
 </div>

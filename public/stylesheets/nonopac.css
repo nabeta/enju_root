@@ -45,13 +45,11 @@ div#content{
   padding-left: 4px;
   padding-right: 4px;
   clear: both;
-  width: 922px;
 }
 
 div.header_and_footer{
   padding: 2px;
   clear: both;
-  width: 922px;
 }
 
 div#header_left{
@@ -97,9 +95,9 @@ div#search_footer{
 div#submenu{
   margin-top: 5px;
   width: 193px;
-  margin-left: -193px;
+  margin-left: 5px;
   padding: 5px;
-  float: right;
+  float: left;
   border: 1px solid #5970B2;
 }
 
