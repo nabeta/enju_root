@@ -1,20 +1,9 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @item_relationship_type -%></li>
-    <li><%= link_to t('page.back'), item_relationship_types_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.item_relationship_type')) -%></h1>
 <div id="content_list">
 
 <%- form_for(@item_relationship_type) do |f| -%>
   <%= f.error_messages -%>
-  <p>
-    <%= f.label t('activerecord.attributes.item_relationship_type.name') -%><br />
-    <%= f.text_field :name, :class => 'short_name' -%>
-  </p>
   <p>
     <%= f.label t('activerecord.attributes.item_relationship_type.display_name') -%><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
@@ -29,4 +18,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @item_relationship_type -%></li>
+    <li><%= link_to t('page.back'), item_relationship_types_path -%></li>
+  </ul>
 </div>

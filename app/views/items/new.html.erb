@@ -1,17 +1,3 @@
-<div id="submenu">
-  <%- if @item.manifestation -%>
-    <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
-  <%- end -%>
-
-  <ul>
-    <%- if @item.manifestation -%>
-      <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), items_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
   <h1 class="title"><%= t('page.new', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
@@ -93,4 +79,18 @@
   <%= javascript_tag("$('library_id').focus()") -%>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <%- if @item.manifestation -%>
+    <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
+  <%- end -%>
+
+  <ul>
+    <%- if @item.manifestation -%>
+      <li><%= link_to t('page.back'), manifestation_items_path(@item.manifestation) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.back'), items_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

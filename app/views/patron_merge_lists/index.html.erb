@@ -1,9 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.patron_merge_list')), new_patron_merge_list_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron_merge_list')) -%></h1>
 <div id="content_list">
@@ -27,4 +21,10 @@
 
 <%= will_paginate(@patron_merge_lists, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron_merge_list')), new_patron_merge_list_path -%></li>
+  </ul>
 </div>

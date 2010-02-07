@@ -1,11 +1,3 @@
-<div id="submenu">
-  <ul>
-    <%- if @answer.question -%>
-      <li><%= link_to t('page.back'), user_question_answers_path(@answer.question.user.login, @answer.question) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.answer')) -%></h1>
 <div id="content_list">
@@ -28,4 +20,12 @@
   </p>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if @answer.question -%>
+      <li><%= link_to t('page.back'), user_question_answers_path(@answer.question.user.login, @answer.question) -%></li>
+    <%- end -%>
+  </ul>
 </div>

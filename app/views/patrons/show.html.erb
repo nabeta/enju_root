@@ -1,60 +1,3 @@
-<div id="submenu">
-  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
-    <%- unless @patron.picture_files.empty? -%>
-      <div id="manifestation_book_jacket">
-        <%= patron_custom_book_jacket(@patron) -%>
-      </div>
-      <ul>
-        <%- @patron.picture_files.each_with_index do |picture_file, i| -%>
-          <%- next if i == 0 -%>
-          <%- if i == 1 -%>
-            <li><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
-          <%- else -%>
-            <li style="display: none"><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
-          <%- end -%>
-        <%- end -%>
-        <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), patron_picture_files_path(@patron) -%></li>
-        <%- if current_user.try(:has_role?, 'Librarian') -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
-        <%- end -%>
-      </ul>
-      <script type="text/javascript">
-        jQuery(document).ready(function(){
-          jQuery("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
-        })
-      </script>
-    <%- else -%>
-      <%- if current_user.try(:has_role?, 'Librarian') -%>
-        <ul>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
-        </ul>
-      <%- end -%>
-    <%- end -%>
-  <%- end -%>
-  <ul>
-    <li><%= link_to t('page.back'), patrons_path -%></li>
-    <%- if @patron.is_updatable_by(current_user) -%>
-      <%- if @patron.user.blank? -%>
-        <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
-      <%- else -%>
-        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user.login) -%></li>
-      <%- end -%>
-      <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
-      <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
-    <%- end -%>
-    <%- if @patron.is_deletable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
-      <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-    <%- end -%>
-  </ul>
-  <ul>
-    <li><%= link_to t('page.add_derivation'), patron_patrons_path(@patron) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), patron_works_path(@patron) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), patron_manifestations_path(@patron) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
@@ -211,4 +154,61 @@
 <%= render :partial => 'page/tabview' -%>
 </div>
 <%- end -%>
+</div>
+
+<div id="submenu">
+  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
+    <%- unless @patron.picture_files.empty? -%>
+      <div id="manifestation_book_jacket">
+        <%= patron_custom_book_jacket(@patron) -%>
+      </div>
+      <ul>
+        <%- @patron.picture_files.each_with_index do |picture_file, i| -%>
+          <%- next if i == 0 -%>
+          <%- if i == 1 -%>
+            <li><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
+          <%- else -%>
+            <li style="display: none"><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
+          <%- end -%>
+        <%- end -%>
+        <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), patron_picture_files_path(@patron) -%></li>
+        <%- if current_user.try(:has_role?, 'Librarian') -%>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
+        <%- end -%>
+      </ul>
+      <script type="text/javascript">
+        jQuery(document).ready(function(){
+          jQuery("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
+        })
+      </script>
+    <%- else -%>
+      <%- if current_user.try(:has_role?, 'Librarian') -%>
+        <ul>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
+        </ul>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+  <ul>
+    <li><%= link_to t('page.back'), patrons_path -%></li>
+    <%- if @patron.is_updatable_by(current_user) -%>
+      <%- if @patron.user.blank? -%>
+        <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
+      <%- else -%>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user.login) -%></li>
+      <%- end -%>
+      <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
+      <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
+    <%- end -%>
+    <%- if @patron.is_deletable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
+      <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    <%- end -%>
+  </ul>
+  <ul>
+    <li><%= link_to t('page.add_derivation'), patron_patrons_path(@patron) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), patron_works_path(@patron) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), patron_manifestations_path(@patron) -%></li>
+  </ul>
 </div>

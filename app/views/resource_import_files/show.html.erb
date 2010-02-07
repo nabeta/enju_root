@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_resource_import_file_path(@resource_import_file) -%></li>
-    <li><%= link_to t('page.back'), resource_import_files_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.resource_import_file')) -%></h1>
 <div id="content_list">
@@ -43,7 +36,22 @@
   <%= link_to h(@resource_import_file.user.login), user_path(@resource_import_file.user.login) -%>
 </p>
 
-<%= render :partial => 'show_object_list', :locals => {:imported_objects => @imported_objects} -%>
+<table class="index">
+  <%- @resource_import_file.imported_objects.each do |object| -%>
+    <tr>
+      <td><%= link_to h(object.importable.full_name), object.importable -%></td>
+      <td><%= link_to h(object.importable.user.login), user_path(object.importable.login) if object.importable.user -%></td>
+      <td><%= l(object.created_at) -%></td>
+    </tr>
+  <%- end -%>
+</table>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_resource_import_file_path(@resource_import_file) -%></li>
+    <li><%= link_to t('page.back'), resource_import_files_path -%></li>
+  </ul>
 </div>

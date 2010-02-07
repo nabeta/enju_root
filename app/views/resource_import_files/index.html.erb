@@ -11,7 +11,7 @@
 
 <%- for resource_import_file in @resource_import_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(resource_import_file.resource_import_file_name), resource_import_file_path(resource_import_file, :format => :download) -%></td>
+    <td><%= resource_import_file.resource_import_file_name -%></td>
     <td><%= l(resource_import_file.imported_at) if resource_import_file.imported_at -%></td>
     <td><%= link_to h(resource_import_file.user.login), user_path(resource_import_file.user.login) -%></td>
     <td><%= link_to t('page.show'), resource_import_file -%></td>

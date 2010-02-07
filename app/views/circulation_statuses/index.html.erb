@@ -1,11 +1,3 @@
-<div id="submenu">
-  <ul>
-    <%- if CirculationStatus.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.circulation_status')), new_circulation_status_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.circulation_status')) -%></h1>
 <div id="content_list">
@@ -35,4 +27,12 @@
 </table>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if CirculationStatus.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.circulation_status')), new_circulation_status_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

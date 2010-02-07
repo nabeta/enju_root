@@ -1,18 +1,3 @@
-<div id="submenu">
-  <ul>
-    <%- if @user -%>
-      <li><%= link_to t('page.edit'),edit_user_bookmark_path(@user.login, @bookmark) -%></li>
-      <li><%= link_to t('page.destroy'), user_bookmark_path(@user.login, @bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-      <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), @bookmark.manifestation -%></li>
-      <li><%= link_to t('page.back'), user_bookmarks_path(@user.login) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.edit'),edit_bookmark_path(@bookmark) -%></li>
-      <li><%= link_to t('page.destroy'), bookmark_path(@bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-      <li><%= link_to t('page.back'), :back -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.bookmark')) -%></h1>
 <div id="content_list">
@@ -55,4 +40,19 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if @user -%>
+      <li><%= link_to t('page.edit'),edit_user_bookmark_path(@user.login, @bookmark) -%></li>
+      <li><%= link_to t('page.destroy'), user_bookmark_path(@user.login, @bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), @bookmark.manifestation -%></li>
+      <li><%= link_to t('page.back'), user_bookmarks_path(@user.login) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.edit'),edit_bookmark_path(@bookmark) -%></li>
+      <li><%= link_to t('page.destroy'), bookmark_path(@bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.back'), :back -%></li>
+    <%- end -%>
+  </ul>
 </div>

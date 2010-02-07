@@ -1,13 +1,7 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_expression_relationship_type_path(@expression_relationship_type) -%></li>
-    <li><%= link_to t('page.back'), expression_relationship_types_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_relationship_type')) -%></h1>
 <div id="content_list">
+
 <p>
   <strong><%= t('activerecord.attributes.expression_relationship_type.name') -%>:</strong>
   <%= @expression_relationship_type.name -%>
@@ -24,4 +18,11 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_expression_relationship_type_path(@expression_relationship_type) -%></li>
+    <li><%= link_to t('page.back'), expression_relationship_types_path -%></li>
+  </ul>
 </div>

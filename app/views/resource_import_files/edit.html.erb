@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @resource_import_file -%></li>
-    <li><%= link_to t('page.back'), resource_import_files_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.resource_import_file')) -%></h1>
 <div id="content_list">
@@ -13,7 +6,7 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label t('activerecord.attributes.resource_import_file.resource_import_file_name') -%><br />
+    <%= f.label :resource_import_file_name -%><br />
     <%= f.text_field :resource_import_file_name -%>
   </p>
   <p>
@@ -22,4 +15,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @resource_import_file -%></li>
+    <li><%= link_to t('page.back'), resource_import_files_path -%></li>
+  </ul>
 </div>
