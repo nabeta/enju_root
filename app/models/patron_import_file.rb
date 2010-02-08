@@ -59,7 +59,7 @@ class PatronImportFile < ActiveRecord::Base
         patron.country = country if country.present?
 
         if patron.save!
-          imported_object = ImportedObject.new(:line => record)
+          imported_object = ImportedObject.new(:line_number => record)
           imported_object.importable = patron
           self.imported_objects << imported_object
           num[:success] += 1

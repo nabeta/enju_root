@@ -52,15 +52,9 @@ class PatronsController < ApplicationController
       end
     end
 
-    if logged_in?
-      user = current_user
-      search.build do
-       unless user.has_role?('Librarian')
-          with(:required_role_id).less_than 2
-        else
-          with(:required_role_id).equal_to 1
-        end
-      end
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id+1
     end
 
     page = params[:page] || 1
