@@ -40,6 +40,10 @@ class ClassificationsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @classifications }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to classifications_url
+    return
   end
 
   # GET /classifications/1

@@ -43,6 +43,10 @@ class SubjectsController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @subjects.to_xml }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to subjects_url
+    return
   end
 
   # GET /subjects/1

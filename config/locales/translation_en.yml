@@ -174,6 +174,7 @@ en:
         note: Note
         imported_at: Imported at
         patron_import_updated_at: Updated at
+        state: State
       circulation_status:
         name: Name
         display_name: Display name
@@ -612,6 +613,7 @@ en:
         note: Note
         imported_at: Imported at
         resource_import_updated_at: Updated at
+        state: State
       checkout:
         due_date: Due date
         lock_version: Lock version
@@ -647,6 +649,7 @@ en:
         note: Note
         imported_at: Imported at
         event_import_updated_at: Updated at
+        state: State
       attachment_file:
         attachable_type: Attachable type
         size: Size

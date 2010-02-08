@@ -53,6 +53,10 @@ class WorksController < ApplicationController
       format.xml  { render :xml => @works }
       format.atom
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to works_url
+    return
   end
 
   # GET /works/1

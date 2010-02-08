@@ -38,6 +38,10 @@ class TagsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @tags }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to tags_url
+    return
   end
 
   def show

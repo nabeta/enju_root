@@ -59,6 +59,10 @@ class QuestionsController < ApplicationController
         end
       }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to questions_url
+    return
   end
 
   # GET /questions/1

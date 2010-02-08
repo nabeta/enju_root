@@ -56,6 +56,10 @@ class EventsController < ApplicationController
       format.atom
       format.ics
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to events_url
+    return
   end
 
   # GET /events/1

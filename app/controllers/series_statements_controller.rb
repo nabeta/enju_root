@@ -28,6 +28,10 @@ class SeriesStatementsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @series_statements }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to series_statements_url
+    return
   end
 
   # GET /series_statements/1
