@@ -169,10 +169,10 @@ class ManifestationsController < ApplicationController
         :inline => true
       }
     end
-  #rescue RSolr::RequestError
-  #  flash[:notice] = t('page.error_occured')
-  #  redirect_to manifestations_url
-  #  return
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to manifestations_url
+    return
   end
 
   # GET /manifestations/1

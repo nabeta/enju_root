@@ -57,6 +57,10 @@ class UsersController < ApplicationController
         :inline => true
       }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to users_url
+    return
   end
 
   def show

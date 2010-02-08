@@ -1,6 +1,7 @@
 class ResourceImportFile < ActiveRecord::Base
   include AASM
   include LibrarianRequired
+  default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   #has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
@@ -38,7 +39,7 @@ class ResourceImportFile < ActiveRecord::Base
           num[:found] += 1
         else
           manifestation = Manifestation.import_isbn(row['isbn'].to_s.strip) rescue nil
-          num[:success] += 1 if manifestation
+          #num[:success] += 1 if manifestation
         end
       end
 

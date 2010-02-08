@@ -78,6 +78,10 @@ class PatronsController < ApplicationController
       format.atom
       format.json { render :json => @patrons }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to patrons_url
+    return
   end
 
   # GET /patrons/1

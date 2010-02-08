@@ -56,8 +56,10 @@ class ExpressionsController < ApplicationController
       format.xml  { render :xml => @expressions }
       format.atom
     end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to expressions_url
+    return
   end
 
   # GET /expressions/1

@@ -40,7 +40,7 @@ every 1.day, :at => '1:00 am' do
 end
 
 every 1.hour do
-  runner "PatronImportFile.import; EventImportFile.import; ResourceImportFile.import; Rails.cache.delete('Manifestation.search.total')"
+  runner "PatronImportFile.aasm_import!; EventImportFile.aasm_import!; ResourceImportFile.aasm_import!; Rails.cache.delete('Manifestation.search.total')"
 end
 
 every 1.day, :at => '3:00 am' do
