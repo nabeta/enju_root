@@ -51,7 +51,7 @@ class ResourceImportFile < ActiveRecord::Base
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
 
-            work = self.class.import_work(row['title'], author_patrons)
+            work = self.class.import_work(row['original_title'], author_patrons)
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)

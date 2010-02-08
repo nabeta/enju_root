@@ -42,6 +42,12 @@ class ExpressionsController < ApplicationController
         with(:expression_merge_list_ids).equal_to expression_merge_list.id if expression_merge_list
       end
     end
+
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id+1
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)
     begin

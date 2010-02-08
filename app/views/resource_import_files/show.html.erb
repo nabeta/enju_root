@@ -49,7 +49,7 @@
 <table class="index">
   <%- @resource_import_file.imported_objects.each do |object| -%>
     <tr class="line<%= cycle("0", "1") -%>">
-      <td><%= link_to h(object.importable.manifestation.original_title), object.importable -%></td>
+      <td><%= link_to h("#{object.importable.class}/#{object.importable.id}"), object.importable -%></td>
       <td><%= l(object.created_at) -%></td>
     </tr>
   <%- end -%>

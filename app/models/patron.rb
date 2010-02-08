@@ -43,7 +43,7 @@ class Patron < ActiveRecord::Base
   validates_length_of :full_name, :maximum => 255
 
   searchable do
-    text :name, :place, :address_1, :address_2, :other_designation
+    text :name, :place, :address_1, :address_2, :other_designation, :note
     string :zip_code_1
     string :zip_code_2
     string :login do
