@@ -1,7 +1,6 @@
 class CreateInventoryFiles < ActiveRecord::Migration
   def self.up
     create_table :inventory_files do |t|
-      t.integer :db_file_id
       t.string :filename
       t.string :content_type
       t.integer :size
@@ -11,7 +10,6 @@ class CreateInventoryFiles < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :inventory_files, :db_file_id
     add_index :inventory_files, :user_id
     add_index :inventory_files, :file_hash
   end
