@@ -3,7 +3,7 @@ en:
     models:
       library: Library
       question: Question
-      patron_import_file: Imported patron file
+      patron_import_file: Patron import file
       circulation_status: Circulation status
       inventory: Inventory
       patron: Patron
@@ -78,14 +78,14 @@ en:
       carrier_type: Carrier Type
       manifestation: Manifestation
       user_group: User group
-      resource_import_file: Imported resource file
+      resource_import_file: Resource import file
       checkout: Checkout
       subscription: Subscription
       message_template: Message template
       patron_merge: Patron merge
       subject_related_term: Subject related term
       library_group: Library group
-      event_import_file: Imported event file
+      event_import_file: Event import file
       attachment_file: Attachment file
       reserve: Reserve
       message_request: Message request
