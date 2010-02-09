@@ -173,6 +173,10 @@ class PatronsController < ApplicationController
           @manifestation.patrons << @patron
           format.html { redirect_to patron_manifestation_url(@patron, @manifestation) }
           format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
+        when @item
+          @item.patrons << @patron
+          format.html { redirect_to patron_item_url(@patron, @item) }
+          format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
         else
           format.html { redirect_to(@patron) }
           format.xml  { render :xml => @patron, :status => :created, :location => @patron }

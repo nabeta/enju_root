@@ -2,7 +2,7 @@
 class ItemsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
-  before_filter :get_patron, :only => [:index]
+  before_filter :get_patron
   before_filter :get_manifestation, :get_inventory_file
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
@@ -182,8 +182,13 @@ class ItemsController < ApplicationController
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
         @item.send_later(:post_to_union_catalog) if LibraryGroup.site_config.post_to_union_catalog
-        format.html { redirect_to(@item) }
-        format.xml  { render :xml => @item, :status => :created, :location => @item }
+        if @patron
+          format.html { redirect_to patron_item_url(@patron, @item) }
+          format.xml  { render :xml => @item, :status => :created, :location => @item }
+        else
+          format.html { redirect_to(@item) }
+          format.xml  { render :xml => @item, :status => :created, :location => @item }
+        end
       else
         prepare_options
         format.html { render :action => "new" }

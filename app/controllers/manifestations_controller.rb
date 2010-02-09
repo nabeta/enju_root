@@ -349,6 +349,12 @@ class ManifestationsController < ApplicationController
           if @series_statement
             @manifestation.create_next_issue_work_and_expression
           end
+          if @expression
+            @manifestation.expressions << @expression
+          end
+          if @patron
+            @manifestation.patrons << @expression
+          end
         end
 
         # TODO: モデルへ移動
