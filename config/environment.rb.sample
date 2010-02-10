@@ -47,7 +47,7 @@ Rails::Initializer.run do |config|
   config.gem "prawn-layout", :lib => "prawn/layout"
   config.gem "prawn-format", :lib => "prawn/format"
   #config.gem "commonthread-flickr_fu", :lib => "flickr_fu"
-  config.gem "friendly_id", :version => "2.2.7"
+  config.gem "friendly_id", :version => ">=2.3.1"
   config.gem "graticule"
   #config.gem "calendar_date_select"
   config.gem "scribd_fu"

@@ -13,10 +13,12 @@
     <%= f.label t('activerecord.attributes.news_post.body') -%><br />
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
+  <!--
   <p>
     <%= f.label t('role.required_role') -%>
     <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
+  -->
   <p>
     <%= f.label t('activerecord.attributes.news_post.start_date') -%><br />
     <%= f.datetime_select :start_date -%>

@@ -193,6 +193,7 @@ class ExpressionsController < ApplicationController
     else
       @content_types = ContentType.all
       @languages = Language.all
+      @roles = Role.all
     end
   end
 end
