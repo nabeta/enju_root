@@ -193,7 +193,7 @@ class ManifestationsController < ApplicationController
     else
       @manifestation = Manifestation.find(params[:id])
     end
-    @manifestation = @manifestation.versions.find(@version).reify if @version
+    @manifestation = @manifestation.versions.find(@version).item if @version
 
     case params[:mode]
     when 'send_email'

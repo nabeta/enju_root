@@ -111,7 +111,7 @@ class ItemsController < ApplicationController
   # GET /items/1.xml
   def show
     @item = Item.find(params[:id])
-    @item = @item.versions.find(@version).reify if @version
+    @item = @item.versions.find(@version).item if @version
 
     canonical_url item_url(@item)
 

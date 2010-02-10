@@ -43,7 +43,7 @@
     <td>
       <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
-          <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) unless @manifestation.expressions.include?(expression) -%>
+          <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) -%>
         <%- else -%>
           <%= link_to t('page.destroy'), manifestation_embody_path(@manifestation, @manifestation.embodied(expression)), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>

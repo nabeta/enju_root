@@ -28,7 +28,7 @@ xml.mods('version' => "3.2",
       xml.topic subject.term
     }
   }
-  xml.classification @manifestation.classification_number, 'authority' => 'ddc'
+  #xml.classification @manifestation.classification_number, 'authority' => 'ddc'
   xml.recordInfo{
     xml.recordCreationDate @manifestation.created_at
     xml.recordChangeDate @manifestation.updated_at
