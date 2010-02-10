@@ -20,7 +20,7 @@ class CreateEventImportFiles < ActiveRecord::Migration
     add_index :event_import_files, :parent_id
     add_index :event_import_files, :user_id
     add_index :event_import_files, :file_hash
-    add_index :resource_import_files, :state
+    add_index :event_import_files, :state
   end
 
   def self.down
