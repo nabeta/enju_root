@@ -65,6 +65,11 @@
   -->
 
   <p>
+    <%= f.label t('role.required_role') -%>
+    <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.item.item_identifier') -%><br />
     <%= f.text_field :item_identifier, :class => 'resource_item_identifier' -%>
   </p>

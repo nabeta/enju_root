@@ -16,10 +16,12 @@
   <%= link_to h(@news_post.user.login), user_path(@news_post.user.login) -%>
 </p>
 
+<!--
 <p>
   <strong><%= t('role.required_role') -%>:</strong>
   <%= @news_post.required_role.display_name.localize -%>
 </p>
+-->
 
 <p>
   <strong><%= t('activerecord.attributes.news_post.start_date') -%>:</strong>

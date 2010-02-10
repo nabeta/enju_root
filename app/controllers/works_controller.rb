@@ -182,6 +182,7 @@ class WorksController < ApplicationController
   private
   def prepare_options
     @form_of_works = FormOfWork.all
+    @roles = Role.all
   end
 
 end
