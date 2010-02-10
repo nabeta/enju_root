@@ -80,7 +80,7 @@ class ExpressionsController < ApplicationController
     else
       @expression = Expression.find(params[:id])
     end
-    @expression = @expression.versions.find(@version).reify if @version
+    @expression = @expression.versions.find(@version).item if @version
 
     canonical_url expression_url(@expression)
 

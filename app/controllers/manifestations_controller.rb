@@ -193,7 +193,7 @@ class ManifestationsController < ApplicationController
     else
       @manifestation = Manifestation.find(params[:id])
     end
-    @manifestation = @manifestation.versions.find(@version).reify if @version
+    @manifestation = @manifestation.versions.find(@version).item if @version
 
     case params[:mode]
     when 'send_email'
@@ -348,6 +348,12 @@ class ManifestationsController < ApplicationController
           # 雑誌の場合、出版者を自動的に追加
           if @series_statement
             @manifestation.create_next_issue_work_and_expression
+          end
+          if @expression
+            @manifestation.expressions << @expression
+          end
+          if @patron
+            @manifestation.patrons << @expression
           end
         end
 

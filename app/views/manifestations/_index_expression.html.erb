@@ -48,7 +48,7 @@
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_expression_embody_path(@expression, :manifestation_id => manifestation.id) unless @expression.manifestations.include?(manifestation) -%>
         <%- else -%>
-          <%= link_to t('page.destroy'), expression_embody_path(@expression, @expression.embodied), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to t('page.destroy'), expression_embody_path(@expression, @expression.embodied(manifestation)), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

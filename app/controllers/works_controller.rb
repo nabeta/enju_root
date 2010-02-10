@@ -69,7 +69,7 @@ class WorksController < ApplicationController
   # GET /works/1.xml
   def show
     @work = Work.find(params[:id])
-    @work = @work.versions.find(@version).reify if @version
+    @work = @work.versions.find(@version).item if @version
 
     if @patron
       created = @work.patrons.find(@patron) rescue nil
