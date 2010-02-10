@@ -59,7 +59,7 @@ Rails::Initializer.run do |config|
   config.gem "money"
   config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "acts-as-taggable-on", :version => ">=1.0.16"
+  config.gem "acts-as-taggable-on", :version => ">=1.1.3"
   #config.gem "mloughran-api_cache", :lib => "api_cache"
   config.gem "memcache-client", :lib => "memcache"
   #config.gem "shared-mime-info"
@@ -70,7 +70,7 @@ Rails::Initializer.run do |config|
   config.gem "canonical-url", :lib => "canonical_url"
   #config.gem "nabeta-wcapi", :lib => "wcapi"
   #config.gem "sishen-rtranslate", :lib => "rtranslate"
-  #config.gem "sitemap_generator"
+  config.gem "sitemap_generator", :lib => false
   config.gem "paperclip"
   config.gem "sunspot", :version => "0.10.8"
   config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.11.5"
