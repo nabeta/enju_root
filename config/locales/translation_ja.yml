@@ -636,6 +636,7 @@ ja:
         short_name: 短縮名
         email: メール
         my_networks: LANとして扱うネットワーク
+        admin_networks: 管理用として扱うネットワーク
         use_dsbl: DSBLを使用する
         dsbl_list: DSBLの一覧
         note: 注記
@@ -1090,6 +1091,9 @@ ja:
     current_version: "最新版"
     select: "選択"
     other_view: "他の画像"
+    boolean:
+      "true": "はい"
+      "false": "いいえ"
   title:
     index: "一覧"
     show: "表示"

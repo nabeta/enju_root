@@ -28,7 +28,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.search_engine.additional_param') -%>:</strong>
-  <%= simple_format(h(@search_engine.additional_param)) -%>
+  <%= raw simple_format(h(@search_engine.additional_param)) -%>
 </p>
 
 <p>

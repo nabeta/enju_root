@@ -67,11 +67,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.item.include_supplements') -%>:</strong>
-  <%- if @item.include_supplements -%>
-    <%= ('Yes') -%>
-  <%- else -%>
-    <%= ('No') -%>
-  <%- end -%>
+  <%= i18n_boolean(@item.include_supplements) -%>
 </p>
 
 <!--

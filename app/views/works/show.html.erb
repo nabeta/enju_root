@@ -53,7 +53,7 @@
           <tr>
             <td><strong><%= t('activerecord.attributes.work.parent_of_series') -%>:</strong></td>
             <td>
-              <%= @work.parent_of_series -%>
+              <%= i18n_boolean(@work.parent_of_series) -%>
             </td>
           </tr>
           <tr>

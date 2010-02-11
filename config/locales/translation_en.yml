@@ -635,6 +635,7 @@ en:
         short_name: Short name
         email: Email
         my_networks: My networks
+        admin_networks: Admin networks
         use_dsbl: Use DSBL
         dsbl_list: DSBL list
         note: Note
@@ -1101,6 +1102,9 @@ en:
     current_version: "Current version"
     select: "Select"
     other_view: "Other views"
+    boolean:
+      "true": "Yes"
+      "false": "No"
   title:
     index: "index"
     show: "show"

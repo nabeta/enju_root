@@ -15,19 +15,26 @@
   <%= link_to h(@event.library.display_name.localize), library_path(@event.library.name) -%>
 </p>
 
-<p>
-  <strong><%= t('activerecord.attributes.event.start_at') -%>:</strong>
-  <%= l(@event.start_at, :format => :short) -%>
-</p>
+<%- if @event.all_day -%>
+  <p>
+    <strong><%= t('activerecord.attributes.event.all_day') -%>:</strong>
+    <%= l(@event.start_at, :format => :only_date) -%>
+  </p>
+<%- else -%>
+  <p>
+    <strong><%= t('activerecord.attributes.event.start_at') -%>:</strong>
+    <%= l(@event.start_at, :format => :short) -%>
+  </p>
 
-<p>
-  <strong><%= t('activerecord.attributes.event.end_at') -%>:</strong>
-  <%= l(@event.end_at, :format => :short) -%>
-</p>
+  <p>
+    <strong><%= t('activerecord.attributes.event.end_at') -%>:</strong>
+    <%= l(@event.end_at, :format => :short) -%>
+  </p>
+<%- end -%>
 
 <p>
   <strong><%= t('activerecord.attributes.event.note') -%>:</strong>
-  <%= auto_link(simple_format(h(@event.note))) -%>
+  <%= raw auto_link(simple_format(h(@event.note))) -%>
 </p>
 
 </div>

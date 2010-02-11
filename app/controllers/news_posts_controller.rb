@@ -1,6 +1,7 @@
 class NewsPostsController < ApplicationController
   before_filter :check_client_ip_address, :except => [:index, :show]
   before_filter :has_permission?
+  before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /news_posts
   # GET /news_posts.xml
@@ -35,7 +36,6 @@ class NewsPostsController < ApplicationController
   # GET /news_posts/new.xml
   def new
     @news_post = NewsPost.new
-    @roles = Role.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -46,14 +46,12 @@ class NewsPostsController < ApplicationController
   # GET /news_posts/1/edit
   def edit
     @news_post = NewsPost.find(params[:id])
-    @roles = Role.all
   end
 
   # POST /news_posts
   # POST /news_posts.xml
   def create
     @news_post = NewsPost.new(params[:news_post])
-    @roles = Role.all
     @news_post.user = current_user
 
     respond_to do |format|
@@ -62,6 +60,7 @@ class NewsPostsController < ApplicationController
         format.html { redirect_to(@news_post) }
         format.xml  { render :xml => @news_post, :status => :created, :location => @news_post }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @news_post.errors, :status => :unprocessable_entity }
       end
@@ -72,7 +71,6 @@ class NewsPostsController < ApplicationController
   # PUT /news_posts/1.xml
   def update
     @news_post = NewsPost.find(params[:id])
-    @roles = Role.all
 
     respond_to do |format|
       if @news_post.update_attributes(params[:news_post])
@@ -80,6 +78,7 @@ class NewsPostsController < ApplicationController
         format.html { redirect_to(@news_post) }
         format.xml  { head :ok }
       else
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @news_post.errors, :status => :unprocessable_entity }
       end
@@ -96,5 +95,9 @@ class NewsPostsController < ApplicationController
       format.html { redirect_to(news_posts_url) }
       format.xml  { head :ok }
     end
+  end
+
+  def prepare_options
+    @roles = Role.all
   end
 end
