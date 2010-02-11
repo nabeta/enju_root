@@ -13,7 +13,7 @@
 
 <p>
 <strong><%= t('activerecord.attributes.question.shared') -%>:</strong>
-  <%= @question.shared -%>
+  <%= i18n_boolean(@question.shared) -%>
 </p>
 
 <p>

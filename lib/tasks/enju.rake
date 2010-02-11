@@ -12,11 +12,13 @@ namespace :enju do
       end
 
       user = User.new
+      library_group = LibraryGroup.find(1)
       user.patron = Patron.find(1)
       print "Enter new administrator login name: "
       user.login = $stdin.gets.chop
       print "Enter new administrator email address: "
       user.email = $stdin.gets.chop
+      library_group.email = user.email
       print "Enter new administrator password: "
       system "stty -echo"
       user.password = $stdin.gets.chop
@@ -34,13 +36,16 @@ namespace :enju do
       puts "Saving user information..."
 
       user.user_group = UserGroup.find(1)
-      user.library = Library.web
+      user.library = Library.find(2)
       user.user_number = '0'
-      user.roles << Role.find_by_name('Administrator')
 
       begin
-        user.activate
-        user.save!
+        User.transaction do
+      	  library_group.save
+      	  user.roles << Role.find_by_name('Administrator')
+          user.activate
+          user.save!
+        end
         user.index
         puts 'Administrator account created.'
       rescue

@@ -92,6 +92,7 @@ class ManifestationsController < ApplicationController
         manifestation_ids = Manifestation.search_ids do
           fulltext query
           order_by sort[:sort_by], sort[:order]
+          # TODO: ヒット件数の上限をセットする
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
           with(:required_role_id).less_than role.id+1
         end
@@ -116,6 +117,8 @@ class ManifestationsController < ApplicationController
 
       page = params[:page] || 1
       unless query.blank?
+        #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
+        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
         search.query.paginate(page.to_i, Manifestation.per_page)
         @manifestations = search.execute!.results
         @count[:query_result] = @manifestations.total_entries
@@ -541,6 +544,7 @@ class ManifestationsController < ApplicationController
       facet :library
       facet :language
       facet :subject_ids
+      #paginate :page => 1, :per_page => 1
     end
     search.execute!
   end
@@ -679,6 +683,7 @@ class ManifestationsController < ApplicationController
       count = Sunspot.new_search(Manifestation)
       count.build do
         fulltext total_query
+        paginate :page => 1, :per_page => 1
       end
       set_role_query(current_user, count)
       count.execute!.total

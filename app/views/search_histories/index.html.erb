@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
 <div id="content_list">
 <%- if params[:mode] == 'not_found' -%>
-  <%= reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
+  <%= raw reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
   <p>
     <%= link_to t('search_history.all_history'), search_histories_path -%>
   </p>
