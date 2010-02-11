@@ -7,12 +7,12 @@ class CreateRestfulEasyMessages < ActiveRecord::Migration
       t.string   :subject, :null => false
       t.text     :body
       t.timestamps 
-      t.integer :message_queue_id
+      t.integer :message_request_id
     end
     
     add_index :messages, :sender_id
     add_index :messages, :receiver_id
-    add_index :messages, :message_queue_id
+    add_index :messages, :message_request_id
   end
 
   def self.down
