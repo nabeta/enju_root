@@ -13,3 +13,13 @@ en:
       not_approved: Your account is not approved
       blank_record: You can not login with a blank record
       new_record: You can not login with a new record
+      general_credentials_error: Login/Password combination is not valid
+      no_authentication_details: You did not provide any details for authentication.
+    models:
+      user_session: UserSession
+    attributes:
+      user_session:
+        login: login
+        email: email
+        password: password
+        remember_me: remember me

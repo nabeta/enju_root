@@ -1,9 +1,12 @@
-<%- form_for @user_session, :url => user_session_path do |f| -%>
-  <p><%= f.label t('activerecord.attributes.user.openid_identifier') -%><br/>
-  <%= f.text_field :openid_identifier, :class => 'login_password' -%></p>
+  <p>
+    <%= f.label t('activerecord.attributes.user.openid_identifier') -%><br/>
+    <%= f.text_field :openid_identifier, :class => 'login_password' -%>
+  </p>
 
-  <p><%= f.label t('user_session.remember_me') -%>
-  <%= f.check_box :remember_me -%></p>
+  <p>
+    <%= f.label t('user_session.remember_me') -%>
+    <%= f.check_box :remember_me -%>
+  </p>
 
   <p>
     <%= f.submit t('page.login') -%>
@@ -15,6 +18,5 @@
   <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
 
   <%= hidden_field_tag 'login_form', 'openid' -%>
-<%- end -%>
 <%= javascript_tag("$('user_session_openid_identifier').focus()") -%>
 <p><%= link_to t('user.sign_up'), new_user_path -%></p>

@@ -29,7 +29,7 @@ class UserSessionsController < ApplicationController
     @user_session.save do |result|
       if result
         session[:locale] = @user_session.user.locale
-        if @user_session.user.suspended?
+        unless @user_session.user.active?
           flash[:notice] = t('user_session.your_account_is_suspended')
           render :action => :new
           @user_session.destroy
@@ -41,14 +41,16 @@ class UserSessionsController < ApplicationController
         end
       else
         flash[:notice] = t('user_session.login_failed')
-        redirect_to new_user_session_url
-        return
+        render :action => :new
+        #redirect_to new_user_session_url
+        #return
       end
     end
 
     unless performed?
       flash[:notice] = t('user_session.login_failed')
-      redirect_to new_user_session_url
+      render :action => :new
+      #redirect_to new_user_session_url
     end
   end
   

@@ -170,7 +170,7 @@ class UsersController < ApplicationController
 
     if current_user.has_role?('Librarian')
       if params[:user]
-        @user.suspended = params[:user][:suspended] || false
+        @user.active = params[:user][:active] || false
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_group_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
@@ -188,6 +188,7 @@ class UsersController < ApplicationController
         end
       end
     end
+    @user.check_update_own_account(current_user)
 
     #@user.update_attributes(params[:user]) do |result|
     @user.save do |result|
@@ -338,7 +339,7 @@ class UsersController < ApplicationController
 
   private
   def suspended?
-    if logged_in? and current_user.suspended?
+    if logged_in? and !current_user.active?
       current_user_session.destroy
       access_denied
     end

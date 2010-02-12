@@ -18,7 +18,6 @@ namespace :enju do
       user.login = $stdin.gets.chop
       print "Enter new administrator email address: "
       user.email = $stdin.gets.chop
-      library_group.email = user.email
       print "Enter new administrator password: "
       system "stty -echo"
       user.password = $stdin.gets.chop

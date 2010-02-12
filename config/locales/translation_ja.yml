@@ -20,6 +20,7 @@ ja:
       language: 言語
       patron_merge_list: パトロンの併合リスト
       user: 利用者
+      user_session: ログインセッション
       work_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       form_of_work: 著作形の形態
@@ -290,7 +291,9 @@ ja:
         activation_code: 活性化コード
         activated_at: 登録時刻
         expired_at: 有効期限
-        suspended: アカウントの停止
+        active: 利用可能
+        confirmed: 確認済み
+        approved: 承認済み
         checkout_icalendar_token: 貸出iCalendarのトークン
         answer_rss_token: 回答用RSSのトークン
         duedate_reminder_days: Duedateリマインダー日
