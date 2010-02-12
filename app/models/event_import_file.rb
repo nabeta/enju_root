@@ -14,11 +14,20 @@ class EventImportFile < ActiveRecord::Base
   aasm_column :state
   aasm_initial_state :pending
   aasm_state :pending
+  aasm_state :started
   aasm_state :completed
 
   aasm_event :aasm_import do
-    transitions :from => :pending, :to => :completed,
+    transitions :from => :started, :to => :completed,
       :on_transition => :import
+  end
+  aasm_event :aasm_import_start do
+    transitions :from => :pending, :to => :started
+  end
+
+  def import_start
+    aasm_import_start!
+    aasm_import!
   end
 
   def import
@@ -28,7 +37,14 @@ class EventImportFile < ActiveRecord::Base
     file = FasterCSV.open(self.event_import.path, :col_sep => "\t")
     rows = FasterCSV.open(self.event_import.path, :headers => file.first, :col_sep => "\t")
     file.close
-    rows.shift
+    field = rows.first
+    if [field['title']].reject{|f| f.to_s.strip == ""}.empty?
+      raise "You should specify title in the first line"
+    end
+    if [field['start_at'], field['end_at'], field['all_day']].reject{|field| field.to_s.strip == ""}.empty?
+      raise "You should specify dates in the first line"
+    end
+    #rows.shift
     rows.each do |row|
       event = Event.new
       event.title = row['title']
@@ -36,6 +52,9 @@ class EventImportFile < ActiveRecord::Base
       event.start_at = row['start_at']
       event.end_at = row['end_at']
       category = row['category']
+      unless row['all_day'].to_s.strip.blank?
+        all_day = true
+      end
       library = Library.first(:conditions => {:name => row['library_short_name']})
       library = Library.web if library.blank?
       event.library = library

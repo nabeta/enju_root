@@ -14,11 +14,20 @@ class ResourceImportFile < ActiveRecord::Base
   aasm_column :state
   aasm_initial_state :pending
   aasm_state :pending
+  aasm_state :started
   aasm_state :completed
 
   aasm_event :aasm_import do
-    transitions :from => :pending, :to => :completed,
+    transitions :from => :started, :to => :completed,
       :on_transition => :import
+  end
+  aasm_event :aasm_import_start do
+    transitions :from => :pending, :to => :started
+  end
+
+  def import_start
+    aasm_import_start!
+    aasm_import!
   end
 
   def import
@@ -28,7 +37,11 @@ class ResourceImportFile < ActiveRecord::Base
     file = FasterCSV.open(self.resource_import.path, :col_sep => "\t")
     rows = FasterCSV.open(self.resource_import.path, :headers => file.first, :col_sep => "\t")
     file.close
-    rows.shift
+    field = rows.first
+    if [field['isbn'], field['original_title']].reject{|field| field.to_s.strip == ""}.empty?
+      raise "You should specify isbn or original_tile in the first line"
+    end
+    #rows.shift
     rows.each do |row|
       shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
@@ -37,21 +50,28 @@ class ResourceImportFile < ActiveRecord::Base
         manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
         if manifestation
           num[:found] += 1
+          Rails.logger.info("resource found: isbn #{row['isbn']}")
         else
           manifestation = Manifestation.import_isbn(row['isbn'].to_s.strip) rescue nil
           #num[:success] += 1 if manifestation
         end
       end
 
+      title = {}
+      title[:original_title] = row['original_title']
+      title[:title_transcription] = row['title_transcription']
+      title[:title_alternative] = row['title_alternative']
+
       ResourceImportFile.transaction do
         if manifestation.nil?
-          begin
+          #begin
             authors = row['author'].to_s.split(';')
             publishers = row['publisher'].to_s.split(';')
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
+            #title[:title_transcription_alternative] = row['title_transcription_alternative']
 
-            work = self.class.import_work(row['original_title'], author_patrons)
+            work = self.class.import_work(title, author_patrons)
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
@@ -59,18 +79,18 @@ class ResourceImportFile < ActiveRecord::Base
             save_imported_object(manifestation)
 
             Rails.logger.info("resource import succeeded: column #{record}")
-          rescue Exception => e
-            Rails.logger.info("resource import failed: column #{record}: #{e.message}")
-            num[:failure] += 1
-          end
+          #rescue Exception => e
+          #  Rails.logger.info("resource import failed: column #{record}: #{e.message}")
+          #  num[:failure] += 1
+          #end
         end
 
         begin
           if manifestation
-            item = self.class.import_item(manifestation, row['item_identifier'], shelf)
+            item = self.class.import_item(manifestation, row['item_identifier'], shelf) if row['item_identifier'].to_s.strip.present?
             save_imported_object(item)
             num[:success] += 1
-            Rails.logger.info("resource registration succeeded: column #{record}")
+            Rails.logger.info("resource registration succeeded: column #{record}"); next
           end
         rescue Exception => e
           Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
@@ -80,14 +100,13 @@ class ResourceImportFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
-    Sunspot.commit
+    #Sunspot.commit
     rows.close
     return num
   end
 
   def self.import_work(title, patrons)
-    work = Work.new
-    work.original_title = title
+    work = Work.new(title)
     #if work.save!
       work.patrons << patrons
     #end
@@ -95,7 +114,11 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def self.import_expression(work)
-    expression = Expression.new(:original_title => work.original_title)
+    expression = Expression.new(
+      :original_title => work.original_title,
+      :title_transcription => work.title_transcription,
+      :title_alternative => work.title_alternative
+    )
     #if expression.save!
       work.expressions << expression
     #end
@@ -146,17 +169,17 @@ class ResourceImportFile < ActiveRecord::Base
 
     # TODO
     for record in reader
-      work = Work.new(:title => record['245']['a'])
+      work = Work.new(:original_title => record['245']['a'])
       work.form_of_work = FormOfWork.find(1)
       work.save
 
-      expression = Expression.new(:title => work.original_title)
+      expression = Expression.new(:original_title => work.original_title)
       expression.content_type = ContentType.find(1)
       expression.language = Language.find(1)
       expression.save
       work.expressions << expression
 
-      manifestation = Manifestation.new(:title => expression.original_title)
+      manifestation = Manifestation.new(:original_title => expression.original_title)
       manifestation.carrier_type = CarrierType.find(1)
       manifestation.frequency = Frequency.find(1)
       manifestation.language = Language.find(1)

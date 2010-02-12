@@ -17,11 +17,20 @@ class PatronImportFile < ActiveRecord::Base
   aasm_column :state
   aasm_initial_state :pending
   aasm_state :pending
+  aasm_state :started
   aasm_state :completed
 
   aasm_event :aasm_import do
-    transitions :from => :pending, :to => :completed,
+    transitions :from => :started, :to => :completed,
       :on_transition => :import
+  end
+  aasm_event :aasm_import_start do
+    transitions :from => :pending, :to => :started
+  end
+
+  def import_start
+    aasm_import_start!
+    aasm_import!
   end
 
   def import
@@ -31,7 +40,11 @@ class PatronImportFile < ActiveRecord::Base
     file = FasterCSV.open(self.patron_import.path, :col_sep => "\t")
     rows = FasterCSV.open(self.patron_import.path, :headers => file.first, :col_sep => "\t")
     file.close
-    rows.shift
+    field = rows.first
+    if [field['first_name'], field['last_name'], field['full_name']].reject{|field| field.to_s.strip == ""}.empty?
+      raise "You should specify first_name, last_name or full_name in the first line"
+    end
+    #rows.shift
     rows.each do |row|
       begin
         patron = Patron.new

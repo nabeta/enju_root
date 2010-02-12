@@ -24,7 +24,7 @@ class Expression < ActiveRecord::Base
   belongs_to :content_type
   
   validates_associated :content_type, :language
-  validates_presence_of :content_type_id, :language_id
+  validates_presence_of :content_type_id, :language_id, :original_title
   
   searchable do
     text :title, :summarization, :context, :note
