@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   
   named_scope :administrators, :include => ['roles'], :conditions => ['roles.name = ?', 'Administrator']
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
-  named_scope :suspended, :conditions => {:suspended => true}
+  named_scope :suspended, :conditions => {:active => false}
 
   searchable :auto_index => false do
     text :login, :email, :note, :user_number
@@ -32,7 +32,9 @@ class User < ActiveRecord::Base
     integer :required_role_id
     time :created_at
     time :updated_at
-    boolean :suspended
+    boolean :active
+    boolean :confirmed
+    boolean :approved
   end
 
   has_one :patron
@@ -79,7 +81,7 @@ class User < ActiveRecord::Base
   attr_reader :auto_generated_password
   attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
   attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note, :role_id
-  attr_accessor :patron_id, :operator, :password_not_verified
+  attr_accessor :patron_id, :operator, :password_not_verified, :update_own_account
   attr_accessible :login, :email, :password, :password_confirmation, :openid_identifier, :old_password
 
   #validates_length_of       :login,    :within => 2..40
@@ -110,6 +112,14 @@ class User < ActiveRecord::Base
   #  self.full_name = self.patron.full_name if self.patron
   #end
 
+  def validate
+    if update_own_account
+      errors.add(:active) if self.changed.include?('active')
+      errors.add(:confirmed) if self.changed.include?('confirmed')
+      errors.add(:approved) if self.changed.include?('approved')
+    end
+  end
+
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
     self.locale = I18n.default_locale
@@ -135,7 +145,7 @@ class User < ActiveRecord::Base
     end
     #locked = true if self.user_number.blank?
 
-    self.suspended = true if locked
+    self.active = false if locked
   end
 
   def before_destroy
@@ -187,19 +197,19 @@ class User < ActiveRecord::Base
     self.answer_feed_token = nil
   end
 
-  def lock
-    self.suspended = true
+  def lock!
+    self.active = false
     save(false)
   end
 
   def suspended?
-    return true if self.suspended
+    return true unless self.active?
     false
   end
 
   def self.lock_expired_users
     User.fine_each do |user|
-      user.lock if user.expired?
+      user.lock! if user.expired?
     end
   end
 
@@ -208,7 +218,9 @@ class User < ActiveRecord::Base
   end
 
   def activate
-    self.suspended = false
+    self.active = true
+    self.confirmed = true
+    self.approved = true
   end
 
   def activate!
@@ -323,6 +335,14 @@ class User < ActiveRecord::Base
     else
       Tag.bookmarked(bookmark_ids)
     end
+  end
+
+  def check_update_own_account(user)
+    if user == self
+      self.update_own_account = true
+      return true
+    end
+    false
   end
 
   private

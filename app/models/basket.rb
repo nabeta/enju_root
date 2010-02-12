@@ -16,7 +16,7 @@ class Basket < ActiveRecord::Base
 
   def validate
     if self.user
-      errors.add_to_base(I18n.t('basket.this_account_is_suspended')) if self.user.suspended?
+      errors.add_to_base(I18n.t('basket.this_account_is_suspended')) unless self.user.active?
     end
   end
   

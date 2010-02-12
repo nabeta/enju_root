@@ -20,6 +20,7 @@ en:
       language: Language
       patron_merge_list: Patron merge list
       user: User
+      user_session: User session
       work_has_subject: Resource has subject
       picture_file: Picture file
       form_of_work: Form of works
@@ -289,7 +290,9 @@ en:
         activation_code: Activation code
         activated_at: Activated at
         expired_at: Expired at
-        suspended: Suspended
+        active: Active
+        confirmed: Confirmed
+        approved: Approved
         checkout_icalendar_token: Checkout iCalendar token
         answer_rss_token: Answer rss token
         due_date_reminder_days: Due date reminder days

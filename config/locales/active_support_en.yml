@@ -25,11 +25,12 @@ en:
       only_date: "%b %d, %Y"
       only_year_and_month: "%m %Y"
       only_month: "%m"
-    am: "AM"
-    pm: "PM"
+    am: "am"
+    pm: "pm"
       
 # Used in array.to_sentence.
   support:
     array:
-      sentence_connector: "and"
-      skip_last_comma: false
+      words_connector: ", "
+      two_words_connector: " and "
+      last_word_connector: ", and "

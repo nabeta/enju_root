@@ -19,7 +19,9 @@ librarian2:
   login: librarian2
   library_id: 1
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: librarian2@library.example.jp
   created_at: 2008-01-18 12:24:04.222344 +09:00
   save_search_history: false
@@ -49,7 +51,9 @@ user2:
   login: user2
   library_id: 1
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: user2@library.example.jp
   created_at: 2008-01-18 13:29:06.922728 +09:00
   save_search_history: false
@@ -79,7 +83,9 @@ admin:
   login: admin
   library_id: 2
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: tanabe@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:32.111941 +09:00
   save_search_history: true
@@ -109,7 +115,9 @@ librarian1:
   login: librarian1
   library_id: 1
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: librarian1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:33.172441 +09:00
   save_search_history: false
@@ -139,7 +147,9 @@ user1:
   login: user1
   library_id: 2
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: user1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
@@ -170,7 +180,9 @@ user3:
   login: user3
   library_id: 2
   answers_count: 0
-  suspended: true
+  active: false
+  confirmed: false
+  approved: false
   email: user3@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
