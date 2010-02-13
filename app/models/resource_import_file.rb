@@ -5,7 +5,7 @@ class ResourceImportFile < ActiveRecord::Base
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attached_file :resource_import, :path => ":rails_root/private:url"
-  validates_attachment_content_type :patron_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream]
+  validates_attachment_content_type :resource_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
