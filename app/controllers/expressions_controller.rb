@@ -42,6 +42,12 @@ class ExpressionsController < ApplicationController
         with(:expression_merge_list_ids).equal_to expression_merge_list.id if expression_merge_list
       end
     end
+
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id+1
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)
     begin
@@ -56,8 +62,10 @@ class ExpressionsController < ApplicationController
       format.xml  { render :xml => @expressions }
       format.atom
     end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to expressions_url
+    return
   end
 
   # GET /expressions/1
@@ -72,7 +80,7 @@ class ExpressionsController < ApplicationController
     else
       @expression = Expression.find(params[:id])
     end
-    @expression = @expression.versions.find(@version).reify if @version
+    @expression = @expression.versions.find(@version).item if @version
 
     canonical_url expression_url(@expression)
 
@@ -185,6 +193,7 @@ class ExpressionsController < ApplicationController
     else
       @content_types = ContentType.all
       @languages = Language.all
+      @roles = Role.all
     end
   end
 end

@@ -1,9 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), library_groups_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.library_group')) -%></h1>
 <div id="content_list">
@@ -47,6 +41,10 @@
   </p>
 
   <p>
+    <%= f.label t('activerecord.attributes.library_group.admin_networks') -%><br />
+    <%= f.text_area :admin_networks -%>
+  </p>
+
     <%= f.label t('activerecord.attributes.library_group.use_dsbl') -%>
     <%= f.check_box :use_dsbl -%>
   </p>
@@ -64,4 +62,10 @@
   <%= f.submit t('page.update') -%>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), library_groups_path -%></li>
+  </ul>
 </div>

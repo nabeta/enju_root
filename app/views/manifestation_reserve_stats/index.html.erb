@@ -10,7 +10,7 @@
   </tr>
 
 <%- for manifestation_reserve_stat in @manifestation_reserve_stats -%>
-  <tr>
+  <tr class="line<%= cycle("0", "1") -%>">
     <td><%= l(manifestation_reserve_stat.start_date) -%></td>
     <td><%= l(manifestation_reserve_stat.end_date) -%></td>
     <td><%= manifestation_reserve_stat.note -%></td>

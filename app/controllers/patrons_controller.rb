@@ -52,15 +52,9 @@ class PatronsController < ApplicationController
       end
     end
 
-    if logged_in?
-      user = current_user
-      search.build do
-       unless user.has_role?('Librarian')
-          with(:required_role_id).less_than 2
-        else
-          with(:required_role_id).equal_to 1
-        end
-      end
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id+1
     end
 
     page = params[:page] || 1
@@ -78,6 +72,10 @@ class PatronsController < ApplicationController
       format.atom
       format.json { render :json => @patrons }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to patrons_url
+    return
   end
 
   # GET /patrons/1
@@ -95,7 +93,7 @@ class PatronsController < ApplicationController
     else
       @patron = Patron.find(params[:id])
     end
-    @patron = @patron.versions.find(@version).reify if @version
+    @patron = @patron.versions.find(@version).item if @version
 
     #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
     @works = @patron.works.paginate(:page => params[:work_list_page])
@@ -174,6 +172,10 @@ class PatronsController < ApplicationController
         when @manifestation
           @manifestation.patrons << @patron
           format.html { redirect_to patron_manifestation_url(@patron, @manifestation) }
+          format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
+        when @item
+          @item.patrons << @patron
+          format.html { redirect_to patron_item_url(@patron, @item) }
           format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
         else
           format.html { redirect_to(@patron) }

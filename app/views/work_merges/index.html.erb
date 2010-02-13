@@ -1,11 +1,3 @@
-<div id="submenu">
-  <ul>
-    <%- if @work_merge_list -%>
-      <li><%= link_to ('Add a work'), work_merge_list_works_path(@work_merge_list) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work_merge')) -%></h1>
 <div id="content_list">
@@ -29,4 +21,12 @@
 
 <%= will_paginate(@work_merges, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if @work_merge_list -%>
+      <li><%= link_to t('page.add', :model => t('activerecord.models.work')), work_merge_list_works_path(@work_merge_list) -%></li>
+    <%- end -%>
+  </ul>
 </div>

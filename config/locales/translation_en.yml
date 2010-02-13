@@ -3,7 +3,7 @@ en:
     models:
       library: Library
       question: Question
-      patron_import_file: Imported patron file
+      patron_import_file: Patron import file
       circulation_status: Circulation status
       inventory: Inventory
       patron: Patron
@@ -20,6 +20,7 @@ en:
       language: Language
       patron_merge_list: Patron merge list
       user: User
+      user_session: User session
       work_has_subject: Resource has subject
       picture_file: Picture file
       form_of_work: Form of works
@@ -78,14 +79,14 @@ en:
       carrier_type: Carrier Type
       manifestation: Manifestation
       user_group: User group
-      resource_import_file: Imported resource file
+      resource_import_file: Resource import file
       checkout: Checkout
       subscription: Subscription
       message_template: Message template
       patron_merge: Patron merge
       subject_related_term: Subject related term
       library_group: Library group
-      event_import_file: Imported event file
+      event_import_file: Event import file
       attachment_file: Attachment file
       reserve: Reserve
       message_request: Message request
@@ -174,6 +175,7 @@ en:
         note: Note
         imported_at: Imported at
         patron_import_updated_at: Updated at
+        state: State
       circulation_status:
         name: Name
         display_name: Display name
@@ -288,7 +290,9 @@ en:
         activation_code: Activation code
         activated_at: Activated at
         expired_at: Expired at
-        suspended: Suspended
+        active: Active
+        confirmed: Confirmed
+        approved: Approved
         checkout_icalendar_token: Checkout iCalendar token
         answer_rss_token: Answer rss token
         due_date_reminder_days: Due date reminder days
@@ -612,6 +616,7 @@ en:
         note: Note
         imported_at: Imported at
         resource_import_updated_at: Updated at
+        state: State
       checkout:
         due_date: Due date
         lock_version: Lock version
@@ -633,6 +638,7 @@ en:
         short_name: Short name
         email: Email
         my_networks: My networks
+        admin_networks: Admin networks
         use_dsbl: Use DSBL
         dsbl_list: DSBL list
         note: Note
@@ -647,6 +653,7 @@ en:
         note: Note
         imported_at: Imported at
         event_import_updated_at: Updated at
+        state: State
       attachment_file:
         attachable_type: Attachable type
         size: Size
@@ -1098,6 +1105,9 @@ en:
     current_version: "Current version"
     select: "Select"
     other_view: "Other views"
+    boolean:
+      "true": "Yes"
+      "false": "No"
   title:
     index: "index"
     show: "show"

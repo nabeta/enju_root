@@ -20,6 +20,7 @@ ja:
       language: 言語
       patron_merge_list: パトロンの併合リスト
       user: 利用者
+      user_session: ログインセッション
       work_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       form_of_work: 著作形の形態
@@ -175,6 +176,7 @@ ja:
         note: 注記
         imported_at: インポート時刻
         patron_import_updated_at: 更新時刻
+        state: 状態
       circulation_status:
         name: 名前
         display_name: 表示名
@@ -289,7 +291,9 @@ ja:
         activation_code: 活性化コード
         activated_at: 登録時刻
         expired_at: 有効期限
-        suspended: アカウントの停止
+        active: 利用可能
+        confirmed: 確認済み
+        approved: 承認済み
         checkout_icalendar_token: 貸出iCalendarのトークン
         answer_rss_token: 回答用RSSのトークン
         duedate_reminder_days: Duedateリマインダー日
@@ -613,6 +617,7 @@ ja:
         note: 注記
         imported_at: インポート時刻
         resource_import_updated_at: 更新時刻
+        state: 状態
       checkout:
         due_date: 期日
         lock_version: ロックバージョン
@@ -634,6 +639,7 @@ ja:
         short_name: 短縮名
         email: メール
         my_networks: LANとして扱うネットワーク
+        admin_networks: 管理用として扱うネットワーク
         use_dsbl: DSBLを使用する
         dsbl_list: DSBLの一覧
         note: 注記
@@ -648,6 +654,7 @@ ja:
         note: 注記
         imported_at: インポート時刻
         event_import_updated_at: 更新時刻
+        state: 状態
       attachment_file:
         attachable_type: 添付可能な種類
         size: ファイルサイズ
@@ -1087,6 +1094,9 @@ ja:
     current_version: "最新版"
     select: "選択"
     other_view: "他の画像"
+    boolean:
+      "true": "はい"
+      "false": "いいえ"
   title:
     index: "一覧"
     show: "表示"

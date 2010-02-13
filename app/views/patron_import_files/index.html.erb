@@ -4,16 +4,23 @@
 
 <table class="index">
   <tr>
+    <th>Id</th>
     <th><%= t('activerecord.attributes.patron_import_file.patron_import_file_name') -%></th>
     <th><%= t('activerecord.attributes.patron_import_file.imported_at') -%></th>
     <th><%= t('activerecord.models.user') -%></th>
+    <th><%= t('activerecord.attributes.resource_import_file.state') -%></th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <%- for patron_import_file in @patron_import_files -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(patron_import_file.id), patron_import_file -%></td>
     <td><%= patron_import_file.patron_import_file_name -%></td>
     <td><%= l(patron_import_file.imported_at) if patron_import_file.imported_at -%></td>
     <td><%= link_to h(patron_import_file.user.login), user_path(patron_import_file.user.login) -%></td>
+    <td><%= i18n_state(patron_import_file.state) -%></td>
     <td><%= link_to t('page.show'), patron_import_file -%></td>
     <td><%= link_to t('page.edit'), edit_patron_import_file_path(patron_import_file) -%></td>
     <td><%= link_to t('page.destroy'), patron_import_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

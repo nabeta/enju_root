@@ -1,20 +1,18 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_event_import_file_path(@event_import_file) -%></li>
-    <li><%= link_to t('page.back'), event_import_files_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.event_import_file')) -%></h1>
 <div id="content_list">
+<p>
+  <strong>Id:</strong>
+  <%= @event_import_file.id -%>
+</p>
+
 <p>
   <strong><%= t('activerecord.attributes.event_import_file.event_import_file_name') -%>:</strong>
   <%= link_to h(@event_import_file.event_import_file_name), event_import_file_path(@event_import_file, :format => :download) -%>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.event_import_file.imported_event_content_type') -%>:</strong>
+  <strong><%= t('activerecord.attributes.event_import_file.event_import_content_type') -%>:</strong>
   <%= @event_import_file.event_import_content_type -%>
 </p>
 
@@ -39,24 +37,31 @@
 </p>
 
 <p>
+  <strong><%= t('activerecord.attributes.resource_import_file.state') -%>:</strong>
+  <%= i18n_state(@event_import_file.state) -%>
+</p>
+
+<p>
   <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@event_import_file.user.login), user_path(@event_import_file.user.login) -%>
 </p>
 
 <table class="index">
   <%- @event_import_file.imported_objects.each do |object| -%>
-    <tr>
+    <tr class="line<%= cycle("0", "1") -%>">
       <td><%= link_to h(object.importable.title), object.importable -%></td>
-      <td><%= link_to h(object.importable.library.display_name.localize), object.importable.library -%></td>
-      <td>
-        <%= l(object.importable.start_at) -%>
-        -
-        <%= l(object.importable.end_at) -%>
-
-      </td>
+      <td><%= link_to h(object.importable.user.login), user_path(object.importable.login) if object.importable.user -%></td>
+      <td><%= l(object.created_at) -%></td>
     </tr>
   <%- end -%>
 </table>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_event_import_file_path(@event_import_file) -%></li>
+    <li><%= link_to t('page.back'), event_import_files_path -%></li>
+  </ul>
 </div>

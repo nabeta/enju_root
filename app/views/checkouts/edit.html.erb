@@ -1,11 +1,3 @@
-<div id="submenu">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} if @checkout.item -%>
-  <ul>
-    <li><%= link_to t('page.show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
-    <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.checkout')) -%></h1>
 <div id="content_list">
@@ -44,4 +36,12 @@
   </p>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @checkout.item.manifestation} if @checkout.item -%>
+  <ul>
+    <li><%= link_to t('page.show'), user_checkout_path(@checkout.user.login, @checkout) -%></li>
+    <li><%= link_to t('page.back'), user_checkouts_path(@checkout.user.login) -%></li>
+  </ul>
 </div>

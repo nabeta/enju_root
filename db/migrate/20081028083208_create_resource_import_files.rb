@@ -1,7 +1,6 @@
 class CreateResourceImportFiles < ActiveRecord::Migration
   def self.up
     create_table :resource_import_files do |t|
-      t.integer :db_file_id
       t.integer :parent_id
       t.string :filename
       t.string :content_type
@@ -18,10 +17,10 @@ class CreateResourceImportFiles < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :resource_import_files, :db_file_id
     add_index :resource_import_files, :parent_id
     add_index :resource_import_files, :user_id
     add_index :resource_import_files, :file_hash
+    add_index :resource_import_files, :state
   end
 
   def self.down

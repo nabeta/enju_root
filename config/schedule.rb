@@ -45,6 +45,7 @@ end
 
 every 1.day, :at => '3:00 am' do
   rake "enju:reindex"
+#  rake "sitemap:refresh:no_ping"
 end
 
 every 1.day, :at => '9:00 am' do

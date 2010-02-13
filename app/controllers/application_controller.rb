@@ -282,7 +282,12 @@ class ApplicationController < ActionController::Base
   end
 
   def my_networks?
-    return true if LibraryGroup.site_config.my_networks?(request.remote_ip)
+    return true if LibraryGroup.site_config.network_access_allowed?(request.remote_ip, :network_type => 'lan')
+    false
+  end
+
+  def admin_networks?
+    return true if LibraryGroup.site_config.network_access_allowed?(request.remote_ip, :network_type => 'admin')
     false
   end
 
@@ -290,9 +295,13 @@ class ApplicationController < ActionController::Base
     access_denied unless my_networks?
   end
 
+  def admin_networks?
+    access_denied unless admin_networks?
+  end
+
   def check_dsbl
     @library_group = LibraryGroup.site_config
-    return true if @library_group.my_networks?(request.remote_ip)
+    return true if @library_group.network_access_allowed?(request.remote_ip, :network_type => 'lan')
     begin
       dsbl_hosts = @library_group.dsbl_list.split.compact
       reversed_address = request.remote_ip.split(/\./).reverse.join(".")

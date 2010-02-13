@@ -1,21 +1,3 @@
-<div id="submenu">
-  <ul>
-    <%- if @purchase_request.order_list -%>
-      <li><%= link_to t('purchase_request.remove_from_order_list'), order_list_order_path(@purchase_request.order_list, @purchase_request.order), :method => :delete, :confirm => t('page.are_you_sure') -%></li>
-    <%- else -%>
-      <li><%= link_to t('purchase_request.add_to_order_list'), new_purchase_request_order_path(@purchase_request) -%></li>
-    <%- end -%>
-    <%- if @user -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(@user.login)%></li>
-    <%- end -%>
-    <li><%= link_to t('page.edit'), edit_user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
-    <%- if current_user.has_role?('Librarian') -%>
-      <li><%= link_to t('page.destroy'), user_purchase_request_path(@purchase_request.user.login, @purchase_request), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-    <%- end -%>
-    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login, :page => flash[:page] ||= nil) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.purchase_request')) -%></h1>
 <div id="content_list">
@@ -90,4 +72,22 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if @purchase_request.order_list -%>
+      <li><%= link_to t('purchase_request.remove_from_order_list'), order_list_order_path(@purchase_request.order_list, @purchase_request.order), :method => :delete, :confirm => t('page.are_you_sure') -%></li>
+    <%- else -%>
+      <li><%= link_to t('purchase_request.add_to_order_list'), new_purchase_request_order_path(@purchase_request) -%></li>
+    <%- end -%>
+    <%- if @user -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(@user.login)%></li>
+    <%- end -%>
+    <li><%= link_to t('page.edit'), edit_user_purchase_request_path(@purchase_request.user.login, @purchase_request) -%></li>
+    <%- if current_user.has_role?('Librarian') -%>
+      <li><%= link_to t('page.destroy'), user_purchase_request_path(@purchase_request.user.login, @purchase_request), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.back'), user_purchase_requests_path(@purchase_request.user.login, :page => flash[:page] ||= nil) -%></li>
+  </ul>
 </div>

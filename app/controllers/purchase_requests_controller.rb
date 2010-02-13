@@ -63,6 +63,10 @@ class PurchaseRequestsController < ApplicationController
       format.atom
       format.csv
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to purchase_requests_url
+    return
   end
 
   # GET /purchase_requests/1

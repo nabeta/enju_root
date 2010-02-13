@@ -1,105 +1,3 @@
-<div id="submenu">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
-    <%- unless @manifestation.picture_files.empty? -%>
-      <ul>
-        <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
-          <%- if @manifestation.amazon -%>
-            <%- if i == 0 -%>
-              <li><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
-            <%- else -%>
-              <li style="display: none"><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
-            <%- end -%>
-          <%- else -%>
-            <%- next if i == 0 -%>
-            <%- if i == 1 -%>
-              <li><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
-            <%- else -%>
-              <li style="display: none"><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
-            <%- end -%>
-          <%- end -%>
-        <%- end -%>
-        <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>
-        <%- if current_user.try(:has_role?, 'Librarian') -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
-        <%- end -%>
-      </ul>
-      <script type="text/javascript">
-        jQuery(document).ready(function(){
-          jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
-        })
-      </script>
-    <%- else -%>
-      <%- if current_user.try(:has_role?, 'Librarian') -%>
-        <ul>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
-        </ul>
-      <%- end -%>
-    <%- end -%>
-  <%- end -%>
-  <%- if logged_in? -%>
-    <div id="call_number_content">
-      <%- for item in @manifestation.items.on_shelf -%>
-        <%- if item.hold?(current_user.library) -%>
-          <%= call_number_label(item) -%>
-        <%- end -%>
-      <%- end -%>
-    </div>
-  <%- end -%>
-
-  <div id="manifestation_bookmark_buttons">
-    <%- if logged_in? -%>
-      <ul>
-        <%- if current_user.email.present? -%>
-          <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :confirm => t('page.are_you_sure') -%></li>
-        <%- end -%>
-        <%- if @manifestation.bookmarked?(current_user) -%>
-          <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.first(:conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
-        <%- else -%>
-          <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
-        <%- end -%>
-
-      <%- unless @manifestation.carrier_type.name == 'file' -%>
-        <li>
-          <%- if current_user.has_role?('Librarian') -%>
-            <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
-          <%- else -%>
-            <%- if @manifestation.is_reserved_by(current_user) -%>
-              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
-            <%- else -%>
-              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
-            <%- end -%>
-          <%- end -%>
-          <br />
-          (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
-        </li>
-      <%- end -%>
-      </ul>
-
-      <%- if current_user.has_role?('Librarian') -%>
-        <ul>
-          <li><%= link_to t('page.add_derivation'), manifestation_manifestations_path(@manifestation) -%></li>
-          <%- case when @expression -%>
-            <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
-          <%- when @patron -%>
-            <li><%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
-          <%- else -%>
-            <li><%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%></li>
-          <%- end -%>
-          <ul>
-            <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
-            <%- if @manifestation.serial? -%>
-              <li><%= link_to t('manifestation.add_next_issue'), new_series_statement_manifestation_path(@manifestation.series_statement) if @manifestation.series_statement -%></li>
-            <%- end -%>
-          </ul>
-          <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
-          <li><%= link_to t('manifestation.edit_item'), manifestation_items_path(@manifestation) -%></li>
-        </ul>
-      <%- end -%>
-    <%- end -%>
-  </div>
-</div>
-
   <div id="content_detail">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
   <div id="content_list">
@@ -323,4 +221,106 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
+    <%- unless @manifestation.picture_files.empty? -%>
+      <ul>
+        <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
+          <%- if @manifestation.amazon -%>
+            <%- if i == 0 -%>
+              <li><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- else -%>
+              <li style="display: none"><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- end -%>
+          <%- else -%>
+            <%- next if i == 0 -%>
+            <%- if i == 1 -%>
+              <li><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- else -%>
+              <li style="display: none"><%= link_to_custom_book_jacket(@manifestation, picture_file) -%></li>
+            <%- end -%>
+          <%- end -%>
+        <%- end -%>
+        <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>
+        <%- if current_user.try(:has_role?, 'Librarian') -%>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
+        <%- end -%>
+      </ul>
+      <script type="text/javascript">
+        jQuery(document).ready(function(){
+          jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
+        })
+      </script>
+    <%- else -%>
+      <%- if current_user.try(:has_role?, 'Librarian') -%>
+        <ul>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
+        </ul>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+  <%- if logged_in? -%>
+    <div id="call_number_content">
+      <%- for item in @manifestation.items.on_shelf -%>
+        <%- if item.hold?(current_user.library) -%>
+          <%= call_number_label(item) -%>
+        <%- end -%>
+      <%- end -%>
+    </div>
+  <%- end -%>
+
+  <div id="manifestation_bookmark_buttons">
+    <%- if logged_in? -%>
+      <ul>
+        <%- if current_user.email.present? -%>
+          <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :confirm => t('page.are_you_sure') -%></li>
+        <%- end -%>
+        <%- if @manifestation.bookmarked?(current_user) -%>
+          <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.first(:conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+        <%- else -%>
+          <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :path => url_for)) -%></li>
+        <%- end -%>
+
+      <%- unless @manifestation.carrier_type.name == 'file' -%>
+        <li>
+          <%- if current_user.has_role?('Librarian') -%>
+            <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
+          <%- else -%>
+            <%- if @manifestation.is_reserved_by(current_user) -%>
+              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
+            <%- else -%>
+              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
+            <%- end -%>
+          <%- end -%>
+          <br />
+          (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
+        </li>
+      <%- end -%>
+      </ul>
+
+      <%- if current_user.has_role?('Librarian') -%>
+        <ul>
+          <li><%= link_to t('page.add_derivation'), manifestation_manifestations_path(@manifestation) -%></li>
+          <%- case when @expression -%>
+            <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
+          <%- when @patron -%>
+            <li><%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
+          <%- else -%>
+            <li><%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%></li>
+          <%- end -%>
+          <ul>
+            <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
+            <%- if @manifestation.serial? -%>
+              <li><%= link_to t('manifestation.add_next_issue'), new_series_statement_manifestation_path(@manifestation.series_statement) if @manifestation.series_statement -%></li>
+            <%- end -%>
+          </ul>
+          <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
+          <li><%= link_to t('manifestation.edit_item'), manifestation_items_path(@manifestation) -%></li>
+        </ul>
+      <%- end -%>
+    <%- end -%>
+  </div>
 </div>

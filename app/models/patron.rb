@@ -43,7 +43,7 @@ class Patron < ActiveRecord::Base
   validates_length_of :full_name, :maximum => 255
 
   searchable do
-    text :name, :place, :address_1, :address_2, :other_designation
+    text :name, :place, :address_1, :address_2, :other_designation, :note
     string :zip_code_1
     string :zip_code_2
     string :login do
@@ -75,22 +75,22 @@ class Patron < ActiveRecord::Base
   def before_validation_on_create
     self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
     if self.full_name.blank?
-      self.full_name = [last_name, middle_name, first_name].split(" ").to_s
+      self.full_name = [last_name, middle_name, first_name].split(" ").to_s.strip
     end
     if self.full_name_transcription.blank?
-      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s
+      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s.strip
     end
   end
 
   def full_name
     if self[:full_name].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.last_name} #{self.first_name}"
+        "#{self.last_name} #{self.first_name}".strip
       else
-        "#{self.first_name} #{self.last_name}"
+        "#{self.first_name} #{self.last_name}".strip
       end
     else
-      self[:full_name]
+      self[:full_name].to_s.strip
     end
   end
 

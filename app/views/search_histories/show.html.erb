@@ -1,10 +1,5 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), search_histories_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.search_history')) -%></h1>
 <div id="content_list">
 <p>
   <strong>Operation:</strong>
@@ -67,4 +62,10 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), search_histories_path -%></li>
+  </ul>
 </div>

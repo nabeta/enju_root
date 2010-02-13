@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @search_engine -%></li>
-    <li><%= link_to t('page.back'), search_engines_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.search_engine')) -%></h1>
 <div id="content_list">
@@ -46,4 +39,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @search_engine -%></li>
+    <li><%= link_to t('page.back'), search_engines_path -%></li>
+  </ul>
 </div>

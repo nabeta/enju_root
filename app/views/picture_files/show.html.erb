@@ -1,19 +1,5 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_picture_file_path(@picture_file) -%></li>
-    <%- case when @picture_file.picture_attachable.is_a?(Shelf) -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), shelf_picture_files_path(@picture_file.picture_attachable) -%></li>
-    <%- when @picture_file.picture_attachable.is_a?(Manifestation) -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@picture_file.picture_attachable) -%></li>
-    <%- when @picture_file.picture_attachable.is_a?(Patron) -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), patron_picture_files_path(@picture_file.picture_attachable) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), picture_files_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.picture_file')) -%></h1>
 <div id="content_list">
 <p>
   <strong><%= t('page.attachable') -%>:</strong>
@@ -57,4 +43,19 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_picture_file_path(@picture_file) -%></li>
+    <%- case when @picture_file.picture_attachable.is_a?(Shelf) -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), shelf_picture_files_path(@picture_file.picture_attachable) -%></li>
+    <%- when @picture_file.picture_attachable.is_a?(Manifestation) -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@picture_file.picture_attachable) -%></li>
+    <%- when @picture_file.picture_attachable.is_a?(Patron) -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), patron_picture_files_path(@picture_file.picture_attachable) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), picture_files_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

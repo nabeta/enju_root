@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_user_group_has_checkout_type_path(@user_group_has_checkout_type) -%></li>
-    <li><%= link_to t('page.back'), user_group_has_checkout_types_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_group_has_checkout_type')) -%></h1>
 <div id="content_list">
@@ -50,8 +43,15 @@
 
 <p>
   <strong><%= t('activerecord.attributes.user_group_has_checkout_type.set_due_date_before_closing_day') -%>:</strong>
-  <%= @user_group_has_checkout_type.set_due_date_before_closing_day -%>
+  <%= i18n_boolean(@user_group_has_checkout_type.set_due_date_before_closing_day) -%>
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_user_group_has_checkout_type_path(@user_group_has_checkout_type) -%></li>
+    <li><%= link_to t('page.back'), user_group_has_checkout_types_path -%></li>
+  </ul>
 </div>

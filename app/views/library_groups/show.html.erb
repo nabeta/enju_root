@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_library_group_path(@library_group) -%></li>
-    <li><%= link_to t('page.back'), library_groups_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.library_group')) -%></h1>
 <div id="content_list">
@@ -30,7 +23,7 @@
 
 <div>
   <strong><%= t('activerecord.attributes.library_group.login_banner') -%>:</strong>
-  <%= textilize(@library_group.login_banner) -%>
+  <%= raw textilize(h(@library_group.login_banner)) -%>
 </div>
 
 <p>
@@ -44,13 +37,18 @@
 </p>
 
 <p>
+  <strong><%= t('activerecord.attributes.library_group.admin_networks') -%>:</strong>
+  <%= @library_group.admin_networks -%>
+</p>
+
+<p>
   <strong><%= t('activerecord.attributes.library_group.use_dsbl') -%>:</strong>
   <%= @library_group.use_dsbl -%>
 </p>
 
 <p>
   <strong><%= t('activerecord.attributes.library_group.dsbl_list') -%>:</strong>
-  <%= simple_format(h(@library_group.dsbl_list)) -%>
+  <%= raw simple_format(h(@library_group.dsbl_list)) -%>
 </p>
 
 <p>
@@ -79,4 +77,11 @@
 </ul>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_library_group_path(@library_group) -%></li>
+    <li><%= link_to t('page.back'), library_groups_path -%></li>
+  </ul>
 </div>

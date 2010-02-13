@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_advertise_path(@advertise) -%></li>
-    <li><%= link_to t('page.back'), advertises_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.advertise')) -%></h1>
 <div id="content_list">
@@ -19,4 +12,11 @@
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_advertise_path(@advertise) -%></li>
+    <li><%= link_to t('page.back'), advertises_path -%></li>
+  </ul>
 </div>

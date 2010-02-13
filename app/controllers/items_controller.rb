@@ -2,7 +2,7 @@
 class ItemsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
-  before_filter :get_patron, :only => [:index]
+  before_filter :get_patron
   before_filter :get_manifestation, :get_inventory_file
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
@@ -74,6 +74,11 @@ class ItemsController < ApplicationController
         order_by(:created_at, :desc)
       end
 
+      role = current_user.try(:highest_role) || Role.find(1)
+      search.build do
+        with(:required_role_id).less_than role.id+1
+      end
+
       page = params[:page] || 1
       search.query.paginate(page.to_i, Item.per_page)
       begin
@@ -96,13 +101,17 @@ class ItemsController < ApplicationController
       format.csv  { render :layout => false }
       format.atom
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to items_url
+    return
   end
 
   # GET /items/1
   # GET /items/1.xml
   def show
     @item = Item.find(params[:id])
-    @item = @item.versions.find(@version).reify if @version
+    @item = @item.versions.find(@version).item if @version
 
     canonical_url item_url(@item)
 
@@ -173,8 +182,13 @@ class ItemsController < ApplicationController
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
         @item.send_later(:post_to_union_catalog) if LibraryGroup.site_config.post_to_union_catalog
-        format.html { redirect_to(@item) }
-        format.xml  { render :xml => @item, :status => :created, :location => @item }
+        if @patron
+          format.html { redirect_to patron_item_url(@patron, @item) }
+          format.xml  { render :xml => @item, :status => :created, :location => @item }
+        else
+          format.html { redirect_to(@item) }
+          format.xml  { render :xml => @item, :status => :created, :location => @item }
+        end
       else
         prepare_options
         format.html { render :action => "new" }
@@ -249,6 +263,7 @@ class ItemsController < ApplicationController
     else
       @checkout_types = CheckoutType.all
     end
+    @roles = Role.all
   end
 
 end

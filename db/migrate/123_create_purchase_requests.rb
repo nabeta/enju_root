@@ -2,7 +2,6 @@ class CreatePurchaseRequests < ActiveRecord::Migration
   def self.up
     create_table :purchase_requests do |t|
       t.integer :user_id, :null => false
-      t.integer :order_status_id, :null => false, :default => 1
       t.text :title, :null => false
       t.text :author
       t.text :publisher
@@ -21,7 +20,7 @@ class CreatePurchaseRequests < ActiveRecord::Migration
       t.timestamps
     end
     add_index :purchase_requests, :user_id
-    add_index :purchase_requests, :order_status_id
+    add_index :purchase_requests, :state
   end
 
   def self.down

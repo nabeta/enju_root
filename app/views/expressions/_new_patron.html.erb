@@ -1,9 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), patron_expressions_path(@patron) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
@@ -15,4 +9,10 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), patron_expressions_path(@patron) -%></li>
+  </ul>
 </div>

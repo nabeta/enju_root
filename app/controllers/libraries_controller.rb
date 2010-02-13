@@ -36,6 +36,10 @@ class LibrariesController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @libraries }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to libraries_url
+    return
   end
 
   # GET /libraries/1

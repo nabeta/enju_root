@@ -1,13 +1,6 @@
-<div id="submenu">
-  <ul>
-    <%- if Embody.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), expression_manifestations_path(@expression) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_list">
 
 <h3><%= link_to h(@expression.original_title), @expression -%></h3>
 
@@ -29,7 +22,14 @@
 <%- end -%>
 </table>
 
-<br />
-
 <%= will_paginate(@embodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Embody.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), expression_manifestations_path(@expression) -%></li>
+    <%- end -%>
+  </ul>
 </div>

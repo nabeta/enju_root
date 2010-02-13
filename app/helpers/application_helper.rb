@@ -200,4 +200,14 @@ module ApplicationHelper
     end
   end
 
+  def i18n_boolean(bool)
+    case bool
+    when nil
+    when true
+      t('page.boolean.true')
+    when false
+      t('page.boolean.false')
+    end
+  end
+
 end

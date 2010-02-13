@@ -46,6 +46,10 @@ class BookmarksController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @bookmarks }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to bookmarks_url
+    return
   end
 
   # GET /bookmarks/1
@@ -124,9 +128,13 @@ class BookmarksController < ApplicationController
       begin
         if @bookmark.save
           flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
-          #format.html { redirect_to manifestation_url(@bookmark.manifestation) }
-          format.html { redirect_to(@bookmark) }
-          format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
+          if params[:tag_edit] == 'manifestation'
+            format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
+          else
+            format.html { redirect_to(@bookmark) }
+            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
+          end
         else
           @user = current_user
           format.html { render :action => "new" }
@@ -167,8 +175,7 @@ class BookmarksController < ApplicationController
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
         @bookmark.manifestation.save
         if params[:tag_edit] == 'manifestation'
-          #format.html { redirect_to manifestation_url(@bookmark.manifestation) }
-          format.html { redirect_to(@bookmark) }
+          format.html { redirect_to manifestation_url(@bookmark.manifestation) }
           format.xml  { head :ok }
         else
           format.html { redirect_to user_bookmark_url(@bookmark.user.login, @bookmark) }

@@ -1,14 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.checkout')), checkouts_path -%></li>
-  </ul>
-  <p>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), checkouts_path(:format => :rss, :view => 'overdue') -%>
-    (<%= link_to ('RSS'), checkouts_path(:format => :rss, :view => 'overdue') -%>)
-    (<%= link_to ('CSV'), checkouts_path(:format => :csv, :view => 'overdue', :locale => @locale) -%>)
-  </p>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('checkout.listing_overdue_item') -%></h1>
 <div id="content_list">
@@ -29,4 +18,15 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.checkout')), checkouts_path -%></li>
+  </ul>
+  <p>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => 'RSS', :border => 0), checkouts_path(:format => :rss, :view => 'overdue') -%>
+    (<%= link_to 'RSS', checkouts_path(:format => :rss, :view => 'overdue') -%>)
+    (<%= link_to 'CSV', checkouts_path(:format => :csv, :view => 'overdue', :locale => @locale) -%>)
+  </p>
 </div>

@@ -39,6 +39,12 @@ class WorksController < ApplicationController
         with(:work_merge_list_ids).equal_to work_merge_list.id if work_merge_list
       end
     end
+
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id+1
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Work.per_page)
     begin
@@ -53,13 +59,17 @@ class WorksController < ApplicationController
       format.xml  { render :xml => @works }
       format.atom
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to works_url
+    return
   end
 
   # GET /works/1
   # GET /works/1.xml
   def show
     @work = Work.find(params[:id])
-    @work = @work.versions.find(@version).reify if @version
+    @work = @work.versions.find(@version).item if @version
 
     if @patron
       created = @work.patrons.find(@patron) rescue nil
@@ -172,6 +182,7 @@ class WorksController < ApplicationController
   private
   def prepare_options
     @form_of_works = FormOfWork.all
+    @roles = Role.all
   end
 
 end
