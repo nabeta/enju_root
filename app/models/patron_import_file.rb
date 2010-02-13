@@ -4,10 +4,8 @@ class PatronImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
-  #has_attachment :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
-  #validates_as_attachment
   has_attached_file :patron_import, :path => ":rails_root/private:url"
-  validates_attachment_content_type :patron_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
+  validates_attachment_content_type :patron_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
@@ -18,6 +16,7 @@ class PatronImportFile < ActiveRecord::Base
   aasm_initial_state :pending
   aasm_state :pending
   aasm_state :started
+  aasm_state :failed
   aasm_state :completed
 
   aasm_event :aasm_import do
@@ -27,6 +26,9 @@ class PatronImportFile < ActiveRecord::Base
   aasm_event :aasm_import_start do
     transitions :from => :pending, :to => :started
   end
+  aasm_event :aasm_fail do
+    transitions :from => :started, :to => :failed
+  end
 
   def import_start
     aasm_import_start!
@@ -34,6 +36,10 @@ class PatronImportFile < ActiveRecord::Base
   end
 
   def import
+    if FileWrapper.get_mime(patron_import.path)
+      aasm_fail!
+      raise 'Invalid format'
+    end
     self.reload
     num = {:success => 0, :failure => 0, :activated => 0}
     record = 2

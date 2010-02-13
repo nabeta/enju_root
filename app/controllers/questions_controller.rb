@@ -76,7 +76,13 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @question.to_xml }
+      format.xml  {
+        if params[:mode] == 'crd'
+          render :template => 'questions/show_crd'
+        else
+          format.xml  { render :xml => @question.to_xml }
+        end
+      }
     end
   rescue ActiveRecord::RecordNotFound
     not_found
