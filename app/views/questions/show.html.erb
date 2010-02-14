@@ -12,7 +12,7 @@
 </p>
 
 <p>
-<strong><%= t('activerecord.attributes.question.shared') -%>:</strong>
+  <strong><%= t('activerecord.attributes.question.shared') -%>:</strong>
   <%= i18n_boolean(@question.shared) -%>
 </p>
 
@@ -27,7 +27,12 @@
 </p>
 
 <p>
-<strong><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</strong>
+  <strong><%= t('activerecord.attributes.question.solved') -%>:</strong>
+  <%= i18n_boolean(@question.solved) -%>
+</p>
+
+<p>
+  <strong><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</strong>
 </p>
 
 <ul>

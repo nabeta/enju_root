@@ -166,8 +166,9 @@ ja:
         deleted_at: 削除時刻
       question:
         body: 本文
-        shared: 質問を公開する
         deleted_at: 削除時刻
+        shared: 質問を公開する
+        solved: 解決済み
       patron_import_file:
         patron_import_file_name: ファイル名
         patron_import_content_type: Content-Type

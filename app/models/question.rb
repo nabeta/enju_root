@@ -16,8 +16,10 @@ class Question < ActiveRecord::Base
     time :created_at
     time :updated_at
     boolean :shared
+    boolean :solved
   end
 
+  acts_as_taggable_on :tags
   enju_porta
  
   cattr_accessor :per_page

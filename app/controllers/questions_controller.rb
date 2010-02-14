@@ -79,8 +79,9 @@ class QuestionsController < ApplicationController
       format.xml  {
         if params[:mode] == 'crd'
           render :template => 'questions/show_crd'
+          convert_charset
         else
-          format.xml  { render :xml => @question.to_xml }
+          render :xml => @question.to_xml
         end
       }
     end

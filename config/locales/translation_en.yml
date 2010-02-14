@@ -167,6 +167,7 @@ en:
         share_question: Share question
         deleted_at: Deleted at
         shared: Shared
+        solved: Solved
       patron_import_file:
         patron_import_file_name: Filename
         patron_import_content_type: Content type
