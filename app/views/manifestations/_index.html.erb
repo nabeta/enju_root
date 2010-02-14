@@ -5,7 +5,7 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%= hidden_field_tag 'reservable', h(@reservable) -%>
+      <%= hidden_field_tag 'reservable', h(@reservable) if @reservable -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
@@ -16,10 +16,13 @@
   <%- if @count[:query_result].to_i > 0 -%>
     <p>
       <%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
+      <br />
       <%- if @reservable -%>
-        <br />
         <%= t('manifestation.showing_reservable_record') -%>
         (<%= link_to t('manifestation.all_result'), params.merge(:reservable => nil) -%>)
+      <%- else -%>
+        <%= t('manifestation.showing_all_record') -%>
+        (<%= link_to t('manifestation.reservable_list'), params.merge(:reservable => true) -%>)
       <%- end -%>
     </p>
     <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>

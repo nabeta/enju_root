@@ -106,7 +106,7 @@ class ResourceImportFile < ActiveRecord::Base
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
-    #Sunspot.commit
+    Sunspot.commit
     rows.close
     return num
   end
