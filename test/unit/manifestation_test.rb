@@ -66,4 +66,8 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00001).derived_manifestations_by_solr
   end
 
+  def test_manifestation_should_not_be_reserved_if_it_has_no_item
+    assert_equal false, manifestations(:manifestation_00008).reservable?
+  end
+
 end

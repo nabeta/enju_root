@@ -93,7 +93,9 @@ class Manifestation < ActiveRecord::Base
     integer :end_page
     integer :number_of_pages
     float :price
-    boolean :reservable
+    boolean :reservable do
+      self.reservable?
+    end
     integer :series_statement_id
   end
 
@@ -490,7 +492,8 @@ class Manifestation < ActiveRecord::Base
     false
   end
 
-  def reservable
+  def reservable?
+    return false if self.items.empty?
     return false if self.items.not_for_checkout.present?
     true
   end
