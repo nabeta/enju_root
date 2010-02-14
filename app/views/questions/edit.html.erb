@@ -21,6 +21,15 @@
   </p>
 
   <p>
+    <%= f.label t('activerecord.attributes.question.solved') -%>
+    <%- if @question.user == current_user -%>
+      <%= f.check_box :solved -%>
+    <%- else -%>
+      <%= f.check_box :solved, :disabled => 'disabled' -%>
+    <%- end -%>
+  </p>
+
+  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>

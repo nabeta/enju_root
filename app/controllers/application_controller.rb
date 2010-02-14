@@ -272,10 +272,16 @@ class ApplicationController < ActionController::Base
   def convert_charset
     #if params[:format] == 'ics'
     #  response.body = NKF::nkf('-w -Lw', response.body)
-    if params[:format] == 'csv'
+    case params[:format]
+    when 'csv'
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
+        response.body = NKF::nkf('-Ws', response.body)
+      end
+    when 'xml'
+      if @locale == 'ja'
+        headers["Content-Type"] = "application/xml; charset=Shift_JIS"
         response.body = NKF::nkf('-Ws', response.body)
       end
     end

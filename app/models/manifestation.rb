@@ -39,7 +39,7 @@ class Manifestation < ActiveRecord::Base
   has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   belongs_to :frequency #, :validate => true
-  has_many :bookmarks
+  has_many :bookmarks, :include => :tags
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
   belongs_to :series_statement

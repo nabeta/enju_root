@@ -1,16 +1,20 @@
-xml.instruct! :xml, :version=>"1.0" 
+xml.instruct! :xml, :version=>"1.0" , :encoding => 'Shift_JIS'
 xml.CRD('version' => "1.0"){
   xml.REFERENCE{
     xml.QUESTION h(@question.body)
     xml.tag! 'ACC-LEVEL', '1'
-    xml.tag! 'REG-ID', 'dummny'
-    xml.ANSWER h(@question.answers.first)
-    xml.tag! 'CRT-DATE'
-    xml.SOLUTION
+    xml.tag! 'REG-ID', "#{LibraryGroup.site_config.name}_#{@question.id}"
+    xml.ANSWER h(@question.answers.first.body)
+    xml.tag! 'CRT-DATE', h(@question.created_at.strftime('%Y%m%d'))
+    if @question.solved?
+      xml.SOLUTION 1
+    else
+      xml.SOLUTION 0
+    end
     # xml.KEYWORD @question.tags.collect(&:name).join(' ')
-    xml.KEYWORD
+    xml.KEYWORD h(@question.tags.join(' '))
     xml.CLASS :type => 'NDC'
-    xml.tag! 'RES-TYPE', '1'
+    xml.tag! 'RES-TYPE'
     xml.tag! 'CON-TYPE'
     @question.answers.each do
       xml.BIBL{
@@ -18,10 +22,10 @@ xml.CRD('version' => "1.0"){
         xml.tag! 'BIBL-NOTE'
       }
     end
-    xml.tag! 'ANS-PROC'
+    xml.tag! 'ANS-PROC', h(@question.answers.first.body)
     xml.REFERRAL
     xml.tag! 'PRE-RES'
-    xml.NOTE
+    xml.NOTE h(@question.note)
     xml.tag! 'PTN-TYPE'
     xml.CONTRI @question.answers.collect(&:user).collect(&:login).uniq.join(' ')
   }
