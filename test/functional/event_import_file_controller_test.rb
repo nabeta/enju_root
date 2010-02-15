@@ -70,7 +70,7 @@ class EventImportFilesControllerTest < ActionController::TestCase
       post :create, :event_import_file => {:event_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/event_import_file_sample1.tsv") }
     end
 
-    assigns(:event_import_file).import
+    assigns(:event_import_file).import_start
     assert_equal old_event_count + 2, Event.count
     assert_equal 'librarian1', assigns(:event_import_file).user.login
     assert_redirected_to event_import_file_url(assigns(:event_import_file))

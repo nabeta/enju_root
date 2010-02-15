@@ -33,7 +33,7 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def import
-    if FileWrapper.get_mime(patron_import.path)
+    unless /text\/.+/ =~ FileWrapper.get_mime(event_import.path)
       aasm_fail!
       raise 'Invalid format'
     end
@@ -90,7 +90,7 @@ class EventImportFile < ActiveRecord::Base
 
   def self.import
     EventImportFile.not_imported.each do |file|
-      file.aasm_import!
+      file.aasm_import_start!
     end
   rescue
     logger.info "#{Time.zone.now} importing events failed!"

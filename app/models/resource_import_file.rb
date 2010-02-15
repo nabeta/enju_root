@@ -33,7 +33,7 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def import
-    if FileWrapper.get_mime(patron_import.path)
+    unless /text\/.+/ =~ FileWrapper.get_mime(resource_import.path)
       aasm_fail!
       raise 'Invalid format'
     end
@@ -204,7 +204,7 @@ class ResourceImportFile < ActiveRecord::Base
 
   def self.import
     ResourceImportFile.not_imported.each do |file|
-      file.aasm_import!
+      file.aasm_import_start!
     end
   rescue
     logger.info "#{Time.zone.now} importing resources failed!"
