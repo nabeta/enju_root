@@ -25,26 +25,25 @@
         (<%= link_to t('manifestation.reservable_list'), params.merge(:reservable => true) -%>)
       <%- end -%>
     </p>
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
-      <p>
-        <%= t('page.sort_by') -%>:
-        <%- if params[:sort_by].blank? -%>
-          <strong><%= t('manifestation.date_of_acquisition') -%></strong>
-        <%- else -%>
-          <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort_by => nil) -%>
-        <%- end -%>
-        <%- if params[:sort_by] == 'date' -%>
-          <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
-        <%- else -%>
-          <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort_by => 'date') -%>
-        <%- end -%>
-        <%- if params[:sort_by] == 'title' -%>
-          <strong><%= t('page.title') -%></strong>
-        <%- else -%>
-          <%= link_to t('page.title'), params.merge(:sort_by => 'title') -%>
-        <%- end -%>
-      </p>
-    <%- end -%>
+
+    <p>
+      <%= t('page.sort_by') -%>:
+      <%- if params[:sort_by].blank? -%>
+        <strong><%= t('manifestation.date_of_acquisition') -%></strong>
+      <%- else -%>
+        <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort_by => nil) -%>
+      <%- end -%>
+      <%- if params[:sort_by] == 'date' -%>
+        <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
+      <%- else -%>
+        <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort_by => 'date') -%>
+      <%- end -%>
+      <%- if params[:sort_by] == 'title' -%>
+        <strong><%= t('page.title') -%></strong>
+      <%- else -%>
+        <%= link_to t('page.title'), params.merge(:sort_by => 'title') -%>
+      <%- end -%>
+    </p>
 
     <div class="autopagerize_page_element" id="list">
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
