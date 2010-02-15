@@ -43,7 +43,7 @@ class QuestionsController < ApplicationController
       end
     end
     search.build do
-      order_by sort_by, :desc if sort_by
+      order_by sort_by, :desc
     end
 
     if @user
