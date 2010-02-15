@@ -8,7 +8,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.question.body') -%>:</strong>
-  <%= textilize_without_paragraph(h(@question.body)) -%>
+  <%= auto_link(textilize_without_paragraph(h(@question.body))) -%>
 </p>
 
 <p>
@@ -37,7 +37,7 @@
 
 <ul>
   <%- for answer in @question.answers.public_answers -%>
-    <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= textilize_without_paragraph(h(answer.body)) -%></li>
+    <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= auto_link(textilize_without_paragraph(h(answer.body))) -%></li>
   <%- end -%>
 </ul>
 
