@@ -54,7 +54,9 @@ class QuestionsController < ApplicationController
     user = current_user if user.nil?
 
     search.build do
-      with(:login).equal_to user.login unless user.has_role?('Librarian')
+      if user
+        with(:login).equal_to user.login unless user.has_role?('Librarian')
+      end
       facet :solved
     end
 
