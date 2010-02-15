@@ -33,7 +33,7 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def import
-    if FileWrapper.get_mime(patron_import.path)
+    if FileWrapper.get_mime(resource_import.path)
       aasm_fail!
       raise 'Invalid format'
     end
