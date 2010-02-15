@@ -13,6 +13,25 @@ class QuestionsController < ApplicationController
     session[:params][:question] = params
 
     @count = {}
+    case params[:sort_by]
+    when 'updated_at'
+      sort_by = 'updated_at'
+    when 'created_at'
+      sort_by = 'created_at'
+    when 'answers_count'
+      sort_by = 'answers_count'
+    else
+      sort_by = 'updated_at'
+    end
+
+    case params[:solved]
+    when 'true'
+      solved = true
+      @solved = solved.to_s
+    when 'false'
+      solved = false
+      @solved = solved.to_s
+    end
 
     search = Sunspot.new_search(Question)
     query = params[:query].to_s.strip
@@ -21,23 +40,41 @@ class QuestionsController < ApplicationController
       query = query.gsub('　', ' ')
       search.build do
         fulltext query
-        order_by(:updated_at, :desc)
       end
+    end
+    search.build do
+      order_by sort_by, :desc if sort_by
     end
 
     if @user
       if logged_in?
         user = @user
-        c_user = current_user
-        search.build do
-          with(:login).equal_to user.login unless user.has_role?('Librarian')
-        end
       end
     end
+    user = current_user if user.nil?
+
+    search.build do
+      with(:login).equal_to user.login unless user.has_role?('Librarian')
+      facet :solved
+    end
+
+    begin
+      @question_facet = search.execute!.facet(:solved).rows
+    rescue RSolr::RequestError
+      @question_facet = []
+    end
+
+    if @solved
+      search.build do
+        with(:solved).equal_to solved
+      end
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Question.per_page)
     begin
-      @questions = search.execute!.results
+      result = search.execute!
+      @questions = result.results
     rescue RSolr::RequestError
       @questions = WillPaginate::Collection.create(1,1,0) do end
     end

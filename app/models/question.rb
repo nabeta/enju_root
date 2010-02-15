@@ -2,6 +2,7 @@
 require 'timeout'
 class Question < ActiveRecord::Base
   include LibrarianOwnerRequired
+  default_scope :order => 'id DESC'
   named_scope :public_questions, :conditions => {:shared => true}
   named_scope :private_questions, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
@@ -14,9 +15,12 @@ class Question < ActiveRecord::Base
     text :body, :answer_body
     string :login
     time :created_at
-    time :updated_at
+    time :updated_at do
+      last_updated_at
+    end
     boolean :shared
     boolean :solved
+    integer :answers_count
   end
 
   acts_as_taggable_on :tags
@@ -45,4 +49,18 @@ class Question < ActiveRecord::Base
     false
   end
 
+  def last_updated_at
+    if answers.last
+      time = answers.last.updated_at
+    end
+    if time
+      if time > updated_at
+        time
+      else
+        updated_at
+      end
+    else
+      updated_at
+    end
+  end
 end
