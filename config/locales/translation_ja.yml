@@ -682,6 +682,8 @@ ja:
         body: 本文
         deleted_at: 削除時刻
         shared: 回答を公開する
+        item_identifier_list: 個別資料IDリスト
+        url_list: URLリスト
       bookstore:
         name: 名前
         zip_code: 郵便番号

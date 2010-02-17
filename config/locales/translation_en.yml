@@ -681,6 +681,8 @@ en:
         body: Body
         deleted_at: Deleted at
         shared: Shared
+        item_identifier_list: Item identifier list
+        url_list: Url list
       bookstore:
         name: Name
         zip_code: Zip code
