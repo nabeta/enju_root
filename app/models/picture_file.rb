@@ -31,4 +31,8 @@ class PictureFile < ActiveRecord::Base
   def extname
     File.extname(picture_file_name).gsub(/^\./, '') rescue nil
   end
+
+  def content_type
+    FileWrapper.get_mime(picture.path) rescue nil
+  end
 end

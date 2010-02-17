@@ -4,7 +4,7 @@ xml.CRD('version' => "1.0"){
     xml.QUESTION h(@question.body)
     xml.tag! 'ACC-LEVEL', '1'
     xml.tag! 'REG-ID', "#{LibraryGroup.site_config.name}_#{@question.id}"
-    xml.ANSWER h(@question.answers.first.body)
+    xml.ANSWER h(@question.answers.first.try(:body))
     xml.tag! 'CRT-DATE', h(@question.created_at.strftime('%Y%m%d'))
     if @question.solved?
       xml.SOLUTION 1
@@ -22,11 +22,13 @@ xml.CRD('version' => "1.0"){
         xml.tag! 'BIBL-NOTE'
       }
     end
-    xml.tag! 'ANS-PROC', h(@question.answers.first.body)
+    xml.tag! 'ANS-PROC', h(@question.answers.first.try(:body))
     xml.REFERRAL
     xml.tag! 'PRE-RES'
     xml.NOTE h(@question.note)
     xml.tag! 'PTN-TYPE'
-    xml.CONTRI @question.answers.collect(&:user).collect(&:login).uniq.join(' ')
+    if @question.answers.first
+      xml.CONTRI @question.answers.collect(&:user).collect(&:login).uniq.join(' ')
+    end
   }
 }

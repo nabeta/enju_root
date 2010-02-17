@@ -2,7 +2,7 @@
 class AnswersController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil, :except => [:edit]
-  before_filter :get_question, :only => [:index, :new]
+  before_filter :get_question
 
   # GET /answers
   # GET /answers.xml

@@ -6,7 +6,7 @@ class Question < ActiveRecord::Base
   named_scope :public_questions, :conditions => {:shared => true}
   named_scope :private_questions, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
-  has_many :answers
+  has_many :answers, :dependent => :destroy
 
   validates_associated :user
   validates_presence_of :user, :body
