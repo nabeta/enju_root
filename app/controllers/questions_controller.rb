@@ -88,7 +88,14 @@ class QuestionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @questions.to_xml }
+      format.xml  {
+        if params[:mode] == 'crd'
+          render :template => 'questions/index_crd'
+          convert_charset
+        else
+          render :xml => @questions.to_xml
+        end
+      }
       format.rss  { render :layout => false }
       format.atom
       format.js {

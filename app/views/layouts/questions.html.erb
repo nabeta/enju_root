@@ -15,8 +15,8 @@
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('question.user_question', :login_name => @user.login) + " (RSS)")) -%>
       <%= auto_discovery_link_tag(:atom, url_for(:controller => 'questions', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('question.user_question', :login_name => @user.login) + " (Atom)")) -%>
     <%- else -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('question.library_group_question', :library_group_name => @library_group.name) + " (RSS)")) -%>
-      <%= auto_discovery_link_tag(:atom, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('question.library_group_question', :library_group_name => @library_group.name) + " (Atom)")) -%>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('question.library_group_question', :library_group_name => @library_group.display_name.localize) + " (RSS)")) -%>
+      <%= auto_discovery_link_tag(:atom, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('question.library_group_question', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
     <%- end -%>
   <%- when 'show' -%>
     <%- if @user -%>

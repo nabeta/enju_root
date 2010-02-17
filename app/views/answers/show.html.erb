@@ -8,12 +8,12 @@
 
 <p>
   <strong><%= t('activerecord.models.question') -%>:</strong>
-  <%= link_to h(@answer.question.user.login), user_path(@answer.question.user.login) -%>: <%= auto_link(textilize_without_paragraph(h(@answer.question.body))) -%>
+  <%= link_to h(@answer.question.user.login), user_path(@answer.question.user.login) -%>: <%= raw auto_link(textilize_without_paragraph(h(@answer.question.body))) -%>
 </p>
 
 <p>
   <strong><%= t('activerecord.attributes.answer.body') -%>:</strong>
-  <%= auto_link(textilize_without_paragraph(h(@answer.body)))  -%>
+  <%= raw auto_link(textilize_without_paragraph(h(@answer.body)))  -%>
 </p>
 
 <p>
