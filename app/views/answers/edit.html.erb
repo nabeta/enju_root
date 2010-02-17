@@ -21,6 +21,16 @@
   </p>
 
   <p>
+    <%= f.label t('activerecord.attributes.answer.item_identifier_list') -%><br />
+    <%= f.text_area :item_identifier_list, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.answer.url_list') -%><br />
+    <%= f.text_area :url_list, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>

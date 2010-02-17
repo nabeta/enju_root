@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :answer_has_items
+
   map.resources :import_requests
 
   map.resources :series_statements do |series_statement|
