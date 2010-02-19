@@ -77,18 +77,15 @@ class BookmarksController < ApplicationController
     end
     @bookmark = Bookmark.new(params[:bookmark])
     begin
-      #url = URI.decode(params[:url])
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
       if url
         @bookmark.url = url
-        if @manifestation = Manifestation.first(:conditions => {:access_address => url})
+        if @manifestation = @bookmark.check_url
           if @manifestation.bookmarked?(current_user)
             raise 'already_bookmarked'
           end
           @bookmark.title = @manifestation.original_title
         else
-          #@title = Bookmark.get_title(URI.encode(url), root_url)
-          #@title = Bookmark.get_title(url, root_url)
           @bookmark.title = Bookmark.get_title(params[:title])
           @bookmark.title = Bookmark.get_title_from_url(url) if @bookmark.title.nil?
         end
@@ -100,6 +97,9 @@ class BookmarksController < ApplicationController
       case $!.to_s
       when 'invalid_url'
         flash[:notice] = t('bookmark.invalid_url')
+      when 'only_manifestation_should_be_bookmarked'
+        flash[:notice] = t('bookmark.only_manifestation_should_be_bookmarked')
+        redirect_to @bookmark.url
       when 'already_bookmarked'
         flash[:notice] = t('bookmark.already_bookmarked')
         redirect_to manifestation_url(@manifestation)

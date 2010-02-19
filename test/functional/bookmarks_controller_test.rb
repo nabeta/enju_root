@@ -88,10 +88,17 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_redirected_to manifestation_url(assigns(:manifestation))
   end
   
-  def test_user_should_get_my_new_with_url
+  def test_user_should_get_my_new_with_external_url
     UserSession.create users(:user1)
-    get :new, :user_id => users(:user1).login, :url => 'http://localhost'
+    get :new, :user_id => users(:user1).login, :title => 'example', :url => 'http://example.com'
     assert_response :success
+  end
+  
+  def test_user_should_not_get_my_new_with_internal_url
+    UserSession.create users(:user1)
+    get :new, :user_id => users(:user1).login, :url => "http://#{LIBRARY_WEB_HOSTNAME}"
+    assert_response :redirect
+    assert_redirected_to "http://#{LIBRARY_WEB_HOSTNAME}/"
   end
   
   def test_guest_should_not_create_bookmark

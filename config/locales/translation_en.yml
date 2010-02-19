@@ -1142,6 +1142,7 @@ en:
     invalid_url: "Invalid URL."
     specify_title_and_url: "Specify the title and URL of the page."
     already_bookmarked: "This resource is already bookmarked."
+    only_manifestation_should_be_bookmarked: "You can bookmark only manifestatons in this site."
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"

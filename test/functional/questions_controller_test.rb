@@ -105,16 +105,15 @@ class QuestionsControllerTest < ActionController::TestCase
     assert_redirected_to user_question_url(users(:user1).login, assigns(:question))
   end
 
-  def test_guest_should_not_show_question
+  def test_guest_should_show_question
     get :show, :id => 1
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_response :success
   end
 
-  def test_user_should_not_show_question_without_user_id
+  def test_user_should_show_question_without_user_id
     UserSession.create users(:user1)
     get :show, :id => 1
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_user_should_show_other_question

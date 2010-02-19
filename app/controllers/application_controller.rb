@@ -83,30 +83,35 @@ class ApplicationController < ActionController::Base
 
   def get_patron
     @patron = Patron.find(params[:patron_id]) if params[:patron_id]
+    access_denied unless @patron.is_readable_by(current_user) if @patron
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_work
     @work = Work.find(params[:work_id]) if params[:work_id]
+    access_denied unless @work.is_readable_by(current_user) if @work
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_item
     @item = Item.find(params[:item_id]) if params[:item_id]
+    access_denied unless @item.is_readable_by(current_user) if @item
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_expression
     @expression = Expression.find(params[:expression_id]) if params[:expression_id]
+    access_denied unless @expression.is_readable_by(current_user) if @expression
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_manifestation
     @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
+    access_denied unless @manifestation.is_readable_by(current_user) if @manifestation
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -150,6 +155,7 @@ class ApplicationController < ActionController::Base
   def get_user
     @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
+    access_denied unless @user.is_readable_by(current_user)
     return @user
 
   rescue ActiveRecord::RecordNotFound
@@ -159,6 +165,7 @@ class ApplicationController < ActionController::Base
 
   def get_user_if_nil
     @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
+    access_denied unless @user.is_readable_by(current_user) if @user
   end
   
   def get_user_group
@@ -185,6 +192,7 @@ class ApplicationController < ActionController::Base
 
   def get_question
     @question = Question.find(params[:question_id]) if params[:question_id]
+    access_denied unless @question.is_readable_by(current_user) if @question
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -249,11 +257,11 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
-  def get_concept
-    @concept = Concept.find(params[:concept_id]) if params[:concept_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
+  #def get_concept
+  #  @concept = Concept.find(params[:concept_id]) if params[:concept_id]
+  #rescue ActiveRecord::RecordNotFound
+  #  not_found
+  #end
 
   def get_subject_heading_type
     @subject_heading_type = Subject.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]

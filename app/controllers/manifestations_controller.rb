@@ -197,6 +197,7 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
     @manifestation = @manifestation.versions.find(@version).item if @version
+    has_permission?
 
     case params[:mode]
     when 'send_email'
@@ -494,13 +495,13 @@ class ManifestationsController < ApplicationController
       if options[:pubdate_from].blank?
         pubdate['from'] = "*"
       else
-        pubdate['from'] = Time.zone.local(options[:pubdate_from]).utc.iso8601
+        pubdate['from'] = Time.zone.parse(options[:pubdate_from]).utc.iso8601
       end
 
       if options[:pubdate_to].blank?
         pubdate['to'] = "*"
       else
-        pubdate['to'] = Time.zone.local(options[:pubdate_to]).utc.iso8601
+        pubdate['to'] = Time.zone.parse(options[:pubdate_to]).utc.iso8601
       end
       query = "#{query} date_of_publication_d: [#{pubdate['from']} TO #{pubdate['to']}]"
     end

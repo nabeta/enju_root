@@ -195,7 +195,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_user_should_not_show_answer_with_other_user_id
     UserSession.create users(:user1)
     get :show, :id => 5, :user_id => users(:user2).login, :question_id => 2
-    assert_response :success
+    assert_response :forbidden
   end
 
   def test_guest_should_not_get_edit

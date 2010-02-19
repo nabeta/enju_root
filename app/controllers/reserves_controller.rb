@@ -72,9 +72,10 @@ class ReservesController < ApplicationController
 
   # GET /reserves/new
   def new
-    user = get_user_number ||= get_user_if_nil
+    get_user_if_nil
+    user = get_user_number ||= @user
     unless current_user.has_role?('Librarian')
-      if user.user_number.blank?
+      if user.try(:user_number).blank?
         access_denied; return
       end
     end
