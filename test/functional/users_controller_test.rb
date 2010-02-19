@@ -401,16 +401,16 @@ class UsersControllerTest < ActionController::TestCase
   protected
     def create_user(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00007' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00008' }.merge(options)
     end
 
     def create_user_without_patron_id_and_name(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00007' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008' }.merge(options)
     end
 
     def create_user_without_patron_id(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00007', :first_name => 'quire', :last_name => 'quire' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008', :first_name => 'quire', :last_name => 'quire' }.merge(options)
     end
 end
