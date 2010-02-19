@@ -71,7 +71,7 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
       post :create, :resource_import_file => {:resource_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/resource_import_file_sample1.tsv") }
     end
     # 後でバッチで処理する
-    assigns(:resource_import_file).import_start
+    assigns(:resource_import_file).import
     assert_equal old_manifestations_count + 5, Manifestation.count
     assert_equal old_patrons_count + 4, Patron.count
 

@@ -70,7 +70,7 @@ class PatronImportFilesControllerTest < ActionController::TestCase
       post :create, :patron_import_file => {:patron_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/patron_import_file_sample1.tsv") }
     end
     assert_difference('Patron.count', 2) do
-      assigns(:patron_import_file).import_start
+      assigns(:patron_import_file).import
     end
     assert_equal '田辺浩介', Patron.find(:first, :order => 'id DESC').full_name
 
@@ -85,7 +85,7 @@ class PatronImportFilesControllerTest < ActionController::TestCase
       post :create, :patron_import_file => {:patron_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/patron_import_file_sample2.tsv") }
     end
     assert_difference('User.count', 1) do
-      assigns(:patron_import_file).import_start
+      assigns(:patron_import_file).import
     end
     #assert_equal old_patrons_count + 1, Patron.count
     #assert_equal '日本語の名前', Patron.find(:first, :order => 'id DESC').full_name

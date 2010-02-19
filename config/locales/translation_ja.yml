@@ -1132,6 +1132,7 @@ ja:
     specify_title_and_url: "タイトルとURLを指定してください。"
     already_bookmarked: "すでにブックマークに登録されています。"
     user_bookmark: "{{login_name}} さんのブックマーク"
+    only_manifestation_should_be_bookmarked: "サイト内のブックマークは体現形に対してのみ行えます。"
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"

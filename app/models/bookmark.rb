@@ -82,13 +82,11 @@ class Bookmark < ActiveRecord::Base
     # TODO: ホスト名の扱い
     access_url = url.rewrite_my_url
   
-    page = open(access_url)
-    #doc = Hpricot(page)
-    doc = Nokogiri(page)
+    doc = Nokogiri::HTML(open(access_url).read)
     # TODO: 日本語以外
     #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
     #if charsets.include?(page.charset.downcase)
-      title = NKF.nkf('-w', CGI.unescapeHTML((doc/"title").inner_text)).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
+      title = NKF.nkf('-w', CGI.unescapeHTML((doc.at("title").inner_text))).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
       if title.blank?
         title = url
       end
@@ -119,6 +117,8 @@ class Bookmark < ActiveRecord::Base
       path = URI.parse(self.url).path.split('/')
       if path[1] == 'manifestations' and Manifestation.find(path[2])
         manifestation = Manifestation.find(path[2])
+      else
+        raise 'only_manifestation_should_be_bookmarked'
       end
     else
       manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
