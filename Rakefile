@@ -9,4 +9,4 @@ require 'rake/rdoctask'
 
 require 'tasks/rails'
 require 'sunspot/rails/tasks'
-require 'sitemap_generator/tasks' rescue LoadError
+#require 'sitemap_generator/tasks' rescue LoadError
