@@ -144,6 +144,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [], users(:librarian1).reserves.not_sent_expiration_notice_to_patron
   end
 
+  def test_should_lock_expired_users
+    User.lock_expired_users
+    assert_equal users(:user4).active?, false
+  end
+
   protected
     def create_user(options = {})
       User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))

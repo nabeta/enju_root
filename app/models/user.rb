@@ -208,13 +208,15 @@ class User < ActiveRecord::Base
   end
 
   def self.lock_expired_users
-    User.fine_each do |user|
+    User.find_each do |user|
       user.lock! if user.expired?
     end
   end
 
   def expired?
-    true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+    if expired_at
+      true if expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+    end
   end
 
   def activate
