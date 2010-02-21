@@ -11,8 +11,6 @@ ja:
       not_active: アカウントが停止されています。
       not_confirmed: アカウントが確認されていません。
       not_approved: アカウントが承認されていません。
-      blank_record: You can not login with a blank record
-      new_record: You can not login with a new record
       general_credentials_error: ログイン名、もしくはパスワードが間違っています。
       no_authentication_details: ログイン名とパスワードが入力されていません。
     models:

@@ -74,7 +74,6 @@ class User < ActiveRecord::Base
   acts_as_tagger
 
   acts_as_authentic {|c|
-    c.validate_email_field = false
     c.validates_length_of_password_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
     c.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
   }
@@ -90,16 +89,17 @@ class User < ActiveRecord::Base
   attr_accessor :patron_id, :operator, :password_not_verified, :update_own_account
   attr_accessible :login, :email, :password, :password_confirmation, :openid_identifier, :old_password
 
+  validates_presence_of :login
   #validates_length_of       :login,    :within => 2..40
   #validates_uniqueness_of   :login,    :case_sensitive => false
 
   validates_presence_of     :email, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
-  validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
+  #validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  #validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
-  validates_presence_of :user_group, :library, :locale, :patron
+  validates_presence_of :user_group, :library, :locale #, :patron
   #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validate_on_update :verify_password
