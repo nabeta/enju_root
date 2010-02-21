@@ -1,5 +1,5 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "http://#{LIBRARY_WEB_HOSTNAME}"
+SitemapGenerator::Sitemap.default_host = URI.parse("http://#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}").normalize.to_s
 
 SitemapGenerator::Sitemap.add_links do |sitemap|
   # Put links creation logic here.

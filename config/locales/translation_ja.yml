@@ -314,6 +314,7 @@ ja:
         password: パスワード
         old_password: 古いパスワード
         locale: 言語
+        password_confirmation: パスワード（確認）
       work_has_subject:
         work: 著作形
         subject: 件名
@@ -1122,6 +1123,9 @@ ja:
     login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
     login_with_username_and_password: "ログイン名とパスワードを利用してログインする"
     login_with_openid: "OpenIDを利用してログインする"
+    check_email_for_activation: "アカウントが作成されました。確認のメールをお送りしましたので、指示に従ってください。"
+    account_activated: "アカウントが有効になりました。"
+    forgot_password: "パスワードを忘れた"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
@@ -1383,3 +1387,12 @@ ja:
     pending: "処理待ち"
     cancaled: "中止"
     completed: "完了"
+    started: "開始"
+  password_reset:
+    fill_in_email_address: "メールアドレスを入力してください。"
+    reset_password: "パスワードのリセット"
+    instruction_sent: "パスワードのリセットの手順をメールで送信しました。"
+    update_password: "パスワードの更新"
+    password_updated: "パスワードは更新されました。"
+    not_found: "そのメールアドレスを持つ利用者が見つかりません。"
+    could_not_locate_account: "利用者が見つかりません。"

@@ -337,6 +337,7 @@ input.resource_title{
 
 input.resource_email{
   width: 20em;
+  ime-mode: disabled;
 }
 
 input.resource_url{

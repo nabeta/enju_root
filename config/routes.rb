@@ -409,7 +409,9 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :countries
   map.resources :expression_forms
   map.resources :answers
-  map.resources :questions
+  map.resources :questions do |question|
+    question.resources :answers
+  end
   map.resources :checkouts
   map.resources :reserves
   map.resources :search_histories
@@ -448,6 +450,10 @@ ActionController::Routing::Routes.draw do |map|
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
+  map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
+  map.activate '/activate/:id', :controller => 'activations', :action => 'create'
+  map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
+ 
   #map.service '/service', :controller => 'page', :action => 'service'
 
   # The priority is based upon order of creation: first created -> highest priority.
