@@ -1,0 +1,28 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
+<div id="content_list">
+
+<%- form_for(@user, :url => activate_path(@user.id)) do |f| -%>
+  <%= f.error_messages -%>
+  <p>
+    <%= f.label t('page.password') -%><br />
+    <table>
+      <tr>
+        <td><%= t('user.new_password') -%>:</td>
+        <td><%= f.password_field :password, :value => '' -%></td>
+      </tr>
+      <tr>
+        <td><%= t('user.repeat_new_password') -%>:</td>
+        <td><%= f.password_field :password_confirmation, :value => '' -%></td>
+      </tr>
+    </table>
+  </p>
+  <p>
+    <%= f.submit t('page.create') -%>
+  </p>
+<%- end -%>
+</div>
+</div>
+
+<div id="submenu">
+</div>

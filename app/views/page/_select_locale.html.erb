@@ -1,3 +1,4 @@
+<%- if request.get? -%>
 <div id="header_select_locale">
   <form method="get" action="<%= url_for -%>">
     <%- params.merge!(:controller => nil, :action => nil, :locale => nil, :commit => nil) -%>
@@ -8,3 +9,4 @@
     <%= submit_tag t('page.set_locale') -%>
   </form>
 </div>
+<%- end -%>
