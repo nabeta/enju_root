@@ -313,6 +313,7 @@ en:
         password: Password
         old_password: Old password
         locale: Locale
+        password_confirmation: Password confirmation
       work_has_subject:
         work: Work
         subject: Subject
@@ -1133,6 +1134,9 @@ en:
     login_failed: "Login failed. Your username or password may be wrong."
     login_with_username_and_password: "Login with username and password"
     login_with_openid: "Login with OpenID"
+    check_email_for_activation: "Your account has been created. Please check your e-mail for your account activation instructions!"
+    account_activated: "Your account has been activated."
+    forgot_password: "Forgot password"
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
@@ -1397,3 +1401,12 @@ en:
     pending: "Pending"
     cancaled: "Cancaled"
     completed: "Completed"
+    started: "Started"
+  password_reset:
+    fill_in_email_address: "Please fill in your email address below."
+    reset_password: "Reset password"
+    instruction_sent: "Instructions to reset your password have been emailed to you."
+    update_password: "Update password"
+    password_updated: "Password was successfully updated."
+    not_found: "No user was found with that email address."
+    could_not_locate_account: "We're sorry, but we could not locate your account."

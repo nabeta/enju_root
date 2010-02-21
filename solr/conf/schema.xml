@@ -11,12 +11,19 @@
     </fieldtype>
     -->
     <fieldtype class='solr.TextField' name='text'>
+      <!--
       <analyzer type="index" class="org.apache.lucene.analysis.cjk.CJKAnalyzer">
-        <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+         -->
+      <analyzer type="index">
+        <tokenizer class="net.moraleboost.solr.StandardMeCabTokenizerFactory" charset="utf-8" />
+        <!-- <tokenizer class="solr.WhitespaceTokenizerFactory"/> -->
         <filter class='solr.StandardFilterFactory' />
         <filter class='solr.LowerCaseFilterFactory' />
         <filter class="solr.WordDelimiterFilterFactory" generateWordParts="1" generateNumberParts="1" catenateWords="1" catenateNumbers="1" catenateAll="0"/>
         <filter class="solr.RemoveDuplicatesTokenFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="net.moraleboost.solr.StandardMeCabTokenizerFactory" charset="utf-8" />
       </analyzer>
     </fieldtype>
     <fieldtype class="solr.RandomSortField" name="rand"/>

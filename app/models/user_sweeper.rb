@@ -1,9 +1,12 @@
 class UserSweeper < ActionController::Caching::Sweeper
   observe User
   def after_save(record)
-    ['search', 'message', 'request', 'configuration'].each do |name|
+    case
+    when record.is_a?(User)
       I18n.available_locales.each do |locale|
-        expire_fragment(:controller => :page, :user => name, :menu => name, :locale => locale)
+        ['search', 'message', 'request', 'configuration'].each do |name|
+          expire_fragment(:controller => :page, :user => record.login, :menu => name, :locale => locale)
+        end
       end
     end
   end

@@ -28,10 +28,9 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_require_password_confirmation
-    assert_no_difference 'User.count' do
+  def test_should_not_require_password_confirmation_on_create
+    assert_difference 'User.count' do
       u = create_user(:password => 'new_password', :password_confirmation => nil)
-      assert u.errors.on(:password_confirmation)
     end
   end
 
@@ -142,6 +141,11 @@ class UserTest < ActiveSupport::TestCase
   def test_should_send_message
     assert users(:librarian1).send_message('reservation_expired_for_patron', :manifestations => users(:librarian1).reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
     assert_equal [], users(:librarian1).reserves.not_sent_expiration_notice_to_patron
+  end
+
+  def test_should_lock_expired_users
+    User.lock_expired_users
+    assert_equal users(:user4).active?, false
   end
 
   protected

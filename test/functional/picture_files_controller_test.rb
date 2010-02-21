@@ -201,6 +201,7 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_update_picture_file
     UserSession.create users(:librarian1)
     put :update, :id => picture_files(:picture_file_00001), :picture_file => { }
+    assert_response :redirect
     assert_redirected_to picture_file_url(assigns(:picture_file))
   end
 

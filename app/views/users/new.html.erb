@@ -1,5 +1,34 @@
-<%- if logged_in? -%>
-  <%= render :partial => 'users/new' -%>
-<%- else -%>
-  <%= render :partial => 'users/signup' -%>
-<%- end -%>
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
+<div id="content_list">
+
+<% form_for(@user) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.login') %><br />
+    <%= f.text_field :login, :class => 'resource_user' %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.user.email') %><br />
+    <%= f.text_field :email, :class => 'resource_email' %>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.confirmed') %><br />
+    <%= f.check_box :confirmed %>
+  </p>
+  <p>
+    <%= f.submit t('page.create') %>
+  </p>
+  <%= javascript_tag("$('user_login').focus()") -%>
+<% end %>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), root_path %></li>
+  </ul>
+</div>

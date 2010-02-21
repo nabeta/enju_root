@@ -64,18 +64,17 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_librarian_should_not_require_password_on_signup
+  def test_librarian_should_not_require_password_on_create
     UserSession.create users(:librarian1)
     assert_difference 'User.count' do
       create_user(:password => nil)
-      #assert_response :success
       assert_response :redirect
       assert_redirected_to user_url(assigns(:user).login)
     end
     assigns(:user).remove_from_index!
   end
 
-  def test_librarian_should_not_require_password_confirmation_on_signup
+  def test_librarian_should_require_password_confirmation_on_signup
     UserSession.create users(:librarian1)
     assert_difference 'User.count' do
       create_user(:password_confirmation => nil)
