@@ -20,8 +20,14 @@
                 <%- if manifestation.tags.first -%>
                   (<%= link_to_function t('activerecord.models.tag'), "jQuery('#tag_#{manifestation.id}').toggle()" -%>)
                 <%- end -%>
+                <%# 当該ManifestationにWorkがある場合、グループ表示へのリンクを表示する %>
+                <%- if manifestation.works.size > 0 -%>
+                  (<%= link_to_function t('page.related_work'), "jQuery('#group_#{manifestation.id}').toggle()" -%>)
+                <%- end -%>
                 <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
                 <%= render :partial => 'manifestations/show_tag', :locals => {:manifestation => manifestation} -%>
+                <%# グループ表示の部分テンプレート %>
+                <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
               <%- if manifestation.is_deletable_by(current_user) -%>
                 <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>

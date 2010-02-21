@@ -29,7 +29,7 @@ class PictureFile < ActiveRecord::Base
   end
 
   def extname
-    File.extname(picture_file_name).gsub(/^\./, '') rescue nil
+    content_type.split('/')[1] if content_type
   end
 
   def content_type

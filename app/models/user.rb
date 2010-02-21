@@ -73,6 +73,12 @@ class User < ActiveRecord::Base
   has_friendly_id :login
   acts_as_tagger
 
+  acts_as_authentic {|c|
+    c.validate_email_field = false
+    c.validates_length_of_password_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
+    c.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
+  }
+
   cattr_accessor :per_page
   @@per_page = 10
   
@@ -97,10 +103,7 @@ class User < ActiveRecord::Base
   #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validate_on_update :verify_password
-
-  acts_as_authentic {|c|
-    c.validate_email_field = false
-  }
+  #validates_acceptance_of :confirmed
 
   def verify_password
     errors.add(:old_password) if self.password_not_verified
@@ -223,11 +226,13 @@ class User < ActiveRecord::Base
     self.active = true
     self.confirmed = true
     self.approved = true
+    self.roles << Role.find(2)
   end
 
   def activate!
     activate
-    save!
+    self.patron = Patron.create(:full_name => self.login) unless self.patron
+    save
   end
 
   def checked_item_count
@@ -345,6 +350,31 @@ class User < ActiveRecord::Base
       return true
     end
     false
+  end
+
+  def has_no_credentials?
+    crypted_password.blank? && openid_identifier.blank?
+  end
+        
+  def signup!(params)
+    login = params[:user][:login]
+    email = params[:user][:email]
+    save_without_session_maintenance
+  end
+
+  def deliver_activation_instructions!
+    reset_perishable_token!
+    Notifier.deliver_activation_instructions(self)
+  end
+
+  def deliver_activation_confirmation!
+    reset_perishable_token!
+    Notifier.deliver_activation_confirmation(self)
+  end
+
+  def deliver_password_reset_instructions!
+    reset_perishable_token!
+    Notifier.deliver_password_reset_instructions(self)
   end
 
   private

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class UsersController < ApplicationController
   #before_filter :reset_params_session
-  before_filter :has_permission?
+  before_filter :has_permission?, :except => [:new, :create]
   before_filter :suspended?
   before_filter :get_patron, :only => :new
   before_filter :store_location, :only => [:index, :show]
@@ -225,12 +225,21 @@ class UsersController < ApplicationController
   end
 
   def create
-    if logged_in?
-      unless current_user.has_role?('Librarian')
-        access_denied; return
+    @user = User.new(params[:user])
+    unless logged_in?
+      if @user.signup!(params)
+        @user.deliver_activation_instructions!
+        flash[:notice] = t('user_session.check_email_for_activation')
+        redirect_to root_url; return
+      else
+        render :action => :new; return
       end
     end
-    @user = User.new(params[:user])
+
+    unless current_user.try(:has_role?, 'Librarian')
+      access_denied; return
+    end
+    # ここ以下はオンラインサインアップでは使用しない
     @user.operator = current_user
     if params[:user]
       #@user.login = params[:user][:login]
@@ -257,7 +266,6 @@ class UsersController < ApplicationController
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
-              
     @user.activate
 
     @user.save do |result|
