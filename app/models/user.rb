@@ -103,6 +103,7 @@ class User < ActiveRecord::Base
   #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validate_on_update :verify_password
+  #validates_acceptance_of :confirmed
 
   def verify_password
     errors.add(:old_password) if self.password_not_verified
