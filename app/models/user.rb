@@ -93,8 +93,8 @@ class User < ActiveRecord::Base
   #validates_length_of       :login,    :within => 2..40
   #validates_uniqueness_of   :login,    :case_sensitive => false
 
-  #validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100, :if => Proc.new{|user| !user.email.blank?}, :allow_nil => true
+  validates_presence_of     :email, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
+  validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}, :allow_nil => true
   validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library

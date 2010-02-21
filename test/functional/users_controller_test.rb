@@ -12,12 +12,19 @@ class UsersControllerTest < ActionController::TestCase
   fixtures :users, :roles, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements, :tags, :taggings,
     :manifestations, :carrier_types, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces
 
-  #def test_should_allow_signup
-  #  assert_difference 'User.count' do
-  #    create_user
-  #    assert_response :redirect
-  #  end
-  #end
+  def test_guest_should_allow_signup
+    assert_difference 'User.count' do
+      create_user
+      assert_response :redirect
+    end
+  end
+
+  def test_guest_should_not_allow_signup_without_email
+    assert_no_difference 'User.count' do
+      create_user(:email => nil)
+      assert_response :success
+    end
+  end
 
   def test_user_should_not_allow_signup
     UserSession.create users(:user1)
