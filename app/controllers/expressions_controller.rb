@@ -190,6 +190,7 @@ class ExpressionsController < ApplicationController
     if ENV['RAILS_ENV'] == 'production'
       @content_types = Rails.cache.fetch('ContentType.all'){ContentType.all}
       @languages = Rails.cache.fetch('Language.all'){Language.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
     else
       @content_types = ContentType.all
       @languages = Language.all
