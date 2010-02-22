@@ -27,8 +27,13 @@
 </div>
 
 <p>
+  <strong><%= t('activerecord.attributes.library_group.allow_bookmark_external_url') -%>:</strong>
+  <%= i18n_boolean(@library_group.allow_bookmark_external_url) -%>
+</p>
+
+<p>
   <strong><%= t('activerecord.attributes.library_group.post_to_union_catalog') -%>:</strong>
-  <%= @library_group.post_to_union_catalog -%>
+  <%= i18n_boolean(@library_group.post_to_union_catalog) -%>
 </p>
 
 <p>
@@ -43,7 +48,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.library_group.use_dsbl') -%>:</strong>
-  <%= @library_group.use_dsbl -%>
+  <%= i18n_boolean(@library_group.use_dsbl) -%>
 </p>
 
 <p>

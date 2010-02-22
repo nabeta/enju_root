@@ -15,6 +15,7 @@ class Bookmark < ActiveRecord::Base
   
   cattr_accessor :per_page
   @@per_page = 10
+  attr_accessor :local_url
 
   acts_as_taggable_on :tags
 
@@ -34,12 +35,18 @@ class Bookmark < ActiveRecord::Base
     time :updated_at
   end
 
+  def before_validation
+    self.url = URI.parse(self.url).normalize.to_s
+  rescue URI::InvalidURIError
+    raise 'invalid_url'
+  end
+
   def before_validation_on_create
     create_manifestation
   end
 
   def after_create
-    send_later(:create_frbr_object)
+    send_later(:create_frbr_object) unless url.my_host?
   end
 
   def after_save
@@ -110,21 +117,25 @@ class Bookmark < ActiveRecord::Base
   end
 
   def check_url
-    self.url = URI.parse(self.url).normalize.to_s
-
     # 自館のページをブックマークする場合
-    if URI.parse(self.url).host == LIBRARY_WEB_HOSTNAME
-      path = URI.parse(self.url).path.split('/')
+    if url.my_host?
+      path = URI.parse(url).path.split('/')
       if path[1] == 'manifestations' and Manifestation.find(path[2])
         manifestation = Manifestation.find(path[2])
       else
         raise 'only_manifestation_should_be_bookmarked'
       end
     else
-      manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
+      if LibraryGroup.site_config.allow_bookmark_external_url
+        manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
+      else
+        # OTC start
+#         manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
+        # 自館のページではない場合
+        raise 'not_our_holding'
+        # OTC end
+      end
     end
-  rescue URI::InvalidURIError
-    raise 'invalid_url'
   end
 
   def create_manifestation
@@ -132,7 +143,13 @@ class Bookmark < ActiveRecord::Base
       manifestation = Manifestation.new(:access_address => url)
       manifestation.carrier_type = CarrierType.first(:conditions => {:name => 'file'})
     end
-    if manifestation.bookmarked?(user)
+    # OTC start
+    # check_urlで自館のmanifestation以外ならば例外とし登録させないよう修正した。
+    # よって、unless文の処理は不要になるはず。
+    # manifestation = check_urlを実行するのみ。nilの場合は上で処理するので処理不要。
+#    manifestation = check_url
+    # OTC end
+   if manifestation.bookmarked?(user)
       raise 'already_bookmarked'
     end
     if self.title.present?
@@ -144,7 +161,7 @@ class Bookmark < ActiveRecord::Base
   end
 
   def create_frbr_object
-    if manifestation
+    unless url.my_host?
       Bookmark.transaction do
         work = Work.create!(:original_title => manifestation.original_title)
         expression = Expression.new(:original_title => work.original_title)
@@ -176,20 +193,6 @@ class Bookmark < ActiveRecord::Base
       false
     end
   end
-
-  def is_readable_by(user, parent = nil)
-    if user.try(:has_role?, 'Librarian')
-      true
-    else
-      false
-    end
-  end
-
-  #def is_updatable_by(user, parent = nil)
-  #  true if user.has_role?('Librarian')
-  #rescue
-  #  false
-  #end
 
   def is_deletable_by(user, parent = nil)
     true if user == self.user || user.has_role?('Librarian')

@@ -104,6 +104,12 @@ class BookmarksController < ApplicationController
         flash[:notice] = t('bookmark.already_bookmarked')
         redirect_to manifestation_url(@manifestation)
         return
+      # OTC start
+      # 自館のページではない場合、メッセージを表示して空のページを表示
+      when 'not_our_holding'
+        flash[:notice] = t('bookmark.not_our_holding')
+        redirect_to new_user_bookmark_url(current_user.login)
+      # OTC end
       end
     end
   end
@@ -148,6 +154,11 @@ class BookmarksController < ApplicationController
           flash[:notice] = t('bookmark.invalid_url')
         when 'specify_title_and_url'
           flash[:notice] = t('bookmark.specify_title_and_url')
+        # OTC start
+        # 指定したurlが自館のサイトでない場合
+        when 'not_our_holding'
+          flash[:notice] = t('bookmark.not_our_holding')
+        # OTC end
         end
         format.html { redirect_to new_user_bookmark_url(current_user.login) }
         format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }

@@ -8,3 +8,4 @@ one:
   use_dsbl: false
   note: 
   my_networks: 0.0.0.0/0
+  allow_bookmark_external_url: true
