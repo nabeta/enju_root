@@ -648,6 +648,7 @@ en:
         login_banner: Login banner
         post_to_union_catalog: Post to union catalog
         valid_period_for_new_user: Valid period for new user
+        allow_bookmark_external_url: Allow bookmark external url
       event_import_file:
         event_import_file_name: Filename
         event_import_content_type: Content type
@@ -1147,6 +1148,7 @@ en:
     specify_title_and_url: "Specify the title and URL of the page."
     already_bookmarked: "This resource is already bookmarked."
     only_manifestation_should_be_bookmarked: "You can bookmark only manifestatons in this site."
+    not_our_holding: "This resource is not our holding."
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"

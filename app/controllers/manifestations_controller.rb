@@ -237,17 +237,15 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  {
-        if params[:api] == 'amazon'
+        case params[:api]
+        when 'amazon'
           render :xml => @manifestation.access_amazon
+        when 'related'
+          render :template => 'manifestations/related'
+        when 'mods'
+          render :template => 'manifestations/mods'
         else
-          case params[:mode]
-          when 'related'
-            render :template => 'manifestations/related'
-          when 'mods'
-            render :template => 'manifestations/mods'
-          else
-            render :xml => @manifestation
-          end
+          render :xml => @manifestation
         end
       }
       format.json { render :json => @manifestation }

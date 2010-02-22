@@ -31,6 +31,11 @@
   </p>
 
   <p>
+    <%= f.label t('activerecord.attributes.library_group.allow_bookmark_external_url') -%>
+    <%= f.check_box :allow_bookmark_external_url -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.library_group.post_to_union_catalog') -%>
     <%= f.check_box :post_to_union_catalog -%>
   </p>

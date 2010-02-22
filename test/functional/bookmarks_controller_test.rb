@@ -96,9 +96,9 @@ class BookmarksControllerTest < ActionController::TestCase
   
   def test_user_should_not_get_my_new_with_internal_url
     UserSession.create users(:user1)
-    get :new, :user_id => users(:user1).login, :url => "http://#{LIBRARY_WEB_HOSTNAME}"
+    get :new, :user_id => users(:user1).login, :url => LibraryGroup.url
     assert_response :redirect
-    assert_redirected_to "http://#{LIBRARY_WEB_HOSTNAME}/"
+    assert_redirected_to LibraryGroup.url
   end
   
   def test_guest_should_not_create_bookmark
@@ -119,6 +119,18 @@ class BookmarksControllerTest < ActionController::TestCase
     
     assert_redirected_to bookmark_url(assigns(:bookmark))
     assigns(:bookmark).remove_from_index!
+  end
+
+  def test_user_should_create_bookmark_with_local_url
+    UserSession.create users(:user1)
+    old_count = Bookmark.count
+    post :create, :bookmark => {:title => 'example', :url => "http://#{LibraryGroup.url}manifestations/10"}
+    #assert assigns(:bookmark).manifestation
+    #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    
+    assert_redirected_to bookmark_url(assigns(:bookmark))
+    assigns(:bookmark).remove_from_index!
+    assert_equal old_count+1, Bookmark.count
   end
 
   def test_user_should_not_create_other_users_bookmark
@@ -197,10 +209,10 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_user_should_not_show_my_bookmark
+  def test_user_should_show_my_bookmark
     UserSession.create users(:user1)
     get :show, :id => 3, :user_id => users(:user1).login
-    assert_response :forbidden
+    assert_response :success
   end
   
   def test_librarian_should_show_other_user_bookmark

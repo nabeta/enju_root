@@ -74,6 +74,10 @@ class User < ActiveRecord::Base
   acts_as_tagger
 
   acts_as_authentic {|c|
+    c.merge_validates_format_of_email_field_options :allow_blank => false, :on => :create
+    c.merge_validates_format_of_email_field_options :allow_blank => true, :on => :update
+    c.merge_validates_length_of_email_field_options :allow_blank => true, :on => :update
+    c.merge_validates_uniqueness_of_email_field_options :allow_blank => true
     c.validates_length_of_password_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
     c.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
   }
