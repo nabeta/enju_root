@@ -13,7 +13,7 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.form_of_work') -%></th>
-    <th><%= t('activerecord.attributes.work.parent_of_series') -%></th>
+    <th><%= t('activerecord.models.series_statement') -%></th>
     <%- if current_user -%>
       <th></th>
       <th></th>
@@ -28,7 +28,7 @@
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= link_to work.form_of_work.display_name.localize, work.form_of_work -%></td>
-      <td><%= i18n_boolean(work.parent_of_series) -%></td>
+      <td><%= link_to h(work.series_statement), work.series_statement -%></td>
       <%- if work.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td>

@@ -1402,6 +1402,7 @@ en:
     library_calendar: "Calendar of events at {{library_name}}"
   series_statement:
     edit: "Edit series statement"
+    you_should_specify_work: "You should specify a work in the series statement."
   state:
     pending: "Pending"
     cancaled: "Cancaled"

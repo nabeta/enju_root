@@ -315,7 +315,7 @@ class ApplicationController < ActionController::Base
     access_denied unless my_networks?
   end
 
-  def admin_networks?
+  def check_admin_network
     access_denied unless admin_networks?
   end
 

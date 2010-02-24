@@ -3,6 +3,7 @@
     <p>
       <%= f.label t('activerecord.models.series_statement') -%><br />
       <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
+      <%= f.hidden_field :series_statement_id -%>
     </p>
   <%- end -%>
   <p>
@@ -23,11 +24,6 @@
   <p>
     <%= f.label t('activerecord.models.form_of_work') -%><br />
     <%= f.select(:form_of_work_id, @form_of_works.collect{|w| [w.display_name.localize, w.id]}) -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.work.parent_of_series') -%>
-    <%= f.check_box :parent_of_series -%>
   </p>
 
   <!--
