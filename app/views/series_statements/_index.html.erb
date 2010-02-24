@@ -11,7 +11,7 @@
 <table class="index">
   <tr>
     <th id="position"></th>
-    <th><%= t('activerecord.attributes.series_statement.title') -%></th>
+    <th><%= t('activerecord.attributes.series_statement.original_title') -%></th>
     <th><%= t('activerecord.attributes.series_statement.numbering') -%></th>
     <th><%= t('activerecord.attributes.series_statement.title_subseries') -%></th>
     <th><%= t('activerecord.attributes.series_statement.numbering_subseries') -%></th>
@@ -25,10 +25,11 @@
         <%= move_position(series_statement) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(series_statement.title), series_statement %></td>
+    <td><%= link_to h(series_statement.original_title), series_statement %></td>
     <td><%= series_statement.numbering %></td>
     <td><%= series_statement.title_subseries %></td>
     <td><%= series_statement.numbering_subseries %></td>
+    <td><%= link_to t('page.new', :model => t('activerecord.models.work')), series_statement_works_path(series_statement) -%></td>
     <td><%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_series_statement_manifestation_path(series_statement) -%></td>
     <td><%= link_to t('page.edit'), edit_series_statement_path(series_statement) %></td>
     <td><%= link_to t('page.destroy'), series_statement, :confirm => 'Are you sure?', :method => :delete %></td>

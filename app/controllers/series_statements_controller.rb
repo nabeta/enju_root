@@ -1,5 +1,6 @@
 class SeriesStatementsController < ApplicationController
   before_filter :has_permission?
+  before_filter :get_work, :only => [:index, :new, :edit, :create]
   before_filter :get_manifestation, :only => [:index, :new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -14,7 +15,14 @@ class SeriesStatementsController < ApplicationController
       query = query.gsub('　', ' ')
       search.build do
         fulltext query
+        with(:work_id).equal_to work.id
       end
+    end
+    work = @work
+    manifestation = @manifestation
+    search.build do
+      with(:work_id).equal_to work.id if work
+      with(:manifestation_ids).equal_to manifestation.id if manifestation
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, SeriesStatement.per_page)
@@ -55,6 +63,7 @@ class SeriesStatementsController < ApplicationController
   # GET /series_statements/new.xml
   def new
     @series_statement = SeriesStatement.new
+    @series_statement.work = @work if @work
     @series_statement.manifestation_id = @manifestation.id if @manifestation
 
     respond_to do |format|
@@ -66,6 +75,7 @@ class SeriesStatementsController < ApplicationController
   # GET /series_statements/1/edit
   def edit
     @series_statement = SeriesStatement.find(params[:id])
+    @series_statement.work = @work if @work
   end
 
   # POST /series_statements

@@ -2,8 +2,13 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.series_statement')) -%></h1>
 <div id="content_list">
 <p>
-  <strong><%= t('activerecord.attributes.series_statement.title') -%></strong>
-  <%= @series_statement.title %>
+  <strong><%= t('activerecord.models.work') -%></strong>
+  <%= link_to h(@series_statement.work.original_title), @series_statement.work if @series_statement.work %>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.series_statement.original_title') -%></strong>
+  <%= @series_statement.original_title %>
 </p>
 
 <p>
@@ -27,6 +32,7 @@
 
 <div id="submenu">
   <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.work')), series_statement_works_path(@series_statement) %></li>
     <li><%= link_to t('page.edit'), edit_series_statement_path(@series_statement) %></li>
     <li><%= link_to t('page.back'), series_statements_path %></li>
   </ul>

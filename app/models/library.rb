@@ -27,7 +27,8 @@ class Library < ActiveRecord::Base
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
   validates_presence_of :name, :display_name, :short_display_name, :library_group, :patron
-  validates_uniqueness_of :name, :short_display_name
+  validates_uniqueness_of :name, :short_display_name, :case_sensitive => false
+  validates_uniqueness_of :display_name
   validates_format_of :name, :with => /^[a-z][0-9a-z]{2,254}$/
 
   cattr_accessor :per_page

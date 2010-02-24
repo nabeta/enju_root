@@ -56,7 +56,6 @@ class UserGroupHasCheckoutTypesController < ApplicationController
         format.html { redirect_to(@user_group_has_checkout_type) }
         format.xml  { render :xml => @user_group_has_checkout_type, :status => :created, :location => @user_group_has_checkout_type }
       else
-        @user_group_has_checkout_type = UserGroupHasCheckoutType.new
         prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @user_group_has_checkout_type.errors, :status => :unprocessable_entity }

@@ -269,6 +269,12 @@ class ApplicationController < ActionController::Base
     not_found
   end
 
+  def get_series_statement
+    @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
+  rescue ActiveRecord::RecordNotFound
+    not_found
+  end
+
   def librarian_authorized?
     return false unless logged_in?
     user = get_user_if_nil

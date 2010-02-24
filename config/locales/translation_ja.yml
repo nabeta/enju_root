@@ -737,6 +737,8 @@ ja:
         fixed_due_date: 固定貸出期限
         note: 注記
         position: 位置
+        user_group_id: 利用者グループ
+        checkout_type_id: 貸出種別
       carrier_type_has_checkout_type:
         note: 注記
         position: 位置
@@ -944,10 +946,11 @@ ja:
         note: 注記
         position: 位置
       series_statement:
-        title: シリーズ名
+        original_title: シリーズ名
         numbering: シリーズ番号
         title_subseries: 副シリーズ名
         numbering_subseries: 副シリーズ番号
+        work: 著作形
       import_request:
         isbn: ISBN
         state: 状態
@@ -1138,7 +1141,7 @@ ja:
     already_bookmarked: "すでにブックマークに登録されています。"
     user_bookmark: "{{login_name}} さんのブックマーク"
     only_manifestation_should_be_bookmarked: "サイト内のブックマークは体現形に対してのみ行えます。"
-    not_our_holding: "当舘の所蔵品ではありません。"
+    not_our_holding: "当館の所蔵資料ではありません。"
   work:
     patron_work: "{{patron_name}} の著作形"
     library_group_work: "{{library_group_name}} にある著作形"

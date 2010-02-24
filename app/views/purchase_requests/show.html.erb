@@ -38,7 +38,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.purchase_request.date_of_publication') -%>:</strong>
-  <%= @purchase_request.date_of_publication -%>
+  <%=l @purchase_request.date_of_publication if @purchase_request.date_of_publication -%>
 </p>
 
 <p>

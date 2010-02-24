@@ -5,7 +5,7 @@
 <%- form_for(@user, :url => activate_path(@user.id)) do |f| -%>
   <%= f.error_messages -%>
   <p>
-    <%= f.label t('page.password') -%><br />
+    <%= f.label t('page.password') -%><br/>
     <table>
       <tr>
         <td><%= t('user.new_password') -%>:</td>

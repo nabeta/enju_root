@@ -348,7 +348,7 @@ class ManifestationsController < ApplicationController
             @manifestation.derived_manifestations << @original_manifestation
           end
           # 雑誌の場合、出版者を自動的に追加
-          if @series_statement
+          if @manifestation.series_statement
             @manifestation.create_next_issue_work_and_expression
           end
           if @expression

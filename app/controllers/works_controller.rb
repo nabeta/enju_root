@@ -3,6 +3,7 @@ class WorksController < ApplicationController
   before_filter :has_permission?
   before_filter :get_patron, :get_subject, :get_subscription
   before_filter :get_work, :only => :index
+  before_filter :get_series_statement, :only => [:index, :new, :edit]
   before_filter :get_work_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_version, :only => [:show]
@@ -111,6 +112,7 @@ class WorksController < ApplicationController
   def new
     @work = Work.new
     @patron = Patron.find(params[:patron_id]) rescue nil
+    @work.series_statement = @series_statement
 
     respond_to do |format|
       format.html # new.html.erb
@@ -121,6 +123,7 @@ class WorksController < ApplicationController
   # GET /works/1;edit
   def edit
     @work = Work.find(params[:id])
+    @work.series_statement = @series_statement
   end
 
   # POST /works

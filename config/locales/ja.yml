@@ -30,11 +30,11 @@ ja:
 
   support:
     array:
-      sentence_connector: "と"
+      sentence_connector: ""
       skip_last_comma: true
-      words_connector: "と"
-      two_words_connector: "と"
-      last_word_connector: "と"
+      words_connector: ""
+      two_words_connector: ""
+      last_word_connector: ""
 
     select:
       prompt: "選択してください。"

@@ -11,6 +11,8 @@ class UserGroup < ActiveRecord::Base
   has_many :lending_policies
 
   validates_presence_of :name, :display_name
+  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :display_name
 
   acts_as_list
 
