@@ -1388,6 +1388,7 @@ ja:
     library_calendar: "{{library_name}}のカレンダー"
   series_statement:
     edit: "シリーズ情報の編集"
+    you_should_specify_work: "シリーズ情報には著作形を指定しなければなりません。"
   state:
     pending: "処理待ち"
     cancaled: "中止"

@@ -153,6 +153,10 @@ class Manifestation < ActiveRecord::Base
     ISBN_Tools.cleanup!(self.isbn) if self.isbn.present?
   end
 
+  def validate
+    check_series_statement
+  end
+
   def after_create
     send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
@@ -247,7 +251,7 @@ class Manifestation < ActiveRecord::Base
     id = self.id
     Work.search do
       with(:manifestation_ids).equal_to id
-      with(:parent_of_series).equal_to true
+      without(:series_statement_id).equal_to nil
     end.results.first
     # TODO: parent_of_series をシリーズ中にひとつしか作れないようにする
   end
@@ -580,6 +584,12 @@ class Manifestation < ActiveRecord::Base
 
   def embodied(expression)
     embodies.first(:conditions => {:expression_id => expression.id})
+  end
+
+  def check_series_statement
+    if series_statement
+      errors.add(:series_statement) unless series_statement.work
+    end
   end
 
 end

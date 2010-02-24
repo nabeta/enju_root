@@ -51,9 +51,9 @@
             </td>
           </tr>
           <tr>
-            <td><strong><%= t('activerecord.attributes.work.parent_of_series') -%>:</strong></td>
+            <td><strong><%= t('activerecord.models.series_statement') -%>:</strong></td>
             <td>
-              <%= i18n_boolean(@work.parent_of_series) -%>
+              <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
             </td>
           </tr>
           <tr>

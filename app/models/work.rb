@@ -44,11 +44,11 @@ class Work < ActiveRecord::Base
     integer :required_role_id
     integer :form_of_work_id
     integer :subject_ids, :multiple => true
-    boolean :parent_of_series
     integer :manifestation_ids, :multiple => true do
       expressions.collect(&:manifestations).flatten.collect(&:id)
     end
     integer :subscription_ids, :multiple => true
+    integer :series_statement_id
   end
 
   #acts_as_soft_deletable
