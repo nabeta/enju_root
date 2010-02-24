@@ -5,6 +5,12 @@
 <% form_for(@series_statement) do |f| %>
   <%= f.error_messages %>
 
+  <%- if @series_statement.work -%>
+    <p>
+      <%= link_to h(@series_statement.work.original_title), @series_statement.work -%>
+    </p>
+  <%- end -%>
+  
   <%- if @manifestation -%>
     <p>
       <%= link_to h(@manifestation.original_title), @manifestation -%>
@@ -13,8 +19,8 @@
   <%- end -%>
   
   <p>
-    <%= f.label t('activerecord.attributes.series_statement.title') -%><br />
-    <%= f.text_field :title %>
+    <%= f.label t('activerecord.attributes.series_statement.original_title') -%><br />
+    <%= f.text_field :original_title %>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.series_statement.numbering') -%><br />

@@ -51,7 +51,7 @@
 <p>
   <strong><%= t('activerecord.attributes.item.item_identifier') -%>:</strong>
   <%= @item.item_identifier -%>
-  <br />
+  <br/>
   <%= image_tag("#{barcode_url(@item.barcode)}.png", :alt => @item.item_identifier) if @item.barcode -%>
 </p>
 

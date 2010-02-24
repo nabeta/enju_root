@@ -736,6 +736,8 @@ en:
         fixed_due_date: Fixed due date
         note: Note
         position: Position
+        user_group_id: User group
+        checkout_type_id: Checkout type
       carrier_type_has_checkout_type:
         note: Note
         position: Position
@@ -944,10 +946,11 @@ en:
         note: Note
         position: Position
       series_statement:
-        title: Title
+        original_title: Title
         numbering: Numbering
         title_subseries: Title subseries
         numbering_subseries: Numbering subseries
+        work: Work
       import_request:
         isbn: ISBN
         state: State

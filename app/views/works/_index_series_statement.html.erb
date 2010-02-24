@@ -1,0 +1,60 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.series_statement')) -%></h1>
+<div id="content_list">
+  <h2 class="resource_title">
+    <%= link_to h(@series_statement.original_title), @series_statement -%>
+  </h2>
+
+<%- form_for :works, :url => series_statement_works_path(@series_statement), :html => {:method => 'get'} do -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%- if @series_statement.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
+    <%- end -%>
+    <%= submit_tag t('page.search') -%>
+    <%= link_to t('page.back_to_index'), series_statement_works_path(@series_statement) -%>
+  </p>
+  <%= javascript_tag("$('query').focus()") -%>
+<%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('page.title') -%></th>
+    <th><%= t('activerecord.attributes.work.context') -%></th>
+    <th></th>
+  </tr>
+  <%- @works.each do |work| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td>
+        <%= link_to h(work.original_title), work -%>
+        <br />
+        <%= raw patrons_list(work.patrons) -%>
+      </td>
+      <td><%= work.context -%></td>
+      <td>
+        <%- if work.is_deletable_by(current_user) -%>
+          <%= link_to t('page.select'), edit_series_statement_work_path(@series_statement, work) -%>
+        <%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
+</table>
+
+<%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Work.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_series_statement_work_path(@series_statement) -%></li>
+    <%- end -%>
+  </ul>
+</div>

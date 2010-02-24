@@ -15,6 +15,14 @@ class PurchaseRequest < ActiveRecord::Base
     errors.add(:price) unless self.price.nil? || self.price > 0.0
   end
 
+  def after_save
+    index!
+  end
+
+  def after_destroy
+    after_save
+  end
+
   searchable do
     text :title, :author, :publisher, :url
     string :isbn

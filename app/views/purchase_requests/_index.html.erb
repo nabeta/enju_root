@@ -24,7 +24,7 @@
         <br />
         <%= purchase_request.author -%>
         <%= purchase_request.publisher -%>
-        <%= purchase_request.date_of_publication -%>
+        <%=l purchase_request.date_of_publication if purchase_request.date_of_publication -%>
       </td>
       <td><%= purchase_request.price -%></td>
       <td>

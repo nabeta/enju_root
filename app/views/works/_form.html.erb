@@ -1,6 +1,12 @@
   <%= f.error_messages -%>
+  <%- if @work.series_statement -%>
+    <p>
+      <%= f.label t('activerecord.models.series_statement') -%><br />
+      <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
+    </p>
+  <%- end -%>
   <p>
-    <%= f.label t('page.title') -%><br />
+    <%= f.label t('activerecord.attributes.work.original_title') -%><br />
     <%= f.text_field :original_title, :class => 'resource_title' -%>
   </p>
   

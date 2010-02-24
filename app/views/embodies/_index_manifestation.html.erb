@@ -14,7 +14,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if embody.is_deletable_by(current_user) -%>
-        <%= embody.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
+        <%= embody.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%>
         <%= embody.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%>
       <%- end -%>
     </td>

@@ -28,7 +28,7 @@
         <br />
         <%= purchase_request.author -%>
         <%= purchase_request.publisher -%>
-        <%= purchase_request.pubdate -%>
+        <%=l purchase_request.date_of_publication if purchase_request.date_of_publication -%>
       </td>
       <td><%= purchase_request.price -%></td>
       <td><%= link_to t('page.edit'), edit_user_purchase_request_path(purchase_request.user.login, purchase_request) -%></td>

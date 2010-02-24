@@ -1,5 +1,5 @@
 class Notifier < ActionMailer::Base
-  default_url_options[:host] = "#{LIBRARY_WEB_HOSTNAME}:#{LIBRARY_WEB_PORT_NUMBER}"
+  default_url_options[:host] = LIBRARY_WEB_HOSTNAME
 
   def message_notification(user)
     subject       I18n.t('message.new_message_from_library', :library => LibraryGroup.site_config.display_name.localize)

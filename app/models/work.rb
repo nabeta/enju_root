@@ -27,6 +27,7 @@ class Work < ActiveRecord::Base
   belongs_to :medium_of_performance
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
+  belongs_to :series_statement
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 

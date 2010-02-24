@@ -12,7 +12,8 @@ class Shelf < ActiveRecord::Base
 
   validates_associated :library
   validates_presence_of :name, :display_name, :library
-  validates_uniqueness_of :name
+  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :display_name
   
   acts_as_list :scope => :library
   #acts_as_soft_deletable

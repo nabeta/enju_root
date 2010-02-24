@@ -5,6 +5,9 @@
   <h2 class="resource_title">
     [W]
     <%= link_to h(@work.original_title), @work -%>
+    <%- if @work.series_statement -%>
+      <%= link_to h(@work.series_statement.original_title), @series_statement -%>
+    <%- end -%>
   </h2>
 
 <%- form_for :patrons, :url => work_patrons_path(@work), :html => {:method => 'get'} do -%>
