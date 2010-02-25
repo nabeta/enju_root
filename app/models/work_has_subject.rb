@@ -14,8 +14,9 @@ class WorkHasSubject < ActiveRecord::Base
   validates_uniqueness_of :subject_id, :scope => :work_id
   #validates_uniqueness_of :subject_id, :scope => [:subjectable_id, :subjectable_type]
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   #def after_save
   #  self.subject.save

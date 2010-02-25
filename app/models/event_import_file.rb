@@ -90,7 +90,7 @@ class EventImportFile < ActiveRecord::Base
 
   def self.import
     EventImportFile.not_imported.each do |file|
-      file.aasm_import_start!
+      file.import_start
     end
   rescue
     logger.info "#{Time.zone.now} importing events failed!"

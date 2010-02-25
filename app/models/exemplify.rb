@@ -9,8 +9,9 @@ class Exemplify < ActiveRecord::Base
 
   acts_as_list :scope => :manifestation_id
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   def after_save
     manifestation.index!

@@ -9,8 +9,9 @@ class Own < ActiveRecord::Base
 
   acts_as_list :scope => :item
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
   attr_accessor :item_identifier
 
   def after_save

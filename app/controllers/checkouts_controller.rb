@@ -84,8 +84,6 @@ class CheckoutsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @checkout.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checkouts/new
@@ -97,9 +95,6 @@ class CheckoutsController < ApplicationController
   def edit
     @checkout = @user.checkouts.find(params[:id])
     @renew_due_date = @checkout.set_renew_due_date(@user)
-
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /checkouts
@@ -118,8 +113,6 @@ class CheckoutsController < ApplicationController
   #      format.xml  { render :xml => @checkout.errors.to_xml }
   #    end
   #  end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   end
 
   # PUT /checkouts/1
@@ -158,8 +151,6 @@ class CheckoutsController < ApplicationController
         format.xml  { render :xml => @checkout.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /checkouts/1
@@ -172,8 +163,6 @@ class CheckoutsController < ApplicationController
       format.html { redirect_to user_checkouts_url(@checkout.user.login) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
 end

@@ -31,8 +31,9 @@ class Library < ActiveRecord::Base
   validates_uniqueness_of :display_name
   validates_format_of :name, :with => /^[a-z][0-9a-z]{2,254}$/
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def after_save
     expire_cache

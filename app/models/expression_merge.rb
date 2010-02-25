@@ -1,10 +1,11 @@
 class ExpressionMerge < ActiveRecord::Base
   include LibrarianRequired
-  belongs_to :expression, :validate =>true
+  belongs_to :expression, :validate => true
   belongs_to :expression_merge_list, :validate => true
   validates_presence_of :expression, :expression_merge_list
   validates_associated :expression, :expression_merge_list
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 end

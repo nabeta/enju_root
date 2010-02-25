@@ -18,8 +18,9 @@ class Shelf < ActiveRecord::Base
   acts_as_list :scope => :library
   #acts_as_soft_deletable
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def before_validation_on_create
     self.display_name = self.name if display_name.blank?

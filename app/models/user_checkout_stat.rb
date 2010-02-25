@@ -19,8 +19,9 @@ class UserCheckoutStat < ActiveRecord::Base
       :on_transition => :calculate_count
   end
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   def validate
     if self.start_date and self.end_date

@@ -131,8 +131,6 @@ class QuestionsController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /questions/new
@@ -147,8 +145,6 @@ class QuestionsController < ApplicationController
     else
       @question = Question.find(params[:id])
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /questions
@@ -183,8 +179,6 @@ class QuestionsController < ApplicationController
         format.xml  { render :xml => @question.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /questions/1
@@ -201,8 +195,6 @@ class QuestionsController < ApplicationController
       format.html { redirect_to user_questions_url(@question.user.login) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
 end

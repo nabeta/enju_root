@@ -55,7 +55,9 @@ class ManifestationsController < ApplicationController
       manifestations = {}
       @count = {}
       if params[:format] == 'csv'
-        Manifestation.per_page = 65534
+        per_page = 65534
+      else
+        per_page = Manifestation.per_page
       end
 
       # 絞り込みを行わない状態のクエリ
@@ -117,9 +119,9 @@ class ManifestationsController < ApplicationController
 
       page = params[:page] || 1
       unless query.blank?
-        #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
-        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
-        search.query.paginate(page.to_i, Manifestation.per_page)
+        #paginated_manifestation_ids = WillPaginate::Collection.create(page, per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
+        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => per_page)
+        search.query.paginate(page.to_i, per_page)
         @manifestations = search.execute!.results
         @count[:query_result] = @manifestations.total_entries
         save_search_history(query, @manifestations.offset, @count[:query_result])
@@ -265,7 +267,6 @@ class ManifestationsController < ApplicationController
   def new
     @manifestation = Manifestation.new
     @original_manifestation = get_manifestation
-    @manifestation.series_statement = @series_statement
     unless params[:mode] == 'import_isbn'
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
@@ -299,8 +300,6 @@ class ManifestationsController < ApplicationController
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /manifestations
@@ -407,8 +406,6 @@ class ManifestationsController < ApplicationController
         format.json { render :json => @manifestation, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /manifestations/1
@@ -690,4 +687,5 @@ class ManifestationsController < ApplicationController
       0
     end
   end
+
 end

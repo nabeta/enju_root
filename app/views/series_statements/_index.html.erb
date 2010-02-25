@@ -34,7 +34,7 @@
       <%- if series_statement.work -%>
         <%= link_to h(series_statement.work.original_title), series_statement.work -%>
       <%- else -%>
-        (<%= link_to t('page.new', :model => t('activerecord.models.work')), new_series_statement_work_path(series_statement) -%>)
+        <%= link_to t('page.new', :model => t('activerecord.models.work')), new_series_statement_work_path(series_statement) -%>
       <%- end -%>
     </td>
     <td>

@@ -21,8 +21,9 @@ class Advertisement < ActiveRecord::Base
   acts_as_list
   #acts_as_soft_deletable
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   def validate
     if self.started_at and self.ended_at

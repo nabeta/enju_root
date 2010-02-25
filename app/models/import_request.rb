@@ -44,7 +44,7 @@ class ImportRequest < ActiveRecord::Base
 
   def import
     unless manifestation
-      if manifestation = Manifestation.import_isbn(isbn)
+      if manifestation = Manifestation.import_isbn(isbn) rescue nil
         aasm_complete!
         self.manifestation = manifestation; save
       else

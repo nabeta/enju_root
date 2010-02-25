@@ -13,8 +13,9 @@ class Bookmark < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
   
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
   attr_accessor :local_url
 
   acts_as_taggable_on :tags

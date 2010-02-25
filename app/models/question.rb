@@ -26,10 +26,13 @@ class Question < ActiveRecord::Base
   acts_as_taggable_on :tags
   enju_porta
  
-  cattr_accessor :per_page
-  @@per_page = 10
-  cattr_reader :crd_per_page
-  @@crd_per_page = 5
+  def self.per_page
+    10
+  end
+
+  def self.crd_per_page
+    5
+  end
 
   def answer_body
     text = ""

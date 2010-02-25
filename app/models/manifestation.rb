@@ -113,8 +113,9 @@ class Manifestation < ActiveRecord::Base
   #enju_worldcat
   has_paper_trail
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
   attr_accessor :new_expression_id
 
   validates_presence_of :original_title, :carrier_type_id, :language_id

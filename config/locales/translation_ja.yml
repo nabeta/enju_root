@@ -1394,6 +1394,7 @@ ja:
     cancaled: "中止"
     completed: "完了"
     started: "開始"
+    failed: "失敗"
   password_reset:
     fill_in_email_address: "メールアドレスを入力してください。"
     reset_password: "パスワードのリセット"

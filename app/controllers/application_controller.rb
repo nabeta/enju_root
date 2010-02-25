@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
     :pickup_advertisement
   #before_filter :has_permission?
 
+  private
   def get_library_group
     @library_group = LibraryGroup.site_config
   end
@@ -34,7 +35,7 @@ class ApplicationController < ActionController::Base
       if logged_in?
         locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale
       else
-        locale = params[:locale] || session[:locale] || I18n.default_locale
+        locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
       end
     end
     unless I18n.available_locales.include?(locale.intern)
@@ -84,83 +85,61 @@ class ApplicationController < ActionController::Base
   def get_patron
     @patron = Patron.find(params[:patron_id]) if params[:patron_id]
     access_denied unless @patron.is_readable_by(current_user) if @patron
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_work
     @work = Work.find(params[:work_id]) if params[:work_id]
     access_denied unless @work.is_readable_by(current_user) if @work
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_item
     @item = Item.find(params[:item_id]) if params[:item_id]
     access_denied unless @item.is_readable_by(current_user) if @item
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_expression
     @expression = Expression.find(params[:expression_id]) if params[:expression_id]
     access_denied unless @expression.is_readable_by(current_user) if @expression
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_manifestation
     @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
     access_denied unless @manifestation.is_readable_by(current_user) if @manifestation
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_carrier_type
     @carrier_type = CarrierType.find(params[:carrier_type_id]) if params[:carrier_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_shelf
     @shelf = Shelf.find(params[:shelf_id], :include => :library) if params[:shelf_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_basket
     @basket = Basket.find(params[:basket_id]) if params[:basket_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_patron_merge_list
     @patron_merge_list = PatronMergeList.find(params[:patron_merge_list_id]) if params[:patron_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_work_merge_list
     @work_merge_list = WorkMergeList.find(params[:work_merge_list_id]) if params[:work_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_expression_merge_list
     @expression_merge_list = ExpressionMergeList.find(params[:expression_merge_list_id]) if params[:expression_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_user
     @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
-    access_denied unless @user.is_readable_by(current_user)
+    unless @user.is_readable_by(current_user)
+      access_denied; return
+    end
     return @user
-
   rescue ActiveRecord::RecordNotFound
-    access_denied
-    #not_found
+    not_found
   end
 
   def get_user_if_nil
@@ -170,14 +149,10 @@ class ApplicationController < ActionController::Base
   
   def get_user_group
     @user_group = UserGroup.find(params[:user_group_id]) if params[:user_group_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
                     
   def get_library
     @library = Library.find(params[:library_id]) if params[:library_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_libraries
@@ -186,93 +161,63 @@ class ApplicationController < ActionController::Base
 
   def get_library_group
     @library_group = LibraryGroup.site_config
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_question
     @question = Question.find(params[:question_id]) if params[:question_id]
     access_denied unless @question.is_readable_by(current_user) if @question
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_event
     @event = Event.find(params[:event_id]) if params[:event_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_bookstore
     @bookstore = Bookstore.find(params[:bookstore_id]) if params[:bookstore_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subject
     @subject = Subject.find(params[:subject_id]) if params[:subject_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_classification
     @classification = Classification.find(params[:classification_id]) if params[:classification_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_order_list
     @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_purchase_request
     @purchase_request = PurchaseRequest.find(params[:purchase_request_id]) if params[:purchase_request_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_checkout_type
     @checkout_type = CheckoutType.find(params[:checkout_type_id]) if params[:checkout_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_inventory_file
     @inventory_file = InventoryFile.find(params[:inventory_file_id]) if params[:inventory_file_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   #def get_concept
   #  @concept = Concept.find(params[:concept_id]) if params[:concept_id]
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   #end
 
   def get_subject_heading_type
     @subject_heading_type = Subject.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def librarian_authorized?
@@ -369,7 +314,6 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find

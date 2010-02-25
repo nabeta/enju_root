@@ -9,8 +9,9 @@ class Produce < ActiveRecord::Base
 
   acts_as_list :scope => :manifestation
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def after_save
     patron.index!

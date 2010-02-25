@@ -5,6 +5,7 @@ class WorkMerge < ActiveRecord::Base
   validates_presence_of :work, :work_merge_list
   validates_associated :work, :work_merge_list
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 end

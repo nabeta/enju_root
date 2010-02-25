@@ -16,8 +16,9 @@ class CheckoutType < ActiveRecord::Base
   validates_presence_of :name, :display_name
   validates_uniqueness_of :name
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   acts_as_list
 

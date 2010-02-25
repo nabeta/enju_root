@@ -16,8 +16,9 @@ class PictureFile < ActiveRecord::Base
   # http://railsforum.com/viewtopic.php?id=11615
   acts_as_list :scope => 'picture_attachable_id=#{picture_attachable_id} AND picture_attachable_type=\'#{picture_attachable_type}\''
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def after_create
     send_later(:set_digest) if self.picture.path

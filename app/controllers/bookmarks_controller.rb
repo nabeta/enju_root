@@ -65,8 +65,6 @@ class BookmarksController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @bookmark }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /bookmarks/new
@@ -121,8 +119,6 @@ class BookmarksController < ApplicationController
     else
       @bookmark = Bookmark.find(params[:id])
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /bookmarks
@@ -166,8 +162,6 @@ class BookmarksController < ApplicationController
     end
 
     session[:params][:bookmark] = nil if session[:params]
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   end
 
   # PUT /bookmarks/1
@@ -197,8 +191,6 @@ class BookmarksController < ApplicationController
         format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /bookmarks/1
@@ -226,8 +218,6 @@ class BookmarksController < ApplicationController
         format.xml  { head :ok }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
 end

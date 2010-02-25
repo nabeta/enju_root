@@ -53,7 +53,7 @@
           <tr>
             <td><strong><%= t('activerecord.models.series_statement') -%>:</strong></td>
             <td>
-              <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
+              <%= link_to h(@work.series_statement.original_title), @work.series_statement if @work.series_statement -%>
             </td>
           </tr>
           <tr>

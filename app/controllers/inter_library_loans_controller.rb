@@ -30,8 +30,6 @@ class InterLibraryLoansController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @inter_library_loan }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /inter_library_loans/new
@@ -52,8 +50,6 @@ class InterLibraryLoansController < ApplicationController
     @inter_library_loan = InterLibraryLoan.find(params[:id])
     @libraries = LibraryGroup.first.physical_libraries
     @libraries.reject!{|library| library == current_user.library} if logged_in?
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /inter_library_loans
@@ -109,8 +105,6 @@ class InterLibraryLoansController < ApplicationController
         format.xml  { render :xml => @inter_library_loan.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /inter_library_loans/1
@@ -128,7 +122,5 @@ class InterLibraryLoansController < ApplicationController
         format.xml  { head :ok }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 end

@@ -32,9 +32,10 @@ class Reserve < ActiveRecord::Base
   #validates_uniqueness_of :manifestation_id, :scope => :user_id
   validate :manifestation_must_include_item
 
-  cattr_accessor :per_page
-  @@per_page = 10
-  cattr_accessor :user_number
+  def self.per_page
+    10
+  end
+  attr_accessor :user_number
 
   aasm_column :state
   aasm_state :pending

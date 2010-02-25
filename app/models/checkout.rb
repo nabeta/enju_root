@@ -19,8 +19,9 @@ class Checkout < ActiveRecord::Base
   validates_uniqueness_of :item_id, :scope => [:basket_id, :user_id]
   validate_on_create :is_not_checked?
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def is_not_checked?
     checkout = Checkout.not_returned.find(self.item) rescue nil

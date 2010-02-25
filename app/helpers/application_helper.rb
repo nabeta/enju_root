@@ -195,6 +195,8 @@ module ApplicationHelper
       t('state.cancaled')
     when 'started'
       t('state.started')
+    when 'failed'
+      t('state.failed')
     when 'completed'
       t('state.completed')
     else

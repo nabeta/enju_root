@@ -29,8 +29,9 @@ class Message < ActiveRecord::Base
 
   belongs_to :message_request
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   searchable do
     text :body, :subject

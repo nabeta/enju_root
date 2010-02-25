@@ -15,8 +15,9 @@ class Answer < ActiveRecord::Base
   validates_associated :user, :question
   validates_presence_of :user_id, :question_id, :body
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def save_questions
     self.question.save

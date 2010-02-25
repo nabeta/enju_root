@@ -15,7 +15,8 @@ class BasketsControllerTest < ActionController::TestCase
   def test_everyone_should_not_get_index_without_user_id
     UserSession.create users(:admin)
     get :index
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
 
   def test_user_should_not_get_index
@@ -104,7 +105,8 @@ class BasketsControllerTest < ActionController::TestCase
   def test_guest_should_not_show_basket_without_user_number
     UserSession.create users(:admin)
     get :show, :id => 1
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
 
   def test_user_should_not_show_basket
@@ -128,7 +130,8 @@ class BasketsControllerTest < ActionController::TestCase
   def test_everyone_should_not_get_edit_without_user_id
     UserSession.create users(:admin)
     get :edit, :id => 1
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
   
   def test_user_should_not_get_edit
@@ -189,7 +192,8 @@ class BasketsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count, Basket.count
     
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
   
   def test_user_should_not_destroy_basket

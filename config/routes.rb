@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :resources
+
   map.resources :import_requests
 
   map.resources :series_statements do |series_statement|
@@ -404,6 +406,9 @@ ActionController::Routing::Routes.draw do |map|
     shelf.resources :shelf_has_manifestations
     shelf.resources :manifestations
   end
+  map.resources :questions do |question|
+    question.resources :answers
+  end
 
   map.resources :frequencies
   map.resources :embodies
@@ -411,7 +416,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :countries
   map.resources :expression_forms
   map.resources :answers
-  map.resources :questions
   map.resources :checkouts
   map.resources :reserves
   map.resources :search_histories

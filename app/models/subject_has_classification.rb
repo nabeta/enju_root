@@ -7,8 +7,9 @@ class SubjectHasClassification < ActiveRecord::Base
   validates_presence_of :subject, :classification
   validates_uniqueness_of :classification_id, :scope => :subject_id
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   #def after_save
   #  if self.subject

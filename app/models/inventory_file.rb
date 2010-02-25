@@ -9,8 +9,9 @@ class InventoryFile < ActiveRecord::Base
   validates_attachment_content_type :inventory, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
   validates_presence_of :user
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def import
     self.reload
