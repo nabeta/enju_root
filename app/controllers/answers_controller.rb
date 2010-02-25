@@ -74,8 +74,6 @@ class AnswersController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @answer.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /answers/new
@@ -98,8 +96,6 @@ class AnswersController < ApplicationController
     else
       @answer = Answer.find(params[:id])
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /answers
@@ -144,8 +140,6 @@ class AnswersController < ApplicationController
         format.xml  { render :xml => @answer.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /answers/1
@@ -164,8 +158,6 @@ class AnswersController < ApplicationController
       format.html { redirect_to user_question_answers_url(@answer.question.user.login, @answer.question) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
 end

@@ -1,7 +1,9 @@
 module LibrarianOwnerRequired
   def self.included(base)
     base.extend AclClassMethods
-    base.__send__ :include, InstanceMethods
+    base.instance_eval do
+      include InstanceMethods
+    end
   end
 
   module AclClassMethods

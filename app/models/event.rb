@@ -31,8 +31,9 @@ class Event < ActiveRecord::Base
   validates_presence_of :title, :library_id, :event_category_id
   validates_associated :library, :event_category
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def before_validation
     if self.start_at.blank?

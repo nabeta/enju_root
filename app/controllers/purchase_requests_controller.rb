@@ -27,7 +27,11 @@ class PurchaseRequestsController < ApplicationController
     end
 
     @count = {}
-    PurchaseRequest.per_page = 65534 if params[:format] == 'csv'
+    if params[:format] == 'csv'
+      per_page = 65534
+    else
+      per_page = PurchaseRequest.per_page
+    end
 
     query = params[:query].to_s.strip
     @query = query.dup
@@ -48,6 +52,8 @@ class PurchaseRequestsController < ApplicationController
       end
     end
 
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, per_page)
     begin
       @purchase_requests = search.execute!.results
     rescue RSolr::RequestError

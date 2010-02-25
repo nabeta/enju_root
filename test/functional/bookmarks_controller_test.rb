@@ -65,7 +65,8 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_not_get_new_without_user_id
     UserSession.create users(:user1)
     get :new
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
   
   def test_user_should_not_get_new_with_other_user_id
@@ -124,7 +125,7 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_create_bookmark_with_local_url
     UserSession.create users(:user1)
     old_count = Bookmark.count
-    post :create, :bookmark => {:title => 'example', :url => "http://#{LibraryGroup.url}manifestations/10"}
+    post :create, :bookmark => {:title => 'example', :url => "#{LibraryGroup.url}manifestations/10"}
     #assert assigns(:bookmark).manifestation
     #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
     

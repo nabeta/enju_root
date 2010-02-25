@@ -12,8 +12,9 @@ class NewsFeed < ActiveRecord::Base
 
   acts_as_list
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def after_save
     body = nil

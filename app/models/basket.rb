@@ -12,7 +12,7 @@ class Basket < ActiveRecord::Base
   # 貸出完了後にかごのユーザidは破棄する
   validates_presence_of :user_id, :on => :create
 
-  cattr_accessor :user_number
+  attr_accessor :user_number
 
   def validate
     if self.user

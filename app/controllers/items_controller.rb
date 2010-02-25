@@ -18,13 +18,14 @@ class ItemsController < ApplicationController
   # GET /items.xml
   def index
     query = params[:query].to_s.strip
+    per_page = Item.per_page
     @count = {}
     if logged_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
-          Item.per_page = 65534
+          per_page = 65534
         elsif params[:mode] == 'barcode'
-          Item.per_page = 40
+          per_page = 40
         end
       end
     end
@@ -39,7 +40,7 @@ class ItemsController < ApplicationController
             mode = 'not_in_catalog'
           end
           order = 'id'
-          @items = Item.inventory_items(@inventory_file, mode).paginate(:page => params[:page], :order => order) rescue [].paginate
+          @items = Item.inventory_items(@inventory_file, mode).paginate(:page => params[:page], :order => order, :per_page => per_page) rescue [].paginate
         else
           access_denied
           return
@@ -80,7 +81,7 @@ class ItemsController < ApplicationController
       end
 
       page = params[:page] || 1
-      search.query.paginate(page.to_i, Item.per_page)
+      search.query.paginate(page.to_i, per_page)
       begin
         @items = search.execute!.results
         @count[:total] = @items.total_entries
@@ -119,8 +120,6 @@ class ItemsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @item }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /items/new
@@ -150,8 +149,6 @@ class ItemsController < ApplicationController
   # GET /items/1;edit
   def edit
     @item = Item.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /items
@@ -223,8 +220,6 @@ class ItemsController < ApplicationController
         format.xml  { render :xml => @item.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /items/1
@@ -242,8 +237,6 @@ class ItemsController < ApplicationController
         format.xml  { head :ok }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private

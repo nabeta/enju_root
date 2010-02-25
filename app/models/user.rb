@@ -82,8 +82,9 @@ class User < ActiveRecord::Base
     c.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
   }
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
   
   # Virtual attribute for the unencrypted password
   attr_accessor :old_password, :temporary_password

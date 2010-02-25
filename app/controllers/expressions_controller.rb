@@ -115,8 +115,6 @@ class ExpressionsController < ApplicationController
   # GET /expressions/1;edit
   def edit
     @expression = Expression.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /expressions

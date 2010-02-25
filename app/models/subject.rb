@@ -50,7 +50,8 @@ class Subject < ActiveRecord::Base
   #acts_as_soft_deletable
   acts_as_tree
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
 end

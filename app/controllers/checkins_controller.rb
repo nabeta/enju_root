@@ -38,8 +38,6 @@ class CheckinsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @checkin.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checkins/new
@@ -51,8 +49,6 @@ class CheckinsController < ApplicationController
   # GET /checkins/1;edit
   def edit
     @checkin = Checkin.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /checkins
@@ -162,8 +158,6 @@ class CheckinsController < ApplicationController
         format.xml  { render :xml => @checkin.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /checkins/1
@@ -176,7 +170,5 @@ class CheckinsController < ApplicationController
       format.html { redirect_to checkins_url }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 end

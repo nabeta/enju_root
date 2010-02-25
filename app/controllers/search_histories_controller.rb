@@ -29,22 +29,16 @@ class SearchHistoriesController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @search_history.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /search_histories/new
   def new
   #  @search_history = SearchHistory.new
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   end
 
   # GET /search_histories/1;edit
   def edit
   #  @search_history = @user.search_histories.find(params[:id])
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   end
 
   # POST /search_histories
@@ -66,8 +60,6 @@ class SearchHistoriesController < ApplicationController
   #      format.xml  { render :xml => @search_history.errors.to_xml }
   #    end
   #  end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   end
 
   # PUT /search_histories/1
@@ -85,8 +77,6 @@ class SearchHistoriesController < ApplicationController
   #      format.xml  { render :xml => @search_history.errors.to_xml }
   #    end
   #  end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
   end
 
   # DELETE /search_histories/1
@@ -100,7 +90,5 @@ class SearchHistoriesController < ApplicationController
       format.html { redirect_to search_histories_url }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 end

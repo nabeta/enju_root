@@ -55,8 +55,9 @@ class Work < ActiveRecord::Base
   #acts_as_tree
   has_paper_trail
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   validates_associated :form_of_work
   validates_presence_of :original_title, :form_of_work_id

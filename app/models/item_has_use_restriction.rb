@@ -2,8 +2,10 @@ class ItemHasUseRestriction < ActiveRecord::Base
   include LibrarianRequired
   belongs_to :item, :validate => true
   belongs_to :use_restriction, :validate => true
-  cattr_accessor :per_page
-  @@per_page = 10
+
+  def self.per_page
+    10
+  end
 
   validates_associated :item, :use_restriction
   validates_presence_of :item, :use_restriction

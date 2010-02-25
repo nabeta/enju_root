@@ -74,8 +74,9 @@ class Item < ActiveRecord::Base
     time :updated_at
   end
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   attr_accessor :library_name, :library_url, :local_url
   attr_accessor :new_manifestation_id

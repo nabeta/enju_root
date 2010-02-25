@@ -68,9 +68,10 @@ class Patron < ActiveRecord::Base
   #acts_as_recommendable :items, :through => :owns
   has_paper_trail
 
-  cattr_accessor :per_page
-  @@per_page = 10
   attr_accessor :user_id
+  def self.per_page
+    10
+  end
 
   def before_validation_on_create
     self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?

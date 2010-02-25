@@ -23,8 +23,6 @@ class CheckedItemsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @checked_items }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checked_items/1
@@ -41,8 +39,6 @@ class CheckedItemsController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @checked_item }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checked_items/new
@@ -59,8 +55,6 @@ class CheckedItemsController < ApplicationController
       format.html # new.html.erb
       format.xml  { render :xml => @checked_item }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checked_items/1/edit
@@ -71,8 +65,6 @@ class CheckedItemsController < ApplicationController
       access_denied
       return
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /checked_items
@@ -152,8 +144,6 @@ class CheckedItemsController < ApplicationController
         format.xml  { render :xml => @checked_item.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /checked_items/1
@@ -171,8 +161,6 @@ class CheckedItemsController < ApplicationController
       format.html { redirect_to(user_basket_checked_items_url(@checked_item.basket.user.login, @checked_item.basket)) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private

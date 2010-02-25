@@ -97,6 +97,8 @@ class SubjectsController < ApplicationController
         end
       }
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # GET /subjects/new

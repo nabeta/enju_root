@@ -123,7 +123,7 @@ class PatronImportFile < ActiveRecord::Base
 
   def self.import
     PatronImportFile.not_imported.each do |file|
-      file.aasm_import_start!
+      file.import_start
     end
   rescue
     logger.info "#{Time.zone.now} importing patrons failed!"

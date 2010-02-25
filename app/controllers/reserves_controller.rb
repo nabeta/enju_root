@@ -66,8 +66,6 @@ class ReservesController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @reserve.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /reserves/new
@@ -175,8 +173,6 @@ class ReservesController < ApplicationController
         format.xml  { render :xml => @reserve.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # PUT /reserves/1
@@ -217,8 +213,6 @@ class ReservesController < ApplicationController
         format.xml  { render :xml => @reserve.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /reserves/1
@@ -245,8 +239,6 @@ class ReservesController < ApplicationController
       format.html { redirect_to user_reserves_url(@user.login) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private

@@ -18,10 +18,13 @@
       <%= f.hidden_field :manifestation_id, :value => @item.manifestation.id -%>
       <%= f.hidden_field :item_id, :value => @item.id -%>
     <%- elsif @manifestation -%>
-      <%= link_to h(@manifestation.original_title), @manifestation -%>
+      <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
       <%= f.hidden_field :manifestation_id -%>
     <%- else -%>
-      <%= f.text_field :manifestation_id -%>
+      <p>
+        <%= f.label t('activerecord.models.manifestation') -%><br />
+        <%= f.text_field :manifestation_id -%>
+      </p>
     <%- end -%>
   </p>
 

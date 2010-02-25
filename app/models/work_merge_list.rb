@@ -4,8 +4,9 @@ class WorkMergeList < ActiveRecord::Base
   has_many :works, :through => :work_merges
   validates_presence_of :title
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def merge_works(selected_work)
     self.works.each do |work|
