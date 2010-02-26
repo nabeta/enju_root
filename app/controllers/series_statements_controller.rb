@@ -1,6 +1,5 @@
 class SeriesStatementsController < ApplicationController
   before_filter :has_permission?
-  before_filter :get_work, :only => [:index, :new, :edit, :create]
   before_filter :get_manifestation, :only => [:index, :new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -18,10 +17,8 @@ class SeriesStatementsController < ApplicationController
         with(:work_id).equal_to work.id
       end
     end
-    work = @work
     manifestation = @manifestation
     search.build do
-      with(:work_id).equal_to work.id if work
       with(:manifestation_ids).equal_to manifestation.id if manifestation
     end
     page = params[:page] || 1
