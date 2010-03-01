@@ -17,6 +17,7 @@ class UsersControllerTest < ActionController::TestCase
       create_user
       assert_response :redirect
     end
+    assert_equal 'User', assigns(:user).roles.first.name
   end
 
   def test_guest_should_not_allow_signup_without_email

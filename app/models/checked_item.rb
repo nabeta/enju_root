@@ -63,8 +63,6 @@ class CheckedItem < ActiveRecord::Base
 
   def item_checkout_type
     self.basket.user.user_group.user_group_has_checkout_types.available_for_item(self.item).first
-  rescue
-    nil
   end
 
   def set_due_date

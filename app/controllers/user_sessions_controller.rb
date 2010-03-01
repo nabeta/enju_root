@@ -27,7 +27,7 @@ class UserSessionsController < ApplicationController
     @user_session = UserSession.new(params[:user_session])
     #flash[:login_form] = params[:login_form]
     @user_session.save do |result|
-      reset_session
+      save_return_to
       if result
         session[:locale] = @user_session.user.locale
         unless @user_session.user.active?
@@ -57,9 +57,15 @@ class UserSessionsController < ApplicationController
   
   def destroy
     current_user_session.destroy
-    reset_session
+    save_return_to
     flash[:notice] = t('user_session.logged_out')
     redirect_back_or_default new_user_session_url
   end
 
+  private
+  def save_return_to
+    return_to = session[:return_to]
+    reset_session
+    session[:return_to] = return_to
+  end
 end

@@ -82,21 +82,22 @@ class ManifestationsController < ApplicationController
       search = Sunspot.new_search(Manifestation)
       search = make_internal_query(search)
       sort = set_search_result_order(params[:sort_by], params[:order])
+      role = current_user.try(:highest_role) || Role.find(1)
       search.build do
         order_by sort[:sort_by], sort[:order]
+        with(:required_role_id).less_than role.id
       end
 
       unless query.blank?
         search.build do
           fulltext query
         end
-        role = current_user.try(:highest_role) || Role.find(1)
         manifestation_ids = Manifestation.search_ids do
           fulltext query
           order_by sort[:sort_by], sort[:order]
           # TODO: ヒット件数の上限をセットする
           paginate :page => 1, :per_page => Manifestation.cached_numdocs
-          with(:required_role_id).less_than role.id+1
+          with(:required_role_id).less_than role.id
         end
       end
 
@@ -190,7 +191,7 @@ class ManifestationsController < ApplicationController
     end
     if params[:isbn]
       if @manifestation = Manifestation.find_by_isbn(params[:isbn])
-        redirect_to manifestation_url(@manifestation)
+        redirect_to @manifestation
         return
       else
         raise ActiveRecord::RecordNotFound if @manifestation.nil?
@@ -199,7 +200,9 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
     @manifestation = @manifestation.versions.find(@version).item if @version
-    has_permission?
+    unless @manifestation.is_readable_by(current_user)
+      access_denied; return
+    end
 
     case params[:mode]
     when 'send_email'
@@ -267,6 +270,7 @@ class ManifestationsController < ApplicationController
   def new
     @manifestation = Manifestation.new
     @original_manifestation = get_manifestation
+    @manifestation.series_statement = @series_statement
     unless params[:mode] == 'import_isbn'
       #unless @expression
       #  flash[:notice] = t('manifestation.specify_expression')
