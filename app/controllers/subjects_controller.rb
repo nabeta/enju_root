@@ -31,7 +31,7 @@ class SubjectsController < ApplicationController
 
     role = current_user.try(:highest_role) || Role.find(1)
     search.build do
-      with(:required_role_id).less_than role.id+1
+      with(:required_role_id).less_than role.id
     end
 
     page = params[:page] || 1

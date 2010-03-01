@@ -365,6 +365,7 @@ class User < ActiveRecord::Base
   def signup!(params)
     login = params[:user][:login]
     email = params[:user][:email]
+    roles << Role.find(2)
     save_without_session_maintenance
   end
 

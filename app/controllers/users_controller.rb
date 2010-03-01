@@ -37,7 +37,7 @@ class UsersController < ApplicationController
         @users = User.search do
           fulltext query
           order_by sort[:sort_by], sort[:order]
-          with(:required_role_id).less_than role.id+1
+          with(:required_role_id).less_than role.id
         end.results
       rescue RSolr::RequestError
         @users = WillPaginate::Collection.create(1,1,0) do end

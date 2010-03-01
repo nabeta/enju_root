@@ -97,6 +97,13 @@ class Manifestation < ActiveRecord::Base
       self.reservable?
     end
     integer :series_statement_id
+    # for OpenURL
+    text :aulast do
+      authors.map{|author| author.last_name}
+    end
+    text :aufirst do
+      authors.map{|author| author.first_name}
+    end
   end
 
   #acts_as_tree
@@ -591,6 +598,11 @@ class Manifestation < ActiveRecord::Base
     if series_statement
       errors.add(:series_statement) unless series_statement.work
     end
+  end
+
+  def is_readable_by(user, parent = nil)
+    return true if self.role_accepted?(user)
+    false
   end
 
 end
