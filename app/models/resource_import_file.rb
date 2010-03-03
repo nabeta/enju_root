@@ -6,6 +6,7 @@ class ResourceImportFile < ActiveRecord::Base
 
   has_attached_file :resource_import, :path => ":rails_root/private:url"
   validates_attachment_content_type :resource_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
+  validates_attachment_presence :resource_import
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 

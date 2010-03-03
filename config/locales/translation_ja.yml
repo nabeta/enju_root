@@ -144,6 +144,7 @@ ja:
       reserve_stat_has_manifestation: 資料別予約統計
       reserve_stat_has_user: 利用者別予約統計
       import_request: インポートのリクエスト
+      resource: 情報資源
 
     attributes:
       library:
@@ -1341,6 +1342,7 @@ ja:
   inter_library_loan:
     library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
     borrowing_library: "借受館"
+    return_this_item: "この資料を返却する"
   checked_item:
     item_not_found: "資料が見つかりません。"
     not_available_for_checkout: "この資料の貸出はできません。"

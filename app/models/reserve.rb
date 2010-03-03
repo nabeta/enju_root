@@ -53,7 +53,7 @@ class Reserve < ActiveRecord::Base
   end
 
   aasm_event :aasm_retain do
-    transitions :from => :requested, :to => :retained,
+    transitions :from => [:pending, :requested], :to => :retained,
       :on_transition => :retain
   end
 

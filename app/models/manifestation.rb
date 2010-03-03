@@ -44,6 +44,7 @@ class Manifestation < ActiveRecord::Base
   belongs_to :nii_type
   belongs_to :series_statement
   has_one :import_request
+  has_one :resource
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
