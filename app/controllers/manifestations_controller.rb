@@ -199,7 +199,9 @@ class ManifestationsController < ApplicationController
     else
       @manifestation = Manifestation.find(params[:id])
     end
-    @manifestation = @manifestation.versions.find(@version).item if @version
+    if @version
+      @manifestation = @manifestation.versions.find(@version)
+    end
     unless @manifestation.is_readable_by(current_user)
       access_denied; return
     end

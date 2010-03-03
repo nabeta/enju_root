@@ -142,6 +142,7 @@ en:
       reserve_stat_has_manifestation: Reserve stat has manifestation
       reserve_stat_has_user: Reserve stat has user
       import_request: Import request
+      resource: Resource
 
     attributes:
       library:
@@ -1355,6 +1356,7 @@ en:
   inter_library_loan:
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
     borrowing_library: "Borrowing library"
+    return_this_item: "Return this item"
   checked_item:
     item_not_found: "Item not found."
     not_available_for_checkout: "This item is not available for checkout."
