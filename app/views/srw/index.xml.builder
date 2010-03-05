@@ -1,29 +1,36 @@
 #!/usr/bin/env ruby
-#require 'rubygems'
-#require 'fileutils'
 require 'cgi'
-#require 'builder/xmlmarkup'
-require 'sru'
 
-if @sru
-  unless @sru.extra_response_data.empty?
+if @srw
+  unless @srw.extra_response_data.empty?
     @extra_response = true
-    @facets = @sru.extra_response_data[:facets]
-    @dpid = @sru.extra_response_data[:dpid]
-    @webget = @sru.extra_response_data[:webget]
-    @digitalize = @sru.extra_response_data[:digitalize]
-    @porta_type = @sru.extra_response_data[:porta_type]
-    @payment = @sru.extra_response_data[:payment]
-    @ndc = @sru.extra_response_data[:ndc]
-    @date = @sru.extra_response_data[:date]
+    @facets = @srw.extra_response_data[:facets]
+    @dpid = @srw.extra_response_data[:dpid]
+    @webget = @srw.extra_response_data[:webget]
+    @digitalize = @srw.extra_response_data[:digitalize]
+    @porta_type = @srw.extra_response_data[:porta_type]
+    @payment = @srw.extra_response_data[:payment]
+    @ndc = @srw.extra_response_data[:ndc]
+    @date = @srw.extra_response_data[:date]
   end
 
-  @version = @sru.version
-  @packing = @sru.packing
-  @number_of_records = @sru.number_of_records
-  @next_record_position = @sru.next_record_position
+  @version = @srw.version
+  @packing = @srw.packing
+  @number_of_records = @srw.number_of_records
+  @next_record_position = @srw.next_record_position
 end
+@soapenv = {'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/",
+               'xmlns:xsd' => "http://www.w3.org/2001/XMLSchema",
+               'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance"}
   
+def soap_enbelope!(xml)
+  xml.tag! 'soapenv:Envelope', @soapenv do
+    xml.tag! 'soapenv:Body' do
+      yield
+    end
+  end
+end
+
 def search_retrieve_response!(xml)
   xml.searchRetrieveResponse :xmlns => "http://www.loc.gov/zing/srw/" do
     xml.version @version
@@ -63,7 +70,7 @@ def lst_tag!(xml, lst_name, tag_name, hash)
 end
 
 def record!(xml, rec, position)
-  xml.recordSchema 'info:srw/schema/1/dc-v1.1'
+  xml.recordSchema  'info:srw/schema/1/dc-v1.1'
   xml.recordPacking @packing
   xml.recordData{|x| x << (/\Axm\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
   xml.recordPosition position
@@ -94,4 +101,10 @@ end
 
 xml = Builder::XmlMarkup.new :indent => 2
 xml.instruct! directive_tag=:xml, :encoding=> 'UTF-8'
-search_retrieve_response!(xml)
+unless @soapenv
+  search_retrieve_response!(xml)
+else
+  soap_enbelope!(xml) do
+    search_retrieve_response!(xml)
+  end
+end

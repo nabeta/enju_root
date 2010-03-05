@@ -10,6 +10,19 @@ class ManifestationsControllerTest < ActionController::TestCase
     :bookmarks, :roles,
     :subscriptions, :subscribes
 
+
+  def test_api_sru_template
+    get :index, :format => 'xml', :api => 'sru', :query => 'title=ruby'
+    assert_response :success
+    assert_template('manifestations/index.xml.builder')
+  end
+
+  def test_api_sru_error
+    get :index, :format => 'xml', :api => 'sru'
+    assert_response :success
+    assert_template('manifestations/error.xml')
+  end
+
   def test_guest_should_get_index
     assert_no_difference('SearchHistory.count') do
       get :index, :format => 'xml'
@@ -237,7 +250,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
-    assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assert_redirected_to manifestation_url(assigns(:manifestation))
     assigns(:manifestation).remove_from_index!
   end
 
@@ -261,7 +274,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
-    assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assert_redirected_to manifestation_url(assigns(:manifestation))
     assigns(:manifestation).remove_from_index!
   end
 
@@ -283,7 +296,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:expression)
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
-    assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assert_redirected_to manifestation_url(assigns(:manifestation))
     assigns(:manifestation).remove_from_index!
   end
 
@@ -319,7 +332,7 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:expression)
     assert assigns(:manifestation)
     assert assigns(:manifestation).embodies
-    assert_redirected_to manifestation_patrons_url(assigns(:manifestation))
+    assert_redirected_to manifestation_url(assigns(:manifestation))
     assigns(:manifestation).remove_from_index!
   end
 

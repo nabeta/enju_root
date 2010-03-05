@@ -10,6 +10,9 @@ COUNTRY_CODE = 'jp'
 # パトロンの名前を入力する際、姓を先に表示する
 FAMILY_NAME_FIRST = true
 
+WRITE_SEARCH_LOG_TO_FILE = true
+SEARCH_LOG_FILE_NAME = 'search.log'
+
 WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
 
 # Be sure to restart your server when you modify this file
@@ -115,6 +118,7 @@ end
 
 Money.default_currency = "JPY"
 #RAILS_DEFAULT_LOGGER.auto_flushing = 1
+ACCESS_LOGGER = Logger.new(File.join(Rails.root, 'log', SEARCH_LOG_FILE_NAME))
 
 #require 'jasper-rails'
 require 'solr_index'

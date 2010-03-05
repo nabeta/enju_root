@@ -112,7 +112,11 @@ class WorksController < ApplicationController
   def new
     @work = Work.new
     @patron = Patron.find(params[:patron_id]) rescue nil
-    @work.series_statement = @series_statement
+    if @series_statement
+      @work.series_statement = @series_statement
+      @work.original_title = @series_statement.original_title
+      @work.title_transcription = @series_statement.title_transcription
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -136,12 +140,9 @@ class WorksController < ApplicationController
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
         if @patron
           @patron.works << @work
-          format.html { redirect_to work_url(@work) }
-          format.xml  { render :xml => @work, :status => :created, :location => @work }
-        else
-          format.html { redirect_to work_patrons_url(@work) }
-          format.xml  { render :xml => @work, :status => :created, :location => @work }
         end
+        format.html { redirect_to @work }
+        format.xml  { render :xml => @work, :status => :created, :location => @work }
       else
         prepare_options
         format.html { render :action => "new" }
