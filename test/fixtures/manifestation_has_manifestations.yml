@@ -11,3 +11,19 @@ two:
   to_manifestation_id: 1
   position: 2
   manifestation_relationship_type_id: 1
+
+three:
+  from_manifestation_id: 201
+  to_manifestation_id: 204
+  position: 1
+  manifestation_relationship_type_id: 1
+four:
+  from_manifestation_id: 201
+  to_manifestation_id: 205
+  position: 1
+  manifestation_relationship_type_id: 1
+five:
+  from_manifestation_id: 202
+  to_manifestation_id: 206
+  position: 1
+  manifestation_relationship_type_id: 1

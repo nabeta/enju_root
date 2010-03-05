@@ -111,7 +111,7 @@ class WorksControllerTest < ActionController::TestCase
     post :create, :work => { :original_title => 'test' }
     assert_equal old_count+1, Work.count
     
-    assert_redirected_to work_patrons_url(assigns(:work))
+    assert_redirected_to work_url(assigns(:work))
     assigns(:work).remove_from_index!
   end
 
@@ -121,7 +121,7 @@ class WorksControllerTest < ActionController::TestCase
     post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
     assert_equal old_count+1, Work.count
     
-    assert_redirected_to work_patrons_url(assigns(:work))
+    assert_redirected_to work_url(assigns(:work))
     assigns(:work).remove_from_index!
   end
 
@@ -131,7 +131,7 @@ class WorksControllerTest < ActionController::TestCase
     post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
     assert_equal old_count+1, Work.count
     
-    assert_redirected_to work_patrons_url(assigns(:work))
+    assert_redirected_to work_url(assigns(:work))
     assigns(:work).remove_from_index!
   end
 

@@ -6,7 +6,7 @@
     [W]
     <%= link_to h(@work.original_title), @work -%>
     <%- if @work.series_statement -%>
-      <%= link_to h(@work.series_statement.original_title), @series_statement -%>
+      (<%= link_to h(@work.series_statement.original_title), @work.series_statement -%>)
     <%- end -%>
   </h2>
 

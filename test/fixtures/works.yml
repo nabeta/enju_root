@@ -40,3 +40,11 @@ work_00005:
   reifies_count: 0
   context: ""
   created_at: 2007-12-13 19:57:53.471873 +09:00
+work_00101:
+  updated_at: 2010-03-03 17:00:00.471873 +09:00
+  original_title: "work for manifestation_id=203"
+  id: 101
+  form_of_work_id: 2
+  reifies_count: 0
+  context: ""
+  created_at: 2010-03-03 17:00:00.471873 +09:00

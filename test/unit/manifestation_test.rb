@@ -5,7 +5,130 @@ class ManifestationTest < ActiveSupport::TestCase
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
     :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types
 
-  # Replace this with your real tests.
+  def setup
+    Manifestation.reindex
+  end
+
+  def test_sru_sort_by
+    sru = Sru.new({:query => "title=Ruby"})
+    assert_equal( {:sort_by => 'created_at', :order => 'desc'}, sru.sort_by)
+    sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,0', :version => '1.2'})
+    assert_equal( {:sort_by => 'title', :order => 'asc'}, sru.sort_by)
+    sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,0', :version => '1.1'})
+    assert_equal( {:sort_by => 'creator', :order => 'desc'}, sru.sort_by)
+    sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,1', :version => '1.1'})
+    assert_equal( {:sort_by => 'creator', :order => 'asc'}, sru.sort_by)
+    #TODO ソート基準が入手しやすさの場合の処理
+  end
+
+  def test_sru_search 
+    sru = Sru.new({:query => "title=Ruby"})
+    sru.search
+    assert_equal 17, sru.manifestations.size
+    assert_equal ['Ruby Cookbook'], sru.manifestations.first.title
+    sru = Sru.new({:query => 'title ALL "awk sed"'})
+    sru.search
+    assert_equal 2, sru.manifestations.size
+    assert_equal [184, 116], sru.manifestations.collect{|m| m.id}
+    sru = Sru.new({:query => 'title ANY "ruby awk sed"'})
+    sru.search
+    assert_equal 21, sru.manifestations.size
+    sru = Sru.new({:query => 'isbn=9784774127804'})
+    sru.search
+    assert_equal 10, sru.manifestations.first.id
+    sru = Sru.new({:query => "creator=テスト"})
+    sru.search
+    assert_equal 1, sru.manifestations.size
+  end
+
+  def test_sru_search_date
+    sru = Sru.new({:query => "from = 2000-09 AND until = 2000-11-01"})
+    sru.search
+    assert_equal 1, sru.manifestations.size
+    assert_equal 120, sru.manifestations.first.id
+    sru = Sru.new({:query => "from = 1993-02-24"})
+    sru.search
+    assert_equal 5, sru.manifestations.size    
+    sru = Sru.new({:query => "until = 2006-08-05"})
+    sru.search
+    assert_equal 4, sru.manifestations.size
+  end
+
+  def test_sru_search_relation
+    sru = Sru.new({:query => "from = 1993-02-24 AND until = 2006-08-05 AND title=プログラミング"})
+    sru.search
+    assert_equal 2, sru.manifestations.size
+    sru = Sru.new({:query => "until = 2000 AND title=プログラミング"})
+    sru.search
+    assert_equal 1, sru.manifestations.size
+    sru = Sru.new({:query => "from = 2006 AND title=プログラミング"})
+    sru.search
+    assert_equal 1, sru.manifestations.size
+    sru = Sru.new({:query => "from = 2007 OR title=awk"})
+    sru.search
+    assert_equal 6, sru.manifestations.size
+  end
+
+  def test_openurl_search_title
+    openurl = Openurl.new({:title => "プログラミング"})
+    results = openurl.search
+    assert_equal "btitle_text:プログラミング", openurl.query_text
+    assert_equal 8, results.size
+    openurl = Openurl.new({:jtitle => "テスト"})
+    results = openurl.search
+    assert_equal 5, results.size
+    assert_equal "jtitle_text:テスト", openurl.query_text
+    openurl = Openurl.new({:atitle => "記事"})
+    results = openurl.search
+    assert_equal 3, results.size
+    assert_equal "atitle_text:記事", openurl.query_text
+    openurl = Openurl.new({:atitle => "記事", :jtitle => "１月号"})
+    results = openurl.search
+    assert_equal 2, results.size
+  end
+  def test_openurl_search_patron
+    openurl = Openurl.new({:aulast => "Administrator"})
+    results = openurl.search
+    assert_equal "aulast_text:Administrator", openurl.query_text
+    assert_equal 6, results.size
+    openurl = Openurl.new({:aufirst => "名前"})
+    results = openurl.search
+    assert_equal "aufirst_text:名前", openurl.query_text
+    assert_equal 1, results.size
+    openurl = Openurl.new({:au => "テスト"})
+    results = openurl.search
+    assert_equal "au_text:テスト", openurl.query_text
+    assert_equal 1, results.size
+    openurl = Openurl.new({:pub => "Administrator"})
+    results = openurl.search
+    assert_equal "publisher_text:Administrator", openurl.query_text
+    assert_equal 4, results.size
+  end
+  def test_openurl_search_isbn
+    openurl = Openurl.new({:api => "openurl", :isbn => "4798"})
+    results = openurl.search
+    assert_equal "isbn_text:4798*", openurl.query_text
+    assert_equal 2, results.size
+  end
+  def test_openurl_search_issn
+    openurl = Openurl.new({:api => "openurl", :issn => "1234"})
+    results = openurl.search
+    assert_equal "issn_text:1234*", openurl.query_text
+    assert_equal 2, results.size
+  end
+  def test_openurl_search_any
+    openurl = Openurl.new({:any => "テスト"})
+    results = openurl.search
+    assert_equal 7, results.size
+  end
+  def test_openurl_search_multi
+    openurl = Openurl.new({:btitle => "CGI Perl プログラミング"})
+    results = openurl.search
+    assert_equal 3, results.size
+    openurl = Openurl.new({:jtitle => "テスト", :pub => "テスト"})
+    results = openurl.search
+    assert_equal 2, results.size
+  end
   def test_manifestation_should_embody_expression
     assert manifestations(:manifestation_00001).embodies?(expressions(:expression_00001))
   end
@@ -69,5 +192,4 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_manifestation_should_not_be_reserved_if_it_has_no_item
     assert_equal false, manifestations(:manifestation_00008).reservable?
   end
-
 end

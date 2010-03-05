@@ -145,7 +145,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
     assert_equal old_count+1, Expression.count
     
-    assert_redirected_to expression_patrons_url(assigns(:expression))
+    assert_redirected_to expression_url(assigns(:expression))
     assigns(:expression).remove_from_index!
   end
 
@@ -158,7 +158,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert assigns(:expression)
     assert assigns(:expression).content_type
     assert assigns(:expression).reify
-    assert_redirected_to expression_patrons_url(assigns(:expression))
+    assert_redirected_to expression_url(assigns(:expression))
     assigns(:expression).remove_from_index!
   end
 
@@ -171,7 +171,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     assert assigns(:expression)
     assert assigns(:expression).language
     assert assigns(:expression).reify
-    assert_redirected_to expression_patrons_url(assigns(:expression))
+    assert_redirected_to expression_url(assigns(:expression))
     assigns(:expression).remove_from_index!
   end
 
@@ -181,7 +181,7 @@ class ExpressionsControllerTest < ActionController::TestCase
     post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }, :work_id => 1
     assert_equal old_count+1, Expression.count
     
-    assert_redirected_to expression_patrons_url(assigns(:expression))
+    assert_redirected_to expression_url(assigns(:expression))
     assigns(:expression).remove_from_index!
   end
 

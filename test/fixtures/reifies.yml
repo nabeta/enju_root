@@ -34,3 +34,10 @@ reify_00005:
   id: 5
   position: 2
   created_at: 2008-01-11 02:34:32.352223 +09:00
+reify_00101:
+  updated_at: 2010-03-03 17:00:00.352223 +09:00
+  expression_id: 101
+  work_id: 101
+  id: 101
+  position: 2
+  created_at: 2010-03-03 17:00:00.352223 +09:00
