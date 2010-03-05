@@ -1,6 +1,8 @@
 # -*- encoding: utf-8 -*-
 #require 'wakati'
 require 'timeout'
+require 'sru'
+
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   #include OnlyLibrarianCanModify
@@ -105,6 +107,47 @@ class Manifestation < ActiveRecord::Base
     text :aufirst do
       authors.map{|author| author.first_name}
     end
+    # OTC start
+    text :creator do
+      author
+    end
+    string :creator, :multiple => true do
+      author
+    end
+    text :au do
+      author
+    end
+    text :atitle do
+      title if original_manifestations.present? # 親がいることが条件
+    end
+    text :btitle do
+      title if frequency_id == 1  # 発行頻度1が単行本
+    end
+    text :jtitle do
+      if frequency_id != 1  # 雑誌の場合
+        title
+      else                  # 雑誌以外（雑誌の記事も含む）
+        titles = []
+        original_manifestations.each do |m|
+          if m.frequency_id != 1
+            titles << m.title
+          end
+        end
+        titles.flatten
+      end
+    end
+    text :isbn do  # 前方一致検索のためtext指定を追加
+      [isbn, isbn10, wrong_isbn]
+    end
+
+    text :issn  # 前方一致検索のためtext指定を追加
+    text :ndl_jpno do
+      # TODO 詳細不明
+    end
+    string :ndl_dpid do
+      # TODO 詳細不明
+    end
+    # OTC end
   end
 
   #acts_as_tree
@@ -114,7 +157,7 @@ class Manifestation < ActiveRecord::Base
   enju_porta
   enju_cinii
   has_attached_file :attachment
-  has_ipaper_and_uses 'Paperclip'
+  #has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
   enju_oai_pmh

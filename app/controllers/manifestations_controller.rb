@@ -24,27 +24,6 @@ class ManifestationsController < ApplicationController
 	      @user = current_user if @user.nil?
 	    end
 
-      #query = params[:query].to_s
-      query = make_query(params[:query], {
-        :mode => params[:mode],
-        :sort_by => params[:sort_by],
-        :order => params[:order],
-        :tag => params[:tag],
-        #:language => params[:language],
-        #:library => params[:library],
-        :author => params[:author],
-        :publisher => params[:publisher],
-        :isbn => params[:isbn],
-        :issn => params[:issn],
-        :lccn => params[:lccn],
-        :nbn => params[:nbn],
-        #:subject => params[:subject],
-        #:carrier_type => params[:carrier_type],
-        :pubdate_from => params[:pubdate_from],
-        :pubdate_to => params[:pubdate_to],
-        :number_of_pages_at_least => params[:number_of_pages_at_least],
-        :number_of_pages_at_most => params[:number_of_pages_at_most],
-      })
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
       session[:params][:manifestation] = params.merge(:view => nil)
@@ -52,12 +31,27 @@ class ManifestationsController < ApplicationController
         @reservable = "true"
       end
 
-      manifestations = {}
-      @count = {}
       if params[:format] == 'csv'
         per_page = 65534
+      end
+
+      manifestations = {}
+      @count = {}
+      query = ""
+      sort = {}
+
+      case "#{params[:format]}:#{params[:api]}"
+      when /\Axml:sru\Z/io
+        @sru = Sru.new(params)
+        query = @sru.cql.to_sunspot
+        sort = @sru.sort_by
+      when /\A:openurl\Z/io
+        @openurl = Openurl.new(params)
+        @manifestations = @openurl.search
+        query = @openurl.query_text
       else
-        per_page = Manifestation.per_page
+        query = make_query(params[:query], params)
+        sort = set_search_result_order(params[:sort_by], params[:order])
       end
 
       # 絞り込みを行わない状態のクエリ
@@ -81,7 +75,6 @@ class ManifestationsController < ApplicationController
 
       search = Sunspot.new_search(Manifestation)
       search = make_internal_query(search)
-      sort = set_search_result_order(params[:sort_by], params[:order])
       role = current_user.try(:highest_role) || Role.find(1)
       search.build do
         order_by sort[:sort_by], sort[:order]
@@ -120,12 +113,11 @@ class ManifestationsController < ApplicationController
 
       page = params[:page] || 1
       unless query.blank?
-        #paginated_manifestation_ids = WillPaginate::Collection.create(page, per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
-        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => per_page)
-        search.query.paginate(page.to_i, per_page)
+        #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
+        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
+        search.query.paginate(page.to_i, per_page || Manifestation.per_page)
         @manifestations = search.execute!.results
         @count[:query_result] = @manifestations.total_entries
-        save_search_history(query, @manifestations.offset, @count[:query_result])
       else
         @manifestations = WillPaginate::Collection.create(1,1,0) do end
         @count[:query_result] = 0
@@ -145,6 +137,7 @@ class ManifestationsController < ApplicationController
           @suggested_tag = query.suggest_tags.first
         end
       end
+      save_search_history(query, @manifestations.offset, @count[:query_result], current_user.try(:login))
     end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
@@ -179,6 +172,9 @@ class ManifestationsController < ApplicationController
     flash[:notice] = t('page.error_occured')
     redirect_to manifestations_url
     return
+  rescue QueryError
+    render :template => 'manifestations/error.xml', :layout => false
+    return
   end
 
   # GET /manifestations/1
@@ -199,9 +195,7 @@ class ManifestationsController < ApplicationController
     else
       @manifestation = Manifestation.find(params[:id])
     end
-    if @version
-      @manifestation = @manifestation.versions.find(@version)
-    end
+    @manifestation = @manifestation.versions.find(@version).item if @version
     unless @manifestation.is_readable_by(current_user)
       access_denied; return
     end
@@ -244,15 +238,17 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  {
-        case params[:api]
-        when 'amazon'
+        if params[:api] == 'amazon'
           render :xml => @manifestation.access_amazon
-        when 'related'
-          render :template => 'manifestations/related'
-        when 'mods'
-          render :template => 'manifestations/mods'
         else
-          render :xml => @manifestation
+          case params[:mode]
+          when 'related'
+            render :template => 'manifestations/related'
+          when 'mods'
+            render :template => 'manifestations/mods'
+          else
+            render :xml => @manifestation
+          end
         end
       }
       format.json { render :json => @manifestation }
@@ -279,7 +275,10 @@ class ManifestationsController < ApplicationController
       #  redirect_to expressions_url
       #  return
       #end
-      if @original_manifestation
+      if @manifestation.series_statement
+        @manifestation.original_title = @manifestation.series_statement.original_title
+        @manifestation.title_transcription = @manifestation.series_statement.title_transcription
+      elsif @original_manifestation
         @manifestation.original_title = @original_manifestation.original_title
         @manifestation.title_transcription = @original_manifestation.title_transcription
       elsif @expression
@@ -306,6 +305,8 @@ class ManifestationsController < ApplicationController
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # POST /manifestations
@@ -353,7 +354,7 @@ class ManifestationsController < ApplicationController
             @manifestation.derived_manifestations << @original_manifestation
           end
           # 雑誌の場合、出版者を自動的に追加
-          if @manifestation.series_statement
+          if @series_statement
             @manifestation.create_next_issue_work_and_expression
           end
           if @expression
@@ -377,13 +378,8 @@ class ManifestationsController < ApplicationController
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
         #else
-          unless @manifestation.patrons.empty?
-            format.html { redirect_to(@manifestation) }
-            format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
-          else
-            format.html { redirect_to manifestation_patrons_url(@manifestation) }
-            format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
-          end
+          format.html { redirect_to(@manifestation) }
+          format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
         #end
       else
         prepare_options
@@ -412,6 +408,8 @@ class ManifestationsController < ApplicationController
         format.json { render :json => @manifestation, :status => :unprocessable_entity }
       end
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # DELETE /manifestations/1
@@ -509,9 +507,9 @@ class ManifestationsController < ApplicationController
 
     query = query.strip
     if query == '[* TO *]'
-    #  unless params[:advanced_search]
-        query = ''
-    #  end
+      #  unless params[:advanced_search]
+      query = ''
+      #  end
     end
 
     return query
@@ -611,52 +609,6 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def make_internal_query(search)
-    # 内部的なクエリ
-    set_role_query(current_user, search)
-
-    unless params[:mode] == "add"
-      expression = @expression
-      patron = @patron
-      manifestation = @manifestation
-      reservable = @reservable
-      carrier_type = params[:carrier_type]
-      library = params[:library]
-      language = params[:language]
-      subject = params[:subject]
-      subject_by_term = Subject.first(:conditions => {:term => params[:subject]})
-      @subject_by_term = subject_by_term
-
-      search.build do
-        with(:expression_ids).equal_to expression.id if expression
-        with(:patron_ids).equal_to patron.id if patron
-        with(:original_manifestation_ids).equal_to manifestation.id if manifestation
-        with(:reservable).equal_to true if reservable
-        unless carrier_type.blank?
-          with(:carrier_type).equal_to carrier_type
-          with(:carrier_type).equal_to carrier_type
-        end
-        unless library.blank?
-          library_list = library.split.uniq
-          library_list.each do |library|
-            with(:library).equal_to library
-          end
-          #search.query.keywords = "#{search.query.to_params[:q]} library_s: (#{library_list})"
-        end
-        unless language.blank?
-          language_list = language.split.uniq
-          language_list.each do |language|
-            with(:language).equal_to language
-          end
-        end
-        unless subject.blank?
-          with(:subject).equal_to subject_by_term.term
-        end
-      end
-    end
-    return search
-  end
-
   def prepare_options
     if ENV['RAILS_ENV'] == 'production'
       @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
@@ -673,10 +625,12 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def save_search_history(query, offset = 0, total = 0)
+  def save_search_history(query, offset = 0, total = 0, user = nil)
     check_dsbl if LibraryGroup.site_config.use_dsbl
-    if logged_in?
-      @history = SearchHistory.create(:query => query, :user_id => nil, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+    if WRITE_SEARCH_LOG_TO_FILE
+      write_search_log(query, total, user)
+    else
+      SearchHistory.create(:query => query, :user_id => user.try(:id), :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end
   end
 
@@ -694,4 +648,7 @@ class ManifestationsController < ApplicationController
     end
   end
 
+  def write_search_log(query, total, user)
+    ACCESS_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user}"
+  end
 end

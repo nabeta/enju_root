@@ -10,6 +10,9 @@ COUNTRY_CODE = 'jp'
 # パトロンの名前を入力する際、姓を先に表示する
 FAMILY_NAME_FIRST = true
 
+WRITE_SEARCH_LOG_TO_FILE = true
+SEARCH_LOG_FILE_NAME = 'search.log'
+
 WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
 
 # Be sure to restart your server when you modify this file
@@ -47,7 +50,7 @@ Rails::Initializer.run do |config|
   config.gem "prawn-layout", :lib => "prawn/layout"
   config.gem "prawn-format", :lib => "prawn/format"
   #config.gem "commonthread-flickr_fu", :lib => "flickr_fu"
-  config.gem "friendly_id", :version => ">=2.3.1"
+  config.gem "friendly_id", :version => ">=2.3.2"
   config.gem "graticule"
   #config.gem "calendar_date_select"
   config.gem "scribd_fu"
@@ -72,8 +75,8 @@ Rails::Initializer.run do |config|
   #config.gem "sishen-rtranslate", :lib => "rtranslate"
   config.gem "sitemap_generator", :lib => false
   config.gem "paperclip"
-  config.gem "sunspot", :version => "0.10.8"
-  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.11.5"
+  config.gem "sunspot"
+  config.gem "sunspot_rails", :lib => "sunspot/rails"
   #config.gem "factory_girl"
   config.gem "ri_cal"
   #config.gem "fleakr"
@@ -115,6 +118,7 @@ end
 
 Money.default_currency = "JPY"
 #RAILS_DEFAULT_LOGGER.auto_flushing = 1
+ACCESS_LOGGER = Logger.new(File.join(Rails.root, 'log', SEARCH_LOG_FILE_NAME))
 
 #require 'jasper-rails'
 require 'solr_index'

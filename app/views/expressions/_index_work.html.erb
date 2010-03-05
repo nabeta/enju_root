@@ -4,6 +4,9 @@
   <h2 class="resource_title">
     [W]
     <%= link_to h(@work.original_title), @work -%>
+    <%- if @work.series_statement -%>
+      (<%= link_to h(@work.series_statement.original_title), @work.series_statement -%>)
+    <%- end -%>
   </h2>
   <p>
     <%= raw patrons_list(@work.patrons) -%>

@@ -1,8 +1,14 @@
 class ActivationsController < ApplicationController
+  before_filter :reset_user_session
+
   def new
     @user = User.find_using_perishable_token(params[:activation_code], 1.week)
-    access_denied unless @user
-    access_denied if @user.active?
+    unless @user
+      not_found; return
+    end
+    if @user.active?
+      access_denied; return
+    end
   end
 
   def create
@@ -19,6 +25,12 @@ class ActivationsController < ApplicationController
     else
       render :action => :new
     end
+  end
+
+  private
+  def reset_user_session
+    current_user_session.destroy if current_user
+    reset_session
   end
 
 end

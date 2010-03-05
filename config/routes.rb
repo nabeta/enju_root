@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
-  map.resources :resources
+  map.resources :resources,
+    :collection => {:approve_selected => :post}
 
   map.resources :import_requests
 
@@ -446,7 +447,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.error '/error', :controller => 'user_sessions', :action => 'new'
   map.denied '/denied', :controller => 'user_sessions', :action => 'new'
-  #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.login  '/login', :controller => 'user_sessions', :action => 'new'
   map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
