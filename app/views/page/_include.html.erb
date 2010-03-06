@@ -3,9 +3,7 @@
     jQuery.noConflict();
 </script>
 <%= raw javascript_include_tag :defaults, :cache => 'defaults' -%>
-<%= raw javascript_include_tag 'yui/build/yahoo/yahoo-min',
-    'yui/build/yahoo-dom-event/yahoo-dom-event',
-    'yui/build/element/element-min',
+<%= raw javascript_include_tag 'yui/build/yahoo-dom-event/yahoo-dom-event',
     'yui/build/container/container_core-min',
     'yui/build/menu/menu-min',
     :cache => 'include_yui'
