@@ -6,9 +6,9 @@
 <%= raw javascript_include_tag 'yui/build/yahoo/yahoo-min',
     'yui/build/yahoo-dom-event/yahoo-dom-event',
     'yui/build/element/element-min',
-    'yui/build/connection/connection-min',
+    #'yui/build/connection/connection-min',
     'yui/build/container/container_core-min',
-    'yui/build/tabview/tabview-min',
+    #'yui/build/tabview/tabview-min',
     #'yui/build/treeview/treeview-min',
     #'yui/build/history/history-min',
     'yui/build/menu/menu-min',
@@ -20,11 +20,8 @@
     'yui/build/base/base-min',
     :cache => 'include_yui'
 -%>
-<%= stylesheet_link_tag 'yui/build/assets/skins/sam/tabview',
-    #'yui/build/assets/skins/sam/treeview',
-    'yui/build/assets/skins/sam/menu'
--%>
-<%= stylesheet_link_tag 'colorbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', :cache => 'include' -%>
+<%= stylesheet_link_tag 'yui/build/assets/skins/sam/menu' -%>
+<%= stylesheet_link_tag 'smoothness/jquery-ui-1.8rc3.custom', 'colorbox', 'scaffold', 'nonopac', 'acts_as_taggable_stylesheet', :cache => 'include' -%>
 <%= stylesheet_link_tag 'formtastic', 'formtastic_changes', :cache => 'include_formtastic' -%>
 <%= raw calendar_date_select_includes -%>
 <script type="text/javascript">

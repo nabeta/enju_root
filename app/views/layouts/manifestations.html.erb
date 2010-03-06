@@ -30,6 +30,9 @@
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%= canonical_link_tag %>
+  <%- if @manifestation and controller.action_name == 'show' -%>
+    <script type="text/javascript" src="http://books.google.com/books/previewlib.js"></script>
+  <%- end -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
