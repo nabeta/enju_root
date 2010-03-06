@@ -4,7 +4,7 @@ body{
   text-align: left;
 }
 
-a:hover { color: #000000; background-color: #B3D4FF; }
+a.hover{}
 
 a.yuimenuitemlabel:hover { color: #000000; background-color: #B3D4FF; }
 a.yuimenubaritemlabel:hover { color: #000000; background-color: #B3D4FF; }
@@ -17,7 +17,7 @@ div#narrow_search, div#narrow_library_search{
   margin-top: 1em;
 }
 .line0{
-  background: #D6ECFA;
+  background: #d7ebf9;
 }
 .line1{
   background: white;
@@ -224,11 +224,11 @@ form{
 }
 
 table{
-  border: 1px solid #5970B2;
+  border: 1px solid #2779aa;
 }
 
 td, th{
-  border: 1px solid #5970B2;
+  border: 1px solid #2779aa;
   padding: 5px;
   word-break: break-all
 }
