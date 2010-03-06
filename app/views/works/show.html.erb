@@ -16,9 +16,7 @@
   <p>
     <%= raw patrons_list(@work.patrons) -%>
   </p>
-<div id="tabview">
-
-  <div id="demo" class="yui-navset yui-navset-top">
+<div id="tabs">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- if @work.derived_works.present? or @work.original_works.present? -%>
@@ -97,7 +95,6 @@
 </div>
 <%= render :partial => 'page/tabview' -%>
 <%- end -%>
-</div>
 </div>
 
 <div id="submenu">  
