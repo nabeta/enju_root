@@ -16,7 +16,7 @@
   <p>
     <%= raw patrons_list(@work.patrons) -%>
   </p>
-<div id="tabs">
+  <div id="tabs">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- if @work.derived_works.present? or @work.original_works.present? -%>
@@ -33,7 +33,6 @@
       <%- end -%>
       <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
-    <div class="yui-content">
       <div id="detail">
         <table class="index">
           <tr>
@@ -92,7 +91,6 @@
       <%= render :partial => 'history_list' -%>
     </div>
   </div>
-</div>
 <%= render :partial => 'page/tabview' -%>
 <%- end -%>
 </div>

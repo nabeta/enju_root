@@ -19,7 +19,7 @@
     <%= raw patrons_list(@expression.work.patrons) -%>
     <%= raw patrons_list(@expression.patrons) -%>
   </p>
-<div id="tabs">
+  <div id="tabs">
     <ul class="yui-nav">
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- unless @expression.patrons.empty? -%>
@@ -36,7 +36,6 @@
       <%- end -%>
       <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
     </ul>
-    <div class="yui-content">
       <div id="detail">
         <table class="index">
           <tr>
@@ -89,7 +88,6 @@
         <%= render :partial => 'expressions/manifestation_list' -%>
       <%- end -%>
       <%= render :partial => 'history_list' -%>
-    </div>
   </div>
 </div>
 <%= render :partial => 'page/tabview' -%>
