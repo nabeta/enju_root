@@ -649,6 +649,6 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    ACCESS_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user}"
   end
 end

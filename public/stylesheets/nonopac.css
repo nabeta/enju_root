@@ -372,6 +372,10 @@ textarea{
   height: 10em;
 }
 
+p#post_to_twitter{
+  margin-left: 10px;
+}
+
 input.twitter_text{
   width:40em;
 }
@@ -427,5 +431,9 @@ th#position{
 }
 
 .highlight { background-color: yellow }
+
+em{
+  font-style: normal;
+}
 
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

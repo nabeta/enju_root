@@ -1,6 +1,6 @@
 <%- if Twitter.site.user and Twitter.site.password -%>
   <%- form_for(@manifestation, :html => {:method => :put}) do |f| -%>
-    <p>
+    <p id="post_to_twitter">
       <%= f.label t('twitter.comment') -%><br />
       <%= f.text_field :twitter_comment, :class => 'twitter_text' -%>
       <%= submit_tag t('twitter.post_to_twitter') -%>
