@@ -20,7 +20,9 @@
                 <%- end -%>
                 <%# 当該ManifestationにWorkがある場合、グループ表示へのリンクを表示する %>
                 <%- if manifestation.works.size > 0 -%>
-                  (<%= link_to_function t('page.related_work'), "jQuery('#group_#{manifestation.id}').toggle()" -%>)
+                  <%- unless manifestation.works.size == 1 and  manifestation.works.first.original_title == manifestation.original_title -%>
+                    (<%= link_to_function t('page.related_work'), "jQuery('#group_#{manifestation.id}').toggle()" -%>)
+                  <%- end -%>
                 <%- end -%>
                 <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
                 <%= render :partial => 'manifestations/show_tag', :locals => {:manifestation => manifestation} -%>
@@ -39,9 +41,7 @@
     </div>
 </div>
 
-<%=
-  will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
--%>
+<%= will_paginate(@manifestations) -%>
 <br />
 
 <div>

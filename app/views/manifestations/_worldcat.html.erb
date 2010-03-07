@@ -13,6 +13,6 @@
     </tr>
   <%- end -%>
 </table>
-<%= will_paginate(@worldcat_results, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :worldcat_page, :class => 'content_pagination') -%>
+<%= will_paginate(@worldcat_results, :param_name => :worldcat_page, :class => 'content_pagination') -%>
 <%- end -%>
 </div>

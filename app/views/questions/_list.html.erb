@@ -47,6 +47,6 @@
   <p><%= t('question.no_record_found') -%></p>
 <%- end -%>
 
-<%= will_paginate(@questions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :class => 'content_pagination') -%>
+<%= will_paginate(@questions, :class => 'content_pagination') -%>
 
 </div>
