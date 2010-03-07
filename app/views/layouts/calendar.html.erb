@@ -11,6 +11,7 @@
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%= render :partial => 'page/include' -%>
+  <%= raw javascript_include_tag 'event_calendar' -%>
 </head>
 <body class="yui-skin-sam" id="yahoo-com">
 
