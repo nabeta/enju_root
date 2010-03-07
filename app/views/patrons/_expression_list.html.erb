@@ -27,6 +27,6 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :expression_list_page, :class => 'content_pagination') -%>
+  <%= will_paginate(expressions, :param_name => :expression_list_page, :class => 'content_pagination') -%>
 </div>
 

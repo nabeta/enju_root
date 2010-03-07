@@ -14,7 +14,7 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(@xisbn_manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :xisbn_page, :class => 'content_pagination') -%>
+  <%= will_paginate(@xisbn_manifestations, :param_name => :xisbn_page, :class => 'content_pagination') -%>
 <%-
   #end
 -%>
