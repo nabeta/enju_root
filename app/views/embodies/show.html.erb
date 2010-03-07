@@ -1,21 +1,24 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@embody.expression) -%></li>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.embody')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.expression') -%>:</b>
+  <strong><%= t('activerecord.models.expression') -%>:</strong>
   <%= link_to h(@embody.expression.original_title), @embody.expression -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.manifestation') -%>:</b>
+  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
   <%= link_to h(@embody.manifestation.original_title), @embody.manifestation -%>
 </p>
 
 </div>
 </div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>
+    <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@embody.expression) -%></li>
+  </ul>
+</div>
+
+

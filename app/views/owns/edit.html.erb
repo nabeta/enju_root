@@ -1,24 +1,17 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), own_path(@own) -%></li>
-    <li><%= link_to t('page.back'), owns_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.own')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :own -%>
-
 <%- form_for(@own) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.models.library') -%></b><br />
+    <%= f.label t('activerecord.models.library') -%><br />
     <%= f.text_field :patron_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.item') -%></b><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%= f.text_field :item_id -%>
   </p>
 
@@ -28,4 +21,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), own_path(@own) -%></li>
+    <li><%= link_to t('page.back'), owns_path -%></li>
+  </ul>
 </div>

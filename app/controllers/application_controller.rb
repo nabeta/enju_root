@@ -23,6 +23,7 @@ class ApplicationController < ActionController::Base
     :pickup_advertisement
   #before_filter :has_permission?
 
+  private
   def get_library_group
     @library_group = LibraryGroup.site_config
   end
@@ -34,7 +35,7 @@ class ApplicationController < ActionController::Base
       if logged_in?
         locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale
       else
-        locale = params[:locale] || session[:locale] || I18n.default_locale
+        locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
       end
     end
     unless I18n.available_locales.include?(locale.intern)
@@ -46,7 +47,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_available_languages
-    @available_languages = Rails.cache.fetch('Language.available'){Language.available_languages}
+    @available_languages = Language.available_languages
   end
 
   def reset_params_session
@@ -83,183 +84,140 @@ class ApplicationController < ActionController::Base
 
   def get_patron
     @patron = Patron.find(params[:patron_id]) if params[:patron_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    access_denied unless @patron.is_readable_by(current_user) if @patron
   end
 
   def get_work
     @work = Work.find(params[:work_id]) if params[:work_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    access_denied unless @work.is_readable_by(current_user) if @work
   end
 
   def get_item
     @item = Item.find(params[:item_id]) if params[:item_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    access_denied unless @item.is_readable_by(current_user) if @item
   end
 
   def get_expression
     @expression = Expression.find(params[:expression_id]) if params[:expression_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    access_denied unless @expression.is_readable_by(current_user) if @expression
   end
 
   def get_manifestation
     @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    access_denied unless @manifestation.is_readable_by(current_user) if @manifestation
   end
 
   def get_carrier_type
     @carrier_type = CarrierType.find(params[:carrier_type_id]) if params[:carrier_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_shelf
     @shelf = Shelf.find(params[:shelf_id], :include => :library) if params[:shelf_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_basket
     @basket = Basket.find(params[:basket_id]) if params[:basket_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_patron_merge_list
     @patron_merge_list = PatronMergeList.find(params[:patron_merge_list_id]) if params[:patron_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_work_merge_list
     @work_merge_list = WorkMergeList.find(params[:work_merge_list_id]) if params[:work_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_expression_merge_list
     @expression_merge_list = ExpressionMergeList.find(params[:expression_merge_list_id]) if params[:expression_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    access_denied
   end
 
   def get_user
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
+    unless @user.is_readable_by(current_user)
+      access_denied; return
+    end
     return @user
-
   rescue ActiveRecord::RecordNotFound
-    access_denied
-    #not_found
+    not_found
   end
 
   def get_user_if_nil
-    @user = User.find(:first, :conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
+    access_denied unless @user.is_readable_by(current_user) if @user
   end
   
   def get_user_group
     @user_group = UserGroup.find(params[:user_group_id]) if params[:user_group_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
                     
   def get_library
     @library = Library.find(params[:library_id]) if params[:library_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_libraries
-    #@libraries = Library.find(:all) rescue []
-    @libraries = Rails.cache.fetch('Library.all'){Library.find(:all)}
+    @libraries = Library.all
   end
 
   def get_library_group
     @library_group = LibraryGroup.site_config
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_question
     @question = Question.find(params[:question_id]) if params[:question_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    access_denied unless @question.is_readable_by(current_user) if @question
   end
 
   def get_event
     @event = Event.find(params[:event_id]) if params[:event_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_bookstore
     @bookstore = Bookstore.find(params[:bookstore_id]) if params[:bookstore_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subject
     @subject = Subject.find(params[:subject_id]) if params[:subject_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_classification
     @classification = Classification.find(params[:classification_id]) if params[:classification_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_order_list
     @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_purchase_request
     @purchase_request = PurchaseRequest.find(params[:purchase_request_id]) if params[:purchase_request_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_checkout_type
     @checkout_type = CheckoutType.find(params[:checkout_type_id]) if params[:checkout_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_inventory_file
     @inventory_file = InventoryFile.find(params[:inventory_file_id]) if params[:inventory_file_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
-  def get_concept
-    @concept = Concept.find(params[:concept_id]) if params[:concept_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
-  end
+  #def get_concept
+  #  @concept = Concept.find(params[:concept_id]) if params[:concept_id]
+  #end
 
   def get_subject_heading_type
     @subject_heading_type = Subject.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
+  end
+
+  def get_series_statement
+    @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
   end
 
   def librarian_authorized?
@@ -273,17 +231,28 @@ class ApplicationController < ActionController::Base
   def convert_charset
     #if params[:format] == 'ics'
     #  response.body = NKF::nkf('-w -Lw', response.body)
-    if params[:format] == 'csv'
+    case params[:format]
+    when 'csv'
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
+        response.body = NKF::nkf('-Ws', response.body)
+      end
+    when 'xml'
+      if @locale == 'ja'
+        headers["Content-Type"] = "application/xml; charset=Shift_JIS"
         response.body = NKF::nkf('-Ws', response.body)
       end
     end
   end
 
   def my_networks?
-    return true if LibraryGroup.site_config.my_networks?(request.remote_ip)
+    return true if LibraryGroup.site_config.network_access_allowed?(request.remote_ip, :network_type => 'lan')
+    false
+  end
+
+  def admin_networks?
+    return true if LibraryGroup.site_config.network_access_allowed?(request.remote_ip, :network_type => 'admin')
     false
   end
 
@@ -291,9 +260,13 @@ class ApplicationController < ActionController::Base
     access_denied unless my_networks?
   end
 
+  def check_admin_network
+    access_denied unless admin_networks?
+  end
+
   def check_dsbl
     @library_group = LibraryGroup.site_config
-    return true if @library_group.my_networks?(request.remote_ip)
+    return true if @library_group.network_access_allowed?(request.remote_ip, :network_type => 'lan')
     begin
       dsbl_hosts = @library_group.dsbl_list.split.compact
       reversed_address = request.remote_ip.split(/\./).reverse.join(".")
@@ -328,8 +301,54 @@ class ApplicationController < ActionController::Base
   def set_role_query(user, search)
     role = user.try(:highest_role) || Role.find(1)
     search.build do
-      with(:required_role_id).less_than role.id+1
+      with(:required_role_id).less_than role.id
     end
+  end
+
+  def make_internal_query(search)
+    # 内部的なクエリ
+    set_role_query(current_user, search)
+
+    unless params[:mode] == "add"
+      expression = @expression
+      patron = @patron
+      manifestation = @manifestation
+      reservable = @reservable
+      carrier_type = params[:carrier_type]
+      library = params[:library]
+      language = params[:language]
+      subject = params[:subject]
+      subject_by_term = Subject.first(:conditions => {:term => params[:subject]})
+      @subject_by_term = subject_by_term
+
+      search.build do
+        with(:expression_ids).equal_to expression.id if expression
+        with(:patron_ids).equal_to patron.id if patron
+        with(:original_manifestation_ids).equal_to manifestation.id if manifestation
+        with(:reservable).equal_to true if reservable
+        unless carrier_type.blank?
+          with(:carrier_type).equal_to carrier_type
+          with(:carrier_type).equal_to carrier_type
+        end
+        unless library.blank?
+          library_list = library.split.uniq
+          library_list.each do |library|
+            with(:library).equal_to library
+          end
+          #search.query.keywords = "#{search.query.to_params[:q]} library_s: (#{library_list})"
+        end
+        unless language.blank?
+          language_list = language.split.uniq
+          language_list.each do |language|
+            with(:language).equal_to language
+          end
+        end
+        unless subject.blank?
+          with(:subject).equal_to subject_by_term.term
+        end
+      end
+    end
+    return search
   end
 
   def solr_commit
@@ -341,7 +360,6 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  private
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find

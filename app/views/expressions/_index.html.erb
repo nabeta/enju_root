@@ -1,17 +1,9 @@
-<div id="submenu">
-  <ul>
-    <%- if Expression.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-  
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
 <%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if params[:view] == 'serial' -%>
       <%= check_box_tag 'view', 'serial', :checked => true -%>
     <%- else -%>
@@ -20,7 +12,7 @@
     <%= t('page.serial') -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -52,7 +44,15 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@expressions) -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Expression.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

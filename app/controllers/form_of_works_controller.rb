@@ -4,7 +4,7 @@ class FormOfWorksController < ApplicationController
   # GET /form_of_works
   # GET /form_of_works.xml
   def index
-    @form_of_works = FormOfWork.find(:all)
+    @form_of_works = FormOfWork.all
 
     respond_to do |format|
       format.html # index.html.erb

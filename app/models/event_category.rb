@@ -8,8 +8,9 @@ class EventCategory < ActiveRecord::Base
 
   acts_as_list
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   def before_validation_on_create
     self.display_name = self.name if display_name.blank?

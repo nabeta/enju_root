@@ -2,7 +2,7 @@
 class ItemsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil
-  before_filter :get_patron, :only => [:index]
+  before_filter :get_patron
   before_filter :get_manifestation, :get_inventory_file
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
@@ -18,13 +18,14 @@ class ItemsController < ApplicationController
   # GET /items.xml
   def index
     query = params[:query].to_s.strip
+    per_page = Item.per_page
     @count = {}
     if logged_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
-          Item.per_page = 65534
+          per_page = 65534
         elsif params[:mode] == 'barcode'
-          Item.per_page = 40
+          per_page = 40
         end
       end
     end
@@ -39,7 +40,7 @@ class ItemsController < ApplicationController
             mode = 'not_in_catalog'
           end
           order = 'id'
-          @items = Item.inventory_items(@inventory_file, mode).paginate(:page => params[:page], :order => order) rescue [].paginate
+          @items = Item.inventory_items(@inventory_file, mode).paginate(:page => params[:page], :order => order, :per_page => per_page) rescue [].paginate
         else
           access_denied
           return
@@ -74,8 +75,13 @@ class ItemsController < ApplicationController
         order_by(:created_at, :desc)
       end
 
+      role = current_user.try(:highest_role) || Role.find(1)
+      search.build do
+        with(:required_role_id).less_than role.id
+      end
+
       page = params[:page] || 1
-      search.query.paginate(page.to_i, Item.per_page)
+      search.query.paginate(page.to_i, per_page)
       begin
         @items = search.execute!.results
         @count[:total] = @items.total_entries
@@ -96,13 +102,17 @@ class ItemsController < ApplicationController
       format.csv  { render :layout => false }
       format.atom
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to items_url
+    return
   end
 
   # GET /items/1
   # GET /items/1.xml
   def show
     @item = Item.find(params[:id])
-    @item = @item.versions.find(@version).reify if @version
+    @item = @item.versions.find(@version).item if @version
 
     canonical_url item_url(@item)
 
@@ -110,8 +120,6 @@ class ItemsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @item }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /items/new
@@ -128,8 +136,8 @@ class ItemsController < ApplicationController
     end
     @item = Item.new
     @item.manifestation = @manifestation
-    @circulation_statuses = CirculationStatus.find(:all, :conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
-    @item.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'})
+    @circulation_statuses = CirculationStatus.all(:conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
+    @item.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'})
     @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
     respond_to do |format|
@@ -141,8 +149,6 @@ class ItemsController < ApplicationController
   # GET /items/1;edit
   def edit
     @item = Item.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /items
@@ -173,8 +179,13 @@ class ItemsController < ApplicationController
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
         @item.send_later(:post_to_union_catalog) if LibraryGroup.site_config.post_to_union_catalog
-        format.html { redirect_to(@item) }
-        format.xml  { render :xml => @item, :status => :created, :location => @item }
+        if @patron
+          format.html { redirect_to patron_item_url(@patron, @item) }
+          format.xml  { render :xml => @item, :status => :created, :location => @item }
+        else
+          format.html { redirect_to(@item) }
+          format.xml  { render :xml => @item, :status => :created, :location => @item }
+        end
       else
         prepare_options
         format.html { render :action => "new" }
@@ -194,10 +205,10 @@ class ItemsController < ApplicationController
           #if @item.owns.blank?
           #  @item.owns.create(:patron_id => @item.shelf.library.patron_id)
           #else
-          #  @item.owns.find(:first).update_attribute(:patron_id, @item.shelf.library.patron_id)
+          #  @item.owns.first.update_attribute(:patron_id, @item.shelf.library.patron_id)
           #end
         end
-        use_restrictions = UseRestriction.find(:all, :conditions => ['id IN (?)', params[:use_restriction_id]])
+        use_restrictions = UseRestriction.all(:conditions => ['id IN (?)', params[:use_restriction_id]])
         ItemHasUseRestriction.delete_all(['item_id = ?', @item.id])
         @item.use_restrictions << use_restrictions
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.item'))
@@ -209,8 +220,6 @@ class ItemsController < ApplicationController
         format.xml  { render :xml => @item.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /items/1
@@ -228,23 +237,26 @@ class ItemsController < ApplicationController
         format.xml  { head :ok }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private
   def prepare_options
-    @libraries = Library.all
-    @library = Library.find(:first, :order => :position, :include => :shelves) if @library.blank?
-    @shelves = Shelf.find(:all, :order => :position)
-    @circulation_statuses = CirculationStatus.find(:all)
-    @bookstores = Bookstore.find(:all, :order => :position)
-    @use_restrictions = UseRestriction.find(:all)
+    if ENV['RAILS_ENV'] == 'production'
+      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+    else
+      @libraries = Library.all
+    end
+    @library = Library.first(:order => :position, :include => :shelves) if @library.blank?
+    @shelves = Shelf.all
+    @circulation_statuses = CirculationStatus.all
+    @bookstores = Bookstore.all
+    @use_restrictions = UseRestriction.all
     if @manifestation
       @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)
     else
-      @checkout_types = CheckoutType.find(:all)
+      @checkout_types = CheckoutType.all
     end
+    @roles = Role.all
   end
 
 end

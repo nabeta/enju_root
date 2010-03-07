@@ -235,7 +235,8 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_everyone_should_not_get_edit_without_user_id
     UserSession.create users(:admin)
     get :edit, :id => 1
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
   
   def test_user_should_get_my_edit
@@ -270,7 +271,8 @@ class CheckoutsControllerTest < ActionController::TestCase
   def test_everyone_should_not_update_checkout_without_user_id
     UserSession.create users(:admin)
     put :update, :id => 1, :checkout => { }
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
   
   def test_everyone_should_not_update_missing_checkout
@@ -339,7 +341,8 @@ class CheckoutsControllerTest < ActionController::TestCase
     delete :destroy, :id => 3
     assert_equal old_count, Checkout.count
     
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
 
   def test_everyone_should_not_destroy_missing_checkout

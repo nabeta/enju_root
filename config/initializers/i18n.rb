@@ -1,5 +1,3 @@
-unless RAILS_ENV == 'test'
-  I18n.default_locale = "ja"
-else
+if RAILS_ENV == 'test'
   I18n.default_locale = "en"
 end

@@ -40,6 +40,10 @@ class ClassificationsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @classifications }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to classifications_url
+    return
   end
 
   # GET /classifications/1
@@ -56,7 +60,7 @@ class ClassificationsController < ApplicationController
   # GET /classifications/new
   # GET /classifications/new.xml
   def new
-    @classification_types = ClassificationType.find(:all)
+    @classification_types = ClassificationType.all
     @classification = Classification.new
 
     respond_to do |format|
@@ -68,7 +72,7 @@ class ClassificationsController < ApplicationController
   # GET /classifications/1/edit
   def edit
     @classification = Classification.find(params[:id])
-    @classification_types = ClassificationType.find(:all)
+    @classification_types = ClassificationType.all
   end
 
   # POST /classifications
@@ -82,7 +86,7 @@ class ClassificationsController < ApplicationController
         format.html { redirect_to(@classification) }
         format.xml  { render :xml => @classification, :status => :created, :location => @classification }
       else
-        @classification_types = ClassificationType.find(:all, :order => :id)
+        @classification_types = ClassificationType.all
         format.html { render :action => "new" }
         format.xml  { render :xml => @classification.errors, :status => :unprocessable_entity }
       end
@@ -100,7 +104,7 @@ class ClassificationsController < ApplicationController
         format.html { redirect_to(@classification) }
         format.xml  { head :ok }
       else
-        @classification_types = ClassificationType.find(:all, :order => :id)
+        @classification_types = ClassificationType.all
         format.html { render :action => "edit" }
         format.xml  { render :xml => @classification.errors, :status => :unprocessable_entity }
       end

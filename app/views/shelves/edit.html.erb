@@ -1,34 +1,27 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), library_shelf_path(@shelf.library.name) -%></li>
-    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.name) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.shelf')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :shelf -%>
-
 <%- form_for(@shelf) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.attributes.shelf.name') -%></b><br />
+    <%= f.label t('activerecord.attributes.shelf.name') -%><br />
     <%= f.text_field :name, :class => 'short_name' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.shelf.display_name') -%></b><br />
+    <%= f.label t('activerecord.attributes.shelf.display_name') -%><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.shelf.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.shelf.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.library') -%></b><br />
+    <%= f.label t('activerecord.models.library') -%><br />
     <select id="library_id" name="library_id">
       <%- @libraries.each do |library| -%>
         <option value="<%= library.name -%>"<%= " selected='selected'" if @shelf.library == library -%>><%= library.display_name.localize -%></option>
@@ -39,6 +32,14 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
+  <%= javascript_tag("$('shelf_name').focus()") -%>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), library_shelf_path(@shelf.library.name) -%></li>
+    <li><%= link_to t('page.back'), library_shelves_path(@shelf.library.name) -%></li>
+  </ul>
 </div>

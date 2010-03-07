@@ -1,12 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= rezm_link_to_inbox -%></li>
-    <li><%= rezm_link_to_create_message -%></li>
-    <li><%= rezm_link_to_outbox -%></li>
-    <li><%= rezm_link_to_trash_bin -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
   <h1 class="title"><%= t('page.new', :model => t('activerecord.models.message')) -%></h1>
 <div id="content_list">
@@ -15,9 +6,9 @@
     <%- form_for :message, :url => user_messages_path do |form| -%>
       <p>
         <label for="message_recepient"><%= t('message.recipient') -%>:</label><br />
-        <%- if @message_queue -%>
-          <%= link_to h(@message_queue.receiver.login), user_path(@message_queue.receiver.login) -%>
-          <%= form.hidden_field :recipient, :value => h(@message_queue.receiver.login) -%>
+        <%- if @message_request -%>
+          <%= link_to h(@message_request.receiver.login), user_path(@message_request.receiver.login) -%>
+          <%= form.hidden_field :recipient, :value => h(@message_request.receiver.login) -%>
         <%- else -%>
           <%= form.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
         <%- end -%>
@@ -39,4 +30,13 @@
   </fieldset>
   
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= rezm_link_to_inbox -%></li>
+    <li><%= rezm_link_to_create_message -%></li>
+    <li><%= rezm_link_to_outbox -%></li>
+    <li><%= rezm_link_to_trash_bin -%></li>
+  </ul>
 </div>

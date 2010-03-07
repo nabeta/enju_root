@@ -1,5 +1,5 @@
 <%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'show_holding', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+  cache(:id => manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'show_holding', :editable => manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
     %>
 <table style="width: 100%">
   <tr>
@@ -40,14 +40,4 @@
     </tr>
   <%- end -%>
 </table>
-<%- end -%>
-
-<%- if request.xhr? -%>
-  <script type="text/javascript" language="JavaScript">
-    jQuery(document).ready(function(){
-      tb_init('a.thickbox, area.thickbox, input.thickbox');
-      imgLoader = new Image();
-      imgLoader.src = tb_pathToImage;
-    });
-  </script>
 <%- end -%>

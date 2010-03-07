@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   
   named_scope :administrators, :include => ['roles'], :conditions => ['roles.name = ?', 'Administrator']
   named_scope :librarians, :include => ['roles'], :conditions => ['roles.name = ?', 'Librarian']
-  named_scope :suspended, :conditions => {:suspended => true}
+  named_scope :suspended, :conditions => {:active => false}
 
   searchable :auto_index => false do
     text :login, :email, :note, :user_number
@@ -32,7 +32,9 @@ class User < ActiveRecord::Base
     integer :required_role_id
     time :created_at
     time :updated_at
-    boolean :suspended
+    boolean :active
+    boolean :confirmed
+    boolean :approved
   end
 
   has_one :patron
@@ -52,9 +54,7 @@ class User < ActiveRecord::Base
   belongs_to :user_group #, :validate => true
   has_many :purchase_requests
   belongs_to :library, :counter_cache => true, :validate => true
-  has_many :imported_files
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
-  has_many :imported_resources
   #has_one :imported_object, :as => :importable
   has_many :order_lists
   has_many :subscriptions
@@ -66,40 +66,49 @@ class User < ActiveRecord::Base
   has_many :user_has_shelves, :dependent => :destroy
   has_many :shelves, :through => :user_has_shelves
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
+  has_many :import_requests
 
   restful_easy_messages
   #acts_as_soft_deletable
   has_friendly_id :login
   acts_as_tagger
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  acts_as_authentic {|c|
+    c.merge_validates_format_of_email_field_options :allow_blank => false, :on => :create
+    c.merge_validates_format_of_email_field_options :allow_blank => true, :on => :update
+    c.merge_validates_length_of_email_field_options :allow_blank => true, :on => :update
+    c.merge_validates_uniqueness_of_email_field_options :allow_blank => true
+    c.validates_length_of_password_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
+    c.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
+  }
+
+  def self.per_page
+    10
+  end
   
   # Virtual attribute for the unencrypted password
   attr_accessor :old_password, :temporary_password
   attr_reader :auto_generated_password
   attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
   attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note, :role_id
-  attr_accessor :patron_id, :operator, :password_not_verified
+  attr_accessor :patron_id, :operator, :password_not_verified, :update_own_account
   attr_accessible :login, :email, :password, :password_confirmation, :openid_identifier, :old_password
 
+  validates_presence_of :login
   #validates_length_of       :login,    :within => 2..40
   #validates_uniqueness_of   :login,    :case_sensitive => false
 
-  #validates_presence_of     :email
-  validates_length_of       :email,    :within => 6..100, :if => Proc.new{|user| !user.email.blank?}, :allow_nil => true
-  validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
+  validates_presence_of     :email, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
+  #validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  #validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
+  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
-  validates_presence_of :user_group, :library, :locale, :patron
+  validates_presence_of :user_group, :library, :locale #, :patron
   #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validate_on_update :verify_password
-
-  acts_as_authentic {|c|
-    c.validate_email_field = false
-  }
+  #validates_acceptance_of :confirmed
 
   def verify_password
     errors.add(:old_password) if self.password_not_verified
@@ -111,10 +120,20 @@ class User < ActiveRecord::Base
   #  self.full_name = self.patron.full_name if self.patron
   #end
 
+  def validate
+    if update_own_account
+      errors.add(:active) if self.changed.include?('active')
+      errors.add(:confirmed) if self.changed.include?('confirmed')
+      errors.add(:approved) if self.changed.include?('approved')
+    end
+  end
+
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
     self.locale = I18n.default_locale
-    self.patron = Patron.create(:full_name => self.login) if self.login
+    unless self.patron
+      self.patron = Patron.create(:full_name => self.login) if self.login
+    end
   end
 
   def after_save
@@ -134,7 +153,7 @@ class User < ActiveRecord::Base
     end
     #locked = true if self.user_number.blank?
 
-    self.suspended = true if locked
+    self.active = false if locked
   end
 
   def before_destroy
@@ -186,38 +205,45 @@ class User < ActiveRecord::Base
     self.answer_feed_token = nil
   end
 
-  def lock
-    self.suspended = true
+  def lock!
+    self.active = false
     save(false)
   end
 
   def suspended?
-    return true if self.suspended
+    return true unless self.active?
     false
   end
 
   def self.lock_expired_users
-    User.fine_each do |user|
-      user.lock if user.expired?
+    User.find_each do |user|
+      user.lock! if user.expired?
     end
   end
 
   def expired?
-    true if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+    if expired_at
+      true if expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+    end
   end
 
   def activate
-    self.suspended = false
+    self.active = true
+    self.confirmed = true
+    self.approved = true
+    self.roles << Role.find(2)
   end
 
   def activate!
     activate
-    save!
+    # TODO: パトロン作成のタイミングを決める
+    #self.patron = Patron.create(:full_name => self.login) unless self.patron
+    save
   end
 
   def checked_item_count
     checkout_count = {}
-    CheckoutType.find(:all).each do |checkout_type|
+    CheckoutType.all.each do |checkout_type|
       # 資料種別ごとの貸出中の冊数を計算
       checkout_count[:"#{checkout_type.name}"] = self.checkouts.count_by_sql(["
         SELECT count(item_id) FROM checkouts
@@ -232,12 +258,12 @@ class User < ActiveRecord::Base
   end
 
   def reached_reservation_limit?(manifestation)
-    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).find(:all, :conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
+    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).all(:conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
     false
   end
 
   def highest_role
-    self.roles.find(:first, :order => ['id DESC'])
+    self.roles.first(:order => ['id DESC'])
   end
 
   def is_admin?
@@ -281,7 +307,7 @@ class User < ActiveRecord::Base
 
   def last_librarian?
     if self.has_role?('Librarian')
-      role = Role.find(:first, :conditions => {:name => 'Librarian'})
+      role = Role.first(:conditions => {:name => 'Librarian'})
       true if role.users.size == 1
     end
   end
@@ -304,14 +330,14 @@ class User < ActiveRecord::Base
   end
 
   def send_message(status, options = {})
-    MessageQueue.transaction do
-      queue = MessageQueue.new
-      queue.sender = User.find(1) # TODO: システムからのメッセージ送信者
-      queue.receiver = self
-      queue.message_template = MessageTemplate.find_by_status(status)
-      queue.embed_body(options)
-      queue.save!
-      queue.aasm_send_message!
+    MessageRequest.transaction do
+      request = MessageRequest.new
+      request.sender = User.find(1) # TODO: システムからのメッセージ送信者
+      request.receiver = self
+      request.message_template = MessageTemplate.find_by_status(status)
+      request.embed_body(options)
+      request.save!
+      request.aasm_send_message!
     end
   end
 
@@ -322,6 +348,40 @@ class User < ActiveRecord::Base
     else
       Tag.bookmarked(bookmark_ids)
     end
+  end
+
+  def check_update_own_account(user)
+    if user == self
+      self.update_own_account = true
+      return true
+    end
+    false
+  end
+
+  def has_no_credentials?
+    crypted_password.blank? && openid_identifier.blank?
+  end
+        
+  def signup!(params)
+    login = params[:user][:login]
+    email = params[:user][:email]
+    roles << Role.find(2)
+    save_without_session_maintenance
+  end
+
+  def deliver_activation_instructions!
+    reset_perishable_token!
+    Notifier.deliver_activation_instructions(self)
+  end
+
+  def deliver_activation_confirmation!
+    reset_perishable_token!
+    Notifier.deliver_activation_confirmation(self)
+  end
+
+  def deliver_password_reset_instructions!
+    reset_perishable_token!
+    Notifier.deliver_password_reset_instructions(self)
   end
 
   private

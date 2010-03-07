@@ -5,7 +5,7 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%= hidden_field_tag 'reservable', h(@reservable) -%>
+      <%= hidden_field_tag 'reservable', h(@reservable) if @reservable -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
@@ -16,43 +16,47 @@
   <%- if @count[:query_result].to_i > 0 -%>
     <p>
       <%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
+      <br />
       <%- if @reservable -%>
-        <br />
         <%= t('manifestation.showing_reservable_record') -%>
         (<%= link_to t('manifestation.all_result'), params.merge(:reservable => nil) -%>)
+      <%- else -%>
+        <%= t('manifestation.showing_all_record') -%>
+        (<%= link_to t('manifestation.reservable_list'), params.merge(:reservable => true) -%>)
       <%- end -%>
     </p>
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
-      <p>
-        <%= t('page.sort_by') -%>:
-        <%- if params[:sort_by].blank? -%>
-          <strong><%= t('manifestation.date_of_acquisition') -%></strong>
-        <%- else -%>
-          <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort_by => nil) -%>
-        <%- end -%>
-        <%- if params[:sort_by] == 'date' -%>
-          <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
-        <%- else -%>
-          <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort_by => 'date') -%>
-        <%- end -%>
-        <%- if params[:sort_by] == 'title' -%>
-          <strong><%= t('page.title') -%></strong>
-        <%- else -%>
-          <%= link_to t('page.title'), params.merge(:sort_by => 'title') -%>
-        <%- end -%>
-      </p>
-    <%- end -%>
+
+    <p>
+      <%= t('page.sort_by') -%>:
+      <%- if params[:sort_by].blank? -%>
+        <strong><%= t('manifestation.date_of_acquisition') -%></strong>
+      <%- else -%>
+        <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort_by => nil) -%>
+      <%- end -%>
+      <%- if params[:sort_by] == 'date' -%>
+        <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
+      <%- else -%>
+        <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort_by => 'date') -%>
+      <%- end -%>
+      <%- if params[:sort_by] == 'title' -%>
+        <strong><%= t('page.title') -%></strong>
+      <%- else -%>
+        <%= link_to t('page.title'), params.merge(:sort_by => 'title') -%>
+      <%- end -%>
+    </p>
 
     <div class="autopagerize_page_element" id="list">
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
     </div>
 
+    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale do -%>
     <div id="tag_cloud">
       <h3><%= t('activerecord.models.tag') -%></h3>
       <div id="tag_cloud_list"></div>
       <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
         :style => 'padding-bottom: 15px; padding-left: 40px;' -%>
     </div>
+    <%- end -%>
   <%- else -%>
     <!-- TODO: 検索結果が少ない場合にも表示させる -->
     <%- if @suggested_tag -%>
@@ -74,14 +78,14 @@
   <%- unless @query.blank? -%>
     <h3><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h3>
     <%- if @count[:query_result] > 0 -%>
-
+      <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'all_facet', :locale => @locale do -%>
       <div id="all_facet_box">
         <h3><%= t('page.facet') -%></h3>
         <div id="all_facet_list"></div>
         <%= image_tag 'spinner.gif', :id => 'spinner_all_facet',
           :style => 'margin-top: 10px; margin-left: 40px;' -%>
       </div>
-
+      <%- end -%>
     <%- end -%>
   <%- end -%>
   <div>
@@ -107,4 +111,6 @@
   function hideTagCloudSpinner(){
     jQuery("#spinner_tag_cloud").hide();
   }
+
+  jQuery('td').highlight('<%= @query -%>');
 </script>

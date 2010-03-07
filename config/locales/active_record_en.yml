@@ -4,7 +4,6 @@ en:
       # The values :model, :attribute and :value are always available for interpolation
       # The value :count is available when applicable. Can be used for pluralization.
       messages:
-        record_invalid: "is invalid record."
         inclusion: "is not included in the list"
         exclusion: "is reserved"
         invalid: "is invalid"
@@ -24,17 +23,11 @@ en:
         less_than_or_equal_to: "must be less than or equal to {{count}}"
         odd: "must be odd"
         even: "must be even"
+        record_invalid: "Validation failed: {{errors}}"
         # Append your own errors here or at the model/attributes scope.
-        checked_item:
-          not_available_for_checkout: "This item is not available for checkout."
-          this_group_cannot_checkout: "This user group cannot check out this item."
-          item_not_found: "Item not found."
-          already_checked_out: "This item is already checked out."
-          reserved_item_included: "Reserved item included!"
-          excessed_checkout_limit: "Excessed checkout limit."
-          in_transcation: "In transaction."
-        checkin:
-          already_checked_out: "This item is already checked out."
+
+      full_messages:
+        format: "{{attribute}} {{message}}"
 
       # You can define own errors for models or model attributes.
       # The values :model, :attribute and :value are always available for interpolation.
@@ -46,23 +39,19 @@ en:
       #       attributes:
       #         login:
       #           blank: "This is a custom blank message for User login"
-      # Will define custom blank validation message for User model and 
+      # Will define custom blank validation message for User model and
       # custom blank validation message for login attribute of User model.
-      models:
-        user: "User"
-        
+      #models:
+
     # Translate model names. Used in Model.human_name().
     #models:
       # For example,
       #   user: "Dude"
       # will translate User model name to "Dude"
-    
+
     # Translate model attribute names. Used in Model.human_attribute_name(attribute).
     #attributes:
       # For example,
       #   user:
       #     login: "Handle"
       # will translate User attribute "login" as "Handle"
-      attributes:
-        basket:
-          user_id: "User"

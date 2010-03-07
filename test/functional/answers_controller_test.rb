@@ -29,11 +29,10 @@ class AnswersControllerTest < ActionController::TestCase
     assert assigns(:answers)
   end
 
-  def test_user_should_get_other_index_without_user_id
+  def test_user_should_not_get_other_index_without_user_id
     UserSession.create users(:user1)
     get :index, :user_id => users(:user2).login
-    assert_response :success
-    assert assigns(:answers)
+    assert_response :forbidden
   end
 
   def test_librarian_should_get_index_without_user_id
@@ -64,16 +63,29 @@ class AnswersControllerTest < ActionController::TestCase
     assert assigns(:answers)
   end
 
-  def test_user_should_get_other_index
+  def test_user_should_not_get_other_index_if_question_is_not_shared
     UserSession.create users(:user1)
-    get :index, :user_id => users(:user2).login, :question_id => 2
+    get :index, :user_id => users(:librarian1).login, :question_id => 2
+    assert_response :forbidden
+  end
+
+  def test_user_should_get_other_index_if_question_is_shared
+    UserSession.create users(:user1)
+    get :index, :user_id => users(:user2).login, :question_id => 5
     assert_response :success
     assert assigns(:answers)
   end
 
-  def test_user_should_get_other_index_feed
+  def test_user_should_not_get_other_index_feed_if_question_is_not_shared
     UserSession.create users(:user1)
-    get :index, :user_id => users(:user2).login, :question_id => 2, :format => 'rss'
+    get :index, :user_id => users(:librarian1).login, :question_id => 2, :format => 'rss'
+    #assert_response :forbidden
+    assert_response :not_acceptable
+  end
+
+  def test_user_should_get_other_index_feed_if_question_is_shared
+    UserSession.create users(:user1)
+    get :index, :user_id => users(:user2).login, :question_id => 5, :format => 'rss'
     assert_response :success
     assert assigns(:answers)
   end
@@ -183,7 +195,7 @@ class AnswersControllerTest < ActionController::TestCase
   def test_user_should_not_show_answer_with_other_user_id
     UserSession.create users(:user1)
     get :show, :id => 5, :user_id => users(:user2).login, :question_id => 2
-    assert_response :success
+    assert_response :forbidden
   end
 
   def test_guest_should_not_get_edit

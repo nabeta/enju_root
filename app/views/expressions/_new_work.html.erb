@@ -1,18 +1,21 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :expression -%>
-
 <%- form_for(:expression, :url => work_expressions_path(@work)) do |f| -%>
-  <%= render :partial => 'new', :locals => {:f => f} -%>
+  <%= f.error_messages -%>
+
+  <%= render :partial => 'form', :locals => {:f => f} -%>
+  <p>
+    <%= submit_tag t('page.create') -%>
+  </p>
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), work_expressions_path(@work) -%></li>
+  </ul>
 </div>

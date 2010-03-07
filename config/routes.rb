@@ -1,5 +1,11 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :resources,
+    :collection => {:approve_selected => :post}
+
+  map.resources :import_requests
+
   map.resources :series_statements do |series_statement|
+    series_statement.resources :works
     series_statement.resources :manifestations
   end
 
@@ -167,15 +173,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :patron_types
 
   map.resources :imported_files
-  map.resources :imported_patron_files
-  map.resources :imported_event_files
-  map.resources :imported_resource_files
+  map.resources :patron_import_files
+  map.resources :event_import_files
+  map.resources :resource_import_files
   map.resources :attachment_files
   map.resources :picture_files
 
   map.resources :exemplifies
 
-  map.resources :message_queues
+  map.resources :message_requests
 
   map.resources :message_templates
 
@@ -285,9 +291,9 @@ ActionController::Routing::Routes.draw do |map|
       basket.resources :checkins
     end
     user.resources :tags
-    user.resources :imported_event_files
-    user.resources :imported_patron_files
-    user.resources :imported_resource_files
+    user.resources :event_import_files
+    user.resources :patron_import_files
+    user.resources :resource_import_files
     user.resources :order_lists
     user.resources :subscriptions
     user.resources :patrons
@@ -401,13 +407,16 @@ ActionController::Routing::Routes.draw do |map|
     shelf.resources :shelf_has_manifestations
     shelf.resources :manifestations
   end
+  map.resources :questions do |question|
+    question.resources :answers
+  end
+
   map.resources :frequencies
   map.resources :embodies
   map.resources :languages
   map.resources :countries
   map.resources :expression_forms
   map.resources :answers
-  map.resources :questions
   map.resources :checkouts
   map.resources :reserves
   map.resources :search_histories
@@ -438,7 +447,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.error '/error', :controller => 'user_sessions', :action => 'new'
   map.denied '/denied', :controller => 'user_sessions', :action => 'new'
-  #map.activate '/activate/:activation_code', :controller => 'users', :action => 'activate'
   map.signup '/signup', :controller => 'users', :action => 'new'
   map.login  '/login', :controller => 'user_sessions', :action => 'new'
   map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
@@ -446,6 +454,10 @@ ActionController::Routing::Routes.draw do |map|
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
+  map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
+  map.activate '/activate/:id', :controller => 'activations', :action => 'create'
+  map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
+ 
   #map.service '/service', :controller => 'page', :action => 'service'
 
   # The priority is based upon order of creation: first created -> highest priority.

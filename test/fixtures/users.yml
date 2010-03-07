@@ -19,7 +19,9 @@ librarian2:
   login: librarian2
   library_id: 1
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: librarian2@library.example.jp
   created_at: 2008-01-18 12:24:04.222344 +09:00
   save_search_history: false
@@ -49,7 +51,9 @@ user2:
   login: user2
   library_id: 1
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: user2@library.example.jp
   created_at: 2008-01-18 13:29:06.922728 +09:00
   save_search_history: false
@@ -79,7 +83,9 @@ admin:
   login: admin
   library_id: 2
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: tanabe@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:32.111941 +09:00
   save_search_history: true
@@ -109,7 +115,9 @@ librarian1:
   login: librarian1
   library_id: 1
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: librarian1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:33.172441 +09:00
   save_search_history: false
@@ -139,7 +147,9 @@ user1:
   login: user1
   library_id: 2
   answers_count: 0
-  suspended: false
+  active: true
+  confirmed: true
+  approved: true
   email: user1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
@@ -162,7 +172,7 @@ user3:
   deleted_at: 
   user_group_id: 1
   reserves_count: 0
-  id: 6
+  id: 7
   bookmarks_count: 0
   share_bookmarks: false
   note: 
@@ -170,13 +180,48 @@ user3:
   login: user3
   library_id: 2
   answers_count: 0
-  suspended: true
+  active: false
+  confirmed: false
+  approved: false
   email: user3@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
   required_role_id: 3
   checkout_icalendar_token: 
   user_number: "00006"
+  single_access_token: dummy
+  perishable_token: dummy
+  persistence_token: test
+  locale: "ja"
+user4: 
+  password_salt: CnM9OO2zUsKFIi-b3mpA
+  questions_count: 0
+  checkouts_count: 0
+  answer_feed_token: 
+  updated_at: 2008-05-31 13:02:25.101261 +09:00
+  checkout_icalendar_token: h75t40Hk364eBQOkmVnH
+  expired_at: <%= 1.day.ago %>
+  crypted_password: cc53de0c2d9a1a228daa9a673ec824473747e17507a6c3c4f7e5eff8821f531d4b9e23616b3ddc66fe17006b2298a556fbd567ac080e87f00f37eef8cee6c417
+  deleted_at: 
+  user_group_id: 1
+  reserves_count: 0
+  id: 6
+  bookmarks_count: 0
+  share_bookmarks: false
+  note: 
+  due_date_reminder_days: 1
+  login: user4
+  library_id: 2
+  answers_count: 0
+  active: false
+  confirmed: false
+  approved: false
+  email: user4@kamata.lib.teu.ac.jp
+  created_at: 2007-11-19 16:58:34.637413 +09:00
+  save_search_history: false
+  required_role_id: 3
+  checkout_icalendar_token: 
+  user_number: "00007"
   single_access_token: dummy
   perishable_token: dummy
   persistence_token: test

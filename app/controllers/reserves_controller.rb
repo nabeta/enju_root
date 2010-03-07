@@ -66,15 +66,14 @@ class ReservesController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @reserve.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /reserves/new
   def new
-    user = get_user_number ||= get_user_if_nil
+    get_user_if_nil
+    user = get_user_number ||= @user
     unless current_user.has_role?('Librarian')
-      if user.user_number.blank?
+      if user.try(:user_number).blank?
         access_denied; return
       end
     end
@@ -174,8 +173,6 @@ class ReservesController < ApplicationController
         format.xml  { render :xml => @reserve.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # PUT /reserves/1
@@ -216,8 +213,6 @@ class ReservesController < ApplicationController
         format.xml  { render :xml => @reserve.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /reserves/1
@@ -244,16 +239,14 @@ class ReservesController < ApplicationController
       format.html { redirect_to user_reserves_url(@user.login) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private
   def get_user_number
     if params[:reserve][:user_number]
-      user = User.find(:first, :conditions => {:user_number => params[:reserve][:user_number]})
+      user = User.first(:conditions => {:user_number => params[:reserve][:user_number]})
     #elsif params[:reserve][:user_id]
-    #  user = User.find(:first, :conditions => {:id => params[:reserve][:user_id]})
+    #  user = User.first(:conditions => {:id => params[:reserve][:user_id]})
     end
   rescue
     nil

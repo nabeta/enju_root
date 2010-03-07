@@ -1,17 +1,10 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @event_category -%></li>
-    <li><%= link_to t('page.back'), event_categories_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.event_category')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :event_category -%>
-
 <%- form_for(@event_category) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
     <%= f.label t('activerecord.attributes.event_category.name') -%><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
@@ -32,4 +25,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @event_category -%></li>
+    <li><%= link_to t('page.back'), event_categories_path -%></li>
+  </ul>
 </div>

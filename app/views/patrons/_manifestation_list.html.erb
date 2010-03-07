@@ -13,5 +13,5 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :param_name => :manifestation_list_page, :class => 'content_pagination') -%>
+  <%= will_paginate(manifestations, :param_name => :manifestation_list_page, :class => 'content_pagination') -%>
 </div>

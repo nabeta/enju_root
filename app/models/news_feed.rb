@@ -12,8 +12,9 @@ class NewsFeed < ActiveRecord::Base
 
   acts_as_list
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def after_save
     body = nil
@@ -86,7 +87,7 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def self.fetch_feeds
-    NewsFeed.find(:all).each do |news_feed|
+    NewsFeed.all.each do |news_feed|
       news_feed.expire_cache
       news_feed.expire_fragment_cache
     end

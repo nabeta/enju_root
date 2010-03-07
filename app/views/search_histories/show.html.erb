@@ -1,70 +1,71 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), search_histories_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.search_history')) -%></h1>
 <div id="content_list">
 <p>
-  <b>Operation:</b>
+  <strong>Operation:</strong>
   <%= @search_history.operation -%>
 </p>
 
 <p>
-  <b>Version:</b>
+  <strong>Version:</strong>
   <%= @search_history.version -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.search_history.query') -%>:</b>
+<strong><%= t('activerecord.attributes.search_history.query') -%>:</strong>
 <%= link_to h(@search_history.query), manifestations_path(:query => @search_history.query) -%>
 </p>
 
 <p>
-<b><%= t('activerecord.attributes.search_history.start_record') -%>:</b>
+<strong><%= t('activerecord.attributes.search_history.start_record') -%>:</strong>
   <%= @search_history.start_record -%>
 </p>
 
 <p>
-<b><%= ('Maximum records') -%>:</b>
+<strong><%= ('Maximum records') -%>:</strong>
   <%= @search_history.maximum_records -%>
 </p>
 
 <p>
-  <b>Record packing:</b>
+  <strong>Record packing:</strong>
   <%= @search_history.record_packing -%>
 </p>
 
 <p>
-  <b>Record schema:</b>
+  <strong>Record schema:</strong>
   <%= @search_history.record_schema -%>
 </p>
 
 <p>
-  <b>Result set ttl:</b>
+  <strong>Result set ttl:</strong>
   <%= @search_history.result_set_ttl -%>
 </p>
 
 <p>
-  <b>Stylesheet:</b>
+  <strong>Stylesheet:</strong>
   <%= @search_history.stylesheet -%>
 </p>
 
 <p>
-  <b>Extra request data:</b>
+  <strong>Extra request data:</strong>
   <%= @search_history.extra_request_data -%>
 </p>
 
 <p>
-<b><%= t('page.created_at') -%>:</b>
+<strong><%= t('page.created_at') -%>:</strong>
   <%= l(@search_history.created_at) -%>
 </p>
 
 <p>
-<b><%= t('activerecord.models.user') -%>:</b>
+<strong><%= t('activerecord.models.user') -%>:</strong>
   <%= @search_history.user.login if @search_history.user -%>
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), search_histories_path -%></li>
+  </ul>
 </div>

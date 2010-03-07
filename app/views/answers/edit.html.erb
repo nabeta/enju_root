@@ -1,30 +1,33 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
-    <li><%= link_to t('page.back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.answer')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :answer -%>
+<%- form_for(@answer, :url => user_question_answer_path(@answer.user.login, @answer.question, @answer)) do |f| -%>
+  <%= f.error_messages -%>
 
-<%- form_for(@answer, :url => user_question_answer_path(@answer.user.login, @answer.question, @answer), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('activerecord.models.user') -%></b><br />
+    <%= f.label t('activerecord.models.user') -%><br />
     <%= link_to h(@answer.user.login), user_path(@answer.user) -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.models.question') -%></b><br />
+    <%= f.label t('activerecord.models.question') -%><br />
     <%= link_to h(@answer.question.body), question_path(@answer.question) -%>
   </p>
 
   <p>
-  <b><%= t('activerecord.attributes.answer.body') -%></b><br />
+    <%= f.label t('activerecord.attributes.answer.body') -%><br />
     <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.answer.item_identifier_list') -%><br />
+    <%= f.text_area :item_identifier_list, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.answer.url_list') -%><br />
+    <%= f.text_area :url_list, :class => 'resource_textarea' -%>
   </p>
 
   <p>
@@ -33,4 +36,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), user_question_answer_path(@answer.user.login, @answer.question, @answer) -%></li>
+    <li><%= link_to t('page.back'), user_question_answers_path(@answer.user.login, @answer.question) -%></li>
+  </ul>
 </div>

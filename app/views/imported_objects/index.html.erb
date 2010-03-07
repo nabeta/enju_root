@@ -21,14 +21,14 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@imported_objects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@imported_objects) -%>
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_patron_file')), new_imported_patron_file_path -%></li>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_resource_file')), new_imported_resource_file_path -%></li>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.imported_event_file')), new_imported_event_file_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.patron_import_file')), new_patron_import_file_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.resource_import_file')), new_resource_import_file_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.event_import_file')), new_event_import_file_path -%></li>
   </ul>
 </div>

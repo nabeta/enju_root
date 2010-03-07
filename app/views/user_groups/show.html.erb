@@ -1,31 +1,23 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_user_group_path(@user_group) -%></li>
-    <li><%= link_to t('page.back'), user_groups_path -%></li>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.checkout_type')), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_group')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.user_group.name') -%>:</b>
+  <strong><%= t('activerecord.attributes.user_group.name') -%>:</strong>
   <%= @user_group.name -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.user_group.display_name') -%>:</b>
+  <strong><%= t('activerecord.attributes.user_group.display_name') -%>:</strong>
   <%= @user_group.display_name.localize -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.user_group.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.user_group.note') -%>:</strong>
   <%= @user_group.note -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.checkout_type') -%></b>
+  <strong><%= t('activerecord.models.checkout_type') -%></strong>
 </p>
 <ul>
   <%- @user_group.user_group_has_checkout_types.each do |available_checkout_type| -%>
@@ -37,4 +29,12 @@
 </ul>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_user_group_path(@user_group) -%></li>
+    <li><%= link_to t('page.back'), user_groups_path -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.checkout_type')), new_user_group_user_group_has_checkout_type_path(@user_group) -%></li>
+  </ul>
 </div>

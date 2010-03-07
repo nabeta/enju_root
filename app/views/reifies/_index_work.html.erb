@@ -1,15 +1,7 @@
-<div id="submenu">
-  <ul>
-    <%- if Reify.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_work_reify_path(@work) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     <%= link_to h(@work.original_title), @work -%>
   </h2>
 <table>
@@ -31,6 +23,14 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@reifies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@reifies) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Reify.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_work_reify_path(@work) -%></li>
+    <%- end -%>
+  </ul>
 </div>

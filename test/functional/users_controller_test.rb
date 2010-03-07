@@ -12,12 +12,20 @@ class UsersControllerTest < ActionController::TestCase
   fixtures :users, :roles, :patrons, :libraries, :checkouts, :checkins, :patron_types, :advertisements, :tags, :taggings,
     :manifestations, :carrier_types, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces
 
-  #def test_should_allow_signup
-  #  assert_difference 'User.count' do
-  #    create_user
-  #    assert_response :redirect
-  #  end
-  #end
+  def test_guest_should_allow_signup
+    assert_difference 'User.count' do
+      create_user
+      assert_response :redirect
+    end
+    assert_equal 'User', assigns(:user).roles.first.name
+  end
+
+  def test_guest_should_not_allow_signup_without_email
+    assert_no_difference 'User.count' do
+      create_user(:email => nil)
+      assert_response :success
+    end
+  end
 
   def test_user_should_not_allow_signup
     UserSession.create users(:user1)
@@ -64,18 +72,17 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
-  def test_librarian_should_not_require_password_on_signup
+  def test_librarian_should_not_require_password_on_create
     UserSession.create users(:librarian1)
     assert_difference 'User.count' do
       create_user(:password => nil)
-      #assert_response :success
       assert_response :redirect
       assert_redirected_to user_url(assigns(:user).login)
     end
     assigns(:user).remove_from_index!
   end
 
-  def test_librarian_should_not_require_password_confirmation_on_signup
+  def test_librarian_should_require_password_confirmation_on_signup
     UserSession.create users(:librarian1)
     assert_difference 'User.count' do
       create_user(:password_confirmation => nil)
@@ -401,16 +408,16 @@ class UsersControllerTest < ActionController::TestCase
   protected
     def create_user(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00007' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00008' }.merge(options)
     end
 
     def create_user_without_patron_id_and_name(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00007' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008' }.merge(options)
     end
 
     def create_user_without_patron_id(options = {})
       post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00007', :first_name => 'quire', :last_name => 'quire' }.merge(options)
+        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008', :first_name => 'quire', :last_name => 'quire' }.merge(options)
     end
 end

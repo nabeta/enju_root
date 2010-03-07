@@ -3,7 +3,6 @@ class CreateClassifications < ActiveRecord::Migration
     create_table :classifications do |t|
       t.integer :parent_id
       t.string :category, :null => false
-      t.string :name, :null => false
       t.text :note
       t.integer :classification_type_id, :null => false
 

@@ -1,19 +1,12 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @work_merge_list -%></li>
-    <li><%= link_to t('page.back'), work_merge_lists_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.work_merge_list')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :work_merge_list -%>
-
 <%- form_for(@work_merge_list) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-  <b><%= t('activerecord.attributes.work_merge_list.title') -%></b><br />
+    <%= f.label t('activerecord.attributes.work_merge_list.title') -%><br />
     <%= f.text_field :title -%>
   </p>
 
@@ -23,4 +16,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @work_merge_list -%></li>
+    <li><%= link_to t('page.back'), work_merge_lists_path -%></li>
+  </ul>
 </div>

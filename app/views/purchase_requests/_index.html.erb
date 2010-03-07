@@ -1,38 +1,5 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(current_user.login)%></li>
-    <%- case params[:mode] when 'not_ordered' -%>
-      <li><%= link_to t('purchase_request.ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
-      <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
-    <%- when 'ordered' -%>
-      <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
-      <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
-    <%- else -%>
-      <li><%= link_to t('purchase_request.ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
-      <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
-    <%- end -%>
-  </ul>
-<p>
-  <%- if @user -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
-    (<%= link_to ('RSS'), user_purchase_requests_path(@user.login, :format => :rss) -%>)
-    (<%= link_to ('CSV'), user_purchase_requests_path(@user.login, :format => :csv, :locale => @locale) -%>)
-  <%- else -%>
-    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
-    (<%= link_to ('RSS'), purchase_requests_path(:format => :rss) -%>)
-    (<%= link_to ('CSV'), purchase_requests_path(:format => :csv, :locale => @locale) -%>)
-  <%- end -%>
-</p>
-
-<h4><%= t('page.bookmarklet') -%></h4>
-<ul>
-  <li><a href="javascript:window.location.href='<%= new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
-</ul>
-</div>
-
 <div id="content_detail">
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%></h1>
-
 <div id="content_list">
 
 <%- form_for :purchase_requests, :url => purchase_requests_path, :html => {:method => 'get'} do -%>
@@ -57,7 +24,7 @@
         <br />
         <%= purchase_request.author -%>
         <%= purchase_request.publisher -%>
-        <%= purchase_request.date_of_publication -%>
+        <%=l purchase_request.date_of_publication if purchase_request.date_of_publication -%>
       </td>
       <td><%= purchase_request.price -%></td>
       <td>
@@ -71,7 +38,39 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@purchase_requests, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@purchase_requests) -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.purchase_request')), new_user_purchase_request_path(current_user.login)%></li>
+    <%- case params[:mode] when 'not_ordered' -%>
+      <li><%= link_to t('purchase_request.ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
+      <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
+    <%- when 'ordered' -%>
+      <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
+      <li><%= link_to t('purchase_request.all_request'), purchase_requests_path -%></li>
+    <%- else -%>
+      <li><%= link_to t('purchase_request.ordered'), purchase_requests_path(:mode => 'ordered') -%></li>
+      <li><%= link_to t('purchase_request.not_ordered'), purchase_requests_path(:mode => 'not_ordered') -%></li>
+    <%- end -%>
+  </ul>
+<p>
+  <%- if @user -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
+    (<%= link_to 'RSS', user_purchase_requests_path(@user.login, :format => :rss) -%>)
+    (<%= link_to 'CSV', user_purchase_requests_path(@user.login, :format => :csv, :locale => @locale) -%>)
+  <%- else -%>
+    <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
+    (<%= link_to 'RSS', purchase_requests_path(:format => :rss) -%>)
+    (<%= link_to 'CSV', purchase_requests_path(:format => :csv, :locale => @locale) -%>)
+  <%- end -%>
+</p>
+
+<h4><%= t('page.bookmarklet') -%></h4>
+<ul>
+  <li><a href="javascript:window.location.href='<%= new_user_purchase_request_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
+</ul>
 </div>

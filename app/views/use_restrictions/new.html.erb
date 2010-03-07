@@ -1,16 +1,10 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), use_restrictions_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.use_restriction')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :use_restriction -%>
-
 <%- form_for(@use_restriction) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
     <%= f.label t('activerecord.attributes.use_restriction.name') -%><br />
     <%= f.text_field :name, :class => 'resource_title' -%>
@@ -32,4 +26,10 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), use_restrictions_path -%></li>
+  </ul>
 </div>

@@ -6,15 +6,17 @@ class Bookmark < ActiveRecord::Base
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :manifestation
   belongs_to :user #, :counter_cache => true, :validate => true
-  validates_presence_of :user_id, :manifestation_id
+
+  validates_presence_of :user_id, :title, :url
   #validates_presence_of :url, :on => :create
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
   
-  attr_accessor :url, :title
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
+  attr_accessor :local_url
 
   acts_as_taggable_on :tags
 
@@ -34,24 +36,32 @@ class Bookmark < ActiveRecord::Base
     time :updated_at
   end
 
-  def after_save
-    save_tagger
-    save_manifestation
+  def before_validation
+    self.url = URI.parse(self.url).normalize.to_s
+  rescue URI::InvalidURIError
+    raise 'invalid_url'
   end
 
   def before_validation_on_create
-    create_bookmark
+    create_manifestation
+  end
+
+  def after_create
+    send_later(:create_frbr_object) unless url.my_host?
+  end
+
+  def after_save
+    save_tagger
+    send_later(:save_manifestation)
   end
 
   def after_destroy
-    save_manifestation
+    send_later(:save_manifestation)
   end
 
   def save_manifestation
-    if self.manifestation
-      self.manifestation.save
-      self.manifestation.send_later(:index!)
-    end
+    self.manifestation.save
+    self.manifestation.index!
   end
 
   def save_tagger
@@ -71,18 +81,20 @@ class Bookmark < ActiveRecord::Base
     CGI.unescape(string).strip unless string.nil?
   end
 
+  def get_title
+    Bookmark.get_title_from_url(url)
+  end
+
   def self.get_title_from_url(url)
     return if url.blank?
     # TODO: ホスト名の扱い
     access_url = url.rewrite_my_url
   
-    page = open(access_url)
-    #doc = Hpricot(page)
-    doc = Nokogiri(page)
+    doc = Nokogiri::HTML(open(access_url).read)
     # TODO: 日本語以外
     #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
     #if charsets.include?(page.charset.downcase)
-      title = NKF.nkf('-w', CGI.unescapeHTML((doc/"title").inner_text)).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
+      title = NKF.nkf('-w', CGI.unescapeHTML((doc.at("title").inner_text))).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
       if title.blank?
         title = url
       end
@@ -106,60 +118,64 @@ class Bookmark < ActiveRecord::Base
   end
 
   def check_url
-    self.url = URI.parse(self.url).normalize.to_s
-
     # 自館のページをブックマークする場合
-    if URI.parse(self.url).host == LIBRARY_WEB_HOSTNAME
-      path = URI.parse(self.url).path.split('/')
+    if url.my_host?
+      path = URI.parse(url).path.split('/')
       if path[1] == 'manifestations' and Manifestation.find(path[2])
         manifestation = Manifestation.find(path[2])
+      else
+        raise 'only_manifestation_should_be_bookmarked'
       end
     else
-      manifestation = Manifestation.find(:first, :conditions => {:access_address => self.url}) if self.url.present?
-    end
-  rescue URI::InvalidURIError
-    raise 'invalid_url'
-  end
-
-  def create_bookmark
-    manifestation = check_url
-    if manifestation
-      if manifestation.bookmarked?(user)
-        raise 'already_bookmarked'
+      if LibraryGroup.site_config.allow_bookmark_external_url
+        manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
+      else
+        # OTC start
+#         manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
+        # 自館のページではない場合
+        raise 'not_our_holding'
+        # OTC end
       end
-    else
-      manifestation = create_manifestation
     end
-
-    self.manifestation = manifestation
-    create_bookmark_item
   end
 
   def create_manifestation
-    manifestation = Manifestation.new(:access_address => url)
-    manifestation.carrier_type = CarrierType.find(:first, :conditions => {:name => 'file'})
+    unless manifestation = check_url
+      manifestation = Manifestation.new(:access_address => url)
+      manifestation.carrier_type = CarrierType.first(:conditions => {:name => 'file'})
+    end
+    # OTC start
+    # check_urlで自館のmanifestation以外ならば例外とし登録させないよう修正した。
+    # よって、unless文の処理は不要になるはず。
+    # manifestation = check_urlを実行するのみ。nilの場合は上で処理するので処理不要。
+#    manifestation = check_url
+    # OTC end
+   if manifestation.bookmarked?(user)
+      raise 'already_bookmarked'
+    end
     if self.title.present?
       manifestation.original_title = self.title
     else
-      manifestation.original_title = Bookmark.get_title_from_url(url)
+      manifestation.original_title = self.get_title
     end
+    self.manifestation = manifestation
+  end
 
-    Bookmark.transaction do
-      manifestation.save
-      work = Work.create!(:original_title => manifestation.original_title)
-      expression = Expression.new(:original_title => work.original_title)
-      work.expressions << expression
-      manifestation.expressions << expression
+  def create_frbr_object
+    unless url.my_host?
+      Bookmark.transaction do
+        work = Work.create!(:original_title => manifestation.original_title)
+        expression = Expression.new(:original_title => work.original_title)
+        work.expressions << expression
+        manifestation.expressions << expression
+        create_bookmark_item
+      end
     end
-    manifestation
   end
 
   def create_bookmark_item
-    shelf = Shelf.web
-    circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'Not Available'})
-    item = Item.new
-    item.circulation_status = circulation_status
-    item.shelf = shelf
+    circulation_status = CirculationStatus.first(:conditions => {:name => 'Not Available'})
+    item = Item.new(:shelf => Shelf.web, :circulation_status => circulation_status)
     self.manifestation.items << item
   end
 
@@ -178,20 +194,6 @@ class Bookmark < ActiveRecord::Base
       false
     end
   end
-
-  def is_readable_by(user, parent = nil)
-    if user.try(:has_role?, 'Librarian')
-      true
-    else
-      false
-    end
-  end
-
-  #def is_updatable_by(user, parent = nil)
-  #  true if user.has_role?('Librarian')
-  #rescue
-  #  false
-  #end
 
   def is_deletable_by(user, parent = nil)
     true if user == self.user || user.has_role?('Librarian')

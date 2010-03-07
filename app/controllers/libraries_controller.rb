@@ -29,19 +29,23 @@ class LibrariesController < ApplicationController
         @libraries = WillPaginate::Collection.create(1,1,0) do end
       end
     else
-      @libraries = Library.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+      @libraries = Library.paginate(:page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
     end
 
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @libraries }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to libraries_url
+    return
   end
 
   # GET /libraries/1
   # GET /libraries/1.xml
   def show
-    @library = Library.find(:first, :conditions => {:name => params[:id]}, :include => :shelves)
+    @library = Library.first(:conditions => {:name => params[:id]}, :include => :shelves)
     raise ActiveRecord::RecordNotFound if @library.nil?
 
     search = Sunspot.new_search(Event)
@@ -80,14 +84,14 @@ class LibrariesController < ApplicationController
     #  return
     #end
     @library = Library.new
-    @library_groups = LibraryGroup.find(:all, :order => 'id')
+    @library_groups = LibraryGroup.all
   end
 
   # GET /libraries/1;edit
   def edit
-    @library = Library.find(:first, :conditions => {:name => params[:id]})
+    @library = Library.first(:conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.nil?
-    @library_groups = LibraryGroup.find(:all, :order => 'id')
+    @library_groups = LibraryGroup.all
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -115,7 +119,7 @@ class LibrariesController < ApplicationController
   # PUT /libraries/1
   # PUT /libraries/1.xml
   def update
-    @library = Library.find(:first, :conditions => {:name => params[:id]})
+    @library = Library.first(:conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.nil?
 
     if @library and params[:position]
@@ -142,7 +146,7 @@ class LibrariesController < ApplicationController
   # DELETE /libraries/1
   # DELETE /libraries/1.xml
   def destroy
-    @library = Library.find(:first, :conditions => {:name => params[:id]})
+    @library = Library.first(:conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.blank?
     raise if @library.web?
 

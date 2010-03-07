@@ -1,21 +1,14 @@
-<div id="submenu">
-  <ul>
-    <%- if Subject.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_work_subject_path(@work) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
+    [W]
     <%= link_to h(@work.original_title), @work -%>
   </h2>
 
 <%- form_for :subjects, :url => work_subjects_path(@work), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
     <%- if WorkHasSubject.is_creatable_by(current_user) -%>
       <%- if params[:mode] == 'add' -%>
@@ -27,7 +20,7 @@
       <%- end -%>
     <%- end -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -57,6 +50,14 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(subjects, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(subjects) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Subject.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_work_subject_path(@work) -%></li>
+    <%- end -%>
+  </ul>
 </div>

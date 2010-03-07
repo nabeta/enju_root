@@ -7,7 +7,7 @@ class UserGroupsController < ApplicationController
   # GET /user_groups
   # GET /user_groups.xml
   def index
-    @user_groups = UserGroup.find(:all)
+    @user_groups = UserGroup.all
 
     respond_to do |format|
       format.html # index.rhtml

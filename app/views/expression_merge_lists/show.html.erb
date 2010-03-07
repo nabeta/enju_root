@@ -1,17 +1,9 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
-    <li><%= link_to t('page.edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
-    <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_merge_list')) -%></h1>
 <div id="content_list">
 <%- form_for(:expression_merge_list, :url => expression_merge_list_path(@expression_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('page.title') -%>:</b>
+  <strong><%= t('page.title') -%>:</strong>
     <%= @expression_merge_list.title -%>
   </p>
 
@@ -26,4 +18,12 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expression_merge_list_expressions_path(@expression_merge_list) -%></li>
+    <li><%= link_to t('page.edit'), edit_expression_merge_list_path(@expression_merge_list) -%></li>
+    <li><%= link_to t('page.back'), expression_merge_lists_path -%></li>
+  </ul>
 </div>

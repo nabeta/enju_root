@@ -65,7 +65,8 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_not_get_new_without_user_id
     UserSession.create users(:user1)
     get :new
-    assert_response :forbidden
+    #assert_response :forbidden
+    assert_response :missing
   end
   
   def test_user_should_not_get_new_with_other_user_id
@@ -88,10 +89,17 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_redirected_to manifestation_url(assigns(:manifestation))
   end
   
-  def test_user_should_get_my_new_with_url
+  def test_user_should_get_my_new_with_external_url
     UserSession.create users(:user1)
-    get :new, :user_id => users(:user1).login, :url => 'http://localhost'
+    get :new, :user_id => users(:user1).login, :title => 'example', :url => 'http://example.com'
     assert_response :success
+  end
+  
+  def test_user_should_not_get_my_new_with_internal_url
+    UserSession.create users(:user1)
+    get :new, :user_id => users(:user1).login, :url => LibraryGroup.url
+    assert_response :redirect
+    assert_redirected_to LibraryGroup.url
   end
   
   def test_guest_should_not_create_bookmark
@@ -107,23 +115,35 @@ class BookmarksControllerTest < ActionController::TestCase
     old_count = Bookmark.count
     post :create, :bookmark => {:title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
-    assert assigns(:bookmark).manifestation
-    assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    #assert assigns(:bookmark).manifestation
+    #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
     
-    assert_redirected_to manifestation_url(assigns(:bookmark).manifestation)
-    assigns(:bookmark).manifestation.remove_from_index!
+    assert_redirected_to bookmark_url(assigns(:bookmark))
+    assigns(:bookmark).remove_from_index!
+  end
+
+  def test_user_should_create_bookmark_with_local_url
+    UserSession.create users(:user1)
+    old_count = Bookmark.count
+    post :create, :bookmark => {:title => 'example', :url => "#{LibraryGroup.url}manifestations/10"}
+    #assert assigns(:bookmark).manifestation
+    #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    
+    assert_redirected_to bookmark_url(assigns(:bookmark))
+    assigns(:bookmark).remove_from_index!
+    assert_equal old_count+1, Bookmark.count
   end
 
   def test_user_should_not_create_other_users_bookmark
     UserSession.create users(:user1)
-    assert_difference('Manifestation.count') do
+    assert_difference('Bookmark.count') do
       post :create, :bookmark => {:user_id => users(:user2).id, :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user2).login
     end
     
     assert_response :redirect
-    assert_redirected_to manifestation_url(assigns(:bookmark).manifestation)
+    assert_redirected_to bookmark_url(assigns(:bookmark))
     assert_equal users(:user1), assigns(:bookmark).user
-    assigns(:bookmark).manifestation.remove_from_index!
+    assigns(:bookmark).remove_from_index!
   end
 
   def test_user_should_create_bookmark_with_tag_list
@@ -135,11 +155,10 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal old_count+1, Bookmark.count
     
     assert_equal ['search'], assigns(:bookmark).tag_list
-    assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
     assert_equal old_taggings_count+1, Tag.find(:first, :conditions => {:name => 'search'}).taggings_count
     #assert_equal 1, assigns(:bookmark).manifestation.items.size
-    assert_redirected_to manifestation_url(assigns(:bookmark).manifestation)
-    assigns(:bookmark).manifestation.remove_from_index!
+    assert_redirected_to bookmark_url(assigns(:bookmark))
+    assigns(:bookmark).remove_from_index!
   end
 
   def test_user_should_create_bookmark_with_tag_list_include_wide_space
@@ -149,10 +168,10 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal old_count+1, Bookmark.count
     
     assert_equal ['タグの テスト'], assigns(:bookmark).tag_list
-    assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
-    assert_equal 1, assigns(:bookmark).manifestation.items.size
-    assert_redirected_to manifestation_url(assigns(:bookmark).manifestation)
-    assigns(:bookmark).manifestation.remove_from_index!
+    #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    #assert_equal 1, assigns(:bookmark).manifestation.items.size
+    assert_redirected_to bookmark_url(assigns(:bookmark))
+    assigns(:bookmark).remove_from_index!
   end
 
   def test_user_should_not_create_bookmark_without_url
@@ -161,9 +180,7 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {}, :user_id => users(:user1).login
     assert_equal old_count, Bookmark.count
     
-    assert_response :redirect
     assert_equal 'Invalid URL.', flash[:notice]
-    assert_redirected_to new_user_bookmark_url(users(:user1).login)
   end
 
   def test_user_should_not_create_bookmark_already_bookmarked
@@ -172,9 +189,7 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {:user_id => users(:user1).id, :url => 'http://www.slis.keio.ac.jp/'}, :user_id => users(:user1).login
     assert_equal old_count, Bookmark.count
     
-    assert_response :redirect
     assert_equal 'This resource is already bookmarked.', flash[:notice]
-    assert_redirected_to new_user_bookmark_url(users(:user1).login)
   end
 
   def test_guest_should_not_show_bookmark_without_user_id
@@ -195,10 +210,10 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_user_should_not_show_my_bookmark
+  def test_user_should_show_my_bookmark
     UserSession.create users(:user1)
     get :show, :id => 3, :user_id => users(:user1).login
-    assert_response :forbidden
+    assert_response :success
   end
   
   def test_librarian_should_show_other_user_bookmark
@@ -253,7 +268,7 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :bookmark => { }
     assert_response :redirect
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
-    assigns(:bookmark).manifestation.remove_from_index!
+    assigns(:bookmark).remove_from_index!
   end
 
   def test_user_should_not_update_other_user_bookmark
@@ -268,10 +283,11 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_response :missing
   end
 
-  def test_user_should_not_update_without_manifestation_id
+  def test_user_should_update_without_manifestation_id
     UserSession.create users(:user1)
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:manifestation_id => nil}
-    assert_response :success
+    assert_response :redirect
+    assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
   end
 
   def test_user_should_update_bookmark
@@ -279,7 +295,7 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => { }
     assert_response :redirect
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
-    assigns(:bookmark).manifestation.remove_from_index!
+    assigns(:bookmark).remove_from_index!
   end
   
   def test_user_should_add_tags_to_bookmark
@@ -287,7 +303,7 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => 'search', :title => 'test'}
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
     assert_equal ['search'], assigns(:bookmark).tag_list
-    assigns(:bookmark).manifestation.remove_from_index!
+    assigns(:bookmark).remove_from_index!
   end
   
   def test_guest_should_not_destroy_bookmark

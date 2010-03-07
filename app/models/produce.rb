@@ -4,13 +4,14 @@ class Produce < ActiveRecord::Base
   belongs_to :manifestation #, :counter_cache => true #, :validate => true
 
   validates_associated :patron, :manifestation
-  validates_presence_of :patron, :manifestation
+  validates_presence_of :patron_id, :manifestation_id
   validates_uniqueness_of :manifestation_id, :scope => :patron_id
 
   acts_as_list :scope => :manifestation
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def after_save
     patron.index!

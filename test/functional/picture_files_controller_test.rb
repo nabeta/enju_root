@@ -198,11 +198,11 @@ class PictureFilesControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_librarian_should_not_update_picture_file
+  def test_librarian_should_update_picture_file
     UserSession.create users(:librarian1)
     put :update, :id => picture_files(:picture_file_00001), :picture_file => { }
-    assert_response :success
-    #assert_redirected_to picture_file_url(assigns(:picture_file))
+    assert_response :redirect
+    assert_redirected_to picture_file_url(assigns(:picture_file))
   end
 
   def test_guest_should_not_destroy_picture_file

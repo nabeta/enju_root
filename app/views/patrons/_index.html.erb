@@ -1,21 +1,12 @@
-<div id="submenu">
-  <ul>
-    <%- if Patron.is_creatable_by(current_user) -%>
-      <li><%= link_to t('patron.add'), new_patron_path -%></li>
-      <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
 <%- form_for :patrons, :url => patrons_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -23,8 +14,8 @@
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
     <th><%= t('activerecord.attributes.user.login') -%></th>
     <th><%= t('activerecord.models.patron_type') -%></th>
-    <th><%= t('activerecord.models.language') -%></th>
-    <th><%= t('activerecord.attributes.patron.place') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <%- if current_user -%>
       <th></th>
       <th></th>
@@ -40,8 +31,8 @@
         <%= link_to h(patron.user.login), edit_user_path(patron.user.login) if patron.user -%>
       </td>
       <td><%= patron.patron_type.display_name.localize  -%></td>
-      <td><%= patron.language.display_name.localize  -%></td>
-      <td><%= patron.place -%></td>
+      <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
+      <td><%=l patron.date_of_death if patron.date_of_death -%></td>
       <%- if patron.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_patron_path(patron) -%></td>
         <td>
@@ -52,6 +43,15 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@patrons) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Patron.is_creatable_by(current_user) -%>
+      <li><%= link_to t('patron.add'), new_patron_path -%></li>
+      <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

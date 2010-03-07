@@ -1,17 +1,18 @@
 <div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.barcode')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.barcode.barcode_type') -%>:</b>
+  <strong><%= t('activerecord.attributes.barcode.barcode_type') -%>:</strong>
   <%= @barcode.barcode_type -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.barcode.barcodable') -%>:</b>
+  <strong><%= t('activerecord.attributes.barcode.barcodable') -%>:</strong>
   <%= link_to h("#{@barcode.barcodable_type} / #{@barcode.barcodable_id}"), @barcode.barcodable if @barcode.barcodable -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.barcode.data') -%>:</b>
+  <strong><%= t('activerecord.attributes.barcode.data') -%>:</strong>
   <%= image_tag(barcode_path(@barcode) + '.png') -%>
 </p>
 

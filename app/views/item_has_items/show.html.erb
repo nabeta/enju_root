@@ -2,17 +2,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.item_has_item')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.item_has_item.from_item') -%>:</b>
+  <strong><%= t('activerecord.attributes.item_has_item.from_item') -%>:</strong>
   <%= link_to h(@item_has_item.from_item.manifestation.original_title), @item_has_item.from_item -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.item_has_item.to_item') -%>:</b>
+  <strong><%= t('activerecord.attributes.item_has_item.to_item') -%>:</strong>
   <%= link_to h(@item_has_item.to_item.manifestation.original_title), @item_has_item.to_item -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.item_relationship_type') -%>:</b>
+  <strong><%= t('activerecord.models.item_relationship_type') -%>:</strong>
   <%= @item_has_item.item_relationship_type.display_name.localize -%>
 </p>
 </div>

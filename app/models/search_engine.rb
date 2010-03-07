@@ -9,8 +9,9 @@ class SearchEngine < ActiveRecord::Base
   validates_inclusion_of :http_method, :in => %w(get post)
   validates_length_of :url, :maximum => 255
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   def validate
     errors.add(:url) unless (URI(read_attribute(:url)) rescue false)

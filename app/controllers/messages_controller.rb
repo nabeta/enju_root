@@ -26,6 +26,7 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if can_view(@message)
         @message.mark_message_read(rezm_user)
+        @message.expire_top_page_cache
         format.html # show.html.erb
       else
         headers["Status"] = "Forbidden"
@@ -40,17 +41,17 @@ class MessagesController < ApplicationController
     if params[:recipient]
       @message.recipient = params[:recipient]
     end
-    if @message_queue = MessageQueue.find(params[:message_queue_id]) rescue nil
-      @message.recipient = @message_queue.receiver.login
-      @message.subject = @message_queue.subject
-      @message.body = @message_queue.body
+    if @message_request = MessageRequest.find(params[:message_request_id]) rescue nil
+      @message.recipient = @message_request.receiver.login
+      @message.subject = @message_request.subject
+      @message.body = @message_request.body
     end
   end
 
   # POST /messages
   def create
     @message = Message.new((params[:message] || {}).merge(:sender => rezm_user))
-    @message.message_queue.destroy if @message.message_queue
+    @message.message_request.destroy if @message.message_request
     
     respond_to do |format|
       if @message.save

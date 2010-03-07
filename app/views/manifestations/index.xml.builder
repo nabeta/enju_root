@@ -1,53 +1,97 @@
-xml.instruct! :xml, :version=>"1.0" 
-xml.rss('version' => "2.0",
-        'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
-        'xmlns:atom' => "http://www.w3.org/2005/Atom"){
-  xml.channel{
-    xml.title "#{@library_group.name} search results"
-    xml.link "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => nil))}"
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
-    xml.language I18n.default_locale
-    xml.ttl "60"
-    xml.tag! "atom:link", :rel => 'self', :href => "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => "rss"))}"
-    xml.tag! "atom:link", :rel => 'alternate', :href => "#{request.protocol}#{request.host_with_port}"
-    xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "#{request.protocol}#{request.host_with_port}/page/opensearch"
-    unless params[:query].blank?
-      xml.tag! "opensearch:totalResults", @count[:query_result]
-      xml.tag! "opensearch:startIndex", @manifestations.offset + 1
-      xml.tag! "opensearch:itemsPerPage", @manifestations.per_page
-      xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
-    end
-    if @manifestations
-      for manifestation in @manifestations
-        xml.item do
-          xml.title h(manifestation.original_title)
-          # rfc822
-          xml.pubDate h(manifestation.created_at.rfc2822)
-          xml.link "#{request.protocol}#{request.host_with_port}" + manifestation_path(manifestation)
-          xml.guid "#{request.protocol}#{request.host_with_port}" + manifestation_path(manifestation), :isPermaLink => "true"
-          xml.description do
-            xml.expressions do
-              manifestation.expressions.each do |expression|
-                xml.work do 
-                  xml.title h(expression.work.original_title)
-                  xml.authors do
-                    expression.work.patrons.each do |patron|
-                      xml.author h(patron.full_name)
-                    end
-                  end
-                end
-                xml.title h(expression.original_title)
-                expression.patrons.each do |patron|
-                  xml.editor h(patron.full_name)
-                end
-              end
-            end
-          end
-          manifestation.tags.each do |tag|
-            xml.category h(tag)
-          end
+#!/usr/bin/env ruby
+#require 'rubygems'
+#require 'fileutils'
+require 'cgi'
+#require 'builder/xmlmarkup'
+require 'sru'
+
+if @sru
+  unless @sru.extra_response_data.empty?
+    @extra_response = true
+    @facets = @sru.extra_response_data[:facets]
+    @dpid = @sru.extra_response_data[:dpid]
+    @webget = @sru.extra_response_data[:webget]
+    @digitalize = @sru.extra_response_data[:digitalize]
+    @porta_type = @sru.extra_response_data[:porta_type]
+    @payment = @sru.extra_response_data[:payment]
+    @ndc = @sru.extra_response_data[:ndc]
+    @date = @sru.extra_response_data[:date]
+  end
+
+  @version = @sru.version
+  @packing = @sru.packing
+  @number_of_records = @sru.number_of_records
+  @next_record_position = @sru.next_record_position
+end
+  
+def search_retrieve_response!(xml)
+  xml.searchRetrieveResponse :xmlns => "http://www.loc.gov/zing/srw/" do
+    xml.version @version
+    xml.numberOfRecords @number_of_records
+    extra_response_data!(xml) if @extra_response
+    xml.records do
+      @manifestations.each_with_index do |rec, idx|
+        xml.record do
+          record!(xml, rec, idx + 1)
         end
       end
     end
-  }
-}
+    xml.nextRecordPosition @next_record_position
+  end
+end
+
+def extra_response_data!(xml)
+  xml.extraResponseData do
+    xml.facets @facets do
+      lst_tag!(xml, "REPOSITORY_NO", 'dcndl_porta:dpid', @dpid)
+      lst_tag!(xml, "WEBGET_TYPE", 'dcndl_porta:type.Web-get', @webget)
+      lst_tag!(xml, "DIGITALIZE_TYPE", 'dcndl_porta:type.Digitalize', @digitalize)
+      lst_tag!(xml, "PORTA_TYPE", 'dcndl_porta:PORTAType', @porta_type)
+      lst_tag!(xml, "PAYMENT_TYPE", 'dcndl_porta:type.Payment', @payment)
+      lst_tag!(xml, "NDC", 'int', @ndc)
+      lst_tag!(xml, "ISSUED_DATE", 'int', @date)
+    end
+  end
+end
+
+def lst_tag!(xml, lst_name, tag_name, hash)
+  xml.lst :name => lst_name do
+    value_sort(hash).each do |item|
+      xml.tag! tag_name, {:name => item[0]}, item[1]
+    end
+  end
+end
+
+def record!(xml, rec, position)
+  xml.recordSchema 'info:srw/schema/1/dc-v1.1'
+  xml.recordPacking @packing
+  xml.recordData{|x| x << (/\Axm\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
+  xml.recordPosition position
+end
+
+def get_recoad(mf)
+  data = <<EOB
+<srw_dc:dc
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:srw_dc="info:srw/schema/1/dc-v1.1"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="info:srw/schema/1/dc-v1.1
+http://www.loc.gov/standards/sru/dc-schema.xsd">
+<dc:title>#{mf.title}</dc:title>
+<dc:creator>#{mf.author}</dc:creator>
+<dc:description></dc:description>
+<dc:publisher>#{mf.publisher}</dc:publisher>
+</srw_dc:dc>
+EOB
+  data
+end
+
+def value_sort(hash)
+  hash.to_a.sort do |a, b|
+    (b[1] <=> a[1]) * 2 + (a[0] <=> b[0])
+  end
+end
+
+xml = Builder::XmlMarkup.new :indent => 2
+xml.instruct! directive_tag=:xml, :encoding=> 'UTF-8'
+search_retrieve_response!(xml)

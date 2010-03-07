@@ -1,23 +1,12 @@
-<div id="submenu">
-  <ul>
-    <%- if @reify.expression -%>
-    <li><%= link_to t('activerecord.models.expression'), expression_path(@reify.expression) -%></li>
-    <%- end -%>
-    <%- if @reify.work -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@reify.work) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :reify -%>
-
 <%- form_for(@reify) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.models.work') -%></b><br />
+    <%= f.label t('activerecord.models.work') -%><br />
     <%- if @reify.work -%>
 		  <%= link_to h(@reify.work.original_title), @reify.work -%>
       <%= f.hidden_field :work_id -%>
@@ -26,7 +15,7 @@
     <%- end -%>
   </p>
   <p>
-    <b><%= t('activerecord.models.expression') -%></b><br />
+    <%= f.label t('activerecord.models.expression') -%><br />
     <%- if @reify.expression -%>
 		  <%= link_to h(@reify.expression.original_title), @reify.expression -%>
       <%= f.hidden_field :expression_id -%>
@@ -44,4 +33,15 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if @reify.expression -%>
+    <li><%= link_to t('activerecord.models.expression'), expression_path(@reify.expression) -%></li>
+    <%- end -%>
+    <%- if @reify.work -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@reify.work) -%></li>
+    <%- end -%>
+  </ul>
 </div>

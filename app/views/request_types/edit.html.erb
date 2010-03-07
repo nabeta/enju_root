@@ -1,24 +1,16 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @request_type -%></li>
-    <li><%= link_to t('page.back'), request_types_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.request_type')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :request_type -%>
-
 <%- form_for(@request_type) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.attributes.request_type.display_name') -%></b><br />
+    <%= f.label t('activerecord.attributes.request_type.display_name') -%><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.request_type.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.request_type.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
@@ -28,4 +20,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @request_type -%></li>
+    <li><%= link_to t('page.back'), request_types_path -%></li>
+  </ul>
 </div>

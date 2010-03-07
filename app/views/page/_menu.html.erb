@@ -36,7 +36,7 @@
                         <ul>
                           <li class="yuimenuitem"><%= link_to t('message.inbox'), user_messages_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                           <%- if current_user.has_role?('Librarian') -%>
-                            <li class="yuimenuitem"><%= link_to t('activerecord.models.message_queue'), message_queues_path, :class => 'yuimenuitemlabel' -%></li>
+                            <li class="yuimenuitem"><%= link_to t('activerecord.models.message_request'), message_requests_path, :class => 'yuimenuitemlabel' -%></li>
                           <%- end -%>
                         </ul>
                       </div>
@@ -67,7 +67,9 @@
                             <%- end -%>
                           </li>
                           <li class="yuimenuitem"><%= link_to t('activerecord.models.inter_library_loan'), inter_library_loans_path, :class => 'yuimenuitemlabel' -%></li>
-                          <li class="yuimenuitem"><%= link_to ('NACSIS ILL'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
+                          <!--
+                          <li class="yuimenuitem"><%= link_to 'NACSIS ILL', '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
+                          -->
                         <%- end -%>
                         <li class="yuimenuitem"><%= link_to t('page.checkout_history'), user_checkouts_path(current_user.login), :class => 'yuimenuitemlabel' -%></li>
                       </ul>
@@ -97,9 +99,9 @@
                   <div id="bookmark" class="yuimenu">
                     <div class="bd">                    
                       <ul>
-                        <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_manifestation_path(:mode => 'import_isbn'), :class => 'yuimenuitemlabel' -%></li>
+                        <li class="yuimenuitem"><%= link_to t('page.add_manually'), new_import_request_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- if current_user.has_role?('Librarian') -%>
-                          <li class="yuimenuitem"><%= link_to t('page.import'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.import_from_file'), '/page/import', :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.upload_file'), new_manifestation_path(:mode => 'attachment'), :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
                         <li class="yuimenuitem"><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => request.url), :class => 'yuimenuitemlabel' -%></li>
@@ -159,7 +161,7 @@
                           <li class="yuimenuitem"><%= link_to h(library.display_name.localize), library_events_path(library.name), :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
                         <%- if Event.is_creatable_by(current_user) -%>
-                          <li class="yuimenuitem"><%= link_to t('page.import'), new_imported_event_file_path, :class => 'yuimenuitemlabel' -%></li>
+                          <li class="yuimenuitem"><%= link_to t('page.import'), new_event_import_file_path, :class => 'yuimenuitemlabel' -%></li>
                         <%- end -%>
                       </ul>
                     </div>
@@ -181,8 +183,8 @@
                           <li class="yuimenuitem"><%= link_to t('activerecord.models.order_list'), order_lists_path, :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('page.statistics'), '/page/statistics', :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to t('activerecord.models.search_history'), search_histories_path, :class => 'yuimenuitemlabel' -%></li>
-                          <li class="yuimenuitem"><%= link_to t('page.recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                           <!--
+                          <li class="yuimenuitem"><%= link_to t('page.recommendation'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                           <li class="yuimenuitem"><%= link_to ('Send questions and answers to CRD'), '/page/under_construction', :class => 'yuimenuitemlabel' -%></li>
                           -->
                           <li class="yuimenuitem"><%= link_to t('page.configuration'), '/page/configuration', :class => 'yuimenuitemlabel' -%></li>

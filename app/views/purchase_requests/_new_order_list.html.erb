@@ -1,66 +1,56 @@
-<div id="submenu">
-  <ul>
-    <%- if @user -%>
-      <li><%= link_to t('page.back'), user_purchase_requests_path(@user.login) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), purchase_requests_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.purchase_request')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :purchase_request -%>
-
 <%- form_for(@purchase_request, :url => order_list_purchase_requests_path(@order_list)) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-  <b><%= t('activerecord.models.user') -%></b><br />
-  <%- if @user -%>
-    <%= link_to h(@user.login), user_path(@user.login) -%>
-  <%- else -%>
-    <%= link_to h(current_user.login), user_path(current_user.login) -%>
-  <%- end -%>
+    <%= f.label t('activerecord.models.user') -%><br />
+    <%- if @user -%>
+      <%= link_to h(@user.login), user_path(@user.login) -%>
+    <%- else -%>
+      <%= link_to h(current_user.login), user_path(current_user.login) -%>
+    <%- end -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.title') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.title') -%><br />
     <%= f.text_area :title, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.author') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.author') -%><br />
     <%= f.text_area :author, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.publisher') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.publisher') -%><br />
     <%= f.text_area :publisher, :class => 'resource_textarea' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.isbn') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.isbn') -%><br />
     <%= f.text_field :isbn, :class => 'resource_isbn_issn' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.date_of_publication') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.date_of_publication') -%><br />
     <%= f.date_text_field :date_of_publication, :class => 'date_field' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.price') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.price') -%><br />
     <%= f.text_field :price, :class => 'resource_integer' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.url') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.url') -%><br />
     <%= f.text_field :url, :class => 'resource_url' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes,purchase_request.note') -%></b><br />
+    <%= f.label t('activerecord.attributes,purchase_request.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
@@ -71,4 +61,14 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if @user -%>
+      <li><%= link_to t('page.back'), user_purchase_requests_path(@user.login) -%></li>
+    <%- else -%>
+      <li><%= link_to t('page.back'), purchase_requests_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

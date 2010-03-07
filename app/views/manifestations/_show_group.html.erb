@@ -1,0 +1,48 @@
+<%
+=begin
+  処理は/manifestations/_work_list.html.erbからコピー。
+  ローカル変数manifestationを使うため一部変更。変更部分のみコメントを付けた。
+=end
+%>
+<%# 表示非表示切り替えのためidとstyleを設定 %>
+<div id="group_<%= manifestation.id -%>" style="display: none">
+<%# インスタンス変数ではなくローカル変数manifestationを使用。以下同様 %>
+<%- unless manifestation.works.blank? -%>
+  <ul>
+    <%- manifestation.works.each do |work| -%>
+        <li>[W] <%= link_to h(work.original_title), work -%>
+          <%- work.expressions.each do |expression| -%>
+            <%= link_to content_type_icon(expression.content_type), expression -%>
+          <%- end -%>
+          <%= raw patrons_list(work.patrons) -%>
+          <%- unless work.manifestations.empty? -%>
+            <ul>
+              <%# カウンタ変数はmnfstとする >%>
+              <%- work.manifestations.each do |mnfst| -%>
+                <%- unless manifestation == mnfst -%>
+                  <%- unless work.original_title == mnfst.original_title and work.expressions.size == 1 -%>
+                    <li>[M]
+                    <%= link_to h(mnfst.original_title), mnfst -%>
+                    <%= form_icon(mnfst.carrier_type) -%>
+                    <%- mnfst.expressions.each do |expression| -%>
+                      <%= link_to content_type_icon(expression.content_type), expression -%>
+                    <%- end -%>
+                    <%= raw patrons_list(mnfst.authors) -%>
+                    <%= raw patrons_list(mnfst.editors) -%>
+                    <%= raw patrons_list(mnfst.patrons) -%>
+                    <%- if mnfst.date_of_publication -%>
+                      (<%= mnfst.date_of_publication.strftime('%Y') -%>)
+                    <%- end -%>
+                    </li>
+                  <%- end -%>
+                <%- end -%>
+              <%- end -%>
+            </ul>
+          <%- else -%>
+          <ul><li></li></ul>
+          <%- end -%>
+        </li>
+    <%- end -%>
+  </ul>
+<%- end -%>
+</div>

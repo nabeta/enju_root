@@ -1,8 +1,28 @@
 <div id="result_index">
+<p>
+  <%= t('page.sort_by') -%>:
+  <%- if params[:sort_by].blank? -%>
+    <strong><%= t('page.updated_at') -%></strong>
+  <%- else -%>
+    <%= link_to t('page.updated_at'), params.merge(:sort_by => nil) -%>
+  <%- end -%>
+  <%- if params[:sort_by] == 'created_at' -%>
+    <strong><%= t('page.created_at') -%></strong>
+  <%- else -%>
+    <%= link_to t('page.created_at'), params.merge(:sort_by => 'created_at') -%>
+  <%- end -%>
+  <%- if params[:sort_by] == 'answers_count' -%>
+    <strong><%= t('activerecord.attributes.question.answers_count') -%></strong>
+  <%- else -%>
+    <%= link_to t('activerecord.attributes.question.answers_count'), params.merge(:sort_by => 'answers_count') -%>
+  <%- end -%>
+</p>
+
 <%- if @count[:query_result] > 0 -%>
   <table class="index">
     <tr>
       <th><%= ('Id') -%></th>
+      <th><%= t('activerecord.attributes.question.solved') -%></th>
       <th><%= t('activerecord.models.user') -%></th>
       <th><%= t('activerecord.attributes.question.body') -%></th>
       <th><%= t('activerecord.models.answer') -%></th>
@@ -12,6 +32,7 @@
   <%- @questions.each_with_index do |question, i| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= question.id -%></td>
+      <td><%= i18n_boolean(question.solved) -%></td>
       <td><%= link_to h(question.user.login), user_path(question.user.login) -%></td>
       <td><%= link_to h(truncate(question.body, :length => 60)), user_question_path(question.user.login, question) -%></td>
       <td><%= question.answers.size -%></td>
@@ -26,6 +47,6 @@
   <p><%= t('question.no_record_found') -%></p>
 <%- end -%>
 
-<%= will_paginate(@questions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next'), :class => 'content_pagination') -%>
+<%= will_paginate(@questions, :class => 'content_pagination') -%>
 
 </div>

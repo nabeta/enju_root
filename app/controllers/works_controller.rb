@@ -3,6 +3,7 @@ class WorksController < ApplicationController
   before_filter :has_permission?
   before_filter :get_patron, :get_subject, :get_subscription
   before_filter :get_work, :only => :index
+  before_filter :get_series_statement, :only => [:index, :new, :edit]
   before_filter :get_work_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_version, :only => [:show]
@@ -39,6 +40,12 @@ class WorksController < ApplicationController
         with(:work_merge_list_ids).equal_to work_merge_list.id if work_merge_list
       end
     end
+
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Work.per_page)
     begin
@@ -53,13 +60,17 @@ class WorksController < ApplicationController
       format.xml  { render :xml => @works }
       format.atom
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to works_url
+    return
   end
 
   # GET /works/1
   # GET /works/1.xml
   def show
     @work = Work.find(params[:id])
-    @work = @work.versions.find(@version).reify if @version
+    @work = @work.versions.find(@version).item if @version
 
     if @patron
       created = @work.patrons.find(@patron) rescue nil
@@ -101,6 +112,11 @@ class WorksController < ApplicationController
   def new
     @work = Work.new
     @patron = Patron.find(params[:patron_id]) rescue nil
+    if @series_statement
+      @work.series_statement = @series_statement
+      @work.original_title = @series_statement.original_title
+      @work.title_transcription = @series_statement.title_transcription
+    end
 
     respond_to do |format|
       format.html # new.html.erb
@@ -111,6 +127,7 @@ class WorksController < ApplicationController
   # GET /works/1;edit
   def edit
     @work = Work.find(params[:id])
+    @work.series_statement = @series_statement
   end
 
   # POST /works
@@ -123,12 +140,9 @@ class WorksController < ApplicationController
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work'))
         if @patron
           @patron.works << @work
-          format.html { redirect_to work_url(@work) }
-          format.xml  { render :xml => @work, :status => :created, :location => @work }
-        else
-          format.html { redirect_to work_patrons_url(@work) }
-          format.xml  { render :xml => @work, :status => :created, :location => @work }
         end
+        format.html { redirect_to @work }
+        format.xml  { render :xml => @work, :status => :created, :location => @work }
       else
         prepare_options
         format.html { render :action => "new" }
@@ -172,6 +186,7 @@ class WorksController < ApplicationController
   private
   def prepare_options
     @form_of_works = FormOfWork.all
+    @roles = Role.all
   end
 
 end

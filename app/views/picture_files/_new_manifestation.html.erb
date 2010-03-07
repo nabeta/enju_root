@@ -1,13 +1,14 @@
 <%- form_for(:picture_file, :url => manifestation_picture_files_path(@manifestation), :html => { :multipart => true, :method => :post }) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('page.attachable') -%></b><br />
+    <%= f.label t('page.attachable') -%><br />
     <%= link_to h(@manifestation.original_title), @manifestation -%>
     <%= f.hidden_field :picture_attachable_id -%>
     <%= f.hidden_field :picture_attachable_type -%>
   </p>
 
   <p>
-    <b><%= t('page.file') -%></b><br />
+    <%= f.label t('page.file') -%><br />
     <%= f.file_field :picture -%>
   </p>
 
@@ -15,5 +16,3 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
-<%= link_to t('page.back'), manifestation_picture_files_path(@manifestation) -%>
-

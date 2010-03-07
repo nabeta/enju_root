@@ -7,10 +7,12 @@ class InventoryFile < ActiveRecord::Base
   #validates_as_attachment
   has_attached_file :inventory, :path => ":rails_root/private:url"
   validates_attachment_content_type :inventory, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values']
+  validates_attachment_presence :inventory
   validates_presence_of :user
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def import
     self.reload

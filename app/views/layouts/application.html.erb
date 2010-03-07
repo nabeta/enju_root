@@ -4,6 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-script-type" content="text/javascript" />
   <title><%=@library_group.display_name.localize -%></title>
   <%= render :partial => 'page/include' -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
@@ -15,6 +17,7 @@
 
 <div id="content">
 
+<div style="color: red"><%= flash[:error] -%></div>
 <div style="color: green"><%= flash[:notice] -%></div>
 
 <%= yield  -%>

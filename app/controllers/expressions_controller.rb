@@ -42,6 +42,12 @@ class ExpressionsController < ApplicationController
         with(:expression_merge_list_ids).equal_to expression_merge_list.id if expression_merge_list
       end
     end
+
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)
     begin
@@ -56,8 +62,10 @@ class ExpressionsController < ApplicationController
       format.xml  { render :xml => @expressions }
       format.atom
     end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to expressions_url
+    return
   end
 
   # GET /expressions/1
@@ -72,7 +80,7 @@ class ExpressionsController < ApplicationController
     else
       @expression = Expression.find(params[:id])
     end
-    @expression = @expression.versions.find(@version).reify if @version
+    @expression = @expression.versions.find(@version).item if @version
 
     canonical_url expression_url(@expression)
 
@@ -92,7 +100,11 @@ class ExpressionsController < ApplicationController
     #  return
     #end
     @expression = Expression.new
-    @expression.language = Language.find(:first, :conditions => {:iso_639_1 => @locale})
+    if @work
+      @expression.original_title = @work.original_title
+      @expression.title_transcription = @work.title_transcription
+    end
+    @expression.language = Language.first(:conditions => {:iso_639_1 => @locale})
 
     respond_to do |format|
       format.html # new.html.erb
@@ -103,8 +115,6 @@ class ExpressionsController < ApplicationController
   # GET /expressions/1;edit
   def edit
     @expression = Expression.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /expressions
@@ -127,13 +137,8 @@ class ExpressionsController < ApplicationController
         end
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
-        if @expression.patrons.empty?
-          format.html { redirect_to expression_patrons_url(@expression) }
-          format.xml  { render :xml => @expression, :status => :created, :location => @expression }
-        else
-          format.html { redirect_to work_expression_url(@work, @expression) }
-          format.xml  { render :xml => @expression, :status => :created, :location => work_expression_url(@work, @expression) }
-        end
+        format.html { redirect_to @expression }
+        format.xml  { render :xml => @expression, :status => :created, :location => @expression }
       else
         prepare_options
         format.html { render :action => "new" }
@@ -175,7 +180,14 @@ class ExpressionsController < ApplicationController
 
   private
   def prepare_options
-    @content_types = ContentType.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @content_types = Rails.cache.fetch('ContentType.all'){ContentType.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+    else
+      @content_types = ContentType.all
+      @languages = Language.all
+      @roles = Role.all
+    end
   end
 end

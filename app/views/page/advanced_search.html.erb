@@ -1,10 +1,8 @@
-<div id="submenu">
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.advanced_search') -%></h1>
 <div id="content_list">
 
+<%- cache :controller => 'page', :action => 'advanced_search', :locale => @locale do -%>
 <%- form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
   <table style="width: 50%">
     <tr>
@@ -33,7 +31,7 @@
         <%= t('advanced_search.to') -%> <%= text_field_tag 'pubdate_to', nil, :size => 5 -%></td>
     </tr>
     <tr>
-      <td><label><%= t('page.number_of_pages') -%>:</td>
+      <td><label><%= t('page.number_of_pages') -%>:</label></td>
         <td><%= t('advanced_search.from') -%> <%= text_field_tag 'number_of_pages_at_least', nil, :size => 5 -%>
           <%= t('advanced_search.to') -%> <%= text_field_tag 'number_of_pages_at_most', nil, :size => 5 -%></td>
     </tr>
@@ -60,5 +58,9 @@
   </table>
 <%- end -%>
 <%= javascript_tag("$('query').focus()") -%>
+<%- end -%>
 </div>
+</div>
+
+<div id="submenu">
 </div>

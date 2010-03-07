@@ -1,38 +1,38 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.order_list')) -%></h1>
+<div id="content_list">
+<p>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
+  <%= link_to h(@order_list.user.login), user_path(@order_list.user.login) -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.order_list.title') -%>:</strong>
+  <%= @order_list.title -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.models.bookstore') -%>:</strong>
+  <%= link_to h(@order_list.bookstore.name), @order_list.bookstore -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.order_list.ordered_at') -%>:</strong>
+  <%= l(@order_list.ordered_at) if @order_list.ordered_at -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.order_list.note') -%>:</strong>
+  <%= @order_list.note -%>
+</p>
+
+</div>
+</div>
+
 <div id="submenu">
   <ul>
     <li><%= link_to t('activerecord.models.purchase_request'), order_list_purchase_requests_path(@order_list) -%></li>
     <li><%= link_to t('page.edit'), edit_order_list_path(@order_list) -%></li>
     <li><%= link_to t('page.back'), order_lists_path -%></li>
   </ul>
-</div>
-
-<div id="content_detail">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.order_list')) -%></h1>
-<div id="content_list">
-<p>
-  <b><%= t('activerecord.models.user') -%>:</b>
-  <%= link_to h(@order_list.user.login), user_path(@order_list.user.login) -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.order_list.title') -%>:</b>
-  <%= @order_list.title -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.models.bookstore') -%>:</b>
-  <%= link_to h(@order_list.bookstore.name), @order_list.bookstore -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.order_list.ordered_at') -%>:</b>
-  <%= l(@order_list.ordered_at) if @order_list.ordered_at -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.attributes.order_list.note') -%>:</b>
-  <%= @order_list.note -%>
-</p>
-
-</div>
 </div>

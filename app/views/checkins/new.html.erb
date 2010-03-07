@@ -1,10 +1,10 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.checkin')) -%></h1>
 
-<%= error_messages_for :checkin -%>
-
 <%- form_for(@checkin) do |f| -%>
+  <%= f.error_messages -%>
+
   <p>
-    <b><%= t('activerecord.models.item') -%></b><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%= f.text_field :item_id -%>
   </p>
 

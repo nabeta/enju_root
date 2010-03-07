@@ -14,7 +14,12 @@ class SeriesStatementsController < ApplicationController
       query = query.gsub('　', ' ')
       search.build do
         fulltext query
+        with(:work_id).equal_to work.id
       end
+    end
+    manifestation = @manifestation
+    search.build do
+      with(:manifestation_ids).equal_to manifestation.id if manifestation
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, SeriesStatement.per_page)
@@ -28,6 +33,10 @@ class SeriesStatementsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @series_statements }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to series_statements_url
+    return
   end
 
   # GET /series_statements/1
@@ -51,6 +60,7 @@ class SeriesStatementsController < ApplicationController
   # GET /series_statements/new.xml
   def new
     @series_statement = SeriesStatement.new
+    @series_statement.work = @work if @work
     @series_statement.manifestation_id = @manifestation.id if @manifestation
 
     respond_to do |format|
@@ -62,6 +72,7 @@ class SeriesStatementsController < ApplicationController
   # GET /series_statements/1/edit
   def edit
     @series_statement = SeriesStatement.find(params[:id])
+    @series_statement.work = @work if @work
   end
 
   # POST /series_statements

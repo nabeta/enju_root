@@ -56,6 +56,10 @@ class EventsController < ApplicationController
       format.atom
       format.ics
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to events_url
+    return
   end
 
   # GET /events/1
@@ -148,7 +152,7 @@ class EventsController < ApplicationController
 
   private
   def prepare_options
-    @event_categories = EventCategory.find(:all)
+    @event_categories = EventCategory.all
   end
 
 end

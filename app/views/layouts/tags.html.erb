@@ -4,6 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <meta http-equiv="content-style-type" content="text/css" />
+  <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @tag -%>
     <title><%= @tag.name -%> : <%= t('activerecord.models.tag') -%>: <%= title_action_name -%></title>
   <%- else -%>

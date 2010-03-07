@@ -1,38 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.calendar'), '/calendar' -%></li>
-  </ul>
-  <ul>
-    <%- if logged_in? -%>
-      <%- if current_user.has_role?('Librarian') -%>
-        <%- if @library -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.name) -%></li>
-        <%- else -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
-        <%- end -%>
-        <li><%= link_to t('event.import_event'), imported_event_files_path -%></li>
-      <%- end -%>
-    <%- end -%>
-  </ul>
-  <ul>
-    <%- Library.all.each do |library| -%>
-      <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
-    <%- end -%>
-  </ul>
-  <p>
-    <%- if @library -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), library_events_path(@library.name, :format => :rss) -%>
-      (<%= link_to ('RSS'), library_events_path(@library.name, :format => :rss) -%>)
-      (<%= link_to ('CSV'), library_events_path(@library.name, :format => :csv, :locale => @locale) -%>)
-    <%- else -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), events_path(:format => :rss) -%>
-      (<%= link_to ('RSS'), events_path(:format => :rss) -%>)
-      (<%= link_to ('CSV'), events_path(:format => :csv, :locale => @locale) -%>)
-    <%- end -%>
-  </p>
-  <%= render :partial => 'page/login' unless logged_in? -%>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
 <div id="content_list">
@@ -96,6 +61,41 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@events, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@events) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.calendar'), '/calendar' -%></li>
+  </ul>
+  <ul>
+    <%- if logged_in? -%>
+      <%- if current_user.has_role?('Librarian') -%>
+        <%- if @library -%>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.name) -%></li>
+        <%- else -%>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
+        <%- end -%>
+        <li><%= link_to t('event.import_event'), event_import_files_path -%></li>
+      <%- end -%>
+    <%- end -%>
+  </ul>
+  <ul>
+    <%- Library.all.each do |library| -%>
+      <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
+    <%- end -%>
+  </ul>
+  <p>
+    <%- if @library -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), library_events_path(@library.name, :format => :rss) -%>
+      (<%= link_to 'RSS', library_events_path(@library.name, :format => :rss) -%>)
+      (<%= link_to 'CSV', library_events_path(@library.name, :format => :csv, :locale => @locale) -%>)
+    <%- else -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), events_path(:format => :rss) -%>
+      (<%= link_to 'RSS', events_path(:format => :rss) -%>)
+      (<%= link_to 'CSV', events_path(:format => :csv, :locale => @locale) -%>)
+    <%- end -%>
+  </p>
+  <%= render :partial => 'page/login' unless logged_in? -%>
 </div>

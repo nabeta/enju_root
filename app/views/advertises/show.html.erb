@@ -1,22 +1,22 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.advertise')) -%></h1>
+<div id="content_list">
+<p>
+  <strong><%= t('activerecord.models.patron') -%>:</strong>
+  <%= link_to h(@advertise.patron.full_name), @advertise.patron -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.models.advertisement') -%>:</strong>
+  <%= link_to h(@advertise.advertisement.title), @advertise.advertisement -%>
+</p>
+
+</div>
+</div>
+
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.edit'), edit_advertise_path(@advertise) -%></li>
     <li><%= link_to t('page.back'), advertises_path -%></li>
   </ul>
-</div>
-
-<div id="content_detail">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.advertise')) -%></h1>
-<div id="content_list">
-<p>
-  <b><%= t('activerecord.models.patron') -%>:</b>
-  <%= link_to h(@advertise.patron.full_name), @advertise.patron -%>
-</p>
-
-<p>
-  <b><%= t('activerecord.models.advertisement') -%>:</b>
-  <%= link_to h(@advertise.advertisement.title), @advertise.advertisement -%>
-</p>
-
-</div>
 </div>

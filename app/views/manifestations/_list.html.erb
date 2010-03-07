@@ -1,9 +1,7 @@
-<div id="tabview">
-  <div id="demo" class="yui-navset yui-navset-top">
-    <ul class="yui-nav">
+<div id="tabs">
+    <ul>
       <li title="active" class="selected"><a href="#detail"><em><%= LibraryGroup.site_config.display_name.localize -%></em></a></li>
     </ul>
-    <div class="yui-content">
       <div id="detail">
         <table id="manifestation_list">
           <%- @manifestations.each_with_index do |manifestation, i| -%>
@@ -11,7 +9,25 @@
               <td><%= itemnum = @manifestations.offset + 1 + i -%></td>
               <td style="80%">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
+                <div id="access_address">
+                  <%= link_to h(manifestation.access_address), manifestation.access_address if manifestation.access_address.present? -%>
+                </div>
+                <%- if manifestation.items.on_shelf.first -%>
+                  (<%= link_to_function t('page.holding'), "jQuery('#holding_#{manifestation.id}').toggle()" -%>)
+                <%- end -%>
+                <%- if manifestation.tags.first -%>
+                  (<%= link_to_function t('activerecord.models.tag'), "jQuery('#tag_#{manifestation.id}').toggle()" -%>)
+                <%- end -%>
+                <%# 当該ManifestationにWorkがある場合、グループ表示へのリンクを表示する %>
+                <%- if manifestation.works.size > 0 -%>
+                  <%- unless manifestation.works.size == 1 and  manifestation.works.first.original_title == manifestation.original_title -%>
+                    (<%= link_to_function t('page.related_work'), "jQuery('#group_#{manifestation.id}').toggle()" -%>)
+                  <%- end -%>
+                <%- end -%>
                 <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
+                <%= render :partial => 'manifestations/show_tag', :locals => {:manifestation => manifestation} -%>
+                <%# グループ表示の部分テンプレート %>
+                <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
               <%- if manifestation.is_deletable_by(current_user) -%>
                 <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>
@@ -22,14 +38,10 @@
             </tr>
           <%- end -%>
         </table>
-      </div>
     </div>
-  </div>
 </div>
 
-<%=
-  will_paginate(@manifestations, :previous_label => "&#171; " + t('page.previous'), :next_label => t('page.next') + " &#187;")
--%>
+<%= will_paginate(@manifestations) -%>
 <br />
 
 <div>

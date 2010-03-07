@@ -22,7 +22,6 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :user_group_id, :default => 1, :null => false
       t.integer :reserves_count, :default => 0, :null => false
       t.datetime :expired_at
-      t.boolean :suspended, :default => true, :null => false
       t.integer :libraries_count, :default => 0, :null => false
       t.integer :bookmarks_count, :default => 0, :null => false
       t.integer :checkouts_count, :default => 0, :null => false
@@ -40,13 +39,16 @@ class CreateUsers < ActiveRecord::Migration
       t.string :user_number
       t.string :state
       t.integer :required_score, :default => 0, :null => false
+      t.string :locale
     end
     add_index :users, :login, :unique => true
     add_index :users, :user_group_id
     add_index :users, :required_role_id
     add_index :users, :user_number, :unique => true
-    add_index :users, :checkout_icalendar_token, :unique => true
-    add_index :users, :answer_feed_token, :unique => true
+    add_index :users, :checkout_icalendar_token
+    add_index :users, :persistence_token
+    add_index :users, :single_access_token
+    add_index :users, :perishable_token
   end
 
   def self.down

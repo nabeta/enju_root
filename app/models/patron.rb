@@ -43,7 +43,7 @@ class Patron < ActiveRecord::Base
   validates_length_of :full_name, :maximum => 255
 
   searchable do
-    text :name, :place, :address_1, :address_2, :other_designation
+    text :name, :place, :address_1, :address_2, :other_designation, :note
     string :zip_code_1
     string :zip_code_2
     string :login do
@@ -68,29 +68,30 @@ class Patron < ActiveRecord::Base
   #acts_as_recommendable :items, :through => :owns
   has_paper_trail
 
-  cattr_accessor :per_page
-  @@per_page = 10
   attr_accessor :user_id
+  def self.per_page
+    10
+  end
 
   def before_validation_on_create
-    self.required_role = Role.find(:first, :conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
+    self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
     if self.full_name.blank?
-      self.full_name = [last_name, middle_name, first_name].split(" ").to_s
+      self.full_name = [last_name, middle_name, first_name].split(" ").to_s.strip
     end
     if self.full_name_transcription.blank?
-      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s
+      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s.strip
     end
   end
 
   def full_name
     if self[:full_name].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.last_name} #{self.first_name}"
+        "#{self.last_name} #{self.first_name}".strip
       else
-        "#{self.first_name} #{self.last_name}"
+        "#{self.first_name} #{self.last_name}".strip
       end
     else
-      self[:full_name]
+      self[:full_name].to_s.strip
     end
   end
 
@@ -237,19 +238,19 @@ class Patron < ActiveRecord::Base
   end
 
   def created(work)
-    creates.find(:first, :conditions => {:work_id => work.id})
+    creates.first(:conditions => {:work_id => work.id})
   end
 
   def realized(expression)
-    realizes.find(:first, :conditions => {:expression_id => expression.id})
+    realizes.first(:conditions => {:expression_id => expression.id})
   end
 
   def produced(manifestation)
-    produces.find(:first, :conditions => {:manifestation_id => manifestation.id})
+    produces.first(:conditions => {:manifestation_id => manifestation.id})
   end
 
   def owned(item)
-    owns.find(:first, :conditions => {:item_id => item.id})
+    owns.first(:conditions => {:item_id => item.id})
   end
 
 end

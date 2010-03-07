@@ -5,7 +5,7 @@ class ClassificationTypesController < ApplicationController
   # GET /classification_types
   # GET /classification_types.xml
   def index
-    @classification_types = ClassificationType.find(:all, :order => :position)
+    @classification_types = ClassificationType.all
 
     respond_to do |format|
       format.html # index.html.erb

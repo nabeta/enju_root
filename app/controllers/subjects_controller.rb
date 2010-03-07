@@ -29,6 +29,11 @@ class SubjectsController < ApplicationController
       end
     end
 
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id
+    end
+
     page = params[:page] || 1
     search.query.paginate(page.to_i, Subject.per_page)
     begin
@@ -43,13 +48,17 @@ class SubjectsController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @subjects.to_xml }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to subjects_url
+    return
   end
 
   # GET /subjects/1
   # GET /subjects/1.xml
   def show
     if params[:term]
-      subject = Subject.find(:first, :conditions => {:term => params[:term]})
+      subject = Subject.first(:conditions => {:term => params[:term]})
       redirected_to subject
       return
     end
@@ -88,6 +97,8 @@ class SubjectsController < ApplicationController
         end
       }
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # GET /subjects/new
@@ -107,7 +118,7 @@ class SubjectsController < ApplicationController
     else
       @subject = Subject.find(params[:id])
     end
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
   end
 
   # POST /subjects
@@ -172,6 +183,6 @@ class SubjectsController < ApplicationController
 
   private
   def prepare_options
-    @subject_types = SubjectType.find(:all)
+    @subject_types = SubjectType.all
   end
 end

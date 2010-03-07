@@ -1,6 +1,7 @@
 class PictureFilesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_attachable, :only => [:index, :new]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /picture_files
   # GET /picture_files.xml
@@ -83,6 +84,20 @@ class PictureFilesController < ApplicationController
   # PUT /picture_files/1.xml
   def update
     @picture_file = PictureFile.find(params[:id])
+
+    # 並べ替え
+    if params[:position]
+      @picture_file.insert_at(params[:position])
+      case
+      when @picture_file.picture_attachable.is_a?(Shelf)
+        redirect_to shelf_picture_files_url(@picture_file.picture_attachable)
+      when @picture_file.picture_attachable.is_a?(Manifestation)
+        redirect_to manifestation_picture_files_url(@picture_file.picture_attachable)
+      else
+        redirect_to picture_files_url
+      end
+      return
+    end
 
     respond_to do |format|
       if @picture_file.update_attributes(params[:picture_file])

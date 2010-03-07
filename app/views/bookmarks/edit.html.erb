@@ -1,34 +1,26 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @bookmark.manifestation -%></li>
-    <li><%= link_to t('page.show'), user_bookmark_path(@bookmark.user.login, @bookmark) -%></li>
-    <li><%= link_to t('page.back'), user_bookmarks_path(@bookmark.user.login) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.bookmark')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :bookmark -%>
+<%- form_for(@bookmark, :url => user_bookmark_path(@bookmark.user.login, @bookmark)) do |f| -%>
+  <%= f.error_messages -%>
 
-<%- form_for(@bookmark, :url => user_bookmark_path(@bookmark.user.login, @bookmark), :html => { :method => :put }) do |f| -%>
   <p>
-  <b><%= t('page.title') -%></b><br />
-  <%- if @bookmark.manifestation -%>
-    <%= link_to h(@bookmark.manifestation.original_title), h(@bookmark.manifestation.access_address) -%>
-  <%- else -%>
-    <%= f.text_field :manifestation_id -%>
-  <%- end -%>
+    <%= f.label t('page.title') -%><br />
+    <%- if @bookmark.manifestation -%>
+      <%= link_to h(@bookmark.manifestation.original_title), h(@bookmark.manifestation.access_address) -%>
+    <%- else -%>
+      <%= f.text_field :manifestation_id -%>
+    <%- end -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.tag') -%></b><br />
+    <%= f.label t('activerecord.models.tag') -%><br />
     <%= f.text_field :tag_list, :class => 'resource_title' -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.attributes.bookmark.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.bookmark.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
 
@@ -37,4 +29,12 @@
   </p>
 <%- end -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @bookmark.manifestation -%></li>
+    <li><%= link_to t('page.show'), user_bookmark_path(@bookmark.user.login, @bookmark) -%></li>
+    <li><%= link_to t('page.back'), user_bookmarks_path(@bookmark.user.login) -%></li>
+  </ul>
 </div>

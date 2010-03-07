@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @license -%></li>
-    <li><%= link_to t('page.back'), licenses_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.license')) -%></h1>
 <div id="content_list">
@@ -29,4 +22,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @license -%></li>
+    <li><%= link_to t('page.back'), licenses_path -%></li>
+  </ul>
 </div>

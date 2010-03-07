@@ -16,11 +16,12 @@ class Subscription < ActiveRecord::Base
   end
   #acts_as_soft_deletable
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   def subscribed(work)
-    subscribes.find(:first, :conditions => {:work_id => work.id})
+    subscribes.first(:conditions => {:work_id => work.id})
   end
 
 end

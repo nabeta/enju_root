@@ -32,6 +32,7 @@ class Subject < ActiveRecord::Base
   belongs_to :subject_type, :validate => true
   has_many :subject_heading_type_has_subjects
   has_many :subject_heading_types, :through => :subject_heading_type_has_subjects
+  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
 
   validates_associated :use_term, :subject_type
   validates_presence_of :term, :subject_type
@@ -44,11 +45,13 @@ class Subject < ActiveRecord::Base
     integer :work_ids, :multiple => true
     integer :classification_ids, :multiple => true
     integer :subject_heading_type_ids, :multiple => true
+    integer :required_role_id
   end
   #acts_as_soft_deletable
   acts_as_tree
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
 end

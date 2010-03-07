@@ -43,6 +43,8 @@ class Item < ActiveRecord::Base
   has_many :original_items, :through => :from_items, :source => :from_item
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :owns
   has_many :lending_policies, :dependent => :destroy
+  has_many :answer_has_items, :dependent => :destroy
+  has_many :answers, :through => :answer_has_items
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type
@@ -72,8 +74,9 @@ class Item < ActiveRecord::Base
     time :updated_at
   end
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   attr_accessor :library_name, :library_url, :local_url
   attr_accessor :new_manifestation_id
@@ -116,7 +119,7 @@ class Item < ActiveRecord::Base
   end
 
   def before_validation_on_create
-    self.circulation_status = CirculationStatus.find(:first, :conditions => {:name => 'In Process'}) if self.circulation_status.nil?
+    self.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'}) if self.circulation_status.nil?
   end
 
   def before_validation
@@ -128,7 +131,7 @@ class Item < ActiveRecord::Base
   end
 
   def next_reservation
-    Reserve.waiting.find(:first, :conditions => {:manifestation_id => self.manifestation.id})
+    Reserve.waiting.first(:conditions => {:manifestation_id => self.manifestation.id})
   end
 
   def reserved?
@@ -162,7 +165,7 @@ class Item < ActiveRecord::Base
 
   def checkout!(user)
     Item.transaction do
-      self.circulation_status = Rails.cache.fetch('CirculationStatus.on_loan'){CirculationStatus.find(:first, :conditions => {:name => 'On Loan'})}
+      self.circulation_status = Rails.cache.fetch('CirculationStatus.on_loan'){CirculationStatus.first(:conditions => {:name => 'On Loan'})}
       if self.reserved_by_user?(user)
         self.next_reservation.update_attributes(:checked_out_at => Time.zone.now)
         self.next_reservation.aasm_complete!
@@ -172,7 +175,7 @@ class Item < ActiveRecord::Base
   end
 
   def checkin!
-    self.circulation_status = Rails.cache.fetch('CirculationStatus.available_on_shelf'){CirculationStatus.find(:first, :conditions => {:name => 'Available On Shelf'})}
+    self.circulation_status = Rails.cache.fetch('CirculationStatus.available_on_shelf'){CirculationStatus.first(:conditions => {:name => 'Available On Shelf'})}
     save(false)
   end
 
@@ -183,10 +186,10 @@ class Item < ActiveRecord::Base
         reservation.item = self
         reservation.aasm_retain!
         reservation.update_attributes({:request_status_type => RequestStatusType.find_by_name('Available For Pickup')})
-        queue = MessageQueue.new(:sender_id => librarian.id, :receiver_id => reservation.user_id)
+        request = MessageRequest.new(:sender_id => librarian.id, :receiver_id => reservation.user_id)
         message_template = MessageTemplate.find_by_status('item_received')
-        queue.message_template = message_template
-        queue.save!
+        request.message_template = message_template
+        request.save!
       end
     end
   end
@@ -221,8 +224,8 @@ class Item < ActiveRecord::Base
   end
 
   def self.inventory_items(inventory_file, mode = 'not_on_shelf')
-    item_ids = Item.find(:all, :select => :id).collect(&:id)
-    inventory_item_ids = inventory_file.items.find(:all, :select => ['items.id']).collect(&:id)
+    item_ids = Item.all(:select => :id).collect(&:id)
+    inventory_item_ids = inventory_file.items.all(:select => ['items.id']).collect(&:id)
     case mode
     when 'not_on_shelf'
       Item.find(item_ids - inventory_item_ids)
@@ -244,7 +247,7 @@ class Item < ActiveRecord::Base
 
   def create_barcode
     unless self.item_identifier.blank?
-      barcode = Barcode.find(:first, :conditions => {:code_word => self.item_identifier})
+      barcode = Barcode.first(:conditions => {:code_word => self.item_identifier})
       if barcode.nil?
         barcode = Barcode.create(:code_word => self.item_identifier)
       end
@@ -255,11 +258,11 @@ class Item < ActiveRecord::Base
   end
 
   def lending_rule(user)
-    lending_policies.find(:first, :conditions => {:user_group_id => user.user_group.id})
+    lending_policies.first(:conditions => {:user_group_id => user.user_group.id})
   end
 
   def owned(patron)
-    owns.find(:first, :conditions => {:patron_id => patron.id})
+    owns.first(:conditions => {:patron_id => patron.id})
   end
 
   def library_url

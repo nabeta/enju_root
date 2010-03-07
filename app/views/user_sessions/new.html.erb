@@ -1,11 +1,13 @@
+<%- form_for @user_session, :url => user_session_path do |f| -%>
 <div id="content_detail">
 <h1 class="title"><%= t('page.login') -%> : Project Next-L Enju</h1>
 <div id="content_list">
+  <%= f.error_messages -%>
   <%- case params[:mode] when 'openid' -%>
     <%= render :partial => 'user_sessions/openid_login_banner' -%>
     <p><%= link_to t('user_session.login_with_username_and_password'), new_user_session_url -%></p>
   <%- else -%>
-    <%= sanitize(textilize(@library_group.login_banner)) unless params[:mode] == 'openid' -%>
+    <%= raw sanitize(textilize(h(@library_group.login_banner))) unless params[:mode] == 'openid' -%>
     <p><%= link_to t('user_session.login_with_openid'), new_user_session_url(:mode => 'openid') -%></p>
   <%- end -%>
 </div>
@@ -13,8 +15,9 @@
 
 <div id="submenu">
   <%- case params[:mode] when 'openid' -%>
-    <%= render :partial => 'user_sessions/openid' -%>
+    <%= render :partial => 'user_sessions/openid', :locals => {:f => f} -%>
   <%- else -%>
-    <%= render :partial => 'user_sessions/password' -%>
+    <%= render :partial => 'user_sessions/password', :locals => {:f => f} -%>
   <%- end -%>
 </div>
+<%- end -%>

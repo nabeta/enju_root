@@ -2,17 +2,17 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.reserve_stat_has_user')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.models.user_reserve_stat') -%></b>
+  <strong><%= t('activerecord.models.user_reserve_stat') -%></strong>
   <%= link_to h(@reserve_stat_has_user.user_reserve_stat.id), @reserve_stat_has_user.user_reserve_stat -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.models.user') -%></b>
+  <strong><%= t('activerecord.models.user') -%></strong>
   <%= link_to h(@reserve_stat_has_user.user.login), user_path(@reserve_stat_has_user.user.login) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.reserve_stat_has_user.reserves_count') -%></b>
+  <strong><%= t('activerecord.attributes.reserve_stat_has_user.reserves_count') -%></strong>
   <%= @reserve_stat_has_user.reserves_count -%>
 </p>
 </div>

@@ -6,7 +6,7 @@
     <li>
     <%- library = Library.find(:first, :conditions => {:name => facet.value}) -%>
       <%- if current_libraries.include?(library.name) -%><strong><%- end -%>
-      <%= link_to h("#{library.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :carrier_type => nil, :view => nil)) -%>
+      <%= link_to h("#{library.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :view => nil)) -%>
       <%- if current_libraries.include?(library.name) -%></strong><%- end -%>
     </li>
   <%- end -%>

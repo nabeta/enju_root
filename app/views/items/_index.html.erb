@@ -1,25 +1,15 @@
-<div id="submenu">
-  <ul>
-    <%- if Item.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
-  <%- if @manifestation -%>
-    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
-  <%- else -%>
-    <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
-  <%- end -%>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
+
+<%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} if @manifestation -%>
 
 <%- form_for :items, :url => items_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -66,6 +56,14 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@items, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@items) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Item.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
+    <%- end -%>
+  </ul>
 </div>

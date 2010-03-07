@@ -1,5 +1,6 @@
 class Basket < ActiveRecord::Base
   include LibrarianRequired
+  default_scope :order => 'id DESC'
   named_scope :will_expire, lambda {|date| {:conditions => ['created_at < ?', date]}}
   belongs_to :user, :validate => true
   has_many :checked_items, :dependent => :destroy
@@ -11,11 +12,11 @@ class Basket < ActiveRecord::Base
   # 貸出完了後にかごのユーザidは破棄する
   validates_presence_of :user_id, :on => :create
 
-  cattr_accessor :user_number
+  attr_accessor :user_number
 
   def validate
     if self.user
-      errors.add_to_base(I18n.t('basket.this_account_is_suspended')) if self.user.suspended?
+      errors.add_to_base(I18n.t('basket.this_account_is_suspended')) unless self.user.active?
     end
   end
   

@@ -1,20 +1,13 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_news_feed_path(@news_feed) -%></li>
-    <li><%= link_to t('page.back'), news_feeds_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.news_feed')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.news_feed.title') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_feed.title') -%>:</strong>
   <%= @news_feed.title -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.news_feed.url') -%>:</b>
+  <strong><%= t('activerecord.attributes.news_feed.url') -%>:</strong>
   <%= link_to h(@news_feed.url), @news_feed.url -%>
 </p>
 
@@ -31,4 +24,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_news_feed_path(@news_feed) -%></li>
+    <li><%= link_to t('page.back'), news_feeds_path -%></li>
+  </ul>
 </div>

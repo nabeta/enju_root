@@ -1,5 +1,99 @@
 <%= render :partial => 'page/tabview' -%>
 
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
+  <%-
+    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+  -%>
+  <h2 class="resource_title">
+    [E]
+    <%= @expression.original_title -%>
+    <%= content_type_icon(@expression.content_type) -%>
+  </h2>
+
+  <%- if @version -%>
+    <p>(<%= l(@expression.versions.find(@version).created_at) -%>)</p>
+  <%- end -%>
+  <p>
+    <%= raw patrons_list(@expression.work.patrons) -%>
+    <%= raw patrons_list(@expression.patrons) -%>
+  </p>
+  <div id="tabs">
+    <ul class="yui-nav">
+      <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
+      <%- unless @expression.patrons.empty? -%>
+        <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
+      <%- end -%>
+      <%- if @expression.work -%>
+        <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
+      <%- end -%>
+      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
+        <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
+      <%- end -%>
+      <%- unless @expression.manifestations.empty? -%>
+        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
+      <%- end -%>
+      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
+    </ul>
+      <div id="detail">
+        <table class="index">
+          <tr>
+            <td><strong><%= t('activerecord.attributes.expression.title_transcription') -%>:</strong></td>
+            <td><%= @expression.title_transcription -%></td>
+          </tr>
+          <tr>
+            <td><strong><%= t('activerecord.attributes.expression.summarization') -%>:</strong></td>
+            <td><%= @expression.summarization -%></td>
+          </tr>
+          <tr>
+            <td><strong><%= t('activerecord.attributes.expression.context') -%>:</strong></td>
+            <td><%= @expression.context -%></td>
+          </tr>
+          <tr>
+            <td><strong><%= t('activerecord.models.language') -%>:</strong></td>
+            <td><%= @expression.language.display_name.localize -%></td>
+          </tr>
+          <tr>
+            <td><strong><%= t('activerecord.models.content_type') -%>:</strong></td>
+            <td>
+              <%= content_type_icon(@expression.content_type) -%>
+              <%= @expression.content_type.display_name.localize -%>
+            </td>
+          </tr>
+          <tr>
+            <td><strong><%= t('activerecord.attributes.expression.note') -%>:</strong></td>
+            <td><%= @expression.note -%></td>
+          </tr>
+          <tr>
+            <td><strong><%= t('page.created_at') -%>:</strong></td>
+            <td><%= l(@expression.created_at) -%></td>
+          </tr>
+          <tr>
+            <td><strong><%= t('page.updated_at') -%>:</strong></td>
+            <td><%= l(@expression.updated_at) -%></td>
+          </tr>
+        </table>
+      </div>
+      <%- unless @expression.patrons.empty? -%>
+        <%= render :partial => 'expressions/patron_list' -%>
+      <%- end -%>
+      <%- if @expression.work -%>
+        <%= render :partial => 'expressions/work_list' -%>
+      <%- end -%>
+      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
+        <%= render :partial => 'expressions/expression_list' -%>
+      <%- end -%>
+      <%- unless @expression.manifestations.empty? -%>
+        <%= render :partial => 'expressions/manifestation_list' -%>
+      <%- end -%>
+      <%= render :partial => 'history_list' -%>
+  </div>
+</div>
+<%= render :partial => 'page/tabview' -%>
+<%- end -%>
+</div>
+
 <div id="submenu">
   <ul>
     <%- case when @work -%>
@@ -22,106 +116,4 @@
     <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
   </ul>
-</div>
-<div id="content_detail">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
-<div id="content_list">
-  <%-
-    cache(:id => @expression.id, :action => :show, :controller => :expressions, :editable => @expression.is_updatable_by(current_user), :locale => @locale, :version => @version) do
-  -%>
-  <h2 id="resource_title">
-    [E]
-    <%= @expression.original_title -%>
-    <%= content_type_icon(@expression.content_type) -%>
-  </h2>
-
-  <%- if @version -%>
-    <p>(<%= l(@expression.versions.find(@version).created_at) -%>)</p>
-  <%- end -%>
-  <p>
-    <%= raw patrons_list(@expression.work.patrons) -%>
-    <%= raw patrons_list(@expression.patrons) -%>
-  </p>
-<div id="tabview">
-
-  <div id="demo" class="yui-navset yui-navset-top">
-    <ul class="yui-nav">
-      <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- unless @expression.patrons.empty? -%>
-        <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
-      <%- end -%>
-      <%- if @expression.work -%>
-        <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
-      <%- end -%>
-      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
-        <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
-      <%- end -%>
-      <%- unless @expression.manifestations.empty? -%>
-        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
-      <%- end -%>
-      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
-    </ul>
-    <div class="yui-content">
-      <div id="detail">
-        <table class="index">
-          <tr>
-            <td><b><%= t('activerecord.attributes.expression.title_transcription') -%>:</b></td>
-            <td><%= @expression.title_transcription -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.attributes.expression.summarization') -%>:</b></td>
-            <td><%= @expression.summarization -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.attributes.expression.context') -%>:</b></td>
-            <td><%= @expression.context -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.models.language') -%>:</b></td>
-            <td><%= @expression.language.display_name.localize -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.models.content_type') -%>:</b></td>
-            <td>
-              <%= content_type_icon(@expression.content_type) -%>
-              <%= @expression.content_type.display_name.localize -%>
-            </td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.attributes.expression.feed_url') -%>:</b></td>
-            <td><%= @expression.feed_url -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('activerecord.attributes.expression.note') -%>:</b></td>
-            <td><%= @expression.note -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('page.created_at') -%>:</b></td>
-            <td><%= l(@expression.created_at) -%></td>
-          </tr>
-          <tr>
-            <td><b><%= t('page.updated_at') -%>:</b></td>
-            <td><%= l(@expression.updated_at) -%></td>
-          </tr>
-        </table>
-      </div>
-      <%- unless @expression.patrons.empty? -%>
-        <%= render :partial => 'expressions/patron_list' -%>
-      <%- end -%>
-      <%- if @expression.work -%>
-        <%= render :partial => 'expressions/work_list' -%>
-      <%- end -%>
-      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
-        <%= render :partial => 'expressions/expression_list' -%>
-      <%- end -%>
-      <%- unless @expression.manifestations.empty? -%>
-        <%= render :partial => 'expressions/manifestation_list' -%>
-      <%- end -%>
-      <%= render :partial => 'history_list' -%>
-    </div>
-  </div>
-</div>
-<%= render :partial => 'page/tabview' -%>
-<%- end -%>
-</div>
 </div>

@@ -1,16 +1,7 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
-    <%- if Realize.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.realize')), new_expression_realize_path(@expression) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.realize')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     <%= link_to h(@expression.original_title), @expression -%>
   </h2>
 
@@ -42,7 +33,16 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@realizes, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@realizes) -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
+    <%- if Realize.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.realize')), new_expression_realize_path(@expression) -%></li>
+    <%- end -%>
+  </ul>
 </div>

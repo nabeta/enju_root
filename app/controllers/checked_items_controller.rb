@@ -23,8 +23,6 @@ class CheckedItemsController < ApplicationController
       format.html # index.html.erb
       format.xml  { render :xml => @checked_items }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checked_items/1
@@ -41,8 +39,6 @@ class CheckedItemsController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @checked_item }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checked_items/new
@@ -59,8 +55,6 @@ class CheckedItemsController < ApplicationController
       format.html # new.html.erb
       format.xml  { render :xml => @checked_item }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checked_items/1/edit
@@ -71,8 +65,6 @@ class CheckedItemsController < ApplicationController
       access_denied
       return
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /checked_items
@@ -89,7 +81,7 @@ class CheckedItemsController < ApplicationController
     flash[:message] = []
     item_identifier = @checked_item.item_identifier.to_s.strip
     unless item_identifier.blank?
-      #item = Item.find(:first, :conditions => {:item_identifier => item_identifier})
+      #item = Item.first(:conditions => {:item_identifier => item_identifier})
       item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? LIMIT 1', item_identifier]).first
     end
 
@@ -99,7 +91,7 @@ class CheckedItemsController < ApplicationController
       if @checked_item.save
         if @checked_item.item.reserved?
           if @checked_item.item.manifestation.is_reserved_by(@basket.user)
-            reserve = Reserve.find(:first, :conditions => {:user_id => @basket.user.id, :manifestation_id => @checked_item.item.manifestation.id})
+            reserve = Reserve.first(:conditions => {:user_id => @basket.user.id, :manifestation_id => @checked_item.item.manifestation.id})
             reserve.destroy
           end
         end
@@ -152,8 +144,6 @@ class CheckedItemsController < ApplicationController
         format.xml  { render :xml => @checked_item.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /checked_items/1
@@ -171,8 +161,6 @@ class CheckedItemsController < ApplicationController
       format.html { redirect_to(user_basket_checked_items_url(@checked_item.basket.user.login, @checked_item.basket)) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private

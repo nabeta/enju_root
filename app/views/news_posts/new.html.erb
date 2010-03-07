@@ -1,9 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), news_posts_path -%></li>
-  </u>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.news_post')) -%></h1>
 <div id="content_list">
@@ -19,10 +13,12 @@
     <%= f.label t('activerecord.attributes.news_post.body') -%><br />
     <%= f.text_area :body, :class => 'resource_textarea' -%>
   </p>
+  <!--
   <p>
-    <b><%= t('role.required_role') -%></b>
+    <%= f.label t('role.required_role') -%>
     <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
+  -->
   <p>
     <%= f.label t('activerecord.attributes.news_post.start_date') -%><br />
     <%= f.datetime_select :start_date -%>
@@ -45,4 +41,10 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), news_posts_path -%></li>
+  </ul>
 </div>

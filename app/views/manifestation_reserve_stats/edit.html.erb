@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @manifestation_reserve_stat -%></li>
-    <li><%= link_to t('page.back'), manifestation_reserve_stats_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.manifestation_reserve_stat')) -%></h1>
 <div id="content_list">
@@ -30,4 +23,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @manifestation_reserve_stat -%></li>
+    <li><%= link_to t('page.back'), manifestation_reserve_stats_path -%></li>
+  </ul>
 </div>

@@ -4,6 +4,8 @@
   <%= render :partial => 'index_patron' -%>
 <%- when @subject -%>
   <%= render :partial => 'index_subject' -%>
+<%- when @series_statement -%>
+  <%= render :partial => 'index_series_statement' -%>
 <%- when @work_merge_list -%>
   <%= render :partial => 'index_work_merge_list' -%>
 <%- else -%>

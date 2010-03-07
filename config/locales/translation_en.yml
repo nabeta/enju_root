@@ -3,7 +3,7 @@ en:
     models:
       library: Library
       question: Question
-      imported_patron_file: Imported patron file
+      patron_import_file: Patron import file
       circulation_status: Circulation status
       inventory: Inventory
       patron: Patron
@@ -20,6 +20,7 @@ en:
       language: Language
       patron_merge_list: Patron merge list
       user: User
+      user_session: User session
       work_has_subject: Resource has subject
       picture_file: Picture file
       form_of_work: Form of works
@@ -78,18 +79,17 @@ en:
       carrier_type: Carrier Type
       manifestation: Manifestation
       user_group: User group
-      imported_resource_file: Imported resource file
+      resource_import_file: Resource import file
       checkout: Checkout
       subscription: Subscription
       message_template: Message template
       patron_merge: Patron merge
       subject_related_term: Subject related term
       library_group: Library group
-      imported_event_file: Imported event file
-      bookmarked_resource: Bookmarked resource
+      event_import_file: Event import file
       attachment_file: Attachment file
       reserve: Reserve
-      message_queue: Message queue
+      message_request: Message request
       answer: Answer
       bookstore: Bookstore
       checkout_type: Checkout type
@@ -141,6 +141,8 @@ en:
       checkout_stat_has_user: Checkout stat has user
       reserve_stat_has_manifestation: Reserve stat has manifestation
       reserve_stat_has_user: Reserve stat has user
+      import_request: Import request
+      resource: Resource
 
     attributes:
       library:
@@ -166,14 +168,17 @@ en:
         share_question: Share question
         deleted_at: Deleted at
         shared: Shared
-      imported_patron_file:
-        imported_patron_file_name: Filename
-        imported_patron_content_type: Content type
-        imported_patron_file_size: Size
+        solved: Solved
+        answers_count: Answers count
+      patron_import_file:
+        patron_import_file_name: Filename
+        patron_import_content_type: Content type
+        patron_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
-        imported_patron_updated_at: Updated at
+        patron_import_updated_at: Updated at
+        state: State
       circulation_status:
         name: Name
         display_name: Display name
@@ -288,7 +293,9 @@ en:
         activation_code: Activation code
         activated_at: Activated at
         expired_at: Expired at
-        suspended: Suspended
+        active: Active
+        confirmed: Confirmed
+        approved: Approved
         checkout_icalendar_token: Checkout iCalendar token
         answer_rss_token: Answer rss token
         due_date_reminder_days: Due date reminder days
@@ -307,6 +314,7 @@ en:
         password: Password
         old_password: Old password
         locale: Locale
+        password_confirmation: Password confirmation
       work_has_subject:
         work: Work
         subject: Subject
@@ -559,6 +567,7 @@ en:
         position: Position
       bookmark:
         note: Note
+        url: URL
       create:
         position: Position
       carrier_type:
@@ -603,14 +612,15 @@ en:
         note: Note
         position: Position
         deleted_at: Deleted at
-      imported_resource_file:
-        imported_resource_file_name: Filename
-        imported_resource_content_type: Content type
-        imported_resource_file_size: Size
+      resource_import_file:
+        resource_import_file_name: Filename
+        resource_import_content_type: Content type
+        resource_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
-        imported_resource_updated_at: Updated at
+        resource_import_updated_at: Updated at
+        state: State
       checkout:
         due_date: Due date
         lock_version: Lock version
@@ -632,24 +642,23 @@ en:
         short_name: Short name
         email: Email
         my_networks: My networks
+        admin_networks: Admin networks
         use_dsbl: Use DSBL
         dsbl_list: DSBL list
         note: Note
         login_banner: Login banner
         post_to_union_catalog: Post to union catalog
         valid_period_for_new_user: Valid period for new user
-      imported_event_file:
-        imported_event_file_name: Filename
-        imported_event_content_type: Content type
-        imported_event_file_size: Size
+        allow_bookmark_external_url: Allow bookmark external url
+      event_import_file:
+        event_import_file_name: Filename
+        event_import_content_type: Content type
+        event_import_file_size: Size
         file_hash: File hash
         note: Note
         imported_at: Imported at
-        imported_event_updated_at: Updated at
-      bookmarked_resource:
-        title: Title
-        url: URL
-        bookmarks_count: Bookmarks count
+        event_import_updated_at: Updated at
+        state: State
       attachment_file:
         attachable_type: Attachable type
         size: Size
@@ -668,13 +677,15 @@ en:
         expired_at: Expired at
         deleted_at: Deleted at
         state: State
-      message_queue:
+      message_request:
         sent_at: Sent at
         deleted_at: Deleted at
       answer:
         body: Body
         deleted_at: Deleted at
         shared: Shared
+        item_identifier_list: Item identifier list
+        url_list: Url list
       bookstore:
         name: Name
         zip_code: Zip code
@@ -726,6 +737,8 @@ en:
         fixed_due_date: Fixed due date
         note: Note
         position: Position
+        user_group_id: User group
+        checkout_type_id: Checkout type
       carrier_type_has_checkout_type:
         note: Note
         position: Position
@@ -934,10 +947,14 @@ en:
         note: Note
         position: Position
       series_statement:
-        title: Title
+        original_title: Title
         numbering: Numbering
         title_subseries: Title subseries
         numbering_subseries: Numbering subseries
+        work: Work
+      import_request:
+        isbn: ISBN
+        state: State
 
   page:
     user_title: "{{login_name}}'s library"
@@ -991,7 +1008,7 @@ en:
     publisher: "Publisher"
     feed: "Feed"
     back_to_index: "Back to index"
-    import: "Import"
+    import: "Import from file"
     import_record: "Import records"
     export: "Export"
     detail: "Detail"
@@ -1037,6 +1054,7 @@ en:
     checkout_history: "Checkout history"
     recommendation: "Recommendation"
     add_manually: "Add manually"
+    import: "Import"
     import_from_file: "Import from file"
     import_from_network: "Import from networks"
     no_record_found: "No records found."
@@ -1096,6 +1114,10 @@ en:
     history: "History"
     current_version: "Current version"
     select: "Select"
+    other_view: "Other views"
+    boolean:
+      "true": "Yes"
+      "false": "No"
   title:
     index: "index"
     show: "show"
@@ -1117,21 +1139,20 @@ en:
     login_failed: "Login failed. Your username or password may be wrong."
     login_with_username_and_password: "Login with username and password"
     login_with_openid: "Login with OpenID"
+    check_email_for_activation: "Your account has been created. Please check your e-mail for your account activation instructions!"
+    account_activated: "Your account has been activated."
+    forgot_password: "Forgot password"
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
     add_to_my_bookmark: "Add to my bookmark"
+    add_to_library_bookmark: "Add to my library bookmark"
     remove_from_my_bookmark: "Remove from my bookmark"
     invalid_url: "Invalid URL."
     specify_title_and_url: "Specify the title and URL of the page."
     already_bookmarked: "This resource is already bookmarked."
-  bookmarked_resource:
-    add_to_library_bookmark: "Add to library bookmark"
-    library_group_bookmark: "Bookmarked resources in {{library_group_name}}"
-    number_of_bookmark: "the number bookmarks"
-    bookmark_count:
-      one: "1 bookmarks"
-      other: "{{count}} bookmarks"
+    only_manifestation_should_be_bookmarked: "You can bookmark only manifestatons in this site."
+    not_our_holding: "This resource is not our holding."
   work:
     patrons_work: "{{patron_name}}'s works"
     library_group_work: "Works in {{library_group_name}}"
@@ -1167,8 +1188,10 @@ en:
     add: "Add a manifestation"
     specify_expression: "Specify the expression."
     pickup: "Pick up"
+    showing_all_record: "Showing all records."
     showing_reservable_record: "Showing reservable records."
     all_result: "All results"
+    reservable_list: "Reservable list"
     post_to_twitter: "post to Twitter"
     web: "Web"
     serial: "Serial"
@@ -1199,6 +1222,7 @@ en:
     publication: "Publications"
     recent_publication: "Recent publications"
     all_publication: "All publications"
+    other_address: "The other address"
   message:
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
@@ -1332,6 +1356,7 @@ en:
   inter_library_loan:
     library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
     borrowing_library: "Borrowing library"
+    return_this_item: "Return this item"
   checked_item:
     item_not_found: "Item not found."
     not_available_for_checkout: "This item is not available for checkout."
@@ -1361,7 +1386,7 @@ en:
   inventory_file:
     not_in_catalog: "Not in catalog"
     not_on_shelf: "Not on shelf"
-  message_queue:
+  message_request:
     not_sent: "Not sent"
     sent: "Sent"
     all: "All messages"
@@ -1379,3 +1404,18 @@ en:
     library_calendar: "Calendar of events at {{library_name}}"
   series_statement:
     edit: "Edit series statement"
+    you_should_specify_work: "You should specify a work in the series statement."
+  state:
+    pending: "Pending"
+    cancaled: "Cancaled"
+    completed: "Completed"
+    started: "Started"
+    failed: "Failed"
+  password_reset:
+    fill_in_email_address: "Please fill in your email address below."
+    reset_password: "Reset password"
+    instruction_sent: "Instructions to reset your password have been emailed to you."
+    update_password: "Update password"
+    password_updated: "Password was successfully updated."
+    not_found: "No user was found with that email address."
+    could_not_locate_account: "We're sorry, but we could not locate your account."

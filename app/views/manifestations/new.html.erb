@@ -1,6 +1,4 @@
-<%- case params[:mode] when 'import_isbn' -%>
-  <%= render :partial => 'import_isbn' -%>
-<%- when 'attachment' -%>
+<%- case params[:mode] when 'attachment' -%>
   <%= render :partial => 'new_attachment' -%>
 <%- else -%>
   <%= render :partial => 'new' -%>

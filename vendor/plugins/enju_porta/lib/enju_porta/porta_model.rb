@@ -13,7 +13,7 @@ module EnjuPorta
       isbn = ISBN_Tools.cleanup(isbn)
       raise 'invalid ISBN' unless ISBN_Tools.is_valid?(isbn)
 
-      if manifestation = self.find(:first, :conditions => {:isbn => isbn})
+      if manifestation = self.first(:conditions => {:isbn => isbn})
         raise 'already imported'
       end
 
@@ -35,13 +35,13 @@ module EnjuPorta
 
       Patron.transaction do
         publisher_patrons = self.import_patrons(publishers)
-        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id || 1
+        language_id = Language.first(:conditions => {:iso_639_2 => language}).id || 1
 
         manifestation = Manifestation.new(
           :original_title => title[:manifestation],
           :title_transcription => title[:transcription],
           # TODO: PORTAに入っている図書以外の資料を調べる
-          :carrier_type_id => CarrierType.find(:first, :conditions => {:name => 'print'}).id,
+          :carrier_type_id => CarrierType.first(:conditions => {:name => 'print'}).id,
           :language_id => language_id,
           :isbn => isbn,
           :date_of_publication => date_of_publication,
@@ -145,8 +145,8 @@ module EnjuPorta
         else
           work = Work.new(:original_title => title[:manifestation], :title_transcription => title[:transcription])
         end
-        language_id = Language.find(:first, :conditions => {:iso_639_2 => language}).id rescue 1
-        content_type_id = ContentType.find(:first, :conditions => {:name => 'text'}).id rescue 1
+        language_id = Language.first(:conditions => {:iso_639_2 => language}).id rescue 1
+        content_type_id = ContentType.first(:conditions => {:name => 'text'}).id rescue 1
         expression = Expression.new(
           :original_title => work.original_title,
           :content_type_id => content_type_id,
@@ -155,9 +155,9 @@ module EnjuPorta
         work.save!
         work.patrons << author_patrons
         subjects.each do |term|
-          subject = Subject.find(:first, :conditions => {:term => term})
+          subject = Subject.first(:conditions => {:term => term})
           work.subjects << subject if subject
-          #subject = Tag.find(:first, :conditions => {:name => term})
+          #subject = Tag.first(:conditions => {:name => term})
           #manifestation.tags << subject if subject
         end
         work.expressions << expression

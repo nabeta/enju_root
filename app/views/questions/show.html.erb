@@ -1,3 +1,49 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.question')) -%></h1>
+<div id="content_list">
+<p>
+  <strong><%= t('activerecord.models.user') -%>:</strong>
+  <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.question.body') -%>:</strong>
+  <%= auto_link(textilize_without_paragraph(h(@question.body))) -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.question.shared') -%>:</strong>
+  <%= i18n_boolean(@question.shared) -%>
+</p>
+
+<p>
+  <strong><%= t('page.created_at') -%>:</strong>
+  <%= l(@question.created_at) -%>
+</p>
+
+<p>
+  <strong><%= t('page.updated_at') -%>:</strong>
+  <%= l(@question.updated_at) -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.question.solved') -%>:</strong>
+  <%= i18n_boolean(@question.solved) -%>
+</p>
+
+<p>
+  <strong><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</strong>
+</p>
+
+<ul>
+  <%- for answer in @question.answers.public_answers -%>
+    <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= raw auto_link(textilize_without_paragraph(h(answer.body))) -%></li>
+  <%- end -%>
+</ul>
+
+</div>
+</div>
+
 <div id="submenu">
   <ul>
     <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
@@ -5,46 +51,6 @@
       <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), questions_path -%></li>
+    <li><%= link_to 'レファレンス協同データベース用XMLファイル', user_question_path(@question.user.login, @question, :mode => 'crd', :format => 'xml') -%></li>
   </ul>
-</div>
-
-<div id="content_detail">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.question')) -%></h1>
-<div id="content_list">
-<p>
-  <b><%= t('activerecord.models.user') -%>:</b>
-  <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
-</p>
-
-<div>
-  <b><%= t('activerecord.attributes.question.body') -%>:</b>
-  <%= textilize_without_paragraph(h(@question.body)) -%>
-</div>
-
-<p>
-<b><%= t('activerecord.attributes.question.shared') -%>:</b>
-  <%= @question.shared -%>
-</p>
-
-<p>
-  <b><%= t('page.created_at') -%>:</b>
-  <%= l(@question.created_at) -%>
-</p>
-
-<p>
-  <b><%= t('page.updated_at') -%>:</b>
-  <%= l(@question.updated_at) -%>
-</p>
-
-<p>
-<b><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</b>
-</p>
-
-<ul>
-<%- for answer in @question.answers -%>
-  <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= textilize_without_paragraph(h(answer.body)) -%></li>
-<%- end -%>
-</ul>
-
-</div>
 </div>

@@ -1,25 +1,17 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @expression_merge -%></li>
-    <li><%= link_to t('page.back'), expression_merges_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression_merge')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :expression_merge -%>
-
 <%- form_for(@expression_merge) do |f| -%>
+  <%= f.error_messages -%>
 
   <p>
-    <b><%= t('activerecord.models.expression') -%></b><br />
+    <%= f.label t('activerecord.models.expression') -%><br />
     <%= f.text_field :expression_id, :value => @expression_merge.expression_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.expression_merge_list') -%></b><br />
+    <%= f.label t('activerecord.models.expression_merge_list') -%><br />
     <%= f.text_field :expression_merge_list_id, :value => @expression_merge.expression_merge_list_id -%>
   </p>
 
@@ -29,4 +21,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @expression_merge -%></li>
+    <li><%= link_to t('page.back'), expression_merges_path -%></li>
+  </ul>
 </div>

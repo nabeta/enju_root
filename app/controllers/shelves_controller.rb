@@ -38,6 +38,7 @@ class ShelvesController < ApplicationController
   def new
     @library = Library.web if @library.nil?
     @shelf = Shelf.new
+    @shelf.library = @library
     #@shelf.user = current_user
   end
 
@@ -63,7 +64,7 @@ class ShelvesController < ApplicationController
         format.html { redirect_to shelf_url(@shelf) }
         format.xml  { render :xml => @shelf, :status => :created, :location => library_shelf_url(@shelf.library.name, @shelf) }
       else
-        @library = Library.find(:first) if @shelf.library.nil?
+        @library = Library.first if @shelf.library.nil?
         format.html { render :action => "new" }
         format.xml  { render :xml => @shelf.errors.to_xml }
       end
@@ -88,7 +89,7 @@ class ShelvesController < ApplicationController
         format.html { redirect_to library_shelf_url(@shelf.library.name, @shelf) }
         format.xml  { head :ok }
       else
-        @library = Library.find(:first) if @library.nil?
+        @library = Library.first if @library.nil?
         format.html { render :action => "edit" }
         format.xml  { render :xml => @shelf.errors.to_xml }
       end

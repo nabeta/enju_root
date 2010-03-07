@@ -1,21 +1,7 @@
-<div id="submenu">
-  <ul>
-    <%- if Bookmark.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_user_bookmark_path(@user) -%></li>
-    <%- end -%>
-  </ul>
-  <%- if logged_in? -%>
-    <h4><%= t('page.bookmarklet') -%></h4>
-    <ul>
-      <li><a href="javascript:window.location.href='<%= new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('bookmarked_resource.add_to_library_bookmark') -%></a></li>
-    </ul>
-  <%- end -%>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.bookmark')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     <%= t('bookmark.user_bookmark', :login_name => h(@user.login)) -%>
   </h2>
   <%- form_for :bookmarks, :url => user_bookmarks_path(@user.login), :html => {:method => 'get'} do -%>
@@ -50,7 +36,21 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@bookmarks, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@bookmarks) -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Bookmark.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_user_bookmark_path(@user) -%></li>
+    <%- end -%>
+  </ul>
+  <%- if logged_in? -%>
+    <h4><%= t('page.bookmarklet') -%></h4>
+    <ul>
+      <li><a href="javascript:window.location.href='<%= new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('bookmark.add_to_library_bookmark') -%></a></li>
+    </ul>
+  <%- end -%>
 </div>

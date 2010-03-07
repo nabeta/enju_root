@@ -1,9 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), inventory_files_path -%> </li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.inventory_file')) -%> </h1>
 <div id="content_list">
@@ -12,7 +6,7 @@
   <%= f.error_messages -%> 
 
   <p>
-    <b><%= t('page.file') -%></b><br />
+    <%= f.label t('page.file') -%><br />
     <%= f.file_field :inventory -%>
   </p>
 
@@ -22,4 +16,10 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), inventory_files_path -%> </li>
+  </ul>
 </div>

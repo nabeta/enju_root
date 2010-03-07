@@ -1,13 +1,13 @@
 # -*- encoding: utf-8 -*-
 class UsersController < ApplicationController
   #before_filter :reset_params_session
-  before_filter :has_permission?
+  before_filter :has_permission?, :except => [:new, :create]
   before_filter :suspended?
   before_filter :get_patron, :only => :new
   before_filter :store_location, :only => [:index, :show]
   before_filter :clear_manifestation_ids, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
-  #cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
+  cache_sweeper :user_sweeper, :only => [:create, :update, :destroy]
   #ssl_required :new, :edit, :create, :update, :destroy
   ssl_allowed :index, :show, :new, :edit, :create, :update, :destroy
 
@@ -37,7 +37,7 @@ class UsersController < ApplicationController
         @users = User.search do
           fulltext query
           order_by sort[:sort_by], sort[:order]
-          with(:required_role_id).less_than role.id+1
+          with(:required_role_id).less_than role.id
         end.results
       rescue RSolr::RequestError
         @users = WillPaginate::Collection.create(1,1,0) do end
@@ -57,12 +57,16 @@ class UsersController < ApplicationController
         :inline => true
       }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to users_url
+    return
   end
 
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     unless @user.patron
@@ -72,7 +76,11 @@ class UsersController < ApplicationController
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
-    @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
+    else
+      @news_feeds = NewsFeed.all
+    end
 
     respond_to do |format|
       format.html # show.rhtml
@@ -90,8 +98,7 @@ class UsersController < ApplicationController
     end
     @user = User.new
     @user.openid_identifier = flash[:openid_identifier]
-    #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.find(:all)}
+    @user_groups = UserGroup.all
     if @patron.try(:user)
       redirect_to patron_url(@patron)
       flash[:notice] = t('page.already_activated')
@@ -102,9 +109,9 @@ class UsersController < ApplicationController
   end
 
   def edit
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(:first, :conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -127,9 +134,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    #@user = User.find(:first, :conditions => {:login => params[:id]})
+    #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.find(:first, :conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:login => params[:id]})
     else
       @user = current_user
     end
@@ -163,7 +170,7 @@ class UsersController < ApplicationController
 
     if current_user.has_role?('Librarian')
       if params[:user]
-        @user.suspended = params[:user][:suspended] || false
+        @user.active = params[:user][:active] || false
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_group_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
@@ -181,6 +188,7 @@ class UsersController < ApplicationController
         end
       end
     end
+    @user.check_update_own_account(current_user)
 
     #@user.update_attributes(params[:user]) do |result|
     @user.save do |result|
@@ -217,12 +225,21 @@ class UsersController < ApplicationController
   end
 
   def create
-    if logged_in?
-      unless current_user.has_role?('Librarian')
-        access_denied; return
+    @user = User.new(params[:user])
+    unless logged_in?
+      if @user.signup!(params)
+        @user.deliver_activation_instructions!
+        flash[:notice] = t('user_session.check_email_for_activation')
+        redirect_to root_url; return
+      else
+        render :action => :new; return
       end
     end
-    @user = User.new(params[:user])
+
+    unless current_user.try(:has_role?, 'Librarian')
+      access_denied; return
+    end
+    # ここ以下はオンラインサインアップでは使用しない
     @user.operator = current_user
     if params[:user]
       #@user.login = params[:user][:login]
@@ -249,7 +266,6 @@ class UsersController < ApplicationController
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
-              
     @user.activate
 
     @user.save do |result|
@@ -257,7 +273,7 @@ class UsersController < ApplicationController
         if result
           flash[:temporary_password] = @user.password
           User.transaction do
-            @user.roles << Role.find(:first, :conditions => {:name => 'User'})
+            @user.roles << Role.first(:conditions => {:name => 'User'})
           end
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
@@ -278,25 +294,25 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.find(:first, :conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:login => params[:id]})
     #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした
     if current_user == @user
-      raise
+      raise 'Cannot destroy myself'
       flash[:notice] = t('user.cannot_destroy_myself')
     end
 
     # 未返却の資料のあるユーザを削除しようとした
     if @user.checkouts.count > 0
-      raise
+      raise 'This user has items not checked in'
       flash[:notice] = t('user.this_user_has_checked_out_item')
     end
 
     # 管理者以外のユーザが図書館員を削除しようとした。図書館員の削除は管理者しかできない
     if @user.has_role?('Librarian')
       unless current_user.has_role?('Administrator')
-        raise
+        raise 'Only administrators can destroy users'
         flash[:notice] = t('user.only_administrator_can_destroy')
       end
     end
@@ -304,15 +320,15 @@ class UsersController < ApplicationController
     # 最後の図書館員を削除しようとした
     if @user.has_role?('Librarian')
       if @user.last_librarian?
-        raise
+        raise 'This user is the last librarian in this system'
         flash[:notice] = t('user.last_librarian')
       end
     end
 
     # 最後の管理者を削除しようとした
     if @user.has_role?('Administrator')
-      if Role.find(:first, :conditions => {:name => 'Administrator'}).users.size == 1
-        raise
+      if Role.first(:conditions => {:name => 'Administrator'}).users.size == 1
+        raise 'This user is the last administrator in this system'
         flash[:notice] = t('user.last_administrator')
       end
     end
@@ -331,18 +347,24 @@ class UsersController < ApplicationController
 
   private
   def suspended?
-    if logged_in? and current_user.suspended?
+    if logged_in? and !current_user.active?
       current_user_session.destroy
       access_denied
     end
   end
 
   def prepare_options
-    #@user_groups = UserGroup.find(:all)
-    @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
-    @roles = Role.find(:all)
-    @libraries = Library.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+    else
+      @user_groups = UserGroup.all
+      @roles = Role.all
+      @libraries = Library.all
+      @languages = Language.all
+    end
   end
 
   def set_operator

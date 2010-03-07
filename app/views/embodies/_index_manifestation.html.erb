@@ -1,15 +1,6 @@
-<div id="submenu">
-  <ul>
-    <%- if Embody.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), manifestation_expressions_path(@manifestation) -%></li>
-      <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
-      <li><%= link_to t('page.editing', :model => t('activerecord.models.manifestation')), edit_manifestation_path(@manifestation) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
+<div id="content_list">
 
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
 
@@ -23,7 +14,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if embody.is_deletable_by(current_user) -%>
-        <%= embody.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%></td>
+        <%= embody.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (embody.position  > 1 ? embody.position - 1 : 1), :id => embody.id}, :method => :put) -%>
         <%= embody.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (embody.position + 1), :id => embody.id}, :method => :put) -%>
       <%- end -%>
     </td>
@@ -38,7 +29,18 @@
 <%- end -%>
 </table>
 
-<br />
-
-<%= will_paginate(@embodies, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@embodies) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Embody.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.embody')), manifestation_expressions_path(@manifestation) -%></li>
+      <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
+      <li><%= link_to t('page.editing', :model => t('activerecord.models.manifestation')), edit_manifestation_path(@manifestation) -%></li>
+    <%- end -%>
+  </ul>
+</div>
+
+

@@ -24,7 +24,7 @@ class Expression < ActiveRecord::Base
   belongs_to :content_type
   
   validates_associated :content_type, :language
-  validates_presence_of :content_type, :language
+  validates_presence_of :content_type_id, :language_id, :original_title
   
   searchable do
     text :title, :summarization, :context, :note
@@ -46,8 +46,9 @@ class Expression < ActiveRecord::Base
   #acts_as_soft_deletable
   has_paper_trail
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
   attr_accessor :new_work_id
 
   def title
@@ -81,11 +82,11 @@ class Expression < ActiveRecord::Base
   end
 
   def reified(patron)
-    reifies.find(:first, :conditions => {:patron_id => patron.id})
+    reifies.first(:conditions => {:patron_id => patron.id})
   end
 
   def embodied(manifestation)
-    embodies.find(:first, :conditions => {:manifestation_id => manifestation.id})
+    embodies.first(:conditions => {:manifestation_id => manifestation.id})
   end
 
 end

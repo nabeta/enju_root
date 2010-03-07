@@ -1,29 +1,18 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_user_checkout_stat_path(@user_checkout_stat) -%></li>
-    <li><%= link_to t('page.back'), user_checkout_stats_path -%></li>
-  </ul>
-  <h4><%= t('page.export') -%></h4>
-  <ul>
-    <li><%= link_to ('CSV'), user_checkout_stat_path(@user_checkout_stat, :format => :csv, :locale => @locale) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_checkout_stat')) -%></h1>
 <div id="content_list">
 <p>
-  <b><%= t('activerecord.attributes.user_checkout_stat.start_date') -%>:</b>
+  <strong><%= t('activerecord.attributes.user_checkout_stat.start_date') -%>:</strong>
   <%= l(@user_checkout_stat.start_date) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.user_checkout_stat.end_date') -%>:</b>
+  <strong><%= t('activerecord.attributes.user_checkout_stat.end_date') -%>:</strong>
   <%= l(@user_checkout_stat.end_date) -%>
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.user_checkout_stat.note') -%>:</b>
+  <strong><%= t('activerecord.attributes.user_checkout_stat.note') -%>:</strong>
   <%= @user_checkout_stat.note -%>
 </p>
 
@@ -42,7 +31,18 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@stats, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@stats) -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_user_checkout_stat_path(@user_checkout_stat) -%></li>
+    <li><%= link_to t('page.back'), user_checkout_stats_path -%></li>
+  </ul>
+  <h4><%= t('page.export') -%></h4>
+  <ul>
+    <li><%= link_to 'CSV', user_checkout_stat_path(@user_checkout_stat, :format => :csv, :locale => @locale) -%></li>
+  </ul>
 </div>

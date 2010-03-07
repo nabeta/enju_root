@@ -4,7 +4,7 @@ body{
   text-align: left;
 }
 
-a:hover { color: #000000; background-color: #B3D4FF; }
+a.hover{}
 
 a.yuimenuitemlabel:hover { color: #000000; background-color: #B3D4FF; }
 a.yuimenubaritemlabel:hover { color: #000000; background-color: #B3D4FF; }
@@ -17,7 +17,7 @@ div#narrow_search, div#narrow_library_search{
   margin-top: 1em;
 }
 .line0{
-  background: #D6ECFA;
+  background: #d7ebf9;
 }
 .line1{
   background: white;
@@ -45,13 +45,11 @@ div#content{
   padding-left: 4px;
   padding-right: 4px;
   clear: both;
-  width: 922px;
 }
 
 div.header_and_footer{
   padding: 2px;
   clear: both;
-  width: 922px;
 }
 
 div#header_left{
@@ -97,9 +95,9 @@ div#search_footer{
 div#submenu{
   margin-top: 5px;
   width: 193px;
-  margin-left: -193px;
+  margin-left: 5px;
   padding: 5px;
-  float: right;
+  float: left;
   border: 1px solid #5970B2;
 }
 
@@ -188,14 +186,14 @@ h1{
   margin-bottom: 10px;
 }
 
-#resource_title{
-  line-height: 140%;
-}
-
 h2{
   font-size: 160%;
   margin-top: 5px;
   margin-bottom: 10px;
+}
+
+h2.resource_title{
+  line-height: 140%;
 }
 
 h3{
@@ -226,11 +224,11 @@ form{
 }
 
 table{
-  border: 1px solid #5970B2;
+  border: 1px solid #2779aa;
 }
 
 td, th{
-  border: 1px solid #5970B2;
+  border: 1px solid #2779aa;
   padding: 5px;
   word-break: break-all
 }
@@ -339,6 +337,7 @@ input.resource_title{
 
 input.resource_email{
   width: 20em;
+  ime-mode: disabled;
 }
 
 input.resource_url{
@@ -371,6 +370,10 @@ input.short_name{
 textarea{
   width: 40em;
   height: 10em;
+}
+
+p#post_to_twitter{
+  margin-left: 10px;
 }
 
 input.twitter_text{
@@ -425,6 +428,12 @@ input.search_form_short{
 
 th#position{
   width: 40px;
+}
+
+.highlight { background-color: yellow }
+
+em{
+  font-style: normal;
 }
 
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

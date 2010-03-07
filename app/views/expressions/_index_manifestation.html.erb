@@ -1,9 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('expression.add'), expressions_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
@@ -13,7 +7,7 @@
   
   <%- form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%- if @manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -26,7 +20,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), manifestation_expressions_path(@manifestation) -%>
     </p>
-    <%= javascript_tag("$('query').focus()") -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <table style="width:100%">
@@ -35,18 +29,23 @@
     <th><%= t('activerecord.models.language') -%></th>
     <th></th>
   </tr>
-  
+
 <%- @expressions.each do |expression| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(expression.original_title), expression -%>
-    <%= content_type_icon(expression.content_type) -%></td>
+    <td>
+      [E]
+      <%= link_to h(expression.original_title), expression -%>
+      <%= content_type_icon(expression.content_type) -%><br />
+      <%= raw patrons_list(expression.authors, current_user) -%>
+      <%= raw patrons_list(expression.patrons, current_user) -%>
+    </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
       <%- if expression.is_deletable_by(current_user) -%>
         <%- if params[:mode] == "add" -%>
-          <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) unless @manifestation.expressions.include?(expression) -%>
+          <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) -%>
         <%- else -%>
-          <%= link_to t('page.destroy'), manifestation_embody_path(@manifestation, @manifestation.embodied), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to t('page.destroy'), manifestation_embody_path(@manifestation, @manifestation.embodied(expression)), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>
@@ -54,6 +53,12 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@expressions, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@expressions) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('expression.add'), expressions_path -%></li>
+  </ul>
 </div>

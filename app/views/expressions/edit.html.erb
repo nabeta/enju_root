@@ -1,61 +1,22 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @expression -%></li>
-    <li><%= link_to t('page.back'), expressions_path -%></li>
-  </ul>
-</div>
-          
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :expression -%>
-
 <%- form_for(@expression) do |f| -%>
-  <p>
-    <b><%= t('page.title') -%></b><br />
-    <%= f.text_field :original_title, :class => 'resource_title' -%>
-  </p>
+  <%= f.error_messages -%>
 
-  <p>
-    <b><%= t('activerecord.attributes.expression.title_transcription') -%></b><br />
-    <%= f.text_field :title_transcription, :class => 'resource_title' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.expression.title_alternative') -%></b><br />
-    <%= f.text_field :title_alternative, :class => 'resource_title' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.expression.summarization') -%></b><br />
-    <%= f.text_area :summarization, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.expression.context') -%></b><br />
-    <%= f.text_area :context, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.models.language') -%></b><br />
-    <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.models.content_type') -%></b><br />
-    <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
-  </p>
-
-  <p>
-    <b><%= t('activerecord.attributes.expression.note') -%></b><br />
-    <%= f.text_area :note, :class => 'resource_textarea' -%>
-  </p>
-
+  <%= render :partial => 'form', :locals => {:f => f} -%>
   <p>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @expression -%></li>
+    <li><%= link_to t('page.back'), expressions_path -%></li>
+  </ul>
 </div>

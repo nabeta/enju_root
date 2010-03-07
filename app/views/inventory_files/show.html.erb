@@ -1,43 +1,43 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_inventory_file_path(@inventory_file) -%> </li>
-    <li><%= link_to t('page.back'), inventory_files_path -%> </li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.inventory_file')) -%></h1>
 <div id="content_list">
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.inventory_file_name') -%> :</b>
+  <strong><%= t('activerecord.attributes.inventory_file.inventory_file_name') -%> :</strong>
   <%= @inventory_file.inventory_file_name -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.inventory_content_type') -%> :</b>
+  <strong><%= t('activerecord.attributes.inventory_file.inventory_content_type') -%> :</strong>
   <%= @inventory_file.inventory_content_type -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.inventory_file_size') -%> :</b>
+  <strong><%= t('activerecord.attributes.inventory_file.inventory_file_size') -%> :</strong>
   <%= @inventory_file.inventory_file_size -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.file_hash') -%> :</b>
+  <strong><%= t('activerecord.attributes.inventory_file.file_hash') -%> :</strong>
   <%= @inventory_file.file_hash -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.models.user') -%> :</b>
+  <strong><%= t('activerecord.models.user') -%> :</strong>
   <%= link_to h(@inventory_file.user.login), user_path(@inventory_file.user.login) -%> 
 </p>
 
 <p>
-  <b><%= t('activerecord.attributes.inventory_file.note') -%> :</b>
+  <strong><%= t('activerecord.attributes.inventory_file.note') -%> :</strong>
   <%= @inventory_file.note -%> 
 </p>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_inventory_file_path(@inventory_file) -%> </li>
+    <li><%= link_to t('page.back'), inventory_files_path -%> </li>
+  </ul>
 </div>

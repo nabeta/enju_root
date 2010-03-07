@@ -11,13 +11,24 @@ class UserGroup < ActiveRecord::Base
   has_many :lending_policies
 
   validates_presence_of :name, :display_name
+  validates_uniqueness_of :name, :case_sensitive => false
+  validates_uniqueness_of :display_name
 
   acts_as_list
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def before_validation_on_create
     self.display_name = self.name if display_name.blank?
+  end
+
+  def after_save
+    Rails.cache.delete('UserGroup.all')
+  end
+
+  def after_destroy
+    after_save
   end
 end

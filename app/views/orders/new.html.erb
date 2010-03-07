@@ -1,23 +1,16 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.back'), orders_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.order')) -%></h1>
 <div id="content_list">
 
-<%= error_messages_for :order -%>
-
 <%- form_for(@order) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-  <b><%= t('activerecord.models.order_list') -%></b><br />
+    <%= f.label t('activerecord.models.order_list') -%><br />
     <%= f.select(:order_list_id, @order_lists.collect{|l| [l.title, l.id]}) -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.purchase_request') -%></b><br />
+    <%= f.label t('activerecord.models.purchase_request') -%><br />
     <%- if @purchase_request -%>
       <%= link_to h(@purchase_request.title), @purchase_request -%>
       <%= f.hidden_field :purchase_request_id, :value => @purchase_request.id -%>
@@ -32,4 +25,10 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), orders_path -%></li>
+  </ul>
 </div>

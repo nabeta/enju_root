@@ -1,13 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), manifestation_patrons_path(@manifestation) -%></li>
-    <li><%= link_to t('activerecord.models.manifestation'), @manifestation -%></li>
-    <%- if Produce.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_manifestation_produce_path(@manifestation) -%></li>
-    <%- end -%>
-  </ul>
-</div>
-  
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.produce')) -%></h1>
 <div id="content_list">
@@ -34,6 +24,16 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@produces, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@produces) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), manifestation_patrons_path(@manifestation) -%></li>
+    <li><%= link_to t('activerecord.models.manifestation'), @manifestation -%></li>
+    <%- if Produce.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.produce')), new_manifestation_produce_path(@manifestation) -%></li>
+    <%- end -%>
+  </ul>
 </div>

@@ -1,16 +1,7 @@
-<div id="submenu">
-  <ul>
-    <%- if Patron.is_creatable_by(current_user) -%>
-      <li><%= link_to t('patron.add'), new_patron_path -%></li>
-      <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
-  <h2>
+  <h2 class="resource_title">
     [P]
     <%= link_to h(@patron.full_name), @patron -%>
   </h2>
@@ -36,8 +27,8 @@
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
     <th><%= t('activerecord.attributes.user.login') -%></th>
     <th><%= t('activerecord.models.patron_type') -%></th>
-    <th><%= t('activerecord.models.language') -%></th>
-    <th><%= t('activerecord.attributes.patron.place') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
+    <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <th></th>
   </tr>
   <%- @patrons.each do |patron| -%>
@@ -49,9 +40,9 @@
       <td>
         <%= link_to h(patron.user.login), edit_user_path(patron.user.login) if patron.user -%>
       </td>
-      <td><%= patron.patron_type.display_name.localize  -%></td>
-      <td><%= patron.language.display_name.localize  -%></td>
-      <td><%= patron.place -%></td>
+      <td><%= patron.patron_type.display_name.localize -%></td>
+      <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
+      <td><%=l patron.date_of_death if patron.date_of_death -%></td>
       <%- if patron.is_deletable_by(current_user) -%>
         <td>
           <%= link_to t('page.edit'), edit_patron_path(patron) -%>
@@ -69,6 +60,15 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@patrons) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Patron.is_creatable_by(current_user) -%>
+      <li><%= link_to t('patron.add'), new_patron_path -%></li>
+      <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

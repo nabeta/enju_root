@@ -1,10 +1,3 @@
-<div id="submenu">
-  <ul>
-    <li><%= link_to t('page.show'), @order_list -%></li>
-    <li><%= link_to t('page.back'), order_lists_path -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.order_list')) -%></h1>
 <div id="content_list">
@@ -13,19 +6,19 @@
   <%= f.error_messages -%>
 
   <p>
-    <b><%= t('activerecord.attributes.order_list.title') -%></b><br />
+    <%= f.label t('activerecord.attributes.order_list.title') -%><br />
     <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
   <p>
-    <b><%= t('activerecord.models.bookstore') -%></b><br />
+    <%= f.label t('activerecord.models.bookstore') -%><br />
     <%= f.select(:bookstore_id, @bookstores.collect{|b| [b.name, b.id]}, :include_blank => true) -%>
   </p>
   <p>
-    <b><%= t('activerecord.attributes.order_list.ordered_at') -%></b><br />
+    <%= f.label t('activerecord.attributes.order_list.ordered_at') -%><br />
     <%= f.date_text_field :ordered_at, :class => 'date_field' -%>
   </p>
   <p>
-    <b><%= t('activerecord.attributes.order_list.note') -%></b><br />
+    <%= f.label t('activerecord.attributes.order_list.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
   <p>
@@ -34,4 +27,11 @@
 <%- end -%>
 
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @order_list -%></li>
+    <li><%= link_to t('page.back'), order_lists_path -%></li>
+  </ul>
 </div>

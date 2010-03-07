@@ -4,13 +4,14 @@ class Own < ActiveRecord::Base
   belongs_to :item #, :counter_cache => true #, :validate => true
 
   validates_associated :patron, :item
-  validates_presence_of :patron, :item
+  validates_presence_of :patron_id, :item_id
   validates_uniqueness_of :item_id, :scope => :patron_id
 
   acts_as_list :scope => :item
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
   attr_accessor :item_identifier
 
   def after_save

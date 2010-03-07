@@ -1,27 +1,19 @@
-<div id="submenu">
-  <ul>
-    <%- if Work.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
   <%- form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
-  <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
-    <%= submit_tag t('page.search') -%>
-   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+    <p>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= submit_tag t('page.search') -%>
+    </p>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.form_of_work') -%></th>
-    <th><%= t('activerecord.attributes.work.parent_of_series') -%></th>
+    <th><%= t('activerecord.models.series_statement') -%></th>
     <%- if current_user -%>
       <th></th>
       <th></th>
@@ -36,7 +28,7 @@
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= link_to work.form_of_work.display_name.localize, work.form_of_work -%></td>
-      <td><%= work.parent_of_series -%></td>
+      <td><%= link_to h(work.series_statement), work.series_statement -%></td>
       <%- if work.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td>
@@ -47,6 +39,14 @@
   <%- end -%>
 </table>
 
-<%= will_paginate(@works, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@works) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Work.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
+    <%- end -%>
+  </ul>
 </div>

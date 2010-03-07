@@ -44,7 +44,7 @@ class CheckedItem < ActiveRecord::Base
     end
 
     if self.item.reserved?
-      reserving_user = self.item.manifestation.reserving_users.find(:first, :conditions => {:id => user.id}, :order => :created_at) rescue nil
+      reserving_user = self.item.manifestation.reserving_users.first(:conditions => {:id => user.id}, :order => :created_at) rescue nil
       unless reserving_user
         errors.add_to_base(I18n.t('activerecord.errors.messages.checked_item.reserved_item_included'))
       end
@@ -63,8 +63,6 @@ class CheckedItem < ActiveRecord::Base
 
   def item_checkout_type
     self.basket.user.user_group.user_group_has_checkout_types.available_for_item(self.item).first
-  rescue
-    nil
   end
 
   def set_due_date
@@ -92,6 +90,6 @@ class CheckedItem < ActiveRecord::Base
   end
 
   def in_transaction?
-    true if CheckedItem.find(:first, :conditions => {:basket_id => self.basket.id, :item_id => self.item_id})
+    true if CheckedItem.first(:conditions => {:basket_id => self.basket.id, :item_id => self.item_id})
   end
 end

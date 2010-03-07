@@ -1,28 +1,32 @@
-<div id="submenu">
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
-
 <div id="content_list">
-<%= error_messages_for :user -%>
-<%- form_for(@user) do |f| -%>
+  
+<%- semantic_form_for(@user) do |f| -%>
+  <p>
+    <%= f.input :login, :as => :string, :input_html => {:class => 'resource_user'} -%>
+  </p>
+  <p>
+    <%= f.input :email, :as => :string, :input_html => {:class => 'resource_email'} -%>
+  </p>
+  <p>
+    <%= f.input :openid_identifier, :as => :string, :input_html => {:class => 'resource_url'} -%>
+  </p>
 
-<p>
-  <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
-  <%= f.text_field :login, :value => "", :class => 'resource_user' -%>
-</p>
-<p>
-  <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
-  <%= f.text_field :email, :value => "", :class => 'resource_user' -%>
-</p>
-<p>
-  <label for="openid_identifier"><%= t('activerecord.attributes.user.openid_identifier') -%></label><br />
-  <%= f.text_field :openid_identifier, :class => 'resource_url' -%>
-</p>
+  <p>
+    <%= f.input :confirmed, :as => :boolean -%>
+  </p>
 
-<p><%= f.submit t('user.sign_up') -%></p>
+  <p>
+    <%= f.commit_button t('user.sign_up') -%>
+  </p>
 <%- end -%>
 <%= javascript_tag("$('user_login').focus()") -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), root_path %></li>
+  </ul>
 </div>

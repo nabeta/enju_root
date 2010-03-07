@@ -52,15 +52,9 @@ class PatronsController < ApplicationController
       end
     end
 
-    if logged_in?
-      user = current_user
-      search.build do
-       unless user.has_role?('Librarian')
-          with(:required_role_id).less_than 2
-        else
-          with(:required_role_id).equal_to 1
-        end
-      end
+    role = current_user.try(:highest_role) || Role.find(1)
+    search.build do
+      with(:required_role_id).less_than role.id
     end
 
     page = params[:page] || 1
@@ -78,6 +72,10 @@ class PatronsController < ApplicationController
       format.atom
       format.json { render :json => @patrons }
     end
+  rescue RSolr::RequestError
+    flash[:notice] = t('page.error_occured')
+    redirect_to patrons_url
+    return
   end
 
   # GET /patrons/1
@@ -95,7 +93,7 @@ class PatronsController < ApplicationController
     else
       @patron = Patron.find(params[:id])
     end
-    @patron = @patron.versions.find(@version).reify if @version
+    @patron = @patron.versions.find(@version).item if @version
 
     #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
     @works = @patron.works.paginate(:page => params[:work_list_page])
@@ -142,8 +140,6 @@ class PatronsController < ApplicationController
   def edit
     @patron = Patron.find(params[:id])
     prepare_options
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /patrons
@@ -175,6 +171,10 @@ class PatronsController < ApplicationController
           @manifestation.patrons << @patron
           format.html { redirect_to patron_manifestation_url(@patron, @manifestation) }
           format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
+        when @item
+          @item.patrons << @patron
+          format.html { redirect_to patron_item_url(@patron, @item) }
+          format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
         else
           format.html { redirect_to(@patron) }
           format.xml  { render :xml => @patron, :status => :created, :location => @patron }
@@ -203,8 +203,6 @@ class PatronsController < ApplicationController
         format.xml  { render :xml => @patron.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /patrons/1
@@ -212,12 +210,10 @@ class PatronsController < ApplicationController
   def destroy
     @patron = Patron.find(params[:id])
 
-    if @patron.user
-      if @patron.user.has_role?('Librarian')
-        unless current_user.has_role?('Administrator')
-          access_denied
-          return
-        end
+    if @patron.user.try(:has_role?, 'Librarian')
+      unless current_user.has_role?('Administrator')
+        access_denied
+        return
       end
     end
 
@@ -227,34 +223,22 @@ class PatronsController < ApplicationController
       format.html { redirect_to patrons_url }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   private
 
-  #def get_patron
-  #  case
-  #  when @work
-  #    @patron = @work.patrons.find(params[:id])
-  #  when @expression
-  #    @patron = @expression.patrons.find(params[:id])
-  #  when @manifestation
-  #    @patron = @manifestation.patrons.find(params[:id])
-  #  when @item
-  #    @patron = @item.patrons.find(params[:id])
-  #  else
-  #    @patron = Patron.find(params[:id])
-  #  end
-  #rescue ActiveRecord::RecordNotFound
-  #  not_found
-  #end
-
   def prepare_options
-    @patron_types = PatronType.find(:all)
-    @countries = Country.find(:all)
-    @roles = Role.find(:all)
-    @languages = Rails.cache.fetch('Language.all'){Language.all}
+    if ENV['RAILS_ENV'] == 'production'
+      @countries = Rails.cache.fetch('Country.all'){Country.all}
+      @patron_types = Rails.cache.fetch('PatronType.all'){PatronType.all}
+      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @languages = Rails.cache.fetch('Language.all'){Language.all}
+    else
+      @countries = Country.all
+      @patron_types = PatronType.all
+      @roles = Role.all
+      @languages = Language.all
+    end
   end
 
 end

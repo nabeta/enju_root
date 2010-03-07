@@ -15,6 +15,14 @@ class PurchaseRequest < ActiveRecord::Base
     errors.add(:price) unless self.price.nil? || self.price > 0.0
   end
 
+  def after_save
+    index!
+  end
+
+  def after_destroy
+    after_save
+  end
+
   searchable do
     text :title, :author, :publisher, :url
     string :isbn
@@ -33,9 +41,9 @@ class PurchaseRequest < ActiveRecord::Base
   end
   #acts_as_soft_deletable
 
-  #cattr_reader :order_list_id
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def pubdate
     self.date_of_publication

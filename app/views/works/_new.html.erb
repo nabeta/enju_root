@@ -1,0 +1,25 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.work')) -%></h1>
+<div id="content_list">
+
+<%- form_for(@work) do |f| -%>
+  <%- if @work.series_statement -%>
+    <p>
+      <%= t('activerecord.models.series_statement') -%>
+      <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
+      <%= f.hidden_field :series_statement_id -%>
+    </p>
+  <%- end -%>
+  <%= render :partial => 'form', :locals => {:f => f} -%>
+  <p>
+    <%= f.submit t('page.create') -%>
+  </p>
+<%- end -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), works_path -%></li>
+  </ul>
+</div>

@@ -30,15 +30,13 @@ class InterLibraryLoansController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @inter_library_loan }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /inter_library_loans/new
   # GET /inter_library_loans/new.xml
   def new
     @inter_library_loan = InterLibraryLoan.new
-    @libraries = LibraryGroup.find(:first).physical_libraries
+    @libraries = LibraryGroup.first.physical_libraries
     @libraries.reject!{|library| library == current_user.library} if logged_in?
 
     respond_to do |format|
@@ -50,17 +48,15 @@ class InterLibraryLoansController < ApplicationController
   # GET /inter_library_loans/1/edit
   def edit
     @inter_library_loan = InterLibraryLoan.find(params[:id])
-    @libraries = LibraryGroup.find(:first).physical_libraries
+    @libraries = LibraryGroup.first.physical_libraries
     @libraries.reject!{|library| library == current_user.library} if logged_in?
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /inter_library_loans
   # POST /inter_library_loans.xml
   def create
     @inter_library_loan = InterLibraryLoan.new(params[:inter_library_loan])
-    item = Item.find(:first, :conditions => {:item_identifier => params[:inter_library_loan][:item_identifier]})
+    item = Item.first(:conditions => {:item_identifier => params[:inter_library_loan][:item_identifier]})
     @inter_library_loan.item = item
 
     respond_to do |format|
@@ -70,7 +66,7 @@ class InterLibraryLoansController < ApplicationController
         format.html { redirect_to(@inter_library_loan) }
         format.xml  { render :xml => @inter_library_loan, :status => :created, :location => @inter_library_loan }
       else
-        @libraries = LibraryGroup.find(:first).physical_libraries
+        @libraries = LibraryGroup.first.physical_libraries
         @libraries.reject!{|library| library == current_user.library} if logged_in?
         format.html { render :action => "new" }
         format.xml  { render :xml => @inter_library_loan.errors, :status => :unprocessable_entity }
@@ -103,14 +99,12 @@ class InterLibraryLoansController < ApplicationController
         format.xml  { head :ok }
       else
         @inter_library_loan.item = @item
-        @libraries = LibraryGroup.find(:first).physical_libraries
+        @libraries = LibraryGroup.first.physical_libraries
         @libraries.reject!{|library| library == current_user.library} if logged_in?
         format.html { render :action => "edit" }
         format.xml  { render :xml => @inter_library_loan.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /inter_library_loans/1
@@ -128,7 +122,5 @@ class InterLibraryLoansController < ApplicationController
         format.xml  { head :ok }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 end

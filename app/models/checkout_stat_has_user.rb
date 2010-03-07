@@ -5,6 +5,7 @@ class CheckoutStatHasUser < ActiveRecord::Base
 
   validates_uniqueness_of :user_id, :scope => :user_checkout_stat_id
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 end

@@ -27,6 +27,7 @@ class Work < ActiveRecord::Base
   belongs_to :medium_of_performance
   has_many :subscribes, :dependent => :destroy
   has_many :subscriptions, :through => :subscribes
+  belongs_to :series_statement
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true
 
@@ -43,19 +44,20 @@ class Work < ActiveRecord::Base
     integer :required_role_id
     integer :form_of_work_id
     integer :subject_ids, :multiple => true
-    boolean :parent_of_series
     integer :manifestation_ids, :multiple => true do
       expressions.collect(&:manifestations).flatten.collect(&:id)
     end
     integer :subscription_ids, :multiple => true
+    integer :series_statement_id
   end
 
   #acts_as_soft_deletable
   #acts_as_tree
   has_paper_trail
 
-  @@per_page = 10
-  cattr_accessor :per_page
+  def self.per_page
+    10
+  end
 
   validates_associated :form_of_work
   validates_presence_of :original_title, :form_of_work_id
@@ -91,15 +93,15 @@ class Work < ActiveRecord::Base
   end
 
   def created(patron)
-    creates.find(:first, :conditions => {:patron_id => patron.id})
+    creates.first(:conditions => {:patron_id => patron.id})
   end
 
   def reified(expression)
-    reifies.find(:first, :conditions => {:expression_id => expression.id})
+    reifies.first(:conditions => {:expression_id => expression.id})
   end
 
   def subscribed?(time = Time.zone.now)
-    if subscribe = subscribes.find(:first, :order => 'end_at DESC')
+    if subscribe = subscribes.first(:order => 'end_at DESC')
       if subscribe.end_at
         return true if subscribe.start_at <= time and subscribe.end_at >= time
       end

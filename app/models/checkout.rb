@@ -1,5 +1,6 @@
 class Checkout < ActiveRecord::Base
   include LibrarianOwnerRequired
+  default_scope :order => 'id DESC'
   named_scope :not_returned, :conditions => ['checkin_id IS NULL']
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
   named_scope :due_date_on, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date = ?', date]}}
@@ -18,8 +19,9 @@ class Checkout < ActiveRecord::Base
   validates_uniqueness_of :item_id, :scope => [:basket_id, :user_id]
   validate_on_create :is_not_checked?
 
-  cattr_accessor :per_page
-  @@per_page = 10
+  def self.per_page
+    10
+  end
 
   def is_not_checked?
     checkout = Checkout.not_returned.find(self.item) rescue nil

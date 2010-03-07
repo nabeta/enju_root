@@ -38,8 +38,6 @@ class CheckinsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @checkin.to_xml }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checkins/new
@@ -51,8 +49,6 @@ class CheckinsController < ApplicationController
   # GET /checkins/1;edit
   def edit
     @checkin = Checkin.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /checkins
@@ -65,7 +61,7 @@ class CheckinsController < ApplicationController
     if @checkin.item_identifier.blank?
       flash[:message] << t('checkin.enter_item_identifier') if @checkin.item_identifier.blank?
     else
-      #item = Item.find(:first, :conditions => {:item_identifier => item_identifier})
+      #item = Item.first(:conditions => {:item_identifier => item_identifier})
       item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? LIMIT 1', @checkin.item_identifier.to_s.strip]).first
     end
 
@@ -83,7 +79,7 @@ class CheckinsController < ApplicationController
           #flash[:message] << t('controller.successfully_created', :model => t('activerecord.models.checkin'))
           flash[:message] << t('checkin.successfully_checked_in', :model => t('activerecord.models.checkin'))
           Checkin.transaction do
-            checkout = Checkout.not_returned.find(:first, :conditions => {:item_id => @checkin.item.id})
+            checkout = Checkout.not_returned.first(:conditions => {:item_id => @checkin.item.id})
             # TODO: 貸出されていない本の処理
             # TODO: ILL時の処理
             @checkin.item.checkin!
@@ -147,7 +143,7 @@ class CheckinsController < ApplicationController
     @checkin = Checkin.find(params[:id])
     @checkin.item_identifier = params[:checkin][:item_identifier] rescue nil
     unless @checkin.item_identifier.blank?
-      #item = Item.find(:first, :conditions => {:item_identifier => item_identifier})
+      #item = Item.first(:conditions => {:item_identifier => item_identifier})
       item = Item.find_by_sql(['SELECT * FROM items WHERE item_identifier = ? LIMIT 1', @checkin.item_identifier.to_s.strip]).first
     end
     @checkin.item = item
@@ -162,8 +158,6 @@ class CheckinsController < ApplicationController
         format.xml  { render :xml => @checkin.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /checkins/1
@@ -176,7 +170,5 @@ class CheckinsController < ApplicationController
       format.html { redirect_to checkins_url }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 end

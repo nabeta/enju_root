@@ -1,12 +1,3 @@
-<div id="submenu">
-  <ul>
-    <%- if Patron.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_expression_patron_path(@expression) -%></li>
-    <%- end -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
-  </ul>
-</div>
-
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
@@ -17,53 +8,59 @@
   </h2>
 
 <%- form_for :patrons, :url => expression_patrons_path(@expression), :html => {:method => 'get'} do -%>
-<p>
-  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
-  <%- if @expression.is_deletable_by(current_user) -%>
-    <%- if params[:mode] == 'add' -%>
-      <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-      <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-    <%- else -%>
-      <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-      <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+  <p>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%- if @expression.is_deletable_by(current_user) -%>
+      <%- if params[:mode] == 'add' -%>
+        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
+      <%- else -%>
+        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
+        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
+      <%- end -%>
     <%- end -%>
-  <%- end -%>
-  <%= submit_tag t('page.search') -%>
-  <%= link_to t('page.back_to_index'), expression_patrons_path(@expression) -%>
-</p>
+    <%= submit_tag t('page.search') -%>
+    <%= link_to t('page.back_to_index'), expression_patrons_path(@expression) -%>
+  </p>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
   <tr>
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
     <th><%= t('activerecord.models.patron_type') -%></th>
-    <th><%= t('activerecord.attributes.patron.other_designation') -%></th>
-    <th><%= t('activerecord.attributes.patron.place') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <th></th>
   </tr>
-<%- @patrons.each do |patron| -%>
-  <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(patron.full_name), patron -%></td>
-    <td><%= patron.patron_type.display_name.localize -%></td>
-    <td><%= patron.other_designation -%></td>
-    <td><%= patron.place -%></td>
-    <td><%= patron.date_of_birth -%></td>
-    <td><%= patron.date_of_death -%></td>
-    <td>
-      <%- if patron.is_deletable_by(current_user) -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= link_to t('page.add'), new_expression_realize_path(@expression, :patron_id => patron.id) unless @expression.patrons.include?(patron) -%>
-        <%- else -%>
-          <%= link_to t('page.destroy'), expression_realize_path(@expression, @expression.realized(patron)), :confirm => t('page.are_you_sure'), :method => :delete -%>
+  <%- @patrons.each do |patron| -%>
+    <tr class="line<%= cycle("0", "1") -%>">
+      <td><%= link_to h(patron.full_name), patron -%></td>
+      <td><%= patron.patron_type.display_name.localize -%></td>
+      <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
+      <td><%=l patron.date_of_death if patron.date_of_death -%></td>
+      <td>
+        <%- if patron.is_deletable_by(current_user) -%>
+          <%- if params[:mode] == 'add' -%>
+            <%= link_to t('page.add'), new_expression_realize_path(@expression, :patron_id => patron.id) unless @expression.patrons.include?(patron) -%>
+          <%- else -%>
+            <%= link_to t('page.destroy'), expression_realize_path(@expression, @expression.realized(patron)), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%- end -%>
         <%- end -%>
-      <%- end -%>
-    </td>
-  </tr>
-<%- end -%>
+      </td>
+    </tr>
+  <%- end -%>
 </table>
 
-<%= will_paginate(@patrons, :previous_label => "&#171; " + t('page.previous'), :next_label => "&#187; " + t('page.next')) -%>
+<%= will_paginate(@patrons) -%>
 </div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if Patron.is_creatable_by(current_user) -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_expression_patron_path(@expression) -%></li>
+    <%- end -%>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
+  </ul>
 </div>

@@ -1,15 +1,14 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.checked_item')) -%></h1>
 
-<%= error_messages_for :checked_item -%>
-
 <%- form_for(@checked_item) do |f| -%>
+  <%= f.error_messages -%>
   <p>
-    <b><%= t('activerecord.models.item') -%></b><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%= f.text_field :item_id -%>
   </p>
 
   <p>
-    <b><%= t('activerecord.models.basket') -%></b><br />
+    <%= f.label t('activerecord.models.basket') -%><br />
     <%= f.text_field :basket_id -%>
   </p>
 
