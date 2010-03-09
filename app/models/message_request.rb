@@ -1,7 +1,7 @@
 class MessageRequest < ActiveRecord::Base
   include AASM
   include LibrarianRequired
-  named_scope :not_sent, :conditions => ['sent_at IS NULL AND state != ?', 'sent']
+  named_scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
   named_scope :sent, :conditions => {:state => 'sent'}
   belongs_to :message_template, :validate => true
   belongs_to :sender, :class_name => "User", :foreign_key => "sender_id", :validate => true
@@ -21,11 +21,21 @@ class MessageRequest < ActiveRecord::Base
 
   aasm_column :state
   aasm_state :pending
+  aasm_state :started
   aasm_state :sent
 
   aasm_event :aasm_send_message do
-    transitions :from => :pending, :to => :sent,
+    transitions :from => [:pending, :started], :to => :sent,
       :on_transition => :send_message
+  end
+
+  aasm_event :aasm_start do
+    transitions :from => :pending, :to => :started
+  end
+
+  def start_sending_message
+    aasm_start!
+    aasm_send_message!
   end
 
   def send_message
@@ -88,7 +98,7 @@ class MessageRequest < ActiveRecord::Base
   def self.send_messages
     count = MessageRequest.not_sent.size
     MessageRequest.not_sent.each do |request|
-      request.aasm_send_message!
+      request.start_sending_message
     end
     logger.info "#{Time.zone.now} sent #{count} messages!"
   end

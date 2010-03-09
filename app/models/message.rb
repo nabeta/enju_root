@@ -57,10 +57,12 @@ class Message < ActiveRecord::Base
   def after_create
     Notifier.send_later :deliver_message_notification, self.receiver if self.receiver.email.present?
     expire_top_page_cache
+    index!
   end
 
   def after_destroy
     expire_top_page_cache
+    index!
   end
 
   def expire_top_page_cache

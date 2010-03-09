@@ -123,7 +123,7 @@
     <!-- *** This field is used by Sunspot! *** -->
     <field name="class_name" stored="false" type="string" multiValued="false" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->
-    <field name="text" stored="false" type="string" multiValued="true" indexed="true"/>
+    <field name="text" stored="false" type="text" multiValued="true" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->
     <field name="lat" stored="true" type="tdouble" multiValued="false" indexed="true"/>
     <!-- *** This field is used by Sunspot! *** -->
@@ -228,4 +228,5 @@
   <!-- copyField commands copy one field to another at the time a document
         is added to the index.  It's used either to index the same field differently,
         or to add multiple fields to the same field for easier/faster searching.  -->
+  <copyField dest="text" source="*_text"/>
 </schema>
