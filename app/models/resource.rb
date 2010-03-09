@@ -13,13 +13,13 @@ class Resource < ActiveRecord::Base
 
   belongs_to :manifestation
 
-  searchable do
-    text :title
-    string :work_token
-    string :language
-    string :classification
-    string :pubdate
-  end
+  #searchable do
+  #  text :title
+  #  string :work_token
+  #  string :language
+  #  string :classification
+  #  string :pubdate
+  #end
 
   def per_page
     10

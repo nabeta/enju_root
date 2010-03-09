@@ -8,3 +8,5 @@ Mime::Type.register "image/jpeg", :jpeg
 Mime::Type.register "image/gif",  :gif
 Mime::Type.register "image/png",  :png
 Mime::Type.register "application/octet-stream",  :download
+Mime::Type.register "application/xml",  :sru
+Mime::Type.register "application/xml",  :openurl

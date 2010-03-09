@@ -20,7 +20,7 @@ class ManifestationsController < ApplicationController
     @seconds = Benchmark.realtime do
       @numdocs = Manifestation.cached_numdocs
 
-	    if logged_in?
+	 if logged_in?
 	      @user = current_user if @user.nil?
 	    end
 
@@ -40,11 +40,17 @@ class ManifestationsController < ApplicationController
       query = ""
       sort = {}
 
+       #TODO: 受け入れ形式を整理する。
       case "#{params[:format]}:#{params[:api]}"
-      when /\Axml:sru\Z/io
-        @sru = Sru.new(params)
-        query = @sru.cql.to_sunspot
-        sort = @sru.sort_by
+      when /\Asru:\Z/io
+        if params[:operation] == 'searchRetrieve'
+          @sru = Sru.new(params)
+          query = @sru.cql.to_sunspot
+          sort = @sru.sort_by
+        else
+          render :template => 'manifestations/index.explain.xml', :layout => false
+          return
+        end
       when /\A:openurl\Z/io
         @openurl = Openurl.new(params)
         @manifestations = @openurl.search
@@ -89,7 +95,7 @@ class ManifestationsController < ApplicationController
           fulltext query
           order_by sort[:sort_by], sort[:order]
           # TODO: ヒット件数の上限をセットする
-          paginate :page => 1, :per_page => Manifestation.cached_numdocs
+          paginate :page => 1, :per_page => 1000 #Manifestation.cached_numdocs
           with(:required_role_id).less_than role.id
         end
       end
@@ -115,7 +121,11 @@ class ManifestationsController < ApplicationController
       unless query.blank?
         #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
         #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
-        search.query.paginate(page.to_i, per_page || Manifestation.per_page)
+        if params[:format] == 'sru'
+          search.query.start_record(params[:startRecord] || 1, params[:maximumRecord] || 200)
+        else
+          search.query.paginate(page.to_i, per_page || Manifestation.per_page)
+        end
         @manifestations = search.execute!.results
         @count[:query_result] = @manifestations.total_entries
       else
@@ -152,6 +162,7 @@ class ManifestationsController < ApplicationController
           render :layout => false
         end
       }
+      format.sru  { render :layout => false }
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
       format.atom
