@@ -240,7 +240,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def self.cached_numdocs
-    Rails.cache.fetch("Manifestation.search.total"){Manifestation.search.total}
+    if ENV['RAILS_ENV'] == 'production'
+      Rails.cache.fetch("Manifestation.search.total"){Manifestation.search.total}
+    else
+      Manifestation.search.total
+    end
   end
 
   def full_title

@@ -47,10 +47,10 @@
       <table id="manifestation_detail">
         <%= embed_content(@manifestation) -%>
 <%-
-  end
+  #end
 -%>
-<%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+<%-
+  #cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_2', :editable => @manifestation.is_updatable_by(current_user), :locale => @locale, :version => @version) do
 %>
         <%- if @manifestation.serial? -%>
           <tr>

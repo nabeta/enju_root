@@ -28,7 +28,7 @@
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= link_to work.form_of_work.display_name.localize, work.form_of_work -%></td>
-      <td><%= link_to h(work.series_statement), work.series_statement -%></td>
+      <td><%= link_to h(work.series_statement.original_title), work.series_statement if work.series_statement -%></td>
       <%- if work.is_deletable_by(current_user) -%>
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td>
