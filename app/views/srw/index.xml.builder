@@ -16,8 +16,8 @@ if @srw
 
   @version = @srw.version
   @packing = @srw.packing
-  @number_of_records = @srw.number_of_records
-  @next_record_position = @srw.next_record_position
+  @number_of_records = @manifestations.size
+  @next_record_position = @srw.start + @number_of_records
 end
 @soapenv = {'xmlns:soapenv' => "http://schemas.xmlsoap.org/soap/envelope/",
                'xmlns:xsd' => "http://www.w3.org/2001/XMLSchema",
@@ -70,9 +70,9 @@ def lst_tag!(xml, lst_name, tag_name, hash)
 end
 
 def record!(xml, rec, position)
-  xml.recordSchema  'info:srw/schema/1/dc-v1.1'
+  xml.recordSchema 'info:srw/schema/1/dc-v1.1'
   xml.recordPacking @packing
-  xml.recordData{|x| x << (/\Axm\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
+  xml.recordData{|x| x << (/\Axml\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
   xml.recordPosition position
 end
 

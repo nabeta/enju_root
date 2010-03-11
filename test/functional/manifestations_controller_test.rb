@@ -12,15 +12,15 @@ class ManifestationsControllerTest < ActionController::TestCase
 
 
   def test_api_sru_template
-    get :index, :format => 'xml', :api => 'sru', :query => 'title=ruby'
+    get :index, :format => 'sru', :query => 'title=ruby'
     assert_response :success
-    assert_template('manifestations/index.xml.builder')
+    assert_template('manifestations/index.xml')
   end
 
   def test_api_sru_error
-    get :index, :format => 'xml', :api => 'sru'
+    get :index, :format => 'sru'
     assert_response :success
-    assert_template('manifestations/error.xml')
+    assert_template('manifestations/index.xml')
   end
 
   def test_guest_should_get_index
@@ -48,9 +48,9 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
-  def test_user_should_create_search_history
+  def test_user_should_not_create_search_history_if_log_is_written_to_file
     UserSession.create users(:user1)
-    assert_difference('SearchHistory.count') do
+    assert_no_difference('SearchHistory.count') do
       get :index, :query => 'test'
     end
     assert_response :success

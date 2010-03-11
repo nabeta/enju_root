@@ -150,6 +150,16 @@ class Patron < ActiveRecord::Base
     name
   end
 
+  def date
+    if date_of_birth
+      if date_of_death
+        "#{date_of_birth} - #{date_of_death}"
+      else
+        "#{date_of_birth} -"
+      end
+    end
+  end
+
   def author?(expression)
     expression.patrons.each do |patron|
       if self == patron
