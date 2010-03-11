@@ -62,11 +62,13 @@ class CheckedItem < ActiveRecord::Base
   end
 
   def item_checkout_type
-    self.basket.user.user_group.user_group_has_checkout_types.available_for_item(self.item).first
+    if item
+      self.basket.user.user_group.user_group_has_checkout_types.available_for_item(item).first
+    end
   end
 
   def set_due_date
-    return nil if self.item_checkout_type.nil?
+    return nil unless self.item_checkout_type
 
     lending_rule = self.item.lending_rule(self.basket.user)
     return nil if lending_rule.nil?

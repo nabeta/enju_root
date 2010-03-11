@@ -40,9 +40,8 @@ class ManifestationsController < ApplicationController
       query = ""
       sort = {}
 
-       #TODO: 受け入れ形式を整理する。
-      case "#{params[:format]}:#{params[:api]}"
-      when /\Asru:\Z/io
+			case
+      when params[:format] == 'sru'
         if params[:operation] == 'searchRetrieve'
           @sru = Sru.new(params)
           query = @sru.cql.to_sunspot
@@ -51,10 +50,11 @@ class ManifestationsController < ApplicationController
           render :template => 'manifestations/index.explain.xml', :layout => false
           return
         end
-      when /\A:openurl\Z/io
+      when params[:api] == 'openurl' 
         @openurl = Openurl.new(params)
         @manifestations = @openurl.search
         query = @openurl.query_text
+        sort = set_search_result_order(params[:sort_by], params[:order])
       else
         query = make_query(params[:query], params)
         sort = set_search_result_order(params[:sort_by], params[:order])
@@ -122,9 +122,9 @@ class ManifestationsController < ApplicationController
         #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
         #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
         if params[:format] == 'sru'
-          search.query.start_record(params[:startRecord] || 1, params[:maximumRecord] || 200)
+          search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
         else
-          search.query.paginate(page.to_i, per_page || Manifestation.per_page)
+        	search.query.paginate(page.to_i, per_page || Manifestation.per_page)
         end
         @manifestations = search.execute!.results
         @count[:query_result] = @manifestations.total_entries
@@ -165,6 +165,7 @@ class ManifestationsController < ApplicationController
       format.sru  { render :layout => false }
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
+      format.rdf  { render :layout => false }
       format.atom
       format.json { render :json => @manifestations }
       format.js {

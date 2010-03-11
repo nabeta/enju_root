@@ -1,9 +1,8 @@
 #-------------------------------------------
-# QuerySyntaxErrorクラス
+# OpenurlQuerySyntaxErrorクラス
 # 文法上の誤りをエラーとする
 #-------------------------------------------
-class QuerySyntaxError < RuntimeError; end
-
+class OpenurlQuerySyntaxError < RuntimeError; end
 #-------------------------------------------
 # Openurlクラス
 #-------------------------------------------
@@ -135,7 +134,7 @@ class Openurl
     # 既定の桁より大きい場合、または、数値でない文字列の場合エラー
     # このチェックはANY検索の時外す
     if !@any_flg && NUM_CHECK.include?(key) then
-      raise QuerySyntaxError unless /\A\d{1,#{NUM_CHECK[key]}}\Z/ =~ val
+      raise OpenurlQuerySyntaxError unless /\A\d{1,#{NUM_CHECK[key]}}\Z/ =~ val
     end
     # 途中に空白がある場合は処理しない
     unless /\s+/ =~ val

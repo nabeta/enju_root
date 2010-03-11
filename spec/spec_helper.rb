@@ -18,7 +18,7 @@ Spec::Runner.configure do |config|
   # in your config/boot.rb
   config.use_transactional_fixtures = true
   config.use_instantiated_fixtures  = false
-  config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+  config.fixture_path = RAILS_ROOT + '/test/fixtures/'
 
   # == Fixtures
   #
@@ -51,4 +51,28 @@ Spec::Runner.configure do |config|
   # == Notes
   #
   # For more information take a look at Spec::Runner::Configuration and Spec::Runner
+end
+
+#def current_user(stubs = {})
+#  @current_user ||= mock_model(User, stubs)
+#end
+#
+#def user_session(stubs = {}, user_stubs = {})
+#  @current_user ||= mock_model(UserSession, {:user => current_user(user_stubs)}.merge(stubs))
+#end
+#
+#def login(session_stubs = {}, user_stubs = {})
+#  UserSession.stub!(:find).and_return(user_session(session_stubs, user_stubs))
+#end
+#
+#def logout
+#  @user_session = nil
+#end
+
+module LoginHelper
+  def login(fixture_name_or_user)
+    @current_user = fixture_name_or_user.kind_of?(Symbol) ? users(fixture_name_or_user) : fixture_name_or_user
+    @current_user_session = mock_model(UserSession, {:user => @current_user})
+    UserSession.stub!(:find).and_return(@current_user_session)
+  end
 end

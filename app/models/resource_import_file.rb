@@ -114,6 +114,11 @@ class ResourceImportFile < ActiveRecord::Base
 
   def self.import_work(title, patrons)
     work = Work.new(title)
+    if row[:series_statement_id]
+      if series_statement = SeriesStatement.find(row[:series_statement_id]) rescue nil
+        work.series_statement = series_statement
+      end
+    end
     #if work.save!
       work.patrons << patrons
     #end

@@ -6,7 +6,7 @@ class CalendarController < ApplicationController
     @year = params[:year].to_i
 
     #@shown_month = Date.civil(@year, @month)
-    @shown_month = Time.zone.local(@year, @month, 1)
+    @shown_month = Time.zone.local(@year, @month, 1) rescue Time.zone.now
 
     # TODO: Solrを使って取得
     if @library

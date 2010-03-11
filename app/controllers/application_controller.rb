@@ -33,17 +33,17 @@ class ApplicationController < ActionController::Base
       locale = 'en'
     else
       if logged_in?
-        locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale
+        locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
       else
         locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
       end
     end
     unless I18n.available_locales.include?(locale.intern)
-      locale = I18n.default_locale
+      locale = I18n.default_locale.to_s
     end
     I18n.locale = @locale = session[:locale] = locale
   rescue
-    I18n.locale = @locale = I18n.default_locale
+    I18n.locale = @locale = I18n.default_locale.to_s
   end
 
   def set_available_languages
