@@ -155,13 +155,7 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml  {
-        if params[:oai]
-          render :action => 'oai-pmh', :layout => false
-        else
-          render :layout => false
-        end
-      }
+      format.xml  { render :layout => false }
       format.sru  { render :layout => false }
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }

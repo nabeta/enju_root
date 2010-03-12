@@ -4,9 +4,9 @@ class Resource < ActiveRecord::Base
   has_paper_trail
   #acts_as_archive :indexes => [:id, :iss_token, :work_token]
 
-  default_scope :order => 'id DESC'
-  named_scope :approved, :conditions => ['approved IS true']
-  named_scope :not_approved, :conditions => ['approved IS false']
+  default_scope :order => 'updated_at DESC'
+  named_scope :approved, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND approved IS true', from_time, until_time]}}
+  named_scope :not_approved, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND approved IS false', from_time, until_time]}}
 
   validates_presence_of :iss_token
   validates_uniqueness_of :iss_token
