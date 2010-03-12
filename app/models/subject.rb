@@ -15,15 +15,15 @@ class Subject < ActiveRecord::Base
   #has_many :subject_uses_for_terms, :class_name => 'SubjectUsedForTerm', :foreign_key => 'subject_id'
   #has_many :uses_fors, :through => :subject_uses_for_terms, :source => :used_for_term
 
-  has_many :subject_broader_terms, :class_name => 'SubjectBroaderTerm', :foreign_key => 'broader_term_id'
-  has_many :broader_terms, :through => :subject_broader_terms, :source => :narrower_term
-  has_many :subject_narrower_terms, :class_name => 'SubjectBroaderTerm', :foreign_key => 'narrower_term_id'
-  has_many :narrower_terms, :through => :subject_narrower_terms, :source => :broader_term
+  #has_many :subject_broader_terms, :class_name => 'SubjectBroaderTerm', :foreign_key => 'broader_term_id'
+  #has_many :broader_terms, :through => :subject_broader_terms, :source => :narrower_term
+  #has_many :subject_narrower_terms, :class_name => 'SubjectBroaderTerm', :foreign_key => 'narrower_term_id'
+  #has_many :narrower_terms, :through => :subject_narrower_terms, :source => :broader_term
 
-  has_many :subject_from_related_terms, :class_name => 'SubjectRelatedTerm', :foreign_key => 'subject_id'
-  has_many :related_terms, :through => :subject_from_related_terms, :source => :related_term
-  has_many :subject_to_related_terms, :class_name => 'SubjectRelatedTerm', :foreign_key => 'related_term_id'
-  has_many :subjects, :through => :subject_to_related_terms, :source => :subject
+  #has_many :subject_from_related_terms, :class_name => 'SubjectRelatedTerm', :foreign_key => 'subject_id'
+  #has_many :related_terms, :through => :subject_from_related_terms, :source => :related_term
+  #has_many :subject_to_related_terms, :class_name => 'SubjectRelatedTerm', :foreign_key => 'related_term_id'
+  #has_many :subjects, :through => :subject_to_related_terms, :source => :subject
 
   has_many :use_terms, :class_name => 'Subject', :foreign_key => :use_term_id
   belongs_to :use_term, :class_name => 'Subject', :foreign_key => :use_term_id, :validate => true

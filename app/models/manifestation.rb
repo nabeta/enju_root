@@ -30,11 +30,11 @@ class Manifestation < ActiveRecord::Base
   #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :checkout_stat_has_manifestations
-  has_many :checkout_stats, :through => :checkout_stat_has_manifestations
+  has_many :manifestation_checkout_stats, :through => :checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
   has_many :reserve_stat_has_manifestations
-  has_many :reserve_stats, :through => :reserve_stat_has_manifestations
+  has_many :manifestation_reserve_stats, :through => :reserve_stat_has_manifestations
   has_many :to_manifestations, :foreign_key => 'from_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
   has_many :derived_manifestations, :through => :to_manifestations, :source => :to_manifestation

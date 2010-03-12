@@ -21,7 +21,7 @@ if @sru
   @version = @sru.version
   @packing = @sru.packing
   @number_of_records = @manifestations.total_entries
-  @next_record_position = @sru.start + @manifsetations.size
+  @next_record_position = @sru.start + @manifestations.size
 end
   
 def search_retrieve_response!(xml)

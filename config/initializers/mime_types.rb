@@ -12,3 +12,4 @@ Mime::Type.register "application/xml",  :sru
 Mime::Type.register "application/xml",  :openurl
 Mime::Type.register "application/xml",  :mods
 Mime::Type.register "application/rdf+xml",  :rdf
+Mime::Type.register "application/xml",  :oai

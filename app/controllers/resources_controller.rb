@@ -22,9 +22,33 @@ class ResourcesController < ApplicationController
       @resources = search.execute!.results
     end
 
+    if params[:format] == 'oai'
+      if params[:resumptionToken]
+        if resumption = Rails.cache.read(params[:resumptionToken])
+          @cursor = resumption[:cursor] + Resource.per_page
+        end
+      end
+      @cursor ||= 0
+      resumption ||= {
+        :token => "oai_dc.f(#{@resources.last.created_at.utc.iso8601}).u(#{@resources.first.created_at.utc.iso8601}):#{Resource.per_page}",
+        :cursor => @cursor,
+        # memcachedの使用が前提
+        :expired_at => 1.hour.from_now.utc.iso8601
+      }
+      @resumption = Rails.cache.fetch(resumption[:token]){resumption}
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @resources }
+      format.oai  {
+        case params[:verb]
+        when 'Identify'
+          render :template => 'resources/identify'
+        when 'ListRecords'
+          render :template => 'resources/listrecords'
+        end
+      }
     end
   end
 

@@ -6,9 +6,6 @@ class AddActiveToUser < ActiveRecord::Migration
     change_column_default :users, :active, false
     change_column_default :users, :confirmed, false
     change_column_default :users, :approved, false
-    User.find_by_sql(['UPDATE users SET active = true'])
-    User.find_by_sql(['UPDATE users SET confirmed = true'])
-    User.find_by_sql(['UPDATE users SET approved = true'])
   end
 
   def self.down
