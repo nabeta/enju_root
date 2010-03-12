@@ -2,7 +2,6 @@
 class Expression < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
-  include SolrIndex
 
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify

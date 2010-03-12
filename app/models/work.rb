@@ -2,7 +2,6 @@
 class Work < ActiveRecord::Base
   include OnlyLibrarianCanModify
   include EnjuFragmentCache
-  include SolrIndex
 
   has_many :creates, :dependent => :destroy, :order => :position
   has_many :patrons, :through => :creates, :order => 'creates.position'

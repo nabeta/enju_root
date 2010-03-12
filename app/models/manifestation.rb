@@ -7,7 +7,6 @@ class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
   #include OnlyLibrarianCanModify
   include LibrarianOwnerRequired
-  include SolrIndex
   #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   named_scope :serials, :conditions => ['frequency_id > 1']
@@ -160,7 +159,7 @@ class Manifestation < ActiveRecord::Base
   #has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
-  enju_oai_pmh
+  #enju_oai_pmh
   #enju_worldcat
   has_paper_trail
 
