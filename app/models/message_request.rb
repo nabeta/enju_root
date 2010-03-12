@@ -3,6 +3,7 @@ class MessageRequest < ActiveRecord::Base
   include LibrarianRequired
   named_scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
   named_scope :sent, :conditions => {:state => 'sent'}
+  named_scope :started, :conditions => {:state => 'started'}
   belongs_to :message_template, :validate => true
   belongs_to :sender, :class_name => "User", :foreign_key => "sender_id", :validate => true
   belongs_to :receiver, :class_name => "User", :foreign_key => "receiver_id", :validate => true

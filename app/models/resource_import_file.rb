@@ -78,7 +78,7 @@ class ResourceImportFile < ActiveRecord::Base
             publisher_patrons = Manifestation.import_patrons(publishers)
             #title[:title_transcription_alternative] = row['title_transcription_alternative']
 
-            work = self.class.import_work(title, author_patrons)
+            work = self.class.import_work(title, author_patrons, row['series_statment_id'])
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
@@ -112,8 +112,11 @@ class ResourceImportFile < ActiveRecord::Base
     return num
   end
 
-  def self.import_work(title, patrons)
+  def self.import_work(title, patrons, series_statement_id)
     work = Work.new(title)
+    if series_statement = SeriesStatement.find(series_statement_id) rescue nil
+      work.series_statement = series_statement
+    end
     #if work.save!
       work.patrons << patrons
     #end

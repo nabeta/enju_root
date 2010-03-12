@@ -21,7 +21,7 @@ if @sru
   @version = @sru.version
   @packing = @sru.packing
   @number_of_records = @manifestations.total_entries
-  @next_record_position = @sru.next_record_position
+  @next_record_position = @sru.start + @manifestations.size
 end
   
 def search_retrieve_response!(xml)
@@ -65,7 +65,7 @@ end
 def record!(xml, rec, position)
   xml.recordSchema 'info:srw/schema/1/dc-v1.1'
   xml.recordPacking @packing
-  xml.recordData{|x| x << (/\Axm\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
+  xml.recordData{|x| x << (/\Axml\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
   xml.recordPosition position
 end
 

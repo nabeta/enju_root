@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe ImportRequestsController do
+  fixtures :library_groups
 
   def mock_import_request(stubs={})
     @mock_import_request ||= mock_model(ImportRequest, stubs)

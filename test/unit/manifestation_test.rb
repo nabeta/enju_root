@@ -129,6 +129,10 @@ class ManifestationTest < ActiveSupport::TestCase
     results = openurl.search
     assert_equal 2, results.size
   end
+  def test_openurl_search_error
+    assert_raises(OpenurlQuerySyntaxError){ Openurl.new({:isbn => "12345678901234"})}
+    assert_raises(OpenurlQuerySyntaxError){Openurl.new(:issn => "1234abcd")}
+  end
   def test_manifestation_should_embody_expression
     assert manifestations(:manifestation_00001).embodies?(expressions(:expression_00001))
   end

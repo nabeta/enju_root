@@ -4,7 +4,7 @@ class CreateImportRequests < ActiveRecord::Migration
       t.string :isbn
       t.string :state
       t.integer :manifestation_id
-      t.integer :user_id, :null => false
+      t.integer :user_id
 
       t.timestamps
     end
