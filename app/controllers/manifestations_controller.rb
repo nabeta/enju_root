@@ -18,10 +18,8 @@ class ManifestationsController < ApplicationController
   # GET /manifestations.xml
   def index
     @seconds = Benchmark.realtime do
-      @numdocs = Manifestation.cached_numdocs
-
-	 if logged_in?
-	      @user = current_user if @user.nil?
+	    if logged_in?
+	      @user = current_user unless @user
 	    end
 
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
