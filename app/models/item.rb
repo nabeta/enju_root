@@ -14,7 +14,7 @@ class Item < ActiveRecord::Base
   has_many :checkouts
   #has_many :checkout_users, :through => :checkouts
   has_many :reserves
-  has_many :reserved_patrons, :through => :reserves
+  has_many :reserved_patrons, :through => :reserves, :class_name => 'Patron'
   has_many :owns
   has_many :patrons, :through => :owns
   belongs_to :shelf, :counter_cache => true, :validate => true

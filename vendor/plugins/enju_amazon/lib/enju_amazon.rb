@@ -11,6 +11,10 @@ module EnjuAmazon
 
   module InstanceMethods
     def amazon
+      if AMAZON_ACCESS_KEY == 'REPLACE_WITH_YOUR_AMAZON_KEY'
+        Rails.logger.error "Amazon access key is not set"
+        return nil
+      end
       unless self.isbn.blank?
         response = access_amazon_proxy
       end
@@ -18,7 +22,7 @@ module EnjuAmazon
 
     def access_amazon
       if AMAZON_ACCESS_KEY == 'REPLACE_WITH_YOUR_AMAZON_KEY'
-        Rails.logger "Amazon access key is not set"
+        Rails.logger.error "Amazon access key is not set"
         return nil
       end
       unless self.isbn.blank?
@@ -49,12 +53,6 @@ module EnjuAmazon
       end
     end
 
-    def access_amazon_proxy
-      raise "Access key is not set" if AMAZON_ACCESS_KEY == 'REPLACE_WITH_YOUR_AMAZON_KEY'
-      url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
-      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){open(url).read}
-    end
-    
     def amazon_book_jacket
       response = amazon
       doc = Nokogiri::XML(response)
@@ -88,5 +86,11 @@ module EnjuAmazon
       []
     end
 
+    private
+    def access_amazon_proxy
+      url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
+      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){open(url).read}
+    end
+    
   end
 end

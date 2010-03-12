@@ -17,9 +17,9 @@
         <%= link_to t('page.logout'), '/logout', :confirm => t('page.are_you_sure') %>
       <%- end -%>
     <%- else -%>
-      <%- unless controller_name == 'user_sessions' -%>
+      <%- unless controller.controller_name == 'user_sessions' -%>
         <%= link_to t('page.login'), new_user_session_path -%>
-        <%- unless controller_name == 'users' and action_name == 'new' -%>
+        <%- unless controller.controller_name == 'users' and controller.action_name == 'new' -%>
           (<%= link_to t('user.sign_up'), new_user_path -%>)
         <%- end -%>
       <%- end -%>
