@@ -1,2 +1,0 @@
-module WorkMergeListsHelper
-end

@@ -22,6 +22,14 @@ class ManifestationsController < ApplicationController
 	      @user = current_user unless @user
 	    end
 
+      @from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
+      @until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
+      if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
+        manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
+        redirect_to manifestation_url(manifestation, :format => 'oai')
+        return
+      end
+
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
       session[:params][:manifestation] = params.merge(:view => nil)
@@ -80,9 +88,14 @@ class ManifestationsController < ApplicationController
       search = Sunspot.new_search(Manifestation)
       search = make_internal_query(search)
       role = current_user.try(:highest_role) || Role.find(1)
+      oai_search = true if params[:format] == 'oai'
+      reservable = true if @reservable
       search.build do
-        order_by sort[:sort_by], sort[:order]
+        order_by sort[:sort_by], sort[:order] unless oai_search
+        order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
+        with(:repository_content).equal_to true if oai_search
+        with(:reservable).equal_to true if reservable
       end
 
       unless query.blank?
@@ -116,7 +129,7 @@ class ManifestationsController < ApplicationController
       end
 
       page = params[:page] || 1
-      unless query.blank?
+      #unless query.blank?
         #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
         #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
         if params[:format] == 'sru'
@@ -126,10 +139,10 @@ class ManifestationsController < ApplicationController
         end
         @manifestations = search.execute!.results
         @count[:query_result] = @manifestations.total_entries
-      else
-        @manifestations = WillPaginate::Collection.create(1,1,0) do end
-        @count[:query_result] = 0
-      end
+      #else
+      #  @manifestations = WillPaginate::Collection.create(1,1,0) do end
+      #  @count[:query_result] = 0
+      #end
 
       @search_engines = SearchEngine.all
 
@@ -148,6 +161,8 @@ class ManifestationsController < ApplicationController
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user.try(:login))
     end
 
+    get_resumption_token(@manifestations, @from_time, @until_time)
+
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
 
@@ -159,6 +174,21 @@ class ManifestationsController < ApplicationController
       format.csv  { render :layout => false }
       format.rdf  { render :layout => false }
       format.atom
+      format.oai {
+        case params[:verb]
+        when 'Identify'
+          render :template => 'manifestations/identify'
+        when 'ListMetadataFormats'
+          render :template => 'manifestations/list_metadata_formats'
+        when 'ListSets'
+          @series_statements = SeriesStatement.all
+          render :template => 'manifestations/list_sets'
+        when 'ListIdentifiers'
+          render :template => 'manifestations/list_identifiers'
+        when 'ListRecords'
+          render :template => 'manifestations/list_records'
+        end
+      }
       format.json { render :json => @manifestations }
       format.js {
         render :update do |page|
@@ -255,8 +285,9 @@ class ManifestationsController < ApplicationController
           end
         end
       }
+      format.oai
       format.json { render :json => @manifestation }
-      format.atom { render :template => 'manifestations/oai_ore' }
+      #format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
       format.js {
         render :update do |page|
