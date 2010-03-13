@@ -74,8 +74,8 @@ Rails::Initializer.run do |config|
   #config.gem "sishen-rtranslate", :lib => "rtranslate"
   config.gem "sitemap_generator", :lib => false
   config.gem "paperclip"
-  config.gem "sunspot", :version => "0.10.8"
-  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=0.11.5"
+  config.gem "sunspot", :version => ">=1.0.3"
+  config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=1.0.3"
   #config.gem "factory_girl"
   config.gem "ri_cal"
   #config.gem "fleakr"
