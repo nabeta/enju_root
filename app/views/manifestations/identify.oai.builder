@@ -9,7 +9,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
     xml.baseURL manifestations_url(:format => :oai)
     xml.protocolVersion "2.0"
     xml.adminEmail LibraryGroup.site_config.email
-    xml.earliestDatestamp Resource.last.created_at.utc.iso8601 if Resource.last
+    xml.earliestDatestamp Manifestation.last.created_at.utc.iso8601 if Manifestation.last
     xml.deletedRecord "persistent"
     xml.granularity "YYYY-MM-DDThh:mm:ssZ"
   end

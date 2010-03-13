@@ -22,8 +22,8 @@ class ManifestationsController < ApplicationController
 	      @user = current_user unless @user
 	    end
 
-      @from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
-      @until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
+      @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Manifestation.last.updated_at
+      @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Manifestation.first.updated_at
       if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
         manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
         redirect_to manifestation_url(manifestation, :format => 'oai')
@@ -161,7 +161,7 @@ class ManifestationsController < ApplicationController
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user.try(:login))
     end
 
-    get_resumption_token(@manifestations, @from_time, @until_time)
+    get_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
@@ -285,6 +285,7 @@ class ManifestationsController < ApplicationController
           end
         end
       }
+      format.rdf
       format.oai
       format.json { render :json => @manifestation }
       #format.atom { render :template => 'manifestations/oai_ore' }
@@ -436,6 +437,9 @@ class ManifestationsController < ApplicationController
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }
         format.json { render :json => @manifestation }
+        format.js {
+          page.replace_html 'tag_list', :partial => 'manifestations/tag_list'
+        }
       else
         prepare_options
         format.html { render :action => "edit" }

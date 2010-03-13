@@ -27,4 +27,8 @@ class NewsFeedTest < ActiveSupport::TestCase
   #def test_should_get_local_feed
   #  assert news_feeds(:news_feed_00006).content
   #end
+
+  def test_should_expire_fragment_cache
+    assert news_feeds(:news_feed_00006).expire_fragment_cache
+  end
 end
