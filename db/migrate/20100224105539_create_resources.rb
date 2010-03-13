@@ -14,7 +14,6 @@ class CreateResources < ActiveRecord::Migration
     add_index :resources, :iss_token
     add_index :resources, :manifestation_id
     add_index :resources, :work_token
-    add_index :resources, :updated_at
   end
 
   def self.down

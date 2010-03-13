@@ -7,6 +7,10 @@ class ResourcesController < ApplicationController
   def index
     @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
     @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
+    if params[:format] == 'oai'
+      get_oai_time_range
+
+    end
     if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
       resource = Resource.find(URI.parse(params[:identifier]).path.split('/').last)
       redirect_to resource_url(resource, :format => 'oai')
@@ -29,21 +33,7 @@ class ResourcesController < ApplicationController
       @resources = search.execute!.results
     end
 
-    if params[:format] == 'oai'
-      if params[:resumptionToken]
-        if resumption = Rails.cache.read(params[:resumptionToken])
-          @cursor = resumption[:cursor] + Resource.per_page
-        end
-      end
-      @cursor ||= 0
-      resumption ||= {
-        :token => "oai_dc.f(#{@resources.last.created_at.utc.iso8601}).u(#{@resources.first.created_at.utc.iso8601}):#{Resource.per_page}",
-        :cursor => @cursor,
-        # memcachedの使用が前提
-        :expired_at => 1.hour.from_now.utc.iso8601
-      }
-      @resumption = Rails.cache.fetch(resumption[:token]){resumption}
-    end
+    get_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -164,4 +154,5 @@ class ResourcesController < ApplicationController
       end
     end
   end
+
 end

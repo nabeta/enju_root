@@ -8,6 +8,7 @@ class Manifestation < ActiveRecord::Base
   #include OnlyLibrarianCanModify
   include LibrarianOwnerRequired
   #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  default_scope :order => 'manifestations.updated_at DESC'
   named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   named_scope :serials, :conditions => ['frequency_id > 1']
   named_scope :not_serials, :conditions => ['frequency_id = 1']
@@ -99,6 +100,7 @@ class Manifestation < ActiveRecord::Base
       self.reservable?
     end
     integer :series_statement_id
+    boolean :repository_content
     # for OpenURL
     text :aulast do
       authors.map{|author| author.last_name}

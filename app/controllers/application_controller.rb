@@ -402,6 +402,24 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
+  def get_resumption_token(resources, from_time, until_time)
+    if params[:format] == 'oai'
+      if params[:resumptionToken]
+        if resumption = Rails.cache.read(params[:resumptionToken])
+          @cursor = resumption[:cursor] + resources.per_page
+        end
+      end
+      @cursor ||= 0
+      resumption ||= {
+        :token => "oai_dc.f(#{from_time.utc.iso8601}).u(#{until_time.utc.iso8601}):#{resources.per_page}",
+        :cursor => @cursor,
+        # memcachedの使用が前提
+        :expired_at => 1.hour.from_now.utc.iso8601
+      }
+      @resumption = Rails.cache.fetch(resumption[:token]){resumption}
+    end
+  end
+
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
