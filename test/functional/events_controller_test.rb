@@ -35,6 +35,18 @@ class EventsControllerTest < ActionController::TestCase
     assert assigns(:events)
   end
 
+  def test_guest_should_get_upcoming_event_index
+    get :index, :mode => 'upcoming'
+    assert_response :success
+    assert assigns(:events)
+  end
+
+  def test_guest_should_get_past_event_index
+    get :index, :mode => 'past'
+    assert_response :success
+    assert assigns(:events)
+  end
+
   def test_user_should_get_index
     UserSession.create users(:user1)
     get :index

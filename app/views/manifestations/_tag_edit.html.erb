@@ -1,7 +1,16 @@
 <%- if logged_in? -%>
   <%- unless @bookmark.blank? -%>
+    <p id="current_tag_list">
+      <%- @bookmark.tags.each do |tag| -%>
+        <%= link_to h(tag.name), tag_path(tag.name) -%>
+        <%= link_to image_tag('/icons/cancel.png', :alt => t('page.delete')), bookmark_url(@bookmark, :name => h(tag.name), :mode => 'remove_tag'), :method => :put -%>
+        <!--
+        <%= link_to_remote image_tag('/icons/cancel.png', :alt => t('page.cancel')), :update => 'current_tag_list', :url => {:controller => 'bookmarks', :action => 'update', :id => @bookmark.id, :name => h(tag.name), :mode => 'remove_tag'}, :method => :put -%>
+        -->
+      <%- end -%>
+    </p>
     <!-- bookmarked_by_me -->
-    <%- form_for(:bookmark, :url => user_bookmark_path(current_user.login, @bookmark, :tag_edit => 'manifestation'), :html => { :method => :put }) do |f| -%>
+    <%- form_for(:bookmark, :url => user_bookmark_path(current_user.login, @bookmark, :mode => 'tag_edit'), :html => { :method => :put }) do |f| -%>
       <div>
         <%= f.text_field :tag_list, :class => 'editable_text_field' -%>
         <%= submit_tag t('page.update') -%>
@@ -16,7 +25,7 @@
     <%= javascript_tag("$('bookmark_tag_list').focus()") -%>
   <%- else -%>
     <!-- bookmarked_by_other_patron_or_not_bookmarked -->
-    <%- form_for(:bookmark, :url => user_bookmarks_path(current_user.login, :tag_edit => 'manifestation'), :html => { :method => :post }) do |f| -%>
+    <%- form_for(:bookmark, :url => user_bookmarks_path(current_user.login, :mode => 'tag_edit'), :html => { :method => :post }) do |f| -%>
       <div>
         <%= f.text_field :tag_list, :class => 'editable_text_field' -%>
         <%= f.hidden_field :title, :value => h(@manifestation.original_title) -%>

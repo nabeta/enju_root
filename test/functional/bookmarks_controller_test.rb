@@ -167,7 +167,7 @@ class BookmarksControllerTest < ActionController::TestCase
     post :create, :bookmark => {:tag_list => 'タグの　テスト', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
-    assert_equal ['タグの テスト'], assigns(:bookmark).tag_list
+    assert_equal ['タグの', 'テスト'], assigns(:bookmark).tag_list
     #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
     #assert_equal 1, assigns(:bookmark).manifestation.items.size
     assert_redirected_to bookmark_url(assigns(:bookmark))

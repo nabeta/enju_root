@@ -119,14 +119,11 @@ Money.default_currency = "JPY"
 #RAILS_DEFAULT_LOGGER.auto_flushing = 1
 
 #require 'jasper-rails'
-#require 'solr_index'
 require 'jcode'
 require 'nkf'
 require 'digest/sha1'
 require 'barby/outputter/png_outputter'
-#require 'search_query'
 require 'suggest_tag'
-require 'tag_list'
-require 'hostname'
 #require 'atom/pub'
+require 'hostname'
 require 'localized_name'

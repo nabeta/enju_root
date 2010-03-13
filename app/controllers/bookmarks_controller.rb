@@ -130,7 +130,7 @@ class BookmarksController < ApplicationController
       begin
         if @bookmark.save
           flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
-          if params[:tag_edit] == 'manifestation'
+          if params[:mode] == 'tag_edit'
             format.html { redirect_to manifestation_url(@bookmark.manifestation) }
             format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
           else
@@ -174,12 +174,23 @@ class BookmarksController < ApplicationController
       @bookmark = Bookmark.find(params[:id])
     end
     @bookmark.title = @bookmark.manifestation.try(:original_title)
+    if params[:mode] == 'remove_tag'
+      tag = Tag.find(params[:name])
+      @bookmark.tags -= Tag.find(:all, :conditions => {:name => tag.name})
+    else
+      @bookmark.tag_list = params[:bookmark][:tag_list]
+      params[:bookmark][:tag_list] = (@bookmark.tag_list - Tag.find(:all, :conditions => {:name => @bookmark.tag_list}).collect(&:name)).join(' ')
+    end
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
         @bookmark.manifestation.save
-        if params[:tag_edit] == 'manifestation'
+        case params[:mode]
+        when 'remove_tag'
+          format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+          format.xml  { head :ok }
+        when 'tag_edit'
           format.html { redirect_to manifestation_url(@bookmark.manifestation) }
           format.xml  { head :ok }
         else
