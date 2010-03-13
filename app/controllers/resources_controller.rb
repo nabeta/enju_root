@@ -5,8 +5,8 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
   def index
-    @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
-    @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
+    @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Resource.last.updated_at
+    @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Resource.first.updated_at
     if params[:format] == 'oai'
       get_oai_time_range
 
@@ -18,9 +18,9 @@ class ResourcesController < ApplicationController
     end
     case params[:approved]
     when 'true'
-      @resources = Resource.approved(@from_time, @until_time).paginate(:page => params[:page])
+      @resources = Resource.approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => params[:page])
     when 'false'
-      @resources = Resource.not_approved(@from_time, @to_time).paginate(:page => params[:page])
+      @resources = Resource.not_approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => params[:page])
     else
       query = params[:query]
       @query = query

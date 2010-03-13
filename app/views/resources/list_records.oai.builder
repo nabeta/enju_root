@@ -1,9 +1,19 @@
+def request_attr(prefix = 'oai_dc')
+  from_time = @from_time.utc.iso8601 if @from_time
+  until_time = @until_time.utc.iso8601 if @until_time
+  attribute = {:metadataPrefix => prefix, :verb => 'ListRecords'}
+  attribute.merge(:from => from_time) if from_time
+  attribute.merge(:until => until_time) if until_time
+  attribute
+end
+
+xml.instruct! :xml, :version=>"1.0"
 xml.instruct! :xml, :version=>"1.0"
 xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
   xml.responseDate Time.zone.now.utc.iso8601
-  xml.request resources_url(:format => :oai), :verb => "ListRecords", :from => @from_time.utc.iso8601, :metadataPrefix => "oai_dc"
+  xml.request resources_url(:format => :oai), request_attr('oai_dc')
   xml.ListRecords do
     @resources.each do |resource|
       xml.record do

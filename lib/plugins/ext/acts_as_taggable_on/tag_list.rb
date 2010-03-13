@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 class TagList < Array
   cattr_accessor :delimiter
+  #self.delimiter = ','
   self.delimiter = ' '
   
   def initialize(*args)
@@ -42,9 +43,10 @@ class TagList < Array
   #   tag_list = TagList.new("Round", "Square,Cube")
   #   tag_list.to_s # 'Round, "Square,Cube"'
   def to_s
-    clean!
+    tags = frozen? ? self.dup : self
+    tags.send(:clean!)
     
-    map do |name|
+    tags.map do |name|
       name.include?(delimiter) ? "\"#{name}\"" : name
     end.join(delimiter.ends_with?(" ") ? delimiter : "#{delimiter} ")
   end
@@ -52,12 +54,11 @@ class TagList < Array
  private
   # Remove whitespace, duplicates, and blanks.
   def clean!
-    map!{|tag| tag.gsub("　", " ")}
     reject!(&:blank?)
     map!(&:strip)
     uniq!
   end
-  
+    
   def extract_and_apply_options!(args)
     options = args.last.is_a?(Hash) ? args.pop : {}
     options.assert_valid_keys :parse
@@ -75,20 +76,17 @@ class TagList < Array
     #   tag_list = TagList.from("One , Two,  Three")
     #   tag_list # ["One", "Two", "Three"]
     def from(string)
+      string = string.join(", ") if string.respond_to?(:join)
+
       returning new do |tag_list|
         string = string.to_s.dup
         
         # Parse the quoted tags
-        string.gsub!(/"(.*?)"\s*#{delimiter}?\s*/) { tag_list << $1; "" }
-        string.gsub!(/'(.*?)'\s*#{delimiter}?\s*/) { tag_list << $1; "" }
+        string.gsub!(/(\A|#{delimiter})\s*"(.*?)"\s*(#{delimiter}\s*|\z)/) { tag_list << $2; $3 }
+        string.gsub!(/(\A|#{delimiter})\s*'(.*?)'\s*(#{delimiter}\s*|\z)/) { tag_list << $2; $3 }
         
+        string.gsub!(/　/, ' ')
         tag_list.add(string.split(delimiter))
-      end
-    end
-    
-    def from_owner(owner, *tags)
-      returning from(*tags) do |taglist|
-        taglist.owner = owner
       end
     end
   end

@@ -1,4 +1,4 @@
-class String
+module Hostname
   def my_host?
     url= URI.parse(self)
     config_url = URI.parse(LibraryGroup.url)
@@ -34,4 +34,8 @@ class String
     end
     url.normalize.to_s
   end
+end
+
+class String
+  include Hostname
 end

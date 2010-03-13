@@ -16,7 +16,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
           "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
           "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",
           "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
-          xml.tag! "dc:title", manifestation_url(@manifestation)
+          xml.tag! "dc:title", @manifestation.original_title
         end
       end
     end
