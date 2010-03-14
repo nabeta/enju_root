@@ -165,6 +165,7 @@ ja:
         call_number_delimiter: 請求番号の区切り文字
         position: 位置
         deleted_at: 削除時刻
+        opening_hour: 開館時間
       question:
         body: 本文
         deleted_at: 削除時刻
@@ -219,6 +220,8 @@ ja:
         country: 国籍
         patron_type: パトロンの種類
         language: 言語
+        email: 電子メール
+        url: URL
       feeds/app:
         source_url: ソースURL
         title: タイトル

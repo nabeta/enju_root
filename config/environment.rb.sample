@@ -88,6 +88,7 @@ Rails::Initializer.run do |config|
   config.gem "formtastic"
   config.gem "validation_reflection"
   config.gem "recurrence"
+  config.gem "prism"
   #config.gem "acts_as_archive"
   #config.gem "event_calendar"
   #config.gem "sru"
