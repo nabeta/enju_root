@@ -85,7 +85,7 @@ class Patron < ActiveRecord::Base
   def full_name
     if self[:full_name].to_s.strip.blank?
       if FAMILY_NAME_FIRST == true
-        "#{self.last_name} #{self.first_name}".strip
+        "#{self.last_name}, #{self.first_name}".strip
       else
         "#{self.first_name} #{self.last_name}".strip
       end

@@ -163,6 +163,7 @@ en:
         call_number_delimiter: Call number delimiter
         position: Position
         deleted_at: Deleted at
+        opening_hour: Opening hour
       question:
         body: Body
         share_question: Share question
@@ -218,6 +219,8 @@ en:
         country: Country
         patron_type: Patron type
         language: Language
+        email: 電子メール
+        url: URL
       feeds/app:
         source_url: Source URL
         title: Title
