@@ -325,7 +325,7 @@ class ApplicationController < ActionController::Base
   end
 
   def pickup_advertisement
-    if params[:format] == 'html'
+    if params[:format] == 'html' or params[:format].nil?
       @picked_advertisement = Advertisement.pickup
     end
   end

@@ -123,13 +123,11 @@ module ApplicationHelper
   end
 
   def advertisement_pickup(advertisement)
-    unless advertisement.url.blank?
+    if advertisement.try(:url)
       link_to h(advertisement.body), advertisement.url
     else
-      h(advertisement.body)
+      h(advertisement.try(:body))
     end
-  rescue NoMethodError
-    nil
   end
 
   def database_adapter
