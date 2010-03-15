@@ -19,9 +19,12 @@ class Openurl
   # 桁チェックが必要な項目
   NUM_CHECK = {:issn =>8, :isbn => 13}
 
+  # 集約される項目
+  SYNONYMS = [:title, :aulast, :aufirst]
+
   # enjuのフィールド名（検索用）管理
-  ENJU_FIELD = {:aulast => 'aulast_text',
-                :aufirst => 'aufirst_text',
+  ENJU_FIELD = {:aulast => 'au_text',
+                :aufirst => 'au_text',
                 :au => 'au_text',
                 :title => 'btitle_text',  # title=btitle
                 :atitle => 'atitle_text',
@@ -82,7 +85,11 @@ class Openurl
       else
       end
     end
-    @openurl_query = query
+    # OTC start
+    #@openurl_query = query
+    # TODO queryにあるau_textの統合
+    @openurl_query = unite_au_query(query)
+    # OTC end
   end
 
   # params OpenURLのリクエストのパラメータ
@@ -90,13 +97,14 @@ class Openurl
   def to_sunspot_search_any(val)
     query = []
     MATCH_PART.each do |key|
-      # titleはb_titleに集約されるため検索文は作らない
-      unless key == :title then
+      # 集約される項目は検索文を作らない
+      unless SYNONYMS.include?(key)
         query << to_sunspot_match_part(key, ENJU_FIELD[key], val.strip)
       end
     end
     MATCH_AHEAD.each do |key|
-      query << to_sunspot_match_ahead(key,ENJU_FIELD[key], val.strip)
+      q = to_sunspot_match_ahead(key,ENJU_FIELD[key], val.strip)
+      query << q unless q.nil?
     end
     # TODO 完全一致項目をany検索するのであればMATCH_EXACTについても同様に書く
     @openurl_query = query
@@ -122,7 +130,7 @@ class Openurl
       if LOGIC_MULTI_AND.include?(key) then
         "%s:%s" % [field, val.gsub(/\s+/, ' AND ')]
       else
-        raise 'not match'
+        raise OpenurlQuerySyntaxError, "the key \"#{key}\" not allow multi words"
       end
     else
       "%s:%s" % [field, val]  # fieldに対して語が１つならばこれ
@@ -140,5 +148,25 @@ class Openurl
     unless /\s+/ =~ val
       "%s:%s*" % [field, val]
     end
+  end
+
+  # au項目の統合
+  # au、aufirst、aulastはau_textに統合する
+  def unite_au_query(query)
+    new_query = []
+    au_item = []
+    str = "au_text:"
+    au_flg = false
+    reg = Regexp.compile(/\A#{str}/)
+    query.each do |q|
+      if reg =~ q then
+        au_flg = true
+        au_item.push(q[str.length..q.length])
+      else
+        new_query.push(q)
+      end
+    end
+    new_query.push(str + au_item.join(' AND ')) if au_flg
+    return new_query
   end
 end

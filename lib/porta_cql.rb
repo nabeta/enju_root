@@ -104,28 +104,26 @@ class Clause
 
   MATCH_ALL = %w[title creator publisher]
   MATCH_EXACT = %w[dpid dpgroupid isbn issn jpno porta_type digitalize_type webget_type payment_type ndl_agent_type itemno]
-  MATCH_PART = %w[description subject anywhere]
+  MATCH_PART = %w[description subject]
   MATCH_AHEAD = %w[ndc ndlc]
   MATCH_DATE = %w[from until]
+  MATCH_ANYWHERE = %w[anywhere]
   LOGIC_ALL = %w[title creator publisher description subject anywhere],
-  LOGIC_ANY = %w[dpid ndl_agent_type],
-  LOGIC_EQUAL = %w[dpgroupid ndc isbn issn jpno from until porta_type digitalize_type webget_type payment_type ndlc itemno],
-  MULTIPLE = %w[dpid title creator publisher description subject anywhere ndl_agent_type]
-  
-  TYPE = {'text' => %w[title creator publisher subject], 'sm' => %w[isbn issn]}
+    LOGIC_ANY = %w[dpid ndl_agent_type],
+    LOGIC_EQUAL = %w[dpgroupid ndc isbn issn jpno from until porta_type digitalize_type webget_type payment_type ndlc itemno],
+    MULTIPLE = %w[dpid title creator publisher description subject anywhere ndl_agent_type]
 
   def initialize(text)
     unless text.empty?
       @index, @relation, @terms = scan(text)
       porta_adapter
       @field = @index
-      @type = get_type(@field)
     else
       @index = ''
     end
   end
 
-  attr_reader :index, :relation, :terms, :type
+  attr_reader :index, :relation, :terms
 
   def ==(other)
     instance_variables.all? do |val|
@@ -192,6 +190,8 @@ class Clause
       to_sunspot_match_part
     when MATCH_AHEAD.include?(@index)
       to_sunspot_match_ahead
+    when MATCH_ANYWHERE.include?(@index)
+      to_sunspot_match_anywhere
     when @index.empty?
       ''
     end
@@ -201,13 +201,17 @@ class Clause
     term = @terms.join(' ')
     case @relation
     when /\A=\Z/
-      "%s_%s:%s" % [@field, @type, ahead_to_sunspot(term)]
+      unless /\A\^(.+)/ =~ term
+        "%s_%s:%s" % [@field, :text, term]
+      else
+        "conect_%s_%s:%s" % [@field, :s, $1.gsub(/\s/, '') + '*']
+      end
     when /\AEXACT\Z/
-      "%s_%s:%s" % [@field, @type, exact_to_sunspot(term)]
+      "%s_%s:%s" % [@field, :sm, term]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, @type, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      "%s_%s:%s" % [@field, @type, multiple_to_sunspot(@terms, :all)]
+      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
@@ -217,9 +221,9 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:%s" % [@field, @type, exact_to_sunspot(term)]
+      "%s_%s:%s" % [@field, :sm, term]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, @type, multiple_to_sunspot(@terms.map{|t| exact_to_sunspot(t)}, :any)]
+      "%s_%s:%s" % [@field, :sm, multiple_to_sunspot(@terms, :any)]
     else
       raise QuerySyntaxError
     end
@@ -229,47 +233,43 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:%s" % [@field, @type, trim_ahead(term)]
+      "%s_%s:%s" % [@field, :text, trim_ahead(term)]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, @type, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      "%s_%s:%s" % [@field, @type, multiple_to_sunspot(@terms, :all)]
+      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
   end
 
   def to_sunspot_match_ahead
-    "%s_%s:%s*" % [@field, @type, @terms.first]
+    "%s_%s:%s*" % [@field, :text, @terms.first]
   end
+
+  def to_sunspot_match_anywhere
+    case @relation
+    when /\A=\Z/
+      term = @terms.join(' ')
+      trim_ahead(term)
+    when /\AANY\Z/
+      multiple_to_sunspot(@terms, :any)
+    when /\AALL\Z/
+      multiple_to_sunspot(@terms, :all)
+    else
+      raise QuerySyntaxError
+    end
+  end
+
 
   private
-  def get_type(index)
-    type = ''
-    TYPE.each do |tp, mbr|
-      if mbr.include? index
-        type = tp
-        break
-      end
-    end
-    type
-  end
-
-  def ahead_to_sunspot(term)
-    /\A\^(.*)/ =~ term ? $1 + '*' : term
-  end
-
-  def exact_to_sunspot(term)
-    '"' + term + '"'
-  end
-  
   def multiple_to_sunspot(terms, relation)
     boolean = relation == :any ? ' OR ' : ' AND '
     "(#{terms.map{|t| trim_ahead(t)}.join(boolean)})"
   end
   
   def trim_ahead(term)
-    term.sub(/^\^+/,'')
+    term.sub(/\A\^+/,'')
   end
 end
 

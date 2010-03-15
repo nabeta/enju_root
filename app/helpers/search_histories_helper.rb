@@ -16,13 +16,13 @@ module SearchHistoriesHelper
       max = query[1] if query[1].to_i > max
       min = query[1] if query[1].to_i < min
     end
-    divisor = ((max - min) / classes.size) + 1
+    divisor = ((max - min).div(classes.size)) + 1
     
     html =    %(<div class="hTagcloud">\n)
     html <<   %(  <ul class="popularity">\n)
     query_and_numbers.each do |query|
       html << %(  <li>)
-      html << link_to(h(query[0]), manifestations_url(:query => query[0]), :class => classes[(query[1] - min) / divisor]) 
+      html << link_to(h(query[0]), manifestations_url(:query => query[0]), :class => classes[(query[1] - min).div(divisor)]) 
       html << %(  </li>\n) # FIXME: IEのために文末の空白を入れている
     end
     html <<   %(  </ul>\n)
