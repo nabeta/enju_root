@@ -6,13 +6,18 @@ require File.expand_path(File.dirname(__FILE__) + '/../masters_helper')
 
 describe Manifestation do
   include MastersHelper
+
+  fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
+    :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
+    :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types
+
   describe "validate" do
-    it "正しいデータ状態のとき、検証をとおる" do
+    it "正しいデータ状態のとき、検証を通る" do
       new_manifestation.should be_valid
     end
 
     describe "original_title" do
-      it "ないとき検証エラーとなる" do
+      it "がないとき検証エラーとなる" do
         manifestation = Manifestation.new
         manifestation.valid?.should be_false
         manifestation.errors.invalid?(:original_title).should be_true
@@ -23,7 +28,7 @@ describe Manifestation do
       it "数字でないとき検証エラーとなる" do
         new_manifestation(:start_page => 'abc').should_not be_valid
       end
-      it "数字であれば検証をとおる" do
+      it "数字であれば検証を通る" do
         new_manifestation(:start_page => '10').should be_valid
       end
     end
@@ -32,16 +37,16 @@ describe Manifestation do
       it "数字でないとき検証エラーとなる" do
         new_manifestation(:end_page => 'abc').should_not be_valid
       end
-      it "数字であれば検証をとおる" do
+      it "数字であれば検証を通る" do
         new_manifestation(:end_page => '10').should be_valid
       end
     end
 
     describe "nbn" do
-      it "ユニークであるとき検証をとおる" do
+      it "ユニークであるとき検証を通る" do
         new_manifestation(:nbn => '123456').should be_valid
       end
-      it "重複しているとき検証を通らない" do
+      it "重複しているとき検証エラーとなる" do
         new_manifestation(:nbn => '123456').save!
         new_manifestation(:nbn => '123456').should_not be_valid
       end
@@ -63,7 +68,7 @@ describe Manifestation do
       before do
         @manifestation = new_manifestation
       end
-      it "空配列がかえる" do
+      it "空配列が返る" do
         @manifestation.publisher.should be_empty
       end
     end
@@ -77,7 +82,7 @@ describe Manifestation do
         @manifestation.patrons << @taro
         @manifestation.patrons << @hanako
       end
-      it "それぞれのnameの配列が返される" do
+      it "それぞれのnameの配列が返る" do
         @manifestation.publisher.size.should == 6
         @manifestation.publisher.should be_include('Taro')
         @manifestation.publisher.should be_include('Hanako')

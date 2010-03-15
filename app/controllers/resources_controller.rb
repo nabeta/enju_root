@@ -5,12 +5,12 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
   def index
+    if current_token = get_resumption_token(params[:resumptionToken])
+      page = current_token[:cursor].to_i.div(Resource.per_page) + 1
+    end
+    page ||= params[:page] || 1
     @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Resource.last.updated_at
     @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Resource.first.updated_at
-    if params[:format] == 'oai'
-      get_oai_time_range
-
-    end
     if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
       resource = Resource.find(URI.parse(params[:identifier]).path.split('/').last)
       redirect_to resource_url(resource, :format => 'oai')
@@ -18,13 +18,12 @@ class ResourcesController < ApplicationController
     end
     case params[:approved]
     when 'true'
-      @resources = Resource.approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => params[:page])
+      @resources = Resource.approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => page)
     when 'false'
-      @resources = Resource.not_approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => params[:page])
+      @resources = Resource.not_approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => page)
     else
       query = params[:query]
       @query = query
-      page = params[:page] || 1
       search = Sunspot.new_search(Resource)
       search.build do
         fulltext query
@@ -33,7 +32,7 @@ class ResourcesController < ApplicationController
       @resources = search.execute!.results
     end
 
-    get_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+    set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
 
     respond_to do |format|
       format.html # index.html.erb

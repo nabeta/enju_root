@@ -50,6 +50,16 @@ class Manifestation < ActiveRecord::Base
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
+    string :title, :multiple => true
+    string :conect_title do
+      title.join('').gsub(/\s/, '')
+    end
+    string :conect_creator do
+      author.join('').gsub(/\s/, '')
+    end
+    string :conect_publisher do
+      publisher.join('').gsub(/\s/, '')
+    end
     text :tag do
       tags.collect(&:name)
     end

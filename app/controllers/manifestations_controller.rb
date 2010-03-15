@@ -24,6 +24,9 @@ class ManifestationsController < ApplicationController
 
       @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Manifestation.last.updated_at
       @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Manifestation.first.updated_at
+      if current_token = get_resumption_token(params[:resumptionToken])
+        page = current_token[:cursor].to_i.div(Manifestation.per_page) + 1
+      end
       if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
         manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
         redirect_to manifestation_url(manifestation, :format => 'oai')
@@ -128,7 +131,7 @@ class ManifestationsController < ApplicationController
         return
       end
 
-      page = params[:page] || 1
+      page ||= params[:page] || 1
       #unless query.blank?
         #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
         #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
@@ -161,7 +164,7 @@ class ManifestationsController < ApplicationController
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user.try(:login))
     end
 
-    get_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+    set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
