@@ -24,15 +24,15 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_sru_search 
     sru = Sru.new({:query => "title=Ruby"})
     sru.search
-    assert_equal 17, sru.manifestations.size
-    assert_equal ['Ruby Cookbook'], sru.manifestations.first.title
+    assert_equal 18, sru.manifestations.size
+    assert_equal ['Ruby'], sru.manifestations.first.title
     sru = Sru.new({:query => 'title ALL "awk sed"'})
     sru.search
     assert_equal 2, sru.manifestations.size
     assert_equal [184, 116], sru.manifestations.collect{|m| m.id}
     sru = Sru.new({:query => 'title ANY "ruby awk sed"'})
     sru.search
-    assert_equal 21, sru.manifestations.size
+    assert_equal 22, sru.manifestations.size
     sru = Sru.new({:query => 'isbn=9784774127804'})
     sru.search
     assert_equal 10, sru.manifestations.first.id
@@ -119,7 +119,7 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_openurl_search_any
     openurl = Openurl.new({:any => "テスト"})
     results = openurl.search
-    assert_equal 7, results.size
+    assert_equal 8, results.size
   end
   def test_openurl_search_multi
     openurl = Openurl.new({:btitle => "CGI Perl プログラミング"})

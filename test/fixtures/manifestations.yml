@@ -1696,6 +1696,7 @@ manifestation_00193:
   carrier_type_id: 1
   language_id: 1
   isbn: 9784797340044
+  isbn10: 4797340045
   updated_at: 2010-03-01 16:14:18 +09:00
   original_title: "Rubyレシピブック"
   price:
@@ -1844,7 +1845,7 @@ manifestation_00203:
 manifestation_00204:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 5555567890001
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "テスト雑誌１月号の記事１"
   price:
@@ -1860,7 +1861,7 @@ manifestation_00204:
 manifestation_00205:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 5555567890002
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "テスト雑誌１月号の記事２"
   price:
@@ -1876,7 +1877,7 @@ manifestation_00205:
 manifestation_00206:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 5555567890003
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "テスト雑誌２月号の記事１"
   price:
@@ -1892,7 +1893,7 @@ manifestation_00206:
 manifestation_00207:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 9876543210207
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "試験単行本"
   price:
@@ -1905,3 +1906,19 @@ manifestation_00207:
   width:
   exemplifies_count: 0
   created_at: 2010-03-03 20:00:00 UTC
+manifestation_00208:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-16 11:00:00 +09:00
+  original_title: "ある出版物"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 208
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-16 11:00:00 UTC
