@@ -48,3 +48,27 @@ work_00101:
   reifies_count: 0
   context: ""
   created_at: 2010-03-03 17:00:00.471873 +09:00
+work_00102:
+  updated_at: 2010-03-16 19:00:00.471873 +09:00
+  original_title: "work for manifestation_id=204"
+  id: 102
+  form_of_work_id: 2
+  reifies_count: 0
+  context: ""
+  created_at: 2010-03-16 19:00:00.471873 +09:00
+work_00103:
+  updated_at: 2010-03-16 19:00:00.471873 +09:00
+  original_title: "work for manifestation_id=205"
+  id: 103
+  form_of_work_id: 2
+  reifies_count: 0
+  context: ""
+  created_at: 2010-03-16 19:00:00.471873 +09:00
+work_00104:
+  updated_at: 2010-03-16 19:00:00.471873 +09:00
+  original_title: "work for manifestation_id=206"
+  id: 104
+  form_of_work_id: 2
+  reifies_count: 0
+  context: ""
+  created_at: 2010-03-16 19:00:00.471873 +09:00

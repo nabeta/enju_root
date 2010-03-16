@@ -23,8 +23,8 @@ class Openurl
   SYNONYMS = [:title, :aulast, :aufirst]
 
   # enjuのフィールド名（検索用）管理
-  ENJU_FIELD = {:aulast => 'au_text',
-                :aufirst => 'au_text',
+  ENJU_FIELD = {:aulast => 'au_text', # aulast=au
+                :aufirst => 'au_text', # aufirst=au
                 :au => 'au_text',
                 :title => 'btitle_text',  # title=btitle
                 :atitle => 'atitle_text',
@@ -40,15 +40,11 @@ class Openurl
 
   def initialize(params)
     # @openurl_queryに検索項目ごとの検索文を格納
-    @any_flg = false  # ANY検索の場合は数字チェックを外すため
     if params.has_key?(:any) then
       # anyの場合は他に条件が指定されていても無視
-      @any_flg = true
-      @openurl_query = to_sunspot_search_any(params[:any])
-      @relation = " OR "
+      @openurl_query = [params[:any].strip]
     else
       @openurl_query = to_sunspot(params)
-      @relation = " AND "
     end
     @manifestations = []
   end
@@ -67,7 +63,7 @@ class Openurl
   private
   # 検索文を結合,
   def build_query
-    @openurl_query.join(@relation)
+    @openurl_query.join(" AND ")
   end
 
   # params OpenURLのリクエストのパラメータ
@@ -82,33 +78,12 @@ class Openurl
         query << to_sunspot_match_part(key, ENJU_FIELD[key], params[key].strip)
       elsif MATCH_AHEAD.include?(key) then # 前方一致
         query << to_sunspot_match_ahead(key, ENJU_FIELD[key], params[key].strip)
-      else
       end
     end
-    # OTC start
-    #@openurl_query = query
-    # TODO queryにあるau_textの統合
+    # queryにあるau_textの統合
     @openurl_query = unite_au_query(query)
-    # OTC end
   end
 
-  # params OpenURLのリクエストのパラメータ
-  # 検索可能項目すべてについて指定された値で検索文を組み立てる。
-  def to_sunspot_search_any(val)
-    query = []
-    MATCH_PART.each do |key|
-      # 集約される項目は検索文を作らない
-      unless SYNONYMS.include?(key)
-        query << to_sunspot_match_part(key, ENJU_FIELD[key], val.strip)
-      end
-    end
-    MATCH_AHEAD.each do |key|
-      q = to_sunspot_match_ahead(key,ENJU_FIELD[key], val.strip)
-      query << q unless q.nil?
-    end
-    # TODO 完全一致項目をany検索するのであればMATCH_EXACTについても同様に書く
-    @openurl_query = query
-  end
   # 完全一致の項目の検索文組立て
   # TODO 完全一致の項目はndl_dpidだけで、これはデータプロバイダについて議論中なので保留する
   def to_sunspot_match_exact(field, val)
@@ -128,7 +103,7 @@ class Openurl
     # 途中に空白がある場合は複数語が指定されているとみなし、ANDでつなぐ。
     if /\s+/ =~ val
       if LOGIC_MULTI_AND.include?(key) then
-        "%s:%s" % [field, val.gsub(/\s+/, ' AND ')]
+        "%s:(%s)" % [field, val.gsub(/\s+/, ' AND ')]
       else
         raise OpenurlQuerySyntaxError, "the key \"#{key}\" not allow multi words"
       end
@@ -140,14 +115,12 @@ class Openurl
   # 前方一致の項目の検索文組立て
   def to_sunspot_match_ahead(key, field, val)
     # 既定の桁より大きい場合、または、数値でない文字列の場合エラー
+    # 数値でない文字列には空白がある場合も含むので複数指定はエラーとなる
     # このチェックはANY検索の時外す
-    if !@any_flg && NUM_CHECK.include?(key) then
+    if NUM_CHECK.include?(key) then
       raise OpenurlQuerySyntaxError unless /\A\d{1,#{NUM_CHECK[key]}}\Z/ =~ val
     end
-    # 途中に空白がある場合は処理しない
-    unless /\s+/ =~ val
-      "%s:%s*" % [field, val]
-    end
+    "%s:%s*" % [field, val]
   end
 
   # au項目の統合
@@ -166,7 +139,14 @@ class Openurl
         new_query.push(q)
       end
     end
-    new_query.push(str + au_item.join(' AND ')) if au_flg
+    if au_flg then
+      if au_item.size > 1 then
+        str = str + "(%s)" % [au_item.join(' AND ')]
+      else
+        str = str + au_item[0]
+      end
+      new_query.push(str)
+    end
     return new_query
   end
 end

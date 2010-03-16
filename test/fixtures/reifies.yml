@@ -41,3 +41,24 @@ reify_00101:
   id: 101
   position: 2
   created_at: 2010-03-03 17:00:00.352223 +09:00
+reify_00102:
+  updated_at: 2010-03-16 19:00:00.352223 +09:00
+  expression_id: 102
+  work_id: 102
+  id: 102
+  position: 2
+  created_at: 2010-03-16 19:00:00.352223 +09:00
+reify_00103:
+  updated_at: 2010-03-16 19:00:00.352223 +09:00
+  expression_id: 103
+  work_id: 103
+  id: 103
+  position: 2
+  created_at: 2010-03-16 19:00:00.352223 +09:00
+reify_00104:
+  updated_at: 2010-03-16 19:00:00.352223 +09:00
+  expression_id: 104
+  work_id: 104
+  id: 104
+  position: 2
+  created_at: 2010-03-16 19:00:00.352223 +09:00

@@ -406,11 +406,11 @@ class ApplicationController < ActionController::Base
     resumption = Rails.cache.read(token) rescue nil
   end
 
-  def set_resumption_token(resources, from_time, until_time)
+  def set_resumption_token(resources, from_time, until_time, per_page = nil)
     if params[:format] == 'oai'
       if params[:resumptionToken]
         if resumption = Rails.cache.read(params[:resumptionToken]) rescue nil
-          @cursor = resumption[:cursor] + resources.per_page
+          @cursor = resumption[:cursor] + per_page ||= resources.per_page
         end
       end
       @cursor ||= 0
