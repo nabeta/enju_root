@@ -223,7 +223,6 @@ class Manifestation < ActiveRecord::Base
   def after_create
     send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
-    Manifestation.expire_top_page_cache
   end
 
   def after_save
@@ -234,7 +233,6 @@ class Manifestation < ActiveRecord::Base
   def after_destroy
     Rails.cache.delete("Manifestation.search.total")
     send_later(:expire_cache)
-    Manifestation.expire_top_page_cache
   end
 
   def expire_cache
@@ -242,12 +240,6 @@ class Manifestation < ActiveRecord::Base
     Rails.cache.delete("worldcat_record_#{id}")
     Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
-  end
-
-  def self.expire_top_page_cache
-    I18n.available_locales.each do |locale|
-      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/?locale=#{locale}&name=search_form")
-    end
   end
 
   def self.cached_numdocs
@@ -277,9 +269,9 @@ class Manifestation < ActiveRecord::Base
 
   def titles
     title = []
-    title << original_title
-    title << title_transcription
-    title << title_alternative
+    title << original_title.to_s.strip
+    title << title_transcription.to_s.strip
+    title << title_alternative.to_s.strip
     #title << original_title.wakati
     #title << title_transcription.wakati rescue nil
     #title << title_alternative.wakati rescue nil

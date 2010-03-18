@@ -165,7 +165,7 @@ class ManifestationsController < ApplicationController
           @suggested_tag = query.suggest_tags.first
         end
       end
-      save_search_history(query, @manifestations.offset, @count[:query_result], current_user.try(:login))
+      save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
     end
 
     unless @manifestations.empty?
@@ -678,7 +678,7 @@ class ManifestationsController < ApplicationController
     if WRITE_SEARCH_LOG_TO_FILE
       write_search_log(query, total, user)
     else
-      SearchHistory.create(:query => query, :user_id => user.try(:id), :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+      history = SearchHistory.create(:query => query, :user => user, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end
   end
 
@@ -697,6 +697,6 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}"
   end
 end

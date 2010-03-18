@@ -25,7 +25,7 @@ class ManifestationTest < ActiveSupport::TestCase
     sru = Sru.new({:query => "title=Ruby"})
     sru.search
     assert_equal 18, sru.manifestations.size
-    assert_equal ['Ruby'], sru.manifestations.first.title
+    assert_equal 'Ruby', sru.manifestations.first.titles.first
     sru = Sru.new({:query => 'title ALL "awk sed"'})
     sru.search
     assert_equal 2, sru.manifestations.size

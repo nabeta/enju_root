@@ -1,9 +1,9 @@
 <div id="left_pane">
   <h1 class="title"><%= t('page.user_title', :login_name => @user.login) -%></h1>
   <div id="user_search_form">  
-    <%- cache :controller => 'page', :action => 'index', :name => 'search_form', :locale => @locale do -%>
-      <%= render :partial => 'page/search_form' -%>
-    <%- end -%>
+    <%= render :partial => 'page/search_form' -%>
+    <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
+    <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
   </div>
 
   <%- cache :controller => 'users', :action => 'show', :id => @user.login, :action_suffix => 'message', :locale => @locale do -%>

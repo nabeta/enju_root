@@ -141,9 +141,9 @@ class Patron < ActiveRecord::Base
 
   def name
     name = []
-    name << full_name
-    name << full_name_transcription
-    name << full_name_alternative
+    name << full_name.to_s.strip
+    name << full_name_transcription.to_s.strip
+    name << full_name_alternative.to_s.strip
     #name << full_name_without_space
     #name << full_name_transcription_without_space
     #name << full_name_alternative_without_space

@@ -111,6 +111,8 @@ class ReservesController < ApplicationController
     else
       @reserve = Reserve.find(params[:id])
     end
+  rescue ActiveRecord::RecordNotFound
+    not_found
   end
 
   # POST /reserves
