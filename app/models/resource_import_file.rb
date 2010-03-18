@@ -59,7 +59,7 @@ class ResourceImportFile < ActiveRecord::Base
           num[:found] += 1
           Rails.logger.info("resource found: isbn #{row['isbn']}")
         else
-          manifestation = Manifestation.import_isbn(row['isbn'].to_s.strip) rescue nil
+          manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
           #num[:success] += 1 if manifestation
         end
       end
@@ -82,7 +82,7 @@ class ResourceImportFile < ActiveRecord::Base
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
-            manifestation = self.class.import_manifestation(expression, row['isbn'], publisher_patrons)
+            manifestation = self.class.import_manifestation(expression, publisher_patrons, {:isbn => row['isbn'], :description => row['description']})
             save_imported_object(manifestation)
 
             Rails.logger.info("resource import succeeded: column #{record}")
@@ -109,6 +109,7 @@ class ResourceImportFile < ActiveRecord::Base
     self.update_attribute(:imported_at, Time.zone.now)
     Sunspot.commit
     rows.close
+    Rails.cache.delete("Manifestation.search.total")
     return num
   end
 
@@ -135,8 +136,8 @@ class ResourceImportFile < ActiveRecord::Base
     return expression
   end
 
-  def self.import_manifestation(expression, isbn, patrons)
-    manifestation = Manifestation.new(:isbn => isbn)
+  def self.import_manifestation(expression, patrons, options = {})
+    manifestation = Manifestation.new(options)
     manifestation.original_title = expression.original_title
     #if manifestation.save!
       manifestation.expressions << expression

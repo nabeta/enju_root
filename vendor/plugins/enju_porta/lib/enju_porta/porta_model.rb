@@ -48,12 +48,18 @@ module EnjuPorta
           :nbn => nbn
         )
         manifestation.patrons << publisher_patrons
-        manifestation.save!
+        #manifestation.save!
       end
 
       #manifestation.send_later(:create_frbr_instance, doc.to_s)
       manifestation.create_frbr_instance(doc)
       return manifestation
+    end
+
+    def import_isbn!(isbn)
+      manifestation = import_isbn(isbn)
+      manifestation.save!
+      manifestation
     end
 
     def search_porta(query, options = {})
@@ -95,15 +101,15 @@ module EnjuPorta
 
     def get_title(doc)
       title = {}
-      title[:manifestation] = doc.xpath('//item/title').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-      title[:transcription] = doc.xpath('//item/dcndl:titleTranscription').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:manifestation] = doc.xpath('//item[1]/title').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:transcription] = doc.xpath('//item[1]/dcndl:titleTranscription').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
       title[:original] = doc.xpath('//dcterms:alternative').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
       return title
     end
 
     def get_authors(doc)
       authors = []
-      doc.xpath('//dc:creator[@xsi:type="dcndl:NDLNH"]').each do |creator|
+      doc.xpath('//item[1]/dc:creator[@xsi:type="dcndl:NDLNH"]').each do |creator|
         authors << creator.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return authors
@@ -111,7 +117,7 @@ module EnjuPorta
 
     def get_subjects(doc)
       subjects = []
-      doc.xpath('//dc:subject[@xsi:type="dcndl:NDLSH"]').each do |subject|
+      doc.xpath('//item[1]/dc:subject[@xsi:type="dcndl:NDLSH"]').each do |subject|
         subjects << subject.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return subjects
@@ -119,12 +125,12 @@ module EnjuPorta
 
     def get_language(doc)
       # TODO: 言語が複数ある場合
-      language = doc.xpath('//dc:language[@xsi:type="dcterms:ISO639-2"]').first.content.downcase
+      language = doc.xpath('//item[1]/dc:language[@xsi:type="dcterms:ISO639-2"]').first.content.downcase
     end
 
     def get_publishers(doc)
       publishers = []
-      doc.xpath('//dc:publisher').each do |publisher|
+      doc.xpath('//item[1]/dc:publisher').each do |publisher|
         publishers << publisher.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return publishers
@@ -152,7 +158,7 @@ module EnjuPorta
           :content_type_id => content_type_id,
           :language_id => language_id
         )
-        work.save!
+        work.save
         work.patrons << author_patrons
         subjects.each do |term|
           subject = Subject.first(:conditions => {:term => term})
