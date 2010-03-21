@@ -95,6 +95,7 @@ class PatronImportFile < ActiveRecord::Base
           user = User.new
           user.login = row['login'].to_s.chomp
           user.email = row['email'].to_s.chomp
+          user.email_confirmation = row['email'].to_s.chomp
           user_number = row['user_number'].to_s.chomp
           user.password = row['password'].to_s.chomp
           user.password_confirmation = row['password'].to_s.chomp
