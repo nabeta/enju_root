@@ -60,6 +60,7 @@ class CreateManifestations < ActiveRecord::Migration
     add_index :manifestations, :access_address
     add_index :manifestations, :frequency_id
     add_index :manifestations, :series_statement_id
+    add_index :manifestations, :manifestation_identifier
   end
 
   def self.down

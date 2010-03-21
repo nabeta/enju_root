@@ -52,15 +52,18 @@ class ResourceImportFile < ActiveRecord::Base
     rows.each do |row|
       shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
-      # ISBNが入力してあればそれを優先する
-      if row['isbn']
-        manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
-        if manifestation
-          num[:found] += 1
-          Rails.logger.info("resource found: isbn #{row['isbn']}")
-        else
-          manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
-          #num[:success] += 1 if manifestation
+      # タイトルが入力してあればそれを優先する
+      if row['original_title'].to_s.strip.blank?
+        if row['isbn']
+          manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
+          if manifestation
+            num[:found] += 1
+            Rails.logger.info("resource found: isbn #{row['isbn']}")
+          else
+            manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
+            save_imported_object(manifestation)
+            #num[:success] += 1 if manifestation
+          end
         end
       end
 
@@ -82,7 +85,18 @@ class ResourceImportFile < ActiveRecord::Base
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
-            manifestation = self.class.import_manifestation(expression, publisher_patrons, {:isbn => row['isbn'], :description => row['description']})
+            manifestation = self.class.import_manifestation(expression, publisher_patrons, {
+              :isbn => row['isbn'],
+              :issn => row['issn'],
+              :lccn => row['lccn'],
+              :nbn => row['nbn'],
+              :date_of_publication => Time.zone.parse(row['date_of_publication'].to_s),
+              :volume_number_list => row['volume_number_list'],
+              :height => row['height'],
+              :price => row['price'],
+              :description => row['description'],
+              :manifestation_identifier => row['manifestation_identifier']
+            })
             save_imported_object(manifestation)
 
             Rails.logger.info("resource import succeeded: column #{record}")
@@ -94,7 +108,7 @@ class ResourceImportFile < ActiveRecord::Base
 
         begin
           if manifestation
-            item = self.class.import_item(manifestation, row['item_identifier'], shelf) if row['item_identifier'].to_s.strip.present?
+            item = self.class.import_item(manifestation, row['item_identifier'], shelf) # if row['item_identifier'].to_s.strip.present?
             save_imported_object(item)
             num[:success] += 1
             Rails.logger.info("resource registration succeeded: column #{record}"); next
