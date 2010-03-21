@@ -80,8 +80,17 @@ class ResourceImportFile < ActiveRecord::Base
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
             #title[:title_transcription_alternative] = row['title_transcription_alternative']
+            subjects = []
+            row['subject'].to_s.split(';').each do |s|
+              unless subject = Subject.first(:conditions => {:term => s.to_s.strip})
+                # TODO: Subject typeの設定
+                subject = Subject.create(:term => s.to_s.strip, :subject_type_id => 1)
+              end
+              subjects << subject
+            end
 
             work = self.class.import_work(title, author_patrons, row['series_statment_id'])
+            work.subjects << subjects
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
