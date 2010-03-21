@@ -5,11 +5,29 @@ class ImportedObjectsController < ApplicationController
   # GET /imported_objects
   # GET /imported_objects.xml
   def index
-    @imported_objects = ImportedObject.paginate(:all, :page => params[:page])
+    if params[:format] == 'csv'
+      per_page = 65534
+    else
+      per_page = ImportedObject.per_page
+    end
+
+    case params[:type]
+    when 'item'
+      @imported_objects = ImportedObject.paginate(:all, :conditions => {:importable_type => 'Item'}, :page => params[:page], :per_page => per_page).map{|i| i.importable}.compact
+    when 'manifestation'
+      @imported_objects = ImportedObject.paginate(:all, :conditions => {:importable_type => 'Manifestation'}, :page => params[:page], :per_page => per_page).map{|i| i.importable}.compact
+    when 'patron'
+      @imported_objects = ImportedObject.paginate(:all, :conditions => {:importable_type => 'Patron'}, :page => params[:page], :per_page => per_page).map{|i| i.importable}.compact
+    when 'event'
+      @imported_objects = ImportedObject.paginate(:all, :conditions => {:importable_type => 'Event'}, :page => params[:page], :per_page => per_page).map{|i| i.importable}.compact
+    else
+      @imported_objects = ImportedObject.paginate(:all, :page => params[:page], :per_page => per_page)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @imported_objects }
+      format.csv
     end
   end
 

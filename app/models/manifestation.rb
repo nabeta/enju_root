@@ -342,7 +342,6 @@ class Manifestation < ActiveRecord::Base
   end
 
   def authors
-    patron_ids = []
     # 著編者
     (self.works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
   end
