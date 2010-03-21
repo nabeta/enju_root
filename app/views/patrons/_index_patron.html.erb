@@ -7,7 +7,7 @@
   </h2>
 <%- form_for :patrons, :url => patron_patrons_path(@patron), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if @patron.is_deletable_by(current_user) -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -19,7 +19,7 @@
     <%- end -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">

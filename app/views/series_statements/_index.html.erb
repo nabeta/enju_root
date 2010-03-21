@@ -3,10 +3,10 @@
 <div id="content_list">
 <%- form_for :series_statements, :url => series_statements_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 <table class="index">
   <tr>
@@ -15,6 +15,7 @@
     <th><%= t('activerecord.attributes.series_statement.numbering') -%></th>
     <th><%= t('activerecord.attributes.series_statement.title_subseries') -%></th>
     <th><%= t('activerecord.attributes.series_statement.numbering_subseries') -%></th>
+    <th></th>
     <th></th>
     <th></th>
   </tr>
@@ -31,20 +32,7 @@
     <td><%= series_statement.title_subseries %></td>
     <td><%= series_statement.numbering_subseries %></td>
     <td>
-      <%- if series_statement.work -%>
-        <%= link_to h(series_statement.work.original_title), series_statement.work -%>
-      <%- else -%>
-        <%= link_to t('page.new', :model => t('activerecord.models.work')), new_series_statement_work_path(series_statement) -%>
-      <%- end -%>
-    </td>
-    <td>
-      <%- if series_statement.work -%>
-        <%- if series_statement.work.expressions.present? -%>
-          <%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_series_statement_manifestation_path(series_statement) -%>
-        <%- else -%>
-          <%= link_to t('page.new', :model => t('activerecord.models.expression')), work_expressions_path(series_statement.work) -%>
-        <%- end -%>
-      <%- end -%>
+      <%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_manifestation_path(:series_statement_id => series_statement.id) -%>
     </td>
     <td><%= link_to t('page.edit'), edit_series_statement_path(series_statement) %></td>
     <td><%= link_to t('page.destroy'), series_statement, :confirm => t('page.are_you_sure'), :method => :delete %></td>
