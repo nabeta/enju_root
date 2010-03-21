@@ -27,6 +27,13 @@ class UsersControllerTest < ActionController::TestCase
     end
   end
 
+  def test_guest_should_not_allow_signup_without_email_confirmation
+    assert_no_difference 'User.count' do
+      create_user(:email => 'newuser@example.jp', :email_confirmation => nil)
+      assert_response :success
+    end
+  end
+
   def test_user_should_not_allow_signup
     UserSession.create users(:user1)
     assert_no_difference 'User.count' do
@@ -406,18 +413,19 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   protected
-    def create_user(options = {})
-      post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00008' }.merge(options)
-    end
+  def create_user(options = {})
+    post :create, :user => { :login => 'quire', :email => 'quire@example.com',
+      :email_confirmation => 'quire@example.com', :password => 'quirequire', :password_confirmation => 'quirequire', :patron_id => 6, :user_number => '00008' }.merge(options)
+  end
 
-    def create_user_without_patron_id_and_name(options = {})
-      post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008' }.merge(options)
-    end
+  def create_user_without_patron_id_and_name(options = {})
+    post :create, :user => { :login => 'quire', :email => 'quire@example.com',
+      :email_confirmation => 'quire@example.com', :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008' }.merge(options)
+  end
 
-    def create_user_without_patron_id(options = {})
-      post :create, :user => { :login => 'quire', :email => 'quire@example.com',
-        :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008', :first_name => 'quire', :last_name => 'quire' }.merge(options)
-    end
+  def create_user_without_patron_id(options = {})
+    post :create, :user => { :login => 'quire', :email => 'quire@example.com',
+      :email_confirmation => 'quire@example.com', :password => 'quirequire', :password_confirmation => 'quirequire', :user_number => '00008', :first_name => 'quire', :last_name => 'quire' }.merge(options)
+  end
+
 end

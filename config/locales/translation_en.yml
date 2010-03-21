@@ -219,7 +219,7 @@ en:
         country: Country
         patron_type: Patron type
         language: Language
-        email: 電子メール
+        email: Email
         url: URL
       feeds/app:
         source_url: Source URL
@@ -288,6 +288,7 @@ en:
         name: Name
         openid_identifier: OpenID Identifier
         email: Email
+        email_confirmation: Email (confirmation)
         crypted_password: Crypted password
         salt: Salt
         deleted_at: Deleted at

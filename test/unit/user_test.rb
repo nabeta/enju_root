@@ -8,8 +8,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_should_create_user
     assert_difference 'User.count' do
-      user = create_user
-      assert !user.new_record?, "#{user.errors.full_messages.to_sentence}"
+      u = create_user
+      assert !u.new_record?, "#{u.errors.full_messages.to_sentence}"
       #assert user.new_record?, "#{user.errors.full_messages.to_sentence}"
     end
   end
@@ -31,14 +31,14 @@ class UserTest < ActiveSupport::TestCase
   def test_should_not_require_password_confirmation_on_create
     assert_difference 'User.count' do
       u = create_user(:password => 'new_password', :password_confirmation => nil)
+      assert_nil u.errors.on(:email)
     end
   end
 
-  def test_should_require_email_on_create
-    #assert_no_difference 'User.count' do
-    assert_no_difference 'User.count' do
+  def test_should_not_require_email_on_create
+    assert_difference 'User.count' do
       u = create_user(:email => nil)
-      assert u.errors.on(:email)
+      assert_nil u.errors.on(:email)
     end
   end
 
@@ -149,7 +149,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   protected
-    def create_user(options = {})
-      User.create({ :login => 'quire', :email => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))
-    end
+  def create_user(options = {})
+    user = User.new({ :login => 'quire', :email => 'quire@example.com', :email_confirmation => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))
+    user.operator = users(:admin)
+    user.save
+    user
+  end
 end
