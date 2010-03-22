@@ -166,7 +166,6 @@ class ItemsController < ApplicationController
     respond_to do |format|
       if @item.save
         Item.transaction do
-          @item.reload
 
           if @item.shelf
             @item.shelf.library.patron.items << @item
