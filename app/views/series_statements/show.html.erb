@@ -22,6 +22,11 @@
 </p>
 
 <p>
+  <strong><%= t('activerecord.attributes.series_statement.series_statement_identifier') -%></strong>
+  <%= @series_statement.series_statement_identifier %>
+</p>
+
+<p>
   <strong><%= t('activerecord.models.work') -%></strong>
   <%= link_to h(@series_statement.work.original_title), @series_statement.work if @series_statement.work %>
 </p>

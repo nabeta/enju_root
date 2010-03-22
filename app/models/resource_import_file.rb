@@ -71,6 +71,7 @@ class ResourceImportFile < ActiveRecord::Base
       title[:original_title] = row['original_title']
       title[:title_transcription] = row['title_transcription']
       title[:title_alternative] = row['title_alternative']
+      #title[:title_transcription_alternative] = row['title_transcription_alternative']
 
       ResourceImportFile.transaction do
         if manifestation.nil?
@@ -79,22 +80,44 @@ class ResourceImportFile < ActiveRecord::Base
             publishers = row['publisher'].to_s.split(';')
             author_patrons = Manifestation.import_patrons(authors)
             publisher_patrons = Manifestation.import_patrons(publishers)
-            #title[:title_transcription_alternative] = row['title_transcription_alternative']
+            #classification = Classification.first(:conditions => {:category => row['classification'].to_s.strip)
+            subjects = []
+            row['subject'].to_s.split(';').each do |s|
+              unless subject = Subject.first(:conditions => {:term => s.to_s.strip})
+                # TODO: Subject typeの設定
+                subject = Subject.create(:term => s.to_s.strip, :subject_type_id => 1)
+              end
+              subjects << subject
+            end
+            unless series_statement = SeriesStatement.first(:conditions => {:series_statement_identifier => row['series_statement_identifier'].to_s.strip})
+              if row['series_statement_original_title'].to_s.strip.present?
+                series_statement = SeriesStatement.create(
+                  :original_title => row['series_statement_original_title'].to_s.strip,
+                  :title_transcription => row['series_statement_title_transcription'].to_s.strip,
+                  :series_statement_identifier => row['series_statement_identifier'].to_s.strip
+                )
+              end
+            end
 
             work = self.class.import_work(title, author_patrons, row['series_statment_id'])
+            work.subjects << subjects
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
             manifestation = self.class.import_manifestation(expression, publisher_patrons, {
               :isbn => row['isbn'],
+              :wrong_isbn => row['wrong_isbn'],
               :issn => row['issn'],
               :lccn => row['lccn'],
               :nbn => row['nbn'],
               :date_of_publication => Time.zone.parse(row['date_of_publication'].to_s),
               :volume_number_list => row['volume_number_list'],
+              :edition => row['edition'],
               :height => row['height'],
               :price => row['price'],
               :description => row['description'],
+              :note => row['note'],
+              :series_statement => series_statement,
               :manifestation_identifier => row['manifestation_identifier']
             })
             save_imported_object(manifestation)
