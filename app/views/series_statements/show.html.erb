@@ -26,18 +26,15 @@
   <%= @series_statement.series_statement_identifier %>
 </p>
 
-<p>
-  <strong><%= t('activerecord.models.work') -%></strong>
-  <%= link_to h(@series_statement.work.original_title), @series_statement.work if @series_statement.work %>
-</p>
-
   <%= render :partial => 'manifestation_list' -%>
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_series_statement_manifestation_path(@series_statement) %></li>
+    <%- unless @series_statement.manifestations.empty? -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.manifestation')), new_series_statement_manifestation_path(@series_statement) %></li>
+    <%- end -%>
     <li><%= link_to t('page.edit'), edit_series_statement_path(@series_statement) %></li>
     <li><%= link_to t('page.back'), series_statements_path %></li>
   </ul>

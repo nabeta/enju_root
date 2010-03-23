@@ -960,6 +960,14 @@ ja:
       import_request:
         isbn: ISBN
         state: 状態
+      resource:
+        iss_token: トークン
+        manifestation_id: 体現形
+        dcndl_xml: DCNDL XML
+        work_token: 著作トークン
+        approve: 修正承認
+        publish: 公開承認
+        state: 状態
 
   page:
     user_title: "{{login_name}} さんの図書館"
@@ -1410,3 +1418,13 @@ ja:
     password_updated: "パスワードは更新されました。"
     not_found: "そのメールアドレスを持つ利用者が見つかりません。"
     could_not_locate_account: "利用者が見つかりません。"
+  resource:
+    select_all: すべてを選択
+    approve_selected_resources: 選択した資料を承認
+    approve_all_resources: すべての資料を承認
+    approve: 承認
+    approved: 承認済み
+    not_approved: 未承認
+    all_resources: すべての資料
+    resources_were_approved: 資料の修正は承認されました。
+    select_resources: 資料を選択してください。
