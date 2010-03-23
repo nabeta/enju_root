@@ -95,7 +95,7 @@ class ResourcesController < ApplicationController
 
     respond_to do |format|
       if @resource.save
-        flash[:notice] = 'Resource was successfully created.'
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.resource'))
         format.html { redirect_to(@resource) }
         format.xml  { render :xml => @resource, :status => :created, :location => @resource }
       else
@@ -112,7 +112,7 @@ class ResourcesController < ApplicationController
 
     respond_to do |format|
       if @resource.update_attributes(params[:resource])
-        flash[:notice] = 'Resource was successfully updated.'
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.resource'))
         format.html { redirect_to(@resource) }
         format.xml  { head :ok }
       else
@@ -135,6 +135,14 @@ class ResourcesController < ApplicationController
   end
 
   def approve_selected
+    if current_user
+      unless current_user.has_role?('Librarian')
+        access_denied
+      end
+    else
+      redirect_to new_user_session_url
+      return
+    end
     respond_to do |format|
       if params[:to_approved].present?
         resources = params[:to_approved].map {|r| Resource.find_by_id(r)}
@@ -143,12 +151,13 @@ class ResourcesController < ApplicationController
       end
       if resources.present?
         resources.each do |resource|
-          resource.update_attributes!(:approved => true)
+          resource.approve = '1'
+          resource.save
         end
-        flash[:notice] = 'Resources were approved.'
+        flash[:notice] = t('resource.resources_were_approved')
         format.html { redirect_to resources_url }
       else
-        flash[:notice] = 'Select resources.'
+        flash[:notice] = t('resource.select_resources')
         format.html { redirect_to resources_url }
       end
     end

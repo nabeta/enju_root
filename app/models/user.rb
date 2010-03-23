@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :login
   acts_as_tagger
-  has_paper_trail
+  #has_paper_trail
 
   acts_as_authentic {|c|
     c.merge_validates_format_of_email_field_options :allow_blank => false, :on => :create
@@ -90,9 +90,12 @@ class User < ActiveRecord::Base
   # Virtual attribute for the unencrypted password
   attr_accessor :old_password, :temporary_password
   attr_reader :auto_generated_password
-  attr_accessor :first_name, :middle_name, :last_name, :full_name, :first_name_transcription, :middle_name_transcription, :last_name_transcription, :full_name_transcription
-  attr_accessor :zip_code, :address, :telephone_number, :fax_number, :address_note, :role_id
-  attr_accessor :patron_id, :operator, :password_not_verified, :update_own_account
+  attr_accessor :first_name, :middle_name, :last_name, :full_name,
+    :first_name_transcription, :middle_name_transcription,
+    :last_name_transcription, :full_name_transcription,
+    :zip_code, :address, :telephone_number, :fax_number, :address_note,
+    :role_id, :patron_id, :operator, :password_not_verified,
+    :update_own_account
   attr_accessible :login, :email, :email_confirmation, :password, :password_confirmation, :openid_identifier, :old_password
 
   validates_presence_of :login

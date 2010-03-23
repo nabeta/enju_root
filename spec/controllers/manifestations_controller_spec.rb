@@ -11,12 +11,12 @@ describe ManifestationsController do
   include LoginHelper
   
   describe "GET 'index'" do
-    share_examples_for '空の検索結果が出力される' do
+    share_examples_for 'デフォルト出力になる' do
       it "成功する" do
         response.should be_success
       end
-      it "検索結果が空である" do
-        assigns(:manifestations).should be_empty
+      it "manifestation.per_pageで割り当てられた件数を取得する" do
+        assigns(:manifestations).size.should == Manifestation.per_page
       end
     end
 
@@ -26,7 +26,7 @@ describe ManifestationsController do
         get :index
       end
       context "パラメータなしのとき" do
-        it_should_behave_like '空の検索結果が出力される'
+        it_should_behave_like 'デフォルト出力になる'
       end
     end
     context "librarian がログインしているとき" do
@@ -36,7 +36,7 @@ describe ManifestationsController do
       end
 
       context "パラメータなしのとき" do
-        it_should_behave_like '空の検索結果が出力される'
+        it_should_behave_like 'デフォルト出力になる'
       end
     end
 
@@ -46,7 +46,7 @@ describe ManifestationsController do
         get :index
       end
       context "パラメータなしのとき" do
-        it_should_behave_like '空の検索結果が出力される'
+        it_should_behave_like 'デフォルト出力になる'
       end
     end
     context "ログインしていないとき" do
@@ -54,7 +54,7 @@ describe ManifestationsController do
         get :index
       end
       context "パラメータなしのとき" do
-        it_should_behave_like '空の検索結果が出力される'
+        it_should_behave_like 'デフォルト出力になる'
       end
       context "検索語を入力したとき" do
         before do

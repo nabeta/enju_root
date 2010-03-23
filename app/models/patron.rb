@@ -74,6 +74,10 @@ class Patron < ActiveRecord::Base
 
   def before_validation_on_create
     self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
+    set_full_name
+  end
+
+  def set_full_name
     if self.full_name.blank?
       if self.last_name.to_s.strip and self.first_name.to_s.strip and FAMILY_NAME_FIRST == true
         self.full_name = [last_name, middle_name, first_name].split(", ").to_s.strip
@@ -84,30 +88,7 @@ class Patron < ActiveRecord::Base
     if self.full_name_transcription.blank?
       self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s.strip
     end
-  end
-
-  def full_name
-    if self[:full_name].to_s.strip.blank?
-      if self.last_name.to_s.strip.present? and self.first_name.to_s.strip.present? and FAMILY_NAME_FIRST == true
-        "#{self.last_name}, #{self.first_name}".strip
-      else
-        "#{self.first_name} #{self.last_name}".strip
-      end
-    else
-      self[:full_name].to_s.strip
-    end
-  end
-
-  def full_name_transcription
-    if self[:full_name_transcription].to_s.strip.blank?
-      if FAMILY_NAME_FIRST == true
-        "#{self.last_name_transcription} #{self.first_name_transcription}"
-      else
-        "#{self.first_name_transcription} #{self.last_name_transcription}"
-      end
-    else
-      self[:full_name_transcription]
-    end
+    [self.full_name, self.full_name_transcription]
   end
 
   #def full_name_generate

@@ -84,7 +84,7 @@ Rails::Initializer.run do |config|
   config.gem "Text", :lib => "text"
   config.gem "paper_trail"
   config.gem "file_wrapper"
-  config.gem "acts_as_geocodable"
+  config.gem "acts_as_geocodable", :version => "1.0.2"
   config.gem "smurf"
   config.gem "formtastic"
   config.gem "validation_reflection"
