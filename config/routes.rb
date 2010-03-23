@@ -34,8 +34,6 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :extents
 
-  map.resources :shelf_has_manifestations
-
   map.resources :patron_has_patrons
 
   map.resources :participates
@@ -346,6 +344,7 @@ ActionController::Routing::Routes.draw do |map|
     #manifestation.resources :work_has_subjects
     manifestation.resources :manifestations, :only => [:index, :new]
     manifestation.resources :manifestation_has_manifestations
+    manifestation.resources :series_statements
   end
   map.resources :items do |item|
     item.resources :owns
@@ -404,7 +403,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :shelves do |shelf|
     shelf.resources :items
     shelf.resources :picture_files
-    shelf.resources :shelf_has_manifestations
     shelf.resources :manifestations
   end
   map.resources :questions do |question|

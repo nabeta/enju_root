@@ -163,6 +163,7 @@ en:
         call_number_delimiter: Call number delimiter
         position: Position
         deleted_at: Deleted at
+        opening_hour: Opening hour
       question:
         body: Body
         share_question: Share question
@@ -218,6 +219,8 @@ en:
         country: Country
         patron_type: Patron type
         language: Language
+        email: Email
+        url: URL
       feeds/app:
         source_url: Source URL
         title: Title
@@ -285,6 +288,7 @@ en:
         name: Name
         openid_identifier: OpenID Identifier
         email: Email
+        email_confirmation: Email (confirmation)
         crypted_password: Crypted password
         salt: Salt
         deleted_at: Deleted at
@@ -951,10 +955,20 @@ en:
         numbering: Numbering
         title_subseries: Title subseries
         numbering_subseries: Numbering subseries
+        series_statement_identifier: Series statement identifier
         work: Work
       import_request:
         isbn: ISBN
         state: State
+      resource:
+        iss_token: ISS token
+        manifestation_id: Manifestation
+        dcndl_xml: DCNDL XML
+        work_token: Work token
+        approved: Approved
+        state: State
+        approve: Approve
+        publish: Publish
 
   page:
     user_title: "{{login_name}}'s library"
@@ -1419,3 +1433,13 @@ en:
     password_updated: "Password was successfully updated."
     not_found: "No user was found with that email address."
     could_not_locate_account: "We're sorry, but we could not locate your account."
+  resource:
+    select_all: Select all
+    approve_selected_resources: Approve selected resources
+    approve_all_resources: Approve all resources
+    approve: Approve
+    approved: Approved
+    not_approved: Not approved
+    all_resources: All resources
+    resources_were_approved: Resources were approved.
+    select_resources: Select resources.

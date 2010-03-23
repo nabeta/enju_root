@@ -19,6 +19,7 @@
     <%- end -%>
   </p>
 
+<%= render :partial => 'page/tabview' %>
 <div id="tabs">
 
   <ul class="yui-nav">
@@ -38,10 +39,12 @@
     <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
   </ul>
   <div id="detail">
-    <table class="index">
+    <table class="index vcard">
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.full_name') -%>:</strong></td>
-        <td><%= @patron.full_name -%></td>
+        <td>
+          <span class="fn"><%= @patron.full_name -%></span>
+        </td>
       </tr>
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.full_name_transcription') -%>:</strong></td>
@@ -56,6 +59,18 @@
       <tr>
         <td><strong><%= t('activerecord.models.patron_type') -%>:</strong></td>
         <td><%= @patron.patron_type.display_name.localize -%></td>
+      </tr>
+      <tr>
+        <td><strong><%= t('activerecord.attributes.patron.email') -%>:</strong></td>
+        <td>
+          <%= mail_to h(@patron.email), nil, :class => 'email' -%>
+        </td>
+      </tr>
+      <tr>
+        <td><strong><%= t('activerecord.attributes.patron.url') -%>:</strong></td>
+        <td>
+          <%= link_to h(@patron.url), @patron.url, :class => 'url' -%>
+        </td>
       </tr>
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.other_designation') -%>:</strong></td>
@@ -148,7 +163,6 @@
   <%= render :partial => 'history_list' -%>
   </div>
 </div>
-<%= render :partial => 'page/tabview' -%>
 <%- end -%>
 </div>
 

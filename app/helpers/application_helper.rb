@@ -72,13 +72,13 @@ module ApplicationHelper
       max = tag.taggings_count if tag.taggings_count.to_i > max
       min = tag.taggings_count if tag.taggings_count.to_i < min
     end
-    divisor = ((max - min) / classes.size) + 1
+    divisor = ((max - min).div(classes.size)) + 1
     
     html =    %(<div class="hTagcloud">\n)
     html <<   %(  <ul class="popularity">\n)
     tags.each do |tag|
       html << %(  <li>)
-      html << link_to(h(tag.name), manifestations_url(:tag => tag.name), :class => classes[(tag.taggings_count - min) / divisor]) 
+      html << link_to(h(tag.name), manifestations_url(:tag => tag.name), :class => classes[(tag.taggings_count - min).div(divisor)]) 
       html << %(  </li>\n) # FIXME: IEのために文末の空白を入れている
     end
     html <<   %(  </ul>\n)
@@ -123,13 +123,11 @@ module ApplicationHelper
   end
 
   def advertisement_pickup(advertisement)
-    unless advertisement.url.blank?
+    if advertisement.try(:url)
       link_to h(advertisement.body), advertisement.url
     else
-      h(advertisement.body)
+      h(advertisement.try(:body))
     end
-  rescue NoMethodError
-    nil
   end
 
   def database_adapter

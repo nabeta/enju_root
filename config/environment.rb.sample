@@ -11,6 +11,7 @@ COUNTRY_CODE = 'jp'
 FAMILY_NAME_FIRST = true
 
 WRITE_SEARCH_LOG_TO_FILE = true
+CSV_CHARSET_CONVERSION = false
 
 WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
 
@@ -83,11 +84,12 @@ Rails::Initializer.run do |config|
   config.gem "Text", :lib => "text"
   config.gem "paper_trail"
   config.gem "file_wrapper"
-  config.gem "acts_as_geocodable"
+  config.gem "acts_as_geocodable", :version => "1.0.2"
   config.gem "smurf"
   config.gem "formtastic"
   config.gem "validation_reflection"
   config.gem "recurrence"
+  config.gem "prism"
   #config.gem "acts_as_archive"
   #config.gem "event_calendar"
   #config.gem "sru"

@@ -269,6 +269,7 @@ class ApplicationController < ActionController::Base
   end
 
   def convert_charset
+    return if CSV_CHARSET_CONVERSION == false
     #if params[:format] == 'ics'
     #  response.body = NKF::nkf('-w -Lw', response.body)
     case params[:format]
@@ -325,7 +326,7 @@ class ApplicationController < ActionController::Base
   end
 
   def pickup_advertisement
-    if params[:format] == 'html'
+    if params[:format] == 'html' or params[:format].nil?
       @picked_advertisement = Advertisement.pickup
     end
   end
@@ -402,16 +403,20 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  def get_resumption_token(resources, from_time, until_time)
+  def get_resumption_token(token)
+    resumption = Rails.cache.read(token) rescue nil
+  end
+
+  def set_resumption_token(resources, from_time, until_time, per_page = nil)
     if params[:format] == 'oai'
       if params[:resumptionToken]
-        if resumption = Rails.cache.read(params[:resumptionToken])
-          @cursor = resumption[:cursor] + resources.per_page
+        if resumption = Rails.cache.read(params[:resumptionToken]) rescue nil
+          @cursor = resumption[:cursor] + per_page ||= resources.per_page
         end
       end
       @cursor ||= 0
-      resumption ||= {
-        :token => "oai_dc.f(#{from_time.utc.iso8601}).u(#{until_time.utc.iso8601}):#{resources.per_page}",
+      resumption = {
+        :token => "f(#{from_time.utc.iso8601}).u(#{until_time.utc.iso8601}):#{@cursor}",
         :cursor => @cursor,
         # memcachedの使用が前提
         :expired_at => 1.hour.from_now.utc.iso8601

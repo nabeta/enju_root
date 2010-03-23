@@ -50,6 +50,16 @@ class Manifestation < ActiveRecord::Base
 
   searchable do
     text :title, :fulltext, :note, :author, :editor, :publisher, :subject
+    string :title, :multiple => true
+    string :conect_title do
+      title.join('').gsub(/\s/, '')
+    end
+    string :conect_creator do
+      author.join('').gsub(/\s/, '')
+    end
+    string :conect_publisher do
+      publisher.join('').gsub(/\s/, '')
+    end
     text :tag do
       tags.collect(&:name)
     end
@@ -213,7 +223,6 @@ class Manifestation < ActiveRecord::Base
   def after_create
     send_later(:set_digest) if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
-    Manifestation.expire_top_page_cache
   end
 
   def after_save
@@ -224,7 +233,6 @@ class Manifestation < ActiveRecord::Base
   def after_destroy
     Rails.cache.delete("Manifestation.search.total")
     send_later(:expire_cache)
-    Manifestation.expire_top_page_cache
   end
 
   def expire_cache
@@ -232,12 +240,6 @@ class Manifestation < ActiveRecord::Base
     Rails.cache.delete("worldcat_record_#{id}")
     Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
-  end
-
-  def self.expire_top_page_cache
-    I18n.available_locales.each do |locale|
-      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/?locale=#{locale}&name=search_form")
-    end
   end
 
   def self.cached_numdocs
@@ -267,9 +269,9 @@ class Manifestation < ActiveRecord::Base
 
   def titles
     title = []
-    title << original_title
-    title << title_transcription
-    title << title_alternative
+    title << original_title.to_s.strip
+    title << title_transcription.to_s.strip
+    title << title_alternative.to_s.strip
     #title << original_title.wakati
     #title << title_transcription.wakati rescue nil
     #title << title_alternative.wakati rescue nil
@@ -340,7 +342,6 @@ class Manifestation < ActiveRecord::Base
   end
 
   def authors
-    patron_ids = []
     # 著編者
     (self.works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
   end

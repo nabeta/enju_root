@@ -14,7 +14,7 @@
   <%- form_for :manifestations, :url => manifestation_manifestations_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
+      <%= text_field_tag 'search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
       <%- if @manifestation.is_deletable_by(current_user) -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -33,7 +33,7 @@
       -->
       <%= link_to t('page.back_to_index'), manifestation_manifestations_path(@manifestation) -%>
     </p>
-    <%= javascript_tag("$('query').focus()") -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">

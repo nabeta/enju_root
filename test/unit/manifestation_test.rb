@@ -24,15 +24,15 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_sru_search 
     sru = Sru.new({:query => "title=Ruby"})
     sru.search
-    assert_equal 17, sru.manifestations.size
-    assert_equal ['Ruby Cookbook'], sru.manifestations.first.title
+    assert_equal 18, sru.manifestations.size
+    assert_equal 'Ruby', sru.manifestations.first.titles.first
     sru = Sru.new({:query => 'title ALL "awk sed"'})
     sru.search
     assert_equal 2, sru.manifestations.size
     assert_equal [184, 116], sru.manifestations.collect{|m| m.id}
     sru = Sru.new({:query => 'title ANY "ruby awk sed"'})
     sru.search
-    assert_equal 21, sru.manifestations.size
+    assert_equal 22, sru.manifestations.size
     sru = Sru.new({:query => 'isbn=9784774127804'})
     sru.search
     assert_equal 10, sru.manifestations.first.id
@@ -89,11 +89,11 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_openurl_search_patron
     openurl = Openurl.new({:aulast => "Administrator"})
     results = openurl.search
-    assert_equal "aulast_text:Administrator", openurl.query_text
+    assert_equal "au_text:Administrator", openurl.query_text
     assert_equal 6, results.size
-    openurl = Openurl.new({:aufirst => "名前"})
+    openurl = Openurl.new({:aufirst => "名称"})
     results = openurl.search
-    assert_equal "aufirst_text:名前", openurl.query_text
+    assert_equal "au_text:名称", openurl.query_text
     assert_equal 1, results.size
     openurl = Openurl.new({:au => "テスト"})
     results = openurl.search
@@ -119,7 +119,7 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_openurl_search_any
     openurl = Openurl.new({:any => "テスト"})
     results = openurl.search
-    assert_equal 7, results.size
+    assert_equal 8, results.size
   end
   def test_openurl_search_multi
     openurl = Openurl.new({:btitle => "CGI Perl プログラミング"})
@@ -132,6 +132,7 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_openurl_search_error
     assert_raises(OpenurlQuerySyntaxError){ Openurl.new({:isbn => "12345678901234"})}
     assert_raises(OpenurlQuerySyntaxError){Openurl.new(:issn => "1234abcd")}
+    assert_raises(OpenurlQuerySyntaxError){Openurl.new(:aufirst => "テスト 名称")}
   end
   def test_manifestation_should_embody_expression
     assert manifestations(:manifestation_00001).embodies?(expressions(:expression_00001))

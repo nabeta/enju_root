@@ -35,6 +35,10 @@
     <%= f.text_field :numbering_subseries %>
   </p>
   <p>
+    <%= f.label t('activerecord.attributes.series_statement.series_statement_identifier') -%><br />
+    <%= f.text_field :series_statement_identifier, :class => 'resource_item_identifier' %>
+  </p>
+  <p>
     <%= f.submit t('page.create') %>
   </p>
 <% end %>

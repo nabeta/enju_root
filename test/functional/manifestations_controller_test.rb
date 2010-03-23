@@ -24,8 +24,14 @@ class ManifestationsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_get_index
-    assert_no_difference('SearchHistory.count') do
-      get :index, :format => 'xml'
+    if WRITE_SEARCH_LOG_TO_FILE
+      assert_no_difference('SearchHistory.count') do
+        get :index
+      end
+    else
+      assert_difference('SearchHistory.count') do
+        get :index
+      end
     end
     get :index
     assert_response :success
@@ -33,16 +39,28 @@ class ManifestationsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_get_index_xml
-    assert_no_difference('SearchHistory.count') do
-      get :index, :format => 'xml'
+    if WRITE_SEARCH_LOG_TO_FILE
+      assert_no_difference('SearchHistory.count') do
+        get :index, :format => 'xml'
+      end
+    else
+      assert_difference('SearchHistory.count') do
+        get :index, :format => 'xml'
+      end
     end
     assert_response :success
     assert assigns(:manifestations)
   end
 
   def test_guest_should_get_index_csv
-    assert_no_difference('SearchHistory.count') do
-      get :index, :format => 'csv'
+    if WRITE_SEARCH_LOG_TO_FILE
+      assert_no_difference('SearchHistory.count') do
+        get :index, :format => 'csv'
+      end
+    else
+      assert_difference('SearchHistory.count') do
+        get :index, :format => 'csv'
+      end
     end
     assert_response :success
     assert assigns(:manifestations)
@@ -50,8 +68,14 @@ class ManifestationsControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_search_history_if_log_is_written_to_file
     UserSession.create users(:user1)
-    assert_no_difference('SearchHistory.count') do
-      get :index, :query => 'test'
+    if WRITE_SEARCH_LOG_TO_FILE
+      assert_no_difference('SearchHistory.count') do
+        get :index, :query => 'test'
+      end
+    else
+      assert_difference('SearchHistory.count') do
+        get :index, :query => 'test'
+      end
     end
     assert_response :success
     assert assigns(:manifestations)

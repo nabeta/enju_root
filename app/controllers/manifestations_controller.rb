@@ -24,10 +24,17 @@ class ManifestationsController < ApplicationController
 
       @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Manifestation.last.updated_at
       @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Manifestation.first.updated_at
-      if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
-        manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
-        redirect_to manifestation_url(manifestation, :format => 'oai')
-        return
+      if params[:format] == 'oai'
+        # OAI-PMHのデフォルトの件数。テストのため少なめに設定
+        per_page = 3
+        if current_token = get_resumption_token(params[:resumptionToken])
+          page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+        end
+        if params[:verb] == 'GetRecord' and params[:identifier]
+          manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
+          redirect_to manifestation_url(manifestation, :format => 'oai')
+          return
+        end
       end
 
       session[:manifestation_ids] = [] unless session[:manifestation_ids]
@@ -128,7 +135,7 @@ class ManifestationsController < ApplicationController
         return
       end
 
-      page = params[:page] || 1
+      page ||= params[:page] || 1
       #unless query.blank?
         #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
         #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
@@ -158,10 +165,12 @@ class ManifestationsController < ApplicationController
           @suggested_tag = query.suggest_tags.first
         end
       end
-      save_search_history(query, @manifestations.offset, @count[:query_result], current_user.try(:login))
+      save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
     end
 
-    get_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+    unless @manifestations.empty?
+      set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+    end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
@@ -669,7 +678,7 @@ class ManifestationsController < ApplicationController
     if WRITE_SEARCH_LOG_TO_FILE
       write_search_log(query, total, user)
     else
-      SearchHistory.create(:query => query, :user_id => user.try(:id), :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
+      history = SearchHistory.create(:query => query, :user => user, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
     end
   end
 
@@ -688,6 +697,6 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}"
   end
 end

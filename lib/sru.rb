@@ -41,14 +41,16 @@ class Sru
     @manifestations = search.execute!.results
     @extra_response_data = get_extra_response_data
     @number_of_records, @next_record_position = get_number_of_records
+    
+    @manifestations
   end
-  
+
   def get_extra_response_data
     #TODO: NDL で必要な項目が決定し、更に enju にそのフィールドが設けられた後で正式な実装を行なう。
     if @search.respond_to?(:erd)
       @schema == 'dc' ? @search.erd : {}
-    end
   end
+end
 
   def get_number_of_records
     #TODO: sunspot での取得方法が分かり次第、正式な実装を行なう。

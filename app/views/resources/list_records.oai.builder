@@ -8,7 +8,6 @@ def request_attr(prefix = 'oai_dc')
 end
 
 xml.instruct! :xml, :version=>"1.0"
-xml.instruct! :xml, :version=>"1.0"
 xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
@@ -32,7 +31,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
       end
     end
     if @resumption.present?
-      if @resumption[:cursor].to_i + Resource.per_page < @resources.total_entries
+      if @resumption[:cursor].to_i + @resources.per_page < @resources.total_entries
         xml.resumptionToken @resumption[:token], :completeListSize => @resources.total_entries, :cursor => @resumption[:cursor], :expirationDate => @resumption[:expired_at]
       end
     end

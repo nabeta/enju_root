@@ -4,7 +4,7 @@
 
 <%- form_for :expressions, :url => expression_merge_list_expressions_path(@expression_merge_list), :html => {:method => 'get'} do -%>
 <p>
-  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
+  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
   <%- if @expression_merge_list.is_deletable_by(current_user) -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -17,7 +17,7 @@
   <%= submit_tag t('page.search') -%>
   <%= link_to t('page.back_to_index'), expression_merge_list_expressions_path(@expression_merge_list) -%>
 </p>
-    <%= javascript_tag("$('query').focus()") -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
 <%- end -%>
 
   <table class="index">

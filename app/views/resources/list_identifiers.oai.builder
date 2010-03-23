@@ -12,5 +12,10 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
         xml.setSpec resource.manifestation.series_statement.id if resource.manifestation.try(:series_statement)
       end
     end
+    if @resumption.present?
+      if @resumption[:cursor].to_i + @resources.per_page < @resources.total_entries
+        xml.resumptionToken @resumption[:token], :completeListSize => @resources.total_entries, :cursor => @resumption[:cursor], :expirationDate => @resumption[:expired_at]
+      end
+    end
   end
 end

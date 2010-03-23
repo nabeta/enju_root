@@ -1696,6 +1696,7 @@ manifestation_00193:
   carrier_type_id: 1
   language_id: 1
   isbn: 9784797340044
+  isbn10: 4797340045
   updated_at: 2010-03-01 16:14:18 +09:00
   original_title: "Rubyレシピブック"
   price:
@@ -1756,6 +1757,38 @@ manifestation_00196:
   width:
   exemplifies_count: 0
   created_at: 2007-11-19 17:55:41 UTC
+manifestation_00197:
+  carrier_type_id: 1
+  language_id: 1
+  isbn: 
+  updated_at: 2010-03-15 16:14:18 +09:00
+  original_title: "Ruby"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 197
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2007-11-19 17:55:41 UTC
+manifestation_00198:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-15 16:14:18 +09:00
+  original_title: "紅玉の本"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 198
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2007-11-19 17:55:41 UTC
 manifestation_00201:
   carrier_type_id: 1
   language_id: 1
@@ -1812,7 +1845,7 @@ manifestation_00203:
 manifestation_00204:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 5555567890001
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "テスト雑誌１月号の記事１"
   price:
@@ -1828,7 +1861,7 @@ manifestation_00204:
 manifestation_00205:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 5555567890002
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "テスト雑誌１月号の記事２"
   price:
@@ -1844,7 +1877,7 @@ manifestation_00205:
 manifestation_00206:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 5555567890003
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "テスト雑誌２月号の記事１"
   price:
@@ -1860,7 +1893,7 @@ manifestation_00206:
 manifestation_00207:
   carrier_type_id: 1
   language_id: 1
-  isbn:
+  isbn: 9876543210207
   updated_at: 2010-03-03 20:00:00 +09:00
   original_title: "試験単行本"
   price:
@@ -1873,3 +1906,138 @@ manifestation_00207:
   width:
   exemplifies_count: 0
   created_at: 2010-03-03 20:00:00 UTC
+manifestation_00208:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-16 11:00:00 +09:00
+  original_title: "ある出版物"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 208
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-16 11:00:00 UTC
+manifestation_00209:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認Admin専用１"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 209
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 4
+manifestation_00210:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認Admin専用２"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 210
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 4
+manifestation_00211:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認Librarian以上用１"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 211
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 3
+manifestation_00212:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認Librarian以上用２"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 212
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 3
+manifestation_00213:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認User以上用１"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 213
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 2
+manifestation_00214:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認User以上用２"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 214
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 2
+manifestation_00215:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 215
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 1
