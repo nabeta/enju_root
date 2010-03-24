@@ -80,8 +80,8 @@ class Expression < ActiveRecord::Base
     self.expression_merge_lists.collect(&:id)
   end
 
-  def reified(patron)
-    reifies.first(:conditions => {:patron_id => patron.id})
+  def realized(patron)
+    realizes.first(:conditions => {:patron_id => patron.id})
   end
 
   def embodied(manifestation)

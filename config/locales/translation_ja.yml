@@ -611,6 +611,7 @@ ja:
         lccn: LCCN
         issn: ISSN
         subscription_master: 購読マスタ
+        description: 説明
       user_group:
         name: 名前
         display_name: 表示名
@@ -1428,3 +1429,6 @@ ja:
     all_resources: すべての資料
     resources_were_approved: 資料の修正は承認されました。
     select_resources: 資料を選択してください。
+    publish: 公開
+    reject: 却下
+    withdraw: 取り下げ

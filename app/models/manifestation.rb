@@ -123,7 +123,7 @@ class Manifestation < ActiveRecord::Base
       author
     end
     string :creator, :multiple => true do
-      author
+      author.map{|au| au.gsub(' ', '')}
     end
     text :au do
       author
@@ -216,9 +216,9 @@ class Manifestation < ActiveRecord::Base
     ISBN_Tools.cleanup!(self.isbn) if self.isbn.present?
   end
 
-  def validate
-    check_series_statement
-  end
+  #def validate
+  #  check_series_statement
+  #end
 
   def after_create
     send_later(:set_digest) if self.attachment.path

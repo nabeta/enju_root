@@ -8,6 +8,8 @@ class Resource < ActiveRecord::Base
   default_scope :order => 'updated_at DESC'
   named_scope :approved, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND state = ?', from_time, until_time, 'approved']}}
   named_scope :not_approved, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND state = ?', from_time, until_time, 'not_approved']}}
+  named_scope :published, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND state = ?', from_time, until_time, 'published']}}
+  named_scope :all_record, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ?', from_time, until_time]}}
 
   validates_presence_of :iss_token
   validates_uniqueness_of :iss_token
@@ -43,7 +45,7 @@ class Resource < ActiveRecord::Base
   end
 
   aasm_event :aasm_publish do
-    transitions :from => [:approved],
+    transitions :from => [:approved, :published],
       :to => :published
   end
   #TODO: 却下処理
@@ -86,13 +88,31 @@ class Resource < ActiveRecord::Base
   def pubdate
   end
 
-  def last_approved
-    if approved
+  def last_published
+    if state == 'published'
       self
     else
       versions.reverse.map{|version| version.reify}.find do |r|
-        r.try(:approved)
+        r.state == 'published'
       end
     end
+  end
+
+  def editable?
+    ['not_approved'].include?(state)
+  end
+
+  def publishable?
+    ['approved'].include?(state)
+  end
+
+  def is_readable_by(user, parent = nil)
+    if state == 'published'
+      true
+    else
+      true if user.try(:has_role?, 'Librarian')
+    end
+  rescue
+    false
   end
 end

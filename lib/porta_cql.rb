@@ -108,10 +108,10 @@ class Clause
   MATCH_AHEAD = %w[ndc ndlc]
   MATCH_DATE = %w[from until]
   MATCH_ANYWHERE = %w[anywhere]
-  LOGIC_ALL = %w[title creator publisher description subject anywhere],
-    LOGIC_ANY = %w[dpid ndl_agent_type],
-    LOGIC_EQUAL = %w[dpgroupid ndc isbn issn jpno from until porta_type digitalize_type webget_type payment_type ndlc itemno],
-    MULTIPLE = %w[dpid title creator publisher description subject anywhere ndl_agent_type]
+  LOGIC_ALL = %w[title creator publisher description subject anywhere]
+  LOGIC_ANY = %w[dpid ndl_agent_type]
+  LOGIC_EQUAL = %w[dpgroupid ndc isbn issn jpno from until porta_type digitalize_type webget_type payment_type ndlc itemno]
+  MULTIPLE = %w[dpid title creator publisher description subject anywhere ndl_agent_type]
 
   def initialize(text)
     unless text.empty?
@@ -202,16 +202,16 @@ class Clause
     case @relation
     when /\A=\Z/
       unless /\A\^(.+)/ =~ term
-        "%s_%s:%s" % [@field, :text, term]
+        "%s_%s:(%s)" % [@field, :text, term]
       else
-        "conect_%s_%s:%s" % [@field, :s, $1.gsub(/\s/, '') + '*']
+        "conect_%s_%s:(%s)" % [@field, :s, $1.gsub(/\s/, '') + '*']
       end
     when /\AEXACT\Z/
-      "%s_%s:%s" % [@field, :sm, term]
+      "%s_%s:(%s)" % [@field, :sm, term.gsub(' ', '')]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :all)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
@@ -221,9 +221,9 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:%s" % [@field, :sm, term]
+      "%s_%s:(%s)" % [@field, :sm, term]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, :sm, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:(%s)" % [@field, :sm, multiple_to_sunspot(@terms, :any)]
     else
       raise QuerySyntaxError
     end
@@ -233,18 +233,18 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:%s" % [@field, :text, trim_ahead(term)]
+      "%s_%s:(%s)" % [@field, :text, trim_ahead(term)]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :all)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
   end
 
   def to_sunspot_match_ahead
-    "%s_%s:%s*" % [@field, :text, @terms.first]
+    "%s_%s:(%s*)" % [@field, :text, @terms.first]
   end
 
   def to_sunspot_match_anywhere

@@ -3,8 +3,8 @@
 
 class SrwController < ApplicationController
   def index
-    #Srw model 自体を省略したほうがよいかもしれない。
-    @srw = Srw.new(params[:Envelope])
+    #XML を解釈した上で実際の検索は Sru が行う。
+    @srw = Sru.new(params[:Envelope][:Body][:searchRetrieveRequest])
     query = @srw.cql.to_sunspot
     sort = @srw.sort_by
     start = @srw.start
@@ -16,9 +16,9 @@ class SrwController < ApplicationController
     search = make_internal_query(search)
 
     search.build do
-      fulltext query
       order_by sort[:sort_by], sort[:order]
       with(:required_role_id).less_than role.id
+      fulltext query
     end
     search.query.start_record(start, maximum)
 
@@ -27,7 +27,7 @@ class SrwController < ApplicationController
     respond_to do |format|
       format.xml  {render :layout => false}
     end
-  rescue QueryError
+  rescue QueryError, RSolr::RequestError
     render :template => 'srw/error.xml', :layout => false
     return
   end
