@@ -116,6 +116,11 @@
   </p>
 
   <p>
+    <%= f.label t('activerecord.attributes.manifestation.description') -%><br />
+    <%= f.text_area :description, :class => 'resource_textarea' -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.manifestation.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>

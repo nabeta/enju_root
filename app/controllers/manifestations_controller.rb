@@ -18,15 +18,21 @@ class ManifestationsController < ApplicationController
   # GET /manifestations.xml
   def index
     @seconds = Benchmark.realtime do
+      next if need_not_to_search?
 	    if logged_in?
 	      @user = current_user unless @user
 	    end
 
-      @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Manifestation.last.updated_at
-      @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Manifestation.first.updated_at
+      if Manifestation.last and Manifestation.first
+        @from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
+        @until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
+      else
+        @from_time = Time.zone.now
+        @until_time = Time.zone.now
+      end
       if params[:format] == 'oai'
-        # OAI-PMHのデフォルトの件数。テストのため少なめに設定
-        per_page = 3
+        # OAI-PMHのデフォルトの件数
+        per_page = 200
         if current_token = get_resumption_token(params[:resumptionToken])
           page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
         end
@@ -137,15 +143,15 @@ class ManifestationsController < ApplicationController
 
       page ||= params[:page] || 1
       #unless query.blank?
-        #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
-        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
-        if params[:format] == 'sru'
-          search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
-        else
-        	search.query.paginate(page.to_i, per_page || Manifestation.per_page)
-        end
-        @manifestations = search.execute!.results
-        @count[:query_result] = @manifestations.total_entries
+      #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
+      #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
+      if params[:format] == 'sru'
+        search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
+      else
+        search.query.paginate(page.to_i, per_page || Manifestation.per_page)
+      end
+      @manifestations = search.execute!.results
+      @count[:query_result] = @manifestations.total_entries
       #else
       #  @manifestations = WillPaginate::Collection.create(1,1,0) do end
       #  @count[:query_result] = 0
@@ -166,10 +172,9 @@ class ManifestationsController < ApplicationController
         end
       end
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
-    end
-
-    unless @manifestations.empty?
-      set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+      unless @manifestations.empty?
+        set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+      end
     end
 
     #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
@@ -212,8 +217,12 @@ class ManifestationsController < ApplicationController
       }
     end
   rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to manifestations_url
+    unless params[:format] == 'sru'
+      flash[:notice] = t('page.error_occured')
+      redirect_to manifestations_url
+    else
+      render :template => 'manifestations/error.xml', :layout => false
+    end
     return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
@@ -423,8 +432,8 @@ class ManifestationsController < ApplicationController
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
         #else
-          format.html { redirect_to(@manifestation) }
-          format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
+        format.html { redirect_to(@manifestation) }
+        format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
         #end
       else
         prepare_options
@@ -698,5 +707,11 @@ class ManifestationsController < ApplicationController
 
   def write_search_log(query, total, user)
     SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}"
+  end
+
+  def need_not_to_search?
+    if params[:format] == 'oai'
+      true if ['Identify', 'ListSets', 'ListMetadataFormats'].include?(params[:verb])
+    end
   end
 end

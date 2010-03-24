@@ -5,31 +5,52 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
   def index
-    if current_token = get_resumption_token(params[:resumptionToken])
-      page = current_token[:cursor].to_i.div(Resource.per_page) + 1
+    if Resource.first and Resource.last
+      @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
+      @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
+    else
+      @from_time = Time.zone.now
+      @until_time = Time.zone.now
     end
+    if params[:format] == 'oai'
+      # OAI-PMHのデフォルトの件数
+      per_page = 200
+      if current_token = get_resumption_token(params[:resumptionToken])
+        page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+      end
+      if params[:verb] == 'GetRecord' and params[:identifier]
+        resource = Resource.find(URI.parse(params[:identifier]).path.split('/').last)
+        redirect_to resource_url(resource, :format => 'oai')
+        return
+      end
+    end
+
     page ||= params[:page] || 1
-    @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Resource.last.updated_at
-    @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Resource.first.updated_at
-    if params[:format] == 'oai' and params[:verb] == 'GetRecord' and params[:identifier]
-      resource = Resource.find(URI.parse(params[:identifier]).path.split('/').last)
-      redirect_to resource_url(resource, :format => 'oai')
-      return
-    end
+
     case params[:approved]
     when 'true'
-      @resources = Resource.approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => page)
+      @resources = Resource.approved(@from_time, @until_time).paginate(:page => page)
     when 'false'
-      @resources = Resource.not_approved(@from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at).paginate(:page => page)
+      @resources = Resource.not_approved(@from_time, @until_time).paginate(:page => page)
     else
-      query = params[:query]
-      @query = query
-      search = Sunspot.new_search(Resource)
-      search.build do
-        fulltext query
+      if Resource.respond_to?(:search)
+        query = params[:query]
+        @query = query
+        published = true unless current_user.try(:has_role?, 'Librarian')
+        search = Sunspot.new_search(Resource)
+        search.build do
+          fulltext query
+          with(:state).equal_to 'published' if published
+        end
+        search.query.paginate(page.to_i, Resource.per_page)
+        @resources = search.execute!.results
+      else
+        if current_user.try(:has_role?, 'Librarian')
+          @resources = Resource.all_record(@from_time, @until_time).paginate(:page => page)
+        else
+          @resources = Resource.published(@from_time, @until_time).paginate(:page => page)
+        end
       end
-      search.query.paginate(page.to_i, Resource.per_page)
-      @resources = search.execute!.results
     end
 
     set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
@@ -60,9 +81,13 @@ class ResourcesController < ApplicationController
   def show
     @resource = Resource.find(params[:id])
     unless current_user.try(:has_role?, 'Librarian')
-      unless @resource.last_approved
+      unless @resource.last_published
         not_found; return
       end
+      @resource = @resource.last_published
+    end
+    unless @resource.last_published.is_readable_by(current_user)
+      access_denied; return
     end
 
     respond_to do |format|
@@ -109,6 +134,12 @@ class ResourcesController < ApplicationController
   # PUT /resources/1.xml
   def update
     @resource = Resource.find(params[:id])
+    case params[:commit]
+    when t('resource.approve')
+      @resource.approve = "1"
+    when t('resource.publish')
+      @resource.publish = "1"
+    end
 
     respond_to do |format|
       if @resource.update_attributes(params[:resource])

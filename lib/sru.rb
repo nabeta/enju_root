@@ -37,7 +37,10 @@ class Sru
   def search
     sunspot_query = @cql.to_sunspot
     search = Sunspot.new_search(Manifestation)
-    search.build{ fulltext sunspot_query}
+    search.build do
+      fulltext sunspot_query
+      paginate :page => 1, :per_page => 10000
+    end
     @manifestations = search.execute!.results
     @extra_response_data = get_extra_response_data
     @number_of_records, @next_record_position = get_number_of_records

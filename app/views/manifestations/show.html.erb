@@ -159,6 +159,12 @@
         <td><%=l @manifestation.updated_at if @manifestation.updated_at -%></td>
       </tr>
       <tr>
+        <td><%= t('activerecord.attributes.manifestation.description') -%>:</td>
+        <td>
+          <%= raw simple_format(h(@manifestation.description)) -%>
+        </td>
+      </tr>
+      <tr>
         <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
         <td>
           <!--

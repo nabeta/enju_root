@@ -64,7 +64,6 @@ class Patron < ActiveRecord::Base
 
   #acts_as_soft_deletable
   #acts_as_tree
-  #acts_as_recommendable :items, :through => :owns
   has_paper_trail
 
   attr_accessor :user_id

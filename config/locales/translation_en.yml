@@ -610,6 +610,7 @@ en:
         lccn: LCCN
         issn: ISSN
         subscription_master: Subscription master
+        description: Description
       user_group:
         name: Name
         display_name: Display name
@@ -1443,3 +1444,6 @@ en:
     all_resources: All resources
     resources_were_approved: Resources were approved.
     select_resources: Select resources.
+    publish: Publish
+    reject: Reject
+    withdraw: Withdraw
