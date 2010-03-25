@@ -27,35 +27,35 @@ xml.modsCollection(
           }
         end
       end
-    }
-    xml.typeOfResource manifestation.carrier_type.name
-    xml.originInfo{
-      manifestation.patrons.each do |patron|
-        xml.publisher patron.full_name
-      end
-      xml.dateIssued manifestation.date_of_publication
-    }
-    xml.language{
-      xml.languageTerm manifestation.expressions.first.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code' if manifestation.expressions.first
-    }
-    xml.physicalDescription{
-      xml.form manifestation.carrier_type.name, 'authority' => 'marcform'
-      extent = []
-      extent << manifestation.number_of_pages if manifestation.number_of_pages
-      extent << manifestation.height if manifestation.height
-      xml.extent extent.join("; ")
-    }
-    xml.subject{
-      manifestation.subjects.each do |subject|
-        xml.topic subject.term
-      end
-    }
-    xml.identifier manifestation.isbn, :type => 'isbn'
-    xml.identifier manifestation.lccn, :type => 'lccn'
-    xml.recordInfo{
-      xml.recordCreationDate manifestation.created_at
-      xml.recordChangeDate manifestation.updated_at
-      xml.recordIdentifier manifestation.url
+      xml.typeOfResource manifestation.carrier_type.mods_type
+      xml.originInfo{
+        manifestation.patrons.each do |patron|
+          xml.publisher patron.full_name
+        end
+        xml.dateIssued manifestation.date_of_publication
+      }
+      xml.language{
+        xml.languageTerm manifestation.expressions.first.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code' if manifestation.expressions.first
+      }
+      xml.physicalDescription{
+        xml.form manifestation.carrier_type.name, 'authority' => 'marcform'
+        extent = []
+        extent << manifestation.number_of_pages if manifestation.number_of_pages
+        extent << manifestation.height if manifestation.height
+        xml.extent extent.join("; ")
+      }
+      xml.subject{
+        manifestation.subjects.each do |subject|
+          xml.topic subject.term
+        end
+      }
+      xml.identifier manifestation.isbn, :type => 'isbn'
+      xml.identifier manifestation.lccn, :type => 'lccn'
+      xml.recordInfo{
+        xml.recordCreationDate manifestation.created_at
+        xml.recordChangeDate manifestation.updated_at
+        xml.recordIdentifier manifestation.url
+      }
     }
   end
 }

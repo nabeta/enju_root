@@ -28,4 +28,14 @@ class CarrierType < ActiveRecord::Base
   def before_validation_on_create
     self.display_name = self.name if display_name.blank?
   end
+
+  def mods_type
+    case name
+    when 'print'
+      'text'
+    else
+      # TODO: その他のタイプ
+      'software, multimedia'
+    end
+  end
 end

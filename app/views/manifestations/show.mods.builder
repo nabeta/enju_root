@@ -25,7 +25,7 @@ xml.mods('version' => "3.3",
       }
     end
   end
-  xml.typeOfResource @manifestation.carrier_type.name
+  xml.typeOfResource @manifestation.carrier_type.mods_type
   xml.originInfo{
     @manifestation.patrons.each do |patron|
       xml.publisher patron.full_name
