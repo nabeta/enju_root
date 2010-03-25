@@ -37,6 +37,8 @@ class TagsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @tags }
+      format.rss
+      format.atom
     end
   rescue RSolr::RequestError
     flash[:notice] = t('page.error_occured')
