@@ -269,11 +269,11 @@ class ApplicationController < ActionController::Base
   end
 
   def convert_charset
-    return if CSV_CHARSET_CONVERSION == false
     #if params[:format] == 'ics'
     #  response.body = NKF::nkf('-w -Lw', response.body)
     case params[:format]
     when 'csv'
+      return if CSV_CHARSET_CONVERSION == false
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
