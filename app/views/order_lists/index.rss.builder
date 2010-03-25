@@ -22,7 +22,7 @@ xml.rss('version' => "2.0",
         xml.title order_list.title
         #xml.description(order_list.title)
         # rfc822
-        xml.pubDate order_list.created_at.rfc2822
+        xml.pubDate order_list.created_at.utc.iso8601
         xml.link order_list_url(order_list)
         xml.guid order_list_url(order_list), :isPermaLink => "true"
       end

@@ -22,7 +22,7 @@ xml.rss('version' => "2.0",
           xml.title h(news_post.title)
           xml.description(news_post.body)
           # rfc822
-          xml.pubDate h(news_post.created_at.rfc2822)
+          xml.pubDate h(news_post.created_at.utc.iso8601)
           xml.link news_post_url(news_post)
           xml.guid news_post_url(news_post), :isPermaLink => "true"
         end

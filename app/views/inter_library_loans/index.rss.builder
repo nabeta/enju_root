@@ -22,7 +22,7 @@ xml.rss('version' => "2.0",
         xml.title h(inter_library_loan.item.manifestation.original_title)
         #xml.description(inter_library_loan.title)
         # rfc822
-        xml.pubDate inter_library_loan.created_at.rfc2822
+        xml.pubDate inter_library_loan.created_at.utc.iso8601
         xml.link inter_library_loan_url(inter_library_loan)
         xml.guid inter_library_loan_url(inter_library_loan), :isPermaLink => "true"
       end

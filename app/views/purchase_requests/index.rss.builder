@@ -29,7 +29,7 @@ xml.rss('version' => "2.0",
         xml.title purchase_request.title
         #xml.description(purchase_request.title)
         # rfc822
-        xml.pubDate purchase_request.created_at.rfc2822
+        xml.pubDate purchase_request.created_at.utc.iso8601
         xml.link user_purchase_request_url(purchase_request.user.login, purchase_request)
         xml.guid user_purchase_request_url(purchase_request.user.login, purchase_request), :isPermaLink => "true"
       end

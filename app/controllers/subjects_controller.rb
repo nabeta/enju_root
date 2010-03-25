@@ -9,6 +9,13 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.xml
   def index
+    sort = {:sort_by => 'created_at', :order => 'desc'}
+    case params[:sort_by]
+    when 'name'
+      sort[:sort_by] = 'term'
+    end
+    sort[:order] = 'asc' if params[:order] == 'asc'
+
     search = Sunspot.new_search(Subject)
     query = params[:query].to_s.strip
     unless query.blank?
@@ -18,6 +25,11 @@ class SubjectsController < ApplicationController
         fulltext query
       end
     end
+
+    search.build do
+      order_by sort[:sort_by], sort[:order]
+    end
+
     unless params[:mode] == 'add'
       work = @work
       classification = @classification
@@ -47,6 +59,8 @@ class SubjectsController < ApplicationController
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @subjects.to_xml }
+      format.rss
+      format.atom
     end
   rescue RSolr::RequestError
     flash[:notice] = t('page.error_occured')

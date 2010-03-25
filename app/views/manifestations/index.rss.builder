@@ -24,7 +24,7 @@ xml.rss('version' => "2.0",
           xml.title h(manifestation.original_title)
           #xml.description(manifestation.original_title)
           # rfc822
-          xml.pubDate h(manifestation.created_at.rfc2822)
+          xml.pubDate h(manifestation.created_at.utc.iso8601)
           xml.link manifestation_url(manifestation)
           xml.guid manifestation_url(manifestation), :isPermaLink => "true"
           manifestation.tags.each do |tag|

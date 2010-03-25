@@ -11,7 +11,7 @@
     <%= auto_discovery_link_tag(:atom, inter_library_loans_url(:format => :atom), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
   <%- end -%>
 </head>
-<body class="yui-skin-sam" id="yahoo-com">
+<body>
 
 <%= render :partial => 'page/header' -%>
 <%= render :partial => 'page/menu' -%>
