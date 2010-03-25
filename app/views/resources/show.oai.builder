@@ -7,7 +7,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   xml.GetRecord do
     xml.record do
       xml.header do
-        xml.identifier resource_url(@resource)
+        xml.identifier @resource.oai_identifier
         xml.datestamp @resource.updated_at.utc.iso8601
         xml.setSpec @resource.manifestation.series_statement.id if @resource.manifestation.try(:series_statement)
       end

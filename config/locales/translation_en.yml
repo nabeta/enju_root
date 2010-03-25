@@ -1438,12 +1438,16 @@ en:
     select_all: Select all
     approve_selected_resources: Approve selected resources
     approve_all_resources: Approve all resources
+    publish_selected_resources: Publish selected resources
+    publish_all_resources: Publish all resources
     approve: Approve
     approved: Approved
     not_approved: Not approved
     all_resources: All resources
     resources_were_approved: Resources were approved.
+    resources_were_published: Resources were published.
     select_resources: Select resources.
     publish: Publish
+    published: Published
     reject: Reject
     withdraw: Withdraw

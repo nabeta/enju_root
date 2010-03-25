@@ -144,7 +144,7 @@ ja:
       reserve_stat_has_manifestation: 資料別予約統計
       reserve_stat_has_user: 利用者別予約統計
       import_request: インポートのリクエスト
-      resource: 情報資源
+      resource: 資源メタデータ
 
     attributes:
       library:
@@ -1423,12 +1423,16 @@ ja:
     select_all: すべてを選択
     approve_selected_resources: 選択した資料を承認
     approve_all_resources: すべての資料を承認
+    publish_selected_resources: 選択した資料を公開
+    publish_all_resources: すべての資料を公開
     approve: 承認
     approved: 承認済み
     not_approved: 未承認
     all_resources: すべての資料
     resources_were_approved: 資料の修正は承認されました。
+    resources_were_published: 資料は公開されました。
     select_resources: 資料を選択してください。
     publish: 公開
+    published: 公開済み
     reject: 却下
     withdraw: 取り下げ

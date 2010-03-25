@@ -49,7 +49,7 @@ class Manifestation < ActiveRecord::Base
   has_one :resource
 
   searchable do
-    text :title, :fulltext, :note, :author, :editor, :publisher, :subject
+    text :title, :fulltext, :note, :author, :editor, :publisher, :subject, :description
     string :title, :multiple => true
     string :conect_title do
       title.join('').gsub(/\s/, '')
@@ -171,7 +171,7 @@ class Manifestation < ActiveRecord::Base
   #has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
-  #enju_oai_pmh
+  enju_oai
   #enju_worldcat
   has_paper_trail
 

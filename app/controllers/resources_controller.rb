@@ -1,10 +1,12 @@
 class ResourcesController < ApplicationController
   before_filter :has_permission?
   after_filter :solr_commit, :only => [:create, :update, :destroy]
+  include OaiController
 
   # GET /resources
   # GET /resources.xml
   def index
+    @oai = check_oai_params(params)
     if Resource.first and Resource.last
       @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
       @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
@@ -19,7 +21,7 @@ class ResourcesController < ApplicationController
         page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
       end
       if params[:verb] == 'GetRecord' and params[:identifier]
-        resource = Resource.find(URI.parse(params[:identifier]).path.split('/').last)
+        resource = Resource.find_by_oai_identifier(params[:identifier])
         redirect_to resource_url(resource, :format => 'oai')
         return
       end
@@ -38,9 +40,12 @@ class ResourcesController < ApplicationController
         @query = query
         published = true unless current_user.try(:has_role?, 'Librarian')
         search = Sunspot.new_search(Resource)
+        from_time = @from_time; until_time = @until_time
         search.build do
           fulltext query
           with(:state).equal_to 'published' if published
+          with(:updated_at).greater_than from_time if from_time
+          with(:updated_at).less_than until_time if until_time
         end
         search.query.paginate(page.to_i, Resource.per_page)
         @resources = search.execute!.results
@@ -85,9 +90,9 @@ class ResourcesController < ApplicationController
         not_found; return
       end
       @resource = @resource.last_published
-    end
-    unless @resource.last_published.is_readable_by(current_user)
-      access_denied; return
+      unless @resource.last_published.try(:is_readable_by, current_user)
+        access_denied; return
+      end
     end
 
     respond_to do |format|
@@ -178,7 +183,7 @@ class ResourcesController < ApplicationController
       if params[:to_approved].present?
         resources = params[:to_approved].map {|r| Resource.find_by_id(r)}
       elsif params[:approve] == 'all_resources'
-        resources = Resource.not_approved
+        resources = Resource.all(:conditions => {:state => 'not_approved'})
       end
       if resources.present?
         resources.each do |resource|
@@ -186,10 +191,39 @@ class ResourcesController < ApplicationController
           resource.save
         end
         flash[:notice] = t('resource.resources_were_approved')
-        format.html { redirect_to resources_url }
+        format.html { redirect_to resources_url(:approved => "false") }
       else
         flash[:notice] = t('resource.select_resources')
-        format.html { redirect_to resources_url }
+        format.html { redirect_to resources_url(:approved => "false") }
+      end
+    end
+  end
+
+  def publish_selected
+    if current_user
+      unless current_user.has_role?('Librarian')
+        access_denied
+      end
+    else
+      redirect_to new_user_session_url
+      return
+    end
+    respond_to do |format|
+      if params[:to_published].present?
+        resources = params[:to_published].map {|r| Resource.find_by_id(r)}
+      elsif params[:publish] == 'all_resources'
+        resources = Resource.all(:conditions => {:state => 'approved'})
+      end
+      if resources.present?
+        resources.each do |resource|
+          resource.publish = '1'
+          resource.save
+        end
+        flash[:notice] = t('resource.resources_were_published')
+        format.html { redirect_to resources_url(:approved => "true") }
+      else
+        flash[:notice] = t('resource.select_resources')
+        format.html { redirect_to resources_url(:approved => "true") }
       end
     end
   end

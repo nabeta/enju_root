@@ -6,7 +6,6 @@ class CreateResources < ActiveRecord::Migration
       t.text :dcndl_xml
       t.string :work_token
       t.datetime :deleted_at
-      t.boolean :approved
       t.string :state
 
       t.timestamps

@@ -3,6 +3,7 @@ class Resource < ActiveRecord::Base
   include OnlyLibrarianCanModify
   has_friendly_id :iss_token
   has_paper_trail
+  enju_oai
   #acts_as_archive :indexes => [:id, :iss_token, :work_token]
 
   default_scope :order => 'updated_at DESC'
@@ -93,7 +94,7 @@ class Resource < ActiveRecord::Base
       self
     else
       versions.reverse.map{|version| version.reify}.find do |r|
-        r.state == 'published'
+        r.try(:state) == 'published'
       end
     end
   end
