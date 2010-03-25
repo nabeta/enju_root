@@ -5,5 +5,7 @@ xml.tag! "OAI-PMH",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
   xml.responseDate Time.zone.now.utc.iso8601
   xml.request resources_url(:format => :oai)
-  xml.error "Illegal verb", :code => "badVerb"
+  @oai[:errors].each do |error|
+    xml.error :code => error
+  end
 end

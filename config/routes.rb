@@ -1,6 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   map.resources :resources,
-    :collection => {:approve_selected => :post}
+    :collection => {
+      :approve_selected => :post,
+      :publish_selected => :post
+    }
 
   map.resources :import_requests
 

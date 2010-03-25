@@ -5,7 +5,7 @@ xml.mods('version' => "3.3",
   xml.titleInfo{
     xml.title @manifestation.original_title
   }
-  @manifestation.authors.collect{|author|
+  @manifestation.authors.each do |author|
     case author.patron_type.name
     when "Person"
       xml.name('type' => 'personal'){
@@ -24,7 +24,7 @@ xml.mods('version' => "3.3",
         xml.namePart author.full_name
       }
     end
-  }
+  end
   xml.typeOfResource @manifestation.carrier_type.name
   xml.originInfo{
     @manifestation.patrons.each do |patron|
@@ -33,7 +33,7 @@ xml.mods('version' => "3.3",
     xml.dateIssued @manifestation.date_of_publication
   }
   xml.language{
-    xml.languageTerm @manifestation.expressions.first.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code'
+    xml.languageTerm @manifestation.expressions.first.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code' if @manifestation.expressions.first
   }
   xml.physicalDescription{
     xml.form @manifestation.carrier_type.name, 'authority' => 'marcform'

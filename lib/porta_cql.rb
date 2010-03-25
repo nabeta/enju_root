@@ -5,6 +5,7 @@ class QuerySyntaxError < QueryError; end
 
 class Cql
   def initialize(line)
+    @logic = nil
     @query = split_clause_text(line).collect{|txt| Clause.new(txt)}
 
     from_day, @query = extract_with_index(@query, /from/io)
@@ -15,7 +16,7 @@ class Cql
     @sort_by = sort_by ? sort_by.terms.first : ''
   end
 
-  attr_reader :query, :from, :until, :sort_by, :and_or
+  attr_reader :query, :from, :until, :sort_by, :logic
   
   def ==(other)
     instance_variables.all? do |val|
@@ -24,41 +25,35 @@ class Cql
   end
 
   def to_sunspot
-    (@query.collect{|c| c.to_sunspot} + date_range(@from, @until)).join(" #{and_or} ")
+    (@query.collect{|c| c.to_sunspot} + date_range(@from, @until)).join(" #{@logic} ")
   end
 
   def split_clause_text(line)
-    clause_texts = []
-    last_and_or = nil
-    
+    clauses = []
+
+    s = StringScanner.new(line)
     text = ''
-    quoted = ''
-    line.split.each do |token|
-      case token
-      when /\A\\".+/
-        quoted << token
-      when /.+\\"\Z/
-        quoted << token
-        text << ' ' + quoted
-        quoted = ''
-      when /\A(AND|OR)\Z/i
-        and_or = $1.upcase
-        raise QuerySyntaxError if last_and_or and last_and_or != and_or
-        last_and_or = and_or
-        clause_texts << text
-        text = ''
-      else
-        if quoted.empty?
-          text << ' ' unless text.empty?
-          text << token
+    while s.rest?
+      case
+      when s.scan(/\s+/)
+        text << s.matched
+      when s.scan(/"(?:[^"\\]|\\.)*"/)
+        text << s.matched
+      when s.scan(/(AND|OR)/i)
+        logic = s.matched.upcase
+        if @logic
+          raise QuerySyntaxError unless @logic == logic
         else
-          quoted << ' ' + quoted
+          @logic = logic
         end
+        clauses << text.strip
+        text = ''
+      when s.scan(/\S*/)
+        text << s.matched
       end
     end
-    @and_or = last_and_or
-    clause_texts << text
-    clause_texts.collect{|txt| txt.gsub(/(\A\(|\)\Z)/, '')}
+    clauses << text.strip
+    clauses.collect{|txt| txt.gsub(/(\A\(|\)\Z)/, '')}
   end
 
   private
@@ -221,7 +216,8 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:(%s)" % [@field, :sm, term]
+      type = @field != 'issn' ? :sm : :s
+      "%s_%s:(%s)" % [@field, type, term]
     when /\AANY\Z/
       "%s_%s:(%s)" % [@field, :sm, multiple_to_sunspot(@terms, :any)]
     else
@@ -251,11 +247,11 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      trim_ahead(term)
+      "(%s)" % [trim_ahead(term)]
     when /\AANY\Z/
-      multiple_to_sunspot(@terms, :any)
+      "(%s)" % [multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      multiple_to_sunspot(@terms, :all)
+      "(%s)" % [multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
@@ -265,7 +261,7 @@ class Clause
   private
   def multiple_to_sunspot(terms, relation)
     boolean = relation == :any ? ' OR ' : ' AND '
-    "(#{terms.map{|t| trim_ahead(t)}.join(boolean)})"
+    "#{terms.map{|t| trim_ahead(t)}.join(boolean)}"
   end
   
   def trim_ahead(term)

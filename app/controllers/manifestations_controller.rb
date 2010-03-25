@@ -13,12 +13,14 @@ class ManifestationsController < ApplicationController
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   #include WorldcatController
+  include OaiController
 
   # GET /manifestations
   # GET /manifestations.xml
   def index
     @seconds = Benchmark.realtime do
-      next if need_not_to_search?
+      @oai = check_oai_params(params)
+      next if @oai[:need_not_to_search]
 	    if logged_in?
 	      @user = current_user unless @user
 	    end
@@ -33,11 +35,22 @@ class ManifestationsController < ApplicationController
       if params[:format] == 'oai'
         # OAI-PMHのデフォルトの件数
         per_page = 200
-        if current_token = get_resumption_token(params[:resumptionToken])
-          page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+        if params[:resumptionToken]
+          if current_token = get_resumption_token(params[:resumptionToken])
+            page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+          else
+            @oai[:errors] << 'badResumptionToken'
+          end
         end
+        page ||= 1
         if params[:verb] == 'GetRecord' and params[:identifier]
-          manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
+          begin
+            manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
+          rescue ActiveRecord::RecordNotFound
+            @oai[:errors] << "idDoesNotExist"
+            redirect_to manifestations_url(:format => 'oai')
+            return
+          end
           redirect_to manifestation_url(manifestation, :format => 'oai')
           return
         end
@@ -103,12 +116,15 @@ class ManifestationsController < ApplicationController
       role = current_user.try(:highest_role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
       reservable = true if @reservable
+      from_time = @from_time; until_time = @until_time
       search.build do
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
         with(:repository_content).equal_to true if oai_search
         with(:reservable).equal_to true if reservable
+        with(:updated_at).greater_than from_time if from_time
+        with(:updated_at).less_than until_time if until_time
       end
 
       unless query.blank?
@@ -172,8 +188,12 @@ class ManifestationsController < ApplicationController
         end
       end
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
-      unless @manifestations.empty?
-        set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+      if params[:format] == 'oai'
+        unless @manifestations.empty?
+          set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+        else
+          @oai[:errors] << 'noRecordsMatch'
+        end
       end
     end
 
@@ -203,6 +223,7 @@ class ManifestationsController < ApplicationController
           render :template => 'manifestations/list_records'
         end
       }
+      format.mods
       format.json { render :json => @manifestations }
       format.js {
         render :update do |page|
@@ -296,8 +317,6 @@ class ManifestationsController < ApplicationController
           case params[:mode]
           when 'related'
             render :template => 'manifestations/related'
-          when 'mods'
-            render :template => 'manifestations/mods'
           else
             render :xml => @manifestation
           end
@@ -305,6 +324,7 @@ class ManifestationsController < ApplicationController
       }
       format.rdf
       format.oai
+      format.mods
       format.json { render :json => @manifestation }
       #format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
@@ -709,9 +729,4 @@ class ManifestationsController < ApplicationController
     SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}"
   end
 
-  def need_not_to_search?
-    if params[:format] == 'oai'
-      true if ['Identify', 'ListSets', 'ListMetadataFormats'].include?(params[:verb])
-    end
-  end
 end
