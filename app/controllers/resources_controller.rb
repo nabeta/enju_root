@@ -6,70 +6,79 @@ class ResourcesController < ApplicationController
   # GET /resources
   # GET /resources.xml
   def index
-    @oai = check_oai_params(params)
-    if Resource.first and Resource.last
-      @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
-      @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
-    else
-      @from_time = Time.zone.now
-      @until_time = Time.zone.now
-    end
-    if params[:format] == 'oai'
-      # OAI-PMHのデフォルトの件数
-      per_page = 200
-      if current_token = get_resumption_token(params[:resumptionToken])
-        page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
-      end
-      if params[:verb] == 'GetRecord' and params[:identifier]
-        resource = Resource.find_by_oai_identifier(params[:identifier])
-        redirect_to resource_url(resource, :format => 'oai')
-        return
-      end
-    end
-
-    page ||= params[:page] || 1
-
-    case params[:approved]
-    when 'true'
-      @resources = Resource.approved(@from_time, @until_time).not_deleted.paginate(:page => page)
-    when 'false'
-      @resources = Resource.not_approved(@from_time, @until_time).not_deleted.paginate(:page => page)
-    else
-      if Resource.respond_to?(:search)
-        query = params[:query]
-        @query = query
-        published = true unless current_user.try(:has_role?, 'Librarian')
-        search = Sunspot.new_search(Resource)
-        from_time = @from_time; until_time = @until_time
-        deleted = true if params[:format] == 'oai'
-        search.build do
-          fulltext query
-          with(:state).equal_to 'published' if published
-          with(:updated_at).greater_than from_time if from_time
-          with(:updated_at).less_than until_time if until_time
-          with(:deleted_at).equal_to nil if deleted
-        end
-        search.query.paginate(page.to_i, Resource.per_page)
-        @resources = search.execute!.results
+    @seconds = Benchmark.realtime do
+      @oai = check_oai_params(params)
+      next if @oai[:need_not_to_search]
+      if Resource.first and Resource.last
+        @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
+        @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
       else
-        if current_user.try(:has_role?, 'Librarian')
-          if params[:format] == 'oai'
-            @resources = Resource.all_record(@from_time, @until_time).paginate(:page => page)
-          else
-            @resources = Resource.all_record(@from_time, @until_time).not_deleted.paginate(:page => page)
-          end
-        else
-          if params[:format] == 'oai'
-            @resources = Resource.published(@from_time, @until_time).paginate(:page => page)
-          else
-            @resources = Resource.published(@from_time, @until_time).not_deleted.paginate(:page => page)
+        @from_time = Time.zone.now
+        @until_time = Time.zone.now
+      end
+      if params[:format] == 'oai'
+        # OAI-PMHのデフォルトの件数
+        per_page = 200
+        if current_token = get_resumption_token(params[:resumptionToken])
+          page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+        end
+        if params[:verb] == 'GetRecord' and params[:identifier]
+          begin
+            resource = Resource.find_by_oai_identifier(params[:identifier])
+            redirect_to resource_url(resource, :format => 'oai')
+            return
+          rescue
+            @oai[:errors] << "idDoesNotExist"
+            redirect_to resources_url(:format => 'oai')
+            return
           end
         end
       end
-    end
 
-    if Resource.last and Resource.first
-      set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+      page ||= params[:page] || 1
+
+      case params[:approved]
+      when 'true'
+        @resources = Resource.approved(@from_time, @until_time).not_deleted.paginate(:page => page)
+      when 'false'
+        @resources = Resource.not_approved(@from_time, @until_time).not_deleted.paginate(:page => page)
+      else
+        if Resource.respond_to?(:search)
+          query = params[:query]
+          @query = query
+          published = true unless current_user.try(:has_role?, 'Administrator')
+          search = Sunspot.new_search(Resource)
+          from_time = @from_time; until_time = @until_time
+          deleted = true if params[:format] == 'oai'
+          search.build do
+            fulltext query
+            with(:state).equal_to 'published' if published
+            with(:updated_at).greater_than from_time if from_time
+            with(:updated_at).less_than until_time if until_time
+            with(:deleted_at).equal_to nil if deleted
+          end
+          search.query.paginate(page.to_i, Resource.per_page)
+          @resources = search.execute!.results
+        else
+          if current_user.try(:has_role?, 'Administrator')
+            if params[:format] == 'oai'
+              @resources = Resource.all_record(@from_time, @until_time).paginate(:page => page)
+            else
+              @resources = Resource.all_record(@from_time, @until_time).not_deleted.paginate(:page => page)
+            end
+          else
+            if params[:format] == 'oai'
+              @resources = Resource.published(@from_time, @until_time).paginate(:page => page)
+            else
+              @resources = Resource.published(@from_time, @until_time).not_deleted.paginate(:page => page)
+            end
+          end
+        end
+      end
+
+      if Resource.last and Resource.first
+        set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+      end
     end
 
     respond_to do |format|

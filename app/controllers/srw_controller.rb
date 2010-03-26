@@ -4,7 +4,8 @@
 class SrwController < ApplicationController
   def index
     #XML を解釈した上で実際の検索は Sru が行う。
-    @srw = Sru.new(params[:Envelope][:Body][:searchRetrieveRequest])
+    params = soap_to_params(request.body.read.to_s)
+    @srw = Sru.new(params)
     query = @srw.cql.to_sunspot
     sort = @srw.sort_by
     start = @srw.start
@@ -30,5 +31,16 @@ class SrwController < ApplicationController
   rescue QueryError, RSolr::RequestError
     render :template => 'srw/error.xml', :layout => false
     return
+  end
+
+  private
+  def soap_to_params(body)
+    doc = Nokogiri::XML(body)
+    params = {}
+    params[:operation] = doc.at('//operation').content
+    params[:version] = doc.at('//version').content
+    params[:query] = doc.at('//query').content
+    params[:startRecord] = doc.at('//startRecord').content
+    params
   end
 end

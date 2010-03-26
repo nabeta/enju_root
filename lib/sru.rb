@@ -28,6 +28,8 @@ class Sru
     else
       @path, @ascending = @sort_key.split(',') if @sort_key
     end
+    # TODO: multiple-valueが指定されている項目（titleなど）は並べ替えに
+    # 利用できないが、それらがsortKeysに指定された場合は？
     sort[:sort_by] = @path if @path
     #TODO ソート基準が入手しやすさの場合の処理
     sort[:order] = 'asc' if /(\A1|ascending)\Z/ =~ @ascending

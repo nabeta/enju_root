@@ -541,15 +541,15 @@ class ManifestationsController < ApplicationController
     end
 
     unless options[:issn].blank?
-      query = "#{query} issn_sm: #{options[:issn]}"
+      query = "#{query} issn_s: #{options[:issn]}"
     end
 
     unless options[:lccn].blank?
-      query = "#{query} lccn_sm: #{options[:lccn]}"
+      query = "#{query} lccn_s: #{options[:lccn]}"
     end
 
     unless options[:nbn].blank?
-      query = "#{query} nbn_sm: #{options[:nbn]}"
+      query = "#{query} nbn_s: #{options[:nbn]}"
     end
 
     unless options[:publisher].blank?

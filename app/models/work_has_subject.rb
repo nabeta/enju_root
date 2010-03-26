@@ -18,8 +18,16 @@ class WorkHasSubject < ActiveRecord::Base
     10
   end
 
-  #def after_save
-  #  self.subject.save
-  #  self.subjectable.save
-  #end
+  def after_save
+    reindex!
+  end
+
+  def after_destroy
+    reindex!
+  end
+
+  def reindex!
+    work.index!
+    subject.index!
+  end
 end

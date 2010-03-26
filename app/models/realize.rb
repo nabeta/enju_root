@@ -14,12 +14,16 @@ class Realize < ActiveRecord::Base
   acts_as_list :scope => :expression
 
   def after_save
-    patron.index!
-    expression.index!
+    reindex!
   end
 
   def after_destroy
-    after_save
+    reindex!
+  end
+
+  def reindex!
+    patron.index!
+    expression.index!
   end
 
 end
