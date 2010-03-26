@@ -969,6 +969,7 @@ ja:
         approve: 修正承認
         publish: 公開承認
         state: 状態
+        deleted_at: 削除時刻
 
   page:
     user_title: "{{login_name}} さんの図書館"

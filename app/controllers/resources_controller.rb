@@ -31,9 +31,9 @@ class ResourcesController < ApplicationController
 
     case params[:approved]
     when 'true'
-      @resources = Resource.approved(@from_time, @until_time).paginate(:page => page)
+      @resources = Resource.approved(@from_time, @until_time).not_deleted.paginate(:page => page)
     when 'false'
-      @resources = Resource.not_approved(@from_time, @until_time).paginate(:page => page)
+      @resources = Resource.not_approved(@from_time, @until_time).not_deleted.paginate(:page => page)
     else
       if Resource.respond_to?(:search)
         query = params[:query]
@@ -41,24 +41,36 @@ class ResourcesController < ApplicationController
         published = true unless current_user.try(:has_role?, 'Librarian')
         search = Sunspot.new_search(Resource)
         from_time = @from_time; until_time = @until_time
+        deleted = true if params[:format] == 'oai'
         search.build do
           fulltext query
           with(:state).equal_to 'published' if published
           with(:updated_at).greater_than from_time if from_time
           with(:updated_at).less_than until_time if until_time
+          with(:deleted_at).equal_to nil if deleted
         end
         search.query.paginate(page.to_i, Resource.per_page)
         @resources = search.execute!.results
       else
         if current_user.try(:has_role?, 'Librarian')
-          @resources = Resource.all_record(@from_time, @until_time).paginate(:page => page)
+          if params[:format] == 'oai'
+            @resources = Resource.all_record(@from_time, @until_time).paginate(:page => page)
+          else
+            @resources = Resource.all_record(@from_time, @until_time).not_deleted.paginate(:page => page)
+          end
         else
-          @resources = Resource.published(@from_time, @until_time).paginate(:page => page)
+          if params[:format] == 'oai'
+            @resources = Resource.published(@from_time, @until_time).paginate(:page => page)
+          else
+            @resources = Resource.published(@from_time, @until_time).not_deleted.paginate(:page => page)
+          end
         end
       end
     end
 
-    set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+    if Resource.last and Resource.first
+      set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -85,6 +97,11 @@ class ResourcesController < ApplicationController
   # GET /resources/1.xml
   def show
     @resource = Resource.find(params[:id])
+    if check_deleted?
+      unless current_user.try(:has_role?, 'Librarian')
+        not_found; return
+      end
+    end
     unless current_user.try(:has_role?, 'Librarian')
       unless @resource.last_published
         not_found; return
@@ -116,6 +133,9 @@ class ResourcesController < ApplicationController
   # GET /resources/1/edit
   def edit
     @resource = Resource.find(params[:id])
+    if check_deleted?
+      not_found; return
+    end
   end
 
   # POST /resources
@@ -139,6 +159,9 @@ class ResourcesController < ApplicationController
   # PUT /resources/1.xml
   def update
     @resource = Resource.find(params[:id])
+    if check_deleted?
+      not_found; return
+    end
     case params[:commit]
     when t('resource.approve')
       @resource.approve = "1"
@@ -162,11 +185,20 @@ class ResourcesController < ApplicationController
   # DELETE /resources/1.xml
   def destroy
     @resource = Resource.find(params[:id])
-    @resource.destroy
+    if check_deleted?
+      not_found; return
+    end
+    #@resource.destroy
+    @resource.deleted_at = Time.zone.now
 
     respond_to do |format|
-      format.html { redirect_to(resources_url) }
-      format.xml  { head :ok }
+      if @resource.save
+        format.html { redirect_to(resources_url) }
+        format.xml  { head :ok }
+      else
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @resource.errors, :status => :unprocessable_entity }
+      end
     end
   end
 
@@ -228,4 +260,8 @@ class ResourcesController < ApplicationController
     end
   end
 
+  private
+  def check_deleted?
+    true if @resource.deleted_at
+  end
 end
