@@ -88,6 +88,7 @@ class Manifestation < ActiveRecord::Base
     string :sort_title
     time :created_at
     time :updated_at
+    time :deleted_at
     time :date_of_publication
     integer :patron_ids, :multiple => true
     integer :item_ids, :multiple => true
@@ -389,8 +390,8 @@ class Manifestation < ActiveRecord::Base
 
   def sort_title
     # 並べ替えの順番に使う項目を指定する
-    # TODO: 読みが入力されていない資料
-    self.title_transcription
+    # TODO: 日本語以外の資料、読みが入力されていない資料
+    NKF.nkf('--katakana', title_transcription) if title_transcription
   end
 
   def subjects
@@ -453,6 +454,10 @@ class Manifestation < ActiveRecord::Base
 
   def isbn13
     isbn
+  end
+
+  def hyphenated_isbn
+    ISBN_Tools.hyphenate(isbn)
   end
 
   def self.find_by_isbn(isbn)

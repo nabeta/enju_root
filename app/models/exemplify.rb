@@ -14,12 +14,16 @@ class Exemplify < ActiveRecord::Base
   end
 
   def after_save
-    manifestation.index!
-    item.index!
+    reindex!
   end
 
   def after_destroy
-    after_save
+    reindex!
+  end
+
+  def reindex!
+    manifestation.index!
+    item.index!
   end
 
   def after_create

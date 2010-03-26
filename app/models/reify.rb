@@ -15,12 +15,15 @@ class Reify < ActiveRecord::Base
   acts_as_list :scope => :work
 
   def after_save
-    work.index!
-    expression.index!
+    reindex!
   end
 
   def after_destroy
-    after_save
+    reindex!
   end
 
+  def reindex!
+    work.index!
+    expression.index!
+  end
 end

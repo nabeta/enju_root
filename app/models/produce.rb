@@ -14,12 +14,15 @@ class Produce < ActiveRecord::Base
   end
 
   def after_save
-    patron.index!
-    manifestation.index!
+    reindex!
   end
 
   def after_destroy
-    after_save
+    reindex!
   end
 
+  def reindex!
+    patron.index!
+    manifestation.index!
+  end
 end
