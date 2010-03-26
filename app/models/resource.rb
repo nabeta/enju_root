@@ -11,6 +11,8 @@ class Resource < ActiveRecord::Base
   named_scope :not_approved, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND state = ?', from_time, until_time, 'not_approved']}}
   named_scope :published, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ? AND state = ?', from_time, until_time, 'published']}}
   named_scope :all_record, lambda {|from_time, until_time| {:conditions => ['updated_at >= ? AND updated_at <= ?', from_time, until_time]}}
+  named_scope :not_deleted, :conditions => ['deleted_at IS NULL']
+  named_scope :deleted, :conditions => ['deleted_at IS NOT NULL']
 
   validates_presence_of :iss_token
   validates_uniqueness_of :iss_token
@@ -23,6 +25,9 @@ class Resource < ActiveRecord::Base
   #  string :language
   #  string :classification
   #  string :pubdate
+  #  time :created_at
+  #  time :updated_at
+  #  time :deleted_at
   #end
 
   aasm_column :state

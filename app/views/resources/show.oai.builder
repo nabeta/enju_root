@@ -6,10 +6,18 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   xml.request resources_url(:format => :oai), :verb => "GetRecord"
   xml.GetRecord do
     xml.record do
-      xml.header do
-        xml.identifier @resource.oai_identifier
-        xml.datestamp @resource.updated_at.utc.iso8601
-        xml.setSpec @resource.manifestation.series_statement.id if @resource.manifestation.try(:series_statement)
+      if @resource.deleted_at
+        xml.header(:status => 'deleted') do
+          xml.identifier @resource.oai_identifier
+          xml.datestamp @resource.updated_at.utc.iso8601
+          xml.setSpec @resource.manifestation.series_statement.id if @resource.manifestation.try(:series_statement)
+        end
+      else
+        xml.header do
+          xml.identifier @resource.oai_identifier
+          xml.datestamp @resource.updated_at.utc.iso8601
+          xml.setSpec @resource.manifestation.series_statement.id if @resource.manifestation.try(:series_statement)
+        end
       end
       xml.metadata do
         xml.tag! "oai_dc:dc",

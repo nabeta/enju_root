@@ -16,9 +16,16 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   xml.ListRecords do
     @resources.each do |resource|
       xml.record do
-        xml.header do
-          xml.identifier resource.oai_identifier
-          xml.datestamp resource.updated_at.utc.iso8601
+        if resource.deleted_at
+          xml.header(:status => 'deleted') do
+            xml.identifier resource.oai_identifier
+            xml.datestamp resource.updated_at.utc.iso8601
+          end
+        else
+          xml.header do
+            xml.identifier resource.oai_identifier
+            xml.datestamp resource.updated_at.utc.iso8601
+          end
         end
         xml.metadata do
           xml.tag! "oai_dc:dc",
