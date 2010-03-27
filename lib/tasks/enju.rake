@@ -24,7 +24,7 @@ namespace :enju do
       while email != email_confirmation
         print "Enter new administrator email address: "
         email = $stdin.gets.chop
-        print "Confirm email address: "
+        print "Confirm administrator email address: "
         email_confirmation = $stdin.gets.chop
         if email != email_confirmation
           puts "Email address mismatch!"
