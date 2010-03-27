@@ -53,13 +53,9 @@ class ResourceImportFile < ActiveRecord::Base
       shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
       # タイトルが入力してあればそれを優先する
-      if row['original_title'].to_s.strip.blank?
-        if row['isbn']
-          manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
-          if manifestation
-            num[:found] += 1
-            Rails.logger.info("resource found: isbn #{row['isbn']}")
-          else
+      if row['isbn']
+        unless manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
+          if row['original_title'].to_s.strip.blank?
             manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
             save_imported_object(manifestation)
             #num[:success] += 1 if manifestation
@@ -149,18 +145,23 @@ class ResourceImportFile < ActiveRecord::Base
 
         begin
           if manifestation
-            circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
-            shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
-            item = self.class.import_item(manifestation, {
-              :item_identifier => row['item_identifier'],
-              :price => row['item_price'],
-              :call_number => row['call_number'].to_s.strip,
-              :circulation_status => circulation_status,
-              :shelf => shelf
-            })
-            save_imported_object(item)
-            num[:success] += 1
-            Rails.logger.info("resource registration succeeded: column #{record}"); next
+            unless item = Item.first(:conditions => {:item_identifier => row['item_identifier'].to_s.strip})
+              circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
+              shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
+              item = self.class.import_item(manifestation, {
+                :item_identifier => row['item_identifier'],
+                :price => row['item_price'],
+                :call_number => row['call_number'].to_s.strip,
+                :circulation_status => circulation_status,
+                :shelf => shelf
+              })
+              save_imported_object(item)
+              num[:success] += 1
+              Rails.logger.info("resource registration succeeded: column #{record}"); next
+            else
+              Rails.logger.info("resource found: isbn #{row['isbn']}")
+              num[:found] += 1
+            end
           end
         rescue Exception => e
           Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
