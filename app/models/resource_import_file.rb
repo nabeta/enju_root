@@ -149,10 +149,13 @@ class ResourceImportFile < ActiveRecord::Base
 
         begin
           if manifestation
-            shelf = Shelf.find(:first, :conditions => {:name => shelf.to_s.strip}) || Shelf.web
+            circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
+            shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
             item = self.class.import_item(manifestation, {
               :item_identifier => row['item_identifier'],
               :price => row['item_price'],
+              :call_number => row['call_number'].to_s.strip,
+              :circulation_status => circulation_status,
               :shelf => shelf
             })
             save_imported_object(item)
