@@ -10,28 +10,48 @@ namespace :enju do
       Dir.glob(RAILS_ROOT + '/db/fixtures/*.yml').each do |file|
         Fixtures.create_fixtures('db/fixtures', File.basename(file, '.*'))
       end
+      unless solr = Sunspot.commit rescue nil
+      	puts "Solr is not running."
+        exit
+      end
 
       user = User.new
       library_group = LibraryGroup.find(1)
       user.patron = Patron.find(1)
       print "Enter new administrator login name: "
       user.login = $stdin.gets.chop
-      print "Enter new administrator email address: "
-      user.email = $stdin.gets.chop
-      print "Enter new administrator password: "
-      system "stty -echo"
-      user.password = $stdin.gets.chop
-      system "stty echo"
-      puts
-      print "Confirm administrator password: "
-      system "stty -echo"
-      user.password_confirmation = $stdin.gets.chop
-      system "stty echo"
-      puts
-      if user.password != user.password_confirmation
-        puts "Password mismatch!"
-        exit
+      email = ""; email_confirmation = nil
+      while email != email_confirmation
+        print "Enter new administrator email address: "
+        email = $stdin.gets.chop
+        print "Confirm email address: "
+        email_confirmation = $stdin.gets.chop
+        if email != email_confirmation
+          puts "Email address mismatch!"
+          sleep 1
+        end
       end
+      user.email = email; user.email_confirmation = email
+
+      password = ""; password_confirmation = nil
+      while password != password_confirmation
+        print "Enter new administrator password: "
+        system "stty -echo"
+        password = $stdin.gets.chop
+        system "stty echo"
+        puts
+        print "Confirm administrator password: "
+        system "stty -echo"
+        password_confirmation = $stdin.gets.chop
+        system "stty echo"
+        puts
+        if password != password_confirmation
+          puts "Password mismatch!"
+          sleep 1
+        end
+      end
+      user.password = password; user.password_confirmation = password
+
       puts "Saving user information..."
 
       user.user_group = UserGroup.find(1)

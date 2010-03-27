@@ -25,8 +25,8 @@
   </title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (RSS)")) -%>
-    <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
+    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
+    <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%= canonical_link_tag %>
