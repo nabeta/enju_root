@@ -3,7 +3,7 @@ require 'mathn'
 class Library < ActiveRecord::Base
   include OnlyAdministratorCanModify
 
-  default_scope :order => 'position'
+  default_scope :order => 'libraries.position'
   named_scope :physicals, :conditions => ['id != 1']
   has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
