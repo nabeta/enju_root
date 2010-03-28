@@ -110,21 +110,23 @@
       <tr>
         <td><%= t('activerecord.models.subject') -%>:</td>
         <td>
-          <%- for subject in @manifestation.subjects -%>
+          <%- unless @manifestation.subjects.empty? -%>
             <ul>
-              <li>
-                <%= link_to h(subject.term), subject -%>
-                <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
-                (
-                <%- subject.classifications.each do |classification| -%>
-                  <%= classification.classification_type.name -%>: <%= link_to h(classification.category), classification -%>
-                <%- end -%>
-                )
-              </li>
+              <%- @manifestation.subjects.each do |subject| -%>
+                <li>
+                  <%= link_to h(subject.term), subject -%>
+                  <%- if subject.is_updatable_by(current_user) -%>
+                    <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
+                  <%- end -%>
+                  (
+                  <%- subject.classifications.each do |classification| -%>
+                    <%= classification.classification_type.name -%>: <%= link_to h(classification.category), classification -%>
+                  <%- end -%>
+                  )
+                </li>
+              <%- end -%>
             </ul>
           <%- end -%>
-          <%- if WorkHasSubject.is_creatable_by(current_user) -%>
-            <%- end -%>
         </td>
       </tr>
       <tr>
