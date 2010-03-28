@@ -31,7 +31,7 @@ class Tag < ActiveRecord::Base
         with(:bookmark_ids).any_of bookmark_ids
         order_by :taggings_count, :desc
         paginate(:page => 1, :per_page => Tag.count)
-      end
+      end.results
     end
   end
 
