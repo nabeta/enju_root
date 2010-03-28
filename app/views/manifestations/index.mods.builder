@@ -53,6 +53,7 @@ xml.modsCollection(
           xml.publisher patron.full_name
         end
         xml.dateIssued manifestation.date_of_publication
+        xml.frequency manifestation.frequency.name
       }
       xml.language{
         xml.languageTerm manifestation.expressions.first.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code' if manifestation.expressions.first
@@ -72,7 +73,6 @@ xml.modsCollection(
       manifestation.subjects.collect(&:classifications).flatten.each do |classification|
         xml.classification classification.category, 'authority' => classification.classification_type.name
       end
-      xml.frequency manifestation.frequency.name
       xml.abstract manifestation.description
       xml.note manifestation.note
       xml.identifier manifestation.isbn, :type => 'isbn'
