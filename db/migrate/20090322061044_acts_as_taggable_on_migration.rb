@@ -3,7 +3,6 @@ class ActsAsTaggableOnMigration < ActiveRecord::Migration
     create_table :tags do |t|
       t.column :name, :string
       t.string :name_transcription
-      t.integer :taggings_count, :default => 0, :null => false
       t.text :synonym
       t.timestamps
     end

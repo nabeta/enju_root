@@ -12,7 +12,7 @@
 
     <p>
       <strong><%= t('activerecord.attributes.tag.taggings_count') -%>:</strong>
-      <%= @tag.taggings_count -%>
+      <%= @tag.taggings.size -%>
       (<%= link_to t('page.search'), manifestations_path(:tag => @tag.name) -%>)
     </p>
 

@@ -24,5 +24,6 @@
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud', :locale => @locale) do -%>
       <%= render :partial => 'bookmarks/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
+    <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>
   </div>
 </div>

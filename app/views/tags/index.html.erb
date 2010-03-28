@@ -33,7 +33,7 @@
       <%= link_to_wikipedia(tag.name) -%>
     </td>
     -->
-    <td><%= tag.taggings_count -%></td>
+    <td><%= tag.taggings.size -%></td>
     <td><%= l(tag.created_at) -%></td>
   </tr>
 <%- end -%>
