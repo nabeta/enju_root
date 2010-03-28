@@ -73,8 +73,9 @@ xml.mods('version' => "3.3",
       xml.topic subject.term
     end
   }
-  xml.classification{
-  }
+  @manifestation.subjects.collect(&:classifications).flatten.each do |classification|
+    xml.classification classification.category, 'authority' => classification.classification_type.name
+  end
   xml.frequency @manifestation.frequency.name
   xml.abstract @manifestation.description
   xml.note @manifestation.note
