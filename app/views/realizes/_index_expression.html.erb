@@ -23,7 +23,6 @@
       <%= link_to h(realize.expression.original_title), realize.expression -%>
       <%= content_type_icon(@expression.content_type) -%>
       <br />
-      <%= raw patrons_list(@expression.authors) -%>
       <%= raw patrons_list(@expression.patrons) -%>
     </td>
     <%- if realize.is_deletable_by(current_user) -%>

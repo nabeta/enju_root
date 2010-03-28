@@ -80,8 +80,8 @@ class MessageRequest < ActiveRecord::Base
         manifestation_message << manifestation.original_title
         manifestation_message << "\r\n"
         patrons = []
-        patrons << manifestation.authors
-        patrons << manifestation.editors
+        patrons << manifestation.creators
+        patrons << manifestation.contributors
         patrons << manifestation.publishers
         unless patrons.flatten.blank?
           manifestation_message << "("

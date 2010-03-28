@@ -32,8 +32,8 @@ xml.rdf(:RDF,
     xml.item do
       xml.title h(manifestation.original_title)
       xml.tag! 'dc:date', h(manifestation.created_at.utc.iso8601)
-      xml.tag! 'dc:creator', manifestation.author.join(' ') unless manifestation.authors.empty?
-      xml.tag! 'dc:contributor', manifestation.editor.join(' ') unless manifestation.editors.empty?
+      xml.tag! 'dc:creator', manifestation.creator.join(' ') unless manifestation.creators.empty?
+      xml.tag! 'dc:contributor', manifestation.contributor.join(' ') unless manifestation.contributors.empty?
       xml.tag! 'dc:publisher', manifestation.publisher.join(' ') unless manifestation.publishers.empty?
       xml.tag! 'dc:identifier', "ISBN #{manifestation.isbn}" if manifestation.isbn.present?
       xml.tag! 'dc:description', manifestation.description

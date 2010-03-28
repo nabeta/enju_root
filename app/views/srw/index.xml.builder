@@ -85,9 +85,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="info:srw/schema/1/dc-v1.1
 http://www.loc.gov/standards/sru/dc-schema.xsd">
 <dc:title>#{mf.title}</dc:title>
-<dc:creator>#{mf.author}</dc:creator>
-<dc:description></dc:description>
+<dc:creator>#{mf.creator}</dc:creator>
+<dc:contributor>#{mf.contributor}</dc:contributor>
 <dc:publisher>#{mf.publisher}</dc:publisher>
+<dc:description>#{mf.description}</dc:description>
 </srw_dc:dc>
 EOB
   data

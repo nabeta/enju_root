@@ -28,15 +28,33 @@ describe ManifestationsController do
       context "パラメータなしのとき" do
         it_should_behave_like 'デフォルト出力になる'
       end
+      context "全件を取得するとき" do
+        before do
+          get :index, :per_page => 200
+        end
+        it "管理者のみ閲覧できるレコードを含む" do
+          assigns(:manifestations).collect(&:id).should be_include 210
+        end
+      end
     end
     context "librarian がログインしているとき" do
       before do
         login :librarian1
         get :index
       end
-
       context "パラメータなしのとき" do
         it_should_behave_like 'デフォルト出力になる'
+      end
+      context "全件を取得するとき" do
+        before do
+          get :index, :per_page => 200
+        end
+        it "図書館員のみ閲覧できるレコードを含む" do
+          assigns(:manifestations).collect(&:id).should be_include 211
+        end
+        it "管理者のみ閲覧できるレコードを含まない" do
+          assigns(:manifestations).collect(&:id).should_not be_include 210
+        end
       end
     end
 
@@ -47,6 +65,20 @@ describe ManifestationsController do
       end
       context "パラメータなしのとき" do
         it_should_behave_like 'デフォルト出力になる'
+      end
+      context "全件を取得するとき" do
+        before do
+          get :index, :per_page => 200
+        end
+        it "ユーザのみ閲覧できるレコードを含む" do
+          assigns(:manifestations).collect(&:id).should be_include 213
+        end
+        it "管理者のみ閲覧できるレコードを含まない" do
+          assigns(:manifestations).collect(&:id).should_not be_include 210
+        end
+        it "図書館員のみ閲覧できるレコードを含まない" do
+          assigns(:manifestations).collect(&:id).should_not be_include 211
+        end
       end
     end
     context "ログインしていないとき" do
@@ -62,6 +94,23 @@ describe ManifestationsController do
         end
         it "検索結果が出力される" do
           assigns(:manifestations).should_not be_empty
+        end
+      end
+      context "全件を取得するとき" do
+        before do
+          get :index, :per_page => 200
+        end
+        it "ゲストのみ閲覧できるレコードを含む" do
+          assigns(:manifestations).collect(&:id).should be_include 215
+        end
+        it "管理者のみ閲覧できるレコードを含まない" do
+          assigns(:manifestations).collect(&:id).should_not be_include 210
+        end
+        it "図書館員のみ閲覧できるレコードを含まない" do
+          assigns(:manifestations).collect(&:id).should_not be_include 211
+        end
+        it "ユーザのみ閲覧できるレコードを含まない" do
+          assigns(:manifestations).collect(&:id).should_not be_include 213
         end
       end
     end

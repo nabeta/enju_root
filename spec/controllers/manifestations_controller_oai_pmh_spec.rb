@@ -6,7 +6,78 @@ describe ManifestationsController do
   fixtures :users, :patrons, :roles, :roles_users, :manifestations,
     :library_groups
   include LoginHelper
-  describe "OpenURLでの検索テスト" do
+  integrate_views
+
+  describe "OAI-PMHでの検索テスト" do
+    share_examples_for '管理者が取得できるレコードになる' do
+      it "管理者のみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 210
+      end
+      it "図書館員のみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 211
+      end
+      it "ユーザのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 213
+      end
+      it "ゲストのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 215
+      end
+      it "リポジトリに公開していないレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 216
+      end
+    end
+    share_examples_for '図書館員が取得できるレコードになる' do
+      it "管理者のみ閲覧できるレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 210
+      end
+      it "図書館員のみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 211
+      end
+      it "ユーザのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 213
+      end
+      it "ゲストのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 215
+      end
+      it "リポジトリに公開していないレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 216
+      end
+    end
+    share_examples_for 'ユーザが取得できるレコードになる' do
+      it "管理者のみ閲覧できるレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 210
+      end
+      it "図書館員のみ閲覧できるレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 211
+      end
+      it "ユーザのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 213
+      end
+      it "ゲストのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 215
+      end
+      it "リポジトリに公開していないレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 216
+      end
+    end
+    share_examples_for 'ゲストが取得できるレコードになる' do
+      it "管理者のみ閲覧できるレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 210
+      end
+      it "図書館員のみ閲覧できるレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 211
+      end
+      it "ユーザのみ閲覧できるレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 213
+      end
+      it "ゲストのみ閲覧できるレコードを含む" do
+        assigns(:manifestations).collect(&:id).should be_include 215
+      end
+      it "リポジトリに公開していないレコードを含まない" do
+        assigns(:manifestations).collect(&:id).should_not be_include 216
+      end
+    end
+
     describe "Identifyが指定されていて" do
       context "引数が指定されていないとき" do
         before do
@@ -175,6 +246,17 @@ describe ManifestationsController do
         it "検索結果が空であること" do
           assigns(:manifestations).should be_empty
         end
+        it "noRecordsMatchエラーを含むこと" do
+          response.should have_tag 'error[code="noRecordsMatch"]'
+        end
+      end
+      context "無効なresumptionTokenが指定されたとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListRecords', :resumptionToken => 'invalidToken'
+        end
+        it "badResumptionTokenエラーを含むこと" do
+          response.should have_tag 'error[code="badResumptionToken"]'
+        end
       end
     end
     describe "GetRecordが指定されていて" do
@@ -194,25 +276,147 @@ describe ManifestationsController do
         before do
           get :index, :format => 'oai', :verb => 'GetRecord', :identifier => "oai:#{LIBRARY_WEB_HOSTNAME}:manifestations-1"
         end
-        it "個別レコードの詳細に転送されること" do
-          response.should be_redirect
-          response.should redirect_to manifestation_url(1, :format => 'oai')
+        it "個別レコードの詳細を表示すること" do
+          response.should be_success
+          response.should render_template('manifestations/show.oai.builder')
         end
         it "検索結果一覧が存在しないこと" do
           assigns(:manifestations).should be_nil
+        end
+        it "identifier要素が含まれていること" do
+          response.should have_tag 'identifier'
         end
       end
       context "無効なIdentifierが指定されているとき" do
         before do
           get :index, :format => 'oai', :verb => 'GetRecord', :identifier => "invalid"
         end
-        it "エラーの詳細表示に転送されること" do
-          response.should be_redirect
-          response.should redirect_to manifestations_url(:format => 'oai')
+        it "エラーの詳細を表示すること" do
+          response.should be_success
+          response.should render_template('manifestations/index.oai.builder')
         end
         it "検索結果一覧が存在しないこと" do
           assigns(:manifestations).should be_nil
         end
+        it "idDoesNotExistエラーを含むこと" do
+          response.should have_tag 'error[code="idDoesNotExist"]'
+        end
+      end
+    end
+
+    describe "無効なverbが指定されたとき" do
+      before do
+        get :index, :format => 'oai', :verb => 'InvalidVerb'
+      end
+      it "badVerbエラーを含むこと" do
+        response.should have_tag 'error[code="badVerb"]'
+      end
+    end
+
+    context "admin がログインしているとき" do
+      before do
+        login :admin
+      end
+      context "ListIdentifiersで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListIdentifiers'
+        end
+        it_should_behave_like '管理者が取得できるレコードになる'
+      end
+      context "ListRecordsで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListRecords'
+        end
+        it_should_behave_like '管理者が取得できるレコードになる'
+      end
+    end
+
+    context "librarian がログインしているとき" do
+      before do
+        login :librarian1
+      end
+      context "ListIdentifiersで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListIdentifiers'
+        end
+        it_should_behave_like '図書館員が取得できるレコードになる'
+      end
+      context "ListRecordsで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListRecords'
+        end
+        it_should_behave_like '図書館員が取得できるレコードになる'
+      end
+    end
+
+    context "user がログインしているとき" do
+      before do
+        login :user1
+      end
+      context "ListIdentifiersで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListIdentifiers'
+        end
+        it_should_behave_like 'ユーザが取得できるレコードになる'
+      end
+      context "ListRecordsで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListRecords'
+        end
+        it_should_behave_like 'ユーザが取得できるレコードになる'
+      end
+    end
+
+    context "ログインしていないとき" do
+      context "ListIdentifiersで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListIdentifiers'
+        end
+        it_should_behave_like 'ゲストが取得できるレコードになる'
+      end
+      context "ListRecordsで取得するとき" do
+        before do
+          get :index, :format => 'oai', :verb => 'ListRecords'
+        end
+        it_should_behave_like 'ゲストが取得できるレコードになる'
+      end
+    end
+  end
+
+  describe "新規レコードの作成は" do
+    context "管理者のとき" do
+      before do
+        login :admin
+        get :new, :format => 'oai'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+    context "図書館員がログインしているとき" do
+      before do
+        login :librarian1
+        get :new, :format => 'oai'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+    context "ユーザがログインしているとき" do
+      before do
+        login :user1
+        get :new, :format => 'oai'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+    context "ログインしていないとき" do
+      before do
+        get :new, :format => 'oai'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
       end
     end
   end

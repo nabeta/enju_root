@@ -22,7 +22,7 @@
 <%= render :partial => 'page/tabview' %>
 <div id="tabs">
 
-  <ul class="yui-nav">
+  <ul>
     <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
     <%- if @patron.derived_patrons.present? or @patron.original_patrons.present? -%>
       <li><a href="#related"><em><%= t('page.related') -%></em></a></li>

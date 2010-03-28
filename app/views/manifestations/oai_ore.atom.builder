@@ -19,9 +19,9 @@ xml.entry('xmlns' => "http://www.w3.org/2005/Atom"){
   #xml.link :rel => 'license', :type='application/rdf+xml', :href => 'http://creativecommons.org/licenses/by-nc/2.5/rdf'
   #xml.rights 'This Resource Map is available under the Creative Commons Attribution-Noncommercial 2.5 Generic license'
   xml.title @manifestation.original_title
-  @manifestation.authors.each do |author|
+  @manifestation.creators.each do |creator|
     xml.author do
-      xml.name author.full_name
+      xml.name creator.full_name
     end
   end
   xml.category :term => @manifestation.created_at.utc.iso8601, :scheme => 'http://www.openarchives.org/ore/atom/created'

@@ -4,6 +4,9 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
   xml.responseDate Time.zone.now.utc.iso8601
   xml.request resources_url(:format => :oai), :verb => "ListIdentifiers", :metadataPrefix => "oai_dc"
+  @oai[:errors].each do |error|
+    xml.error :code => error
+  end
   xml.ListIdentifiers do
     @resources.each do |resource|
       if resource.deleted_at

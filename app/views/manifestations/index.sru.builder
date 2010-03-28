@@ -65,11 +65,11 @@ end
 def record!(xml, rec, position)
   xml.recordSchema 'info:srw/schema/1/dc-v1.1'
   xml.recordPacking @packing
-  xml.recordData{|x| x << (/\Axml\Z/io =~ @packing ? get_recoad(rec) : CGI::escapeHTML(get_recoad(rec)))}
+  xml.recordData{|x| x << (/\Axml\Z/io =~ @packing ? get_record(rec) : CGI::escapeHTML(get_record(rec)))}
   xml.recordPosition position
 end
 
-def get_recoad(mf)
+def get_record(mf)
   data = <<EOB
 <srw_dc:dc
 xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -78,9 +78,10 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="info:srw/schema/1/dc-v1.1
 http://www.loc.gov/standards/sru/dc-schema.xsd">
 <dc:title>#{mf.title}</dc:title>
-<dc:creator>#{mf.author}</dc:creator>
-<dc:description></dc:description>
+<dc:creator>#{mf.creator}</dc:creator>
+<dc:contributor>#{mf.contributor}</dc:contributor>
 <dc:publisher>#{mf.publisher}</dc:publisher>
+<dc:description>#{mf.description}</dc:description>
 </srw_dc:dc>
 EOB
   data
