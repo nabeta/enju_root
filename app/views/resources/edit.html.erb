@@ -12,7 +12,7 @@
   <%- end -%>
   <p>
     <b><%= t('activerecord.attributes.resource.state') -%>:</b>
-    <%=h @resource.state %>
+    <%= i18n_state(@resource.state) %>
   </p>
 
   <%- case @resource.state when 'not_approved' -%>

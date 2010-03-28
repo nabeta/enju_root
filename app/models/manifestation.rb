@@ -49,13 +49,13 @@ class Manifestation < ActiveRecord::Base
   has_one :resource
 
   searchable do
-    text :title, :fulltext, :note, :author, :editor, :publisher, :subject, :description
+    text :title, :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
     string :title, :multiple => true
     string :conect_title do
       title.join('').gsub(/\s/, '')
     end
     string :conect_creator do
-      author.join('').gsub(/\s/, '')
+      creator.join('').gsub(/\s/, '')
     end
     string :conect_publisher do
       publisher.join('').gsub(/\s/, '')
@@ -114,20 +114,17 @@ class Manifestation < ActiveRecord::Base
     boolean :repository_content
     # for OpenURL
     text :aulast do
-      authors.map{|author| author.last_name}
+      creators.map{|creator| creator.last_name}
     end
     text :aufirst do
-      authors.map{|author| author.first_name}
+      creators.map{|creator| creator.first_name}
     end
     # OTC start
-    text :creator do
-      author
-    end
     string :creator, :multiple => true do
-      author.map{|au| au.gsub(' ', '')}
+      creator.map{|au| au.gsub(' ', '')}
     end
     text :au do
-      author
+      creator
     end
     text :atitle do
       title if original_manifestations.present? # 親がいることが条件
@@ -342,17 +339,17 @@ class Manifestation < ActiveRecord::Base
     self.reserves.first(:order => ['reserves.created_at'])
   end
 
-  def authors
+  def creators
     # 著編者
     (self.works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
   end
 
-  def editors
+  def contributors
     patrons = []
     self.expressions.each do |expression|
       patrons += expression.patrons.uniq
     end
-    patrons -= authors
+    patrons -= creators
   end
 
   def publishers
@@ -440,12 +437,16 @@ class Manifestation < ActiveRecord::Base
     publishers.collect(&:name).flatten
   end
 
-  def author
-    authors.collect(&:name).flatten
+  def creator
+    creators.collect(&:name).flatten
   end
 
   def editor
-    editors.collect(&:name).flatten
+    contributor
+  end
+
+  def contributor
+    contributors.collect(&:name).flatten
   end
 
   def subject

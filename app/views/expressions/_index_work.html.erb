@@ -43,7 +43,6 @@
       [E]
       <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
       <%= content_type_icon(expression.content_type) -%><br />
-      <%= raw patrons_list(expression.authors, current_user) -%>
       <%= raw patrons_list(expression.patrons, current_user) -%>
     </td>
     <td><%= expression.language.display_name.localize -%></td>

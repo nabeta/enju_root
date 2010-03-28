@@ -48,10 +48,11 @@ class ManifestationsController < ApplicationController
             manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
           rescue ActiveRecord::RecordNotFound
             @oai[:errors] << "idDoesNotExist"
-            redirect_to manifestations_url(:format => 'oai')
+            render :template => 'manifestations/index.oai.builder'
             return
           end
-          redirect_to manifestation_url(manifestation, :format => 'oai')
+          @manifestation = manifestation
+          render :template => 'manifestations/show.oai.builder'
           return
         end
       end
@@ -532,8 +533,12 @@ class ManifestationsController < ApplicationController
       query = "#{query} tag_sm: #{options[:tag]}"
     end
 
-    unless options[:author].blank?
-      query = "#{query} author_text: #{options[:author]}"
+    unless options[:creator].blank?
+      query = "#{query} creator_text: #{options[:creator]}"
+    end
+
+    unless options[:contributor].blank?
+      query = "#{query} contributor_text: #{options[:contributor]}"
     end
 
     unless options[:isbn].blank?

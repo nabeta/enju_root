@@ -89,5 +89,42 @@ describe ManifestationsController do
       response.should render_template('manifestations/error.xml')
     end
   end
-end
 
+  describe "新規レコードの作成は" do
+    context "管理者のとき" do
+      before do
+        login :admin
+        get :new, :format => 'sru'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+    context "図書館員がログインしているとき" do
+      before do
+        login :librarian1
+        get :new, :format => 'sru'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+    context "ユーザがログインしているとき" do
+      before do
+        login :user1
+        get :new, :format => 'sru'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+    context "ログインしていないとき" do
+      before do
+        get :new, :format => 'sru'
+      end
+      it "受け付けられない" do
+        response.status.should =~ /406/
+      end
+    end
+  end
+end

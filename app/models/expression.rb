@@ -27,8 +27,8 @@ class Expression < ActiveRecord::Base
   
   searchable do
     text :title, :summarization, :context, :note
-    text :author do
-      authors.collect(&:full_name) + authors.collect(&:full_name_transcription) if authors
+    text :creator do
+      creators.collect(&:full_name) + creators.collect(&:full_name_transcription) if creators
     end
     time :created_at
     time :updated_at
@@ -68,7 +68,7 @@ class Expression < ActiveRecord::Base
     title
   end
 
-  def authors
+  def creators
     self.work.patrons if self.work
   end
 

@@ -21,17 +21,20 @@ class ResourcesController < ApplicationController
         per_page = 200
         if current_token = get_resumption_token(params[:resumptionToken])
           page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+        else
+          @oai[:errors] << "badResumptionToken"
         end
         if params[:verb] == 'GetRecord' and params[:identifier]
           begin
             resource = Resource.find_by_oai_identifier(params[:identifier])
-            redirect_to resource_url(resource, :format => 'oai')
-            return
-          rescue
+          rescue ActiveRecord::RecordNotFound
             @oai[:errors] << "idDoesNotExist"
-            redirect_to resources_url(:format => 'oai')
+            render :template => 'resources/index.oai.builder'
             return
           end
+          @resource = resource
+          render :template => 'resources/show.oai.builder'
+          return
         end
       end
 
@@ -76,8 +79,12 @@ class ResourcesController < ApplicationController
         end
       end
 
-      if Resource.last and Resource.first
-        set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+      if params[:format] == 'oai'
+        unless @resources.empty?
+          set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+        else
+          @oai[:errors] << 'noRecordsMatch'
+        end
       end
     end
 

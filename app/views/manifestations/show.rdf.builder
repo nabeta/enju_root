@@ -10,16 +10,16 @@ xml.rdf(:RDF,
     xml.title h(@manifestation.original_title)
     #xml.description(@manifestation.original_title)
     xml.tag! 'dc:date', h(@manifestation.created_at.utc.iso8601)
-    xml.tag! 'dc:creator', @manifestation.author.join(' ') unless @manifestation.authors.empty?
-    @manifestation.authors.each do |author|
+    xml.tag! 'dc:creator', @manifestation.creator.join(' ') unless @manifestation.creators.empty?
+    @manifestation.creators.each do |creator|
       xml.tag! 'foaf:maker' do
         xml.tag! 'foaf:Person' do
-          xml.tag! 'foaf:name', author.full_name
-          xml.tag! 'foaf:name', author.full_name_transcription if author.full_name_transcription.present?
+          xml.tag! 'foaf:name', creator.full_name
+          xml.tag! 'foaf:name', creator.full_name_transcription if creator.full_name_transcription.present?
         end
       end
     end
-    xml.tag! 'dc:contributor', @manifestation.editor.join(' ') unless @manifestation.editors.empty?
+    xml.tag! 'dc:contributor', @manifestation.editor.join(' ') unless @manifestation.contributors.empty?
     xml.tag! 'dc:publisher', @manifestation.publisher.join(' ') unless @manifestation.publishers.empty?
     xml.tag! 'dc:identifier', "urn:ISBN:#{@manifestation.isbn}" if @manifestation.isbn.present?
     xml.tag! 'dc:description', @manifestation.description

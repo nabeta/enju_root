@@ -27,8 +27,8 @@
                     <%- mnfst.expressions.each do |expression| -%>
                       <%= link_to content_type_icon(expression.content_type), expression -%>
                     <%- end -%>
-                    <%= raw patrons_list(mnfst.authors) -%>
-                    <%= raw patrons_list(mnfst.editors) -%>
+                    <%= raw patrons_list(mnfst.creators) -%>
+                    <%= raw patrons_list(mnfst.contributors) -%>
                     <%= raw patrons_list(mnfst.patrons) -%>
                     <%- if mnfst.date_of_publication -%>
                       (<%= mnfst.date_of_publication.strftime('%Y') -%>)

@@ -17,7 +17,7 @@
     <%= raw patrons_list(@work.patrons) -%>
   </p>
   <div id="tabs">
-    <ul class="yui-nav">
+    <ul>
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- if @work.derived_works.present? or @work.original_works.present? -%>
         <li><a href="#work"><em><%= t('page.related') -%></em></a></li>
