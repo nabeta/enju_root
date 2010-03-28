@@ -69,6 +69,9 @@ xml.modsCollection(
           xml.topic subject.term
         end
       }
+      manifestation.subjects.collect(&:classifications).flatten.each do |classification|
+        xml.classification classification.category, 'authority' => classification.classification_type.name
+      end
       xml.frequency manifestation.frequency.name
       xml.abstract manifestation.description
       xml.note manifestation.note
