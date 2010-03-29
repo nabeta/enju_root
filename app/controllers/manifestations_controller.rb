@@ -26,13 +26,8 @@ class ManifestationsController < ApplicationController
 	      @user = current_user unless @user
 	    end
 
-      if Manifestation.last and Manifestation.first
-        @from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
-        @until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
-      else
-        @from_time = Time.zone.now
-        @until_time = Time.zone.now
-      end
+      set_from_and_until
+
       if params[:format] == 'oai'
         # OAI-PMHのデフォルトの件数
         per_page = 200
@@ -45,20 +40,11 @@ class ManifestationsController < ApplicationController
         end
         page ||= 1
         if params[:verb] == 'GetRecord' and params[:identifier]
-          begin
-            manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
-          rescue ActiveRecord::RecordNotFound
-            @oai[:errors] << "idDoesNotExist"
-            render :template => 'manifestations/index.oai.builder'
-            return
-          end
-          @manifestation = manifestation
-          render :template => 'manifestations/show.oai.builder'
+          get_oai_record(params[:identifier])
           return
         end
       end
 
-      session[:manifestation_ids] = [] unless session[:manifestation_ids]
       session[:params] = {} unless session[:params]
       session[:params][:manifestation] = params.merge(:view => nil)
       if params[:reservable] == "true"
@@ -98,21 +84,7 @@ class ManifestationsController < ApplicationController
       # 絞り込みを行わない状態のクエリ
       @query = query.dup
       query = query.gsub('　', ' ')
-
       total_query = @query.dup
-      #if total_query.blank?
-      #  @count[:total] = 0
-      #else
-      @count[:total] = get_total_count(total_query)
-      #end
-      #total_query = query.dup
-      #if total_query.blank?
-      #  @count[:total] = 0
-      #else
-      #  count = Sunspot.new_search(Manifestation)
-      #  count.query.keywords = total_query
-      #  @count[:total] = count.execute!.total
-      #end
 
       search = Sunspot.new_search(Manifestation)
       search = make_internal_query(search)
@@ -133,19 +105,25 @@ class ManifestationsController < ApplicationController
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
       end
-      manifestation_ids = search.execute!.results.collect(&:id)
 
-      if params[:view] == "tag_cloud"
-        if manifestation_ids
-          bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
-          @tags = Tag.bookmarked(bookmark_ids)
-        else
-          @tags = []
+      unless session[:manifestation_ids]
+        manifestation_ids = search.build do
+          paginate :page => 1, :per_page => Manifestation.cached_numdocs
+        end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
+        session[:manifestation_ids] = manifestation_ids
+      end
+        
+      if session[:manifestation_ids]
+        bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
+        @tags = Tag.bookmarked(bookmark_ids)
+        if params[:view] == 'tag_cloud'
+          render :partial => 'tag_cloud'
+          #session[:manifestation_ids] = nil
+          return
         end
-        render :partial => 'tag_cloud'
-        return
       end
 
+      @count[:total] = get_total_count(total_query)
       page ||= params[:page] || 1
       #unless query.blank?
       #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
@@ -170,12 +148,6 @@ class ManifestationsController < ApplicationController
       @library_facet = search_result.facet(:library)
 
       @search_engines = SearchEngine.all
-
-      if @manifestations
-        session[:manifestation_ids] = manifestation_ids
-      else
-        session[:manifestation_ids] = nil
-      end
 
       # TODO: 検索結果が少ない場合にも表示させる
       if manifestation_ids.blank?
@@ -233,16 +205,16 @@ class ManifestationsController < ApplicationController
         :inline => true
       }
     end
-  rescue RSolr::RequestError
-    unless params[:format] == 'sru'
-      flash[:notice] = t('page.error_occured')
-      redirect_to manifestations_url
-      return
-    else
-      render :template => 'manifestations/error.xml', :layout => false
-      return
-    end
-    return
+  #rescue RSolr::RequestError
+  #  unless params[:format] == 'sru'
+  #    flash[:notice] = t('page.error_occured')
+  #    redirect_to manifestations_url
+  #    return
+  #  else
+  #    render :template => 'manifestations/error.xml', :layout => false
+  #    return
+  #  end
+  #  return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
     return
@@ -736,4 +708,24 @@ class ManifestationsController < ApplicationController
     SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
   end
 
+  def set_from_and_until
+    if Manifestation.last and Manifestation.first
+      @from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
+      @until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
+    else
+      @from_time = Time.zone.now
+      @until_time = Time.zone.now
+    end
+  end
+
+  def get_oai_record(identifier)
+    begin
+      manifestation = Manifestation.find_by_oai_identifier(identifier)
+    rescue ActiveRecord::RecordNotFound
+      @oai[:errors] << "idDoesNotExist"
+      render :template => 'manifestations/index.oai.builder'
+    end
+    @manifestation = manifestation
+    render :template => 'manifestations/show.oai.builder'
+  end
 end

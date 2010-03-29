@@ -1,4 +1,5 @@
 class PageController < ApplicationController
+  before_filter :clear_manifestation_ids, :only => [:index, :advanced_search]
   before_filter :store_location, :only => [:advanced_search, :about, :add_on, :msie_acceralator, :statistics]
   before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch, :statistics]
   before_filter :get_libraries, :only => [:advanced_search]
