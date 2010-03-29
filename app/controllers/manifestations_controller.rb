@@ -67,6 +67,7 @@ class ManifestationsController < ApplicationController
 
       if params[:format] == 'csv'
         per_page = 65534
+        #rows = Manifestation.count
       end
 
       manifestations = {}
@@ -120,6 +121,10 @@ class ManifestationsController < ApplicationController
       reservable = true if @reservable
       from_time = @from_time; until_time = @until_time
       search.build do
+        #adjust_solr_params do |params|
+        #  params[:rows] = rows if rows
+        #end
+        fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
@@ -128,26 +133,7 @@ class ManifestationsController < ApplicationController
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
       end
-
-      unless query.blank?
-        search.build do
-          fulltext query
-        end
-        manifestation_ids = Manifestation.search_ids do
-          fulltext query
-          order_by sort[:sort_by], sort[:order]
-          # TODO: ヒット件数の上限をセットする
-          paginate :page => 1, :per_page => Manifestation.cached_numdocs
-          #paginate :page => 1, :per_page => 1000
-          with(:required_role_id).less_than role.id
-        end
-      end
-
-      if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-        prepare_options
-        render_facet(search)
-        return
-      end
+      manifestation_ids = search.execute!.results.collect(&:id)
 
       if params[:view] == "tag_cloud"
         if manifestation_ids
@@ -167,14 +153,21 @@ class ManifestationsController < ApplicationController
       if params[:format] == 'sru'
         search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
       else
+        search.build do
+          facet :carrier_type
+          facet :library
+          facet :language
+          facet :subject_ids
+        end
         search.query.paginate(page.to_i, per_page || Manifestation.per_page)
       end
-      @manifestations = search.execute!.results
+      search_result = search.execute!
+      @manifestations = search_result.results
       @count[:query_result] = @manifestations.total_entries
-      #else
-      #  @manifestations = WillPaginate::Collection.create(1,1,0) do end
-      #  @count[:query_result] = 0
-      #end
+
+      @carrier_type_facet = search_result.facet(:carrier_type)
+      @language_facet = search_result.facet(:language)
+      @library_facet = search_result.facet(:library)
 
       @search_engines = SearchEngine.all
 
