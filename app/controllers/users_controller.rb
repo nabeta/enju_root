@@ -376,8 +376,4 @@ class UsersController < ApplicationController
   def last_request_update_allowed?
     true if %w[create update].include?(action_name)
   end
-
-  def clear_manifestation_ids
-    session[:manifestation_ids] = nil
-  end
 end
