@@ -466,7 +466,8 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
-  def clear_manifestation_ids
+  def clear_search_sessions
+    session[:search_params] = nil
     session[:manifestation_ids] = nil
   end
 end
