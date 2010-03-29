@@ -125,6 +125,7 @@ class BookmarksController < ApplicationController
   # POST /bookmarks.xml
   def create
     @bookmark = current_user.bookmarks.new(params[:bookmark])
+    @bookmark.tag_list = params[:bookmark][:tag_list]
 
     respond_to do |format|
       begin
@@ -179,7 +180,6 @@ class BookmarksController < ApplicationController
       @bookmark.tags -= Tag.find(:all, :conditions => {:name => tag.name})
     else
       @bookmark.tag_list = params[:bookmark][:tag_list]
-      params[:bookmark][:tag_list] = (@bookmark.tag_list - Tag.find(:all, :conditions => {:name => @bookmark.tag_list}).collect(&:name)).join(' ')
     end
 
     respond_to do |format|

@@ -45,7 +45,7 @@ class SrwTest < ActiveSupport::TestCase
     assert_equal 1, @srw.maximum
     assert_equal 'xml', @srw.packing
     assert_equal 'dcndl_porta', @srw.schema
-    assert_equal Hash[:order=>"desc", :sort_by=>"title"], @srw.sort_by
+    assert_equal Hash[:order=>"asc", :sort_by=>"title"], @srw.sort_by
     assert_instance_of Cql, @srw.cql
   end
 

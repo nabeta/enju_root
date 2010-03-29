@@ -53,7 +53,7 @@
 <div id="submenu">
   <ul>
     <%- if Subject.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_classification_subject_path(@classification) -%></li>
     <%- end -%>
   </ul>
 </div>

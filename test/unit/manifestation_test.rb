@@ -15,7 +15,7 @@ class ManifestationTest < ActiveSupport::TestCase
     sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,0', :version => '1.2'})
     assert_equal( {:sort_by => 'title', :order => 'asc'}, sru.sort_by)
     sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,0', :version => '1.1'})
-    assert_equal( {:sort_by => 'creator', :order => 'desc'}, sru.sort_by)
+    assert_equal( {:sort_by => 'creator', :order => 'asc'}, sru.sort_by)
     sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,1', :version => '1.1'})
     assert_equal( {:sort_by => 'creator', :order => 'asc'}, sru.sort_by)
     #TODO ソート基準が入手しやすさの場合の処理
@@ -49,13 +49,13 @@ class ManifestationTest < ActiveSupport::TestCase
     sru = Sru.new({:query => "from = 1993-02-24"})
     sru.search
     assert_equal 5, sru.manifestations.size    
-    sru = Sru.new({:query => "until = 2006-08-05"})
+    sru = Sru.new({:query => "until = 2006-08-06"})
     sru.search
     assert_equal 4, sru.manifestations.size
   end
 
   def test_sru_search_relation
-    sru = Sru.new({:query => "from = 1993-02-24 AND until = 2006-08-05 AND title=プログラミング"})
+    sru = Sru.new({:query => "from = 1993-02-24 AND until = 2006-08-06 AND title=プログラミング"})
     sru.search
     assert_equal 2, sru.manifestations.size
     sru = Sru.new({:query => "until = 2000 AND title=プログラミング"})

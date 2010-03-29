@@ -38,7 +38,11 @@
 <div id="submenu">
   <ul>
     <%- if Classification.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_path -%></li>
+      <%- if @classification_type -%>
+        <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_type_classification_path(@classification_type) -%></li>
+      <%- else -%>
+        <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_path -%></li>
+      <%- end -%>
     <%- end -%>
   </ul>
 </div>

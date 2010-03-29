@@ -62,6 +62,7 @@ class ClassificationsController < ApplicationController
   def new
     @classification_types = ClassificationType.all
     @classification = Classification.new
+    @classification.classification_type = @classification_type
 
     respond_to do |format|
       format.html # new.html.erb

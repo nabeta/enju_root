@@ -1,12 +1,5 @@
-<div id="tabs">
-  <ul>
-    <li title="active" class="selected"><a href="#detail"><em><%= LibraryGroup.site_config.display_name.localize -%></em></a></li>
-  </ul>
-  <div id="detail">
     <p>
       <%= t('page.no_record_found') -%>
       <%= t('page.you_can_search_following_database') -%>
       <%= render :partial => 'search_engine' -%>
     </p>
-  </div>
-</div>

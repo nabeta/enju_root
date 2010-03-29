@@ -1,8 +1,3 @@
-<div id="tabs">
-    <ul>
-      <li title="active" class="selected"><a href="#detail"><em><%= LibraryGroup.site_config.display_name.localize -%></em></a></li>
-    </ul>
-      <div id="detail">
         <table id="manifestation_list">
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
@@ -38,8 +33,6 @@
             </tr>
           <%- end -%>
         </table>
-    </div>
-</div>
 
 <%= will_paginate(@manifestations) -%>
 <br />
