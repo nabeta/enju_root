@@ -45,8 +45,7 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      session[:params] = {} unless session[:params]
-      session[:params][:manifestation] = params.merge(:view => nil)
+      #session[:params][:manifestation] = params.merge(:view => nil)
       if params[:reservable] == "true"
         @reservable = "true"
       end
@@ -104,6 +103,11 @@ class ManifestationsController < ApplicationController
         with(:reservable).equal_to true if reservable
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
+      end
+
+      unless search.query.to_params == session[:search_params]
+        clear_search_sessions
+        session[:search_params] == search.query.to_params
       end
 
       unless session[:manifestation_ids]
