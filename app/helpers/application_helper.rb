@@ -69,8 +69,8 @@ module ApplicationHelper
       #  max = options[:max].to_i
       #  min = options[:min].to_i
       #end
-      max = tag.taggings_count if tag.taggings_count.to_i > max
-      min = tag.taggings_count if tag.taggings_count.to_i < min
+      max = tag.taggings.size if tag.taggings.size > max
+      min = tag.taggings.size if tag.taggings.size < min
     end
     divisor = ((max - min).div(classes.size)) + 1
     
@@ -78,7 +78,7 @@ module ApplicationHelper
     html <<   %(  <ul class="popularity">\n)
     tags.each do |tag|
       html << %(  <li>)
-      html << link_to(h(tag.name), manifestations_url(:tag => tag.name), :class => classes[(tag.taggings_count - min).div(divisor)]) 
+      html << link_to(h(tag.name), manifestations_url(:tag => tag.name), :class => classes[(tag.taggings.size - min).div(divisor)]) 
       html << %(  </li>\n) # FIXME: IEのために文末の空白を入れている
     end
     html <<   %(  </ul>\n)

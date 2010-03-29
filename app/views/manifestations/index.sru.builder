@@ -77,7 +77,7 @@ xmlns:srw_dc="info:srw/schema/1/dc-v1.1"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="info:srw/schema/1/dc-v1.1
 http://www.loc.gov/standards/sru/dc-schema.xsd">
-<dc:title>#{mf.title}</dc:title>
+<dc:title>#{mf.original_title}</dc:title>
 <dc:creator>#{mf.creator}</dc:creator>
 <dc:contributor>#{mf.contributor}</dc:contributor>
 <dc:publisher>#{mf.publisher}</dc:publisher>

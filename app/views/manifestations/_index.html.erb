@@ -33,7 +33,7 @@
       <%- else -%>
         <%= link_to t('manifestation.date_of_acquisition'), params.merge(:sort_by => nil) -%>
       <%- end -%>
-      <%- if params[:sort_by] == 'date' -%>
+      <%- if params[:sort_by] == 'pubdate' -%>
         <strong><%= t('activerecord.attributes.manifestation.date_of_publication') -%></strong>
       <%- else -%>
         <%= link_to t('activerecord.attributes.manifestation.date_of_publication'), params.merge(:sort_by => 'date') -%>
@@ -96,7 +96,6 @@
     <%- end -%>
   </div>
 </div>
-<%= render :partial => 'page/tabview' -%>
 
 <script type="text/javascript">
   window.onload = function() {

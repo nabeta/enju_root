@@ -42,9 +42,25 @@ class ResourcesController < ApplicationController
 
       case params[:approved]
       when 'true'
-        @resources = Resource.approved(@from_time, @until_time).not_deleted.paginate(:page => page)
+        if current_user
+          if current_user.has_role?('Administrator')
+            @resources = Resource.approved(@from_time, @until_time).not_deleted.paginate(:page => page)
+          else
+            access_denied; return
+          end
+        else
+          redirect_to new_user_session_url; return
+        end
       when 'false'
-        @resources = Resource.not_approved(@from_time, @until_time).not_deleted.paginate(:page => page)
+        if current_user
+          if current_user.has_role?('Administrator')
+            @resources = Resource.not_approved(@from_time, @until_time).not_deleted.paginate(:page => page)
+          else
+            access_denied; return
+          end
+        else
+          redirect_to new_user_session_url; return
+        end
       else
         if Resource.respond_to?(:search)
           query = params[:query]

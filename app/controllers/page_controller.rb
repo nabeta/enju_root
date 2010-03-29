@@ -30,6 +30,10 @@ class PageController < ApplicationController
     render :layout => false
   end
 
+  def srw
+    render :template => 'page/srw.xml.erb', :layout => false
+  end
+
   def patron
     @title = t('page.patron_management')
   end

@@ -21,12 +21,6 @@ class Tag < ActiveRecord::Base
 
   def self.bookmarked(bookmark_ids, options = {})
     unless bookmark_ids.empty?
-      options = {:order => 'taggings_count DESC'}.merge(options)
-      #tag_ids = Tag.search_ids do
-      #  with(:bookmark_ids).any_of bookmark_ids
-      #  paginate(:page => 1, :per_page => Tag.count)
-      #end
-      #Tag.all(:conditions => {:id => tag_ids}, :order => options[:order])
       tags = Tag.search do
         with(:bookmark_ids).any_of bookmark_ids
         order_by :taggings_count, :desc

@@ -3,6 +3,7 @@ require 'porta_cql'
 class QueryArgumentError < QueryError; end
 
 class Sru
+  SORT_KEYS = %w(title creator created_at updated_at date_of_publication)
   def initialize(params)
     raise QueryArgumentError, 'sru :query is required item.' unless params.has_key?(:query)
 
@@ -10,6 +11,7 @@ class Sru
     @version = params.has_key?(:version) ? params[:version] : '1.2'
     @start = params.has_key?(:startRecord) ? params[:startRecord].to_i : 1
     @maximum = params.has_key?(:maximumRecords) ? params[:maximumRecords].to_i : 200
+    @maximum = 1000 if 1000 < @maximum
     @packing = params.has_key?(:recordPacking) ? params[:recordPacking] : 'string'
     @schema = params.has_key?(:recordSchema) ? params[:recordSchema] : 'dc'
     @sort_key = params[:sortKeys]
@@ -28,11 +30,15 @@ class Sru
     else
       @path, @ascending = @sort_key.split(',') if @sort_key
     end
-    # TODO: multiple-valueが指定されている項目（titleなど）は並べ替えに
-    # 利用できないが、それらがsortKeysに指定された場合は？
-    sort[:sort_by] = @path if @path
+    if SORT_KEYS.include? @path
+      sort[:sort_by] = @path if SORT_KEYS.include?(@path)
+      # title. creatorはデフォルトで昇順とする
+      if %w(title creator).include?(@path)
+        sort[:order] = 'asc'
+      end
+    end
     #TODO ソート基準が入手しやすさの場合の処理
-    sort[:order] = 'asc' if /(\A1|ascending)\Z/ =~ @ascending
+    sort[:order] = 'asc' if /\A(1|ascending)\Z/ =~ @ascending
     sort
   end
 

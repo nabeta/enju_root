@@ -451,7 +451,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_user_should_get_edit_with_tag_edit
     UserSession.create users(:user1)
     get :edit, :id => 1, :mode => 'tag_edit'
-    assert_response :forbidden
+    assert_response :success
   end
   
   def test_librarian_should_get_edit

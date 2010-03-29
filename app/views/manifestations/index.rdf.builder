@@ -12,12 +12,6 @@ xml.rdf(:RDF,
     xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
-    unless params[:query].blank?
-      xml.tag! "opensearch:totalResults", @count[:query_result]
-      xml.tag! "opensearch:startIndex", @manifestations.offset + 1
-      xml.tag! "opensearch:itemsPerPage", @manifestations.per_page
-      xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
-    end
     if @manifestations
       xml.items do
         xml.tag! "rdf:Seq" do
@@ -35,7 +29,7 @@ xml.rdf(:RDF,
       xml.tag! 'dc:creator', manifestation.creator.join(' ') unless manifestation.creators.empty?
       xml.tag! 'dc:contributor', manifestation.contributor.join(' ') unless manifestation.contributors.empty?
       xml.tag! 'dc:publisher', manifestation.publisher.join(' ') unless manifestation.publishers.empty?
-      xml.tag! 'dc:identifier', "ISBN #{manifestation.isbn}" if manifestation.isbn.present?
+      xml.tag! 'dc:identifier', "urn:ISBN:#{@manifestation.isbn}" if manifestation.isbn.present?
       xml.tag! 'dc:description', manifestation.description
       xml.link manifestation_url(manifestation)
       manifestation.subjects.each do |subject|

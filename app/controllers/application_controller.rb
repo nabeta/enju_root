@@ -249,7 +249,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_subject_heading_type
-    @subject_heading_type = Subject.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
+    @subject_heading_type = SubjectHeadingType.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
   rescue ActiveRecord::RecordNotFound
     not_found
   end

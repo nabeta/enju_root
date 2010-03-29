@@ -73,15 +73,20 @@ class Cql
   def comp_date(date)
     if date
       text = date.terms[0]
-      case text
+      date_text = case text
       when /\A\d{4}-\d{2}-\d{2}\Z/
-        (text + 'T00:00:00Z')
+        text
       when /\A\d{4}-\d{2}\Z/
-        (text + '-01T00:00:00Z')
+        (text + '-01')
       when /\A\d{4}\Z/
-        (text + '-01-01T00:00:00Z')
+        (text + '-01-01')
       else
         raise QuerySyntaxError, "#{text}"
+      end
+      begin
+        Time.zone.parse(date_text).utc.iso8601.to_s
+      rescue
+        raise QuerySyntaxError, "#{date}"
       end
     else
       '*'
@@ -199,7 +204,7 @@ class Clause
       unless /\A\^(.+)/ =~ term
         "%s_%s:(%s)" % [@field, :text, term]
       else
-        "conect_%s_%s:(%s)" % [@field, :s, $1.gsub(/\s/, '') + '*']
+        "connect_%s_%s:(%s)" % [@field, :s, $1.gsub(/\s/, '') + '*']
       end
     when /\AEXACT\Z/
       "%s_%s:(%s)" % [@field, :sm, term.gsub(' ', '')]

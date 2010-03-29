@@ -144,7 +144,7 @@ ja:
       reserve_stat_has_manifestation: 資料別予約統計
       reserve_stat_has_user: 利用者別予約統計
       import_request: インポートのリクエスト
-      resource: 資源メタデータ
+      resource: 収集メタデータ
 
     attributes:
       library:

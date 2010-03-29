@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 class ManifestationsController < ApplicationController
-  before_filter :has_permission?, :except => :show
+  before_filter :has_permission?, :except => [:show, :edit]
+  before_filter :require_user, :only => :edit
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
@@ -136,7 +137,8 @@ class ManifestationsController < ApplicationController
           fulltext query
           order_by sort[:sort_by], sort[:order]
           # TODO: ヒット件数の上限をセットする
-          paginate :page => 1, :per_page => 1000 #Manifestation.cached_numdocs
+          paginate :page => 1, :per_page => Manifestation.cached_numdocs
+          #paginate :page => 1, :per_page => 1000
           with(:required_role_id).less_than role.id
         end
       end
@@ -242,8 +244,10 @@ class ManifestationsController < ApplicationController
     unless params[:format] == 'sru'
       flash[:notice] = t('page.error_occured')
       redirect_to manifestations_url
+      return
     else
       render :template => 'manifestations/error.xml', :layout => false
+      return
     end
     return
   rescue QueryError
@@ -372,6 +376,11 @@ class ManifestationsController < ApplicationController
 
   # GET /manifestations/1;edit
   def edit
+    unless current_user.has_role?('Librarian')
+      unless params[:mode] == 'tag_edit'
+        access_denied; return
+      end
+    end
     @manifestation = Manifestation.find(params[:id])
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement if @series_statement
@@ -379,7 +388,7 @@ class ManifestationsController < ApplicationController
       @bookmark = current_user.bookmarks.first(:conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
-    store_location
+    store_location unless params[:mode] == 'tag_edit'
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -604,7 +613,7 @@ class ManifestationsController < ApplicationController
     when 'title'
       sort[:sort_by] = 'sort_title'
       sort[:order] = 'asc'
-    when 'date'
+    when 'pubdate'
       sort[:sort_by] = 'date_of_publication'
       sort[:order] = 'desc'
     else
@@ -731,7 +740,7 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
   end
 
 end

@@ -36,6 +36,9 @@
 
 <div id="submenu">
   <ul>
+    <%- if current_user.try(:has_role?, 'Administrator') -%>
+      <li><%= link_to t('page.edit'), edit_resource_path(@resource) %></li>
+    <%- end -%>
     <li><%= link_to t('page.back'), resources_path %></li>
   </ul>
 </div>

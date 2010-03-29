@@ -51,13 +51,19 @@ class Manifestation < ActiveRecord::Base
   searchable do
     text :title, :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
     string :title, :multiple => true
-    string :conect_title do
+    # FIXME: stringでは大文字小文字を区別しないため、textフィールドで
+    # 扱う必要がある。ここでは無理やり記号をつけて、そこにマッチさせる
+    # ようにしている。porta_cql.rb で要対応
+    #text :connect_title do
+    #  '__' + title.join('').gsub(/\s/, '')
+    #end
+    string :connect_title do
       title.join('').gsub(/\s/, '')
     end
-    string :conect_creator do
+    string :connect_creator do
       creator.join('').gsub(/\s/, '')
     end
-    string :conect_publisher do
+    string :connect_publisher do
       publisher.join('').gsub(/\s/, '')
     end
     text :tag do
@@ -82,6 +88,9 @@ class Manifestation < ActiveRecord::Base
     string :shelf, :multiple => true
     string :user, :multiple => true
     string :subject, :multiple => true
+    string :classification, :multiple => true do
+      classifications.collect(&:category)
+    end
     integer :subject_ids, :multiple => true do
       self.subjects.collect(&:id)
     end
@@ -395,6 +404,10 @@ class Manifestation < ActiveRecord::Base
     works.collect(&:subjects).flatten
   end
   
+  def classifications
+    subjects.collect(&:classifications).flatten
+  end
+  
   def library
     library_names = []
     self.items.each do |item|
@@ -654,6 +667,10 @@ class Manifestation < ActiveRecord::Base
     if series_statement
       errors.add(:series_statement) unless series_statement.work
     end
+  end
+
+  def bookmark_for(user)
+    Bookmark.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
   end
 
   def is_readable_by(user, parent = nil)
