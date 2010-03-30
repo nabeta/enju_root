@@ -31,7 +31,7 @@
     <td>
       <%= link_to h(work.original_title), work_merge_list_work_path(@work_merge_list, work) -%>
       <br />
-      <%= raw patrons_list(work.patrons) -%>
+      <%= raw patrons_list(work.patrons, current_user) -%>
     </td>
     <td><%= work.context -%></td>
     <td>

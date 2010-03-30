@@ -3,7 +3,10 @@ require 'porta_cql'
 class QueryArgumentError < QueryError; end
 
 class Sru
-  SORT_KEYS = %w(title creator created_at updated_at date_of_publication)
+  ASC_KEYS = %w(title creator)
+  DESC_KEYS = %w(created_at updated_at date_of_publication)
+  SORT_KEYS = ASC_KEYS + DESC_KEYS
+  MULTI_KEY_MAP = {'title' => 'sort_title'}
   def initialize(params)
     raise QueryArgumentError, 'sru :query is required item.' unless params.has_key?(:query)
 
@@ -30,15 +33,21 @@ class Sru
     else
       @path, @ascending = @sort_key.split(',') if @sort_key
     end
-    if SORT_KEYS.include? @path
-      sort[:sort_by] = @path if SORT_KEYS.include?(@path)
-      # title. creatorはデフォルトで昇順とする
-      if %w(title creator).include?(@path)
+    #TODO ソート基準が入手しやすさの場合の処理
+    if SORT_KEYS.include?(@path)
+      if MULTI_KEY_MAP.keys.include?(@path)
+        sort[:sort_by] = MULTI_KEY_MAP[@path]
+      else
+        sort[:sort_by] = @path
+      end
+      sort[:order] = 'asc' if ASC_KEYS.include?(@path)
+      case @ascending
+      when /\A(1|ascending)\Z/
         sort[:order] = 'asc'
+      when /\A(0|descending)\Z/
+        sort[:order] = 'desc'
       end
     end
-    #TODO ソート基準が入手しやすさの場合の処理
-    sort[:order] = 'asc' if /\A(1|ascending)\Z/ =~ @ascending
     sort
   end
 
@@ -60,8 +69,8 @@ class Sru
     #TODO: NDL で必要な項目が決定し、更に enju にそのフィールドが設けられた後で正式な実装を行なう。
     if @search.respond_to?(:erd)
       @schema == 'dc' ? @search.erd : {}
+    end
   end
-end
 
   def get_number_of_records
     #TODO: sunspot での取得方法が分かり次第、正式な実装を行なう。

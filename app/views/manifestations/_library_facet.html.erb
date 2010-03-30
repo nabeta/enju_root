@@ -1,13 +1,12 @@
 <h4><%= t('activerecord.models.library') -%></h4>
 <ul>
-  <%- libraries = params[:library].to_s.split -%>
+  <%- current_library = params[:library].to_s.strip -%>
   <%- @library_facet.rows.each do |facet| -%>
-    <%- current_libraries = libraries.dup -%>
     <li>
     <%- library = Library.find(:first, :conditions => {:name => facet.value}) -%>
-      <%- if current_libraries.include?(library.name) -%><strong><%- end -%>
-      <%= link_to h("#{library.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :view => nil)) -%>
-      <%- if current_libraries.include?(library.name) -%></strong><%- end -%>
+      <%- if current_library == library.name -%><strong><%- end -%>
+      <%= link_to h("#{library.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => library.name, :view => nil)) -%>
+      <%- if current_library == library.name -%></strong><%- end -%>
     </li>
   <%- end -%>
   <%- if params[:library] -%>

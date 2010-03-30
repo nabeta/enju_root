@@ -9,21 +9,28 @@ class ResourcesController < ApplicationController
     @seconds = Benchmark.realtime do
       @oai = check_oai_params(params)
       next if @oai[:need_not_to_search]
-      if Resource.first and Resource.last
-        @from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
-        @until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
-      else
-        @from_time = Time.zone.now
-        @until_time = Time.zone.now
-      end
       if params[:format] == 'oai'
         # OAI-PMHのデフォルトの件数
         per_page = 200
-        if current_token = get_resumption_token(params[:resumptionToken])
-          page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+        if params[:resumptionToken]
+          if current_token = get_resumption_token(params[:resumptionToken])
+            page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+          else
+            @oai[:errors] << "badResumptionToken"
+          end
         else
-          @oai[:errors] << "badResumptionToken"
+          if Resource.first and Resource.last
+            from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
+            until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
+          else
+            from_time = Time.zone.now
+            until_time = Time.zone.now
+          end
+          @from_time = from_time.beginning_of_day
+          @until_time = until_time.tomorrow.beginning_of_day
         end
+        page ||= 1
+
         if params[:verb] == 'GetRecord' and params[:identifier]
           begin
             resource = Resource.find_by_oai_identifier(params[:identifier])

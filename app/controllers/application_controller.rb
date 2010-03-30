@@ -164,7 +164,9 @@ class ApplicationController < ActionController::Base
 
   def get_user_if_nil
     @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
-    access_denied unless @user.is_readable_by(current_user) if @user
+    if @user
+      access_denied unless @user.is_readable_by(current_user)
+    end
   end
   
   def get_user_group
@@ -415,11 +417,13 @@ class ApplicationController < ActionController::Base
         end
       end
       @cursor ||= 0
+      yml = YAML.load_file("#{RAILS_ROOT}/config/memcached.yml")
+      ttl = yml["#{ENV['RAILS_ENV']}"]["ttl"] || yml["defaults"]["ttl"]
       resumption = {
         :token => "f(#{from_time.utc.iso8601}).u(#{until_time.utc.iso8601}):#{@cursor}",
         :cursor => @cursor,
         # memcachedの使用が前提
-        :expired_at => 1.hour.from_now.utc.iso8601
+        :expired_at => ttl.seconds.from_now.utc.iso8601
       }
       @resumption = Rails.cache.fetch(resumption[:token]){resumption}
     end
@@ -469,5 +473,9 @@ class ApplicationController < ActionController::Base
   def clear_search_sessions
     session[:search_params] = nil
     session[:manifestation_ids] = nil
+  end
+
+  def api_request?
+    true if params[:format].nil? or params[:format] == 'html'
   end
 end

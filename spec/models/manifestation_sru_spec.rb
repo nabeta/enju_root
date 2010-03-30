@@ -42,7 +42,7 @@ describe Manifestation do
       end
       context "検索語の先頭に'^'を付けた場合は先頭一致で" do
         it "タイトルの先頭に検索語がある図書が検索できる" do
-          @manifestations = Sru.new({:query => 'title=^Ruby'}).search
+          @manifestations = Sru.new({:query => 'title=^ruby'}).search
           @manifestations.should_not be_empty
           @manifestations.each{|m| m.title.to_s.should match /^Ruby/i}
         end
@@ -184,7 +184,7 @@ describe Manifestation do
           @manifestations = Sru.new({:query => "anywhere=Ruby"}).search
           @manifestations.should_not be_empty
           @manifestations.should be_all{|m|
-            [:title, :fulltext, :note, :author, :editor, :publisher, :subject].any? do |mtd|
+            [:title, :fulltext, :note, :creator, :editor, :publisher, :subject].any? do |mtd|
               m.send(mtd).to_s =~ /Ruby/i
             end
           }
@@ -195,7 +195,7 @@ describe Manifestation do
           @manifestations = Sru.new({:query => "anywhere ALL Ruby オーム社"}).search
           @manifestations.should_not be_empty
           @manifestations.each do |m|
-            [:title, :fulltext, :note, :author, :editor, :publisher, :subject].inject('') do |txt, mtd|
+            [:title, :fulltext, :note, :creator, :editor, :publisher, :subject].inject('') do |txt, mtd|
               txt + m.send(mtd).to_s
             end.should match /Ruby.*オーム社|オーム社.*Ruby/i
           end
@@ -206,7 +206,7 @@ describe Manifestation do
           @manifestations = Sru.new({:query => "anywhere ANY Ruby 出版社"}).search
           @manifestations.should_not be_empty
           @manifestations.should be_all{|m|
-            [:title, :fulltext, :note, :author, :editor, :publisher, :subject].any? do |mtd|
+            [:title, :fulltext, :note, :creator, :editor, :publisher, :subject].any? do |mtd|
               m.send(mtd).to_s =~ /Ruby|出版社/i
             end
           }

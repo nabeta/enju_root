@@ -9,7 +9,7 @@
     <%- end -%>
   </h2>
   <p>
-    <%= raw patrons_list(@work.patrons) -%>
+    <%= raw patrons_list(@work.patrons, current_user) -%>
   </p>
 
   <%- form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>

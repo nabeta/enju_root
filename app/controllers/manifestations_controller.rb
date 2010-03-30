@@ -26,8 +26,6 @@ class ManifestationsController < ApplicationController
 	      @user = current_user unless @user
 	    end
 
-      set_from_and_until
-
       if params[:format] == 'oai'
         # OAI-PMHのデフォルトの件数
         per_page = 200
@@ -37,10 +35,20 @@ class ManifestationsController < ApplicationController
           else
             @oai[:errors] << 'badResumptionToken'
           end
+        else
+          set_from_and_until
         end
         page ||= 1
+
         if params[:verb] == 'GetRecord' and params[:identifier]
-          get_oai_record(params[:identifier])
+          begin
+            @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
+          rescue ActiveRecord::RecordNotFound
+            @oai[:errors] << "idDoesNotExist"
+            render :template => 'manifestations/index.oai.builder'
+            return
+          end
+          render :template => 'manifestations/show.oai.builder'
           return
         end
       end
@@ -83,18 +91,14 @@ class ManifestationsController < ApplicationController
       # 絞り込みを行わない状態のクエリ
       @query = query.dup
       query = query.gsub('　', ' ')
-      total_query = @query.dup
 
       search = Sunspot.new_search(Manifestation)
-      search = make_internal_query(search)
       role = current_user.try(:highest_role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
       reservable = true if @reservable
       from_time = @from_time; until_time = @until_time
+      count_search = search.dup
       search.build do
-        #adjust_solr_params do |params|
-        #  params[:rows] = rows if rows
-        #end
         fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
@@ -104,34 +108,46 @@ class ManifestationsController < ApplicationController
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
       end
+      @count[:total] = search.execute!.total
 
-      unless search.query.to_params == session[:search_params]
+      search = make_internal_query(search)
+
+      # TODO: 件数が多すぎる場合は一覧を取得しないようにする
+      # 上限は？
+
+      if session[:search_params]
+        unless search.query.to_params == session[:search_params]
+          clear_search_sessions
+        end
+      else
         clear_search_sessions
         session[:search_params] == search.query.to_params
       end
 
-      unless session[:manifestation_ids]
-        manifestation_ids = search.build do
-          paginate :page => 1, :per_page => Manifestation.cached_numdocs
-        end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
-        session[:manifestation_ids] = manifestation_ids
+      unless api_request?
+        unless session[:manifestation_ids]
+          manifestation_ids = search.build do
+            paginate :page => 1, :per_page => Manifestation.cached_numdocs
+          end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
+          session[:manifestation_ids] = manifestation_ids
+        end
       end
         
       if session[:manifestation_ids]
         bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
-        @tags = Tag.bookmarked(bookmark_ids)
-        if params[:view] == 'tag_cloud'
-          render :partial => 'tag_cloud'
-          #session[:manifestation_ids] = nil
-          return
+        unless bookmark_ids.empty?
+          @tags = Tag.bookmarked(bookmark_ids)
+        else
+          @tags = []
         end
       end
+      if params[:view] == 'tag_cloud'
+        render :partial => 'tag_cloud'
+        #session[:manifestation_ids] = nil
+        return
+      end
 
-      @count[:total] = get_total_count(total_query)
       page ||= params[:page] || 1
-      #unless query.blank?
-      #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
-      #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
       if params[:format] == 'sru'
         search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
       else
@@ -169,7 +185,6 @@ class ManifestationsController < ApplicationController
       end
     end
 
-    #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
 
     respond_to do |format|
@@ -209,16 +224,16 @@ class ManifestationsController < ApplicationController
         :inline => true
       }
     end
-  #rescue RSolr::RequestError
-  #  unless params[:format] == 'sru'
-  #    flash[:notice] = t('page.error_occured')
-  #    redirect_to manifestations_url
-  #    return
-  #  else
-  #    render :template => 'manifestations/error.xml', :layout => false
-  #    return
-  #  end
-  #  return
+  rescue RSolr::RequestError
+    unless params[:format] == 'sru'
+      flash[:notice] = t('page.error_occured')
+      redirect_to manifestations_url
+      return
+    else
+      render :template => 'manifestations/error.xml', :layout => false
+      return
+    end
+    return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
     return
@@ -494,10 +509,10 @@ class ManifestationsController < ApplicationController
     #  query = "#{query} carrier_type_s: #{options[:carrier_type]}"
     #end
 
-    unless options[:library].blank?
-      library_list = options[:library].split.uniq.join(' and ')
-      query = "#{query} library_sm: #{library_list}"
-    end
+    #unless options[:library].blank?
+    #  library_list = options[:library].split.uniq.join(' and ')
+    #  query = "#{query} library_sm: #{library_list}"
+    #end
 
     #unless options[:language].blank?
     #  query = "#{query} language_sm: #{options[:language]}"
@@ -694,42 +709,20 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def get_total_count(total_query)
-    if total_query.present?
-      count = Sunspot.new_search(Manifestation)
-      count.build do
-        fulltext total_query
-        paginate :page => 1, :per_page => 1
-      end
-      set_role_query(current_user, count)
-      count.execute!.total
-    else
-      0
-    end
-  end
-
   def write_search_log(query, total, user)
     SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
   end
 
   def set_from_and_until
     if Manifestation.last and Manifestation.first
-      @from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
-      @until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
+      from_time = Time.zone.parse(params[:from]) rescue Manifestation.last.updated_at
+      until_time = Time.zone.parse(params[:until]) rescue Manifestation.first.updated_at
     else
-      @from_time = Time.zone.now
-      @until_time = Time.zone.now
+      from_time = Time.zone.now
+      until_time = Time.zone.now
     end
+    @from_time = from_time.beginning_of_day
+    @until_time = until_time.tomorrow.beginning_of_day
   end
 
-  def get_oai_record(identifier)
-    begin
-      manifestation = Manifestation.find_by_oai_identifier(identifier)
-    rescue ActiveRecord::RecordNotFound
-      @oai[:errors] << "idDoesNotExist"
-      render :template => 'manifestations/index.oai.builder'
-    end
-    @manifestation = manifestation
-    render :template => 'manifestations/show.oai.builder'
-  end
 end

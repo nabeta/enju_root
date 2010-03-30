@@ -204,7 +204,8 @@ class Clause
       unless /\A\^(.+)/ =~ term
         "%s_%s:(%s)" % [@field, :text, term]
       else
-        "connect_%s_%s:(%s)" % [@field, :s, $1.gsub(/\s/, '') + '*']
+        ahead_tarm = $1.gsub("\s", '').downcase
+        "connect_%s_%s:(%s*)" % [@field, :s, ahead_tarm]
       end
     when /\AEXACT\Z/
       "%s_%s:(%s)" % [@field, :sm, term.gsub(' ', '')]
@@ -245,7 +246,7 @@ class Clause
   end
 
   def to_sunspot_match_ahead
-    "%s_%s:(%s*)" % [@field, :text, @terms.first]
+    "%s_%s:(%s*)" % [@field, :s, @terms.first]
   end
 
   def to_sunspot_match_anywhere

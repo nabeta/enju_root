@@ -76,7 +76,7 @@
 
 <div id="submenu">
   <%- unless @query.blank? -%>
-    <h3><%= link_to t('page.total') + ": #{@count[:total]}", :controller => 'manifestations', :params => params.merge(:view => nil, :formtype => nil, :library => nil, :language => nil, :subject => nil) -%></h3>
+    <h3><%= link_to h("#{t('page.total')}: #{@count[:total]}"), manifestations_path(params.merge(:view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
     <%- if @count[:query_result] > 0 -%>
       <%= render :partial => 'all_facet' -%>
     <%- end -%>
@@ -92,13 +92,15 @@
 
 <script type="text/javascript">
   window.onload = function() {
-    jQuery("#all_facet_list").load('<%= url_for(:params => params.merge(:view => "all_facet")) -%>', hideFacetSpinner);
+    // jQuery("#all_facet_list").load('<%= url_for(:params => params.merge(:view => "all_facet")) -%>', hideFacetSpinner);
     jQuery("#tag_cloud_list").load('<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', null, hideTagCloudSpinner);
   }
 
+  /*
   function hideFacetSpinner(){
     jQuery("#spinner_all_facet").hide();
   }
+  */
 
   function hideTagCloudSpinner(){
     jQuery("#spinner_tag_cloud").hide();
