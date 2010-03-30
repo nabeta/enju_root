@@ -1,7 +1,6 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
-<%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
 <h2 class="resource_title">
   <%= @subject.term -%>
 </h2>
@@ -15,28 +14,35 @@
     <%- end -%>
   </p>
 
-<table class="index">
-  <tr>
-    <th><%= t('activerecord.attributes.classification.category') -%></th>
-    <th><%= t('activerecord.models.classification_type') -%></th>
-  </tr>
-  <%- @subject.classifications.each do |classification| -%>
-  <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(classification.category), classification -%></td>
-    <td><%= link_to h(classification.classification_type.name), classification.classification_type -%></td>
-  </tr>
-  <%- end -%>
-</table>
+  <div id="tabs">
+    <ul>
+      <li title="active" class="selected"><a href="#classification"><em><%= t('activerecord.models.classification') -%></em></a></li>
+      <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
+    </ul>
+    <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
+    <div id="classification">
+      <table class="index">
+        <tr>
+          <th><%= t('activerecord.attributes.classification.category') -%></th>
+          <th><%= t('activerecord.models.classification_type') -%></th>
+        </tr>
+        <%- @subject.classifications.each do |classification| -%>
+          <tr class="line<%= cycle("0", "1") -%>">
+            <td><%= link_to h(classification.category), classification -%></td>
+            <td><%= link_to h(classification.classification_type.name), classification.classification_type -%></td>
+          </tr>
+        <%- end -%>
+      </table>
 
-<p>
-  <strong><%= t('activerecord.attributes.subject.note') -%>:</strong>
-  <%= @subject.note -%>
-</p>
-
-<%- end -%>
-
-<%= render :partial => 'subjects/show_work_list' -%>
-
+      <p>
+        <strong><%= t('activerecord.attributes.subject.note') -%>:</strong>
+        <%= @subject.note -%>
+      </p>
+    </div>
+    <%- end -%>
+    <%= render :partial => 'subjects/show_work_list' -%>
+    </div>
+    <%= render :partial => 'page/tabview' -%>
 </div>
 </div>
 

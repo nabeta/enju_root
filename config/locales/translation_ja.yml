@@ -1064,6 +1064,7 @@ ja:
     import_from_file: "ファイルからインポート"
     import_from_network: "ネットワークからインポート"
     no_record_found: "資料が見つかりませんでした。"
+    limit_exceeded: "検索件数の上限を超えました。"
     enter_search_term: "検索語を入力してください。"
     serial: "雑誌・定期刊行物"
     number_of_pages: "ページ数"

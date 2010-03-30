@@ -111,36 +111,37 @@ class ManifestationsController < ApplicationController
       @count[:total] = search.execute!.total
 
       search = make_internal_query(search)
-
-      # TODO: 件数が多すぎる場合は一覧を取得しないようにする
-      # 上限は？
-
-      if session[:search_params]
-        unless search.query.to_params == session[:search_params]
-          clear_search_sessions
-        end
-      else
-        clear_search_sessions
-        session[:search_params] == search.query.to_params
-      end
-
       unless api_request?
-        unless session[:manifestation_ids]
-          manifestation_ids = search.build do
-            paginate :page => 1, :per_page => Manifestation.cached_numdocs
-          end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
-          session[:manifestation_ids] = manifestation_ids
-        end
-      end
+        # 件数が多すぎる場合は一覧を取得しないようにする
+        if @count[:total] <= MAX_NUMBER_OF_RESULTS
+          if session[:search_params]
+            unless search.query.to_params == session[:search_params]
+              clear_search_sessions
+            end
+          else
+            clear_search_sessions
+            session[:search_params] == search.query.to_params
+          end
+
+          unless session[:manifestation_ids]
+            manifestation_ids = search.build do
+              #paginate :page => 1, :per_page => Manifestation.cached_numdocs
+              paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+            end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
+            session[:manifestation_ids] = manifestation_ids
+          end
         
-      if session[:manifestation_ids]
-        bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
-        unless bookmark_ids.empty?
-          @tags = Tag.bookmarked(bookmark_ids)
-        else
-          @tags = []
+          if session[:manifestation_ids]
+            bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
+            unless bookmark_ids.empty?
+              @tags = Tag.bookmarked(bookmark_ids)
+            else
+              @tags = []
+            end
+          end
         end
       end
+
       unless api_request?
         if params[:view] == 'tag_cloud'
           render :partial => 'tag_cloud'
@@ -163,7 +164,6 @@ class ManifestationsController < ApplicationController
       end
       search_result = search.execute!
       @manifestations = search_result.results
-      @count[:query_result] = @manifestations.total_entries
 
       @carrier_type_facet = search_result.facet(:carrier_type)
       @language_facet = search_result.facet(:language)
@@ -192,10 +192,10 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       format.html
       format.xml  { render :layout => false }
-      format.sru  { render :layout => false }
-      format.rss  { render :layout => false }
-      format.csv  { render :layout => false }
-      format.rdf  { render :layout => false }
+      format.sru
+      format.rss
+      format.csv
+      format.rdf
       format.atom
       format.oai {
         case params[:verb]
@@ -219,12 +219,12 @@ class ManifestationsController < ApplicationController
           page.replace_html 'worldcat_list', :partial => 'worldcat' if params[:worldcat_page]
         end
       }
-      format.pdf {
-        prawnto :prawn => {
-          :page_layout => :landscape,
-          :page_size => "A4"},
-        :inline => true
-      }
+      #format.pdf {
+      #  prawnto :prawn => {
+      #    :page_layout => :landscape,
+      #    :page_size => "A4"},
+      #  :inline => true
+      #}
     end
   rescue RSolr::RequestError
     unless params[:format] == 'sru'

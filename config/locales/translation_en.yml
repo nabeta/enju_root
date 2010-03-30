@@ -1074,6 +1074,7 @@ en:
     import_from_file: "Import from file"
     import_from_network: "Import from networks"
     no_record_found: "No records found."
+    limit_exceeded: "Limit exceeded."
     enter_search_term: "Enter your search term."
     serial: "Serial"
     number_of_pages: "Number of pages"
