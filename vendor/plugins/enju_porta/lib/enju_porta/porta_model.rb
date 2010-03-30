@@ -104,12 +104,8 @@ module EnjuPorta
 
     def search_crd(options)
       params = {:page => 1}.merge(options)
-      if params[:page]
-        crd_page = params[:page].to_i
-        crd_page = 1 if crd_page <= 0
-      else
-        crd_page = 1
-      end
+      crd_page = params[:page].to_i
+      crd_page = 1 if crd_page <= 0
       crd_startrecord = (crd_page - 1) * Question.crd_per_page + 1
       params[:results_get_position] = crd_startrecord
       params[:results_num] = Question.crd_per_page
@@ -148,8 +144,6 @@ module EnjuPorta
 
       resources = response[:results]
       crd_results = WillPaginate::Collection.create(crd_page, Question.crd_per_page, crd_total_count) do |pager| pager.replace(resources) end
-      results = {:resources => crd_results, :count => crd_count}
-      results
     end
 
     def normalize_isbn(isbn)

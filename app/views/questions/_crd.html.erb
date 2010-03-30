@@ -12,13 +12,13 @@
 
 <%- if @crd_results -%>
   <h4><%= link_to t('question.crd'), "http://crd.ndl.go.jp/" -%></h4>
-  <p><%= t('question.number_of_search_results', :count => @crd_results[:count]) -%><br />
+  <p><%= t('question.number_of_search_results', :count => @crd_results.total_entries) -%><br />
   <ul>
-    <%- @crd_results[:resources].each do |resource| -%>
-      <li><%= link_to h(truncate(resource[:question])), resource[:url] -%></li>
+    <%- @crd_results.each do |result| -%>
+      <li><%= link_to h(truncate(result[:question])), result[:url] -%></li>
     <%- end -%>
   </ul>
-  <%= will_paginate(@crd_results[:resources], :param_name => :crd_page, :class => 'sidebar_pagination') -%>
+  <%= will_paginate(@crd_results, :param_name => :crd_page, :class => 'sidebar_pagination') -%>
 <%- else -%>
   <p><%= link_to t('question.you_can_search_crd'), "http://crd.ndl.go.jp/" -%></p>
 <%- end -%>

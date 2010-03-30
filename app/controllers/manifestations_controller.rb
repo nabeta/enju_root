@@ -135,7 +135,11 @@ class ManifestationsController < ApplicationController
         
       if session[:manifestation_ids]
         bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
-        @tags = Tag.bookmarked(bookmark_ids)
+        unless bookmark_ids.empty?
+          @tags = Tag.bookmarked(bookmark_ids)
+        else
+          @tags = []
+        end
       end
       if params[:view] == 'tag_cloud'
         render :partial => 'tag_cloud'
