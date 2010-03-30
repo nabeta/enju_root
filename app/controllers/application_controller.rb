@@ -476,6 +476,6 @@ class ApplicationController < ActionController::Base
   end
 
   def api_request?
-    true if params[:format].nil? or params[:format] == 'html'
+    true unless params[:format].nil? or params[:format] == 'html'
   end
 end

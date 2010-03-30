@@ -141,10 +141,12 @@ class ManifestationsController < ApplicationController
           @tags = []
         end
       end
-      if params[:view] == 'tag_cloud'
-        render :partial => 'tag_cloud'
-        #session[:manifestation_ids] = nil
-        return
+      unless api_request?
+        if params[:view] == 'tag_cloud'
+          render :partial => 'tag_cloud'
+          #session[:manifestation_ids] = nil
+          return
+        end
       end
 
       page ||= params[:page] || 1
