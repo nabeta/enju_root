@@ -158,7 +158,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_guest_should_get_index_tag_cloud
     get :index, :query => '2005', :view => 'tag_cloud'
     assert_response :success
-    #assert assigns(:tags)
+    assert assigns(:tags)
   end
 
   #def test_user_should_save_search_history_when_allowed
