@@ -10,6 +10,7 @@ COUNTRY_CODE = 'jp'
 # パトロンの名前を入力する際、姓を先に表示する
 FAMILY_NAME_FIRST = true
 
+MAX_NUMBER_OF_RESULTS = 1000
 WRITE_SEARCH_LOG_TO_FILE = true
 CSV_CHARSET_CONVERSION = false
 
