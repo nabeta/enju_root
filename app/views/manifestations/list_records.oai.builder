@@ -29,6 +29,19 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
             "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",
             "xmlns:dc" => "http://purl.org/dc/elements/1.1/" do
             xml.tag! "dc:title", manifestation.original_title
+            manifestation.creators.each do |patron|
+              xml.tag! "dc:creator", patron.full_name
+            end
+            manifestation.contributors.each do |patron|
+              xml.tag! "dc:contributor", patron.full_name
+            end
+            manifestation.publishers.each do |patron|
+              xml.tag! "dc:publisher", patron.full_name
+            end
+            manifestation.subjects.each do |subject|
+              xml.tag! "dc:subject", subject.term
+            end
+            xml.tag! "dc:description", manifestation.description
           end
         end
       end

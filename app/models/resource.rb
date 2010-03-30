@@ -62,6 +62,10 @@ class Resource < ActiveRecord::Base
     10
   end
 
+  def before_validation_on_create
+    generate_iss_token
+  end
+
   def before_save
     if ['approved', 'published'].include?(state) and publish == '1'
       aasm_publish
@@ -127,6 +131,11 @@ class Resource < ActiveRecord::Base
   end
 
   def oai_identifier
-    "oai:#{LIBRARY_WEB_HOSTNAME}:#{self.class.to_s.tableize}-#{iss_token}"
+    #"oai:#{LIBRARY_WEB_HOSTNAME}:#{self.class.to_s.tableize}-#{iss_token}"
+    "oai:#{LIBRARY_WEB_HOSTNAME}:#{iss_token}"
+  end
+
+  def generate_iss_token
+    self.iss_token = Digest::SHA1.hexdigest([Time.now, (1..10).map{ rand.to_s }].flatten.join('--')) unless self.iss_token
   end
 end

@@ -57,14 +57,17 @@ class Manifestation < ActiveRecord::Base
     #text :connect_title do
     #  '__' + title.join('').gsub(/\s/, '')
     #end
+    # text フィールドだと区切りのない文字列の index が上手く作成
+    #できなかったので。 downcase することにした。
+    #他の string 項目も同様の問題があるので、必要な項目は同様の処置が必要。
     string :connect_title do
-      title.join('').gsub(/\s/, '')
+      title.join('').gsub(/\s/, '').downcase
     end
     string :connect_creator do
-      creator.join('').gsub(/\s/, '')
+      creator.join('').gsub(/\s/, '').downcase
     end
     string :connect_publisher do
-      publisher.join('').gsub(/\s/, '')
+      publisher.join('').gsub(/\s/, '').downcase
     end
     text :tag do
       tags.collect(&:name)
@@ -91,10 +94,10 @@ class Manifestation < ActiveRecord::Base
     string :classification, :multiple => true do
       classifications.collect(&:category)
     end
-    integer :subject_ids, :multiple => true do
-      self.subjects.collect(&:id)
-    end
     string :sort_title
+    string :item_identifier, :multiple => true do
+      items.collect(&:item_identifier)
+    end
     time :created_at
     time :updated_at
     time :deleted_at
@@ -115,6 +118,9 @@ class Manifestation < ActiveRecord::Base
     integer :start_page
     integer :end_page
     integer :number_of_pages
+    integer :subject_ids, :multiple => true do
+      self.subjects.collect(&:id)
+    end
     float :price
     boolean :reservable do
       self.reservable?

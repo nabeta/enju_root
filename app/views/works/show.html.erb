@@ -14,7 +14,7 @@
   <%- end -%>
 
   <p>
-    <%= raw patrons_list(@work.patrons) -%>
+    <%= raw patrons_list(@work.patrons, current_user) -%>
   </p>
   <div id="tabs">
     <ul>

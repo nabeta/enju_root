@@ -178,18 +178,18 @@ class ReservesController < ApplicationController
   # PUT /reserves/1
   # PUT /reserves/1.xml
   def update
-    user = get_user_number
-    if user.blank?
-      user = get_user_if_nil
+    @user = get_user_number
+    if @user.blank?
+      get_user_if_nil
     end
 
-    if user.blank?
+    if @user.blank?
       access_denied
       return
     end
 
-    if user
-      @reserve = user.reserves.find(params[:id])
+    if @user
+      @reserve = @user.reserves.find(params[:id])
     else
       @reserve = Reserve.find(params[:id])
     end
@@ -206,7 +206,7 @@ class ReservesController < ApplicationController
         else
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reserve'))
         end
-        format.html { redirect_to user_reserve_url(user.login, @reserve) }
+        format.html { redirect_to user_reserve_url(@user.login, @reserve) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }

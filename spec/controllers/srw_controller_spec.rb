@@ -17,7 +17,7 @@ PARAMS = <<EOB
 #          "startRecord"=>"2",
           "recordSchema"=>"dcndl_porta",
           "resultSetTTL"=>"?",
-#          "sortKeys"=>"title_text,0",
+          "sortKeys"=>"title,0",
           "query"=>"title=ruby"}},
       "Header"=>nil}}
 EOB

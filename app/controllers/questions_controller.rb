@@ -83,7 +83,7 @@ class QuestionsController < ApplicationController
     @count[:query_result] = @questions.total_entries
 
     if query
-      @crd_results = search_porta_crd(query, :page => params[:crd_page])
+      @crd_results = Question.search_crd(:query_01 => query, :page => params[:crd_page])
     end
 
     respond_to do |format|

@@ -291,11 +291,9 @@ class User < ActiveRecord::Base
   end
 
   def is_readable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
+    return true if self == user
+    return true if  user.try(:has_role?, 'User')
+    false
   end
 
   def is_updatable_by(user, parent = nil)

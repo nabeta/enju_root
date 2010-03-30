@@ -157,7 +157,7 @@ describe Manifestation do
             openurl = Openurl.new({:aulast => "Administrator"})
             results = openurl.search
             results.should_not be_empty
-            results.should be_all {|result| result.author.to_s =~ /Administrator/}
+            results.should be_all {|result| result.creator.to_s =~ /Administrator/}
           end
         end
         context "一致するデータがないとき" do
@@ -181,7 +181,7 @@ describe Manifestation do
             openurl = Openurl.new({:aufirst => "名称"})
             results = openurl.search
             results.should_not be_empty
-            results.should be_all {|result| result.author.to_s =~ /名称/
+            results.should be_all {|result| result.creator.to_s =~ /名称/
             }
           end
         end
@@ -206,7 +206,7 @@ describe Manifestation do
             openurl = Openurl.new({:au => "テスト"})
             results = openurl.search
             results.should_not be_empty
-            results.should be_all {|result| result.author.to_s =~ /テスト/}
+            results.should be_all {|result| result.creator.to_s =~ /テスト/}
           end
         end
         context "一致するデータがないとき" do
@@ -223,7 +223,7 @@ describe Manifestation do
             openurl = Openurl.new({:au => "テスト 名称"})
             results = openurl.search
             results.should_not be_empty
-            results.should be_all { |result| result.author.to_s =~ /テスト.*名称|名称.*テスト/}
+            results.should be_all { |result| result.creator.to_s =~ /テスト.*名称|名称.*テスト/}
           end
         end
         context "一致するデータがないとき" do
@@ -351,7 +351,7 @@ describe Manifestation do
             results = openurl.search
             results.should_not be_empty
             results.should be_all {|result|
-              [:title, :fulltext, :note, :author, :editor, :publisher, :subject].inject('') do |txt, mtd|
+              [:title, :fulltext, :note, :creator, :editor, :publisher, :subject].inject('') do |txt, mtd|
                   txt + result.send(mtd).to_s
               end =~ /テスト/
             }
@@ -372,7 +372,7 @@ describe Manifestation do
             results = openurl.search
             results.should_not be_empty
             results.should be_all {|result|
-              [:title, :fulltext, :note, :author, :editor, :publisher, :subject].inject('') do |txt, mtd|
+              [:title, :fulltext, :note, :creator, :editor, :publisher, :subject].inject('') do |txt, mtd|
                 txt + result.send(mtd).to_s
               end =~ /出版.*テスト|テスト.*出版/i
             }
@@ -397,7 +397,7 @@ describe Manifestation do
               results.should_not be_empty
               results.should be_all {|result|
                 result.original_title =~ /テスト/
-                result.author.to_s =~ /作者.*ダミー|ダミー.*作者/
+                result.creator.to_s =~ /作者.*ダミー|ダミー.*作者/
                 result.publisher.to_s =~ /会社/
               }
             end
@@ -418,7 +418,7 @@ describe Manifestation do
               results.should_not be_empty
               results.should be_all {|result|
                 result.original_title =~ /記事.*１月号|１月号.*記事/
-                result.author.to_s =~ /作者.*ダミー|ダミー.*作者/
+                result.creator.to_s =~ /作者.*ダミー|ダミー.*作者/
                 result.publisher.to_s =~ /会社.*試験|試験.*会社/
               }
             end
@@ -448,7 +448,7 @@ describe Manifestation do
               results.should_not be_empty
               results.should be_all {|result|
                 result.original_title =~ /単行本/
-                result.author.to_s =~ /正式/
+                result.creator.to_s =~ /正式/
                 result.isbn =~ /\A98765/
               }
             end
@@ -469,7 +469,7 @@ describe Manifestation do
               results.should_not be_empty
               results.should be_all {|result|
                 result.original_title =~ /単行本.*テスト|テスト.*単行本/
-                result.author.to_s =~ /テスト.*名称|名称.*テスト/
+                result.creator.to_s =~ /テスト.*名称|名称.*テスト/
                 result.isbn =~ /\A9876/
               }
             end
@@ -551,7 +551,7 @@ describe Manifestation do
               results = openurl.search
               results.should_not be_empty
               results.should be_all {|result|
-                [:title, :fulltext, :note, :author, :editor, :publisher, :subject].inject('') do |txt, mtd|
+                [:title, :fulltext, :note, :creator, :editor, :publisher, :subject].inject('') do |txt, mtd|
                     txt + result.send(mtd).to_s
                 end =~ /テスト/
               }

@@ -59,9 +59,4 @@
 </div>
 
 <div id="submenu">
-  <ul>
-    <%- if Expression.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
-    <%- end -%>
-  </ul>
 </div>

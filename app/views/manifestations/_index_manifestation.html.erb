@@ -6,9 +6,9 @@
     <%= link_to h(@manifestation.original_title), @manifestation -%>
   </h2>
   <p>
-    <%= raw patrons_list(@manifestation.creators) -%>
-    <%= raw patrons_list(@manifestation.contributors) -%>
-    <%= raw patrons_list(@manifestation.patrons) -%>
+    <%= raw patrons_list(@manifestation.creators, current_user) -%>
+    <%= raw patrons_list(@manifestation.contributors, current_user) -%>
+    <%= raw patrons_list(@manifestation.patrons, current_user) -%>
   </p>
 
   <%- form_for :manifestations, :url => manifestation_manifestations_path(@manifestation), :html => {:method => 'get'} do -%>

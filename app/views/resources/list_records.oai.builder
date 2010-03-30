@@ -31,6 +31,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
           end
         end
         xml.metadata do
+          # ここにDCNDLの中身を出力
           xml.tag! "oai_dc:dc",
             "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
             "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",
