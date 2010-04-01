@@ -131,7 +131,7 @@ module ApplicationHelper
   end
 
   def database_adapter
-    case ActiveRecord::Base.configurations[RAILS_ENV]['adapter']
+    case ActiveRecord::Base.configurations["#{Rails.env}"]['adapter']
     when 'postgresql'
       link_to 'PostgreSQL', 'http://www.postgresql.org/'
     when 'jdbcpostgresql'

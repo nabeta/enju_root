@@ -972,7 +972,7 @@ ja:
         deleted_at: 削除時刻
 
   page:
-    user_title: "{{login_name}} さんの図書館"
+    user_title: "ようこそ {{login_name}} さん"
     logged_in_as: "{{login_name}} としてログイン"
     edit_user_profile: "{{login_name}} さんのプロフィールの編集"
     login: "ログイン"

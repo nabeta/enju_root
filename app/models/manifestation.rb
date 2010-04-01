@@ -250,7 +250,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def self.cached_numdocs
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       Rails.cache.fetch("Manifestation.search.total"){Manifestation.search.total}
     else
       Manifestation.search.total
@@ -591,7 +591,7 @@ class Manifestation < ActiveRecord::Base
   #      []
   #    end
   #  else
-  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:manifestation_id => self.id})
+  #    Bookmark.bookmarked(start_date, end_date).all(:conditions => {:manifestation_id => self.id})
   #  end
   #end
 

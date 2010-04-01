@@ -68,7 +68,7 @@ module OaiController
       yml = YAML.load_file("#{RAILS_ROOT}/config/memcached.yml")
       ttl = yml["#{ENV['RAILS_ENV']}"]["ttl"] || yml["defaults"]["ttl"]
       resumption = {
-        :token => "f(#{from_time}).u(#{until_time}):#{@cursor}",
+        :token => "f(#{from_time.utc.iso8601.to_s}).u(#{until_time.utc.iso8601.to_s}):#{@cursor}",
         :cursor => @cursor,
         # memcachedの使用が前提
         :expired_at => ttl.seconds.from_now.utc.iso8601

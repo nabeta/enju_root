@@ -2,7 +2,7 @@
 <ul>
   <%- @carrier_type_facet.rows.each do |facet| -%>
     <li>
-      <%- carrier_type = CarrierType.find(:first, :conditions => {:name => facet.value}) -%>
+      <%- carrier_type = CarrierType.first(:conditions => {:name => facet.value}) -%>
       <%= form_icon(carrier_type) -%>
       <%- if params[:carrier_type] == carrier_type.name -%><strong><%- end -%>
         <%= link_to h("#{carrier_type.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:carrier_type => carrier_type.name, :page => nil, :view => nil)) -%>

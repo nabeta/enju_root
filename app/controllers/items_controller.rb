@@ -240,7 +240,7 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @libraries = Rails.cache.fetch('Library.all'){Library.all}
     else
       @libraries = Library.all
