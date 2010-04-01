@@ -51,12 +51,6 @@ class Manifestation < ActiveRecord::Base
   searchable do
     text :title, :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
     string :title, :multiple => true
-    # FIXME: stringでは大文字小文字を区別しないため、textフィールドで
-    # 扱う必要がある。ここでは無理やり記号をつけて、そこにマッチさせる
-    # ようにしている。porta_cql.rb で要対応
-    #text :connect_title do
-    #  '__' + title.join('').gsub(/\s/, '')
-    #end
     # text フィールドだと区切りのない文字列の index が上手く作成
     #できなかったので。 downcase することにした。
     #他の string 項目も同様の問題があるので、必要な項目は同様の処置が必要。
@@ -178,7 +172,7 @@ class Manifestation < ActiveRecord::Base
   enju_twitter
   enju_manifestation_viewer
   enju_amazon
-  enju_porta
+  enju_ndl
   enju_cinii
   has_attached_file :attachment
   #has_ipaper_and_uses 'Paperclip'

@@ -1,12 +1,12 @@
 # -*- encoding: utf-8 -*-
-module EnjuPorta
+module EnjuNdl
   def self.included(base)
     base.extend ClassMethods
   end
 
   module ClassMethods
-    def enju_porta
-      include EnjuPorta::InstanceMethods
+    def enju_ndl
+      include EnjuNdl::InstanceMethods
     end
 
     def import_isbn(isbn)
