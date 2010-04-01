@@ -185,7 +185,7 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.xml  { render :layout => false }
+      format.xml  { render :xml => @manifestations }
       format.sru  { render :layout => false }
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }

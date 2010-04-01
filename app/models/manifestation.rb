@@ -371,7 +371,7 @@ class Manifestation < ActiveRecord::Base
 
   def tags
     unless self.bookmarks.empty?
-      self.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
+      self.bookmarks.tag_counts
     else
       []
     end
