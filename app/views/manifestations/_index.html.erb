@@ -14,18 +14,11 @@
 
 <%- unless @query.blank? -%>
   <%- if @manifestations.total_entries > 0 -%>
-    <%- if @manifestations.total_entries > MAX_NUMBER_OF_RESULTS -%>
-      <%= render :partial => 'limit_exceeded' -%>
-    <%- else -%>
     <p>
-      <%= t('page.number_of_search_results', :count => @manifestations.total_entries, :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
-      <br />
-      <%- if @reservable -%>
-        <%= t('manifestation.showing_reservable_record') -%>
-        (<%= link_to t('manifestation.all_result'), params.merge(:reservable => nil) -%>)
-      <%- else -%>
-        <%= t('manifestation.showing_all_record') -%>
-        (<%= link_to t('manifestation.reservable_list'), params.merge(:reservable => true) -%>)
+      <%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
+      <%- if @count[:query_result] > MAX_NUMBER_OF_RESULTS -%>
+        <br />
+        <%= t('page.limit_exceeded', :count => MAX_NUMBER_OF_RESULTS) -%>
       <%- end -%>
     </p>
 
@@ -60,7 +53,6 @@
         :style => 'padding-bottom: 15px; padding-left: 40px;' -%>
     </div>
     <%- end -%>
-    <%- end -%>
   <%- else -%>
     <!-- TODO: 検索結果が少ない場合にも表示させる -->
     <%- if @suggested_tag -%>
@@ -80,7 +72,7 @@
 
 <div id="submenu">
   <%- unless @query.blank? -%>
-    <h3><%= link_to h("#{t('page.total')}: #{@count[:total]}"), manifestations_path(params.merge(:view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
+    <h3><%= link_to h("#{t('page.total')}: #{@count[:query_result]}"), manifestations_path(params.merge(:view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
     <%- if @manifestations.total_entries > 0 -%>
       <%= render :partial => 'all_facet' -%>
     <%- end -%>
