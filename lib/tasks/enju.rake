@@ -7,7 +7,7 @@ namespace :enju do
   task :setup do
     if User.administrators.blank?
       puts 'Loading fixtures...'
-      Dir.glob(RAILS_ROOT + '/db/fixtures/*.yml').each do |file|
+      Dir.glob(Rails.root.to_s + '/db/fixtures/*.yml').each do |file|
         Fixtures.create_fixtures('db/fixtures', File.basename(file, '.*'))
       end
       unless solr = Sunspot.commit rescue nil

@@ -4,7 +4,7 @@
   <%- @library_facet.rows.each do |facet| -%>
     <%- current_libraries = libraries.dup -%>
     <li>
-    <%- library = Library.find(:first, :conditions => {:name => facet.value}) -%>
+      <%- library = Library.first(:conditions => {:name => facet.value}) -%>
       <%- if current_libraries.include?(library.name) -%><strong><%- end -%>
       <%= link_to h("#{library.display_name.localize} (" + facet.count.to_s + ")"), url_for(:params => params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :view => nil)) -%>
       <%- if current_libraries.include?(library.name) -%></strong><%- end -%>

@@ -639,7 +639,7 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
       @roles = Rails.cache.fetch('Role.all'){Role.all}
       @languages = Rails.cache.fetch('Language.all'){Language.all}

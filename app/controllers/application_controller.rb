@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if RAILS_ENV == 'test'
+    if Rails.env == 'test'
       locale = 'en'
     else
       if logged_in?
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render(:file => "#{RAILS_ROOT}/public/404.html", :status => "404 Not Found")
+    render(:file => "#{Rails.root}/public/404.html", :status => "404 Not Found")
     return
   end
 
@@ -68,10 +68,10 @@ class ApplicationController < ActionController::Base
       format.html do
         store_location
         if logged_in?
-          render(:file => "#{RAILS_ROOT}/public/403.html", :status => "403 Forbidden")
+          render(:file => "#{Rails.root}/public/403.html", :status => "403 Forbidden")
         else
           redirect_to new_user_session_url
-          #render(:file => "#{RAILS_ROOT}/public/401.html", :status => "401 Unauthorized")
+          #render(:file => "#{Rails.root}/public/401.html", :status => "401 Unauthorized")
         end
       end
       # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987

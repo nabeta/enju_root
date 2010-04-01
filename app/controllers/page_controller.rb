@@ -16,7 +16,7 @@ class PageController < ApplicationController
     #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
     @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
     @manifestation = Manifestation.pickup rescue nil
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
     else
       @news_feeds = NewsFeed.all

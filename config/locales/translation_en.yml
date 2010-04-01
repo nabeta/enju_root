@@ -973,7 +973,7 @@ en:
         deleted_at: Deleted at
 
   page:
-    user_title: "{{login_name}}'s library"
+    user_title: "Welcome {{login_name}}"
     login: "Login"
     logout: "Logout"
     logged_in_as: "logged in as {{login_name}}"
