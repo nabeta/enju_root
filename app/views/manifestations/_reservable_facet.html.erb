@@ -1,0 +1,21 @@
+<h4><%= t('manifestation.reservable') -%></h4>
+<ul>
+  <%- @reservable_facet.rows.each do |facet| -%>
+    <li>
+      <%- if facet.value -%>
+        <%- if @reservable == 'true' -%><strong><%- end -%>
+        <%= link_to i18n_boolean(facet.value), url_for(:params => params.merge(:page => nil, :reservable => true, :view => nil)) -%>
+        (<%= facet.count -%>)
+        <%- if @reservable == 'true' -%></strong><%- end -%>
+      <%- else -%>
+        <%- if @reservable == 'false' -%><strong><%- end -%>
+        <%= link_to i18n_boolean(facet.value), url_for(:params => params.merge(:page => nil, :reservable => 'false', :view => nil)) -%>
+        (<%= facet.count -%>)
+        <%- if @reservable == 'false' -%></strong><%- end -%>
+      <%- end -%>
+    </li>
+  <%- end -%>
+  <%- if @reservable -%>
+    <li><%= link_to t('page.remove_this_facet'), params.merge(:reservable => nil, :page => nil, :view => nil) -%></li>
+  <%- end -%>
+</ul>

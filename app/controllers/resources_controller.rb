@@ -18,19 +18,15 @@ class ResourcesController < ApplicationController
           else
             @oai[:errors] << "badResumptionToken"
           end
-        else
-          if Resource.first and Resource.last
-            from_time = Time.zone.parse(params[:from]) rescue Resource.last.updated_at
-            until_time = Time.zone.parse(params[:until]) rescue Resource.first.updated_at
-          else
-            from_time = Time.zone.now
-            until_time = Time.zone.now
-          end
-          @from_time = from_time.beginning_of_day
-          @until_time = until_time.tomorrow.beginning_of_day
         end
         page ||= 1
+      end
 
+      from_and_until_times = set_from_and_until(Resource, params[:from], params[:until])
+      from_time = @from_time = from_and_until_times[:from]
+      until_time = @until_time = from_and_until_times[:until]
+
+      if params[:format] == 'oai'
         if params[:verb] == 'GetRecord' and params[:identifier]
           begin
             resource = Resource.find_by_oai_identifier(params[:identifier])
@@ -74,7 +70,6 @@ class ResourcesController < ApplicationController
           @query = query
           published = true unless current_user.try(:has_role?, 'Administrator')
           search = Sunspot.new_search(Resource)
-          from_time = @from_time; until_time = @until_time
           deleted = true if params[:format] == 'oai'
           search.build do
             fulltext query

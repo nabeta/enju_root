@@ -5,14 +5,13 @@
       <div>
         <%= raw paginate_id_link(@manifestation) -%>
         <%= back_to_manifestation_index -%>
-        <!--
         <%= t('page.search_term') -%>:
-        <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+        <%= text_field_tag 'query', session[:query], {:id => 'search_form_top', :class => 'search_form_short'} -%>
         <%= submit_tag t('page.search') -%>
-        <%= link_to h(t('page.advanced_search')), '/page/advanced_search' -%>
-        -->
-    </div>
-  <%- end -%>
+        <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
+      </div>
+    <%- end -%>
+    <%= javascript_tag("$('search_form_top').focus()") -%>
 
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
   <%- if @version -%>

@@ -3,10 +3,10 @@ ja:
     models:
       library: 図書館
       question: 質問
-      patron_import_file: パトロンのインポート用ファイル
+      patron_import_file: 著者・出版者・読者のインポート用ファイル
       circulation_status: 貸出状態
       inventory: 蔵書点検
-      patron: パトロン
+      patron: 著者・出版者・読者
       feeds/app: フィード/アプリ
       feeds/persistence: フィード/永続
       feeds/shared: フィード/共有
@@ -18,7 +18,7 @@ ja:
       subject_has_classification: 件名と分類の関係
       expression: 表現形
       language: 言語
-      patron_merge_list: パトロンの併合リスト
+      patron_merge_list: 著者・出版者・読者の併合リスト
       user: 利用者
       user_session: ログインセッション
       work_has_subject: 資料と件名の関係
@@ -61,7 +61,7 @@ ja:
       content_type: 表現形の形態
       work_merge: 著作形の併合
       aaws_response: Aawsの応答
-      patron_type: パトロンの種類
+      patron_type: 著者・出版者・読者の種類
       work_merge_list: 著作形の併合リスト
       order: 発注
       order_list: 発注リスト
@@ -83,7 +83,7 @@ ja:
       checkout: 貸出
       subscription: 購読
       message_template: メッセージテンプレート
-      patron_merge: パトロンの併合
+      patron_merge: 著者・出版者・読者の併合
       subject_related_term: 件名の関連語
       library_group: 図書館グループ
       event_import_file: 催し物ファイルのインポート
@@ -123,12 +123,12 @@ ja:
       subject_heading_type_has_subject: 件名標目と件名の関係
       user_has_shelf: 利用者と書棚の関係
       participate: 参加
-      patron_has_patron: パトロン間の関係
+      patron_has_patron: 著者・出版者・読者間の関係
       shelf_has_manifestation: 書棚と体現形の関係
       extent: 大きさ
       medium_of_performance: 演奏手段
       content_type: 内容の種類
-      patron_relationship_type: パトロンの関係の種類
+      patron_relationship_type: 著者・出版者・読者の関係の種類
       work_relationship_type: 著作形の関係の種類
       expression_relationship_type: 表現形の関係の種類
       manifestation_relationship_type: 体現形の関係の種類
@@ -218,7 +218,7 @@ ja:
         lock_version: ロックバージョン
         note: 注記
         country: 国籍
-        patron_type: パトロンの種類
+        patron_type: 著者・出版者・読者の種類
         language: 言語
         email: 電子メール
         url: URL
@@ -305,14 +305,14 @@ ja:
         answer_rss_token: 回答用RSSのトークン
         duedate_reminder_days: Duedateリマインダー日
         note: 注記
-        share_bookmarks: ブックマークを他のパトロンと共有する
+        share_bookmarks: ブックマークを他の著者・出版者・読者と共有する
         save_search_history: 検索履歴を保存する
         save_checkout_history: 貸出の履歴を保存する
         lock_version: ロックバージョン
         keyword_list: キーワードリスト
         user_number: 利用者番号
         state: 状態
-        patron: パトロン
+        patron: 著者・出版者・読者
         library: 所属館
         user_group: ユーザグループ
         full_name: 氏名
@@ -1049,7 +1049,7 @@ ja:
     remove_this_facet: "この絞り込みを解除する"
     no_subject: "件名はついていません。"
     no_tag: "タグはついていません。"
-    add_patron: "パトロンを追加する"
+    add_patron: "著者・出版者・読者を追加する"
     total: "合計"
     sort_by: "次の項目で並べ替える"
     bookmarklet: "ブックマークレット"
@@ -1064,7 +1064,7 @@ ja:
     import_from_file: "ファイルからインポート"
     import_from_network: "ネットワークからインポート"
     no_record_found: "資料が見つかりませんでした。"
-    limit_exceeded: "検索件数の上限を超えました。"
+    limit_exceeded: "検索件数の上限を超えました。最初の{{count}}件を表示しています。"
     enter_search_term: "検索語を入力してください。"
     serial: "雑誌・定期刊行物"
     number_of_pages: "ページ数"
@@ -1081,7 +1081,7 @@ ja:
     new: "{{model}}の新規作成"
     editing: "{{model}}の編集"
     showing: "{{model}}の表示"
-    patron_management: "パトロンの管理"
+    patron_management: "著者・出版者・読者の管理"
     user_management: "利用者の管理"
     back_to: "{{model}}の一覧に戻る"
     picture: "画像"
@@ -1182,7 +1182,7 @@ ja:
     library_group_manifestation: "{{library_group_name}} にある体現形"
     reserve_this: "この資料を予約する"
     cancel_reservation: "この資料の予約を解除する"
-    patron_who_bookmark_this_resource: "この資料をブックマークしているパトロン"
+    patron_who_bookmark_this_resource: "この資料をブックマークしている著者・出版者・読者"
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
     serial: "定期刊行物"
     number: "巻号"
@@ -1196,6 +1196,7 @@ ja:
     pickup: "ピックアップ"
     showing_all_record: "すべての資料を表示しています。"
     showing_reservable_record: "予約可能な資料のみを表示しています。"
+    reservable: "予約可能"
     all_result: "すべての検索結果"
     reservable_list: "予約可能な資料の一覧"
     post_to_twitter: "Twitterに送信する"
@@ -1218,13 +1219,13 @@ ja:
     no_number: "番号なし"
     add_lending_policy: "貸出規則の追加"
   patron:
-    library_group_patron: "{{library_group_name}} のパトロン"
+    library_group_patron: "{{library_group_name}} の著者・出版者・読者"
     work_patron: "{{work_title}} の著作者"
     expression_patron: "{{expression_title}} の編者"
     manifestation_patron: "{{manifestation_title}} の出版者"
     activate_as_user: "利用者として登録する"
     deactivate: "利用者登録を解除する"
-    add: "パトロンを追加する"
+    add: "著者・出版者・読者を追加する"
     publication: "出版物"
     recent_publication: "最近の出版物"
     all_publication: "全ての出版物"
@@ -1313,7 +1314,7 @@ ja:
     sign_up: "利用者を登録する（取り消しはできません）"
     edit_profile: "プロフィールの編集"
     already_activated: "すでに利用者として登録されています。"
-    specify_patron: "パトロンを指定してください。"
+    specify_patron: "著者・出版者・読者を指定してください。"
     wrong_password: "パスワードが間違っています。"
     password_mismatch: "パスワードが一致しません。"
     cannot_destroy_myself: "自分自身を削除することはできません。"
@@ -1321,7 +1322,7 @@ ja:
     last_librarian: "この利用者はシステム上の最後の図書館員です。"
     only_administrator_can_destroy: "この利用者は管理者でなければ削除できません。"
     this_user_has_checked_out_item: "この利用者は貸出中の資料があります。"
-    patron_profile: "パトロンのプロフィール"
+    patron_profile: "著者・出版者・読者のプロフィール"
     set_auto_generated_password: "自動生成したパスワードを設定する"
     history: "履歴"
     account_management: "アカウント管理"
@@ -1339,7 +1340,7 @@ ja:
     all_reservation: "全ての予約"
     this_manifestation_is_already_reserved: "この資料はすでに予約されています。"
     excessed_reservation_limit: "予約できる資料数の上限を超えています。"
-    this_patron_cannot_reserve: "このパトロンはこの資料を予約できません。"
+    this_patron_cannot_reserve: "この利用者はこの資料を予約できません。"
     reservation_was_canceled: "予約は取り消されました。"
     this_item_is_not_reserved: "この資料は予約されていません。"
     invalid_item: "無効な個別資料です。"

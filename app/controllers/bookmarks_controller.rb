@@ -175,12 +175,7 @@ class BookmarksController < ApplicationController
       @bookmark = Bookmark.find(params[:id])
     end
     @bookmark.title = @bookmark.manifestation.try(:original_title)
-    if params[:mode] == 'remove_tag'
-      tag = Tag.find(params[:name])
-      @bookmark.tags -= Tag.find(:all, :conditions => {:name => tag.name})
-    else
-      @bookmark.tag_list = params[:bookmark][:tag_list]
-    end
+    @bookmark.taggings.all(:conditions => {:tagger_id => @bookmark.user.id}).map{|t| t.destroy}
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])

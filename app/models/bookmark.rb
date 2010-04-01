@@ -46,6 +46,11 @@ class Bookmark < ActiveRecord::Base
     create_manifestation
   end
 
+  def before_save
+    # タグに含まれている全角スペースを除去する
+    self.tag_list = self.tag_list.map{|tag| tag.gsub('　', ' ').gsub(' ', ', ')}
+  end
+
   def after_create
     send_later(:create_frbr_object) unless url.my_host?
   end

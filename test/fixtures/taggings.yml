@@ -26,3 +26,12 @@ tagging_00003:
   taggable_id: 2
   context: tags
   created_at: 2008-03-06 02:26:20.158004 +09:00
+tagging_00004: 
+  tag_id: 2
+  id: 4
+  taggable_type: Bookmark
+  tagger_id: 3
+  tagger_type: User
+  taggable_id: 3
+  context: tags
+  created_at: 2008-03-06 02:26:20.158004 +09:00

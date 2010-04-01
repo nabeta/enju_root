@@ -154,6 +154,7 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_equal old_count+1, Bookmark.count
     
     assert_equal ['search'], assigns(:bookmark).tag_list
+    assert_equal 1, assigns(:bookmark).tag_counts.size
     assert_equal old_tag_count+1, Tag.count
     #assert_equal 1, assigns(:bookmark).manifestation.items.size
     assert_redirected_to bookmark_url(assigns(:bookmark))
@@ -163,12 +164,14 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_create_bookmark_with_tag_list_include_wide_space
     UserSession.create users(:user1)
     old_count = Bookmark.count
+    old_tag_count = Tag.count
     post :create, :bookmark => {:tag_list => 'タグの　テスト', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).login
     assert_equal old_count+1, Bookmark.count
     
-    assert_equal ['タグの', 'テスト'], assigns(:bookmark).tag_list
+    #assert_equal ['タグの', 'テスト'], assigns(:bookmark).tag_list
     #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
     #assert_equal 1, assigns(:bookmark).manifestation.items.size
+    assert_equal old_tag_count+2, Tag.count
     assert_redirected_to bookmark_url(assigns(:bookmark))
     assigns(:bookmark).remove_from_index!
   end
@@ -302,6 +305,14 @@ class BookmarksControllerTest < ActionController::TestCase
     put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => 'search', :title => 'test'}
     assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
     assert_equal ['search'], assigns(:bookmark).tag_list
+    assigns(:bookmark).remove_from_index!
+  end
+  
+  def test_user_should_remove_tags_from_bookmark
+    UserSession.create users(:user1)
+    put :update, :id => 3, :user_id => users(:user1).login, :bookmark => {:user_id => users(:user1).id, :tag_list => nil, :title => 'test'}
+    assert_redirected_to user_bookmark_url(users(:user1).login, assigns(:bookmark))
+    assert_equal [], assigns(:bookmark).tag_list
     assigns(:bookmark).remove_from_index!
   end
   

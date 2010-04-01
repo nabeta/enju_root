@@ -52,4 +52,53 @@ module OaiController
       end
     end
   end
+
+  def get_resumption_token(token)
+    resumption = Rails.cache.read(token) rescue nil
+  end
+
+  def set_resumption_token(resources, from_time, until_time, per_page = nil)
+    if params[:format] == 'oai'
+      if params[:resumptionToken]
+        if resumption = Rails.cache.read(params[:resumptionToken]) rescue nil
+          @cursor = resumption[:cursor] + per_page ||= resources.per_page
+        end
+      end
+      @cursor ||= 0
+      yml = YAML.load_file("#{RAILS_ROOT}/config/memcached.yml")
+      ttl = yml["#{ENV['RAILS_ENV']}"]["ttl"] || yml["defaults"]["ttl"]
+      resumption = {
+        :token => "f(#{from_time}).u(#{until_time}):#{@cursor}",
+        :cursor => @cursor,
+        # memcachedの使用が前提
+        :expired_at => ttl.seconds.from_now.utc.iso8601
+      }
+      @resumption = Rails.cache.fetch(resumption[:token]){resumption}
+    end
+  end
+
+  def set_from_and_until(klass, from_t, until_t)
+    if klass.first and klass.last
+      from_t ||= klass.last.updated_at.to_s
+      until_t ||= klass.first.updated_at.to_s
+    else
+      from_t ||= Time.zone.now.to_s
+      until_t ||= Time.zone.now.to_s
+    end
+
+    times = {}
+    if /^[12]\d{3}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/ =~ from_t
+      times[:from] = Time.zone.parse(from_t).beginning_of_day
+    else
+      times[:from] = Time.zone.parse(from_t)
+    end
+    if /^[12]\d{3}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\d|3[01])$/ =~ until_t
+      times[:until] = Time.zone.parse(until_t).beginning_of_day
+    else
+      times[:until] = Time.zone.parse(until_t)
+    end
+    times[:from] ||= Time.zone.parse(from_t)
+    times[:until] ||= Time.zone.parse(until_t)
+    times
+  end
 end

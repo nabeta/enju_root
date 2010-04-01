@@ -405,30 +405,6 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  def get_resumption_token(token)
-    resumption = Rails.cache.read(token) rescue nil
-  end
-
-  def set_resumption_token(resources, from_time, until_time, per_page = nil)
-    if params[:format] == 'oai'
-      if params[:resumptionToken]
-        if resumption = Rails.cache.read(params[:resumptionToken]) rescue nil
-          @cursor = resumption[:cursor] + per_page ||= resources.per_page
-        end
-      end
-      @cursor ||= 0
-      yml = YAML.load_file("#{RAILS_ROOT}/config/memcached.yml")
-      ttl = yml["#{ENV['RAILS_ENV']}"]["ttl"] || yml["defaults"]["ttl"]
-      resumption = {
-        :token => "f(#{from_time.utc.iso8601}).u(#{until_time.utc.iso8601}):#{@cursor}",
-        :cursor => @cursor,
-        # memcachedの使用が前提
-        :expired_at => ttl.seconds.from_now.utc.iso8601
-      }
-      @resumption = Rails.cache.fetch(resumption[:token]){resumption}
-    end
-  end
-
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
@@ -471,6 +447,8 @@ class ApplicationController < ActionController::Base
   end
 
   def clear_search_sessions
+    session[:query] = nil
+    session[:params] = nil
     session[:search_params] = nil
     session[:manifestation_ids] = nil
   end

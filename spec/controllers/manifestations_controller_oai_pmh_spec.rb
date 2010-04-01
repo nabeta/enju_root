@@ -240,6 +240,7 @@ describe ManifestationsController do
           get :index, :format => 'oai', :verb => 'ListRecords', :from => '2008-12-31', :until => '2001-01-01'
         end
         it "Recordの一覧が取得できること" do
+          assigns(:from_time).should == Time.zone.parse('2008-12-31')
           response.should be_success
           response.should render_template("manifestations/list_records")
         end

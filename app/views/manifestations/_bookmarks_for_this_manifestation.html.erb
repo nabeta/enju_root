@@ -3,7 +3,7 @@
   <%- @manifestation.bookmarks.each do |bookmark| -%>
     <%- if bookmark.user.share_bookmarks -%>
       <li><%= link_to h(bookmark.user.login), user_bookmark_path(bookmark.user.login, bookmark) -%>
-      <%- bookmark.tags.each do |tag| -%>
+      <%- bookmark.tag_counts.each do |tag| -%>
         [<%= link_to h(tag.name), manifestations_path(:tag => tag.name) -%>]
       <%- end -%>
       <%= bookmark.note -%>
