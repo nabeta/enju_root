@@ -6,6 +6,11 @@
   <%= f.error_messages -%>
 
   <p>
+    <%= f.label t('activerecord.attributes.circulation_status.name') -%><br />
+    <%= @circulation_status.name, :class => 'short_name' -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.circulation_status.display_name') -%><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>

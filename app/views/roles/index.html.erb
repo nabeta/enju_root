@@ -8,8 +8,8 @@
     <th><%= t('activerecord.attributes.role.display_name') -%></th>
     <th><%= t('activerecord.attributes.role.score') -%></th>
     <th><%= t('activerecord.attributes.role.note') -%></th>
-    <th><%= t('page.created_at') -%></th>
-    <th><%= t('page.updated_at') -%></th>
+    <th></th>
+    <th></th>
   </tr>
   
 <%- @roles.each do |role| -%>
@@ -18,9 +18,6 @@
     <td><%= link_to h(role.display_name.localize), role -%></td>
     <td><%= role.score -%></td>
     <td><%= role.note -%></td>
-    <td><%= l(role.created_at) if role.created_at -%></td>
-    <td><%= l(role.updated_at) if role.updated_at -%></td>
-    <td><%= link_to t('page.show'), role -%></td>
     <td><%= link_to t('page.edit'), edit_role_path(role) -%></td>
     <td><%= link_to t('page.destroy'), role, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
   </tr>

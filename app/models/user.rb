@@ -135,7 +135,7 @@ class User < ActiveRecord::Base
 
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
-    self.locale = I18n.default_locale
+    self.locale = I18n.default_locale.to_s
     unless self.patron
       self.patron = Patron.create(:full_name => self.login) if self.login
     end
