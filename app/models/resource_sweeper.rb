@@ -53,7 +53,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Item)
       expire_editable_fragment(record)
-      expire_editable_fragment(record.manifestation, ['show_holding', 'detail_3', 'detail_4'])
+      expire_editable_fragment(record.manifestation, ['detail_3', 'detail_4'])
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
       end
@@ -63,9 +63,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(Library)
       expire_fragment(:controller => :libraries, :action => :index, :action_suffix => 'menu')
     when record.is_a?(Shelf)
-      record.items.each do |item|
-        expire_editable_fragment(item)
-      end
+      # TODO: 書架情報が更新されたときのキャッシュはバッチで削除する
+      #record.items.each do |item|
+      #  expire_editable_fragment(item, ['holding'])
+      #end
     when record.is_a?(Bookmark)
       # Not supported by Memcache
       # expire_fragment(%r{manifestations/\d*})
@@ -188,12 +189,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       expire_editable_fragment(record.to_patron)
     when record.is_a?(Basket)
       record.items.each do |item|
-        expire_editable_fragment(item)
-        expire_editable_fragment(item.manifestation, 'show_holding')
+        expire_editable_fragment(item, 'holding')
       end
     when record.is_a?(Checkin)
-      expire_editable_fragment(record.item)
-      expire_editable_fragment(record.item.manifestation, "show_holding")
+      expire_editable_fragment(record.item, 'holding')
     when record.is_a?(Language)
       Language.all.each do |language|
         expire_fragment(:controller => 'page', :locale => language.iso_639_1)
@@ -238,7 +237,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_manifestation_cache(manifestation, fragments)
-    fragments = %w[detail_1 detail_2 detail_3 detail_4 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers show_holding tags title show_xisbn picture_file] if fragments.nil?
+    fragments = %w[detail_1 detail_2 detail_3 detail_4 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers tags title show_xisbn picture_file] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
       expire_manifestation_fragment(manifestation, fragment)

@@ -74,6 +74,10 @@
     <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
 
+  <p>
+    <%= f.submit t('page.update') -%>
+  </p>
+
   <hr />
 
   <div id="address_1">

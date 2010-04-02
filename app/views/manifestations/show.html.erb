@@ -25,7 +25,7 @@
   <div id="tabs">
     <ul>
       <li class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- if @manifestation.works.size > 0 -%>
+      <%- unless @manifestation.has_single_work? -%>
         <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.works.size -%>)</em></a></li>
       <%- end -%>
       <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
@@ -37,7 +37,9 @@
       <%- unless @xisbn_manifestations.blank? -%>
         <li><a href="#worldcat"><em><%= 'WorldCat' -%></em></a></li>
       <%- end -%>
-      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
+      <%- if current_user.try(:has_role?, 'Librarian') -%>
+        <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
+      <%- end -%>
     </ul>            
     <div id="detail">
       <%- if @manifestation.isbn -%>
@@ -196,23 +198,21 @@
       <%= render :partial => 'bookmarks_for_this_manifestation' -%>
 
     </div>
-    <%- if @manifestation.works.size > 0 -%>
+    <%- unless @manifestation.has_single_work? -%>
       <%= render :partial => 'manifestations/work_list' -%>
     <%- end -%>
     <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
       <%= render :partial => 'manifestations/manifestation_list' -%>
     <%- end -%>
-    <!--
-    <div id="tab5">
-    </div>
-    -->
     <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
       <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
     <%- end -%>
     <%- unless @xisbn_manifestations.blank? -%>
       <%= render :partial => 'manifestations/show_xisbn' -%>
     <%- end -%>
-    <%= render :partial => 'history_list' -%>
+    <%- if current_user.try(:has_role?, 'Librarian') -%>
+      <%= render :partial => 'history_list' -%>
+    <%- end -%>
   </div>
 </div>
 <!-- cache end -->
