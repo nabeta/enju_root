@@ -13,11 +13,11 @@ class UserGroupHasCheckoutType < ActiveRecord::Base
   acts_as_list :scope => :user_group_id
 
   def after_create
-    create_lending_policy
+    send_later(:create_lending_policy)
   end
 
   def after_update
-    update_lending_policy
+    send_later(:update_lending_policy)
   end
 
   def create_lending_policy

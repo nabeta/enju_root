@@ -125,6 +125,7 @@ Money.default_currency = "JPY"
 #require 'jasper-rails'
 require 'jcode'
 require 'nkf'
+require 'ipaddr'
 require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'suggest_tag'

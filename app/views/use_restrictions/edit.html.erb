@@ -5,6 +5,11 @@
 <%- form_for(@use_restriction) do |f| -%>
   <%= f.error_messages -%>
   <p>
+    <%= f.label t('activerecord.attributes.use_restriction.name') -%><br />
+    <%= @use_restriction.name -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.use_restriction.display_name') -%><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>

@@ -7,7 +7,10 @@
 
   <%= render :partial => 'users/edit_credential', :locals => {:f => f} -%>
   
-<p style="clear: both">
+  <p>
+    <%= f.submit t('page.update'), :confirm => t('page.are_you_sure') -%>
+  </p>
+<div style="clear: both">
   <p>
     <%= f.label t('activerecord.attributes.user.keyword_list') -%><br />
     <%= f.text_area :keyword_list, :class => 'resource_textarea' -%>
@@ -48,7 +51,7 @@
 
   <%- end -%>
 
-</p>
+</div>
 </div>
 </div>
 
