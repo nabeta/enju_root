@@ -91,6 +91,7 @@ Rails::Initializer.run do |config|
   config.gem "validation_reflection"
   config.gem "recurrence"
   config.gem "prism"
+  config.gem "exception_notification"
   #config.gem "acts_as_archive"
   #config.gem "event_calendar"
   #config.gem "sru"

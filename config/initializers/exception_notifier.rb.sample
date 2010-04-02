@@ -1,0 +1,1 @@
+ExceptionNotification::Notifier.exception_recipients = "notifier@example.com"
