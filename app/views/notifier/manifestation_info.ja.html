@@ -1,8 +1,8 @@
 <%=h @user.patron.full_name -%> さん
 
 資料名: <%=h @manifestation.original_title %>
-著者: <%=h @manifestation.authors.collect(&:full_name).join("/") %>
-編者: <%=h @manifestation.editors.collect(&:full_name).join("/") %> 
+著者: <%=h @manifestation.creators.collect(&:full_name).join("/") %>
+編者: <%=h @manifestation.contributors.collect(&:full_name).join("/") %> 
 出版者: <%=h @manifestation.publishers.collect(&:full_name).join("/") %>
 ISBN: <%=h @manifestation.isbn %>
 URL: <%=h @manifestation.access_address %>

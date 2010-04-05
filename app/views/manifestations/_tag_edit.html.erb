@@ -1,22 +1,10 @@
 <%- if logged_in? -%>
   <%- unless @bookmark.blank? -%>
-    <p id="current_tag_list">
-      <%- @bookmark.tags.each do |tag| -%>
-        <%= link_to h(tag.name), tag_path(tag.name) -%>
-        <%= link_to image_tag('/icons/cancel.png', :alt => t('page.delete')), bookmark_url(@bookmark, :name => h(tag.name), :mode => 'remove_tag'), :method => :put -%>
-        <!--
-        <%= link_to_remote image_tag('/icons/cancel.png', :alt => t('page.cancel')), :update => 'current_tag_list', :url => {:controller => 'bookmarks', :action => 'update', :id => @bookmark.id, :name => h(tag.name), :mode => 'remove_tag'}, :method => :put -%>
-        -->
-      <%- end -%>
-    </p>
     <!-- bookmarked_by_me -->
     <%- form_for(:bookmark, :url => user_bookmark_path(current_user.login, @bookmark, :mode => 'tag_edit'), :html => { :method => :put }) do |f| -%>
       <div>
-        <%= f.text_field :tag_list, :class => 'editable_text_field' -%>
+        <%= f.text_field :tag_list, :value => @bookmark.tag_counts.collect(&:name).join(' '), :class => 'editable_text_field' -%>
         <%= submit_tag t('page.update') -%>
-        <!--
-        <%= link_to_remote image_tag('/icons/cancel.png', :alt => t('page.cancel')), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'show', :id => @manifestation.id, :mode => 'tag_list'}, :method => :get -%>
-        -->
         (<%= link_to_remote t('page.cancel'), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'show', :id => @manifestation.id, :mode => 'tag_list'}, :method => :get -%>)
         <br />
         <%= t('tag.use_space_as_delimiter') -%>

@@ -50,6 +50,8 @@ class Subject < ActiveRecord::Base
   #acts_as_soft_deletable
   acts_as_tree
 
+  attr_accessor :classification_id, :subject_heading_type_id
+
   def self.per_page
     10
   end

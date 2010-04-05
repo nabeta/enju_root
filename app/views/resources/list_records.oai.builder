@@ -13,14 +13,25 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
   xml.responseDate Time.zone.now.utc.iso8601
   xml.request resources_url(:format => :oai), request_attr('oai_dc')
+  @oai[:errors].each do |error|
+    xml.error :code => error
+  end
   xml.ListRecords do
     @resources.each do |resource|
       xml.record do
-        xml.header do
-          xml.identifier resource_url(resource)
-          xml.datestamp resource.updated_at.utc.iso8601
+        if resource.deleted_at
+          xml.header(:status => 'deleted') do
+            xml.identifier resource.oai_identifier
+            xml.datestamp resource.updated_at.utc.iso8601
+          end
+        else
+          xml.header do
+            xml.identifier resource.oai_identifier
+            xml.datestamp resource.updated_at.utc.iso8601
+          end
         end
         xml.metadata do
+          # ここにDCNDLの中身を出力
           xml.tag! "oai_dc:dc",
             "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/oai_dc/ http://www.openarchives.org/OAI/2.0/oai_dc.xsd",
             "xmlns:oai_dc" => "http://www.openarchives.org/OAI/2.0/oai_dc/",

@@ -24,7 +24,7 @@ class Question < ActiveRecord::Base
   end
 
   acts_as_taggable_on :tags
-  enju_porta
+  enju_ndl
  
   def self.per_page
     10

@@ -1,6 +1,7 @@
 # -*- encoding: utf-8 -*-
 class ManifestationsController < ApplicationController
-  before_filter :has_permission?, :except => :show
+  before_filter :has_permission?, :except => [:show, :edit]
+  before_filter :require_user, :only => :edit
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
@@ -13,39 +14,55 @@ class ManifestationsController < ApplicationController
   after_filter :convert_charset, :only => :index
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   #include WorldcatController
+  include OaiController
 
   # GET /manifestations
   # GET /manifestations.xml
   def index
     @seconds = Benchmark.realtime do
+      @oai = check_oai_params(params)
+      next if @oai[:need_not_to_search]
 	    if logged_in?
 	      @user = current_user unless @user
 	    end
 
-      @from_time = Time.zone.parse(params[:from]) if params[:from] rescue Manifestation.last.updated_at
-      @until_time = Time.zone.parse(params[:until]) if params[:until] rescue Manifestation.first.updated_at
       if params[:format] == 'oai'
-        # OAI-PMHのデフォルトの件数。テストのため少なめに設定
-        per_page = 3
-        if current_token = get_resumption_token(params[:resumptionToken])
-          page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+        from_and_until_times = set_from_and_until(Manifestation, params[:from], params[:until])
+        from_time = @from_time = from_and_until_times[:from]
+        until_time = @until_time = from_and_until_times[:until]
+        # OAI-PMHのデフォルトの件数
+        per_page = 200
+        if params[:resumptionToken]
+          if current_token = get_resumption_token(params[:resumptionToken])
+            page = (current_token[:cursor].to_i + per_page).div(per_page) + 1
+          else
+            @oai[:errors] << 'badResumptionToken'
+          end
+        else
         end
+        page ||= 1
+
         if params[:verb] == 'GetRecord' and params[:identifier]
-          manifestation = Manifestation.find(URI.parse(params[:identifier]).path.split('/').last)
-          redirect_to manifestation_url(manifestation, :format => 'oai')
+          begin
+            @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
+          rescue ActiveRecord::RecordNotFound
+            @oai[:errors] << "idDoesNotExist"
+            render :template => 'manifestations/index.oai.builder'
+            return
+          end
+          render :template => 'manifestations/show.oai.builder'
           return
         end
       end
 
-      session[:manifestation_ids] = [] unless session[:manifestation_ids]
-      session[:params] = {} unless session[:params]
-      session[:params][:manifestation] = params.merge(:view => nil)
+      #session[:params][:manifestation] = params.merge(:view => nil)
       if params[:reservable] == "true"
         @reservable = "true"
       end
 
       if params[:format] == 'csv'
         per_page = 65534
+        #rows = Manifestation.count
       end
 
       manifestations = {}
@@ -77,87 +94,76 @@ class ManifestationsController < ApplicationController
       @query = query.dup
       query = query.gsub('　', ' ')
 
-      total_query = @query.dup
-      #if total_query.blank?
-      #  @count[:total] = 0
-      #else
-      @count[:total] = get_total_count(total_query)
-      #end
-      #total_query = query.dup
-      #if total_query.blank?
-      #  @count[:total] = 0
-      #else
-      #  count = Sunspot.new_search(Manifestation)
-      #  count.query.keywords = total_query
-      #  @count[:total] = count.execute!.total
-      #end
-
       search = Sunspot.new_search(Manifestation)
-      search = make_internal_query(search)
       role = current_user.try(:highest_role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
       reservable = true if @reservable
       search.build do
+        fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
         with(:repository_content).equal_to true if oai_search
         with(:reservable).equal_to true if reservable
+        with(:updated_at).greater_than from_time if from_time
+        with(:updated_at).less_than until_time if until_time
+        paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+      end
+      @count[:query_result] = search.execute!.total
+
+      search = make_internal_query(search)
+
+      if session[:search_params]
+        unless search.query.to_params == session[:search_params]
+          clear_search_sessions
+        end
+      else
+        clear_search_sessions
+        session[:params] = params
+        session[:search_params] == search.query.to_params
+        session[:query] = @query
       end
 
-      unless query.blank?
-        search.build do
-          fulltext query
-        end
-        manifestation_ids = Manifestation.search_ids do
-          fulltext query
-          order_by sort[:sort_by], sort[:order]
-          # TODO: ヒット件数の上限をセットする
-          paginate :page => 1, :per_page => 1000 #Manifestation.cached_numdocs
-          with(:required_role_id).less_than role.id
-        end
+      unless session[:manifestation_ids]
+        manifestation_ids = search.build do
+          paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+        end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
+        session[:manifestation_ids] = manifestation_ids
       end
-
-      if ["all_facet", "carrier_type_facet", "language_facet", "library_facet", "subject_facet"].index(params[:view])
-        prepare_options
-        render_facet(search)
-        return
-      end
-
-      if params[:view] == "tag_cloud"
-        if manifestation_ids
-          bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => manifestation_ids}).collect(&:id)
-          @tags = Tag.bookmarked(bookmark_ids)
-        else
-          @tags = []
+        
+      if session[:manifestation_ids]
+        bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
+        @tags = Tag.bookmarked(bookmark_ids)
+        if params[:view] == 'tag_cloud'
+          render :partial => 'tag_cloud'
+          #session[:manifestation_ids] = nil
+          return
         end
-        render :partial => 'tag_cloud'
-        return
       end
 
       page ||= params[:page] || 1
-      #unless query.blank?
-        #paginated_manifestation_ids = WillPaginate::Collection.create(page, Manifestation.per_page, manifestation_ids.size) do |pager| pager.replace(manifestation_ids) end
-        #@manifestations = Manifestation.paginate(:all, :conditions => {:id => paginated_manifestation_ids}, :page => page, :per_page => Manifestation.per_page)
-        if params[:format] == 'sru'
-          search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
-        else
-        	search.query.paginate(page.to_i, per_page || Manifestation.per_page)
+      if params[:format] == 'sru'
+        search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
+      else
+        search.build do
+          facet :reservable
+          facet :carrier_type
+          facet :library
+          facet :language
+          facet :subject_ids
+          paginate :page => page.to_i, :per_page => per_page || Manifestation.per_page
         end
-        @manifestations = search.execute!.results
-        @count[:query_result] = @manifestations.total_entries
-      #else
-      #  @manifestations = WillPaginate::Collection.create(1,1,0) do end
-      #  @count[:query_result] = 0
-      #end
+      end
+      search_result = search.execute!
+      @manifestations = search_result.results
+      @manifestations.total_entries = MAX_NUMBER_OF_RESULTS if @count[:query_result] > MAX_NUMBER_OF_RESULTS
+
+      @carrier_type_facet = search_result.facet(:carrier_type)
+      @language_facet = search_result.facet(:language)
+      @library_facet = search_result.facet(:library)
+      @reservable_facet = search_result.facet(:reservable)
 
       @search_engines = SearchEngine.all
-
-      if @manifestations
-        session[:manifestation_ids] = manifestation_ids
-      else
-        session[:manifestation_ids] = nil
-      end
 
       # TODO: 検索結果が少ない場合にも表示させる
       if manifestation_ids.blank?
@@ -166,18 +172,20 @@ class ManifestationsController < ApplicationController
         end
       end
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
+      if params[:format] == 'oai'
+        unless @manifestations.empty?
+          set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+        else
+          @oai[:errors] << 'noRecordsMatch'
+        end
+      end
     end
 
-    unless @manifestations.empty?
-      set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
-    end
-
-    #@opensearch_result = Manifestation.search_cinii(@query, 'rss')
     store_location # before_filter ではファセット検索のURLを記憶してしまう
 
     respond_to do |format|
       format.html
-      format.xml  { render :layout => false }
+      format.xml  { render :xml => @manifestations }
       format.sru  { render :layout => false }
       format.rss  { render :layout => false }
       format.csv  { render :layout => false }
@@ -198,6 +206,7 @@ class ManifestationsController < ApplicationController
           render :template => 'manifestations/list_records'
         end
       }
+      format.mods
       format.json { render :json => @manifestations }
       format.js {
         render :update do |page|
@@ -212,8 +221,14 @@ class ManifestationsController < ApplicationController
       }
     end
   rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to manifestations_url
+    unless params[:format] == 'sru'
+      flash[:notice] = t('page.error_occured')
+      redirect_to manifestations_url
+      return
+    else
+      render :template => 'manifestations/error.xml', :layout => false
+      return
+    end
     return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
@@ -287,8 +302,6 @@ class ManifestationsController < ApplicationController
           case params[:mode]
           when 'related'
             render :template => 'manifestations/related'
-          when 'mods'
-            render :template => 'manifestations/mods'
           else
             render :xml => @manifestation
           end
@@ -296,6 +309,7 @@ class ManifestationsController < ApplicationController
       }
       format.rdf
       format.oai
+      format.mods
       format.json { render :json => @manifestation }
       #format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
@@ -342,6 +356,11 @@ class ManifestationsController < ApplicationController
 
   # GET /manifestations/1;edit
   def edit
+    unless current_user.has_role?('Librarian')
+      unless params[:mode] == 'tag_edit'
+        access_denied; return
+      end
+    end
     @manifestation = Manifestation.find(params[:id])
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement if @series_statement
@@ -349,7 +368,7 @@ class ManifestationsController < ApplicationController
       @bookmark = current_user.bookmarks.first(:conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
-    store_location
+    store_location unless params[:mode] == 'tag_edit'
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -423,8 +442,8 @@ class ManifestationsController < ApplicationController
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
         #  format.xml  { head :created, :location => manifestation_url(@manifestation) }
         #else
-          format.html { redirect_to(@manifestation) }
-          format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
+        format.html { redirect_to(@manifestation) }
+        format.xml  { render :xml => @manifestation, :status => :created, :location => @manifestation }
         #end
       else
         prepare_options
@@ -486,10 +505,10 @@ class ManifestationsController < ApplicationController
     #  query = "#{query} carrier_type_s: #{options[:carrier_type]}"
     #end
 
-    unless options[:library].blank?
-      library_list = options[:library].split.uniq.join(' and ')
-      query = "#{query} library_sm: #{library_list}"
-    end
+    #unless options[:library].blank?
+    #  library_list = options[:library].split.uniq.join(' and ')
+    #  query = "#{query} library_sm: #{library_list}"
+    #end
 
     #unless options[:language].blank?
     #  query = "#{query} language_sm: #{options[:language]}"
@@ -503,8 +522,12 @@ class ManifestationsController < ApplicationController
       query = "#{query} tag_sm: #{options[:tag]}"
     end
 
-    unless options[:author].blank?
-      query = "#{query} author_text: #{options[:author]}"
+    unless options[:creator].blank?
+      query = "#{query} creator_text: #{options[:creator]}"
+    end
+
+    unless options[:contributor].blank?
+      query = "#{query} contributor_text: #{options[:contributor]}"
     end
 
     unless options[:isbn].blank?
@@ -512,15 +535,15 @@ class ManifestationsController < ApplicationController
     end
 
     unless options[:issn].blank?
-      query = "#{query} issn_sm: #{options[:issn]}"
+      query = "#{query} issn_s: #{options[:issn]}"
     end
 
     unless options[:lccn].blank?
-      query = "#{query} lccn_sm: #{options[:lccn]}"
+      query = "#{query} lccn_s: #{options[:lccn]}"
     end
 
     unless options[:nbn].blank?
-      query = "#{query} nbn_sm: #{options[:nbn]}"
+      query = "#{query} nbn_s: #{options[:nbn]}"
     end
 
     unless options[:publisher].blank?
@@ -542,13 +565,13 @@ class ManifestationsController < ApplicationController
       if options[:pubdate_from].blank?
         pubdate['from'] = "*"
       else
-        pubdate['from'] = Time.zone.parse(options[:pubdate_from]).utc.iso8601
+        pubdate['from'] = Time.zone.parse(options[:pubdate_from]).beginning_of_day.utc.iso8601
       end
 
       if options[:pubdate_to].blank?
         pubdate['to'] = "*"
       else
-        pubdate['to'] = Time.zone.parse(options[:pubdate_to]).utc.iso8601
+        pubdate['to'] = Time.zone.parse(options[:pubdate_to]).tomorrow.beginning_of_day.utc.iso8601
       end
       query = "#{query} date_of_publication_d: [#{pubdate['from']} TO #{pubdate['to']}]"
     end
@@ -570,7 +593,7 @@ class ManifestationsController < ApplicationController
     when 'title'
       sort[:sort_by] = 'sort_title'
       sort[:order] = 'asc'
-    when 'date'
+    when 'pubdate'
       sort[:sort_by] = 'date_of_publication'
       sort[:order] = 'desc'
     else
@@ -584,48 +607,6 @@ class ManifestationsController < ApplicationController
       sort[:order] = 'desc'
     end
     sort
-  end
-
-  def get_facet(search)
-    search.build do
-      facet :carrier_type
-      facet :library
-      facet :language
-      facet :subject_ids
-      #paginate :page => 1, :per_page => 1
-    end
-    search.execute!
-  end
-
-  def render_facet(search)
-    results = get_facet(search)
-    @facet_query = search.query.to_params[:q]
-    unless results.blank?
-      case params[:view]
-      when "all_facet"
-        @carrier_type_facet = results.facet(:carrier_type)
-        @language_facet = results.facet(:language)
-        @library_facet = results.facet(:library)
-        #@subject_facet = results.facet(:subject_ids)
-        render :partial => 'all_facet'
-      when "carrier_type_facet"
-        @carrier_type_facet = results.facet(:carrier_type)
-        render :partial => 'carrier_type_facet'
-      when "language_facet"
-        @language_facet = results.facet(:language)
-        render :partial => 'language_facet'
-      when "library_facet"
-        @library_facet = results.facet(:library)
-        render :partial => 'library_facet'
-      when "subject_facet"
-        @subject_facet = results.facet(:subject_ids)
-        render :partial => 'subject_facet'
-      else
-        render :nothing => true
-      end
-    else
-      render :nothing => true
-    end
   end
 
   def render_mode(mode)
@@ -658,7 +639,7 @@ class ManifestationsController < ApplicationController
   end
 
   def prepare_options
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @carrier_types = Rails.cache.fetch('CarrierType.all'){CarrierType.all}
       @roles = Rails.cache.fetch('Role.all'){Role.all}
       @languages = Rails.cache.fetch('Language.all'){Language.all}
@@ -682,21 +663,8 @@ class ManifestationsController < ApplicationController
     end
   end
 
-  def get_total_count(total_query)
-    if total_query.present?
-      count = Sunspot.new_search(Manifestation)
-      count.build do
-        fulltext total_query
-        paginate :page => 1, :per_page => 1
-      end
-      set_role_query(current_user, count)
-      count.execute!.total
-    else
-      0
-    end
+  def write_search_log(query, total, user)
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
   end
 
-  def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}"
-  end
 end

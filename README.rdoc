@@ -20,6 +20,9 @@ Project Next-L Enju is an integrated library system developed by {Project Next-L
 Refer to the site below:
 * http://wiki.github.com/nabeta/next-l/install
 
-== 製作者 (Author)
-* {田辺浩介 (Kosuke Tanabe)}[http://mwr.mediacom.keio.ac.jp/~tanabe/]
+== 製作者・貢献者（アルファベット順） (Authors and contributors)
+* {田辺浩介 (TANABE, Kosuke)}[http://mwr.mediacom.keio.ac.jp/~tanabe/]
+* 浅川裕司 (ASAKAWA, Yuji)
+* 名越智博 (NAGOSHI, Tomohiro)
+* 澤田由紀子 (SAWADA, Yukiko)
 * {Project Next-L}[http://www.next-l.jp]

@@ -1,4 +1,4 @@
 title,item_identifier,call_number
 <%- @items.each do |item| -%>
-"<%=h item.manifestation.original_title.gsub(/"/, '""') -%>",<%=h item.item_identifier -%>,<%=h item.call_number -%><%= "\n" -%>
+"<%=h item.manifestation.original_title.gsub(/"/, '""') if item.manifestation -%>",<%=h item.item_identifier -%>,<%=h item.call_number -%><%= "\n" -%>
 <%- end -%>

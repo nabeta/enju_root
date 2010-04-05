@@ -1,14 +1,18 @@
 require 'rake'
 require 'active_record/fixtures'
-require "#{File.dirname(__FILE__)}/../../config/environment.rb"
 
 namespace :enju do
   desc 'Load initial database fixtures.'
   task :setup do
+    require "#{File.dirname(__FILE__)}/../../config/environment.rb"
     if User.administrators.blank?
       puts 'Loading fixtures...'
-      Dir.glob(RAILS_ROOT + '/db/fixtures/*.yml').each do |file|
+      Dir.glob(Rails.root.to_s + '/db/fixtures/*.yml').each do |file|
         Fixtures.create_fixtures('db/fixtures', File.basename(file, '.*'))
+      end
+      unless solr = Sunspot.commit rescue nil
+      	puts "Solr is not running."
+        exit
       end
 
       user = User.new
@@ -16,22 +20,38 @@ namespace :enju do
       user.patron = Patron.find(1)
       print "Enter new administrator login name: "
       user.login = $stdin.gets.chop
-      print "Enter new administrator email address: "
-      user.email = $stdin.gets.chop
-      print "Enter new administrator password: "
-      system "stty -echo"
-      user.password = $stdin.gets.chop
-      system "stty echo"
-      puts
-      print "Confirm administrator password: "
-      system "stty -echo"
-      user.password_confirmation = $stdin.gets.chop
-      system "stty echo"
-      puts
-      if user.password != user.password_confirmation
-        puts "Password mismatch!"
-        exit
+      email = ""; email_confirmation = nil
+      while email != email_confirmation
+        print "Enter new administrator email address: "
+        email = $stdin.gets.chop
+        print "Confirm administrator email address: "
+        email_confirmation = $stdin.gets.chop
+        if email != email_confirmation
+          puts "Email address mismatch!"
+          sleep 1
+        end
       end
+      user.email = email; user.email_confirmation = email
+
+      password = ""; password_confirmation = nil
+      while password != password_confirmation
+        print "Enter new administrator password: "
+        system "stty -echo"
+        password = $stdin.gets.chop
+        system "stty echo"
+        puts
+        print "Confirm administrator password: "
+        system "stty -echo"
+        password_confirmation = $stdin.gets.chop
+        system "stty echo"
+        puts
+        if password != password_confirmation
+          puts "Password mismatch!"
+          sleep 1
+        end
+      end
+      user.password = password; user.password_confirmation = password
+
       puts "Saving user information..."
 
       user.user_group = UserGroup.find(1)
@@ -57,13 +77,6 @@ namespace :enju do
       puts 'Inititalized successfully.'
     else
       puts 'It seems that you have imported initial data.'
-    end
-  end
-
-  desc 'Rebuild solr index.'
-  task :reindex do
-    %w(Advertisement Bookmark Classification Event Expression Item Manifestation Message Patron PurchaseRequest Question Subject Subscription Tag User Work).each do |class_name|
-      Object.const_get(class_name).reindex(:batch_commit => false)
     end
   end
 

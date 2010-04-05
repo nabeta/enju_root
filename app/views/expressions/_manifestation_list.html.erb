@@ -8,9 +8,9 @@
       <%- manifestation.expressions.each do |expression| -%>
         <%= content_type_icon(expression.content_type) -%>
       <%- end -%>
-      <%= raw patrons_list(manifestation.authors) -%>
-      <%= raw patrons_list(manifestation.editors) -%>
-      <%= raw patrons_list(manifestation.publishers) -%>
+      <%= raw patrons_list(manifestation.creators, current_user) -%>
+      <%= raw patrons_list(manifestation.contributors, current_user) -%>
+      <%= raw patrons_list(manifestation.publishers, current_user) -%>
       <%- if manifestation.date_of_publication -%>
         (<%= manifestation.date_of_publication.strftime('%Y') -%>)
       <%- end -%>
@@ -21,7 +21,7 @@
               [W]
               <%= image_tag('/icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @expression.work -%>
               <%= link_to h(work.original_title), work -%>
-              <%= raw patrons_list(work.patrons) -%>
+              <%= raw patrons_list(work.patrons, current_user) -%>
               </li>
             <%- end -%>
           </ul>

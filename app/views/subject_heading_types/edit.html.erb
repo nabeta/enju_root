@@ -6,6 +6,11 @@
   <%= f.error_messages -%>
 
   <p>
+    <%= f.label t('activerecord.attributes.subject_heading_type.name') -%><br />
+    <%= f.text_field :name, :class => 'short_name' -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.subject_heading_type.display_name') -%><br />
     <%= f.text_area :display_name, :class => 'resource_textarea' -%>
   </p>

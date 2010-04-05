@@ -13,7 +13,7 @@ xml.rss('version' => "2.0",
     xml.tag! "atom:link", :rel => 'alternate', :href => manifestations_url
     xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "#{request.protocol}#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?
-      xml.tag! "opensearch:totalResults", @count[:query_result]
+      xml.tag! "opensearch:totalResults", @manifestations.total_entries
       xml.tag! "opensearch:startIndex", @manifestations.offset + 1
       xml.tag! "opensearch:itemsPerPage", @manifestations.per_page
       xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
@@ -24,7 +24,7 @@ xml.rss('version' => "2.0",
           xml.title h(manifestation.original_title)
           #xml.description(manifestation.original_title)
           # rfc822
-          xml.pubDate h(manifestation.created_at.rfc2822)
+          xml.pubDate h(manifestation.created_at.utc.iso8601)
           xml.link manifestation_url(manifestation)
           xml.guid manifestation_url(manifestation), :isPermaLink => "true"
           manifestation.tags.each do |tag|

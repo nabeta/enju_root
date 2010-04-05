@@ -1,0 +1,7 @@
+<%- case params[:approved] when 'false' -%>
+  <%= render :partial => 'index_not_approved' -%>
+<%- when 'true' -%>
+  <%= render :partial => 'index_approved' -%>
+<%- else -%>
+  <%= render :partial => 'index' -%>
+<%- end -%>

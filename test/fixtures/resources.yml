@@ -1,0 +1,29 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+resource_00001:
+  id: 1
+  iss_token: test1
+  manifestation_id: 1
+  dcndl_xml: MyText
+  work_token: MyString
+  updated_at: 2001-02-24 19:55:39
+  state: published
+
+resource_00002:
+  id: 2
+  iss_token: test2
+  manifestation_id: 1
+  dcndl_xml: MyText
+  work_token: MyString
+  updated_at: 2008-02-24 19:55:39
+  state: published
+
+resource_00003:
+  id: 3
+  iss_token: test3
+  manifestation_id: 1
+  dcndl_xml: MyText
+  work_token: MyString
+  updated_at: 2001-02-24 19:55:39
+  deleted_at: 2001-02-24 19:55:39
+  state: published

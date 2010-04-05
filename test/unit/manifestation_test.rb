@@ -5,19 +5,17 @@ class ManifestationTest < ActiveSupport::TestCase
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
     :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types
 
-  def setup
-    Manifestation.reindex
-  end
-
   def test_sru_sort_by
     sru = Sru.new({:query => "title=Ruby"})
     assert_equal( {:sort_by => 'created_at', :order => 'desc'}, sru.sort_by)
     sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,0', :version => '1.2'})
-    assert_equal( {:sort_by => 'title', :order => 'asc'}, sru.sort_by)
+    assert_equal( {:sort_by => 'sort_title', :order => 'asc'}, sru.sort_by)
     sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,0', :version => '1.1'})
     assert_equal( {:sort_by => 'creator', :order => 'desc'}, sru.sort_by)
     sru = Sru.new({:query => 'title=Ruby AND sortBy="title/sort.ascending"', :sortKeys => 'creator,1', :version => '1.1'})
     assert_equal( {:sort_by => 'creator', :order => 'asc'}, sru.sort_by)
+    sru = Sru.new({:query => 'title=Ruby AND sortBy="title'})
+    assert_equal( {:sort_by => 'sort_title', :order => 'asc'}, sru.sort_by)
     #TODO ソート基準が入手しやすさの場合の処理
   end
 
@@ -26,6 +24,9 @@ class ManifestationTest < ActiveSupport::TestCase
     sru.search
     assert_equal 18, sru.manifestations.size
     assert_equal 'Ruby', sru.manifestations.first.titles.first
+    sru = Sru.new({:query => "title=^ruby"})
+    sru.search
+    assert_equal 9, sru.manifestations.size
     sru = Sru.new({:query => 'title ALL "awk sed"'})
     sru.search
     assert_equal 2, sru.manifestations.size
@@ -49,13 +50,13 @@ class ManifestationTest < ActiveSupport::TestCase
     sru = Sru.new({:query => "from = 1993-02-24"})
     sru.search
     assert_equal 5, sru.manifestations.size    
-    sru = Sru.new({:query => "until = 2006-08-05"})
+    sru = Sru.new({:query => "until = 2006-08-06"})
     sru.search
     assert_equal 4, sru.manifestations.size
   end
 
   def test_sru_search_relation
-    sru = Sru.new({:query => "from = 1993-02-24 AND until = 2006-08-05 AND title=プログラミング"})
+    sru = Sru.new({:query => "from = 1993-02-24 AND until = 2006-08-06 AND title=プログラミング"})
     sru.search
     assert_equal 2, sru.manifestations.size
     sru = Sru.new({:query => "until = 2000 AND title=プログラミング"})
@@ -130,9 +131,9 @@ class ManifestationTest < ActiveSupport::TestCase
     assert_equal 2, results.size
   end
   def test_openurl_search_error
-    assert_raises(OpenurlQuerySyntaxError){ Openurl.new({:isbn => "12345678901234"})}
-    assert_raises(OpenurlQuerySyntaxError){Openurl.new(:issn => "1234abcd")}
-    assert_raises(OpenurlQuerySyntaxError){Openurl.new(:aufirst => "テスト 名称")}
+    assert_raise(OpenurlQuerySyntaxError){ Openurl.new({:isbn => "12345678901234"})}
+    assert_raise(OpenurlQuerySyntaxError){Openurl.new(:issn => "1234abcd")}
+    assert_raise(OpenurlQuerySyntaxError){Openurl.new(:aufirst => "テスト 名称")}
   end
   def test_manifestation_should_embody_expression
     assert manifestations(:manifestation_00001).embodies?(expressions(:expression_00001))

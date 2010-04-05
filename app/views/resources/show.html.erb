@@ -1,0 +1,44 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.resource')) -%></h1>
+<div id="content_list">
+<p>
+  <b><%= t('activerecord.attributes.resource.iss_token') -%>:</b>
+  <%= @resource.iss_token %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.resource.manifestation_id') -%>:</b>
+  <%= @resource.manifestation_id %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.resource.dcndl_xml') -%>:</b>
+  <%= @resource.dcndl_xml %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.resource.work_token') -%>:</b>
+  <%= @resource.work_token %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.resource.state') -%>:</b>
+  <%= i18n_state(@resource.state) %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.resource.deleted_at') -%>:</b>
+  <%=l @resource.deleted_at if @resource.deleted_at %>
+</p>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <%- if current_user.try(:has_role?, 'Administrator') -%>
+      <li><%= link_to t('page.edit'), edit_resource_path(@resource) %></li>
+    <%- end -%>
+    <li><%= link_to t('page.back'), resources_path %></li>
+  </ul>
+</div>

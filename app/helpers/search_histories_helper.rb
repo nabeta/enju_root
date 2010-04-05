@@ -2,7 +2,7 @@ module SearchHistoriesHelper
   def reverse_tag_cloud(query_and_numbers)
     return nil if query_and_numbers.nil?
     # TODO: add options to specify different limits and sorts
-    #tags = Tag.find(:all, :limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
+    #tags = Tag.all(:limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
     
     # TODO: add option to specify which classes you want and overide this if you want?
     classes = %w(popular v-popular vv-popular vvv-popular vvvv-popular)

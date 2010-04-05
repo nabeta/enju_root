@@ -5,6 +5,7 @@ class QuerySyntaxError < QueryError; end
 
 class Cql
   def initialize(line)
+    @logic = nil
     @query = split_clause_text(line).collect{|txt| Clause.new(txt)}
 
     from_day, @query = extract_with_index(@query, /from/io)
@@ -15,7 +16,7 @@ class Cql
     @sort_by = sort_by ? sort_by.terms.first : ''
   end
 
-  attr_reader :query, :from, :until, :sort_by, :and_or
+  attr_reader :query, :from, :until, :sort_by, :logic
   
   def ==(other)
     instance_variables.all? do |val|
@@ -24,41 +25,35 @@ class Cql
   end
 
   def to_sunspot
-    (@query.collect{|c| c.to_sunspot} + date_range(@from, @until)).join(" #{and_or} ")
+    (@query.collect{|c| c.to_sunspot} + date_range(@from, @until)).join(" #{@logic} ")
   end
 
   def split_clause_text(line)
-    clause_texts = []
-    last_and_or = nil
-    
+    clauses = []
+
+    s = StringScanner.new(line)
     text = ''
-    quoted = ''
-    line.split.each do |token|
-      case token
-      when /\A\\".+/
-        quoted << token
-      when /.+\\"\Z/
-        quoted << token
-        text << ' ' + quoted
-        quoted = ''
-      when /\A(AND|OR)\Z/i
-        and_or = $1.upcase
-        raise QuerySyntaxError if last_and_or and last_and_or != and_or
-        last_and_or = and_or
-        clause_texts << text
-        text = ''
-      else
-        if quoted.empty?
-          text << ' ' unless text.empty?
-          text << token
+    while s.rest?
+      case
+      when s.scan(/\s+/)
+        text << s.matched
+      when s.scan(/"(?:[^"\\]|\\.)*"/)
+        text << s.matched
+      when s.scan(/(AND|OR)/i)
+        logic = s.matched.upcase
+        if @logic
+          raise QuerySyntaxError unless @logic == logic
         else
-          quoted << ' ' + quoted
+          @logic = logic
         end
+        clauses << text.strip
+        text = ''
+      when s.scan(/\S*/)
+        text << s.matched
       end
     end
-    @and_or = last_and_or
-    clause_texts << text
-    clause_texts.collect{|txt| txt.gsub(/(\A\(|\)\Z)/, '')}
+    clauses << text.strip
+    clauses.collect{|txt| txt.gsub(/(\A\(|\)\Z)/, '')}
   end
 
   private
@@ -78,15 +73,20 @@ class Cql
   def comp_date(date)
     if date
       text = date.terms[0]
-      case text
+      date_text = case text
       when /\A\d{4}-\d{2}-\d{2}\Z/
-        (text + 'T00:00:00Z')
+        text
       when /\A\d{4}-\d{2}\Z/
-        (text + '-01T00:00:00Z')
+        (text + '-01')
       when /\A\d{4}\Z/
-        (text + '-01-01T00:00:00Z')
+        (text + '-01-01')
       else
         raise QuerySyntaxError, "#{text}"
+      end
+      begin
+        Time.zone.parse(date_text).utc.iso8601.to_s
+      rescue
+        raise QuerySyntaxError, "#{date}"
       end
     else
       '*'
@@ -108,10 +108,10 @@ class Clause
   MATCH_AHEAD = %w[ndc ndlc]
   MATCH_DATE = %w[from until]
   MATCH_ANYWHERE = %w[anywhere]
-  LOGIC_ALL = %w[title creator publisher description subject anywhere],
-    LOGIC_ANY = %w[dpid ndl_agent_type],
-    LOGIC_EQUAL = %w[dpgroupid ndc isbn issn jpno from until porta_type digitalize_type webget_type payment_type ndlc itemno],
-    MULTIPLE = %w[dpid title creator publisher description subject anywhere ndl_agent_type]
+  LOGIC_ALL = %w[title creator publisher description subject anywhere]
+  LOGIC_ANY = %w[dpid ndl_agent_type]
+  LOGIC_EQUAL = %w[dpgroupid ndc isbn issn jpno from until porta_type digitalize_type webget_type payment_type ndlc itemno]
+  MULTIPLE = %w[dpid title creator publisher description subject anywhere ndl_agent_type]
 
   def initialize(text)
     unless text.empty?
@@ -202,16 +202,17 @@ class Clause
     case @relation
     when /\A=\Z/
       unless /\A\^(.+)/ =~ term
-        "%s_%s:%s" % [@field, :text, term]
+        "%s_%s:(%s)" % [@field, :text, term]
       else
-        "conect_%s_%s:%s" % [@field, :s, $1.gsub(/\s/, '') + '*']
+        ahead_tarm = $1.gsub("\s", '').downcase
+        "connect_%s_%s:(%s*)" % [@field, :s, ahead_tarm]
       end
     when /\AEXACT\Z/
-      "%s_%s:%s" % [@field, :sm, term]
+      "%s_%s:(%s)" % [@field, :sm, term.gsub(' ', '')]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :all)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
@@ -221,9 +222,10 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:%s" % [@field, :sm, term]
+      type = @field != 'issn' ? :sm : :s
+      "%s_%s:(%s)" % [@field, type, term]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, :sm, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:(%s)" % [@field, :sm, multiple_to_sunspot(@terms, :any)]
     else
       raise QuerySyntaxError
     end
@@ -233,29 +235,29 @@ class Clause
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      "%s_%s:%s" % [@field, :text, trim_ahead(term)]
+      "%s_%s:(%s)" % [@field, :text, trim_ahead(term)]
     when /\AANY\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :any)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      "%s_%s:%s" % [@field, :text, multiple_to_sunspot(@terms, :all)]
+      "%s_%s:(%s)" % [@field, :text, multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
   end
 
   def to_sunspot_match_ahead
-    "%s_%s:%s*" % [@field, :text, @terms.first]
+    "%s_%s:(%s*)" % [@field, :s, @terms.first]
   end
 
   def to_sunspot_match_anywhere
     case @relation
     when /\A=\Z/
       term = @terms.join(' ')
-      trim_ahead(term)
+      "(%s)" % [trim_ahead(term)]
     when /\AANY\Z/
-      multiple_to_sunspot(@terms, :any)
+      "(%s)" % [multiple_to_sunspot(@terms, :any)]
     when /\AALL\Z/
-      multiple_to_sunspot(@terms, :all)
+      "(%s)" % [multiple_to_sunspot(@terms, :all)]
     else
       raise QuerySyntaxError
     end
@@ -265,7 +267,7 @@ class Clause
   private
   def multiple_to_sunspot(terms, relation)
     boolean = relation == :any ? ' OR ' : ' AND '
-    "(#{terms.map{|t| trim_ahead(t)}.join(boolean)})"
+    "#{terms.map{|t| trim_ahead(t)}.join(boolean)}"
   end
   
   def trim_ahead(term)

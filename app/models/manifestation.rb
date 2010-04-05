@@ -49,16 +49,19 @@ class Manifestation < ActiveRecord::Base
   has_one :resource
 
   searchable do
-    text :title, :fulltext, :note, :author, :editor, :publisher, :subject
+    text :title, :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
     string :title, :multiple => true
-    string :conect_title do
-      title.join('').gsub(/\s/, '')
+    # text フィールドだと区切りのない文字列の index が上手く作成
+    #できなかったので。 downcase することにした。
+    #他の string 項目も同様の問題があるので、必要な項目は同様の処置が必要。
+    string :connect_title do
+      title.join('').gsub(/\s/, '').downcase
     end
-    string :conect_creator do
-      author.join('').gsub(/\s/, '')
+    string :connect_creator do
+      creator.join('').gsub(/\s/, '').downcase
     end
-    string :conect_publisher do
-      publisher.join('').gsub(/\s/, '')
+    string :connect_publisher do
+      publisher.join('').gsub(/\s/, '').downcase
     end
     text :tag do
       tags.collect(&:name)
@@ -82,12 +85,16 @@ class Manifestation < ActiveRecord::Base
     string :shelf, :multiple => true
     string :user, :multiple => true
     string :subject, :multiple => true
-    integer :subject_ids, :multiple => true do
-      self.subjects.collect(&:id)
+    string :classification, :multiple => true do
+      classifications.collect(&:category)
     end
     string :sort_title
+    string :item_identifier, :multiple => true do
+      items.collect(&:item_identifier)
+    end
     time :created_at
     time :updated_at
+    time :deleted_at
     time :date_of_publication
     integer :patron_ids, :multiple => true
     integer :item_ids, :multiple => true
@@ -105,6 +112,9 @@ class Manifestation < ActiveRecord::Base
     integer :start_page
     integer :end_page
     integer :number_of_pages
+    integer :subject_ids, :multiple => true do
+      self.subjects.collect(&:id)
+    end
     float :price
     boolean :reservable do
       self.reservable?
@@ -113,20 +123,17 @@ class Manifestation < ActiveRecord::Base
     boolean :repository_content
     # for OpenURL
     text :aulast do
-      authors.map{|author| author.last_name}
+      creators.map{|creator| creator.last_name}
     end
     text :aufirst do
-      authors.map{|author| author.first_name}
+      creators.map{|creator| creator.first_name}
     end
     # OTC start
-    text :creator do
-      author
-    end
     string :creator, :multiple => true do
-      author
+      creator.map{|au| au.gsub(' ', '')}
     end
     text :au do
-      author
+      creator
     end
     text :atitle do
       title if original_manifestations.present? # 親がいることが条件
@@ -165,13 +172,13 @@ class Manifestation < ActiveRecord::Base
   enju_twitter
   enju_manifestation_viewer
   enju_amazon
-  enju_porta
+  enju_ndl
   enju_cinii
   has_attached_file :attachment
   #has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
-  #enju_oai_pmh
+  enju_oai
   #enju_worldcat
   has_paper_trail
 
@@ -216,9 +223,9 @@ class Manifestation < ActiveRecord::Base
     ISBN_Tools.cleanup!(self.isbn) if self.isbn.present?
   end
 
-  def validate
-    check_series_statement
-  end
+  #def validate
+  #  check_series_statement
+  #end
 
   def after_create
     send_later(:set_digest) if self.attachment.path
@@ -243,7 +250,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def self.cached_numdocs
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       Rails.cache.fetch("Manifestation.search.total"){Manifestation.search.total}
     else
       Manifestation.search.total
@@ -341,17 +348,17 @@ class Manifestation < ActiveRecord::Base
     self.reserves.first(:order => ['reserves.created_at'])
   end
 
-  def authors
+  def creators
     # 著編者
     (self.works.collect{|w| w.patrons}.flatten + self.expressions.collect{|e| e.patrons}.flatten).uniq
   end
 
-  def editors
+  def contributors
     patrons = []
     self.expressions.each do |expression|
       patrons += expression.patrons.uniq
     end
-    patrons -= authors
+    patrons -= creators
   end
 
   def publishers
@@ -364,7 +371,7 @@ class Manifestation < ActiveRecord::Base
 
   def tags
     unless self.bookmarks.empty?
-      self.bookmarks.collect{|bookmark| bookmark.tags}.flatten.uniq
+      self.bookmarks.tag_counts
     else
       []
     end
@@ -389,12 +396,16 @@ class Manifestation < ActiveRecord::Base
 
   def sort_title
     # 並べ替えの順番に使う項目を指定する
-    # TODO: 読みが入力されていない資料
-    self.title_transcription
+    # TODO: 日本語以外の資料、読みが入力されていない資料
+    NKF.nkf('--katakana', title_transcription) if title_transcription
   end
 
   def subjects
     works.collect(&:subjects).flatten
+  end
+  
+  def classifications
+    subjects.collect(&:classifications).flatten
   end
   
   def library
@@ -439,12 +450,16 @@ class Manifestation < ActiveRecord::Base
     publishers.collect(&:name).flatten
   end
 
-  def author
-    authors.collect(&:name).flatten
+  def creator
+    creators.collect(&:name).flatten
   end
 
   def editor
-    editors.collect(&:name).flatten
+    contributor
+  end
+
+  def contributor
+    contributors.collect(&:name).flatten
   end
 
   def subject
@@ -453,6 +468,10 @@ class Manifestation < ActiveRecord::Base
 
   def isbn13
     isbn
+  end
+
+  def hyphenated_isbn
+    ISBN_Tools.hyphenate(isbn)
   end
 
   def self.find_by_isbn(isbn)
@@ -572,7 +591,7 @@ class Manifestation < ActiveRecord::Base
   #      []
   #    end
   #  else
-  #    Bookmark.bookmarked(start_date, end_date).find(:all, :conditions => {:manifestation_id => self.id})
+  #    Bookmark.bookmarked(start_date, end_date).all(:conditions => {:manifestation_id => self.id})
   #  end
   #end
 
@@ -650,8 +669,19 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
+  def bookmark_for(user)
+    Bookmark.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
+  end
+
   def is_readable_by(user, parent = nil)
     return true if self.role_accepted?(user)
+    false
+  end
+
+  def has_single_work?
+    if works.size == 1
+      return true if works.first.original_title == original_title
+    end
     false
   end
 

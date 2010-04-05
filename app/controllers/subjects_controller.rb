@@ -9,6 +9,13 @@ class SubjectsController < ApplicationController
   # GET /subjects
   # GET /subjects.xml
   def index
+    sort = {:sort_by => 'created_at', :order => 'desc'}
+    case params[:sort_by]
+    when 'name'
+      sort[:sort_by] = 'term'
+    end
+    sort[:order] = 'asc' if params[:order] == 'asc'
+
     search = Sunspot.new_search(Subject)
     query = params[:query].to_s.strip
     unless query.blank?
@@ -18,6 +25,11 @@ class SubjectsController < ApplicationController
         fulltext query
       end
     end
+
+    search.build do
+      order_by sort[:sort_by], sort[:order]
+    end
+
     unless params[:mode] == 'add'
       work = @work
       classification = @classification
@@ -47,6 +59,8 @@ class SubjectsController < ApplicationController
     respond_to do |format|
       format.html # index.rhtml
       format.xml  { render :xml => @subjects.to_xml }
+      format.rss
+      format.atom
     end
   rescue RSolr::RequestError
     flash[:notice] = t('page.error_occured')
@@ -93,7 +107,7 @@ class SubjectsController < ApplicationController
       format.xml  { render :xml => @subject.to_xml }
       format.js {
         render :update do |page|
-          page.replace_html 'work_list', :partial => 'show_work_list' if params[:work_page]
+          page.replace_html 'work', :partial => 'show_work_list' if params[:work_page]
         end
       }
     end
@@ -104,6 +118,8 @@ class SubjectsController < ApplicationController
   # GET /subjects/new
   def new
     @subject = Subject.new
+    @subject.classification_id = @classification.id if @classification
+    @subject.subject_heading_type_id = @subject_heading_type.id if @subject_heading_type
 
     respond_to do |format|
       format.html # new.html.erb
@@ -129,13 +145,19 @@ class SubjectsController < ApplicationController
     else
       @subject = Subject.new(params[:subject])
     end
+    classification = Classification.first(:conditions => {:id => @subject.classification_id}) if @subject.classification_id.present?
+    subject_heading_type = SubjectHeadingType.first(:conditions => {:id => @subject.subject_heading_type_id}) if @subject.subject_heading_type_id.present?
 
     respond_to do |format|
       if @subject.save
+        @subject.classifications << classification if classification
+        @subject.subject_heading_types << subject_heading_type if subject_heading_type
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.subject'))
         format.html { redirect_to subject_url(@subject) }
         format.xml  { render :xml => @subject, :status => :created, :location => @subject }
       else
+        @classification = classification
+        @subject_heading_type = subject_heading_type
         prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @subject.errors.to_xml }

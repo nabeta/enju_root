@@ -174,9 +174,10 @@ div#right_pane_detail{
 }
 
 div#footer{
-  margin-top: 5px;
+  padding-top: 5px;
   padding-left: 2px;
   padding-right: 2px;
+  padding-bottom: 5px;
   clear: both;
 }
 

@@ -149,11 +149,11 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:library_facet)
   end
 
-  def test_guest_should_get_index_subject_facet
-    get :index, :query => '2005', :view => 'subject_facet'
-    assert_response :success
-    assert assigns(:subject_facet)
-  end
+  #def test_guest_should_get_index_subject_facet
+  #  get :index, :query => '2005', :view => 'subject_facet'
+  #  assert_response :success
+  #  assert assigns(:subject_facet)
+  #end
 
   def test_guest_should_get_index_tag_cloud
     get :index, :query => '2005', :view => 'tag_cloud'
@@ -451,7 +451,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_user_should_get_edit_with_tag_edit
     UserSession.create users(:user1)
     get :edit, :id => 1, :mode => 'tag_edit'
-    assert_response :forbidden
+    assert_response :success
   end
   
   def test_librarian_should_get_edit

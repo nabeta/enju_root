@@ -1,0 +1,36 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.resource')) -%></h1>
+<div id="content_list">
+
+<% form_for(@resource) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label t('activerecord.attributes.resource.iss_token') -%><br />
+    <%= f.text_field :iss_token %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.resource.manifestation_id') -%><br />
+    <%= f.text_field :manifestation_id %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.resource.dcndl_xml') -%><br />
+    <%= f.text_area :dcndl_xml %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.resource.work_token') -%><br />
+    <%= f.text_field :work_token %>
+  </p>
+
+  <p>
+    <%= f.submit t('page.create') %>
+  </p>
+<% end %>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), resources_path %></li>
+  </ul>
+</div>

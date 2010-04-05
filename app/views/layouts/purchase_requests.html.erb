@@ -8,16 +8,16 @@
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, user_purchase_requests_url(@user.login, :format => :rss), :title => (t('purchase_request.user_purchase_request', :login_name => @user.login) + " (RSS)")) -%>
-      <%= auto_discovery_link_tag(:atom, user_purchase_requests_url(@user.login, :format => :atom), :title => (t('purchase_request.user_purchase_request', :login_name => @user.login) + " (Atom)")) -%>
+      <%= auto_discovery_link_tag(:rss, user_purchase_requests_url(@user.login, :format => :rss), :title => (t('purchase_request.user_purchase_request', :login_name => @user.login) + " (RSS)")) %>
+      <%= auto_discovery_link_tag(:atom, user_purchase_requests_url(@user.login, :format => :atom), :title => (t('purchase_request.user_purchase_request', :login_name => @user.login) + " (Atom)")) %>
     <%- else -%>
-      <%= auto_discovery_link_tag(:rss, purchase_requests_url(:format => :rss), :title => (t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.display_name.localize) + " (RSS)")) -%>
-      <%= auto_discovery_link_tag(:atom, purchase_requests_url(:format => :atom), :title => (t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
+      <%= auto_discovery_link_tag(:rss, purchase_requests_url(:format => :rss), :title => (t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
+      <%= auto_discovery_link_tag(:atom, purchase_requests_url(:format => :atom), :title => (t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
     <%- end -%>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
-<body class="yui-skin-sam" id="yahoo-com">
+<body>
 
 <%= render :partial => 'page/header' -%>
 <%= render :partial => 'page/menu' -%>

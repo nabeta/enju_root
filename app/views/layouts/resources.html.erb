@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <%- case when @resource -%>
+    <%- if controller.action_name == 'new' -%>
+      <title><%= t('activerecord.models.resource') -%>: <%= title_action_name -%></title>
+    <%- else -%>
+      <title><%= @resource.title -%> : <%= t('activerecord.models.resource') -%>: <%= title_action_name -%></title>
+    <%- end -%>
+  <%- when @patron -%>
+    <title><%= t('resource.patron_resource', :patron_name => @patron.full_name) -%> : <%= t('activerecord.models.patron') -%>: <%= title_action_name -%></title>
+  <%- else -%>
+    <title><%= t('activerecord.models.resource') -%>: <%= title_action_name -%></title>
+  <%- end -%>
+  <%= render :partial => 'page/include' -%>
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <%= canonical_link_tag %>
+</head>
+<body>
+
+<%= render :partial => 'page/header' -%>
+<%= render :partial => 'page/menu' -%>
+
+<div id="content">
+
+<div style="color: green"><%= flash[:notice] -%></div>
+
+<%= yield  -%>
+
+</div>
+
+<%= render :partial => 'page/footer' -%>
+
+</body>
+</html>

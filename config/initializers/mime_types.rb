@@ -9,7 +9,7 @@ Mime::Type.register "image/gif",  :gif
 Mime::Type.register "image/png",  :png
 Mime::Type.register "application/octet-stream",  :download
 Mime::Type.register "application/xml",  :sru
-Mime::Type.register "application/xml",  :openurl
+#Mime::Type.register "application/xml",  :openurl
 Mime::Type.register "application/xml",  :mods
 Mime::Type.register "application/rdf+xml",  :rdf
-Mime::Type.register "application/xml",  :oai
+Mime::Type.register_alias "text/xml",  :oai

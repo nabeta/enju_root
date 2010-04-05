@@ -1,4 +1,5 @@
 class PageController < ApplicationController
+  before_filter :clear_search_sessions, :only => [:index, :advanced_search]
   before_filter :store_location, :only => [:advanced_search, :about, :add_on, :msie_acceralator, :statistics]
   before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch, :statistics]
   before_filter :get_libraries, :only => [:advanced_search]
@@ -15,7 +16,7 @@ class PageController < ApplicationController
     #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
     @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
     @manifestation = Manifestation.pickup rescue nil
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
     else
       @news_feeds = NewsFeed.all
@@ -28,6 +29,10 @@ class PageController < ApplicationController
 
   def opensearch
     render :layout => false
+  end
+
+  def srw
+    render :template => 'page/srw.xml.erb', :layout => false
   end
 
   def patron

@@ -7,11 +7,11 @@
   <title><%= t('activerecord.models.inter_library_loan') -%>: <%= title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, inter_library_loans_url(:format => :rss), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name.localize) + " (RSS)")) -%>
-    <%= auto_discovery_link_tag(:atom, inter_library_loans_url(:format => :atom), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name.localize) + " (Atom)")) -%>
+    <%= auto_discovery_link_tag(:rss, inter_library_loans_url(:format => :rss), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
+    <%= auto_discovery_link_tag(:atom, inter_library_loans_url(:format => :atom), :title => (t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
   <%- end -%>
 </head>
-<body class="yui-skin-sam" id="yahoo-com">
+<body>
 
 <%= render :partial => 'page/header' -%>
 <%= render :partial => 'page/menu' -%>

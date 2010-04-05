@@ -1,5 +1,5 @@
 <div id="content_detail">
-  <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h1>
 <div id="content_list">
 <%- form_for :subjects, :url => subjects_path, :html => {:method => 'get'} do -%>
   <p>
@@ -35,7 +35,11 @@
 <div id="submenu">
   <ul>
     <%- if Subject.is_creatable_by(current_user) -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path -%></li>
+      <%- if @subject_heading_type -%>
+        <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_heading_type_subject_path(@subject_heading_type) -%></li>
+      <%- else -%>
+        <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_path -%></li>
+      <%- end -%>
     <%- end -%>
   </ul>
 </div>

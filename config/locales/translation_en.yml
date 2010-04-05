@@ -610,6 +610,7 @@ en:
         lccn: LCCN
         issn: ISSN
         subscription_master: Subscription master
+        description: Description
       user_group:
         name: Name
         display_name: Display name
@@ -969,9 +970,10 @@ en:
         state: State
         approve: Approve
         publish: Publish
+        deleted_at: Deleted at
 
   page:
-    user_title: "{{login_name}}'s library"
+    user_title: "Welcome {{login_name}}"
     login: "Login"
     logout: "Logout"
     logged_in_as: "logged in as {{login_name}}"
@@ -1072,6 +1074,7 @@ en:
     import_from_file: "Import from file"
     import_from_network: "Import from networks"
     no_record_found: "No records found."
+    limit_exceeded: "Limit exceeded. Listing the first {{count}} records."
     enter_search_term: "Enter your search term."
     serial: "Serial"
     number_of_pages: "Number of pages"
@@ -1204,6 +1207,7 @@ en:
     pickup: "Pick up"
     showing_all_record: "Showing all records."
     showing_reservable_record: "Showing reservable records."
+    reservable: "Reservable"
     all_result: "All results"
     reservable_list: "Reservable list"
     post_to_twitter: "post to Twitter"
@@ -1437,9 +1441,16 @@ en:
     select_all: Select all
     approve_selected_resources: Approve selected resources
     approve_all_resources: Approve all resources
+    publish_selected_resources: Publish selected resources
+    publish_all_resources: Publish all resources
     approve: Approve
     approved: Approved
     not_approved: Not approved
     all_resources: All resources
     resources_were_approved: Resources were approved.
+    resources_were_published: Resources were published.
     select_resources: Select resources.
+    publish: Publish
+    published: Published
+    reject: Reject
+    withdraw: Withdraw

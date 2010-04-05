@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
   before_filter :has_permission?
   before_filter :get_user_if_nil, :except => [:edit]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
-  include PortaController
 
   # GET /questions
   # GET /questions.xml
@@ -83,7 +82,7 @@ class QuestionsController < ApplicationController
     @count[:query_result] = @questions.total_entries
 
     if query
-      @crd_results = search_porta_crd(query, :page => params[:crd_page])
+      @crd_results = Question.search_crd(:query_01 => query, :page => params[:crd_page])
     end
 
     respond_to do |format|

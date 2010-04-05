@@ -3,7 +3,7 @@
   <%- languages = params[:language].to_s.split -%>
   <%- @language_facet.rows.each do |facet| -%>
     <%- current_languages = languages.dup -%>
-    <%- language = Language.find(:first, :conditions => {:name => facet.value}) -%>
+    <%- language = Language.first(:conditions => {:name => facet.value}) -%>
     <%- if language -%>
       <li>
         <%- if current_languages.include?(language.name) -%><strong><%- end -%>

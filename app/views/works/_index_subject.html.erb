@@ -35,7 +35,7 @@
         [W]
         <%= link_to h(work.original_title), work -%>
         <br />
-        <%= raw patrons_list(work.patrons) -%>
+        <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= work.context -%></td>
       <td>

@@ -1956,6 +1956,7 @@ manifestation_00210:
   exemplifies_count: 0
   created_at: 2010-03-19 13:00:00 UTC
   required_role_id: 4
+  repository_content: true
 manifestation_00211:
   carrier_type_id: 1
   language_id: 1
@@ -1973,6 +1974,7 @@ manifestation_00211:
   exemplifies_count: 0
   created_at: 2010-03-19 13:00:00 UTC
   required_role_id: 3
+  repository_content: true
 manifestation_00212:
   carrier_type_id: 1
   language_id: 1
@@ -1990,6 +1992,7 @@ manifestation_00212:
   exemplifies_count: 0
   created_at: 2010-03-19 13:00:00 UTC
   required_role_id: 3
+  repository_content: true
 manifestation_00213:
   carrier_type_id: 1
   language_id: 1
@@ -2007,6 +2010,7 @@ manifestation_00213:
   exemplifies_count: 0
   created_at: 2010-03-19 13:00:00 UTC
   required_role_id: 2
+  repository_content: true
 manifestation_00214:
   carrier_type_id: 1
   language_id: 1
@@ -2024,6 +2028,7 @@ manifestation_00214:
   exemplifies_count: 0
   created_at: 2010-03-19 13:00:00 UTC
   required_role_id: 2
+  repository_content: false
 manifestation_00215:
   carrier_type_id: 1
   language_id: 1
@@ -2041,3 +2046,22 @@ manifestation_00215:
   exemplifies_count: 0
   created_at: 2010-03-19 13:00:00 UTC
   required_role_id: 1
+  repository_content: true
+manifestation_00216:
+  carrier_type_id: 1
+  language_id: 1
+  isbn:
+  updated_at: 2010-03-19 13:00:00 +09:00
+  original_title: "権限確認"
+  price:
+  manifestation_identifier:
+  depth:
+  date_of_publication:
+  access_address:
+  id: 216
+  height:
+  width:
+  exemplifies_count: 0
+  created_at: 2010-03-19 13:00:00 UTC
+  required_role_id: 1
+  repository_content: false

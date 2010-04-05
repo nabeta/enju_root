@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :suspended?
   before_filter :get_patron, :only => :new
   before_filter :store_location, :only => [:index, :show]
-  before_filter :clear_manifestation_ids, :only => [:show]
+  before_filter :clear_search_sessions, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :user_sweeper, :only => [:create, :update, :destroy]
   #ssl_required :new, :edit, :create, :update, :destroy
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
     else
       @news_feeds = NewsFeed.all
@@ -356,7 +356,7 @@ class UsersController < ApplicationController
   end
 
   def prepare_options
-    if ENV['RAILS_ENV'] == 'production'
+    if Rails.env == 'production'
       @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
       @roles = Rails.cache.fetch('Role.all'){Role.all}
       @libraries = Rails.cache.fetch('Library.all'){Library.all}
@@ -375,9 +375,5 @@ class UsersController < ApplicationController
 
   def last_request_update_allowed?
     true if %w[create update].include?(action_name)
-  end
-
-  def clear_manifestation_ids
-    session[:manifestation_ids] = nil
   end
 end

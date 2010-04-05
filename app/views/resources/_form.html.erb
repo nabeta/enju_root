@@ -1,0 +1,16 @@
+  <p>
+    <%= f.label t('activerecord.attributes.resource.iss_token') -%><br />
+    <%= resource.iss_token %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.resource.manifestation_id') -%><br />
+    <%= f.text_field :manifestation_id %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.resource.dcndl_xml') -%><br />
+    <%= f.text_area :dcndl_xml %>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.resource.work_token') -%><br />
+    <%= resource.work_token %>
+  </p>

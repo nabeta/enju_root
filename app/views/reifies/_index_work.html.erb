@@ -6,18 +6,17 @@
   </h2>
 <table>
   <tr>
+    <th id="position"></th>
     <th><%= t('activerecord.models.expression') -%></th>
-    <th><%= t('page.created_at') -%></th>
-    <th><%= t('page.updated_at') -%></th>
   </tr>
 
 <%- for reify in @reifies -%>
   <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+    </td>
     <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
-    <td><%= l(reify.created_at) -%></td>
-    <td><%= l(reify.updated_at) -%></td>
     <%- if reify.is_deletable_by(current_user) -%>
-      <td><%= link_to t('page.destroy'), work_reify_path(@work, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), work_reify_path(reify.work, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

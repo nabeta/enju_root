@@ -53,13 +53,9 @@ class ResourceImportFile < ActiveRecord::Base
       shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
       # タイトルが入力してあればそれを優先する
-      if row['original_title'].to_s.strip.blank?
-        if row['isbn']
-          manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
-          if manifestation
-            num[:found] += 1
-            Rails.logger.info("resource found: isbn #{row['isbn']}")
-          else
+      if row['isbn']
+        unless manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
+          if row['original_title'].to_s.strip.blank?
             manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
             save_imported_object(manifestation)
             #num[:success] += 1 if manifestation
@@ -104,20 +100,38 @@ class ResourceImportFile < ActiveRecord::Base
             save_imported_object(work)
             expression = self.class.import_expression(work)
             save_imported_object(expression)
+
+            if ISBN_Tools.is_valid?(row['isbn'].to_s.strip)
+              isbn = row['isbn']
+            end
+            date_of_publication = Time.zone.parse(row['date_of_publication']) rescue nil
+            # TODO: 小数点以下の表現
+            height = NKF.nkf('-eZ1', row['height'].to_s).gsub(/\D/, '').to_i
+            end_page = NKF.nkf('-eZ1', row['number_of_pages'].to_s).gsub(/\D/, '').to_i
+            if end_page >= 1
+              start_page = 1
+            else
+              start_page = nil
+              end_page = nil
+            end
+
             manifestation = self.class.import_manifestation(expression, publisher_patrons, {
-              :isbn => row['isbn'],
+              :isbn => isbn,
               :wrong_isbn => row['wrong_isbn'],
               :issn => row['issn'],
               :lccn => row['lccn'],
               :nbn => row['nbn'],
-              :date_of_publication => Time.zone.parse(row['date_of_publication'].to_s),
+              :date_of_publication => date_of_publication,
               :volume_number_list => row['volume_number_list'],
               :edition => row['edition'],
               :height => row['height'],
-              :price => row['price'],
+              :price => row['manifestation_price'],
               :description => row['description'],
               :note => row['note'],
               :series_statement => series_statement,
+              :height => height,
+              :start_page => start_page,
+              :end_page => end_page,
               :manifestation_identifier => row['manifestation_identifier']
             })
             save_imported_object(manifestation)
@@ -131,10 +145,23 @@ class ResourceImportFile < ActiveRecord::Base
 
         begin
           if manifestation
-            item = self.class.import_item(manifestation, row['item_identifier'], shelf) # if row['item_identifier'].to_s.strip.present?
-            save_imported_object(item)
-            num[:success] += 1
-            Rails.logger.info("resource registration succeeded: column #{record}"); next
+            unless item = Item.first(:conditions => {:item_identifier => row['item_identifier'].to_s.strip})
+              circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
+              shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
+              item = self.class.import_item(manifestation, {
+                :item_identifier => row['item_identifier'],
+                :price => row['item_price'],
+                :call_number => row['call_number'].to_s.strip,
+                :circulation_status => circulation_status,
+                :shelf => shelf
+              })
+              save_imported_object(item)
+              num[:success] += 1
+              Rails.logger.info("resource registration succeeded: column #{record}"); next
+            else
+              Rails.logger.info("resource found: isbn #{row['isbn']}")
+              num[:found] += 1
+            end
           end
         rescue Exception => e
           Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
@@ -183,9 +210,8 @@ class ResourceImportFile < ActiveRecord::Base
     return manifestation
   end
 
-  def self.import_item(manifestation, item_identifier, shelf)
-    item = Item.new(:item_identifier => item_identifier)
-    item.shelf = shelf
+  def self.import_item(manifestation, options)
+    item = Item.new(options)
     #if item.save!
       manifestation.items << item
       item.patrons << shelf.library.patron

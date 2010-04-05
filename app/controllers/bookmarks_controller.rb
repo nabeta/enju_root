@@ -125,6 +125,7 @@ class BookmarksController < ApplicationController
   # POST /bookmarks.xml
   def create
     @bookmark = current_user.bookmarks.new(params[:bookmark])
+    @bookmark.tag_list = params[:bookmark][:tag_list]
 
     respond_to do |format|
       begin
@@ -174,13 +175,7 @@ class BookmarksController < ApplicationController
       @bookmark = Bookmark.find(params[:id])
     end
     @bookmark.title = @bookmark.manifestation.try(:original_title)
-    if params[:mode] == 'remove_tag'
-      tag = Tag.find(params[:name])
-      @bookmark.tags -= Tag.find(:all, :conditions => {:name => tag.name})
-    else
-      @bookmark.tag_list = params[:bookmark][:tag_list]
-      params[:bookmark][:tag_list] = (@bookmark.tag_list - Tag.find(:all, :conditions => {:name => @bookmark.tag_list}).collect(&:name)).join(' ')
-    end
+    @bookmark.taggings.all(:conditions => {:tagger_id => @bookmark.user.id}).map{|t| t.destroy}
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])

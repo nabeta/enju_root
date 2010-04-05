@@ -4,10 +4,13 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
   xml.responseDate Time.zone.now.utc.iso8601
   xml.request manifestations_url(:format => :oai), :verb => "ListIdentifiers", :metadataPrefix => "oai_dc"
+  @oai[:errors].each do |error|
+    xml.error :code => error
+  end
   xml.ListIdentifiers do
     @manifestations.each do |manifestation|
       xml.header do
-        xml.identifier manifestation_url(manifestation)
+        xml.identifier manifestation.oai_identifier
         xml.datestamp manifestation.updated_at.utc.iso8601
         xml.setSpec manifestation.series_statement.id if manifestation.series_statement
       end

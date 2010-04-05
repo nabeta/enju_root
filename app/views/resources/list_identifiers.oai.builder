@@ -4,12 +4,23 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   "xsi:schemaLocation" => "http://www.openarchives.org/OAI/2.0/ http://www.openarchives.org/OAI/2.0/OAI-PMH.xsd" do
   xml.responseDate Time.zone.now.utc.iso8601
   xml.request resources_url(:format => :oai), :verb => "ListIdentifiers", :metadataPrefix => "oai_dc"
+  @oai[:errors].each do |error|
+    xml.error :code => error
+  end
   xml.ListIdentifiers do
     @resources.each do |resource|
-      xml.header do
-        xml.identifier resource_url(resource)
-        xml.datestamp resource.updated_at.utc.iso8601
-        xml.setSpec resource.manifestation.series_statement.id if resource.manifestation.try(:series_statement)
+      if resource.deleted_at
+        xml.header(:status => 'deleted') do
+          xml.identifier resource.oai_identifier
+          xml.datestamp resource.updated_at.utc.iso8601
+          xml.setSpec resource.manifestation.series_statement.id if resource.manifestation.try(:series_statement)
+        end
+      else
+        xml.header do
+          xml.identifier resource.oai_identifier
+          xml.datestamp resource.updated_at.utc.iso8601
+          xml.setSpec resource.manifestation.series_statement.id if resource.manifestation.try(:series_statement)
+        end
       end
     end
     if @resumption.present?

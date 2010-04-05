@@ -9,4 +9,10 @@ class QuestionTest < ActiveSupport::TestCase
     assert result.items.size > 0
     assert_not_nil result.channel.totalResults
   end
+
+  def test_should_get_crd_search
+    result = Question.search_crd(:query_01 => 'Yahoo')
+    assert result
+    assert result.total_entries > 0
+  end
 end

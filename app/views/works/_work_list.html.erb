@@ -5,14 +5,15 @@
         [W]
         (<%= h(work_has_work.work_relationship_type.display_name.localize) -%>)
         <%= link_to h(work_has_work.from_work.original_title), work_has_work.from_work -%>
-        <%= raw patrons_list(work_has_work.from_work.patrons) -%>
+        <%= raw patrons_list(work_has_work.from_work.patrons, current_user) -%>
         <%- unless work_has_work.from_work.expressions.blank? -%>
           <ul>
             <%- work_has_work.from_work.expressions.each do |expression| -%>
               <li>
               [E]
               <%= link_to h(expression.original_title), expression -%>
-              <%= raw patrons_list(expression.patrons) -%>
+              <%= raw patrons_list(expression.creators, current_user) -%>
+              <%= raw patrons_list(expression.patrons, current_user) -%>
               </li>
             <%- end -%>
           </ul>
@@ -24,14 +25,14 @@
         [W]
         (<%= h(work_has_work.work_relationship_type.display_name.localize) -%>)
         <%= link_to h(work_has_work.to_work.original_title), work_has_work.to_work -%>
-        <%= raw patrons_list(work_has_work.to_work.patrons) -%>
+        <%= raw patrons_list(work_has_work.to_work.patrons, current_user) -%>
         <%- unless work_has_work.to_work.expressions.blank? -%>
           <ul>
             <%- work_has_work.to_work.expressions.each do |expression| -%>
               <li>
               [E]
               <%= link_to h(expression.original_title), expression -%>
-              <%= raw patrons_list(expression.patrons) -%>
+              <%= raw patrons_list(expression.patrons, current_user) -%>
               </li>
             <%- end -%>
           </ul>

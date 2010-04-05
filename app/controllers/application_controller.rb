@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include SslRequirement
 
-  include ExceptionNotifiable
+  include ExceptionNotification::Notifiable
 
   filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if RAILS_ENV == 'test'
+    if Rails.env == 'test'
       locale = 'en'
     else
       if logged_in?
@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render(:file => "#{RAILS_ROOT}/public/404.html", :status => "404 Not Found")
+    render(:file => "#{Rails.root}/public/404.html", :status => "404 Not Found")
     return
   end
 
@@ -68,10 +68,10 @@ class ApplicationController < ActionController::Base
       format.html do
         store_location
         if logged_in?
-          render(:file => "#{RAILS_ROOT}/public/403.html", :status => "403 Forbidden")
+          render(:file => "#{Rails.root}/public/403.html", :status => "403 Forbidden")
         else
           redirect_to new_user_session_url
-          #render(:file => "#{RAILS_ROOT}/public/401.html", :status => "401 Unauthorized")
+          #render(:file => "#{Rails.root}/public/401.html", :status => "401 Unauthorized")
         end
       end
       # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
@@ -164,7 +164,9 @@ class ApplicationController < ActionController::Base
 
   def get_user_if_nil
     @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
-    access_denied unless @user.is_readable_by(current_user) if @user
+    if @user
+      access_denied unless @user.is_readable_by(current_user)
+    end
   end
   
   def get_user_group
@@ -249,7 +251,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_subject_heading_type
-    @subject_heading_type = Subject.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
+    @subject_heading_type = SubjectHeadingType.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -269,11 +271,11 @@ class ApplicationController < ActionController::Base
   end
 
   def convert_charset
-    return if CSV_CHARSET_CONVERSION == false
     #if params[:format] == 'ics'
     #  response.body = NKF::nkf('-w -Lw', response.body)
     case params[:format]
     when 'csv'
+      return if CSV_CHARSET_CONVERSION == false
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
@@ -403,28 +405,6 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  def get_resumption_token(token)
-    resumption = Rails.cache.read(token) rescue nil
-  end
-
-  def set_resumption_token(resources, from_time, until_time, per_page = nil)
-    if params[:format] == 'oai'
-      if params[:resumptionToken]
-        if resumption = Rails.cache.read(params[:resumptionToken]) rescue nil
-          @cursor = resumption[:cursor] + per_page ||= resources.per_page
-        end
-      end
-      @cursor ||= 0
-      resumption = {
-        :token => "f(#{from_time.utc.iso8601}).u(#{until_time.utc.iso8601}):#{@cursor}",
-        :cursor => @cursor,
-        # memcachedの使用が前提
-        :expired_at => 1.hour.from_now.utc.iso8601
-      }
-      @resumption = Rails.cache.fetch(resumption[:token]){resumption}
-    end
-  end
-
   def current_user_session
     return @current_user_session if defined?(@current_user_session)
     @current_user_session = UserSession.find
@@ -466,4 +446,14 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
+  def clear_search_sessions
+    session[:query] = nil
+    session[:params] = nil
+    session[:search_params] = nil
+    session[:manifestation_ids] = nil
+  end
+
+  def api_request?
+    true unless params[:format].nil? or params[:format] == 'html'
+  end
 end

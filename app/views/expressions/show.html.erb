@@ -16,11 +16,11 @@
     <p>(<%= l(@expression.versions.find(@version).created_at) -%>)</p>
   <%- end -%>
   <p>
-    <%= raw patrons_list(@expression.work.patrons) -%>
-    <%= raw patrons_list(@expression.patrons) -%>
+    <%= raw patrons_list(@expression.work.patrons, current_user) if @expression.work -%>
+    <%= raw patrons_list(@expression.patrons, current_user) -%>
   </p>
   <div id="tabs">
-    <ul class="yui-nav">
+    <ul>
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
       <%- unless @expression.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>

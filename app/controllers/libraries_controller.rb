@@ -8,12 +8,12 @@ class LibrariesController < ApplicationController
   # GET /libraries
   # GET /libraries.xml
   def index
-    sort = {:sort_by => 'created_at', :order => 'desc'}
+    sort = {:sort_by => 'position', :order => 'asc'}
     case params[:sort_by]
     when 'name'
       sort[:sort_by] = 'name'
     end
-    sort[:order] = 'asc' if params[:order] == 'asc'
+    sort[:order] = 'desc' if params[:order] == 'desc'
 
     query = @query = params[:query].to_s.strip
     page = params[:page] || 1

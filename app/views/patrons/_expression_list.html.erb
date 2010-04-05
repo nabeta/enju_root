@@ -5,8 +5,8 @@
       [E]
       <%= link_to h(expression.original_title), expression -%>
       <%= content_type_icon(expression.content_type) -%>
-      <%= raw patrons_list(expression.work.patrons) -%>
-      <%= raw patrons_list(expression.patrons) -%>
+      <%= raw patrons_list(expression.work.patrons, current_user) -%>
+      <%= raw patrons_list(expression.patrons, current_user) -%>
         <ul>
           <%- expression.manifestations.each do |manifestation| -%>
             <li>
@@ -16,8 +16,9 @@
             <%- manifestation.expressions.each do |expression| -%>
               <%= content_type_icon(expression.content_type) -%>
             <%- end -%>
-            <%= raw patrons_list(manifestation.authors) -%>
-            <%= raw patrons_list(manifestation.patrons) -%>
+            <%= raw patrons_list(manifestation.creators, current_user) -%>
+            <%= raw patrons_list(manifestation.contributors, current_user) -%>
+            <%= raw patrons_list(manifestation.patrons, current_user) -%>
             <%- if manifestation.date_of_publication -%>
               (<%= manifestation.date_of_publication.strftime('%Y') -%>)
             <%- end -%>
@@ -27,6 +28,6 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(expressions, :param_name => :expression_list_page, :class => 'content_pagination') -%>
+  <%= will_paginate(expressions, :param_name => :expression_list_page, :class => 'content_pagination digg_pagination') -%>
 </div>
 

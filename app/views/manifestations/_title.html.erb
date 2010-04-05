@@ -8,14 +8,14 @@
     <%- end -%>
   </h2>
   <p>
-    <%- unless manifestation.authors.blank? -%>
-      <%= t('page.author') -%>: <%= raw patrons_list(manifestation.authors) -%>
+    <%- unless manifestation.creators.blank? -%>
+      <%= t('page.author') -%>: <%= raw patrons_list(manifestation.creators, current_user) -%>
     <%- end -%>
-    <%- unless manifestation.editors.blank? -%>
-      <%= t('page.editor') -%>: <%= raw patrons_list(manifestation.editors) -%>
+    <%- unless manifestation.contributors.blank? -%>
+      <%= t('page.editor') -%>: <%= raw patrons_list(manifestation.contributors, current_user) -%>
     <%- end -%>
     <%- unless manifestation.publishers.blank? -%>
-      <%= t('page.publisher') -%>: <%= raw patrons_list(manifestation.publishers) -%>
+      <%= t('page.publisher') -%>: <%= raw patrons_list(manifestation.publishers, current_user) -%>
       <%- if manifestation.date_of_publication -%>
         (<%= manifestation.date_of_publication.strftime('%Y') -%>)
       <%- end -%>

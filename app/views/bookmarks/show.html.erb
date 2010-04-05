@@ -19,7 +19,7 @@
 
 <p>
   <strong><%= t('page.tag') -%>:</strong>
-  <%- @bookmark.tags.collect {|tag| -%>
+  <%- @bookmark.tag_counts.collect {|tag| -%>
   <%= link_to h(tag.name), user_manifestations_path(@bookmark.user.login, :tag => tag.name) -%>
   <%- } -%>
 </p>

@@ -7,7 +7,7 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   xml.GetRecord do
     xml.record do
       xml.header do
-        xml.identifier manifestation_url(@manifestation)
+        xml.identifier @manifestation.oai_identifier
         xml.datestamp @manifestation.updated_at.utc.iso8601
         xml.setSpec @manifestation.series_statement.id if @manifestation.series_statement
       end

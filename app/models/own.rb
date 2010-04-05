@@ -15,12 +15,16 @@ class Own < ActiveRecord::Base
   attr_accessor :item_identifier
 
   def after_save
-    patron.index!
-    item.index!
+    reindex!
   end
 
   def after_destroy
-    after_save
+    reindex!
+  end
+
+  def reindex!
+    patron.index!
+    item.index!
   end
 
 end

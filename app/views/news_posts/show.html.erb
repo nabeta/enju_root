@@ -8,7 +8,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.news_post.body') -%>:</strong>
-  <%= @news_post.body -%>
+  <%= raw auto_link(simple_format(h(@news_post.body))) -%>
 </p>
 
 <p>

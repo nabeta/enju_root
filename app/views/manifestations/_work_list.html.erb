@@ -6,7 +6,7 @@
           <%- work.expressions.each do |expression| -%>
             <%= link_to content_type_icon(expression.content_type), expression -%>
           <%- end -%>
-          <%= raw patrons_list(work.patrons) -%>
+          <%= raw patrons_list(work.patrons, current_user) -%>
           <%- unless work.manifestations.empty? -%>
             <ul>
               <%- work.manifestations.each do |manifestation| -%>
@@ -18,9 +18,9 @@
                     <%- manifestation.expressions.each do |expression| -%>
                       <%= link_to content_type_icon(expression.content_type), expression -%>
                     <%- end -%>
-                    <%= raw patrons_list(manifestation.authors) -%>
-                    <%= raw patrons_list(manifestation.editors) -%>
-                    <%= raw patrons_list(manifestation.patrons) -%>
+                    <%= raw patrons_list(manifestation.creators, current_user) -%>
+                    <%= raw patrons_list(manifestation.contributors, current_user) -%>
+                    <%= raw patrons_list(manifestation.patrons, current_user) -%>
                     <%- if manifestation.date_of_publication -%>
                       (<%= manifestation.date_of_publication.strftime('%Y') -%>)
                     <%- end -%>

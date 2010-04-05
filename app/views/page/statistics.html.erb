@@ -8,42 +8,42 @@
       <th><%= t('page.note') -%></th>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.patron') -%></td>
+      <td><%= link_to t('activerecord.models.patron'), patrons_path -%></td>
       <td><%= Patron.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.user') -%></td>
+      <td><%= link_to t('activerecord.models.user'), users_path -%></td>
       <td><%= User.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.work') -%></td>
+      <td><%= link_to t('activerecord.models.work'), works_path -%></td>
       <td><%= Work.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.expression') -%></td>
+      <td><%= link_to t('activerecord.models.expression'), expressions_path -%></td>
       <td><%= Expression.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.manifestation') -%></td>
+      <td><%= link_to t('activerecord.models.manifestation'), manifestations_path -%></td>
       <td><%= Manifestation.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.item') -%></td>
+      <td><%= link_to t('activerecord.models.item'), items_path -%></td>
       <td><%= Item.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.search_history') -%></td>
+      <td><%= link_to t('activerecord.models.search_history'), search_histories_path -%></td>
       <td><%= SearchHistory.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.bookmark') -%></td>
+      <td><%= link_to t('activerecord.models.bookmark'), bookmarks_path -%></td>
       <td>
         <%= Bookmark.count -%>
         (<%= link_to t('activerecord.attributes.bookmark_stat_has_manifestation.bookmarks_count'), user_reserve_stats_path -%>)
@@ -51,16 +51,16 @@
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.subject') -%></td>
+      <td><%= link_to t('activerecord.models.subject'), subjects_path -%></td>
       <td><%= Subject.count -%></td>
       <td></td>
     <tr>
-      <td><%= t('activerecord.models.tag') -%></td>
+      <td><%= link_to t('activerecord.models.tag'), tags_path -%></td>
       <td><%= Tag.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.checkout') -%></td>
+      <td><%= link_to t('activerecord.models.checkout'), checkouts_path -%></td>
       <td>
         <%= Checkout.count -%>
         (<%= link_to t('activerecord.attributes.checkout_stat_has_user.checkouts_count'), user_checkout_stats_path -%>)
@@ -69,7 +69,7 @@
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.reserve') -%></td>
+      <td><%= link_to t('activerecord.models.reserve'), reserves_path -%></td>
       <td>
         <%= Reserve.count -%>
         (<%= link_to t('activerecord.attributes.reserve_stat_has_user.reserves_count'), user_reserve_stats_path -%>)
@@ -78,17 +78,17 @@
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.purchase_request') -%></td>
+      <td><%= link_to t('activerecord.models.purchase_request'), purchase_requests_path -%></td>
       <td><%= PurchaseRequest.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.question') -%></td>
+      <td><%= link_to t('activerecord.models.question'), questions_path -%></td>
       <td><%= Question.count -%></td>
       <td></td>
     </tr>
     <tr>
-      <td><%= t('activerecord.models.answer') -%></td>
+      <td><%= link_to t('activerecord.models.answer'), answers_path -%></td>
       <td><%= Answer.count -%></td>
       <td></td>
     </tr>

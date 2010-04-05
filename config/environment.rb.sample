@@ -10,6 +10,7 @@ COUNTRY_CODE = 'jp'
 # パトロンの名前を入力する際、姓を先に表示する
 FAMILY_NAME_FIRST = true
 
+MAX_NUMBER_OF_RESULTS = 1000
 WRITE_SEARCH_LOG_TO_FILE = true
 CSV_CHARSET_CONVERSION = false
 
@@ -49,25 +50,23 @@ Rails::Initializer.run do |config|
   config.gem "prawn"
   config.gem "prawn-layout", :lib => "prawn/layout"
   config.gem "prawn-format", :lib => "prawn/format"
-  #config.gem "commonthread-flickr_fu", :lib => "flickr_fu"
   config.gem "friendly_id", :version => ">=2.3.1"
   config.gem "graticule"
-  #config.gem "calendar_date_select"
+  config.gem "calendar_date_select"
   config.gem "scribd_fu"
   config.gem "restful_acl", :version => ">=3.0.0"
-  #config.gem "strongbox"
+  config.gem "strongbox"
   #config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
   config.gem "authlogic"
   config.gem "money"
   config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "acts-as-taggable-on", :version => ">=1.1.3"
-  #config.gem "mloughran-api_cache", :lib => "api_cache"
+  config.gem "acts-as-taggable-on", :version => ">=2.0.3"
   config.gem "memcache-client", :lib => "memcache"
   #config.gem "shared-mime-info"
   config.gem "authlogic-oid", :lib => "authlogic_openid"
-  config.gem "delayed_job"
+  config.gem "delayed_job", :version => ">=2.0.1"
   #config.gem "ratom", :lib => "atom"
   #config.gem "damog-feedbag", :lib => "feedbag"
   config.gem "canonical-url", :lib => "canonical_url"
@@ -84,12 +83,13 @@ Rails::Initializer.run do |config|
   config.gem "Text", :lib => "text"
   config.gem "paper_trail"
   config.gem "file_wrapper"
-  config.gem "acts_as_geocodable", :version => "1.0.2"
+  config.gem "acts_as_geocodable"
   config.gem "smurf"
   config.gem "formtastic"
   config.gem "validation_reflection"
   config.gem "recurrence"
   config.gem "prism"
+  config.gem "exception_notification"
   #config.gem "acts_as_archive"
   #config.gem "event_calendar"
   #config.gem "sru"
@@ -123,6 +123,7 @@ Money.default_currency = "JPY"
 #require 'jasper-rails'
 require 'jcode'
 require 'nkf'
+require 'ipaddr'
 require 'digest/sha1'
 require 'barby/outputter/png_outputter'
 require 'suggest_tag'

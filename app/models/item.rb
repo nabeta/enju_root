@@ -57,7 +57,7 @@ class Item < ActiveRecord::Base
   has_paper_trail
 
   searchable do
-    text :item_identifier, :note, :title, :author, :publisher, :library
+    text :item_identifier, :note, :title, :creator, :contributor, :publisher, :library
     string :item_identifier
     string :library
     integer :required_role_id
@@ -198,15 +198,19 @@ class Item < ActiveRecord::Base
   end
 
   def title
-    manifestation.original_title if manifestation
+    manifestation.try(:original_title)
   end
 
-  def author
-    manifestation.author if manifestation
+  def creator
+    manifestation.try(:creator)
+  end
+
+  def contributor
+    manifestation.try(:contributor)
   end
 
   def publisher
-    manifestation.publisher if manifestation
+    manifestation.try(:publisher)
   end
 
   def library

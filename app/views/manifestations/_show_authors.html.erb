@@ -1,26 +1,26 @@
   <%- if params[:mode] == 'show_all_authors' -%>
   <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_all_authors', :locale => @locale) do -%>
-      <%- manifestation.authors.each do |patron| -%>
+      <%- manifestation.creators.each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
-      <%- if manifestation.authors.size > 5 -%>
+      <%- if manifestation.creators.size > 5 -%>
         (<%= link_to_remote t('page.hide'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_authors', :index_num => manifestation.id}, :method => :get -%>)
       <%- end -%>
     <%- end -%>
   <%- else -%>
     <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_limited_authors', :locale => @locale) do
     -%>
-      <%- manifestation.authors[0..2].each do |patron| -%>
+      <%- manifestation.creators[0..2].each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
-      <%- if manifestation.authors.size > 5 -%>
+      <%- if manifestation.creators.size > 5 -%>
         (<%= link_to_remote t('page.show_all'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_all_authors', :index_num => manifestation.id}, :method => :get -%>)
       <%- end -%>
     <%- end -%>
   <%- end -%>
 
-  <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_editors_and_publishers', :locale => @locale) do -%>
-  <%- manifestation.editors.each do |patron| -%>
+  <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_contributors_and_publishers', :locale => @locale) do -%>
+  <%- manifestation.contributors.each do |patron| -%>
     <%= link_to h(patron.full_name), patron -%>
   <%- end -%>
 

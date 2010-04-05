@@ -23,7 +23,7 @@ xml.rss('version' => "2.0",
           xml.title h(patron.full_name)
           #xml.description(patron.title)
           # rfc822
-          xml.pubDate h(patron.created_at.rfc2822)
+          xml.pubDate h(patron.created_at.utc.iso8601)
           xml.link patron_url(patron)
           xml.guid patron_url(patron), :isPermaLink => "true"
           #patron.tags.each do |tag|
