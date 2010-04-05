@@ -2,9 +2,9 @@ require 'rake'
 require 'active_record/fixtures'
 
 namespace :enju do
-  require "#{File.dirname(__FILE__)}/../../config/environment.rb"
   desc 'Load initial database fixtures.'
   task :setup do
+    require "#{File.dirname(__FILE__)}/../../config/environment.rb"
     if User.administrators.blank?
       puts 'Loading fixtures...'
       Dir.glob(Rails.root.to_s + '/db/fixtures/*.yml').each do |file|
@@ -77,13 +77,6 @@ namespace :enju do
       puts 'Inititalized successfully.'
     else
       puts 'It seems that you have imported initial data.'
-    end
-  end
-
-  desc 'Rebuild solr index.'
-  task :reindex do
-    %w(Advertisement Bookmark Classification Event Expression Item Manifestation Message Patron PurchaseRequest Question Subject Subscription Tag User Work).each do |class_name|
-      Object.const_get(class_name).reindex(:batch_commit => false)
     end
   end
 
