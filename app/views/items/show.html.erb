@@ -34,7 +34,7 @@
 <p>
   <strong><%= t('activerecord.models.circulation_status') -%>:</strong>
   <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
-  <%- if logged_in? -%>
+  <%- if user_signed_in? -%>
     <%- if current_user.has_role?('Librarian') -%>
       <%- unless @item.checkouts.not_returned.blank? -%>
         (<%= link_to t('item.current_checkout'), user_checkout_path(@item.checkouts.not_returned.first.user.login, @item.checkouts.not_returned.first) -%>)

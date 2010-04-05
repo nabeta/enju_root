@@ -286,6 +286,7 @@ ja:
         title: タイトル
       user:
         login: ログイン名
+        username: ログイン名
         name: 名前
         openid_identifier: OpenIDのURL
         email: メールアドレス

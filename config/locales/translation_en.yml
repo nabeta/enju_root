@@ -285,6 +285,7 @@ en:
         title: Title
       user:
         login: Login
+        username: Username
         name: Name
         openid_identifier: OpenID Identifier
         email: Email

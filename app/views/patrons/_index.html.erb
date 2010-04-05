@@ -16,7 +16,7 @@
     <th><%= t('activerecord.models.patron_type') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
-    <%- if current_user -%>
+    <%- if user_signed_in? -%>
       <th></th>
       <th></th>
     <%- end -%>

@@ -74,14 +74,8 @@ class User < ActiveRecord::Base
   acts_as_tagger
   #has_paper_trail
 
-  acts_as_authentic {|c|
-    c.merge_validates_format_of_email_field_options :allow_blank => false, :on => :create
-    c.merge_validates_format_of_email_field_options :allow_blank => true, :on => :update
-    c.merge_validates_length_of_email_field_options :allow_blank => true, :on => :update
-    c.merge_validates_uniqueness_of_email_field_options :allow_blank => true
-    c.validates_length_of_password_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
-    c.validates_length_of_password_confirmation_field_options = {:on => :update, :minimum => 8, :if => :has_no_credentials?}
-  }
+  devise :registerable, :authenticatable, :confirmable, :recoverable,
+         :rememberable, :trackable, :validatable
 
   def self.per_page
     10
@@ -185,17 +179,17 @@ class User < ActiveRecord::Base
   end
 
   # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  def self.authenticate(login, password)
-    u = find_by_login(login) # need to get the salt
-    u && u.valid_password?(password) ? u : nil
-  end
+  #def self.authenticate(login, password)
+  #  u = find_by_login(login) # need to get the salt
+  #  u && u.valid_password?(password) ? u : nil
+  #end
 
   def set_auto_generated_password
     self.temporary_password = reset_password
   end
 
   def reset_checkout_icalendar_token
-    self.checkout_icalendar_token = Authlogic::Random.friendly_token
+    self.checkout_icalendar_token = Devise.friendly_token
   end
 
   def delete_checkout_icalendar_token
@@ -203,7 +197,7 @@ class User < ActiveRecord::Base
   end
 
   def reset_answer_feed_token
-    self.answer_feed_token = Authlogic::Random.friendly_token
+    self.answer_feed_token = Devise.friendly_token
   end
 
   def delete_answer_feed_token

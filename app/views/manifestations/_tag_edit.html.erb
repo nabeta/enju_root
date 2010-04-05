@@ -1,4 +1,4 @@
-<%- if logged_in? -%>
+<%- if user_signed_in? -%>
   <%- unless @bookmark.blank? -%>
     <!-- bookmarked_by_me -->
     <%- form_for(:bookmark, :url => user_bookmark_path(current_user.login, @bookmark, :mode => 'tag_edit'), :html => { :method => :put }) do |f| -%>

@@ -51,7 +51,7 @@
       -
       <%= l(event.end_at, :format => :short) -%>
     </td>
-    <%- if logged_in? -%>
+    <%- if user_signed_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <td><%= link_to t('page.edit'), edit_event_path(event) -%></td>
         <td><%= link_to t('page.destroy'), event, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -70,7 +70,7 @@
     <li><%= link_to t('page.calendar'), '/calendar' -%></li>
   </ul>
   <ul>
-    <%- if logged_in? -%>
+    <%- if user_signed_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <%- if @library -%>
           <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.name) -%></li>
@@ -97,5 +97,5 @@
       (<%= link_to 'CSV', events_path(:format => :csv, :locale => @locale) -%>)
     <%- end -%>
   </p>
-  <%= render :partial => 'page/login' unless logged_in? -%>
+  <%= render :partial => 'page/login' unless current_user -%>
 </div>

@@ -26,3 +26,5 @@ config.cache_store = :mem_cache_store
 
 # Enable threaded mode
 # config.threadsafe!
+
+config.action_mailer.default_url_options = { :host => 'localhost:3000' }

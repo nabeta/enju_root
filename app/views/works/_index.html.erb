@@ -14,7 +14,7 @@
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.form_of_work') -%></th>
     <th><%= t('activerecord.models.series_statement') -%></th>
-    <%- if current_user -%>
+    <%- if user_signed_in? -%>
       <th></th>
       <th></th>
     <%- end -%>
