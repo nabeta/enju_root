@@ -1,8 +1,8 @@
 require 'rake'
 require 'active_record/fixtures'
-require "#{File.dirname(__FILE__)}/../../config/environment.rb"
 
 namespace :enju do
+  require "#{File.dirname(__FILE__)}/../../config/environment.rb"
   desc 'Load initial database fixtures.'
   task :setup do
     if User.administrators.blank?
