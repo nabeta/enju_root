@@ -76,7 +76,3 @@ module LoginHelper
     UserSession.stub!(:find).and_return(@current_user_session)
   end
 end
-
-class ActionController::TestCase
-  include Devise::TestHelpers
-end
