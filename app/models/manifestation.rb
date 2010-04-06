@@ -566,11 +566,18 @@ class Manifestation < ActiveRecord::Base
 
   def is_reserved_by(user = nil)
     if user
-      return true if Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
+      Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
     else
-      return true if self.reserves.present?
+      false
     end
-    false
+  end
+
+  def is_reserved?
+    if self.reserves.present?
+      true
+    else
+      false
+    end
   end
 
   def reservable?
