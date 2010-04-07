@@ -66,11 +66,11 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.first(:conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:username => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     unless @user.patron
-      redirect_to new_user_patron_url(@user.login); return
+      redirect_to new_user_patron_url(@user.username); return
     end
     #@tags = @user.owned_tags_by_solr
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
@@ -111,7 +111,7 @@ class UsersController < ApplicationController
   def edit
     #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.first(:conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:username => params[:id]})
     else
       @user = current_user
     end
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
   def update
     #@user = User.first(:conditions => {:login => params[:id]})
     if current_user.has_role?('Librarian')
-      @user = User.first(:conditions => {:login => params[:id]})
+      @user = User.first(:conditions => {:username => params[:id]})
     else
       @user = current_user
     end
@@ -148,30 +148,15 @@ class UsersController < ApplicationController
     end
 
     if params[:user]
-      #@user.login = params[:user][:login]
-      @user.email = params[:user][:email]
-      @user.email_confirmation = params[:user][:email_confirmation]
-      @user.old_password = params[:user][:old_password]
+      #@user.username = params[:user][:login]
       @user.openid_identifier = params[:user][:openid_identifier]
       @user.keyword_list = params[:user][:keyword_list]
       @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
       #@user.note = params[:user][:note]
-      if @user.old_password.present?
-        unless @user.valid_password?(@user.old_password)
-          @user.password_not_verified = true unless current_user.has_role?('Administrator')
-        end
-      end
-      if params[:user][:auto_generated_password] == "1"
-        @user.reset_password if current_user.has_role?('Librarian')
-      else
-        @user.password = params[:user][:password]
-        @user.password_confirmation = params[:user][:password_confirmation]
-      end
     end
 
     if current_user.has_role?('Librarian')
       if params[:user]
-        @user.active = params[:user][:active] || false
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_group_id] ||= 1
         @user.library_id = params[:user][:library_id] ||= 1
@@ -184,42 +169,37 @@ class UsersController < ApplicationController
           @user.expired_at = Time.zone.parse(expired_at_array.join("-"))
         rescue ArgumentError
           flash[:notice] = t('page.invalid_date')
-          redirect_to edit_user_url(@user.login)
+          redirect_to edit_user_url(@user.username)
           return
         end
       end
     end
-    @user.check_update_own_account(current_user)
 
-    #@user.update_attributes(params[:user]) do |result|
-    @user.save do |result|
-      respond_to do |format|
-        #if @user.update_attributes(params[:user])
-        if result
-          if current_user.has_role?('Administrator')
-            if @user.role_id
-              role = Role.find(@user.role_id)
-              @user.set_role(role)
-            end
+    #@user.save do |result|
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        if current_user.has_role?('Administrator')
+          if @user.role_id
+            role = Role.find(@user.role_id)
+            @user.set_role(role)
           end
-
-          flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
-          flash[:temporary_password] = @user.password
-          format.html { redirect_to user_url(@user.login) }
-          format.xml  { head :ok }
-        else
-          prepare_options
-          format.html { render :action => "edit" }
-          format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
         end
+
+        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
+        format.html { redirect_to user_url(@user.username) }
+        format.xml  { head :ok }
+      else
+        prepare_options
+        format.html { render :action => "edit" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
 
-    unless performed?
-      # OpenIDでの認証後
-      flash[:notice] = t('user_session.login_failed')
-      redirect_to edit_user_url(@user.login)
-    end
+    #unless performed?
+    #  # OpenIDでの認証後
+    #  flash[:notice] = t('user_session.login_failed')
+    #  redirect_to edit_user_url(@user.username)
+    #end
 
   rescue ActiveRecord::RecordNotFound
     not_found
@@ -229,7 +209,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     unless logged_in?
       if @user.signup!(params)
-        @user.deliver_activation_instructions!
+        #@user.deliver_activation_instructions!
         flash[:notice] = t('user_session.check_email_for_activation')
         redirect_to root_url; return
       else
@@ -243,12 +223,7 @@ class UsersController < ApplicationController
     # ここ以下はオンラインサインアップでは使用しない
     @user.operator = current_user
     if params[:user]
-      #@user.login = params[:user][:login]
-      @user.email = params[:user][:email]
-      @user.email_confirmation = params[:user][:email_confirmation]
-      #@user.password = params[:user][:password]
-      #@user.password_confirmation = params[:user][:password_confirmation]
-      #@user.openid_identifier = params[:user][:openid_identifier]
+      #@user.username = params[:user][:login]
       @user.note = params[:user][:note]
       @user.user_group_id = params[:user][:user_group_id] ||= 1
       @user.library_id = params[:user][:library_id] ||= 1
@@ -259,12 +234,6 @@ class UsersController < ApplicationController
       @user.user_number = params[:user][:user_number]
       @user.locale = params[:user][:locale]
     end
-    # TODO: OpenIDで発行したアカウントへのパスワード通知
-    #if params[:user][:auto_generated_password] == "1"
-      #if @user.password.blank? and @user.password_confirmation.blank?
-        @user.reset_password
-      #end
-    #end
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
@@ -273,14 +242,11 @@ class UsersController < ApplicationController
     @user.save do |result|
       respond_to do |format|
         if result
-          flash[:temporary_password] = @user.password
-          User.transaction do
-            @user.roles << Role.first(:conditions => {:name => 'User'})
-          end
+          @user.roles << Role.first(:conditions => {:name => 'User'})
           #self.current_user = @user
           flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
-          format.html { redirect_to user_url(@user.login) }
-          #format.html { redirect_to new_user_patron_url(@user.login) }
+          format.html { redirect_to user_url(@user.username) }
+          #format.html { redirect_to new_user_patron_url(@user.username) }
           format.xml  { head :ok }
         else
           prepare_options
@@ -296,7 +262,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.first(:conditions => {:login => params[:id]})
+    @user = User.first(:conditions => {:username => params[:id]})
     #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした

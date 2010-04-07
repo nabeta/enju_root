@@ -152,7 +152,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     unless @user.is_readable_by(current_user)
       access_denied; return
@@ -163,7 +163,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_if_nil
-    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
     if @user
       access_denied unless @user.is_readable_by(current_user)
     end
@@ -342,7 +342,7 @@ class ApplicationController < ActionController::Base
   def require_no_user
     if current_user
       store_location
-      redirect_to user_url(current_user.login)
+      redirect_to user_url(current_user.username)
       return false
     end
   end

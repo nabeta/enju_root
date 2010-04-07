@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :user_group_has_checkout_types, :users, :user_groups, :checkout_types
 
   def test_guest_should_not_get_index
@@ -12,20 +11,20 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:user_group_has_checkout_types)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
   end
 
   def test_admin_should_get_index
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :index
     assert_response :success
     assert assigns(:user_group_has_checkout_types)
@@ -37,19 +36,19 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :success
   end
@@ -63,7 +62,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_user_group_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = UserGroupHasCheckoutType.count
     post :create, :user_group_has_checkout_type => { }
     assert_equal old_count, UserGroupHasCheckoutType.count
@@ -72,7 +71,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_user_group_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = UserGroupHasCheckoutType.count
     post :create, :user_group_has_checkout_type => { }
     assert_equal old_count, UserGroupHasCheckoutType.count
@@ -81,7 +80,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_user_group_has_checkout_type_already_created
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = UserGroupHasCheckoutType.count
     post :create, :user_group_has_checkout_type => {:user_group_id => 1, :checkout_type_id => 1}
     assert_equal old_count, UserGroupHasCheckoutType.count
@@ -90,7 +89,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_user_group_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = UserGroupHasCheckoutType.count
     post :create, :user_group_has_checkout_type => {:user_group_id => 3, :checkout_type_id => 3}
     assert_equal old_count+1, UserGroupHasCheckoutType.count
@@ -105,19 +104,19 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_user_group_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :forbidden
   end
 
   def test_librarian_should_show_user_group_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_user_group_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -128,19 +127,19 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -151,19 +150,19 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_user_group_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :user_group_has_checkout_type => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_user_group_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :user_group_has_checkout_type => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_user_group_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => 1, :user_group_has_checkout_type => { }
     assert_redirected_to user_group_has_checkout_type_url(assigns(:user_group_has_checkout_type))
   end
@@ -177,7 +176,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_user_group_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = UserGroupHasCheckoutType.count
     delete :destroy, :id => 1
     assert_equal old_count, UserGroupHasCheckoutType.count
@@ -186,7 +185,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_user_group_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = UserGroupHasCheckoutType.count
     delete :destroy, :id => 1
     assert_equal old_count, UserGroupHasCheckoutType.count
@@ -195,7 +194,7 @@ class UserGroupHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_user_group_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = UserGroupHasCheckoutType.count
     delete :destroy, :id => 1
     assert_equal old_count-1, UserGroupHasCheckoutType.count

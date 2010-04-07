@@ -18,8 +18,8 @@ namespace :enju do
       user = User.new
       library_group = LibraryGroup.find(1)
       user.patron = Patron.find(1)
-      print "Enter new administrator login name: "
-      user.login = $stdin.gets.chop
+      print "Enter new administrator username: "
+      user.username = $stdin.gets.chop
       email = ""; email_confirmation = nil
       while email != email_confirmation
         print "Enter new administrator email address: "

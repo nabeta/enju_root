@@ -10,10 +10,10 @@
 
   <div id="header_right">
     <%- if user_signed_in? -%>
-      <%- cache :controller => 'users', :action => 'show', :id => current_user.login, :locale => @locale do -%>
-        <%= t('page.current_user_as', :login_name => current_user.login) -%>
+      <%- cache :controller => 'users', :action => 'show', :id => current_user.username, :locale => @locale do -%>
+        <%= t('page.current_user_as', :login_name => current_user.username) -%>
         <br />
-        <%= link_to t('page.account'), edit_user_path(current_user.login) -%>
+        <%= link_to t('page.account'), edit_user_path(current_user.username) -%>
         <%= link_to t('page.logout'), destroy_user_session_path -%>
       <%- end -%>
     <%- else -%>

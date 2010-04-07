@@ -498,7 +498,7 @@ class Manifestation < ActiveRecord::Base
 
   def user
     if self.bookmarks
-      self.bookmarks.collect(&:user).collect(&:login)
+      self.bookmarks.collect(&:user).collect(&:username)
     else
       []
     end

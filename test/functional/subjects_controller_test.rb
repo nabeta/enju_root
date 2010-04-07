@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class SubjectsControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :subjects, :users, :works, :work_has_subjects
 
   def test_guest_should_get_index
@@ -18,21 +17,21 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :success
     assert assigns(:subjects)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:subjects)
   end
 
   def test_admin_should_get_index
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :index
     assert_response :success
     assert assigns(:subjects)
@@ -44,19 +43,19 @@ class SubjectsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :success
   end
@@ -70,7 +69,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_subject
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Subject.count
     post :create, :subject => { }
     assert_equal old_count, Subject.count
@@ -79,7 +78,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_subject
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Subject.count
     post :create, :subject => { }
     assert_equal old_count, Subject.count
@@ -88,7 +87,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_subject_without_term
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = Subject.count
     post :create, :subject => { }
     assert_equal old_count, Subject.count
@@ -97,7 +96,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_subject
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = Subject.count
     post :create, :subject => {:term => 'test', :subject_type_id => 1}
     assert_equal old_count+1, Subject.count
@@ -118,19 +117,19 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_subject
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
 
   def test_librarian_should_show_subject
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
 
   def test_admin_should_show_subject
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :show, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
@@ -141,31 +140,31 @@ class SubjectsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => subjects(:subject_00001).to_param
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => subjects(:subject_00001).to_param
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => subjects(:subject_00001).to_param
     assert_response :success
   end
   
   def test_admin_should_get_edit_with_work
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => subjects(:subject_00001).to_param, :work_id => 1
     assert_response :success
   end
   
   def test_admin_should_not_get_edit_with_missing_work
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => subjects(:subject_00001).to_param, :work_id => 100
     assert_response :missing
   end
@@ -176,25 +175,25 @@ class SubjectsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_subject
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_subject
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_response :forbidden
   end
   
   def test_admin_should_not_update_subject_without_term
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => subjects(:subject_00001).to_param, :subject => {:term => nil}
     assert_response :success
   end
   
   def test_admin_should_update_subject
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => subjects(:subject_00001).to_param, :subject => { }
     assert_redirected_to subject_url(assigns(:subject))
   end
@@ -208,7 +207,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_subject
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('Subject.count') do
       delete :destroy, :id => subjects(:subject_00001).to_param
     end
@@ -217,7 +216,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_subject
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_no_difference('Subject.count') do
       delete :destroy, :id => subjects(:subject_00001).to_param
     end
@@ -226,7 +225,7 @@ class SubjectsControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_subject
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     assert_difference('Subject.count', -1) do
       delete :destroy, :id => subjects(:subject_00001).to_param
     end

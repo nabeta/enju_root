@@ -5,7 +5,7 @@ atom_feed(:url => news_posts_url(:format => :atom)) do |feed|
   for news_post in @news_posts
     feed.entry(news_post) do |entry|
       entry.title(news_post.title)
-      entry.author(news_post.user.login)
+      entry.author(news_post.user.username)
     end
   end
 end

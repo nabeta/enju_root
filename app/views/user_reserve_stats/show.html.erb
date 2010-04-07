@@ -24,7 +24,7 @@
   <%- @stats.each do |stat| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(stat.user.login), user_path(stat.user.login) -%>
+        <%= link_to h(stat.user.username), user_path(stat.user.username) -%>
       </td>
       <td><%= stat.reserves_count -%></td>
     </tr>

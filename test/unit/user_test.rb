@@ -16,8 +16,8 @@ class UserTest < ActiveSupport::TestCase
 
   def test_should_require_login
     assert_no_difference 'User.count' do
-      u = create_user(:login => nil)
-      assert u.errors.on(:login)
+      u = create_user(:username => nil)
+      assert u.errors.on(:username)
     end
   end
 
@@ -51,7 +51,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_should_not_rehash_password
-    users(:user1).update_attributes(:login => 'user1')
+    users(:user1).update_attributes(:username => 'user1')
     assert_equal users(:user1), User.authenticate('user1', 'user1password')
   end
 
@@ -124,9 +124,9 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_should_set_temporary_password
-    old_password = users(:user1).crypted_password
+    old_password = users(:user1).encrypted_password
     users(:user1).set_auto_generated_password
-    assert_not_equal old_password, users(:user1).crypted_password
+    assert_not_equal old_password, users(:user1).encrypted_password
     assert_not_nil users(:user1).temporary_password
   end
 
@@ -150,7 +150,7 @@ class UserTest < ActiveSupport::TestCase
 
   protected
   def create_user(options = {})
-    user = User.new({ :login => 'quire', :email => 'quire@example.com', :email_confirmation => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))
+    user = User.new({ :username => 'quire', :email => 'quire@example.com', :email_confirmation => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))
     user.operator = users(:admin)
     user.save
     user

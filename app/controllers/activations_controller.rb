@@ -21,7 +21,7 @@ class ActivationsController < ApplicationController
     if @user.activate!
       @user.deliver_activation_confirmation!
       flash[:notice] = t('user_session.account_activated')
-      redirect_to user_url(@user.login)
+      redirect_to user_url(@user.username)
     else
       render :action => :new
     end

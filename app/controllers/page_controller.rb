@@ -8,7 +8,7 @@ class PageController < ApplicationController
 
   def index
     if logged_in?
-      redirect_to user_url(current_user.login)
+      redirect_to user_url(current_user.username)
       return
     end
     @numdocs = Manifestation.cached_numdocs
@@ -41,7 +41,7 @@ class PageController < ApplicationController
 
   def message
     if logged_in?
-      redirect_to inbox_user_messages_url(current_user.login)
+      redirect_to inbox_user_messages_url(current_user.username)
     else
       redirect_to new_user_session_url
     end

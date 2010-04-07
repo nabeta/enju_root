@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class AdvertisesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :advertises, :advertisements, :users, :patrons
 
   def test_guest_should_not_get_index
@@ -12,20 +11,20 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:advertises)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
   end
 
   def test_admin_should_get_index
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :index
     assert_response :success
     assert assigns(:advertises)
@@ -37,19 +36,19 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :success
   end
@@ -63,7 +62,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_advertise
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Advertise.count
     post :create, :advertise => { }
     assert_equal old_count, Advertise.count
@@ -72,7 +71,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_advertise
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Advertise.count
     post :create, :advertise => { }
     assert_equal old_count, Advertise.count
@@ -81,7 +80,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_advertise_already_created
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = Advertise.count
     post :create, :advertise => {:patron_id =>1, :advertisement_id => 1}
     assert_equal old_count, Advertise.count
@@ -90,7 +89,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_advertise
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = Advertise.count
     post :create, :advertise => {:patron_id =>1, :advertisement_id => 3}
     assert_equal old_count+1, Advertise.count
@@ -105,19 +104,19 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_advertise
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :forbidden
   end
 
   def test_librarian_should_show_advertise
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_advertise
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -128,19 +127,19 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -151,19 +150,19 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_advertise
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :advertise => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_advertise
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :advertise => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_advertise
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => 1, :advertise => { }
     assert_redirected_to advertise_url(assigns(:advertise))
   end
@@ -177,7 +176,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_advertise
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Advertise.count
     delete :destroy, :id => 1
     assert_equal old_count, Advertise.count
@@ -186,7 +185,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_advertise
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Advertise.count
     delete :destroy, :id => 1
     assert_equal old_count, Advertise.count
@@ -195,7 +194,7 @@ class AdvertisesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_advertise
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = Advertise.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Advertise.count

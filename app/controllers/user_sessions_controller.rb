@@ -7,7 +7,7 @@ class UserSessionsController < ApplicationController
   
   def show
     if logged_in?
-      redirect_to user_path(current_user.login)
+      redirect_to user_path(current_user.username)
     else
       redirect_to new_user_session_url
     end
@@ -37,7 +37,7 @@ class UserSessionsController < ApplicationController
           return
         else
           flash[:notice] = t('user_session.logged_in')
-          redirect_back_or_default user_url(@user_session.user.login)
+          redirect_back_or_default user_url(@user_session.user.username)
           return
         end
       else

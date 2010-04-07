@@ -7,11 +7,11 @@
 
   <p>
     <%= f.label t('message.sender') -%><br />
-    <%= link_to h(@message_request.sender.login), user_path(@message_request.sender.login) -%>
+    <%= link_to h(@message_request.sender.username), user_path(@message_request.sender.username) -%>
   </p>
   <p>
     <%= f.label t('message.receiver') -%><br />
-    <%= link_to h(@message_request.receiver.login), user_path(@message_request.receiver.login) -%>
+    <%= link_to h(@message_request.receiver.username), user_path(@message_request.receiver.username) -%>
   </p>
   <p>
     <%= f.label t('activerecord.models.message_template') -%><br />

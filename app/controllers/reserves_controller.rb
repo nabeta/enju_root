@@ -21,7 +21,7 @@ class ReservesController < ApplicationController
             access_denied; return
           end
         else
-          redirect_to user_reserves_path(current_user.login)
+          redirect_to user_reserves_path(current_user.username)
           return
         end
       end
@@ -166,8 +166,8 @@ class ReservesController < ApplicationController
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reserve'))
         #format.html { redirect_to reserve_url(@reserve) }
-        format.html { redirect_to user_reserve_url(@reserve.user.login, @reserve) }
-        format.xml  { render :xml => @reserve, :status => :created, :location => user_reserve_url(@reserve.user.login, @reserve) }
+        format.html { redirect_to user_reserve_url(@reserve.user.username, @reserve) }
+        format.xml  { render :xml => @reserve, :status => :created, :location => user_reserve_url(@reserve.user.username, @reserve) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @reserve.errors.to_xml }
@@ -206,7 +206,7 @@ class ReservesController < ApplicationController
         else
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reserve'))
         end
-        format.html { redirect_to user_reserve_url(@user.login, @reserve) }
+        format.html { redirect_to user_reserve_url(@user.username, @reserve) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -236,7 +236,7 @@ class ReservesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to user_reserves_url(@user.login) }
+      format.html { redirect_to user_reserves_url(@user.username) }
       format.xml  { head :ok }
     end
   end

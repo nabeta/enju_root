@@ -664,7 +664,7 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:username)}\t#{params[:format]}"
   end
 
 end

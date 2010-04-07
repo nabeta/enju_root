@@ -68,7 +68,7 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), user_search_history_path(@search_history.user.login, @search_history) -%></li>
-    <li><%= link_to t('page.back'), user_search_histories_path(@search_history.user.login) -%></li>
+    <li><%= link_to t('page.show'), user_search_history_path(@search_history.user.username, @search_history) -%></li>
+    <li><%= link_to t('page.back'), user_search_histories_path(@search_history.user.username) -%></li>
   </ul>
 </div>

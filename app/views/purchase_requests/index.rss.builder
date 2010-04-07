@@ -5,10 +5,10 @@ xml.rss('version' => "2.0",
   xml.channel{
     xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
     if @user
-      xml.title t('purchase_request.user_purchase_request', :login_name => @user.login)
-      xml.link user_purchase_requests_url(@user.login)
-      xml.tag! "atom:link", :rel => 'self', :href => user_purchase_requests_url(@user.login, :format => "rss")
-      xml.tag! "atom:link", :rel => 'alternate', :href => user_purchase_requests_url(@user.login)
+      xml.title t('purchase_request.user_purchase_request', :login_name => @user.username)
+      xml.link user_purchase_requests_url(@user.username)
+      xml.tag! "atom:link", :rel => 'self', :href => user_purchase_requests_url(@user.username, :format => "rss")
+      xml.tag! "atom:link", :rel => 'alternate', :href => user_purchase_requests_url(@user.username)
     else
       xml.title t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.display_name.localize)
       xml.link purchase_requests_url
@@ -30,8 +30,8 @@ xml.rss('version' => "2.0",
         #xml.description(purchase_request.title)
         # rfc822
         xml.pubDate purchase_request.created_at.utc.iso8601
-        xml.link user_purchase_request_url(purchase_request.user.login, purchase_request)
-        xml.guid user_purchase_request_url(purchase_request.user.login, purchase_request), :isPermaLink => "true"
+        xml.link user_purchase_request_url(purchase_request.user.username, purchase_request)
+        xml.guid user_purchase_request_url(purchase_request.user.username, purchase_request), :isPermaLink => "true"
       end
     end
   }

@@ -291,7 +291,7 @@
         <%- if @manifestation.bookmarked?(current_user) -%>
           <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.first(:conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
         <%- else -%>
-          <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.login, :url => URI::Generic.build(:scheme => 'http', :host => request.host, :port => request.port, :path => url_for)) -%></li>
+          <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.username, :url => manifestation_url(@manifestation)) -%></li>
         <%- end -%>
 
       <%- unless @manifestation.carrier_type.name == 'file' -%>
@@ -300,9 +300,9 @@
             <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
           <%- else -%>
             <%- if @manifestation.is_reserved_by(current_user) -%>
-              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.login, @reserve) -%>
+              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.username, @reserve) -%>
             <%- else -%>
-              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.login, :manifestation_id => @manifestation.id) -%>
+              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.username, :manifestation_id => @manifestation.id) -%>
             <%- end -%>
           <%- end -%>
           <br />

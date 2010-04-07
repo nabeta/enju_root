@@ -1,19 +1,19 @@
 <div id="left_pane">
-  <h1 class="title"><%= t('page.user_title', :login_name => @user.login) -%></h1>
+  <h1 class="title"><%= t('page.user_title', :login_name => @user.username) -%></h1>
   <div id="user_search_form">  
     <%= render :partial => 'page/search_form' -%>
     <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
     <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
   </div>
 
-  <%- cache :controller => 'users', :action => 'show', :id => @user.login, :action_suffix => 'message', :locale => @locale do -%>
+  <%- cache :controller => 'users', :action => 'show', :id => @user.username, :action_suffix => 'message', :locale => @locale do -%>
   <h3 class="title"><%= t('activerecord.models.message') -%></h3>
   <div id="message_box">
     <%- if current_user.unread_messages.size > 0 -%>
-      <%= link_to t('page.number_of_unread_messages', :numdocs => current_user.unread_messages.size, :count => current_user.unread_messages.size), user_messages_path(current_user.login) -%>
+      <%= link_to t('page.number_of_unread_messages', :numdocs => current_user.unread_messages.size, :count => current_user.unread_messages.size), user_messages_path(current_user.username) -%>
     <%- else -%>
       <%= t('message.no_new_message') -%>
-      (<%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.login) -%>)
+      (<%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.username) -%>)
     <%- end -%>
   </div>
   <%- end -%>
@@ -33,7 +33,7 @@
 
   <h3 class="title"><%= t('tag.my_tag') -%></h3>
   <div id="tag_cloud_box">
-    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.login, :locale => @locale) do -%>
+    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.username, :locale => @locale) do -%>
       <%= render :partial => 'bookmarks/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
     <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>

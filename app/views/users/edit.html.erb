@@ -1,8 +1,8 @@
 <div id="content_detail">
-<h1 class="title"><%= t('page.edit_user_profile', :login_name => @user.login) -%></h1>
+<h1 class="title"><%= t('page.edit_user_profile', :login_name => @user.username) -%></h1>
 <div id="content_list">
 
-<%- form_for(@user, :url => user_path(@user.login)) do |f| -%>
+<%- form_for(@user, :url => user_path(@user.username)) do |f| -%>
   <%= f.error_messages -%>
 
   <%= render :partial => 'users/edit_credential', :locals => {:f => f} -%>
@@ -24,8 +24,8 @@
         <%= f.hidden_field :checkout_icalendar_token -%>
       <%- end -%>
       <br />
-      <%= button_to_remote t('page.reset'), :update => 'feed_token', :url => edit_user_path(@user.login, :mode => 'feed_token'), :method => :get -%>
-      <%= button_to_remote t('page.delete'), :update => 'feed_token', :url => edit_user_path(@user.login, :mode => 'feed_token', :disable => true), :method => :get -%>
+      <%= button_to_remote t('page.reset'), :update => 'feed_token', :url => edit_user_path(@user.username, :mode => 'feed_token'), :method => :get -%>
+      <%= button_to_remote t('page.delete'), :update => 'feed_token', :url => edit_user_path(@user.username, :mode => 'feed_token', :disable => true), :method => :get -%>
     </div>
     <br />
   </p>
@@ -60,11 +60,11 @@
     <%- if @user.patron -%>
       <li><%= link_to t('user.patron_profile'), @user.patron -%></li>
     <%- else -%>
-      <li><%= link_to t('user.patron_profile'), new_user_patron_path(@user.login) -%></li>
+      <li><%= link_to t('user.patron_profile'), new_user_patron_path(@user.username) -%></li>
     <%- end -%>
     <%- if current_user.has_role?('Librarian') -%>
       <%- unless current_user == @user -%>
-        <li><%= link_to t('page.destroy'), user_path(@user.login), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+        <li><%= link_to t('page.destroy'), user_path(@user.username), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
       <%- end -%>
     <%- end -%>
   </ul>

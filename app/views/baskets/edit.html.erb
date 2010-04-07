@@ -6,7 +6,7 @@
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.models.user') -%><br />
-    <%= @basket.user.login -%>
+    <%= @basket.user.username -%>
     <%= f.hidden_field :user_id -%>
   </p>
 
@@ -25,6 +25,6 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), basket_path(@basket) -%></li>
-    <li><%= link_to t('page.back'), user_baskets_path(@basket.user.login) -%></li>
+    <li><%= link_to t('page.back'), user_baskets_path(@basket.user.username) -%></li>
   </ul>
 </div>

@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class ReifiesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :reifies, :expressions, :works, :patrons, :users
+    fixtures :reifies, :expressions, :works, :patrons, :users
 
   def test_guest_should_get_index
     get :index
@@ -23,14 +22,14 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :success
     assert assigns(:reifies)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:reifies)
@@ -42,13 +41,13 @@ class ReifiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -70,7 +69,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_reify_without_work_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Reify.count
     post :create, :reify => { :expression_id => 1 }
     assert_equal old_count, Reify.count
@@ -79,7 +78,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_reify_without_expression_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Reify.count
     post :create, :reify => { :work_id => 1 }
     assert_equal old_count, Reify.count
@@ -88,7 +87,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_reify_already_created
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Reify.count
     post :create, :reify => { :work_id => 1, :expression_id => 1 }
     assert_equal old_count, Reify.count
@@ -97,7 +96,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_reify_not_created_yet
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Reify.count
     post :create, :reify => { :work_id => 1, :expression_id => 6 }
     assert_equal old_count+1, Reify.count
@@ -111,13 +110,13 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_reify
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_reify
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
@@ -129,13 +128,13 @@ class ReifiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1, :work_id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1, :work_id => 1
     assert_response :success
   end
@@ -146,31 +145,31 @@ class ReifiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_reify
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :reify => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_reify_without_work_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :reify => {:work_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_reify_without_expression_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :reify => {:expression_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_reify
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :reify => { }
     assert_redirected_to reify_url(assigns(:reify))
   end
   
   def test_librarian_should_update_reify_with_position
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :reify => { }, :expression_id => 1, :position => 1
     assert_redirected_to expression_reifies_url(assigns(:expression))
   end
@@ -184,7 +183,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_reify
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Reify.count
     delete :destroy, :id => 1
     assert_equal old_count, Reify.count
@@ -193,7 +192,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_reify
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Reify.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Reify.count
@@ -202,7 +201,7 @@ class ReifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_reify_with_work_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Reify.count
     delete :destroy, :id => 1, :work_id => 1
     assert_equal old_count-1, Reify.count

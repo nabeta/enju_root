@@ -4,9 +4,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <title><%= t('message.user_message', :login_name => @rezm_user.login) -%></title>
-  <%= auto_discovery_link_tag(:rss, inbox_user_messages_url(@rezm_user.login, :format => :rss), :title => (t('message.user_message', :login_name => @rezm_user.login) + " (RSS)")) %>
-  <%= auto_discovery_link_tag(:atom, inbox_user_messages_url(@rezm_user.login, :format => :atom), :title => (t('message.user_message', :login_name => @rezm_user.login) + " (Atom)")) %>
+  <title><%= t('message.user_message', :login_name => @rezm_user.username) -%></title>
+  <%= auto_discovery_link_tag(:rss, inbox_user_messages_url(@rezm_user.username, :format => :rss), :title => (t('message.user_message', :login_name => @rezm_user.username) + " (RSS)")) %>
+  <%= auto_discovery_link_tag(:atom, inbox_user_messages_url(@rezm_user.username, :format => :atom), :title => (t('message.user_message', :login_name => @rezm_user.username) + " (Atom)")) %>
   <%= render :partial => 'page/include' -%>
 </head>
 <body>

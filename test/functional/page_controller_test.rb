@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class PageControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :users
+    fixtures :users
 
   def test_guest_should_get_index
     get :index
@@ -10,10 +9,10 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_user_show
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :redirect
-    assert_redirected_to user_url(users(:user1).login)
+    assert_redirected_to user_url(users(:user1).username)
   end
 
   def test_guest_should_get_advanced_search
@@ -38,7 +37,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_get_import
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :import
     assert_response :success
   end
@@ -50,10 +49,10 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_message
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :message
     assert_response :redirect
-    assert_redirected_to inbox_user_messages_url(users(:user1).login)
+    assert_redirected_to inbox_user_messages_url(users(:user1).username)
   end
 
   def test_guest_should_not_get_acquisition
@@ -63,13 +62,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_acquisition
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :acquisition
     assert_response :forbidden
   end
 
   def test_librarian_should_get_acquisition
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :acquisition
     assert_response :success
   end
@@ -81,13 +80,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_configuration
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :configuration
     assert_response :forbidden
   end
 
   def test_librarian_should_get_configuration
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :configuration
     assert_response :success
   end
@@ -99,13 +98,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_patron
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :patron
     assert_response :forbidden
   end
 
   def test_librarian_should_get_patron
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :patron
     assert_response :success
   end
@@ -117,13 +116,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_circulation
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :patron
     assert_response :forbidden
   end
 
   def test_librarian_should_get_circulation
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :patron
     assert_response :success
   end
@@ -135,13 +134,13 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_management
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :management
     assert_response :forbidden
   end
 
   def test_librarian_should_get_management
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :management
     assert_response :success
   end

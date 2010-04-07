@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ExemplifiesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :exemplifies, :items, :manifestations, :patrons, :users,
     :carrier_types, :circulation_statuses
 
@@ -24,14 +23,14 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :success
     assert assigns(:exemplifies)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:exemplifies)
@@ -43,13 +42,13 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -71,7 +70,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_exemplify_without_manifestation_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Exemplify.count
     post :create, :exemplify => { :item_id => 1 }
     assert_equal old_count, Exemplify.count
@@ -80,7 +79,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_exemplify_without_item_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Exemplify.count
     post :create, :exemplify => { :manifestation_id => 1 }
     assert_equal old_count, Exemplify.count
@@ -89,7 +88,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_exemplify_already_created
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Exemplify.count
     post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
     assert_equal old_count, Exemplify.count
@@ -98,7 +97,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_exemplify_not_created_yet
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Exemplify.count
     post :create, :exemplify => { :manifestation_id => 1, :item_id => 20 }
     assert_equal old_count+1, Exemplify.count
@@ -112,13 +111,13 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_exemplify
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_exemplify
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
@@ -130,13 +129,13 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1, :manifestation_id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1, :manifestation_id => 1
     assert_response :success
   end
@@ -147,31 +146,31 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_exemplify
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :exemplify => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_exemplify_without_manifestation_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :exemplify => {:manifestation_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_exemplify_without_item_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :exemplify => {:item_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_exemplify
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :exemplify => { }
     assert_redirected_to exemplify_url(assigns(:exemplify))
   end
   
   def test_librarian_should_update_exemplify_with_position
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :exemplify => { }, :item_id => 1, :position => 1
     assert_redirected_to item_url(assigns(:item))
   end
@@ -185,7 +184,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_exemplify
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Exemplify.count
     delete :destroy, :id => 1
     assert_equal old_count, Exemplify.count
@@ -194,7 +193,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_exemplify
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Exemplify.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Exemplify.count
@@ -203,7 +202,7 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_exemplify_with_manifestation_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Exemplify.count
     delete :destroy, :id => 1, :manifestation_id => 1
     assert_equal old_count-1, Exemplify.count
