@@ -41,9 +41,15 @@ class ApplicationController < ActionController::Base
     unless I18n.available_locales.include?(locale.intern)
       locale = I18n.default_locale.to_s
     end
-    I18n.locale = @locale = session[:locale] = locale
+    I18n.locale = locale
+    @locale = session[:locale] = locale
   rescue
-    I18n.locale = @locale = I18n.default_locale.to_s
+    I18n.locale = I18n.default_locale
+    @locale = I18n.locale.to_s
+  end
+
+  def default_url_options(options={})
+    {:locale => nil}
   end
 
   def set_available_languages
