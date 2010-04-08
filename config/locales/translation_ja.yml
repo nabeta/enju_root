@@ -1332,6 +1332,7 @@ ja:
     you_have_to_save_profile_to_deactivate_feed_url: "URLを無効にするには、プロフィールを更新する必要があります。"
     sign_up: "新規登録"
     could_not_setup_account: "利用者のアカウントを作成できませんでした。もう一度やり直すか、管理者に連絡してください。"
+    resend_confirmation_instruction: '確認手順をもう一度取り寄せる'
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:

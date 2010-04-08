@@ -92,7 +92,7 @@ class User < ActiveRecord::Base
     :update_own_account
   attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :openid_identifier, :old_password
 
-  validates_presence_of :username
+  #validates_presence_of :username
   #validates_length_of       :login,    :within => 2..40
   #validates_uniqueness_of   :login,    :case_sensitive => false
 

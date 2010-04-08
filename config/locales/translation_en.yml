@@ -1346,6 +1346,7 @@ en:
     you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
     you_have_to_save_profile_to_deactivate_feed_url: "You have to save your profile to deactivate this url."
     sign_up: "Sign up"
+    resend_confirmation_instruction: "Resend confirmation instructions"
     could_not_setup_account: "We couldn't set up that account, sorry.  Please try again, or contact an admin."
   news_post:
     library_group_news_post: "News from {{library_group_name}}"
