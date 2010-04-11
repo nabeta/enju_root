@@ -61,7 +61,9 @@ namespace :enju do
       begin
         User.transaction do
       	  library_group.save
+          user.locale = I18n.default_locale.to_s
       	  user.roles << Role.find_by_name('Administrator')
+          user.confirm!
           user.activate
           user.save!
         end

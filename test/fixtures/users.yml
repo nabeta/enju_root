@@ -20,8 +20,6 @@ librarian2:
   library_id: 1
   answers_count: 0
   active: true
-  confirmed: true
-  approved: true
   email: librarian2@library.example.jp
   created_at: 2008-01-18 12:24:04.222344 +09:00
   confirmed_at: 2008-01-18 12:24:04.222344 +09:00
@@ -50,8 +48,6 @@ user2:
   library_id: 1
   answers_count: 0
   active: true
-  confirmed: true
-  approved: true
   email: user2@library.example.jp
   created_at: 2008-01-18 13:29:06.922728 +09:00
   confirmed_at: 2008-01-18 13:29:06.922728 +09:00
@@ -80,8 +76,6 @@ admin:
   library_id: 2
   answers_count: 0
   active: true
-  confirmed: true
-  approved: true
   email: tanabe@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:32.111941 +09:00
   confirmed_at: 2007-11-19 16:58:32.111941 +09:00
@@ -110,8 +104,6 @@ librarian1:
   library_id: 1
   answers_count: 0
   active: true
-  confirmed: true
-  approved: true
   email: librarian1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:33.172441 +09:00
   confirmed_at: 2007-11-19 16:58:33.172441 +09:00
@@ -120,14 +112,14 @@ librarian1:
   user_number: "00002"
   locale: "ja"
 user1: 
-  password_salt: $2a$10$pV8acgvCS.xIYNK2qDCGxO
+  password_salt: $2a$10$JthS59A0BNkDOoFpCXM0V.
   questions_count: 0
   checkouts_count: 0
   answer_feed_token: 
   updated_at: 2008-05-31 13:02:25.101261 +09:00
   checkout_icalendar_token: h75t40Hk364eBQOkmVnH
   expired_at: 
-  encrypted_password: $2a$10$pV8acgvCS.xIYNK2qDCGxOmQuUwRi1GJtMxXjzfXUbSiCOHCxwc3i
+  encrypted_password: $2a$10$JthS59A0BNkDOoFpCXM0V.GhhffKaoWKbzpPahYp/vTFrOyM7h/uW
   deleted_at: 
   user_group_id: 1
   reserves_count: 0
@@ -140,8 +132,6 @@ user1:
   library_id: 2
   answers_count: 0
   active: true
-  confirmed: true
-  approved: true
   email: user1@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   confirmed_at: 2007-11-19 16:58:34.637413 +09:00
@@ -171,8 +161,6 @@ user3:
   library_id: 2
   answers_count: 0
   active: false
-  confirmed: false
-  approved: false
   email: user3@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false
@@ -201,8 +189,6 @@ user4:
   library_id: 2
   answers_count: 0
   active: false
-  confirmed: false
-  approved: false
   email: user4@kamata.lib.teu.ac.jp
   created_at: 2007-11-19 16:58:34.637413 +09:00
   save_search_history: false

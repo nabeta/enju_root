@@ -33,8 +33,7 @@ class User < ActiveRecord::Base
     time :created_at
     time :updated_at
     boolean :active
-    boolean :confirmed
-    boolean :approved
+    time :confirmed_at
   end
 
   has_one :patron
@@ -120,6 +119,12 @@ class User < ActiveRecord::Base
     self.locale = I18n.default_locale.to_s
     unless self.patron
       self.patron = Patron.create(:full_name => self.username) if self.username
+    end
+  end
+
+  def after_create
+    if self.operator
+      self.confirm!
     end
   end
 
@@ -210,8 +215,6 @@ class User < ActiveRecord::Base
 
   def activate
     self.active = true
-    self.confirmed = true
-    self.approved = true
     self.roles << Role.find_by_name('User')
   end
 

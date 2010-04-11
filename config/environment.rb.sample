@@ -58,9 +58,8 @@ Rails::Initializer.run do |config|
   config.gem "strongbox"
   #config.gem "system_timer"
   #config.gem "johnsbrn-has_many_polymorphs", :lib => "has_many_polymorphs"
-  #config.gem "authlogic"
-  #config.gem "authlogic-oid", :lib => "authlogic_openid"
   config.gem "warden"
+  config.gem "warden_oauth"
   config.gem "devise", :version => "1.0.6"
   config.gem "money"
   config.gem "whenever", :lib => false

@@ -2,7 +2,7 @@
 # four configuration values can also be set straight in your models.
 Devise.setup do |config|
   # Configure the e-mail address which will be shown in DeviseMailer.
-  config.mailer_sender = "please-change-me@config-initializers-devise.com"
+  config.mailer_sender = "enju@library.example.jp"
   
   # Configure the content type of DeviseMailer mails (defaults to text/html")
   # config.mailer_content_type = "text/plain"
@@ -20,14 +20,14 @@ Devise.setup do |config|
   # authentication tools as :clearance_sha1, :authlogic_sha512 (then you should set
   # stretches above to 20 for default behavior) and :restful_authentication_sha1
   # (then you should set stretches to 10, and copy REST_AUTH_SITE_KEY to pepper)
-  # config.encryptor = :sha1
+  config.encryptor = :sha512
 
   # Configure which keys are used when authenticating an user. By default is
   # just :email. You can configure it to use [:username, :subdomain], so for
   # authenticating an user, both parameters are required. Remember that those
   # parameters are used only when authenticating and not when retrieving from
   # session. If you need permissions, you should implement that in a before filter.
-  # config.authentication_keys = [ :email ]
+  config.authentication_keys = [ :username ]
 
   # The realm used in Http Basic Authentication
   # config.http_authentication_realm = "Application"
@@ -106,21 +106,20 @@ end
 
 #Warden::OAuth.access_token_user_finder(:twitter) do |access_token|
 #  user = User.first(:conditions => {:oauth_token => access_token.token, :oauth_secret => access_token.secret})
+#  client = access_token.get "http://api.twitter.com/1/account/verify_credentials.json"
+#  json = JSON.parser.new(client.body.to_s)
 #  unless user
-#    client = access_token.get "http://api.twitter.com/1/account/verify_credentials.json"
-#    json = JSON.parser.new(client.body.to_s)
 #    name = json.parse['name']
 #    username = json.parse['screen_name']
-#    if user = User.first(:conditions => {:username => username})
-#      user.oauth_token = access_token.token
-#      user.oauth_secret = access_token.secret
-#      user.save
-#    else
-#      user = User.new(:username => username, :email => email)
-#      user.patron = Patron.new(:full_name => name)
-#      user.save
-#      user.confirm!
-#    end
+#    user = User.new
+#    user.email = ''
+#    user.username = username
+#    user.oauth_token = access_token.token
+#    user.oauth_secret = access_token.secret
+#    user.patron = Patron.new(:full_name => name)
+#    user.set_auto_generated_password
+#    user.operator = User.find(1)
+#    user.activate
 #  end
 #  user
 #end

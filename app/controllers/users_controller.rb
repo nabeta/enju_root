@@ -180,7 +180,8 @@ class UsersController < ApplicationController
 
     #@user.save do |result|
     respond_to do |format|
-      if @user.update_attributes(params[:user])
+      #if @user.update_attributes(params[:user])
+      if @user.save
         if current_user.has_role?('Administrator')
           if @user.role_id
             role = Role.find(@user.role_id)
