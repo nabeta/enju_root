@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class ManifestationsController < ApplicationController
   before_filter :has_permission?, :except => [:show, :edit]
-  before_filter :require_user, :only => :edit
+  before_filter :authenticate_user!, :only => :edit
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
@@ -22,7 +22,7 @@ class ManifestationsController < ApplicationController
     @seconds = Benchmark.realtime do
       @oai = check_oai_params(params)
       next if @oai[:need_not_to_search]
-	    if logged_in?
+	    if user_signed_in?
 	      @user = current_user unless @user
 	    end
 
@@ -260,7 +260,7 @@ class ManifestationsController < ApplicationController
 
     case params[:mode]
     when 'send_email'
-      if logged_in?
+      if user_signed_in?
         Notifier.deliver_manifestation_info(current_user, @manifestation)
         flash[:notice] = t('page.sent_email')
         redirect_to manifestation_url(@manifestation)
@@ -274,7 +274,7 @@ class ManifestationsController < ApplicationController
     return if render_mode(params[:mode])
 
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
-    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if logged_in?
+    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if user_signed_in?
 
     if @manifestation.respond_to?(:worldcat_record)
       #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
@@ -664,7 +664,7 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:username)}\t#{params[:format]}"
   end
 
 end

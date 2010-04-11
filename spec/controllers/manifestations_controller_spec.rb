@@ -22,7 +22,7 @@ describe ManifestationsController do
 
     context "admin がログインしているとき" do
       before do
-        login :admin
+        sign_in :admin
         get :index
       end
       context "パラメータなしのとき" do
@@ -39,7 +39,7 @@ describe ManifestationsController do
     end
     context "librarian がログインしているとき" do
       before do
-        login :librarian1
+        sign_in :librarian1
         get :index
       end
       context "パラメータなしのとき" do
@@ -60,7 +60,7 @@ describe ManifestationsController do
 
     context "user がログインしているとき" do
       before do
-        login :user1
+        sign_in :user1
         get :index
       end
       context "パラメータなしのとき" do
@@ -126,21 +126,21 @@ describe ManifestationsController do
 
     context "adminがログインしているとき" do
       before(:each) do
-        login :admin
+        sign_in :admin
       end
       it_should_behave_like '成功する'
     end
 
     context "librarianがログインしているとき" do
       before(:each) do
-        login :librarian1
+        sign_in :librarian1
       end
       it_should_behave_like '成功する'
     end
 
     context "userがログインしているとき" do
       before(:each) do
-        login :user1
+        sign_in :user1
       end
       it_should_behave_like '成功する'
     end
@@ -156,7 +156,7 @@ describe ManifestationsController do
   describe "DELETE 'destroy'" do
     context "adminでログインしているとき" do
       before do
-        login :admin
+        sign_in :admin
         @manifestation = manifestations(:manifestation_00001)
       end
       context 'htmlフォーマットを要求しているとき' do

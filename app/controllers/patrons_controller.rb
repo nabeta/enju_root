@@ -43,7 +43,7 @@ class PatronsController < ApplicationController
       patron = @patron
       patron_merge_list = @patron_merge_list
       search.build do
-        with(:user).equal_to user.login if user
+        with(:user).equal_to user.username if user
         with(:work_ids).equal_to work.id if work
         with(:expression_ids).equal_to expression.id if expression
         with(:manifestation_ids).equal_to manifestation.id if manifestation

@@ -12,9 +12,9 @@
   <%- @checkouts.each_with_index do |checkout, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(checkout.user.login), user_path(checkout.user.login) -%>
+      <%= link_to h(checkout.user.username), user_path(checkout.user.username) -%>
       <br>
-      (<%= link_to h(checkout.user.user_number), user_path(checkout.user.login) -%>)
+      (<%= link_to h(checkout.user.user_number), user_path(checkout.user.username) -%>)
     </td>
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => checkout.item.manifestation} -%>
@@ -22,16 +22,16 @@
     </td>
     <td><%= link_to h(checkout.item.item_identifier), item_path(checkout.item) -%></td>
     <td><%= l(checkout.due_date, :format => :only_date) -%></td>
-    <td><%= link_to t('page.show'), user_checkout_path(checkout.user.login, checkout) -%>
+    <td><%= link_to t('page.show'), user_checkout_path(checkout.user.username, checkout) -%>
     <td>
       <%- if checkout.is_updatable_by(current_user) -%>
-        <%= link_to t('checkout.extend'), edit_user_checkout_path(checkout.user.login, checkout) -%>
+        <%= link_to t('checkout.extend'), edit_user_checkout_path(checkout.user.username, checkout) -%>
       <%- end -%>
     </td>
     <!--
     <td>
       <%- if checkout.is_deletable_by(current_user) -%>
-        <%= link_to t('page.destroy'), user_checkout_path(checkout.user.login, checkout), :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to t('page.destroy'), user_checkout_path(checkout.user.username, checkout), :confirm => t('page.are_you_sure'), :method => :delete -%>
       <%- end -%>
     </td>
     -->

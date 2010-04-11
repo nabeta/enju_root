@@ -285,6 +285,7 @@ en:
         title: Title
       user:
         login: Login
+        username: Username
         name: Name
         openid_identifier: OpenID Identifier
         email: Email
@@ -316,7 +317,7 @@ en:
         user_group: User group
         full_name: Full name
         password: Password
-        old_password: Old password
+        current_password: Current password
         locale: Locale
         password_confirmation: Password confirmation
       work_has_subject:
@@ -981,6 +982,7 @@ en:
     user_bookmark_title: "{{login_name}}'s bookmark"
     login_name: "Login name"
     password: "Password"
+    email_and_password: "Email and password"
     catalog_search: "Catalog search"
     search: "Search"
     search_term: "Search term"
@@ -1345,6 +1347,7 @@ en:
     you_have_to_save_profile_to_activate_feed_url: "You have to save your profile to activate this url."
     you_have_to_save_profile_to_deactivate_feed_url: "You have to save your profile to deactivate this url."
     sign_up: "Sign up"
+    resend_confirmation_instruction: "Resend confirmation instructions"
     could_not_setup_account: "We couldn't set up that account, sorry.  Please try again, or contact an admin."
   news_post:
     library_group_news_post: "News from {{library_group_name}}"

@@ -1,0 +1,38 @@
+ja:
+  devise:
+    sessions:
+      user:
+        link: 'ログイン'
+        signed_in: 'ログインしました。'
+        signed_out: 'ログアウトしました。'
+        unauthenticated: '続行するにはログインするか、利用者登録をする必要があります。'
+        unconfirmed: '続行するにはアカウントの確認が必要です。'
+        locked: 'アカウントが停止されています。'
+        invalid: 'ユーザ名かパスワードが無効です。'
+        invalid_token: 'Invalid authentication token.'
+        timeout: 'セッションの有効期限が切れました。もう一度ログインしてください。'
+        inactive: 'アカウントが有効になっていません。'
+    passwords:
+      link: 'パスワードを忘れましたか？'
+      send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
+      updated: 'パスワードは更新されました。ログインしました。'
+      need_current_password: "更新のためには現在のパスワードを入力する必要があります"
+      leave_blank: "パスワードを変更しない場合は入力する必要はありません"
+    confirmations:
+      link: "Didn't receive confirmation instructions?"
+      send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'
+      confirmed: 'Your account was successfully confirmed. You are now signed in.'
+    registrations:
+      link: '新規登録'
+      signed_up: '登録が完了しました。確認のメールを送信しました。'
+      updated: 'アカウントは正常に更新されました。'
+      destroyed: 'Bye! Your account was successfully cancelled. We hope to see you again soon.'
+    unlocks:
+      link: "Didn't receive unlock instructions?"
+      send_instructions: 'You will receive an email with instructions about how to unlock your account in a few minutes.'
+      unlocked: 'Your account was successfully unlocked. You are now signed in.'
+    mailer:
+      confirmation_instructions: 'Confirmation instructions'
+      reset_password_instructions: 'Reset password instructions'
+      unlock_instructions: 'Unlock Instructions'
+

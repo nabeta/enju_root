@@ -2,12 +2,12 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.reserve')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@reserve, :url => user_reserve_path(@reserve.user.login, @reserve)) do |f| -%>
+<%- form_for(@reserve, :url => user_reserve_path(@reserve.user.username, @reserve)) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
     <%= f.label t('activerecord.models.patron') -%><br />
-    <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%= @reserve.user.login -%>)
+    <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%= @reserve.user.username -%>)
   </p>
 
   <p>
@@ -35,7 +35,7 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.show'), user_reserve_path(@reserve.user.login, @reserve) -%></li>
-    <li><%= link_to t('page.back'), user_reserves_path(@reserve.user.login) -%></li>
+    <li><%= link_to t('page.show'), user_reserve_path(@reserve.user.username, @reserve) -%></li>
+    <li><%= link_to t('page.back'), user_reserves_path(@reserve.user.username) -%></li>
   </ul>
 </div>

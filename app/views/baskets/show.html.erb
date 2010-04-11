@@ -1,7 +1,7 @@
 <div id="content_detail">
   <p>
     <strong><%= t('activerecord.models.user') -%>:</strong>
-    <%= @basket.user.login -%>
+    <%= @basket.user.username -%>
   </p>
 
   <p>
@@ -12,7 +12,7 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.edit'), edit_user_basket_path(@basket.user.login, @basket) -%></li>
-    <li><%= link_to t('page.back'), user_baskets_path(@basket.user.login) -%></li>
+    <li><%= link_to t('page.edit'), edit_user_basket_path(@basket.user.username, @basket) -%></li>
+    <li><%= link_to t('page.back'), user_baskets_path(@basket.user.username) -%></li>
   </ul>
 </div>

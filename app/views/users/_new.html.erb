@@ -13,15 +13,15 @@
   <%- end -%>
 
   <p>
-    <label for="login"><%= t('activerecord.attributes.user.login') -%></label>
-    <%= f.text_field :login, :class => 'resource_user' -%>
+    <label for="username"><%= t('activerecord.attributes.user.username') -%></label>
+    <%= f.text_field :username, :class => 'resource_user' -%>
   </p>
   <p>
     <label for="email"><%= t('activerecord.attributes.user.email') -%></label>
     <%= f.text_field :email, :class => 'resource_email' -%>
   </p>
   <p>
-    <label for="email"><%= t('activerecord.attributes.user.email_confirmation') -%></label>
+    <label for="email_confirmation"><%= t('activerecord.attributes.user.email_confirmation') -%></label>
     <%= f.text_field :email_confirmation, :class => 'resource_email' -%>
   </p>
   <p>
@@ -45,7 +45,7 @@
     <%= f.submit t('user.sign_up') -%>
   </p>
 <%- end -%>
-<%= javascript_tag("$('user_login').focus()") -%>
+<%= javascript_tag("$('user_username').focus()") -%>
 </div>
 </div>
 

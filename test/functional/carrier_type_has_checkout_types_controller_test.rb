@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :carrier_type_has_checkout_types, :users, :carrier_types, :checkout_types
 
   def test_guest_should_not_get_index
@@ -12,21 +11,21 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:carrier_type_has_checkout_types)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:carrier_type_has_checkout_types)
   end
 
   def test_admin_should_get_index
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :index
     assert_response :success
     assert assigns(:carrier_type_has_checkout_types)
@@ -38,19 +37,19 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :success
   end
@@ -64,7 +63,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_carrier_type_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => { }
     assert_equal old_count, CarrierTypeHasCheckoutType.count
@@ -73,7 +72,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_carrier_type_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => { }
     assert_equal old_count, CarrierTypeHasCheckoutType.count
@@ -82,7 +81,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_carrier_type_has_checkout_type_already_created
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => {:carrier_type_id =>1, :checkout_type_id => 1}
     assert_equal old_count, CarrierTypeHasCheckoutType.count
@@ -91,7 +90,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_carrier_type_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = CarrierTypeHasCheckoutType.count
     post :create, :carrier_type_has_checkout_type => {:carrier_type_id =>1, :checkout_type_id => 3}
     assert_equal old_count+1, CarrierTypeHasCheckoutType.count
@@ -106,19 +105,19 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_carrier_type_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :forbidden
   end
 
   def test_librarian_should_show_carrier_type_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_carrier_type_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -129,19 +128,19 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -152,19 +151,19 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_carrier_type_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :carrier_type_has_checkout_type => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_carrier_type_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :carrier_type_has_checkout_type => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_carrier_type_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => 1, :carrier_type_has_checkout_type => { }
     assert_redirected_to carrier_type_has_checkout_type_url(assigns(:carrier_type_has_checkout_type))
   end
@@ -178,7 +177,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_carrier_type_has_checkout_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
     assert_equal old_count, CarrierTypeHasCheckoutType.count
@@ -187,7 +186,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_carrier_type_has_checkout_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
     assert_equal old_count, CarrierTypeHasCheckoutType.count
@@ -196,7 +195,7 @@ class CarrierTypeHasCheckoutTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_carrier_type_has_checkout_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     old_count = CarrierTypeHasCheckoutType.count
     delete :destroy, :id => 1
     assert_equal old_count-1, CarrierTypeHasCheckoutType.count

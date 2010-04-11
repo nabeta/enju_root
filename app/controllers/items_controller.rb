@@ -20,7 +20,7 @@ class ItemsController < ApplicationController
     query = params[:query].to_s.strip
     per_page = Item.per_page
     @count = {}
-    if logged_in?
+    if user_signed_in?
       if current_user.has_role?('Librarian')
         if params[:format] == 'csv'
           per_page = 65534
@@ -31,7 +31,7 @@ class ItemsController < ApplicationController
     end
 
     if @inventory_file
-      if logged_in?
+      if user_signed_in?
         if current_user.has_role?('Librarian')
           case params[:inventory]
           when 'not_on_shelf'

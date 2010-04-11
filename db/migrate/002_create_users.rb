@@ -1,22 +1,16 @@
 class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table "users", :force => true do |t|
-      t.string :login, :null => false
-      t.string :email, :string
-      t.string :crypted_password, :null => false
+      t.string :username, :null => false
+      t.authenticatable
+      t.confirmable
+      t.recoverable
+      t.rememberable
+      t.trackable
+      t.lockable
+
       t.timestamps
       t.datetime :deleted_at
-      t.string :password_salt, :null => false
-      t.string :persistence_token, :string, :null => false
-      t.string :single_access_token, :string, :null => false
-      t.string :perishable_token, :string, :null => false
-      t.integer :login_count, :integer, :null => false, :default => 0
-      t.integer :failed_login_count, :integer, :null => false, :default => 0
-      t.datetime :last_request_at, :datetime
-      t.datetime :last_login_at, :datetime
-      t.datetime :current_login_at, :datetime
-      t.string :last_login_ip, :string
-      t.string :current_login_ip, :string
 
       t.integer :library_id, :default => 1, :null => false
       t.integer :user_group_id, :default => 1, :null => false
@@ -41,14 +35,13 @@ class CreateUsers < ActiveRecord::Migration
       t.integer :required_score, :default => 0, :null => false
       t.string :locale
     end
-    add_index :users, :login, :unique => true
+    add_index :users, :username, :unique => true
     add_index :users, :user_group_id
     add_index :users, :required_role_id
     add_index :users, :user_number, :unique => true
-    add_index :users, :checkout_icalendar_token
-    add_index :users, :persistence_token
-    add_index :users, :single_access_token
-    add_index :users, :perishable_token
+    add_index :users, :email #,                :unique => true
+    add_index :users, :confirmation_token,   :unique => true
+    add_index :users, :reset_password_token, :unique => true
   end
 
   def self.down

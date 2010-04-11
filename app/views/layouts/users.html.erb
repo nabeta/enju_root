@@ -7,8 +7,8 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <%- if @user -%>
-    <%- if @user.login.present? -%>
-      <title><%= t('page.user_title', :login_name => @user.login) -%> - <%= @library_group.display_name.localize -%></title>
+    <%- if @user.username.present? -%>
+      <title><%= t('page.user_title', :login_name => @user.username) -%> - <%= @library_group.display_name.localize -%></title>
     <%- else -%>
       <title><%= t('activerecord.models.user') -%>: <%= title_action_name -%> - <%= @library_group.display_name.localize -%></title>
     <%- end -%>

@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :expression_relationship_types, :users
+    fixtures :expression_relationship_types, :users
 
   def test_guest_should_get_index
     get :index
@@ -11,21 +10,21 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :success
     assert assigns(:expression_relationship_types)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:expression_relationship_types)
   end
 
   def test_admin_should_get_index
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :index
     assert_response :success
     assert assigns(:expression_relationship_types)
@@ -37,19 +36,19 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
   def test_librarian_should_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
   def test_admin_should_get_new
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :success
   end
@@ -63,7 +62,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_expression_relationship_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('ExpressionRelationshipType.count') do
       post :create, :expression_relationship_type => { }
     end
@@ -72,7 +71,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_expression_relationship_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_no_difference('ExpressionRelationshipType.count') do
       post :create, :expression_relationship_type => { }
     end
@@ -81,7 +80,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_not_create_expression_relationship_type_without_name
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     assert_no_difference('ExpressionRelationshipType.count') do
       post :create, :expression_relationship_type => { }
     end
@@ -90,7 +89,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_create_expression_relationship_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     assert_difference('ExpressionRelationshipType.count') do
       post :create, :expression_relationship_type => {:name => 'test', :display_name => 'test'}
     end
@@ -104,19 +103,19 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_expression_relationship_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_expression_relationship_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_admin_should_show_expression_relationship_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :show, :id => 1
     assert_response :success
   end
@@ -127,19 +126,19 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_not_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_admin_should_get_edit
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => 1
     assert_response :success
   end
@@ -150,25 +149,25 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_expression_relationship_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :expression_relationship_type => { }
     assert_response :forbidden
   end
   
   def test_librarian_should_not_update_expression_relationship_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :expression_relationship_type => { }
     assert_response :forbidden
   end
   
   def test_admin_should_update_expression_relationship_type_without_name
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => 1, :expression_relationship_type => {:name => ""}
     assert_response :success
   end
   
   def test_admin_should_update_expression_relationship_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => 1, :expression_relationship_type => { }
     assert_redirected_to expression_relationship_type_url(assigns(:expression_relationship_type))
   end
@@ -182,7 +181,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_expression_relationship_type
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('ExpressionRelationshipType.count') do
       delete :destroy, :id => 1
     end
@@ -191,7 +190,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_destroy_expression_relationship_type
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_no_difference('ExpressionRelationshipType.count') do
       delete :destroy, :id => 1
     end
@@ -200,7 +199,7 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
   end
 
   def test_admin_should_destroy_expression_relationship_type
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     assert_difference('ExpressionRelationshipType.count', -1) do
       delete :destroy, :id => 1
     end

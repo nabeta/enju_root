@@ -8,9 +8,9 @@
   <p>
     <%= f.label t('activerecord.models.user') -%><br />
     <%- if @user -%>
-      <%= link_to h(@user.login), user_path(@user.login) -%>
+      <%= link_to h(@user.username), user_path(@user.username) -%>
     <%- else -%>
-      <%= link_to h(current_user.login), user_path(current_user.login) -%>
+      <%= link_to h(current_user.username), user_path(current_user.username) -%>
     <%- end -%>
   </p>
 
@@ -65,7 +65,7 @@
 <div id="submenu">
   <ul>
     <%- if @user -%>
-      <li><%= link_to t('page.back'), user_purchase_requests_path(@user.login) -%></li>
+      <li><%= link_to t('page.back'), user_purchase_requests_path(@user.username) -%></li>
     <%- else -%>
       <li><%= link_to t('page.back'), purchase_requests_path -%></li>
     <%- end -%>

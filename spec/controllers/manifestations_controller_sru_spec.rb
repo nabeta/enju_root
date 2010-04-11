@@ -47,7 +47,7 @@ describe ManifestationsController do
       end
       describe "User権限でログインしているとき" do
         before do
-          login :user1
+          sign_in :user1
           get :index, :format => 'sru', :operation => 'searchRetrieve', :query => 'title = 権限確認'
         end
         it "User権限以下の図書が検索できる" do
@@ -57,7 +57,7 @@ describe ManifestationsController do
       end
       describe "Librarian権限でログインしているとき" do
         before do
-          login :librarian1
+          sign_in :librarian1
           get :index, :format => 'sru', :operation => 'searchRetrieve', :query => 'title = 権限確認'
         end
         it "Librarian権限以下の図書が検索できる" do
@@ -67,7 +67,7 @@ describe ManifestationsController do
       end
       describe "Administrator権限でログインしているとき" do
         before do
-          login :admin
+          sign_in :admin
           get :index, :format => 'sru', :operation => 'searchRetrieve', :query => 'title = 権限確認'
         end
         it "全ての権限の図書が検索できる" do
@@ -93,7 +93,7 @@ describe ManifestationsController do
   describe "新規レコードの作成は" do
     context "管理者のとき" do
       before do
-        login :admin
+        sign_in :admin
         get :new, :format => 'sru'
       end
       it "受け付けられない" do
@@ -102,7 +102,7 @@ describe ManifestationsController do
     end
     context "図書館員がログインしているとき" do
       before do
-        login :librarian1
+        sign_in :librarian1
         get :new, :format => 'sru'
       end
       it "受け付けられない" do
@@ -111,7 +111,7 @@ describe ManifestationsController do
     end
     context "ユーザがログインしているとき" do
       before do
-        login :user1
+        sign_in :user1
         get :new, :format => 'sru'
       end
       it "受け付けられない" do

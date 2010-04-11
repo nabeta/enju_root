@@ -285,7 +285,8 @@ ja:
       patron_merge_list:
         title: タイトル
       user:
-        login: ログイン名
+        login: ユーザ名
+        username: ユーザ名
         name: 名前
         openid_identifier: OpenIDのURL
         email: メールアドレス
@@ -317,7 +318,7 @@ ja:
         user_group: ユーザグループ
         full_name: 氏名
         password: パスワード
-        old_password: 古いパスワード
+        current_password: 現在のパスワード
         locale: 言語
         password_confirmation: パスワード（確認）
       work_has_subject:
@@ -977,8 +978,9 @@ ja:
     edit_user_profile: "{{login_name}} さんのプロフィールの編集"
     login: "ログイン"
     logout: "ログアウト"
-    login_name: "ログイン名"
+    login_name: "ユーザ名"
     password: "パスワード"
+    email_and_password: "電子メールとパスワード"
     catalog_search: "資料の検索"
     search: "検索"
     search_term: "検索語"
@@ -1141,8 +1143,8 @@ ja:
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"
     your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
-    login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
-    login_with_username_and_password: "ログイン名とパスワードを利用してログインする"
+    login_failed: "ログインに失敗しました。ユーザ名とパスワードを確認してください。"
+    login_with_username_and_password: "ユーザ名とパスワードを利用してログインする"
     login_with_openid: "OpenIDを利用してログインする"
     check_email_for_activation: "アカウントが作成されました。確認のメールをお送りしましたので、指示に従ってください。"
     account_activated: "アカウントが有効になりました。"
@@ -1331,6 +1333,7 @@ ja:
     you_have_to_save_profile_to_deactivate_feed_url: "URLを無効にするには、プロフィールを更新する必要があります。"
     sign_up: "新規登録"
     could_not_setup_account: "利用者のアカウントを作成できませんでした。もう一度やり直すか、管理者に連絡してください。"
+    resend_confirmation_instruction: '確認手順をもう一度取り寄せる'
   news_post:
     library_group_news_post: "{{library_group_name}} からのお知らせ"
   reserve:

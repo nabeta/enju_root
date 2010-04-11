@@ -1,4 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
+  map.devise_for :users
+
   map.resources :resources,
     :collection => {
       :approve_selected => :post,
@@ -448,16 +450,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.error '/error', :controller => 'user_sessions', :action => 'new'
   map.denied '/denied', :controller => 'user_sessions', :action => 'new'
-  map.signup '/signup', :controller => 'users', :action => 'new'
-  map.login  '/login', :controller => 'user_sessions', :action => 'new'
-  map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
-  map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
+  #map.signup '/signup', :controller => 'users', :action => 'new'
+  #map.login  '/login', :controller => 'user_sessions', :action => 'new'
+  #map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
+  #map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
-  map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
-  map.activate '/activate/:id', :controller => 'activations', :action => 'create'
-  map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
+  #map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
+  #map.activate '/activate/:id', :controller => 'activations', :action => 'create'
+  #map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
  
   #map.service '/service', :controller => 'page', :action => 'service'
 
