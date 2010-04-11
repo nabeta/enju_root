@@ -9,7 +9,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks
   # GET /bookmarks.xml
   def index
-    if logged_in?
+    if user_signed_in?
       begin
         if !current_user.has_role?('Librarian')
           raise unless @user.share_bookmarks?

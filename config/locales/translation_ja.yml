@@ -318,7 +318,7 @@ ja:
         user_group: ユーザグループ
         full_name: 氏名
         password: パスワード
-        old_password: 古いパスワード
+        current_password: 現在のパスワード
         locale: 言語
         password_confirmation: パスワード（確認）
       work_has_subject:
@@ -980,6 +980,7 @@ ja:
     logout: "ログアウト"
     login_name: "ユーザ名"
     password: "パスワード"
+    email_and_password: "電子メールとパスワード"
     catalog_search: "資料の検索"
     search: "検索"
     search_term: "検索語"

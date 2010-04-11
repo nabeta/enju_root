@@ -5,7 +5,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  #helper_method :logged_in?
+  #helper_method :user_signed_in?
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     if Rails.env == 'test'
       locale = 'en'
     else
-      if logged_in?
+      if user_signed_in?
         locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
       else
         locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
@@ -65,15 +65,11 @@ class ApplicationController < ActionController::Base
     return
   end
 
-  def logged_in?
-    !!current_user
-  end
-
   def access_denied
     respond_to do |format|
       format.html do
         store_location
-        if logged_in?
+        if user_signed_in?
           render(:file => "#{Rails.root}/public/403.html", :status => "403 Forbidden")
         else
           redirect_to new_user_session_url
@@ -269,7 +265,7 @@ class ApplicationController < ActionController::Base
   end
 
   def librarian_authorized?
-    return false unless logged_in?
+    return false unless user_signed_in?
     user = get_user_if_nil
     return true if user == current_user
     return true if current_user.has_role?('Librarian')
@@ -335,22 +331,6 @@ class ApplicationController < ActionController::Base
 
   def store_location
     session[:return_to] = request.request_uri
-  end
-
-  def require_user
-    unless current_user
-      store_location
-      redirect_to new_user_session_url
-      return false
-    end
-  end
-
-  def require_no_user
-    if current_user
-      store_location
-      redirect_to user_url(current_user.username)
-      return false
-    end
   end
 
   def pickup_advertisement

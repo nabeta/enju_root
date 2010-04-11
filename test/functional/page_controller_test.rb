@@ -58,7 +58,7 @@ class PageControllerTest < ActionController::TestCase
   def test_guest_should_not_get_acquisition
     get :acquisition
     assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_redirected_to new_user_session_url(:unauthenticated => true)
   end
 
   def test_user_should_not_get_acquisition
@@ -76,7 +76,7 @@ class PageControllerTest < ActionController::TestCase
   def test_guest_should_not_get_configuration
     get :confdiguration
     assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_redirected_to new_user_session_url(:unauthenticated => true)
   end
 
   def test_user_should_not_get_configuration
@@ -94,7 +94,7 @@ class PageControllerTest < ActionController::TestCase
   def test_guest_should_not_get_patron
     get :patron
     assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_redirected_to new_user_session_url(:unauthenticated => true)
   end
 
   def test_user_should_not_get_patron
@@ -112,7 +112,7 @@ class PageControllerTest < ActionController::TestCase
   def test_guest_should_not_get_circulation
     get :patron
     assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_redirected_to new_user_session_url(:unauthenticated => true)
   end
 
   def test_user_should_not_get_circulation
@@ -130,7 +130,7 @@ class PageControllerTest < ActionController::TestCase
   def test_guest_should_not_get_management
     get :management
     assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_redirected_to new_user_session_url(:unauthenticated => true)
   end
 
   def test_user_should_not_get_management

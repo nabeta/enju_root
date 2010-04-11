@@ -16,6 +16,8 @@ en:
       link: 'Forgot password?'
       send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
       updated: 'Your password was changed successfully. You are now signed in.'
+      need_current_password: "we need your current password to confirm your changes"
+      leave_blank: "leave blank if you don't want to change it"
     confirmations:
       link: "Didn't receive confirmation instructions?"
       send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'

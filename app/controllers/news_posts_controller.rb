@@ -6,7 +6,7 @@ class NewsPostsController < ApplicationController
   # GET /news_posts
   # GET /news_posts.xml
   def index
-    if logged_in?
+    if user_signed_in?
       if current_user.has_role?('Librarian')
         @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
       end

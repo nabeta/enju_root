@@ -13,6 +13,7 @@
   <p><%= f.password_field :password_confirmation %></p>
 
   <p><%= f.submit "Change my password" %></p>
+  <%= javascript_tag("$('user_password').focus()") -%>
 <% end %>
 
 <%= render :partial => "shared/devise_links" %>

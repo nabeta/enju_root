@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
     end
 
     @count = {}
-    if logged_in?
+    if user_signed_in?
       if current_user.has_role?('Librarian')
         if @question
           @answers = @question.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])

@@ -9,7 +9,7 @@ class PurchaseRequestsController < ApplicationController
   # GET /purchase_requests
   # GET /purchase_requests.xml
   def index
-    if logged_in?
+    if user_signed_in?
       begin
         if !current_user.has_role?('Librarian')
           raise unless current_user == @user

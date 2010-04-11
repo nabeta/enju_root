@@ -46,7 +46,7 @@ class QuestionsController < ApplicationController
     end
 
     if @user
-      if logged_in?
+      if user_signed_in?
         user = @user
       end
     end

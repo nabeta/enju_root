@@ -19,7 +19,7 @@ class CheckoutsController < ApplicationController
       else
         @checkouts = icalendar_user.checkouts.not_returned.all(:order => 'created_at DESC')
       end
-    elsif logged_in?
+    elsif user_signed_in?
       if current_user.has_role?('Librarian')
         if @user
           @checkouts = @user.checkouts.not_returned.all(:order => 'created_at DESC')

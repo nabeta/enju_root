@@ -16,6 +16,8 @@ ja:
       link: 'パスワードを忘れましたか？'
       send_instructions: 'You will receive an email with instructions about how to reset your password in a few minutes.'
       updated: 'パスワードは更新されました。ログインしました。'
+      need_current_password: "更新のためには現在のパスワードを入力する必要があります"
+      leave_blank: "パスワードを変更しない場合は入力する必要はありません"
     confirmations:
       link: "Didn't receive confirmation instructions?"
       send_instructions: 'You will receive an email with instructions about how to confirm your account in a few minutes.'

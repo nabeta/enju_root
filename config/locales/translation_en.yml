@@ -317,7 +317,7 @@ en:
         user_group: User group
         full_name: Full name
         password: Password
-        old_password: Old password
+        current_password: Current password
         locale: Locale
         password_confirmation: Password confirmation
       work_has_subject:
@@ -982,6 +982,7 @@ en:
     user_bookmark_title: "{{login_name}}'s bookmark"
     login_name: "Login name"
     password: "Password"
+    email_and_password: "Email and password"
     catalog_search: "Catalog search"
     search: "Search"
     search_term: "Search term"

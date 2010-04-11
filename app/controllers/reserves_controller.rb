@@ -10,7 +10,7 @@ class ReservesController < ApplicationController
   # GET /reserves
   # GET /reserves.xml
   def index
-    if logged_in?
+    if user_signed_in?
       begin
         if !current_user.has_role?('Librarian')
           raise unless current_user == @user

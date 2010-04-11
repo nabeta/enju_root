@@ -1,33 +1,40 @@
 <div id="content_detail">
-  <h2 class="title">Edit <%= resource_name.to_s.humanize %></h2>
+  <h2 class="title"><%= t('page.editing', :model => t('activerecord.models.user')) -%></h2>
   <div id="content_list">
 
 <% form_for resource_name, resource, :url => registration_path(resource_name), :html => { :method => :put } do |f| -%>
   <%= f.error_messages %>
 
-  <p><%= f.label :email %></p>
-  <p><%= f.text_field :email %></p>
+  <p><%= f.label t('activerecord.attributes.user.username') %></p>
+  <p><%= f.text_field :username, :class => 'resource_user' %></p>
 
-  <p><%= f.label :password %> <i>(leave blank if you don't want to change it)</i></p>
-  <p><%= f.password_field :password %></p>
+  <p><%= f.label t('activerecord.attributes.user.email') %></p>
+  <p><%= f.text_field :email, :class => 'resource_email' %></p>
 
-  <p><%= f.label :password_confirmation %></p>
-  <p><%= f.password_field :password_confirmation %></p>
-
-  <p><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i></p>
+  <p><%= f.label t('activerecord.attributes.user.current_password') %> <i>(<%= t('devise.passwords.need_current_password') -%>)</i></p>
   <p><%= f.password_field :current_password %></p>
 
+  <p><%= f.label t('activerecord.attributes.user.password') %> <i>(<%= t('devise.passwords.leave_blank') -%>)</i></p>
+  <p><%= f.password_field :password %></p>
+
+  <p><%= f.label t('activerecord.attributes.user.password_confirmation') %></p>
+  <p><%= f.password_field :password_confirmation %></p>
+
   <p><%= f.submit t('page.update') %></p>
+  <%= javascript_tag("$('user_username').focus()") -%>
 <% end -%>
 
+<!--
 <h3>Cancel my account</h3>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => "Are you sure?", :method => :delete %>.</p>
-
-<%= render :partial => "shared/devise_links" %>
+<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :confirm => t('are_you_sure'), :method => :delete %>.</p>
+-->
 
 </div>
 </div>
 
 <div id="submenu">
+  <ul>
+    <li><%= link_to t('page.back'), edit_user_path(current_user.username) -%></li>
+  </ul>
 </div>

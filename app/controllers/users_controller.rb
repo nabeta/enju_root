@@ -91,7 +91,7 @@ class UsersController < ApplicationController
   end
 
   def new
-    if logged_in?
+    if user_signed_in?
       unless current_user.has_role?('Librarian')
         access_denied; return
       end
@@ -302,7 +302,7 @@ class UsersController < ApplicationController
 
   private
   def suspended?
-    if logged_in? and !current_user.active?
+    if user_signed_in? and !current_user.active?
       current_user_session.destroy
       access_denied
     end
