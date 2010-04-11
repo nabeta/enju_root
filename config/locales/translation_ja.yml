@@ -285,8 +285,8 @@ ja:
       patron_merge_list:
         title: タイトル
       user:
-        login: ログイン名
-        username: ログイン名
+        login: ユーザ名
+        username: ユーザ名
         name: 名前
         openid_identifier: OpenIDのURL
         email: メールアドレス
@@ -978,7 +978,7 @@ ja:
     edit_user_profile: "{{login_name}} さんのプロフィールの編集"
     login: "ログイン"
     logout: "ログアウト"
-    login_name: "ログイン名"
+    login_name: "ユーザ名"
     password: "パスワード"
     catalog_search: "資料の検索"
     search: "検索"
@@ -1142,8 +1142,8 @@ ja:
     logged_out: "ログアウトしました。"
     remember_me: "ウインドウを閉じてもログインしたままにする"
     your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
-    login_failed: "ログインに失敗しました。ログイン名とパスワードを確認してください。"
-    login_with_username_and_password: "ログイン名とパスワードを利用してログインする"
+    login_failed: "ログインに失敗しました。ユーザ名とパスワードを確認してください。"
+    login_with_username_and_password: "ユーザ名とパスワードを利用してログインする"
     login_with_openid: "OpenIDを利用してログインする"
     check_email_for_activation: "アカウントが作成されました。確認のメールをお送りしましたので、指示に従ってください。"
     account_activated: "アカウントが有効になりました。"

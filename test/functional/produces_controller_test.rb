@@ -86,6 +86,8 @@ class ProducesControllerTest < ActionController::TestCase
     assert_equal old_count+1, Produce.count
     
     assert_redirected_to produce_url(assigns(:produce))
+    assigns(:produce).patron.remove_from_index!
+    assigns(:produce).manifestation.remove_from_index!
   end
 
   def test_guest_should_show_produce

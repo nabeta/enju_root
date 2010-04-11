@@ -103,3 +103,7 @@ Devise.setup do |config|
   #   { :locale => I18n.locale }
   # end
 end
+
+#Warden::OAuth.access_token_user_finder(:twitter) do |access_token|
+#  User.find_by_oauth_token_and_oauth_secret(access_token.token, access_token.secret)
+#end

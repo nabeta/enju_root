@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   include ExceptionNotification::Notifiable
 
-  filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
+  filter_parameter_logging :password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement

@@ -72,17 +72,17 @@ class User < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :username
   acts_as_tagger
-  #has_paper_trail
+  has_paper_trail
 
   devise :registerable, :database_authenticatable, :confirmable, :recoverable,
-         :rememberable, :trackable, :validatable
+         :rememberable, :trackable #, :validatable
 
   def self.per_page
     10
   end
   
   # Virtual attribute for the unencrypted password
-  attr_accessor :old_password, :temporary_password
+  attr_accessor :temporary_password
   attr_reader :auto_generated_password
   attr_accessor :first_name, :middle_name, :last_name, :full_name,
     :first_name_transcription, :middle_name_transcription,
@@ -90,42 +90,30 @@ class User < ActiveRecord::Base
     :zip_code, :address, :telephone_number, :fax_number, :address_note,
     :role_id, :patron_id, :operator, :password_not_verified,
     :update_own_account
-  attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :openid_identifier, :old_password
+  attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :openid_identifier, :current_password
 
-  #validates_presence_of :username
-  #validates_length_of       :login,    :within => 2..40
-  #validates_uniqueness_of   :login,    :case_sensitive => false
+  validates_presence_of :username
+  #validates_presence_of   :email
+  validates_uniqueness_of :email, :scope => authentication_keys[1..-1], :allow_blank => true
+  EMAIL_REGEX = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i
+  validates_format_of     :email, :with  => EMAIL_REGEX, :allow_blank => true
+
+  with_options :if => :password_required? do |v|
+    v.validates_presence_of     :password
+    v.validates_confirmation_of :password
+    v.validates_length_of       :password, :within => 6..20, :allow_blank => true
+  end
 
   validates_presence_of     :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
-  #validates_length_of       :email,    :within => 6..100, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  #validates_uniqueness_of   :email, :case_sensitive => false, :if => proc{|user| !user.email.blank?}, :allow_nil => true
-  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :allow_blank => true
   validates_associated :patron, :user_group, :library
   #validates_presence_of :patron, :user_group, :library
   validates_presence_of :user_group, :library, :locale #, :patron
   #validates_uniqueness_of :user_number, :with=>/\A[0-9]+\Z/, :allow_blank => true
   validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
-  validate_on_update :verify_password
   #validates_acceptance_of :confirmed
   validates_confirmation_of :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
 
-  def verify_password
-    errors.add(:old_password) if self.password_not_verified
-  end
-
   #before_create :reset_checkout_icalendar_token, :reset_answer_feed_token
-
-  #def before_validation
-  #  self.full_name = self.patron.full_name if self.patron
-  #end
-
-  def validate
-    if update_own_account
-      errors.add(:active) if self.changed.include?('active')
-      errors.add(:confirmed) if self.changed.include?('confirmed')
-      errors.add(:approved) if self.changed.include?('approved')
-    end
-  end
 
   def before_validation_on_create
     self.required_role = Role.find_by_name('Librarian')
@@ -176,12 +164,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
-  #def self.authenticate(login, password)
-  #  u = find_by_login(login) # need to get the salt
-  #  u && u.valid_password?(password) ? u : nil
-  #end
-
   def set_auto_generated_password
     password = Devise.friendly_token
     self.reset_password!(password, password)
@@ -205,6 +187,7 @@ class User < ActiveRecord::Base
 
   def lock!
     self.active = false
+    self.confirmed_at = nil
     save(false)
   end
 
@@ -229,7 +212,7 @@ class User < ActiveRecord::Base
     self.active = true
     self.confirmed = true
     self.approved = true
-    self.roles << Role.find(2)
+    self.roles << Role.find_by_name('User')
   end
 
   def activate!
@@ -363,6 +346,10 @@ class User < ActiveRecord::Base
     email = params[:user][:email]
     roles << Role.find(2)
     save!
+  end
+
+  def send_confirmation_instructions
+    ::DeviseMailer.deliver_confirmation_instructions(self) if self.email.present?
   end
 
   private

@@ -173,6 +173,9 @@ class UsersController < ApplicationController
           return
         end
       end
+      if params[:user][:auto_generated_password] == "1"
+        @user.password = Devise.friendly_token
+      end
     end
 
     #@user.save do |result|
@@ -184,6 +187,7 @@ class UsersController < ApplicationController
             @user.set_role(role)
           end
         end
+        flash[:temporary_password] = @user.password
 
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
         format.html { redirect_to user_url(@user.username) }
@@ -207,20 +211,6 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    unless logged_in?
-      if @user.signup!(params)
-        #@user.deliver_activation_instructions!
-        flash[:notice] = t('user_session.check_email_for_activation')
-        redirect_to root_url; return
-      else
-        render :action => :new; return
-      end
-    end
-
-    unless current_user.try(:has_role?, 'Librarian')
-      access_denied; return
-    end
-    # ここ以下はオンラインサインアップでは使用しない
     @user.operator = current_user
     if params[:user]
       #@user.username = params[:user][:login]
@@ -237,24 +227,21 @@ class UsersController < ApplicationController
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
-    @user.activate
 
-    @user.save do |result|
-      respond_to do |format|
-        if result
-          @user.roles << Role.first(:conditions => {:name => 'User'})
-          #self.current_user = @user
-          flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
-          format.html { redirect_to user_url(@user.username) }
-          #format.html { redirect_to new_user_patron_url(@user.username) }
-          format.xml  { head :ok }
-        else
-          prepare_options
-          #flash[:notice] = ('The record is invalid.')
-          flash[:error] = t('user.could_not_setup_account')
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
-        end
+    respond_to do |format|
+      if @user.save
+        @user.roles << Role.first(:conditions => {:name => 'User'})
+        #self.current_user = @user
+        flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
+        format.html { redirect_to user_url(@user.username) }
+        #format.html { redirect_to new_user_patron_url(@user.username) }
+        format.xml  { head :ok }
+      else
+        prepare_options
+        #flash[:notice] = ('The record is invalid.')
+        flash[:error] = t('user.could_not_setup_account')
+        format.html { render :action => "new" }
+        format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
   rescue ActiveRecord::RecordNotFound
