@@ -111,7 +111,7 @@ Disallow: user_group_has_checkout_types
 Disallow: user_groups
 Disallow: user_has_shelves
 Disallow: user_reserve_stats
-#Disallow: users
+Disallow: users
 Disallow: work_has_subjects
 Disallow: work_has_works
 Disallow: work_merge_lists
@@ -119,4 +119,5 @@ Disallow: work_merges
 Disallow: work_relationship_types
 Disallow: work_to_expression_rel_types
 #Disallow: works
+
 #Sitemap: http://LIBRARY_WEB_HOSTNAME/sitemap_index.xml.gz

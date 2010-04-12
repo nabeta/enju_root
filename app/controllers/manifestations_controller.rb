@@ -55,7 +55,6 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      #session[:params][:manifestation] = params.merge(:view => nil)
       if params[:reservable] == "true"
         @reservable = "true"
       end
