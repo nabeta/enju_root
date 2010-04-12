@@ -72,6 +72,10 @@ class User < ActiveRecord::Base
   has_friendly_id :username
   acts_as_tagger
   has_paper_trail
+  normalize_attributes :username
+  normalize_attributes :email do |value|
+    value.is_a?(String) ? value.gsub(/\s/, '') : ''
+  end
 
   devise :registerable, :database_authenticatable, :confirmable, :recoverable,
          :rememberable, :trackable #, :validatable
@@ -92,6 +96,7 @@ class User < ActiveRecord::Base
   attr_accessible :username, :email, :email_confirmation, :password, :password_confirmation, :openid_identifier, :current_password
 
   validates_presence_of :username
+  validates_uniqueness_of :username
   #validates_presence_of   :email
   validates_uniqueness_of :email, :scope => authentication_keys[1..-1], :allow_blank => true
   EMAIL_REGEX = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i

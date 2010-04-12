@@ -16,11 +16,6 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.user.current_password') %> <i>(<%= t('devise.passwords.need_current_password') -%>)</i><br />
-    <%= f.password_field :current_password %>
-  </p>
-
-  <p>
     <%= f.label t('activerecord.attributes.user.password') %> <i>(<%= t('devise.passwords.leave_blank') -%>)</i><br />
     <%= f.password_field :password %>
   </p>
@@ -28,6 +23,11 @@
   <p>
     <%= f.label t('activerecord.attributes.user.password_confirmation') %><br />
     <%= f.password_field :password_confirmation %>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.current_password') %> <i>(<%= t('devise.passwords.need_current_password') -%>)</i><br />
+    <%= f.password_field :current_password %>
   </p>
 
   <p><%= f.submit t('page.update') %></p>
