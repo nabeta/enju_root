@@ -119,11 +119,13 @@
                   <%- if subject.is_updatable_by(current_user) -%>
                     <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
                   <%- end -%>
-                  (
-                  <%- subject.classifications.each do |classification| -%>
-                    <%= classification.classification_type.name -%>: <%= link_to h(classification.category), classification -%>
+                  <%- unless subject.classifications.empty? -%>
+                    (
+                    <%- subject.classifications.each do |classification| -%>
+                      <%= classification.classification_type.name -%>: <%= link_to h(classification.category), classification -%>
+                    <%- end -%>
+                    )
                   <%- end -%>
-                  )
                 </li>
               <%- end -%>
             </ul>
