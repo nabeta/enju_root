@@ -65,7 +65,7 @@ describe ManifestationsController do
 
     context "admin がログインしているとき" do
       before do
-        login :admin
+        sign_in :admin
       end
       context "全件を取得するとき" do
         before do
@@ -79,7 +79,7 @@ describe ManifestationsController do
 
     context "librarian がログインしているとき" do
       before do
-        login :librarian1
+        sign_in :librarian1
       end
       context "全件を取得するとき" do
         before do
@@ -96,7 +96,7 @@ describe ManifestationsController do
 
     context "user がログインしているとき" do
       before do
-        login :user1
+        sign_in :user1
       end
       context "全件を取得するとき" do
         before do
@@ -149,7 +149,7 @@ describe ManifestationsController do
   describe "新規レコードの作成は" do
     context "管理者がログインしているとき" do
       before do
-        login :admin
+        sign_in :admin
         get :new, :format => 'rdf'
       end
       it "受け付けられない" do
@@ -158,7 +158,7 @@ describe ManifestationsController do
     end
     context "図書館員がログインしているとき" do
       before do
-        login :librarian1
+        sign_in :librarian1
         get :new, :format => 'rdf'
       end
       it "受け付けられない" do
@@ -167,7 +167,7 @@ describe ManifestationsController do
     end
     context "ユーザがログインしているとき" do
       before do
-        login :user1
+        sign_in :user1
         get :new, :format => 'rdf'
       end
       it "受け付けられない" do

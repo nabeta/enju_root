@@ -43,7 +43,7 @@ class MessageRequest < ActiveRecord::Base
     message = nil
     MessageRequest.transaction do
       if self.body
-        message = Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
+        message = Message.create!(:sender => self.sender, :recipient => self.receiver.username, :subject => self.subject, :body => self.body)
       end
       self.update_attributes({:sent_at => Time.zone.now})
       Notifier.deliver_message_notification(self.receiver)

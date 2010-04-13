@@ -123,10 +123,12 @@ module ApplicationHelper
   end
 
   def advertisement_pickup(advertisement)
-    if advertisement.try(:url)
-      link_to h(advertisement.body), advertisement.url
-    else
-      h(advertisement.try(:body))
+    if advertisement
+      if advertisement.url.present?
+        link_to h(advertisement.body), advertisement.url
+      else
+        h(advertisement.body)
+      end
     end
   end
 

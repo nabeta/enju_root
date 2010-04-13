@@ -42,7 +42,7 @@ class MessagesController < ApplicationController
       @message.recipient = params[:recipient]
     end
     if @message_request = MessageRequest.find(params[:message_request_id]) rescue nil
-      @message.recipient = @message_request.receiver.login
+      @message.recipient = @message_request.receiver.username
       @message.subject = @message_request.subject
       @message.body = @message_request.body
     end

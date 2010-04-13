@@ -213,6 +213,8 @@ class Manifestation < ActiveRecord::Base
       isbn10 = self.isbn.dup
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn)
       self.isbn10 = isbn10
+    elsif self.isbn.length == 13
+      self.isbn10 = ISBN_Tools.isbn13_to_isbn10(self.isbn)
     end
     set_wrong_isbn
   rescue NoMethodError
@@ -498,7 +500,7 @@ class Manifestation < ActiveRecord::Base
 
   def user
     if self.bookmarks
-      self.bookmarks.collect(&:user).collect(&:login)
+      self.bookmarks.collect(&:user).collect(&:username)
     else
       []
     end
@@ -686,7 +688,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def has_single_work?
-    if works.size == 1
+    if works.size <= 1
       return true if works.first.original_title == original_title
     end
     false

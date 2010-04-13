@@ -1,0 +1,40 @@
+ja:
+  devise:
+    sessions:
+      user:
+        link: 'ログイン'
+        signed_in: 'ログインしました。'
+        signed_out: 'ログアウトしました。'
+        unauthenticated: '続行するにはログインするか、利用者登録をする必要があります。'
+        unconfirmed: '続行するにはアカウントの確認が必要です。'
+        locked: 'アカウントが停止されています。'
+        invalid: 'ユーザ名かパスワードが無効です。'
+        invalid_token: '無効な認証トークンです。'
+        timeout: 'セッションの有効期限が切れました。もう一度ログインしてください。'
+        inactive: 'アカウントが有効になっていません。'
+      remember_me: 'ウインドウを閉じてもログインしたままにする'
+    passwords:
+      link: 'パスワードを忘れましたか？'
+      send_instructions: 'パスワード再設定のための手順を、数分間以内に電子メールでお送りします。'
+      updated: 'パスワードは更新されました。ログインしました。'
+      need_current_password: "更新のためには現在のパスワードを入力する必要があります"
+      leave_blank: "パスワードを変更しない場合は入力する必要はありません"
+    confirmations:
+      link: "確認手順を受け取っていませんか？"
+      send_instructions: 'アカウント確認のための手順を、数分間以内に電子メールでお送りします。'
+      confirmed: 'アカウントは正常に確認されました。ログインしました。'
+    registrations:
+      link: '新規登録'
+      signed_up: '登録が完了しました。確認のメールを送信しました。'
+      updated: 'アカウントは正常に更新されました。'
+      destroyed: 'アカウントは正常に削除されました。またのご利用をお待ちしています。'
+    unlocks:
+      link: "利用再開の手順を受け取っていませんか？"
+      send_instructions: '利用再開のための手順を、数分間以内に電子メールでお送りします。'
+      unlocked: 'アカウントは再度利用できるようになりました。ログインしました。'
+      resend_unlock_instructions: '利用再開の手順をもう一度送信する'
+    mailer:
+      confirmation_instructions: '登録確認の手順'
+      reset_password_instructions: 'パスワード再設定の手順'
+      unlock_instructions: '利用再開の手順'
+

@@ -52,8 +52,8 @@
       </tr>
       <%- if @patron.user -%>
         <tr>
-          <td><strong><%= t('activerecord.attributes.user.login') -%>:</strong></td>
-          <td><%= link_to h(@patron.user.login), edit_user_path(@patron.user.login) -%></td>
+          <td><strong><%= t('activerecord.attributes.user.username') -%>:</strong></td>
+          <td><%= link_to h(@patron.user.username), edit_user_path(@patron.user.username) -%></td>
         </tr>
       <%- end -%>
       <tr>
@@ -205,7 +205,7 @@
       <%- if @patron.user.blank? -%>
         <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
       <%- else -%>
-        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user.login) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user.username) -%></li>
       <%- end -%>
       <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>

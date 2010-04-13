@@ -8,7 +8,7 @@
   <p>
     <%= f.label t('activerecord.models.user') -%><br />
     <%= link_to h(@user.patron.full_name), @user.patron -%>
-    (<%= @user.login -%>)
+    (<%= @user.username -%>)
   </p>
 
   <p>
@@ -44,7 +44,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(@user.login) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(@user.username) -%></li>
     <%- if @manifestation -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
     <%- end -%>

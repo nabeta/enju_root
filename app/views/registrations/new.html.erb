@@ -1,0 +1,45 @@
+<div id="content_detail">
+  <h2 class="title"><%= t('user.sign_up') -%></h2>
+  <div id="content_list">
+
+<% form_for resource_name, resource, :url => registration_path(resource_name) do |f| -%>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label t('activerecord.attributes.user.username') %><br />
+    <%= f.text_field :username, :class => 'resource_user' %>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.email') %><br />
+    <%= f.text_field :email, :class => 'resource_email' %>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.email_confirmation') %><br />
+    <%= f.text_field :email_confirmation, :class => 'resource_email' %>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.password') %><br />
+    <%= f.password_field :password %>
+  </p>
+
+  <p>
+    <%= f.label t('activerecord.attributes.user.password_confirmation') %><br />
+    <%= f.password_field :password_confirmation %>
+  </p>
+
+  <p><%= f.submit t('user.sign_up') %></p>
+  <%= javascript_tag("$('user_username').focus()") -%>
+<% end -%>
+
+<%= render :partial => "shared/devise_links" %>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to 'Twitter Authentication', root_path(:warden_oauth_provider => 'twitter') -%></li>
+  </ul>
+</div>

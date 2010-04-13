@@ -7,7 +7,7 @@
 
   <p>
     <%= f.label t('message.sender') -%><br />
-    <%= link_to h(current_user.login), user_path(current_user.login) -%>
+    <%= link_to h(current_user.username), user_path(current_user.username) -%>
     <%= f.hidden_field :sender_id -%>
   </p>
   <p>

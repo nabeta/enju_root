@@ -33,12 +33,12 @@
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= question.id -%></td>
       <td><%= i18n_boolean(question.solved) -%></td>
-      <td><%= link_to h(question.user.login), user_path(question.user.login) -%></td>
-      <td><%= link_to h(truncate(question.body, :length => 60)), user_question_path(question.user.login, question) -%></td>
+      <td><%= link_to h(question.user.username), user_path(question.user.username) -%></td>
+      <td><%= link_to h(truncate(question.body, :length => 60)), user_question_path(question.user.username, question) -%></td>
       <td><%= question.answers.size -%></td>
       <td><%= l(question.updated_at) -%></td>
       <%- if question.is_deletable_by(current_user) -%>
-        <td><%= link_to t('page.destroy'), user_question_path(question.user.login, question), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+        <td><%= link_to t('page.destroy'), user_question_path(question.user.username, question), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
       <%- end -%>
     </tr>
   <%- end -%>

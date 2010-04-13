@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class BookmarkStatsControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :bookmark_stats, :users
+    fixtures :bookmark_stats, :users
 
   test "guest should get index" do
     get :index
@@ -17,13 +16,13 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -38,7 +37,7 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not create bookmark_stat" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('BookmarkStat.count') do
       post :create, :bookmark_stat => { }
     end
@@ -47,7 +46,7 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create bookmark_stat" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('BookmarkStat.count') do
       post :create, :bookmark_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
@@ -67,13 +66,13 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not get edit" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => bookmark_stats(:bookmark_stat_00001).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => bookmark_stats(:bookmark_stat_00001).id
     assert_response :success
   end
@@ -84,13 +83,13 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not update bookmark_stat" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => bookmark_stats(:bookmark_stat_00001).id, :bookmark_stat => { }
     assert_response :forbidden
   end
 
   test "librarian should update bookmark_stat" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => bookmark_stats(:bookmark_stat_00001).id, :bookmark_stat => { }
     assert_redirected_to bookmark_stat_path(assigns(:bookmark_stat))
   end
@@ -104,7 +103,7 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy bookmark_stat" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('BookmarkStat.count') do
       delete :destroy, :id => bookmark_stats(:bookmark_stat_00001).id
     end
@@ -113,7 +112,7 @@ class BookmarkStatsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy bookmark_stat" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('BookmarkStat.count', -1) do
       delete :destroy, :id => bookmark_stats(:bookmark_stat_00001).id
     end

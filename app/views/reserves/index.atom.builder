@@ -1,6 +1,6 @@
 atom_feed(:url => reserves_url(:format => :atom)) do |feed|
   if @user
-    feed.title t('reserve.user_reserve', :login_name => @user.login)
+    feed.title t('reserve.user_reserve', :login_name => @user.username)
   else
     feed.title t('reserve.library_group_reserve', :library_group_name => @library_group.display_name.localize)
   end

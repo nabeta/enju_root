@@ -1,7 +1,8 @@
 module ManifestationsHelper
+  include EnjuAmazonHelper
   def back_to_manifestation_index
-    if session[:params][:manifestation]
-      link_to t('page.back_to_search_results'), manifestations_path(:params => session[:params][:manifestation])
+    if session[:params]
+      link_to t('page.back_to_search_results'), manifestations_path(:params => session[:params].merge(:view => nil))
     else
       link_to t('page.back'), :back
     end

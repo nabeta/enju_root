@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class OwnsControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :owns, :users, :manifestations, :patrons
+    fixtures :owns, :users, :manifestations, :patrons
 
   def test_guest_should_get_index
     get :index
@@ -11,28 +10,28 @@ class OwnsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :success
     assert assigns(:owns)
   end
 
   def test_user_should_get_index_with_patron_id
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index, :patron_id => 1
     assert_response :success
     assert assigns(:owns)
   end
 
   def test_user_should_get_index_with_item_id
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index, :item_id => 1
     assert_response :success
     assert assigns(:owns)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert assigns(:owns)
@@ -45,13 +44,13 @@ class OwnsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
   
-  def test_librarian_should_get_new_with_login
-    UserSession.create users(:librarian1)
+  def test_librarian_should_get_new_with_username
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -66,7 +65,7 @@ class OwnsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_own
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Own.count
     post :create, :own => {:patron_id => 1, :item_id => 1}
     assert_equal old_count, Own.count
@@ -75,7 +74,7 @@ class OwnsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_own_without_patron_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Own.count
     post :create, :own => {:item_id => 1}
     assert_equal old_count, Own.count
@@ -84,7 +83,7 @@ class OwnsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_own_without_item_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Own.count
     post :create, :own => {:patron_id => 1}
     assert_equal old_count, Own.count
@@ -93,7 +92,7 @@ class OwnsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_own
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Own.count
     post :create, :own => {:patron_id => 1, :item_id => 3}
     assert_equal old_count+1, Own.count
@@ -107,13 +106,13 @@ class OwnsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_show_own
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => 1
     assert_response :success
   end
 
   def test_librarian_should_show_own
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => 1
     assert_response :success
   end
@@ -125,13 +124,13 @@ class OwnsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => 1
     assert_response :forbidden
   end
   
   def test_librarian_should_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => 1
     assert_response :success
   end
@@ -143,25 +142,25 @@ class OwnsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_update_own
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => 1, :own => { }
     assert_response :forbidden
   end
 
   def test_librarian_should_not_update_own_without_patron_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :own => {:patron_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_not_update_own_without_item_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :own => {:item_id => nil}
     assert_response :success
   end
   
   def test_librarian_should_update_own
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => 1, :own => { }
     assert_redirected_to own_url(assigns(:own))
   end
@@ -176,7 +175,7 @@ class OwnsControllerTest < ActionController::TestCase
   end
   
   def test_user_should_not_destroy_own
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     old_count = Own.count
     delete :destroy, :id => 1
     assert_equal old_count, Own.count
@@ -185,7 +184,7 @@ class OwnsControllerTest < ActionController::TestCase
   end
   
   def test_librarian_should_destroy_own
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     old_count = Own.count
     delete :destroy, :id => 1
     assert_equal old_count-1, Own.count

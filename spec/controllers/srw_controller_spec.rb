@@ -76,7 +76,7 @@ describe SrwController do
       end
       describe "User権限でログインしているとき" do
         before do
-          login :user1
+          sign_in :user1
           @params["Envelope"]["Body"]["searchRetrieveRequest"]["query"] = 'title=権限確認'
           post :index, @params
         end
@@ -87,7 +87,7 @@ describe SrwController do
       end
       describe "Librarian権限でログインしているとき" do
         before do
-          login :librarian1
+          sign_in :librarian1
           @params["Envelope"]["Body"]["searchRetrieveRequest"]["query"] = 'title=権限確認'
           post :index, @params
         end
@@ -98,7 +98,7 @@ describe SrwController do
       end
       describe "Administrator権限でログインしているとき" do
         before do
-          login :admin
+          sign_in :admin
           @params["Envelope"]["Body"]["searchRetrieveRequest"]["query"] = 'title=権限確認'
           post :index, @params
         end

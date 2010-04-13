@@ -7,7 +7,7 @@
       <%- end -%>
     <%- end -%>
   <%- end -%>
-  <%- if logged_in? -%>
+  <%- if user_signed_in? -%>
     (<%= link_to_remote t('page.edit'), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'edit', :id => @manifestation.id, :mode => 'tag_edit'}, :method => :get -%>)
   <%- end -%>
 </div>
