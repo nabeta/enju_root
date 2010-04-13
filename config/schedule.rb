@@ -24,7 +24,7 @@ set :environment, :production
 set :cron_log, "#{RAILS_ROOT}/log/cron_log.log"
 
 every 5.minute do
-  runner "Session.expire; MessageRequest.send_messages"
+  runner "MessageRequest.send_messages"
 end
 
 every 1.hour do
