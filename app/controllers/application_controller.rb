@@ -421,4 +421,21 @@ class ApplicationController < ActionController::Base
   def api_request?
     true unless params[:format].nil? or params[:format] == 'html'
   end
+
+  def local_request?
+    false
+  end
+
+  def rescue_404
+    rescue_action_in_public(ActionController::RoutingError)
+  end
+
+  def rescue_action_in_public(exception)
+    #case exception
+    #when ActiveRecord::RecordNotFound
+      render :template => 'page/404', :status => 404
+    #else
+      #super
+    #end
+  end
 end

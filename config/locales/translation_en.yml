@@ -20,7 +20,6 @@ en:
       language: Language
       patron_merge_list: Patron merge list
       user: User
-      user_session: User session
       work_has_subject: Resource has subject
       picture_file: Picture file
       form_of_work: Form of works
@@ -1137,6 +1136,7 @@ en:
     boolean:
       "true": "Yes"
       "false": "No"
+    not_found: "Page not found"
   title:
     index: "index"
     show: "show"
@@ -1150,17 +1150,6 @@ en:
     from: "from"
     to: "to"
     all_libraries: "All libraries"
-  user_session:
-    logged_in: "Logged in successfully."
-    logged_out: "You have been logged out."
-    remember_me: "Remember me"
-    your_account_is_suspended: "Your account is suspended. Tell the library staffs."
-    login_failed: "Login failed. Your username or password may be wrong."
-    login_with_username_and_password: "Login with username and password"
-    login_with_openid: "Login with OpenID"
-    check_email_for_activation: "Your account has been created. Please check your e-mail for your account activation instructions!"
-    account_activated: "Your account has been activated."
-    forgot_password: "Forgot password"
   bookmark:
     new: "New bookmark"
     not_bookmarked: "Not bookmarked."
@@ -1432,14 +1421,6 @@ en:
     completed: "Completed"
     started: "Started"
     failed: "Failed"
-  password_reset:
-    fill_in_email_address: "Please fill in your email address below."
-    reset_password: "Reset password"
-    instruction_sent: "Instructions to reset your password have been emailed to you."
-    update_password: "Update password"
-    password_updated: "Password was successfully updated."
-    not_found: "No user was found with that email address."
-    could_not_locate_account: "We're sorry, but we could not locate your account."
   resource:
     select_all: Select all
     approve_selected_resources: Approve selected resources

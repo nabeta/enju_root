@@ -50,10 +50,10 @@ class UserTest < ActiveSupport::TestCase
     assert users(:user1).valid_password?('new password')
   end
 
-  def test_should_not_rehash_password
-    users(:user1).update_attributes(:username => 'user1')
-    assert users(:user1).valid_password?('user1password')
-  end
+  #def test_should_not_rehash_password
+  #  users(:user1).update_attributes(:username => 'user1')
+  #  assert users(:user1).valid_password?('user1password')
+  #end
 
   #def test_should_set_remember_token
   #  users(:user1).remember_me

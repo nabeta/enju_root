@@ -20,7 +20,6 @@ ja:
       language: 言語
       patron_merge_list: 著者・出版者・読者の併合リスト
       user: 利用者
-      user_session: ログインセッション
       work_has_subject: 資料と件名の関係
       picture_file: 画像ファイル
       form_of_work: 著作形の形態
@@ -1125,6 +1124,7 @@ ja:
     boolean:
       "true": "はい"
       "false": "いいえ"
+    not_found: "ページが見つかりませんでした"
   title:
     index: "一覧"
     show: "表示"
@@ -1138,17 +1138,6 @@ ja:
     from: "ここから"
     to: "ここまで"
     all_libraries: "全ての図書館"
-  user_session:
-    logged_in: "ログインしました。"
-    logged_out: "ログアウトしました。"
-    remember_me: "ウインドウを閉じてもログインしたままにする"
-    your_account_is_suspended: "あなたのアカウントは停止されています。図書館まで連絡してください。"
-    login_failed: "ログインに失敗しました。ユーザ名とパスワードを確認してください。"
-    login_with_username_and_password: "ユーザ名とパスワードを利用してログインする"
-    login_with_openid: "OpenIDを利用してログインする"
-    check_email_for_activation: "アカウントが作成されました。確認のメールをお送りしましたので、指示に従ってください。"
-    account_activated: "アカウントが有効になりました。"
-    forgot_password: "パスワードを忘れた"
   bookmark:
     new: "新しいブックマーク"
     not_bookmarked: "ブックマークされていません。"
@@ -1417,14 +1406,6 @@ ja:
     completed: "完了"
     started: "開始"
     failed: "失敗"
-  password_reset:
-    fill_in_email_address: "メールアドレスを入力してください。"
-    reset_password: "パスワードのリセット"
-    instruction_sent: "パスワードのリセットの手順をメールで送信しました。"
-    update_password: "パスワードの更新"
-    password_updated: "パスワードは更新されました。"
-    not_found: "そのメールアドレスを持つ利用者が見つかりません。"
-    could_not_locate_account: "利用者が見つかりません。"
   resource:
     select_all: すべてを選択
     approve_selected_resources: 選択した資料を承認

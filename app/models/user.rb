@@ -72,10 +72,7 @@ class User < ActiveRecord::Base
   has_friendly_id :username
   acts_as_tagger
   has_paper_trail
-  normalize_attributes :username
-  normalize_attributes :email do |value|
-    value.is_a?(String) ? value.gsub(/\s/, '') : ''
-  end
+  normalize_attributes :username, :email
 
   devise :registerable, :database_authenticatable, :confirmable, :recoverable,
          :rememberable, :trackable #, :validatable
