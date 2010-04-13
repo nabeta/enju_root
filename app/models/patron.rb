@@ -45,8 +45,8 @@ class Patron < ActiveRecord::Base
     text :name, :place, :address_1, :address_2, :other_designation, :note
     string :zip_code_1
     string :zip_code_2
-    string :login do
-      user.login if user
+    string :username do
+      user.username if user
     end
     time :created_at
     time :updated_at

@@ -5,7 +5,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  helper_method :current_user_session, :current_user, :logged_in?
+  #helper_method :user_signed_in?
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
 
   include ExceptionNotification::Notifiable
 
-  filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
+  filter_parameter_logging :password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement
@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     if Rails.env == 'test'
       locale = 'en'
     else
-      if logged_in?
+      if user_signed_in?
         locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
       else
         locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
@@ -41,9 +41,15 @@ class ApplicationController < ActionController::Base
     unless I18n.available_locales.include?(locale.intern)
       locale = I18n.default_locale.to_s
     end
-    I18n.locale = @locale = session[:locale] = locale
+    I18n.locale = locale
+    @locale = session[:locale] = locale
   rescue
-    I18n.locale = @locale = I18n.default_locale.to_s
+    I18n.locale = I18n.default_locale
+    @locale = I18n.locale.to_s
+  end
+
+  def default_url_options(options={})
+    {:locale => nil}
   end
 
   def set_available_languages
@@ -59,15 +65,11 @@ class ApplicationController < ActionController::Base
     return
   end
 
-  def logged_in?
-    !!current_user
-  end
-
   def access_denied
     respond_to do |format|
       format.html do
         store_location
-        if logged_in?
+        if user_signed_in?
           render(:file => "#{Rails.root}/public/403.html", :status => "403 Forbidden")
         else
           redirect_to new_user_session_url
@@ -152,7 +154,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
     raise ActiveRecord::RecordNotFound unless @user
     unless @user.is_readable_by(current_user)
       access_denied; return
@@ -163,7 +165,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_if_nil
-    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
+    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
     if @user
       access_denied unless @user.is_readable_by(current_user)
     end
@@ -263,7 +265,7 @@ class ApplicationController < ActionController::Base
   end
 
   def librarian_authorized?
-    return false unless logged_in?
+    return false unless user_signed_in?
     user = get_user_if_nil
     return true if user == current_user
     return true if current_user.has_role?('Librarian')
@@ -325,6 +327,10 @@ class ApplicationController < ActionController::Base
 
   def store_page
     flash[:page] = params[:page].to_i if params[:page]
+  end
+
+  def store_location
+    session[:return_to] = request.request_uri
   end
 
   def pickup_advertisement
@@ -405,47 +411,6 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  def current_user_session
-    return @current_user_session if defined?(@current_user_session)
-    @current_user_session = UserSession.find
-  end
-
-  def current_user
-    return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
-  end
-
-  def require_user
-    unless current_user
-      store_location
-      #flash[:notice] = "You must be logged in to access this page"
-      redirect_to new_user_session_url
-      return false
-    end
-  end
-
-  def require_no_user
-    if current_user
-      store_location
-      #flash[:notice] = "You must be logged out to access this page"
-      redirect_to user_url(current_user.login)
-      return false
-    end
-  end
-
-  def store_location
-    session[:return_to] = request.request_uri
-  end
-
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
-  end
-
-  def logged_in?
-    !!current_user
-  end
-
   def clear_search_sessions
     session[:query] = nil
     session[:params] = nil
@@ -455,5 +420,22 @@ class ApplicationController < ActionController::Base
 
   def api_request?
     true unless params[:format].nil? or params[:format] == 'html'
+  end
+
+  def local_request?
+    false
+  end
+
+  def rescue_404
+    rescue_action_in_public(ActionController::RoutingError)
+  end
+
+  def rescue_action_in_public(exception)
+    #case exception
+    #when ActiveRecord::RecordNotFound
+      render :template => 'page/404', :status => 404
+    #else
+      #super
+    #end
   end
 end

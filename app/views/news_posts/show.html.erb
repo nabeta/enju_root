@@ -13,7 +13,7 @@
 
 <p>
   <strong><%= t('activerecord.models.user') -%>:</strong>
-  <%= link_to h(@news_post.user.login), user_path(@news_post.user.login) -%>
+  <%= link_to h(@news_post.user.username), user_path(@news_post.user.username) -%>
 </p>
 
 <!--

@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class UserHasShelvesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :user_has_shelves, :users
 
   test "should get index" do
@@ -17,19 +16,19 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should not get new" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
 
   test "admin should not get new" do
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :forbidden
   end
@@ -43,7 +42,7 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should create my user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_difference('UserHasShelf.count') do
       post :create, :user_has_shelf => {:user_id => 3, :shelf_id => 3}
     end
@@ -52,7 +51,7 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should not create other user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_difference('UserHasShelf.count') do
       post :create, :user_has_shelf => {:user_id => 1, :shelf_id => 1}
     end
@@ -61,7 +60,7 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "librarian should create other user_has_shelf" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('UserHasShelf.count') do
       post :create, :user_has_shelf => {:user_id => 1, :shelf_id => 1}
     end
@@ -76,20 +75,20 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should show my user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => user_has_shelves(:three).to_param
     assert_response :success
     assert assigns(:user_has_shelf)
   end
 
   test "user should not show other user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => user_has_shelves(:one).to_param
     assert_response :forbidden
   end
 
   test "librarian should show other user_has_shelf" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => user_has_shelves(:one).to_param
     assert_response :success
   end
@@ -101,19 +100,19 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should get my edit" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => user_has_shelves(:three).to_param
     assert_response :success
   end
 
   test "user should not get other edit" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => user_has_shelves(:one).to_param
     assert_response :forbidden
   end
 
   test "librarian should get other edit" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => user_has_shelves(:one).to_param
     assert_response :success
   end
@@ -124,19 +123,19 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should update my user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => user_has_shelves(:three).to_param, :user_has_shelf => { }
     assert_redirected_to user_has_shelf_path(assigns(:user_has_shelf))
   end
 
   test "user should not update other user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => user_has_shelves(:one).to_param, :user_has_shelf => { }
     assert_response :forbidden
   end
 
   test "librarian should update other user_has_shelf" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => user_has_shelves(:one).to_param, :user_has_shelf => { }
     assert_redirected_to user_has_shelf_path(assigns(:user_has_shelf))
   end
@@ -150,7 +149,7 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should destroy my user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_difference('UserHasShelf.count', -1) do
       delete :destroy, :id => user_has_shelves(:three).to_param
     end
@@ -159,7 +158,7 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy other user_has_shelf" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('UserHasShelf.count') do
       delete :destroy, :id => user_has_shelves(:one).to_param
     end
@@ -168,7 +167,7 @@ class UserHasShelvesControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy user_has_shelf" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('UserHasShelf.count', -1) do
       delete :destroy, :id => user_has_shelves(:one).to_param
     end

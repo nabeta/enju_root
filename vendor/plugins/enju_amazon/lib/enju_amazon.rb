@@ -48,8 +48,6 @@ module EnjuAmazon
         file.close
 
         return body
-      else
-        raise "no isbn"
       end
     end
 
@@ -72,18 +70,28 @@ module EnjuAmazon
     end
 
     def amazon_customer_reviews
-      doc = Nokogiri::XML(self.amazon)
-      reviews = []
-      doc.xpath('//xmlns:Review').each do |item|
-        r = {}
-        r[:date] = item.at('xmlns:Date').inner_text
-        r[:summary] = item.at('xmlns:Summary').inner_text
-        r[:content] = item.at('xmlns:Content').inner_text
-        reviews << r
+      if self.amazon
+        doc = Nokogiri::XML(self.amazon)
+        reviews = []
+        doc.xpath('//xmlns:Review').each do |item|
+          r = {}
+          r[:date] = item.at('Date').inner_text
+          r[:summary] = item.at('Summary').inner_text
+          r[:content] = item.at('Content').inner_text
+          reviews << r
+        end
+        reviews
+      else
+        []
       end
-      reviews
-    rescue
-      []
+    end
+
+    def asin
+      if self.isbn.length == 10
+        self.isbn
+      elsif self.isbn.length == 13
+        ISBN_Tools.isbn13_to_isbn10(self.isbn)
+      end
     end
 
     private

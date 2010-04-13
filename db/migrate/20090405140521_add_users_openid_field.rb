@@ -3,8 +3,8 @@ class AddUsersOpenidField < ActiveRecord::Migration
     add_column :users, :openid_identifier, :string
     add_index :users, :openid_identifier
 
-    change_column :users, :login, :string, :default => nil, :null => true
-    change_column :users, :crypted_password, :string, :default => nil, :null => true
+    change_column :users, :username, :string, :default => nil, :null => true
+    change_column :users, :encrypted_password, :string, :default => nil, :null => true
     change_column :users, :password_salt, :string, :default => nil, :null => true
   end
 

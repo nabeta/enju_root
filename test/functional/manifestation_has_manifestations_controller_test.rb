@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class ManifestationHasManifestationsControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :manifestation_has_manifestations, :manifestations, :users, :manifestation_relationship_types
+    fixtures :manifestation_has_manifestations, :manifestations, :users, :manifestation_relationship_types
 
   test "guest should get index" do
     get :index
@@ -17,13 +16,13 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -37,7 +36,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not create manifestation_has_manifestation" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('ManifestationHasManifestation.count') do
       post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2, :manifestation_relationship_type_id => 1}
     end
@@ -46,7 +45,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create manifestation_has_manifestation" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('ManifestationHasManifestation.count') do
       post :create, :manifestation_has_manifestation => {:from_manifestation_id => 1, :to_manifestation_id => 2, :manifestation_relationship_type_id => 1}
     end
@@ -66,13 +65,13 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should get edit" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => manifestation_has_manifestations(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => manifestation_has_manifestations(:one).id
     assert_response :success
   end
@@ -83,13 +82,13 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not update manifestation_has_manifestation" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => manifestation_has_manifestations(:one).id, :manifestation_has_manifestation => { }
     assert_response :forbidden
   end
 
   test "librarian should update manifestation_has_manifestation" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => manifestation_has_manifestations(:one).id, :manifestation_has_manifestation => { }
     assert_redirected_to manifestation_has_manifestation_path(assigns(:manifestation_has_manifestation))
   end
@@ -103,7 +102,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy manifestation_has_manifestation" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('ManifestationHasManifestation.count') do
       delete :destroy, :id => manifestation_has_manifestations(:one).id
     end
@@ -112,7 +111,7 @@ class ManifestationHasManifestationsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy manifestation_has_manifestation" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('ManifestationHasManifestation.count', -1) do
       delete :destroy, :id => manifestation_has_manifestations(:one).id
     end

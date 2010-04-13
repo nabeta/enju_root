@@ -13,7 +13,7 @@ class Question < ActiveRecord::Base
   #acts_as_soft_deletable
   searchable do
     text :body, :answer_body
-    string :login
+    string :username
     time :created_at
     time :updated_at do
       last_updated_at
@@ -43,8 +43,8 @@ class Question < ActiveRecord::Base
     return text
   end
 
-  def login
-    self.user.login
+  def username
+    self.user.username
   end
 
   def is_readable_by(user, parent = nil)

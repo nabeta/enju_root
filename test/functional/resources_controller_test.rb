@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ResourcesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
+  fixtures :resources
 
   test "guest should get index" do
     get :index
@@ -10,13 +10,13 @@ class ResourcesControllerTest < ActionController::TestCase
   end
 
   test "admin should get new" do
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :new
     assert_response :success
   end
 
   test "admin should create resource" do
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     assert_difference('Resource.count') do
       post :create, :resource => {:iss_token => 'test'}
     end
@@ -30,19 +30,19 @@ class ResourcesControllerTest < ActionController::TestCase
   end
 
   test "admin should get edit" do
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     get :edit, :id => resources(:resource_00001).to_param
     assert_response :success
   end
 
   test "admin should update resource" do
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     put :update, :id => resources(:resource_00001).to_param, :resource => { }
     assert_redirected_to resource_path(assigns(:resource))
   end
 
   test "admin should not destroy resource" do
-    UserSession.create users(:admin)
+    sign_in users(:admin)
     assert_no_difference('Resource.count') do
       delete :destroy, :id => resources(:resource_00001).to_param
     end

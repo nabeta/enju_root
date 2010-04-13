@@ -1,7 +1,7 @@
 #menuLog { font-size:1.4em; margin:20px; }
 .hidden { position:absolute; top:0; left:-9999px; width:1px; height:1px; overflow:hidden; }
 
-.fg-button { margin:0 3px 5px 3px; padding: .4em 1em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; width: 80px;}
+.fg-button { margin:0 3px 5px 3px; padding: .4em .6em; text-decoration:none !important; cursor:pointer; position: relative; text-align: center; zoom: 1; width: 85px;}
 .fg-button .ui-icon { position: absolute; top: 50%; margin-top: -8px; left: 50%; margin-left: -8px; }
 a.fg-button { float:left;  }
 button.fg-button { width:auto; overflow:visible; } /* removes extra button width in IE */

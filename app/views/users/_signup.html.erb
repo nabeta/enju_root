@@ -4,7 +4,7 @@
   
 <%- semantic_form_for(@user) do |f| -%>
   <p>
-    <%= f.input :login, :as => :string, :input_html => {:class => 'resource_user'} -%>
+    <%= f.input :username, :as => :string, :input_html => {:class => 'resource_user'} -%>
   </p>
   <p>
     <%= f.input :email, :as => :string, :input_html => {:class => 'resource_email'} -%>
@@ -24,7 +24,7 @@
     <%= f.commit_button t('user.sign_up') -%>
   </p>
 <%- end -%>
-<%= javascript_tag("$('user_login').focus()") -%>
+<%= javascript_tag("$('user.username').focus()") -%>
 </div>
 </div>
 

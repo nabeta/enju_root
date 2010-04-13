@@ -13,7 +13,7 @@ module RestfulEasyMessagesControllerSystem
   def rezm_login_required
     # Provide your version of login_required here if not using Restful_authentication
     #login_required
-    require_user
+    authenticate_user!
   end
   
   # Inclusion hook to make #rezm_user

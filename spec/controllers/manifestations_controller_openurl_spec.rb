@@ -46,7 +46,7 @@ describe ManifestationsController do
       end
       describe "User権限でログインしているとき" do
         before do
-          login :user1
+          sign_in :user1
           get :index, :api => 'openurl', :btitle => '権限確認'
         end
         it "User権限以下の図書が検索できる" do
@@ -56,7 +56,7 @@ describe ManifestationsController do
       end
       describe "Librarian権限でログインしているとき" do
           before do
-            login :librarian1
+            sign_in :librarian1
             get :index, :api => 'openurl', :btitle => '権限確認'
           end
         it "Librarian権限以下の図書が検索できる" do
@@ -66,7 +66,7 @@ describe ManifestationsController do
       end
       describe "Administrator権限でログインしているとき" do
           before do
-            login :admin
+            sign_in :admin
             get :index, :api => 'openurl', :btitle => '権限確認'
           end
         it "全ての権限の図書が検索できる" do

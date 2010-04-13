@@ -4,8 +4,8 @@ xml.rss('version' => "2.0",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
     if @user
-      xml.title t('reserve.user_reserve', :login_name => @user.login)
-      xml.link user_reserves_url(@user.login, :format => :rss)
+      xml.title t('reserve.user_reserve', :login_name => @user.username)
+      xml.link user_reserves_url(@user.username, :format => :rss)
     else
       xml.title t('reserve.library_group_reserve', :library_group_name => @library_group.display_name.localize)
       xml.link reserves_url(:format => :rss)
@@ -14,8 +14,8 @@ xml.rss('version' => "2.0",
     xml.language @locale
     xml.ttl "60"
     if @user
-      xml.tag! "atom:link", :rel => 'self', :href => user_reserves_url(@user.login, :format => :rss)
-      xml.tag! "atom:link", :rel => 'alternate', :href => user_reserves_url(@user.login)
+      xml.tag! "atom:link", :rel => 'self', :href => user_reserves_url(@user.username, :format => :rss)
+      xml.tag! "atom:link", :rel => 'alternate', :href => user_reserves_url(@user.username)
     else
       xml.tag! "atom:link", :rel => 'self', :href => reserves_url(:format => :rss)
       xml.tag! "atom:link", :rel => 'alternate', :href => reserves_url
@@ -33,8 +33,8 @@ xml.rss('version' => "2.0",
         #xml.description(reservation.title)
         # rfc822
         xml.pubDate reservation.created_at.utc.iso8601
-        xml.link user_reserve_url(reservation.user.login, reservation)
-        xml.guid user_reserve_url(reservation.user.login, reservation), :isPermaLink => "true"
+        xml.link user_reserve_url(reservation.user.username, reservation)
+        xml.guid user_reserve_url(reservation.user.username, reservation), :isPermaLink => "true"
       end
     end
   }

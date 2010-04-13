@@ -9,10 +9,10 @@
 
 <%- for basket in @baskets -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= basket.user.login -%></td>
+    <td><%= basket.user.username -%></td>
     <td><%= basket.note -%></td>
     <td><%= basket.updated_at -%></td>
-    <td><%= link_to t('page.show'), user_basket_path(basket.user.login, basket) -%></td>
+    <td><%= link_to t('page.show'), user_basket_path(basket.user.username, basket) -%></td>
   </tr>
 <%- end -%>
 </table>
@@ -21,4 +21,4 @@
 
 <br />
 
-<%= link_to t('page.new', :model => t('activerecord.models.basket')), new_user_basket_path(@user.login) -%>
+<%= link_to t('page.new', :model => t('activerecord.models.basket')), new_user_basket_path(@user.username) -%>
