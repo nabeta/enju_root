@@ -14,16 +14,16 @@ class Create < ActiveRecord::Base
   end
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    patron.index!
-    work.index!
+  def reindex
+    patron.index
+    work.index
   end
 
 end

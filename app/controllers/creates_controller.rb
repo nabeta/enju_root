@@ -2,6 +2,7 @@ class CreatesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_patron
   before_filter :get_work
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /creates

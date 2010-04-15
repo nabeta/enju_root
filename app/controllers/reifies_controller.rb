@@ -1,8 +1,9 @@
 class ReifiesController < ApplicationController
   before_filter :has_permission?
   before_filter :get_work, :get_expression
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   before_filter :prepare_options, :only => [:new, :edit]
+  after_filter :solr_commit, :only => [:create, :update, :destroy]
+  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /reifies
   # GET /reifies.xml
