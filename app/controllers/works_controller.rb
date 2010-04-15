@@ -178,6 +178,7 @@ class WorksController < ApplicationController
     @work.destroy
 
     respond_to do |format|
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.work'))
       format.html { redirect_to works_url }
       format.xml  { head :ok }
     end
