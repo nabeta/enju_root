@@ -97,7 +97,8 @@ class UsersController < ApplicationController
       end
     end
     @user = User.new
-    @user.openid_identifier = flash[:openid_identifier]
+    #@user.openid_identifier = flash[:openid_identifier]
+    prepare_options
     @user_groups = UserGroup.all
     if @patron.try(:user)
       redirect_to patron_url(@patron)
