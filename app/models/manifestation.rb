@@ -193,6 +193,7 @@ class Manifestation < ActiveRecord::Base
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
   validates_uniqueness_of :isbn, :allow_blank => true
   validates_uniqueness_of :nbn, :allow_blank => true
+  validates_uniqueness_of :manifestation_identifier, :allow_blank => true
   validates_format_of :access_address, :with => URI::regexp(%w(http https)) , :allow_blank => true
 
   def set_wrong_isbn

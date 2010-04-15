@@ -1304,6 +1304,7 @@ ja:
     your_temporary_password_is: "仮パスワードは次のとおりです"
     sign_up: "利用者を登録する（取り消しはできません）"
     edit_profile: "プロフィールの編集"
+    edit_account: "アカウント情報の編集"
     already_activated: "すでに利用者として登録されています。"
     specify_patron: "著者・出版者・読者を指定してください。"
     wrong_password: "パスワードが間違っています。"

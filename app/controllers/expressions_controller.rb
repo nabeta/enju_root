@@ -173,6 +173,7 @@ class ExpressionsController < ApplicationController
     @expression.destroy
 
     respond_to do |format|
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.expression'))
       format.html { redirect_to expressions_url }
       format.xml  { head :ok }
     end

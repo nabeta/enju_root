@@ -38,6 +38,18 @@
     <%= f.select(:user_group_id, @user_groups.collect{|u| [u.name, u.id]}) -%>
   </p>
 
+  <%- if current_user.has_role?('Librarian') -%>
+    <p>
+      <%= f.label t('activerecord.models.library') -%><br />
+      <%= f.select(:library_id, @libraries.collect{|l| [l.display_name.localize, l.id]}) -%>
+    </p>
+
+  <%- end -%>
+  <p>
+    <%= f.label t('activerecord.attributes.user.locale') -%><br />
+    <%= f.select(:locale, @available_languages.collect{|language| [language.display_name.localize, language.iso_639_1]}) -%>
+  </p>
+
   <p>
     <label for="user_number"><%= t('activerecord.attributes.user.user_number') -%></label>
     <%= f.text_field :user_number, :value => "", :class => 'resource_user' -%>

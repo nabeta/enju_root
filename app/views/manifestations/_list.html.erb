@@ -27,9 +27,9 @@
               <td>
                 <%- if current_user -%>
                   <%- if reserve = manifestation.is_reserved_by(current_user) -%>
-                    <%= link_to t('page.cancel'), user_reserve_path(reserve.user.login, reserve) -%>
+                    <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
                   <%- else -%>
-                    <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.login, :manifestation_id => manifestation.id) -%>
+                    <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) -%>
                   <%- end -%>
                 <%- end -%>
               </td>

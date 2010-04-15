@@ -14,15 +14,15 @@ class Embody < ActiveRecord::Base
   acts_as_list :scope => :manifestation
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    expression.index!
-    manifestation.index!
+  def reindex
+    expression.index
+    manifestation.index
   end
 end

@@ -228,6 +228,7 @@ class ItemsController < ApplicationController
     @item.destroy
 
     respond_to do |format|
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.item'))
       if @item.manifestation
         format.html { redirect_to manifestation_items_url(@item.manifestation) }
         format.xml  { head :ok }
