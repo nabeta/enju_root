@@ -75,6 +75,7 @@ class PatronImportFilesControllerTest < ActionController::TestCase
 
     assert_equal 'librarian1', assigns(:patron_import_file).user.username
     assert_redirected_to patron_import_file_path(assigns(:patron_import_file))
+    assert assigns(:patron_import_file).file_hash
   end
 
   def test_librarian_should_create_patron_import_file

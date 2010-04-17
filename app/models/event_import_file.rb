@@ -28,6 +28,15 @@ class EventImportFile < ActiveRecord::Base
     transitions :from => :started, :to => :failed
   end
 
+  def after_create
+    set_digest
+  end
+
+  def set_digest(options = {:type => 'sha1'})
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.event_import.path, 'rb').read)
+    save(false)
+  end
+
   def import_start
     aasm_import_start!
     aasm_import!
