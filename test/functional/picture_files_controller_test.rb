@@ -132,6 +132,7 @@ class PictureFilesControllerTest < ActionController::TestCase
 
     assert assigns(:picture_file).picture_attachable
     assert_redirected_to picture_file_url(assigns(:picture_file))
+    assert assigns(:picture_file).file_hash
     #assert_nil assigns(:picture_file).errors
   end
 
