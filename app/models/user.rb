@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
   has_friendly_id :username
   acts_as_tagger
   has_paper_trail
-  normalize_attributes :username, :email
+  normalize_attributes :username #, :email
 
   devise :registerable, :database_authenticatable, :confirmable, :recoverable,
          :rememberable, :trackable #, :validatable
@@ -94,7 +94,6 @@ class User < ActiveRecord::Base
 
   validates_presence_of :username
   validates_uniqueness_of :username
-  #validates_presence_of   :email
   validates_uniqueness_of :email, :scope => authentication_keys[1..-1], :allow_blank => true
   EMAIL_REGEX = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i
   validates_format_of     :email, :with  => EMAIL_REGEX, :allow_blank => true
@@ -354,7 +353,9 @@ class User < ActiveRecord::Base
   end
 
   def send_confirmation_instructions
-    ::DeviseMailer.deliver_confirmation_instructions(self) if self.email.present?
+    unless self.operator
+      ::DeviseMailer.deliver_confirmation_instructions(self) if self.email.present?
+    end
   end
 
   private
