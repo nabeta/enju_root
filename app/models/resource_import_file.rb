@@ -219,7 +219,7 @@ class ResourceImportFile < ActiveRecord::Base
     return manifestation
   end
 
-  def self.import_item(manifestation, options)]
+  def self.import_item(manifestation, options)
     options = {:shelf => Shelf.web}.merge(options)
     item = Item.new(options)
     #if item.save!
