@@ -76,6 +76,7 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
 
     assert_equal 'librarian1', assigns(:resource_import_file).user.username
     assert_redirected_to resource_import_file_path(assigns(:resource_import_file))
+    assert assigns(:resource_import_file).file_hash
   end
 
   def test_librarian_should_create_resource_import_file_only_isbn

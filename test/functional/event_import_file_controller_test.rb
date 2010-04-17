@@ -73,6 +73,7 @@ class EventImportFilesControllerTest < ActionController::TestCase
     assert_equal old_event_count + 2, Event.count
     assert_equal 'librarian1', assigns(:event_import_file).user.username
     assert_redirected_to event_import_file_url(assigns(:event_import_file))
+    assert assigns(:event_import_file).file_hash
   end
 
   def test_guest_should_not_show_event_import_file

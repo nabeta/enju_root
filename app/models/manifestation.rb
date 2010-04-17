@@ -231,7 +231,7 @@ class Manifestation < ActiveRecord::Base
   #end
 
   def after_create
-    send_later(:set_digest) if self.attachment.path
+    set_digest if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
   end
 
@@ -606,7 +606,7 @@ class Manifestation < ActiveRecord::Base
   #end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
     save(false)
   end
 
