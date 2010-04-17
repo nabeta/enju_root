@@ -231,7 +231,7 @@ class Manifestation < ActiveRecord::Base
   #end
 
   def after_create
-    set_digest if self.attachment.path
+    #set_digest if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
   end
 
@@ -247,8 +247,8 @@ class Manifestation < ActiveRecord::Base
 
   def expire_cache
     sleep 3
-    Rails.cache.delete("worldcat_record_#{id}")
-    Rails.cache.delete("xisbn_manifestations_#{id}")
+    #Rails.cache.delete("worldcat_record_#{id}")
+    #Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
   end
 

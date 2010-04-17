@@ -29,7 +29,7 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def after_create
-    set_digest
+    #set_digest
   end
 
   def set_digest(options = {:type => 'sha1'})

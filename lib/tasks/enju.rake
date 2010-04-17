@@ -1,5 +1,6 @@
 require 'rake'
 require 'active_record/fixtures'
+#require 'action_controller/integration'
 
 namespace :enju do
   desc 'Load initial database fixtures.'
@@ -63,11 +64,12 @@ namespace :enju do
       	  library_group.save
           user.locale = I18n.default_locale.to_s
       	  user.roles << Role.find_by_name('Administrator')
-          user.confirm!
+          user.operator = user
           user.activate
           user.save!
         end
         user.index
+        user.confirm!
         puts 'Administrator account created.'
       rescue
         puts $!

@@ -1,7 +1,7 @@
 class PatronType < ActiveRecord::Base
   include AdministratorRequired
 
-  default_scope :order => "position"
+  default_scope :order => "patron_types.position"
   has_many :patrons
 
   validates_presence_of :name, :display_name
