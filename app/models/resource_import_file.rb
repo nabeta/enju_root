@@ -220,10 +220,11 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def self.import_item(manifestation, options)
+    options = {:shelf => Shelf.web}.merge(options)
     item = Item.new(options)
     #if item.save!
       manifestation.items << item
-      item.patrons << shelf.library.patron
+      item.patrons << options[:shelf].library.patron
     #end
     return item
   end
