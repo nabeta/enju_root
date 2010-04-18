@@ -689,7 +689,8 @@ class Manifestation < ActiveRecord::Base
   end
 
   def has_single_work?
-    if works.size <= 1
+    return true if works.size == 0
+    if works.size == 1
       return true if works.first.original_title == original_title
     end
     false
