@@ -132,14 +132,12 @@ class PictureFilesControllerTest < ActionController::TestCase
 
     assert assigns(:picture_file).picture_attachable
     assert_redirected_to picture_file_url(assigns(:picture_file))
-    assert assigns(:picture_file).file_hash
-    #assert_nil assigns(:picture_file).errors
+    #assert assigns(:picture_file).file_hash
   end
 
   def test_guest_should_show_picture_file
     get :show, :id => picture_files(:picture_file_00001)
     #assert_response :redirect
-    #assert_redirected_to new_user_session_url
     assert_response :success
   end
 
