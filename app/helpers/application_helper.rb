@@ -205,11 +205,11 @@ module ApplicationHelper
   end
 
   def i18n_boolean(bool)
-    case bool
+    case bool.to_s
     when nil
-    when true
+    when "true"
       t('page.boolean.true')
-    when false
+    when "false"
       t('page.boolean.false')
     end
   end

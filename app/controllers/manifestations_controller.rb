@@ -55,8 +55,13 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      if params[:reservable] == "true"
-        @reservable = "true"
+      case params[:reservable]
+      when 'true'
+        @reservable = 'true'
+      when 'false'
+        @reservable = 'false'
+      else
+        @reservable = nil
       end
 
       if params[:format] == 'csv'
@@ -96,14 +101,21 @@ class ManifestationsController < ApplicationController
       search = Sunspot.new_search(Manifestation)
       role = current_user.try(:highest_role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
-      reservable = true if @reservable
+      case @reservable
+      when 'true'
+        reservable = true
+      when 'false'
+        reservable = false
+      else
+        reservable = nil
+      end
       search.build do
         fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
         with(:repository_content).equal_to true if oai_search
-        with(:reservable).equal_to true if reservable
+        with(:reservable).equal_to reservable unless reservable.nil?
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
         paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
@@ -219,16 +231,16 @@ class ManifestationsController < ApplicationController
         :inline => true
       }
     end
-  rescue RSolr::RequestError
-    unless params[:format] == 'sru'
-      flash[:notice] = t('page.error_occured')
-      redirect_to manifestations_url
-      return
-    else
-      render :template => 'manifestations/error.xml', :layout => false
-      return
-    end
-    return
+  #rescue RSolr::RequestError
+  #  unless params[:format] == 'sru'
+  #    flash[:notice] = t('page.error_occured')
+  #    redirect_to manifestations_url
+  #    return
+  #  else
+  #    render :template => 'manifestations/error.xml', :layout => false
+  #    return
+  #  end
+  #  return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
     return
