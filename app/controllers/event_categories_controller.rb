@@ -1,5 +1,5 @@
 class EventCategoriesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /event_categories
   # GET /event_categories.xml

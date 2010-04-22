@@ -1,6 +1,6 @@
 class SubscriptionsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_work
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 

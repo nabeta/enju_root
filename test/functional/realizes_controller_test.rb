@@ -53,53 +53,53 @@ class RealizesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_realize
-    old_count = Realize.count
-    post :create, :realize => { :patron_id => 1, :expression_id => 1 }
-    assert_equal old_count, Realize.count
+    assert_no_difference('Realize.count') do
+      post :create, :realize => { :patron_id => 1, :expression_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_realize
-    old_count = Realize.count
-    post :create, :realize => { :patron_id => 1, :expression_id => 1 }
-    assert_equal old_count, Realize.count
+    assert_no_difference('Realize.count') do
+      post :create, :realize => { :patron_id => 1, :expression_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_realize_without_patron_id
     sign_in users(:librarian1)
-    old_count = Realize.count
-    post :create, :realize => { :expression_id => 1 }
-    assert_equal old_count, Realize.count
+    assert_no_difference('Realize.count') do
+      post :create, :realize => { :expression_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_not_create_realize_without_expression_id
     sign_in users(:librarian1)
-    old_count = Realize.count
-    post :create, :realize => { :patron_id => 1 }
-    assert_equal old_count, Realize.count
+    assert_no_difference('Realize.count') do
+      post :create, :realize => { :patron_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_not_create_realize_already_created
     sign_in users(:librarian1)
-    old_count = Realize.count
-    post :create, :realize => { :patron_id => 1, :expression_id => 1 }
-    assert_equal old_count, Realize.count
+    assert_no_difference('Realize.count') do
+      post :create, :realize => { :patron_id => 1, :expression_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_create_realize_not_created_yet
     sign_in users(:librarian1)
-    old_count = Realize.count
-    post :create, :realize => { :patron_id => 1, :expression_id => 3 }
-    assert_equal old_count+1, Realize.count
+    assert_difference('Realize.count') do
+      post :create, :realize => { :patron_id => 1, :expression_id => 3 }
+    end
     
     assert_redirected_to realize_url(assigns(:realize))
   end

@@ -1,5 +1,4 @@
 class SubjectHeadingTypeHasSubject < ActiveRecord::Base
-  include OnlyAdministratorCanModify
   belongs_to :subject #, :polymorphic => true
   belongs_to :subject_heading_type
 

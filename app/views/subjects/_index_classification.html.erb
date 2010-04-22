@@ -6,7 +6,7 @@
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
-    <%- if WorkHasSubject.is_creatable_by(current_user) -%>
+    <%- if can? :create, WorkHasSubject -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -29,7 +29,7 @@
     <tr class="line<%= cycle("0", "1") -%>">
       <td><%= link_to h(subject.term), subject -%></td>
       <td><%= subject.note -%></td>
-      <%- if subject.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, subject -%>
         <td>
           <%= link_to t('page.edit'), edit_subject_path(subject) -%>
         </td>
@@ -52,7 +52,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Subject.is_creatable_by(current_user) -%>
+    <%- if can? :create, Subject -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_classification_subject_path(@classification) -%></li>
     <%- end -%>
   </ul>

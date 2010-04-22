@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class ManifestationsController < ApplicationController
-  before_filter :has_permission?, :except => [:show, :edit]
+  load_and_authorize_resource
   before_filter :authenticate_user!, :only => :edit
   #before_filter :get_user_if_nil
   before_filter :get_patron
@@ -55,8 +55,13 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      if params[:reservable] == "true"
-        @reservable = "true"
+      case params[:reservable]
+      when 'true'
+        @reservable = 'true'
+      when 'false'
+        @reservable = 'false'
+      else
+        @reservable = nil
       end
 
       if params[:format] == 'csv'
@@ -96,14 +101,21 @@ class ManifestationsController < ApplicationController
       search = Sunspot.new_search(Manifestation)
       role = current_user.try(:highest_role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
-      reservable = true if @reservable
+      case @reservable
+      when 'true'
+        reservable = true
+      when 'false'
+        reservable = false
+      else
+        reservable = nil
+      end
       search.build do
         fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
         with(:repository_content).equal_to true if oai_search
-        with(:reservable).equal_to true if reservable
+        with(:reservable).equal_to reservable unless reservable.nil?
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
         paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
@@ -219,16 +231,16 @@ class ManifestationsController < ApplicationController
         :inline => true
       }
     end
-  rescue RSolr::RequestError
-    unless params[:format] == 'sru'
-      flash[:notice] = t('page.error_occured')
-      redirect_to manifestations_url
-      return
-    else
-      render :template => 'manifestations/error.xml', :layout => false
-      return
-    end
-    return
+  #rescue RSolr::RequestError
+  #  unless params[:format] == 'sru'
+  #    flash[:notice] = t('page.error_occured')
+  #    redirect_to manifestations_url
+  #    return
+  #  else
+  #    render :template => 'manifestations/error.xml', :layout => false
+  #    return
+  #  end
+  #  return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
     return
@@ -253,9 +265,6 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
     @manifestation = @manifestation.versions.find(@version).item if @version
-    unless @manifestation.is_readable_by(current_user)
-      access_denied; return
-    end
 
     case params[:mode]
     when 'send_email'
@@ -375,40 +384,21 @@ class ManifestationsController < ApplicationController
   # POST /manifestations
   # POST /manifestations.xml
   def create
-    case params[:mode]
-    when 'import_isbn'
-      begin
-        @manifestation = Manifestation.import_isbn(params[:manifestation][:isbn])
-        @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-      rescue Exception => e
-        case e.message
-        when 'invalid ISBN'
-          flash[:notice] = t('manifestation.invalid_isbn')
-        when 'already imported'
-          flash[:notice] = t('manifestation.already_imported')
-        else
-          flash[:notice] = t('manifestation.record_not_found')
-        end
-        redirect_to new_manifestation_url(:mode => 'import_isbn')
-        return
-      end
-    else
-      @manifestation = Manifestation.new(params[:manifestation])
-      if @manifestation.respond_to?(:post_to_twitter)
-        @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-      end
-      if @manifestation.respond_to?(:post_to_scribd)
-        @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
-      end
-      if @manifestation.original_title.blank?
-        @manifestation.original_title = @manifestation.attachment_file_name
-      end
-      #unless @expression
-      #  flash[:notice] = t('manifestation.specify_expression')
-      #  redirect_to expressions_url
-      #  return
-      #end
+    @manifestation = Manifestation.new(params[:manifestation])
+    if @manifestation.respond_to?(:post_to_twitter)
+      @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
     end
+    if @manifestation.respond_to?(:post_to_scribd)
+      @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
+    end
+    if @manifestation.original_title.blank?
+      @manifestation.original_title = @manifestation.attachment_file_name
+    end
+    #unless @expression
+    #  flash[:notice] = t('manifestation.specify_expression')
+    #  redirect_to expressions_url
+    #  return
+    #end
 
     respond_to do |format|
       if @manifestation.save

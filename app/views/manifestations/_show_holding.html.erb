@@ -9,7 +9,7 @@
   <%- for item in manifestation.items.on_shelf -%>
     <tr>
       <%
-        cache(:id => item.id, :action => :show, :controller => :items, :action_suffix => 'holding', :editable => item.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+        cache(:id => item.id, :action => :show, :controller => :items, :action_suffix => 'holding', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
       %>
       <td>
         <%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name)%>

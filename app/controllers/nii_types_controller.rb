@@ -1,5 +1,5 @@
 class NiiTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /nii_types
   # GET /nii_types.xml

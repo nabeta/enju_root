@@ -1,5 +1,4 @@
 class SubjectHasClassification < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :subject #, :polymorphic => true, :validate => true
   belongs_to :classification, :validate => true
 

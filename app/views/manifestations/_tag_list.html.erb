@@ -2,7 +2,7 @@
   <%- if @manifestation.tags -%>
     <%- @manifestation.tags.each do |tag| -%>
       <%= link_to_tag(tag) -%>
-      <%- if tag.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, tag -%>
         <%= link_to image_tag('/icons/tag_blue_edit.png', :alt => t('page.edit')), tag_path(tag.name) -%>
       <%- end -%>
     <%- end -%>

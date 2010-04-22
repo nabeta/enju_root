@@ -1,6 +1,5 @@
 class BookmarkStat < ActiveRecord::Base
   include AASM
-  include OnlyLibrarianCanModify
   include CalculateStat
   named_scope :not_calculated, :conditions => {:state => 'pending'}
   has_many :bookmark_stat_has_manifestations

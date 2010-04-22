@@ -1,5 +1,5 @@
 class UserCheckoutStatsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   after_filter :convert_charset, :only => :show
 
   # GET /user_checkout_stats

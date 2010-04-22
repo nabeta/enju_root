@@ -1,5 +1,5 @@
 class LanguagesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /languages
   # GET /languages.xml

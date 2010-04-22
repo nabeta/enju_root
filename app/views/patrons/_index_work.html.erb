@@ -13,7 +13,7 @@
 <%- form_for :patrons, :url => work_patrons_path(@work), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if @work.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, @work -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -44,7 +44,7 @@
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
       <td>
-        <%- if patron.is_deletable_by(current_user) -%>
+        <%- if can? :destroy, patron -%>
           <%- if params[:mode] == 'add' -%>
             <%= link_to t('page.add'), new_work_create_path(@work, :patron_id => patron.id) unless @work.patrons.include?(patron) -%>
           <%- else -%>
@@ -62,7 +62,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Patron.is_creatable_by(current_user) -%>
+    <%- if can? :create, Patron -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_work_patron_path(@work) -%></li>
     <%- end -%>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>

@@ -14,7 +14,7 @@
     <td></td>
     <td><%= link_to h(shelf.display_name.localize), shelf_path(shelf) -%></td>
     <td><%= link_to h(shelf.library.display_name.localize), library_path(shelf.library.name) -%></td>
-    <%- if shelf.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, shelf -%>
       <td><%= link_to t('page.edit'), edit_shelf_path(shelf) -%></td>
       <td><%= link_to t('page.destroy'), shelf_path(shelf), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -28,7 +28,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Shelf.is_creatable_by(current_user) -%>
+    <%- if can? :create, Shelf -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.shelf')), new_shelf_path -%></li>
     <%- end -%>
   </ul>

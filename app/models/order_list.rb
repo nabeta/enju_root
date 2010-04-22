@@ -1,6 +1,5 @@
 class OrderList < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   named_scope :not_ordered, :conditions => ['ordered_at IS NULL']
 
   has_many :orders, :dependent => :destroy

@@ -1,5 +1,4 @@
 class Create < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :patron #, :counter_cache => true #, :polymorphic => true #, :validate => true
   belongs_to :work #, :counter_cache => true #, :validate => true
 

@@ -1,6 +1,4 @@
 class SearchEngine < ActiveRecord::Base
-  include AdministratorRequired
-
   default_scope :order => "position"
   belongs_to :library_group, :validate => true
   acts_as_list

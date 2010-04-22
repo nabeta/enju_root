@@ -1,5 +1,5 @@
 class ItemRelationshipTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /item_relationship_types
   # GET /item_relationship_types.xml

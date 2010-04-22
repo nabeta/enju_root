@@ -7,7 +7,7 @@
 <%- form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if @manifestation.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, @manifestation -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -44,7 +44,7 @@
     <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
     <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
     <td><%= item.circulation_status.display_name.localize -%></td>
-    <%- if item.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, item -%>
       <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
       <td><%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -59,7 +59,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
-    <%- if Item.is_creatable_by(current_user) -%>
+    <%- if can? :create, Item -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => @manifestation.id -%></li>
     <%- end -%>
   </ul>

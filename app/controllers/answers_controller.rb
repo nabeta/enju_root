@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class AnswersController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil, :except => [:edit]
   before_filter :get_question
 

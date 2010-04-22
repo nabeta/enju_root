@@ -1,5 +1,5 @@
 class ReserveStatHasManifestationsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /reserve_stat_has_manifestations
   # GET /reserve_stat_has_manifestations.xml

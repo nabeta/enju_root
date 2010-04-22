@@ -1,5 +1,5 @@
 class CheckoutTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_group
 
   # GET /checkout_types

@@ -1,6 +1,6 @@
 class SubjectHeadingTypesController < ApplicationController
   before_filter :check_client_ip_address, :get_subject
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /subject_heading_types
   # GET /subject_heading_types.xml

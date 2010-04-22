@@ -18,7 +18,7 @@
     <td>
       <%= link_to h(donate.item.item_identifier), donate.item -%>
     </td>
-    <%- if donate.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, donate -%>
       <td><%= link_to t('page.show'), donate -%></td>
       <td><%= link_to t('page.edit'), edit_donate_path(donate) -%></td>
       <td><%= link_to t('page.destroy'), donate, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -34,7 +34,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Donate.is_creatable_by(current_user) -%>
+    <%- if can? :create, Donate -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.donate')), new_donate_path -%></li>
     <%- end -%>
   </ul>

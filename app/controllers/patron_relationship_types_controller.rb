@@ -1,5 +1,5 @@
 class PatronRelationshipTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /patron_relationship_types
   # GET /patron_relationship_types.xml

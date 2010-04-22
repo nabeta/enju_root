@@ -20,7 +20,7 @@
     <td><%= link_to truncate(h(answer.body), :length => 20), user_question_answer_path(answer.user.username, answer.question, answer) -%></td>
     <td><%= l(answer.created_at) -%></td>
     <td><%= l(answer.updated_at) -%></td>
-    <%- if answer.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, answer -%>
       <td><%= link_to t('page.show'), user_question_answer_path(answer.user.username, answer.question, answer) -%></td>
       <td><%= link_to t('page.edit'), edit_user_question_answer_path(answer.user.username, answer.question, answer) -%></td>
       <td><%= link_to t('page.destroy'), user_question_answer_path(answer.user.username, answer.question, answer), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

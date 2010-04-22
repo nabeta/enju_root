@@ -1,6 +1,6 @@
 class CheckoutsController < ApplicationController
   before_filter :access_denied, :only => [:new, :create]
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil, :only => :index
   before_filter :get_user, :except => :index
   before_filter :get_item

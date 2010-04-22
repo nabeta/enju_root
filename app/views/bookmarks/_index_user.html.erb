@@ -29,7 +29,7 @@
     </td>
     <td><%= l(bookmark.created_at) -%></td>
     <td><%= l(bookmark.updated_at) -%></td>
-    <%- if bookmark.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, bookmark -%>
       <td><%= link_to t('page.destroy'), user_bookmark_path(bookmark.user, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
@@ -43,7 +43,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Bookmark.is_creatable_by(current_user) -%>
+    <%- if can? :create, Bookmark -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_user_bookmark_path(@user) -%></li>
     <%- end -%>
   </ul>

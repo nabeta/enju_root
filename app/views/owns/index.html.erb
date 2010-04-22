@@ -22,7 +22,7 @@
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => own.item.manifestation} -%>
     </td>
-    <%- if own.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, own -%>
       <td><%= link_to t('page.show'), own -%></td>
       <td><%= link_to t('page.destroy'), own, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -36,7 +36,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Own.is_creatable_by(current_user) -%>
+    <%- if can? :create, Own -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.own')), new_own_path -%></li>
     <%- end -%>
   </ul>

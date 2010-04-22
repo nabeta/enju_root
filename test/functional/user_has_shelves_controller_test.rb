@@ -3,10 +3,16 @@ require 'test_helper'
 class UserHasShelvesControllerTest < ActionController::TestCase
   fixtures :user_has_shelves, :users
 
-  test "should get index" do
+  test "guest should not get index" do
+    get :index
+    assert_response :redirect
+    assert_redirected_to new_user_session_url
+  end
+
+  test "user should get index" do
+    sign_in users(:user1)
     get :index
     assert_response :success
-    assert_not_nil assigns(:user_has_shelves)
   end
 
   test "guest should not get new" do

@@ -1,6 +1,4 @@
 class Country < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   has_many :patrons
   #has_many :people

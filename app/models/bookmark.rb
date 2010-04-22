@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Bookmark < ActiveRecord::Base
-  include LibrarianOwnerRequired
-
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :manifestation

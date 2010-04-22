@@ -1,7 +1,6 @@
 class SubjectHasClassificationsController < ApplicationController
-  include OnlyLibrarianCanModify
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_subject
   before_filter :get_classification
 

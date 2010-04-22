@@ -1,5 +1,4 @@
 class ReserveStatHasUser < ActiveRecord::Base
-  include LibrarianRequired
   belongs_to :user_reserve_stat
   belongs_to :user
 

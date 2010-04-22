@@ -1,6 +1,5 @@
 class ManifestationReserveStat < ActiveRecord::Base
   include AASM
-  include OnlyLibrarianCanModify
   include CalculateStat
   named_scope :not_calculated, :conditions => {:state => 'pending'}
   has_many :reserve_stat_has_manifestations

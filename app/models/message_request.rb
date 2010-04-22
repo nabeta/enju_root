@@ -1,6 +1,5 @@
 class MessageRequest < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   named_scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
   named_scope :sent, :conditions => {:state => 'sent'}
   named_scope :started, :conditions => {:state => 'started'}

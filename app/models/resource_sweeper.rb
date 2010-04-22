@@ -227,8 +227,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
           expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => false, :locale => locale.to_s)
           if fragments
             fragments.each do |fragment|
-              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :editable => true, :locale => locale.to_s)
-              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s)
+              Role.all.each do |role|
+                expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :role => role.name, :locale => locale.to_s)
+              end
+              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :role => nil, :locale => locale.to_s)
             end
           end
         end

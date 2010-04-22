@@ -20,7 +20,7 @@
     </td>
     <td><%= reserve.request_status_type.display_name.localize -%></td>
     <td><%= l(reserve.expired_at, :format => :only_date) -%></td>
-    <%- if reserve.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, reserve -%>
       <td><%= link_to t('page.show'), user_reserve_path(reserve.user.username, reserve) -%></td>
       <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.username, reserve) -%></td>
       <td>

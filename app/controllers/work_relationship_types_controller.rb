@@ -1,5 +1,5 @@
 class WorkRelationshipTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /work_relationship_types
   # GET /work_relationship_types.xml

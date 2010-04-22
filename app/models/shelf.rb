@@ -1,6 +1,4 @@
 class Shelf < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]

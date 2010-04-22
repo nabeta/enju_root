@@ -33,7 +33,7 @@
       <td><%= patron.patron_type.display_name.localize  -%></td>
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
-      <%- if patron.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, patron -%>
         <td><%= link_to t('page.edit'), edit_patron_path(patron) -%></td>
         <td>
           <%= link_to t('page.add_derivation'), patron_patrons_path(patron) -%>
@@ -49,7 +49,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Patron.is_creatable_by(current_user) -%>
+    <%- if can? :create, Patron -%>
       <li><%= link_to t('patron.add'), new_patron_path -%></li>
       <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
     <%- end -%>

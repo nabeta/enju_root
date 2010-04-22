@@ -13,7 +13,7 @@
 <%- for work_to_expression_rel_type in @work_to_expression_rel_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if work_to_expression_rel_type.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, work_to_expression_rel_type -%>
         <%= move_position(work_to_expression_rel_type) -%>
       <%- end -%>
     </td>

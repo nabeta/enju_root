@@ -12,13 +12,13 @@
 <%- @circulation_statuses.each do |circulation_status| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if circulation_status.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, circulation_status -%>
         <%= move_position(circulation_status) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(circulation_status.name), circulation_status -%></td>
     <td><%= link_to h(circulation_status.display_name.localize), circulation_status -%></td>
-    <%- if circulation_status.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, circulation_status -%>
       <td><%= link_to t('page.edit'), edit_circulation_status_path(circulation_status) -%></td>
       <td><%= link_to t('page.destroy'), circulation_status, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -31,7 +31,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if CirculationStatus.is_creatable_by(current_user) -%>
+    <%- if can? :create, CirculationStatus -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.circulation_status')), new_circulation_status_path -%></li>
     <%- end -%>
   </ul>

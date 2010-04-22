@@ -1,6 +1,5 @@
 class EventImportFile < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 

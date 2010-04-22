@@ -1,5 +1,5 @@
 class ResourcesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   include OaiController
 

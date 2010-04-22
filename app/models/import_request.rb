@@ -1,5 +1,4 @@
 class ImportRequest < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   include AASM
 
   default_scope :order => 'id DESC'

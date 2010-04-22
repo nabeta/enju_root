@@ -210,10 +210,10 @@ class ManifestationsControllerTest < ActionController::TestCase
   #  assert_response :forbidden
   #end
   
-  def test_user_should_get_new
+  def test_user_should_not_get_new
     sign_in users(:user1)
     get :new
-    assert_response :success
+    assert_response :forbidden
   end
   
   #def test_librarian_should_not_get_new_without_expression_id
@@ -264,17 +264,13 @@ class ManifestationsControllerTest < ActionController::TestCase
   #  assert_response :forbidden
   #end
 
-  def test_user_should_create_manifestation
+  def test_user_should_not_create_manifestation
     sign_in users(:user1)
-    assert_difference('Manifestation.count') do
+    assert_no_difference('Manifestation.count') do
       post :create, :manifestation => { :original_title => 'test', :carrier_type_id => 1 }
     end
     
-    assert_response :redirect
-    assert assigns(:manifestation)
-    assert assigns(:manifestation).embodies
-    assert_redirected_to manifestation_url(assigns(:manifestation))
-    assigns(:manifestation).remove_from_index!
+    assert_response :forbidden
   end
 
   #def test_librarian_should_not_create_manifestation_without_expression
@@ -321,29 +317,6 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestation).embodies
     assert_redirected_to manifestation_url(assigns(:manifestation))
     assigns(:manifestation).remove_from_index!
-  end
-
-  def test_librarian_should_import_manifestation_with_isbn
-    sign_in users(:librarian1)
-    old_count = Manifestation.count
-    post :create, :manifestation => { :isbn => '4820403303' }, :mode => 'import_isbn'
-    assert_equal old_count+1, Manifestation.count
-    
-    assert assigns(:manifestation)
-    assert assigns(:manifestation).nbn
-    assert assigns(:manifestation).embodies
-    assert_redirected_to manifestation_url(assigns(:manifestation))
-    assigns(:manifestation).remove_from_index!
-  end
-
-  def test_librarian_should_not_import_manifestation_with_wrong_isbn
-    sign_in users(:librarian1)
-    old_count = Manifestation.count
-    post :create, :manifestation => { :isbn => '4820403303x' }, :mode => 'import_isbn'
-    assert_nil assigns(:manifestation)
-    assert_equal old_count, Manifestation.count
-    
-    assert_redirected_to new_manifestation_url(:mode => 'import_isbn')
   end
 
   def test_admin_should_create_manifestation_with_expression
@@ -425,7 +398,7 @@ class ManifestationsControllerTest < ActionController::TestCase
 
   def test_librarian_should_show_manifestation_with_patron_not_produced
     sign_in users(:librarian1)
-    get :show, :id => 1, :patron_id => 2
+    get :show, :id => 3, :patron_id => 1
     assert_response :success
   end
 
@@ -438,7 +411,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_guest_should_not_get_edit
     get :edit, :id => 1
     assert_response :redirect
-    assert_redirected_to new_user_session_url(:unauthenticated => true)
+    assert_redirected_to new_user_session_url
   end
   
   def test_user_should_not_get_edit

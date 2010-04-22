@@ -1,14 +1,14 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :editable => false, :locale => @locale) do -%>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :role => nil, :locale => @locale) do -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- end -%>
   
   <%- form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if @manifestation.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @manifestation -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -41,7 +41,7 @@
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
-      <%- if expression.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, expression -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) -%>
         <%- else -%>

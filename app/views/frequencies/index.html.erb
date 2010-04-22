@@ -12,13 +12,13 @@
 <%- @frequencies.each do |frequency| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if frequency.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, frequency -%>
         <%= move_position(frequency) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(frequency.name), frequency -%></td>
     <td><%= link_to h(frequency.display_name.localize), frequency -%></td>
-    <%- if frequency.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, frequency -%>
       <td><%= link_to t('page.edit'), edit_frequency_path(frequency) -%></td>
       <td><%= link_to t('page.destroy'), frequency, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -31,7 +31,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Frequency.is_creatable_by(current_user) -%>
+    <%- if can? :create, Frequency -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.frequency')), new_frequency_path -%></li>
     <%- end -%>
  </ul>

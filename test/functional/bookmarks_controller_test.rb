@@ -102,20 +102,17 @@ class BookmarksControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_bookmark
-    old_count = Bookmark.count
-    post :create, :bookmark => {:title => 'example', :url => 'http://example.com'}
-    assert_equal old_count, Bookmark.count
-    
+    assert_no_difference('Bookmark.count') do
+      post :create, :bookmark => {:title => 'example', :url => 'http://example.com'}
+    end
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_create_bookmark
     sign_in users(:user1)
-    old_count = Bookmark.count
-    post :create, :bookmark => {:title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).username
-    assert_equal old_count+1, Bookmark.count
-    #assert assigns(:bookmark).manifestation
-    #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    assert_difference('Bookmark.count') do
+      post :create, :bookmark => {:title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).username
+    end
     
     assert_redirected_to bookmark_url(assigns(:bookmark))
     assigns(:bookmark).remove_from_index!
@@ -123,14 +120,12 @@ class BookmarksControllerTest < ActionController::TestCase
 
   def test_user_should_create_bookmark_with_local_url
     sign_in users(:user1)
-    old_count = Bookmark.count
-    post :create, :bookmark => {:title => 'example', :url => "#{LibraryGroup.url}manifestations/10"}
-    #assert assigns(:bookmark).manifestation
-    #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
+    assert_difference('Bookmark.count') do
+      post :create, :bookmark => {:title => 'example', :url => "#{LibraryGroup.url}manifestations/10"}
+    end
     
     assert_redirected_to bookmark_url(assigns(:bookmark))
     assigns(:bookmark).remove_from_index!
-    assert_equal old_count+1, Bookmark.count
   end
 
   def test_user_should_not_create_other_users_bookmark
@@ -141,16 +136,15 @@ class BookmarksControllerTest < ActionController::TestCase
     
     assert_response :redirect
     assert_redirected_to bookmark_url(assigns(:bookmark))
-    assert_equal users(:user1), assigns(:bookmark).user
     assigns(:bookmark).remove_from_index!
   end
 
   def test_user_should_create_bookmark_with_tag_list
     sign_in users(:user1)
-    old_count = Bookmark.count
     old_tag_count = Tag.count
-    post :create, :bookmark => {:tag_list => 'search', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).username
-    assert_equal old_count+1, Bookmark.count
+    assert_difference('Bookmark.count') do
+      post :create, :bookmark => {:tag_list => 'search', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).username
+    end
     
     assert_equal ['search'], assigns(:bookmark).tag_list
     assert_equal 1, assigns(:bookmark).tag_counts.size
@@ -162,10 +156,10 @@ class BookmarksControllerTest < ActionController::TestCase
 
   def test_user_should_create_bookmark_with_tag_list_include_wide_space
     sign_in users(:user1)
-    old_count = Bookmark.count
     old_tag_count = Tag.count
-    post :create, :bookmark => {:tag_list => 'タグの　テスト', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).username
-    assert_equal old_count+1, Bookmark.count
+    assert_difference('Bookmark.count') do
+      post :create, :bookmark => {:tag_list => 'タグの　テスト', :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user1).username
+    end
     
     #assert_equal ['タグの', 'テスト'], assigns(:bookmark).tag_list
     #assert_nil assigns(:bookmark).manifestation.items.first.item_identifier
@@ -177,18 +171,18 @@ class BookmarksControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_bookmark_without_url
     sign_in users(:user1)
-    old_count = Bookmark.count
-    post :create, :bookmark => {}, :user_id => users(:user1).username
-    assert_equal old_count, Bookmark.count
+    assert_no_difference('Bookmark.count') do
+      post :create, :bookmark => {}, :user_id => users(:user1).username
+    end
     
     assert_equal 'Invalid URL.', flash[:notice]
   end
 
   def test_user_should_not_create_bookmark_already_bookmarked
     sign_in users(:user1)
-    old_count = Bookmark.count
-    post :create, :bookmark => {:user_id => users(:user1).id, :url => 'http://www.slis.keio.ac.jp/'}, :user_id => users(:user1).username
-    assert_equal old_count, Bookmark.count
+    assert_no_difference('Bookmark.count') do
+      post :create, :bookmark => {:user_id => users(:user1).id, :url => 'http://www.slis.keio.ac.jp/'}, :user_id => users(:user1).username
+    end
     
     assert_equal 'This resource is already bookmarked.', flash[:notice]
   end

@@ -1,5 +1,4 @@
 class Exemplify < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :manifestation #, :counter_cache => true, :validate => true
   belongs_to :item #, :validate => true
 

@@ -1,5 +1,4 @@
 class RequestStatusType < ActiveRecord::Base
-  include AdministratorRequired
   has_many :reserves
 
   validates_presence_of :name, :display_name

@@ -113,7 +113,7 @@ class ItemsControllerTest < ActionController::TestCase
   
   def test_guest_should_not_create_item
     old_count = Item.count
-    post :create, :item => { :circulation_status_id => 1, :manifestation_id => 1 }
+    post :create, :item => { :circulation_status_id => 1 }, :manifestation_id => 1
     assert_equal old_count, Item.count
     
     assert_redirected_to new_user_session_url

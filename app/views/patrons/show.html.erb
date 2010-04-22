@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @patron.id, :action => :show, :controller => :patrons, :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do
+    cache(:id => @patron.id, :action => :show, :controller => :patrons, :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
   -%>
   <h2 class="resource_title">
     [P]
@@ -14,7 +14,7 @@
   <%- end -%>
   <p>
     (<%= link_to_wikipedia(@patron.full_name_without_space) -%>)
-    <%- if !@patron.user && @patron.is_updatable_by(current_user)-%>
+    <%- if !@patron.user && can?(:update, @patron) -%>
       (<%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%>)
     <%- end -%>
   </p>
@@ -84,7 +84,7 @@
         <td><strong><%= t('activerecord.models.language') -%>:</strong></td>
         <td><%= @patron.language.display_name.localize -%></td>
       </tr>
-      <%- if @patron.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @patron -%>
         <tr>
           <td><strong><%= t('activerecord.attributes.patron.zip_code_1') -%>:</strong></td>
           <td><%= @patron.zip_code_1 -%></td>
@@ -167,7 +167,7 @@
 </div>
 
 <div id="submenu">
-  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :editable => @patron.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
+  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
     <%- unless @patron.picture_files.empty? -%>
       <div id="manifestation_book_jacket">
         <%= patron_custom_book_jacket(@patron) -%>
@@ -201,7 +201,7 @@
   <%- end -%>
   <ul>
     <li><%= link_to t('page.back'), patrons_path -%></li>
-    <%- if @patron.is_updatable_by(current_user) -%>
+    <%- if can? :update, @patron -%>
       <%- if @patron.user.blank? -%>
         <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
       <%- else -%>
@@ -210,7 +210,7 @@
       <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
     <%- end -%>
-    <%- if @patron.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, @patron -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.patron')), new_patron_path -%></li>
       <li><%= link_to t('page.destroy'), @patron, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>

@@ -1,5 +1,5 @@
 class MediumOfPerformancesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /medium_of_performances
   # GET /medium_of_performances.xml

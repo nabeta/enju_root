@@ -12,13 +12,13 @@
 <%- @use_restrictions.each do |use_restriction| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if use_restriction.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, use_restriction -%>
         <%= move_position(use_restriction) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(use_restriction.name), use_restriction -%></td>
     <td><%= link_to h(use_restriction.display_name.localize), use_restriction -%></td>
-    <%- if use_restriction.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, use_restriction -%>
       <td><%= link_to t('page.edit'), edit_use_restriction_path(use_restriction) -%></td>
       <td><%= link_to t('page.destroy'), use_restriction, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -31,7 +31,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if UseRestriction.is_creatable_by(current_user) -%>
+    <%- if can? :create, UseRestriction -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.use_restriction')), new_use_restriction_path -%></li >
     <%- end -%>
   </ul>

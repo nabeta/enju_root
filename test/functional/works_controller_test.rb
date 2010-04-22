@@ -78,36 +78,36 @@ class WorksControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_work
-    old_count = Work.count
-    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
-    assert_equal old_count, Work.count
+    assert_no_difference('Work.count') do
+      post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_work
     sign_in users(:user1)
-    old_count = Work.count
-    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
-    assert_equal old_count, Work.count
+    assert_no_difference('Work.count') do
+      post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_work_without_title
     sign_in users(:librarian1)
-    old_count = Work.count
-    post :create, :work => { :form_of_work_id => 1 }
-    assert_equal old_count, Work.count
+    assert_no_difference('Work.count') do
+      post :create, :work => { :form_of_work_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_create_work_without_form_of_work_id
     sign_in users(:librarian1)
-    old_count = Work.count
-    post :create, :work => { :original_title => 'test' }
-    assert_equal old_count+1, Work.count
+    assert_difference('Work.count') do
+      post :create, :work => { :original_title => 'test' }
+    end
     
     assert_redirected_to work_url(assigns(:work))
     assigns(:work).remove_from_index!
@@ -115,9 +115,9 @@ class WorksControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_work
     sign_in users(:librarian1)
-    old_count = Work.count
-    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
-    assert_equal old_count+1, Work.count
+    assert_difference('Work.count') do
+      post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
+    end
     
     assert_redirected_to work_url(assigns(:work))
     assigns(:work).remove_from_index!
@@ -125,9 +125,9 @@ class WorksControllerTest < ActionController::TestCase
 
   def test_admin_should_create_work
     sign_in users(:admin)
-    old_count = Work.count
-    post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
-    assert_equal old_count+1, Work.count
+    assert_difference('Work.count') do
+      post :create, :work => { :original_title => 'test', :form_of_work_id => 1 }
+    end
     
     assert_redirected_to work_url(assigns(:work))
     assigns(:work).remove_from_index!

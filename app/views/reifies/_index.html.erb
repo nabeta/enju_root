@@ -12,7 +12,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(reify.work.original_title), reify.work -%></td>
     <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
-    <%- if reify.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, reify -%>
       <td><%= link_to t('page.show'), reify -%></td>
       <td><%= link_to t('page.destroy'), reify, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -26,7 +26,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Reify.is_creatable_by(current_user) -%>
+    <%- if can? :create, Reify -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_reify_path -%></li>
     <%- end -%>
   </ul>

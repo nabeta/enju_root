@@ -1,6 +1,4 @@
 class FormOfWork < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "form_of_works.position"
   has_many :works
   validates_presence_of :name, :display_name

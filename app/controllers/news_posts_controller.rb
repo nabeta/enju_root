@@ -1,6 +1,6 @@
 class NewsPostsController < ApplicationController
   before_filter :check_client_ip_address, :except => [:index, :show]
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /news_posts

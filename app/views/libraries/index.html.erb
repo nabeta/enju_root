@@ -33,7 +33,7 @@
 <%- @libraries.each_with_index do |library, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if library.is_updatable_by(current_user) -%>
+      <%- if can? :update, library -%>
         <%= library.first? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_up.png', :size => '16x16', :alt => t('page.asc')), {:action => 'update', :position  => (library.position > 1 ? library.position - 1 : 1), :id => library.name}, :method => :put) -%>
         <%= library.last? ? image_tag('cross.png', :size => '16x16') : link_to(image_tag('arrow_down.png', :size => '16x16', :alt => t('page.desc')), {:action => 'update', :position => (library.position + 1), :id => library.name}, :method => :put) -%>
       <%- end -%>
@@ -50,7 +50,7 @@
       <%= library.telephone_number_2 -%>
     </td>
     <td><%= library.fax_number -%></td>
-    <%- if library.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, library -%>
       <td><%= link_to t('page.edit'), edit_library_path(library.name) -%></td>
       <td><%= link_to t('page.destroy'), library_path(library.name), :confirm => t('page.are_you_sure'), :method => :delete unless library.web? -%></td>
     <%- end -%>
@@ -63,7 +63,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Library.is_creatable_by(current_user) -%>
+    <%- if can? :create, Library -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.library')), new_library_path -%></li>
     <%- end -%>
   </ul>

@@ -13,14 +13,14 @@
 <%- @event_categories.each do |event_category| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if event_category.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, event_category -%>
         <%= move_position(event_category) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(event_category.name), event_category -%></td>
     <td><%= link_to h(event_category.display_name.localize), event_category -%></td>
     <td><%= event_category.note -%></td>
-    <%- if event_category.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, event_category -%>
       <td><%= link_to t('page.edit'), edit_event_category_path(event_category) -%></td>
       <td><%= link_to t('page.destroy'), event_category, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -34,7 +34,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if EventCategory.is_creatable_by(current_user) -%>
+    <%- if can? :create, EventCategory -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.event_category')), new_event_category_path -%></li>
     <%- end -%>
   </ul>

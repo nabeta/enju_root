@@ -13,7 +13,7 @@
 <%- for subject_heading_type in @subject_heading_types -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if subject_heading_type.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, subject_heading_type -%>
         <%= move_position(subject_heading_type) -%>
       <%- end -%>
     </td>

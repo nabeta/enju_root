@@ -19,9 +19,13 @@ class ApplicationController < ActionController::Base
 
   filter_parameter_logging :password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
+  rescue_from CanCan::AccessDenied do |exception|
+    flash[:error] = exception.message
+    access_denied; return
+  end
+
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement
-  #before_filter :has_permission?
 
   private
   def get_library_group
@@ -86,35 +90,35 @@ class ApplicationController < ActionController::Base
 
   def get_patron
     @patron = Patron.find(params[:patron_id]) if params[:patron_id]
-    access_denied unless @patron.is_readable_by(current_user) if @patron
+    authorize! :show, @patron if @patron
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_work
     @work = Work.find(params[:work_id]) if params[:work_id]
-    access_denied unless @work.is_readable_by(current_user) if @work
+    authorize! :show, @work if @work
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_item
     @item = Item.find(params[:item_id]) if params[:item_id]
-    access_denied unless @item.is_readable_by(current_user) if @item
+    authorize! :show, @item if @item
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_expression
     @expression = Expression.find(params[:expression_id]) if params[:expression_id]
-    access_denied unless @expression.is_readable_by(current_user) if @expression
+    authorize! :show, @expression if @expression
   rescue ActiveRecord::RecordNotFound
     not_found
   end
 
   def get_manifestation
     @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
-    access_denied unless @manifestation.is_readable_by(current_user) if @manifestation
+    authorize! :show, @manifestation if @manifestation
   rescue ActiveRecord::RecordNotFound
     not_found
   end
@@ -155,9 +159,10 @@ class ApplicationController < ActionController::Base
 
   def get_user
     @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
-    raise ActiveRecord::RecordNotFound unless @user
-    unless @user.is_readable_by(current_user)
-      access_denied; return
+    if @user
+      authorize! :show, @user
+    else
+      raise ActiveRecord::RecordNotFound
     end
     return @user
   rescue ActiveRecord::RecordNotFound
@@ -166,9 +171,8 @@ class ApplicationController < ActionController::Base
 
   def get_user_if_nil
     @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
-    if @user
-      access_denied unless @user.is_readable_by(current_user)
-    end
+    #authorize! :show, @user if @user
+    @user
   end
   
   def get_user_group
@@ -193,7 +197,7 @@ class ApplicationController < ActionController::Base
 
   def get_question
     @question = Question.find(params[:question_id]) if params[:question_id]
-    access_denied unless @question.is_readable_by(current_user) if @question
+    authorize! :show, @question if @question
   rescue ActiveRecord::RecordNotFound
     not_found
   end
