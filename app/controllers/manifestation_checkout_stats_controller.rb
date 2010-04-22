@@ -1,5 +1,5 @@
 class ManifestationCheckoutStatsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   after_filter :convert_charset, :only => :show
 
   # GET /manifestation_checkout_stats

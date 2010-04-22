@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Patron < ActiveRecord::Base
-  include LibrarianOwnerRequired
   include EnjuFragmentCache
 
   belongs_to :user #, :validate => true
@@ -66,7 +65,7 @@ class Patron < ActiveRecord::Base
   #acts_as_tree
   has_paper_trail
 
-  attr_accessor :user_id
+  attr_accessor :user_username
   def self.per_page
     10
   end

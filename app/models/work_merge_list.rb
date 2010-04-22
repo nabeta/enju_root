@@ -1,5 +1,4 @@
 class WorkMergeList < ActiveRecord::Base
-  include LibrarianRequired
   has_many :work_merges, :dependent => :destroy
   has_many :works, :through => :work_merges
   validates_presence_of :title

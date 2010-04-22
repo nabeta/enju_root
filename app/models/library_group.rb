@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 class LibraryGroup < ActiveRecord::Base
   #include Singleton
-  include OnlyAdministratorCanModify
   #include Configurator
 
   has_many :libraries

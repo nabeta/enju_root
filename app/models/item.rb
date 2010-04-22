@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Item < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   include EnjuFragmentCache
 
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']

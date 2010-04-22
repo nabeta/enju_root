@@ -1,6 +1,4 @@
 class CarrierType < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   has_many :manifestations
   #has_many :available_carrier_types

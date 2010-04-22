@@ -1,5 +1,5 @@
 class CarrierTypeHasCheckoutTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_checkout_type
   before_filter :prepare_options, :only => [:new, :edit]
 

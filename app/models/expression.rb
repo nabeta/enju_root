@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Expression < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   include EnjuFragmentCache
 
   has_one :reify, :dependent => :destroy

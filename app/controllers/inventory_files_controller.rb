@@ -1,5 +1,5 @@
 class InventoryFilesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /inventory_files
   # GET /inventory_files.xml

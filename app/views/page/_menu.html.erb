@@ -4,12 +4,12 @@
     <div id="search_menu" class="hidden">
       <ul>
         <li><%= link_to t('page.search_resource', :model => t('page.resource')), manifestations_path -%></li>
-        <%- if Bookmark.is_indexable_by(current_user) -%>
+        <%- if can? :create, Bookmark -%>
           <li><%= link_to t('page.search_resource', :model => t('activerecord.models.bookmark')), user_bookmarks_path(current_user.username) -%></li>
         <%- end -%>
         <li><%= link_to t('page.search_resource', :model => t('activerecord.models.question')), questions_path -%></li>
         <li><%= link_to t('page.search_resource', :model => t('activerecord.models.patron')), patrons_path -%></li>
-        <%- if User.is_indexable_by(current_user) -%>
+        <%- if can? :index, User -%>
           <li><%= link_to t('page.search_resource', :model => t('activerecord.models.user')), users_path -%></li>
         <%- end -%>
         <li><%= link_to t('page.search_resource', :model => t('activerecord.models.subject')), subjects_path -%></li>
@@ -122,7 +122,7 @@
           <%- @library_group.physical_libraries.each do |library| -%>
             <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
           <%- end -%>
-          <%- if Event.is_creatable_by(current_user) -%>
+          <%- if can? :create, Event -%>
             <li><%= link_to t('page.import'), new_event_import_file_path -%></li>
           <%- end -%>
         </ul>

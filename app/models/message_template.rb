@@ -1,5 +1,4 @@
 class MessageTemplate < ActiveRecord::Base
-  include LibrarianRequired
   has_many :message_requests
 
   validates_uniqueness_of :status

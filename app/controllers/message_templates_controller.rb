@@ -1,6 +1,6 @@
 class MessageTemplatesController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /message_templates
   # GET /message_templates.xml

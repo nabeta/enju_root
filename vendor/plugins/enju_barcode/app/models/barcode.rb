@@ -1,5 +1,4 @@
 class Barcode < ActiveRecord::Base
-  include LibrarianRequired
   belongs_to :barcodable, :polymorphic => true
 
   validates_presence_of :code_word

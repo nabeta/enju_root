@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]

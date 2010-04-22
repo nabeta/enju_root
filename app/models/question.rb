@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'timeout'
 class Question < ActiveRecord::Base
-  include LibrarianOwnerRequired
   default_scope :order => 'id DESC'
   named_scope :public_questions, :conditions => {:shared => true}
   named_scope :private_questions, :conditions => {:shared => false}

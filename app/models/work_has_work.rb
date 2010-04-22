@@ -1,5 +1,4 @@
 class WorkHasWork < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :from_work, :foreign_key => 'from_work_id', :class_name => 'Work'
   belongs_to :to_work, :foreign_key => 'to_work_id', :class_name => 'Work'
   belongs_to :work_relationship_type

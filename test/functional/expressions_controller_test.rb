@@ -112,18 +112,18 @@ class ExpressionsControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_expression
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
-    assert_equal old_count, Expression.count
+    assert_no_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_create_expression_without_work_id
     sign_in users(:admin)
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }
-    assert_equal old_count, Expression.count
+    assert_no_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }
+    end
     
     assert_response :redirect
     assert_redirected_to works_path
@@ -131,18 +131,18 @@ class ExpressionsControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_expression
     sign_in users(:user1)
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
-    assert_equal old_count, Expression.count
+    assert_no_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_create_expression
     sign_in users(:librarian1)
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
-    assert_equal old_count+1, Expression.count
+    assert_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1}, :work_id => 1
+    end
     
     assert_redirected_to expression_url(assigns(:expression))
     assigns(:expression).remove_from_index!
@@ -150,9 +150,9 @@ class ExpressionsControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_expression_without_content_type_id
     sign_in users(:librarian1)
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :language_id => 1}, :work_id => 1
-    assert_equal old_count+1, Expression.count
+    assert_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :language_id => 1}, :work_id => 1
+    end
     
     assert assigns(:expression)
     assert assigns(:expression).content_type
@@ -163,9 +163,9 @@ class ExpressionsControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_expression_without_language_id
     sign_in users(:librarian1)
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :content_type_id => 1 }, :work_id => 1
-    assert_equal old_count+1, Expression.count
+    assert_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :content_type_id => 1 }, :work_id => 1
+    end
     
     assert assigns(:expression)
     assert assigns(:expression).language
@@ -176,9 +176,9 @@ class ExpressionsControllerTest < ActionController::TestCase
 
   def test_admin_should_create_expression
     sign_in users(:admin)
-    old_count = Expression.count
-    post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }, :work_id => 1
-    assert_equal old_count+1, Expression.count
+    assert_difference('Expression.count') do
+      post :create, :expression => { :original_title => 'test', :content_type_id => 1, :language_id => 1 }, :work_id => 1
+    end
     
     assert_redirected_to expression_url(assigns(:expression))
     assigns(:expression).remove_from_index!
@@ -203,7 +203,7 @@ class ExpressionsControllerTest < ActionController::TestCase
 
   def test_librarian_should_show_expression_with_patron_not_realize
     sign_in users(:librarian1)
-    get :show, :id => 1, :patron_id => 2
+    get :show, :id => 2, :patron_id => 3
     assert_response :missing
   end
 

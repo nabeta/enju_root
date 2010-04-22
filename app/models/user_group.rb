@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class UserGroup < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   has_many :users
   #has_many :available_carrier_types

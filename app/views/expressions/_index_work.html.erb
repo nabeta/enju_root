@@ -15,7 +15,7 @@
   <%- form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if @work.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @work -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -47,7 +47,7 @@
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
-      <%- if expression.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, expression -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_work_reify_path(@work, :expression_id => expression.id) unless @work.expressions.include?(expression) -%>
         <%- else -%>

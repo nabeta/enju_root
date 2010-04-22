@@ -24,7 +24,7 @@
       <td><%= link_to h(picture_file.picture_file_name), picture_file_path(picture_file, :format => :download, :size => 'original') -%></td>
       <td><%= picture_file.height -%></td>
       <td><%= picture_file.width -%></td>
-      <%- if picture_file.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, picture_file -%>
         <td><%= link_to t('page.show'), picture_file -%></td>
         <td><%= link_to t('page.edit'), edit_picture_file_path(picture_file) -%></td>
         <td><%= link_to t('page.destroy'), picture_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
@@ -38,7 +38,7 @@
 </div>
 
 <div id="submenu">
-  <%- if PictureFile.is_creatable_by(current_user) -%>
+  <%- if can? :create, PictureFile -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_picture_file_path -%></li>
     </ul>

@@ -1,5 +1,5 @@
 class CheckoutStatHasUsersController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /checkout_stat_has_users
   # GET /checkout_stat_has_users.xml

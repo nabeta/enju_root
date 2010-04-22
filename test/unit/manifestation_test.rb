@@ -144,7 +144,7 @@ class ManifestationTest < ActiveSupport::TestCase
   end
 
   def test_not_reserved
-    assert_equal false, manifestations(:manifestation_00007).is_reserved_by(users(:user1))
+    assert_equal nil, manifestations(:manifestation_00007).is_reserved_by(users(:user1))
   end
 
   def test_manifestation_should_show_languages

@@ -1,6 +1,4 @@
 class Language < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   # If you wish to change the field names for brevity, feel free to enable/modify these.
   # alias_attribute :iso1, :iso_639_1

@@ -1,5 +1,4 @@
 class PurchaseRequest < ActiveRecord::Base
-  include LibrarianOwnerRequired
   named_scope :not_ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NULL']
   named_scope :ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NOT NULL']
 

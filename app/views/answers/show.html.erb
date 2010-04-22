@@ -42,7 +42,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if @answer.is_updatable_by(current_user) -%>
+    <%- if can? :update, @answer -%>
       <li><%= link_to t('page.edit'), edit_user_question_answer_path(@answer.question.user.username, @answer.question, @answer) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), user_question_answers_path(@answer.question.user.username, @answer.question) -%></li>

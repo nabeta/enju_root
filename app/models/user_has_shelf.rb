@@ -1,5 +1,4 @@
 class UserHasShelf < ActiveRecord::Base
-  include LibrarianOwnerRequired
   belongs_to :user
   belongs_to :shelf
 

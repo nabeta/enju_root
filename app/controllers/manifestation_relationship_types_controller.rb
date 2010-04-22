@@ -1,5 +1,5 @@
 class ManifestationRelationshipTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /manifestation_relationship_types
   # GET /manifestation_relationship_types.xml

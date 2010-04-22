@@ -1,5 +1,5 @@
 class LendingPoliciesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_group, :get_item
   before_filter :prepare_options, :only => [:new, :edit]
 

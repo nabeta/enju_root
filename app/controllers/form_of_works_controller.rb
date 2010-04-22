@@ -1,5 +1,5 @@
 class FormOfWorksController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /form_of_works
   # GET /form_of_works.xml

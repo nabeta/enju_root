@@ -1,5 +1,5 @@
 class CarrierTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /carrier_types
   # GET /carrier_types.xml

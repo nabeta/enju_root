@@ -1,5 +1,5 @@
 class WorkToExpressionRelTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /work_to_expression_rel_types
   # GET /work_to_expression_rel_types.xml

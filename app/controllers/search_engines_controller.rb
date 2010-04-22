@@ -1,5 +1,5 @@
 class SearchEnginesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /search_engines
   # GET /search_engines.xml

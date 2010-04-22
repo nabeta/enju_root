@@ -53,53 +53,53 @@ class ReifiesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_reify
-    old_count = Reify.count
-    post :create, :reify => { :work_id => 1, :expression_id => 1 }
-    assert_equal old_count, Reify.count
+    assert_no_difference('Reify.count') do
+      post :create, :reify => { :work_id => 1, :expression_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_reify
-    old_count = Reify.count
-    post :create, :reify => { :work_id => 1, :expression_id => 1 }
-    assert_equal old_count, Reify.count
+    assert_no_difference('Reify.count') do
+      post :create, :reify => { :work_id => 1, :expression_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_reify_without_work_id
     sign_in users(:librarian1)
-    old_count = Reify.count
-    post :create, :reify => { :expression_id => 1 }
-    assert_equal old_count, Reify.count
+    assert_no_difference('Reify.count') do
+      post :create, :reify => { :expression_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_not_create_reify_without_expression_id
     sign_in users(:librarian1)
-    old_count = Reify.count
-    post :create, :reify => { :work_id => 1 }
-    assert_equal old_count, Reify.count
+    assert_no_difference('Reify.count') do
+      post :create, :reify => { :work_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_not_create_reify_already_created
     sign_in users(:librarian1)
-    old_count = Reify.count
-    post :create, :reify => { :work_id => 1, :expression_id => 1 }
-    assert_equal old_count, Reify.count
+    assert_no_difference('Reify.count') do
+      post :create, :reify => { :work_id => 1, :expression_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_create_reify_not_created_yet
     sign_in users(:librarian1)
-    old_count = Reify.count
-    post :create, :reify => { :work_id => 1, :expression_id => 6 }
-    assert_equal old_count+1, Reify.count
+    assert_difference('Reify.count') do
+      post :create, :reify => { :work_id => 1, :expression_id => 6 }
+    end
     
     assert_redirected_to reify_url(assigns(:reify))
   end

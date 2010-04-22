@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class PatronsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
   before_filter :get_patron, :only => :index
@@ -146,8 +146,8 @@ class PatronsController < ApplicationController
   # POST /patrons.xml
   def create
     @patron = Patron.new(params[:patron])
-    if @patron.user_id
-      @patron.user = User.find(@patron.user_id) rescue nil
+    if @patron.user_username
+      @patron.user = User.find(@patron.user_username) rescue nil
     end
     unless current_user.has_role?('Librarian')
       if @patron.user != current_user

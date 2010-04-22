@@ -13,7 +13,7 @@
 <%- @patron_types.each do |patron_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if patron_type.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, patron_type -%>
         <%= move_position(patron_type) -%>
       <%- end -%>
     </td>

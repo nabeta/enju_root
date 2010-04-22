@@ -20,7 +20,7 @@
       <li title="active" class="selected"><a href="#classification"><em><%= t('activerecord.models.classification') -%></em></a></li>
       <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
     </ul>
-    <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :editable => @subject.is_updatable_by(current_user), :locale => @locale) do -%>
+    <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :role => current_user.try(:highest_role).try(:name), :locale => @locale) do -%>
     <div id="classification">
       <table class="index">
         <tr>
@@ -54,7 +54,7 @@
     <%- else -%>
       <li><%= link_to t('page.back'), subjects_path -%></li>
     <%- end -%>
-    <%- if SubjectHasClassification.is_creatable_by(current_user) -%>
+    <%- if can? :create, SubjectHasClassification -%>
       <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
       <li><%= link_to t('page.destroy'), subject_path(@subject), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
     <%- end -%>

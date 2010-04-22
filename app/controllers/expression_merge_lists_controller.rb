@@ -1,6 +1,6 @@
 class ExpressionMergeListsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /expression_merge_lists
   # GET /expression_merge_lists.xml

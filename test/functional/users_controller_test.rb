@@ -188,12 +188,6 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  def test_user_should_not_show_other_user
-    sign_in users(:user1)
-    get :edit, :id => users(:user2).username
-    assert_response :forbidden
-  end
-
   def test_librarian_should_edit_other_user
     sign_in users(:librarian1)
     get :edit, :id => users(:user1).username

@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Answer < ActiveRecord::Base
-  include LibrarianOwnerRequired
   named_scope :public_answers, :conditions => {:shared => true}
   named_scope :private_answers, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true

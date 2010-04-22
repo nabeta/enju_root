@@ -13,7 +13,7 @@
 <%- @manifestation_relationship_types.each do |manifestation_relationship_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if manifestation_relationship_type.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, manifestation_relationship_type -%>
         <%= move_position(manifestation_relationship_type) -%>
       <%- end -%>
     </td>

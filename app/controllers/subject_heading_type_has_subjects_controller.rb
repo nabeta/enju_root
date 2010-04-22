@@ -1,5 +1,5 @@
 class SubjectHeadingTypeHasSubjectsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /subject_heading_type_has_subjects

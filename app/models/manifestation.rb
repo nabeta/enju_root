@@ -5,8 +5,6 @@ require 'sru'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  #include OnlyLibrarianCanModify
-  include LibrarianOwnerRequired
   #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'manifestations.updated_at DESC'
   named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
@@ -681,11 +679,6 @@ class Manifestation < ActiveRecord::Base
 
   def bookmark_for(user)
     Bookmark.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
-  end
-
-  def is_readable_by(user, parent = nil)
-    return true if self.role_accepted?(user)
-    false
   end
 
   def has_single_work?

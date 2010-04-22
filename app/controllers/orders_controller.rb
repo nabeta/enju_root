@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_order_list
   before_filter :get_purchase_request
 

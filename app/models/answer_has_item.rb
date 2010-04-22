@@ -1,5 +1,4 @@
 class AnswerHasItem < ActiveRecord::Base
-  include LibrarianOwnerRequired
   belongs_to :answer
   belongs_to :item
 

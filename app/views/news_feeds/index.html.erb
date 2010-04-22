@@ -12,13 +12,13 @@
 <%- @news_feeds.each do |news_feed| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if news_feed.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, news_feed -%>
         <%= move_position(news_feed) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(news_feed.title), news_feed -%></td>
     <td><%= link_to h(news_feed.url), news_feed.url -%></td>
-    <%- if news_feed.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, news_feed -%>
       <td><%= link_to t('page.edit'), edit_news_feed_path(news_feed) -%></td>
       <td><%= link_to t('page.destroy'), news_feed, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

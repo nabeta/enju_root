@@ -1,5 +1,5 @@
 class FrequenciesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /frequencies
   # GET /frequencies.xml

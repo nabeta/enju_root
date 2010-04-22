@@ -81,8 +81,8 @@
 </p>
 -->
 
-<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
-<%- if @item.is_updatable_by(current_user) -%>
+<%- cache(:id => @item.id, :action => :show, :controller => :items, :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
+<%- if can? :update, @item -%>
   <p>
     <strong><%= t('item.donor') -%>:</strong>
     <%- @item.donors.each do |patron| -%>

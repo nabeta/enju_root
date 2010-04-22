@@ -22,7 +22,7 @@
     <td><%= i18n_state(import_request.state) -%></td>
     <td><%= link_to h(import_request.manifestation.original_title), import_request.manifestation if import_request.manifestation -%></td>
     <td>
-      <%- if import_request.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, import_request -%>
         <%= link_to t('page.destroy'), import_request, :confirm => t('page.are_you_sure'), :method => :delete -%>
       <%- end -%>
     </td>

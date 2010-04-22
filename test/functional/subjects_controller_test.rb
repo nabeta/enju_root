@@ -61,45 +61,45 @@ class SubjectsControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_subject
-    old_count = Subject.count
-    post :create, :subject => { }
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      post :create, :subject => { }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_subject
     sign_in users(:user1)
-    old_count = Subject.count
-    post :create, :subject => { }
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      post :create, :subject => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_subject
     sign_in users(:librarian1)
-    old_count = Subject.count
-    post :create, :subject => { }
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      post :create, :subject => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_subject_without_term
     sign_in users(:admin)
-    old_count = Subject.count
-    post :create, :subject => { }
-    assert_equal old_count, Subject.count
+    assert_no_difference('Subject.count') do
+      post :create, :subject => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_subject
     sign_in users(:admin)
-    old_count = Subject.count
-    post :create, :subject => {:term => 'test', :subject_type_id => 1}
-    assert_equal old_count+1, Subject.count
+    assert_difference('Subject.count') do
+      post :create, :subject => {:term => 'test', :subject_type_id => 1}
+    end
     
     assert_redirected_to subject_url(assigns(:subject))
   end

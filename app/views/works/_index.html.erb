@@ -29,7 +29,7 @@
       </td>
       <td><%= link_to work.form_of_work.display_name.localize, work.form_of_work -%></td>
       <td><%= link_to h(work.series_statement.original_title), work.series_statement if work.series_statement -%></td>
-      <%- if work.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, work -%>
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td>
           <%= link_to t('page.add_derivation'), work_works_path(work) -%>
@@ -45,7 +45,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Work.is_creatable_by(current_user) -%>
+    <%- if can? :create, Work -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
     <%- end -%>
   </ul>

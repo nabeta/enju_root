@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class ExpressionsController < ApplicationController
-  before_filter :has_permission?, :except => :show
+  load_and_authorize_resource
   before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_work, :get_manifestation

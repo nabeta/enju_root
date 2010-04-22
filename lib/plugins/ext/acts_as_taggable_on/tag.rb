@@ -1,5 +1,4 @@
 class Tag < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   has_friendly_id :name
 
   searchable do

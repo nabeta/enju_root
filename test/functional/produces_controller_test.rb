@@ -55,35 +55,35 @@ class ProducesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_produce
-    old_count = Produce.count
-    post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
-    assert_equal old_count, Produce.count
+    assert_no_difference('Produce.count') do
+      post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_produce
-    old_count = Produce.count
-    post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
-    assert_equal old_count, Produce.count
+    assert_no_difference('Produce.count') do
+      post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_librarian_should_not_create_produce_already_created
     sign_in users(:librarian1)
-    old_count = Produce.count
-    post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
-    assert_equal old_count, Produce.count
+    assert_no_difference('Produce.count') do
+      post :create, :produce => { :patron_id => 1, :manifestation_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_create_produce_not_created_yet
     sign_in users(:librarian1)
-    old_count = Produce.count
-    post :create, :produce => { :patron_id => 1, :manifestation_id => 10 }
-    assert_equal old_count+1, Produce.count
+    assert_difference('Produce.count') do
+      post :create, :produce => { :patron_id => 1, :manifestation_id => 10 }
+    end
     
     assert_redirected_to produce_url(assigns(:produce))
     assigns(:produce).patron.remove_from_index!

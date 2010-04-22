@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class BookmarksController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user, :only => :new
   before_filter :get_user_if_nil, :except => :new
   after_filter :solr_commit, :only => [:create, :update, :destroy]

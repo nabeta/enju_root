@@ -1,5 +1,4 @@
 class WorkMerge < ActiveRecord::Base
-  include LibrarianRequired
   belongs_to :work, :validate => true
   belongs_to :work_merge_list, :validate => true
   validates_presence_of :work, :work_merge_list

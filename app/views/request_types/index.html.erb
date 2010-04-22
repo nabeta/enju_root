@@ -12,7 +12,7 @@
 <%- @request_types.each do |request_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if request_type.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, request_type -%>
         <%= move_position(request_type) -%>
       <%- end -%>
     </td>

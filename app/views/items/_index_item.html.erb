@@ -13,7 +13,7 @@
 <%- form_for :items, :url => item_items_path(@item), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if @item.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, @item -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -59,7 +59,7 @@
       <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
       <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
       <td><%= item.circulation_status.display_name.localize -%></td>
-      <%- if item.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, item -%>
         <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
         <td>
           <%- if params[:mode] == "add" -%>
@@ -80,7 +80,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Item.is_creatable_by(current_user) -%>
+    <%- if can? :create, Item -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
     <%- end -%>
   </ul>

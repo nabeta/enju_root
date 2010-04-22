@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class LibraryGroupsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   cache_sweeper :library_group_sweeper, :only => [:create, :update, :destroy]
 
   # GET /library_groups
