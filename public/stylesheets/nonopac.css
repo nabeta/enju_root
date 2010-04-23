@@ -437,7 +437,7 @@ em{
   font-style: normal;
 }
 
-div#flash_alert{
+div#flash_alert, div#flash_error{
   color: red;
 }
 

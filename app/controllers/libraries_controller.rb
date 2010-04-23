@@ -71,8 +71,6 @@ class LibrariesController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /libraries/new
@@ -92,8 +90,6 @@ class LibrariesController < ApplicationController
     @library = Library.first(:conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.nil?
     @library_groups = LibraryGroup.all
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /libraries
@@ -139,8 +135,6 @@ class LibrariesController < ApplicationController
         format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /libraries/1
@@ -156,8 +150,6 @@ class LibrariesController < ApplicationController
       format.html { redirect_to libraries_url }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   rescue
     access_denied
   end

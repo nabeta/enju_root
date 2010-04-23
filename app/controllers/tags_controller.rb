@@ -50,14 +50,10 @@ class TagsController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @tag }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def edit
     @tag = Tag.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def update
@@ -73,8 +69,6 @@ class TagsController < ApplicationController
         format.xml  { render :xml => @tag.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /tags/1
