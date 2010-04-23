@@ -113,8 +113,6 @@ class PatronsController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /patrons/new

@@ -19,10 +19,8 @@ class ApplicationController < ActionController::Base
 
   filter_parameter_logging :password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
 
-  rescue_from CanCan::AccessDenied do |exception|
-    flash[:error] = exception.message
-    access_denied; return
-  end
+  rescue_from CanCan::AccessDenied, :with => :render_403
+  rescue_from ActiveRecord::RecordNotFound, :with => :render_404
 
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement
@@ -65,62 +63,36 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render(:file => "#{Rails.root}/public/404.html", :status => "404 Not Found")
-    return
+    raise ActiveRecord::RecordNotFound
   end
 
   def access_denied
-    respond_to do |format|
-      format.html do
-        store_location
-        if user_signed_in?
-          render(:file => "#{Rails.root}/public/403.html", :status => "403 Forbidden")
-        else
-          redirect_to new_user_session_url
-          #render(:file => "#{Rails.root}/public/401.html", :status => "401 Unauthorized")
-        end
-      end
-      # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
-      # you may want to change format.any to e.g. format.any(:js, :xml)
-      format.any(:json, :xml) do
-        request_http_basic_authentication 'Web Password'
-      end
-    end
+    raise CanCan::AccessDenied
   end
 
   def get_patron
     @patron = Patron.find(params[:patron_id]) if params[:patron_id]
     authorize! :show, @patron if @patron
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_work
     @work = Work.find(params[:work_id]) if params[:work_id]
     authorize! :show, @work if @work
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_item
     @item = Item.find(params[:item_id]) if params[:item_id]
     authorize! :show, @item if @item
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_expression
     @expression = Expression.find(params[:expression_id]) if params[:expression_id]
     authorize! :show, @expression if @expression
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_manifestation
     @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
     authorize! :show, @manifestation if @manifestation
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_carrier_type
@@ -129,32 +101,22 @@ class ApplicationController < ActionController::Base
 
   def get_shelf
     @shelf = Shelf.find(params[:shelf_id], :include => :library) if params[:shelf_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_basket
     @basket = Basket.find(params[:basket_id]) if params[:basket_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_patron_merge_list
     @patron_merge_list = PatronMergeList.find(params[:patron_merge_list_id]) if params[:patron_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_work_merge_list
     @work_merge_list = WorkMergeList.find(params[:work_merge_list_id]) if params[:work_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_expression_merge_list
     @expression_merge_list = ExpressionMergeList.find(params[:expression_merge_list_id]) if params[:expression_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_user
@@ -165,26 +127,19 @@ class ApplicationController < ActionController::Base
       raise ActiveRecord::RecordNotFound
     end
     return @user
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_user_if_nil
     @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
     #authorize! :show, @user if @user
-    @user
   end
   
   def get_user_group
     @user_group = UserGroup.find(params[:user_group_id]) if params[:user_group_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
                     
   def get_library
     @library = Library.find(params[:library_id]) if params[:library_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_libraries
@@ -198,74 +153,50 @@ class ApplicationController < ActionController::Base
   def get_question
     @question = Question.find(params[:question_id]) if params[:question_id]
     authorize! :show, @question if @question
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_event
     @event = Event.find(params[:event_id]) if params[:event_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_bookstore
     @bookstore = Bookstore.find(params[:bookstore_id]) if params[:bookstore_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subject
     @subject = Subject.find(params[:subject_id]) if params[:subject_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_classification
     @classification = Classification.find(params[:classification_id]) if params[:classification_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_order_list
     @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_purchase_request
     @purchase_request = PurchaseRequest.find(params[:purchase_request_id]) if params[:purchase_request_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_checkout_type
     @checkout_type = CheckoutType.find(params[:checkout_type_id]) if params[:checkout_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_inventory_file
     @inventory_file = InventoryFile.find(params[:inventory_file_id]) if params[:inventory_file_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subject_heading_type
     @subject_heading_type = SubjectHeadingType.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def librarian_authorized?
@@ -426,20 +357,25 @@ class ApplicationController < ActionController::Base
     true unless params[:format].nil? or params[:format] == 'html'
   end
 
-  def local_request?
-    false
+  def render_403
+    if user_signed_in?
+      respond_to do |format|
+        format.html {render :template => 'page/403', :status => 403}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    else
+      respond_to do |format|
+        format.html {redirect_to new_user_session_url}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    end
   end
 
-  def rescue_404
-    rescue_action_in_public(ActionController::RoutingError)
+  def render_404
+    respond_to do |format|
+      format.html {render :template => 'page/404', :status => 404}
+      format.xml {render :template => 'page/404', :status => 404}
+    end
   end
 
-  def rescue_action_in_public(exception)
-    #case exception
-    #when ActiveRecord::RecordNotFound
-      render :template => 'page/404', :status => 404
-    #else
-      #super
-    #end
-  end
 end

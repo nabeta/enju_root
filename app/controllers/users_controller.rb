@@ -86,8 +86,6 @@ class UsersController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @user }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def new
@@ -130,8 +128,6 @@ class UsersController < ApplicationController
     end
     prepare_options
 
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def update
@@ -207,8 +203,6 @@ class UsersController < ApplicationController
     #  redirect_to edit_user_url(@user.username)
     #end
 
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def create
@@ -246,8 +240,6 @@ class UsersController < ApplicationController
         format.xml  { render :xml => @user.errors, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def destroy
@@ -296,8 +288,6 @@ class UsersController < ApplicationController
       format.html { redirect_to(users_url) }
       format.xml  { head :ok }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   rescue
     access_denied
   end
@@ -331,4 +321,5 @@ class UsersController < ApplicationController
   def last_request_update_allowed?
     true if %w[create update].include?(action_name)
   end
+
 end

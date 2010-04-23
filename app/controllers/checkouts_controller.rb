@@ -71,8 +71,6 @@ class CheckoutsController < ApplicationController
       }
     end
 
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checkouts/1

@@ -143,9 +143,6 @@ class Ability
       ] do |object|
         object.user == user
       end
-      can [:update, :destroy], [Question, Answer] do |object|
-        object.user == user
-      end
       can :index, Question
       can :show, [Question, Answer] do |object|
         object.user == user or object.shared

@@ -88,8 +88,6 @@ class ExpressionsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @expression }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /expressions/new

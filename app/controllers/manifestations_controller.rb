@@ -327,8 +327,6 @@ class ManifestationsController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /manifestations/new
@@ -377,8 +375,6 @@ class ManifestationsController < ApplicationController
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location unless params[:mode] == 'tag_edit'
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /manifestations
@@ -464,8 +460,6 @@ class ManifestationsController < ApplicationController
         format.json { render :json => @manifestation, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /manifestations/1

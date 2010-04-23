@@ -133,16 +133,16 @@ class ResourcesController < ApplicationController
     @resource = Resource.find(params[:id])
     if check_deleted?
       unless current_user.try(:has_role?, 'Librarian')
-        not_found; return
+        not_found
       end
     end
     unless current_user.try(:has_role?, 'Librarian')
       unless @resource.last_published
-        not_found; return
+        not_found
       end
       @resource = @resource.last_published
       unless @resource.last_published.try(:is_readable_by, current_user)
-        access_denied; return
+        access_denied
       end
     end
 
