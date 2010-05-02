@@ -1,7 +1,12 @@
 require 'action_controller'
 require 'action_view'
 
-require 'prawn'
+require 'prawn/core'
+begin 
+  require "prawn/layout" # give people what they probably want
+rescue LoadError
+end
+
 require 'prawnto/action_controller'
 require 'prawnto/action_view'
 

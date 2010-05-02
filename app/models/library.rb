@@ -15,6 +15,7 @@ class Library < ActiveRecord::Base
   #acts_as_soft_deletable
   has_friendly_id :name
   acts_as_geocodable
+  enju_calil_library
 
   searchable do
     text :name, :display_name, :note, :address
@@ -35,6 +36,22 @@ class Library < ActiveRecord::Base
 
   def after_save
     expire_cache
+  end
+
+  def before_save
+    set_calil_neighborhood_library
+    set_geocode
+  end
+
+  def set_geocode
+    self.latitude = self.geocode.latitude
+    self.longitude = self.geocode.longitude
+  rescue NoMethodError
+    nil
+  end
+
+  def set_calil_neighborhood_library
+    self.calil_neighborhood_systemid = self.calil_library(self.access_calil).collect{|l| l[:systemid]}.uniq.join(',')
   end
 
   def after_destroy

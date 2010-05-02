@@ -72,7 +72,7 @@ class Bookmark < ActiveRecord::Base
     taggings.each do |tagging|
       tagging.tagger = user
       tagging.save(false)
-      tagging.tag.index
+      Tag.find(tagging.tag_id).index
     end
   end
 

@@ -49,6 +49,7 @@ class ImportRequest < ActiveRecord::Base
       else
         aasm_fail!
       end
+      Sunspot.commit
     end
   end
 end

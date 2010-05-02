@@ -228,7 +228,7 @@ class ManifestationsController < ApplicationController
         prawnto :prawn => {
           :page_layout => :landscape,
           :page_size => "A4"},
-        :inline => true
+          :inline => true
       }
     end
   #rescue RSolr::RequestError
@@ -325,6 +325,12 @@ class ManifestationsController < ApplicationController
         render :update do |page|
           page.replace_html 'xisbn_list', :partial => 'show_xisbn' if params[:xisbn_page]
         end
+      }
+      format.pdf {
+        prawnto :prawn => {
+          :page_layout => :portrait,
+          :page_size => "A4"},
+          :inline => true
       }
     end
   end
@@ -616,6 +622,12 @@ class ManifestationsController < ApplicationController
         mime = FileWrapper.get_mime(@manifestation.screen_shot.path)
         send_file @manifestation.screen_shot.path, :type => mime, :disposition => 'inline'
       end
+    when 'calil_list'
+      render :partial => 'manifestations/calil_list'
+    when 'calil_map'
+      render :partial => 'manifestations/calil_map'
+    when 'referral'
+      render :template => 'manifestations/referral', :layout => false
     else
       false
     end

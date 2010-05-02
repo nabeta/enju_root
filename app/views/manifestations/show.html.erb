@@ -187,6 +187,14 @@
   <%- if @manifestation.items.on_shelf.first -%>
     <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
   <%- end -%>
+  <%- if user_signed_in? and @manifestation.isbn.present? %>
+    <div id="calil_list">
+      <span id="spinner_calil_list">
+        近隣の図書館を検索中… <img src="/images/spinner.gif" />
+      </span>
+    </div>
+  <% end %>
+
 <%
   cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_4', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
 %>
@@ -216,9 +224,11 @@
     end
   -%>
       <%- if can? :update, @manifestation -%>
+        <!--
         <%- if @manifestation.respond_to?(:post_to_twitter) -%>
           <%= render :partial => 'manifestations/twitter_comment' -%>
         <%- end -%>
+        -->
       <%- end -%>
 
 <%- if params[:mode] == 'generate_cache' -%>
@@ -330,3 +340,15 @@
     <%- end -%>
   </div>
 </div>
+
+<% if user_signed_in? and @manifestation.isbn.present? %>
+<script type="text/javascript">
+  window.onload = function() {
+    jQuery("#calil_list").load('<%= manifestation_path(@manifestation, :mode => 'calil_list') -%>', null, hideCalilSpinner);
+  }
+
+  function hideCalilSpinner(){
+    jQuery("#spinner_calil_list").hide();
+  }
+</script>
+<% end %>
