@@ -624,10 +624,6 @@ class ManifestationsController < ApplicationController
       end
     when 'calil_list'
       render :partial => 'manifestations/calil_list'
-    when 'calil_map'
-      render :partial => 'manifestations/calil_map'
-    when 'referral'
-      render :template => 'manifestations/referral', :layout => false
     else
       false
     end

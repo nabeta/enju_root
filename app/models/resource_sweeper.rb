@@ -3,8 +3,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     Create, Realize, Produce, Own, Bookmark, Patron, Language,
     Library, Basket, Checkin, WorkHasWork, ExpressionHasExpression,
     ManifestationHasManifestation, ItemHasItem, PatronHasPatron,
-    SeriesStatement, SubjectHeadingType, PictureFile, Shelf,
-    ActsAsTaggableOn::Tag
+    SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag
 
   def after_save(record)
     case
