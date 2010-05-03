@@ -48,9 +48,4 @@ class PurchaseRequest < ActiveRecord::Base
     self.date_of_publication
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
-  end
 end

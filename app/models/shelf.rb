@@ -33,15 +33,6 @@ class Shelf < ActiveRecord::Base
     Shelf.find(1)
   end
 
-  def is_deletable_by(user, parent = nil)
-    return false if self.id == 1
-    if user.try(:has_role?, 'Administrator')
-      true
-    else
-      false
-    end
-  end
-
   def first?
     # 必ずposition順に並んでいる
     return true if library.shelves.first.position == position

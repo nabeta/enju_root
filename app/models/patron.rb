@@ -188,47 +188,6 @@ class Patron < ActiveRecord::Base
     false
   end
 
-  def self.is_creatable_by(user, parent = nil)
-    #true if user.has_role?('Librarian')
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_readable_by(user, parent = nil)
-    # TODO: role id を使わない制御
-    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
-  rescue NoMethodError
-    false
-  end
-
-  def is_updatable_by(user, parent = nil)
-    if user and user == self.user
-      return true
-    end
-    if self.user
-      if self.user.has_role?('Librarian')
-        return true if user.has_role?('Administrator')
-      elsif self.user.has_role?('User')
-        return true if user.has_role?('Librarian')
-      end
-    else
-      return true if user.has_role?('Librarian')
-    end
-  rescue NoMethodError
-    false
-  end
-
-  def is_deletable_by(user, parent = nil)
-    if user.try(:has_role?, 'Librarian')
-      true
-    else
-      false
-    end
-  end
-
   def created(work)
     creates.first(:conditions => {:work_id => work.id})
   end
@@ -243,6 +202,12 @@ class Patron < ActiveRecord::Base
 
   def owned(item)
     owns.first(:conditions => {:item_id => item.id})
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
+  rescue NoMethodError
+    false
   end
 
 end

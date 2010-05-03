@@ -14,7 +14,8 @@ class Library < ActiveRecord::Base
   acts_as_list
   #acts_as_soft_deletable
   has_friendly_id :name
-  acts_as_geocodable
+  #acts_as_geocodable
+  geocoded_by :address
   enju_calil_library
 
   searchable do
@@ -38,9 +39,11 @@ class Library < ActiveRecord::Base
     expire_cache
   end
 
+  after_validation :fetch_coordinates
+
   def before_save
     set_calil_neighborhood_library
-    set_geocode
+    #set_geocode
   end
 
   def set_geocode
@@ -84,13 +87,6 @@ class Library < ActiveRecord::Base
     self.region.to_s + self.locality.to_s + " " + self.street.to_s
   rescue
     nil
-  end
-
-  def is_deletable_by(user, parent = nil)
-    raise if self.id == 1
-    true if user.has_role?('Administrator')
-  rescue
-    false
   end
 
 end
