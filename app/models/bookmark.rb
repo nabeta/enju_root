@@ -190,17 +190,4 @@ class Bookmark < ActiveRecord::Base
     end
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_deletable_by(user, parent = nil)
-    true if user == self.user || user.has_role?('Librarian')
-  rescue
-    false
-  end
 end

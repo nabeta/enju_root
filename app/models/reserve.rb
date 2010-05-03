@@ -174,29 +174,6 @@ class Reserve < ActiveRecord::Base
     end
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def self.is_creatable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_updatable_by(user, parent = nil)
-    raise if ['completed', 'canceled', 'expired'].include?(self.state)
-    true if user == self.user || user.has_role?('Librarian')
-  rescue
-    false
-  end
-
   def self.expire
     Reserve.transaction do
       reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)

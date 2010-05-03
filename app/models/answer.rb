@@ -22,20 +22,6 @@ class Answer < ActiveRecord::Base
     self.question.save
   end
 
-  def self.is_indexable_by(user, parent = nil)
-  #  if user.try(:has_role?, 'User')
-      true
-  #  else
-  #    false
-  #  end
-  end
-
-  def is_readable_by(user, parent = nil)
-    true if user == self.user || self.shared? || user.has_role?('Librarian')
-  rescue
-    false
-  end
-
   def add_items
     item_lists = item_identifier_list.to_s.strip.split.map{|i| Item.first(:conditions => {:item_identifier => i})}.compact
     self.items = item_lists
