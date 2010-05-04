@@ -20,16 +20,20 @@ class UserGroupHasCheckoutType < ActiveRecord::Base
   end
 
   def create_lending_policy
-    self.checkout_type.items.each do |item|
-      item.lending_policies.create(:user_group_id => self.user_group_id, :loan_period => self.checkout_period, :renewal => self.checkout_renewal_limit)
+    self.checkout_type.items.find_each do |item|
+      sql = ['INSERT INTO lending_policies (item_id, user_group_id, loan_period, renewal, created_at) VALUES (?, ?, ?, ?, ?)', item.id, self.user_group_id, self.checkout_period, self.checkout_renewal_limit, Time.zone.now]
+      ActiveRecord::Base.connection.execute(
+        self.class.send(:sanitize_sql_array, sql)
+      )
     end
   end
 
   def update_lending_policy
     self.checkout_type.items.each do |item|
-      item.lending_policies.each do |lending_policy|
-        lending_policy.update_attributes({:loan_period => self.checkout_period, :renewal => self.checkout_renewal_limit}) if lending_policy.user_group == self.user_group
-      end
+      sql = ['UPDATE lending_policies SET loan_period = ?, renewal = ?, updated_at = ? WHERE user_group_id = ? AND item_id = ?', self.user_group_id, self.checkout_period, Time.zone.now, self.checkout_renewal_limit, item.id]
+      ActiveRecord::Base.connection.execute(
+        self.class.send(:sanitize_sql_array, sql)
+      )
     end
   end
 
