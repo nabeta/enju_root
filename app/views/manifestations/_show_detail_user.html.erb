@@ -1,20 +1,6 @@
   <%= render :partial => 'page/tabview' -%>
   <div id="tabs">
-    <ul>
-      <li class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- unless @manifestation.has_single_work? -%>
-        <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.works.size -%>)</em></a></li>
-      <%- end -%>
-      <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
-        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.original_manifestations.size + @manifestation.derived_manifestations.size -%>)</em></a></li>
-      <%- end -%>
-      <%- unless @manifestation.amazon_customer_reviews.blank? -%>
-        <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
-      <%- end -%>
-      <%- unless @xisbn_manifestations.blank? -%>
-        <li><a href="#worldcat"><em><%= 'WorldCat' -%></em></a></li>
-      <%- end -%>
-    </ul>
+    <%= render :partial => 'tab_menu' %>
     <div id="detail">
       <%- if @manifestation.isbn -%>
         <%= google_book_search_preview(@manifestation.isbn) -%>
@@ -158,16 +144,5 @@
       <%= render :partial => 'bookmarks_for_this_manifestation' -%>
 
     </div>
-    <%- unless @manifestation.has_single_work? -%>
-      <%= render :partial => 'manifestations/work_list' -%>
-    <%- end -%>
-    <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
-      <%= render :partial => 'manifestations/manifestation_list' -%>
-    <%- end -%>
-    <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
-      <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
-    <%- end -%>
-    <%- unless @xisbn_manifestations.blank? -%>
-      <%= render :partial => 'manifestations/show_xisbn' -%>
-    <%- end -%>
+    <%= render :partial => 'tab_list' %>
   </div>
