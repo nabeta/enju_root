@@ -1,8 +1,8 @@
 <%-
   map = GoogleMap::Map.new
   map.markers << GoogleMap::Marker.new(:map => map, 
-                                     :lat => library.geocode.latitude, 
-                                     :lng => library.geocode.longitude,
+                                     :lat => library.latitude, 
+                                     :lng => library.longitude,
                                      :html => h(library.display_name.localize))
 -%>
 <%= raw map.to_html -%>
