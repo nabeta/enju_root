@@ -1,0 +1,15 @@
+<%- unless @manifestation.has_single_work? -%>
+  <%= render :partial => 'manifestations/work_list' -%>
+<%- end -%>
+<%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
+  <%= render :partial => 'manifestations/manifestation_list' -%>
+<%- end -%>
+<%- if @manifestation.amazon_customer_reviews.size > 0 -%>
+  <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
+<%- end -%>
+<%- unless @xisbn_manifestations.blank? -%>
+  <%= render :partial => 'manifestations/show_xisbn' -%>
+<%- end -%>
+<%- if current_user.try(:has_role?, 'Librarian') -%>
+  <%= render :partial => 'history_list' -%>
+<%- end -%>

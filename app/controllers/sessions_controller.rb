@@ -19,7 +19,11 @@ class SessionsController < ApplicationController
   def create
     if resource = authenticate(resource_name)
       set_flash_message :notice, :signed_in
-      sign_in_and_redirect(resource_name, resource, true)
+      if session[:return_to]
+        redirect_back_or_default
+      else
+        sign_in_and_redirect(resource_name, resource, true)
+      end
     elsif [:custom, :redirect].include?(warden.result)
       throw :warden, :scope => resource_name
     else
