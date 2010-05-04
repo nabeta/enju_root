@@ -38,7 +38,10 @@ class BookmarkStat < ActiveRecord::Base
       #manifestation.update_attributes({:daily_bookmarks_count => daily_count, :total_count => manifestation.total_count + daily_count})
       if daily_count > 0
         self.manifestations << manifestation
-        BookmarkStat.find_by_sql(['UPDATE bookmark_stat_has_manifestations SET bookmarks_count = ? WHERE bookmark_stat_id = ? AND manifestation_id = ?', daily_count, self.id, manifestation.id])
+        sql = ['UPDATE bookmark_stat_has_manifestations SET bookmarks_count = ? WHERE bookmark_stat_id = ? AND manifestation_id = ?', daily_count, self.id, manifestation.id]
+        ActiveRecord::Base.connection.execute(
+          self.class.send(:sanitize_sql_array, sql)
+        )
       end
     end
     self.completed_at = Time.zone.now

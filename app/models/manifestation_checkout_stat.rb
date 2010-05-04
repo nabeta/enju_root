@@ -38,7 +38,10 @@ class ManifestationCheckoutStat < ActiveRecord::Base
       #manifestation.update_attributes({:daily_checkouts_count => daily_count, :total_count => manifestation.total_count + daily_count})
       if daily_count > 0
         self.manifestations << manifestation
-        ManifestationCheckoutStat.find_by_sql(['UPDATE checkout_stat_has_manifestations SET checkouts_count = ? WHERE manifestation_checkout_stat_id = ? AND manifestation_id = ?', daily_count, self.id, manifestation.id])
+        sql = ['UPDATE checkout_stat_has_manifestations SET checkouts_count = ? WHERE manifestation_checkout_stat_id = ? AND manifestation_id = ?', daily_count, self.id, manifestation.id]
+        ActiveRecord::Base.connection.execute(
+          self.class.send(:sanitize_sql_array, sql)
+        )
       end
     end
     self.completed_at = Time.zone.now

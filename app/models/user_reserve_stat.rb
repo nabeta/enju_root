@@ -37,7 +37,10 @@ class UserReserveStat < ActiveRecord::Base
       daily_count = user.reserves.created(self.start_date, self.end_date).size
       if daily_count > 0
         self.users << user
-        UserReserveStat.find_by_sql(['UPDATE reserve_stat_has_users SET reserves_count = ? WHERE user_reserve_stat_id = ? AND user_id = ?', daily_count, self.id, user.id])
+        sql = ['UPDATE reserve_stat_has_users SET reserves_count = ? WHERE user_reserve_stat_id = ? AND user_id = ?', daily_count, self.id, user.id]
+        ActiveRecord::Base.connection.execute(
+          self.class.send(:sanitize_sql_array, sql)
+        )
       end
     end
     self.completed_at = Time.zone.now

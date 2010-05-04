@@ -12,6 +12,8 @@ class CreateLendingPolicies < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :lending_policies, :item_id
+    add_index :lending_policies, :user_group_id
   end
 
   def self.down
