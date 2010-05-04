@@ -6,7 +6,7 @@
     <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
   </div>
 
-  <%- cache :controller => 'users', :action => 'show', :id => @user.username, :action_suffix => 'message', :locale => @locale do -%>
+  <%- cache :controller => 'users', :action => 'show', :id => @user.username, :action_suffix => 'message', :locale => @locale, :role => current_user.try(:highest_role).try(:name) do -%>
   <h3 class="title"><%= t('activerecord.models.message') -%></h3>
   <div id="message_box">
     <%- if current_user.unread_messages.size > 0 -%>

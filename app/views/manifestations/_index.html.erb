@@ -45,7 +45,7 @@
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
     </div>
 
-    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale do -%>
+    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale, :role => current_user.try(:highest_role).try(:name) do -%>
     <div id="tag_cloud">
       <h3><%= t('activerecord.models.tag') -%></h3>
       <div id="tag_cloud_list"></div>

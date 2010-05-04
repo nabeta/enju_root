@@ -1,7 +1,7 @@
 <div class="header_and_footer">
   <div id="footer">
   <%-
-    cache(:controller => :page, :action_suffix => 'footer', :locale => @locale) do
+    cache(:controller => :page, :action_suffix => 'footer', :locale => @locale, :role => current_user.try(:highest_role).try(:name)) do
   -%>
     <a href="http://wiki.github.com/nabeta/next-l/">Project Next-L Enju</a>,
     <%= t('page.open_source_integrated_library_system') -%> |
