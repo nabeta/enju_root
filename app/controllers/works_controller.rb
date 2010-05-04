@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class WorksController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_patron, :get_subject, :get_subscription
   before_filter :get_work, :only => :index
   before_filter :get_series_statement, :only => [:index, :new, :edit]
@@ -178,6 +178,7 @@ class WorksController < ApplicationController
     @work.destroy
 
     respond_to do |format|
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.work'))
       format.html { redirect_to works_url }
       format.xml  { head :ok }
     end

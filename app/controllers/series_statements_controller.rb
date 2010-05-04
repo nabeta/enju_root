@@ -1,5 +1,5 @@
 class SeriesStatementsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_work, :only => [:index, :new, :edit]
   before_filter :get_manifestation, :only => [:index, :new, :edit]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]

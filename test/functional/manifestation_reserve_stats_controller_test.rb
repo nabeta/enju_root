@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class ManifestationReserveStatsControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :manifestation_reserve_stats, :users
 
   test "guest should get index" do
@@ -17,13 +16,13 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not get new" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
 
   test "librarian should get new" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -38,7 +37,7 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not create manifestation_reserve_stat" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('ManifestationReserveStat.count') do
       post :create, :manifestation_reserve_stat => { }
     end
@@ -47,7 +46,7 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "librarian should create manifestation_reserve_stat" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('ManifestationReserveStat.count') do
       post :create, :manifestation_reserve_stat => {:start_date => Time.zone.now, :end_date => Time.zone.now.tomorrow}
     end
@@ -67,13 +66,13 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not get edit" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => manifestation_reserve_stats(:one).id
     assert_response :forbidden
   end
 
   test "librarian should get edit" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => manifestation_reserve_stats(:one).id
     assert_response :success
   end
@@ -84,13 +83,13 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not update manifestation_reserve_stat" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => manifestation_reserve_stats(:one).id, :manifestation_reserve_stat => { }
     assert_response :forbidden
   end
 
   test "librarian should update manifestation_reserve_stat" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => manifestation_reserve_stats(:one).id, :manifestation_reserve_stat => { }
     assert_redirected_to manifestation_reserve_stat_path(assigns(:manifestation_reserve_stat))
   end
@@ -104,7 +103,7 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "user should not destroy manifestation_reserve_stat" do
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('ManifestationReserveStat.count') do
       delete :destroy, :id => manifestation_reserve_stats(:one).id
     end
@@ -113,7 +112,7 @@ class ManifestationReserveStatsControllerTest < ActionController::TestCase
   end
 
   test "librarian should destroy manifestation_reserve_stat" do
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('ManifestationReserveStat.count', -1) do
       delete :destroy, :id => manifestation_reserve_stats(:one).id
     end

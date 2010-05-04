@@ -1,5 +1,5 @@
 class ContentTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /content_types
   # GET /content_types.xml

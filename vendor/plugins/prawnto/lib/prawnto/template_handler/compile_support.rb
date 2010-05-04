@@ -3,7 +3,7 @@ module Prawnto
 
     class CompileSupport
       extend ActiveSupport::Memoizable
-      
+
       attr_reader :options
 
       def initialize(controller)
@@ -17,10 +17,12 @@ module Prawnto
       end
 
       def set_headers
-        set_pragma
-        set_cache_control
-        set_content_type
-        set_disposition
+        unless defined?(ActionMailer) && defined?(ActionMailer::Base) && @controller.is_a?(ActionMailer::Base)
+          set_pragma
+          set_cache_control
+          set_content_type
+          set_disposition
+        end
       end
 
       # TODO: kept around from railspdf-- maybe not needed anymore? should check.
@@ -31,7 +33,7 @@ module Prawnto
 
       # added to make ie happy with ssl pdf's (per naisayer)
       def ssl_request?
-        @controller.request.env['SERVER_PROTOCOL'].downcase == "https"
+        @controller.request.ssl?
       end
       memoize :ssl_request?
 
@@ -59,7 +61,7 @@ module Prawnto
 
       def set_disposition
         inline = options[:inline] ? 'inline' : 'attachment'
-        filename = options[:filename] ? "filename=#{options[:filename]}" : nil
+        filename = options[:filename] ? "filename=\"#{options[:filename]}\"" : nil
         @controller.headers["Content-Disposition"] = [inline,filename].compact.join(';')
       end
 
@@ -67,6 +69,5 @@ module Prawnto
 
   end
 end
-
 
 

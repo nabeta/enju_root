@@ -20,7 +20,7 @@
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
-    <%- if current_user -%>
+    <%- if user_signed_in? -%>
       <th></th>
       <th></th>
     <%- end -%>
@@ -46,7 +46,7 @@
       <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
       <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
       <td><%= item.circulation_status.display_name.localize -%></td>
-      <%- if item.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, item -%>
         <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
         <td>
           <%= link_to t('page.add_derivation'), item_items_path(item) -%>
@@ -62,7 +62,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Item.is_creatable_by(current_user) -%>
+    <%- if can? :create, Item -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => params[:manifestation_id] -%></li>
     <%- end -%>
   </ul>

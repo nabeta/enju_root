@@ -1,5 +1,5 @@
 class CheckoutStatHasManifestationsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /checkout_stat_has_manifestations
   # GET /checkout_stat_has_manifestations.xml

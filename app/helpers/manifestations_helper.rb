@@ -1,7 +1,8 @@
 module ManifestationsHelper
+  include EnjuAmazonHelper
   def back_to_manifestation_index
-    if session[:params][:manifestation]
-      link_to t('page.back_to_search_results'), manifestations_path(:params => session[:params][:manifestation])
+    if session[:params]
+      link_to t('page.back_to_search_results'), manifestations_path(:params => session[:params].merge(:view => nil))
     else
       link_to t('page.back'), :back
     end
@@ -26,7 +27,7 @@ module ManifestationsHelper
   def language_list(languages)
     list = []
     languages.each do |language|
-      list << h(language.display_name.localize)
+      list << h(language.display_name.localize) if language.name != 'unknown'
     end
     list.join("; ")
   end

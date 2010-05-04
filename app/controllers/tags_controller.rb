@@ -1,5 +1,5 @@
 class TagsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
@@ -50,14 +50,10 @@ class TagsController < ApplicationController
       format.html # show.html.erb
       format.xml  { render :xml => @tag }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def edit
     @tag = Tag.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def update
@@ -73,8 +69,6 @@ class TagsController < ApplicationController
         format.xml  { render :xml => @tag.errors.to_xml }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /tags/1

@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'mathn'
 class Library < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => 'libraries.position'
   named_scope :physicals, :conditions => ['id != 1']
   has_many :shelves, :order => 'shelves.position'
@@ -16,7 +14,9 @@ class Library < ActiveRecord::Base
   acts_as_list
   #acts_as_soft_deletable
   has_friendly_id :name
-  acts_as_geocodable
+  #acts_as_geocodable
+  geocoded_by :address
+  enju_calil_library
 
   searchable do
     text :name, :display_name, :note, :address
@@ -37,6 +37,24 @@ class Library < ActiveRecord::Base
 
   def after_save
     expire_cache
+  end
+
+  after_validation :fetch_coordinates
+
+  def before_save
+    set_calil_neighborhood_library
+    #set_geocode
+  end
+
+  def set_geocode
+    self.latitude = self.geocode.latitude
+    self.longitude = self.geocode.longitude
+  rescue NoMethodError
+    nil
+  end
+
+  def set_calil_neighborhood_library
+    self.calil_neighborhood_systemid = self.calil_library(self.access_calil).collect{|l| l[:systemid]}.uniq.join(',')
   end
 
   def after_destroy
@@ -69,13 +87,6 @@ class Library < ActiveRecord::Base
     self.region.to_s + self.locality.to_s + " " + self.street.to_s
   rescue
     nil
-  end
-
-  def is_deletable_by(user, parent = nil)
-    raise if self.id == 1
-    true if user.has_role?('Administrator')
-  rescue
-    false
   end
 
 end

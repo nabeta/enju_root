@@ -12,13 +12,13 @@
 <%- for message_template in @message_templates -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if message_template.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, message_template -%>
         <%= move_position(message_template) -%>
       <%- end -%>
     </td>
     <td><%= link_to h(message_template.status), message_template -%></td>
     <td><%= message_template.title -%></td>
-    <%- if message_template.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, message_template -%>
       <td><%= link_to t('page.edit'), edit_message_template_path(message_template) -%></td>
       <td><%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

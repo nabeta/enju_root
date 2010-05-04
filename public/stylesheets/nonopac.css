@@ -437,4 +437,12 @@ em{
   font-style: normal;
 }
 
+div#flash_alert, div#flash_error{
+  color: red;
+}
+
+div#flash_notice{
+  color: green;
+}
+
 /* .yui-skin-sam .yui-navset .yui-content{background:white;} */

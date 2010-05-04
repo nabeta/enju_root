@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Classification < ActiveRecord::Base
-  include OnlyAdministratorCanModify
   has_many :subject_has_classifications, :dependent => :destroy
   has_many :subjects, :through => :subject_has_classifications
   belongs_to :classification_type, :validate => true

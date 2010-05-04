@@ -19,7 +19,7 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
-    <%- if current_user -%>
+    <%- if user_signed_in? -%>
       <th></th>
       <th></th>
     <%- end -%>
@@ -34,7 +34,7 @@
         <%= raw patrons_list(expression.patrons, current_user) -%>
       </td>
       <td><%= expression.language.display_name.localize -%></td>
-      <%- if expression.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, expression -%>
         <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
         <td>
           <%= link_to t('page.add_derivation'), expression_expressions_path(expression) -%>
@@ -51,7 +51,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Expression.is_creatable_by(current_user) -%>
+    <%- if can? :create, Expression -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
     <%- end -%>
   </ul>

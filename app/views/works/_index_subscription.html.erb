@@ -8,7 +8,7 @@
 <%- form_for :works, :url => subscription_works_path(@subscription), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
-    <%- if @subscription.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, @subscription -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -37,7 +37,7 @@
       </td>
       <td><%= work.context -%></td>
       <td>
-        <%- if work.is_deletable_by(current_user) -%>
+        <%- if can? :destroy, work -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :work_id => work.id) -%>
           <%- else -%>
@@ -56,7 +56,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Work.is_creatable_by(current_user) -%>
+    <%- if can? :create, Work -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_subscription_work_path(@subscription) -%></li>
       <li><%= link_to t('activerecord.models.expression'), subscription_expressions_path(@subscription) -%></li>
       <li><%= link_to t('activerecord.models.manifestation'), subscription_manifestations_path(@subscription) -%></li>

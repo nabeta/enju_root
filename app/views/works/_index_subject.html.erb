@@ -8,7 +8,7 @@
   <%- form_for :works, :url => subject_works_path(@subject), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if @subject.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @subject -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -39,7 +39,7 @@
       </td>
       <td><%= work.context -%></td>
       <td>
-        <%- if work.is_deletable_by(current_user) -%>
+        <%- if can? :destroy, work -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_subject_work_has_subject_path(@subject, :work_id => work.id) -%>
           <%- else -%>
@@ -59,7 +59,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Work.is_creatable_by(current_user) -%>
+    <%- if can? :create, Work -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_subject_work_path(@subject) -%></li>
     <%- end -%>
   </ul>

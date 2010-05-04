@@ -1,5 +1,4 @@
 class ItemHasItem < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :from_item, :foreign_key => 'from_item_id', :class_name => 'Item'
   belongs_to :to_item, :foreign_key => 'to_item_id', :class_name => 'Item'
   belongs_to :item_relationship_type

@@ -1,6 +1,5 @@
 class Resource < ActiveRecord::Base
   include AASM
-  include OnlyAdministratorCanModify
   has_friendly_id :iss_token
   has_paper_trail
   enju_oai

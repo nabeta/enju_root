@@ -1,6 +1,6 @@
 class CheckoutsController < ApplicationController
   before_filter :access_denied, :only => [:new, :create]
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil, :only => :index
   before_filter :get_user, :except => :index
   before_filter :get_item
@@ -19,7 +19,7 @@ class CheckoutsController < ApplicationController
       else
         @checkouts = icalendar_user.checkouts.not_returned.all(:order => 'created_at DESC')
       end
-    elsif logged_in?
+    elsif user_signed_in?
       if current_user.has_role?('Librarian')
         if @user
           @checkouts = @user.checkouts.not_returned.all(:order => 'created_at DESC')
@@ -44,7 +44,7 @@ class CheckoutsController < ApplicationController
             access_denied
             return
           else
-            redirect_to user_checkouts_path(current_user.login)
+            redirect_to user_checkouts_path(current_user.username)
             return
           end
         end
@@ -71,8 +71,6 @@ class CheckoutsController < ApplicationController
       }
     end
 
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /checkouts/1
@@ -121,18 +119,18 @@ class CheckoutsController < ApplicationController
     @checkout = @user.checkouts.find(params[:id])
     if @checkout.reserved?
       flash[:notice] = t('checkout.this_item_is_reserved')
-      redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
+      redirect_to edit_user_checkout_url(@checkout.user.username, @checkout)
       return
     end
     if @checkout.over_checkout_renewal_limit?
       flash[:notice] = t('checkout.excessed_renewal_limit')
-      redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
+      redirect_to edit_user_checkout_url(@checkout.user.username, @checkout)
       return
     end
     if @checkout.overdue?
       flash[:notice] = t('checkout.you_have_overdue_item')
       #unless current_user.has_role?('Librarian')
-        redirect_to edit_user_checkout_url(@checkout.user.login, @checkout)
+        redirect_to edit_user_checkout_url(@checkout.user.username, @checkout)
         return
       #end
     end
@@ -144,7 +142,7 @@ class CheckoutsController < ApplicationController
     respond_to do |format|
       if @checkout.update_attributes(params[:checkout])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.checkout'))
-        format.html { redirect_to user_checkout_url(@checkout.user.login, @checkout) }
+        format.html { redirect_to user_checkout_url(@checkout.user.username, @checkout) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -160,7 +158,7 @@ class CheckoutsController < ApplicationController
     @checkout.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_checkouts_url(@checkout.user.login) }
+      format.html { redirect_to user_checkouts_url(@checkout.user.username) }
       format.xml  { head :ok }
     end
   end

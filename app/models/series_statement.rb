@@ -1,5 +1,4 @@
 class SeriesStatement < ActiveRecord::Base
-  include LibrarianRequired
   has_many :manifestations
   has_one :work
   validates_presence_of :original_title

@@ -1,5 +1,4 @@
 class Checkout < ActiveRecord::Base
-  include LibrarianOwnerRequired
   default_scope :order => 'id DESC'
   named_scope :not_returned, :conditions => ['checkin_id IS NULL']
   named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}

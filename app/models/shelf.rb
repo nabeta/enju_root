@@ -1,6 +1,4 @@
 class Shelf < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]
@@ -33,15 +31,6 @@ class Shelf < ActiveRecord::Base
 
   def self.web
     Shelf.find(1)
-  end
-
-  def is_deletable_by(user, parent = nil)
-    return false if self.id == 1
-    if user.try(:has_role?, 'Administrator')
-      true
-    else
-      false
-    end
   end
 
   def first?

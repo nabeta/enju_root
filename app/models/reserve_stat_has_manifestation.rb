@@ -1,5 +1,4 @@
 class ReserveStatHasManifestation < ActiveRecord::Base
-  include LibrarianRequired
   belongs_to :manifestation_reserve_stat
   belongs_to :manifestation
 

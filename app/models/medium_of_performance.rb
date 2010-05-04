@@ -1,6 +1,4 @@
 class MediumOfPerformance < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => 'position'
   has_many :works
 

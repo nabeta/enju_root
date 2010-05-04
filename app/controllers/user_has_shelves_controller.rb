@@ -1,5 +1,5 @@
 class UserHasShelvesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :access_denied, :only => :new
 
   # GET /user_has_shelves

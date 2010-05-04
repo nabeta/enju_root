@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class SubjectsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_work, :get_subject_heading_type, :get_classification
   before_filter :prepare_options, :only => :new
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -111,8 +111,6 @@ class SubjectsController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /subjects/new

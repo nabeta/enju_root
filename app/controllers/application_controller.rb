@@ -5,7 +5,7 @@
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
-  helper_method :current_user_session, :current_user, :logged_in?
+  #helper_method :user_signed_in?
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
@@ -17,11 +17,13 @@ class ApplicationController < ActionController::Base
 
   include ExceptionNotification::Notifiable
 
-  filter_parameter_logging :password, :password_confirmation, :old_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
+  filter_parameter_logging :password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
+
+  rescue_from CanCan::AccessDenied, :with => :render_403
+  rescue_from ActiveRecord::RecordNotFound, :with => :render_404
 
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement
-  #before_filter :has_permission?
 
   private
   def get_library_group
@@ -32,7 +34,7 @@ class ApplicationController < ActionController::Base
     if Rails.env == 'test'
       locale = 'en'
     else
-      if logged_in?
+      if user_signed_in?
         locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
       else
         locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
@@ -41,9 +43,15 @@ class ApplicationController < ActionController::Base
     unless I18n.available_locales.include?(locale.intern)
       locale = I18n.default_locale.to_s
     end
-    I18n.locale = @locale = session[:locale] = locale
+    I18n.locale = locale
+    @locale = session[:locale] = locale
   rescue
-    I18n.locale = @locale = I18n.default_locale.to_s
+    I18n.locale = I18n.default_locale
+    @locale = I18n.locale.to_s
+  end
+
+  def default_url_options(options={})
+    {:locale => nil}
   end
 
   def set_available_languages
@@ -55,66 +63,36 @@ class ApplicationController < ActionController::Base
   end
 
   def not_found
-    render(:file => "#{Rails.root}/public/404.html", :status => "404 Not Found")
-    return
-  end
-
-  def logged_in?
-    !!current_user
+    raise ActiveRecord::RecordNotFound
   end
 
   def access_denied
-    respond_to do |format|
-      format.html do
-        store_location
-        if logged_in?
-          render(:file => "#{Rails.root}/public/403.html", :status => "403 Forbidden")
-        else
-          redirect_to new_user_session_url
-          #render(:file => "#{Rails.root}/public/401.html", :status => "401 Unauthorized")
-        end
-      end
-      # format.any doesn't work in rails version < http://dev.rubyonrails.org/changeset/8987
-      # you may want to change format.any to e.g. format.any(:js, :xml)
-      format.any(:json, :xml) do
-        request_http_basic_authentication 'Web Password'
-      end
-    end
+    raise CanCan::AccessDenied
   end
 
   def get_patron
     @patron = Patron.find(params[:patron_id]) if params[:patron_id]
-    access_denied unless @patron.is_readable_by(current_user) if @patron
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    authorize! :show, @patron if @patron
   end
 
   def get_work
     @work = Work.find(params[:work_id]) if params[:work_id]
-    access_denied unless @work.is_readable_by(current_user) if @work
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    authorize! :show, @work if @work
   end
 
   def get_item
     @item = Item.find(params[:item_id]) if params[:item_id]
-    access_denied unless @item.is_readable_by(current_user) if @item
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    authorize! :show, @item if @item
   end
 
   def get_expression
     @expression = Expression.find(params[:expression_id]) if params[:expression_id]
-    access_denied unless @expression.is_readable_by(current_user) if @expression
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    authorize! :show, @expression if @expression
   end
 
   def get_manifestation
     @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
-    access_denied unless @manifestation.is_readable_by(current_user) if @manifestation
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    authorize! :show, @manifestation if @manifestation
   end
 
   def get_carrier_type
@@ -123,62 +101,45 @@ class ApplicationController < ActionController::Base
 
   def get_shelf
     @shelf = Shelf.find(params[:shelf_id], :include => :library) if params[:shelf_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_basket
     @basket = Basket.find(params[:basket_id]) if params[:basket_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_patron_merge_list
     @patron_merge_list = PatronMergeList.find(params[:patron_merge_list_id]) if params[:patron_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_work_merge_list
     @work_merge_list = WorkMergeList.find(params[:work_merge_list_id]) if params[:work_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_expression_merge_list
     @expression_merge_list = ExpressionMergeList.find(params[:expression_merge_list_id]) if params[:expression_merge_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_user
-    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
-    raise ActiveRecord::RecordNotFound unless @user
-    unless @user.is_readable_by(current_user)
-      access_denied; return
+    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
+    if @user
+      authorize! :show, @user
+    else
+      raise ActiveRecord::RecordNotFound
     end
     return @user
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_user_if_nil
-    @user = User.first(:conditions => {:login => params[:user_id]}) if params[:user_id]
-    if @user
-      access_denied unless @user.is_readable_by(current_user)
-    end
+    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
+    #authorize! :show, @user if @user
   end
   
   def get_user_group
     @user_group = UserGroup.find(params[:user_group_id]) if params[:user_group_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
                     
   def get_library
     @library = Library.find(params[:library_id]) if params[:library_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_libraries
@@ -191,79 +152,55 @@ class ApplicationController < ActionController::Base
 
   def get_question
     @question = Question.find(params[:question_id]) if params[:question_id]
-    access_denied unless @question.is_readable_by(current_user) if @question
-  rescue ActiveRecord::RecordNotFound
-    not_found
+    authorize! :show, @question if @question
   end
 
   def get_event
     @event = Event.find(params[:event_id]) if params[:event_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_bookstore
     @bookstore = Bookstore.find(params[:bookstore_id]) if params[:bookstore_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subject
     @subject = Subject.find(params[:subject_id]) if params[:subject_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_classification
     @classification = Classification.find(params[:classification_id]) if params[:classification_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_order_list
     @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_purchase_request
     @purchase_request = PurchaseRequest.find(params[:purchase_request_id]) if params[:purchase_request_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_checkout_type
     @checkout_type = CheckoutType.find(params[:checkout_type_id]) if params[:checkout_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_inventory_file
     @inventory_file = InventoryFile.find(params[:inventory_file_id]) if params[:inventory_file_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_subject_heading_type
     @subject_heading_type = SubjectHeadingType.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   def librarian_authorized?
-    return false unless logged_in?
+    return false unless user_signed_in?
     user = get_user_if_nil
     return true if user == current_user
     return true if current_user.has_role?('Librarian')
@@ -325,6 +262,10 @@ class ApplicationController < ActionController::Base
 
   def store_page
     flash[:page] = params[:page].to_i if params[:page]
+  end
+
+  def store_location
+    session[:return_to] = request.request_uri
   end
 
   def pickup_advertisement
@@ -405,47 +346,6 @@ class ApplicationController < ActionController::Base
     @version = nil if @version == 0
   end
 
-  def current_user_session
-    return @current_user_session if defined?(@current_user_session)
-    @current_user_session = UserSession.find
-  end
-
-  def current_user
-    return @current_user if defined?(@current_user)
-    @current_user = current_user_session && current_user_session.user
-  end
-
-  def require_user
-    unless current_user
-      store_location
-      #flash[:notice] = "You must be logged in to access this page"
-      redirect_to new_user_session_url
-      return false
-    end
-  end
-
-  def require_no_user
-    if current_user
-      store_location
-      #flash[:notice] = "You must be logged out to access this page"
-      redirect_to user_url(current_user.login)
-      return false
-    end
-  end
-
-  def store_location
-    session[:return_to] = request.request_uri
-  end
-
-  def redirect_back_or_default(default)
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
-  end
-
-  def logged_in?
-    !!current_user
-  end
-
   def clear_search_sessions
     session[:query] = nil
     session[:params] = nil
@@ -456,4 +356,26 @@ class ApplicationController < ActionController::Base
   def api_request?
     true unless params[:format].nil? or params[:format] == 'html'
   end
+
+  def render_403
+    if user_signed_in?
+      respond_to do |format|
+        format.html {render :template => 'page/403', :status => 403}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    else
+      respond_to do |format|
+        format.html {redirect_to new_user_session_url}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    end
+  end
+
+  def render_404
+    respond_to do |format|
+      format.html {render :template => 'page/404', :status => 404}
+      format.xml {render :template => 'page/404', :status => 404}
+    end
+  end
+
 end

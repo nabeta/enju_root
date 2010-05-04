@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Subject < ActiveRecord::Base
-  include OnlyAdministratorCanModify
   include EnjuFragmentCache
 
   has_many :work_has_subjects, :dependent => :destroy

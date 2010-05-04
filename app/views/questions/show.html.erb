@@ -3,7 +3,7 @@
 <div id="content_list">
 <p>
   <strong><%= t('activerecord.models.user') -%>:</strong>
-  <%= link_to h(@question.user.login), user_path(@question.user.login) -%>
+  <%= link_to h(@question.user.username), user_path(@question.user.username) -%>
 </p>
 
 <p>
@@ -32,12 +32,12 @@
 </p>
 
 <p>
-  <strong><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.login, @question) -%>:</strong>
+  <strong><%= link_to t('activerecord.models.answer'), user_question_answers_path(@question.user.username, @question) -%>:</strong>
 </p>
 
 <ul>
   <%- for answer in @question.answers.public_answers -%>
-    <li><%= link_to h(answer.user.login), user_path(answer.user.login) -%>: <%= raw auto_link(textilize_without_paragraph(h(answer.body))) -%></li>
+    <li><%= link_to h(answer.user.username), user_path(answer.user.username) -%>: <%= raw auto_link(textilize_without_paragraph(h(answer.body))) -%></li>
   <%- end -%>
 </ul>
 
@@ -46,11 +46,11 @@
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.login, @question) -%></li>
-    <%- if @question.is_updatable_by(current_user) -%>
-      <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.login, @question) -%></li>
+    <li><%= link_to t('question.answer_question'), new_user_question_answer_path(@question.user.username, @question) -%></li>
+    <%- if can? :update, @question -%>
+      <li><%= link_to t('page.edit'), edit_user_question_path(@question.user.username, @question) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), questions_path -%></li>
-    <li><%= link_to 'レファレンス協同データベース用XMLファイル', user_question_path(@question.user.login, @question, :mode => 'crd', :format => 'xml') -%></li>
+    <li><%= link_to 'レファレンス協同データベース用XMLファイル', user_question_path(@question.user.username, @question, :mode => 'crd', :format => 'xml') -%></li>
   </ul>
 </div>

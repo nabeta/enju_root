@@ -6,7 +6,7 @@
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
-  <%- if controller.action_name == 'show' -%>
+  <%- if controller.action_name == 'show' and @question -%>
     <title><%= t('activerecord.models.question') -%>: <%= title_action_name -%>: <%= truncate(@question.body, :length => 100) -%></title>
   <%- else -%>
     <title><%= t('activerecord.models.question') -%>: <%= title_action_name -%></title>
@@ -14,17 +14,17 @@
   <%= render :partial => 'page/include' -%>
   <%- case controller.action_name when 'index' -%>
     <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('question.user_question', :login_name => @user.login) + " (RSS)")) %>
-      <%= auto_discovery_link_tag(:atom, url_for(:controller => 'questions', :action => 'index', :user_id => @user.login, :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('question.user_question', :login_name => @user.login) + " (Atom)")) %>
+      <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :user_id => @user.username, :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('question.user_question', :login_name => @user.username) + " (RSS)")) %>
+      <%= auto_discovery_link_tag(:atom, url_for(:controller => 'questions', :action => 'index', :user_id => @user.username, :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('question.user_question', :login_name => @user.username) + " (Atom)")) %>
     <%- else -%>
       <%= auto_discovery_link_tag(:rss, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('question.library_group_question', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
       <%= auto_discovery_link_tag(:atom, url_for(:controller => 'questions', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('question.library_group_question', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
     <%- end -%>
   <%- when 'show' -%>
-    <%- if @user -%>
-      <%= auto_discovery_link_tag(:rss, user_question_answers_path(@user.login, @question, :format => 'rss'), :title => (t('answer.user_answer', :login_name => @user.login) + " (RSS)")) %>
-      <%= auto_discovery_link_tag(:atom, user_question_answers_path(@user.login, @question, :format => 'atom'), :title => (t('answer.user_answer', :login_name => @user.login) + " (Atom)")) %>
-    <%- else -%>
+    <%- if @user and @question -%>
+      <%= auto_discovery_link_tag(:rss, user_question_answers_path(@user.username, @question, :format => 'rss'), :title => (t('answer.user_answer', :login_name => @user.username) + " (RSS)")) %>
+      <%= auto_discovery_link_tag(:atom, user_question_answers_path(@user.username, @question, :format => 'atom'), :title => (t('answer.user_answer', :login_name => @user.username) + " (Atom)")) %>
+    <%- elsif @question -%>
       <%= auto_discovery_link_tag(:rss, question_answers_path(@question, :format => 'rss'), :title => (t('answer.library_group_answer', :library_group_name => @library_group.name) + " (RSS)")) %>
       <%= auto_discovery_link_tag(:atom, question_answers_path(@question, :format => 'atom'), :title => (t('answer.library_group_answer', :library_group_name => @library_group.name) + " (Atom)")) %>
     <%- end -%>

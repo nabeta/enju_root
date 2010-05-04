@@ -1,5 +1,4 @@
 class ImportedObject < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   named_scope :items, :conditions => ['importable_type = ?', 'Item']
   named_scope :manifestations, :conditions => ['importable_type = ?', 'Manifestation']
   named_scope :patrons, :conditions => ['importable_type = ?', 'Patron']

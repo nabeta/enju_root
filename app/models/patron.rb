@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Patron < ActiveRecord::Base
-  include LibrarianOwnerRequired
   include EnjuFragmentCache
 
   belongs_to :user #, :validate => true
@@ -45,8 +44,8 @@ class Patron < ActiveRecord::Base
     text :name, :place, :address_1, :address_2, :other_designation, :note
     string :zip_code_1
     string :zip_code_2
-    string :login do
-      user.login if user
+    string :username do
+      user.username if user
     end
     time :created_at
     time :updated_at
@@ -66,7 +65,7 @@ class Patron < ActiveRecord::Base
   #acts_as_tree
   has_paper_trail
 
-  attr_accessor :user_id
+  attr_accessor :user_username
   def self.per_page
     10
   end
@@ -189,47 +188,6 @@ class Patron < ActiveRecord::Base
     false
   end
 
-  def self.is_creatable_by(user, parent = nil)
-    #true if user.has_role?('Librarian')
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_readable_by(user, parent = nil)
-    # TODO: role id を使わない制御
-    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
-  rescue NoMethodError
-    false
-  end
-
-  def is_updatable_by(user, parent = nil)
-    if user and user == self.user
-      return true
-    end
-    if self.user
-      if self.user.has_role?('Librarian')
-        return true if user.has_role?('Administrator')
-      elsif self.user.has_role?('User')
-        return true if user.has_role?('Librarian')
-      end
-    else
-      return true if user.has_role?('Librarian')
-    end
-  rescue NoMethodError
-    false
-  end
-
-  def is_deletable_by(user, parent = nil)
-    if user.try(:has_role?, 'Librarian')
-      true
-    else
-      false
-    end
-  end
-
   def created(work)
     creates.first(:conditions => {:work_id => work.id})
   end
@@ -244,6 +202,12 @@ class Patron < ActiveRecord::Base
 
   def owned(item)
     owns.first(:conditions => {:item_id => item.id})
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
+  rescue NoMethodError
+    false
   end
 
 end

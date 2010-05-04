@@ -34,10 +34,10 @@
 <p>
   <strong><%= t('activerecord.models.circulation_status') -%>:</strong>
   <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
-  <%- if logged_in? -%>
+  <%- if user_signed_in? -%>
     <%- if current_user.has_role?('Librarian') -%>
       <%- unless @item.checkouts.not_returned.blank? -%>
-        (<%= link_to t('item.current_checkout'), user_checkout_path(@item.checkouts.not_returned.first.user.login, @item.checkouts.not_returned.first) -%>)
+        (<%= link_to t('item.current_checkout'), user_checkout_path(@item.checkouts.not_returned.first.user.username, @item.checkouts.not_returned.first) -%>)
       <%- end -%>
     <%- end -%>
   <%- end -%>
@@ -81,8 +81,8 @@
 </p>
 -->
 
-<%- cache(:id => @item.id, :action => :show, :controller => :items, :editable => @item.is_updatable_by(current_user), :locale => @locale, :version => @version) do -%>
-<%- if @item.is_updatable_by(current_user) -%>
+<%- cache(:id => @item.id, :action => :show, :controller => :items, :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
+<%- if can? :update, @item -%>
   <p>
     <strong><%= t('item.donor') -%>:</strong>
     <%- @item.donors.each do |patron| -%>

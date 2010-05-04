@@ -34,9 +34,9 @@ class ManifestationTest < ActiveSupport::TestCase
     sru = Sru.new({:query => 'title ANY "ruby awk sed"'})
     sru.search
     assert_equal 22, sru.manifestations.size
-    sru = Sru.new({:query => 'isbn=9784774127804'})
+    sru = Sru.new({:query => 'isbn=9784756137470'})
     sru.search
-    assert_equal 10, sru.manifestations.first.id
+    assert_equal 114, sru.manifestations.first.id
     sru = Sru.new({:query => "creator=テスト"})
     sru.search
     assert_equal 1, sru.manifestations.size
@@ -144,7 +144,7 @@ class ManifestationTest < ActiveSupport::TestCase
   end
 
   def test_not_reserved
-    assert_equal false, manifestations(:manifestation_00007).is_reserved_by(users(:user1))
+    assert_equal nil, manifestations(:manifestation_00007).is_reserved_by(users(:user1))
   end
 
   def test_manifestation_should_show_languages

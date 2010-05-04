@@ -1,5 +1,4 @@
 class Own < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :patron #, :counter_cache => true #, :polymorphic => true, :validate => true
   belongs_to :item #, :counter_cache => true #, :validate => true
 
@@ -15,16 +14,16 @@ class Own < ActiveRecord::Base
   attr_accessor :item_identifier
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    patron.index!
-    item.index!
+  def reindex
+    patron.index
+    item.index
   end
 
 end

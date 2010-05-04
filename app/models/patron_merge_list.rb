@@ -1,5 +1,4 @@
 class PatronMergeList < ActiveRecord::Base
-  include LibrarianRequired
   has_many :patron_merges, :dependent => :destroy
   has_many :patrons, :through => :patron_merges
   validates_presence_of :title

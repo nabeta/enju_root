@@ -16,7 +16,7 @@
 <%- @languages.each do |language| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if language.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, language -%>
         <%= move_position(language) -%>
       <%- end -%>
     </td>
@@ -26,7 +26,7 @@
     <td><%= language.iso_639_1 -%></td>
     <td><%= language.iso_639_2 -%></td>
     <td><%= language.iso_639_3 -%></td>
-    <%- if language.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, language -%>
       <td><%= link_to t('page.edit'), edit_language_path(language) -%></td>
     <%- end -%>
   </tr>
@@ -37,7 +37,7 @@
 </div>
 
 <div id="submenu">
-  <%- if Country.is_creatable_by(current_user) -%>
+  <%- if can? :create, Country -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.language')), new_language_path -%></li>
     </ul>

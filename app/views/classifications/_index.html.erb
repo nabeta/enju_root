@@ -22,7 +22,7 @@
     <td><%= link_to h(classification.category), classification -%></td>
     <td><%= classification.note -%></td>
     <td><%= link_to h(classification.classification_type.display_name.localize), classification.classification_type -%></td>
-    <%- if classification.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, classification -%>
       <td><%= link_to t('page.edit'), edit_classification_path(classification) -%></td>
       <td><%= link_to t('page.destroy'), classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -37,7 +37,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Classification.is_creatable_by(current_user) -%>
+    <%- if can? :create, Classification -%>
       <%- if @classification_type -%>
         <li><%= link_to t('page.new', :model => t('activerecord.models.classification')), new_classification_type_classification_path(@classification_type) -%></li>
       <%- else -%>

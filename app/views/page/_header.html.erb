@@ -9,19 +9,17 @@
   <%= render :partial => 'page/select_locale' -%>
 
   <div id="header_right">
-    <%- if logged_in? -%>
-      <%- cache :controller => 'users', :action => 'show', :id => current_user.login, :locale => @locale do -%>
-        <%= t('page.logged_in_as', :login_name => current_user.login) -%>
+    <%- if user_signed_in? -%>
+      <%- cache :controller => 'users', :action => 'show', :id => current_user.username, :locale => @locale do -%>
+        <%= t('page.logged_in_as', :login_name => current_user.username) -%>
         <br />
-        <%= link_to t('page.account'), edit_user_path(current_user.login) -%>
-        <%= link_to t('page.logout'), '/logout' -%>
+        <%= link_to t('page.account'), edit_user_path(current_user.username) -%>
+        <%= link_to t('page.logout'), destroy_user_session_path -%>
       <%- end -%>
     <%- else -%>
-      <%- unless controller.controller_name == 'user_sessions' -%>
-        <%= link_to t('page.login'), new_user_session_path -%>
-        <%- unless controller.controller_name == 'users' and controller.action_name == 'new' -%>
-          (<%= link_to t('user.sign_up'), new_user_path -%>)
-        <%- end -%>
+      <%= link_to t('page.login'), new_user_session_path -%>
+      <%- unless controller.controller_name == 'users' and controller.action_name == 'new' -%>
+        (<%= link_to t('user.sign_up'), new_user_registration_path -%>)
       <%- end -%>
     <%- end -%>
   </div>

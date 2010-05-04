@@ -1,5 +1,5 @@
 class BookmarkStatHasManifestationsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /bookmark_stat_has_manifestations
   # GET /bookmark_stat_has_manifestations.xml

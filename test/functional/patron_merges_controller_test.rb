@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class PatronMergesControllerTest < ActionController::TestCase
-  setup :activate_authlogic
-  fixtures :patron_merges, :patrons, :patron_merge_lists, :users
+    fixtures :patron_merges, :patrons, :patron_merge_lists, :users
 
   def test_guest_should_not_get_index
     get :index
@@ -12,21 +11,21 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:patron_merges)
   end
 
   def test_librarian_should_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:patron_merges)
   end
 
   def test_librarian_should_get_index_with_patron_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index, :patron_id => 1
     assert_response :success
     assert assigns(:patron)
@@ -34,7 +33,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_get_index_with_patron_merge_list_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index, :patron_merge_list_id => 1
     assert_response :success
     assert assigns(:patron_merge_list)
@@ -48,13 +47,13 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
 
   def test_librarian_should_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -69,7 +68,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_patron_merge
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('PatronMerge.count') do
       post :create, :patron_merge => { }
     end
@@ -78,7 +77,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_patron_merge_without_patron_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_no_difference('PatronMerge.count') do
       post :create, :patron_merge => {:patron_merge_list_id => 1}
     end
@@ -87,7 +86,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_patron_merge_without_patron_merge_list_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_no_difference('PatronMerge.count') do
       post :create, :patron_merge => {:patron_id => 1}
     end
@@ -96,7 +95,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_patron_merge
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('PatronMerge.count') do
       post :create, :patron_merge => {:patron_id => 1, :patron_merge_list_id => 1}
     end
@@ -111,13 +110,13 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_patron_merge
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => patron_merges(:patron_merge_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_not_show_patron_merge
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => patron_merges(:patron_merge_00001).id
     assert_response :success
   end
@@ -129,13 +128,13 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => patron_merges(:patron_merge_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => patron_merges(:patron_merge_00001).id
     assert_response :success
   end
@@ -147,25 +146,25 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_update_patron_merge
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => patron_merges(:patron_merge_00001).id, :patron_merge => { }
     assert_response :forbidden
   end
 
   def test_librarian_should_not_update_patron_merge_without_patron_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => patron_merges(:patron_merge_00001).id, :patron_merge => {:patron_id => nil}
     assert_response :success
   end
 
   def test_librarian_should_not_update_patron_merge_without_patron_merge_list_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => patron_merges(:patron_merge_00001).id, :patron_merge => {:patron_merge_list_id => nil}
     assert_response :success
   end
 
   def test_librarian_should_update_patron_merge
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => patron_merges(:patron_merge_00001).id, :patron_merge => { }
     assert_redirected_to patron_merge_url(assigns(:patron_merge))
   end
@@ -180,7 +179,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_patron_merge
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('PatronMerge.count') do
       delete :destroy, :id => patron_merges(:patron_merge_00001).id
     end
@@ -189,7 +188,7 @@ class PatronMergesControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_patron_merge
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('PatronMerge.count', -1) do
       delete :destroy, :id => patron_merges(:patron_merge_00001).id
     end

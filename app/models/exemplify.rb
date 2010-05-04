@@ -1,5 +1,4 @@
 class Exemplify < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :manifestation #, :counter_cache => true, :validate => true
   belongs_to :item #, :validate => true
 
@@ -14,16 +13,16 @@ class Exemplify < ActiveRecord::Base
   end
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    manifestation.index!
-    item.index!
+  def reindex
+    manifestation.index
+    item.index
   end
 
   def after_create

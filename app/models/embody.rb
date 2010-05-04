@@ -1,5 +1,4 @@
 class Embody < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :expression #, :counter_cache => true #, :validate => true
   belongs_to :manifestation #, :counter_cache => true #, :validate => true
 
@@ -14,15 +13,15 @@ class Embody < ActiveRecord::Base
   acts_as_list :scope => :manifestation
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    expression.index!
-    manifestation.index!
+  def reindex
+    expression.index
+    manifestation.index
   end
 end

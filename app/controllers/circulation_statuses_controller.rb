@@ -1,5 +1,5 @@
 class CirculationStatusesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /circulation_statuses
   # GET /circulation_statuses.xml

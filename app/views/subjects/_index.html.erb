@@ -20,7 +20,7 @@
       <td><%= link_to h(subject.term), subject -%></td>
       <td><%= subject.note -%></td>
       <td>
-        <%- if subject.is_deletable_by(current_user) -%>
+        <%- if can? :destroy, subject -%>
           <%= link_to t('page.edit'), edit_subject_path(subject) -%>
         <%- end -%>
       </td>
@@ -34,7 +34,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Subject.is_creatable_by(current_user) -%>
+    <%- if can? :create, Subject -%>
       <%- if @subject_heading_type -%>
         <li><%= link_to t('page.new', :model => t('activerecord.models.subject')), new_subject_heading_type_subject_path(@subject_heading_type) -%></li>
       <%- else -%>

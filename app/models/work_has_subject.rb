@@ -1,5 +1,4 @@
 class WorkHasSubject < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :subject #, :counter_cache => true #, :validate => true
   belongs_to :work #, :counter_cache => true
   #belongs_to :subjectable, :polymorphic => true #, :counter_cache => true #, :validate => true
@@ -19,15 +18,15 @@ class WorkHasSubject < ActiveRecord::Base
   end
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    work.index!
-    subject.index!
+  def reindex
+    work.index
+    subject.index
   end
 end

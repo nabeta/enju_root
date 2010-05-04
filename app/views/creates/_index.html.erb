@@ -12,7 +12,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(create.patron.full_name), create.patron -%></td>
     <td><%= link_to h(create.work.original_title), create.work -%></td>
-    <%- if create.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, create -%>
       <td><%= link_to t('page.show'), create -%></td>
       <td><%= link_to t('page.destroy'), create, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -25,7 +25,7 @@
 </div>
 
 <div id="submenu">
-  <%- if Create.is_creatable_by(current_user) -%>
+  <%- if can? :create, Create -%>
     <ul>
       <li><%= link_to t('page.new', :model => t('activerecord.models.create')), new_create_path -%></li>
     </ul>

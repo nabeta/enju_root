@@ -1,6 +1,5 @@
 class MessageRequest < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   named_scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
   named_scope :sent, :conditions => {:state => 'sent'}
   named_scope :started, :conditions => {:state => 'started'}
@@ -43,7 +42,7 @@ class MessageRequest < ActiveRecord::Base
     message = nil
     MessageRequest.transaction do
       if self.body
-        message = Message.create!(:sender => self.sender, :recipient => self.receiver.login, :subject => self.subject, :body => self.body)
+        message = Message.create!(:sender => self.sender, :recipient => self.receiver.username, :subject => self.subject, :body => self.body)
       end
       self.update_attributes({:sent_at => Time.zone.now})
       Notifier.deliver_message_notification(self.receiver)

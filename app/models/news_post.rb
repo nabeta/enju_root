@@ -1,5 +1,4 @@
 class NewsPost < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   named_scope :published, :conditions => ['draft IS false']
   belongs_to :user
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true

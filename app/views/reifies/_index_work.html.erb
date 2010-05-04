@@ -15,7 +15,7 @@
     <td>
     </td>
     <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
-    <%- if reify.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, reify -%>
       <td><%= link_to t('page.destroy'), work_reify_path(reify.work, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
   </tr>
@@ -28,7 +28,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Reify.is_creatable_by(current_user) -%>
+    <%- if can? :create, Reify -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.reify')), new_work_reify_path(@work) -%></li>
     <%- end -%>
   </ul>

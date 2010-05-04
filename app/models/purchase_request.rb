@@ -1,5 +1,4 @@
 class PurchaseRequest < ActiveRecord::Base
-  include LibrarianOwnerRequired
   named_scope :not_ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NULL']
   named_scope :ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NOT NULL']
 
@@ -49,9 +48,4 @@ class PurchaseRequest < ActiveRecord::Base
     self.date_of_publication
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
-  end
 end

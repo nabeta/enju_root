@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class EventsController < ApplicationController
-  before_filter :has_permission?, :except => :index
+  load_and_authorize_resource
   before_filter :get_library, :get_patron
   before_filter :get_libraries, :except => [:index, :destroy]
   #before_filter :get_patron, :only => [:index]

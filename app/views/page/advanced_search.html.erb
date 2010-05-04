@@ -4,10 +4,10 @@
 
 <%- cache :controller => 'page', :action => 'advanced_search', :locale => @locale do -%>
 <%- form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
-  <table style="width: 50%">
+  <table style="width: 100%">
     <tr>
       <td><label><%= t('page.search_term') -%>:</label></td>
-      <td><%= text_field_tag 'search_form_top' -%></td>
+      <td><%= text_field_tag 'query', nil, :class => 'search_form_short' -%></td>
     </tr>
     <tr>
       <td><label><%= t('page.tag') -%>:</label></td>
@@ -57,7 +57,7 @@
     </tr>
   </table>
 <%- end -%>
-<%= javascript_tag("$('search_form_top').focus()") -%>
+<%= javascript_tag("$('query').focus()") -%>
 <%- end -%>
 </div>
 </div>

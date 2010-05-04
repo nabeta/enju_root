@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 class Reserve < ActiveRecord::Base
   include AASM
-  include LibrarianOwnerRequired
   named_scope :hold, :conditions => ['item_id IS NOT NULL']
   named_scope :not_hold, :conditions => ['item_id IS NULL']
   named_scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
@@ -173,29 +172,6 @@ class Reserve < ActiveRecord::Base
     else
       raise 'status not defined'
     end
-  end
-
-  def self.is_indexable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def self.is_creatable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_updatable_by(user, parent = nil)
-    raise if ['completed', 'canceled', 'expired'].include?(self.state)
-    true if user == self.user || user.has_role?('Librarian')
-  rescue
-    false
   end
 
   def self.expire

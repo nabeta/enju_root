@@ -1,6 +1,6 @@
 class InterLibraryLoansController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_item
   before_filter :store_page, :only => :index
 
@@ -37,7 +37,7 @@ class InterLibraryLoansController < ApplicationController
   def new
     @inter_library_loan = InterLibraryLoan.new
     @libraries = LibraryGroup.first.physical_libraries
-    @libraries.reject!{|library| library == current_user.library} if logged_in?
+    @libraries.reject!{|library| library == current_user.library} if user_signed_in?
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,7 +49,7 @@ class InterLibraryLoansController < ApplicationController
   def edit
     @inter_library_loan = InterLibraryLoan.find(params[:id])
     @libraries = LibraryGroup.first.physical_libraries
-    @libraries.reject!{|library| library == current_user.library} if logged_in?
+    @libraries.reject!{|library| library == current_user.library} if user_signed_in?
   end
 
   # POST /inter_library_loans
@@ -67,7 +67,7 @@ class InterLibraryLoansController < ApplicationController
         format.xml  { render :xml => @inter_library_loan, :status => :created, :location => @inter_library_loan }
       else
         @libraries = LibraryGroup.first.physical_libraries
-        @libraries.reject!{|library| library == current_user.library} if logged_in?
+        @libraries.reject!{|library| library == current_user.library} if user_signed_in?
         format.html { render :action => "new" }
         format.xml  { render :xml => @inter_library_loan.errors, :status => :unprocessable_entity }
       end
@@ -100,7 +100,7 @@ class InterLibraryLoansController < ApplicationController
       else
         @inter_library_loan.item = @item
         @libraries = LibraryGroup.first.physical_libraries
-        @libraries.reject!{|library| library == current_user.library} if logged_in?
+        @libraries.reject!{|library| library == current_user.library} if user_signed_in?
         format.html { render :action => "edit" }
         format.xml  { render :xml => @inter_library_loan.errors, :status => :unprocessable_entity }
       end

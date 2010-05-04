@@ -44,12 +44,12 @@
   -->
 
   <p>
-    <%= f.label t('activerecord.models.language') -%><br />
+    <%= f.label t('activerecord.models.language') -%>
     <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
   </p>
 
   <p>
-    <%= f.label t('activerecord.models.content_type') -%><br />
+    <%= f.label t('activerecord.models.content_type') -%>
     <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
   </p>
 

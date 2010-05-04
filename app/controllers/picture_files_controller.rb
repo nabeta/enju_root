@@ -1,5 +1,5 @@
 class PictureFilesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_attachable, :only => [:index, :new]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 

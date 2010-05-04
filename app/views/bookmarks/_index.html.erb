@@ -19,14 +19,14 @@
 
 <%- @bookmarks.each do |bookmark| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(bookmark.user.login), user_path(bookmark.user.login) -%></td>
+    <td><%= link_to h(bookmark.user.username), user_path(bookmark.user.username) -%></td>
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => bookmark.manifestation} -%>
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => bookmark.manifestation} -%>
     </td>
     <td><%= l(bookmark.created_at) -%></td>
     <td><%= l(bookmark.updated_at) -%></td>
-    <%- if bookmark.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, bookmark -%>
       <td><%= link_to t('page.show'), bookmark_path(bookmark) -%></td>
       <td><%= link_to t('page.destroy'), bookmark_path(bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -41,14 +41,14 @@
 
 <div id="submenu">
   <ul>
-    <%- if Bookmark.is_creatable_by(current_user) -%>
+    <%- if can? :create, Bookmark -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.bookmark')), new_bookmark_path -%></li>
     <%- end -%>
   </ul>
-  <%- if logged_in? -%>
+  <%- if user_signed_in? -%>
     <h4><%= t('page.bookmarklet') -%></h4>
     <ul>
-      <li><a href="javascript:window.location.href='<%= new_user_bookmark_url(current_user.login) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('bookmark.add_to_library_bookmark') -%></a></li>
+      <li><a href="javascript:window.location.href='<%= new_user_bookmark_url(current_user.username) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('bookmark.add_to_library_bookmark') -%></a></li>
     </ul>
   <%- end -%>
 </div>

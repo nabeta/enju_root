@@ -1,5 +1,4 @@
 class Checkin < ActiveRecord::Base
-  include LibrarianRequired
   default_scope :order => 'id DESC'
   has_one :checkout
   belongs_to :item #, :validate => true

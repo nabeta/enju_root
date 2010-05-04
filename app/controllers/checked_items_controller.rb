@@ -1,6 +1,6 @@
 class CheckedItemsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_basket
 
   # GET /checked_items
@@ -102,11 +102,11 @@ class CheckedItemsController < ApplicationController
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.checked_item'))
 
         if params[:mode] == 'list'
-          redirect_to(user_basket_checked_items_url(@basket.user.login, @basket, :mode => 'list'))
+          redirect_to(user_basket_checked_items_url(@basket.user.username, @basket, :mode => 'list'))
           return
         else
           flash[:message] << @checked_item.errors["base"]
-          format.html { redirect_to(user_basket_checked_items_url(@basket.user.login, @basket)) }
+          format.html { redirect_to(user_basket_checked_items_url(@basket.user.username, @basket)) }
           format.xml  { render :xml => @checked_item, :status => :created, :location => @checked_item }
         end
       else
@@ -114,7 +114,7 @@ class CheckedItemsController < ApplicationController
         if params[:mode] == 'list'
           #format.html { render :action => "new" }
           #format.xml  { render :xml => @checked_item.errors, :status => :unprocessable_entity }
-          redirect_to(user_basket_checked_items_url(@basket.user.login, @basket, :mode => 'list'))
+          redirect_to(user_basket_checked_items_url(@basket.user.username, @basket, :mode => 'list'))
           return
         else
           format.html { render :action => "new" }
@@ -158,7 +158,7 @@ class CheckedItemsController < ApplicationController
     @checked_item.destroy
 
     respond_to do |format|
-      format.html { redirect_to(user_basket_checked_items_url(@checked_item.basket.user.login, @checked_item.basket)) }
+      format.html { redirect_to(user_basket_checked_items_url(@checked_item.basket.user.username, @checked_item.basket)) }
       format.xml  { head :ok }
     end
   end

@@ -1,14 +1,14 @@
 class PageController < ApplicationController
   before_filter :clear_search_sessions, :only => [:index, :advanced_search]
   before_filter :store_location, :only => [:advanced_search, :about, :add_on, :msie_acceralator, :statistics]
-  before_filter :require_user, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch, :statistics]
+  before_filter :authenticate_user!, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch, :statistics]
   before_filter :get_libraries, :only => [:advanced_search]
   #before_filter :get_user # 上書き注意
   before_filter :check_librarian, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
 
   def index
-    if logged_in?
-      redirect_to user_url(current_user.login)
+    if user_signed_in?
+      redirect_to user_url(current_user.username)
       return
     end
     @numdocs = Manifestation.cached_numdocs
@@ -31,10 +31,6 @@ class PageController < ApplicationController
     render :layout => false
   end
 
-  def srw
-    render :template => 'page/srw.xml.erb', :layout => false
-  end
-
   def patron
     @title = t('page.patron_management')
   end
@@ -44,8 +40,8 @@ class PageController < ApplicationController
   end
 
   def message
-    if logged_in?
-      redirect_to inbox_user_messages_url(current_user.login)
+    if user_signed_in?
+      redirect_to inbox_user_messages_url(current_user.username)
     else
       redirect_to new_user_session_url
     end
@@ -100,7 +96,7 @@ class PageController < ApplicationController
 
   private
   def get_user
-    @user = current_user if logged_in?
+    @user = current_user if user_signed_in?
   end
 
   def check_librarian

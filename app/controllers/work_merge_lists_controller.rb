@@ -1,6 +1,6 @@
 class WorkMergeListsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /work_merge_lists
   # GET /work_merge_lists.xml

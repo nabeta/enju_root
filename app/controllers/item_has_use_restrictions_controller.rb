@@ -1,6 +1,6 @@
 class ItemHasUseRestrictionsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_item
 
   # GET /item_has_use_restrictions

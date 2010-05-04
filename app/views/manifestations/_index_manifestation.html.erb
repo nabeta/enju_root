@@ -15,7 +15,7 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
-      <%- if @manifestation.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @manifestation -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -48,7 +48,7 @@
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
         <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
       </td>
-      <%- if manifestation.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, manifestation -%>
         <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>
         <td>
           <%- if params[:mode] == "add" -%>

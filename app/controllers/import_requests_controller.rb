@@ -1,5 +1,5 @@
 class ImportRequestsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /import_requests
   # GET /import_requests.xml

@@ -1,6 +1,4 @@
 class Participate < ActiveRecord::Base
-  include LibrarianRequired
-
   belongs_to :patron
   belongs_to :event
 

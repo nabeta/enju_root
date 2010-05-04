@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 class LibraryGroup < ActiveRecord::Base
   #include Singleton
-  include OnlyAdministratorCanModify
   #include Configurator
 
   has_many :libraries
@@ -62,13 +61,6 @@ class LibraryGroup < ActiveRecord::Base
       end
     end
     return false
-  end
-
-  def is_deletable_by(user, parent = nil)
-    raise if self.config?
-    true if user.has_role?('Administrator')
-  rescue
-    false
   end
 
 end

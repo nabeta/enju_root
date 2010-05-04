@@ -123,10 +123,12 @@ module ApplicationHelper
   end
 
   def advertisement_pickup(advertisement)
-    if advertisement.try(:url)
-      link_to h(advertisement.body), advertisement.url
-    else
-      h(advertisement.try(:body))
+    if advertisement
+      if advertisement.url.present?
+        link_to h(advertisement.body), advertisement.url
+      else
+        h(advertisement.body)
+      end
     end
   end
 
@@ -203,11 +205,11 @@ module ApplicationHelper
   end
 
   def i18n_boolean(bool)
-    case bool
+    case bool.to_s
     when nil
-    when true
+    when "true"
       t('page.boolean.true')
-    when false
+    when "false"
       t('page.boolean.false')
     end
   end

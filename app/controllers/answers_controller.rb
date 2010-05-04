@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class AnswersController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil, :except => [:edit]
   before_filter :get_question
 
@@ -20,7 +20,7 @@ class AnswersController < ApplicationController
     end
 
     @count = {}
-    if logged_in?
+    if user_signed_in?
       if current_user.has_role?('Librarian')
         if @question
           @answers = @question.answers.paginate(:all, :page => params[:page], :order => ['answers.id'])
@@ -110,8 +110,8 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.answer'))
-        format.html { redirect_to user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
-        format.xml  { render :xml => @answer, :status => :created, :location => user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
+        format.html { redirect_to user_question_answer_url(@answer.question.user.username, @answer.question, @answer) }
+        format.xml  { render :xml => @answer, :status => :created, :location => user_question_answer_url(@answer.question.user.username, @answer.question, @answer) }
       else
         format.html { render :action => "new" }
         format.xml  { render :xml => @answer.errors.to_xml }
@@ -133,7 +133,7 @@ class AnswersController < ApplicationController
     respond_to do |format|
       if @answer.update_attributes(params[:answer])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.answer'))
-        format.html { redirect_to user_question_answer_url(@answer.question.user.login, @answer.question, @answer) }
+        format.html { redirect_to user_question_answer_url(@answer.question.user.username, @answer.question, @answer) }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -155,7 +155,7 @@ class AnswersController < ApplicationController
     @answer.destroy
 
     respond_to do |format|
-      format.html { redirect_to user_question_answers_url(@answer.question.user.login, @answer.question) }
+      format.html { redirect_to user_question_answers_url(@answer.question.user.username, @answer.question) }
       format.xml  { head :ok }
     end
   end

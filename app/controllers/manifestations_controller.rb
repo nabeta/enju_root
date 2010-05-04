@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class ManifestationsController < ApplicationController
-  before_filter :has_permission?, :except => [:show, :edit]
-  before_filter :require_user, :only => :edit
+  load_and_authorize_resource
+  before_filter :authenticate_user!, :only => :edit
   #before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_expression
@@ -22,7 +22,7 @@ class ManifestationsController < ApplicationController
     @seconds = Benchmark.realtime do
       @oai = check_oai_params(params)
       next if @oai[:need_not_to_search]
-	    if logged_in?
+	    if user_signed_in?
 	      @user = current_user unless @user
 	    end
 
@@ -55,9 +55,13 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      #session[:params][:manifestation] = params.merge(:view => nil)
-      if params[:reservable] == "true"
-        @reservable = "true"
+      case params[:reservable]
+      when 'true'
+        @reservable = 'true'
+      when 'false'
+        @reservable = 'false'
+      else
+        @reservable = nil
       end
 
       if params[:format] == 'csv'
@@ -97,14 +101,21 @@ class ManifestationsController < ApplicationController
       search = Sunspot.new_search(Manifestation)
       role = current_user.try(:highest_role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
-      reservable = true if @reservable
+      case @reservable
+      when 'true'
+        reservable = true
+      when 'false'
+        reservable = false
+      else
+        reservable = nil
+      end
       search.build do
         fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
         order_by :updated_at, :desc if oai_search
         with(:required_role_id).less_than role.id
         with(:repository_content).equal_to true if oai_search
-        with(:reservable).equal_to true if reservable
+        with(:reservable).equal_to reservable unless reservable.nil?
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
         paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
@@ -217,19 +228,19 @@ class ManifestationsController < ApplicationController
         prawnto :prawn => {
           :page_layout => :landscape,
           :page_size => "A4"},
-        :inline => true
+          :inline => true
       }
     end
-  rescue RSolr::RequestError
-    unless params[:format] == 'sru'
-      flash[:notice] = t('page.error_occured')
-      redirect_to manifestations_url
-      return
-    else
-      render :template => 'manifestations/error.xml', :layout => false
-      return
-    end
-    return
+  #rescue RSolr::RequestError
+  #  unless params[:format] == 'sru'
+  #    flash[:notice] = t('page.error_occured')
+  #    redirect_to manifestations_url
+  #    return
+  #  else
+  #    render :template => 'manifestations/error.xml', :layout => false
+  #    return
+  #  end
+  #  return
   rescue QueryError
     render :template => 'manifestations/error.xml', :layout => false
     return
@@ -254,13 +265,10 @@ class ManifestationsController < ApplicationController
       @manifestation = Manifestation.find(params[:id])
     end
     @manifestation = @manifestation.versions.find(@version).item if @version
-    unless @manifestation.is_readable_by(current_user)
-      access_denied; return
-    end
 
     case params[:mode]
     when 'send_email'
-      if logged_in?
+      if user_signed_in?
         Notifier.deliver_manifestation_info(current_user, @manifestation)
         flash[:notice] = t('page.sent_email')
         redirect_to manifestation_url(@manifestation)
@@ -274,7 +282,7 @@ class ManifestationsController < ApplicationController
     return if render_mode(params[:mode])
 
     @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
-    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if logged_in?
+    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if user_signed_in?
 
     if @manifestation.respond_to?(:worldcat_record)
       #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
@@ -318,9 +326,13 @@ class ManifestationsController < ApplicationController
           page.replace_html 'xisbn_list', :partial => 'show_xisbn' if params[:xisbn_page]
         end
       }
+      format.pdf {
+        prawnto :prawn => {
+          :page_layout => :portrait,
+          :page_size => "A4"},
+          :inline => true
+      }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /manifestations/new
@@ -369,47 +381,26 @@ class ManifestationsController < ApplicationController
       render :partial => 'tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location unless params[:mode] == 'tag_edit'
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # POST /manifestations
   # POST /manifestations.xml
   def create
-    case params[:mode]
-    when 'import_isbn'
-      begin
-        @manifestation = Manifestation.import_isbn(params[:manifestation][:isbn])
-        @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-      rescue Exception => e
-        case e.message
-        when 'invalid ISBN'
-          flash[:notice] = t('manifestation.invalid_isbn')
-        when 'already imported'
-          flash[:notice] = t('manifestation.already_imported')
-        else
-          flash[:notice] = t('manifestation.record_not_found')
-        end
-        redirect_to new_manifestation_url(:mode => 'import_isbn')
-        return
-      end
-    else
-      @manifestation = Manifestation.new(params[:manifestation])
-      if @manifestation.respond_to?(:post_to_twitter)
-        @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-      end
-      if @manifestation.respond_to?(:post_to_scribd)
-        @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
-      end
-      if @manifestation.original_title.blank?
-        @manifestation.original_title = @manifestation.attachment_file_name
-      end
-      #unless @expression
-      #  flash[:notice] = t('manifestation.specify_expression')
-      #  redirect_to expressions_url
-      #  return
-      #end
+    @manifestation = Manifestation.new(params[:manifestation])
+    if @manifestation.respond_to?(:post_to_twitter)
+      @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
     end
+    if @manifestation.respond_to?(:post_to_scribd)
+      @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
+    end
+    if @manifestation.original_title.blank?
+      @manifestation.original_title = @manifestation.attachment_file_name
+    end
+    #unless @expression
+    #  flash[:notice] = t('manifestation.specify_expression')
+    #  redirect_to expressions_url
+    #  return
+    #end
 
     respond_to do |format|
       if @manifestation.save
@@ -475,8 +466,6 @@ class ManifestationsController < ApplicationController
         format.json { render :json => @manifestation, :status => :unprocessable_entity }
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # DELETE /manifestations/1
@@ -633,6 +622,8 @@ class ManifestationsController < ApplicationController
         mime = FileWrapper.get_mime(@manifestation.screen_shot.path)
         send_file @manifestation.screen_shot.path, :type => mime, :disposition => 'inline'
       end
+    when 'calil_list'
+      render :partial => 'manifestations/calil_list'
     else
       false
     end
@@ -664,7 +655,7 @@ class ManifestationsController < ApplicationController
   end
 
   def write_search_log(query, total, user)
-    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:login)}\t#{params[:format]}"
+    SEARCH_LOGGER.info "#{Time.zone.now}\t#{query}\t#{total}\t#{user.try(:username)}\t#{params[:format]}"
   end
 
 end

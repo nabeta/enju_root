@@ -1,5 +1,5 @@
 class ReserveStatHasUsersController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /reserve_stat_has_users
   # GET /reserve_stat_has_users.xml

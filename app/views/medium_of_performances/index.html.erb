@@ -13,7 +13,7 @@
 <%- for medium_of_performance in @medium_of_performances -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if medium_of_performance.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, medium_of_performance -%>
         <%= move_position(medium_of_performance) -%>
       <%- end -%>
     </td>

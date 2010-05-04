@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class PatronsController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user_if_nil
   before_filter :get_work, :get_expression, :get_manifestation, :get_item
   before_filter :get_patron, :only => :index
@@ -43,7 +43,7 @@ class PatronsController < ApplicationController
       patron = @patron
       patron_merge_list = @patron_merge_list
       search.build do
-        with(:user).equal_to user.login if user
+        with(:user).equal_to user.username if user
         with(:work_ids).equal_to work.id if work
         with(:expression_ids).equal_to expression.id if expression
         with(:manifestation_ids).equal_to manifestation.id if manifestation
@@ -113,8 +113,6 @@ class PatronsController < ApplicationController
         end
       }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /patrons/new
@@ -146,8 +144,8 @@ class PatronsController < ApplicationController
   # POST /patrons.xml
   def create
     @patron = Patron.new(params[:patron])
-    if @patron.user_id
-      @patron.user = User.find(@patron.user_id) rescue nil
+    if @patron.user_username
+      @patron.user = User.find(@patron.user_username) rescue nil
     end
     unless current_user.has_role?('Librarian')
       if @patron.user != current_user
@@ -220,6 +218,7 @@ class PatronsController < ApplicationController
     @patron.destroy
 
     respond_to do |format|
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.patron'))
       format.html { redirect_to patrons_url }
       format.xml  { head :ok }
     end

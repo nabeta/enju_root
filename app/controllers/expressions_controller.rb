@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class ExpressionsController < ApplicationController
-  before_filter :has_permission?, :except => :show
+  load_and_authorize_resource
   before_filter :get_user_if_nil
   before_filter :get_patron
   before_filter :get_work, :get_manifestation
@@ -88,8 +88,6 @@ class ExpressionsController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @expression }
     end
-  rescue ActiveRecord::RecordNotFound
-    not_found
   end
 
   # GET /expressions/new
@@ -173,6 +171,7 @@ class ExpressionsController < ApplicationController
     @expression.destroy
 
     respond_to do |format|
+      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.expression'))
       format.html { redirect_to expressions_url }
       format.xml  { head :ok }
     end

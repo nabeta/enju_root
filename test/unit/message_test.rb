@@ -66,6 +66,6 @@ class MessageTest < ActiveSupport::TestCase
   end
   
   def create_message(options = {})
-    Message.create({ :recipient => users(:user1).login, :sender => users(:user2), :subject => 'new message', :body => 'new message body is really short' }.merge(options))
+    Message.create({ :recipient => users(:user1).username, :sender => users(:user2), :subject => 'new message', :body => 'new message body is really short' }.merge(options))
   end
 end

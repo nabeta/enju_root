@@ -1,6 +1,5 @@
 class EventImportFile < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
@@ -26,6 +25,15 @@ class EventImportFile < ActiveRecord::Base
   end
   aasm_event :aasm_fail do
     transitions :from => :started, :to => :failed
+  end
+
+  def after_create
+    #set_digest
+  end
+
+  def set_digest(options = {:type => 'sha1'})
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.event_import.path, 'rb').read)
+    save(false)
   end
 
   def import_start

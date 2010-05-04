@@ -12,11 +12,11 @@
 <table class="index">
   <tr>
     <th><%= t('activerecord.attributes.patron.full_name') -%></th>
-    <th><%= t('activerecord.attributes.user.login') -%></th>
+    <th><%= t('activerecord.attributes.user.username') -%></th>
     <th><%= t('activerecord.models.patron_type') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
-    <%- if current_user -%>
+    <%- if user_signed_in? -%>
       <th></th>
       <th></th>
     <%- end -%>
@@ -28,12 +28,12 @@
         <%= patron.full_name_transcription -%>
       </td>
       <td>
-        <%= link_to h(patron.user.login), edit_user_path(patron.user.login) if patron.user -%>
+        <%= link_to h(patron.user.username), edit_user_path(patron.user.username) if patron.user -%>
       </td>
       <td><%= patron.patron_type.display_name.localize  -%></td>
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
-      <%- if patron.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, patron -%>
         <td><%= link_to t('page.edit'), edit_patron_path(patron) -%></td>
         <td>
           <%= link_to t('page.add_derivation'), patron_patrons_path(patron) -%>
@@ -49,7 +49,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Patron.is_creatable_by(current_user) -%>
+    <%- if can? :create, Patron -%>
       <li><%= link_to t('patron.add'), new_patron_path -%></li>
       <li><%= link_to t('page.merge', :model => t('activerecord.models.patron')), patron_merge_lists_path -%></li>
     <%- end -%>

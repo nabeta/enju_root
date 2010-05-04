@@ -1,7 +1,7 @@
 class SearchHistoriesController < ApplicationController
   before_filter :access_denied, :except => [:index, :show]
   # index, show以外は外部からは呼び出されないはず
-  before_filter :has_permission?
+  load_and_authorize_resource
   #before_filter :get_user
 
   # GET /search_histories
@@ -86,7 +86,7 @@ class SearchHistoriesController < ApplicationController
     @search_history.destroy
 
     respond_to do |format|
-      #format.html { redirect_to user_search_histories_url(@user.login) }
+      #format.html { redirect_to user_search_histories_url(@user.username) }
       format.html { redirect_to search_histories_url }
       format.xml  { head :ok }
     end

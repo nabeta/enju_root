@@ -8,7 +8,7 @@
 
 <p>
   <strong><%= t('activerecord.models.user') -%>:</strong>
-  <%= link_to h(@import_request.user.login), user_path(@import_request.user.login) -%>
+  <%= link_to h(@import_request.user.username), user_path(@import_request.user.username) -%>
 </p>
 
 <p>
@@ -36,7 +36,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if @import_request.is_updatable_by(current_user) -%>
+    <%- if can? :update, @import_request -%>
       <li><%= link_to t('page.edit'), edit_import_request_path(@import_request) -%></li>
     <%- end -%>
     <li><%= link_to t('page.back'), import_requests_path -%></li>

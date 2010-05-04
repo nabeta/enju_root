@@ -8,7 +8,7 @@
   <%- form_for :manifestations, :url => subscription_manifestations_path(@subscription), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if @subscription.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @subscription -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -39,7 +39,7 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
     </td>
     <td>
-      <%- if manifestation.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, manifestation -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :manifestation_id => manifestation.id) unless @subscription.manifestations.include?(manifestation) -%>
         <%- else -%>

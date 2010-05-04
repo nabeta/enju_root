@@ -5,7 +5,7 @@
 <%- form_for :expressions, :url => expression_merge_list_expressions_path(@expression_merge_list), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-  <%- if @expression_merge_list.is_deletable_by(current_user) -%>
+  <%- if can? :destroy, @expression_merge_list -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -36,7 +36,7 @@
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
-      <%- if expression.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, expression -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_expression_merge_list_expression_merge_path(@expression_merge_list, :expression_id => expression.id) unless @expression_merge_list.expressions.include?(expression) -%>
         <%- else -%>

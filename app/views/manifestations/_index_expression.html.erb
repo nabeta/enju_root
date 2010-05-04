@@ -13,7 +13,7 @@
   <%- form_for :manifestations, :url => expression_manifestations_path(@expression), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if @expression.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, @expression -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -44,7 +44,7 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
     </td>
     <td>
-      <%- if manifestation.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, manifestation -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_expression_embody_path(@expression, :manifestation_id => manifestation.id) unless @expression.manifestations.include?(manifestation) -%>
         <%- else -%>

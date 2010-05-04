@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 require 'timeout'
 class Question < ActiveRecord::Base
-  include LibrarianOwnerRequired
   default_scope :order => 'id DESC'
   named_scope :public_questions, :conditions => {:shared => true}
   named_scope :private_questions, :conditions => {:shared => false}
@@ -13,7 +12,7 @@ class Question < ActiveRecord::Base
   #acts_as_soft_deletable
   searchable do
     text :body, :answer_body
-    string :login
+    string :username
     time :created_at
     time :updated_at do
       last_updated_at
@@ -43,13 +42,8 @@ class Question < ActiveRecord::Base
     return text
   end
 
-  def login
-    self.user.login
-  end
-
-  def is_readable_by(user, parent = nil)
-    return true if user == self.user || self.shared? || user.try(:has_role?, 'Librarian')
-    false
+  def username
+    self.user.username
   end
 
   def last_updated_at

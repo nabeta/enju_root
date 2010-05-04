@@ -12,7 +12,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(exemplify.manifestation.original_title), exemplify.manifestation -%></td>
     <td><%= link_to h(exemplify.item.item_identifier), exemplify.item -%></td>
-    <%- if exemplify.is_deletable_by(current_user) -%>
+    <%- if can? :destroy, exemplify -%>
       <td><%= link_to t('page.show'), exemplify -%></td>
       <td><%= link_to t('page.destroy'), exemplify, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>
@@ -26,7 +26,7 @@
 
 <div id="submenu">
   <ul>
-    <%- if Exemplify.is_creatable_by(current_user) -%>
+    <%- if can? :create, Exemplify -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.exemplify')), new_exemplify_path -%></li>
     <%- end -%>
   </ul>

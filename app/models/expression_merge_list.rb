@@ -1,5 +1,4 @@
 class ExpressionMergeList < ActiveRecord::Base
-  include LibrarianRequired
   has_many :expression_merges, :dependent => :destroy
   has_many :expressions, :through => :expression_merges
   validates_presence_of :title

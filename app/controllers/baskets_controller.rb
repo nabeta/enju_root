@@ -1,6 +1,6 @@
 class BasketsController < ApplicationController
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user, :except => [:new, :create]
   cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
@@ -57,7 +57,7 @@ class BasketsController < ApplicationController
     respond_to do |format|
       if @basket.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.basket'))
-        format.html { redirect_to user_basket_checked_items_url(@user.login, @basket) }
+        format.html { redirect_to user_basket_checked_items_url(@user.username, @basket) }
         format.xml  { render :xml => @basket, :status => :created, :location => @basket }
       else
         format.html { render :action => "new" }
@@ -73,7 +73,7 @@ class BasketsController < ApplicationController
     #if params[:mode] == 'checkout'
     librarian = current_user
     unless @basket.basket_checkout(librarian)
-      redirect_to user_basket_checked_items_url(@basket.user.login, @basket)
+      redirect_to user_basket_checked_items_url(@basket.user.username, @basket)
       return
     end
 
@@ -83,10 +83,10 @@ class BasketsController < ApplicationController
       if @basket.save(false)
         # 貸出完了時
         flash[:notice] = t('basket.checkout_completed')
-        format.html { redirect_to(user_checkouts_url(@basket.user.login)) }
+        format.html { redirect_to(user_checkouts_url(@basket.user.username)) }
         format.xml  { head :ok }
       else
-        format.html { redirect_to(user_basket_checked_items_url(@basket.user.login, @basket)) }
+        format.html { redirect_to(user_basket_checked_items_url(@basket.user.username, @basket)) }
         format.xml  { head :ok }
       end
     end
@@ -101,7 +101,7 @@ class BasketsController < ApplicationController
 
     respond_to do |format|
       #format.html { redirect_to(user_baskets_url(@user)) }
-      format.html { redirect_to(user_checkouts_url(@basket.user.login)) }
+      format.html { redirect_to(user_checkouts_url(@basket.user.username)) }
       format.xml  { head :ok }
     end
   end

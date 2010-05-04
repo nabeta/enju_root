@@ -1,7 +1,6 @@
 require 'test_helper'
 
 class WorkMergeListsControllerTest < ActionController::TestCase
-  setup :activate_authlogic
   fixtures :work_merge_lists, :users
 
   def test_guest_should_not_get_index
@@ -12,14 +11,14 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_index
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :index
     assert_response :forbidden
     assert_nil assigns(:work_merge_lists)
   end
 
   def test_librarian_should_not_get_index
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :index
     assert_response :success
     assert_not_nil assigns(:work_merge_lists)
@@ -32,13 +31,13 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_new
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :new
     assert_response :forbidden
   end
 
   def test_librarian_should_get_new
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :new
     assert_response :success
   end
@@ -53,7 +52,7 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_create_work_merge_list
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('WorkMergeList.count') do
       post :create, :work_merge_list => { }
     end
@@ -62,7 +61,7 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_not_create_work_merge_list_without_title
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_no_difference('WorkMergeList.count') do
       post :create, :work_merge_list => { }
     end
@@ -71,7 +70,7 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_create_work_merge_list
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('WorkMergeList.count') do
       post :create, :work_merge_list => {:title => 'test'}
     end
@@ -86,13 +85,13 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_show_work_merge_list
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :show, :id => work_merge_lists(:work_merge_list_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_not_show_work_merge_list
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :show, :id => work_merge_lists(:work_merge_list_00001).id
     assert_response :success
   end
@@ -104,13 +103,13 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_get_edit
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     get :edit, :id => work_merge_lists(:work_merge_list_00001).id
     assert_response :forbidden
   end
 
   def test_librarian_should_get_edit
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     get :edit, :id => work_merge_lists(:work_merge_list_00001).id
     assert_response :success
   end
@@ -122,25 +121,25 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_update_work_merge_list
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     put :update, :id => work_merge_lists(:work_merge_list_00001).id, :work_merge_list => { }
     assert_response :forbidden
   end
 
   def test_librarian_should_not_update_work_merge_list_without_title
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => work_merge_lists(:work_merge_list_00001).id, :work_merge_list => {:title => ""}
     assert_response :success
   end
 
   def test_librarian_should_update_work_merge_list
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => work_merge_lists(:work_merge_list_00001).id, :work_merge_list => { }
     assert_redirected_to work_merge_list_url(assigns(:work_merge_list))
   end
 
   def test_librarian_should_not_merge_works_without_selected_work_id
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => work_merge_lists(:work_merge_list_00001).id, :mode => 'merge'
 
     assert_equal 'Specify work id.', flash[:notice]
@@ -148,7 +147,7 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_merge_patrons_with_selected_work_id_and_merge_mode
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     put :update, :id => work_merge_lists(:work_merge_list_00001).id, :selected_work_id => 3, :mode => 'merge'
 
     assert_equal 'Works are merged successfully.', flash[:notice]
@@ -165,7 +164,7 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_user_should_not_destroy_work_merge_list
-    UserSession.create users(:user1)
+    sign_in users(:user1)
     assert_no_difference('WorkMergeList.count') do
       delete :destroy, :id => work_merge_lists(:work_merge_list_00001).id
     end
@@ -174,7 +173,7 @@ class WorkMergeListsControllerTest < ActionController::TestCase
   end
 
   def test_librarian_should_destroy_work_merge_list
-    UserSession.create users(:librarian1)
+    sign_in users(:librarian1)
     assert_difference('WorkMergeList.count', -1) do
       delete :destroy, :id => work_merge_lists(:work_merge_list_00001).id
     end

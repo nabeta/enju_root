@@ -1,5 +1,4 @@
 class Realize < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :expression #, :counter_cache => true #, :validate => true
   belongs_to :patron #, :counter_cache => true #, :polymorphic => true, :validate => true
 
@@ -14,16 +13,16 @@ class Realize < ActiveRecord::Base
   acts_as_list :scope => :expression
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    patron.index!
-    expression.index!
+  def reindex
+    patron.index
+    expression.index
   end
 
 end

@@ -1,5 +1,4 @@
 class SearchHistory < ActiveRecord::Base
-  include LibrarianRequired
   named_scope :not_found, :conditions => {:number_of_records => 0}
 
   belongs_to :user

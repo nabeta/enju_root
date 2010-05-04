@@ -1,5 +1,4 @@
 class PictureFile < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   named_scope :attached, :conditions => ['picture_attachable_id > 0']
   belongs_to :picture_attachable, :polymorphic => true, :validate => true
 
@@ -21,11 +20,11 @@ class PictureFile < ActiveRecord::Base
   end
 
   def after_create
-    send_later(:set_digest) if self.picture.path
+    set_digest
   end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(File.open(self.picture.path, 'rb').read)
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.picture.path, 'rb').read)
     save(false)
   end
 

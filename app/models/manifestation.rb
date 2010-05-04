@@ -5,8 +5,6 @@ require 'sru'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  #include OnlyLibrarianCanModify
-  include LibrarianOwnerRequired
   #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'manifestations.updated_at DESC'
   named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
@@ -179,6 +177,7 @@ class Manifestation < ActiveRecord::Base
   enju_scribd
   enju_mozshot
   enju_oai
+  enju_calil_check
   #enju_worldcat
   has_paper_trail
 
@@ -193,6 +192,7 @@ class Manifestation < ActiveRecord::Base
   validates_length_of :access_address, :maximum => 255, :allow_blank => true
   validates_uniqueness_of :isbn, :allow_blank => true
   validates_uniqueness_of :nbn, :allow_blank => true
+  validates_uniqueness_of :manifestation_identifier, :allow_blank => true
   validates_format_of :access_address, :with => URI::regexp(%w(http https)) , :allow_blank => true
 
   def set_wrong_isbn
@@ -213,6 +213,8 @@ class Manifestation < ActiveRecord::Base
       isbn10 = self.isbn.dup
       self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn)
       self.isbn10 = isbn10
+    elsif self.isbn.length == 13
+      self.isbn10 = ISBN_Tools.isbn13_to_isbn10(self.isbn)
     end
     set_wrong_isbn
   rescue NoMethodError
@@ -228,7 +230,7 @@ class Manifestation < ActiveRecord::Base
   #end
 
   def after_create
-    send_later(:set_digest) if self.attachment.path
+    #set_digest if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
   end
 
@@ -244,8 +246,8 @@ class Manifestation < ActiveRecord::Base
 
   def expire_cache
     sleep 3
-    Rails.cache.delete("worldcat_record_#{id}")
-    Rails.cache.delete("xisbn_manifestations_#{id}")
+    #Rails.cache.delete("worldcat_record_#{id}")
+    #Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
   end
 
@@ -498,7 +500,7 @@ class Manifestation < ActiveRecord::Base
 
   def user
     if self.bookmarks
-      self.bookmarks.collect(&:user).collect(&:login)
+      self.bookmarks.collect(&:user).collect(&:username)
     else
       []
     end
@@ -566,11 +568,18 @@ class Manifestation < ActiveRecord::Base
 
   def is_reserved_by(user = nil)
     if user
-      return true if Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
+      Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
     else
-      return true if self.reserves.present?
+      false
     end
-    false
+  end
+
+  def is_reserved?
+    if self.reserves.present?
+      true
+    else
+      false
+    end
   end
 
   def reservable?
@@ -596,7 +605,7 @@ class Manifestation < ActiveRecord::Base
   #end
 
   def set_digest(options = {:type => 'sha1'})
-    file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
     save(false)
   end
 
@@ -673,12 +682,8 @@ class Manifestation < ActiveRecord::Base
     Bookmark.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
   end
 
-  def is_readable_by(user, parent = nil)
-    return true if self.role_accepted?(user)
-    false
-  end
-
   def has_single_work?
+    return true if works.size == 0
     if works.size == 1
       return true if works.first.original_title == original_title
     end

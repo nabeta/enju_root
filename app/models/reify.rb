@@ -1,5 +1,4 @@
 class Reify < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :work #, :counter_cache => true #, :validate => true
   belongs_to :expression #, :validate => true
   belongs_to :relationship_type, :class_name => 'WorkToExpressionRelType'
@@ -15,15 +14,15 @@ class Reify < ActiveRecord::Base
   acts_as_list :scope => :work
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    work.index!
-    expression.index!
+  def reindex
+    work.index
+    expression.index
   end
 end

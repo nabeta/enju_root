@@ -1,5 +1,4 @@
 class WorkToExpressionRelType < ActiveRecord::Base
-  include OnlyAdministratorCanModify
   default_scope :order => 'position'
   has_many :reifies
   validates_presence_of :name, :display_name

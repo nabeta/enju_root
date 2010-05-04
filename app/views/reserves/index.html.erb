@@ -13,21 +13,21 @@
   
 <%- @reserves.each_with_index do |reserve, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(reserve.id), user_reserve_path(reserve.user.login, reserve) -%></td>
-    <td><%= link_to h(reserve.user.login), user_path(reserve.user.login) -%></td>
+    <td><%= link_to h(reserve.id), user_reserve_path(reserve.user.username, reserve) -%></td>
+    <td><%= link_to h(reserve.user.username), user_path(reserve.user.username) -%></td>
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
     </td>
     <td><%= reserve.request_status_type.display_name.localize -%></td>
     <td><%= l(reserve.expired_at, :format => :only_date) -%></td>
-    <%- if reserve.is_deletable_by(current_user) -%>
-      <td><%= link_to t('page.show'), user_reserve_path(reserve.user.login, reserve) -%></td>
-      <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.login, reserve) -%></td>
+    <%- if can? :destroy, reserve -%>
+      <td><%= link_to t('page.show'), user_reserve_path(reserve.user.username, reserve) -%></td>
+      <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.username, reserve) -%></td>
       <td>
         <%- if reserve.user.reserves.waiting.include?(reserve) -%>
-          <%= link_to t('page.cancel'), user_reserve_path(reserve.user.login, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
+          <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
         <%- else -%>
-          <%= link_to t('page.destroy'), user_reserve_path(reserve.user.login, reserve), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to t('page.destroy'), user_reserve_path(reserve.user.username, reserve), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       </td>
     <%- end -%>
@@ -49,17 +49,17 @@
     </li>
     <%- if current_user.has_role?('Librarian') -%>
       <li><%= link_to t('reserve.all_reservation'), reserves_path -%></li>
-      <li><%= link_to t('reserve.my_reservation'), user_reserves_path(current_user.login) -%></li>
+      <li><%= link_to t('reserve.my_reservation'), user_reserves_path(current_user.username) -%></li>
     <%- end -%>
     <%- if @user -%>
-      <li><%= link_to t('page.checkout'), user_checkouts_path(@user.login) -%></li>
+      <li><%= link_to t('page.checkout'), user_checkouts_path(@user.username) -%></li>
     <%- end -%>
   </ul>
   <p>
     <%- if @user -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.login, :format => :rss -%>
-      (<%= link_to 'RSS', user_reserves_path(@user.login, :format => :rss) -%>)
-      (<%= link_to 'CSV', user_reserves_path(@user.login, :format => :csv, :locale => @locale) -%>)
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :user_id => @user.username, :format => :rss -%>
+      (<%= link_to 'RSS', user_reserves_path(@user.username, :format => :rss) -%>)
+      (<%= link_to 'CSV', user_reserves_path(@user.username, :format => :csv, :locale => @locale) -%>)
     <%- else -%>
       <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), :format => :rss -%>
       (<%= link_to 'RSS', reserves_path(:format => :rss) -%>)

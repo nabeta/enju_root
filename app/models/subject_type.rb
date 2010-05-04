@@ -1,6 +1,4 @@
 class SubjectType < ActiveRecord::Base
-  include AdministratorRequired
-
   default_scope :order => "position"
   has_many :subjects
 

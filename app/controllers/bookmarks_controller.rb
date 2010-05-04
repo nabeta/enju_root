@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 class BookmarksController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :get_user, :only => :new
   before_filter :get_user_if_nil, :except => :new
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -9,7 +9,7 @@ class BookmarksController < ApplicationController
   # GET /bookmarks
   # GET /bookmarks.xml
   def index
-    if logged_in?
+    if user_signed_in?
       begin
         if !current_user.has_role?('Librarian')
           raise unless @user.share_bookmarks?
@@ -20,7 +20,7 @@ class BookmarksController < ApplicationController
             access_denied; return
           end
         else
-          redirect_to user_bookmarks_path(current_user.login)
+          redirect_to user_bookmarks_path(current_user.username)
           return
         end
       end
@@ -106,7 +106,7 @@ class BookmarksController < ApplicationController
       # 自館のページではない場合、メッセージを表示して空のページを表示
       when 'not_our_holding'
         flash[:notice] = t('bookmark.not_our_holding')
-        redirect_to new_user_bookmark_url(current_user.login)
+        redirect_to new_user_bookmark_url(current_user.username)
       # OTC end
       end
     end
@@ -133,10 +133,10 @@ class BookmarksController < ApplicationController
           flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
           if params[:mode] == 'tag_edit'
             format.html { redirect_to manifestation_url(@bookmark.manifestation) }
-            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
+            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.username, @bookmark) }
           else
             format.html { redirect_to(@bookmark) }
-            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.login, @bookmark) }
+            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.username, @bookmark) }
           end
         else
           @user = current_user
@@ -157,7 +157,7 @@ class BookmarksController < ApplicationController
           flash[:notice] = t('bookmark.not_our_holding')
         # OTC end
         end
-        format.html { redirect_to new_user_bookmark_url(current_user.login) }
+        format.html { redirect_to new_user_bookmark_url(current_user.username) }
         format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }
       end
     end
@@ -189,7 +189,7 @@ class BookmarksController < ApplicationController
           format.html { redirect_to manifestation_url(@bookmark.manifestation) }
           format.xml  { head :ok }
         else
-          format.html { redirect_to user_bookmark_url(@bookmark.user.login, @bookmark) }
+          format.html { redirect_to user_bookmark_url(@bookmark.user.username, @bookmark) }
           format.xml  { head :ok }
         end
       else
@@ -215,12 +215,12 @@ class BookmarksController < ApplicationController
 
     if @user
       respond_to do |format|
-        format.html { redirect_to user_bookmarks_url(@user.login) }
+        format.html { redirect_to user_bookmarks_url(@user.username) }
         format.xml  { head :ok }
       end
     else
       respond_to do |format|
-        format.html { redirect_to user_bookmarks_url(current_user.login) }
+        format.html { redirect_to user_bookmarks_url(current_user.username) }
         format.xml  { head :ok }
       end
     end

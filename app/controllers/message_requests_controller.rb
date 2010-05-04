@@ -1,7 +1,7 @@
 class MessageRequestsController < ApplicationController
   before_filter :access_denied, :only => [:new, :create]
   before_filter :check_client_ip_address
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /message_requests
   # GET /message_requests.xml

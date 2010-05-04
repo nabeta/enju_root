@@ -5,7 +5,7 @@
 <%- form_for :patrons, :url => patron_merge_list_patrons_path(@patron_merge_list), :html => {:method => 'get'} do -%>
 <p>
   <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:class => 'search_form'} -%>
-  <%- if @patron_merge_list.is_deletable_by(current_user) -%>
+  <%- if can? :destroy, @patron_merge_list -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
       <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -35,7 +35,7 @@
     <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
     <td><%=l patron.date_of_death if patron.date_of_death -%></td>
     <td>
-      <%- if patron.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, patron -%>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_patron_merge_list_patron_merge_path(@patron_merge_list, :patron_id => patron.id) unless @patron_merge_list.patrons.include?(patron) -%>
         <%- else -%>

@@ -1,6 +1,5 @@
 class InterLibraryLoan < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   named_scope :completed, :conditions => {:state => 'return_received'}
   #named_scope :processing, lambda {|item, borrowing_library| {:conditions => ['item_id = ? AND borrowing_library_id = ? AND state != ?', item.id, borrowing_library.id, 'return_received']}}
   named_scope :processing, lambda {|item, borrowing_library| {:conditions => ['item_id = ? AND borrowing_library_id = ?', item.id, borrowing_library.id]}}

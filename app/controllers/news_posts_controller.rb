@@ -1,12 +1,12 @@
 class NewsPostsController < ApplicationController
   before_filter :check_client_ip_address, :except => [:index, :show]
-  before_filter :has_permission?
+  load_and_authorize_resource
   before_filter :prepare_options, :only => [:new, :edit]
 
   # GET /news_posts
   # GET /news_posts.xml
   def index
-    if logged_in?
+    if user_signed_in?
       if current_user.has_role?('Librarian')
         @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
       end

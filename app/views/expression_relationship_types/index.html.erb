@@ -13,7 +13,7 @@
 <%- @expression_relationship_types.each do |expression_relationship_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%- if expression_relationship_type.is_deletable_by(current_user) -%>
+      <%- if can? :destroy, expression_relationship_type -%>
         <%= move_position(expression_relationship_type) -%>
       <%- end -%>
     </td>

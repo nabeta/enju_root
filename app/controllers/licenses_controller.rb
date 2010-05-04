@@ -1,5 +1,5 @@
 class LicensesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /licenses
   # GET /licenses.xml

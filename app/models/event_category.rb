@@ -1,6 +1,4 @@
 class EventCategory < ActiveRecord::Base
-  include OnlyAdministratorCanModify
-
   default_scope :order => "position"
   has_many :events
   validates_presence_of :name, :display_name

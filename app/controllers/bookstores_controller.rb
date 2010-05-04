@@ -1,5 +1,5 @@
 class BookstoresController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /bookstores
   # GET /bookstores.xml

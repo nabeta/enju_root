@@ -1,5 +1,4 @@
 class Advertise < ActiveRecord::Base
-  include AdministratorRequired
   belongs_to :advertisement, :validate => true
   belongs_to :patron, :validate => true
 

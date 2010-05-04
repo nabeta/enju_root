@@ -43,7 +43,7 @@ module MessagesHelper
   
   # Link to view the message
   def rezm_link_to_message(message)
-     link_to "#{h(rezm_subject_and_status(message))}", user_message_path(rezm_user.login, message)
+     link_to "#{h(rezm_subject_and_status(message))}", user_message_path(rezm_user.username, message)
   end
   
   # Dynamic data for the sender/receiver column in the messages.rhtml view
@@ -84,11 +84,11 @@ module MessagesHelper
   
   # Reply Button
   def rezm_button_to_reply(message)
-    button_to t('message.reply'), reply_user_message_path(rezm_user.login, message), :method => :get  
+    button_to t('message.reply'), reply_user_message_path(rezm_user.username, message), :method => :get  
   end
   
   # Delete Button
   def rezm_button_to_delete(message)
-    button_to t('message.delete'), user_message_path(rezm_user.login, message), :confirm => t('page.are_you_sure'), :method => :delete  
+    button_to t('message.delete'), user_message_path(rezm_user.username, message), :confirm => t('page.are_you_sure'), :method => :delete  
   end
 end

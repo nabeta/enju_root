@@ -1,5 +1,4 @@
 class Produce < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   belongs_to :patron #, :counter_cache => true #,:polymorphic => true, :validate => true
   belongs_to :manifestation #, :counter_cache => true #, :validate => true
 
@@ -14,15 +13,15 @@ class Produce < ActiveRecord::Base
   end
 
   def after_save
-    reindex!
+    reindex
   end
 
   def after_destroy
-    reindex!
+    reindex
   end
 
-  def reindex!
-    patron.index!
-    manifestation.index!
+  def reindex
+    patron.index
+    manifestation.index
   end
 end

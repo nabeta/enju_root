@@ -1,5 +1,4 @@
 class ImportRequest < ActiveRecord::Base
-  include OnlyLibrarianCanModify
   include AASM
 
   default_scope :order => 'id DESC'
@@ -50,6 +49,7 @@ class ImportRequest < ActiveRecord::Base
       else
         aasm_fail!
       end
+      Sunspot.commit
     end
   end
 end

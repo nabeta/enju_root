@@ -1,6 +1,5 @@
 class ResourceImportFile < ActiveRecord::Base
   include AASM
-  include LibrarianRequired
   default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
@@ -28,6 +27,15 @@ class ResourceImportFile < ActiveRecord::Base
     transitions :from => :started, :to => :failed
   end
 
+  def after_create
+  #  set_digest
+  end
+
+  def set_digest(options = {:type => 'sha1'})
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.resource_import.path, 'rb').read)
+    save(false)
+  end
+
   def import_start
     aasm_import_start!
     aasm_import!
@@ -50,124 +58,22 @@ class ResourceImportFile < ActiveRecord::Base
     end
     #rows.shift
     rows.each do |row|
-      shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
-
-      # タイトルが入力してあればそれを優先する
-      if row['isbn']
-        unless manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
-          if row['original_title'].to_s.strip.blank?
-            manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
-            save_imported_object(manifestation)
-            #num[:success] += 1 if manifestation
+      manifestation = fetch(row)
+      begin
+        if manifestation
+          unless item = Item.first(:conditions => {:item_identifier => row['item_identifier'].to_s.strip})
+            create_item(row)
+            Rails.logger.info("resource registration succeeded: column #{record}"); next
+            num[:success] += 1
+          else
+            Rails.logger.info("resource found: isbn #{row['isbn']}")
+            num[:found] += 1
           end
         end
+      rescue Exception => e
+        Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
       end
-
-      title = {}
-      title[:original_title] = row['original_title']
-      title[:title_transcription] = row['title_transcription']
-      title[:title_alternative] = row['title_alternative']
-      #title[:title_transcription_alternative] = row['title_transcription_alternative']
-
-      ResourceImportFile.transaction do
-        if manifestation.nil?
-          #begin
-            authors = row['author'].to_s.split(';')
-            publishers = row['publisher'].to_s.split(';')
-            author_patrons = Manifestation.import_patrons(authors)
-            publisher_patrons = Manifestation.import_patrons(publishers)
-            #classification = Classification.first(:conditions => {:category => row['classification'].to_s.strip)
-            subjects = []
-            row['subject'].to_s.split(';').each do |s|
-              unless subject = Subject.first(:conditions => {:term => s.to_s.strip})
-                # TODO: Subject typeの設定
-                subject = Subject.create(:term => s.to_s.strip, :subject_type_id => 1)
-              end
-              subjects << subject
-            end
-            unless series_statement = SeriesStatement.first(:conditions => {:series_statement_identifier => row['series_statement_identifier'].to_s.strip})
-              if row['series_statement_original_title'].to_s.strip.present?
-                series_statement = SeriesStatement.create(
-                  :original_title => row['series_statement_original_title'].to_s.strip,
-                  :title_transcription => row['series_statement_title_transcription'].to_s.strip,
-                  :series_statement_identifier => row['series_statement_identifier'].to_s.strip
-                )
-              end
-            end
-
-            work = self.class.import_work(title, author_patrons, row['series_statment_id'])
-            work.subjects << subjects
-            save_imported_object(work)
-            expression = self.class.import_expression(work)
-            save_imported_object(expression)
-
-            if ISBN_Tools.is_valid?(row['isbn'].to_s.strip)
-              isbn = row['isbn']
-            end
-            date_of_publication = Time.zone.parse(row['date_of_publication']) rescue nil
-            # TODO: 小数点以下の表現
-            height = NKF.nkf('-eZ1', row['height'].to_s).gsub(/\D/, '').to_i
-            end_page = NKF.nkf('-eZ1', row['number_of_pages'].to_s).gsub(/\D/, '').to_i
-            if end_page >= 1
-              start_page = 1
-            else
-              start_page = nil
-              end_page = nil
-            end
-
-            manifestation = self.class.import_manifestation(expression, publisher_patrons, {
-              :isbn => isbn,
-              :wrong_isbn => row['wrong_isbn'],
-              :issn => row['issn'],
-              :lccn => row['lccn'],
-              :nbn => row['nbn'],
-              :date_of_publication => date_of_publication,
-              :volume_number_list => row['volume_number_list'],
-              :edition => row['edition'],
-              :height => row['height'],
-              :price => row['manifestation_price'],
-              :description => row['description'],
-              :note => row['note'],
-              :series_statement => series_statement,
-              :height => height,
-              :start_page => start_page,
-              :end_page => end_page,
-              :manifestation_identifier => row['manifestation_identifier']
-            })
-            save_imported_object(manifestation)
-
-            Rails.logger.info("resource import succeeded: column #{record}")
-          #rescue Exception => e
-          #  Rails.logger.info("resource import failed: column #{record}: #{e.message}")
-          #  num[:failure] += 1
-          #end
-        end
-
-        begin
-          if manifestation
-            unless item = Item.first(:conditions => {:item_identifier => row['item_identifier'].to_s.strip})
-              circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
-              shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
-              item = self.class.import_item(manifestation, {
-                :item_identifier => row['item_identifier'],
-                :price => row['item_price'],
-                :call_number => row['call_number'].to_s.strip,
-                :circulation_status => circulation_status,
-                :shelf => shelf
-              })
-              save_imported_object(item)
-              num[:success] += 1
-              Rails.logger.info("resource registration succeeded: column #{record}"); next
-            else
-              Rails.logger.info("resource found: isbn #{row['isbn']}")
-              num[:found] += 1
-            end
-          end
-        rescue Exception => e
-          Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
-        end
-        GC.start if record % 50 == 0
-      end
+      GC.start if record % 50 == 0
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)
@@ -211,10 +117,11 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def self.import_item(manifestation, options)
+    options = {:shelf => Shelf.web}.merge(options)
     item = Item.new(options)
     #if item.save!
       manifestation.items << item
-      item.patrons << shelf.library.patron
+      item.patrons << options[:shelf].library.patron
     #end
     return item
   end
@@ -284,4 +191,117 @@ class ResourceImportFile < ActiveRecord::Base
   #  end
   #end
 
+  private
+  def import_subject(row)
+    subjects = []
+    row['subject'].to_s.split(';').each do |s|
+      unless subject = Subject.first(:conditions => {:term => s.to_s.strip})
+        # TODO: Subject typeの設定
+        subject = Subject.create(:term => s.to_s.strip, :subject_type_id => 1)
+      end
+      subjects << subject
+    end
+    subjects
+  end
+
+  def create_item(row)
+    circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
+    shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
+    item = self.class.import_item(manifestation, {
+      :item_identifier => row['item_identifier'],
+      :price => row['item_price'],
+      :call_number => row['call_number'].to_s.strip,
+      :circulation_status => circulation_status,
+      :shelf => shelf
+    })
+    save_imported_object(item)
+    item
+  end
+
+  def fetch(row)
+    shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
+
+    # タイトルが入力してあればそれを優先する
+    if row['isbn']
+      unless manifestation = Manifestation.find_by_isbn(row['isbn'].to_s.strip)
+        if row['original_title'].to_s.strip.blank?
+          manifestation = Manifestation.import_isbn!(row['isbn'].to_s.strip) rescue nil
+          save_imported_object(manifestation)
+          #num[:success] += 1 if manifestation
+        end
+      end
+    end
+
+    title = {}
+    title[:original_title] = row['original_title']
+    title[:title_transcription] = row['title_transcription']
+    title[:title_alternative] = row['title_alternative']
+    #title[:title_transcription_alternative] = row['title_transcription_alternative']
+
+    ResourceImportFile.transaction do
+      if manifestation.nil?
+          authors = row['author'].to_s.split(';')
+          publishers = row['publisher'].to_s.split(';')
+          author_patrons = Manifestation.import_patrons(authors)
+          publisher_patrons = Manifestation.import_patrons(publishers)
+          #classification = Classification.first(:conditions => {:category => row['classification'].to_s.strip)
+          subjects = import_subject(row)
+          series_statement = import_series_statement(row)
+
+          work = self.class.import_work(title, author_patrons, row['series_statment_id'])
+          work.subjects << subjects
+          save_imported_object(work)
+          expression = self.class.import_expression(work)
+          save_imported_object(expression)
+
+          if ISBN_Tools.is_valid?(row['isbn'].to_s.strip)
+            isbn = row['isbn']
+          end
+          date_of_publication = Time.zone.parse(row['date_of_publication']) rescue nil
+          # TODO: 小数点以下の表現
+          height = NKF.nkf('-eZ1', row['height'].to_s).gsub(/\D/, '').to_i
+          end_page = NKF.nkf('-eZ1', row['number_of_pages'].to_s).gsub(/\D/, '').to_i
+          if end_page >= 1
+            start_page = 1
+          else
+            start_page = nil
+            end_page = nil
+          end
+
+          manifestation = self.class.import_manifestation(expression, publisher_patrons, {
+            :isbn => isbn,
+            :wrong_isbn => row['wrong_isbn'],
+            :issn => row['issn'],
+            :lccn => row['lccn'],
+            :nbn => row['nbn'],
+            :date_of_publication => date_of_publication,
+            :volume_number_list => row['volume_number_list'],
+            :edition => row['edition'],
+            :height => row['height'],
+            :price => row['manifestation_price'],
+            :description => row['description'],
+            :note => row['note'],
+            :series_statement => series_statement,
+            :height => height,
+            :start_page => start_page,
+            :end_page => end_page,
+            :manifestation_identifier => row['manifestation_identifier']
+          })
+          save_imported_object(manifestation)
+      end
+    end
+    manifestation
+  end
+
+  def import_series_statement(row)
+    unless series_statement = SeriesStatement.first(:conditions => {:series_statement_identifier => row['series_statement_identifier'].to_s.strip})
+      if row['series_statement_original_title'].to_s.strip.present?
+        series_statement = SeriesStatement.create(
+          :original_title => row['series_statement_original_title'].to_s.strip,
+          :title_transcription => row['series_statement_title_transcription'].to_s.strip,
+          :series_statement_identifier => row['series_statement_identifier'].to_s.strip
+        )
+      end
+    end
+  end
 end

@@ -1,5 +1,5 @@
 class ExpressionRelationshipTypesController < ApplicationController
-  before_filter :has_permission?
+  load_and_authorize_resource
 
   # GET /expression_relationship_types
   # GET /expression_relationship_types.xml

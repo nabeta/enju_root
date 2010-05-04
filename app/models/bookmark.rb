@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Bookmark < ActiveRecord::Base
-  include LibrarianOwnerRequired
-
   named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :manifestation
@@ -74,7 +72,7 @@ class Bookmark < ActiveRecord::Base
     taggings.each do |tagging|
       tagging.tagger = user
       tagging.save(false)
-      tagging.tag.index
+      Tag.find(tagging.tag_id).index
     end
   end
 
@@ -192,17 +190,4 @@ class Bookmark < ActiveRecord::Base
     end
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_deletable_by(user, parent = nil)
-    true if user == self.user || user.has_role?('Librarian')
-  rescue
-    false
-  end
 end

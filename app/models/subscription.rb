@@ -1,5 +1,4 @@
 class Subscription < ActiveRecord::Base
-  include LibrarianRequired
   has_many :subscribes, :dependent => :destroy
   has_many :works, :through => :subscribes
   belongs_to :user, :validate => true

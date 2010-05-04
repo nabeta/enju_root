@@ -1,6 +1,4 @@
 class Bookstore < ActiveRecord::Base
-  include AdministratorRequired
- 
   default_scope :order => "position"
   has_many :items
   has_many :order_lists
