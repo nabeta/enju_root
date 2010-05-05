@@ -5,7 +5,7 @@ xml.rss('version' => "2.0",
   xml.channel{
     xml.title t('inter_library_loan.library_group_inter_library_loan', :library_group_name => @library_group.display_name.localize)
     xml.link inter_library_loans_url
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => inter_library_loans_url(:format => :rss)

@@ -14,7 +14,7 @@ xml.rss('version' => "2.0",
       xml.tag! "atom:link", :rel => 'self', :href => orders_url(:format => :rss)
       xml.tag! "atom:link", :rel => 'alternate', :href => orders_url
     end
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
     #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
