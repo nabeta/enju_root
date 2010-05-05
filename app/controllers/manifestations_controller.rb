@@ -109,6 +109,9 @@ class ManifestationsController < ApplicationController
       else
         reservable = nil
       end
+      manifestation = @manifestation if @manifestation
+      expression = @expression if @expression
+      patron = @patron if @patron
       search.build do
         fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
@@ -118,6 +121,9 @@ class ManifestationsController < ApplicationController
         with(:reservable).equal_to reservable unless reservable.nil?
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
+        with(:manifestation_ids).equal_to manifestation.id if manifestation
+        with(:expression_ids).equal_to expression.id if expression
+        with(:patron_ids).equal_to patron.id if patron
         paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
       end
       @count[:query_result] = search.execute!.total

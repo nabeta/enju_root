@@ -15,7 +15,7 @@
 <%- unless @query.blank? -%>
   <%- if @manifestations.total_entries > 0 -%>
     <p>
-      <%= t('page.number_of_search_results', :count => @count[:query_result], :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
+      <%= t('page.number_of_search_results', :count => @manifestations.total_entries, :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
       <%- if @count[:query_result] > MAX_NUMBER_OF_RESULTS -%>
         <br />
         <%= t('page.limit_exceeded', :count => MAX_NUMBER_OF_RESULTS) -%>
