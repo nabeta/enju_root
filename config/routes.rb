@@ -272,7 +272,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :users do |user|
     user.resources :roles
     user.resources :bookmarks
-    user.resources :manifestations
+    #user.resources :manifestations
     user.resources :reserves
     user.resources :search_histories
     user.resources :checkouts
