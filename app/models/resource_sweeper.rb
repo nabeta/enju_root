@@ -53,7 +53,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Item)
       expire_editable_fragment(record)
-      expire_editable_fragment(record.manifestation, ['detail_3', 'detail_4'])
+      expire_editable_fragment(record.manifestation, ['detail'])
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
       end
@@ -199,7 +199,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(SeriesStatement)
       record.manifestations.each do |manifestation|
-        expire_editable_fragment(manifestation, "detail_2")
+        expire_editable_fragment(manifestation, ['detail'])
       end
     when record.is_a?(SubjectHeadingTypeHasSubject)
       expire_editable_fragment(record.subject)
@@ -238,7 +238,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_manifestation_cache(manifestation, fragments)
-    fragments = %w[detail pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers tags title show_xisbn picture_file] if fragments.nil?
+    fragments = %w[detail pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers title show_xisbn picture_file] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
       expire_manifestation_fragment(manifestation, fragment)
