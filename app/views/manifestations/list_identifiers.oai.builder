@@ -9,10 +9,12 @@ xml.tag! "OAI-PMH", :xmlns => "http://www.openarchives.org/OAI/2.0/",
   end
   xml.ListIdentifiers do
     @manifestations.each do |manifestation|
-      xml.header do
-        xml.identifier manifestation.oai_identifier
-        xml.datestamp manifestation.updated_at.utc.iso8601
-        xml.setSpec manifestation.series_statement.id if manifestation.series_statement
+      cache(:id => manifestation.id, :action => 'show', :controller => 'manifestations', :role => current_user.try(:highest_role).try(:name), :format_suffix => 'oai_pmh_list_identifiers', :locale => @locale) do
+        xml.header do
+          xml.identifier manifestation.oai_identifier
+          xml.datestamp manifestation.updated_at.utc.iso8601
+          xml.setSpec manifestation.series_statement.id if manifestation.series_statement
+        end
       end
     end
     if @resumption.present?

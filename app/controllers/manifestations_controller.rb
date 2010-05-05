@@ -241,8 +241,9 @@ class ManifestationsController < ApplicationController
   #    return
   #  end
   #  return
-  rescue QueryError
+  rescue QueryError => e
     render :template => 'manifestations/error.xml', :layout => false
+    Rails.logger.info "#{Time.zone.now}\t#{query}\t\t#{current_user.try(:username)}\t#{e}"
     return
   end
 

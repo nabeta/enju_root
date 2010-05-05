@@ -19,18 +19,23 @@ xml.rss('version' => "2.0",
       xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
     end
     if @manifestations
-      for manifestation in @manifestations
-        xml.item do
-          xml.title h(manifestation.original_title)
-          #xml.description(manifestation.original_title)
-          # rfc822
-          xml.pubDate h(manifestation.created_at.utc.iso8601)
-          xml.link manifestation_url(manifestation)
-          xml.guid manifestation_url(manifestation), :isPermaLink => "true"
-          manifestation.tags.each do |tag|
-            xml.category h(tag)
+      @manifestations.each do |manifestation|
+        cache(:id => manifestation.id, :action => 'show', :controller => 'manifestations', :role => current_user.try(:highest_role).try(:name), :format_suffix => 'rss', :locale => @locale) do
+          xml.item do
+            xml.title h(manifestation.original_title)
+            #xml.description(manifestation.original_title)
+            # rfc822
+            manifestation.creators.each do |creator|
+              xml.tag! "dc:creator", creator.full_name
+            end
+            xml.pubDate h(manifestation.created_at.utc.iso8601)
+            xml.link manifestation_url(manifestation)
+            xml.guid manifestation_url(manifestation), :isPermaLink => "true"
+            manifestation.tags.each do |tag|
+              xml.category h(tag)
+            end
+            xml.tag! "dc:Identifier", manifestation.isbn
           end
-          xml.tag! "dc:Identifier", manifestation.isbn
         end
       end
     end

@@ -76,20 +76,22 @@ def get_record(mf)
     'xmlns:srw_dc' => "info:srw/schema/1/dc-v1.1",
     'xmlns:xsi' => "http://www.w3.org/2001/XMLSchema-instance",
     'xsi:schemaLocation' => "info:srw/schema/1/dc-v1.1 http://www.loc.gov/standards/sru/dc-schema.xsd" do
-    xml.tag! 'dc:title', mf.original_title
-    mf.creators.each do |patron|
-      xml.tag! 'dc:creator', patron.full_name
+    cache(:id => mf.id, :action => 'show', :controller => 'manifestations', :role => current_user.try(:highest_role).try(:name), :format_suffix => 'sru') do
+      xml.tag! 'dc:title', mf.original_title
+      mf.creators.each do |patron|
+        xml.tag! 'dc:creator', patron.full_name
+      end
+      mf.contributors.each do |patron|
+        xml.tag! 'dc:contributor', patron.full_name
+      end
+      mf.publishers.each do |patron|
+        xml.tag! 'dc:publisher', patron.full_name
+      end
+      mf.subjects.each do |subject|
+        xml.tag! "dc:subject", subject.term
+      end
+      xml.tag! 'dc:description', mf.description
     end
-    mf.contributors.each do |patron|
-      xml.tag! 'dc:contributor', patron.full_name
-    end
-    mf.publishers.each do |patron|
-      xml.tag! 'dc:publisher', patron.full_name
-    end
-    mf.subjects.each do |subject|
-      xml.tag! "dc:subject", subject.term
-    end
-    xml.tag! 'dc:description', mf.description
   end
 end
 

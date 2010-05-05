@@ -15,26 +15,16 @@ xml.rdf(:RDF,
     if @manifestations
       xml.items do
         xml.tag! "rdf:Seq" do
-          for manifestation in @manifestations
+          @manifestations.each do |manifestation|
             xml.tag! "rdf:li", 'rdf:resource' => "http://#{LibraryGroup.url}manifestations/#{manifestation.id}"
           end
         end
       end
     end
   }
-  for manifestation in @manifestations
-    xml.item do
-      xml.title h(manifestation.original_title)
-      xml.tag! 'dc:date', h(manifestation.created_at.utc.iso8601)
-      xml.tag! 'dc:creator', manifestation.creator.join(' ') unless manifestation.creators.empty?
-      xml.tag! 'dc:contributor', manifestation.contributor.join(' ') unless manifestation.contributors.empty?
-      xml.tag! 'dc:publisher', manifestation.publisher.join(' ') unless manifestation.publishers.empty?
-      xml.tag! 'dc:identifier', "urn:ISBN:#{manifestation.isbn}" if manifestation.isbn.present?
-      xml.tag! 'dc:description', manifestation.description
-      xml.link manifestation_url(manifestation)
-      manifestation.subjects.each do |subject|
-        xml.tag! "foaf:topic", "rdf:resource" => subject_url(subject)
-      end
+  @manifestations.each do |manifestation|
+    cache(:id => manifestation.id, :action => 'show', :controller => 'manifestations', :role => current_user.try(:highest_role).try(:name), :format_suffix => 'rdf', :locale => @locale) do
+      xml << render(:partial => 'show', :locals => {:manifestation => manifestation})
     end
   end
 }

@@ -253,6 +253,9 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     if manifestation
       I18n.available_locales.each do |locale|
         Role.all.each do |role|
+          ['atom', 'csv', 'mods', 'oai_list_identifiers', 'oai_list_records', 'rdf', 'rss'].each do |format|
+            expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :locale => locale.to_s, :role => role.name, :format_suffix => format, :user_id => nil)
+          end
           expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :locale => locale.to_s, :role => role.name, :user_id => nil)
         end
       end
