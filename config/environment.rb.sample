@@ -82,7 +82,7 @@ Rails::Initializer.run do |config|
   config.gem "sunspot_rails", :lib => "sunspot/rails", :version => ">=1.1.0"
   #config.gem "factory_girl"
   config.gem "ri_cal"
-  #config.gem "fleakr"
+  #config.gem "flickraw"
   config.gem "fastercsv"
   config.gem "Text", :lib => "text"
   config.gem "paper_trail"
@@ -95,6 +95,7 @@ Rails::Initializer.run do |config|
   config.gem "exception_notification"
   config.gem "attribute_normalizer"
   config.gem "rack-openid", :lib => "rack/openid"
+  config.gem "erubis"
   #config.gem "acts_as_archive"
   #config.gem "event_calendar"
   #config.gem "sru"
@@ -122,7 +123,6 @@ Rails::Initializer.run do |config|
   config.i18n.default_locale = :ja
 end
 
-Money.default_currency = "JPY"
 #RAILS_DEFAULT_LOGGER.auto_flushing = 1
 
 #require 'jasper-rails'

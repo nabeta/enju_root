@@ -3,7 +3,7 @@ xml.rss('version' => "2.0",
   'xmlns:opensearch' => "http://a9.com/-/spec/opensearch/1.1/",
   'xmlns:atom' => "http://www.w3.org/2005/Atom"){
   xml.channel{
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     if @user
       xml.title t('purchase_request.user_purchase_request', :login_name => @user.username)
       xml.link user_purchase_requests_url(@user.username)

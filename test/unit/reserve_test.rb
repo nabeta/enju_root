@@ -41,7 +41,7 @@ class ReserveTest < ActiveSupport::TestCase
   end
 
   def test_should_have_reservations_that_will_expire
-    assert_equal 1, Reserve.will_expire(Time.zone.now).size
+    assert_equal 1, Reserve.will_expire_retained(Time.zone.now).size
   end
 
   def test_should_have_completed_reservation

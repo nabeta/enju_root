@@ -9,32 +9,22 @@ xml.rdf(:RDF,
   xml.channel("rdf:about" => manifestations_url(:params => params.merge(:format => 'rdf'))){
     xml.title t('manifestation.query_search_result', :query => @query, :library_group_name => @library_group.display_name.localize)
     xml.link "#{request.protocol}#{request.host_with_port}#{url_for(params.merge(:format => nil))}"
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
     if @manifestations
       xml.items do
         xml.tag! "rdf:Seq" do
-          for manifestation in @manifestations
+          @manifestations.each do |manifestation|
             xml.tag! "rdf:li", 'rdf:resource' => "http://#{LibraryGroup.url}manifestations/#{manifestation.id}"
           end
         end
       end
     end
   }
-  for manifestation in @manifestations
-    xml.item do
-      xml.title h(manifestation.original_title)
-      xml.tag! 'dc:date', h(manifestation.created_at.utc.iso8601)
-      xml.tag! 'dc:creator', manifestation.creator.join(' ') unless manifestation.creators.empty?
-      xml.tag! 'dc:contributor', manifestation.contributor.join(' ') unless manifestation.contributors.empty?
-      xml.tag! 'dc:publisher', manifestation.publisher.join(' ') unless manifestation.publishers.empty?
-      xml.tag! 'dc:identifier', "urn:ISBN:#{manifestation.isbn}" if manifestation.isbn.present?
-      xml.tag! 'dc:description', manifestation.description
-      xml.link manifestation_url(manifestation)
-      manifestation.subjects.each do |subject|
-        xml.tag! "foaf:topic", "rdf:resource" => subject_url(subject)
-      end
+  @manifestations.each do |manifestation|
+    cache(:id => manifestation.id, :action => 'show', :controller => 'manifestations', :role => current_user.try(:highest_role).try(:name), :format_suffix => 'rdf', :locale => @locale) do
+      xml << render(:partial => 'show', :locals => {:manifestation => manifestation})
     end
   end
 }
