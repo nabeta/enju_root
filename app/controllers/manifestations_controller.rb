@@ -109,7 +109,7 @@ class ManifestationsController < ApplicationController
       else
         reservable = nil
       end
-      manifestation = @original_manifestation if @original_manifestation
+      manifestation = @manifestation if @manifestation
       expression = @expression if @expression
       patron = @patron if @patron
       search.build do
