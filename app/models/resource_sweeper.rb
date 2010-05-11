@@ -3,7 +3,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     Create, Realize, Produce, Own, Bookmark, Patron, Language,
     Library, Basket, Checkin, WorkHasWork, ExpressionHasExpression,
     ManifestationHasManifestation, ItemHasItem, PatronHasPatron,
-    SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag
+    SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag, Answer
 
   def after_save(record)
     case
@@ -89,10 +89,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.subjects.each do |subject|
         expire_editable_fragment(subject)
       end
-    #when record.is_a?(Concept)
-    #  expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
-    #when record.is_a?(Place)
-    #  expire_fragment(:controller => :places, :action => :show, :id => record.id)
     when record.is_a?(Create)
       expire_editable_fragment(record.patron)
       expire_editable_fragment(record.work)
@@ -209,6 +205,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_editable_fragment(record.picture_attachable, ['picture_file', 'book_jacket'])
       when record.picture_attachable.is_a?(Patron)
         expire_editable_fragment(record.picture_attachable, ['picture_file'])
+      end
+    when record.is_a?(Answer)
+      record.items.each do |item|
+        expire_editable_fragment(item.manifestation, ['detail'])
       end
     end
   end

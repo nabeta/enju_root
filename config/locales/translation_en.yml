@@ -1137,6 +1137,7 @@ en:
       "true": "Yes"
       "false": "No"
     not_found: "Page not found"
+    last_updated: "Last updated"
   title:
     index: "index"
     show: "show"
@@ -1206,6 +1207,7 @@ en:
     serial: "Serial"
     send_email: "Email this information"
     attachment_file: "Attachment file"
+    question: "Question"
   item:
     current_checkout: "Current checkout"
     donor: "Donors"

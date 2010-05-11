@@ -12,15 +12,19 @@ class UsersControllerTest < ActionController::TestCase
     :manifestations, :carrier_types, :expressions, :embodies, :works, :realizes, :creates, :reifies, :produces
 
   def test_guest_should_not_get_index
-    get :index
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_raise(CanCan::AccessDenied){
+      get :index
+    }
+    #assert_response :redirect
+    #assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_get_index
     sign_in users(:user1)
-    get :index
-    assert_response :forbidden
+    assert_raise(CanCan::AccessDenied){
+      get :index
+    }
+    #assert_response :forbidden
   end
 
   def test_librarian_should_get_index
@@ -31,9 +35,11 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_update_user
-    put :update, :id => 'admin', :user => { }
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_raise(CanCan::AccessDenied){
+      put :update, :id => 'admin', :user => { }
+    }
+    #assert_response :redirect
+    #assert_redirected_to new_user_session_url
   end
 
   def test_user_should_update_myself
@@ -81,8 +87,10 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_user_should_not_update_other_user
     sign_in users(:user1)
-    put :update, :id => users(:user2).username, :user => { }
-    assert_response :forbidden
+    assert_raise(CanCan::AccessDenied){
+      put :update, :id => users(:user2).username, :user => { }
+    }
+    #assert_response :forbidden
   end
 
   def test_librarian_should_update_other_user
@@ -124,7 +132,9 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_get_new
-    get :new, :patron_id => 6
+    assert_raise(CanCan::AccessDenied){
+      get :new, :patron_id => 6
+    }
     assert_response :success
   end
 
@@ -136,8 +146,10 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_user_should_not_get_new
     sign_in users(:user1)
-    get :new, :patron_id => 6
-    assert_response :forbidden
+    assert_raise(CanCan::AccessDenied){
+      get :new, :patron_id => 6
+    }
+    #assert_response :forbidden
   end
 
   def test_librarian_should_get_new
@@ -147,9 +159,11 @@ class UsersControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_show_user
-    get :show, :id => users(:user1).username
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_raise(CanCan::AccessDenied){
+      get :show, :id => users(:user1).username
+    }
+    #assert_response :redirect
+    #assert_redirected_to new_user_session_url
   end
 
   def test_user_should_show_my_user
@@ -166,20 +180,26 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_everyone_should_not_show_missing_user
     sign_in users(:admin)
-    get :show, :id => 100
-    assert_response :missing
+    assert_raise(ActiveRecord::RecordNotFound){
+      get :show, :id => 100
+    } 
+    #assert_response :missing
   end
 
   def test_guest_should_not_edit_user
-    get :edit, :id => 1
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    assert_raise(CanCan::AccessDenied){
+      get :edit, :id => 1
+    }
+    #assert_response :redirect
+    #assert_redirected_to new_user_session_url
   end
 
   def test_everyone_should_not_edit_missing_user
     sign_in users(:admin)
-    get :edit, :id => 100
-    assert_response :missing
+    assert_raise(ActiveRecord::RecordNotFound){
+      get :edit, :id => 100
+    }
+    #assert_response :missing
   end
 
   def test_user_should_edit_my_user
@@ -196,34 +216,42 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_guest_should_not_destroy_user
     old_count = User.count
-    delete :destroy, :id => 1
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => 1
+    }
     assert_equal old_count, User.count
-    assert_response :redirect
-    assert_redirected_to new_user_session_url
+    #assert_response :redirect
+    #assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_myself
     sign_in users(:user1)
     old_count = User.count
-    delete :destroy, :id => users(:user1).username
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => users(:user1).username
+    }
     assert_equal old_count, User.count
-    assert_response :forbidden
+    #assert_response :forbidden
   end
 
   def test_user_should_not_destroy_other_user
     sign_in users(:user1)
     old_count = User.count
-    delete :destroy, :id => users(:user2).username
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => users(:user2).username
+    }
     assert_equal old_count, User.count
-    assert_response :forbidden
+    #assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_myself
     sign_in users(:librarian1)
     old_count = User.count
-    delete :destroy, :id => users(:librarian1).username
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => users(:librarian1).username
+    }
     assert_equal old_count, User.count
-    assert_response :forbidden
+    #assert_response :forbidden
   end
 
   def test_librarian_should_destroy_user
@@ -237,25 +265,31 @@ class UsersControllerTest < ActionController::TestCase
   def test_librarian_should_not_destroy_user_who_has_items_not_checked_in
     sign_in users(:librarian1)
     old_count = User.count
-    delete :destroy, :id => users(:user1).username
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => users(:user1).username
+    }
     assert_equal old_count, User.count
-    assert_response :forbidden
+    #assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_librarian
     sign_in users(:librarian1)
     old_count = User.count
-    delete :destroy, :id => users(:librarian2).username
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => users(:librarian2).username
+    }
     assert_equal old_count, User.count
-    assert_response :forbidden
+    #assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_admin
     sign_in users(:librarian1)
     old_count = User.count
-    delete :destroy, :id => users(:admin).username
+    assert_raise(CanCan::AccessDenied){
+      delete :destroy, :id => users(:admin).username
+    }
     assert_equal old_count, User.count
-    assert_response :forbidden
+    #assert_response :forbidden
   end
 
   def test_admin_should_destroy_librarian

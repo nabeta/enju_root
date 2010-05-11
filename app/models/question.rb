@@ -20,6 +20,9 @@ class Question < ActiveRecord::Base
     boolean :shared
     boolean :solved
     integer :answers_count
+    integer :manifestation_id, :multiple => true do
+      answers.collect(&:items).flatten.collect{|i| i.manifestation.id}
+    end
   end
 
   acts_as_taggable_on :tags
@@ -60,4 +63,5 @@ class Question < ActiveRecord::Base
       updated_at
     end
   end
+
 end

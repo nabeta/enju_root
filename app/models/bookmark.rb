@@ -55,11 +55,17 @@ class Bookmark < ActiveRecord::Base
 
   def after_save
     save_tagger
+    expire_cache
     send_later(:save_manifestation)
   end
 
   def after_destroy
+    expire_cache
     send_later(:save_manifestation)
+  end
+
+  def expire_cache
+    Rails.cache.delete("Manifestation.search.total")
   end
 
   def save_manifestation
