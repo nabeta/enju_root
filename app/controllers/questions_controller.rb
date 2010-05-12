@@ -50,11 +50,16 @@ class QuestionsController < ApplicationController
         user = @user
       end
     end
-    user = current_user if user.nil?
+    c_user = current_user
 
     search.build do
-      if user
-        with(:username).equal_to user.username unless user.has_role?('Librarian')
+       with(:username).equal_to user.username if user
+      if c_user
+        unless c_user.has_role?('Librarian')
+          with(:shared).equal_to true
+        end
+      else
+        with(:shared).equal_to true
       end
       facet :solved
     end

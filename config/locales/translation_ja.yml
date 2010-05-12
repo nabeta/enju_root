@@ -1125,6 +1125,7 @@ ja:
       "true": "はい"
       "false": "いいえ"
     not_found: "ページが見つかりませんでした"
+    last_updated: "最終更新日"
   title:
     index: "一覧"
     show: "表示"
@@ -1195,6 +1196,7 @@ ja:
     serial: "定期刊行物"
     send_email: "書誌情報を電子メールで送信する"
     attachment_file: "添付ファイル"
+    question: "この資料で調べた質問"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
