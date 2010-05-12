@@ -708,4 +708,8 @@ class Manifestation < ActiveRecord::Base
     end.results
   end
 
+  def web_item
+    items.first(:conditions => {:shelf_id => Shelf.web.id})
+  end
+
 end

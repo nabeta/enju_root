@@ -100,7 +100,9 @@ class NewsFeedsController < ApplicationController
 
   private
   def expire_cache
-    expire_fragment(:controller => :news_feeds, :action => :show, :id => @news_feed.id, :action_suffix => 'title')
+    Role.all.each do |role|
+      expire_fragment(:controller => :news_feeds, :action => :show, :id => @news_feed.id, :action_suffix => 'title', :role => role.name)
+    end
     @news_feed.force_reload
   end
 end

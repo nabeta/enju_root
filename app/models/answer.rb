@@ -23,8 +23,13 @@ class Answer < ActiveRecord::Base
   end
 
   def add_items
-    item_lists = item_identifier_list.to_s.strip.split.map{|i| Item.first(:conditions => {:item_identifier => i})}.compact
-    self.items = item_lists
+    item_list = item_identifier_list.to_s.strip.split.map{|i| Item.first(:conditions => {:item_identifier => i})}.compact.uniq
+    url_list = add_urls
+    self.items = item_list + url_list
+  end
+
+  def add_urls
+    list = url_list.to_s.strip.split.map{|u| Manifestation.first(:conditions => {:access_address => u})}.compact.map{|m| m.web_item}.compact.uniq
   end
 
 end

@@ -1,4 +1,4 @@
-pdf.font "#{RAILS_ROOT}/public/ipag.ttf"
+pdf.font "#{Rails.root}/public/ipag.ttf"
 
 pdf.text I18n.l(Time.zone.today)
 pdf.text "#{params[:name]} 御中"
