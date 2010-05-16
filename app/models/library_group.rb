@@ -6,6 +6,7 @@ class LibraryGroup < ActiveRecord::Base
   has_many :libraries
   has_many :search_engines
   has_many :news_feeds
+  belongs_to :country
 
   validates_presence_of :name, :display_name, :email
 

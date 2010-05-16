@@ -46,7 +46,7 @@
     <%= f.date_text_field :date_of_birth, :class => 'date_field', :blank => true -%>
   </p>
 
-  <% if @user %>
+  <% unless @user %>
     <p>
       <%= f.label t('activerecord.attributes.patron.date_of_death') -%>
       <%= f.date_text_field :date_of_death, :class => 'date_field', :blank => true -%>
