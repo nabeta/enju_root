@@ -10,21 +10,48 @@
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name.localize, p.id]}) -%>
   </p>
 
-  <%- if FAMILY_NAME_FIRST == true -%>
-    <%= render :partial => 'patrons/form_family_name_first', :locals => {:f => f} -%>
-  <%- else -%>
-    <%= render :partial => 'patrons/form_family_name_last', :locals => {:f => f} -%>
-  <%- end -%>
+  <p>
+    <span id="name_person">
+      <%- if FAMILY_NAME_FIRST == true -%>
+        <%= render :partial => 'patrons/form_family_name_first', :locals => {:f => f} -%>
+      <%- else -%>
+        <%= render :partial => 'patrons/form_family_name_last', :locals => {:f => f} -%>
+      <%- end -%>
+    </span>
+    <%= f.label t('activerecord.attributes.patron.full_name') -%><br />
+    <%= f.text_field :full_name, :class => 'resource_title' -%><br />
+    <%= f.label t('activerecord.attributes.patron.full_name_transcription') -%><br />
+    <%= f.text_field :full_name_transcription, :class => 'resource_title' -%><br />
+    <%= link_to_function t('activerecord.attributes.patron.full_name_alternative'), "jQuery('#full_name_alternative').toggle()" -%>
+    <span id="full_name_alternative" style="display: none">
+      <br />
+      <%= f.text_area :full_name_alternative, :class => 'resource_textarea' -%>
+    </span>
+  </p>
+
+  <script>
+    jQuery("select#patron_patron_type_id").change(function(){
+      str = jQuery("select#patron_patron_type_id option:selected").val();
+      if(str == <%= PatronType.find_by_name('Person').id %>){
+        jQuery("#name_person").show();
+      }else{
+        jQuery("#name_person").hide();
+      }
+    })
+    .change();
+  </script>
 
   <p>
     <%= f.label t('activerecord.attributes.patron.date_of_birth') -%>
     <%= f.date_text_field :date_of_birth, :class => 'date_field', :blank => true -%>
   </p>
 
-  <p>
-    <%= f.label t('activerecord.attributes.patron.date_of_death') -%>
-    <%= f.date_text_field :date_of_death, :class => 'date_field', :blank => true -%>
-  </p>
+  <% if @user %>
+    <p>
+      <%= f.label t('activerecord.attributes.patron.date_of_death') -%>
+      <%= f.date_text_field :date_of_death, :class => 'date_field', :blank => true -%>
+    </p>
+  <% end %>
 
   <p>
     <%= f.label t('activerecord.models.language') -%>

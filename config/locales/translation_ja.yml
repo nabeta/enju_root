@@ -196,7 +196,7 @@ ja:
         first_name_transcription: 名（よみ）
         corporate_name: 会社名
         corporate_name_transcription: 企業名（よみ）
-        full_name: 正式名称
+        full_name: フルネーム
         full_name_transcription: フルネーム（よみ）
         full_name_alternative: フルネーム代替
         deleted_at: 削除時刻

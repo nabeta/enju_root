@@ -129,10 +129,12 @@
           <td><strong><%= t('activerecord.attributes.patron.date_of_birth') -%>:</strong></td>
           <td><%= l(@patron.date_of_birth) if @patron.date_of_birth -%></td>
         </tr>
-        <tr>
-          <td><strong><%= t('activerecord.attributes.patron.date_of_death') -%>:</strong></td>
-          <td><%= l(@patron.date_of_death) if @patron.date_of_death -%></td>
-        </tr>
+        <%- if @patron.user and current_user.try(:has_role?, 'Administrator') %>
+          <tr>
+            <td><strong><%= t('activerecord.attributes.patron.date_of_death') -%>:</strong></td>
+            <td><%= l(@patron.date_of_death) if @patron.date_of_death -%></td>
+          </tr>
+        <% end %>
       <%- end -%>
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.note') -%>:</strong></td>
