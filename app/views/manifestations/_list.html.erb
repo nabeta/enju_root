@@ -24,7 +24,7 @@
                 <%# グループ表示の部分テンプレート %>
                 <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
-              <%- if current_user -%>
+              <%- if user_signed_in? -%>
                 <td>
                   <%- if reserve = manifestation.is_reserved_by(current_user) -%>
                     <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>

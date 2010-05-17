@@ -2,7 +2,7 @@ ja:
   activerecord:
     models:
       library: 図書館
-      question: 質問
+      question: 質問（レファレンス）
       patron_import_file: 著者・出版者・読者のインポート用ファイル
       circulation_status: 貸出状態
       inventory: 蔵書点検
@@ -65,7 +65,7 @@ ja:
       order: 発注
       order_list: 発注リスト
       advertise: 広告
-      event: 催し物
+      event: 開館日と催し物
       embody: 具体化
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現形の併合
@@ -682,6 +682,7 @@ ja:
         canceled_at: 取消時刻
         expired_at: 有効期限（この日以降は不要）
         deleted_at: 削除時刻
+        created_at: 予約日時
         state: 状態
       message_request:
         sent_at: 送信時刻
@@ -1023,7 +1024,7 @@ ja:
     export: "エクスポート"
     detail: "詳細"
     acquisition: "資料の受入"
-    configuration: "設定"
+    configuration: "システムの設定"
     search_resource: "{{model}}を検索する"
     show_all: "全てを表示"
     hide: "隠す"
@@ -1031,7 +1032,7 @@ ja:
     number_of_reservations: "{{count}} 人の予約待ち"
     back_to_search_results: "検索結果の一覧に戻る"
     submit: "送信"
-    management: "管理"
+    management: "図書館の管理"
     about_us: "私たちについて"
     open_source_integrated_library_system: "オープンソース統合図書館システム"
     related_work: "この資料に含まれる著作"
@@ -1042,8 +1043,9 @@ ja:
     picture: "画像"
     number: "巻号"
     statistics: "統計"
-    request: "依頼"
-    circulation: "貸出と返却"
+    request: "図書館への依頼"
+    librarian_circulation: "貸出・返却・予約"
+    user_circulation: "貸出と予約"
     reset: "リセット"
     account: "アカウント"
     form: "形態"
@@ -1174,7 +1176,7 @@ ja:
     library_group_manifestation: "{{library_group_name}} にある体現形"
     reserve_this: "この資料を予約する"
     cancel_reservation: "この資料の予約を解除する"
-    patron_who_bookmark_this_resource: "この資料をブックマークしている著者・出版者・読者"
+    user_who_bookmark_this_resource: "この資料をブックマークしている利用者"
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
     serial: "定期刊行物"
     number: "巻号"

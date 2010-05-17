@@ -27,8 +27,8 @@ jQuery(function(){
     content: jQuery('#fg_event').next().html(),
     showSpeed: 100 
   });
-  jQuery('#fg_management').menu({ 
-    content: jQuery('#fg_management').next().html(),
+  jQuery('#fg_configuration').menu({ 
+    content: jQuery('#fg_configuration').next().html(),
     showSpeed: 100 
   });
 });

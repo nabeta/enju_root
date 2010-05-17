@@ -681,6 +681,7 @@ en:
         canceled_at: Canceled at
         expired_at: Expired at
         deleted_at: Deleted at
+        created_at: Reserved at
         state: State
       message_request:
         sent_at: Sent at
@@ -1052,7 +1053,8 @@ en:
     number: "Number"
     statistics: "Statistics"
     request: "Request"
-    circulation: "Circulation"
+    librarian_circulation: "Circulation"
+    user_circulation: "Borrow and reserve"
     reset: "Reset"
     account: "Account"
     form: "Form"
@@ -1185,7 +1187,7 @@ en:
     library_group_manifestation: "Manifestations in {{library_group_name}}"
     reserve_this: "Reserve this manifestation"
     cancel_reservation: "Cancel this reservation"
-    patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
+    user_who_bookmark_this_resource: "Users who bookmark this resource"
     query_search_result: "Search results for {{query}} in {{library_group_name}}"
     serial: "Serial"
     number: "Number"

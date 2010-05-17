@@ -69,6 +69,7 @@ class Message < ActiveRecord::Base
     I18n.available_locales.each do |locale|
       Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/users/#{sender.username}?action_suffix=message&locale=#{locale}&role=#{sender.highest_role.name}")
       Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/users/#{receiver.username}?action_suffix=message&locale=#{locale}&role=#{sender.highest_role.name}")
+      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/users/#{receiver.username}?action_suffix=header&locale=#{locale}")
     end
   end
 
