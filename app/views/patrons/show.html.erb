@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @patron.id, :action => :show, :controller => :patrons, :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
+    cache(:id => @patron.id, :action => :show, :controller => :patrons, :role => current_user_role_name, :locale => @locale, :version => @version) do
   -%>
   <h2 class="resource_title">
     [P]
@@ -169,7 +169,7 @@
 </div>
 
 <div id="submenu">
-  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
+  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
     <%- unless @patron.picture_files.empty? -%>
       <div id="manifestation_book_jacket">
         <%= patron_custom_book_jacket(@patron) -%>

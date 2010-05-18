@@ -1225,6 +1225,7 @@ ja:
     recent_publication: "最近の出版物"
     all_publication: "全ての出版物"
     other_address: "他の住所"
+    add_derivation: "派生人物・団体を追加"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"

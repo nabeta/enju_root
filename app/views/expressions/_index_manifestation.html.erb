@@ -1,7 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :role => nil, :locale => @locale) do -%>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :role => current_user_role_name, :locale => @locale) do -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- end -%>
   

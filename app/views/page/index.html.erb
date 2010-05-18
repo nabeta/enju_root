@@ -21,7 +21,7 @@
 
   <h3 class="title"><%= t('tag.popular_tag') -%></h3>
   <div id="tag_cloud_box">
-    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud', :locale => @locale, :role => current_user.try(:highest_role).try(:name)) do -%>
+    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud', :locale => @locale, :role => current_user_role_name) do -%>
       <%= render :partial => 'bookmarks/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
     <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>

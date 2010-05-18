@@ -66,9 +66,6 @@
                 <%- @manifestation.subjects.each do |subject| -%>
                   <li>
                     <%= link_to h(subject.term), subject -%>
-                    <%- if can? :update, subject -%>
-                      <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
-                    <%- end -%>
                     <%- unless subject.classifications.empty? -%>
                       (
                       <%- subject.classifications.each do |classification| -%>

@@ -231,7 +231,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
               end
             end
           end
-          expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :locale => locale.to_s)
         end
       end
     end

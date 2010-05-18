@@ -19,7 +19,7 @@
   <%- end -%>
   <!-- cache start -->
   <%
-    cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
+    cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail', :role => current_user_role_name, :locale => @locale, :version => @version) do
   %>
     <% if current_user.try(:has_role?, 'Librarian') %>
       <%= render :partial => 'show_detail_librarian' %>
@@ -40,7 +40,7 @@
 
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
     <%- unless @manifestation.picture_files.empty? -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
