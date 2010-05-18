@@ -9,7 +9,7 @@
   <p><%= f.text_field :email, :class => 'resource_email' %></p>
 
   <p><%= f.submit "Send me reset password instructions" %></p>
-  <%= javascript_tag("$('user_email').focus()") -%>
+  <%= javascript_tag("$('#user_email').focus()") -%>
 <% end %>
 
 <%= render :partial => "shared/devise_links" %>

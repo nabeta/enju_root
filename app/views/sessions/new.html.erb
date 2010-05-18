@@ -24,7 +24,7 @@
 
   <p><%= f.submit t('devise.sessions.user.link') %></p>
 
-<%= javascript_tag("$('user_username').focus()") -%>
+<%= javascript_tag("$('#user_username').focus()") -%>
 
 <%= render :partial => "shared/devise_links" %>
 <%= link_to 'Twitter Authentication', root_path(:warden_oauth_provider => 'twitter') -%>

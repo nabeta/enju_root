@@ -7,7 +7,7 @@
 
   <%- form_for :works, :url => patron_works_path(@patron), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => '#search_form_top', :class => 'search_form'} -%>
       <%- if can? :destroy, @patron -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -20,7 +20,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), patron_works_path(@patron) -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">

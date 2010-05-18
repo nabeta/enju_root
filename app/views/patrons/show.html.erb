@@ -189,8 +189,8 @@
         <%- end -%>
       </ul>
       <script type="text/javascript">
-        jQuery(document).ready(function(){
-          jQuery("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
+        $(document).ready(function(){
+          $("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
         })
       </script>
     <%- else -%>

@@ -4,7 +4,7 @@
   <h2 class="resource_title"><%= link_to h(@classification.category), @classification -%></h2>
 <%- form_for :subjects, :url => classification_subjects_path(@classification), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => '#search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
     <%- if can? :create, WorkHasSubject -%>
       <%- if params[:mode] == 'add' -%>
@@ -16,7 +16,7 @@
       <%- end -%>
     <%- end -%>
   </p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">

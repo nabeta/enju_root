@@ -6,12 +6,12 @@
         <%= raw paginate_id_link(@manifestation) -%>
         <%= back_to_manifestation_index -%>
         <%= t('page.search_term') -%>:
-        <%= text_field_tag 'query', session[:query], {:id => 'search_form_top', :class => 'search_form_short'} -%>
+        <%= text_field_tag 'query', session[:query], {:id => '#search_form_top', :class => 'search_form_short'} -%>
         <%= submit_tag t('page.search') -%>
         <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
       </div>
     <%- end -%>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
 
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
   <%- if @version -%>
@@ -65,8 +65,8 @@
         <%- end -%>
       </ul>
       <script type="text/javascript">
-        jQuery(document).ready(function(){
-          jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
+        $(document).ready(function(){
+          $("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
         })
       </script>
     <%- else -%>
@@ -143,11 +143,11 @@
 <% if user_signed_in? and @manifestation.isbn.present? %>
 <script type="text/javascript">
   window.onload = function() {
-    jQuery("#calil_list").load('<%= manifestation_path(@manifestation, :mode => 'calil_list') -%>', null, hideCalilSpinner);
+    $("#calil_list").load('<%= manifestation_path(@manifestation, :mode => 'calil_list') -%>', null, hideCalilSpinner);
   }
 
   function hideCalilSpinner(){
-    jQuery("#spinner_calil_list").hide();
+    $("#spinner_calil_list").hide();
   }
 </script>
 <% end %>
