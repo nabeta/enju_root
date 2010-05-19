@@ -105,13 +105,7 @@ class PatronsController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @patron }
-      format.js {
-        render :update do |page|
-          page.replace_html 'work', :partial => 'work_list', :locals => {:works => @works} if params[:work_list_page]
-          page.replace_html 'expression', :partial => 'expression_list', :locals => {:expressions => @expressions} if params[:expression_list_page]
-          page.replace_html 'manifestation', :partial => 'manifestation_list', :locals => {:manifestations => @manifestations} if params[:manifestation_list_page]
-        end
-      }
+      format.js
     end
   end
 

@@ -14,7 +14,7 @@
   <%- form_for :manifestations, :url => manifestation_manifestations_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= text_field_tag '#search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
+      <%= text_field_tag 'search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
       <%- if can? :destroy, @manifestation -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>

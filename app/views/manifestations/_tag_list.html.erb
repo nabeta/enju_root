@@ -8,6 +8,6 @@
     <%- end -%>
   <%- end -%>
   <%- if user_signed_in? -%>
-    (<%= link_to_remote t('page.edit'), :update => 'tag_list', :url => {:controller => 'manifestations', :action => 'edit', :id => @manifestation.id, :mode => 'tag_edit'}, :method => :get -%>)
+    (<a href="#" onclick="$.ajax({data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>'), success:function(request){$('#tag_list').html(request);}, type:'get', url:'/manifestations/<%= @manifestation.id %>/edit?mode=tag_edit'}); return false;"><%= t('page.edit') %></a>)
   <%- end -%>
 </div>

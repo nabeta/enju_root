@@ -100,11 +100,7 @@ class WorksController < ApplicationController
       format.html # show.rhtml
       format.xml  { render :xml => @work }
       format.json { render :json => @work }
-      format.js {
-        render :update do |page|
-          page.replace_html 'subject_list', :partial => 'show_subject_list' if params[:subject_page]
-        end
-      }
+      format.js
     end
   end
 

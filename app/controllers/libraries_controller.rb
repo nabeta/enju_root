@@ -65,11 +65,7 @@ class LibrariesController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @library }
-      format.js {
-        render :update do |page|
-          page.replace_html 'event_list', :partial => 'show_event_list' if params[:event_page]
-        end
-      }
+      format.js
     end
   end
 

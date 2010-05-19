@@ -1261,10 +1261,16 @@ ja:
     answer_question: "この質問に答える"
     crd: "国会図書館レファレンス協同データベース"
     you_can_search_crd: "国立国会図書館のレファレンス協同データベースを検索することができます。"
+    created_at: "質問の作成時刻"
+    updated_at: "質問の更新時刻"
+    last_answered_at: "最新の回答時刻"
+    solved: "解決済み"
+    not_solved: "未解決"
   answer:
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
     specify_question: "質問を指定してください。"
+    count: "回答件数"
   basket:
     this_account_is_suspended: "このアカウントは停止されています。"
     checkout_completed: "貸出が完了しました。"
@@ -1429,3 +1435,5 @@ ja:
     published: 公開済み
     reject: 却下
     withdraw: 取り下げ
+  news_feed:
+    failed_to_fetch_feed: フィードの読み込みに失敗しました。

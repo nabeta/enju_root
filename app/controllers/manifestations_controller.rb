@@ -225,11 +225,7 @@ class ManifestationsController < ApplicationController
       }
       format.mods
       format.json { render :json => @manifestations }
-      format.js {
-        render :update do |page|
-          page.replace_html 'worldcat_list', :partial => 'worldcat' if params[:worldcat_page]
-        end
-      }
+      format.js
       format.pdf {
         prawnto :prawn => {
           :page_layout => :landscape,
@@ -328,12 +324,7 @@ class ManifestationsController < ApplicationController
       format.json { render :json => @manifestation }
       #format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
-      format.js {
-        render :update do |page|
-          page.replace_html 'xisbn_list', :partial => 'show_xisbn' if params[:xisbn_page]
-          page.replace_html 'question_list', :partial => 'question_list' if params[:question_page]
-        end
-      }
+      format.js
       format.pdf {
         prawnto :prawn => {
           :page_layout => :portrait,
@@ -464,9 +455,7 @@ class ManifestationsController < ApplicationController
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }
         format.json { render :json => @manifestation }
-        format.js {
-          page.replace_html 'tag_list', :partial => 'manifestations/tag_list'
-        }
+        format.js
       else
         prepare_options
         format.html { render :action => "edit" }

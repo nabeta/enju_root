@@ -154,13 +154,13 @@
     <%= render :partial => 'patrons/patron_list' -%>
   <%- end -%>
   <%- unless @works.blank? -%>
-    <%= render :partial => 'patrons/work_list', :locals => {:works => @works} -%>
+    <%= render :partial => 'patrons/work_list' -%>
   <%- end -%>
   <%- unless @expressions.blank? -%>
-    <%= render :partial => 'patrons/expression_list', :locals => {:expressions => @expressions} -%>
+    <%= render :partial => 'patrons/expression_list' -%>
   <%- end -%>
   <%- unless @manifestations.blank? -%>
-    <%= render :partial => 'patrons/manifestation_list', :locals => {:manifestations => @manifestations} -%>
+    <%= render :partial => 'patrons/manifestation_list' -%>
   <%- end -%>
   <%= render :partial => 'history_list' -%>
   </div>

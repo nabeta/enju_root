@@ -1,6 +1,6 @@
 class AddSolvedToQuestion < ActiveRecord::Migration
   def self.up
-    add_column :questions, :solved, :boolean, :null => false, :default => true
+    add_column :questions, :solved, :boolean, :null => false, :default => false
     add_column :questions, :note, :text
   end
 

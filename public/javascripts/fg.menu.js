@@ -13,13 +13,13 @@ Dual licensed under the MIT (filamentgroup.com/examples/mit-license.txt) and GPL
 
 var allUIMenus = [];
 
-jQuery.fn.menu = function(options){
+$.fn.menu = function(options){
 	var caller = this;
 	var options = options;
 	var m = new Menu(caller, options);	
 	allUIMenus.push(m);
 	
-	jQuery(this)
+	$(this)
 	.mousedown(function(){
 		if (!m.menuOpen) { m.showLoading(); };
 	})	
@@ -32,13 +32,13 @@ jQuery.fn.menu = function(options){
 
 function Menu(caller, options){
 	var menu = this;
-	var caller = jQuery(caller);
-	var container = jQuery('<div class="fg-menu-container ui-widget ui-widget-content ui-corner-all">'+options.content+'</div>');
+	var caller = $(caller);
+	var container = $('<div class="fg-menu-container ui-widget ui-widget-content ui-corner-all">'+options.content+'</div>');
 	
 	this.menuOpen = false;
 	this.menuExists = false;
 	
-	var options = jQuery.extend({
+	var options = $.extend({
 		content: null,
 		width: 180, // width of menu container, must be set or passed in to calculate widths of child menus
 		maxHeight: 180, // max height of menu (if a drilldown: height does not include breadcrumb)
@@ -71,7 +71,7 @@ function Menu(caller, options){
 	}, options);
 	
 	var killAllMenus = function(){
-		jQuery.each(allUIMenus, function(i){
+		$.each(allUIMenus, function(i){
 			if (allUIMenus[i].menuOpen) { allUIMenus[i].kill(); };	
 		});
 	};
@@ -88,8 +88,8 @@ function Menu(caller, options){
 		if (container.is('.fg-menu-flyout')) { menu.resetFlyoutMenu(); };	
 		container.parent().hide();	
 		menu.menuOpen = false;
-		jQuery(document).unbind('click', killAllMenus);
-		jQuery(document).unbind('keydown');
+		$(document).unbind('click', killAllMenus);
+		$(document).unbind('keydown');
 	};
 	
 	this.showLoading = function(){
@@ -106,40 +106,40 @@ function Menu(caller, options){
 		container.hide().slideDown(options.showSpeed).find('.fg-menu:eq(0)');
 		menu.menuOpen = true;
 		caller.removeClass(options.loadingState);
-		jQuery(document).click(killAllMenus);
+		$(document).click(killAllMenus);
 		
 		// assign key events
-		jQuery(document).keydown(function(event){
+		$(document).keydown(function(event){
 			var e;
 			if (event.which !="") { e = event.which; }
 			else if (event.charCode != "") { e = event.charCode; }
 			else if (event.keyCode != "") { e = event.keyCode; }
 			
-			var menuType = (jQuery(event.target).parents('div').is('.fg-menu-flyout')) ? 'flyout' : 'ipod' ;
+			var menuType = ($(event.target).parents('div').is('.fg-menu-flyout')) ? 'flyout' : 'ipod' ;
 			
 			switch(e) {
 				case 37: // left arrow 
 					if (menuType == 'flyout') {
-						jQuery(event.target).trigger('mouseout');
-						if (jQuery('.'+options.flyOutOnState).size() > 0) { jQuery('.'+options.flyOutOnState).trigger('mouseover'); };
+						$(event.target).trigger('mouseout');
+						if ($('.'+options.flyOutOnState).size() > 0) { $('.'+options.flyOutOnState).trigger('mouseover'); };
 					};
 					
 					if (menuType == 'ipod') {
-						jQuery(event.target).trigger('mouseout');
-						if (jQuery('.fg-menu-footer').find('a').size() > 0) { jQuery('.fg-menu-footer').find('a').trigger('click'); };
-						if (jQuery('.fg-menu-header').find('a').size() > 0) { jQuery('.fg-menu-current-crumb').prev().find('a').trigger('click'); };
-						if (jQuery('.fg-menu-current').prev().is('.fg-menu-indicator')) {
-							jQuery('.fg-menu-current').prev().trigger('mouseover');							
+						$(event.target).trigger('mouseout');
+						if ($('.fg-menu-footer').find('a').size() > 0) { $('.fg-menu-footer').find('a').trigger('click'); };
+						if ($('.fg-menu-header').find('a').size() > 0) { $('.fg-menu-current-crumb').prev().find('a').trigger('click'); };
+						if ($('.fg-menu-current').prev().is('.fg-menu-indicator')) {
+							$('.fg-menu-current').prev().trigger('mouseover');							
 						};						
 					};
 					return false;
 					break;
 					
 				case 38: // up arrow 
-					if (jQuery(event.target).is('.' + options.linkHover)) {	
-						var prevLink = jQuery(event.target).parent().prev().find('a:eq(0)');						
+					if ($(event.target).is('.' + options.linkHover)) {	
+						var prevLink = $(event.target).parent().prev().find('a:eq(0)');						
 						if (prevLink.size() > 0) {
-							jQuery(event.target).trigger('mouseout');
+							$(event.target).trigger('mouseout');
 							prevLink.trigger('mouseover');
 						};						
 					}
@@ -148,14 +148,14 @@ function Menu(caller, options){
 					break;
 					
 				case 39: // right arrow 
-					if (jQuery(event.target).is('.fg-menu-indicator')) {						
+					if ($(event.target).is('.fg-menu-indicator')) {						
 						if (menuType == 'flyout') {
-							jQuery(event.target).next().find('a:eq(0)').trigger('mouseover');
+							$(event.target).next().find('a:eq(0)').trigger('mouseover');
 						}
 						else if (menuType == 'ipod') {
-							jQuery(event.target).trigger('click');						
+							$(event.target).trigger('click');						
 							setTimeout(function(){
-								jQuery(event.target).next().find('a:eq(0)').trigger('mouseover');
+								$(event.target).next().find('a:eq(0)').trigger('mouseover');
 							}, options.crossSpeed);
 						};				
 					}; 
@@ -163,10 +163,10 @@ function Menu(caller, options){
 					break;
 					
 				case 40: // down arrow 
-					if (jQuery(event.target).is('.' + options.linkHover)) {
-						var nextLink = jQuery(event.target).parent().next().find('a:eq(0)');						
+					if ($(event.target).is('.' + options.linkHover)) {
+						var nextLink = $(event.target).parent().next().find('a:eq(0)');						
 						if (nextLink.size() > 0) {							
-							jQuery(event.target).trigger('mouseout');
+							$(event.target).trigger('mouseout');
 							nextLink.trigger('mouseover');
 						};				
 					}
@@ -179,10 +179,10 @@ function Menu(caller, options){
 					break;
 					
 				case 13: // enter
-					if (jQuery(event.target).is('.fg-menu-indicator') && menuType == 'ipod') {							
-						jQuery(event.target).trigger('click');						
+					if ($(event.target).is('.fg-menu-indicator') && menuType == 'ipod') {							
+						$(event.target).trigger('click');						
 						setTimeout(function(){
-							jQuery(event.target).next().find('a:eq(0)').trigger('mouseover');
+							$(event.target).next().find('a:eq(0)').trigger('mouseover');
 						}, options.crossSpeed);					
 					}; 
 					break;
@@ -216,12 +216,12 @@ function Menu(caller, options){
 			var allLinks = container.find('.fg-menu li a');
 			allLinks.hover(
 				function(){
-					var menuitem = jQuery(this);
-					jQuery('.'+options.linkHover).removeClass(options.linkHover).blur().parent().removeAttr('id');
-					jQuery(this).addClass(options.linkHover).focus().parent().attr('id','active-menuitem');
+					var menuitem = $(this);
+					$('.'+options.linkHover).removeClass(options.linkHover).blur().parent().removeAttr('id');
+					$(this).addClass(options.linkHover).focus().parent().attr('id','active-menuitem');
 				},
 				function(){
-					jQuery(this).removeClass(options.linkHover).blur().parent().removeAttr('id');
+					$(this).removeClass(options.linkHover).blur().parent().removeAttr('id');
 				}
 			);
 		};
@@ -229,11 +229,11 @@ function Menu(caller, options){
 		if (options.linkHoverSecondary) {
 			container.find('.fg-menu li').hover(
 				function(){
-					jQuery(this).siblings('li').removeClass(options.linkHoverSecondary);
-					if (options.flyOutOnState) { jQuery(this).siblings('li').find('a').removeClass(options.flyOutOnState); }
-					jQuery(this).addClass(options.linkHoverSecondary);
+					$(this).siblings('li').removeClass(options.linkHoverSecondary);
+					if (options.flyOutOnState) { $(this).siblings('li').find('a').removeClass(options.flyOutOnState); }
+					$(this).addClass(options.linkHoverSecondary);
 				},
-				function(){ jQuery(this).removeClass(options.linkHoverSecondary); }
+				function(){ $(this).removeClass(options.linkHoverSecondary); }
 			);
 		};	
 		
@@ -244,8 +244,8 @@ function Menu(caller, options){
 	this.chooseItem = function(item){
 		menu.kill();
 		// edit this for your own custom function/callback:
-		//jQuery('#menuSelection').text(jQuery(item).text());	
-		location.href = jQuery(item).attr('href');
+		//$('#menuSelection').text($(item).text());	
+		location.href = $(item).attr('href');
 	};
 };
 
@@ -260,34 +260,34 @@ Menu.prototype.flyout = function(container, options) {
 	container.addClass('fg-menu-flyout').find('li:has(ul)').each(function(){
 		var linkWidth = container.width();
 		var showTimer, hideTimer;
-		var allSubLists = jQuery(this).find('ul');		
+		var allSubLists = $(this).find('ul');		
 		
 		allSubLists.css({ left: linkWidth, width: linkWidth }).hide();
 			
-		jQuery(this).find('a:eq(0)').addClass('fg-menu-indicator').html('<span>' + jQuery(this).find('a:eq(0)').text() + '</span><span class="ui-icon '+options.nextMenuLink+'"></span>').hover(
+		$(this).find('a:eq(0)').addClass('fg-menu-indicator').html('<span>' + $(this).find('a:eq(0)').text() + '</span><span class="ui-icon '+options.nextMenuLink+'"></span>').hover(
 			function(){
 				clearTimeout(hideTimer);
-				var subList = jQuery(this).next();
-				if (!fitVertical(subList, jQuery(this).offset().top)) { subList.css({ top: 'auto', bottom: 0 }); };
-				if (!fitHorizontal(subList, jQuery(this).offset().left + 100)) { subList.css({ left: 'auto', right: linkWidth, 'z-index': 999 }); };
+				var subList = $(this).next();
+				if (!fitVertical(subList, $(this).offset().top)) { subList.css({ top: 'auto', bottom: 0 }); };
+				if (!fitHorizontal(subList, $(this).offset().left + 100)) { subList.css({ left: 'auto', right: linkWidth, 'z-index': 999 }); };
 				showTimer = setTimeout(function(){
 					subList.addClass('ui-widget-content').show(options.showSpeed).attr('aria-expanded', 'true');	
 				}, 300);	
 			},
 			function(){
 				clearTimeout(showTimer);
-				var subList = jQuery(this).next();
+				var subList = $(this).next();
 				hideTimer = setTimeout(function(){
 					subList.removeClass('ui-widget-content').hide(options.showSpeed).attr('aria-expanded', 'false');
 				}, 400);	
 			}
 		);
 
-		jQuery(this).find('ul a').hover(
+		$(this).find('ul a').hover(
 			function(){
 				clearTimeout(hideTimer);
-				if (jQuery(this).parents('ul').prev().is('a.fg-menu-indicator')) {
-					jQuery(this).parents('ul').prev().addClass(options.flyOutOnState);
+				if ($(this).parents('ul').prev().is('a.fg-menu-indicator')) {
+					$(this).parents('ul').prev().addClass(options.flyOutOnState);
 				}
 			},
 			function(){
@@ -309,13 +309,13 @@ Menu.prototype.flyout = function(container, options) {
 Menu.prototype.drilldown = function(container, options) {
 	var menu = this;	
 	var topList = container.find('.fg-menu');	
-	var breadcrumb = jQuery('<ul class="fg-menu-breadcrumb ui-widget-header ui-corner-all ui-helper-clearfix"></ul>');
-	var crumbDefaultHeader = jQuery('<li class="fg-menu-breadcrumb-text">'+options.crumbDefaultText+'</li>');
+	var breadcrumb = $('<ul class="fg-menu-breadcrumb ui-widget-header ui-corner-all ui-helper-clearfix"></ul>');
+	var crumbDefaultHeader = $('<li class="fg-menu-breadcrumb-text">'+options.crumbDefaultText+'</li>');
 	var firstCrumbText = (options.backLink) ? options.backLinkText : options.topLinkText;
 	var firstCrumbClass = (options.backLink) ? 'fg-menu-prev-list' : 'fg-menu-all-lists';
 	var firstCrumbLinkClass = (options.backLink) ? 'ui-state-default ui-corner-all' : '';
 	var firstCrumbIcon = (options.backLink) ? '<span class="ui-icon ui-icon-triangle-1-w"></span>' : '';
-	var firstCrumb = jQuery('<li class="'+firstCrumbClass+'"><a href="#" class="'+firstCrumbLinkClass+'">'+firstCrumbIcon+firstCrumbText+'</a></li>');
+	var firstCrumb = $('<li class="'+firstCrumbClass+'"><a href="#" class="'+firstCrumbLinkClass+'">'+firstCrumbIcon+firstCrumbText+'</a></li>');
 	
 	container.addClass('fg-menu-ipod');
 	
@@ -331,17 +331,17 @@ Menu.prototype.drilldown = function(container, options) {
 	var resetChildMenu = function(el){ el.removeClass('fg-menu-scroll').removeClass('fg-menu-current').height('auto'); };
 	
 	this.resetDrilldownMenu = function(){
-		jQuery('.fg-menu-current').removeClass('fg-menu-current');
+		$('.fg-menu-current').removeClass('fg-menu-current');
 		topList.animate({ left: 0 }, options.crossSpeed, function(){
-			jQuery(this).find('ul').each(function(){
-				jQuery(this).hide();
-				resetChildMenu(jQuery(this));				
+			$(this).find('ul').each(function(){
+				$(this).hide();
+				resetChildMenu($(this));				
 			});
 			topList.addClass('fg-menu-current');			
 		});		
-		jQuery('.fg-menu-all-lists').find('span').remove();	
+		$('.fg-menu-all-lists').find('span').remove();	
 		breadcrumb.empty().append(crumbDefaultHeader);		
-		jQuery('.fg-menu-footer').empty().hide();	
+		$('.fg-menu-footer').empty().hide();	
 		checkMenuHeight(topList);		
 	};
 	
@@ -356,16 +356,16 @@ Menu.prototype.drilldown = function(container, options) {
 	
 	topList.find('a').each(function(){
 		// if the link opens a child menu:
-		if (jQuery(this).next().is('ul')) {
-			jQuery(this)
+		if ($(this).next().is('ul')) {
+			$(this)
 				.addClass('fg-menu-indicator')
-				.each(function(){ jQuery(this).html('<span>' + jQuery(this).text() + '</span><span class="ui-icon '+options.nextMenuLink+'"></span>'); })
+				.each(function(){ $(this).html('<span>' + $(this).text() + '</span><span class="ui-icon '+options.nextMenuLink+'"></span>'); })
 				.click(function(){ // ----- show the next menu			
-					var nextList = jQuery(this).next();
-		    		var parentUl = jQuery(this).parents('ul:eq(0)');   		
+					var nextList = $(this).next();
+		    		var parentUl = $(this).parents('ul:eq(0)');   		
 		    		var parentLeft = (parentUl.is('.fg-menu-content')) ? 0 : parseFloat(topList.css('left'));    		
 		    		var nextLeftVal = Math.round(parentLeft - parseFloat(container.width()));
-		    		var footer = jQuery('.fg-menu-footer');
+		    		var footer = $('.fg-menu-footer');
 		    		
 		    		// show next menu   		
 		    		resetChildMenu(parentUl);
@@ -375,7 +375,7 @@ Menu.prototype.drilldown = function(container, options) {
 		    		
 		    		var setPrevMenu = function(backlink){
 		    			var b = backlink;
-		    			var c = jQuery('.fg-menu-current');
+		    			var c = $('.fg-menu-current');
 			    		var prevList = c.parents('ul:eq(0)');
 			    		c.hide().attr('aria-expanded', 'false');
 		    			resetChildMenu(c);
@@ -388,10 +388,10 @@ Menu.prototype.drilldown = function(container, options) {
 					if (options.backLink) {
 						if (footer.find('a').size() == 0) {
 							footer.show();
-							jQuery('<a href="#"><span class="ui-icon ui-icon-triangle-1-w"></span> <span>Back</span></a>')
+							$('<a href="#"><span class="ui-icon ui-icon-triangle-1-w"></span> <span>Back</span></a>')
 								.appendTo(footer)
 								.click(function(){ // ----- show the previous menu
-									var b = jQuery(this);
+									var b = $(this);
 						    		var prevLeftVal = parseFloat(topList.css('left')) + container.width();		    						    		
 						    		topList.animate({ left: prevLeftVal },  options.crossSpeed, function(){
 						    			setPrevMenu(b);
@@ -409,24 +409,24 @@ Menu.prototype.drilldown = function(container, options) {
 								return false;
 							});
 						}
-						jQuery('.fg-menu-current-crumb').removeClass('fg-menu-current-crumb');
-						var crumbText = jQuery(this).find('span:eq(0)').text();
-						var newCrumb = jQuery('<li class="fg-menu-current-crumb"><a href="javascript://" class="fg-menu-crumb">'+crumbText+'</a></li>');	
+						$('.fg-menu-current-crumb').removeClass('fg-menu-current-crumb');
+						var crumbText = $(this).find('span:eq(0)').text();
+						var newCrumb = $('<li class="fg-menu-current-crumb"><a href="javascript://" class="fg-menu-crumb">'+crumbText+'</a></li>');	
 						newCrumb
 							.appendTo(breadcrumb)
 							.find('a').click(function(){
-								if (jQuery(this).parent().is('.fg-menu-current-crumb')){
+								if ($(this).parent().is('.fg-menu-current-crumb')){
 									menu.chooseItem(this);
 								}
 								else {
-									var newLeftVal = - (jQuery('.fg-menu-current').parents('ul').size() - 1) * 180;
+									var newLeftVal = - ($('.fg-menu-current').parents('ul').size() - 1) * 180;
 									topList.animate({ left: newLeftVal }, options.crossSpeed, function(){
 										setPrevMenu();
 									});
 								
 									// make this the current crumb, delete all breadcrumbs after this one, and navigate to the relevant menu
-									jQuery(this).parent().addClass('fg-menu-current-crumb').find('span').remove();
-									jQuery(this).parent().nextAll().remove();									
+									$(this).parent().addClass('fg-menu-current-crumb').find('span').remove();
+									$(this).parent().nextAll().remove();									
 								};
 								return false;
 							});
@@ -437,7 +437,7 @@ Menu.prototype.drilldown = function(container, options) {
 		}
 		// if the link is a leaf node (doesn't open a child menu)
 		else {
-			jQuery(this).click(function(){
+			$(this).click(function(){
 				menu.chooseItem(this);
 				return false;
 			});
@@ -471,7 +471,7 @@ Menu.prototype.setPosition = function(widget, caller, options) {
 	var options = options;
 	var xVal, yVal;
 	
-	var helper = jQuery('<div class="positionHelper"></div>');
+	var helper = $('<div class="positionHelper"></div>');
 	helper.css({ position: 'absolute', left: dims.refX, top: dims.refY, width: dims.refW, height: dims.refH });
 	el.wrap(helper);
 	
@@ -546,12 +546,12 @@ Menu.prototype.setPosition = function(widget, caller, options) {
 
 function sortBigToSmall(a, b) { return b - a; };
 
-jQuery.fn.getTotalWidth = function(){
-	return jQuery(this).width() + parseInt(jQuery(this).css('paddingRight')) + parseInt(jQuery(this).css('paddingLeft')) + parseInt(jQuery(this).css('borderRightWidth')) + parseInt(jQuery(this).css('borderLeftWidth'));
+$.fn.getTotalWidth = function(){
+	return $(this).width() + parseInt($(this).css('paddingRight')) + parseInt($(this).css('paddingLeft')) + parseInt($(this).css('borderRightWidth')) + parseInt($(this).css('borderLeftWidth'));
 };
 
-jQuery.fn.getTotalHeight = function(){
-	return jQuery(this).height() + parseInt(jQuery(this).css('paddingTop')) + parseInt(jQuery(this).css('paddingBottom')) + parseInt(jQuery(this).css('borderTopWidth')) + parseInt(jQuery(this).css('borderBottomWidth'));
+$.fn.getTotalHeight = function(){
+	return $(this).height() + parseInt($(this).css('paddingTop')) + parseInt($(this).css('paddingBottom')) + parseInt($(this).css('borderTopWidth')) + parseInt($(this).css('borderBottomWidth'));
 };
 
 function getScrollTop(){
@@ -578,13 +578,13 @@ function getWindowWidth(){
 	leftOffset / topOffset = optional parameter if the offset cannot be calculated (i.e., if the object is in the DOM but is set to display: 'none') */
 	
 function fitHorizontal(el, leftOffset){
-	var leftVal = parseInt(leftOffset) || jQuery(el).offset().left;
-	return (leftVal + jQuery(el).width() <= getWindowWidth() + getScrollLeft() && leftVal - getScrollLeft() >= 0);
+	var leftVal = parseInt(leftOffset) || $(el).offset().left;
+	return (leftVal + $(el).width() <= getWindowWidth() + getScrollLeft() && leftVal - getScrollLeft() >= 0);
 };
 
 function fitVertical(el, topOffset){
-	var topVal = parseInt(topOffset) || jQuery(el).offset().top;
-	return (topVal + jQuery(el).height() <= getWindowHeight() + getScrollTop() && topVal - getScrollTop() >= 0);
+	var topVal = parseInt(topOffset) || $(el).offset().top;
+	return (topVal + $(el).height() <= getWindowHeight() + getScrollTop() && topVal - getScrollTop() >= 0);
 };
 
 /*-------------------------------------------------------------------- 
@@ -602,9 +602,9 @@ function fitVertical(el, topOffset){
  * Demo: http://www.filamentgroup.com/examples/pxToEm/	 	
  *							
  * Options:  	 								
- 		scope: string or jQuery selector for font-size scoping
+ 		scope: string or $ selector for font-size scoping
  		reverse: Boolean, true reverses the conversion to em-px
- * Dependencies: jQuery library						  
+ * Dependencies: $ library						  
  * Usage Example: myPixelValue.pxToEm(); or myPixelValue.pxToEm({'scope':'#navigation', reverse: true});
  *
  * Version: 2.0, 08.01.2008 
@@ -615,7 +615,7 @@ function fitVertical(el, topOffset){
 
 Number.prototype.pxToEm = String.prototype.pxToEm = function(settings){
 	//set defaults
-	settings = jQuery.extend({
+	settings = $.extend({
 		scope: 'body',
 		reverse: false
 	}, settings);
@@ -632,13 +632,13 @@ Number.prototype.pxToEm = String.prototype.pxToEm = function(settings){
 		When this happens, we calculate the correct body font-size (%) and multiply it by 16 (the standard browser font size) 
 		to get an accurate em value. */
 				
-	if (settings.scope == 'body' && jQuery.browser.msie && (parseFloat(jQuery('body').css('font-size')) / getWindowWidth()).toFixed(1) > 0.0) {
+	if (settings.scope == 'body' && $.browser.msie && (parseFloat($('body').css('font-size')) / getWindowWidth()).toFixed(1) > 0.0) {
 		var calcFontSize = function(){		
-			return (parseFloat(jQuery('body').css('font-size'))/getWindowWidth()).toFixed(3) * 16;
+			return (parseFloat($('body').css('font-size'))/getWindowWidth()).toFixed(3) * 16;
 		};
 		scopeVal = calcFontSize();
 	}
-	else { scopeVal = parseFloat(jQuery(settings.scope).css("font-size")); };
+	else { scopeVal = parseFloat($(settings.scope).css("font-size")); };
 			
 	var result = (settings.reverse == true) ? (pxVal * scopeVal).toFixed(2) + 'px' : (pxVal / scopeVal).toFixed(2) + 'em';
 	return result;

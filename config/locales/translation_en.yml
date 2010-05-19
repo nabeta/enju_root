@@ -1274,10 +1274,16 @@ en:
     answer_question: "Answer this question"
     crd: "NDL Collaborative Reference Database"
     you_can_search_crd: "You can search within NDL Collaborative Reference Database."
+    created_at: "Question updated at"
+    updated_at: "Question updated at"
+    last_answered_at: "Last answered at"
+    solved: "Solved"
+    not_solved: "Not solved"
   answer:
     user_answer: "{{login_name}}'s answers"
     library_group_answer: "Answers from {{library_group_name}}"
     specify_question: "Specify the question."
+    count: "Count"
   basket:
     this_account_is_suspended: "This account is suspended."
     checkout_completed: "Checkout completed."
@@ -1444,3 +1450,5 @@ en:
     published: Published
     reject: Reject
     withdraw: Withdraw
+  news_feed:
+    failed_to_fetch_feed: Failed to fetch feeds.
