@@ -1,6 +1,6 @@
 <div id="xisbn_list">
 <%- 
-  #cache(:id => @manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_xisbn', :locale => @locale, :role => current_user.try(:highest_role).try(:name)) do
+  #cache(:id => @manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_xisbn', :locale => @locale, :role => current_user_role_name) do
 -%>
   <ul>
     <%- @xisbn_manifestations.each do |xisbn| -%>

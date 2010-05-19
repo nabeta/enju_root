@@ -7,7 +7,7 @@
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
   <%= render :partial => 'list' -%>
@@ -16,5 +16,8 @@
 
 <div id="submenu">
   <%= render :partial => 'solved_facet' -%>
+  <ul>
+    <li><%= link_to t('question.all'), questions_path %></li>
+  </ul>
   <%= render :partial => 'crd' -%>
 </div>

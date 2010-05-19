@@ -105,13 +105,7 @@ class PatronsController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @patron }
-      format.js {
-        render :update do |page|
-          page.replace_html 'work', :partial => 'work_list', :locals => {:works => @works} if params[:work_list_page]
-          page.replace_html 'expression', :partial => 'expression_list', :locals => {:expressions => @expressions} if params[:expression_list_page]
-          page.replace_html 'manifestation', :partial => 'manifestation_list', :locals => {:manifestations => @manifestations} if params[:manifestation_list_page]
-        end
-      }
+      format.js
     end
   end
 
@@ -125,7 +119,12 @@ class PatronsController < ApplicationController
     @patron = Patron.new
     if @user
       @patron.user = @user
+      @patron.required_role = Role.find_by_name('Librarian')
+    else
+      @patron.required_role = Role.find_by_name('Guest')
     end
+    @patron.language = Language.find(:first, :conditions => {:iso_639_1 => I18n.default_locale.to_s}) || Language.first
+    @patron.country = current_user.library.country
     prepare_options
 
     respond_to do |format|

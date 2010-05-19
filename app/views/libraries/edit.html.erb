@@ -22,6 +22,11 @@
 
   <%- unless @library.web? -%>
   <p>
+    <%= f.label t('activerecord.models.country') -%><br />
+    <%= f.select(:country_id, @countries.collect{|c| [c.display_name.localize, c.id]}) -%>
+  </p>
+
+  <p>
     <%= f.label t('activerecord.attributes.library.postal_code') -%><br />
     <%= f.text_field :postal_code -%>
   </p>
@@ -80,7 +85,7 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
-  <%= javascript_tag("$('library_name').focus()") -%>
+  <%= javascript_tag("$('#library_name').focus()") -%>
 <%- end -%>
 
 </div>

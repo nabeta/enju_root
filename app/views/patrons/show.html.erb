@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
   <%-
-    cache(:id => @patron.id, :action => :show, :controller => :patrons, :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
+    cache(:id => @patron.id, :action => :show, :controller => :patrons, :role => current_user_role_name, :locale => @locale, :version => @version) do
   -%>
   <h2 class="resource_title">
     [P]
@@ -129,10 +129,12 @@
           <td><strong><%= t('activerecord.attributes.patron.date_of_birth') -%>:</strong></td>
           <td><%= l(@patron.date_of_birth) if @patron.date_of_birth -%></td>
         </tr>
-        <tr>
-          <td><strong><%= t('activerecord.attributes.patron.date_of_death') -%>:</strong></td>
-          <td><%= l(@patron.date_of_death) if @patron.date_of_death -%></td>
-        </tr>
+        <%- if @patron.user and current_user.try(:has_role?, 'Administrator') %>
+          <tr>
+            <td><strong><%= t('activerecord.attributes.patron.date_of_death') -%>:</strong></td>
+            <td><%= l(@patron.date_of_death) if @patron.date_of_death -%></td>
+          </tr>
+        <% end %>
       <%- end -%>
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.note') -%>:</strong></td>
@@ -152,13 +154,13 @@
     <%= render :partial => 'patrons/patron_list' -%>
   <%- end -%>
   <%- unless @works.blank? -%>
-    <%= render :partial => 'patrons/work_list', :locals => {:works => @works} -%>
+    <%= render :partial => 'patrons/work_list' -%>
   <%- end -%>
   <%- unless @expressions.blank? -%>
-    <%= render :partial => 'patrons/expression_list', :locals => {:expressions => @expressions} -%>
+    <%= render :partial => 'patrons/expression_list' -%>
   <%- end -%>
   <%- unless @manifestations.blank? -%>
-    <%= render :partial => 'patrons/manifestation_list', :locals => {:manifestations => @manifestations} -%>
+    <%= render :partial => 'patrons/manifestation_list' -%>
   <%- end -%>
   <%= render :partial => 'history_list' -%>
   </div>
@@ -167,7 +169,7 @@
 </div>
 
 <div id="submenu">
-  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
+  <%- cache(:id => @patron.id, :action => :show, :controller => :patrons, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
     <%- unless @patron.picture_files.empty? -%>
       <div id="manifestation_book_jacket">
         <%= patron_custom_book_jacket(@patron) -%>
@@ -187,8 +189,8 @@
         <%- end -%>
       </ul>
       <script type="text/javascript">
-        jQuery(document).ready(function(){
-          jQuery("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
+        $(document).ready(function(){
+          $("a[rel='patron_<%= @patron.id -%>']").colorbox({transition:"none"});
         })
       </script>
     <%- else -%>

@@ -17,10 +17,11 @@
 
   <div id="tabs">
     <ul>
-      <li title="active" class="selected"><a href="#classification"><em><%= t('activerecord.models.classification') -%></em></a></li>
-      <li><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
+      <li title="active" class="selected"><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
+      <li><a href="#classification"><em><%= t('activerecord.models.classification') -%></em></a></li>
     </ul>
-    <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :role => current_user.try(:highest_role).try(:name), :locale => @locale) do -%>
+    <%= render :partial => 'subjects/show_work_list' -%>
+    <%- cache(:id => @subject.id, :action => :show, :controller => :subjects, :role => current_user_role_name, :locale => @locale) do -%>
     <div id="classification">
       <table class="index">
         <tr>
@@ -41,7 +42,6 @@
       </p>
     </div>
     <%- end -%>
-    <%= render :partial => 'subjects/show_work_list' -%>
     </div>
     <%= render :partial => 'page/tabview' -%>
 </div>

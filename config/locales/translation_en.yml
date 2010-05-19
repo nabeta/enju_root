@@ -681,6 +681,7 @@ en:
         canceled_at: Canceled at
         expired_at: Expired at
         deleted_at: Deleted at
+        created_at: Reserved at
         state: State
       message_request:
         sent_at: Sent at
@@ -1052,7 +1053,8 @@ en:
     number: "Number"
     statistics: "Statistics"
     request: "Request"
-    circulation: "Circulation"
+    librarian_circulation: "Circulation"
+    user_circulation: "Borrow and reserve"
     reset: "Reset"
     account: "Account"
     form: "Form"
@@ -1185,7 +1187,7 @@ en:
     library_group_manifestation: "Manifestations in {{library_group_name}}"
     reserve_this: "Reserve this manifestation"
     cancel_reservation: "Cancel this reservation"
-    patron_who_bookmark_this_resource: "Patrons who bookmark this resource"
+    user_who_bookmark_this_resource: "Users who bookmark this resource"
     query_search_result: "Search results for {{query}} in {{library_group_name}}"
     serial: "Serial"
     number: "Number"
@@ -1234,6 +1236,7 @@ en:
     recent_publication: "Recent publications"
     all_publication: "All publications"
     other_address: "The other address"
+    add_derivation: "Add derivatation"
   message:
     user_message: "{{login_name}}'s messages"
     sent_at: "Sent at"
@@ -1271,10 +1274,16 @@ en:
     answer_question: "Answer this question"
     crd: "NDL Collaborative Reference Database"
     you_can_search_crd: "You can search within NDL Collaborative Reference Database."
+    created_at: "Question updated at"
+    updated_at: "Question updated at"
+    last_answered_at: "Last answered at"
+    solved: "Solved"
+    not_solved: "Not solved"
   answer:
     user_answer: "{{login_name}}'s answers"
     library_group_answer: "Answers from {{library_group_name}}"
     specify_question: "Specify the question."
+    count: "Count"
   basket:
     this_account_is_suspended: "This account is suspended."
     checkout_completed: "Checkout completed."
@@ -1441,3 +1450,5 @@ en:
     published: Published
     reject: Reject
     withdraw: Withdraw
+  news_feed:
+    failed_to_fetch_feed: Failed to fetch feeds.

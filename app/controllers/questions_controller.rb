@@ -102,12 +102,7 @@ class QuestionsController < ApplicationController
       }
       format.rss  { render :layout => false }
       format.atom
-      format.js {
-        render :update do |page|
-          page.replace_html 'result_index', :partial => 'list' if params[:page]
-          page.replace_html 'submenu', :partial => 'crd' if params[:crd_page]
-        end
-      }
+      format.js
     end
   rescue RSolr::RequestError
     flash[:notice] = t('page.error_occured')

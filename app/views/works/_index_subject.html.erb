@@ -20,7 +20,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), subject_works_path(@subject) -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">

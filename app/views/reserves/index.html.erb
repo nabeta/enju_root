@@ -52,7 +52,7 @@
       <li><%= link_to t('reserve.my_reservation'), user_reserves_path(current_user.username) -%></li>
     <%- end -%>
     <%- if @user -%>
-      <li><%= link_to t('page.checkout'), user_checkouts_path(@user.username) -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.checkout')), user_checkouts_path(@user.username) -%></li>
     <%- end -%>
   </ul>
   <p>

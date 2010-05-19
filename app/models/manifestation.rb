@@ -47,7 +47,8 @@ class Manifestation < ActiveRecord::Base
   has_one :resource
 
   searchable do
-    text :title, :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
+    text :title, :default_boost => 2
+    text :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
     string :title, :multiple => true
     # text フィールドだと区切りのない文字列の index が上手く作成
     #できなかったので。 downcase することにした。

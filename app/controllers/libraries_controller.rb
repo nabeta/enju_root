@@ -65,11 +65,7 @@ class LibrariesController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @library }
-      format.js {
-        render :update do |page|
-          page.replace_html 'event_list', :partial => 'show_event_list' if params[:event_page]
-        end
-      }
+      format.js
     end
   end
 
@@ -82,14 +78,15 @@ class LibrariesController < ApplicationController
     #  return
     #end
     @library = Library.new
-    @library_groups = LibraryGroup.all
+    @library.country = LibraryGroup.site_config.country
+    prepare_options
   end
 
   # GET /libraries/1;edit
   def edit
     @library = Library.first(:conditions => {:name => params[:id]})
     raise ActiveRecord::RecordNotFound if @library.nil?
-    @library_groups = LibraryGroup.all
+    prepare_options
   end
 
   # POST /libraries
@@ -106,6 +103,7 @@ class LibrariesController < ApplicationController
         format.html { redirect_to library_url(@library.name) }
         format.xml  { render :xml => @library, :status => :created, :location => library_url(@library.name) }
       else
+        prepare_options
         format.html { render :action => "new" }
         format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }
       end
@@ -131,6 +129,7 @@ class LibrariesController < ApplicationController
         format.xml  { head :ok }
       else
         @library.name = @library.name_was
+        prepare_options
         format.html { render :action => "edit" }
         format.xml  { render :xml => @library.errors, :status => :unprocessable_entity }
       end
@@ -152,5 +151,11 @@ class LibrariesController < ApplicationController
     end
   rescue
     access_denied
+  end
+
+  private
+  def prepare_options
+    @library_groups = LibraryGroup.all
+    @countries = Country.all
   end
 end

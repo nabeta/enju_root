@@ -1,25 +1,25 @@
   <%- if params[:mode] == 'show_all_authors' -%>
-    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_all_authors', :locale => @locale, :role => current_user.try(:highest_role).try(:name)) do -%>
+    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_all_authors', :locale => @locale, :role => current_user_role_name) do -%>
       <%- manifestation.creators.each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
       <%- if manifestation.creators.size > 5 -%>
-        (<%= link_to_remote t('page.hide'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_authors', :index_num => manifestation.id}, :method => :get -%>)
+        (<a href="#" onclick="$.ajax({data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>'), success:function(request){$('#author_list_<%= manifestation.id %>').html(request);}, type:'get', url:'/manifestations/<%= manifestation.id %>?index_num=<%= manifestation.id %>&amp;mode=show_authors'}); return false;"><%= t('page.hide') %></a>)
       <%- end -%>
     <%- end -%>
   <%- else -%>
-    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_limited_authors', :locale => @locale, :role => current_user.try(:highest_role).try(:name)) do
+    <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_limited_authors', :locale => @locale, :role => current_user_role_name) do
     -%>
       <%- manifestation.creators[0..2].each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
       <%- if manifestation.creators.size > 5 -%>
-        (<%= link_to_remote t('page.show_all'), :update => "author_list_#{manifestation.id}", :url => {:controller => 'manifestations', :action => 'show', :id => manifestation.id, :mode => 'show_all_authors', :index_num => manifestation.id}, :method => :get -%>)
+        (<a href="#" onclick="$.ajax({data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>'), success:function(request){$('#author_list_<%= manifestation.id %>').html(request);}, type:'get', url:'/manifestations/<%= manifestation.id %>?index_num=<%= manifestation.id %>&amp;mode=show_all_authors'}); return false;"><%= t('page.show_all') %></a>)
       <%- end -%>
     <%- end -%>
   <%- end -%>
 
-  <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_contributors_and_publishers', :locale => @locale, :role => current_user.try(:highest_role).try(:name)) do -%>
+  <%- cache(:id => manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'show_contributors_and_publishers', :locale => @locale, :role => current_user_role_name) do -%>
   <%- manifestation.contributors.each do |patron| -%>
     <%= link_to h(patron.full_name), patron -%>
   <%- end -%>

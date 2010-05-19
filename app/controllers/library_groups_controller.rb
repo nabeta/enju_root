@@ -33,6 +33,7 @@ class LibraryGroupsController < ApplicationController
   # GET /library_groups/1;edit
   def edit
     @library_group = LibraryGroup.find(params[:id])
+    @countries = Country.all
   end
 
   # POST /library_groups
@@ -65,6 +66,7 @@ class LibraryGroupsController < ApplicationController
         format.html { redirect_to library_group_url(@library_group) }
         format.xml  { head :ok }
       else
+        @countries = Country.all
         format.html { render :action => "edit" }
         format.xml  { render :xml => @library_group.errors.to_xml }
       end

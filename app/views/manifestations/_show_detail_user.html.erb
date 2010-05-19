@@ -62,23 +62,9 @@
           <td><%= t('activerecord.models.subject') -%>:</td>
           <td>
             <%- unless @manifestation.subjects.empty? -%>
-              <ul>
-                <%- @manifestation.subjects.each do |subject| -%>
-                  <li>
-                    <%= link_to h(subject.term), subject -%>
-                    <%- if can? :update, subject -%>
-                      <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
-                    <%- end -%>
-                    <%- unless subject.classifications.empty? -%>
-                      (
-                      <%- subject.classifications.each do |classification| -%>
-                        <%= classification.classification_type.name -%>: <%= link_to h(classification.category), classification -%>
-                      <%- end -%>
-                      )
-                    <%- end -%>
-                  </li>
-                <%- end -%>
-              </ul>
+              <%- @manifestation.subjects.each do |subject| -%>
+                <%= link_to h(subject.term), subject -%>
+              <%- end -%>
             <%- end -%>
           </td>
         </tr>
@@ -140,7 +126,7 @@
         <%= render :partial => 'calil' %>
       <% end %>
 
-      <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
+      <h4><%= t('manifestation.user_who_bookmark_this_resource') -%></h4>
       <%= render :partial => 'bookmarks_for_this_manifestation' -%>
 
     </div>

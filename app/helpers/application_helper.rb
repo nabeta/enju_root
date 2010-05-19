@@ -214,4 +214,8 @@ module ApplicationHelper
     end
   end
 
+  def current_user_role_name
+    current_user.try(:highest_role).try(:name) || 'Guest'
+  end
+
 end

@@ -1,6 +1,6 @@
 <div id="expression">
   <ul>
-    <%- expressions.each do |expression| -%>
+    <%- @expressions.each do |expression| -%>
       <li>
       [E]
       <%= link_to h(expression.original_title), expression -%>
@@ -28,6 +28,6 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(expressions, :param_name => :expression_list_page, :class => 'content_pagination digg_pagination') -%>
+  <%= will_paginate(@expressions, :param_name => :expression_list_page, :class => 'content_pagination digg_pagination') -%>
 </div>
 

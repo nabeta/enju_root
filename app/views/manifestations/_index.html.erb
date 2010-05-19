@@ -9,7 +9,7 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <%- unless @query.blank? -%>
@@ -45,7 +45,7 @@
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
     </div>
 
-    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale, :role => current_user.try(:highest_role).try(:name) do -%>
+    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale, :role => current_user_role_name do -%>
     <div id="tag_cloud">
       <h3><%= t('activerecord.models.tag') -%></h3>
       <div id="tag_cloud_list"></div>
@@ -62,7 +62,7 @@
   <%- end -%>
 <%- else -%>
   <p><%= t('page.enter_search_term') -%></p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
     <div class="autopagerize_insert_before"></div>
@@ -88,19 +88,19 @@
 
 <script type="text/javascript">
   window.onload = function() {
-    // jQuery("#all_facet_list").load('<%= url_for(:params => params.merge(:view => "all_facet")) -%>', hideFacetSpinner);
-    jQuery("#tag_cloud_list").load('<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', null, hideTagCloudSpinner);
+    // $("#all_facet_list").load('<%= url_for(:params => params.merge(:view => "all_facet")) -%>', hideFacetSpinner);
+    $("#tag_cloud_list").load('<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', null, hideTagCloudSpinner);
   }
 
   /*
   function hideFacetSpinner(){
-    jQuery("#spinner_all_facet").hide();
+    $("#spinner_all_facet").hide();
   }
   */
 
   function hideTagCloudSpinner(){
-    jQuery("#spinner_tag_cloud").hide();
+    $("#spinner_tag_cloud").hide();
   }
 
-  jQuery('td').highlight('<%= @query -%>');
+  $('td').highlight('<%= @query -%>');
 </script>

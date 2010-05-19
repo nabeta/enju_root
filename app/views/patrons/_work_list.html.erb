@@ -1,6 +1,6 @@
 <div id="work">
   <ul>
-    <%- works.each do |work| -%>
+    <%- @works.each do |work| -%>
       <li>
         [W]
         <%= link_to h(work.original_title), work -%>
@@ -27,6 +27,6 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(works, :param_name => :work_list_page, :class => 'content_pagination digg_pagination') -%>
+  <%= will_paginate(@works, :param_name => :work_list_page, :class => 'content_pagination digg_pagination') -%>
 </div>
 

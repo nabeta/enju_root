@@ -105,6 +105,7 @@ class UsersController < ApplicationController
     end
     @user.patron_id = @patron.id if @patron
     @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
+    @user.library = current_user.library
   end
 
   def edit

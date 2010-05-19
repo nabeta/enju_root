@@ -105,11 +105,7 @@ class SubjectsController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @subject.to_xml }
-      format.js {
-        render :update do |page|
-          page.replace_html 'work', :partial => 'show_work_list' if params[:work_page]
-        end
-      }
+      format.js
     end
   end
 
