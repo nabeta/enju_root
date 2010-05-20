@@ -35,27 +35,32 @@
 
 <table class="index">
   <tr>
-    <th><%= t('activerecord.models.event_category') -%></th>
-    <th><%= t('activerecord.attributes.event.title') -%></th>
     <th><%= t('activerecord.models.library') -%></th>
-    <th><%= t('page.date') -%></th>
+    <th><%= t('activerecord.attributes.event.title') -%></th>
+    <%- if can? :destroy, Event -%>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @events.each_with_index do |event, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= event.event_category.display_name.localize -%></td>
-    <td><%= link_to h(event.title.localize), event -%></td>
-    <td><%= link_to h(event.library.display_name.localize), library_path(event.library.name) -%></td>
     <td>
+      <%= link_to h(event.library.display_name.localize), library_path(event.library.name) -%>
+      <br />
+      <%= event.event_category.display_name.localize -%>
+    </td>
+    <td>
+      <%= link_to h(event.title.localize), event -%>
+      <br />
       <%= l(event.start_at, :format => :short) -%>
       -
       <%= l(event.end_at, :format => :short) -%>
     </td>
-    <%- if user_signed_in? -%>
-      <%- if current_user.has_role?('Librarian') -%>
-        <td><%= link_to t('page.edit'), edit_event_path(event) -%></td>
-        <td><%= link_to t('page.destroy'), event, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <%- end -%>
+    <%- if can? :destroy, event -%>
+      <td style="width: 50px">
+        <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_event_path(event) -%>
+        <%= link_to image_tag('/icons/delete.png', :size => '16x16', :alt => t('page.destroy')), event, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      </td>
     <%- end -%>
   </tr>
 <%- end -%>
