@@ -21,7 +21,7 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.event.all_day') -%><br />
+    <%= f.label t('activerecord.attributes.event.all_day') -%>
     <%= f.check_box :all_day -%>
   </p>
 
@@ -44,6 +44,9 @@
     <%= f.submit t('page.create') -%>
   </p>
 <%- end -%>
+
+<%= render :partial => 'all_day' %>
+
 </div>
 </div>
 

@@ -52,8 +52,6 @@ class PictureFilesController < ApplicationController
       format.html # new.html.erb
       format.xml  { render :xml => @picture_file }
     end
-  #rescue
-  #  access_denied
   end
 
   # GET /picture_files/1/edit
@@ -128,10 +126,27 @@ class PictureFilesController < ApplicationController
     end
   end
 
+  private
   def get_attachable
-    @attachable = get_manifestation
-    @attachable = get_patron unless @attachable
-    @attachable = get_event unless @attachable
-    @attachable = get_shelf unless @attachable
+    get_manifestation
+    if @manifestation
+      @attachable = @manifestation
+      return
+    end
+    get_patron
+    if @patron
+      @attachable = @patron
+      return
+    end
+    get_event
+    if @event
+      @attachable = @event
+      return
+    end
+    get_shelf
+    if @shelf
+      @attachable = @shelf
+      return
+    end
   end
 end
