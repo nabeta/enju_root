@@ -4,13 +4,13 @@
 
 <table class="index">
   <tr>
-    <th>Id</th>
+    <th style="width: 50px">Id</th>
     <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('activerecord.attributes.import_request.isbn') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('activerecord.attributes.import_request.state') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
-    <th></th>
+    <th style="width: 50px"></th>
   </tr>
 
 <%- @import_requests.each do |import_request| -%>
@@ -19,11 +19,11 @@
     <td><%= link_to h(import_request.user.username), user_path(import_request.user.username) -%></td>
     <td><%= import_request.isbn -%></td>
     <td><%=l import_request.created_at -%></td>
-    <td><%= i18n_state(import_request.state) -%></td>
+    <td><%= localized_state(import_request.state) -%></td>
     <td><%= link_to h(import_request.manifestation.original_title), import_request.manifestation if import_request.manifestation -%></td>
     <td>
       <%- if can? :destroy, import_request -%>
-        <%= link_to t('page.destroy'), import_request, :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to image_tag('/icons/delete.png', :size => '16x16', :alt => t('page.destroy')), import_request, :confirm => t('page.are_you_sure'), :method => :delete -%>
       <%- end -%>
     </td>
   </tr>

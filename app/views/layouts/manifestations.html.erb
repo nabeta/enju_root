@@ -7,6 +7,7 @@
   <meta http-equiv="content-style-type" content="text/css" />
   <meta http-equiv="content-script-type" content="text/javascript" />
   <title>
+    <%= LibraryGroup.site_config.display_name.localize -%>: 
     <%- case when @patron -%>
       <%= @patron.full_name -%> : 
     <%- when @expression -%>
@@ -19,9 +20,9 @@
         <%= @manifestation.original_title -%> : 
       <%- end -%>
     <%- end -%>
+    : 
     <%= t('activerecord.models.manifestation') -%> :
-    <%= title_action_name -%> - 
-    <%= LibraryGroup.site_config.display_name.localize -%>
+    <%= title_action_name -%>
   </title>
   <%= render :partial => 'page/include' -%>
   <%- if controller.action_name == 'index' -%>

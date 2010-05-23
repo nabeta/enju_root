@@ -28,6 +28,9 @@
     <th>
       <%= t('activerecord.attributes.library.fax_number') -%>
     </th>
+    <%- if can? :destroy, Library -%>
+      <th style="width: 50px"></th>
+    <% end %>
   </tr>
   
 <%- @libraries.each_with_index do |library, i| -%>
@@ -51,8 +54,10 @@
     </td>
     <td><%= library.fax_number -%></td>
     <%- if can? :destroy, library -%>
-      <td><%= link_to t('page.edit'), edit_library_path(library.name) -%></td>
-      <td><%= link_to t('page.destroy'), library_path(library.name), :confirm => t('page.are_you_sure'), :method => :delete unless library.web? -%></td>
+      <td>
+        <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_library_path(library) -%>
+        <%= link_to image_tag('/icons/delete.png', :size => '16x16', :alt => t('page.destroy')), library, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      </td>
     <%- end -%>
   </tr>
 <%- end -%>

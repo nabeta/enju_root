@@ -386,9 +386,6 @@ class ManifestationsController < ApplicationController
   # POST /manifestations.xml
   def create
     @manifestation = Manifestation.new(params[:manifestation])
-    if @manifestation.respond_to?(:post_to_twitter)
-      @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-    end
     if @manifestation.respond_to?(:post_to_scribd)
       @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
     end
@@ -420,9 +417,6 @@ class ManifestationsController < ApplicationController
         end
 
         # TODO: モデルへ移動
-        if @manifestation.respond_to?(:post_to_twitter)
-          @manifestation.send_later(:send_to_twitter) if @manifestation.post_to_twitter
-        end
         if @manifestation.respond_to?(:post_to_scribd)
           @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
         end
@@ -450,7 +444,6 @@ class ManifestationsController < ApplicationController
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
-        @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }

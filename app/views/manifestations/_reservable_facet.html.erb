@@ -4,7 +4,7 @@
     <%- if facet.value -%>
       <li>
         <%- if @reservable == 'true' -%><strong><%- end -%>
-        <%= link_to i18n_boolean(facet.value), url_for(:params => params.merge(:page => nil, :reservable => true, :view => nil)) -%>
+        <%= link_to localized_boolean(facet.value), url_for(:params => params.merge(:page => nil, :reservable => true, :view => nil)) -%>
         (<%= facet.count -%>)
         <%- if @reservable == 'true' -%></strong><%- end -%>
       </li>
