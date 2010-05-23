@@ -25,7 +25,7 @@ With this plugin installed, the html will be escaped.  So you will need to do on
     def some_helper
       (1..5).map do |i|
         "<li>#{i}</li>"
-      end.join("\n").html_safe!
+      end.join("\n").html_safe
     end
   
 3) Use the safe_helper meta programming method:

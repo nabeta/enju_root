@@ -1,6 +1,6 @@
 module AvPatch
   # Rails version of with_output_buffer uses '' as the default buf
-  def with_output_buffer(buf = ActionView::SafeBuffer.new) #:nodoc:
+  def with_output_buffer(buf = ActiveSupport::SafeBuffer.new) #:nodoc:
     super(buf)
   end
 end

@@ -141,7 +141,7 @@ class Ability
       can [:update, :destroy, :show], [
         Bookmark, Checkout, PurchaseRequest, Reserve, UserHasShelf
       ] do |object|
-        object.user == user
+        object.try(:user) == user
       end
       can :index, Question
       can :show, [Question, Answer] do |object|

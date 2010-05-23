@@ -43,11 +43,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :participates
 
-  map.connect "live_validations/:action", :controller => "live_validations"
   map.resources :user_has_shelves
-
-  map.connect '/enju_gadget.xml', :controller => 'enju_gadget', :action => 'index', :format => 'xml'
-  map.resources :password_resets
 
   map.resource :user_session
 
@@ -457,10 +453,6 @@ ActionController::Routing::Routes.draw do |map|
   map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
   #map.term '/term/:term', :controller => 'subjects', :action => 'show'
   map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
-  #map.register '/register/:activation_code', :controller => 'activations', :action => 'new'
-  #map.activate '/activate/:id', :controller => 'activations', :action => 'create'
-  #map.resources :password_resets, :only => [ :new, :create, :edit, :update ]
- 
   #map.service '/service', :controller => 'page', :action => 'service'
 
   # The priority is based upon order of creation: first created -> highest priority.

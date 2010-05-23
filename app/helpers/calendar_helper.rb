@@ -10,7 +10,7 @@ module CalendarHelper
       :month => @month,
       :event_strips => @event_strips,
       :month_name_text => I18n.l(@shown_month, :format => :only_year_and_month),
-      :previous_month_text => "<< " + month_link(@shown_month.last_month),
+      :previous_month_text => "<< " + month_link(@shown_month.prev_month),
       :next_month_text => month_link(@shown_month.next_month) + " >>",
       :use_all_day => true
     }
