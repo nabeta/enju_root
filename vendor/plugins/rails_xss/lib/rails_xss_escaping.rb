@@ -7,7 +7,7 @@ ERB::Util.module_eval do  # :nodoc:
     if value.respond_to?(:html_safe?) && value.html_safe?
       value
     else
-      html_escape_without_output_safety(value).html_safe!
+      html_escape_without_output_safety(value).html_safe
     end
   end
   

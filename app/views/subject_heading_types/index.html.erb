@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.subject_heading_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.note') -%></th>
+    <%- if can? :destroy, SubjectHeadingType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- for subject_heading_type in @subject_heading_types -%>

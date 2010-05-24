@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.news_feed.title') -%></th>
     <th><%= t('activerecord.attributes.news_feed.url') -%></th>
+    <%- if can? :destroy, NewsFeed -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @news_feeds.each do |news_feed| -%>

@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.extent.name') -%></th>
     <th><%= t('activerecord.attributes.extent.note') -%></th>
+    <%- if can? :destroy, Extent -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @extents.each do |extent| -%>

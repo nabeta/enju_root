@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.item_relationship_type.name') -%></th>
     <th><%= t('activerecord.attributes.item_relationship_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.item_relationship_type.note') -%></th>
+    <%- if can? :destroy, ItemRelationshipType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @item_relationship_types.each do |item_relationship_type| -%>

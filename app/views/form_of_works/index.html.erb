@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.form_of_work.name') -%></th>
     <th><%= t('activerecord.attributes.form_of_work.display_name') -%></th>
     <th><%= t('activerecord.attributes.form_of_work.note') -%></th>
+    <%- if can? :destroy, FormOfWork -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @form_of_works.each do |form_of_work| -%>

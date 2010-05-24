@@ -1,93 +1,25 @@
-class EventCategoriesController < ApplicationController
+class EventCategoriesController < InheritedResources::Base
+  respond_to :html, :xml
+  before_filter :check_client_ip_address
   load_and_authorize_resource
 
-  # GET /event_categories
-  # GET /event_categories.xml
-  def index
-    @event_categories = EventCategory.paginate(:all, :page => params[:page], :order => :position)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @event_categories }
-    end
-  end
-
-  # GET /event_categories/1
-  # GET /event_categories/1.xml
-  def show
-    @event_category = EventCategory.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @event_category }
-    end
-  end
-
-  # GET /event_categories/new
-  # GET /event_categories/new.xml
-  def new
-    @event_category = EventCategory.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @event_category }
-    end
-  end
-
-  # GET /event_categories/1/edit
-  def edit
-    @event_category = EventCategory.find(params[:id])
-  end
-
-  # POST /event_categories
-  # POST /event_categories.xml
-  def create
-    @event_category = EventCategory.new(params[:event_category])
-
-    respond_to do |format|
-      if @event_category.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.event_category'))
-        format.html { redirect_to(@event_category) }
-        format.xml  { render :xml => @event_category, :status => :created, :location => @event_category }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @event_category.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /event_categories/1
-  # PUT /event_categories/1.xml
   def update
     @event_category = EventCategory.find(params[:id])
-
-    if @event_category and params[:position]
+    if params[:position]
       @event_category.insert_at(params[:position])
       redirect_to event_categories_url
       return
     end
-
-    respond_to do |format|
-      if @event_category.update_attributes(params[:event_category])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.event_category'))
-        format.html { redirect_to(@event_category) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @event_category.errors, :status => :unprocessable_entity }
-      end
-    end
+    update!
   end
 
-  # DELETE /event_categories/1
-  # DELETE /event_categories/1.xml
-  def destroy
-    @event_category = EventCategory.find(params[:id])
-    @event_category.destroy
+  protected
+  def collection
+    @event_categories ||= end_of_association_chain.paginate(:page => params[:page])
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(event_categories_url) }
-      format.xml  { head :ok }
-    end
+  private
+  def interpolation_options
+    {:resource_name => t('activerecord.models.event_category')}
   end
 end

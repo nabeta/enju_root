@@ -1,93 +1,25 @@
-class ExtentsController < ApplicationController
+class ExtentsController < InheritedResources::Base
+  respond_to :html, :xml
+  before_filter :check_client_ip_address
   load_and_authorize_resource
 
-  # GET /extents
-  # GET /extents.xml
-  def index
-    @extents = Extent.paginate(:page => params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @extents }
-    end
-  end
-
-  # GET /extents/1
-  # GET /extents/1.xml
-  def show
-    @extent = Extent.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @extent }
-    end
-  end
-
-  # GET /extents/new
-  # GET /extents/new.xml
-  def new
-    @extent = Extent.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @extent }
-    end
-  end
-
-  # GET /extents/1/edit
-  def edit
-    @extent = Extent.find(params[:id])
-  end
-
-  # POST /extents
-  # POST /extents.xml
-  def create
-    @extent = Extent.new(params[:extent])
-
-    respond_to do |format|
-      if @extent.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.nii_type'))
-        format.html { redirect_to(@extent) }
-        format.xml  { render :xml => @extent, :status => :created, :location => @extent }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @extent.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /extents/1
-  # PUT /extents/1.xml
   def update
     @extent = Extent.find(params[:id])
-
-    if @extent and params[:position]
+    if params[:position]
       @extent.insert_at(params[:position])
-      redirect_to extents_url
+      redirect_to countries_url
       return
     end
-
-    respond_to do |format|
-      if @extent.update_attributes(params[:extent])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.nii_type'))
-        format.html { redirect_to(@extent) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @extent.errors, :status => :unprocessable_entity }
-      end
-    end
+    update!
   end
 
-  # DELETE /extents/1
-  # DELETE /extents/1.xml
-  def destroy
-    @extent = Extent.find(params[:id])
-    @extent.destroy
+  protected
+  def collection
+    @extents ||= end_of_association_chain.paginate(:page => params[:page])
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(extents_url) }
-      format.xml  { head :ok }
-    end
+  private
+  def interpolation_options
+    {:resource_name => t('activerecord.models.extent')}
   end
 end

@@ -7,6 +7,10 @@
     <th><%= t('activerecord.models.patron') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
     <th><%= t('activerecord.models.item') -%></th>
+    <%- if can? :destroy, Donate -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @donates.each do |donate| -%>

@@ -9,6 +9,9 @@
     <th><%= t('activerecord.attributes.country.alpha_2') -%></th>
     <th><%= t('activerecord.attributes.country.alpha_3') -%></th>
     <th><%= t('activerecord.attributes.country.numeric_3') -%></th>
+    <%- if can? :destroy, Country -%>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @countries.each do |country| -%>

@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.expression_relationship_type.name') -%></th>
     <th><%= t('activerecord.attributes.expression_relationship_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.expression_relationship_type.note') -%></th>
+    <%- if can? :destroy, ExpressionRelationshipType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @expression_relationship_types.each do |expression_relationship_type| -%>

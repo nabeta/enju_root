@@ -1,0 +1,45 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.advertisement')) -%></h1>
+<div id="content_list">
+
+<%- form_for(@advertisement) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label t('activerecord.attributes.advertisement.title') -%><br />
+    <%= f.text_field :title, :class => 'resource_title' -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.advertisement.url') -%><br />
+    <%= f.text_field :url, :class => 'resource_url' -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.advertisement.body') -%><br />
+    <%= f.text_area :body, :class => 'resource_textarea' -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.advertisement.started_at') -%><br />
+    <%= f.datetime_text_field :started_at, :class => 'date_field' -%>
+  </p>
+  <p>
+  <%= f.label t('activerecord.attributes.advertisement.ended_at') -%><br />
+    <%= f.datetime_text_field :ended_at, :class => 'date_field' -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.advertisement.note') -%><br />
+    <%= f.text_area :note, :class => 'resource_textarea' -%>
+  </p>
+  <p>
+    <%= f.submit t('page.update') -%>
+  </p>
+<%- end -%>
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), @advertisement -%></li>
+    <li><%= link_to t('page.back'), advertisements_path -%></li>
+  </ul>
+</div>
