@@ -1,5 +1,5 @@
 class SearchHistoriesController < ApplicationController
-  before_filter :access_denied, :except => [:index, :show]
+  before_filter :access_denied, :except => [:index, :show, :destroy]
   # index, show以外は外部からは呼び出されないはず
   load_and_authorize_resource
 

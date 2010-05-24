@@ -123,10 +123,30 @@ class SearchHistoriesControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
 
-  def test_everyone_should_not_destroy_search_history
+  def test_owner_should_destroy_search_history
+    sign_in users(:user1)
+    old_count = SearchHistory.count
+    delete :destroy, :id => 3
+    assert_equal old_count-1, SearchHistory.count
+    
+    assert_response :redirect
+    assert_redirected_to search_histories_url
+  end
+
+  def test_admin_should_destroy_search_history
     sign_in users(:admin)
     old_count = SearchHistory.count
     delete :destroy, :id => 3
+    assert_equal old_count-1, SearchHistory.count
+    
+    assert_response :redirect
+    assert_redirected_to search_histories_url
+  end
+
+  def test_other_user_should_not_destroy_search_history
+    sign_in users(:user1)
+    old_count = SearchHistory.count
+    delete :destroy, :id => 1
     assert_equal old_count, SearchHistory.count
     
     assert_response :forbidden
@@ -138,7 +158,6 @@ class SearchHistoriesControllerTest < ActionController::TestCase
     delete :destroy, :id => 100
     assert_equal old_count, SearchHistory.count
     
-    #assert_response :missing
-    assert_response :forbidden
+    assert_response :missing
   end
 end
