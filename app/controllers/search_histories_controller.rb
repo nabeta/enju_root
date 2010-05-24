@@ -2,16 +2,22 @@ class SearchHistoriesController < ApplicationController
   before_filter :access_denied, :except => [:index, :show]
   # index, show以外は外部からは呼び出されないはず
   load_and_authorize_resource
-  #before_filter :get_user
 
   # GET /search_histories
   # GET /search_histories.xml
   def index
-    #@search_histories = @user.search_histories.paginate(:page => params[:page], :order => ['created_at DESC'])
     if params[:mode] == 'not_found'
-      @search_histories = SearchHistory.not_found.paginate(:page => params[:page], :order => ['created_at DESC'])
+      if current_user.has_role?('Administrator')
+        @search_histories = SearchHistory.not_found.paginate(:page => params[:page], :order => ['created_at DESC'])
+      else
+        @search_histories = current_user.search_histories.not_found.paginate(:page => params[:page], :order => ['created_at DESC'])
+      end
     else
-      @search_histories = SearchHistory.paginate(:page => params[:page], :order => ['created_at DESC'])
+      if current_user.has_role?('Administrator')
+        @search_histories = SearchHistory.paginate(:page => params[:page], :order => ['created_at DESC'])
+      else
+        @search_histories = current_user.search_histories.paginate(:page => params[:page], :order => ['created_at DESC'])
+      end
     end
 
     respond_to do |format|

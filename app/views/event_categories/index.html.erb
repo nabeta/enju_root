@@ -8,10 +8,7 @@
     <th><%= t('activerecord.attributes.event_category.name') -%></th>
     <th><%= t('activerecord.attributes.event_category.display_name') -%></th>
     <th><%= t('activerecord.attributes.event_category.note') -%></th>
-    <%- if can? :destroy, EventCategory -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @event_categories.each do |event_category| -%>
@@ -24,10 +21,12 @@
     <td><%= link_to h(event_category.name), event_category -%></td>
     <td><%= link_to h(event_category.display_name.localize), event_category -%></td>
     <td><%= event_category.note -%></td>
-    <%- if can? :destroy, event_category -%>
-      <td><%= link_to t('page.edit'), edit_event_category_path(event_category) -%></td>
-      <td><%= link_to t('page.destroy'), event_category, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, event_category -%>
+        <%= link_to t('page.edit'), edit_event_category_path(event_category) -%>
+        <%= link_to t('page.destroy'), event_category, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

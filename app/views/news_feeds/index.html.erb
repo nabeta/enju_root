@@ -7,10 +7,7 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.news_feed.title') -%></th>
     <th><%= t('activerecord.attributes.news_feed.url') -%></th>
-    <%- if can? :destroy, NewsFeed -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @news_feeds.each do |news_feed| -%>
@@ -22,10 +19,12 @@
     </td>
     <td><%= link_to h(news_feed.title), news_feed -%></td>
     <td><%= link_to h(news_feed.url), news_feed.url -%></td>
-    <%- if can? :destroy, news_feed -%>
-      <td><%= link_to t('page.edit'), edit_news_feed_path(news_feed) -%></td>
-      <td><%= link_to t('page.destroy'), news_feed, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, news_feed -%>
+        <%= link_to t('page.edit'), edit_news_feed_path(news_feed) -%>
+        <%= link_to t('page.destroy'), news_feed, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

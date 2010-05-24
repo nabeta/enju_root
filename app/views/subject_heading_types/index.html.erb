@@ -8,10 +8,7 @@
     <th><%= t('activerecord.attributes.subject_heading_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_heading_type.note') -%></th>
-    <%- if can? :destroy, SubjectHeadingType -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- for subject_heading_type in @subject_heading_types -%>
@@ -24,8 +21,12 @@
     <td><%= link_to h(subject_heading_type.name), subject_heading_type -%></td>
     <td><%= link_to h(subject_heading_type.display_name.localize), subject_heading_type -%></td>
     <td><%= subject_heading_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_subject_heading_type_path(subject_heading_type) -%></td>
-    <td><%= link_to t('page.destroy'), subject_heading_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, subject_heading_type -%>
+        <%= link_to t('page.edit'), edit_subject_heading_type_path(subject_heading_type) -%>
+        <%= link_to t('page.destroy'), subject_heading_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

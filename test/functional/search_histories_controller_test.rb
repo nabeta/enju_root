@@ -8,10 +8,10 @@ class SearchHistoriesControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
 
-  def test_user_should_not_get_index
+  def test_user_should_get_index
     sign_in users(:user1)
     get :index
-    assert_response :forbidden
+    assert_response :success
   end
 
   def test_librarian_should_get_index

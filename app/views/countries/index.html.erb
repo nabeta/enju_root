@@ -9,9 +9,7 @@
     <th><%= t('activerecord.attributes.country.alpha_2') -%></th>
     <th><%= t('activerecord.attributes.country.alpha_3') -%></th>
     <th><%= t('activerecord.attributes.country.numeric_3') -%></th>
-    <%- if can? :destroy, Country -%>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @countries.each do |country| -%>
@@ -25,9 +23,11 @@
     <td><%= country.alpha_2 -%></td>
     <td><%= country.alpha_3 -%></td>
     <td><%= country.numeric_3 -%></td>
-    <%- if can? :destroy, country -%>
-      <td><%= link_to t('page.edit'), edit_country_path(country) -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, country -%>
+        <%= link_to t('page.edit'), edit_country_path(country) -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>
