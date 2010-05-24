@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 class BookmarksController < ApplicationController
+  before_filter :store_location
   load_and_authorize_resource
   before_filter :get_user, :only => :new
   before_filter :get_user_if_nil, :except => :new
