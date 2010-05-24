@@ -17,7 +17,10 @@
     <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('activerecord.models.bookmark') -%></th>
     <th><%= t('page.created_at') -%></th>
-    <th><%= t('page.updated_at') -%></th>
+    <%- if can? :destroy, Bookmark -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- for bookmark in @bookmarks -%>
@@ -28,7 +31,6 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => bookmark.manifestation} -%>
     </td>
     <td><%= l(bookmark.created_at) -%></td>
-    <td><%= l(bookmark.updated_at) -%></td>
     <%- if can? :destroy, bookmark -%>
       <td><%= link_to t('page.destroy'), user_bookmark_path(bookmark.user, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
     <%- end -%>

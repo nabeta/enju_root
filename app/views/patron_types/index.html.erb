@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.patron_type.name') -%></th>
     <th><%= t('activerecord.attributes.patron_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.patron_type.note') -%></th>
+    <%- if can? :destroy, PatronType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @patron_types.each do |patron_type| -%>

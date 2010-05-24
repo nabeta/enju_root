@@ -6,6 +6,11 @@
   <tr>
     <th><%= t('activerecord.models.subject') -%></th>
     <th><%= t('activerecord.models.classification') -%></th>
+    <th></th>
+    <% if can? :destroy, SubjectHasClassification %>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @subject_has_classifications.each do |subject_has_classification| -%>
@@ -13,8 +18,10 @@
     <td><%= link_to h(subject_has_classification.subject.term), subject_has_classification.subject -%></td>
     <td><%= link_to h(subject_has_classification.classification.category), subject_has_classification.classification -%></td>
     <td><%= link_to t('page.show'), subject_has_classification -%></td>
-    <td><%= link_to t('page.edit'), edit_subject_has_classification_path(subject_has_classification) -%></td>
-    <td><%= link_to t('page.destroy'), subject_has_classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <% if can? :destroy, subject_has_classification %>
+      <td><%= link_to t('page.edit'), edit_subject_has_classification_path(subject_has_classification) -%></td>
+      <td><%= link_to t('page.destroy'), subject_has_classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <% end %>
   </tr>
 <%- end -%>
 </table>

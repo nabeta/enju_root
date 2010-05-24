@@ -97,6 +97,7 @@ Rails::Initializer.run do |config|
   config.gem "rack-openid", :lib => "rack/openid"
   config.gem "erubis"
   config.gem "twitter"
+  config.gem "inherited_resources", :version => "1.0.6"
   #config.gem "acts_as_archive"
   #config.gem "event_calendar"
   #config.gem "sru"

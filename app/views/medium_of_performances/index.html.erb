@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.medium_of_performance.name') -%></th>
     <th><%= t('activerecord.attributes.medium_of_performance.display_name') -%></th>
     <th><%= t('activerecord.attributes.medium_of_performance.note') -%></th>
+    <%- if can? :destroy, MediumOfPerformance -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- for medium_of_performance in @medium_of_performances -%>

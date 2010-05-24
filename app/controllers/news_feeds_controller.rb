@@ -65,7 +65,7 @@ class NewsFeedsController < ApplicationController
   def update
     @news_feed = NewsFeed.find(params[:id])
 
-    if @news_feed and params[:position]
+    if params[:position]
       @news_feed.insert_at(params[:position])
       redirect_to news_feeds_url
       return

@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.manifestation_relationship_type.name') -%></th>
     <th><%= t('activerecord.attributes.manifestation_relationship_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.manifestation_relationship_type.note') -%></th>
+    <%- if can? :destroy, ManifestationRelationshipType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @manifestation_relationship_types.each do |manifestation_relationship_type| -%>

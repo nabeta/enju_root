@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.shelf.name') -%></th>
     <th><%= t('activerecord.models.library') -%></th>
+    <%- if can? :destroy, Shelf -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
   
 <%- @shelves.each_with_index do |shelf, i| -%>

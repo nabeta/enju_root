@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.circulation_status.name') -%></th>
     <th><%= t('activerecord.attributes.circulation_status.display_name') -%></th>
+    <%- if can? :destroy, CirculationStatus -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @circulation_statuses.each do |circulation_status| -%>

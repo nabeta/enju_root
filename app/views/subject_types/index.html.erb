@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.subject_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_type.note') -%></th>
+    <%- if can? :destroy, SubjectType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @subject_types.each do |subject_type| -%>

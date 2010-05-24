@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.request_status_type.name') -%></th>
     <th><%= t('activerecord.attributes.request_status_type.display_name') -%></th>
+    <%- if can? :destroy, RequestStatusType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @request_status_types.each do |request_status_type| -%>

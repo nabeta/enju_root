@@ -7,6 +7,11 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.search_engine.name') -%></th>
     <th><%= t('activerecord.attributes.search_engine.note') -%></th>
+    <%- if can? :destroy, SearchEngine -%>
+      <th></th>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @search_engines.each do |search_engine| -%>

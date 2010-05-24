@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.event_category.name') -%></th>
     <th><%= t('activerecord.attributes.event_category.display_name') -%></th>
     <th><%= t('activerecord.attributes.event_category.note') -%></th>
+    <%- if can? :destroy, EventCategory -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @event_categories.each do |event_category| -%>

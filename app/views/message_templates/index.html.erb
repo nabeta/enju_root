@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.message_template.status') -%></th>
     <th><%= t('activerecord.attributes.message_template.title') -%></th>
+    <%- if can? :destroy, MessageTemplate -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- for message_template in @message_templates -%>

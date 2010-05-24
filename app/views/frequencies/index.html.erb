@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.frequency.name') -%></th>
     <th><%= t('activerecord.attributes.frequency.display_name') -%></th>
+    <%- if can? :destroy, Frequency -%>
+      <th></th>
+      <th></th>
+    <% end -%>
   </tr>
 
 <%- @frequencies.each do |frequency| -%>

@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.nii_type.name') -%></th>
     <th><%= t('activerecord.attributes.nii_type.note') -%></th>
+    <%- if can? :destroy, NiiType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @nii_types.each do |nii_type| -%>
@@ -28,7 +32,6 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@nii_types) -%>
 </div>
 </div>
 

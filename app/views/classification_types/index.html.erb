@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.classification_type.name') -%></th>
     <th><%= t('activerecord.attributes.classification_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.classification_type.note') -%></th>
+    <%- if can? :destroy, ClassificationType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @classification_types.each do |classification_type| -%>

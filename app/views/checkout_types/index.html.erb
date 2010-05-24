@@ -8,6 +8,10 @@
     <th><%= t('activerecord.attributes.checkout_type.name') -%></th>
     <th><%= t('activerecord.attributes.checkout_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.checkout_type.note') -%></th>
+    <%- if can? :destroy, CheckoutType -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
 
 <%- @checkout_types.each do |checkout_type| -%>
@@ -22,8 +26,10 @@
     <td><%= link_to h(checkout_type.name), checkout_type -%></td>
     <td><%= link_to h(checkout_type.display_name.localize), checkout_type -%></td>
     <td><%= checkout_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_checkout_type_path(checkout_type) -%></td>
-    <td><%= link_to t('page.destroy'), checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <%- if can? :destroy, checkout_type -%>
+      <td><%= link_to t('page.edit'), edit_checkout_type_path(checkout_type) -%></td>
+      <td><%= link_to t('page.destroy'), checkout_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <% end %>
   </tr>
 <%- end -%>
 </table>

@@ -7,6 +7,10 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.user_group.display_name') -%></th>
     <th><%= t('activerecord.attributes.user_group.note') -%></th>
+    <%- if can? :destroy, UserGroup -%>
+      <th></th>
+      <th></th>
+    <% end %>
   </tr>
   
 <%- @user_groups.each do |user_group| -%>
@@ -18,8 +22,10 @@
     </td>
     <td><%= link_to h(user_group.display_name.localize), user_group -%></td>
     <td><%= user_group.note -%></td>
-    <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>
-    <td><%= link_to t('page.destroy'), user_group_path(user_group), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <%- if can? :destroy, user_group -%>
+      <td><%= link_to t('page.edit'), edit_user_group_path(user_group) -%></td>
+      <td><%= link_to t('page.destroy'), user_group_path(user_group), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <% end %>
   </tr>
 <%- end -%>
 </table>

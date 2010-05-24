@@ -77,7 +77,7 @@ class ShelvesController < ApplicationController
     @shelf = Shelf.find(params[:id])
     @shelf.library = @library if @library
 
-    if @shelf and params[:position]
+    if params[:position]
       @shelf.insert_at(params[:position])
       redirect_to library_shelves_url(@shelf.library.name)
       return
