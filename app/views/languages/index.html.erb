@@ -11,9 +11,7 @@
     <th><%= 'Iso 639 1' -%></th>
     <th><%= 'Iso 639 2' -%></th>
     <th><%= 'Iso 639 3' -%></th>
-    <%- if can? :destroy, Language -%>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @languages.each do |language| -%>
@@ -29,9 +27,11 @@
     <td><%= language.iso_639_1 -%></td>
     <td><%= language.iso_639_2 -%></td>
     <td><%= language.iso_639_3 -%></td>
-    <%- if can? :destroy, language -%>
-      <td><%= link_to t('page.edit'), edit_language_path(language) -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, language -%>
+        <%= link_to t('page.edit'), edit_language_path(language) -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

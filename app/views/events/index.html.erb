@@ -37,7 +37,7 @@
   <tr>
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.attributes.event.title') -%></th>
-    <%- if can? :destroy, Event -%>
+    <%- if can? :update, @events.first -%>
       <th></th>
     <% end %>
   </tr>

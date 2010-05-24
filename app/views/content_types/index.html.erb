@@ -8,7 +8,7 @@
     <th><%= t('activerecord.attributes.content_type.name') -%></th>
     <th><%= t('activerecord.attributes.content_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.content_type.note') -%></th>
-    <%- if can? :destroy, ContentType -%>
+    <%- if can? :update, @content_types.first -%>
       <th></th>
       <th></th>
     <% end %>

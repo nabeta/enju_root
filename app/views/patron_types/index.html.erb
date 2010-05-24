@@ -8,10 +8,7 @@
     <th><%= t('activerecord.attributes.patron_type.name') -%></th>
     <th><%= t('activerecord.attributes.patron_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.patron_type.note') -%></th>
-    <%- if can? :destroy, PatronType -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @patron_types.each do |patron_type| -%>
@@ -24,8 +21,12 @@
     <td><%= link_to h(patron_type.name), patron_type -%></td>
     <td><%= link_to h(patron_type.display_name.localize), patron_type -%></td>
     <td><%= patron_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_patron_type_path(patron_type) -%></td>
-    <td><%= link_to t('page.destroy'), patron_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, patron_type -%>
+        <%= link_to t('page.edit'), edit_patron_type_path(patron_type) -%>
+        <%= link_to t('page.destroy'), patron_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

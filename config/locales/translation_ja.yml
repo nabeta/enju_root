@@ -1127,6 +1127,7 @@ ja:
       "true": "はい"
       "false": "いいえ"
     not_found: "ページが見つかりませんでした"
+    access_denied: "アクセスが拒否されました"
     last_updated: "最終更新日"
   title:
     index: "一覧"

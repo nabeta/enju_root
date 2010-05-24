@@ -8,10 +8,7 @@
     <th><%= t('activerecord.attributes.carrier_type.name') -%></th>
     <th><%= t('activerecord.attributes.carrier_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.carrier_type.note') -%></th>
-    <%- if can? :destroy, CarrierType -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
   
 <%- @carrier_types.each do |carrier_type| -%>
@@ -24,10 +21,12 @@
     <td><%= link_to h(carrier_type.name), carrier_type -%></td>
     <td><%= link_to h(carrier_type.display_name.localize), carrier_type -%></td>
     <td><%= carrier_type.note -%></td>
-    <%- if can? :destroy, carrier_type -%>
-      <td><%= link_to t('page.edit'), edit_carrier_type_path(carrier_type) -%></td>
-      <td><%= link_to t('page.destroy'), carrier_type_path(carrier_type), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, carrier_type -%>
+        <%= link_to t('page.edit'), edit_carrier_type_path(carrier_type) -%>
+        <%= link_to t('page.destroy'), carrier_type_path(carrier_type), :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

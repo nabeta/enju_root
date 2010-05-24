@@ -8,10 +8,7 @@
     <th><%= t('activerecord.attributes.expression_relationship_type.name') -%></th>
     <th><%= t('activerecord.attributes.expression_relationship_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.expression_relationship_type.note') -%></th>
-    <%- if can? :destroy, ExpressionRelationshipType -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @expression_relationship_types.each do |expression_relationship_type| -%>
@@ -24,8 +21,12 @@
     <td><%= link_to h(expression_relationship_type.name), expression_relationship_type -%></td>
     <td><%= link_to h(expression_relationship_type.display_name.localize), expression_relationship_type -%></td>
     <td><%= expression_relationship_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_expression_relationship_type_path(expression_relationship_type) -%></td>
-    <td><%= link_to t('page.destroy'), expression_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, expression_relationship_type -%>
+        <%= link_to t('page.edit'), edit_expression_relationship_type_path(expression_relationship_type) -%>
+        <%= link_to t('page.destroy'), expression_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

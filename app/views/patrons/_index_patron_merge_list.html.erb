@@ -25,7 +25,9 @@
     <th><%= t('activerecord.models.patron_type') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
-    <th></th>
+    <%- if can? :destroy, patron -%>
+      <th></th>
+    <% end -%>
   </tr>
   
 <%- @patrons.each do |patron| -%>
@@ -34,16 +36,16 @@
     <td><%= patron.patron_type.display_name.localize -%></td>
     <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
     <td><%=l patron.date_of_death if patron.date_of_death -%></td>
-    <td>
-      <%- if can? :destroy, patron -%>
+    <%- if can? :destroy, patron -%>
+      <td>
         <%- if params[:mode] == 'add' -%>
           <%= link_to t('page.add'), new_patron_merge_list_patron_merge_path(@patron_merge_list, :patron_id => patron.id) unless @patron_merge_list.patrons.include?(patron) -%>
         <%- else -%>
           <%- patron_merge = @patron_merge_list.patron_merges.find_by_patron_id(patron) -%>
           <%= link_to t('page.destroy'), patron_merge_list_patron_merge_path(@patron_merge_list, patron_merge), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
-      <%- end -%>
-    </td>
+      </td>
+    <%- end -%>
   </tr>
 <%- end -%>
 </table>

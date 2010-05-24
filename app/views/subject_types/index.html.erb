@@ -8,10 +8,7 @@
     <th><%= t('activerecord.attributes.subject_type.name') -%></th>
     <th><%= t('activerecord.attributes.subject_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.subject_type.note') -%></th>
-    <%- if can? :destroy, SubjectType -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- @subject_types.each do |subject_type| -%>
@@ -24,8 +21,12 @@
     <td><%= link_to h(subject_type.name), subject_type -%></td>
     <td><%= link_to h(subject_type.display_name.localize), subject_type -%></td>
     <td><%= subject_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_subject_type_path(subject_type) -%></td>
-    <td><%= link_to t('page.destroy'), subject_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, subject_type -%>
+        <%= link_to t('page.edit'), edit_subject_type_path(subject_type) -%>
+        <%= link_to t('page.destroy'), subject_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

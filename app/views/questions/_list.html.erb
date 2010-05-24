@@ -24,9 +24,7 @@
       <th><%= 'Id' -%></th>
       <th><%= t('activerecord.models.question') -%></th>
       <th></th>
-      <%- if user_signed_in? %>
-        <th></th>
-      <% end %>
+      <th></th>
     </tr>
   
   <%- @questions.each_with_index do |question, i| -%>
@@ -51,12 +49,12 @@
           <%= t('question.not_solved') %>
         <% end %>
       </td>
-      <%- if can? :destroy, question -%>
-        <td style="width: 50px">
+      <td style="width: 50px">
+        <%- if can? :destroy, question -%>
           <%= link_to image_tag('/icons/page_white_edit.png', :alt => t('page.edit'), :size => '16x16'), edit_user_question_path(question.user.username, question), :confirm => t('page.are_you_sure'), :method => :delete -%>
           <%= link_to image_tag('/icons/delete.png', :alt => t('page.destroy'), :size => '16x16'), user_question_path(question.user.username, question), :confirm => t('page.are_you_sure'), :method => :delete -%>
-        </td>
-      <%- end -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
   </table>

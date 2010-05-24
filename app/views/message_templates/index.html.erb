@@ -7,10 +7,7 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.message_template.status') -%></th>
     <th><%= t('activerecord.attributes.message_template.title') -%></th>
-    <%- if can? :destroy, MessageTemplate -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
 
 <%- for message_template in @message_templates -%>
@@ -22,10 +19,12 @@
     </td>
     <td><%= link_to h(message_template.status), message_template -%></td>
     <td><%= message_template.title -%></td>
-    <%- if can? :destroy, message_template -%>
-      <td><%= link_to t('page.edit'), edit_message_template_path(message_template) -%></td>
-      <td><%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, message_template -%>
+        <%= link_to t('page.edit'), edit_message_template_path(message_template) -%>
+        <%= link_to t('page.destroy'), message_template, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>
