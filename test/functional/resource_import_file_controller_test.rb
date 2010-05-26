@@ -78,7 +78,10 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
 
     assert_equal 'librarian1', assigns(:resource_import_file).user.username
     assert_redirected_to resource_import_file_path(assigns(:resource_import_file))
-    assert_equal Shelf.find_by_name('first_shelf'), Item.find_by_item_identifier('11111').shelf
+    item = Item.find_by_item_identifier('11111')
+    assert_equal Shelf.find_by_name('first_shelf'), item.shelf
+    assert_equal 1000, item.manifestation.price
+    assert_equal 0, item.price
     #assert assigns(:resource_import_file).file_hash
   end
 
