@@ -45,7 +45,7 @@ Rails::Initializer.run do |config|
   config.gem "isbn-tools", :lib => "isbn/tools"
   config.gem "barby"
   config.gem "aasm"
-  config.gem "will_paginate"
+  config.gem "will_paginate", :version => ">=2.3.14"
   #config.gem "jpmobile"
   config.gem "prawn"
   config.gem "prawn-format", :lib => "prawn/format"
