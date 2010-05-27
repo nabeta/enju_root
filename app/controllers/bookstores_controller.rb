@@ -1,93 +1,25 @@
-class BookstoresController < ApplicationController
+class BookstoresController < InheritedResources::Base
+  respond_to :html, :xml
+  before_filter :check_client_ip_address
   load_and_authorize_resource
 
-  # GET /bookstores
-  # GET /bookstores.xml
-  def index
-    @bookstores = Bookstore.paginate(:all, :order => :position, :page => params[:page])
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.xml  { render :xml => @bookstores }
-    end
-  end
-
-  # GET /bookstores/1
-  # GET /bookstores/1.xml
-  def show
-    @bookstore = Bookstore.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @bookstore }
-    end
-  end
-
-  # GET /bookstores/new
-  # GET /bookstores/new.xml
-  def new
-    @bookstore = Bookstore.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @bookstore }
-    end
-  end
-
-  # GET /bookstores/1/edit
-  def edit
-    @bookstore = Bookstore.find(params[:id])
-  end
-
-  # POST /bookstores
-  # POST /bookstores.xml
-  def create
-    @bookstore = Bookstore.new(params[:bookstore])
-
-    respond_to do |format|
-      if @bookstore.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookstore'))
-        format.html { redirect_to(@bookstore) }
-        format.xml  { render :xml => @bookstore, :status => :created, :location => @bookstore }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @bookstore.errors, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  # PUT /bookstores/1
-  # PUT /bookstores/1.xml
   def update
     @bookstore = Bookstore.find(params[:id])
-
-    if @bookstore and params[:position]
+    if params[:position]
       @bookstore.insert_at(params[:position])
-      redirect_to bookstores_url
+      redirect_to countries_url
       return
     end
-
-    respond_to do |format|
-      if @bookstore.update_attributes(params[:bookstore])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookstore'))
-        format.html { redirect_to(@bookstore) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @bookstore.errors, :status => :unprocessable_entity }
-      end
-    end
+    update!
   end
 
-  # DELETE /bookstores/1
-  # DELETE /bookstores/1.xml
-  def destroy
-    @bookstore = Bookstore.find(params[:id])
-    @bookstore.destroy
+  protected
+  def collection
+    @bookstores ||= end_of_association_chain.paginate(:page => params[:page])
+  end
 
-    respond_to do |format|
-      format.html { redirect_to(bookstores_url) }
-      format.xml  { head :ok }
-    end
+  private
+  def interpolation_options
+    {:resource_name => t('activerecord.models.bookstore')}
   end
 end

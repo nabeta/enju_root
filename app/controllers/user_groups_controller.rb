@@ -63,7 +63,7 @@ class UserGroupsController < ApplicationController
   def update
     @user_group = UserGroup.find(params[:id])
 
-    if @user_group and params[:position]
+    if params[:position]
       @user_group.insert_at(params[:position])
       redirect_to user_groups_url
       return

@@ -19,7 +19,7 @@ class PurchaseRequest < ActiveRecord::Base
   end
 
   def after_destroy
-    after_save
+    index!
   end
 
   searchable do
@@ -32,6 +32,7 @@ class PurchaseRequest < ActiveRecord::Base
       order_list.id if order_list
     end
     time :pubdate
+    time :created_at
     time :accepted_at
     time :denied_at
     boolean :ordered do

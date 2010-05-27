@@ -1,11 +1,3 @@
-class Twitter < ActiveResource::Base
-  self.site = 'http://twitter.com'
-  self.logger = Logger.new($stderr)
-
-  class Twitter::Status < Twitter
-  end
-end
-
 class String
   def truncate(int = 24)
     chars = self.split(//u)[0..int]
@@ -29,26 +21,30 @@ module EnjuTwitter
   end
   
   module InstanceMethods
-    attr_accessor :post_to_twitter, :twitter_comment
+    def twitter_client
+      oauth = Twitter::OAuth.new(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET)
+      oauth.authorize_from_access(TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET)
+      client = Twitter::Base.new(oauth)
+    end
+
+    def manifestation_comment
+      manifestation_url = "#{LibraryGroup.url}manifestations/#{id}"
+      status_manifestation = "#{original_title.to_s.truncate}: #{note.to_s.split.join(" / ").truncate} #{manifestation_url}"
+      if comment.to_s.strip.present?
+        "#{comment} #{manifestation_url}"
+      else
+        "#{manifestation_url}"
+      end
+    end
+
     def send_to_twitter(comment = nil)
       if RAILS_ENV == "production"
-        if Twitter::Status
-          manifestation_url = "#{LibraryGroup.url}manifestations/#{id}"
-          status_manifestation = "#{original_title.to_s.truncate}: #{note.to_s.split.join(" / ").truncate} #{manifestation_url}"
-          if comment.to_s.strip.present?
-            status_comment = "#{comment} #{manifestation_url}"
-          end
-          begin
-            timeout(30){
-              if status_comment
-                Twitter::Status.post(:update, :status => status_comment)
-              else
-                Twitter::Status.post(:update, :status => status_manifestation)
-              end
-            }
-          rescue Timeout::Error
-            Twitter.logger.warn 'post timeout!'
-          end
+        begin
+          timeout(30){
+            client.update(comment)
+          }
+        rescue Timeout::Error
+          Rails.logger.warn 'post timeout!'
         end
       end
     end

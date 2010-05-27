@@ -7,6 +7,7 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.use_restriction.name') -%></th>
     <th><%= t('activerecord.attributes.use_restriction.display_name') -%></th>
+    <th></th>
   </tr>
 
 <%- @use_restrictions.each do |use_restriction| -%>
@@ -18,10 +19,12 @@
     </td>
     <td><%= link_to h(use_restriction.name), use_restriction -%></td>
     <td><%= link_to h(use_restriction.display_name.localize), use_restriction -%></td>
-    <%- if can? :destroy, use_restriction -%>
-      <td><%= link_to t('page.edit'), edit_use_restriction_path(use_restriction) -%></td>
-      <td><%= link_to t('page.destroy'), use_restriction, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, use_restriction -%>
+        <%= link_to t('page.edit'), edit_use_restriction_path(use_restriction) -%>
+        <%= link_to t('page.destroy'), use_restriction, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

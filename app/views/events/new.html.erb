@@ -21,13 +21,10 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.event.all_day') -%>
-    <%= f.check_box :all_day -%>
-  </p>
-
-  <p>
     <%= f.label t('activerecord.attributes.event.start_at') -%><br />
     <%= f.datetime_select :start_at, :use_month_numbers => true -%>
+    <%= f.label t('activerecord.attributes.event.all_day') -%>
+    <%= f.check_box :all_day -%>
   </p>
 
   <p>

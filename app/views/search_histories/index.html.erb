@@ -1,16 +1,18 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.search_history')) -%></h1>
 <div id="content_list">
-<%- if params[:mode] == 'not_found' -%>
-  <%= raw reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
-  <p>
-    <%= link_to t('search_history.all_history'), search_histories_path -%>
-  </p>
-<%- else -%>
-  <p>
-    <%= link_to t('search_history.failed_search'), search_histories_path(:mode => 'not_found') -%>
-  </p>
-<%- end -%>
+  <% if current_user.try(:has_role?, 'Librarian') %>
+    <%- if params[:mode] == 'not_found' -%>
+      <%= raw reverse_tag_cloud(SearchHistory.not_found_query(2, 6.month.ago)) -%>
+      <p>
+        <%= link_to t('search_history.all_history'), search_histories_path -%>
+      </p>
+    <%- else -%>
+      <p>
+        <%= link_to t('search_history.failed_search'), search_histories_path(:mode => 'not_found') -%>
+      </p>
+    <%- end -%>
+  <% end %>
 
 <table class="index">
   <tr>
@@ -20,6 +22,8 @@
       <th><%= t('activerecord.attributes.search_history.start_record') -%></th>
     <%- end -%>
     <th><%= t('search_history.searched_at') -%></th>
+    <th></th>
+    <th></th>
   </tr>
   
 <%- @search_histories.each_with_index do |search_history, i| -%>
@@ -30,10 +34,16 @@
       <td><%= search_history.start_record -%></td>
     <%- end -%>
     <td><%= l(search_history.created_at) -%></td>
-    <%- if can? :destroy, search_history -%>
-      <td><%= link_to t('page.show'), search_history -%></td>
-      <td><%= link_to t('page.destroy'), search_history, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, search_history -%>
+        <%= link_to t('page.show'), search_history -%>
+      <% end %>
+    </td>
+    <td>
+      <%- if can? :destroy, search_history -%>
+        <%= link_to t('page.destroy'), search_history, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

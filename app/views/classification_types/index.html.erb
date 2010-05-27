@@ -8,6 +8,7 @@
     <th><%= t('activerecord.attributes.classification_type.name') -%></th>
     <th><%= t('activerecord.attributes.classification_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.classification_type.note') -%></th>
+    <th></th>
   </tr>
 
 <%- @classification_types.each do |classification_type| -%>
@@ -20,10 +21,12 @@
     <td><%= link_to h(classification_type.name), classification_type -%></td>
     <td><%= link_to h(classification_type.display_name.localize), classification_type -%></td>
     <td><%= classification_type.note -%></td>
-    <%- if can? :destroy, classification_type -%>
-      <td><%= link_to t('page.edit'), edit_classification_type_path(classification_type) -%></td>
-      <td><%= link_to t('page.destroy'), classification_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, classification_type -%>
+        <%= link_to t('page.edit'), edit_classification_type_path(classification_type) -%>
+        <%= link_to t('page.destroy'), classification_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

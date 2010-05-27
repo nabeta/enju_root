@@ -6,14 +6,19 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.subscription.subscribes_count') -%></th>
+    <th></th>
   </tr>
 
 <%- @subscriptions.each do |subscription| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(subscription.title), subscription -%></td>
     <td><%= subscription.works.size -%></td>
-    <td><%= link_to t('page.edit'), edit_subscription_path(subscription) -%></td>
-    <td><%= link_to t('page.destroy'), subscription, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <% if can? :destroy, subscription %>
+        <%= link_to t('page.edit'), edit_subscription_path(subscription) -%>
+        <%= link_to t('page.destroy'), subscription, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <% end %>
+    </td>
   </tr>
 <%- end -%>
 </table>

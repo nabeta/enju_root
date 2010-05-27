@@ -4,11 +4,14 @@
 <div id="content_list">
 <table class="index">
   <tr>
-    <th><%= ('Id') -%></th>
+    <th style="width: 30px"><%= 'Id' -%></th>
     <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
     <th><%= t('activerecord.models.request_status_type') -%></th>
     <th><%= t('activerecord.attributes.reserve.expired_at') -%></th>
+    <%- if can? :update, @reserves.first -%>
+      <th style="width: 50px"></th>
+    <% end %>
   </tr>
   
 <%- @reserves.each_with_index do |reserve, i| -%>
@@ -16,18 +19,17 @@
     <td><%= link_to h(reserve.id), user_reserve_path(reserve.user.username, reserve) -%></td>
     <td><%= link_to h(reserve.user.username), user_path(reserve.user.username) -%></td>
     <td>
-      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => reserve.manifestation} -%>
+      <%= render :partial => 'title', :locals => {:reserve => reserve} -%>
     </td>
     <td><%= reserve.request_status_type.display_name.localize -%></td>
     <td><%= l(reserve.expired_at, :format => :only_date) -%></td>
     <%- if can? :destroy, reserve -%>
-      <td><%= link_to t('page.show'), user_reserve_path(reserve.user.username, reserve) -%></td>
-      <td><%= link_to t('page.edit'), edit_user_reserve_path(reserve.user.username, reserve) -%></td>
       <td>
+        <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_user_reserve_path(reserve.user.username, reserve) -%>
         <%- if reserve.user.reserves.waiting.include?(reserve) -%>
-          <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
+          <%= link_to image_tag('/icons/cancel.png', :size => '16x16', :alt => t('page.cancel')), user_reserve_path(reserve.user.username, reserve, :mode => 'cancel'), :confirm => t('page.are_you_sure'), :method => :put -%>
         <%- else -%>
-          <%= link_to t('page.destroy'), user_reserve_path(reserve.user.username, reserve), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to image_tag('/icons/delete.png', :size => '16x16', :alt => t('page.destroy')), user_reserve_path(reserve.user.username, reserve), :confirm => t('page.are_you_sure'), :method => :delete -%>
         <%- end -%>
       </td>
     <%- end -%>

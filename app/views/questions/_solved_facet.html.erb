@@ -4,12 +4,12 @@
     <li>
       <%- if facet.value -%>
         <%- if @solved == 'true' -%><strong><%- end -%>
-        <%= link_to i18n_boolean(facet.value), url_for(:params => params.merge(:page => nil, :solved => true, :view => nil)) -%>
+        <%= link_to localized_boolean(facet.value), url_for(:params => params.merge(:page => nil, :solved => true, :view => nil)) -%>
         (<%= facet.count -%>)
         <%- if @solved == 'true' -%></strong><%- end -%>
       <%- else -%>
         <%- if @solved == 'false' -%><strong><%- end -%>
-        <%= link_to i18n_boolean(facet.value), url_for(:params => params.merge(:page => nil, :solved => 'false', :view => nil)) -%>
+        <%= link_to localized_boolean(facet.value), url_for(:params => params.merge(:page => nil, :solved => 'false', :view => nil)) -%>
         (<%= facet.count -%>)
         <%- if @solved == 'false' -%></strong><%- end -%>
       <%- end -%>

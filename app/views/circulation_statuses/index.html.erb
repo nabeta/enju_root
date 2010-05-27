@@ -7,6 +7,8 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.circulation_status.name') -%></th>
     <th><%= t('activerecord.attributes.circulation_status.display_name') -%></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <%- @circulation_statuses.each do |circulation_status| -%>
@@ -18,10 +20,12 @@
     </td>
     <td><%= link_to h(circulation_status.name), circulation_status -%></td>
     <td><%= link_to h(circulation_status.display_name.localize), circulation_status -%></td>
-    <%- if can? :destroy, circulation_status -%>
-      <td><%= link_to t('page.edit'), edit_circulation_status_path(circulation_status) -%></td>
-      <td><%= link_to t('page.destroy'), circulation_status, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, circulation_status -%>
+        <%= link_to t('page.edit'), edit_circulation_status_path(circulation_status) -%>
+        <%= link_to t('page.destroy'), circulation_status, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

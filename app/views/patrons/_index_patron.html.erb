@@ -30,6 +30,7 @@
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <th></th>
+    <th></th>
   </tr>
   <%- @patrons.each do |patron| -%>
     <tr class="line<%= cycle("0", "1") -%>">
@@ -43,19 +44,21 @@
       <td><%= patron.patron_type.display_name.localize -%></td>
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
-      <%- if can? :destroy, patron -%>
-        <td>
+      <td>
+        <%- if can? :destroy, patron -%>
           <%= link_to t('page.edit'), edit_patron_path(patron) -%>
-        </td>
-        <td>
+        <% end %>
+      </td>
+      <td>
+        <%- if can? :destroy, patron -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_patron_patron_has_patron_path(@patron, :to_patron_id => patron.id) unless @patron.derived_patrons.include?(patron) or @patron == patron -%>
           <%- else -%>
             <%- patron_has_patron = @patron.to_patrons.find_by_to_patron_id(patron.id) -%>
             <%= link_to t('page.destroy'), patron_has_patron, :confirm => t('page.are_you_sure'), :method => :delete if patron_has_patron -%>
           <%- end -%>
-        </td>
-      <%- end -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

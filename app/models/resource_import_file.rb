@@ -62,7 +62,7 @@ class ResourceImportFile < ActiveRecord::Base
       begin
         if manifestation
           unless item = Item.first(:conditions => {:item_identifier => row['item_identifier'].to_s.strip})
-            create_item(row)
+            create_item(row, manifestation)
             Rails.logger.info("resource registration succeeded: column #{record}"); next
             num[:success] += 1
           else
@@ -204,7 +204,7 @@ class ResourceImportFile < ActiveRecord::Base
     subjects
   end
 
-  def create_item(row)
+  def create_item(row, manifestation)
     circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
     shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
     item = self.class.import_item(manifestation, {

@@ -12,6 +12,7 @@
     <th><%= t('activerecord.attributes.answer.body') -%></th>
     <th><%= t('page.created_at') -%></th>
     <th><%= t('page.updated_at') -%></th>
+    <th></th>
   </tr>
   
 <%- @answers.each_with_index do |answer, i| -%>
@@ -20,11 +21,12 @@
     <td><%= link_to truncate(h(answer.body), :length => 20), user_question_answer_path(answer.user.username, answer.question, answer) -%></td>
     <td><%= l(answer.created_at) -%></td>
     <td><%= l(answer.updated_at) -%></td>
-    <%- if can? :destroy, answer -%>
-      <td><%= link_to t('page.show'), user_question_answer_path(answer.user.username, answer.question, answer) -%></td>
-      <td><%= link_to t('page.edit'), edit_user_question_answer_path(answer.user.username, answer.question, answer) -%></td>
-      <td><%= link_to t('page.destroy'), user_question_answer_path(answer.user.username, answer.question, answer), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, answer -%>
+        <%= link_to t('page.edit'), edit_user_question_answer_path(answer.user.username, answer.question, answer) -%>
+        <%= link_to t('page.destroy'), user_question_answer_path(answer.user.username, answer.question, answer), :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

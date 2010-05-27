@@ -86,7 +86,7 @@ class CheckoutTypesController < ApplicationController
       @checkout_type = CheckoutType.find(params[:id])
     end
 
-    if @checkout_type and params[:position]
+    if params[:position]
       @checkout_type.insert_at(params[:position])
       redirect_to checkout_types_url
       return

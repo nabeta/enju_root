@@ -7,6 +7,8 @@
     <th><%= t('activerecord.models.patron') -%></th>
     <th><%= t('activerecord.models.manifestation') -%></th>
     <th><%= t('activerecord.models.item') -%></th>
+    <th></th>
+    <th></th>
   </tr>
 
 <%- @donates.each do |donate| -%>
@@ -18,11 +20,13 @@
     <td>
       <%= link_to h(donate.item.item_identifier), donate.item -%>
     </td>
-    <%- if can? :destroy, donate -%>
-      <td><%= link_to t('page.show'), donate -%></td>
-      <td><%= link_to t('page.edit'), edit_donate_path(donate) -%></td>
-      <td><%= link_to t('page.destroy'), donate, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td><%= link_to t('page.show'), donate -%></td>
+    <td>
+      <%- if can? :destroy, donate -%>
+        <%= link_to t('page.edit'), edit_donate_path(donate) -%>
+        <%= link_to t('page.destroy'), donate, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

@@ -40,13 +40,13 @@
 
   <%- if current_user.has_role?('Librarian') -%>
     <p>
-      <%= f.label t('activerecord.models.library') -%><br />
+      <%= f.label t('activerecord.models.library') -%>
       <%= f.select(:library_id, @libraries.collect{|l| [l.display_name.localize, l.id]}) -%>
     </p>
 
   <%- end -%>
   <p>
-    <%= f.label t('activerecord.attributes.user.locale') -%><br />
+    <%= f.label t('activerecord.attributes.user.locale') -%>
     <%= f.select(:locale, @available_languages.collect{|language| [language.display_name.localize, language.iso_639_1]}) -%>
   </p>
 

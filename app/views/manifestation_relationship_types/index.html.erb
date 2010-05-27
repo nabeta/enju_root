@@ -8,6 +8,7 @@
     <th><%= t('activerecord.attributes.manifestation_relationship_type.name') -%></th>
     <th><%= t('activerecord.attributes.manifestation_relationship_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.manifestation_relationship_type.note') -%></th>
+    <th></th>
   </tr>
 
 <%- @manifestation_relationship_types.each do |manifestation_relationship_type| -%>
@@ -20,8 +21,12 @@
     <td><%= link_to h(manifestation_relationship_type.name), manifestation_relationship_type -%></td>
     <td><%= link_to h(manifestation_relationship_type.display_name.localize), manifestation_relationship_type -%></td>
     <td><%= manifestation_relationship_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_manifestation_relationship_type_path(manifestation_relationship_type) -%></td>
-    <td><%= link_to t('page.destroy'), manifestation_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, manifestation_relationship_type -%>
+        <%= link_to t('page.edit'), edit_manifestation_relationship_type_path(manifestation_relationship_type) -%>
+        <%= link_to t('page.destroy'), manifestation_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <% end %>
+    </td>
   </tr>
 <%- end -%>
 </table>

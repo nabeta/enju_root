@@ -64,25 +64,31 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_resource_import_file
     sign_in users(:librarian1)
-    old_patrons_count = Patron.count
     old_manifestations_count = Manifestation.count
+    old_items_count = Item.count
+    old_patrons_count = Patron.count
     assert_difference('ResourceImportFile.count') do
       post :create, :resource_import_file => {:resource_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/resource_import_file_sample1.tsv") }
     end
     # 後でバッチで処理する
     assigns(:resource_import_file).import
-    assert_equal old_manifestations_count + 5, Manifestation.count
-    assert_equal old_patrons_count + 4, Patron.count
+    assert_equal old_manifestations_count + 6, Manifestation.count
+    assert_equal old_items_count + 6, Item.count
+    assert_equal old_patrons_count + 5, Patron.count
 
     assert_equal 'librarian1', assigns(:resource_import_file).user.username
     assert_redirected_to resource_import_file_path(assigns(:resource_import_file))
+    item = Item.find_by_item_identifier('11111')
+    assert_equal Shelf.find_by_name('first_shelf'), item.shelf
+    assert_equal 1000, item.manifestation.price
+    assert_equal 0, item.price
     #assert assigns(:resource_import_file).file_hash
   end
 
   def test_librarian_should_create_resource_import_file_only_isbn
     sign_in users(:librarian1)
-    old_patrons_count = Patron.count
     old_manifestations_count = Manifestation.count
+    old_patrons_count = Patron.count
     assert_difference('ResourceImportFile.count') do
       post :create, :resource_import_file => {:resource_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/isbn_sample.txt") }
     end

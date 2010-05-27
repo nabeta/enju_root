@@ -1,4 +1,5 @@
 class PurchaseRequestsController < ApplicationController
+  before_filter :store_location, :only => :index
   load_and_authorize_resource
   before_filter :get_user_if_nil
   before_filter :get_order_list
@@ -50,6 +51,7 @@ class PurchaseRequestsController < ApplicationController
       when 'ordered'
         with(:ordered).equal_to true
       end
+      order_by(:created_at, :desc)
     end
 
     page = params[:page] || 1
