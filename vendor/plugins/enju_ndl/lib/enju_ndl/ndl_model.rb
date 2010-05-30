@@ -34,7 +34,7 @@ module EnjuNdl
       nbn = doc.at('//dc:identifier[@xsi:type="dcndl:JPNO"]').content
 
       Patron.transaction do
-        publisher_patrons = self.import_patrons(publishers)
+        publisher_patrons = Patron.import_patrons(publishers)
         language_id = Language.first(:conditions => {:iso_639_2 => language}).id || 1
 
         manifestation = Manifestation.new(
@@ -200,7 +200,7 @@ module EnjuNdl
       subjects = self.class.get_subjects(doc)
 
       Patron.transaction do
-        author_patrons = self.class.import_patrons(authors)
+        author_patrons = Patron.import_patrons(authors)
         if title[:original].present?
           work = Work.new(:original_title => title[:original])
         else

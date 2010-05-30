@@ -20,11 +20,13 @@ class Tag < ActiveRecord::Base
   end
 
   def self.bookmarked(bookmark_ids, options = {})
+    count = Tag.count
+    count = Tag.per_page if count == 0
     unless bookmark_ids.empty?
       tags = Tag.search do
         with(:bookmark_ids).any_of bookmark_ids
         order_by :taggings_count, :desc
-        paginate(:page => 1, :per_page => Tag.count)
+        paginate(:page => 1, :per_page => count)
       end.results
     end
   end

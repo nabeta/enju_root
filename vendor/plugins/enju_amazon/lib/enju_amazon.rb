@@ -94,8 +94,7 @@ module EnjuAmazon
 
     private
     def access_amazon_proxy
-      url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
-      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){open(url).read}
+      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){self.access_amazon}
     end
     
   end

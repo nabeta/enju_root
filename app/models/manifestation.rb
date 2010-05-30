@@ -403,10 +403,6 @@ class Manifestation < ActiveRecord::Base
     NKF.nkf('--katakana', title_transcription) if title_transcription
   end
 
-  def subjects
-    works.collect(&:subjects).flatten
-  end
-  
   def classifications
     subjects.collect(&:classifications).flatten
   end
@@ -524,19 +520,6 @@ class Manifestation < ActiveRecord::Base
     #  end
     #end
     #return resource
-  end
-
-  def self.import_patrons(patron_lists)
-    patrons = []
-    patron_lists.each do |patron_list|
-      unless patron = Patron.first(:conditions => {:full_name => patron_list})
-        patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
-      end
-      patron.save
-      patrons << patron
-    end
-    return patrons
   end
 
   def set_serial_number

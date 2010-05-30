@@ -3,7 +3,7 @@
   <div id="user_search_form">
     <%= render :partial => 'search_form' -%>
     <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
-    <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
+    <h3><%= link_to t('page.new_resource'), manifestations_url(:mode => 'recent') -%></h3>
   </div>
 
   <h3 class="title"><%= t('page.news') -%></h3>

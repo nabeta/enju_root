@@ -1,10 +1,6 @@
 LIBRARY_WEB_HOSTNAME = 'localhost'
 LIBRARY_WEB_PORT_NUMBER = 3000
 
-# ブックマークする時にアクセスするホストとポート番号
-BOOKMARK_HOSTNAME = 'localhost'
-BOOKMARK_PORT_NUMBER = 3001
-
 COUNTRY_CODE = 'jp'
 
 # パトロンの名前を入力する際、姓を先に表示する

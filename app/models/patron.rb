@@ -210,4 +210,17 @@ class Patron < ActiveRecord::Base
     false
   end
 
+  def self.import_patrons(patron_lists)
+    patrons = []
+    patron_lists.each do |patron_list|
+      unless patron = Patron.first(:conditions => {:full_name => patron_list})
+        patron = Patron.new(:full_name => patron_list, :language_id => 1)
+        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
+      end
+      patron.save
+      patrons << patron
+    end
+    return patrons
+  end
+
 end

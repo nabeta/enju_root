@@ -79,7 +79,8 @@ class BookmarksController < ApplicationController
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
       if url
         @bookmark.url = url
-        if @manifestation = @bookmark.check_url
+        @manifestation = @bookmark.check_url
+        if @manifestation
           if @manifestation.bookmarked?(current_user)
             raise 'already_bookmarked'
           end
@@ -209,10 +210,8 @@ class BookmarksController < ApplicationController
       @bookmark = Bookmark.find(params[:id])
     end
     
-    if @bookmark.user == @user
-      @bookmark.destroy
-      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.bookmark'))
-    end
+    @bookmark.destroy
+    flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.bookmark'))
 
     if @user
       respond_to do |format|
