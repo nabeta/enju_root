@@ -39,7 +39,7 @@ class LibraryGroup < ActiveRecord::Base
     true if self == LibraryGroup.site_config
   end
 
-  def physical_libraries
+  def real_libraries
     # 物理的な図書館 = IDが1以外
     self.libraries.all(:conditions => ['id != 1'])
   end

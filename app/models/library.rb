@@ -2,7 +2,7 @@
 require 'mathn'
 class Library < ActiveRecord::Base
   default_scope :order => 'libraries.position'
-  named_scope :physicals, :conditions => ['id != 1']
+  named_scope :real, :conditions => ['id != 1']
   has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
   has_many :events, :include => :event_category
