@@ -223,4 +223,8 @@ class Patron < ActiveRecord::Base
     return patrons
   end
 
+  def patrons
+    self.original_patrons + self.derived_patrons
+  end
+
 end

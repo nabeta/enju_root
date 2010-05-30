@@ -21,6 +21,9 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.donated_items.each do |item|
         expire_editable_fragment(item)
       end
+      record.patrons.each do |patron|
+        expire_editable_fragment(patron)
+      end
     when record.is_a?(Work)
       expire_editable_fragment(record)
       record.expressions.each do |expression|
@@ -78,10 +81,13 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Subject)
       expire_editable_fragment(record)
-      record.manifestations.each do |manifestation|
-        expire_editable_fragment(manifestation)
+      record.works.each do |work|
+        expire_editable_fragment(work)
+        work.manifestations.each do |manifestation|
+          expire_editable_fragment(manifestation)
+        end
       end
-      record.manifestations.each do |classification|
+      record.classifications.each do |classification|
         expire_editable_fragment(classification)
       end
     when record.is_a?(Classification)
