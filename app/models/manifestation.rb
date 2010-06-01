@@ -233,6 +233,7 @@ class Manifestation < ActiveRecord::Base
   def after_create
     #set_digest if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
+    post_to_scribd!
   end
 
   def after_save
@@ -694,6 +695,12 @@ class Manifestation < ActiveRecord::Base
 
   def web_item
     items.first(:conditions => {:shelf_id => Shelf.web.id})
+  end
+
+  def post_to_scribd!
+    if self.respond_to?(:post_to_scribd) and self.post_to_scribd
+      send_later(:upload_to_scribd)
+    end
   end
 
 end

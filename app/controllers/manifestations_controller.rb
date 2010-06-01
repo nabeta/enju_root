@@ -416,11 +416,6 @@ class ManifestationsController < ApplicationController
           end
         end
 
-        # TODO: モデルへ移動
-        if @manifestation.respond_to?(:post_to_scribd)
-          @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
-        end
-
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
