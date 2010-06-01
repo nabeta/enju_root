@@ -11,12 +11,19 @@ shelf_00002:
   display_name: First shelf
   id: 2
   note:
-  library_id: 1
+  library_id: 2
   position: 2
 shelf_00003: 
   name: second_shelf
   display_name: Second shelf
   id: 3
   note:
-  library_id: 1
+  library_id: 2
   position: 3
+shelf_00004: 
+  name: third_shelf
+  display_name: Third shelf
+  id: 4
+  note:
+  library_id: 3
+  position: 4

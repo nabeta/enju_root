@@ -76,7 +76,7 @@ class Item < ActiveRecord::Base
     10
   end
 
-  attr_accessor :library_name, :library_url, :local_url
+  attr_accessor :library_id, :library_url, :local_url
   attr_accessor :new_manifestation_id
 
   #def after_create

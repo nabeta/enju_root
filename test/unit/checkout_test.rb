@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
 class CheckoutTest < ActiveSupport::TestCase
-  fixtures :checkouts, :items, :users
+  fixtures :checkouts, :items, :users, :libraries
 
   # Replace this with your real tests.
   def test_checkout_not_returned
@@ -20,4 +20,5 @@ class CheckoutTest < ActiveSupport::TestCase
   def test_send_overdue_notification
     assert_equal Checkout.send_overdue_notification, 0
   end
+
 end

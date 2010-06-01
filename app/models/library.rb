@@ -47,6 +47,15 @@ class Library < ActiveRecord::Base
     #set_geocode
   end
 
+  def before_validation_on_create
+    patron = Patron.create!(:full_name => self.name)
+    self.patron = patron
+  end
+
+  def after_create
+    Shelf.create!(:name => "#{self.name}_default", :library => self)
+  end
+
   def set_geocode
     self.latitude = self.geocode.latitude
     self.longitude = self.geocode.longitude

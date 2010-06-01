@@ -26,10 +26,12 @@
               </td>
               <%- if user_signed_in? -%>
                 <td>
-                  <%- if reserve = manifestation.is_reserved_by(current_user) -%>
-                    <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
-                  <%- else -%>
-                    <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) if manifestation.reservable? -%>
+                  <% if manifestation.reservable? %>
+                    <%- if reserve = manifestation.is_reserved_by(current_user) -%>
+                      <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
+                    <%- else -%>
+                      <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) -%>
+                    <%- end -%>
                   <%- end -%>
                 </td>
                 <%- if can? :destroy, manifestation -%>

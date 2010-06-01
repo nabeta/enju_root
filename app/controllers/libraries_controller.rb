@@ -94,8 +94,6 @@ class LibrariesController < ApplicationController
   def create
     #patron = Patron.create(:name => params[:library][:name], :patron_type => 'CorporateBody')
     @library = Library.new(params[:library])
-    @patron = Patron.create(:full_name => @library.name)
-    @library.patron = @patron
 
     respond_to do |format|
       if @library.save

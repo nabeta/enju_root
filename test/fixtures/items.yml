@@ -64,7 +64,7 @@ item_00009:
   item_identifier: '00009'
   circulation_status_id: 2
   checkout_type_id: 1
-  shelf_id: 2
+  shelf_id: 4
   call_number: 
   id: 9
   include_supplements: false
