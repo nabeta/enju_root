@@ -86,7 +86,7 @@ class CheckinsController < ApplicationController
             if checkout
               checkout.checkin = @checkin
               checkout.save(false)
-              if checkout.other_library_resource?(current_user.library)
+              unless checkout.item.shelf.library == current_user.library
                 flash[:message] << t('checkin.other_library_item')
               end
             end

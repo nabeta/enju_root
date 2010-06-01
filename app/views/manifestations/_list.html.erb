@@ -24,19 +24,23 @@
                 <%# グループ表示の部分テンプレート %>
                 <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
-              <td style="width: 50px">
-                <%- if user_signed_in? -%>
-                  <%- if reserve = manifestation.is_reserved_by(current_user) -%>
-                    <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
-                  <%- else -%>
-                    <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) if manifestation.reservable? -%>
+              <%- if user_signed_in? -%>
+                <td>
+                  <% if manifestation.reservable? %>
+                    <%- if reserve = manifestation.is_reserved_by(current_user) -%>
+                      <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
+                    <%- else -%>
+                      <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) -%>
+                    <%- end -%>
                   <%- end -%>
-                  <%- if can? :destroy, manifestation -%>
+                </td>
+                <%- if can? :destroy, manifestation -%>
+                  <td style="width: 50px">
                     <%= link_to image_tag('/icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>
                     <%= link_to image_tag('/icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), manifestation_manifestations_path(manifestation) -%>
-                  <%- end -%>
+                  </td>
                 <%- end -%>
-              </td>
+              <%- end -%>
             </tr>
           <%- end -%>
         </table>

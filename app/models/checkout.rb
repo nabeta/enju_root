@@ -72,11 +72,6 @@ class Checkout < ActiveRecord::Base
     end
   end
 
-  def other_library_resource?(library)
-    return true if library == self.item.shelf.library
-    false
-  end
-
   def self.manifestations_count(start_date, end_date, manifestation)
     self.completed(start_date, end_date).count(:all, :conditions => {:item_id => manifestation.items.collect(&:id)})
   end

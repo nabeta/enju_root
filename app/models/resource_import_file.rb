@@ -242,8 +242,8 @@ class ResourceImportFile < ActiveRecord::Base
       if manifestation.nil?
           authors = row['author'].to_s.split(';')
           publishers = row['publisher'].to_s.split(';')
-          author_patrons = Manifestation.import_patrons(authors)
-          publisher_patrons = Manifestation.import_patrons(publishers)
+          author_patrons = Patron.import_patrons(authors)
+          publisher_patrons = Patron.import_patrons(publishers)
           #classification = Classification.first(:conditions => {:category => row['classification'].to_s.strip)
           subjects = import_subject(row)
           series_statement = import_series_statement(row)

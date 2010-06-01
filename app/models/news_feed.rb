@@ -50,7 +50,7 @@ class NewsFeed < ActiveRecord::Base
     #end
     begin
       if clear_cache or body.blank?
-        feed = open(feed_url.rewrite_my_url) do |f|
+        feed = open(feed_url) do |f|
           f.read
         end
         if rss = RSS::Parser.parse(feed, false)

@@ -2,7 +2,7 @@
 require 'mathn'
 class Library < ActiveRecord::Base
   default_scope :order => 'libraries.position'
-  named_scope :physicals, :conditions => ['id != 1']
+  named_scope :real, :conditions => ['id != 1']
   has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
   has_many :events, :include => :event_category
@@ -45,6 +45,15 @@ class Library < ActiveRecord::Base
   def before_save
     set_calil_neighborhood_library
     #set_geocode
+  end
+
+  def before_validation_on_create
+    patron = Patron.create!(:full_name => self.name)
+    self.patron = patron
+  end
+
+  def after_create
+    Shelf.create!(:name => "#{self.name}_default", :library => self)
   end
 
   def set_geocode

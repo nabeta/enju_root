@@ -124,7 +124,7 @@ class ItemsController < ApplicationController
 
   # GET /items/new
   def new
-    if @shelves.blank?
+    if Shelf.real.blank?
       flash[:notice] = t('item.create_shelf_first')
       redirect_to libraries_url
       return
@@ -242,12 +242,12 @@ class ItemsController < ApplicationController
   private
   def prepare_options
     if Rails.env == 'production'
-      @libraries = Rails.cache.fetch('Library.all'){Library.all}
+      @libraries = Rails.cache.fetch('Library.real'){Library.real}
     else
-      @libraries = Library.all
+      @libraries = Library.real
     end
-    @library = Library.first(:order => :position, :include => :shelves) if @library.blank?
-    @shelves = Shelf.all
+    @library = Library.real.first(:order => :position, :include => :shelves) if @library.blank?
+    @shelves = @library.shelves
     @circulation_statuses = CirculationStatus.all
     @bookstores = Bookstore.all
     @use_restrictions = UseRestriction.all

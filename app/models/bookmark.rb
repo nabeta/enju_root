@@ -91,29 +91,38 @@ class Bookmark < ActiveRecord::Base
   end
 
   def get_title
-    Bookmark.get_title_from_url(url)
+    if url.my_host?
+      my_host_resource.original_title
+    else
+      Bookmark.get_title_from_url(url)
+    end
   end
 
   def self.get_title_from_url(url)
     return if url.blank?
-    # TODO: ホスト名の扱い
-    access_url = url.rewrite_my_url
-  
-    doc = Nokogiri::HTML(open(access_url).read)
-    # TODO: 日本語以外
-    #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
-    #if charsets.include?(page.charset.downcase)
-      title = NKF.nkf('-w', CGI.unescapeHTML((doc.at("title").inner_text))).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
-      if title.blank?
-        title = url
+    if url.my_host?
+      path = URI.parse(url).path.split('/')
+      if path[1] == 'manifestations' and Manifestation.find(path[2])
+        manifestation = Manifestation.find(path[2])
+        return manifestation.original_title
       end
-    #else
-    #  title = (doc/"title").inner_text
-    #end
-    title
+    else
+      doc = Nokogiri::HTML(open(url).read)
+      # TODO: 日本語以外
+      #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
+      #if charsets.include?(page.charset.downcase)
+        title = NKF.nkf('-w', CGI.unescapeHTML((doc.at("title").inner_text))).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
+        if title.blank?
+          title = url
+        end
+      #else
+      #  title = (doc/"title").inner_text
+      #end
+      title
+    end
   rescue OpenURI::HTTPError
     # TODO: 404などの場合の処理
-    raise "unable to access: #{access_url}"
+    raise "unable to access: #{url}"
   #  nil
   end
 
@@ -126,15 +135,21 @@ class Bookmark < ActiveRecord::Base
     nil
   end
 
-  def check_url
-    # 自館のページをブックマークする場合
+  def my_host_resource
     if url.my_host?
       path = URI.parse(url).path.split('/')
       if path[1] == 'manifestations' and Manifestation.find(path[2])
         manifestation = Manifestation.find(path[2])
-      else
-        raise 'only_manifestation_should_be_bookmarked'
       end
+    else
+      raise 'only_manifestation_should_be_bookmarked'
+    end
+  end
+
+  def check_url
+    # 自館のページをブックマークする場合
+    if url.my_host?
+      manifestation = self.my_host_resource
     else
       if LibraryGroup.site_config.allow_bookmark_external_url
         manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
@@ -149,7 +164,8 @@ class Bookmark < ActiveRecord::Base
   end
 
   def create_manifestation
-    unless manifestation = check_url
+    manifestation = check_url
+    unless manifestation
       manifestation = Manifestation.new(:access_address => url)
       manifestation.carrier_type = CarrierType.first(:conditions => {:name => 'file'})
     end
@@ -159,7 +175,7 @@ class Bookmark < ActiveRecord::Base
     # manifestation = check_urlを実行するのみ。nilの場合は上で処理するので処理不要。
 #    manifestation = check_url
     # OTC end
-   if manifestation.bookmarked?(user)
+    if manifestation.bookmarked?(user)
       raise 'already_bookmarked'
     end
     if self.title.present?
