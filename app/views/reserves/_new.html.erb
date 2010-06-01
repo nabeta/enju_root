@@ -17,7 +17,7 @@
 
   <p>
     <%= f.label t('activerecord.attributes.reserve.expired_at') -%><br />
-    <%= f.date_text_field :expired_at, :class => 'date_field', :blank => true -%>
+    <%= f.text_field :expired_at, :value => @reserve.expired_at.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
 
   <p>
@@ -38,7 +38,7 @@
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%></li>
     <%- if @reserve.manifestation -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), @reserve.manifestation -%></li>
+      <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @reserve.manifestation -%></li>
     <%- end -%>
   </ul>
 </div>

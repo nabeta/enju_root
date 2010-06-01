@@ -15,11 +15,11 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.subscribe.start_at') -%><br />
-    <%= f.date_text_field :start_at, :class => 'date_field', :blank => true -%>
+    <%= f.text_field :start_at, :value => @subscribe.start_at.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.subscribe.end_at') -%><br />
-    <%= f.date_text_field :end_at, :class => 'date_field', :blank => true -%>
+    <%= f.text_field :end_at, :value => @subscribe.end_at.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
   <p>
     <%= f.submit t('page.update') -%>

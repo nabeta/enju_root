@@ -6,12 +6,6 @@
   <%= f.error_messages -%>
 
   <p>
-    <%= f.label t('activerecord.models.user') -%><br />
-    <%= link_to h(@user.patron.full_name), @user.patron -%>
-    (<%= @user.username -%>)
-  </p>
-
-  <p>
     <%- if @item -%>
       <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
       (<%= link_to h(@item.item_identifier), @item -%>)
@@ -29,12 +23,18 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.reserve.expired_at') -%><br />
-    <%= f.date_text_field :expired_at, :class => 'date_field', :blank => true -%>
+    <%= f.label t('activerecord.models.user') -%>
+    <%= link_to h(@reserve.user.username), user_path(@reserve.user.username) -%>
+    (<%= @reserve.user.user_number %>)
   </p>
 
   <p>
-    <%= f.hidden_field :user_number, :class => 'resource_user_number', :value => @user.user_number -%>
+    <%= f.label t('activerecord.attributes.reserve.expired_at') -%><br />
+    <%= f.text_field :expired_at, :value => @reserve.expired_at.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
+  </p>
+
+  <p>
+    <%= f.hidden_field :user_number, :class => 'resource_user_number', :value => @reserve.user.user_number -%>
     <%= submit_tag t('page.create') -%>
   </p>
 <%- end -%>
@@ -44,9 +44,9 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @reserve.manifestation} -%>
   <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(@user.username) -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(@reserve.user.username) -%></li>
     <%- if @manifestation -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
+      <li><%= link_to t('page.showing', :model => t('activerecord.models.manifestation')), @manifestation -%></li>
     <%- end -%>
   </ul>
 </div>

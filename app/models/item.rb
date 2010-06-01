@@ -2,6 +2,7 @@
 class Item < ActiveRecord::Base
   include EnjuFragmentCache
 
+  named_scope :for_checkout, :conditions => ['item_identifier IS NOT NULL']
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
@@ -50,10 +51,10 @@ class Item < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_blank => true
   validates_format_of :item_identifier, :with=>/\A[0-9]+\Z/, :allow_blank => true
 
-  #acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
   has_paper_trail
+  normalize_attributes :item_identifier
 
   searchable do
     text :item_identifier, :note, :title, :creator, :contributor, :publisher, :library

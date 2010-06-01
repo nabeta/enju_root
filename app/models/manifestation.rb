@@ -181,6 +181,7 @@ class Manifestation < ActiveRecord::Base
   enju_calil_check
   #enju_worldcat
   has_paper_trail
+  normalize_attributes :manifestation_identifier, :date_of_publication
 
   def self.per_page
     10
@@ -568,8 +569,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def reservable?
-    return false if self.items.empty?
-    return false if self.items.not_for_checkout.present?
+    return false if self.items.for_checkout.empty?
     true
   end
 
