@@ -101,12 +101,13 @@ class Bookmark < ActiveRecord::Base
   def self.get_title_from_url(url)
     return if url.blank?
     if url.my_host?
-      path = URI.parse(url).path.split('/')
-      if path[1] == 'manifestations' and Manifestation.find(path[2])
-        manifestation = Manifestation.find(path[2])
+      path = URI.parse(url).path.split('/').reverse
+      if path[1] == 'manifestations' and Manifestation.find(path[0])
+        manifestation = Manifestation.find(path[0])
         return manifestation.original_title
       end
-    else
+    end
+    unless manifestation
       doc = Nokogiri::HTML(open(url).read)
       # TODO: 日本語以外
       #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']

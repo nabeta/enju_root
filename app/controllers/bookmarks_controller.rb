@@ -79,6 +79,9 @@ class BookmarksController < ApplicationController
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
       if url
         @bookmark.url = url
+        unless @bookmark.url.bookmarkable?
+          access_denied; return
+        end
         @manifestation = @bookmark.check_url
         if @manifestation
           if @manifestation.bookmarked?(current_user)
@@ -128,6 +131,11 @@ class BookmarksController < ApplicationController
   def create
     @bookmark = current_user.bookmarks.new(params[:bookmark])
     @bookmark.tag_list = params[:bookmark][:tag_list]
+    if @bookmark.url
+      unless @bookmark.url.try(:bookmarkable?)
+        access_denied; return
+      end
+    end
 
     respond_to do |format|
       begin
@@ -175,6 +183,9 @@ class BookmarksController < ApplicationController
       @bookmark = @user.bookmarks.find(params[:id])
     else
       @bookmark = Bookmark.find(params[:id])
+    end
+    unless @bookmark.url.try(:bookmarkable?)
+      access_denied; return
     end
     @bookmark.title = @bookmark.manifestation.try(:original_title)
     @bookmark.taggings.all(:conditions => {:tagger_id => @bookmark.user.id}).map{|t| t.destroy}
