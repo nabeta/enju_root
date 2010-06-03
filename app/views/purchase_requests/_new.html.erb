@@ -65,9 +65,12 @@
 <div id="submenu">
   <ul>
     <%- if @user -%>
-      <li><%= link_to t('page.back'), user_purchase_requests_path(@user.username) -%></li>
+      <% if params[:url].try(:bookmarkable?) %>
+        <li><%= link_to t('page.back'), :back %></li>
+      <% end %>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.purchase_request')), user_purchase_requests_path(@user.username) -%></li>
     <%- else -%>
-      <li><%= link_to t('page.back'), purchase_requests_path -%></li>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.purchase_request')), purchase_requests_path -%></li>
     <%- end -%>
   </ul>
 </div>

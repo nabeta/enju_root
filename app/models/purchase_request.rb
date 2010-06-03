@@ -22,6 +22,8 @@ class PurchaseRequest < ActiveRecord::Base
     index!
   end
 
+  normalize_attributes :url
+
   searchable do
     text :title, :author, :publisher, :url
     string :isbn

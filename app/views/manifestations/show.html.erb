@@ -111,9 +111,11 @@
                 <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.username, :manifestation_id => @manifestation.id) -%>
               <%- end -%>
             <%- end -%>
+            <br />
+            (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
+          <%- else -%>
+            <%= link_to t('activerecord.models.purchase_request'), new_user_purchase_request_path(current_user.username, :url => manifestation_url(@manifestation)) %>
           <%- end -%>
-          <br />
-          (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
         </li>
       <%- end -%>
       </ul>

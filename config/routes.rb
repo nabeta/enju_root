@@ -476,5 +476,5 @@ ActionController::Routing::Routes.draw do |map|
   map.connect ':controller/:action/:id'
   map.connect ':controller/:action/:id.:format'
 
-  map.connect '*path', :controller => 'application', :action => 'rescue_404' unless ::ActionController::Base.consider_all_requests_local
+  map.connect '*path', :controller => 'application', :action => 'render_404' unless ::ActionController::Base.consider_all_requests_local
 end

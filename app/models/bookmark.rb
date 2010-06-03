@@ -17,6 +17,7 @@ class Bookmark < ActiveRecord::Base
   attr_accessor :local_url
 
   acts_as_taggable_on :tags
+  normalize_attributes :url
 
   searchable do
     text :title do
