@@ -1,17 +1,3 @@
-LIBRARY_WEB_HOSTNAME = 'localhost'
-LIBRARY_WEB_PORT_NUMBER = 3000
-
-COUNTRY_CODE = 'jp'
-
-# パトロンの名前を入力する際、姓を先に表示する
-FAMILY_NAME_FIRST = true
-
-MAX_NUMBER_OF_RESULTS = 1000
-WRITE_SEARCH_LOG_TO_FILE = true
-CSV_CHARSET_CONVERSION = false
-
-WORLDCAT_API_KEY = 'REPLACE_WITH_YOUR_WORLDCAT_API_KEY'
-
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
@@ -93,6 +79,7 @@ Rails::Initializer.run do |config|
   config.gem "rack-openid", :lib => "rack/openid"
   config.gem "erubis"
   config.gem "inherited_resources", :version => "1.0.6"
+  config.gem "configatron"
   #config.gem "twitter"
   #config.gem "twitter-jruby", :lib => "twitter"
   #config.gem "acts_as_archive"

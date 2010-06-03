@@ -16,9 +16,9 @@
   <%- if @manifestations.total_entries > 0 -%>
     <p>
       <%= t('page.number_of_search_results', :count => @manifestations.total_entries, :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
-      <%- if @count[:query_result] > MAX_NUMBER_OF_RESULTS -%>
+      <%- if @count[:query_result] > configatron.max_number_of_results -%>
         <br />
-        <%= t('page.limit_exceeded', :count => MAX_NUMBER_OF_RESULTS) -%>
+        <%= t('page.limit_exceeded', :count => configatron.max_number_of_results) -%>
       <%- end -%>
     </p>
 

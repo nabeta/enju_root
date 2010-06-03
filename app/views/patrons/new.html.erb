@@ -12,7 +12,7 @@
 
   <p>
     <span id="name_person">
-      <%- if FAMILY_NAME_FIRST == true -%>
+      <%- if configatron.family_name_first == true -%>
         <%= render :partial => 'patrons/form_family_name_first', :locals => {:f => f} -%>
       <%- else -%>
         <%= render :partial => 'patrons/form_family_name_last', :locals => {:f => f} -%>

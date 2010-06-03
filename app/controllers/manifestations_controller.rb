@@ -124,7 +124,7 @@ class ManifestationsController < ApplicationController
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
-        paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+        paginate :page => 1, :per_page => configatron.max_number_of_results
       end
       @count[:query_result] = search.execute!.total
 
@@ -143,7 +143,7 @@ class ManifestationsController < ApplicationController
 
       unless session[:manifestation_ids]
         manifestation_ids = search.build do
-          paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+          paginate :page => 1, :per_page => configatron.max_number_of_results
         end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
         session[:manifestation_ids] = manifestation_ids
       end
@@ -173,7 +173,7 @@ class ManifestationsController < ApplicationController
       end
       search_result = search.execute!
       @manifestations = search_result.results
-      @manifestations.total_entries = MAX_NUMBER_OF_RESULTS if @count[:query_result] > MAX_NUMBER_OF_RESULTS
+      @manifestations.total_entries = configatron.max_number_of_results if @count[:query_result] > configatron.max_number_of_results
 
       @carrier_type_facet = search_result.facet(:carrier_type)
       @language_facet = search_result.facet(:language)
@@ -632,7 +632,7 @@ class ManifestationsController < ApplicationController
 
   def save_search_history(query, offset = 0, total = 0, user = nil)
     check_dsbl if LibraryGroup.site_config.use_dsbl
-    if WRITE_SEARCH_LOG_TO_FILE
+    if configatron.write_search_log_to_file
       write_search_log(query, total, user)
     else
       history = SearchHistory.create(:query => query, :user => user, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)
