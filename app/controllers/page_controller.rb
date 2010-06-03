@@ -1,16 +1,12 @@
 class PageController < ApplicationController
+  before_filter :redirect_user, :only => :index
   before_filter :clear_search_sessions, :only => [:index, :advanced_search]
   before_filter :store_location, :only => [:advanced_search, :about, :add_on, :msie_acceralator, :statistics]
   before_filter :authenticate_user!, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch, :statistics]
   before_filter :get_libraries, :only => [:advanced_search]
-  #before_filter :get_user # 上書き注意
   before_filter :check_librarian, :except => [:index, :advanced_search, :about, :message, :add_on, :msie_acceralator, :opensearch]
 
   def index
-    if user_signed_in?
-      redirect_to user_url(current_user.username)
-      return
-    end
     @numdocs = Manifestation.cached_numdocs
     # TODO: タグ下限の設定
     #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
@@ -95,14 +91,16 @@ class PageController < ApplicationController
   end
 
   private
-  def get_user
-    @user = current_user if user_signed_in?
-  end
-
   def check_librarian
     unless current_user.has_role?('Librarian')
       access_denied
     end
   end
-  
+ 
+  def redirect_user
+    if user_signed_in?
+      redirect_to user_url(current_user.username)
+      return
+    end
+  end
 end

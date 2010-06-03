@@ -33,7 +33,7 @@
 
   <p>
     <%= f.label t('activerecord.attributes.purchase_request.date_of_publication') -%><br />
-    <%= f.date_text_field :date_of_publication, :class => 'date_field', :blank => true -%>
+    <%= f.text_field :date_of_publication, :value => @purchase_request.date_of_publication.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
 
   <p>

@@ -1,11 +1,7 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <meta http-equiv="content-style-type" content="text/css" />
-  <meta http-equiv="content-script-type" content="text/javascript" />
+  <meta charset="UTF-8" />
   <%- case when @work -%>
     <%- if controller.action_name == 'new' -%>
       <title><%= t('activerecord.models.work') -%>: <%= title_action_name -%></title>

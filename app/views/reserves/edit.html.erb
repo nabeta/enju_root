@@ -5,24 +5,25 @@
 <%- form_for(@reserve, :url => user_reserve_path(@reserve.user.username, @reserve)) do |f| -%>
   <%= f.error_messages -%>
 
-  <p>
-    <%= f.label t('activerecord.models.patron') -%><br />
-    <%= link_to h(@reserve.user.patron.full_name), @reserve.user.patron -%> (<%= @reserve.user.username -%>)
-  </p>
+  <%- if @reserve.manifestation -%>
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @reserve.manifestation} -%>
+    <%= f.hidden_field :manifestation_id -%>
+  <%- else -%>
+    <p>
+      <%= f.label t('activerecord.models.manifestation') -%><br />
+      <%= f.text_field :manifestation_id -%>
+    </p>
+  <%- end -%>
 
   <p>
-  <%= f.label t('activerecord.models.manifestation') -%><br />
-    <%- if @reserve.manifestation -%>
-      <%= link_to h(@reserve.manifestation.original_title), @reserve.manifestation -%><br />
-      <%= f.hidden_field :manifestation_id -%>
-    <%- else -%>
-      <%= f.text_field :manifestation_id -%>
-    <%- end -%>
+    <%= f.label t('activerecord.models.user') -%>
+    <%= link_to h(@reserve.user.username), user_path(@reserve.user.username) -%>
+    (<%= @reserve.user.user_number %>)
   </p>
 
   <p>
     <%= f.label t('activerecord.attributes.reserve.expired_at') -%><br />
-    <%= f.date_text_field :expired_at, :class => 'date_field' -%>
+    <%= f.text_field :expired_at, :value => @reserve.expired_at.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
 
   <p>

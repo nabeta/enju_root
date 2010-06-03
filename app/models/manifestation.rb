@@ -181,6 +181,7 @@ class Manifestation < ActiveRecord::Base
   enju_calil_check
   #enju_worldcat
   has_paper_trail
+  normalize_attributes :manifestation_identifier, :date_of_publication
 
   def self.per_page
     10
@@ -233,6 +234,7 @@ class Manifestation < ActiveRecord::Base
   def after_create
     #set_digest if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
+    post_to_scribd!
   end
 
   def after_save
@@ -567,8 +569,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def reservable?
-    return false if self.items.empty?
-    return false if self.items.not_for_checkout.present?
+    return false if self.items.for_checkout.empty?
     true
   end
 
@@ -694,6 +695,12 @@ class Manifestation < ActiveRecord::Base
 
   def web_item
     items.first(:conditions => {:shelf_id => Shelf.web.id})
+  end
+
+  def post_to_scribd!
+    if self.respond_to?(:post_to_scribd) and self.post_to_scribd
+      send_later(:upload_to_scribd)
+    end
   end
 
 end

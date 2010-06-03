@@ -174,7 +174,8 @@ class BookmarksControllerTest < ActionController::TestCase
       post :create, :bookmark => {}, :user_id => users(:user1).username
     end
     
-    assert_equal 'Invalid URL.', flash[:notice]
+    assert_response :redirect
+    assert_redirected_to new_user_bookmark_url(users(:user1).username)
   end
 
   def test_user_should_not_create_bookmark_already_bookmarked

@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   load_and_authorize_resource
   before_filter :suspended?
   before_filter :get_patron, :only => :new
-  before_filter :store_location, :only => [:index, :show]
+  before_filter :store_location, :only => [:index]
   before_filter :clear_search_sessions, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :user_sweeper, :only => [:create, :update, :destroy]
