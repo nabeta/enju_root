@@ -25,6 +25,27 @@ class ApplicationController < ActionController::Base
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement
 
+  def render_403
+    if user_signed_in?
+      respond_to do |format|
+        format.html {render :template => 'page/403', :status => 403}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    else
+      respond_to do |format|
+        format.html {redirect_to new_user_session_url}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    end
+  end
+
+  def render_404
+    respond_to do |format|
+      format.html {render :template => 'page/404', :status => 404}
+      format.xml {render :template => 'page/404', :status => 404}
+    end
+  end
+
   private
   def get_library_group
     @library_group = LibraryGroup.site_config
@@ -360,27 +381,6 @@ class ApplicationController < ActionController::Base
 
   def api_request?
     true unless params[:format].nil? or params[:format] == 'html'
-  end
-
-  def render_403
-    if user_signed_in?
-      respond_to do |format|
-        format.html {render :template => 'page/403', :status => 403}
-        format.xml {render :template => 'page/403', :status => 403}
-      end
-    else
-      respond_to do |format|
-        format.html {redirect_to new_user_session_url}
-        format.xml {render :template => 'page/403', :status => 403}
-      end
-    end
-  end
-
-  def render_404
-    respond_to do |format|
-      format.html {render :template => 'page/404', :status => 404}
-      format.xml {render :template => 'page/404', :status => 404}
-    end
   end
 
 end
