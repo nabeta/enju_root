@@ -30,6 +30,14 @@ class MessageTest < ActiveSupport::TestCase
     assert_not_nil m.receiver.username
   end
   
+  def test_should_set_read_at
+    m = messages(:user2_to_user1_1)
+    m.aasm_read!
+    assert m.read_at
+    assert m.read?
+    assert_equal m.state, 'read'
+  end
+  
   protected
   def create_message(options = {})
     Message.create({ :recipient => users(:user1).username, :sender => users(:user2), :subject => 'new message', :body => 'new message body is really short' }.merge(options))

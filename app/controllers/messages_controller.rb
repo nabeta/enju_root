@@ -14,10 +14,23 @@ class MessagesController < ApplicationController
     query = params[:query].to_s.strip
     search = Sunspot.new_search(Message)
     user = current_user
+    case params[:mode]
+    when 'read'
+      is_read = true
+    when 'unread'
+      is_read = false
+    else
+      all_message = true
+    end
     search.build do
       fulltext query
       order_by :created_at, :desc
       with(:receiver_id).equal_to user.id
+      facet(:is_read)
+    end
+    @message_facets = search.execute!.facet('is_read').rows
+    search.build do
+      with(:is_read).equal_to is_read unless all_message
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Message.per_page)

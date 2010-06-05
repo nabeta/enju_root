@@ -18,7 +18,8 @@ class Message < ActiveRecord::Base
   aasm_initial_state :unread
 
   aasm_event :aasm_read do
-    transitions :from => [:read, :unread], :to => :read
+    transitions :from => [:read, :unread], :to => :read,
+      :on_transition => :read
   end
 
   aasm_event :aasm_unread do
@@ -41,6 +42,9 @@ class Message < ActiveRecord::Base
     integer :receiver_id
     integer :sender_id
     time :created_at
+    boolean :is_read do
+      self.read?
+    end
   end
 
   def after_save
@@ -63,21 +67,9 @@ class Message < ActiveRecord::Base
     end
   end
 
-  # Returns user.login for the sender
-  def sender_name
-    User.find(sender_id).username || ""
-  end
-  
-  # Returns user.login for the receiver
-  def receiver_name
-    User.find(receiver_id).username || ""
-  end
-  
-  def mark_message_read(user)
-    if user.id == self.receiver_id
-      #self.read_at = Time.zone.now
-      #self.save false
-    end
+  def read
+    self.read_at = Time.zone.now unless self.read_at
+    self.save(false)
   end
 
   def read?
