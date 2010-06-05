@@ -1248,6 +1248,7 @@ en:
     recipient: "Recipient"
     receiver: "Receiver"
     sender: "Sender"
+    read: "Read"
     unread: "Unread"
     deleted: "Deleted"
     send: "Send message"

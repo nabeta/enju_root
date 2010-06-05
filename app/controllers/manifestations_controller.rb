@@ -125,8 +125,11 @@ class ManifestationsController < ApplicationController
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
         paginate :page => 1, :per_page => configatron.max_number_of_results
+        facet(:reservable)
       end
-      @count[:query_result] = search.execute!.total
+      all_result = search.execute!
+      @count[:query_result] = all_result.total
+      @reservable_facet = all_result.facet(:reservable).rows
 
       search = make_internal_query(search)
 
@@ -175,10 +178,9 @@ class ManifestationsController < ApplicationController
       @manifestations = search_result.results
       @manifestations.total_entries = configatron.max_number_of_results if @count[:query_result] > configatron.max_number_of_results
 
-      @carrier_type_facet = search_result.facet(:carrier_type)
-      @language_facet = search_result.facet(:language)
-      @library_facet = search_result.facet(:library)
-      @reservable_facet = search_result.facet(:reservable)
+      @carrier_type_facet = search_result.facet(:carrier_type).rows
+      @language_facet = search_result.facet(:language).rows
+      @library_facet = search_result.facet(:library).rows
 
       @search_engines = SearchEngine.all
 

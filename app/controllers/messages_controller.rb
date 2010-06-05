@@ -20,7 +20,7 @@ class MessagesController < ApplicationController
     when 'unread'
       is_read = false
     else
-      all_message = true
+      is_read = nil
     end
     search.build do
       fulltext query
@@ -28,9 +28,9 @@ class MessagesController < ApplicationController
       with(:receiver_id).equal_to user.id
       facet(:is_read)
     end
-    @message_facets = search.execute!.facet('is_read').rows
+    @message_facet = search.execute!.facet('is_read').rows
     search.build do
-      with(:is_read).equal_to is_read unless all_message
+      with(:is_read).equal_to is_read unless is_read.nil?
     end
     page = params[:page] || 1
     search.query.paginate(page.to_i, Message.per_page)

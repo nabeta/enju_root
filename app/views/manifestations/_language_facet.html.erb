@@ -1,7 +1,7 @@
 <h4><%= t('activerecord.models.language') -%></h4>
 <ul>
   <%- languages = params[:language].to_s.split -%>
-  <%- @language_facet.rows.each do |facet| -%>
+  <%- @language_facet.each do |facet| -%>
     <%- current_languages = languages.dup -%>
     <%- language = Language.first(:conditions => {:name => facet.value}) -%>
     <%- if language -%>

@@ -43,11 +43,11 @@
 <div id="submenu">
   <ul>
     <% mode = params[:mode].to_s %>
-    <%- @message_facets.each do |facet| -%>
+    <%- @message_facet.each do |facet| -%>
       <li>
         <% facet.value ? facet_mode = 'read' : facet_mode = 'unread' %>
         <%- if facet_mode == mode -%><strong><%- end -%>
-        <%= link_to localized_boolean(facet.value), url_for(:params => params.merge(:page => nil, :mode => facet_mode)) -%>
+          <%= link_to t("message.#{facet_mode}"), url_for(:params => params.merge(:page => nil, :mode => facet_mode)) -%>
         (<%= facet.count -%>)
         <%- if facet_mode == mode -%></strong><%- end -%>
       </li>

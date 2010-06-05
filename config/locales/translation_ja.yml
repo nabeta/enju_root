@@ -1234,6 +1234,7 @@ ja:
     recipient: "宛て先"
     receiver: "受信者"
     sender: "送信者"
+    read: "既読"
     unread: "未読"
     deleted: "削除済み"
     send: "メッセージを送信する"
