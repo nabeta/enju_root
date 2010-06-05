@@ -349,13 +349,10 @@ ja:
         deleted_at: 削除時刻
         state: 状態
       message:
-        receiver_deleted: 受信機の削除
-        receiver_purged: 受信機の削除
-        sender_deleted: 送信者が削除
-        sender_purged: 送信者削除
-        read_at: 開封時刻
         subject: 件名
         body: 本文
+        sender: 差出人
+        receiver: 宛て先
       classification:
         category: カテゴリー
         name: 名前
@@ -1247,6 +1244,8 @@ ja:
     too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
     too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
     new_message_from_library: "{{library}} から新しいお知らせが届いています"
+    messages_were_deleted: "メッセージは削除されました。"
+    select_messages: "メッセージを選択してください。"
   tag:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"

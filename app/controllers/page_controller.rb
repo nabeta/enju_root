@@ -37,7 +37,7 @@ class PageController < ApplicationController
 
   def message
     if user_signed_in?
-      redirect_to inbox_user_messages_url(current_user.username)
+      redirect_to user_messages_url(current_user.username)
     else
       redirect_to new_user_session_url
     end

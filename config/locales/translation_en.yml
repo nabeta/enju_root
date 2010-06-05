@@ -1258,6 +1258,8 @@ en:
     too_short: "Message is too short. The minimum length is {{count}} characters."
     too_long: "Message is too long. The maximum length is {{count}} characters."
     new_message_from_library: "New message arrived from {{library}}"
+    messages_were_deleted: "Messages were deleted."
+    select_messages: "Select messages."
   tag:
     popular_tag: "Popular tags"
     my_tag: "My tags"

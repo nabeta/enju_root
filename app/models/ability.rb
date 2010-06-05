@@ -164,7 +164,14 @@ class Ability
       can :read, BookmarkStat
       can :read, NiiType
       can :read, WorkToExpressionRelType
-      can :manage, Message
+      can :index, Message
+      can :create, Message
+      can [:update], Message do |message|
+        message.sender == user
+      end
+      can [:show, :destroy], Message do |message|
+        message.receiver == user
+      end
       can :index, SearchHistory
       can [:show, :destroy], SearchHistory do |search_history|
         search_history.try(:user) == user

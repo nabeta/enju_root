@@ -273,11 +273,7 @@ ActionController::Routing::Routes.draw do |map|
     user.resources :search_histories
     user.resources :checkouts
     user.resources :messages,   
-      :collection => {:destroy_selected => :post,
-        :inbox            => :get,   
-        :outbox           => :get,   
-        :trashbin         => :get},   
-      :member => {:reply => :get}
+      :collection => {:destroy_selected => :post}
     user.resources :questions do |question|
       question.resources :answers
     end

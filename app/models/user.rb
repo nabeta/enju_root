@@ -66,8 +66,9 @@ class User < ActiveRecord::Base
   has_many :shelves, :through => :user_has_shelves
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   has_many :import_requests
+  has_many :sent_messages, :foreign_key => 'sender_id', :class_name => 'Message'
+  has_many :received_messages, :foreign_key => 'receiver_id', :class_name => 'Message'
 
-  restful_easy_messages
   #acts_as_soft_deletable
   has_friendly_id :username
   acts_as_tagger

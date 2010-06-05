@@ -10,7 +10,7 @@ defaults:
   session_servers: false
   fragments: false
   memory: 64
-  servers: enju.slis.keio.ac.jp:11211
+  servers: localhost:11211
   benchmarking: true
   raise_errors: true
   fast_hash: false
@@ -19,7 +19,7 @@ defaults:
 development:
   sessions: false
   fragments: false
-  servers: enju.slis.keio.ac.jp:11211
+  servers: localhost:11211
 
 # turn off caching
 test: 
@@ -29,7 +29,7 @@ production:
   memory: 256
   benchmarking: false
   servers:
-    - enju.slis.keio.ac.jp:11211
+    - localhost:11211
     #- 192.185.254.121:11211
     #- 192.185.254.138:11211
     #- 192.185.254.160:11211

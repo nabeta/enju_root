@@ -1,9 +1,9 @@
 atom_feed do |feed|
-  feed.title "#{@rezm_user.username}'s Inbox"
+  feed.title "#{@user.username}'s Inbox"
   feed.updated(@messages.first ? @messages.first.created_at : Time.zone.now)
   
   for message in @messages
-    feed.entry(message, :url => user_message_url(rezm_user.username, message)) do |entry|
+    feed.entry(message, :url => user_message_url(message.receiver.username, message)) do |entry|
      entry.title   message.subject
       entry.content message.body, :type => 'html'
       

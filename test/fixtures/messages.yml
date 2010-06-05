@@ -6,6 +6,7 @@ user1_to_user2_1:
   body: 'Abby, you get the first message'
   created_at: 2007-07-04 12:10:47.0 
   read_at: <%= 3.days.ago.to_s :db %>
+  state: unread
 user2_to_user1_1:
   id: 2
   sender_id: 4
@@ -13,6 +14,7 @@ user2_to_user1_1:
   subject: 'RE: First Message'
   body: 'Thanks Dad! You are the coolest!'
   created_at: <%= 2.days.ago.to_s :db %>
+  state: unread
 user1_to_catie_2:
   id: 3
   sender_id: 3
@@ -20,25 +22,7 @@ user1_to_catie_2:
   subject: 'Second Message'
   body: 'Catie, you get the 2nd message'
   created_at: <%= 1.days.ago.to_s :db %>
-user2_to_user1_Trash_1:
-  id: 4
-  sender_id: 4
-  receiver_id: 3
-  subject: 'Trash Message 1'
-  body: 'Trash Message 1'
-  created_at: <%= 1.days.ago.to_s :db %>
-  read_at: <%= 1.days.ago.to_s :db %>
-  receiver_deleted: true
-user2_to_user1_Trash_2:
-  id: 5
-  sender_id: 4
-  receiver_id: 3
-  subject: 'Trash Message 2'
-  body: 'Trash Message 2'
-  created_at: <%= 1.days.ago.to_s :db %>
-  read_at: <%= 1.days.ago.to_s :db %>
-  receiver_purged: true
-  sender_purged: true
+  state: unread
 user2_to_catie_1:
   id: 6
   sender_id: 4
@@ -46,3 +30,4 @@ user2_to_catie_1:
   subject: 'Dad!'
   body: 'He is sucha  dork.'
   created_at: <%= 2.days.ago.to_s :db %>
+  state: unread

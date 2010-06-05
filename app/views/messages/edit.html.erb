@@ -7,13 +7,13 @@
 
   <p>
     <%= f.label t('message.sender') -%><br />
-    <%= @message.sender.login -%>
+    <%= @message.sender.username -%>
     <%= f.hidden_field :sender_id -%>
   </p>
 
   <p>
     <%= f.label t('message.receiver') -%><br />
-    <%= f.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
+    <%= f.text_field :recipient, :class => 'resource_title', :value => @message.receiver.username -%>
   </p>
 
   <p>
@@ -27,6 +27,7 @@
   </p>
 
   <p>
+    <%= javascript_tag("$('#message_body').focus()") -%>
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
@@ -37,6 +38,6 @@
 <div id="submenu">
   <ul>
     <li><%= link_to t('page.show'), @message -%></li>
-    <li><%= link_to t('page.back'), messages_path -%></li>
+    <li><%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.username) -%></li>
   </ul>
 </div>

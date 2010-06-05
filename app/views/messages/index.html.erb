@@ -13,15 +13,21 @@
   <table class="index">
     <tr>
       <th></th>
-      <th><%= t('activerecord.models.subject') -%></th>
-      <th><%= rezm_sender_or_receiver_label -%></th>
+      <th><%= t('activerecord.attributes.message.subject') -%></th>
+      <th><%= t('activerecord.attributes.message.sender') -%></th>
       <th><%= t('message.sent_at') -%></th>
     </tr>
   <%- for message in @messages  -%>
     <tr class="line<%= cycle("0", "1") -%>">
-      <td><%= rezm_delete_check_box(message) -%></td>
-      <td><%= rezm_link_to_message(message) -%></td>
-      <td><%= rezm_sender_or_receiver(message) -%></td>
+      <td>
+        <input id="delete_<%=h message.id -%>" name="delete[]" type="checkbox" value="<%=h message.id %>" class="checkbox" />
+      </td>
+      <td>
+        <% unless message.read? %><strong><% end %>
+          <%= link_to h(message.subject), message -%>
+        <% unless message.read? %></strong><% end %>
+      </td>
+      <td><%= link_to h(message.sender.username), message.sender -%></td>
       <td><%= l(message.created_at) -%></td>  
     </tr>
   <%- end -%>
@@ -36,11 +42,6 @@
 
 <div id="submenu">
   <ul>
-    <li><%= rezm_link_to_inbox -%></li>
-    <%- if current_user.has_role?('Librarian') -%>
-      <li><%= rezm_link_to_create_message -%></li>
-      <li><%= rezm_link_to_outbox -%></li>
-    <%- end -%>
-    <li><%= rezm_link_to_trash_bin -%></li>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.message')), new_user_message_path(current_user.username) -%></li>
   </ul>
 </div>
