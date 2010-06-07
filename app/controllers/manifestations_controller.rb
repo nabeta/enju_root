@@ -286,8 +286,8 @@ class ManifestationsController < ApplicationController
 
     return if render_mode(params[:mode])
 
-    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
-    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if user_signed_in?
+    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation.id, :checked_out_at => nil})
+    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation.id}) if user_signed_in?
 
     if @manifestation.respond_to?(:worldcat_record)
       #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}

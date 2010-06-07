@@ -16,7 +16,8 @@
                 <%= content_type_icon(expression.content_type) -%>
               <%- end -%>
               <%= raw patrons_list(manifestation.creators, current_user) -%>
-              <%= raw patrons_list(manifestation.patrons, current_user) -%>
+              <%= raw patrons_list(manifestation.contributors, current_user) -%>
+              <%= raw patrons_list(manifestation.publishers, current_user) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%= manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>

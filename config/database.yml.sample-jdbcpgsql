@@ -7,9 +7,9 @@
 development:
   adapter: jdbcpostgresql
   encoding: unicode
-  database: catalog_development
+  database: enju_development
   pool: 5
-  username: catalog
+  username: enju
   password:
 
   # Connect on a TCP socket.  Omitted by default since the client uses a
@@ -36,9 +36,9 @@ development:
 test:
   adapter: jdbcpostgresql
   encoding: unicode
-  database: catalog_test
+  database: enju_test
   pool: 5
-  username: catalog
+  username: enju
   password:
   host: localhost
   port: 5432
@@ -46,9 +46,9 @@ test:
 production:
   adapter: jdbcpostgresql
   encoding: unicode
-  database: catalog_production
+  database: enju_production
   pool: 5
-  username: catalog
+  username: enju
   password:
   host: localhost
   port: 5432
