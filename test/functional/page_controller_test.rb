@@ -74,7 +74,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_get_configuration
-    get :confdiguration
+    get :configuration
     assert_response :redirect
     assert_redirected_to new_user_session_url(:unauthenticated => true)
   end

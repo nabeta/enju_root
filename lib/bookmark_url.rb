@@ -1,4 +1,4 @@
-module Hostname
+module BookmarkUrl
   def my_host?
     url = URI.parse(self)
     config_url = URI.parse(LibraryGroup.url)
@@ -21,5 +21,5 @@ module Hostname
 end
 
 class String
-  include Hostname
+  include BookmarkUrl
 end

@@ -697,10 +697,4 @@ class Manifestation < ActiveRecord::Base
     items.first(:conditions => {:shelf_id => Shelf.web.id})
   end
 
-  def post_to_scribd!
-    if self.respond_to?(:post_to_scribd) and self.post_to_scribd
-      send_later(:upload_to_scribd)
-    end
-  end
-
 end

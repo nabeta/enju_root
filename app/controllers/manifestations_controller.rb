@@ -359,7 +359,7 @@ class ManifestationsController < ApplicationController
       end
     end
     @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
-    @manifestation = @manifestation.set_serial_number
+    @manifestation = @manifestation.set_serial_number if params[:mode] == 'attachment'
 
     respond_to do |format|
       format.html # new.html.erb

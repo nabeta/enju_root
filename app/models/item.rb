@@ -26,7 +26,6 @@ class Item < ActiveRecord::Base
   #has_one :order
   has_many :item_has_use_restrictions, :dependent => :destroy
   has_many :use_restrictions, :through => :item_has_use_restrictions
-  has_many :reserves
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   has_many :inter_library_loans, :dependent => :destroy
