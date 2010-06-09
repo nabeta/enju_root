@@ -68,7 +68,7 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
     old_items_count = Item.count
     old_patrons_count = Patron.count
     assert_difference('ResourceImportFile.count') do
-      post :create, :resource_import_file => {:resource_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/resource_import_file_sample1.tsv") }
+      post :create, :resource_import_file => {:resource_import => fixture_file_upload("resource_import_file_sample1.tsv", 'text/csv') }
     end
     # 後でバッチで処理する
     assigns(:resource_import_file).import
@@ -90,7 +90,7 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
     old_manifestations_count = Manifestation.count
     old_patrons_count = Patron.count
     assert_difference('ResourceImportFile.count') do
-      post :create, :resource_import_file => {:resource_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/isbn_sample.txt") }
+      post :create, :resource_import_file => {:resource_import => fixture_file_upload("isbn_sample.txt", 'text/plain') }
     end
     # 後でバッチで処理する
     #assert_equal old_manifestations_count + 1, Manifestation.count

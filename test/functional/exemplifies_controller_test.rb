@@ -54,55 +54,57 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_exemplify
-    old_count = Exemplify.count
-    post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
-    assert_equal old_count, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_exemplify
-    old_count = Exemplify.count
-    post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
-    assert_equal old_count, Exemplify.count
+    sign_in users(:user1)
+    assert_no_difference('Exemplify.count') do
+      post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
+    end
     
-    assert_redirected_to new_user_session_url
+    assert_response :forbidden
   end
 
   def test_librarian_should_not_create_exemplify_without_manifestation_id
     sign_in users(:librarian1)
-    old_count = Exemplify.count
-    post :create, :exemplify => { :item_id => 1 }
-    assert_equal old_count, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      post :create, :exemplify => { :item_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_not_create_exemplify_without_item_id
     sign_in users(:librarian1)
-    old_count = Exemplify.count
-    post :create, :exemplify => { :manifestation_id => 1 }
-    assert_equal old_count, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      post :create, :exemplify => { :manifestation_id => 1 }
+    end
     
     assert_response :success
   end
 
   def test_librarian_should_not_create_exemplify_already_created
     sign_in users(:librarian1)
-    old_count = Exemplify.count
-    post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
-    assert_equal old_count, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      post :create, :exemplify => { :manifestation_id => 1, :item_id => 1 }
+    end
     
     assert_response :success
   end
 
-  def test_librarian_should_create_exemplify_not_created_yet
+  def test_librarian_should_not_create_exemplify_directly
     sign_in users(:librarian1)
-    old_count = Exemplify.count
-    post :create, :exemplify => { :manifestation_id => 1, :item_id => 20 }
-    assert_equal old_count+1, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      post :create, :exemplify => { :manifestation_id => 1, :item_id => 20 }
+    end
     
-    assert_redirected_to exemplify_url(assigns(:exemplify))
+    assert_response :success
+    #assert_redirected_to exemplify_url(assigns(:exemplify))
   end
 
   def test_guest_should_show_exemplify
@@ -176,36 +178,36 @@ class ExemplifiesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_destroy_exemplify
-    old_count = Exemplify.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_exemplify
     sign_in users(:user1)
-    old_count = Exemplify.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Exemplify.count
+    assert_no_difference('Exemplify.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_destroy_exemplify
     sign_in users(:librarian1)
-    old_count = Exemplify.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, Exemplify.count
+    assert_difference('Exemplify.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to exemplifies_url
   end
 
   def test_librarian_should_destroy_exemplify_with_manifestation_id
     sign_in users(:librarian1)
-    old_count = Exemplify.count
-    delete :destroy, :id => 1, :manifestation_id => 1
-    assert_equal old_count-1, Exemplify.count
+    assert_difference('Exemplify.count', -1) do
+      delete :destroy, :id => 1, :manifestation_id => 1
+    end
     
     assert_redirected_to manifestation_items_url(assigns(:manifestation))
   end

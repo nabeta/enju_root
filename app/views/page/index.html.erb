@@ -16,7 +16,7 @@
 <div id="right_pane">
   <h3 class="title"><%= t('manifestation.pickup') -%></h3>
   <div id="picked_up_box">
-    <%= render :partial => 'manifestations/pickup', :locals => {:picked_up => @picked_up} -%>
+    <%= render :partial => 'manifestations/pickup', :locals => {:picked_up => @manifestation} -%>
   </div>
 
   <h3 class="title"><%= t('tag.popular_tag') -%></h3>
