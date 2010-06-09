@@ -300,11 +300,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def checkout_period(user)
-    available_checkout_types(user).collect(&:checkout_period).max
-  end
+    available_checkout_types(user).collect(&:checkout_period).max || 0
+  end 
   
   def reservation_expired_period(user)
-    available_checkout_types(user).collect(&:reservation_expired_period).max
+    available_checkout_types(user).collect(&:reservation_expired_period).max || 0
   end
   
   def embodies?(expression)
