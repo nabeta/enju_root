@@ -63,6 +63,7 @@ class Ability
       can :read, SearchEngine
       can :read, Role
       can :manage, [ResourceImportFile, PatronImportFile, EventImportFile]
+      can :manage, ImportRequest
       can :read, PatronType
       can :read, MediumOfPerformance
       can :manage, Message

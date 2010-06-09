@@ -91,10 +91,6 @@ class Item < ActiveRecord::Base
   #  remove_from_union_catalog
   #end
 
-  def before_save
-    set_item_identifier
-  end
-
   def after_save
   #  unless self.item_identifier.blank?
   #    self.barcode = Barcode.create(:code_word => self.item_identifier) if self.barcode
@@ -236,15 +232,6 @@ class Item < ActiveRecord::Base
     end
   rescue
     nil
-  end
-
-  def set_item_identifier
-    if self.item_identifier
-      self.item_identifier.strip!
-      #send_later(:create_barcode)
-    else
-      self.item_identifier = nil
-    end
   end
 
   def create_barcode
