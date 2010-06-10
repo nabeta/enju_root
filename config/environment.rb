@@ -30,7 +30,6 @@ Rails::Initializer.run do |config|
   config.gem "will_paginate", :version => ">=2.3.14"
   #config.gem "jpmobile"
   config.gem "prawn"
-  config.gem "prawn-format", :lib => "prawn/format"
   config.gem "prawn-security", :lib => "prawn/security"
   config.gem "friendly_id", :version => ">=3.0.2"
   #config.gem "graticule"
