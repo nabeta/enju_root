@@ -10,6 +10,7 @@ class Bookmark < ActiveRecord::Base
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
+  validate :bookmarkable_url?
   
   def self.per_page
     10
@@ -139,12 +140,20 @@ class Bookmark < ActiveRecord::Base
 
   def my_host_resource
     if url.my_host?
-      path = URI.parse(url).path.split('/')
-      if path[1] == 'manifestations' and Manifestation.find(path[2])
-        manifestation = Manifestation.find(path[2])
+      path = URI.parse(url).path.split('/').reverse
+      if path[1] == 'manifestations' and Manifestation.find(path[0])
+        manifestation = Manifestation.find(path[0])
       end
     else
       raise 'only_manifestation_should_be_bookmarked'
+    end
+  end
+
+  def bookmarkable_url?
+    if url.my_host?
+      unless my_host_resource
+        errors[:base] << I18n.t('bookmark.not_our_holding')
+      end
     end
   end
 
