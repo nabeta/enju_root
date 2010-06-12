@@ -81,7 +81,7 @@ class ManifestationsController < ApplicationController
           query = @sru.cql.to_sunspot
           sort = @sru.sort_by
         else
-          render :template => 'manifestations/index.explain.xml', :layout => false
+          render :template => 'manifestations/explain', :layout => false
           return
         end
       when params[:api] == 'openurl' 
@@ -178,9 +178,11 @@ class ManifestationsController < ApplicationController
       @manifestations = search_result.results
       @manifestations.total_entries = configatron.max_number_of_results if @count[:query_result] > configatron.max_number_of_results
 
-      @carrier_type_facet = search_result.facet(:carrier_type).rows
-      @language_facet = search_result.facet(:language).rows
-      @library_facet = search_result.facet(:library).rows
+      if params[:format].blank? or params[:format] == 'html'
+        @carrier_type_facet = search_result.facet(:carrier_type).rows
+        @language_facet = search_result.facet(:language).rows
+        @library_facet = search_result.facet(:library).rows
+      end
 
       @search_engines = SearchEngine.all
 
