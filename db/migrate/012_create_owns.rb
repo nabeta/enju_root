@@ -1,8 +1,8 @@
 class CreateOwns < ActiveRecord::Migration
   def self.up
     create_table :owns do |t|
-      t.references :patron, :polymorphic => true
-      t.integer :item_id, :null => false
+      t.references :patron, :null => false
+      t.references :item, :null => false
       t.integer :position
       t.string :type
       t.timestamps
