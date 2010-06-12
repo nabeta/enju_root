@@ -65,7 +65,7 @@ end
 def record!(xml, rec, position)
   xml.recordSchema 'info:srw/schema/1/dc-v1.1'
   xml.recordPacking @packing
-  xml.recordData{|x| x << (/\Axm\Z/io =~ @packing ? get_record(rec) : CGI::escapeHTML(get_record(rec)))}
+  xml.recordData{|x| x << (/\Axml\Z/io =~ @packing ? get_record(rec) : CGI::escapeHTML(get_record(rec)))}
   xml.recordPosition position
 end
 
