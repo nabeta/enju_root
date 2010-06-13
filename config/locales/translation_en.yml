@@ -349,13 +349,11 @@ en:
         deleted_at: Deleted at
         state: State
       message:
-        receiver_deleted: Receiver deleted
-        receiver_purged: Receiver purged
-        sender_deleted: Sender deleted
-        sender_purged: Sender purged
         read_at: Read at
         subject: Subject
         body: Body
+        sender: Sender
+        receiver: Receiver
       classification:
         category: Category
         name: Name
