@@ -349,7 +349,10 @@ en:
         deleted_at: Deleted at
         state: State
       message:
+<<<<<<< HEAD
         read_at: Read at
+=======
+>>>>>>> 7d3a5648f4e64a7227fce499c37fab2aacc1a9c7
         subject: Subject
         body: Body
         sender: Sender
