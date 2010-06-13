@@ -1,6 +1,8 @@
+<div id="content_detail">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.checkin')) -%></h1>
+<div id="content_list">
 
-<%- form_for(@checkin) do |f| -%>
+<%= form_for(@checkin) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -13,5 +15,12 @@
   </p>
 <%- end -%>
 
-<%= link_to t('page.show'), checkin_path(@checkin) -%> |
-<%= link_to t('page.back'), checkins_path -%>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.show'), checkin_path(@checkin) -%></li>
+    <li><%= link_to t('page.back'), checkins_path -%></li>
+  </ul>
+</div>
