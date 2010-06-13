@@ -60,7 +60,7 @@
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
     <%- if can? :create, Item -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :manifestation_id => @manifestation.id -%></li>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.item')), new_manifestation_item_path(@manifestation) -%></li>
     <%- end -%>
   </ul>
 </div>
