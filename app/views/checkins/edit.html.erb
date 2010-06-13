@@ -2,11 +2,11 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.checkin')) -%></h1>
 <div id="content_list">
 
-<%= form_for(@checkin) do |f| -%>
+<%- form_for(@checkin) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
-  <%= f.label t('activerecord.models.item') -%><br />
+    <%= f.label t('activerecord.models.item') -%><br />
     <%= f.text_field :item_identifier -%>
   </p>
 

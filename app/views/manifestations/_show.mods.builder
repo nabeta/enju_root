@@ -56,7 +56,7 @@
       xml.frequency manifestation.frequency.name
     }
     xml.language{
-      xml.languageTerm manifestation.expressions.first.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code' if manifestation.expressions.first
+      xml.languageTerm manifestation.language.iso_639_2, 'authority' => 'iso639-2b', 'type' => 'code' if manifestation.language
     }
     xml.physicalDescription{
       xml.form manifestation.carrier_type.name, 'authority' => 'marcform'
