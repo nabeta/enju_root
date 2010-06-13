@@ -33,8 +33,8 @@ xml.rss('version' => "2.0",
         #xml.description(message.title)
         # rfc822
         xml.pubDate message.created_at.utc.iso8601
-        xml.link user_message_url(message.user.username, message)
-        xml.guid user_message_url(message.user.username, message), :isPermaLink => "true"
+        xml.link user_message_url(message.receiver.username, message)
+        xml.guid user_message_url(message.receiver.username, message), :isPermaLink => "true"
       end
     end
   }
