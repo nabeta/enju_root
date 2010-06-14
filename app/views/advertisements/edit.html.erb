@@ -19,11 +19,11 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.started_at') -%><br />
-    <%= f.datetime_text_field :started_at, :class => 'date_field' -%>
+    <%= f.text_field :started_at, :class => 'date_field', :value => @advertisement.started_at.try(:strftime, "%Y-%m-%d %H:%M:%S") -%>
   </p>
   <p>
-  <%= f.label t('activerecord.attributes.advertisement.ended_at') -%><br />
-    <%= f.datetime_text_field :ended_at, :class => 'date_field' -%>
+    <%= f.label t('activerecord.attributes.advertisement.ended_at') -%><br />
+    <%= f.text_field :ended_at, :class => 'date_field', :value => @advertisement.ended_at.try(:strftime, "%Y-%m-%d %H:%M:%S") -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.note') -%><br />

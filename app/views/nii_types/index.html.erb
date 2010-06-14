@@ -7,6 +7,7 @@
     <th id="position"></th>
     <th><%= t('activerecord.attributes.nii_type.name') -%></th>
     <th><%= t('activerecord.attributes.nii_type.note') -%></th>
+    <th></th>
   </tr>
 
 <%- @nii_types.each do |nii_type| -%>
@@ -22,13 +23,16 @@
       (<%= link_to h(nii_type.name), nii_type -%>)
     </td>
     <td><%= nii_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_nii_type_path(nii_type) -%></td>
-    <td><%= link_to t('page.destroy'), nii_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, nii_type -%>
+        <%= link_to t('page.edit'), edit_nii_type_path(nii_type) -%>
+        <%= link_to t('page.destroy'), nii_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <% end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>
 
-<%= will_paginate(@nii_types) -%>
 </div>
 </div>
 

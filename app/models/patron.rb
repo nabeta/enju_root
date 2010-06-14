@@ -77,7 +77,7 @@ class Patron < ActiveRecord::Base
 
   def set_full_name
     if self.full_name.blank?
-      if self.last_name.to_s.strip and self.first_name.to_s.strip and FAMILY_NAME_FIRST == true
+      if self.last_name.to_s.strip and self.first_name.to_s.strip and configatron.family_name_first == true
         self.full_name = [last_name, middle_name, first_name].split(", ").to_s.strip
       else
         self.full_name = [first_name, middle_name, middle_name].split(" ").to_s.strip
@@ -188,47 +188,6 @@ class Patron < ActiveRecord::Base
     false
   end
 
-  def self.is_creatable_by(user, parent = nil)
-    #true if user.has_role?('Librarian')
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_readable_by(user, parent = nil)
-    # TODO: role id を使わない制御
-    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
-  rescue NoMethodError
-    false
-  end
-
-  def is_updatable_by(user, parent = nil)
-    if user and user == self.user
-      return true
-    end
-    if self.user
-      if self.user.has_role?('Librarian')
-        return true if user.has_role?('Administrator')
-      elsif self.user.has_role?('User')
-        return true if user.has_role?('Librarian')
-      end
-    else
-      return true if user.has_role?('Librarian')
-    end
-  rescue NoMethodError
-    false
-  end
-
-  def is_deletable_by(user, parent = nil)
-    if user.try(:has_role?, 'Librarian')
-      true
-    else
-      false
-    end
-  end
-
   def created(work)
     creates.first(:conditions => {:work_id => work.id})
   end
@@ -243,6 +202,29 @@ class Patron < ActiveRecord::Base
 
   def owned(item)
     owns.first(:conditions => {:item_id => item.id})
+  end
+
+  def is_readable_by(user, parent = nil)
+    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
+  rescue NoMethodError
+    false
+  end
+
+  def self.import_patrons(patron_lists)
+    patrons = []
+    patron_lists.each do |patron_list|
+      unless patron = Patron.first(:conditions => {:full_name => patron_list})
+        patron = Patron.new(:full_name => patron_list, :language_id => 1)
+        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
+      end
+      patron.save
+      patrons << patron
+    end
+    return patrons
+  end
+
+  def patrons
+    self.original_patrons + self.derived_patrons
   end
 
 end

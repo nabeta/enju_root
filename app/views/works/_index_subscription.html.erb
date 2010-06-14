@@ -20,7 +20,7 @@
     <%= submit_tag t('page.search') -%>
     <%= link_to t('page.back_to_index'), subscription_works_path(@subscription) -%>
   </p>
-  <%= javascript_tag("$('query').focus()") -%>
+  <%= javascript_tag("$('#query').focus()") -%>
 <%- end -%>
 
 <table class="index">

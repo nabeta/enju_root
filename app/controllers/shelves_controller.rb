@@ -7,14 +7,20 @@ class ShelvesController < ApplicationController
   # GET /shelves
   # GET /shelves.xml
   def index
-    if @library
-      @shelves = @library.shelves.paginate(:page => params[:page], :include => :library, :order => ['shelves.position'])
-    else
-      @shelves = Shelf.paginate(:all, :page => params[:page], :include => :library, :order => ['shelves.position'])
-    end
-    if params[:select]
+    if params[:mode] == 'select'
+      if @library
+        @shelves = @library.shelves
+      else
+        @shelves = Shelf.all
+      end
       render :partial => 'select_form'
       return
+    else
+      if @library
+        @shelves = @library.shelves.paginate(:page => params[:page], :include => :library, :order => ['shelves.position'])
+      else
+        @shelves = Shelf.paginate(:all, :page => params[:page], :include => :library, :order => ['shelves.position'])
+      end
     end
 
     respond_to do |format|
@@ -77,7 +83,7 @@ class ShelvesController < ApplicationController
     @shelf = Shelf.find(params[:id])
     @shelf.library = @library if @library
 
-    if @shelf and params[:position]
+    if params[:position]
       @shelf.insert_at(params[:position])
       redirect_to library_shelves_url(@shelf.library.name)
       return

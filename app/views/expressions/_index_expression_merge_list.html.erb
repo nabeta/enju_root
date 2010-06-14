@@ -17,13 +17,14 @@
   <%= submit_tag t('page.search') -%>
   <%= link_to t('page.back_to_index'), expression_merge_list_expressions_path(@expression_merge_list) -%>
 </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
   <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
+    <th></th>
   </tr>
   
 <%- @expressions.each do |expression| -%>

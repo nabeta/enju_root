@@ -66,7 +66,7 @@ class PatronImportFilesControllerTest < ActionController::TestCase
     sign_in users(:librarian1)
     old_patrons_count = Patron.count
     assert_difference('PatronImportFile.count') do
-      post :create, :patron_import_file => {:patron_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/patron_import_file_sample1.tsv") }
+      post :create, :patron_import_file => {:patron_import => fixture_file_upload("patron_import_file_sample1.tsv", 'text/csv') }
     end
     assert_difference('Patron.count', 2) do
       assigns(:patron_import_file).import
@@ -78,11 +78,11 @@ class PatronImportFilesControllerTest < ActionController::TestCase
     #assert assigns(:patron_import_file).file_hash
   end
 
-  def test_librarian_should_create_patron_import_file
+  def test_librarian_should_import_user
     sign_in users(:librarian1)
     old_patrons_count = Patron.count
     assert_difference('PatronImportFile.count') do
-      post :create, :patron_import_file => {:patron_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/patron_import_file_sample2.tsv") }
+      post :create, :patron_import_file => {:patron_import => fixture_file_upload("patron_import_file_sample2.tsv", 'text/csv') }
     end
     assert_difference('User.count', 1) do
       assigns(:patron_import_file).import

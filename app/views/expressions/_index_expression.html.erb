@@ -19,13 +19,14 @@
     <%- end -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
+    <th></th>
   </tr>
   
   <%- @expressions.each do |expression| -%>
@@ -38,17 +39,21 @@
         <%= raw patrons_list(expression.patrons, current_user) -%>
       </td>
       <td><%= expression.language.display_name.localize -%></td>
-      <%- if can? :destroy, expression -%>
-        <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
-        <td>
+      <td>
+        <%- if can? :destroy, expression -%>
+          <%= link_to t('page.edit'), edit_expression_path(expression) -%>
+        <% end %>
+      </td>
+      <td>
+        <%- if can? :destroy, expression -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_expression_expression_has_expression_path(@expression, :to_expression_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
           <%- else -%>
             <%- expression_has_expression = @expression.to_expressions.find_by_to_expression_id(expression.id) -%>
             <%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete if expression_has_expression -%>
           <%- end -%>
-        </td>
-      <%- end -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

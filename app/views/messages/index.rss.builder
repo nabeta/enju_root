@@ -10,7 +10,7 @@ xml.rss('version' => "2.0",
       xml.title t('message.library_group_message', :library_group_name => @library_group.display_name.localize)
       xml.link messages_url(:format => :rss)
     end
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
     if @user
@@ -33,8 +33,8 @@ xml.rss('version' => "2.0",
         #xml.description(message.title)
         # rfc822
         xml.pubDate message.created_at.utc.iso8601
-        xml.link user_message_url(message.user.username, message)
-        xml.guid user_message_url(message.user.username, message), :isPermaLink => "true"
+        xml.link user_message_url(message.receiver.username, message)
+        xml.guid user_message_url(message.receiver.username, message), :isPermaLink => "true"
       end
     end
   }

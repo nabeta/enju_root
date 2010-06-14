@@ -19,8 +19,10 @@ class PurchaseRequest < ActiveRecord::Base
   end
 
   def after_destroy
-    after_save
+    index!
   end
+
+  normalize_attributes :url
 
   searchable do
     text :title, :author, :publisher, :url
@@ -32,6 +34,7 @@ class PurchaseRequest < ActiveRecord::Base
       order_list.id if order_list
     end
     time :pubdate
+    time :created_at
     time :accepted_at
     time :denied_at
     boolean :ordered do
@@ -48,9 +51,4 @@ class PurchaseRequest < ActiveRecord::Base
     self.date_of_publication
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    true if user.has_role?('User')
-  rescue
-    false
-  end
 end

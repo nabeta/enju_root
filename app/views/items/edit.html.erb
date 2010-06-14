@@ -11,17 +11,9 @@
 
   <p>
     <%= f.label t('activerecord.models.library') -%> / <%= t('activerecord.models.shelf') -%><br />
-    <select id="library_id" name="library_id">
-      <%- @libraries.each do |library| -%>
-        <%- if library.shelves.first -%>
-          <option value="<%= library.name -%>"<%= " selected='selected'" if @item.shelf.library == library -%>><%= library.display_name.localize -%></option>
-        <%- end -%>
-      <%- end -%>
-    </select>
-    <span id="item1">
-      <%= f.select(:shelf_id, @item.shelf.library.shelves.collect{|s| [s.display_name.localize, s.id]}) -%>
-    </span>
-    <%= observe_field("library_id", :update => "item1", :url => {:controller => 'shelves', :action => 'index', :item_id => @item, :select => true}, :method => :get, :with => "'library_id='+value") -%>
+    <%= f.select :library_id, @libraries.map{|l| [l.display_name.localize, l.id]} %>
+    <%= f.select :shelf_id, @shelves.map{|s| [s.display_name.localize, s.id]} %>
+    <%= render :partial => 'observe_field' %>
   </p>
 
   <p>
@@ -77,7 +69,7 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
-  <%= javascript_tag("$('library_id').focus()") -%>
+  <%= javascript_tag("$('#library_id').focus()") -%>
 <%- end -%>
 </div>
 </div>

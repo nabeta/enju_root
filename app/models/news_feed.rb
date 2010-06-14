@@ -24,7 +24,6 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def expire_cache
-    Rails.cache.delete("news_feed_#{id}_content")
     Rails.cache.delete('NewsFeed.all')
   end
 
@@ -37,8 +36,7 @@ class NewsFeed < ActiveRecord::Base
     logger.info "#{Time.zone.now} reloading feed failed! : #{url}"
   end
 
-  def fetch_content
-    begin
+  def content(clear_cache = false)
     #page_url = URI.parse(url.rewrite_my_url)
     #if page_url.port == 80
     #  if Feedbag.feed?(url)
@@ -50,12 +48,15 @@ class NewsFeed < ActiveRecord::Base
       # auto-discovery 非対応
       feed_url = url
     #end
-    #if self.body.blank?
-      feed = open(feed_url.rewrite_my_url).read
-      #if rss = RSS::Parser.parse(feed, false)
-      #  self.update_attributes({:body => feed})
-      #end
-    #enda
+    begin
+      if clear_cache or body.blank?
+        feed = open(feed_url) do |f|
+          f.read
+        end
+        if rss = RSS::Parser.parse(feed, false)
+          self.update_attributes({:body => feed})
+        end
+      end
     rescue StandardError, Timeout::Error
       nil
     end
@@ -65,23 +66,18 @@ class NewsFeed < ActiveRecord::Base
     # => ""
     #if rss.nil?
       begin
-        rss = RSS::Parser.parse(feed)
+        rss = RSS::Parser.parse(body)
       rescue RSS::InvalidRSSError
-        rss = RSS::Parser.parse(feed, false)
+        rss = RSS::Parser.parse(body, false)
       rescue #RSS::NotWellFormedError
         nil
       end
     #end
-    #return rss
-  end
-
-  def content
-    Rails.cache.fetch("news_feed_#{id}_content"){fetch_content}
   end
 
   def force_reload
     expire_cache
-    content
+    content(true)
   end
 
   def self.fetch_feeds

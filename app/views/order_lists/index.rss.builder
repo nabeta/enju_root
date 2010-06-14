@@ -5,7 +5,7 @@ xml.rss('version' => "2.0",
   xml.channel{
     xml.title t('order_list.library_group_order_list', :library_group_name => @library_group.display_name.localize)
     xml.link order_lists_url
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => order_lists_url(:format => "rss")

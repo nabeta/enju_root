@@ -1,8 +1,8 @@
-= Project Next-L Enju
+= Next-L Enju
 
-Project Next-L Enju は、{Project Next-L}[http://www.next-l.jp] で開発している図書館管理システムです。
+Next-L Enju は、{Project Next-L}[http://www.next-l.jp] で開発している図書館管理システムです。
 
-Project Next-L Enju is an integrated library system developed by {Project Next-L}[http://www.next-l.jp].
+Next-L Enju is an integrated library system developed by {Project Next-L}[http://www.next-l.jp].
 
 == Project Next-L とは (What is Project Next-L?)
 {Project Next-L}[http://www.next-l.jp] とは、日本の図書館関係者有志の手で新しい図書館管理システムを作り上げるプロジェクトです。

@@ -8,7 +8,7 @@
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%= submit_tag t('page.search') -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
   -->
 
@@ -33,7 +33,7 @@
     <td><%= link_to h(resource.iss_token), resource %></td>
     <td><%= link_to h(resource.manifestation.try(:original_title)), resource.manifestation %></td>
     <td><%=h resource.work_token %></td>
-    <td><%=h i18n_state(resource.state) %></td>
+    <td><%=h localized_state(resource.state) %></td>
     <%- if current_user.try(:has_role?, 'Administrator') -%>
       <td><%= link_to t('page.edit'), edit_resource_path(resource) %></td>
       <td><%= link_to t('page.destroy'), resource, :confirm => t('page.are_you_sure'), :method => :delete %></td>

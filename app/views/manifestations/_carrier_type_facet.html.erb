@@ -1,6 +1,6 @@
 <h4><%= t('activerecord.models.carrier_type') -%></h4>
 <ul>
-  <%- @carrier_type_facet.rows.each do |facet| -%>
+  <%- @carrier_type_facet.each do |facet| -%>
     <li>
       <%- carrier_type = CarrierType.first(:conditions => {:name => facet.value}) -%>
       <%= form_icon(carrier_type) -%>

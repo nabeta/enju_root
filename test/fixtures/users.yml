@@ -17,7 +17,7 @@ librarian2:
   note: 
   due_date_reminder_days: 1
   username: librarian2
-  library_id: 1
+  library_id: 2
   answers_count: 0
   active: true
   email: librarian2@library.example.jp

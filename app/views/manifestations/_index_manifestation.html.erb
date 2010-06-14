@@ -33,7 +33,7 @@
       -->
       <%= link_to t('page.back_to_index'), manifestation_manifestations_path(@manifestation) -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
@@ -48,17 +48,21 @@
         <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
         <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
       </td>
-      <%- if can? :destroy, manifestation -%>
-        <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>
-        <td>
+      <td>
+        <%- if can? :destroy, manifestation -%>
+          <%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%>
+        <% end %>
+      </td>
+      <td>
+        <%- if can? :destroy, manifestation -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_manifestation_manifestation_has_manifestation_path(@manifestation, :to_manifestation_id => manifestation.id) unless @manifestation.derived_manifestations.include?(manifestation) or @manifestation == manifestation -%>
           <%- else -%>
             <%- manifestation_has_manifestation = @manifestation.to_manifestations.find_by_to_manifestation_id(manifestation.id) -%>
             <%= link_to t('page.destroy'), manifestation_has_manifestation, :confirm => t('page.are_you_sure'), :method => :delete if manifestation_has_manifestation -%>
           <%- end -%>
-        </td>
-      <%- end -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

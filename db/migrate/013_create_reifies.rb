@@ -1,8 +1,8 @@
 class CreateReifies < ActiveRecord::Migration
   def self.up
     create_table :reifies do |t|
-      t.integer :work_id, :null => false
-      t.integer :expression_id, :null => false
+      t.references :work, :null => false
+      t.references :expression, :null => false
       t.integer :position
       t.string :type
       t.timestamps

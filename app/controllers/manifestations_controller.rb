@@ -81,7 +81,7 @@ class ManifestationsController < ApplicationController
           query = @sru.cql.to_sunspot
           sort = @sru.sort_by
         else
-          render :template => 'manifestations/index.explain.xml', :layout => false
+          render :template => 'manifestations/explain', :layout => false
           return
         end
       when params[:api] == 'openurl' 
@@ -109,6 +109,9 @@ class ManifestationsController < ApplicationController
       else
         reservable = nil
       end
+      manifestation = @manifestation if @manifestation
+      expression = @expression if @expression
+      patron = @patron if @patron
       search.build do
         fulltext query unless query.blank?
         order_by sort[:sort_by], sort[:order] unless oai_search
@@ -118,9 +121,15 @@ class ManifestationsController < ApplicationController
         with(:reservable).equal_to reservable unless reservable.nil?
         with(:updated_at).greater_than from_time if from_time
         with(:updated_at).less_than until_time if until_time
-        paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+        with(:original_manifestation_ids).equal_to manifestation.id if manifestation
+        with(:expression_ids).equal_to expression.id if expression
+        with(:patron_ids).equal_to patron.id if patron
+        paginate :page => 1, :per_page => configatron.max_number_of_results
+        facet(:reservable)
       end
-      @count[:query_result] = search.execute!.total
+      all_result = search.execute!
+      @count[:query_result] = all_result.total
+      @reservable_facet = all_result.facet(:reservable).rows
 
       search = make_internal_query(search)
 
@@ -137,7 +146,7 @@ class ManifestationsController < ApplicationController
 
       unless session[:manifestation_ids]
         manifestation_ids = search.build do
-          paginate :page => 1, :per_page => MAX_NUMBER_OF_RESULTS
+          paginate :page => 1, :per_page => configatron.max_number_of_results
         end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
         session[:manifestation_ids] = manifestation_ids
       end
@@ -167,12 +176,13 @@ class ManifestationsController < ApplicationController
       end
       search_result = search.execute!
       @manifestations = search_result.results
-      @manifestations.total_entries = MAX_NUMBER_OF_RESULTS if @count[:query_result] > MAX_NUMBER_OF_RESULTS
+      @manifestations.total_entries = configatron.max_number_of_results if @count[:query_result] > configatron.max_number_of_results
 
-      @carrier_type_facet = search_result.facet(:carrier_type)
-      @language_facet = search_result.facet(:language)
-      @library_facet = search_result.facet(:library)
-      @reservable_facet = search_result.facet(:reservable)
+      if params[:format].blank? or params[:format] == 'html'
+        @carrier_type_facet = search_result.facet(:carrier_type).rows
+        @language_facet = search_result.facet(:language).rows
+        @library_facet = search_result.facet(:library).rows
+      end
 
       @search_engines = SearchEngine.all
 
@@ -219,16 +229,12 @@ class ManifestationsController < ApplicationController
       }
       format.mods
       format.json { render :json => @manifestations }
-      format.js {
-        render :update do |page|
-          page.replace_html 'worldcat_list', :partial => 'worldcat' if params[:worldcat_page]
-        end
-      }
+      format.js
       format.pdf {
         prawnto :prawn => {
           :page_layout => :landscape,
           :page_size => "A4"},
-        :inline => true
+          :inline => true
       }
     end
   #rescue RSolr::RequestError
@@ -241,8 +247,9 @@ class ManifestationsController < ApplicationController
   #    return
   #  end
   #  return
-  rescue QueryError
+  rescue QueryError => e
     render :template => 'manifestations/error.xml', :layout => false
+    Rails.logger.info "#{Time.zone.now}\t#{query}\t\t#{current_user.try(:username)}\t#{e}"
     return
   end
 
@@ -281,8 +288,8 @@ class ManifestationsController < ApplicationController
 
     return if render_mode(params[:mode])
 
-    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation, :checked_out_at => nil})
-    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation}) if user_signed_in?
+    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation.id, :checked_out_at => nil})
+    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation.id}) if user_signed_in?
 
     if @manifestation.respond_to?(:worldcat_record)
       #@worldcat_record = Rails.cache.fetch("worldcat_record_#{@manifestation.id}"){@manifestation.worldcat_record}
@@ -321,10 +328,12 @@ class ManifestationsController < ApplicationController
       format.json { render :json => @manifestation }
       #format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
-      format.js {
-        render :update do |page|
-          page.replace_html 'xisbn_list', :partial => 'show_xisbn' if params[:xisbn_page]
-        end
+      format.js
+      format.pdf {
+        prawnto :prawn => {
+          :page_layout => :portrait,
+          :page_size => "A4"},
+          :inline => true
       }
     end
   end
@@ -352,7 +361,7 @@ class ManifestationsController < ApplicationController
       end
     end
     @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
-    @manifestation = @manifestation.set_serial_number
+    @manifestation = @manifestation.set_serial_number if params[:mode] == 'attachment'
 
     respond_to do |format|
       format.html # new.html.erb
@@ -381,9 +390,6 @@ class ManifestationsController < ApplicationController
   # POST /manifestations.xml
   def create
     @manifestation = Manifestation.new(params[:manifestation])
-    if @manifestation.respond_to?(:post_to_twitter)
-      @manifestation.post_to_twitter = true if params[:manifestation][:post_to_twitter] == "1"
-    end
     if @manifestation.respond_to?(:post_to_scribd)
       @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
     end
@@ -414,14 +420,6 @@ class ManifestationsController < ApplicationController
           end
         end
 
-        # TODO: モデルへ移動
-        if @manifestation.respond_to?(:post_to_twitter)
-          @manifestation.send_later(:send_to_twitter) if @manifestation.post_to_twitter
-        end
-        if @manifestation.respond_to?(:post_to_scribd)
-          @manifestation.send_later(:upload_to_scribd) if @manifestation.post_to_scribd
-        end
-
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.manifestation'))
         #if params[:mode] == 'import_isbn'
         #  format.html { redirect_to edit_manifestation_url(@manifestation) }
@@ -445,14 +443,11 @@ class ManifestationsController < ApplicationController
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
-        @manifestation.send_later(:send_to_twitter, @manifestation.twitter_comment.to_s.truncate(60)) if @manifestation.twitter_comment
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.manifestation'))
         format.html { redirect_to @manifestation }
         format.xml  { head :ok }
         format.json { render :json => @manifestation }
-        format.js {
-          page.replace_html 'tag_list', :partial => 'manifestations/tag_list'
-        }
+        format.js
       else
         prepare_options
         format.html { render :action => "edit" }
@@ -616,6 +611,8 @@ class ManifestationsController < ApplicationController
         mime = FileWrapper.get_mime(@manifestation.screen_shot.path)
         send_file @manifestation.screen_shot.path, :type => mime, :disposition => 'inline'
       end
+    when 'calil_list'
+      render :partial => 'manifestations/calil_list'
     else
       false
     end
@@ -639,7 +636,7 @@ class ManifestationsController < ApplicationController
 
   def save_search_history(query, offset = 0, total = 0, user = nil)
     check_dsbl if LibraryGroup.site_config.use_dsbl
-    if WRITE_SEARCH_LOG_TO_FILE
+    if configatron.write_search_log_to_file
       write_search_log(query, total, user)
     else
       history = SearchHistory.create(:query => query, :user => user, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)

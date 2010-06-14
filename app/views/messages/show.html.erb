@@ -6,11 +6,11 @@
   <fieldset>
 	    <p>
         <label for="message_receiver_name" ><strong><%= t('message.receiver') -%>:</strong></label>
-        <%= rezm_to_user_link(@message) -%>
+        <%= link_to h(@message.receiver.username), @message.receiver -%>
       </p>
       <p>
         <label for="message_sender_name" ><strong><%= t('message.sender') -%>:</strong></label>
-        <%= rezm_from_user_link(@message) -%>
+        <%= link_to h(@message.sender.username), @message.sender -%>
       </p>
     
       <p>
@@ -30,18 +30,17 @@
 
   </fieldset>
   
-  <%= raw rezm_button_to_reply(@message) -%>
-  <%= raw rezm_button_to_delete(@message) -%>
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= rezm_link_to_inbox -%></li>
-    <%- if current_user.has_role?('Librarian') -%>
-      <li><%= rezm_link_to_create_message -%></li>
-      <li><%= rezm_link_to_outbox -%></li>
-    <%- end -%>
-    <li><%= rezm_link_to_trash_bin -%></li>
+    <% if request.referer %>
+      <li><%= link_to t('page.back'), :back -%></li>
+    <% else %>
+      <li><%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.username) -%></li>
+    <% end %>
+    <li><%= link_to t('message.reply'), new_user_message_path(current_user.username, :parent_id => @message.id) -%></li>
+    <li><%= link_to t('page.destroy'), @message, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
   </ul>
 </div>

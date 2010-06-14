@@ -10,9 +10,4 @@ class Checkin < ActiveRecord::Base
 
   attr_accessor :item_identifier
 
-  #def other_library_resource?(checkout, library)
-  #  return true if library == checkout.item.shelf.library
-  #  false
-  #end
-
 end

@@ -40,7 +40,7 @@
         <%- end -%>
       <%- end -%>
       <%- @manifestation.to_manifestations.each do |manifestation_has_manifestation| -%>
-        <%- manifestation =  manifestation_has_manifestation.to_manifestation -%>
+        <%- manifestation = manifestation_has_manifestation.to_manifestation -%>
         <%- unless manifestation == @manifestation -%>
           <li>
             [M]

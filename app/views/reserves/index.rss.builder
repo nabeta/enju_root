@@ -10,7 +10,7 @@ xml.rss('version' => "2.0",
       xml.title t('reserve.library_group_reserve', :library_group_name => @library_group.display_name.localize)
       xml.link reserves_url(:format => :rss)
     end
-    xml.description "Project Next-L Enju, an open source integrated library system developed by Project Next-L"
+    xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
     xml.language @locale
     xml.ttl "60"
     if @user

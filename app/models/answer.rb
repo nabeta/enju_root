@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 class Answer < ActiveRecord::Base
+  default_scope :order => 'id ASC'
   named_scope :public_answers, :conditions => {:shared => true}
   named_scope :private_answers, :conditions => {:shared => false}
   belongs_to :user, :counter_cache => true, :validate => true
@@ -22,23 +23,14 @@ class Answer < ActiveRecord::Base
     self.question.save
   end
 
-  def self.is_indexable_by(user, parent = nil)
-  #  if user.try(:has_role?, 'User')
-      true
-  #  else
-  #    false
-  #  end
-  end
-
-  def is_readable_by(user, parent = nil)
-    true if user == self.user || self.shared? || user.has_role?('Librarian')
-  rescue
-    false
-  end
-
   def add_items
-    item_lists = item_identifier_list.to_s.strip.split.map{|i| Item.first(:conditions => {:item_identifier => i})}.compact
-    self.items = item_lists
+    item_list = item_identifier_list.to_s.strip.split.map{|i| Item.first(:conditions => {:item_identifier => i})}.compact.uniq
+    url_list = add_urls
+    self.items = item_list + url_list
+  end
+
+  def add_urls
+    list = url_list.to_s.strip.split.map{|u| Manifestation.first(:conditions => {:access_address => URI.parse(u).normalize.to_s})}.compact.map{|m| m.web_item}.compact.uniq
   end
 
 end

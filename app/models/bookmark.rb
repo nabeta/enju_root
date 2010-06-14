@@ -10,6 +10,7 @@ class Bookmark < ActiveRecord::Base
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
+  validate :bookmarkable_url?
   
   def self.per_page
     10
@@ -17,6 +18,7 @@ class Bookmark < ActiveRecord::Base
   attr_accessor :local_url
 
   acts_as_taggable_on :tags
+  normalize_attributes :url
 
   searchable do
     text :title do
@@ -55,11 +57,17 @@ class Bookmark < ActiveRecord::Base
 
   def after_save
     save_tagger
+    expire_cache
     send_later(:save_manifestation)
   end
 
   def after_destroy
+    expire_cache
     send_later(:save_manifestation)
+  end
+
+  def expire_cache
+    Rails.cache.delete("Manifestation.search.total")
   end
 
   def save_manifestation
@@ -72,7 +80,7 @@ class Bookmark < ActiveRecord::Base
     taggings.each do |tagging|
       tagging.tagger = user
       tagging.save(false)
-      tagging.tag.index
+      Tag.find(tagging.tag_id).index
     end
   end
 
@@ -85,29 +93,39 @@ class Bookmark < ActiveRecord::Base
   end
 
   def get_title
-    Bookmark.get_title_from_url(url)
+    if url.my_host?
+      my_host_resource.original_title
+    else
+      Bookmark.get_title_from_url(url)
+    end
   end
 
   def self.get_title_from_url(url)
     return if url.blank?
-    # TODO: ホスト名の扱い
-    access_url = url.rewrite_my_url
-  
-    doc = Nokogiri::HTML(open(access_url).read)
-    # TODO: 日本語以外
-    #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
-    #if charsets.include?(page.charset.downcase)
-      title = NKF.nkf('-w', CGI.unescapeHTML((doc.at("title").inner_text))).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
-      if title.blank?
-        title = url
+    if url.my_host?
+      path = URI.parse(url).path.split('/').reverse
+      if path[1] == 'manifestations' and Manifestation.find(path[0])
+        manifestation = Manifestation.find(path[0])
+        return manifestation.original_title
       end
-    #else
-    #  title = (doc/"title").inner_text
-    #end
-    title
+    end
+    unless manifestation
+      doc = Nokogiri::HTML(open(url).read)
+      # TODO: 日本語以外
+      #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
+      #if charsets.include?(page.charset.downcase)
+        title = NKF.nkf('-w', CGI.unescapeHTML((doc.at("title").inner_text))).to_s.gsub(/\r\n|\r|\n/, '').gsub(/\s+/, ' ').strip
+        if title.blank?
+          title = url
+        end
+      #else
+      #  title = (doc/"title").inner_text
+      #end
+      title
+    end
   rescue OpenURI::HTTPError
     # TODO: 404などの場合の処理
-    raise "unable to access: #{access_url}"
+    raise "unable to access: #{url}"
   #  nil
   end
 
@@ -120,15 +138,29 @@ class Bookmark < ActiveRecord::Base
     nil
   end
 
+  def my_host_resource
+    if url.my_host?
+      path = URI.parse(url).path.split('/').reverse
+      if path[1] == 'manifestations' and Manifestation.find(path[0])
+        manifestation = Manifestation.find(path[0])
+      end
+    else
+      raise 'only_manifestation_should_be_bookmarked'
+    end
+  end
+
+  def bookmarkable_url?
+    if url.my_host?
+      unless my_host_resource
+        errors[:base] << I18n.t('bookmark.not_our_holding')
+      end
+    end
+  end
+
   def check_url
     # 自館のページをブックマークする場合
     if url.my_host?
-      path = URI.parse(url).path.split('/')
-      if path[1] == 'manifestations' and Manifestation.find(path[2])
-        manifestation = Manifestation.find(path[2])
-      else
-        raise 'only_manifestation_should_be_bookmarked'
-      end
+      manifestation = self.my_host_resource
     else
       if LibraryGroup.site_config.allow_bookmark_external_url
         manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
@@ -143,7 +175,8 @@ class Bookmark < ActiveRecord::Base
   end
 
   def create_manifestation
-    unless manifestation = check_url
+    manifestation = check_url
+    unless manifestation
       manifestation = Manifestation.new(:access_address => url)
       manifestation.carrier_type = CarrierType.first(:conditions => {:name => 'file'})
     end
@@ -153,7 +186,7 @@ class Bookmark < ActiveRecord::Base
     # manifestation = check_urlを実行するのみ。nilの場合は上で処理するので処理不要。
 #    manifestation = check_url
     # OTC end
-   if manifestation.bookmarked?(user)
+    if manifestation.bookmarked?(user)
       raise 'already_bookmarked'
     end
     if self.title.present?
@@ -190,17 +223,4 @@ class Bookmark < ActiveRecord::Base
     end
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_deletable_by(user, parent = nil)
-    true if user == self.user || user.has_role?('Librarian')
-  rescue
-    false
-  end
 end

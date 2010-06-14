@@ -61,9 +61,9 @@ class Ability
       ]
       can :manage, Tag
       can :read, SearchEngine
-      can :read, SearchHistory
       can :read, Role
       can :manage, [ResourceImportFile, PatronImportFile, EventImportFile]
+      can :manage, ImportRequest
       can :read, PatronType
       can :read, MediumOfPerformance
       can :manage, Message
@@ -93,6 +93,10 @@ class Ability
       can :read, Advertise
       can :read, NiiType
       can :read, WorkToExpressionRelType
+      can :index, SearchHistory
+      can [:show, :destroy], SearchHistory do |search_history|
+        search_history.try(:user) == user
+      end
     when 'User'
       can :read, [Work, Expression, Manifestation, Item]
       can :edit, Manifestation
@@ -141,7 +145,7 @@ class Ability
       can [:update, :destroy, :show], [
         Bookmark, Checkout, PurchaseRequest, Reserve, UserHasShelf
       ] do |object|
-        object.user == user
+        object.try(:user) == user
       end
       can :index, Question
       can :show, [Question, Answer] do |object|
@@ -161,7 +165,18 @@ class Ability
       can :read, BookmarkStat
       can :read, NiiType
       can :read, WorkToExpressionRelType
-      can :manage, Message
+      can :index, Message
+      can :create, Message
+      can [:update], Message do |message|
+        message.sender == user
+      end
+      can [:show, :destroy], Message do |message|
+        message.receiver == user
+      end
+      can :index, SearchHistory
+      can [:show, :destroy], SearchHistory do |search_history|
+        search_history.try(:user) == user
+      end
     else
       can :index, [Work, Expression]
       can :show, [Work, Expression] do |object|

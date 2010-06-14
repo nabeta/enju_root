@@ -2,21 +2,21 @@
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
               <td style="width: 30px"><%= itemnum = @manifestations.offset + 1 + i -%></td>
-              <td style="80%">
+              <td style="480px">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <div id="access_address">
                   <%= link_to h(manifestation.access_address), manifestation.access_address if manifestation.access_address.present? -%>
                 </div>
                 <%- if manifestation.items.on_shelf.first -%>
-                  (<%= link_to_function t('page.holding'), "jQuery('#holding_#{manifestation.id}').toggle()" -%>)
+                  (<%= link_to_function t('page.holding'), "$('#holding_#{manifestation.id}').toggle()" -%>)
                 <%- end -%>
                 <%- if manifestation.tags.first -%>
-                  (<%= link_to_function t('activerecord.models.tag'), "jQuery('#tag_#{manifestation.id}').toggle()" -%>)
+                  (<%= link_to_function t('activerecord.models.tag'), "$('#tag_#{manifestation.id}').toggle()" -%>)
                 <%- end -%>
                 <%# 当該ManifestationにWorkがある場合、グループ表示へのリンクを表示する %>
                 <%- if manifestation.works.size > 0 -%>
                   <%- unless manifestation.works.size == 1 and  manifestation.works.first.original_title == manifestation.original_title -%>
-                    (<%= link_to_function t('page.related_work'), "jQuery('#group_#{manifestation.id}').toggle()" -%>)
+                    (<%= link_to_function t('page.related_work'), "$('#group_#{manifestation.id}').toggle()" -%>)
                   <%- end -%>
                 <%- end -%>
                 <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
@@ -24,20 +24,22 @@
                 <%# グループ表示の部分テンプレート %>
                 <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
-              <%- if current_user -%>
+              <%- if user_signed_in? -%>
                 <td>
-                  <%- if reserve = manifestation.is_reserved_by(current_user) -%>
-                    <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
-                  <%- else -%>
-                    <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) -%>
+                  <% if manifestation.reservable? %>
+                    <%- if reserve = manifestation.is_reserved_by(current_user) -%>
+                      <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
+                    <%- else -%>
+                      <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) -%>
+                    <%- end -%>
                   <%- end -%>
                 </td>
-              <%- end -%>
-              <%- if can? :destroy, manifestation -%>
-                <td><%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%></td>
-                <td>
-                  <%= link_to t('page.add_derivation'), manifestation_manifestations_path(manifestation) -%>
-                </td>
+                <%- if can? :destroy, manifestation -%>
+                  <td style="width: 50px">
+                    <%= link_to image_tag('/icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>
+                    <%= link_to image_tag('/icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), manifestation_manifestations_path(manifestation) -%>
+                  </td>
+                <%- end -%>
               <%- end -%>
             </tr>
           <%- end -%>

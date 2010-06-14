@@ -65,7 +65,7 @@ class NewsFeedsController < ApplicationController
   def update
     @news_feed = NewsFeed.find(params[:id])
 
-    if @news_feed and params[:position]
+    if params[:position]
       @news_feed.insert_at(params[:position])
       redirect_to news_feeds_url
       return
@@ -100,7 +100,9 @@ class NewsFeedsController < ApplicationController
 
   private
   def expire_cache
-    expire_fragment(:controller => :news_feeds, :action => :show, :id => @news_feed.id, :action_suffix => 'title')
+    Role.all.each do |role|
+      expire_fragment(:controller => :news_feeds, :action => :show, :id => @news_feed.id, :action_suffix => 'title', :role => role.name)
+    end
     @news_feed.force_reload
   end
 end

@@ -1,6 +1,5 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  include UsersHelper
 
   def library_system_name
     h(LibraryGroup.site_config.name)
@@ -187,7 +186,7 @@ module ApplicationHelper
     end
   end
 
-  def i18n_state(state)
+  def localized_state(state)
     case state
     when 'pending'
       t('state.pending')
@@ -204,7 +203,7 @@ module ApplicationHelper
     end
   end
 
-  def i18n_boolean(bool)
+  def localized_boolean(bool)
     case bool.to_s
     when nil
     when "true"
@@ -212,6 +211,10 @@ module ApplicationHelper
     when "false"
       t('page.boolean.false')
     end
+  end
+
+  def current_user_role_name
+    current_user.try(:highest_role).try(:name) || 'Guest'
   end
 
 end

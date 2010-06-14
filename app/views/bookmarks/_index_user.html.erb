@@ -9,7 +9,7 @@
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%= submit_tag t('page.search') -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
@@ -17,7 +17,7 @@
     <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('activerecord.models.bookmark') -%></th>
     <th><%= t('page.created_at') -%></th>
-    <th><%= t('page.updated_at') -%></th>
+    <th></th>
   </tr>
 
 <%- for bookmark in @bookmarks -%>
@@ -28,10 +28,11 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => bookmark.manifestation} -%>
     </td>
     <td><%= l(bookmark.created_at) -%></td>
-    <td><%= l(bookmark.updated_at) -%></td>
-    <%- if can? :destroy, bookmark -%>
-      <td><%= link_to t('page.destroy'), user_bookmark_path(bookmark.user, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :destroy, bookmark -%>
+        <%= link_to t('page.destroy'), user_bookmark_path(bookmark.user, bookmark), :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

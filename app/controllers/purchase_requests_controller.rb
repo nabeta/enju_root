@@ -1,4 +1,5 @@
 class PurchaseRequestsController < ApplicationController
+  before_filter :store_location, :only => :index
   load_and_authorize_resource
   before_filter :get_user_if_nil
   before_filter :get_order_list
@@ -50,6 +51,7 @@ class PurchaseRequestsController < ApplicationController
       when 'ordered'
         with(:ordered).equal_to true
       end
+      order_by(:created_at, :desc)
     end
 
     page = params[:page] || 1
@@ -105,6 +107,9 @@ class PurchaseRequestsController < ApplicationController
     @purchase_request.user = @user if @user
     begin
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
+      unless url.bookmarkable?
+        access_denied; return
+      end
       title = Bookmark.get_title(params[:title])
       title = Bookmark.get_title_from_url(url) if title.nil?
     rescue
@@ -138,6 +143,11 @@ class PurchaseRequestsController < ApplicationController
     else
       @purchase_request = current_user.purchase_requests.new(params[:purchase_request])
     end
+    if @purchase_request.url
+      unless @purchase_request.url.bookmarkable?
+        access_denied; return
+      end
+    end
 
     respond_to do |format|
       if @purchase_request.save
@@ -159,6 +169,12 @@ class PurchaseRequestsController < ApplicationController
       @purchase_request = @user.purchase_requests.find(params[:id])
     else
       @purchase_request = PurchaseRequest.find(params[:id])
+    end
+
+    if @purchase_request.url
+      unless @purchase_request.url.bookmarkable?
+        access_denied; return
+      end
     end
 
     respond_to do |format|

@@ -1,39 +1,11 @@
 <div id="navibar">
-  <%- cache(:controller => 'page', :user => current_user.try(:username), :menu => 'search', :locale => @locale) do -%>
-    <a tabindex="0" href="#search_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_search"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.search') -%></a>
-    <div id="search_menu" class="hidden">
-      <ul>
-        <li><%= link_to t('page.search_resource', :model => t('page.resource')), manifestations_path -%></li>
-        <%- if can? :create, Bookmark -%>
-          <li><%= link_to t('page.search_resource', :model => t('activerecord.models.bookmark')), user_bookmarks_path(current_user.username) -%></li>
-        <%- end -%>
-        <li><%= link_to t('page.search_resource', :model => t('activerecord.models.question')), questions_path -%></li>
-        <li><%= link_to t('page.search_resource', :model => t('activerecord.models.patron')), patrons_path -%></li>
-        <%- if can? :index, User -%>
-          <li><%= link_to t('page.search_resource', :model => t('activerecord.models.user')), users_path -%></li>
-        <%- end -%>
-        <li><%= link_to t('page.search_resource', :model => t('activerecord.models.subject')), subjects_path -%></li>
-      </ul>
-    </div>
-  <%- end -%>
-  <%- cache(:controller => 'page', :user => current_user.try(:username), :menu => 'message', :locale => @locale) do -%>
-    <a tabindex="1" href="#message_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_message"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('activerecord.models.message') -%></a>
-    <div id="message_menu" class="hidden">
-      <%- if user_signed_in? -%>
-        <ul>
-          <li><%= link_to t('message.inbox'), user_messages_path(current_user.username) -%></li>
-          <%- if current_user.has_role?('Librarian') -%>
-            <li><%= link_to t('activerecord.models.message_request'), message_requests_path -%></li>
-          <%- end -%>
-        </ul>
-      <%- else -%>
-        <ul>
-          <li><%= link_to t('message.inbox'), '/page/message' -%></li>
-        </ul>
-      <%- end -%>
-    </div>
-  <%- end -%>
-  <a tabindex="2" href="#circulation_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_circulation"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.circulation') -%></a>
+  <a tabindex="0" href="#circulation_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_circulation"><span class="ui-icon ui-icon-triangle-1-s"></span>
+    <% if current_user.try(:has_role?, 'Librarian') %>
+      <%= t('page.librarian_circulation') -%>
+    <% else %>
+      <%= t('page.user_circulation') -%>
+    <% end %>
+  </a>
   <div id="circulation_menu" class="hidden">
     <%- if user_signed_in? -%>
       <ul>
@@ -46,6 +18,15 @@
               <%= link_to t('page.checkin'), checkins_path -%>
             <%- end -%>
           </li>
+        <% end %>
+        <li>
+          <%- if current_user.has_role?('Librarian') -%>
+            <%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%>
+          <%- else -%>
+            <%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(current_user.username) -%>
+          <%- end -%>
+        </li>
+        <%- if current_user.has_role?('Librarian') -%>
           <li><%= link_to t('activerecord.models.inter_library_loan'), inter_library_loans_path -%></li>
           <!--
           <li><%= link_to 'NACSIS ILL', '/page/under_construction' -%></li>
@@ -56,18 +37,11 @@
     <%- else -%>
       <ul>
         <li><%= link_to t('page.checkout_history'), checkouts_path -%></li>
+        <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%></li>
       </ul>
     <%- end -%>
   </div>
-  <%- if user_signed_in? -%>
-    <%- if current_user.has_role?('Librarian') -%>
-      <a tabindex="3" href="#acquisition_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_acquisition"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.acquisition') -%></a>
-    <%- else -%>
-      <a tabindex="3" href="#acquisition_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_acquisition"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('activerecord.models.bookmark') -%></a>
-    <%- end -%>
-  <%- else -%>
-    <a tabindex="3" href="#acquisition_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_acquisition"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('activerecord.models.bookmark') -%></a>
-  <%- end -%>
+  <a tabindex="1" href="#acquisition_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_acquisition"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.acquisition') -%></a>
   <%- if user_signed_in? -%>
     <div id="acquisition_menu" class="hidden">
       <ul>
@@ -76,7 +50,10 @@
           <li><%= link_to t('page.import_from_file'), '/page/import' -%></li>
           <li><%= link_to t('page.upload_file'), new_manifestation_path(:mode => 'attachment') -%></li>
         <%- end -%>
+        <li><%= link_to t('page.search_resource', :model => t('activerecord.models.subject')), subjects_path -%></li>
+        <!--
         <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.username, :url => request.url) -%></li>
+        -->
       </ul>
     </div>
   <%- else -%>
@@ -87,17 +64,10 @@
     </div>
   <%- end -%>
   <%- cache(:controller => 'page', :user => current_user.try(:username), :menu => 'request', :locale => @locale) do -%>
-    <a tabindex="4" href="#request_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_request"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.request') -%></a>
+    <a tabindex="2" href="#request_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_request"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.request') -%></a>
     <%- if user_signed_in? -%>
       <div id="request_menu" class="hidden">
         <ul>
-          <li>
-            <%- if current_user.has_role?('Librarian') -%>
-              <%= link_to t('activerecord.models.reserve'), reserves_path -%>
-            <%- else -%>
-              <%= link_to t('activerecord.models.reserve'), user_reserves_path(current_user.username) -%>
-            <%- end -%>
-          </li>
           <li><%= link_to t('activerecord.models.purchase_request'), user_purchase_requests_path(current_user.username) -%></li>
           <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user.username) -%></li>
         </ul>
@@ -105,21 +75,20 @@
     <%- else -%>
       <div id="request_menu" class="hidden">
         <ul>
-          <li><%= link_to t('activerecord.models.reserve'), reserves_path -%></li>
           <li><%= link_to t('activerecord.models.purchase_request'), purchase_requests_path -%></li>
           <li><%= link_to t('activerecord.models.question'), questions_path -%></li>
         </ul>
       </div>
     <%- end -%>
   <%- end -%>
-  <a tabindex="5" href="#event_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_event"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('activerecord.models.event') -%></a>
+  <a tabindex="3" href="#event_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_event"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('activerecord.models.event') -%></a>
   <div id="event_menu" class="hidden">
     <%- if @library_group -%>
-      <%- unless @library_group.physical_libraries.blank? -%>
+      <%- unless @library_group.real_libraries.blank? -%>
         <ul>
           <li><%= link_to t('page.calendar'), '/calendar' -%></li>
           <li><%= link_to t('event.all'), events_path -%></li>
-          <%- @library_group.physical_libraries.each do |library| -%>
+          <%- @library_group.real_libraries.each do |library| -%>
             <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
           <%- end -%>
           <%- if can? :create, Event -%>
@@ -130,8 +99,14 @@
     <%- end -%>
   </div>
   <%- cache(:controller => 'page', :user => current_user.try(:username), :menu => 'configuration', :locale => @locale) do -%>
-    <a tabindex="6" href="#management_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_management"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.management') -%></a>
-    <div id="management_menu" class="hidden">
+    <a tabindex="4" href="#configuration_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_configuration"><span class="ui-icon ui-icon-triangle-1-s"></span>
+      <% if current_user.try(:has_role?, 'Librarian') %>
+        <%= t('page.management') -%>
+      <% else %>
+        <%= t('page.configuration') -%>
+      <% end %>
+    </a>
+    <div id="configuration_menu" class="hidden">
       <%- if user_signed_in? -%>
         <%- if current_user.has_role?('Librarian') -%>
           <ul>

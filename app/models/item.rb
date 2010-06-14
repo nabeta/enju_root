@@ -2,6 +2,7 @@
 class Item < ActiveRecord::Base
   include EnjuFragmentCache
 
+  named_scope :for_checkout, :conditions => ['item_identifier IS NOT NULL']
   named_scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   named_scope :on_shelf, :conditions => ['shelf_id != 1']
   named_scope :on_web, :conditions => ['shelf_id = 1']
@@ -25,7 +26,6 @@ class Item < ActiveRecord::Base
   #has_one :order
   has_many :item_has_use_restrictions, :dependent => :destroy
   has_many :use_restrictions, :through => :item_has_use_restrictions
-  has_many :reserves
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   has_many :inter_library_loans, :dependent => :destroy
@@ -50,10 +50,10 @@ class Item < ActiveRecord::Base
   validates_length_of :url, :maximum => 255, :allow_blank => true
   validates_format_of :item_identifier, :with=>/\A[0-9]+\Z/, :allow_blank => true
 
-  #acts_as_taggable_on :tags
   #acts_as_soft_deletable
   enju_union_catalog
   has_paper_trail
+  normalize_attributes :item_identifier
 
   searchable do
     text :item_identifier, :note, :title, :creator, :contributor, :publisher, :library
@@ -76,7 +76,7 @@ class Item < ActiveRecord::Base
     10
   end
 
-  attr_accessor :library_name, :library_url, :local_url
+  attr_accessor :library_id, :library_url, :local_url
   attr_accessor :new_manifestation_id
 
   #def after_create
@@ -90,10 +90,6 @@ class Item < ActiveRecord::Base
   #def after_destroy
   #  remove_from_union_catalog
   #end
-
-  def before_save
-    set_item_identifier
-  end
 
   def after_save
   #  unless self.item_identifier.blank?
@@ -236,15 +232,6 @@ class Item < ActiveRecord::Base
     end
   rescue
     nil
-  end
-
-  def set_item_identifier
-    if self.item_identifier
-      self.item_identifier.strip!
-      #send_later(:create_barcode)
-    else
-      self.item_identifier = nil
-    end
   end
 
   def create_barcode

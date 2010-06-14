@@ -44,10 +44,9 @@
     <%= f.label t('activerecord.models.frequency') -%>
     <%= f.select(:frequency_id, @frequencies.collect{|frequency| [frequency.display_name.localize, frequency.id]}) -%>
   </p>
-
   <p>
     <%= f.label t('activerecord.attributes.manifestation.date_of_publication') -%>
-    <%= f.date_text_field :date_of_publication, :class => 'date_field', :blank => true -%>
+    <%= f.text_field :date_of_publication, :value => @manifestation.date_of_publication.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
 
   <!--<p>
@@ -69,10 +68,8 @@
     <p>
       <%= f.label t('activerecord.attributes.manifestation.isbn') -%>
       <%= f.text_field :isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
-    </p>
-    <p>
-      <%= f.label t('activerecord.attributes.manifestation.wrong_isbn') -%>
-      <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled' -%>
+      <%= link_to_function t('activerecord.attributes.manifestation.wrong_isbn'), "$('#manifestation_wrong_isbn').toggle()" -%>
+      <%= f.text_field :wrong_isbn, :class => 'resource_isbn_issn', :style => 'ime-mode: disabled; display: none' -%>
     </p>
     <p>
       <%= f.label t('activerecord.attributes.manifestation.lccn') -%>
@@ -130,7 +127,7 @@
   <p>
     <%= f.submit t('page.update') -%>
   </p>
-  <%= javascript_tag("$('manifestation_original_title').focus()") -%>
+  <%= javascript_tag("$('#manifestation_original_title').focus()") -%>
 <%- end -%>
 
 </div>

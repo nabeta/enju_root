@@ -25,7 +25,7 @@
     <label for="checkout_due_date"><%= t('activerecord.attributes.checkout.due_date') -%></label>
     <%= f.hidden_field :user_id -%>
     <%= f.hidden_field :item_id -%>
-    <%= f.date_text_field :due_date, :class => 'date_field', :value => @renew_due_date  -%>
+    <%= f.text_field :due_date, :value => @checkout.due_date.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
   <p>
     <%= t('checkout.renewal_count') -%>: <%= f.text_field :checkout_renewal_count, :class => 'resource_integer' -%>

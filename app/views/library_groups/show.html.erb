@@ -28,7 +28,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.library_group.allow_bookmark_external_url') -%>:</strong>
-  <%= i18n_boolean(@library_group.allow_bookmark_external_url) -%>
+  <%= localized_boolean(@library_group.allow_bookmark_external_url) -%>
 </p>
 
 <p>
@@ -38,7 +38,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.library_group.post_to_union_catalog') -%>:</strong>
-  <%= i18n_boolean(@library_group.post_to_union_catalog) -%>
+  <%= localized_boolean(@library_group.post_to_union_catalog) -%>
 </p>
 
 <p>
@@ -53,7 +53,7 @@
 
 <p>
   <strong><%= t('activerecord.attributes.library_group.use_dsbl') -%>:</strong>
-  <%= i18n_boolean(@library_group.use_dsbl) -%>
+  <%= localized_boolean(@library_group.use_dsbl) -%>
 </p>
 
 <p>
@@ -71,7 +71,7 @@
 </p>
 
 <ul>
-  <%- @library_group.physical_libraries.each do |library| -%>
+  <%- @library_group.real_libraries.each do |library| -%>
     <li><%= link_to h(library.display_name.localize), library_path(library.name) -%></li>
   <%- end -%>
 </ul>

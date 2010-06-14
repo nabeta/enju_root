@@ -20,7 +20,7 @@
     <td><%= resource_import_file.resource_import_file_name -%></td>
     <td><%= l(resource_import_file.imported_at) if resource_import_file.imported_at -%></td>
     <td><%= link_to h(resource_import_file.user.username), user_path(resource_import_file.user.username) -%></td>
-    <td><%= i18n_state(resource_import_file.state) -%></td>
+    <td><%= localized_state(resource_import_file.state) -%></td>
     <td><%= link_to t('page.show'), resource_import_file -%></td>
     <td><%= link_to t('page.edit'), edit_resource_import_file_path(resource_import_file) -%></td>
     <td><%= link_to t('page.destroy'), resource_import_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

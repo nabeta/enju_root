@@ -6,7 +6,7 @@
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%= submit_tag t('page.search') -%>
     </p>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
@@ -14,10 +14,7 @@
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.form_of_work') -%></th>
     <th><%= t('activerecord.models.series_statement') -%></th>
-    <%- if user_signed_in? -%>
-      <th></th>
-      <th></th>
-    <%- end -%>
+    <th></th>
   </tr>
   
   <%- @works.each do |work| -%>
@@ -29,12 +26,12 @@
       </td>
       <td><%= link_to work.form_of_work.display_name.localize, work.form_of_work -%></td>
       <td><%= link_to h(work.series_statement.original_title), work.series_statement if work.series_statement -%></td>
-      <%- if can? :destroy, work -%>
-        <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
-        <td>
-          <%= link_to t('page.add_derivation'), work_works_path(work) -%>
-        </td>
-      <%- end -%>
+      <td>
+        <%- if can? :destroy, work -%>
+          <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_work_path(work) -%>
+          <%= link_to image_tag('/icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), work_works_path(work) -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

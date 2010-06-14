@@ -8,6 +8,7 @@
     <th><%= t('activerecord.models.user') -%></th>
     <th><%= t('page.date') -%></th>
     <th><%= t('role.required_role') -%></th>
+    <th></th>
   </tr>
 
 <%- @news_posts.each do |news_post| -%>
@@ -20,8 +21,12 @@
       <%= l(news_post.end_date) -%>
     </td>
     <td><%= news_post.required_role.display_name.localize -%></td>
-    <td><%= link_to t('page.edit'), edit_news_post_path(news_post) -%></td>
-    <td><%= link_to t('page.destroy'), news_post, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <% if can? :destroy, news_post %>
+        <%= link_to t('page.edit'), edit_news_post_path(news_post) -%>
+        <%= link_to t('page.destroy'), news_post, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <% end %>
+    </td>
   </tr>
 <%- end -%>
 </table>

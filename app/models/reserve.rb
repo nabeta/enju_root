@@ -7,7 +7,8 @@ class Reserve < ActiveRecord::Base
   named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
   named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
   #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
-  named_scope :will_expire, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'retained'], :order => 'expired_at'}}
+  named_scope :will_expire_retained, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'retained'], :order => 'expired_at'}}
+  named_scope :will_expire_pending, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'pending'], :order => 'expired_at'}}
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
   #named_scope :expired_notified, :conditions => {:state => 'expired'}
@@ -108,6 +109,7 @@ class Reserve < ActiveRecord::Base
 
   def expire
     self.update_attributes!({:request_status_type => RequestStatusType.first(:conditions => {:name => 'Expired'}), :canceled_at => Time.zone.now})
+    logger.info "#{Time.zone.now} reserve_id #{self.id} expired!"
   end
 
   def cancel
@@ -174,42 +176,14 @@ class Reserve < ActiveRecord::Base
     end
   end
 
-  def self.is_indexable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def self.is_creatable_by(user, parent = nil)
-    if user.try(:has_role?, 'User')
-      true
-    else
-      false
-    end
-  end
-
-  def is_updatable_by(user, parent = nil)
-    raise if ['completed', 'canceled', 'expired'].include?(self.state)
-    true if user == self.user || user.has_role?('Librarian')
-  rescue
-    false
-  end
-
   def self.expire
     Reserve.transaction do
-      reservations = Reserve.will_expire(Time.zone.now.beginning_of_day)
-      reservations.find_each do |reserve|
-        # キューに登録した時点では本文は作られないので
-        # 予約の連絡をすませたかどうかを識別できるようにしなければならない
-        # reserve.send_message('expired')
-        reserve.aasm_expire!
-        # reserve.expire
-      end
-      #Reserve.not_sent_expiration_notice_to_patron.each do |reserve|
-      #  reserve.send_message('expired')
-      #end
+      self.will_expire_retained(Time.zone.now.beginning_of_day).map{|r| r.aasm_expire!}
+      self.will_expire_pending(Time.zone.now.beginning_of_day).map{|r| r.aasm_expire!}
+
+      # キューに登録した時点では本文は作られないので
+      # 予約の連絡をすませたかどうかを識別できるようにしなければならない
+      # reserve.send_message('expired')
       User.find_each do |user|
         unless user.reserves.not_sent_expiration_notice_to_patron.empty?
           user.send_message('reservation_expired_for_patron', :manifestations => user.reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
@@ -218,7 +192,6 @@ class Reserve < ActiveRecord::Base
       unless Reserve.not_sent_expiration_notice_to_library.empty?
         Reserve.send_message_to_library('expired', :manifestations => Reserve.not_sent_expiration_notice_to_library.collect(&:manifestation))
       end
-      logger.info "#{Time.zone.now} #{reservations.size} reservations expired!"
     end
   #rescue
   #  logger.info "#{Time.zone.now} expiring reservations failed!"

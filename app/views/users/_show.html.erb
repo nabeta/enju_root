@@ -3,20 +3,8 @@
   <div id="user_search_form">  
     <%= render :partial => 'page/search_form' -%>
     <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
-    <h3><%= link_to t('page.new_resource'), :controller => 'manifestations', :mode => 'recent' -%></h3>
+    <h3><%= link_to t('page.new_resource'), manifestations_path(:mode => 'recent') -%></h3>
   </div>
-
-  <%- cache :controller => 'users', :action => 'show', :id => @user.username, :action_suffix => 'message', :locale => @locale do -%>
-  <h3 class="title"><%= t('activerecord.models.message') -%></h3>
-  <div id="message_box">
-    <%- if current_user.unread_messages.size > 0 -%>
-      <%= link_to t('page.number_of_unread_messages', :numdocs => current_user.unread_messages.size, :count => current_user.unread_messages.size), user_messages_path(current_user.username) -%>
-    <%- else -%>
-      <%= t('message.no_new_message') -%>
-      (<%= link_to t('page.listing', :model => t('activerecord.models.message')), user_messages_path(current_user.username) -%>)
-    <%- end -%>
-  </div>
-  <%- end -%>
 
   <h3 class="title"><%= t('page.news') -%></h3>
   <div id="news_feed_box">

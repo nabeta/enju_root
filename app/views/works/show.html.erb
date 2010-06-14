@@ -3,7 +3,7 @@
 <div id="content_list">
 
   <%-
-    cache(:id => @work.id, :action => :show, :controller => :works, :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
+    cache(:id => @work.id, :action => :show, :controller => :works, :role => current_user_role_name, :locale => @locale, :version => @version) do
   -%>
   <h2 class="resource_title">
     [W]

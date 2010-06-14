@@ -66,7 +66,7 @@ class EventImportFilesControllerTest < ActionController::TestCase
     old_event_count = Event.count
     sign_in users(:librarian1)
     assert_difference('EventImportFile.count') do
-      post :create, :event_import_file => {:event_import => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/event_import_file_sample1.tsv") }
+      post :create, :event_import_file => {:event_import => fixture_file_upload("event_import_file_sample1.tsv", 'text/csv') }
     end
 
     assigns(:event_import_file).import

@@ -2,7 +2,7 @@ ja:
   activerecord:
     models:
       library: 図書館
-      question: 質問
+      question: 質問（レファレンス）
       patron_import_file: 著者・出版者・読者のインポート用ファイル
       circulation_status: 貸出状態
       inventory: 蔵書点検
@@ -65,7 +65,7 @@ ja:
       order: 発注
       order_list: 発注リスト
       advertise: 広告
-      event: 催し物
+      event: 開館日と催し物
       embody: 具体化
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現形の併合
@@ -196,7 +196,7 @@ ja:
         first_name_transcription: 名（よみ）
         corporate_name: 会社名
         corporate_name_transcription: 企業名（よみ）
-        full_name: 正式名称
+        full_name: フルネーム
         full_name_transcription: フルネーム（よみ）
         full_name_alternative: フルネーム代替
         deleted_at: 削除時刻
@@ -349,13 +349,10 @@ ja:
         deleted_at: 削除時刻
         state: 状態
       message:
-        receiver_deleted: 受信機の削除
-        receiver_purged: 受信機の削除
-        sender_deleted: 送信者が削除
-        sender_purged: 送信者削除
-        read_at: 開封時刻
         subject: 件名
         body: 本文
+        sender: 差出人
+        receiver: 宛て先
       classification:
         category: カテゴリー
         name: 名前
@@ -682,6 +679,7 @@ ja:
         canceled_at: 取消時刻
         expired_at: 有効期限（この日以降は不要）
         deleted_at: 削除時刻
+        created_at: 予約日時
         state: 状態
       message_request:
         sent_at: 送信時刻
@@ -1011,7 +1009,7 @@ ja:
     previous: "前へ"
     next: "次へ"
     file: "ファイル"
-    cancel: "中止"
+    cancel: "取消"
     author: "著者"
     editor: "編者"
     publisher: "出版者"
@@ -1023,7 +1021,7 @@ ja:
     export: "エクスポート"
     detail: "詳細"
     acquisition: "資料の受入"
-    configuration: "設定"
+    configuration: "システムの設定"
     search_resource: "{{model}}を検索する"
     show_all: "全てを表示"
     hide: "隠す"
@@ -1031,7 +1029,7 @@ ja:
     number_of_reservations: "{{count}} 人の予約待ち"
     back_to_search_results: "検索結果の一覧に戻る"
     submit: "送信"
-    management: "管理"
+    management: "図書館の管理"
     about_us: "私たちについて"
     open_source_integrated_library_system: "オープンソース統合図書館システム"
     related_work: "この資料に含まれる著作"
@@ -1042,8 +1040,9 @@ ja:
     picture: "画像"
     number: "巻号"
     statistics: "統計"
-    request: "依頼"
-    circulation: "貸出と返却"
+    request: "図書館への依頼"
+    librarian_circulation: "貸出・返却・予約"
+    user_circulation: "貸出と予約"
     reset: "リセット"
     account: "アカウント"
     form: "形態"
@@ -1054,7 +1053,7 @@ ja:
     total: "合計"
     sort_by: "次の項目で並べ替える"
     bookmarklet: "ブックマークレット"
-    upload_file: "ファイルをアップロードする"
+    upload_file: "ファイルをアップロード"
     telephone_number: "電話番号"
     about_this_system: "このシステムについて"
     report_bugs: "不具合を報告する"
@@ -1062,7 +1061,7 @@ ja:
     checkout_history: "貸出履歴"
     recommendation: "おすすめの資料"
     add_manually: "手動で登録する"
-    import_from_file: "ファイルからインポート"
+    import_from_file: "インポート"
     import_from_network: "ネットワークからインポート"
     no_record_found: "資料が見つかりませんでした。"
     limit_exceeded: "検索件数の上限を超えました。最初の{{count}}件を表示しています。"
@@ -1125,6 +1124,8 @@ ja:
       "true": "はい"
       "false": "いいえ"
     not_found: "ページが見つかりませんでした"
+    access_denied: "アクセスが拒否されました"
+    last_updated: "最終更新日"
   title:
     index: "一覧"
     show: "表示"
@@ -1173,7 +1174,7 @@ ja:
     library_group_manifestation: "{{library_group_name}} にある体現形"
     reserve_this: "この資料を予約する"
     cancel_reservation: "この資料の予約を解除する"
-    patron_who_bookmark_this_resource: "この資料をブックマークしている著者・出版者・読者"
+    user_who_bookmark_this_resource: "この資料をブックマークしている利用者"
     query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
     serial: "定期刊行物"
     number: "巻号"
@@ -1195,6 +1196,7 @@ ja:
     serial: "定期刊行物"
     send_email: "書誌情報を電子メールで送信する"
     attachment_file: "添付ファイル"
+    question: "この資料で調べた質問"
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
@@ -1221,6 +1223,7 @@ ja:
     recent_publication: "最近の出版物"
     all_publication: "全ての出版物"
     other_address: "他の住所"
+    add_derivation: "派生人物・団体を追加"
   message:
     user_message: "{{login_name}} さんのメッセージ"
     sent_at: "送信時刻"
@@ -1231,6 +1234,7 @@ ja:
     recipient: "宛て先"
     receiver: "受信者"
     sender: "送信者"
+    read: "既読"
     unread: "未読"
     deleted: "削除済み"
     send: "メッセージを送信する"
@@ -1241,6 +1245,8 @@ ja:
     too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
     too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
     new_message_from_library: "{{library}} から新しいお知らせが届いています"
+    messages_were_deleted: "メッセージは削除されました。"
+    select_messages: "メッセージを選択してください。"
   tag:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
@@ -1256,10 +1262,16 @@ ja:
     answer_question: "この質問に答える"
     crd: "国会図書館レファレンス協同データベース"
     you_can_search_crd: "国立国会図書館のレファレンス協同データベースを検索することができます。"
+    created_at: "質問の作成時刻"
+    updated_at: "質問の更新時刻"
+    last_answered_at: "最新の回答時刻"
+    solved: "解決済み"
+    not_solved: "未解決"
   answer:
     user_answer: "{{login_name}} さんの寄せた回答"
     library_group_answer: "{{library_group_name}} の寄せた回答"
     specify_question: "質問を指定してください。"
+    count: "回答件数"
   basket:
     this_account_is_suspended: "このアカウントは停止されています。"
     checkout_completed: "貸出が完了しました。"
@@ -1424,3 +1436,5 @@ ja:
     published: 公開済み
     reject: 却下
     withdraw: 取り下げ
+  news_feed:
+    failed_to_fetch_feed: フィードの読み込みに失敗しました。

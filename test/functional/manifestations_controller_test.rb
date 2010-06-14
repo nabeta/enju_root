@@ -11,19 +11,19 @@ class ManifestationsControllerTest < ActionController::TestCase
 
 
   def test_api_sru_template
-    get :index, :format => 'sru', :query => 'title=ruby'
+    get :index, :format => 'sru', :query => 'title=ruby', :operation => 'searchRetrieve'
     assert_response :success
-    assert_template('manifestations/index.xml')
+    assert_template('manifestations/index.sru.builder')
   end
 
   def test_api_sru_error
     get :index, :format => 'sru'
     assert_response :success
-    assert_template('manifestations/index.xml')
+    assert_template('manifestations/explain')
   end
 
   def test_guest_should_get_index
-    if WRITE_SEARCH_LOG_TO_FILE
+    if configatron.write_search_log_to_file
       assert_no_difference('SearchHistory.count') do
         get :index
       end
@@ -38,7 +38,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_get_index_xml
-    if WRITE_SEARCH_LOG_TO_FILE
+    if configatron.write_search_log_to_file
       assert_no_difference('SearchHistory.count') do
         get :index, :format => 'xml'
       end
@@ -52,7 +52,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_get_index_csv
-    if WRITE_SEARCH_LOG_TO_FILE
+    if configatron.write_search_log_to_file
       assert_no_difference('SearchHistory.count') do
         get :index, :format => 'csv'
       end
@@ -67,7 +67,7 @@ class ManifestationsControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_search_history_if_log_is_written_to_file
     sign_in users(:user1)
-    if WRITE_SEARCH_LOG_TO_FILE
+    if configatron.write_search_log_to_file
       assert_no_difference('SearchHistory.count') do
         get :index, :query => 'test'
       end

@@ -17,17 +17,14 @@
 
   <p>
     <%= f.label t('activerecord.attributes.event.title') -%><br />
-    <%= f.text_area :title, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.event.all_day') -%><br />
-    <%= f.check_box :all_day -%>
+    <%= f.text_field :title, :class => 'resource_title' -%>
   </p>
 
   <p>
     <%= f.label t('activerecord.attributes.event.start_at') -%><br />
     <%= f.datetime_select :start_at, :use_month_numbers => true -%>
+    <%= f.label t('activerecord.attributes.event.all_day') -%>
+    <%= f.check_box :all_day -%>
   </p>
 
   <p>
@@ -44,6 +41,9 @@
     <%= f.submit t('page.update') -%>
   </p>
 <%- end -%>
+
+<%= render :partial => 'all_day' %>
+
 </div>
 </div>
 

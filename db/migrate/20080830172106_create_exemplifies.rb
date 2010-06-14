@@ -1,8 +1,8 @@
 class CreateExemplifies < ActiveRecord::Migration
   def self.up
     create_table :exemplifies do |t|
-      t.integer :manifestation_id, :null => false
-      t.integer :item_id, :null => false
+      t.references :manifestation, :null => false
+      t.references :item, :null => false
       t.string :type
       t.integer :position
 

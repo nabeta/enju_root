@@ -25,6 +25,27 @@ class ApplicationController < ActionController::Base
   before_filter :get_library_group, :set_locale, :set_available_languages,
     :pickup_advertisement
 
+  def render_403
+    if user_signed_in?
+      respond_to do |format|
+        format.html {render :template => 'page/403', :status => 403}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    else
+      respond_to do |format|
+        format.html {redirect_to new_user_session_url}
+        format.xml {render :template => 'page/403', :status => 403}
+      end
+    end
+  end
+
+  def render_404
+    respond_to do |format|
+      format.html {render :template => 'page/404', :status => 404}
+      format.xml {render :template => 'page/404', :status => 404}
+    end
+  end
+
   private
   def get_library_group
     @library_group = LibraryGroup.site_config
@@ -212,7 +233,7 @@ class ApplicationController < ActionController::Base
     #  response.body = NKF::nkf('-w -Lw', response.body)
     case params[:format]
     when 'csv'
-      return if CSV_CHARSET_CONVERSION == false
+      return unless configatron.csv_charset_conversion
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"
@@ -266,6 +287,11 @@ class ApplicationController < ActionController::Base
 
   def store_location
     session[:return_to] = request.request_uri
+  end
+
+  def redirect_back_or_default(default = '/')
+    redirect_to(session[:return_to] || default)
+    session[:return_to] = nil
   end
 
   def pickup_advertisement
@@ -355,27 +381,6 @@ class ApplicationController < ActionController::Base
 
   def api_request?
     true unless params[:format].nil? or params[:format] == 'html'
-  end
-
-  def render_403
-    if user_signed_in?
-      respond_to do |format|
-        format.html {render :template => 'page/403', :status => 403}
-        format.xml {render :template => 'page/403', :status => 403}
-      end
-    else
-      respond_to do |format|
-        format.html {redirect_to new_user_session_url}
-        format.xml {render :template => 'page/403', :status => 403}
-      end
-    end
-  end
-
-  def render_404
-    respond_to do |format|
-      format.html {render :template => 'page/404', :status => 404}
-      format.xml {render :template => 'page/404', :status => 404}
-    end
   end
 
 end

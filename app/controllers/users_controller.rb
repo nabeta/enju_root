@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   load_and_authorize_resource
   before_filter :suspended?
   before_filter :get_patron, :only => :new
-  before_filter :store_location, :only => [:index, :show]
+  before_filter :store_location, :only => [:index]
   before_filter :clear_search_sessions, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   cache_sweeper :user_sweeper, :only => [:create, :update, :destroy]
@@ -105,6 +105,7 @@ class UsersController < ApplicationController
     end
     @user.patron_id = @patron.id if @patron
     @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
+    @user.library = current_user.library
   end
 
   def edit

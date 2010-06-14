@@ -52,7 +52,7 @@ class PageControllerTest < ActionController::TestCase
     sign_in users(:user1)
     get :message
     assert_response :redirect
-    assert_redirected_to inbox_user_messages_url(users(:user1).username)
+    assert_redirected_to user_messages_url(users(:user1).username)
   end
 
   def test_guest_should_not_get_acquisition
@@ -74,7 +74,7 @@ class PageControllerTest < ActionController::TestCase
   end
 
   def test_guest_should_not_get_configuration
-    get :confdiguration
+    get :configuration
     assert_response :redirect
     assert_redirected_to new_user_session_url(:unauthenticated => true)
   end

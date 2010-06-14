@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 class BookmarksController < ApplicationController
+  before_filter :store_location
   load_and_authorize_resource
   before_filter :get_user, :only => :new
   before_filter :get_user_if_nil, :except => :new
@@ -78,7 +79,11 @@ class BookmarksController < ApplicationController
       url = URI.parse(URI.encode(params[:url])).normalize.to_s
       if url
         @bookmark.url = url
-        if @manifestation = @bookmark.check_url
+        unless @bookmark.url.bookmarkable?
+          access_denied; return
+        end
+        @manifestation = @bookmark.check_url
+        if @manifestation
           if @manifestation.bookmarked?(current_user)
             raise 'already_bookmarked'
           end
@@ -126,6 +131,11 @@ class BookmarksController < ApplicationController
   def create
     @bookmark = current_user.bookmarks.new(params[:bookmark])
     @bookmark.tag_list = params[:bookmark][:tag_list]
+    if @bookmark.url
+      unless @bookmark.url.try(:bookmarkable?)
+        access_denied; return
+      end
+    end
 
     respond_to do |format|
       begin
@@ -174,6 +184,9 @@ class BookmarksController < ApplicationController
     else
       @bookmark = Bookmark.find(params[:id])
     end
+    unless @bookmark.url.try(:bookmarkable?)
+      access_denied; return
+    end
     @bookmark.title = @bookmark.manifestation.try(:original_title)
     @bookmark.taggings.all(:conditions => {:tagger_id => @bookmark.user.id}).map{|t| t.destroy}
 
@@ -208,10 +221,8 @@ class BookmarksController < ApplicationController
       @bookmark = Bookmark.find(params[:id])
     end
     
-    if @bookmark.user == @user
-      @bookmark.destroy
-      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.bookmark'))
-    end
+    @bookmark.destroy
+    flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.bookmark'))
 
     if @user
       respond_to do |format|

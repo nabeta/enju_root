@@ -11,215 +11,23 @@
         <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
       </div>
     <%- end -%>
-    <%= javascript_tag("$('search_form_top').focus()") -%>
+    <%= javascript_tag("$('#search_form_top').focus()") -%>
 
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
   <%- if @version -%>
     <p>(<%= l(@manifestation.versions.find(@version).created_at) -%>)</p>
   <%- end -%>
-<!-- cache start -->
-<%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_1', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
-%>
-  <%= render :partial => 'page/tabview' -%>
-  <div id="tabs">
-    <ul>
-      <li class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- unless @manifestation.has_single_work? -%>
-        <li><a href="#work"><em><%= t('page.related_work') -%> (<%= @manifestation.works.size -%>)</em></a></li>
-      <%- end -%>
-      <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
-        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%> (<%= @manifestation.original_manifestations.size + @manifestation.derived_manifestations.size -%>)</em></a></li>
-      <%- end -%>
-      <%- unless @manifestation.amazon_customer_reviews.blank? -%>
-        <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
-      <%- end -%>
-      <%- unless @xisbn_manifestations.blank? -%>
-        <li><a href="#worldcat"><em><%= 'WorldCat' -%></em></a></li>
-      <%- end -%>
-      <%- if current_user.try(:has_role?, 'Librarian') -%>
-        <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
-      <%- end -%>
-    </ul>            
-    <div id="detail">
-      <%- if @manifestation.isbn -%>
-        <%= google_book_search_preview(@manifestation.isbn) -%>
-      <%- end -%>
-      <table id="manifestation_detail">
-        <%= embed_content(@manifestation) -%>
-        <%- if @manifestation.serial? -%>
-          <tr>
-          <td style="width: 200px"><%= t('manifestation.serial') -%>:</td>
-          <td style="width: 490px"><%= link_to h(@manifestation.series_statement.original_title), @manifestation.series_statement -%>
-            <%- if @manifestation.issn.present? -%>
-              (<%= t('activerecord.attributes.manifestation.issn') -%>: <%= @manifestation.issn -%>)
-            <%- end -%>
-          </td>
-        </tr>
-        <tr>
-          <td><%= t('page.number') -%>:</td>
-          <td>
-            <%- unless @manifestation.volume_number.blank? -%>
-              <%= t('activerecord.attributes.manifestation.volume_number_list') -%>: <%= @manifestation.volume_number.join("/") -%>
-            <%- end -%>
-            <%- unless @manifestation.issue_number_list.blank? -%>
-              <%= t('manifestation.issue_number') -%>: <%= @manifestation.issue_number.join("/") -%>
-            <%- end -%>
-            <%- unless @manifestation.serial_number_list.blank? -%>
-              <%= t('manifestation.serial_number') -%>: <%= @manifestation.serial_number.join("/") -%>
-            <%- end -%>
-          </td>
-        </tr>
-      <%- end -%>
-      <tr>
-        <td style="width: 200px"><%= t('page.form') -%>:</td>
-        <td style="width: 500px">
-          <%= form_icon(@manifestation.carrier_type) -%> <%= @manifestation.carrier_type.display_name.localize -%>
-        </td>
-      </tr>
-      <tr>
-        <td><%= t('activerecord.models.language') -%>:</td>
-        <td><%= language_list(@manifestation.languages) -%></td>
-      </tr>
-      <tr>
-        <td><%= t('manifestation.physical_description') -%>:</td>
-        <td>
-          <%- if @manifestation.number_of_pages -%>
-            <%= @manifestation.number_of_pages -%> p. 
-            (<%= @manifestation.start_page -%> - <%= @manifestation.end_page -%>)
-          <%- end -%>
-          <!-- TODO: センチメートル以外の単位 -->
-          <%- if @manifestation.height -%>
-            <%= @manifestation.height -%> cm.
-          <%- end -%>
-        </td>
-      </tr>
-      <tr>
-        <td><%= t('activerecord.attributes.manifestation.price') -%></td>
-        <td><%= @manifestation.price -%></td>
-      </tr>
-<%-
-  end
--%>
-    <!-- TODO: タグ表示のフラグメントキャッシュ -->
-      <tr>
-        <td><%= t('activerecord.models.subject') -%>:</td>
-        <td>
-          <%- unless @manifestation.subjects.empty? -%>
-            <ul>
-              <%- @manifestation.subjects.each do |subject| -%>
-                <li>
-                  <%= link_to h(subject.term), subject -%>
-                  <%- if can? :update, subject -%>
-                    <%= link_to image_tag('/icons/page_edit.png', :alt => t('page.edit')), subject -%>
-                  <%- end -%>
-                  <%- unless subject.classifications.empty? -%>
-                    (
-                    <%- subject.classifications.each do |classification| -%>
-                      <%= classification.classification_type.name -%>: <%= link_to h(classification.category), classification -%>
-                    <%- end -%>
-                    )
-                  <%- end -%>
-                </li>
-              <%- end -%>
-            </ul>
-          <%- end -%>
-        </td>
-      </tr>
-      <tr>
-        <td><%= t('activerecord.models.tag') -%>:</td>
-        <td>
-          <%= render :partial => 'tag_list' -%>
-        </td>
-      </tr>
-<%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_3', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
-%>
-      <%- unless @manifestation.serial? -%>
-        <tr>
-          <td><%= t('page.identifier') -%>:</td>
-          <td>
-            <%- if @manifestation.isbn.present? -%>
-              ISBN: <%= @manifestation.isbn -%>
-              <%- if @manifestation.isbn10.present? -%>
-                ( <%= @manifestation.isbn10 -%> )
-              <%- end -%>
-            <%- end -%>
-            <%- if @manifestation.nbn.present? -%>
-              NBN: <%= @manifestation.nbn -%>
-            <%- end -%>
-            <%- if @manifestation.lccn.present? -%>
-              <br />
-              LCCN: <%= @manifestation.lccn -%>
-            <%- end -%>
-          </td>
-        </tr>
-      <%- end -%>
-      <%- unless @manifestation.attachment_file_name.blank? -%>
-        <%= render :partial => 'attachment_file' -%>
-      <%- end -%>
-      <tr>
-        <td><%= t('page.created_at') -%>:</td>
-        <td><%=l @manifestation.created_at if @manifestation.created_at -%></td>
-      </tr>
-      <tr>
-        <td><%= t('page.updated_at') -%>:</td>
-        <td><%=l @manifestation.updated_at if @manifestation.updated_at -%></td>
-      </tr>
-      <tr>
-        <td><%= t('activerecord.attributes.manifestation.description') -%>:</td>
-        <td>
-          <%= raw simple_format(h(@manifestation.description)) -%>
-        </td>
-      </tr>
-      <tr>
-        <td><%= t('activerecord.attributes.manifestation.note') -%>:</td>
-        <td>
-          <!--
-            <%= editable_content_tag(:div, @manifestation, 'note', true, nil, {:style => 'border: 1px solid grey;'}, {:clickToEditText => t('page.click_to_edit'), :okText => t('page.update'), :cancelText => t('page.cancel'), :emptyText => t('page.click_to_edit'), :savingText => t('page.saving'), :rows => 2, :cols => 40}) %>
-          -->
-          <%= raw simple_format(h(@manifestation.note)) -%>
-        </td>
-      </tr>
-      <%= render :partial => 'show_worldcat_record' if @worldcat_record.present? -%>
-    </table>
-  <%- end -%>
-  <%- if @manifestation.items.on_shelf.first -%>
-    <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation} -%>
-  <%- end -%>
-<%
-  cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail_4', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do
-%>
-      <h4><%= t('manifestation.patron_who_bookmark_this_resource') -%></h4>
-      <%= render :partial => 'bookmarks_for_this_manifestation' -%>
-
-    </div>
-    <%- unless @manifestation.has_single_work? -%>
-      <%= render :partial => 'manifestations/work_list' -%>
-    <%- end -%>
-    <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
-      <%= render :partial => 'manifestations/manifestation_list' -%>
-    <%- end -%>
-    <%- if @manifestation.amazon_customer_reviews.size > 0 -%>
-      <%= render :partial => 'manifestations/amazon_review', :locals => {:manifestation => @manifestation, :amazon_reviews => @amazon_reviews} -%>
-    <%- end -%>
-    <%- unless @xisbn_manifestations.blank? -%>
-      <%= render :partial => 'manifestations/show_xisbn' -%>
-    <%- end -%>
-    <%- if current_user.try(:has_role?, 'Librarian') -%>
-      <%= render :partial => 'history_list' -%>
-    <%- end -%>
-  </div>
-</div>
-<!-- cache end -->
+  <!-- cache start -->
   <%
-    end
-  -%>
-      <%- if can? :update, @manifestation -%>
-        <%- if @manifestation.respond_to?(:post_to_twitter) -%>
-          <%= render :partial => 'manifestations/twitter_comment' -%>
-        <%- end -%>
-      <%- end -%>
+    cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail', :role => current_user_role_name, :locale => @locale, :version => @version) do
+  %>
+    <% if current_user.try(:has_role?, 'Librarian') %>
+      <%= render :partial => 'show_detail_librarian' %>
+    <% else %>
+      <%= render :partial => 'show_detail_user' %>
+    <% end %>
+  <!-- cache end -->
+  <% end %>
 
 <%- if params[:mode] == 'generate_cache' -%>
   <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
@@ -227,11 +35,12 @@
   <%= render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation} -%>
 <%- end -%>
 
+  </div>
 </div>
 
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user.try(:highest_role).try(:name), :locale => @locale, :version => @version) do -%>
+  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
     <%- unless @manifestation.picture_files.empty? -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
@@ -256,8 +65,8 @@
         <%- end -%>
       </ul>
       <script type="text/javascript">
-        jQuery(document).ready(function(){
-          jQuery("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
+        $(document).ready(function(){
+          $("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"});
         })
       </script>
     <%- else -%>
@@ -292,17 +101,21 @@
 
       <%- unless @manifestation.carrier_type.name == 'file' -%>
         <li>
-          <%- if current_user.has_role?('Librarian') -%>
-            <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
-          <%- else -%>
-            <%- if @manifestation.is_reserved_by(current_user) -%>
-              <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.username, @reserve) -%>
+          <% if @manifestation.reservable? %>
+            <%- if current_user.has_role?('Librarian') -%>
+              <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
             <%- else -%>
-              <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.username, :manifestation_id => @manifestation.id) -%>
+              <%- if @manifestation.is_reserved_by(current_user) -%>
+                <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.username, @reserve) -%>
+              <%- else -%>
+                <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.username, :manifestation_id => @manifestation.id) -%>
+              <%- end -%>
             <%- end -%>
+            <br />
+            (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
+          <%- else -%>
+            <%= link_to t('activerecord.models.purchase_request'), new_user_purchase_request_path(current_user.username, :url => manifestation_url(@manifestation)) %>
           <%- end -%>
-          <br />
-          (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
         </li>
       <%- end -%>
       </ul>
@@ -330,3 +143,15 @@
     <%- end -%>
   </div>
 </div>
+
+<% if user_signed_in? and @manifestation.isbn.present? %>
+<script type="text/javascript">
+  window.onload = function() {
+    $("#calil_list").load('<%= manifestation_path(@manifestation, :mode => 'calil_list') -%>', null, hideCalilSpinner);
+  }
+
+  function hideCalilSpinner(){
+    $("#spinner_calil_list").hide();
+  }
+</script>
+<% end %>

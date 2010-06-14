@@ -52,11 +52,7 @@ class SeriesStatementsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @series_statement }
-      format.js {
-        render :update do |page|
-          page.replace_html 'manifestation_list', :partial => 'manifestation_list' if params[:manifestation_page]
-        end
-      }
+      format.js
     end
   end
 

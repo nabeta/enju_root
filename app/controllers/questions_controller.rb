@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 class QuestionsController < ApplicationController
+  before_filter :store_location, :only => :index
   load_and_authorize_resource
   before_filter :get_user_if_nil, :except => [:edit]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -50,11 +51,16 @@ class QuestionsController < ApplicationController
         user = @user
       end
     end
-    user = current_user if user.nil?
+    c_user = current_user
 
     search.build do
-      if user
-        with(:username).equal_to user.username unless user.has_role?('Librarian')
+       with(:username).equal_to user.username if user
+      if c_user
+        unless c_user.has_role?('Librarian')
+          with(:shared).equal_to true
+        end
+      else
+        with(:shared).equal_to true
       end
       facet :solved
     end
@@ -97,12 +103,7 @@ class QuestionsController < ApplicationController
       }
       format.rss  { render :layout => false }
       format.atom
-      format.js {
-        render :update do |page|
-          page.replace_html 'result_index', :partial => 'list' if params[:page]
-          page.replace_html 'submenu', :partial => 'crd' if params[:crd_page]
-        end
-      }
+      format.js
     end
   rescue RSolr::RequestError
     flash[:notice] = t('page.error_occured')

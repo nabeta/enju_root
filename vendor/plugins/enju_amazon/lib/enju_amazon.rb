@@ -43,11 +43,9 @@ module EnjuAmazon
         encoded_hash = CGI.escape(Base64.encode64(hash).strip)
         amazon_url = "http://#{AMAZON_AWS_HOSTNAME}/onca/xml?#{query}&Signature=#{encoded_hash}"
 
-        file = open(amazon_url)
-        body = file.read
-        file.close
-
-        return body
+        open(amazon_url) do |f|
+          f.read
+        end
       end
     end
 
@@ -96,8 +94,7 @@ module EnjuAmazon
 
     private
     def access_amazon_proxy
-      url = "http://#{BOOKMARK_HOSTNAME}:#{BOOKMARK_PORT_NUMBER}/manifestations/#{self.id}.xml?api=amazon"
-      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){open(url).read}
+      Rails.cache.fetch("manifestation_amazon_response_#{self.id}"){self.access_amazon}
     end
     
   end

@@ -12,8 +12,7 @@
     <th><%= t('activerecord.attributes.picture_file.picture_file_size') -%></th>
     <th><%= t('activerecord.attributes.picture_file.picture_content_type') -%></th>
     <th><%= t('activerecord.attributes.picture_file.picture_file_name') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.height') -%></th>
-    <th><%= t('activerecord.attributes.picture_file.width') -%></th>
+    <th></th>
   </tr>
   <%- for picture_file in @picture_files -%>
     <tr class="line<%= cycle("0", "1") -%>">
@@ -28,13 +27,13 @@
       <td><%= picture_file.picture_file_size -%></td>
       <td><%= picture_file.picture_content_type -%></td>
       <td><%= link_to h(picture_file.picture_file_name), picture_file_path(picture_file, :format => :download, :size => 'original') -%></td>
-      <td><%= picture_file.height -%></td>
-      <td><%= picture_file.width -%></td>
-      <%- if can? :destroy, picture_file -%>
-        <td><%= link_to t('page.show'), picture_file -%></td>
-        <td><%= link_to t('page.edit'), edit_picture_file_path(picture_file) -%></td>
-        <td><%= link_to t('page.destroy'), picture_file, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-      <%- end -%>
+      <td>
+        <%- if can? :destroy, picture_file -%>
+          <%= link_to t('page.show'), picture_file -%>
+          <%= link_to t('page.edit'), edit_picture_file_path(picture_file) -%>
+          <%= link_to t('page.destroy'), picture_file, :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

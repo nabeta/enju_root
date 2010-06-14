@@ -14,18 +14,17 @@ class PictureFile < ActiveRecord::Base
   default_scope :order => 'position'
   # http://railsforum.com/viewtopic.php?id=11615
   acts_as_list :scope => 'picture_attachable_id=#{picture_attachable_id} AND picture_attachable_type=\'#{picture_attachable_type}\''
+  after_create :set_digest
 
   def self.per_page
     10
   end
 
-  def after_create
-    set_digest
-  end
-
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.picture.path, 'rb').read)
-    save(false)
+    if File.exists?(picture.path)
+      self.file_hash = Digest::SHA1.hexdigest(File.open(picture.path, 'rb').read)
+      save(false)
+    end
   end
 
   def extname

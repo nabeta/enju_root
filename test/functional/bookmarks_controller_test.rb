@@ -94,11 +94,10 @@ class BookmarksControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  def test_user_should_not_get_my_new_with_internal_url
+  def test_user_should_get_my_new_with_internal_url
     sign_in users(:user1)
     get :new, :user_id => users(:user1).username, :url => LibraryGroup.url
-    assert_response :redirect
-    assert_redirected_to LibraryGroup.url
+    assert_response :success
   end
   
   def test_guest_should_not_create_bookmark
@@ -175,7 +174,8 @@ class BookmarksControllerTest < ActionController::TestCase
       post :create, :bookmark => {}, :user_id => users(:user1).username
     end
     
-    assert_equal 'Invalid URL.', flash[:notice]
+    assert_response :redirect
+    assert_redirected_to new_user_bookmark_url(users(:user1).username)
   end
 
   def test_user_should_not_create_bookmark_already_bookmarked

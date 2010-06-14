@@ -6,6 +6,7 @@ class LibraryGroup < ActiveRecord::Base
   has_many :libraries
   has_many :search_engines
   has_many :news_feeds
+  belongs_to :country
 
   validates_presence_of :name, :display_name, :email
 
@@ -38,7 +39,7 @@ class LibraryGroup < ActiveRecord::Base
     true if self == LibraryGroup.site_config
   end
 
-  def physical_libraries
+  def real_libraries
     # 物理的な図書館 = IDが1以外
     self.libraries.all(:conditions => ['id != 1'])
   end
@@ -61,13 +62,6 @@ class LibraryGroup < ActiveRecord::Base
       end
     end
     return false
-  end
-
-  def is_deletable_by(user, parent = nil)
-    raise if self.config?
-    true if user.has_role?('Administrator')
-  rescue
-    false
   end
 
 end

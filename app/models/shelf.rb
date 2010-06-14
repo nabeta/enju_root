@@ -1,5 +1,6 @@
 class Shelf < ActiveRecord::Base
   default_scope :order => "position"
+  named_scope :real, :conditions => ['library_id != 1']
   belongs_to :library, :validate => true
   has_many :items, :include => [:use_restrictions, :circulation_status]
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
@@ -31,15 +32,6 @@ class Shelf < ActiveRecord::Base
 
   def self.web
     Shelf.find(1)
-  end
-
-  def is_deletable_by(user, parent = nil)
-    return false if self.id == 1
-    if user.try(:has_role?, 'Administrator')
-      true
-    else
-      false
-    end
   end
 
   def first?

@@ -15,7 +15,7 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.order_list.ordered_at') -%><br />
-    <%= f.date_text_field :ordered_at, :class => 'date_field' -%>
+    <%= f.text_field :ordered_at, :value => @order_list.ordered_at.try(:strftime, "%Y-%m-%d"), :class => 'date_field' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.order_list.note') -%><br />

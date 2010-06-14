@@ -1,9 +1,9 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
-    Create, Realize, Produce, Own, Bookmark, Tag, Patron, Language,
+    Create, Realize, Produce, Own, Bookmark, Patron, Language,
     Library, Basket, Checkin, WorkHasWork, ExpressionHasExpression,
     ManifestationHasManifestation, ItemHasItem, PatronHasPatron,
-    SeriesStatement, SubjectHeadingType, PictureFile, Shelf
+    SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag, Answer
 
   def after_save(record)
     case
@@ -20,6 +20,9 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
       record.donated_items.each do |item|
         expire_editable_fragment(item)
+      end
+      record.patrons.each do |patron|
+        expire_editable_fragment(patron)
       end
     when record.is_a?(Work)
       expire_editable_fragment(record)
@@ -53,7 +56,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Item)
       expire_editable_fragment(record)
-      expire_editable_fragment(record.manifestation, ['detail_3', 'detail_4'])
+      expire_editable_fragment(record.manifestation, ['detail'])
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
       end
@@ -78,10 +81,13 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(Subject)
       expire_editable_fragment(record)
-      record.manifestations.each do |manifestation|
-        expire_editable_fragment(manifestation)
+      record.works.each do |work|
+        expire_editable_fragment(work)
+        work.manifestations.each do |manifestation|
+          expire_editable_fragment(manifestation)
+        end
       end
-      record.manifestations.each do |classification|
+      record.classifications.each do |classification|
         expire_editable_fragment(classification)
       end
     when record.is_a?(Classification)
@@ -89,10 +95,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       record.subjects.each do |subject|
         expire_editable_fragment(subject)
       end
-    #when record.is_a?(Concept)
-    #  expire_fragment(:controller => :concepts, :action => :show, :id => record.id)
-    #when record.is_a?(Place)
-    #  expire_fragment(:controller => :places, :action => :show, :id => record.id)
     when record.is_a?(Create)
       expire_editable_fragment(record.patron)
       expire_editable_fragment(record.work)
@@ -199,7 +201,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(SeriesStatement)
       record.manifestations.each do |manifestation|
-        expire_editable_fragment(manifestation, "detail_2")
+        expire_editable_fragment(manifestation, ['detail'])
       end
     when record.is_a?(SubjectHeadingTypeHasSubject)
       expire_editable_fragment(record.subject)
@@ -209,6 +211,10 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_editable_fragment(record.picture_attachable, ['picture_file', 'book_jacket'])
       when record.picture_attachable.is_a?(Patron)
         expire_editable_fragment(record.picture_attachable, ['picture_file'])
+      end
+    when record.is_a?(Answer)
+      record.items.each do |item|
+        expire_editable_fragment(item.manifestation, ['detail'])
       end
     end
   end
@@ -223,14 +229,12 @@ class ResourceSweeper < ActionController::Caching::Sweeper
         expire_manifestation_cache(record, fragments)
       else
         I18n.available_locales.each do |locale|
-          expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => true, :locale => locale.to_s)
-          expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :editable => false, :locale => locale.to_s)
-          if fragments
-            fragments.each do |fragment|
-              Role.all.each do |role|
+          Role.all.each do |role|
+            expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :role => role.name, :locale => locale.to_s)
+            if fragments
+              fragments.each do |fragment|
                 expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :role => role.name, :locale => locale.to_s)
               end
-              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :action_suffix => fragment, :role => nil, :locale => locale.to_s)
             end
           end
         end
@@ -239,7 +243,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   end
 
   def expire_manifestation_cache(manifestation, fragments)
-    fragments = %w[detail_1 detail_2 detail_3 detail_4 pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers tags title show_xisbn picture_file] if fragments.nil?
+    fragments = %w[detail pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers title show_xisbn picture_file title_reserve] if fragments.nil?
     expire_fragment(:controller => :manifestations, :action => :index, :action_suffix => 'numdocs')
     fragments.each do |fragment|
       expire_manifestation_fragment(manifestation, fragment)
@@ -253,16 +257,22 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   def expire_manifestation_fragment(manifestation, fragment)
     if manifestation
       I18n.available_locales.each do |locale|
-        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => true, :locale => locale.to_s, :user_id => nil)
-        expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :editable => false, :locale => locale.to_s, :user_id => nil)
+        Role.all.each do |role|
+          ['atom', 'csv', 'mods', 'oai_list_identifiers', 'oai_list_records', 'rdf', 'rss'].each do |format|
+            expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :locale => locale.to_s, :role => role.name, :format_suffix => format, :user_id => nil)
+          end
+          expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :action_suffix => fragment, :locale => locale.to_s, :role => role.name, :user_id => nil)
+        end
       end
     end
   end
 
   def expire_tag_cloud(bookmark)
     I18n.available_locales.each do |locale|
-      expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => bookmark.user.username, :locale => locale)
-      expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud', :locale => locale)
+      Role.all.each do |role|
+        expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'user_tag_cloud', :user_id => bookmark.user.username, :locale => locale, :role => role.name, :user_id => nil)
+        expire_fragment(:controller => :tags, :action => :index, :action_suffix => 'public_tag_cloud', :locale => locale, :role => role.name, :user_id => nil)
+      end
     end
   end
 end

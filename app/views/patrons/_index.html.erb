@@ -6,7 +6,7 @@
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -16,10 +16,7 @@
     <th><%= t('activerecord.models.patron_type') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
-    <%- if user_signed_in? -%>
-      <th></th>
-      <th></th>
-    <%- end -%>
+    <th></th>
   </tr>
   <%- @patrons.each do |patron| -%>
     <tr class="line<%= cycle("0", "1") -%>">
@@ -33,12 +30,12 @@
       <td><%= patron.patron_type.display_name.localize  -%></td>
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
-      <%- if can? :destroy, patron -%>
-        <td><%= link_to t('page.edit'), edit_patron_path(patron) -%></td>
-        <td>
-          <%= link_to t('page.add_derivation'), patron_patrons_path(patron) -%>
-        </td>
-      <%- end -%>
+      <td>
+        <%- if can? :destroy, patron -%>
+          <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_patron_path(patron) -%>
+          <%= link_to image_tag('/icons/arrow_divide.png', :size => '16x16', :alt => t('patron.add_derivation')), patron_patrons_path(patron) -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

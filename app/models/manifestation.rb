@@ -39,7 +39,7 @@ class Manifestation < ActiveRecord::Base
   has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   belongs_to :frequency #, :validate => true
-  has_many :bookmarks, :include => :tags
+  has_many :bookmarks, :include => :tags, :dependent => :destroy
   has_many :users, :through => :bookmarks
   belongs_to :nii_type
   belongs_to :series_statement
@@ -47,7 +47,8 @@ class Manifestation < ActiveRecord::Base
   has_one :resource
 
   searchable do
-    text :title, :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
+    text :title, :default_boost => 2
+    text :fulltext, :note, :creator, :contributor, :publisher, :subject, :description
     string :title, :multiple => true
     # text フィールドだと区切りのない文字列の index が上手く作成
     #できなかったので。 downcase することにした。
@@ -177,8 +178,10 @@ class Manifestation < ActiveRecord::Base
   enju_scribd
   enju_mozshot
   enju_oai
+  enju_calil_check
   #enju_worldcat
   has_paper_trail
+  normalize_attributes :manifestation_identifier, :date_of_publication
 
   def self.per_page
     10
@@ -231,6 +234,7 @@ class Manifestation < ActiveRecord::Base
   def after_create
     #set_digest if self.attachment.path
     Rails.cache.delete("Manifestation.search.total")
+    post_to_scribd!
   end
 
   def after_save
@@ -296,11 +300,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def checkout_period(user)
-    available_checkout_types(user).collect(&:checkout_period).max
-  end
+    available_checkout_types(user).collect(&:checkout_period).max || 0
+  end 
   
   def reservation_expired_period(user)
-    available_checkout_types(user).collect(&:reservation_expired_period).max
+    available_checkout_types(user).collect(&:reservation_expired_period).max || 0
   end
   
   def embodies?(expression)
@@ -401,10 +405,6 @@ class Manifestation < ActiveRecord::Base
     NKF.nkf('--katakana', title_transcription) if title_transcription
   end
 
-  def subjects
-    works.collect(&:subjects).flatten
-  end
-  
   def classifications
     subjects.collect(&:classifications).flatten
   end
@@ -524,19 +524,6 @@ class Manifestation < ActiveRecord::Base
     #return resource
   end
 
-  def self.import_patrons(patron_lists)
-    patrons = []
-    patron_lists.each do |patron_list|
-      unless patron = Patron.first(:conditions => {:full_name => patron_list})
-        patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
-      end
-      patron.save
-      patrons << patron
-    end
-    return patrons
-  end
-
   def set_serial_number
     if m = series_statement.try(:last_issue)
       self.original_title = m.original_title
@@ -582,8 +569,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def reservable?
-    return false if self.items.empty?
-    return false if self.items.not_for_checkout.present?
+    return false if self.items.for_checkout.empty?
     true
   end
 
@@ -687,6 +673,28 @@ class Manifestation < ActiveRecord::Base
       return true if works.first.original_title == original_title
     end
     false
+  end
+
+  def questions(options = {})
+    id = self.id
+    options = {:page => 1, :per_page => Question.per_page}.merge(options)
+    page = options[:page]
+    per_page = options[:per_page]
+    user = options[:user]
+    Question.search do
+      with(:manifestation_id).equal_to id
+      any_of do
+        unless user.try(:has_role?, 'Librarian')
+          with(:shared).equal_to true
+        #  with(:username).equal_to user.try(:username)
+        end
+      end
+      paginate :page => page, :per_page => per_page
+    end.results
+  end
+
+  def web_item
+    items.first(:conditions => {:shelf_id => Shelf.web.id})
   end
 
 end

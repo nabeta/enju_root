@@ -19,11 +19,11 @@
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.started_at') -%><br />
-    <%= f.datetime_text_field :started_at, :class => 'date_field', :value => @advertisement.started_at.to_s -%>
+    <%= f.text_field :started_at, :class => 'date_field' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.ended_at') -%><br />
-    <%= f.datetime_text_field :ended_at, :class => 'date_field' -%>
+    <%= f.text_field :ended_at, :class => 'date_field' -%>
   </p>
   <p>
     <%= f.label t('activerecord.attributes.advertisement.note') -%><br />
@@ -32,7 +32,7 @@
   <p>
     <%= f.submit t('page.create') -%>
   </p>
-  <%= javascript_tag("$('advertisement_title').focus()") -%>
+  <%= javascript_tag("$('#advertisement_title').focus()") -%>
 <%- end -%>
 
 </div>

@@ -1,6 +1,6 @@
 <% form_for resource_name, resource, :url => session_path(resource_name) do |f| -%>
 <div id="content_detail">
-<h1 class="title"><%= t('devise.sessions.user.link') -%> : Project Next-L Enju</h1>
+<h1 class="title"><%= t('devise.sessions.user.link') -%> : Next-L Enju</h1>
 <div id="content_list">
   <%= raw sanitize(textilize(h(@library_group.login_banner))) %>
 
@@ -24,7 +24,7 @@
 
   <p><%= f.submit t('devise.sessions.user.link') %></p>
 
-<%= javascript_tag("$('user_username').focus()") -%>
+<%= javascript_tag("$('#user_username').focus()") -%>
 
 <%= render :partial => "shared/devise_links" %>
 <%= link_to 'Twitter Authentication', root_path(:warden_oauth_provider => 'twitter') -%>

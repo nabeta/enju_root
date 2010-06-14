@@ -70,6 +70,11 @@
     <%= f.text_area :note -%>
   </p>
 
+  <p>
+    <%= f.label t('activerecord.models.country') -%><br />
+    <%= f.select(:country_id, @countries.collect{|c| [c.display_name.localize, c.id]}) -%>
+  </p>
+
   <%= f.submit t('page.update') -%>
 <%- end -%>
 </div>

@@ -15,8 +15,8 @@ class CreatesControllerTest < ActionController::TestCase
     assert assigns(:creates)
   end
 
-  def test_guest_should_get_index_with_work_id
-    get :index, :work_id => 1
+  def test_guest_should_get_index_with_resource_id
+    get :index, :resource_id => 1
     assert_response :success
     assert assigns(:creates)
   end

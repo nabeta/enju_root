@@ -7,6 +7,7 @@
     <th><%= t('activerecord.attributes.order_list.title') -%></th>
     <th><%= t('activerecord.models.bookstore') -%></th>
     <th><%= t('activerecord.attributes.order_list.note') -%></th>
+    <th style="width: 50px"></th>
   </tr>
 
 <%- @order_lists.each do |order_list| -%>
@@ -14,8 +15,9 @@
     <td><%= link_to h(order_list.title), order_list -%></td>
     <td><%= link_to h(order_list.bookstore.name), order_list.bookstore -%></td>
     <td><%= order_list.note -%></td>
-    <td><%= link_to t('page.edit'), edit_order_list_path(order_list) -%></td>
-    <td><%= link_to t('page.destroy'), order_list, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_order_list_path(order_list) -%>
+      <%= link_to t('page.destroy'), order_list, :confirm => t('page.are_you_sure'), :method => :delete -%>
   </tr>
 <%- end -%>
 </table>

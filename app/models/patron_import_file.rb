@@ -101,6 +101,7 @@ class PatronImportFile < ActiveRecord::Base
       unless row['username'].blank?
         begin
           user = User.new
+          user.patron = patron
           user.username = row['username'].to_s.chomp
           user.email = row['email'].to_s.chomp
           user.email_confirmation = row['email'].to_s.chomp
@@ -113,8 +114,6 @@ class PatronImportFile < ActiveRecord::Base
           library = Library.first(:conditions => {:name => row['library_short_name'].to_s.chomp}) || Library.web
           user_group = UserGroup.first(:conditions => {:name => row['user_group_name']}) || UserGroup.first
           user.library = library
-          user.patron = patron
-          user.save!
           role = Role.first(:conditions => {:name => row['role']}) || Role.find(2)
           user.roles << role
           num[:activated] += 1

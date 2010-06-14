@@ -1,3 +1,1 @@
-<select id="item_shelf_id" name="item[shelf_id]">
-  <%= options_from_collection_for_select(@shelves, "id", "localized_display_name") -%>
-</select>
+<%= options_for_select @shelves.collect{|s| [s.name, s.id]} %>

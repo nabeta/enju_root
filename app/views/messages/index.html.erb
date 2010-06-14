@@ -6,22 +6,28 @@
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
    </p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
   <table class="index">
     <tr>
       <th></th>
-      <th><%= t('activerecord.models.subject') -%></th>
-      <th><%= rezm_sender_or_receiver_label -%></th>
+      <th><%= t('activerecord.attributes.message.subject') -%></th>
+      <th><%= t('activerecord.attributes.message.sender') -%></th>
       <th><%= t('message.sent_at') -%></th>
     </tr>
   <%- for message in @messages  -%>
     <tr class="line<%= cycle("0", "1") -%>">
-      <td><%= rezm_delete_check_box(message) -%></td>
-      <td><%= rezm_link_to_message(message) -%></td>
-      <td><%= rezm_sender_or_receiver(message) -%></td>
+      <td>
+        <input id="delete_<%=h message.id -%>" name="delete[]" type="checkbox" value="<%=h message.id %>" class="checkbox" />
+      </td>
+      <td>
+        <% unless message.read? %><strong><% end %>
+          <%= link_to h(message.subject), message -%>
+        <% unless message.read? %></strong><% end %>
+      </td>
+      <td><%= link_to h(message.sender.username), message.sender -%></td>
       <td><%= l(message.created_at) -%></td>  
     </tr>
   <%- end -%>
@@ -36,11 +42,24 @@
 
 <div id="submenu">
   <ul>
-    <li><%= rezm_link_to_inbox -%></li>
-    <%- if current_user.has_role?('Librarian') -%>
-      <li><%= rezm_link_to_create_message -%></li>
-      <li><%= rezm_link_to_outbox -%></li>
+    <% mode = params[:mode].to_s %>
+    <%- @message_facet.each do |facet| -%>
+      <li>
+        <% facet.value ? facet_mode = 'read' : facet_mode = 'unread' %>
+        <%- if facet_mode == mode -%><strong><%- end -%>
+          <%= link_to t("message.#{facet_mode}"), url_for(:params => params.merge(:page => nil, :mode => facet_mode)) -%>
+        (<%= facet.count -%>)
+        <%- if facet_mode == mode -%></strong><%- end -%>
+      </li>
     <%- end -%>
-    <li><%= rezm_link_to_trash_bin -%></li>
+    <% if mode.present? %>
+      <li><%= link_to t('page.remove_this_facet'), params.merge(:mode => nil, :page => nil) -%></li>
+    <% end %>
+  </ul>
+
+  <ul>
+    <% if current_user.has_role?('Librarian') %>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.message')), new_user_message_path(current_user.username) -%></li>
+    <% end %>
   </ul>
 </div>

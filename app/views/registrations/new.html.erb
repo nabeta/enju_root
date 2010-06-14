@@ -30,7 +30,7 @@
   </p>
 
   <p><%= f.submit t('user.sign_up') %></p>
-  <%= javascript_tag("$('user_username').focus()") -%>
+  <%= javascript_tag("$('#user_username').focus()") -%>
 <% end -%>
 
 <%= render :partial => "shared/devise_links" %>

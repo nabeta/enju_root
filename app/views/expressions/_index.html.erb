@@ -12,17 +12,14 @@
     <%= t('page.serial') -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('search_form_top').focus()") -%>
+  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.language') -%></th>
-    <%- if user_signed_in? -%>
-      <th></th>
-      <th></th>
-    <%- end -%>
+    <th></th>
   </tr>
   
   <%- @expressions.each do |expression| -%>
@@ -34,12 +31,12 @@
         <%= raw patrons_list(expression.patrons, current_user) -%>
       </td>
       <td><%= expression.language.display_name.localize -%></td>
-      <%- if can? :destroy, expression -%>
-        <td><%= link_to t('page.edit'), edit_expression_path(expression) -%></td>
-        <td>
-          <%= link_to t('page.add_derivation'), expression_expressions_path(expression) -%>
-        </td>
-      <%- end -%>
+      <td>
+        <%- if can? :destroy, expression -%>
+          <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_expression_path(expression) -%>
+          <%= link_to image_tag('/icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), expression_expressions_path(expression) -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

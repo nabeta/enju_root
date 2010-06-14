@@ -6,26 +6,7 @@ xml.rdf(:RDF,
         'xmlns:foaf' => "http://xmlns.com/foaf/0.1/",
         'xmlns:prism' => "http://prismstandard.org/namespaces/basic/2.0/",
         'xmlns:rdfs' =>"http://www.w3.org/2000/01/rdf-schema#") do
-  xml.rdf(:Description, 'rdf:about' => manifestation_url(@manifestation)) do
-    xml.title h(@manifestation.original_title)
-    #xml.description(@manifestation.original_title)
-    xml.tag! 'dc:date', h(@manifestation.created_at.utc.iso8601)
-    xml.tag! 'dc:creator', @manifestation.creator.join(' ') unless @manifestation.creators.empty?
-    @manifestation.creators.each do |creator|
-      xml.tag! 'foaf:maker' do
-        xml.tag! 'foaf:Person' do
-          xml.tag! 'foaf:name', creator.full_name
-          xml.tag! 'foaf:name', creator.full_name_transcription if creator.full_name_transcription.present?
-        end
-      end
-    end
-    xml.tag! 'dc:contributor', @manifestation.editor.join(' ') unless @manifestation.contributors.empty?
-    xml.tag! 'dc:publisher', @manifestation.publisher.join(' ') unless @manifestation.publishers.empty?
-    xml.tag! 'dc:identifier', "urn:ISBN:#{@manifestation.isbn}" if @manifestation.isbn.present?
-    xml.tag! 'dc:description', @manifestation.description
-    xml.link manifestation_url(@manifestation)
-    @manifestation.subjects.each do |subject|
-      xml.tag! "foaf:topic", "rdf:resource" => subject_url(subject)
-    end
+  cache(:id => @manifestation.id, :action => 'show', :controller => 'manifestations', :role => current_user_role_name, :format_suffix => 'rdf', :locale => @locale) do
+    xml << render(:partial => 'show', :locals => {:manifestation => @manifestation})
   end
 end

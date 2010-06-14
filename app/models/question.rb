@@ -20,6 +20,9 @@ class Question < ActiveRecord::Base
     boolean :shared
     boolean :solved
     integer :answers_count
+    integer :manifestation_id, :multiple => true do
+      answers.collect(&:items).flatten.collect{|i| i.manifestation.id}
+    end
   end
 
   acts_as_taggable_on :tags
@@ -46,11 +49,6 @@ class Question < ActiveRecord::Base
     self.user.username
   end
 
-  def is_readable_by(user, parent = nil)
-    return true if user == self.user || self.shared? || user.try(:has_role?, 'Librarian')
-    false
-  end
-
   def last_updated_at
     if answers.last
       time = answers.last.updated_at
@@ -65,4 +63,5 @@ class Question < ActiveRecord::Base
       updated_at
     end
   end
+
 end

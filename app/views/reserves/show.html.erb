@@ -7,6 +7,7 @@
 <p>
   <strong><%= t('activerecord.models.user') -%>:</strong>
   <%= link_to h(@reserve.user.username), user_path(@reserve.user.username) -%>
+  (<%= @reserve.user.user_number %>)
 </p>
 
 <p>
@@ -15,7 +16,7 @@
 </p>
 
 <p>
-  <strong><%= t('page.created_at') -%>:</strong>
+  <strong><%= t('activerecord.attributes.reserve.created_at') -%>:</strong>
   <%= l(@reserve.created_at) -%>
 </p>
 
