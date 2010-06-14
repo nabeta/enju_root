@@ -1,4 +1,5 @@
 class CarrierType < ActiveRecord::Base
+  include MasterModel
   default_scope :order => "position"
   has_many :manifestations
   #has_many :available_carrier_types
@@ -8,6 +9,7 @@ class CarrierType < ActiveRecord::Base
 
   validates_presence_of :name, :display_name
   validates_uniqueness_of :name
+  before_validation :set_display_name, :on => :create
 
   acts_as_list
 
@@ -21,10 +23,6 @@ class CarrierType < ActiveRecord::Base
 
   def expire_cache
     Rails.cache.delete('CarrierType.all')
-  end
-
-  def before_validation_on_create
-    self.display_name = self.name if display_name.blank?
   end
 
   def mods_type

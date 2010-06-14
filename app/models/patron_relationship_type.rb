@@ -1,4 +1,5 @@
 class PatronRelationshipType < ActiveRecord::Base
+  include MasterModel
   default_scope :order => 'position'
   has_many :patron_has_patrons
   validates_presence_of :name, :display_name

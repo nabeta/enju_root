@@ -93,6 +93,7 @@ class ClassificationTypesControllerTest < ActionController::TestCase
     old_count = ClassificationType.count
     post :create, :classification_type => {:name => 'test'}
     assert_equal old_count+1, ClassificationType.count
+    assert 'test', assigns(:classification_type).display_name
     
     assert_redirected_to classification_type_url(assigns(:classification_type))
   end

@@ -1,7 +1,7 @@
 <%- unless @manifestation.has_single_work? -%>
   <%= render :partial => 'manifestations/work_list' -%>
 <%- end -%>
-<%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
+<%- if @manifestation.original_manifestations.first or @manifestation.derived_manifestations.first -%>
   <%= render :partial => 'manifestations/manifestation_list' -%>
 <%- end -%>
 <%- unless @manifestation.questions(:user => current_user).empty? -%>

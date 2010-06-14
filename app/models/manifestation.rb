@@ -375,7 +375,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def tags
-    unless self.bookmarks.empty?
+    if self.bookmarks.first
       self.bookmarks.tag_counts
     else
       []

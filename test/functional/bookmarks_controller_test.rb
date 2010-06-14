@@ -1,12 +1,10 @@
 require 'test_helper'
 
 class BookmarksControllerTest < ActionController::TestCase
-    fixtures :bookmarks
-  fixtures :works, :form_of_works, :expressions, :content_types, :frequencies, :languages, :manifestations, :carrier_types, :tags, :taggings, :shelves, :items, :circulation_statuses,
-    :creates, :realizes, :produces, :owns,
-    :reifies, :embodies, :exemplifies
-  fixtures :users, :patrons, :patron_types
-  fixtures :roles
+    fixtures :bookmarks, :form_of_works, :content_types, :frequencies,
+      :languages, :circulation_statuses, :users, :roles,
+      :manifestations, :carrier_types, :tags, :taggings, :shelves, :items,
+      :creates, :realizes, :produces, :owns, :patrons, :patron_types
 
   def test_guest_should_not_get_index
     get :index
@@ -77,26 +75,27 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_not_get_my_new_without_url
     sign_in users(:user1)
     get :new, :user_id => users(:user1).username
-    assert_response :success
+    assert_response :redirect
+    assert_redirected_to user_bookmarks_url(users(:user1))
   end
   
   def test_user_should_not_get_new_with_already_bookmarked_url
     sign_in users(:user1)
-    get :new, :user_id => users(:user1).username, :url => 'http://www.slis.keio.ac.jp/'
+    get :new, :user_id => users(:user1).username, :bookmark => {:url => 'http://www.slis.keio.ac.jp/'}
     assert_response :redirect
     assert_equal 'This resource is already bookmarked.', flash[:notice]
-    assert_redirected_to manifestation_url(assigns(:manifestation))
+    assert_redirected_to manifestation_url(assigns(:bookmark).get_manifestation)
   end
   
   def test_user_should_get_my_new_with_external_url
     sign_in users(:user1)
-    get :new, :user_id => users(:user1).username, :title => 'example', :url => 'http://example.com'
+    get :new, :user_id => users(:user1).username, :bookmark => {:title => 'example', :url => 'http://example.com'}
     assert_response :success
   end
   
   def test_user_should_get_my_new_with_internal_url
     sign_in users(:user1)
-    get :new, :user_id => users(:user1).username, :url => LibraryGroup.url
+    get :new, :user_id => users(:user1).username, :bookmark => {:url => "#{LibraryGroup.url}/manifestations/1"}
     assert_response :success
   end
   
@@ -129,13 +128,13 @@ class BookmarksControllerTest < ActionController::TestCase
 
   def test_user_should_not_create_other_users_bookmark
     sign_in users(:user1)
-    assert_difference('Bookmark.count') do
-      post :create, :bookmark => {:user_id => users(:user2).id, :title => 'example', :url => 'http://example.com/'}, :user_id => users(:user2).username
+    old_bookmark_counts = users(:user2).bookmarks.count
+    assert_no_difference('Bookmark.count') do
+      post :create, :bookmark => {:user_id => users(:user2).id, :title => 'example', :url => 'http://example.com/'}
     end
+    assert_equal old_bookmark_counts, users(:user2).bookmarks.count
     
-    assert_response :redirect
-    assert_redirected_to bookmark_url(assigns(:bookmark))
-    assigns(:bookmark).remove_from_index!
+    assert_response :forbidden
   end
 
   def test_user_should_create_bookmark_with_tag_list
@@ -146,7 +145,7 @@ class BookmarksControllerTest < ActionController::TestCase
     end
     
     assert_equal ['search'], assigns(:bookmark).tag_list
-    assert_equal 1, assigns(:bookmark).tag_counts.size
+    assert_equal 1, assigns(:bookmark).taggings.size
     assert_equal old_tag_count+1, Tag.count
     #assert_equal 1, assigns(:bookmark).manifestation.items.size
     assert_redirected_to bookmark_url(assigns(:bookmark))
@@ -174,8 +173,7 @@ class BookmarksControllerTest < ActionController::TestCase
       post :create, :bookmark => {}, :user_id => users(:user1).username
     end
     
-    assert_response :redirect
-    assert_redirected_to new_user_bookmark_url(users(:user1).username)
+    assert_response :success
   end
 
   def test_user_should_not_create_bookmark_already_bookmarked
