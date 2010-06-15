@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 class UserGroup < ActiveRecord::Base
+  include MasterModel
   default_scope :order => "position"
   has_many :users
   #has_many :available_carrier_types
@@ -11,15 +12,12 @@ class UserGroup < ActiveRecord::Base
   validates_presence_of :name, :display_name
   validates_uniqueness_of :name, :case_sensitive => false
   validates_uniqueness_of :display_name
+  before_validation :set_display_name, :on => :create
 
   acts_as_list
 
   def self.per_page
     10
-  end
-
-  def before_validation_on_create
-    self.display_name = self.name if display_name.blank?
   end
 
   def after_save

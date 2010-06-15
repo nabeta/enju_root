@@ -41,7 +41,7 @@
 <div id="submenu">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
-    <%- unless @manifestation.picture_files.empty? -%>
+    <%- if @manifestation.picture_files.first -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>
           <%- if @manifestation.amazon -%>
@@ -96,7 +96,7 @@
         <%- if @manifestation.bookmarked?(current_user) -%>
           <li><%= link_to t('bookmark.remove_from_my_bookmark'), bookmark_path(Bookmark.first(:conditions => {:user_id => current_user.id, :manifestation_id => @manifestation.id})), :confirm => t('page.are_you_sure'), :method => :delete -%></li>
         <%- else -%>
-          <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.username, :url => manifestation_url(@manifestation)) -%></li>
+          <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.username, :bookmark => {:url => manifestation_url(@manifestation)}) -%></li>
         <%- end -%>
 
       <%- unless @manifestation.carrier_type.name == 'file' -%>

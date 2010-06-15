@@ -1,5 +1,5 @@
 <div id="manifestation">
-  <%- if @manifestation.original_manifestations.present? or @manifestation.derived_manifestations.present? -%>
+  <%- if @manifestation.original_manifestations.first or @manifestation.derived_manifestations.first -%>
     <ul>
       <%- @manifestation.from_manifestations.each do |manifestation_has_manifestation| -%>
         <%- manifestation =  manifestation_has_manifestation.from_manifestation -%>

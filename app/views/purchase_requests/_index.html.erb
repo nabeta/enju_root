@@ -77,6 +77,6 @@
 
 <h4><%= t('page.bookmarklet') -%></h4>
 <ul>
-  <li><a href="javascript:window.location.href='<%= new_user_purchase_request_url(current_user.username) -%>?url='+encodeURIComponent(location.href)+'&title='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
+  <li><a href="javascript:window.location.href='<%= new_user_purchase_request_url(current_user.username) -%>?purchase_request[url]='+encodeURIComponent(location.href)+'&purchase_request[title]='+encodeURIComponent(document.title);"><%= t('purchase_request.add_to_purchase_request') -%></a></li>
 </ul>
 </div>

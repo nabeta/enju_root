@@ -61,7 +61,7 @@
         <tr>
           <td><%= t('activerecord.models.subject') -%>:</td>
           <td>
-            <%- unless @manifestation.subjects.empty? -%>
+            <%- if @manifestation.subjects.first -%>
               <ul>
                 <%- @manifestation.subjects.each do |subject| -%>
                   <li>

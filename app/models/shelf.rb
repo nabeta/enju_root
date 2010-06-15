@@ -1,4 +1,5 @@
 class Shelf < ActiveRecord::Base
+  include MasterModel
   default_scope :order => "position"
   named_scope :real, :conditions => ['library_id != 1']
   belongs_to :library, :validate => true
@@ -13,16 +14,13 @@ class Shelf < ActiveRecord::Base
   validates_presence_of :name, :display_name, :library
   validates_uniqueness_of :name, :case_sensitive => false
   validates_uniqueness_of :display_name
+  before_validation :set_display_name, :on => :create
   
   acts_as_list :scope => :library
   #acts_as_soft_deletable
 
   def self.per_page
     10
-  end
-
-  def before_validation_on_create
-    self.display_name = self.name if display_name.blank?
   end
 
   def web_shelf?

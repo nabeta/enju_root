@@ -216,8 +216,8 @@ class Patron < ActiveRecord::Base
       unless patron = Patron.first(:conditions => {:full_name => patron_list})
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
         patron.required_role = Role.first(:conditions => {:name => 'Guest'})
+        patron.save
       end
-      patron.save
       patrons << patron
     end
     return patrons

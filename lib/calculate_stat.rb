@@ -1,5 +1,4 @@
 module CalculateStat
-
   def self.included(base)
     base.extend ClassMethods
   end

@@ -44,7 +44,7 @@ every 1.hour do
 end
 
 every 1.day, :at => '3:00 am' do
-  rake "sunspot:index"
+  rake "sunspot:reindex"
 #  rake "sitemap:refresh:no_ping"
 end
 

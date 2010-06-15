@@ -75,45 +75,24 @@ class BookmarksController < ApplicationController
       return
     end
     @bookmark = Bookmark.new(params[:bookmark])
-    begin
-      url = URI.parse(URI.encode(params[:url])).normalize.to_s
-      if url
-        @bookmark.url = url
-        unless @bookmark.url.bookmarkable?
-          access_denied; return
-        end
-        @manifestation = @bookmark.check_url
-        if @manifestation
-          if @manifestation.bookmarked?(current_user)
-            raise 'already_bookmarked'
-          end
-          @bookmark.title = @manifestation.original_title
-        else
-          @bookmark.title = Bookmark.get_title(params[:title])
-          @bookmark.title = Bookmark.get_title_from_url(url) if @bookmark.title.nil?
-        end
-      else
-        raise 'invalid_url'
-      end
-    rescue
-      logger.warn "Failed to bookmark: #{url}"
-      case $!.to_s
-      when 'invalid_url'
-        flash[:notice] = t('bookmark.invalid_url')
-      when 'only_manifestation_should_be_bookmarked'
-        flash[:notice] = t('bookmark.only_manifestation_should_be_bookmarked')
+    unless @bookmark.url.try(:bookmarkable?)
+      if @bookmark.url
         redirect_to @bookmark.url
-      when 'already_bookmarked'
-        flash[:notice] = t('bookmark.already_bookmarked')
-        redirect_to manifestation_url(@manifestation)
-        return
-      # OTC start
-      # 自館のページではない場合、メッセージを表示して空のページを表示
-      when 'not_our_holding'
-        flash[:notice] = t('bookmark.not_our_holding')
-        redirect_to new_user_bookmark_url(current_user.username)
-      # OTC end
+      else
+        redirect_to user_bookmarks_url(current_user)
       end
+      return
+    end
+    manifestation = @bookmark.get_manifestation
+    if manifestation
+      if manifestation.bookmarked?(current_user)
+        flash[:notice] = t('bookmark.already_bookmarked')
+        redirect_to manifestation
+        return
+      end
+      @bookmark.title = manifestation.original_title
+    else
+      @bookmark.title = Bookmark.get_title_from_url(@bookmark.url) if @bookmark.title.nil?
     end
   end
   
@@ -130,44 +109,38 @@ class BookmarksController < ApplicationController
   # POST /bookmarks.xml
   def create
     @bookmark = current_user.bookmarks.new(params[:bookmark])
-    @bookmark.tag_list = params[:bookmark][:tag_list]
     if @bookmark.url
       unless @bookmark.url.try(:bookmarkable?)
         access_denied; return
       end
     end
+    if params[:bookmark][:user_id]
+      user = User.find(params[:bookmark][:user_id]) rescue nil
+      if user != current_user
+        access_denied; return
+      end
+    end
+    manifestation = @bookmark.get_manifestation
+    if manifestation.try(:bookmarked?, current_user)
+      flash[:notice] = t('bookmark.already_bookmarked')
+      redirect_to manifestation
+      return
+    end
 
     respond_to do |format|
-      begin
-        if @bookmark.save
-          flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
-          if params[:mode] == 'tag_edit'
-            format.html { redirect_to manifestation_url(@bookmark.manifestation) }
-            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.username, @bookmark) }
-          else
-            format.html { redirect_to(@bookmark) }
-            format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.username, @bookmark) }
-          end
+      if @bookmark.save
+        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
+        @bookmark.manifestation.index!
+        if params[:mode] == 'tag_edit'
+          format.html { redirect_to manifestation_url(@bookmark.manifestation) }
+          format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.username, @bookmark) }
         else
-          @user = current_user
-          format.html { render :action => "new" }
-          format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }
+          format.html { redirect_to(@bookmark) }
+          format.xml  { render :xml => @bookmark, :status => :created, :location => user_bookmark_url(@bookmark.user.username, @bookmark) }
         end
-      rescue
-        case $!.to_s
-        when 'already_bookmarked'
-          flash[:notice] = t('bookmark.already_bookmarked')
-        when 'invalid_url'
-          flash[:notice] = t('bookmark.invalid_url')
-        when 'specify_title_and_url'
-          flash[:notice] = t('bookmark.specify_title_and_url')
-        # OTC start
-        # 指定したurlが自館のサイトでない場合
-        when 'not_our_holding'
-          flash[:notice] = t('bookmark.not_our_holding')
-        # OTC end
-        end
-        format.html { redirect_to new_user_bookmark_url(current_user.username) }
+      else
+        @user = current_user
+        format.html { render :action => "new" }
         format.xml  { render :xml => @bookmark.errors, :status => :unprocessable_entity }
       end
     end
