@@ -60,7 +60,8 @@ class ResourceImportFile < ActiveRecord::Base
     rows.each do |row|
       manifestation = fetch(row)
       begin
-        if manifestation
+        item_identifier = row['item_identifier'].to_s.strip
+        if manifestation and item_identifier.present?
           unless item = Item.first(:conditions => {:item_identifier => row['item_identifier'].to_s.strip})
             create_item(row, manifestation)
             Rails.logger.info("resource registration succeeded: column #{record}"); next
@@ -205,10 +206,11 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def create_item(row, manifestation)
+    item_identifier = row['item_identifier'].to_s.strip
     circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
     shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
     item = self.class.import_item(manifestation, {
-      :item_identifier => row['item_identifier'],
+      :item_identifier => item_identifier,
       :price => row['item_price'],
       :call_number => row['call_number'].to_s.strip,
       :circulation_status => circulation_status,
