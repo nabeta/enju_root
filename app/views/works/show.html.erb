@@ -19,16 +19,16 @@
   <div id="tabs">
     <ul>
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- if @work.derived_works.present? or @work.original_works.present? -%>
+      <%- if @work.derived_works.first or @work.original_works.first -%>
         <li><a href="#work"><em><%= t('page.related') -%></em></a></li>
       <%- end -%>
-      <%- unless @work.patrons.empty? -%>
+      <%- if @work.patrons.first -%>
         <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
       <%- end -%>
-      <%- unless @work.expressions.empty? -%>
+      <%- if @work.expressions.first -%>
         <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
       <%- end -%>
-      <%- unless @work.manifestations.empty? -%>
+      <%- if @work.manifestations.first -%>
         <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
       <%- end -%>
       <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
@@ -76,16 +76,16 @@
         </table>
         <%= render :partial => 'works/show_subject_list' -%>
       </div>
-      <%- if @work.derived_works.present? or @work.original_works.present? -%>
+      <%- if @work.derived_works.first or @work.original_works.first -%>
         <%= render :partial => 'works/work_list' -%>
       <%- end -%>
-      <%- unless @work.patrons.empty? -%>
+      <%- if @work.patrons.first -%>
         <%= render :partial => 'works/patron_list' -%>
       <%- end -%>
-      <%- unless @work.expressions.empty? -%>
+      <%- if @work.expressions.first -%>
         <%= render :partial => 'works/expression_list' -%>
       <%- end -%>
-      <%- unless @work.manifestations.empty? -%>
+      <%- if @work.manifestations.first -%>
         <%= render :partial => 'works/manifestation_list' -%>
       <%- end -%>
       <%= render :partial => 'history_list' -%>

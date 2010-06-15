@@ -22,16 +22,16 @@
   <div id="tabs">
     <ul>
       <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- unless @expression.patrons.empty? -%>
+      <%- if @expression.patrons.first -%>
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
       <%- end -%>
       <%- if @expression.work -%>
         <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
       <%- end -%>
-      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
+      <%- if @expression.derived_expressions.first or @expression.original_expressions.first -%>
         <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
       <%- end -%>
-      <%- unless @expression.manifestations.empty? -%>
+      <%- if @expression.manifestations.first -%>
         <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
       <%- end -%>
       <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
@@ -75,16 +75,16 @@
           </tr>
         </table>
       </div>
-      <%- unless @expression.patrons.empty? -%>
+      <%- if @expression.patrons.first -%>
         <%= render :partial => 'expressions/patron_list' -%>
       <%- end -%>
       <%- if @expression.work -%>
         <%= render :partial => 'expressions/work_list' -%>
       <%- end -%>
-      <%- if @expression.derived_expressions.present? or @expression.original_expressions.present? -%>
+      <%- if @expression.derived_expressions.first or @expression.original_expressions.first -%>
         <%= render :partial => 'expressions/expression_list' -%>
       <%- end -%>
-      <%- unless @expression.manifestations.empty? -%>
+      <%- if @expression.manifestations.first -%>
         <%= render :partial => 'expressions/manifestation_list' -%>
       <%- end -%>
       <%= render :partial => 'history_list' -%>

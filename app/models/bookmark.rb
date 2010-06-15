@@ -5,17 +5,19 @@ class Bookmark < ActiveRecord::Base
   belongs_to :manifestation
   belongs_to :user #, :counter_cache => true, :validate => true
 
-  validates_presence_of :user_id, :title, :url
+  validates_presence_of :user, :title, :url
   #validates_presence_of :url, :on => :create
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
+  #validate :get_manifestation
+  before_validation :create_manifestation, :on => :create
+  before_validation :set_url
   validate :bookmarkable_url?
-  
-  def self.per_page
-    10
-  end
-  attr_accessor :local_url
+  before_save :replace_space_in_tags
+  after_create :create_frbr_object
+  after_save :save_tagger, :save_manifestation
+  after_destroy :save_manifestation
 
   acts_as_taggable_on :tags
   normalize_attributes :url
@@ -36,56 +38,42 @@ class Bookmark < ActiveRecord::Base
     time :updated_at
   end
 
-  def before_validation
-    self.url = URI.parse(self.url).normalize.to_s
-  rescue URI::InvalidURIError
-    raise 'invalid_url'
-  end
-
-  def before_validation_on_create
-    create_manifestation
-  end
-
-  def before_save
-    # タグに含まれている全角スペースを除去する
-    self.tag_list = self.tag_list.map{|tag| tag.gsub('　', ' ').gsub(' ', ', ')}
-  end
-
-  def after_create
-    send_later(:create_frbr_object) unless url.my_host?
-  end
-
-  def after_save
-    save_tagger
-    expire_cache
-    send_later(:save_manifestation)
-  end
-
-  def after_destroy
-    expire_cache
-    send_later(:save_manifestation)
+  def self.per_page
+    10
   end
 
   def expire_cache
     Rails.cache.delete("Manifestation.search.total")
   end
 
+  def set_url
+    self.url = URI.parse(self.url).normalize.to_s
+  rescue URI::InvalidURIError
+    nil
+  end
+
+  def replace_space_in_tags
+    # タグに含まれている全角スペースを除去する
+    self.tag_list = self.tag_list.map{|tag| tag.gsub('　', ' ').gsub(' ', ', ')}
+  end
+
   def save_manifestation
     self.manifestation.save
     self.manifestation.index!
+    expire_cache
   end
 
   def save_tagger
     #user.tag(self, :with => tag_list, :on => :tags)
     taggings.each do |tagging|
       tagging.tagger = user
-      tagging.save(false)
+      tagging.save(:validate => false)
       Tag.find(tagging.tag_id).index
     end
   end
 
   def shelved?
-    true unless self.manifestation.items.on_web.empty?
+    true if self.manifestation.items.on_web.first
   end
 
   def self.get_title(string)
@@ -93,6 +81,7 @@ class Bookmark < ActiveRecord::Base
   end
 
   def get_title
+    return if url.blank?
     if url.my_host?
       my_host_resource.original_title
     else
@@ -144,50 +133,43 @@ class Bookmark < ActiveRecord::Base
       if path[1] == 'manifestations' and Manifestation.find(path[0])
         manifestation = Manifestation.find(path[0])
       end
-    else
-      raise 'only_manifestation_should_be_bookmarked'
     end
   end
 
   def bookmarkable_url?
-    if url.my_host?
+    if url.try(:my_host?)
       unless my_host_resource
         errors[:base] << I18n.t('bookmark.not_our_holding')
       end
     end
   end
 
-  def check_url
+  def get_manifestation
     # 自館のページをブックマークする場合
-    if url.my_host?
+    if url.try(:my_host?)
       manifestation = self.my_host_resource
     else
       if LibraryGroup.site_config.allow_bookmark_external_url
         manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
-      else
-        # OTC start
-#         manifestation = Manifestation.first(:conditions => {:access_address => self.url}) if self.url.present?
-        # 自館のページではない場合
-        raise 'not_our_holding'
-        # OTC end
       end
     end
+    manifestation
   end
 
   def create_manifestation
-    manifestation = check_url
+    manifestation = get_manifestation
     unless manifestation
       manifestation = Manifestation.new(:access_address => url)
       manifestation.carrier_type = CarrierType.first(:conditions => {:name => 'file'})
     end
     # OTC start
-    # check_urlで自館のmanifestation以外ならば例外とし登録させないよう修正した。
+    # get_manifestationで自館のmanifestation以外ならば例外とし登録させないよう修正した。
     # よって、unless文の処理は不要になるはず。
-    # manifestation = check_urlを実行するのみ。nilの場合は上で処理するので処理不要。
-#    manifestation = check_url
+    # manifestation = get_manifestationを実行するのみ。nilの場合は上で処理するので処理不要。
+#    manifestation = get_manifestation
     # OTC end
     if manifestation.bookmarked?(user)
-      raise 'already_bookmarked'
+      errors[:base] << 'already_bookmarked'
     end
     if self.title.present?
       manifestation.original_title = self.title
@@ -204,6 +186,7 @@ class Bookmark < ActiveRecord::Base
         expression = Expression.new(:original_title => work.original_title)
         work.expressions << expression
         manifestation.expressions << expression
+
         create_bookmark_item
       end
     end
@@ -212,7 +195,7 @@ class Bookmark < ActiveRecord::Base
   def create_bookmark_item
     circulation_status = CirculationStatus.first(:conditions => {:name => 'Not Available'})
     item = Item.new(:shelf => Shelf.web, :circulation_status => circulation_status)
-    self.manifestation.items << item
+    manifestation.items << item
   end
 
   def self.manifestations_count(start_date, end_date, manifestation)

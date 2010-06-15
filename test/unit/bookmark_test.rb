@@ -28,7 +28,6 @@ class BookmarkTest < ActiveSupport::TestCase
     bookmark = users(:user1).bookmarks.create(:url => 'http://www.example.com/', :title => 'test')
     assert_equal old_count + 1, Bookmark.count
     assert_equal old_manifestation_count + 1, Manifestation.count
-    bookmark.create_frbr_object
     assert_equal old_work_count + 1, Work.count
     assert_equal old_expression_count + 1, Expression.count
     assert_equal old_item_count + 1, Item.count

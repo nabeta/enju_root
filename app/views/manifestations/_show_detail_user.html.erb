@@ -61,7 +61,7 @@
         <tr>
           <td><%= t('activerecord.models.subject') -%>:</td>
           <td>
-            <%- unless @manifestation.subjects.empty? -%>
+            <%- if @manifestation.subjects.first -%>
               <%- @manifestation.subjects.each do |subject| -%>
                 <%= link_to h(subject.term), subject -%>
               <%- end -%>
