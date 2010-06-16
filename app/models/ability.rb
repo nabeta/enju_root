@@ -13,7 +13,8 @@ class Ability
       can :show, Patron do |patron|
         patron.required_role_id <= 3 #'Librarian'
       end
-      can [:create, :update, :destroy], Patron do |patron|
+      can :create, Patron
+      can [:update, :destroy], Patron do |patron|
         patron.required_role_id <= 3 #'Librarian'
         patron.try(:user).try(:highest_role).try(:name) != 'Administrator'
       end
