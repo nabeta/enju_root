@@ -10,7 +10,7 @@
     <th><%= t('activerecord.models.expression') -%></th>
   </tr>
 
-<%- for embody in @embodies -%>
+<%- @embodies.each do |embody| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if can? :destroy, embody -%>

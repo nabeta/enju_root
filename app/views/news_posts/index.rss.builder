@@ -17,7 +17,7 @@ xml.rss('version' => "2.0",
       xml.tag! "opensearch:itemsPerPage", @news_posts.per_page
     end
     if @news_posts
-      for news_post in @news_posts
+      @news_posts.each do |news_post|
         xml.item do
           xml.title h(news_post.title)
           xml.description(news_post.body)

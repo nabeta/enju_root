@@ -8,7 +8,7 @@
     <td><%= t('activerecord.models.work_merge_list') -%></td>
   </tr>
 
-<%- for work_merge in @work_merges -%>
+<%- @work_merges.each do |work_merge| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td><%= link_to h(work_merge.work.original_title), work_path(work_merge.work) -%></td>
     <td><%= link_to h(work_merge.work_merge_list.title), work_merge_list_path(work_merge.work_merge_list) -%></td>

@@ -27,7 +27,7 @@ xml.rss('version' => "2.0",
       xml.tag! "opensearch:itemsPerPage", @reserves.per_page
       #xml.tag! "opensearch:Query", :role => 'request', :searchTerms => params[:query], :startPage => (params[:page] || 1)
     end
-    for reservation in @reserves
+    @reserves.each do |reservation|
       xml.item do
         xml.title reservation.manifestation.original_title
         #xml.description(reservation.title)

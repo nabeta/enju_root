@@ -43,10 +43,10 @@ every 1.hour do
   runner "PatronImportFile.import; EventImportFile.import; ResourceImportFile.import; Rails.cache.delete('Manifestation.search.total')"
 end
 
-every 1.day, :at => '3:00 am' do
-  rake "sunspot:reindex"
+#every 1.day, :at => '3:00 am' do
+#  rake "sunspot:reindex"
 #  rake "sitemap:refresh:no_ping"
-end
+#end
 
 every 1.day, :at => '9:00 am' do
   runner "Checkout.send_due_date_notification(1); Checkout.send_overdue_notification"
