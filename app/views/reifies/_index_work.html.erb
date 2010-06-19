@@ -10,7 +10,7 @@
     <th><%= t('activerecord.models.expression') -%></th>
   </tr>
 
-<%- for reify in @reifies -%>
+<%- @reifies.each do |reify| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
     </td>

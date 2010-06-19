@@ -37,7 +37,7 @@
     <th></th>
   </tr>
   
-<%- for manifestation in @manifestations -%>
+<%- @manifestations.each do |manifestation| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>

@@ -46,10 +46,10 @@ class ImportRequest < ActiveRecord::Base
       if manifestation = Manifestation.import_isbn!(isbn) rescue nil
         aasm_complete!
         self.manifestation = manifestation; save
+        manifestation.index!
       else
         aasm_fail!
       end
-      Sunspot.commit
     end
   end
 end

@@ -8,13 +8,10 @@
     <th><%= t('activerecord.attributes.content_type.name') -%></th>
     <th><%= t('activerecord.attributes.content_type.display_name') -%></th>
     <th><%= t('activerecord.attributes.content_type.note') -%></th>
-    <%- if can? :update, @content_types.first -%>
-      <th></th>
-      <th></th>
-    <% end %>
+    <th></th>
   </tr>
-
-<%- for content_type in @content_types -%>
+  
+<%- @content_types.each do |content_type| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- if can? :destroy, content_type -%>
@@ -24,18 +21,23 @@
     <td><%= link_to h(content_type.name), content_type -%></td>
     <td><%= link_to h(content_type.display_name.localize), content_type -%></td>
     <td><%= content_type.note -%></td>
-    <td><%= link_to t('page.edit'), edit_content_type_path(content_type) -%></td>
-    <td><%= link_to t('page.destroy'), content_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td>
+      <%- if can? :destroy, content_type -%>
+        <%= link_to t('page.edit'), edit_content_type_path(content_type) -%>
+        <%= link_to t('page.destroy'), content_type_path(content_type), :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>
 
-<%= will_paginate(@content_types) -%>
 </div>
 </div>
 
 <div id="submenu">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.content_type')), new_content_type_path -%></li>
+    <%- if can? :create, CarrierType -%>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.content_type')), new_content_type_path -%></li>
+    <%- end -%>
   </ul>
 </div>
