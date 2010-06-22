@@ -8,7 +8,7 @@
     <th><%= t('activerecord.models.manifestation') -%></th>
   </tr>
 
-<%- for embody in @embodies -%>
+<%- @embodies.each do |embody| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= link_to h(embody.expression.original_title), embody.expression -%>

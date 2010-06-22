@@ -17,7 +17,7 @@ xml.rss('version' => "2.0",
       xml.tag! "opensearch:itemsPerPage", @patrons.per_page
       xml.tag! "opensearch:Query", :role => 'request', :searchTerms => h(params[:query]), :startPage => (h(params[:page]) || 1)
     end
-    for patron in @patrons
+    @patrons.each do |patron|
       if patron
         xml.item do
           xml.title h(patron.full_name)

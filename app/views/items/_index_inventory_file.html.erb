@@ -20,7 +20,7 @@
     <th><%= t('activerecord.models.circulation_status') -%></th>
   </tr>
   
-<%- for item in @items -%>
+<%- @items.each do |item| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => item.manifestation} -%>
