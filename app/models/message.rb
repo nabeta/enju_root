@@ -1,6 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Message < ActiveRecord::Base
-  include AASM
   named_scope :unread, :conditions => ['state = ?', 'unread']
   belongs_to :message_request
   belongs_to :sender, :class_name => 'User'
@@ -8,32 +7,25 @@ class Message < ActiveRecord::Base
   validates_presence_of :subject, :body, :sender
   validates_presence_of :recipient, :on => :create
   validates_presence_of :receiver, :on => :update
+  before_save :set_receiver
+  after_save :index
+  after_destroy :remove_from_index
+  after_create :send_notification
 
   acts_as_tree
   attr_accessor :recipient
 
-  aasm_column :state
-  aasm_state :read
-  aasm_state :unread
-  aasm_initial_state :unread
+  state_machine :initial => :unread do
+    before_transition any => :read, :do => :read
+    before_transition :read => :unread, :do => :unread
 
-  aasm_event :aasm_read do
-    transitions :from => [:read, :unread], :to => :read,
-      :on_transition => :read
-  end
-
-  aasm_event :aasm_unread do
-    transitions :from => :read, :to => :unread
-  end
-
-  def before_save
-    if self.recipient
-      self.receiver = User.find(self.recipient)
+    event :sm_read do
+      transition any => :read
     end
-  end
 
-  def self.per_page
-    10
+    event :sm_unread do
+      transition :read => :unread
+    end
   end
 
   searchable do
@@ -47,29 +39,23 @@ class Message < ActiveRecord::Base
     end
   end
 
-  def after_save
-    expire_top_page_cache
-    index
+  def self.per_page
+    10
   end
 
-  def after_create
-    Notifier.send_later :deliver_message_notification, self.receiver if self.receiver.try(:email).present?
-  end
-
-  def after_destroy
-    expire_top_page_cache
-    remove_from_index
-  end
-
-  def expire_top_page_cache
-    I18n.available_locales.each do |locale|
-      Rails.cache.delete("views/#{LIBRARY_WEB_HOSTNAME}/users/#{receiver.username}?action_suffix=header&locale=#{locale}")
+  def set_receiver
+    if self.recipient
+      self.receiver = User.find(self.recipient)
     end
+  end
+
+  def send_notification
+    Notifier.send_later(:deliver_message_notification, self.receiver) if self.receiver.try(:email).present?
   end
 
   def read
     self.read_at = Time.zone.now unless self.read_at
-    self.save(false)
+    self.save(:validate => false)
   end
 
   def read?

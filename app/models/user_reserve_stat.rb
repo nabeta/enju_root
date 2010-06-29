@@ -1,34 +1,18 @@
 class UserReserveStat < ActiveRecord::Base
-  include AASM
   include CalculateStat
-  named_scope :not_calculated, :conditions => {:state => 'pending'}
+  scope :not_calculated, :conditions => {:state => 'pending'}
   has_many :reserve_stat_has_users
   has_many :users, :through => :reserve_stat_has_users
 
-  validates_presence_of :start_date, :end_date
-
-  aasm_column :state
-  aasm_state :pending
-  aasm_state :completed
-
-  aasm_initial_state :pending
-
-  aasm_event :aasm_calculate do
-    transitions :from => :pending, :to => :completed,
-      :on_transition => :calculate_count
+  state_machine :initial => :pending do
+    before_transition :pending => :completed, :do => :calculate_count
+    event :calculate do
+      transition :pending => :completed
+    end
   end
 
   def self.per_page
     10
-  end
-
-  def validate
-    if self.start_date and self.end_date
-      if self.start_date >= self.end_date
-        errors.add(:start_date)
-        errors.add(:end_date)
-      end
-    end
   end
 
   def calculate_count
