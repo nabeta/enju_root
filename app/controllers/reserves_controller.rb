@@ -194,7 +194,7 @@ class ReservesController < ApplicationController
     end
 
     if params[:mode] == 'cancel'
-      @reserve.aasm_cancel!
+      @reserve.sm_cancel!
     end
 
     respond_to do |format|

@@ -1,5 +1,4 @@
 class Resource < ActiveRecord::Base
-  include AASM
   has_friendly_id :iss_token
   has_paper_trail
   enju_oai
@@ -29,33 +28,23 @@ class Resource < ActiveRecord::Base
   #  time :deleted_at
   #end
 
-  aasm_column :state
-  aasm_state :pending
-  aasm_state :published
-  aasm_state :not_approved
-  aasm_state :approved
-  aasm_state :rejected
+  state_machine :initial => :not_approved do
+    event :sm_ask_for_approval do
+      transition any => :not_approved
+    end
 
-  #aasm_initial_state :pending
-  aasm_initial_state :not_approved
+    event :sm_approve do
+      transition :not_approved => :approved
+    end
 
-  aasm_event :aasm_ask_for_approval do
-    transitions :from => [:pending, :published, :approved, :not_approved, :rejected],
-      :to => :not_approved
-  end
-
-  aasm_event :aasm_approve do
-    transitions :from => [:not_approved],
-      :to => :approved
-  end
-
-  aasm_event :aasm_publish do
-    transitions :from => [:approved, :published],
-      :to => :published
+    event :sm_publish do
+      transition [:approved, :published] => :published
+    end
   end
   #TODO: 却下処理
 
-  attr_accessor :approve, :publish
+  attr_accessor :approve, :publish, :status_changed
+  #before_validation :set_status
 
   def per_page
     10
@@ -65,15 +54,15 @@ class Resource < ActiveRecord::Base
     generate_iss_token
   end
 
-  def before_save
+  def set_status
     if ['approved', 'published'].include?(state) and publish == '1'
-      aasm_publish
+      sm_publish
       return
     end
     if state == 'not_approved' and approve == '1'
-      aasm_approve
+      sm_approve
     else
-      aasm_ask_for_approval
+      sm_ask_for_approval
     end
   end
 

@@ -1,25 +1,30 @@
 module CalendarHelper
   def month_link(month_date)
-    link_to(I18n.l(month_date, :format => "%B"), {:month => month_date.month, :year => month_date.year}, :class => 'month_link')
+    link_to(I18n.localize(month_date, :format => "%B"), {:month => month_date.month, :year => month_date.year})
   end
   
   # custom options for this calendar
-  def event_calendar_options
+  def event_calendar_opts
     { 
       :year => @year,
       :month => @month,
       :event_strips => @event_strips,
-      :month_name_text => I18n.l(@shown_month, :format => :only_year_and_month),
+      :month_name_text => I18n.localize(@shown_month, :format => "%B %Y"),
       :previous_month_text => "<< " + month_link(@shown_month.prev_month),
       :next_month_text => month_link(@shown_month.next_month) + " >>",
-      :use_all_day => true
+      :use_all_day => true,
+      :link_to_day_action => 'show'
     }
   end
 
   def event_calendar
-    calendar event_calendar_options do |args|
-      event = args[:event]
-      %(<a href="/events/#{event.id}" title=\"#{h(event.name)}: #{event.start_at} to #{event.end_at}\"><div>#{h(event.name)}</div></a>")
+    # args is an argument hash containing :event, :day, and :options
+    calendar event_calendar_opts do |args|
+      event, day = args[:event], args[:day]
+      html = %(<a href="/events/#{event.id}" title="#{h(event.name)}">)
+      html << display_event_time(event, day)
+      html << %(#{h(event.name)}</a>)
+      html
     end
   end
 end

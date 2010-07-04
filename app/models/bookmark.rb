@@ -6,12 +6,11 @@ class Bookmark < ActiveRecord::Base
   belongs_to :user #, :counter_cache => true, :validate => true
 
   validates_presence_of :user, :title, :url
-  #validates_presence_of :url, :on => :create
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
   #validate :get_manifestation
-  before_validation :create_manifestation, :on => :create
+  before_validation_on_create :create_manifestation
   before_validation :set_url
   validate :bookmarkable_url?
   before_save :replace_space_in_tags

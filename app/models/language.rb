@@ -6,11 +6,6 @@ class Language < ActiveRecord::Base
   # alias_attribute :iso2, :iso_639_2
   # alias_attribute :iso3, :iso_639_3
   
-  # Validations
-  validates_presence_of :name, :display_name
-  before_validation :set_display_name, :on => :create
-  acts_as_list
-
   def after_save
     expire_cache
   end

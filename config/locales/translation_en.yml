@@ -349,6 +349,7 @@ en:
         deleted_at: Deleted at
         state: State
       message:
+        read_at: Read at
         subject: Subject
         body: Body
         sender: Sender

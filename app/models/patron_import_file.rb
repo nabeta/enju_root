@@ -1,5 +1,4 @@
 class PatronImportFile < ActiveRecord::Base
-  include AASM
   default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
@@ -11,42 +10,38 @@ class PatronImportFile < ActiveRecord::Base
 
   validates_associated :user
   validates_presence_of :user
+  #after_create :set_digest
 
-  aasm_column :state
-  aasm_initial_state :pending
-  aasm_state :pending
-  aasm_state :started
-  aasm_state :failed
-  aasm_state :completed
+  state_machine :initial => :pending do
+    before_transition :pending => :started, :do => :import_start
+    before_transition :started => :completed, :do => :import
 
-  aasm_event :aasm_import do
-    transitions :from => :started, :to => :completed,
-      :on_transition => :import
-  end
-  aasm_event :aasm_import_start do
-    transitions :from => :pending, :to => :started
-  end
-  aasm_event :aasm_fail do
-    transitions :from => :started, :to => :failed
-  end
+    event :sm_import_start do
+      transition :pending => :started
+    end
 
-  def after_create
-    #set_digest
+    event :sm_import do
+      transition :started => :completed
+    end
+
+    event :sm_fail do
+      transition :started => :failed
+    end
   end
 
   def set_digest(options = {:type => 'sha1'})
     self.file_hash = Digest::SHA1.hexdigest(File.open(self.patron_import.path, 'rb').read)
-    save(false)
+    save(:validate => false)
   end
 
   def import_start
-    aasm_import_start!
-    aasm_import!
+    sm_import_start!
+    sm_import!
   end
 
   def import
     unless /text\/.+/ =~ FileWrapper.get_mime(patron_import.path)
-      aasm_fail!
+      sm_fail!
       raise 'Invalid format'
     end
     self.reload
@@ -99,7 +94,7 @@ class PatronImportFile < ActiveRecord::Base
       end
 
       unless row['username'].blank?
-        begin
+        #begin
           user = User.new
           user.patron = patron
           user.username = row['username'].to_s.chomp
@@ -114,12 +109,13 @@ class PatronImportFile < ActiveRecord::Base
           library = Library.first(:conditions => {:name => row['library_short_name'].to_s.chomp}) || Library.web
           user_group = UserGroup.first(:conditions => {:name => row['user_group_name']}) || UserGroup.first
           user.library = library
+          user.save!
           role = Role.first(:conditions => {:name => row['role']}) || Role.find(2)
           user.roles << role
           num[:activated] += 1
-        rescue
-          Rails.logger.info("user import failed: column #{record}")
-        end
+        #rescue
+        #  Rails.logger.info("user import failed: column #{record}")
+        #end
       end
 
       record += 1
