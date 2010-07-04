@@ -16,7 +16,9 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :work_to_expression_rel_types
 
+  map.calencar '/calendar/:year/:month/:day', :controller => 'calendar', :action => 'show'
   map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', :year => Time.zone.now.year, :month => Time.zone.now.month
+
   map.resources :licenses
 
   map.resources :nii_types
