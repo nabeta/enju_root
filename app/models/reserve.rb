@@ -1,17 +1,16 @@
 # -*- encoding: utf-8 -*-
 class Reserve < ActiveRecord::Base
-  include AASM
   named_scope :hold, :conditions => ['item_id IS NOT NULL']
   named_scope :not_hold, :conditions => ['item_id IS NULL']
   named_scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
   named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
   named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
-  #named_scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
+  #scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
   named_scope :will_expire_retained, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'retained'], :order => 'expired_at'}}
   named_scope :will_expire_pending, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'pending'], :order => 'expired_at'}}
   named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
-  #named_scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
-  #named_scope :expired_notified, :conditions => {:state => 'expired'}
+  #scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
+  #scope :expired_notified, :conditions => {:state => 'expired'}
   named_scope :not_sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => false}
   named_scope :not_sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => false}
   named_scope :sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => true}
@@ -28,51 +27,52 @@ class Reserve < ActiveRecord::Base
 
   #acts_as_soft_deletable
   validates_associated :user, :manifestation, :librarian, :item, :request_status_type
-  validates_presence_of :user_id, :manifestation_id, :request_status_type #, :expired_at
+  validates_presence_of :user, :manifestation, :request_status_type #, :expired_at
   #validates_uniqueness_of :manifestation_id, :scope => :user_id
   validate :manifestation_must_include_item
+  before_validation_on_create :set_expired_at
+  before_validation_on_create :set_item_and_manifestation
+
+  attr_accessor :user_number, :item_identifier
+
+  state_machine :initial => :pending do
+    before_transition :pending => :requested, :do => :do_request
+    before_transition [:pending, :requested] => :retained, :do => :retain
+    before_transition [:pending ,:requested,  :retained] => :canceled, :do => :cancel
+    before_transition [:pending, :requested, :retained] => :expired, :do => :expire
+    before_transition :retained => :completed, :do => :checkout
+
+    event :sm_request do
+      transition :pending => :requested
+    end
+
+    event :sm_retain do
+      transition [:pending, :requested] => :retained
+    end
+
+    event :sm_cancel do
+      transition [:pending, :requested, :retained] => :canceled
+    end
+  
+    event :sm_expire do
+      transition [:pending, :requested, :retained] => :expired
+    end
+
+    event :sm_complete do
+      transition :retained => :completed
+    end
+  end
 
   def self.per_page
     10
   end
-  attr_accessor :user_number
 
-  aasm_column :state
-  aasm_state :pending
-  aasm_state :requested
-  aasm_state :retained
-  aasm_state :canceled
-  aasm_state :expired
-  aasm_state :completed
-
-  aasm_initial_state :pending
-
-  aasm_event :aasm_request do
-    transitions :from => :pending, :to => :requested,
-      :on_transition => :do_request
+  def set_item_and_manifestation
+    item = Item.first(:conditions => {:item_identifier => item_identifier})
+    manifestation = item.manifestation if item
   end
 
-  aasm_event :aasm_retain do
-    transitions :from => [:pending, :requested], :to => :retained,
-      :on_transition => :retain
-  end
-
-  aasm_event :aasm_cancel do
-    transitions :from => [:pending, :requested, :retained], :to => :canceled,
-      :on_transition => :cancel
-  end
-
-  aasm_event :aasm_expire do
-    transitions :from => [:pending, :requested, :retained], :to => :expired,
-      :on_transition => :expire
-  end
-
-  aasm_event :aasm_complete do
-    transitions :from => :retained, :to => :completed,
-      :on_transition => :checkout
-  end
-
-  def before_validation_on_create
+  def set_expired_at
     self.request_status_type = RequestStatusType.first(:conditions => {:name => 'In Process'})
     if self.user and self.manifestation
       if self.expired_at.blank?
@@ -89,7 +89,7 @@ class Reserve < ActiveRecord::Base
   def manifestation_must_include_item
     unless item_id.blank?
       item = Item.find(item_id) rescue nil
-      errors.add_to_base(t('reserve.invalid_item')) unless manifestation.items.include?(item)
+      errors[:base] << I18n.t('reserve.invalid_item') unless manifestation.items.include?(item)
     end
   end
 
@@ -128,25 +128,25 @@ class Reserve < ActiveRecord::Base
         message_template_to_patron = MessageTemplate.first(:conditions => {:status => 'reservation_accepted'})
         request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
         request.embed_body(:manifestations => Array[self.manifestation])
-        request.aasm_send_message! # 受付時は即時送信
+        request.sm_send_message! # 受付時は即時送信
         message_template_to_library = MessageTemplate.first(:conditions => {:status => 'reservation_accepted'})
         request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_library)
         request.embed_body(:manifestations => Array[self.manifestation])
-        request.aasm_send_message! # 受付時は即時送信
+        request.sm_send_message! # 受付時は即時送信
       when 'canceled'
         message_template_to_patron = MessageTemplate.first(:conditions => {:status => 'reservation_canceled_for_patron'})
         request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
         request.embed_body(:manifestations => Array[self.manifestation])
-        request.aasm_send_message! # キャンセル時は即時送信
+        request.sm_send_message! # キャンセル時は即時送信
         message_template_to_library = MessageTemplate.first(:conditions => {:status => 'reservation_canceled_for_library'})
         request = MessageRequest.create!(:sender => system_user, :receiver => system_user, :message_template => message_template_to_library)
         request.embed_body(:manifestations => Array[self.manifestation])
-        request.aasm_send_message! # キャンセル時は即時送信
+        request.sm_send_message! # キャンセル時は即時送信
       when 'expired'
         message_template_to_patron = MessageTemplate.first(:conditions => {:status => 'reservation_expired_for_patron'})
         request = MessageRequest.create!(:sender => system_user, :receiver => self.user, :message_template => message_template_to_patron)
         request.embed_body(:manifestations => Array[self.manifestation])
-        request.aasm_send_message! # 期限切れ時は利用者にのみ即時送信
+        request.sm_send_message! # 期限切れ時は利用者にのみ即時送信
         self.update_attribute(:expiration_notice_to_patron, true)
       else
         raise 'status not defined'
@@ -178,8 +178,8 @@ class Reserve < ActiveRecord::Base
 
   def self.expire
     Reserve.transaction do
-      self.will_expire_retained(Time.zone.now.beginning_of_day).map{|r| r.aasm_expire!}
-      self.will_expire_pending(Time.zone.now.beginning_of_day).map{|r| r.aasm_expire!}
+      self.will_expire_retained(Time.zone.now.beginning_of_day).map{|r| r.sm_expire!}
+      self.will_expire_pending(Time.zone.now.beginning_of_day).map{|r| r.sm_expire!}
 
       # キューに登録した時点では本文は作られないので
       # 予約の連絡をすませたかどうかを識別できるようにしなければならない

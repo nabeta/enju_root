@@ -1,6 +1,4 @@
 class ImportRequest < ActiveRecord::Base
-  include AASM
-
   default_scope :order => 'id DESC'
   belongs_to :manifestation
   belongs_to :user
@@ -10,18 +8,14 @@ class ImportRequest < ActiveRecord::Base
   #validates_uniqueness_of :isbn
   validates_length_of :isbn, :is => 13
 
-  aasm_column :state
-  aasm_state :pending
-  aasm_state :failed
-  aasm_state :completed
-  aasm_initial_state :pending
+  state_machine :initial => :pending do
+    event :sm_fail do
+      transition :pending => :failed
+    end
 
-  aasm_event :aasm_fail do
-    transitions :from => :pending, :to => :failed
-  end
-
-  aasm_event :aasm_complete do
-    transitions :from => :pending, :to => :completed
+    event :sm_complete do
+      transition :pending => :completed
+    end
   end
 
   #def after_save
@@ -44,11 +38,11 @@ class ImportRequest < ActiveRecord::Base
   def import
     unless manifestation
       if manifestation = Manifestation.import_isbn!(isbn) rescue nil
-        aasm_complete!
+        sm_complete!
         self.manifestation = manifestation; save
         manifestation.index!
       else
-        aasm_fail!
+        sm_fail!
       end
     end
   end

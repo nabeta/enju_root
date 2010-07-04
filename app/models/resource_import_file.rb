@@ -1,5 +1,4 @@
 class ResourceImportFile < ActiveRecord::Base
-  include AASM
   default_scope :order => 'id DESC'
   named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
@@ -9,22 +8,21 @@ class ResourceImportFile < ActiveRecord::Base
   belongs_to :user, :validate => true
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
-  aasm_column :state
-  aasm_initial_state :pending
-  aasm_state :pending
-  aasm_state :started
-  aasm_state :failed
-  aasm_state :completed
+  state_machine :initial => :pending do
+    before_transition :pending => :started, :do => :import_start
+    before_transition :started => :completed, :do => :import
 
-  aasm_event :aasm_import do
-    transitions :from => :started, :to => :completed,
-      :on_transition => :import
-  end
-  aasm_event :aasm_import_start do
-    transitions :from => :pending, :to => :started
-  end
-  aasm_event :aasm_fail do
-    transitions :from => :started, :to => :failed
+    event :sm_import_start do
+      transition :pending => :started
+    end
+
+    event :sm_import do
+      transition :started => :completed
+    end
+
+    event :sm_fail do
+      transition :started => :failed
+    end
   end
 
   def after_create
@@ -37,13 +35,13 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def import_start
-    aasm_import_start!
-    aasm_import!
+    sm_import_start!
+    sm_import!
   end
 
   def import
     unless /text\/.+/ =~ FileWrapper.get_mime(resource_import.path)
-      aasm_fail!
+      sm_fail!
       raise 'Invalid format'
     end
     self.reload
