@@ -48,7 +48,7 @@ Rails::Initializer.run do |config|
   config.gem "money"
   config.gem "whenever", :lib => false
   #config.gem "rufus-scheduler", :lib => "rufus/scheduler"
-  config.gem "acts-as-taggable-on", :version => ">=2.0.5"
+  config.gem "acts-as-taggable-on", :version => ">=2.0.6"
   config.gem "memcache-client", :lib => "memcache"
   #config.gem "shared-mime-info"
   config.gem "delayed_job", :version => ">=2.0.2"
