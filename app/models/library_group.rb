@@ -54,14 +54,12 @@ class LibraryGroup < ActiveRecord::Base
       allowed_networks = self.my_networks.to_s.split
     end
     allowed_networks.each do |allowed_network|
-      begin
-        network = IPAddr.new(allowed_network)
-        return true if network.include?(client_ip)
-      rescue ArgumentError
-        nil
-      end
+      network = IPAddr.new(allowed_network)
+      return true if network.include?(client_ip)
     end
-    return false
+    false
+  rescue ArgumentError
+    nil
   end
 
 end
