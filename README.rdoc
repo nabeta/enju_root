@@ -1,8 +1,8 @@
-= Next-L Enju
+= Next-L Enju Root
 
-Next-L Enju は、{Project Next-L}[http://www.next-l.jp] で開発している図書館管理システムです。
+Next-L Enju Root は、{Project Next-L}[http://www.next-l.jp] で開発している図書館管理システムです。
 
-Next-L Enju is an integrated library system developed by {Project Next-L}[http://www.next-l.jp].
+Next-L Enju Root is an integrated library system developed by {Project Next-L}[http://www.next-l.jp].
 
 == Project Next-L とは (What is Project Next-L?)
 {Project Next-L}[http://www.next-l.jp] とは、日本の図書館関係者有志の手で新しい図書館管理システムを作り上げるプロジェクトです。
@@ -15,10 +15,10 @@ Next-L Enju is an integrated library system developed by {Project Next-L}[http:/
 == インストール (Install)
 
 以下のWebサイトをごらんください。
-* http://wiki.github.com/nabeta/next-l/121873
+* http://wiki.github.com/nabeta/enju_root/121873
 
 Refer to the site below:
-* http://wiki.github.com/nabeta/next-l/install
+* http://wiki.github.com/nabeta/enju_root/install
 
 == 製作者・貢献者（アルファベット順） (Authors and contributors)
 * {田辺浩介 (TANABE, Kosuke)}[http://mwr.mediacom.keio.ac.jp/~tanabe/]
