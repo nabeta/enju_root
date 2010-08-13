@@ -36,7 +36,7 @@
 <table class="index">
   <tr>
     <th><%= t('activerecord.models.library') -%></th>
-    <th><%= t('activerecord.attributes.event.title') -%></th>
+    <th><%= t('activerecord.attributes.event.name') -%></th>
     <%- if can? :update, @events.first -%>
       <th></th>
     <% end %>
@@ -50,7 +50,7 @@
       <%= event.event_category.display_name.localize -%>
     </td>
     <td>
-      <%= link_to h(event.title.localize), event -%>
+      <%= link_to h(event.name.localize), event -%>
       <br />
       <%= l(event.start_at, :format => :short) -%>
       -

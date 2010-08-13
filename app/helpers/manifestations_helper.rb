@@ -1,13 +1,14 @@
 module ManifestationsHelper
   include EnjuAmazonHelper
-  def back_to_manifestation_index
+  def back_to_resource_index
     if session[:params]
-      link_to t('page.back_to_search_results'), manifestations_path(:params => session[:params].merge(:view => nil))
+      params = session[:params].merge(:view => nil, :controller => 'resources')
+      link_to t('page.back_to_search_results'), url_for(params)
     else
       link_to t('page.back'), :back
     end
-  rescue
-    link_to t('page.listing', :model => t('activerecord.models.manifestation')), manifestations_path
+  #rescue
+  #  link_to t('page.listing', :model => t('activerecord.models.resource')), resources_path
   end
 
   def call_number_label(item)
@@ -32,18 +33,18 @@ module ManifestationsHelper
     list.join("; ")
   end
 
-  def paginate_id_link(manifestation)
+  def paginate_id_link(resource)
     links = []
-    if session[:manifestation_ids].is_a?(Array)
-      current_seq = session[:manifestation_ids].index(manifestation.id)
+    if session[:resource_ids].is_a?(Array)
+      current_seq = session[:resource_ids].index(resource.id)
       if current_seq
-        unless manifestation.id == session[:manifestation_ids].last
-          links << link_to(t('page.next'), manifestation_path(session[:manifestation_ids][current_seq + 1]))
+        unless resource.id == session[:resource_ids].last
+          links << link_to(t('page.next'), resource_path(session[:resource_ids][current_seq + 1]))
         else
           links << t('page.next').to_s
         end
-        unless manifestation.id == session[:manifestation_ids].first
-          links << link_to(t('page.previous'), manifestation_path(session[:manifestation_ids][current_seq - 1]))
+        unless resource.id == session[:resource_ids].first
+          links << link_to(t('page.previous'), resource_path(session[:resource_ids][current_seq - 1]))
         else
           links << t('page.previous').to_s
         end
@@ -52,16 +53,16 @@ module ManifestationsHelper
     links.join(" ")
   end
 
-  def embed_content(manifestation)
+  def embed_content(resource)
     case
-    when manifestation.youtube_id
-      render :partial => 'youtube', :locals => {:manifestation => manifestation}
-    when manifestation.nicovideo_id
-      render :partial => 'nicovideo', :locals => {:manifestation => manifestation}
-    when manifestation.flickr.present?
-      render :partial => 'flickr', :locals => {:manifestation => manifestation}
-    when manifestation.ipaper_id
-      render :partial => 'scribd', :locals => {:manifestation => manifestation}
+    when resource.youtube_id
+      render :partial => 'youtube', :locals => {:resource => resource}
+    when resource.nicovideo_id
+      render :partial => 'nicovideo', :locals => {:resource => resource}
+    when resource.flickr.present?
+      render :partial => 'flickr', :locals => {:resource => resource}
+    when resource.ipaper_id
+      render :partial => 'scribd', :locals => {:resource => resource}
     end
   end
 
@@ -80,12 +81,11 @@ module ManifestationsHelper
 
   def library_facet(library, current_libraries, facet)
     string = ''
-    libraries = current_libraries.dup
-    if libraries.include?(library.name)
+    if current_libraries.include?(library.name)
       string << "<strong>"
     end
-    string << link_to("#{library.display_name.localize} (" + facet.count.to_s + ")", url_for(params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :carrier_type => nil, :view => nil)))
-    if libraries.include?(library.name)
+    string << link_to("#{library.display_name.localize} (" + facet.count.to_s + ")", url_for(params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :view => nil)))
+    if current_libraries.include?(library.name)
       string << "</strong>"
     end
     string.html_safe
