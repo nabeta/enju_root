@@ -228,7 +228,6 @@ class Ability
       can :read, [CirculationStatus, Classification, ClassificationType]
       can :read, CarrierType
       can :read, BookmarkStat
-      can :read, Resource
       can :read, SubjectHeadingTypeHasSubject
       can :index, Checkout
     end

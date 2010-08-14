@@ -968,13 +968,33 @@ ja:
         publish: 公開承認
         state: 状態
         deleted_at: 削除時刻
+      patron_relationship:
+        parent_id: 派生元の人物・団体
+        child_id: 派生先の人物・団体
+        patron_relationship_type_id: 人物・団体の関係の種類
+      work_relationship:
+        parent_id: 派生元の著作形
+        child_id: 派生先の著作形
+        work_relationship_type_id: 著作形の関係の種類
+      expression_relationship:
+        parent_id: 派生元の表現形
+        child_id: 派生先の表現形
+        expression_relationship_type_id: 表現形の関係の種類
+      manifestation_relationship:
+        parent_id: 派生元の体現形
+        child_id: 派生先の体現形
+        manifestation_relationship_type_id: 体現形の関係の種類
+      item_relationship:
+        parent_id: 派生元の個別資料
+        child_id: 派生先の個別資料
+        item_relationship_type_id: 個別資料の関係の種類
 
   page:
     user_title: "ようこそ %{login_name} さん"
     logged_in_as: "%{login_name} としてログイン"
     edit_user_profile: "%{login_name} さんのプロフィールの編集"
-    login: "ログイン"
-    logout: "ログアウト"
+    sign_in: "ログイン"
+    sign_out: "ログアウト"
     login_name: "ユーザ名"
     password: "パスワード"
     email_and_password: "電子メールとパスワード"

@@ -10,6 +10,7 @@ class PageController < ApplicationController
     @numdocs = Manifestation.search.total
     # TODO: タグ下限の設定
     #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
+    @news_feeds = NewsFeed.all
     @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
     @manifestation = Manifestation.pickup rescue nil
   end
