@@ -127,11 +127,10 @@ class ManifestationsController < ApplicationController
         paginate :page => 1, :per_page => configatron.max_number_of_results
         facet(:reservable)
       end
+      search = make_internal_query(search)
       all_result = search.execute!
       @count[:query_result] = all_result.total
       @reservable_facet = all_result.facet(:reservable).rows
-
-      search = make_internal_query(search)
 
       if session[:search_params]
         unless search.query.to_params == session[:search_params]
