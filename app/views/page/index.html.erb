@@ -1,29 +1,36 @@
-<div id="left_pane">
+<div class="column" id="col1">
+  <div class="portlet" id="search">
   <h1 class="title"><%= t('page.catalog_search') -%></h1>
   <div id="user_search_form">
     <%= render :partial => 'search_form' -%>
     <p><%= t('page.number_of_manifestations', :numdocs => Manifestation.cached_numdocs, :count => Manifestation.cached_numdocs) -%></p>
     <h3><%= link_to t('page.new_resource'), manifestations_path(:mode => 'recent') -%></h3>
   </div>
+  </div>
 
+  <div class="portlet" id="news_feed">
   <h3 class="title"><%= t('page.news') -%></h3>
   <div id="news_feed_box">
     <%= render :partial => 'news_feeds/list', :locals => {:news_feeds => @news_feeds} -%>
   </div>
-
+  </div>
 </div>
 
-<div id="right_pane">
+<div class="column" id="col2">
+  <div class="portlet" id="picked_up">
   <h3 class="title"><%= t('manifestation.pickup') -%></h3>
   <div id="picked_up_box">
     <%= render :partial => 'manifestations/pickup', :locals => {:picked_up => @manifestation} -%>
   </div>
+  </div>
 
+  <div class="portlet" id="tag_cloud">
   <h3 class="title"><%= t('tag.popular_tag') -%></h3>
   <div id="tag_cloud_box">
     <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'public_tag_cloud', :locale => @locale, :role => current_user_role_name) do -%>
       <%= render :partial => 'bookmarks/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
     <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>
+  </div>
   </div>
 </div>

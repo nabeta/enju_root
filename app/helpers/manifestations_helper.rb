@@ -82,12 +82,11 @@ module ManifestationsHelper
   def library_facet(library, current_libraries, facet)
     string = ''
     if current_libraries.include?(library.name)
-      string << "<strong>"
+      current = true
     end
+    string << "<strong>" if current
     string << link_to("#{library.display_name.localize} (" + facet.count.to_s + ")", url_for(params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :view => nil)))
-    if current_libraries.include?(library.name)
-      string << "</strong>"
-    end
+    string << "</strong>" if current
     string.html_safe
   end
 
