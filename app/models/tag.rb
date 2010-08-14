@@ -1,5 +1,8 @@
 class Tag < ActiveRecord::Base
   has_many :taggings, :dependent => :destroy, :class_name => 'ActsAsTaggableOn::Tagging'
+  after_save :save_taggings
+  after_destroy :save_taggings
+
   has_friendly_id :name
 
   searchable do
@@ -31,15 +34,11 @@ class Tag < ActiveRecord::Base
     end
   end
 
-  def after_save
-    self.taggings.collect(&:taggable).each do |t| t.send_later(:save) end
-  end
-
-  def after_destroy
-    after_save
+  def save_taggings
+    self.taggings.collect(&:taggable).each do |t| t.save end
   end
 
   def tagged(taggable_type)
-    self.taggings.all(:conditions => {:taggable_type => taggable_type.to_s}).collect(&:taggable)
+    self.taggings.all(:conditions => {:taggable_type => taggable_type.to_s}, :include => [:taggable]).collect(&:taggable)
   end
 end

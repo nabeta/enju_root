@@ -1,6 +1,6 @@
 class EventImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attached_file :event_import, :path => ":rails_root/private:url"
   validates_attachment_content_type :event_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']

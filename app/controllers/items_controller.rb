@@ -75,7 +75,7 @@ class ItemsController < ApplicationController
         order_by(:created_at, :desc)
       end
 
-      role = current_user.try(:highest_role) || Role.find(1)
+      role = current_user.try(:role) || Role.find(1)
       search.build do
         with(:required_role_id).less_than role.id
       end
@@ -177,7 +177,7 @@ class ItemsController < ApplicationController
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
-        @item.send_later(:post_to_union_catalog) if LibraryGroup.site_config.post_to_union_catalog
+        @item.delay.post_to_union_catalog if LibraryGroup.site_config.post_to_union_catalog
         if @patron
           format.html { redirect_to patron_item_url(@patron, @item) }
           format.xml  { render :xml => @item, :status => :created, :location => @item }

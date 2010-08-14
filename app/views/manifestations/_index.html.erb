@@ -1,7 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
-  <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+  <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
       <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
@@ -72,16 +72,16 @@
 
 <div id="submenu">
   <%- unless @query.blank? -%>
-    <h3><%= link_to h("#{t('page.total')}: #{@count[:query_result]}"), manifestations_path(params.merge(:view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
+    <h3><%= link_to h("#{t('page.total')}: #{@count[:query_result]}"), url_for(params.merge(:action => 'index', :view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
     <%- if @manifestations.total_entries > 0 -%>
       <%= render :partial => 'all_facet' -%>
     <%- end -%>
   <%- end -%>
   <div>
     <%- if params[:library_id].blank? -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)) -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(params.merge(:format => 'rss', :page => nil, :library_id => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)) -%>
     <%- else -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)) -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(params.merge(:format => 'rss', :page => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(params.merge(:format => 'rss', :page => nil, :commit => nil)) -%>
     <%- end -%>
   </div>
 </div>

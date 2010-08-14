@@ -5,7 +5,7 @@
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
   <%- end -%>
 
-<%- form_for(:item, :url => manifestation_items_path(@item.manifestation)) do |f| -%>
+<%= form_for(:item, :url => manifestation_items_path(@item.manifestation)) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

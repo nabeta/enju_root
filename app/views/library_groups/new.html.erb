@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.library_group')) -%></h1>
 <div id="content_list">
 
-<%- form_for(:library_group, :url => library_groups_path) do |f| -%>
+<%= form_for(:library_group, :url => library_groups_path) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

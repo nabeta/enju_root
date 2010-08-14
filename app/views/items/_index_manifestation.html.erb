@@ -4,7 +4,7 @@
 
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} if @manifestation -%>
 
-<%- form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
+<%= form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if can? :destroy, @manifestation -%>

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression_relationship_type')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@expression_relationship_type) do |f| -%>
+<%= form_for(@expression_relationship_type) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.expression_relationship_type.display_name') -%><br />

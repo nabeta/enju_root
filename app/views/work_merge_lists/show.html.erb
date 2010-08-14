@@ -1,7 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work_merge_list')) -%></h1>
 <div id="content_list">
-<%- form_for(:work_merge_list, :url => work_merge_list_path(@work_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
+<%= form_for(:work_merge_list, :url => work_merge_list_path(@work_merge_list, :mode => 'merge'), :html => { :method => :put }) do |f| -%>
   <p>
   <strong><%= t('page.title') -%>:</strong>
     <%= @work_merge_list.title -%>

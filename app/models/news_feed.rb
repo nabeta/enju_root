@@ -1,5 +1,5 @@
 require 'rss'
-require 'action_controller/integration'
+#require 'action_controller/integration'
 class NewsFeed < ActiveRecord::Base
   default_scope :order => "position"
   belongs_to :library_group, :validate => true
@@ -10,17 +10,11 @@ class NewsFeed < ActiveRecord::Base
 
   acts_as_list
 
+  after_save :expire_cache
+  after_destroy :expire_cache
+
   def self.per_page
     10
-  end
-
-  def after_save
-    body = nil
-    expire_cache
-  end
-
-  def after_destroy
-    expire_cache
   end
 
   def expire_cache

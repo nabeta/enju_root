@@ -2,7 +2,7 @@
   <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%></h1>
 <div id="content_list">
 
-<%- form_for :purchase_requests, :url => purchase_requests_path, :html => {:method => 'get'} do -%>
+<%= form_for :purchase_requests, :url => purchase_requests_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>

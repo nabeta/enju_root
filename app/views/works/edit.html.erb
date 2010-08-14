@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@work) do |f| -%>
+<%= form_for(@work) do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} -%>
   <p>
     <%= f.submit t('page.update') -%>

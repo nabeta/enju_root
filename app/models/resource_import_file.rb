@@ -1,6 +1,6 @@
 class ResourceImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attached_file :resource_import, :path => ":rails_root/private:url"
   validates_attachment_content_type :resource_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
@@ -25,13 +25,9 @@ class ResourceImportFile < ActiveRecord::Base
     end
   end
 
-  def after_create
-  #  set_digest
-  end
-
   def set_digest(options = {:type => 'sha1'})
     self.file_hash = Digest::SHA1.hexdigest(File.open(self.resource_import.path, 'rb').read)
-    save(false)
+    save(:validate => false)
   end
 
   def import_start

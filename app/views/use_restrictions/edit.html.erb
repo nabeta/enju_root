@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.use_restriction')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@use_restriction) do |f| -%>
+<%= form_for(@use_restriction) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.use_restriction.name') -%><br />

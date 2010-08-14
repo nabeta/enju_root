@@ -1,7 +1,4 @@
-<!-- Probably move the stylesheet to you layout. Also make sure you include the javascript. -->
-<%= stylesheet_link_tag "event_calendar" %>
-
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
   <%- if @library -%>
     <h1 class="title">
       <%= t('calendar.library_calendar', :library_name => @library.display_name.localize) -%>
@@ -35,7 +32,7 @@
   </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.event')), events_path -%></li>
     <li><%= link_to t('page.show_all'), :controller => :calendar, :action => :index -%></li>

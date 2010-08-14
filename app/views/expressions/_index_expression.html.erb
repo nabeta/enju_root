@@ -5,7 +5,7 @@
     [E]
     <%= link_to h(@expression.original_title), @expression -%>
   </h2>
-<%- form_for :expressions, :url => expression_expressions_path(@expression), :html => {:method => 'get'} do -%>
+<%= form_for :expressions, :url => expression_expressions_path(@expression), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if can? :destroy, @expression -%>
@@ -47,10 +47,10 @@
       <td>
         <%- if can? :destroy, expression -%>
           <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_expression_expression_has_expression_path(@expression, :to_expression_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
+            <%= link_to t('page.add'), new_expression_expression_relationship_path(@expression, :child_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
           <%- else -%>
-            <%- expression_has_expression = @expression.to_expressions.find_by_to_expression_id(expression.id) -%>
-            <%= link_to t('page.destroy'), expression_has_expression, :confirm => t('page.are_you_sure'), :method => :delete if expression_has_expression -%>
+            <%- expression_relationship = @expression.children.find_by_child_id(expression.id) -%>
+            <%= link_to t('page.destroy'), expression_relationship, :confirm => t('page.are_you_sure'), :method => :delete if expression_relationship -%>
           <%- end -%>
         <%- end -%>
       </td>

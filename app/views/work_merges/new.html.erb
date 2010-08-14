@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.work_merge')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@work_merge) do |f| -%>
+<%= form_for(@work_merge) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.models.work') -%><br />

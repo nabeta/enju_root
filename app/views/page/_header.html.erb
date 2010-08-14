@@ -24,9 +24,6 @@
       <%- end -%>
     <%- else -%>
       <%= link_to t('page.login'), new_user_session_path -%>
-      <%- unless controller.controller_name == 'users' and controller.action_name == 'new' -%>
-        (<%= link_to t('user.sign_up'), new_user_registration_path -%>)
-      <%- end -%>
     <%- end -%>
   </div>
 </div>

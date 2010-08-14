@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title><%= t('activerecord.models.checkout') -%>: <%= title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%- if controller.action_name == 'index' -%>
     <%- if @user -%>
       <%= auto_discovery_link_tag(:rss, user_checkouts_url(@user.username, :format => :rss), :title => (t('checkout.user_checkout', :login_name => @user.username) + " (RSS)")) %>

@@ -1,4 +1,5 @@
 class Country < ActiveRecord::Base
+  include MasterModel
   default_scope :order => "position"
   has_many :patrons
   #has_many :people
@@ -13,18 +14,5 @@ class Country < ActiveRecord::Base
   # alias_attribute :numeric, :numeric_3
   
   # Validations
-  validates_presence_of :name, :display_name, :alpha_2, :alpha_3, :numeric_3
-  acts_as_list
-  
-  def before_validation_on_create
-    self.display_name = self.name if display_name.blank?
-  end
-
-  def after_save
-    Rails.cache.delete('Country.all')
-  end
-
-  def after_destroy
-    after_save
-  end
+  validates_presence_of :alpha_2, :alpha_3, :numeric_3
 end

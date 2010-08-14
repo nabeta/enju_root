@@ -1,0 +1,26 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_relationship')) -%></h1>
+<div id="content_list">
+<p>
+  <strong><%= t('activerecord.attributes.expression_relationship.parent') -%>:</strong>
+  <%= link_to h(@expression_relationship.parent.original_title), @expression_relationship.parent -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.expression_relationship.child') -%>:</strong>
+  <%= link_to h(@expression_relationship.child.original_title), @expression_relationship.child -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.models.expression_relationship_type') -%>:</strong>
+  <%= @expression_relationship.expression_relationship_type.display_name.localize -%>
+</p>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_expression_relationship_path(@expression_relationship) -%></li>
+    <li><%= link_to t('page.back'), expression_relationships_path -%></li>
+  </ul>
+</div>

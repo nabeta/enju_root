@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 class Event < ActiveRecord::Base
-  named_scope :closing_days, :include => :event_category, :conditions => ['event_categories.name = ?', 'closed']
-  named_scope :on, lambda {|datetime| {:conditions => ['start_at >= ? AND end_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day + 1]}}
-  named_scope :past, lambda {|datetime| {:conditions => ['end_at <= ?', Time.zone.parse(datetime).beginning_of_day]}}
-  named_scope :upcoming, lambda {|datetime| {:conditions => ['start_at >= ?', Time.zone.parse(datetime).beginning_of_day]}}
-  named_scope :at, lambda {|library| {:conditions => {:library_id => library.id}}}
+  scope :closing_days, :include => :event_category, :conditions => ['event_categories.name = ?', 'closed']
+  scope :on, lambda {|datetime| {:conditions => ['start_at >= ? AND end_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day + 1]}}
+  scope :past, lambda {|datetime| {:conditions => ['end_at <= ?', Time.zone.parse(datetime).beginning_of_day]}}
+  scope :upcoming, lambda {|datetime| {:conditions => ['start_at >= ?', Time.zone.parse(datetime).beginning_of_day]}}
+  scope :at, lambda {|library| {:conditions => {:library_id => library.id}}}
 
   belongs_to :event_category, :validate => true
   belongs_to :library, :validate => true
@@ -26,14 +26,16 @@ class Event < ActiveRecord::Base
     time :end_at
   end
 
-  validates_presence_of :name, :library_id, :event_category_id
+  validates_presence_of :name, :library, :event_category
   validates_associated :library, :event_category
+  validate :check_date
+  before_validation :set_date
 
   def self.per_page
     10
   end
 
-  def before_validation
+  def set_date
     if self.start_at.blank?
       self.start_at = Time.zone.today.beginning_of_day
     end
@@ -51,7 +53,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def validate
+  def check_date
     if self.start_at and self.end_at
       if self.start_at >= self.end_at
         errors.add(:start_at)

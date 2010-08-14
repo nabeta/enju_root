@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.purchase_request')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@purchase_request, :url => user_purchase_request_path(@purchase_request.user.username, @purchase_request)) do |f| -%>
+<%= form_for(@purchase_request, :url => user_purchase_request_path(@purchase_request.user.username, @purchase_request)) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

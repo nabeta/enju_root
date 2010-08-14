@@ -1,478 +1,373 @@
-ActionController::Routing::Routes.draw do |map|
-  map.devise_for :users
+EnjuRoot::Application.routes.draw do
+  devise_for :users
 
-  map.resources :resources,
-    :collection => {
-      :approve_selected => :post,
-      :publish_selected => :post
-    }
+  resources :advertisements
+  resources :advertises
 
-  map.resources :import_requests
-
-  map.resources :series_statements do |series_statement|
-    series_statement.resources :works
-    series_statement.resources :manifestations
+  resources :resources do
+    resources :patrons
+    resources :creators, :controller => 'patrons'
+    resources :contributors, :controller => 'patrons'
+    resources :publishers, :controller => 'patrons'
+    resources :creates
+    resources :realizes
+    resources :produces
+    resources :picture_files
+    resources :items
+    resources :work_has_subjects
+    resources :resource_relationships
+    resources :resources
   end
 
-  map.resources :work_to_expression_rel_types
-
-  map.calencar '/calendar/:year/:month/:day', :controller => 'calendar', :action => 'show'
-  map.calendar '/calendar/:year/:month', :controller => 'calendar', :action => 'index', :year => Time.zone.now.year, :month => Time.zone.now.month
-
-  map.resources :licenses
-
-  map.resources :nii_types
-
-  map.resources :lending_policies
-
-  map.resources :item_relationship_types
-
-  map.resources :manifestation_relationship_types
-
-  map.resources :expression_relationship_types
-
-  map.resources :work_relationship_types
-
-  map.resources :patron_relationship_types
-
-  map.resources :content_types
-
-  map.resources :medium_of_performances
-
-  map.resources :extents
-
-  map.resources :patron_has_patrons
-
-  map.resources :participates
-
-  map.resources :user_has_shelves
-
-  map.resource :user_session
-
-  #map.resources :people do |person|
-  #  person.resources :works
-  #  person.resources :expressions
-  #  person.resources :manifestations
-  #  person.resources :items
-  #end
-
-  #map.resources :corporate_bodies do |corporate_body|
-  #  corporate_body.resources :works
-  #  corporate_body.resources :expressions
-  #  corporate_body.resources :manifestations
-  #  corporate_body.resources :items
-  #end
-
-  #map.resources :families do |family|
-  #  family.resources :works
-  #  family.resources :expressions
-  #  family.resources :manifestations
-  #  family.resources :items
-  #end
-
-  map.resources :subject_heading_type_has_subjects
-
-  map.resources :subject_headings
-  map.resources :subject_types
-
-  map.resources :places do |place|
-    place.resources :works
-    place.resources :subject_heading_types
+  resources :patrons do
+    resources :works
+    resources :expressions
+    resources :manifestations
+    resources :items
+    resources :picture_files
+    resources :resources
+    resources :patrons
+    resources :patron_merges
+    resources :patron_merge_lists
+    resources :patron_relationships
   end
 
-  map.resources :concepts do |concept|
-    concept.resources :works
-    concept.resources :subject_heading_types
+  resources :works do
+    resources :patrons
+    resources :creates
+    resources :subjects
+    resources :work_has_subjects
+    resources :expressions
+    resources :resource_relationships
+    resources :works
   end
 
-  map.forgot_password '/forgot_password', :controller => 'passwords', :action => 'new'
-  map.change_password '/change_password/:reset_code', :controller => 'passwords', :action => 'reset'
-  map.resources :passwords
-
-  map.resources :news_posts
-
-  map.resources :reserve_stat_has_users
-
-  map.resources :user_reserve_stats
-
-  map.resources :manifestation_reserve_stats
-
-  map.resources :reserve_stat_has_manifestations
-
-  map.resources :checkout_stat_has_users
-
-  map.resources :user_checkout_stats
-
-  map.resources :bookmark_stat_has_manifestations
-
-  map.resources :bookmark_stats
-
-  map.resources :manifestation_checkout_stats
-
-  map.resources :checkout_stat_has_manifestations
-
-  map.resources :item_relationship_types
-
-  map.resources :manifestation_relationship_types
-
-  map.resources :expression_relationship_types
-
-  map.resources :work_relationship_types
-
-  map.resources :item_has_items
-
-  map.resources :manifestation_has_manifestations
-
-  map.resources :expression_has_expressions
-
-  map.resources :work_has_works
-
-  map.resources :inventories
-
-  map.resources :inventory_files do |inventory_file|
-    inventory_file.resources :inventories
-    inventory_file.resources :items
+  resources :expressions do
+    resources :patrons
+    resources :realizes
+    resources :manifestations
+    resources :resource_relationships
+    resources :expressions
+    resources :reifies
+    resources :embodies
+    resource :work
   end
 
-  map.resources :barcodes
-
-  map.resources :advertisements
-
-  map.resources :advertises
-
-  map.resources :news_feeds
-
-  map.resources :carrier_type_has_checkout_types
-
-  map.resources :user_group_has_checkout_types
-
-  map.resources :checkout_types do |checkout_type|
-    checkout_type.resources :user_groups
-    checkout_type.resources :user_group_has_checkout_types
-    checkout_type.resources :carrier_types
-    checkout_type.resources :carrier_type_has_checkout_types
+  resources :manifestations do
+    resources :produces
+    resources :patrons
+    resources :items
+    resources :picture_files
+    resources :expressions
+    resources :resource_relationships
+    resources :manifestations
+    resources :embodies
   end
 
-  map.resources :search_engines
-
-
-  map.resources :order_lists do |order_list|
-    order_list.resources :orders
-    order_list.resources :purchase_requests
+  resources :creators, :controller => 'patrons' do
+    resources :resources
   end
 
-  map.resources :subscribes
-
-  map.resources :subscriptions do |subscription|
-    subscription.resources :subscribes
-    subscription.resources :works
+  resources :contributors, :controller => 'patrons' do
+    resources :resources
   end
 
-  map.resources :subscriptions
-
-  map.resources :imported_objects
-  map.resources :patron_types
-
-  map.resources :imported_files
-  map.resources :patron_import_files
-  map.resources :event_import_files
-  map.resources :resource_import_files
-  map.resources :attachment_files
-  map.resources :picture_files
-
-  map.resources :exemplifies
-
-  map.resources :message_requests
-
-  map.resources :message_templates
-
-  map.resources :subject_heading_types do |subject_heading_type|
-    #subject_heading_type.resources :concepts
-    #subject_heading_type.resources :places
-    subject_heading_type.resources :subjects
+  resources :publishers, :controller => 'patrons' do
+    resources :resources
   end
 
-  map.resources :classification_types do |classification_type|
-    classification_type.resources :classifications
-  end
-
-  map.resources :classifications do |classification|
-    #classification.resources :concepts
-    #classification.resources :places
-    classification.resources :subjects
-    classification.resources :subject_has_classifications
-    classification.resources :tags
-  end
-
-  map.resources :subjects do |subject|
-    subject.resources :works
-    subject.resources :work_has_subjects
-    subject.resources :classifications
-    subject.resources :subject_has_classifications
-    subject.resources :subject_heading_types
-  end
-
-  map.resources :patron_merge_lists do |patron_merge_list|
-    patron_merge_list.resources :patrons
-    patron_merge_list.resources :patron_merges
-  end
-
-  map.resources :work_merge_lists do |work_merge_list|
-    work_merge_list.resources :works
-    work_merge_list.resources :work_merges
-  end
-
-  map.resources :expression_merge_lists do |expression_merge_list|
-    expression_merge_list.resources :expressions
-    expression_merge_list.resources :expression_merges
-  end
-
-  map.resources :tags do |tag|
-    tag.resources :subjects
-  end
-  map.resources :circulation_statuses
-
-  map.resources :request_types
-
-  map.resources :request_status_types
-
-  map.resources :use_restrictions
-
-  map.resources :donates
-
-  map.resources :bookstores do |bookstore|
-    bookstore.resources :order_lists
-  end
-
-  map.resources :checked_items
-
-  map.resources :patrons do |patron|
-    patron.resources :works
-    patron.resources :expressions
-    patron.resources :manifestations
-    patron.resources :items
-    patron.resources :creates
-    patron.resources :realizes
-    patron.resources :produces
-    patron.resources :owns
-    patron.resources :patron_owns_libraries
-    patron.resources :patron_merges
-    patron.resources :patron_merge_lists
-    patron.resources :work_has_subjects
-    patron.resources :donates
-    patron.resources :advertises
-    patron.resources :advertisements
-    patron.resources :picture_files
-    patron.resources :events
-    patron.resources :patrons, :only => [:index, :new]
-    patron.resources :patron_has_patrons
-  end
-  map.resources :users do |user|
-    user.resources :roles
-    user.resources :bookmarks
-    #user.resources :manifestations
-    user.resources :reserves
-    user.resources :search_histories
-    user.resources :checkouts
-    user.resources :messages,   
-      :collection => {:destroy_selected => :post}
-    user.resources :questions do |question|
-      question.resources :answers
+  resources :users do
+    resources :answers
+    resources :baskets do
+      resources :checked_items
+      resources :checkins
     end
-    user.resources :answers
-    user.resources :purchase_requests do |purchase_request|
-      purchase_request.resources :orders
+    resources :checkouts
+    resources :questions do
+      resources :answers
     end
-    user.resources :baskets do |basket|
-      basket.resources :checked_items
-      basket.resources :checkins
+    resources :messages do
+      collection do
+        post :destroy_selected
+      end
     end
-    user.resources :tags
-    user.resources :event_import_files
-    user.resources :patron_import_files
-    user.resources :resource_import_files
-    user.resources :order_lists
-    user.resources :subscriptions
-    user.resources :patrons
-  end
-  map.resources :sessions
-  map.resources :works do |work|
-    work.resources :expressions
-    work.resources :reifies
-    work.resources :patrons
-    work.resources :creates
-    work.resources :work_merges
-    work.resources :work_merge_lists
-    work.resources :work_has_subjects
-    #work.resources :work_from_works, :controller => :works
-    #work.resources :work_to_works, :controller => :works
-    #work.resources :concepts
-    #work.resources :places
-    work.resources :subjects
-    work.resources :works, :only => [:index, :new]
-    work.resources :work_has_works
-    work.resources :subscribes
-    work.resources :subscriptions
-  end
-  map.resources :expressions do |expression|
-    expression.resource :realize
-    expression.resource :work
-    expression.resources :patrons
-    expression.resources :reifies
-    expression.resources :realizes
-    expression.resources :embodies
-    expression.resources :manifestations
-    expression.resources :expression_merges
-    expression.resources :expression_merge_lists
-    #expression.resources :work_has_subjects
-    expression.resources :subscribe
-    expression.resources :subscriptions
-    expression.resources :expressions, :only => [:index, :new]
-    expression.resources :expression_has_expressions
-  end
-  map.resources :manifestations do |manifestation|
-    manifestation.resources :attachment_files
-    manifestation.resources :picture_files
-    manifestation.resources :patrons
-    manifestation.resources :produces
-    manifestation.resources :embodies
-    manifestation.resources :exemplifies
-    manifestation.resources :items
-    manifestation.resources :expressions
-    #manifestation.resources :subjects
-    #manifestation.resources :work_has_subjects
-    manifestation.resources :manifestations, :only => [:index, :new]
-    manifestation.resources :manifestation_has_manifestations
-    manifestation.resources :series_statements
-  end
-  map.resources :items do |item|
-    item.resources :owns
-    item.resources :patrons
-    item.resource :exemplify
-    item.resource :manifestation
-    item.resources :item_has_use_restrictions
-    item.resources :inter_library_loans
-    #item.resources :work_has_subjects
-    item.resources :donates
-    item.resource :checkout_type
-    item.resource :inventory_files
-    item.resources :items, :only => [:index, :new]
-    item.resources :item_has_items
-    item.resources :lending_policies
-  end
-  map.resources :libraries do |library|
-    library.resources :shelves do |shelf|
-      shelf.resources :picture_files
-      shelf.resources :items
-    end
-    library.resources :events do |event|
-      event.resources :picture_files
-      event.resources :patrons
-    end
-    library.resources :patrons
-  end
-  map.resources :user_groups do |user_group|
-    user_group.resources :user_group_has_checkout_types
-    user_group.resources :checkout_types
-  end
-  map.resources :form_of_works
-  map.resources :bookmarked_resources do |bookmarked_resource|
-    bookmarked_resource.resources :bookmarks
-  end
-  map.resources :event_categories
-  map.resources :events do |event|
-    event.resources :picture_files
-    event.resources :patrons
-  end
-  map.resources :library_groups do |library_group|
-    library_group.resources :libraries
-  end
-  map.resources :purchase_requests do |purchase_request|
-    purchase_request.resource :order
-    purchase_request.resource :order_list
-  end
-  map.resources :orders do |order|
-    order.resources :order_lists
-    order.resources :purchase_requests
-  end
-  map.resources :carrier_types do |carrier_type|
-    carrier_type.resources :carrier_type_has_checkout_types
-    carrier_type.resources :checkout_types
-  end
-  map.resources :shelves do |shelf|
-    shelf.resources :items
-    shelf.resources :picture_files
-    shelf.resources :manifestations
-  end
-  map.resources :questions do |question|
-    question.resources :answers
+    resources :reserves
+    resources :bookmarks
+    resources :purchase_requests
+    resources :questions
+    resource :patron
   end
 
-  map.resources :frequencies
-  map.resources :embodies
-  map.resources :languages
-  map.resources :countries
-  map.resources :expression_forms
-  map.resources :answers
-  map.resources :checkouts
-  map.resources :reserves
-  map.resources :search_histories
-  map.resources :bookmarks
-  map.resources :roles
-  map.resources :library_groups
-  map.resources :user_groups
-  map.resources :checkins
-  map.resources :work_has_subjects
-  map.resources :reifies
-  map.resources :creates
-  map.resources :realizes
-  map.resources :produces
-  map.resources :owns
-  map.resources :baskets
-  map.resources :item_has_use_restrictions
-  map.resources :patron_merges
-  map.resources :patron_merge_lists
-  map.resources :work_merges
-  map.resources :work_merge_lists
-  map.resources :expression_merges
-  map.resources :expression_merge_lists
-  map.resources :subject_has_classifications
-  map.resources :messages
-  map.resources :inter_library_loans
-  map.resources :orders
-  map.resources :families
+  resources :questions do
+    resources :answers
+  end
+  resources :answers
+  resources :imported_objects
+  resources :nii_types
+  resources :bookmark_stats
+  resources :bookmark_stat_has_manifestations
+  resources :user_checkout_stats
+  resources :user_reserve_stats
+  resources :manifestation_checkout_stats
+  resources :manifestation_reserve_stats
+  resources :resource_relationship_types
+  resources :patron_relationship_types
+  resources :work_relationship_types
+  resources :expression_relationship_types
+  resources :manifestation_relationship_types
+  resources :item_relationship_types
+  resources :licenses
+  resources :medium_of_performances
+  resources :extents
+  resources :request_status_types
+  resources :request_types
+  resources :frequencies
+  resources :use_restrictions
+  resources :item_has_use_restrictions
+  resources :lending_policies
+  resources :patron_types
+  resources :circulation_statuses
+  resources :form_of_works
+  resources :subject_has_classifications
+  resources :subject_heading_types do
+    resources :subjects
+  end
+  resources :subject_heading_type_has_subjects
+  resources :patron_merge_lists do
+    resources :patrons
+  end
+  resources :patron_merges
+  resources :work_merges
+  resources :work_merge_lists do
+    resources :works
+  end
+  resources :expression_merges
+  resources :expression_merge_lists do
+    resources :expressions
+  end
 
-  map.error '/error', :controller => 'user_sessions', :action => 'new'
-  map.denied '/denied', :controller => 'user_sessions', :action => 'new'
-  #map.signup '/signup', :controller => 'users', :action => 'new'
-  #map.login  '/login', :controller => 'user_sessions', :action => 'new'
-  #map.logout '/logout', :controller => 'user_sessions', :action => 'destroy'
-  #map.reset_password '/reset_password', :controller => 'users', :action => 'reset_password'
-  map.isbn '/isbn/:isbn', :controller => 'manifestations', :action => 'show'
-  #map.term '/term/:term', :controller => 'subjects', :action => 'show'
-  map.opensearch 'opensearch.xml', :controller => 'page', :action => 'opensearch'
-  #map.service '/service', :controller => 'page', :action => 'service'
+  resources :work_to_expression_rel_types
 
-  # The priority is based upon order of creation: first created -> highest priority.
-  
+  resources :inventory_files do
+    resources :items
+  end
+  resources :inventories
+  resources :donates
+  resources :subscriptions do
+    resources :works
+  end
+
+  resources :subscribes
+  resources :picture_files
+  resources :series_statements do
+    resources :manifestations
+  end
+  resources :barcodes
+  resources :message_requests
+  resources :message_templates
+  resources :carrier_type_has_checkout_types
+  resources :user_group_has_checkout_types
+  resources :checkout_types do
+    resources :user_group_has_checkout_types
+  end
+  resources :search_histories
+
+  resources :order_lists do
+    resource :order
+    resources :purchase_requests
+  end
+  resources :orders
+
+  resources :inter_library_loans
+
+  resources :resource_import_files
+
+  resources :patron_import_files
+
+  resources :event_import_files
+
+  resources :events do
+    resources :picture_files
+  end
+
+  resources :participates
+
+  resources :questions
+
+  resources :purchase_requests do
+    resources :order
+  end
+
+  resources :bookmarks
+
+  resources :tags
+
+  resources :patron_relationships
+  resources :work_relationships
+  resources :expression_relationships
+  resources :manifestation_relationships
+  resources :item_relationships
+
+  resources :bookstores do
+    resources :order_lists
+  end
+
+  resources :user_has_roles
+
+  resources :roles
+
+  resources :messages
+
+  resources :library_groups
+
+  resources :classifications do
+    resources :subject_has_classifications
+    resources :subjects
+  end
+
+  resources :classification_types do
+    resource :classifications
+  end
+
+  resources :search_engines
+
+  resources :reserves
+
+  resources :event_categories
+
+  resources :events
+
+  resources :subject_types
+
+  resources :work_has_subjects
+
+  resources :subjects do
+    resources :works
+    resources :subject_heading_types
+    resources :subject_has_classifications
+    resources :work_has_subjects
+    resources :classifications
+  end
+
+  resources :content_types
+
+  resources :carrier_types
+
+  resources :import_requests
+
+  resources :user_groups do
+    resources :user_group_has_checkout_types
+  end
+
+  resources :shelves do
+    resources :picture_files
+  end
+
+  resources :libraries do
+    resources :events
+    resources :shelves
+  end
+
+  resources :checkouts
+
+  resources :countries
+
+  resources :languages
+
+  resources :resource_relationships
+
+  resources :items do
+    resources :checked_items
+    resources :inter_library_loans
+    resources :item_has_use_restrictions
+    resources :lending_policies
+    resources :patrons
+    resources :items
+  end
+
+  resources :owns
+  resources :produces
+  resources :realizes
+  resources :creates
+  resources :exemplifies
+  resources :embodies
+  resources :reifies
+
+  resources :checkout_stat_has_manifestations
+  resources :checkout_stat_has_users
+  resources :reserve_stat_has_manifestations
+  resources :reserve_stat_has_users
+  resources :user_has_shelves
+  resources :news_posts
+  resources :news_feeds
+
+  # The priority is based upon order of creation:
+  # first created -> highest priority.
+
   # Sample of regular route:
-  # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
+  #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
   # Sample of named route:
-  # map.purchase 'products/:id/purchase', :controller => 'catalog', :action => 'purchase'
+  #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
   # This route can be invoked with purchase_url(:id => product.id)
 
-  # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
-  map.root :controller => "page", :action => 'index'
+  # Sample resource route (maps HTTP verbs to controller actions automatically):
+  #   resources :products
+
+  # Sample resource route with options:
+  #   resources :products do
+  #     member do
+  #       get :short
+  #       post :toggle
+  #     end
+  #
+  #     collection do
+  #       get :sold
+  #     end
+  #   end
+
+  # Sample resource route with sub-resources:
+  #   resources :products do
+  #     resources :comments, :sales
+  #     resource :seller
+  #   end
+
+  # Sample resource route with more complex sub-resources
+  #   resources :products do
+  #     resources :comments
+  #     resources :sales do
+  #       get :recent, :on => :collection
+  #     end
+  #   end
+
+  # Sample resource route within a namespace:
+  #   namespace :admin do
+  #     # Directs /admin/products/* to Admin::ProductsController
+  #     # (app/controllers/admin/products_controller.rb)
+  #     resources :products
+  #   end
+
+  # You can have the root of your site routed with "root"
+  # just remember to delete public/index.html.
+  root :to => "page#index"
 
   # See how all your routes lay out with "rake routes"
 
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing the them or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
-
-  map.connect '*path', :controller => 'application', :action => 'render_404' unless ::ActionController::Base.consider_all_requests_local
+  # This is a legacy wild controller route that's not recommended for RESTful applications.
+  # Note: This route will make all actions in every controller accessible via GET requests.
+  # match ':controller(/:action(/:id(.:format)))'
+  match '/isbn/:isbn' => 'manifestations#show'
+  match '/calendar(/:year(/:month))' => 'calendar#index', :as => :calendar, :constraints => {:year => /\d{4}/, :month => /\d{1,2}/}
+  match "/calendar/:year/:month/:day" => "calendar#show"
+  match '/page/about' => 'page#about'
+  match '/page/configuration' => 'page#configuration'
+  match '/page/advanced_search' => 'page#advanced_search'
+  match '/page/add_on' => 'page#add_on'
+  match '/page/export' => 'page#export'
+  match '/page/import' => 'page#import'
+  match '/page/msie_acceralator' => 'page#msie_acceralator'
+  match '/page/opensearch' => 'page#opensearch'
+  match '/page/statistics' => 'page#statistics'
+  match '/sru/index' => 'sru#index'
 end

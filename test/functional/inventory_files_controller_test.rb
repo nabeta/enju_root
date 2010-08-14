@@ -65,7 +65,7 @@ class InventoryFilesControllerTest < ActionController::TestCase
     sign_in users(:librarian1)
     old_count = Inventory.count
     assert_difference('InventoryFile.count') do
-      post :create, :inventory_file => {:inventory => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/inventory_file_sample.txt") }
+      post :create, :inventory_file => {:inventory => fixture_file_upload("inventory_file_sample.txt", 'text/csv') }
     end
     assert_equal old_count + 3, Inventory.count
     assert_equal 'librarian1', assigns(:inventory_file).user.username

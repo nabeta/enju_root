@@ -1,0 +1,26 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.item_relationship')) -%></h1>
+<div id="content_list">
+<p>
+  <strong><%= t('activerecord.attributes.item_relationship.parent') -%>:</strong>
+  <%= link_to h(@item_relationship.parent.manifestation.original_title), @item_relationship.parent -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.attributes.item_relationship.child') -%>:</strong>
+  <%= link_to h(@item_relationship.child.manifestation.original_title), @item_relationship.child -%>
+</p>
+
+<p>
+  <strong><%= t('activerecord.models.item_relationship_type') -%>:</strong>
+  <%= @item_relationship.item_relationship_type.display_name.localize -%>
+</p>
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.edit'), edit_item_relationship_path(@item_relationship) -%></li>
+    <li><%= link_to t('page.back'), item_relationships_path -%></li>
+  </ul>
+</div>

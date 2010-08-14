@@ -3,11 +3,6 @@
 <div id="content_list">
 
 <ul>
-  <li><%= link_to t('page.checkout'), new_basket_path -%>
-  <li><%= link_to t('page.checkin'), checkins_path -%>
-</ul>
-
-<ul>
   <li><%= link_to t('activerecord.models.checkout'), checkouts_path -%>
   <li><%= link_to t('page.overdue'), checkouts_path(:view => 'overdue') -%>
 </ul>

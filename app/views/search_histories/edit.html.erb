@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.search_history')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@search_history) do |f| -%>
+<%= form_for(@search_history) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label 'Operation' -%><br />

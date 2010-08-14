@@ -1,5 +1,5 @@
 class PictureFile < ActiveRecord::Base
-  named_scope :attached, :conditions => ['picture_attachable_id > 0']
+  scope :attached, :conditions => ['picture_attachable_id > 0']
   belongs_to :picture_attachable, :polymorphic => true, :validate => true
 
   #has_attachment :content_type => :image, #:resize_to => [800,800],
@@ -23,7 +23,7 @@ class PictureFile < ActiveRecord::Base
   def set_digest(options = {:type => 'sha1'})
     if File.exists?(picture.path)
       self.file_hash = Digest::SHA1.hexdigest(File.open(picture.path, 'rb').read)
-      save(false)
+      save(:validate => false)
     end
   end
 

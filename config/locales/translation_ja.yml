@@ -105,8 +105,8 @@ ja:
       user_checkout_stat: 利用者別貸出統計
       manifestation_reserve_stat: 資料別予約統計
       user_reserve_stat: 利用者別予約統計
-      work_has_work: 著作形間の関係
-      expression_has_expression: 表現形間の関係
+      work_relationship: 著作形間の関係
+      expression_relationship: 表現形間の関係
       manifestation_has_manifestation: 体現形間の関係
       item_has_item: 個別資料間の関係
       bookmark_stat_has_manifestation: ブックマーク統計と体現形の関係
@@ -853,10 +853,10 @@ ja:
         reserves_count: 資料の予約回数
       bookmark_stat_has_manifestation:
         bookmarks_count: ブックマーク回数
-      work_has_work:
+      work_relationship:
         from_work: 始点
         to_work: 終点
-      expression_has_expression:
+      expression_relationship:
         from_expression: 始点
         to_expression: 終点
       manifestation_has_manifestation:
@@ -970,9 +970,9 @@ ja:
         deleted_at: 削除時刻
 
   page:
-    user_title: "ようこそ {{login_name}} さん"
-    logged_in_as: "{{login_name}} としてログイン"
-    edit_user_profile: "{{login_name}} さんのプロフィールの編集"
+    user_title: "ようこそ %{login_name} さん"
+    logged_in_as: "%{login_name} としてログイン"
+    edit_user_profile: "%{login_name} さんのプロフィールの編集"
     login: "ログイン"
     logout: "ログアウト"
     login_name: "ユーザ名"
@@ -981,9 +981,9 @@ ja:
     catalog_search: "資料の検索"
     search: "検索"
     search_term: "検索語"
-    number_of_manifestations: "{{numdocs}} 件の資料があります。"
-    number_of_unread_messages: "{{numdocs}} 件の未読メッセージがあります。"
-    number_of_search_results: "{{count}} 件の資料が {{numdocs}} 件の資料から {{seconds}} 秒で見つかりました。"
+    number_of_manifestations: "%{numdocs} 件の資料があります。"
+    number_of_unread_messages: "%{numdocs} 件の未読メッセージがあります。"
+    number_of_search_results: "%{count} 件の資料が %{numdocs} 件の資料から %{seconds} 秒で見つかりました。"
     tag: "タグ"
     call_number: "請求記号"
     holding: "所蔵"
@@ -1022,11 +1022,11 @@ ja:
     detail: "詳細"
     acquisition: "資料の受入"
     configuration: "システムの設定"
-    search_resource: "{{model}}を検索する"
+    search_resource: "%{model}を検索する"
     show_all: "全てを表示"
     hide: "隠す"
     overdue: "延滞"
-    number_of_reservations: "{{count}} 人の予約待ち"
+    number_of_reservations: "%{count} 人の予約待ち"
     back_to_search_results: "検索結果の一覧に戻る"
     submit: "送信"
     management: "図書館の管理"
@@ -1064,7 +1064,7 @@ ja:
     import_from_file: "インポート"
     import_from_network: "ネットワークからインポート"
     no_record_found: "資料が見つかりませんでした。"
-    limit_exceeded: "検索件数の上限を超えました。最初の{{count}}件を表示しています。"
+    limit_exceeded: "検索件数の上限を超えました。最初の%{count}件を表示しています。"
     enter_search_term: "検索語を入力してください。"
     serial: "雑誌・定期刊行物"
     number_of_pages: "ページ数"
@@ -1077,13 +1077,13 @@ ja:
     current_url: "現在のURL"
     subject_and_classification: "件名と分類"
     you_can_search_following_database: "以下のデータベースで検索することができます。"
-    listing: "{{model}}の一覧"
-    new: "{{model}}の新規作成"
-    editing: "{{model}}の編集"
-    showing: "{{model}}の表示"
+    listing: "%{model}の一覧"
+    new: "%{model}の新規作成"
+    editing: "%{model}の編集"
+    showing: "%{model}の表示"
     patron_management: "著者・出版者・読者の管理"
     user_management: "利用者の管理"
-    back_to: "{{model}}の一覧に戻る"
+    back_to: "%{model}の一覧に戻る"
     picture: "画像"
     add_picture: "画像を追加する"
     invalid_date: "無効な日付です。"
@@ -1096,11 +1096,11 @@ ja:
     model: "モデル"
     number_of_record: "レコード数"
     facet: "属性による絞り込み"
-    number_of_days: "{{count}} 日"
+    number_of_days: "%{count} 日"
     require_login_as_librarian: "操作を進めるには、図書館員としてログインする必要があります。"
     read: "読み込み"
     merge: "併合する（取り消しはできません）"
-    merge_resource: "{{model}}を併合する"
+    merge_resource: "%{model}を併合する"
     attachable: "添付先"
     under_construction: "開発中"
     sent_email: "電子メールを送信しました。"
@@ -1108,7 +1108,7 @@ ja:
     set_locale: "言語を設定"
     add_derivation: "派生資料を追加"
     local_record: "自館の情報"
-    search_catalog_at: "{{library_name}}の目録を検索"
+    search_catalog_at: "%{library_name}の目録を検索"
     add_on: "アドオン"
     asc: "昇順"
     desc: "降順"
@@ -1132,9 +1132,9 @@ ja:
     new: "新規作成"
     edit: "編集"
   controller:
-    successfully_created: "{{model}}は正常に作成されました。"
-    successfully_updated: "{{model}}は正常に更新されました。"
-    successfully_deleted: "{{model}}は正常に削除されました。"
+    successfully_created: "%{model}は正常に作成されました。"
+    successfully_updated: "%{model}は正常に更新されました。"
+    successfully_deleted: "%{model}は正常に削除されました。"
   advanced_search:
     from: "ここから"
     to: "ここまで"
@@ -1148,17 +1148,17 @@ ja:
     invalid_url: "無効なURLです。"
     specify_title_and_url: "タイトルとURLを指定してください。"
     already_bookmarked: "すでにブックマークに登録されています。"
-    user_bookmark: "{{login_name}} さんのブックマーク"
+    user_bookmark: "%{login_name} さんのブックマーク"
     only_manifestation_should_be_bookmarked: "サイト内のブックマークは体現形に対してのみ行えます。"
     not_our_holding: "当館の所蔵資料ではありません。"
   work:
-    patron_work: "{{patron_name}} の著作形"
-    library_group_work: "{{library_group_name}} にある著作形"
+    patron_work: "%{patron_name} の著作形"
+    library_group_work: "%{library_group_name} にある著作形"
     add: "著作形を追加する"
   expression:
-    patron_expression: "{{patron_name}} の表現形"
-    manifestations_expression: "{{manifestation_title}} に含まれる表現形"
-    library_group_expression: "{{library_group_name}} にある表現形"
+    patron_expression: "%{patron_name} の表現形"
+    manifestations_expression: "%{manifestation_title} に含まれる表現形"
+    library_group_expression: "%{library_group_name} にある表現形"
     add: "表現形を追加する"
     specify_work: "著作形を指定してください。"
     specify_manifestation: "体現形を指定してください。"
@@ -1169,13 +1169,13 @@ ja:
     edit_publisher: "出版者を編集"
     edit_expression: "表現形を編集"
     edit_item: "所蔵を編集"
-    patron_manifestation: "{{patron_name}} の体現形"
-    expressions_manifestation: "{{expression_title}} の体現形"
-    library_group_manifestation: "{{library_group_name}} にある体現形"
+    patron_manifestation: "%{patron_name} の体現形"
+    expressions_manifestation: "%{expression_title} の体現形"
+    library_group_manifestation: "%{library_group_name} にある体現形"
     reserve_this: "この資料を予約する"
     cancel_reservation: "この資料の予約を解除する"
     user_who_bookmark_this_resource: "この資料をブックマークしている利用者"
-    query_search_result: "検索語 {{query}} による {{library_group_name}} の資料の検索結果"
+    query_search_result: "検索語 %{query} による %{library_group_name} の資料の検索結果"
     serial: "定期刊行物"
     number: "巻号"
     issue_number: "号数"
@@ -1200,7 +1200,7 @@ ja:
   item:
     current_checkout: "現在の貸出"
     donor: "寄贈者"
-    library_group_item: "{{library_group_name}}にある個別資料"
+    library_group_item: "%{library_group_name}にある個別資料"
     add: "個別資料を追加する"
     specify_manifestation: "体現形を指定してください。"
     this_item_is_reserved: "この資料は予約されています！"
@@ -1212,10 +1212,10 @@ ja:
     no_number: "番号なし"
     add_lending_policy: "貸出規則の追加"
   patron:
-    library_group_patron: "{{library_group_name}} の著者・出版者・読者"
-    work_patron: "{{work_title}} の著作者"
-    expression_patron: "{{expression_title}} の編者"
-    manifestation_patron: "{{manifestation_title}} の出版者"
+    library_group_patron: "%{library_group_name} の著者・出版者・読者"
+    work_patron: "%{work_title} の著作者"
+    expression_patron: "%{expression_title} の編者"
+    manifestation_patron: "%{manifestation_title} の出版者"
     activate_as_user: "利用者として登録する"
     deactivate: "利用者登録を解除する"
     add: "著者・出版者・読者を追加する"
@@ -1225,7 +1225,7 @@ ja:
     other_address: "他の住所"
     add_derivation: "派生人物・団体を追加"
   message:
-    user_message: "{{login_name}} さんのメッセージ"
+    user_message: "%{login_name} さんのメッセージ"
     sent_at: "送信時刻"
     inbox: "受信箱"
     write: "メッセージを作成する"
@@ -1242,23 +1242,23 @@ ja:
     delete: "メッセージを削除する"
     sent_successfully: "メッセージは正しく送信されました。"
     no_new_message: "新しいメッセージはありません。"
-    too_short: "メッセージが短すぎます。最小 {{count}} 文字以上必要です。"
-    too_long: "メッセージが長すぎます。最大 {{count}} 文字までです。"
-    new_message_from_library: "{{library}} から新しいお知らせが届いています"
+    too_short: "メッセージが短すぎます。最小 %{count} 文字以上必要です。"
+    too_long: "メッセージが長すぎます。最大 %{count} 文字までです。"
+    new_message_from_library: "%{library} から新しいお知らせが届いています"
     messages_were_deleted: "メッセージは削除されました。"
     select_messages: "メッセージを選択してください。"
   tag:
     popular_tag: "人気のあるタグ"
     my_tag: "自分のつけたタグ"
-    user_tag: "{{login_name}} さんのタグ"
+    user_tag: "%{login_name} さんのタグ"
     use_space_as_delimiter: "半角スペースで区切ってください。"
   question:
     my: "自分の質問"
     all: "全ての質問"
-    number_of_search_results: "{{count}} 件の資料が見つかりました。"
-    user_question: "{{login_name}} さんの質問"
+    number_of_search_results: "%{count} 件の資料が見つかりました。"
+    user_question: "%{login_name} さんの質問"
     no_record_found: "事例が見つかりませんでした。"
-    library_group_question: "{{library_group_name}} での質問"
+    library_group_question: "%{library_group_name} での質問"
     answer_question: "この質問に答える"
     crd: "国会図書館レファレンス協同データベース"
     you_can_search_crd: "国立国会図書館のレファレンス協同データベースを検索することができます。"
@@ -1268,16 +1268,16 @@ ja:
     solved: "解決済み"
     not_solved: "未解決"
   answer:
-    user_answer: "{{login_name}} さんの寄せた回答"
-    library_group_answer: "{{library_group_name}} の寄せた回答"
+    user_answer: "%{login_name} さんの寄せた回答"
+    library_group_answer: "%{library_group_name} の寄せた回答"
     specify_question: "質問を指定してください。"
     count: "回答件数"
   basket:
     this_account_is_suspended: "このアカウントは停止されています。"
     checkout_completed: "貸出が完了しました。"
   checkout:
-    user_checkout: "{{login_name}} さんの貸出資料"
-    library_group_checkout: "{{library_group_name}} での貸出"
+    user_checkout: "%{login_name} さんの貸出資料"
+    library_group_checkout: "%{library_group_name} での貸出"
     renewal: "貸出の更新"
     renewal_count: "更新回数"
     new_due_date: "新しい貸出期限日"
@@ -1300,9 +1300,9 @@ ja:
   import:
     from_file: "ファイルから"
     from_isbn: "ISBNから"
-    will_be_imported: "{{minute}} 分以内にインポートされます。"
+    will_be_imported: "%{minute} 分以内にインポートされます。"
   event:
-    library_group_event: "{{library_group_name}} での催し物"
+    library_group_event: "%{library_group_name} での催し物"
     all_libraries: "全ての図書館"
     import_event: "催し物のインポート"
     all: "全ての催し物"
@@ -1337,10 +1337,10 @@ ja:
     could_not_setup_account: "利用者のアカウントを作成できませんでした。もう一度やり直すか、管理者に連絡してください。"
     resend_confirmation_instruction: '確認手順をもう一度取り寄せる'
   news_post:
-    library_group_news_post: "{{library_group_name}} からのお知らせ"
+    library_group_news_post: "%{library_group_name} からのお知らせ"
   reserve:
-    user_reserve: "{{login_name}} さんの予約資料"
-    library_group_reserve: "{{library_group_name}} での予約資料"
+    user_reserve: "%{login_name} さんの予約資料"
+    library_group_reserve: "%{library_group_name} での予約資料"
     my_reservation: "自分の予約"
     all_reservation: "全ての予約"
     this_manifestation_is_already_reserved: "この資料はすでに予約されています。"
@@ -1350,8 +1350,8 @@ ja:
     this_item_is_not_reserved: "この資料は予約されていません。"
     invalid_item: "無効な個別資料です。"
   purchase_request:
-    user_purchase_request: "{{login_name}} さんの購入依頼資料"
-    library_group_purchase_request: "{{library_group_name}} での購入依頼資料"
+    user_purchase_request: "%{login_name} さんの購入依頼資料"
+    library_group_purchase_request: "%{library_group_name} での購入依頼資料"
     add_to_purchase_request: "図書館の購入依頼に追加"
     all_request: "全ての購入依頼"
     ordered: "発注済み"
@@ -1359,10 +1359,10 @@ ja:
     add_to_order_list: "発注リストに追加する"
     remove_from_order_list: "発注リストから削除する"
   order_list:
-    library_group_order_list: "{{library_group_name}} の発注リスト"
+    library_group_order_list: "%{library_group_name} の発注リスト"
     total_price: "合計価格"
   inter_library_loan:
-    library_group_inter_library_loan: "{{library_group_name}} の相互貸借"
+    library_group_inter_library_loan: "%{library_group_name} の相互貸借"
     borrowing_library: "借受館"
     return_this_item: "この資料を返却する"
   checked_item:
@@ -1409,7 +1409,7 @@ ja:
     configuration: "図書館の設定"
   calendar:
     calendar: "カレンダー"
-    library_calendar: "{{library_name}}のカレンダー"
+    library_calendar: "%{library_name}のカレンダー"
   series_statement:
     edit: "シリーズ情報の編集"
     you_should_specify_work: "シリーズ情報には著作形を指定しなければなりません。"

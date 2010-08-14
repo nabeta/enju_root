@@ -5,7 +5,7 @@
     <%= link_to h(@subject.term), @subject -%>
   </h2>
 
-  <%- form_for :works, :url => subject_works_path(@subject), :html => {:method => 'get'} do -%>
+  <%= form_for :works, :url => subject_works_path(@subject), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%- if can? :destroy, @subject -%>

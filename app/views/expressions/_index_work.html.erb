@@ -12,7 +12,7 @@
     <%= raw patrons_list(@work.patrons, current_user) -%>
   </p>
 
-  <%- form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
+  <%= form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%- if can? :destroy, @work -%>

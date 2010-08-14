@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.patron_type')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@patron_type) do |f| -%>
+<%= form_for(@patron_type) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.patron_type.display_name') -%><br />

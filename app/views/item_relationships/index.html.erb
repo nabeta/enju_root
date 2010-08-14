@@ -1,0 +1,34 @@
+<div id="content_detail">
+<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item_relationship')) -%></h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.item_relationship.parent') -%></th>
+    <th><%= t('activerecord.attributes.item_relationship.child') -%></th>
+    <th><%= t('activerecord.models.item_relationship_type') -%></th>
+  </tr>
+
+<%- @item_relationships.each do |item_relationship| -%>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to h(item_relationship.parent.manifestation.original_title), item_relationship.parent -%></td>
+    <td><%= link_to h(item_relationship.child.manifestation.original_title), item_relationship.child -%></td>
+    <td><%= item_relationship.item_relationship_type.display_name.localize -%></td>
+    <td><%= link_to t('page.show'), item_relationship -%></td>
+    <td><%= link_to t('page.edit'), edit_item_relationship_path(item_relationship) -%></td>
+    <td><%= link_to t('page.destroy'), item_relationship, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+  </tr>
+<%- end -%>
+</table>
+
+<%= will_paginate(@item_relationships) -%>
+<br />
+
+</div>
+</div>
+
+<div id="submenu">
+  <ul>
+    <li><%= link_to t('page.new', :model => t('activerecord.models.item_relationship')), new_item_relationship_path -%></li>
+  </ul>
+</div>

@@ -105,8 +105,8 @@ en:
       user_checkout_stat: User checkout stat
       manifestation_reserve_stat: Manifestation reserve stat
       user_reserve_stat: User reserve stat
-      work_has_work: Work to work relationship
-      expression_has_expression: Expression to expression relationship
+      work_relationship: Work to work relationship
+      expression_relationship: Expression to expression relationship
       manifestation_has_manifestation: Manifestation to manifestation relationship
       item_has_item: Item to item relationship
       bookmark_stat_has_manifestation: Bookmark stat to manifestation relationship
@@ -860,10 +860,10 @@ en:
         reserves_count: Reserve count
       bookmark_stat_has_manifestation:
         bookmarks_count: Bookmark count
-      work_has_work:
+      work_relationship:
         from_work: From
         to_work: To
-      expression_has_expression:
+      expression_relationship:
         from_expression: From
         to_expression: To
       manifestation_has_manifestation:
@@ -973,12 +973,12 @@ en:
         deleted_at: Deleted at
 
   page:
-    user_title: "Welcome {{login_name}}"
+    user_title: "Welcome %{login_name}"
     login: "Login"
     logout: "Logout"
-    logged_in_as: "logged in as {{login_name}}"
-    edit_user_profile: "Edit {{login_name}}'s profile"
-    user_bookmark_title: "{{login_name}}'s bookmark"
+    logged_in_as: "logged in as %{login_name}"
+    edit_user_profile: "Edit %{login_name}'s profile"
+    user_bookmark_title: "%{login_name}'s bookmark"
     login_name: "Login name"
     password: "Password"
     email_and_password: "Email and password"
@@ -987,13 +987,13 @@ en:
     search_term: "Search term"
     number_of_manifestations:
       one: "1 record in this library."
-      other: "{{numdocs}} records in this library."
+      other: "%{numdocs} records in this library."
     number_of_unread_messages:
       one: "You have 1 unread message."
-      other: "You have {{numdocs}} unread messages."
+      other: "You have %{numdocs} unread messages."
     number_of_search_results:
-      one: "1 record found from {{numdocs}} records in {{seconds}} seconds."
-      other: "{{count}} records found from {{numdocs}} records in {{seconds}} seconds."
+      one: "1 record found from %{numdocs} records in %{seconds} seconds."
+      other: "%{count} records found from %{numdocs} records in %{seconds} seconds."
     tag: "Tag"
     call_number: "Call number"
     holding: "Holding"
@@ -1031,13 +1031,13 @@ en:
     detail: "Detail"
     acquisition: "Acquisition"
     configuration: "Configuration"
-    search_resource: "Search {{model}}"
+    search_resource: "Search %{model}"
     show_all: "Show all"
     hide: "Hide"
     overdue: "Overdue"
     number_of_reservations:
-      one: "{{count}} user"
-      other: "{{count}} users"
+      one: "%{count} user"
+      other: "%{count} users"
     back_to_search_results: "Back to search results"
     submit: "Submit"
     management: "Management"
@@ -1076,7 +1076,7 @@ en:
     import_from_file: "Import from file"
     import_from_network: "Import from networks"
     no_record_found: "No records found."
-    limit_exceeded: "Limit exceeded. Listing the first {{count}} records."
+    limit_exceeded: "Limit exceeded. Listing the first %{count} records."
     enter_search_term: "Enter your search term."
     serial: "Serial"
     number_of_pages: "Number of pages"
@@ -1089,13 +1089,13 @@ en:
     current_url: "Current URL"
     subject_and_classification: "Subject and classification"
     you_can_search_following_database: "You can search the following databases."
-    listing: "Listing {{model}}"
-    new: "New {{model}}"
-    editing: "Editing {{model}}"
-    showing: "Showing {{model}}"
+    listing: "Listing %{model}"
+    new: "New %{model}"
+    editing: "Editing %{model}"
+    showing: "Showing %{model}"
     patron_management: "Patron management"
     user_management: "User management"
-    back_to: "Back to {{model}} index"
+    back_to: "Back to %{model} index"
     picture: "Picture"
     add_picture: "Add a picture"
     invalid_date: "Invalid date."
@@ -1109,12 +1109,12 @@ en:
     number_of_record: "Number of record"
     facet: "Facet"
     number_of_days:
-      one: "{{count}} day"
-      other: "{{count}} days"
+      one: "%{count} day"
+      other: "%{count} days"
     require_login_as_librarian: "You should login as a librarian to create and edit resources."
     read: "Read"
     merge: "Merge!"
-    merge_resource: "Merge {{model}}"
+    merge_resource: "Merge %{model}"
     attachable: "Attachable"
     under_construction: "Under construction"
     sent_email: "Sent email."
@@ -1122,7 +1122,7 @@ en:
     set_locale: "Set locale"
     add_derivation: "Add a derivation"
     local_record: "Local record"
-    search_catalog_at: "Search catalog at {{library_name}}"
+    search_catalog_at: "Search catalog at %{library_name}"
     add_on: "Add-ons"
     asc: "ascendent"
     desc: "descendent"
@@ -1146,9 +1146,9 @@ en:
     new: "new"
     edit: "edit"
   controller:
-    successfully_created: "{{model}} was successfully created."
-    successfully_updated: "{{model}} was successfully updated."
-    successfully_deleted: "{{model}} was successfully deleted."
+    successfully_created: "%{model} was successfully created."
+    successfully_updated: "%{model} was successfully updated."
+    successfully_deleted: "%{model} was successfully deleted."
   advanced_search:
     from: "from"
     to: "to"
@@ -1165,13 +1165,13 @@ en:
     only_manifestation_should_be_bookmarked: "You can bookmark only manifestatons in this site."
     not_our_holding: "This resource is not our holding."
   work:
-    patrons_work: "{{patron_name}}'s works"
-    library_group_work: "Works in {{library_group_name}}"
+    patrons_work: "%{patron_name}'s works"
+    library_group_work: "Works in %{library_group_name}"
     add: "Add a work"
   expression:
-    patrons_expression: "{{patron_name}}'s expressions"
-    manifestations_expression: "Expressions in {{manifestation_title}}"
-    library_group_expression: "Expressions in {{library_group_name}}"
+    patrons_expression: "%{patron_name}'s expressions"
+    manifestations_expression: "Expressions in %{manifestation_title}"
+    library_group_expression: "Expressions in %{library_group_name}"
     add: "Add an expression"
     specify_work: "Specify the work."
     specify_manifestation: "Specify the manifestation."
@@ -1183,12 +1183,12 @@ en:
     edit_publisher: "Edit publishers"
     edit_expression: "Edit expressions"
     edit_item: "Edit items"
-    expressions_manifestation: "Manifestations for {{expression_title}}"
-    library_group_manifestation: "Manifestations in {{library_group_name}}"
+    expressions_manifestation: "Manifestations for %{expression_title}"
+    library_group_manifestation: "Manifestations in %{library_group_name}"
     reserve_this: "Reserve this manifestation"
     cancel_reservation: "Cancel this reservation"
     user_who_bookmark_this_resource: "Users who bookmark this resource"
-    query_search_result: "Search results for {{query}} in {{library_group_name}}"
+    query_search_result: "Search results for %{query} in %{library_group_name}"
     serial: "Serial"
     number: "Number"
     issue_number: "Issue number"
@@ -1213,7 +1213,7 @@ en:
   item:
     current_checkout: "Current checkout"
     donor: "Donors"
-    library_group_item: "Items in {{library_group_name}}"
+    library_group_item: "Items in %{library_group_name}"
     add: "Add an item"
     specify_manifestation: "Specify the manifestation."
     this_item_is_reserved: "This item is reserved!"
@@ -1225,10 +1225,10 @@ en:
     no_number: "No number"
     add_lending_policy: "Add a new lending policy"
   patron:
-    library_group_patron: "Patrons of {{library_group_name}}"
-    work_patron: "Creaters of {{work_title}}"
-    expression_patron: "Realizers of {{expression_title}}"
-    manifestation_patron: "Producers of {{manifestation_title}}"
+    library_group_patron: "Patrons of %{library_group_name}"
+    work_patron: "Creaters of %{work_title}"
+    expression_patron: "Realizers of %{expression_title}"
+    manifestation_patron: "Producers of %{manifestation_title}"
     activate_as_user: "Activate as an user"
     deactivate: "Deactivate this user"
     add: "Add a patron"
@@ -1238,7 +1238,7 @@ en:
     other_address: "The other address"
     add_derivation: "Add derivatation"
   message:
-    user_message: "{{login_name}}'s messages"
+    user_message: "%{login_name}'s messages"
     sent_at: "Sent at"
     inbox: "Inbox"
     write: "Write"
@@ -1255,25 +1255,25 @@ en:
     delete: "Delete"
     sent_successfully: "Message was sent successfully."
     no_new_message: "No new messages."
-    too_short: "Message is too short. The minimum length is {{count}} characters."
-    too_long: "Message is too long. The maximum length is {{count}} characters."
-    new_message_from_library: "New message arrived from {{library}}"
+    too_short: "Message is too short. The minimum length is %{count} characters."
+    too_long: "Message is too long. The maximum length is %{count} characters."
+    new_message_from_library: "New message arrived from %{library}"
     messages_were_deleted: "Messages were deleted."
     select_messages: "Select messages."
   tag:
     popular_tag: "Popular tags"
     my_tag: "My tags"
-    user_tag: "{{login_name}}'s tags"
+    user_tag: "%{login_name}'s tags"
     use_space_as_delimiter: "Use space as a delimiter."
   question:
     my: "My questions"
     all: "All questions"
     number_of_search_results:
       one: "1 record found."
-      other: "{{count}} records found."
-    user_question: "{{login_name}}'s questions"
+      other: "%{count} records found."
+    user_question: "%{login_name}'s questions"
     no_record_found: "No records found."
-    library_group_question: "Questions in {{library_group_name}}"
+    library_group_question: "Questions in %{library_group_name}"
     answer_question: "Answer this question"
     crd: "NDL Collaborative Reference Database"
     you_can_search_crd: "You can search within NDL Collaborative Reference Database."
@@ -1283,16 +1283,16 @@ en:
     solved: "Solved"
     not_solved: "Not solved"
   answer:
-    user_answer: "{{login_name}}'s answers"
-    library_group_answer: "Answers from {{library_group_name}}"
+    user_answer: "%{login_name}'s answers"
+    library_group_answer: "Answers from %{library_group_name}"
     specify_question: "Specify the question."
     count: "Count"
   basket:
     this_account_is_suspended: "This account is suspended."
     checkout_completed: "Checkout completed."
   checkout:
-    user_checkout: "{{login_name}}'s checkouts"
-    library_group_checkout: "Checkouts in {{library_group_name}}"
+    user_checkout: "%{login_name}'s checkouts"
+    library_group_checkout: "Checkouts in %{library_group_name}"
     renewal: "Renewal"
     renewal_count: "Renewal count"
     new_due_date: "New due date"
@@ -1316,10 +1316,10 @@ en:
     from_file: "from file"
     from_isbn: "from ISBN"
     will_be_imported:
-      one: "Resource will be impored in a {{minute}} minute."
-      other: "Resource will be impored in {{minute}} minutes."
+      one: "Resource will be impored in a %{minute} minute."
+      other: "Resource will be impored in %{minute} minutes."
   event:
-    library_group_event: "Events at {{library_group_name}}"
+    library_group_event: "Events at %{library_group_name}"
     all_libraries: "All libraries"
     import_event: "Import events"
     all: "All events"
@@ -1354,10 +1354,10 @@ en:
     resend_confirmation_instruction: "Resend confirmation instructions"
     could_not_setup_account: "We couldn't set up that account, sorry.  Please try again, or contact an admin."
   news_post:
-    library_group_news_post: "News from {{library_group_name}}"
+    library_group_news_post: "News from %{library_group_name}"
   reserve:
-    user_reserve: "{{login_name}}'s reservations"
-    library_group_reserve: "Reservations in {{library_group_name}}"
+    user_reserve: "%{login_name}'s reservations"
+    library_group_reserve: "Reservations in %{library_group_name}"
     my_reservation: "My reservations"
     all_reservation: "All reservations"
     this_manifestation_is_already_reserved: "This manifestation is already reserved."
@@ -1367,8 +1367,8 @@ en:
     this_item_is_not_reserved: "This item is not reserved."
     invalid_item: "Invalid item."
   purchase_request:
-    user_purchase_request: "{{login_name}} 's purchase requests"
-    library_group_purchase_request: "Purchase requests in {{library_group_name}}"
+    user_purchase_request: "%{login_name} 's purchase requests"
+    library_group_purchase_request: "Purchase requests in %{library_group_name}"
     add_to_purchase_request: "Add to purchase request"
     all_request: "All requests"
     ordered: "Ordered"
@@ -1376,10 +1376,10 @@ en:
     add_to_order_list: "Add to order list"
     remove_from_order_list: "Remove from order list"
   order_list:
-    library_group_order_list: "Order lists in {{library_group_name}}"
+    library_group_order_list: "Order lists in %{library_group_name}"
     total_price: "Total price"
   inter_library_loan:
-    library_group_inter_library_loan: "Inter library loans in {{library_group_name}}"
+    library_group_inter_library_loan: "Inter library loans in %{library_group_name}"
     borrowing_library: "Borrowing library"
     return_this_item: "Return this item"
   checked_item:
@@ -1426,7 +1426,7 @@ en:
     configuration: "Library configuration"
   calendar:
     calendar: "Calendar"
-    library_calendar: "Calendar of events at {{library_name}}"
+    library_calendar: "Calendar of events at %{library_name}"
   series_statement:
     edit: "Edit series statement"
     you_should_specify_work: "You should specify a work in the series statement."

@@ -9,26 +9,15 @@ class LibraryGroup < ActiveRecord::Base
   belongs_to :country
 
   validates_presence_of :name, :display_name, :email
+  before_validation :set_display_name, :on => :create
+  after_save :clear_site_config_cache
 
-  def after_save
-    expire_cache
-  end
-
-  def after_destroy
-    after_save
-  end
-
-  def before_validation
-    self.display_name = self.name if display_name.blank?
-  end
-
-  def expire_cache
-    Rails.cache.delete("LibraryGroup:#{id}")
+  def clear_site_config_cache
+    Rails.cache.delete('library_site_config')
   end
 
   def self.site_config
-    #Rails.cache.fetch('LibraryGroup:1'){LibraryGroup.find(1)}
-    LibraryGroup.find(1)
+    Rails.cache.fetch('library_site_config'){LibraryGroup.find(1)}
   end
 
   def self.url
@@ -54,12 +43,14 @@ class LibraryGroup < ActiveRecord::Base
       allowed_networks = self.my_networks.to_s.split
     end
     allowed_networks.each do |allowed_network|
-      network = IPAddr.new(allowed_network)
-      return true if network.include?(client_ip)
+      begin
+        network = IPAddr.new(allowed_network)
+        return true if network.include?(client_ip)
+      rescue ArgumentError
+        nil
+      end
     end
-    false
-  rescue ArgumentError
-    nil
+    return false
   end
 
 end

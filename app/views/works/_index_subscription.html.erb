@@ -5,7 +5,7 @@
     <%= link_to h(@subscription.full_name), @subscription -%>
   </h2>
 
-<%- form_for :works, :url => subscription_works_path(@subscription), :html => {:method => 'get'} do -%>
+<%= form_for :works, :url => subscription_works_path(@subscription), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
     <%- if can? :destroy, @subscription -%>

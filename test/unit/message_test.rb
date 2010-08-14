@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class MessageTest < ActiveSupport::TestCase
 
@@ -6,17 +6,17 @@ class MessageTest < ActiveSupport::TestCase
 
   def test_should_require_body
     m = create_message(:body => nil)
-    assert m.errors.on(:body)
+    assert m.errors[:body]
   end
 
   def test_should_require_recipient
     m = create_message(:recipient => nil)
-    assert m.errors.on(:recipient)
+    assert m.errors[:recipient]
   end
   
   def test_should_require_subject
     m = create_message(:subject => nil)
-    assert m.errors.on(:subject)
+    assert m.errors[:subject]
   end
   
   def test_should_return_sender_name

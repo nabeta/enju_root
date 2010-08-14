@@ -1,7 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
 <div id="content_list">
-<%- form_for :messages, :url => user_messages_path(current_user.username), :html => {:method => 'get'} do -%>
+<%= form_for :messages, :url => user_messages_path(current_user.username), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
@@ -9,7 +9,7 @@
   <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
-<%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
+<%= form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
   <table class="index">
     <tr>
       <th></th>

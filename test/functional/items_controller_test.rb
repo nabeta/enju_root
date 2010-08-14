@@ -297,7 +297,7 @@ class ItemsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, Item.count
     
-    assert_redirected_to items_url
+    assert_redirected_to manifestation_items_url(assigns(:item).manifestation)
   end
 
   def test_admin_should_destroy_item
@@ -306,6 +306,6 @@ class ItemsControllerTest < ActionController::TestCase
     delete :destroy, :id => 1
     assert_equal old_count-1, Item.count
     
-    assert_redirected_to items_url
+    assert_redirected_to manifestation_items_url(assigns(:item).manifestation)
   end
 end

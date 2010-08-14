@@ -15,9 +15,7 @@ class ApplicationController < ActionController::Base
   # You can move this into a different controller, if you wish.  This module gives you the require_role helpers, and others.
   include SslRequirement
 
-  include ExceptionNotification::Notifiable
-
-  filter_parameter_logging :password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token
+  #include ExceptionNotification::Notifiable
 
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
@@ -52,21 +50,19 @@ class ApplicationController < ActionController::Base
   end
 
   def set_locale
-    if Rails.env == 'test'
-      locale = 'en'
-    else
-      if user_signed_in?
-        locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
-      else
-        locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
+    if params[:locale]
+      unless I18n.available_locales.include?(params[:locale].to_s.intern)
+        raise InvalidLocaleError
       end
     end
-    unless I18n.available_locales.include?(locale.intern)
-      locale = I18n.default_locale.to_s
+    if user_signed_in?
+      locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
+    else
+      locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
     end
     I18n.locale = locale
     @locale = session[:locale] = locale
-  rescue
+  rescue InvalidLocaleError
     I18n.locale = I18n.default_locale
     @locale = I18n.locale.to_s
   end
@@ -286,7 +282,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    session[:return_to] = request.request_uri
+    session[:return_to] = request.fullpath
   end
 
   def redirect_back_or_default(default = '/')
@@ -311,7 +307,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_role_query(user, search)
-    role = user.try(:highest_role) || Role.find(1)
+    role = user.try(:role) || Role.find(1)
     search.build do
       with(:required_role_id).less_than role.id
     end

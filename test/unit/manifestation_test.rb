@@ -1,10 +1,10 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
     :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types,
-    :answer_has_items
+    :answer_has_items, :manifestation_relationships
 
   def test_sru_sort_by
     sru = Sru.new({:query => "title=Ruby"})

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@work) do |f| -%>
+<%= form_for(@work) do |f| -%>
   <%- if @work.series_statement -%>
     <p>
       <%= t('activerecord.models.series_statement') -%>

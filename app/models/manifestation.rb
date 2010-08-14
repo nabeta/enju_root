@@ -5,17 +5,17 @@ require 'sru'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  #named_scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  #scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'manifestations.updated_at DESC'
-  named_scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
-  named_scope :serials, :conditions => ['frequency_id > 1']
-  named_scope :not_serials, :conditions => ['frequency_id = 1']
-  has_many :embodies, :dependent => :destroy, :order => :position
-  has_many :expressions, :through => :embodies, :order => 'embodies.position', :dependent => :destroy
+  scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  scope :serials, :conditions => ['frequency_id > 1']
+  scope :not_serials, :conditions => ['frequency_id = 1']
+  has_many :embodies, :dependent => :destroy
+  has_many :expressions, :through => :embodies
   has_many :exemplifies, :dependent => :destroy
   has_many :items, :through => :exemplifies, :dependent => :destroy
   has_many :produces, :dependent => :destroy
-  has_many :patrons, :through => :produces, :order => 'produces.position'
+  has_many :patrons, :through => :produces
   #has_one :manifestation_api_response, :dependent => :destroy
   has_many :reserves, :dependent => :destroy
   has_many :reserving_users, :through => :reserves, :source => :user
@@ -33,10 +33,10 @@ class Manifestation < ActiveRecord::Base
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
   has_many :reserve_stat_has_manifestations
   has_many :manifestation_reserve_stats, :through => :reserve_stat_has_manifestations
-  has_many :to_manifestations, :foreign_key => 'from_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
-  has_many :from_manifestations, :foreign_key => 'to_manifestation_id', :class_name => 'ManifestationHasManifestation', :dependent => :destroy
-  has_many :derived_manifestations, :through => :to_manifestations, :source => :to_manifestation
-  has_many :original_manifestations, :through => :from_manifestations, :source => :from_manifestation
+  has_many :children, :foreign_key => 'parent_id', :class_name => 'ManifestationRelationship', :dependent => :destroy
+  has_many :parents, :foreign_key => 'child_id', :class_name => 'ManifestationRelationship', :dependent => :destroy
+  has_many :derived_manifestations, :through => :children, :source => :child
+  has_many :original_manifestations, :through => :parents, :source => :parent
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   belongs_to :frequency #, :validate => true
   has_many :bookmarks, :include => :tags, :dependent => :destroy
@@ -168,7 +168,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   #acts_as_tree
-  enju_twitter
+  #enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_ndl
@@ -196,62 +196,45 @@ class Manifestation < ActiveRecord::Base
   validates_uniqueness_of :nbn, :allow_blank => true
   validates_uniqueness_of :manifestation_identifier, :allow_blank => true
   validates_format_of :access_address, :with => URI::regexp(%w(http https)) , :allow_blank => true
+  validate :check_isbn
+  before_validation :convert_isbn
+  normalize_attributes :manifestation_identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
+
+  after_save :expire_cache
+  after_create :post_to_scribd!
+  after_destroy :expire_cache
+
+  def check_isbn
+    if isbn.present?
+      errors.add(:isbn) unless ISBN_Tools.is_valid?(isbn)
+      #set_wrong_isbn
+    end
+  end
 
   def set_wrong_isbn
-    #unless self.date_of_publication.blank?
-    #  date = Time.parse(self.date_of_publication.to_s) rescue nil
-    #  errors.add(:date_of_publication) unless date
-    #end
-
     if isbn.present?
       wrong_isbn = isbn unless ISBN_Tools.is_valid?(isbn)
     end
   end
 
-  def before_validation_on_create
-    return nil unless self.isbn
-    ISBN_Tools.cleanup!(self.isbn)
-    if self.isbn.length == 10
-      isbn10 = self.isbn.dup
-      self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn)
-      self.isbn10 = isbn10
-    elsif self.isbn.length == 13
-      self.isbn10 = ISBN_Tools.isbn13_to_isbn10(self.isbn)
+  def convert_isbn
+    isbn = ISBN_Tools.cleanup(isbn) if isbn
+    if isbn
+      if isbn.length == 10
+        isbn10 = isbn.dup
+        isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
+        isbn10 = isbn10
+      elsif isbn.length == 13
+        isbn10 = ISBN_Tools.isbn13_to_isbn10(isbn)
+      end
     end
-    set_wrong_isbn
-  rescue NoMethodError
-    nil
-  end
-
-  def before_validation_on_update
-    ISBN_Tools.cleanup!(self.isbn) if self.isbn.present?
-  end
-
-  #def validate
-  #  check_series_statement
-  #end
-
-  def after_create
-    #set_digest if self.attachment.path
-    Rails.cache.delete("Manifestation.search.total")
-    post_to_scribd!
-  end
-
-  def after_save
-    send_later(:expire_cache)
-    send_later(:generate_fragment_cache)
-  end
-
-  def after_destroy
-    Rails.cache.delete("Manifestation.search.total")
-    send_later(:expire_cache)
   end
 
   def expire_cache
-    sleep 3
     #Rails.cache.delete("worldcat_record_#{id}")
     #Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
+    Rails.cache.delete("Manifestation.search.total")
   end
 
   def self.cached_numdocs
@@ -591,11 +574,10 @@ class Manifestation < ActiveRecord::Base
 
   def set_digest(options = {:type => 'sha1'})
     self.file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
-    save(false)
+    save(:validate => false)
   end
 
   def generate_fragment_cache
-    sleep 3
     url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
     Net::HTTP.get(URI.parse(url))
   end
@@ -623,7 +605,7 @@ class Manifestation < ActiveRecord::Base
     end
 
     #self.indexed_at = Time.zone.now
-    self.save(false)
+    self.save(:validate => false)
     text.close
   end
 

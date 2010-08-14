@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.extent')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@extent) do |f| -%>
+<%= form_for(@extent) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.extent.name') -%><br />

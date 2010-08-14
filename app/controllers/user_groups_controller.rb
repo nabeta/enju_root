@@ -84,11 +84,6 @@ class UserGroupsController < ApplicationController
   # DELETE /user_groups/1
   # DELETE /user_groups/1.xml
   def destroy
-    if params[:id] == 1
-      access_denied
-      return
-    end
-
     @user_group = UserGroup.find(params[:id])
     @user_group.destroy
 

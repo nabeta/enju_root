@@ -2,7 +2,7 @@
   <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.inter_library_loan')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@inter_library_loan) do |f| -%>
+<%= form_for(@inter_library_loan) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

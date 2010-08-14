@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.bookmark')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@bookmark, :url => user_bookmark_path(@bookmark.user.username, @bookmark)) do |f| -%>
+<%= form_for(@bookmark, :url => user_bookmark_path(@bookmark.user.username, @bookmark)) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

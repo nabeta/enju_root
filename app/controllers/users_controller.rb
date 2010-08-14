@@ -30,7 +30,7 @@ class UsersController < ApplicationController
 
     query = params[:query]
     page = params[:page] || 1
-    role = current_user.try(:highest_role) || Role.find(1)
+    role = current_user.try(:role) || Role.default_role
 
     unless query.blank?
       begin
@@ -76,11 +76,6 @@ class UsersController < ApplicationController
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
-    if Rails.env == 'production'
-      @news_feeds = Rails.cache.fetch('NewsFeed.all'){NewsFeed.all}
-    else
-      @news_feeds = NewsFeed.all
-    end
 
     respond_to do |format|
       format.html # show.rhtml
@@ -116,7 +111,7 @@ class UsersController < ApplicationController
       @user = current_user
     end
     raise ActiveRecord::RecordNotFound if @user.blank?
-    @user_role_id = @user.roles.first.id
+    @user.role_id = @user.role.id
 
     if params[:mode] == 'feed_token'
       if params[:disable] == 'true'
@@ -150,16 +145,17 @@ class UsersController < ApplicationController
       @user.openid_identifier = params[:user][:openid_identifier]
       @user.keyword_list = params[:user][:keyword_list]
       @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
+      @user.email = params[:user][:email]
       #@user.note = params[:user][:note]
     end
 
     if current_user.has_role?('Librarian')
       if params[:user]
         @user.note = params[:user][:note]
-        @user.user_group_id = params[:user][:user_group_id] ||= 1
-        @user.library_id = params[:user][:library_id] ||= 1
-        @user.role_id = params[:user][:role_id] ||= 1
-        @user.required_role_id = params[:user][:required_role_id] ||= 1
+        @user.user_group_id = params[:user][:user_group_id] || 1
+        @user.library_id = params[:user][:library_id] || 1
+        @user.role_id = params[:user][:role_id]
+        @user.required_role_id = params[:user][:required_role_id] || 1
         @user.user_number = params[:user][:user_number]
         @user.locale = params[:user][:locale]
         expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
@@ -173,19 +169,26 @@ class UsersController < ApplicationController
       end
       if params[:user][:auto_generated_password] == "1"
         @user.password = Devise.friendly_token
+      else
+        params.delete(:password) if params[:password].blank?
+        params.delete(:password_confirmation) if params[:password_confirmation].blank?
+        @user.current_password = params[:current_password]
+        @user.password = params[:password]
+        @user.password_confirmation = params[:password_confirmation]
+      end
+    end
+    if current_user.has_role?('Administrator')
+      if @user.role_id
+        role = Role.find(@user.role_id)
+        @user.role = role
       end
     end
 
     #@user.save do |result|
     respond_to do |format|
       #if @user.update_attributes(params[:user])
-      if @user.save
-        if current_user.has_role?('Administrator')
-          if @user.role_id
-            role = Role.find(@user.role_id)
-            @user.set_role(role)
-          end
-        end
+      if @user.save!
+        @user.update_with_password(params[:user])
         flash[:temporary_password] = @user.password
 
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
@@ -224,10 +227,11 @@ class UsersController < ApplicationController
     if @user.patron_id
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
+    @user.set_auto_generated_password
+    @user.role = Role.first(:conditions => {:name => 'User'})
 
     respond_to do |format|
       if @user.save
-        @user.roles << Role.first(:conditions => {:name => 'User'})
         #self.current_user = @user
         flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
         format.html { redirect_to user_url(@user.username) }
@@ -302,17 +306,10 @@ class UsersController < ApplicationController
   end
 
   def prepare_options
-    if Rails.env == 'production'
-      @user_groups = Rails.cache.fetch('UserGroup.all'){UserGroup.all}
-      @roles = Rails.cache.fetch('Role.all'){Role.all}
-      @libraries = Rails.cache.fetch('Library.all'){Library.all}
-      @languages = Rails.cache.fetch('Language.all'){Language.all}
-    else
-      @user_groups = UserGroup.all
-      @roles = Role.all
-      @libraries = Library.all
-      @languages = Language.all
-    end
+    @user_groups = UserGroup.all
+    @roles = Rails.cache.fetch('role_all'){Role.all}
+    @libraries = Rails.cache.fetch('library_all'){Library.all}
+    @languages = Language.all
   end
 
   def set_operator

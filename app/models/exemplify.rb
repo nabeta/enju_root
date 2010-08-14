@@ -6,27 +6,19 @@ class Exemplify < ActiveRecord::Base
   validates_presence_of :manifestation_id, :item_id
   validates_uniqueness_of :item_id
 
+  after_save :reindex
+  after_destroy :reindex
+  after_create :create_lending_policy
+
   acts_as_list :scope => :manifestation_id
 
   def self.per_page
     10
   end
 
-  def after_save
-    reindex
-  end
-
-  def after_destroy
-    reindex
-  end
-
   def reindex
     manifestation.index
     item.index
-  end
-
-  def after_create
-    create_lending_policy
   end
 
   def create_lending_policy

@@ -8,7 +8,7 @@
   <h2><%= t('event.all_libraries') -%></h2>
 <%- end -%>
 
-<%- form_for :events, :url => events_path, :html => {:method => 'get'} do -%>
+<%= form_for :events, :url => events_path, :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.own')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@own) do |f| -%>
+<%= form_for(@own) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

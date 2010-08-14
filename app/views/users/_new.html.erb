@@ -1,7 +1,7 @@
 <div id="content_detail">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.user')) -%></h1>
 <div id="content_list">
-<%- form_for(@user) do |f| -%>
+<%= form_for(@user) do |f| -%>
   <%= f.error_messages -%>
 
   <%- if @patron -%>

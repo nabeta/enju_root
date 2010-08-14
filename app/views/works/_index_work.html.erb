@@ -5,7 +5,7 @@
     [W]
     <%= link_to h(@work.original_title), @work -%>
   </h2>
-  <%- form_for :works, :url => work_works_path(@work), :html => {:method => 'get'} do -%>
+  <%= form_for :works, :url => work_works_path(@work), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if can? :destroy, @work -%>
@@ -44,10 +44,10 @@
         <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
         <td>
           <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_work_work_has_work_path(@work, :to_work_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>
+            <%= link_to t('page.add'), new_work_work_relationship_path(@work, :child_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>
           <%- else -%>
-            <%- work_has_work = @work.to_works.find_by_to_work_id(work.id) -%>
-            <%= link_to t('page.destroy'), work_has_work, :confirm => t('page.are_you_sure'), :method => :delete if work_has_work -%>
+            <%- work_relationship = @work.childs.find_by_child_id(work.id) -%>
+            <%= link_to t('page.destroy'), work_relationship, :confirm => t('page.are_you_sure'), :method => :delete if work_relationship -%>
           <%- end -%>
         </td>
       <%- end -%>

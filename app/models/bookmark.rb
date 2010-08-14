@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class Bookmark < ActiveRecord::Base
-  named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
-  named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
+  scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :manifestation
   belongs_to :user #, :counter_cache => true, :validate => true
 
@@ -10,7 +10,7 @@ class Bookmark < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
   #validate :get_manifestation
-  before_validation_on_create :create_manifestation
+  before_validation :create_manifestation, :on => :create
   before_validation :set_url
   validate :bookmarkable_url?
   before_save :replace_space_in_tags

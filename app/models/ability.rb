@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    case user.try(:highest_role).try(:name)
+    case user.try(:role).try(:name)
     when 'Administrator'
       can :manage, :all
     when 'Librarian'
@@ -16,11 +16,11 @@ class Ability
       can :create, Patron
       can [:update, :destroy], Patron do |patron|
         patron.required_role_id <= 3 #'Librarian'
-        patron.try(:user).try(:highest_role).try(:name) != 'Administrator'
+        patron.user.role.name != 'Administrator' if patron.user
       end
       can :manage, User
       can :read, [Advertisement, Bookstore, Donate]
-      can :manage, [Basket, Checkout, Checkin]
+      can :manage, [Checkout]
       can :read, Subject
       can :manage, Bookmark
       can :manage, [Question, Answer]
@@ -34,7 +34,7 @@ class Ability
       can :manage, Reserve
       can :manage, PurchaseRequest
       can :manage, PictureFile
-      can :manage, PatronHasPatron
+      can :manage, PatronRelationship
       can :manage, Order
       can :manage, OrderList
       can :read, NewsFeed
@@ -57,8 +57,8 @@ class Ability
       can :manage, [UserCheckoutStat, UserReserveStat]
       can :manage, [ManifestationCheckoutStat, ManifestationReserveStat]
       can :manage, [
-        WorkHasWork, ExpressionHasExpression, ManifestationHasManifestation,
-        ItemHasItem, PatronHasPatron
+        WorkRelationship, ExpressionRelationship, ManifestationRelationship,
+        ItemRelationship, PatronRelationship
       ]
       can :manage, Tag
       can :read, SearchEngine
@@ -76,7 +76,6 @@ class Ability
       can :read, CarrierType
       can :read, CheckoutType
       can :read, CarrierTypeHasCheckoutType
-      can :manage, CheckedItem
       can :manage, [CheckoutStatHasManifestation, CheckoutStatHasUser]
       can :manage, [ReserveStatHasManifestation, ReserveStatHasUser]
       can :read, [CirculationStatus, UseRestriction]
@@ -136,9 +135,9 @@ class Ability
       can :read, [Country, Language, License]
       can :read, UserGroup
       can :read, WorkHasSubject
-      can :read, [WorkHasWork, ExpressionHasExpression]
-      can :read, [ManifestationHasManifestation, ItemHasItem]
-      can :read, PatronHasPatron
+      can :read, [WorkRelationship, ExpressionRelationship]
+      can :read, [ManifestationRelationship, ItemRelationship]
+      can :read, PatronRelationship
       can :read, [WorkRelationshipType, ExpressionRelationshipType]
       can :read, [ManifestationRelationshipType, ItemRelationshipType]
       can :read, PatronRelationshipType
@@ -191,9 +190,9 @@ class Ability
       end
       can :read, [Create, Realize, Produce, Own]
       can :read, [Embody, Exemplify, Reify]
-      can :read, [WorkHasWork, ExpressionHasExpression]
-      can :read, [ManifestationHasManifestation, ItemHasItem]
-      can :read, PatronHasPatron
+      can :read, [WorkRelationship, ExpressionRelationship]
+      can :read, [ManifestationRelationship, ItemRelationship]
+      can :read, PatronRelationship
       can :read, Country
       can :read, Event
       can :read, EventCategory
@@ -216,7 +215,7 @@ class Ability
       can :read, [SubjectHeadingType, SubjectHasClassification]
       can :read, UserGroup
       can :read, WorkHasSubject
-      can :read, WorkHasWork
+      can :read, [WorkRelationship, ExpressionRelationship, ManifestationRelationship, ItemRelationship, PatronRelationship]
       can :read, WorkToExpressionRelType
       can :read, PictureFile
       can :read, NiiType

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.patron_relationship_type')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@patron_relationship_type) do |f| -%>
+<%= form_for(@patron_relationship_type) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.patron_relationship_type.display_name') -%><br />

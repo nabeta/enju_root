@@ -10,7 +10,7 @@
     <%= link_to h(@item.manifestation.original_title), @item -%>
   </h2>
 
-<%- form_for :items, :url => item_items_path(@item), :html => {:method => 'get'} do -%>
+<%= form_for :items, :url => item_items_path(@item), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if can? :destroy, @item -%>

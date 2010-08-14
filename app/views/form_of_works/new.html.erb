@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.form_of_work')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@form_of_work) do |f| -%>
+<%= form_for(@form_of_work) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.form_of_work.name') -%><br />

@@ -1,5 +1,5 @@
 class SearchHistory < ActiveRecord::Base
-  named_scope :not_found, :conditions => {:number_of_records => 0}
+  scope :not_found, :conditions => {:number_of_records => 0}
 
   belongs_to :user
   def self.per_page

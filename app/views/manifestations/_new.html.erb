@@ -5,7 +5,7 @@
     <h2 class="resource_title"><%= link_to h(@expression.original_title), @expression -%></h2>
   <%- end -%>
 
-<%- form_for(@manifestation) do |f| -%>
+<%= form_for(@manifestation) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%- if @manifestation.series_statement -%>

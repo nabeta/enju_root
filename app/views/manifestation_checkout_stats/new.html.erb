@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation_checkout_stat')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@manifestation_checkout_stat) do |f| -%>
+<%= form_for(@manifestation_checkout_stat) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

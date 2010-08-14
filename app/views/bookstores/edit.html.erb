@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.bookstore')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@bookstore) do |f| -%>
+<%= form_for(@bookstore) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

@@ -118,7 +118,7 @@ class PurchaseRequestsControllerTest < ActionController::TestCase
       post :create, :purchase_request => {:title => 'test', :user_id => users(:user1).id}
     end
 
-    assert_redirected_to user_purchase_request_url(users(:librarian1).username, assigns(:purchase_request))
+    assert_redirected_to user_purchase_request_url(users(:user1).username, assigns(:purchase_request))
   end
 
   def test_guest_should_not_show_purchase_request

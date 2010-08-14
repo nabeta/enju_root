@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <title><%= t('activerecord.models.bookstore') -%>: <%= title_action_name -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body>
 

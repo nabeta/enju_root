@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.answer')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@answer, :url => user_question_answer_path(@answer.user.username, @answer.question, @answer)) do |f| -%>
+<%= form_for(@answer, :url => user_question_answer_path(@answer.user.username, @answer.question, @answer)) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

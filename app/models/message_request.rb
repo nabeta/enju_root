@@ -1,7 +1,7 @@
 class MessageRequest < ActiveRecord::Base
-  named_scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
-  named_scope :sent, :conditions => {:state => 'sent'}
-  named_scope :started, :conditions => {:state => 'started'}
+  scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
+  scope :sent, :conditions => {:state => 'sent'}
+  scope :started, :conditions => {:state => 'started'}
   belongs_to :message_template, :validate => true
   belongs_to :sender, :class_name => "User", :foreign_key => "sender_id", :validate => true
   belongs_to :receiver, :class_name => "User", :foreign_key => "receiver_id", :validate => true
@@ -38,7 +38,7 @@ class MessageRequest < ActiveRecord::Base
         message = Message.create!(:sender => self.sender, :recipient => self.receiver.username, :subject => self.subject, :body => self.body)
       end
       self.update_attributes({:sent_at => Time.zone.now})
-      Notifier.deliver_message_notification(self.receiver)
+      Notifier.message_notification(self.receiver).deliver
       if ['reservation_expired_for_patron', 'reservation_expired_for_patron'].include?(self.message_template.status)
         self.receiver.reserves.each do |reserve|
           reserve.update_attribute(:expiration_notice_to_patron, true)

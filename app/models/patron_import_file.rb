@@ -1,6 +1,6 @@
 class PatronImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attached_file :patron_import, :path => ":rails_root/private:url"
   validates_attachment_content_type :patron_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
@@ -111,7 +111,7 @@ class PatronImportFile < ActiveRecord::Base
           user.library = library
           user.save!
           role = Role.first(:conditions => {:name => row['role']}) || Role.find(2)
-          user.roles << role
+          user.role = role
           num[:activated] += 1
         #rescue
         #  Rails.logger.info("user import failed: column #{record}")

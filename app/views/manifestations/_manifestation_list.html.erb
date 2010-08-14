@@ -1,12 +1,12 @@
 <div id="manifestation">
-  <%- if @manifestation.original_manifestations.first or @manifestation.derived_manifestations.first -%>
+  <%- if @manifestation.parents.first or @manifestation.derived_manifestations.first -%>
     <ul>
-      <%- @manifestation.from_manifestations.each do |manifestation_has_manifestation| -%>
-        <%- manifestation =  manifestation_has_manifestation.from_manifestation -%>
+      <%- @manifestation.parents.each do |manifestation_relationship| -%>
+        <%- manifestation =  manifestation_relationship.parent -%>
         <%- unless manifestation == @manifestation -%>
           <li>
             [M]
-            (<%= manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>)
+            (<%= manifestation_relationship.manifestation_relationship_type.display_name.localize -%>)
             <%= link_to h(manifestation.original_title), manifestation -%>
             <%= form_icon(manifestation.carrier_type) -%>
             <%- manifestation.expressions.each do |expression| -%>
@@ -39,12 +39,12 @@
           </li>
         <%- end -%>
       <%- end -%>
-      <%- @manifestation.to_manifestations.each do |manifestation_has_manifestation| -%>
-        <%- manifestation = manifestation_has_manifestation.to_manifestation -%>
+      <%- @manifestation.children.each do |manifestation_relationship| -%>
+        <%- manifestation = manifestation_relationship.child -%>
         <%- unless manifestation == @manifestation -%>
           <li>
             [M]
-            (<%= manifestation_has_manifestation.manifestation_relationship_type.display_name.localize -%>)
+            (<%= manifestation_relationship.manifestation_relationship_type.display_name.localize -%>)
             <%= link_to h(manifestation.original_title), manifestation -%>
             <%= form_icon(manifestation.carrier_type) -%>
             <%- manifestation.expressions.each do |expression| -%>

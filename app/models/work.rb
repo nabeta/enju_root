@@ -2,9 +2,9 @@
 class Work < ActiveRecord::Base
   include EnjuFragmentCache
 
-  has_many :creates, :dependent => :destroy, :order => :position
-  has_many :patrons, :through => :creates, :order => 'creates.position'
-  has_many :reifies, :dependent => :destroy, :order => :position
+  has_many :creates, :dependent => :destroy
+  has_many :patrons, :through => :creates
+  has_many :reifies, :dependent => :destroy
   has_many :expressions, :through => :reifies
   belongs_to :form_of_work #, :validate => true
   has_many :work_merges, :dependent => :destroy
@@ -12,10 +12,10 @@ class Work < ActiveRecord::Base
   has_many :work_has_subjects, :dependent => :destroy
   has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
-  has_many :to_works, :foreign_key => 'from_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
-  has_many :from_works, :foreign_key => 'to_work_id', :class_name => 'WorkHasWork'#, :dependent => :destroy
-  has_many :derived_works, :through => :to_works, :source => :to_work
-  has_many :original_works, :through => :from_works, :source => :from_work
+  has_many :children, :foreign_key => 'parent_id', :class_name => 'WorkRelationship', :dependent => :destroy
+  has_many :parents, :foreign_key => 'child_id', :class_name => 'WorkRelationship', :dependent => :destroy
+  has_many :derived_works, :through => :children, :source => :child
+  has_many :original_works, :through => :parents, :source => :parent
   #has_many :work_has_concepts, :dependent => :destroy
   #has_many :concepts, :through => :work_has_concepts
   #has_many :work_has_places, :dependent => :destroy

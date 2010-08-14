@@ -10,7 +10,7 @@
   <%= t('order_list.total_price') -%>: <%= @order_list.total_price -%>
 </p>
 
-<%- form_for :purchase_requests, :url => order_list_purchase_requests_path(@order_list), :html => {:method => 'get'} do -%>
+<%= form_for :purchase_requests, :url => order_list_purchase_requests_path(@order_list), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>

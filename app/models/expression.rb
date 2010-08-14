@@ -6,7 +6,7 @@ class Expression < ActiveRecord::Base
   has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy
   has_many :manifestations, :through => :embodies
-  has_many :realizes, :dependent => :destroy, :order => :position
+  has_many :realizes, :dependent => :destroy
   has_many :patrons, :through => :realizes
   belongs_to :language #, :validate => true
   has_many :expression_merges, :dependent => :destroy
@@ -14,10 +14,10 @@ class Expression < ActiveRecord::Base
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
-  has_many :to_expressions, :foreign_key => 'from_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
-  has_many :from_expressions, :foreign_key => 'to_expression_id', :class_name => 'ExpressionHasExpression', :dependent => :destroy
-  has_many :derived_expressions, :through => :to_expressions, :source => :to_expression
-  has_many :original_expressions, :through => :from_expressions, :source => :from_expression
+  has_many :children, :foreign_key => 'parent_id', :class_name => 'ExpressionRelationship', :dependent => :destroy
+  has_many :parents, :foreign_key => 'child_id', :class_name => 'ExpressionRelationship', :dependent => :destroy
+  has_many :derived_expressions, :through => :children, :source => :child
+  has_many :original_expressions, :through => :parents, :source => :parent
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   belongs_to :content_type
   

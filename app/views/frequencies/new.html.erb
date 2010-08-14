@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.frequency')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@frequency) do |f| -%>
+<%= form_for(@frequency) do |f| -%>
   <%= f.error_messages -%>
 
   <p>

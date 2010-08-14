@@ -1,8 +1,8 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
     Create, Realize, Produce, Own, Bookmark, Patron, Language,
-    Library, Basket, Checkin, WorkHasWork, ExpressionHasExpression,
-    ManifestationHasManifestation, ItemHasItem, PatronHasPatron,
+    Library, WorkRelationship, ExpressionRelationship,
+    ManifestationRelationship, ItemRelationship, PatronRelationship,
     SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag, Answer
 
   def after_save(record)
@@ -144,57 +144,51 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(Exemplify)
       expire_editable_fragment(record.manifestation)
       expire_editable_fragment(record.item)
-    when record.is_a?(WorkHasWork)
-      expire_editable_fragment(record.from_work)
-      record.from_work.expressions.each do |expression|
+    when record.is_a?(WorkRelationship)
+      expire_editable_fragment(record.parent)
+      record.parent.expressions.each do |expression|
         expire_editable_fragment(expression)
         expression.manifestations.each do |manifestation|
           expire_editable_fragment(manifestation)
         end
       end
-      expire_editable_fragment(record.to_work)
-      record.to_work.expressions.each do |expression|
+      expire_editable_fragment(record.child)
+      record.child.expressions.each do |expression|
         expire_editable_fragment(expression)
         expression.manifestations.each do |manifestation|
           expire_editable_fragment(manifestation)
         end
       end
-    when record.is_a?(ExpressionHasExpression)
-      expire_editable_fragment(record.from_expression)
-      expire_editable_fragment(record.from_expression.work)
-      record.from_expression.manifestations.each do |manifestation|
+    when record.is_a?(ExpressionRelationship)
+      expire_editable_fragment(record.parent)
+      expire_editable_fragment(record.parent.work)
+      record.parent.manifestations.each do |manifestation|
         expire_editable_fragment(manifestation)
       end
-      expire_editable_fragment(record.to_expression)
-      expire_editable_fragment(record.to_expression.work)
-      record.to_expression.manifestations.each do |manifestation|
+      expire_editable_fragment(record.child)
+      expire_editable_fragment(record.child.work)
+      record.child.manifestations.each do |manifestation|
         expire_editable_fragment(manifestation)
       end
-    when record.is_a?(ManifestationHasManifestation)
-      expire_editable_fragment(record.from_manifestation)
-      record.from_manifestation.expressions.each do |expression|
+    when record.is_a?(ManifestationRelationship)
+      expire_editable_fragment(record.parent)
+      record.parent.expressions.each do |expression|
         expire_editable_fragment(expression)
         expire_editable_fragment(expression.work)
       end
-      expire_editable_fragment(record.to_manifestation)
-      record.to_manifestation.expressions.each do |expression|
+      expire_editable_fragment(record.child)
+      record.child.expressions.each do |expression|
         expire_editable_fragment(expression)
         expire_editable_fragment(expression.work)
       end
-    when record.is_a?(ItemHasItem)
-      expire_editable_fragment(record.from_item)
-      expire_editable_fragment(record.from_item.manifestation) if record.from_item.manifestation
-      expire_editable_fragment(record.to_item)
-      expire_editable_fragment(record.to_item.manifestation) if record.to_item.manifestation
-    when record.is_a?(PatronHasPatron)
-      expire_editable_fragment(record.from_patron)
-      expire_editable_fragment(record.to_patron)
-    when record.is_a?(Basket)
-      record.items.each do |item|
-        expire_editable_fragment(item, 'holding')
-      end
-    when record.is_a?(Checkin)
-      expire_editable_fragment(record.item, 'holding')
+    when record.is_a?(ItemRelationship)
+      expire_editable_fragment(record.parent)
+      expire_editable_fragment(record.parent.manifestation) if record.parent.manifestation
+      expire_editable_fragment(record.child)
+      expire_editable_fragment(record.child.manifestation) if record.child.manifestation
+    when record.is_a?(PatronRelationship)
+      expire_editable_fragment(record.parent)
+      expire_editable_fragment(record.child)
     when record.is_a?(Language)
       Language.all.each do |language|
         expire_fragment(:controller => 'page', :locale => language.iso_639_1)

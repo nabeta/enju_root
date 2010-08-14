@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.tag')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@tag, :url => tag_path(@tag.name)) do |f| -%>
+<%= form_for(@tag, :url => tag_path(@tag.name)) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.tag.name') -%><br />

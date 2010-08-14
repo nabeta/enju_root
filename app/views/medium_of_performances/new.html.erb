@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.medium_of_performance')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@medium_of_performance) do |f| -%>
+<%= form_for(@medium_of_performance) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.medium_of_performance.name') -%><br />

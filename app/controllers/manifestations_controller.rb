@@ -99,7 +99,7 @@ class ManifestationsController < ApplicationController
       query = query.gsub('　', ' ')
 
       search = Sunspot.new_search(Manifestation)
-      role = current_user.try(:highest_role) || Role.find(1)
+      role = current_user.try(:role) || Role.find(1)
       oai_search = true if params[:format] == 'oai'
       case @reservable
       when 'true'
@@ -275,7 +275,7 @@ class ManifestationsController < ApplicationController
     case params[:mode]
     when 'send_email'
       if user_signed_in?
-        Notifier.deliver_manifestation_info(current_user, @manifestation)
+        Notifier.manifestation_info(current_user, @manifestation).deliver
         flash[:notice] = t('page.sent_email')
         redirect_to manifestation_url(@manifestation)
         return

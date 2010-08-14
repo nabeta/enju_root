@@ -1,14 +1,14 @@
 <div id="work">
   <ul>
-    <%- @work.from_works.each do |work_has_work| -%>
+    <%- @work.parents.each do |work_relationship| -%>
       <li>
         [W]
-        (<%= h(work_has_work.work_relationship_type.display_name.localize) -%>)
-        <%= link_to h(work_has_work.from_work.original_title), work_has_work.from_work -%>
-        <%= raw patrons_list(work_has_work.from_work.patrons, current_user) -%>
-        <%- unless work_has_work.from_work.expressions.blank? -%>
+        (<%= h(work_relationship.work_relationship_type.display_name.localize) -%>)
+        <%= link_to h(work_relationship.parent.original_title), work_relationship.parent -%>
+        <%= raw patrons_list(work_relationship.parent.patrons, current_user) -%>
+        <%- unless work_relationship.parent.expressions.blank? -%>
           <ul>
-            <%- work_has_work.from_work.expressions.each do |expression| -%>
+            <%- work_relationship.parent.expressions.each do |expression| -%>
               <li>
               [E]
               <%= link_to h(expression.original_title), expression -%>
@@ -20,15 +20,15 @@
         <%- end -%>
       </li>
     <%- end -%>
-    <%- @work.to_works.each do |work_has_work| -%>
+    <%- @work.children.each do |work_relationship| -%>
       <li>
         [W]
-        (<%= h(work_has_work.work_relationship_type.display_name.localize) -%>)
-        <%= link_to h(work_has_work.to_work.original_title), work_has_work.to_work -%>
-        <%= raw patrons_list(work_has_work.to_work.patrons, current_user) -%>
-        <%- unless work_has_work.to_work.expressions.blank? -%>
+        (<%= h(work_relationship.work_relationship_type.display_name.localize) -%>)
+        <%= link_to h(work_relationship.child.original_title), work_relationship.child -%>
+        <%= raw patrons_list(work_relationship.child.patrons, current_user) -%>
+        <%- unless work_relationship.child.expressions.blank? -%>
           <ul>
-            <%- work_has_work.to_work.expressions.each do |expression| -%>
+            <%- work_relationship.child.expressions.each do |expression| -%>
               <li>
               [E]
               <%= link_to h(expression.original_title), expression -%>

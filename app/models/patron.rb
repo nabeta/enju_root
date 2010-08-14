@@ -31,14 +31,15 @@ class Patron < ActiveRecord::Base
   has_many :participates, :dependent => :destroy
   has_many :events, :through => :participates
   #has_many :works_as_subjects, :through => :work_has_subjects, :as => :subjects
-  has_many :to_patrons, :foreign_key => 'from_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
-  has_many :from_patrons, :foreign_key => 'to_patron_id', :class_name => 'PatronHasPatron', :dependent => :destroy
-  has_many :derived_patrons, :through => :to_patrons, :source => :to_patron
-  has_many :original_patrons, :through => :from_patrons, :source => :from_patron
+  has_many :children, :foreign_key => 'parent_id', :class_name => 'PatronRelationship', :dependent => :destroy
+  has_many :parents, :foreign_key => 'child_id', :class_name => 'PatronRelationship', :dependent => :destroy
+  has_many :derived_patrons, :through => :children, :source => :child
+  has_many :original_patrons, :through => :parents, :source => :parent
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
+  before_validation :set_role_and_name, :on => :create
 
   searchable do
     text :name, :place, :address_1, :address_2, :other_designation, :note
@@ -70,7 +71,7 @@ class Patron < ActiveRecord::Base
     10
   end
 
-  def before_validation_on_create
+  def set_role_and_name
     self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
     set_full_name
   end
@@ -205,7 +206,7 @@ class Patron < ActiveRecord::Base
   end
 
   def is_readable_by(user, parent = nil)
-    true if self.required_role.id == 1 || user.highest_role.id >= self.required_role.id || user == self.user
+    true if self.required_role.id == 1 || user.role.id == self.required_role.id || user == self.user
   rescue NoMethodError
     false
   end

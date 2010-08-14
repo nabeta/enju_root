@@ -3,7 +3,7 @@
 <div id="content_list">
   <fieldset>
 
-    <%- form_for :message, :url => user_messages_path(current_user) do |f| -%>
+    <%= form_for :message, :url => user_messages_path(current_user) do |f| -%>
       <p>
         <label for="message_recepient"><%= t('message.recipient') -%>:</label>
         <%- if @message.recipient -%>

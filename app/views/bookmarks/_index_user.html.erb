@@ -4,7 +4,7 @@
   <h2 class="resource_title">
     <%= t('bookmark.user_bookmark', :login_name => h(@user.username)) -%>
   </h2>
-  <%- form_for :bookmarks, :url => user_bookmarks_path(@user.username), :html => {:method => 'get'} do -%>
+  <%= form_for :bookmarks, :url => user_bookmarks_path(@user.username), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%= submit_tag t('page.search') -%>

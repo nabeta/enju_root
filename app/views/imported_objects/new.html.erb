@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.imported_object')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@imported_object) do |f| -%>
+<%= form_for(@imported_object) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
