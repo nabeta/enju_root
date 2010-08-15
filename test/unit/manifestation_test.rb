@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 require 'test_helper'
 
 class ManifestationTest < ActiveSupport::TestCase
@@ -200,7 +201,4 @@ class ManifestationTest < ActiveSupport::TestCase
     assert_equal false, manifestations(:manifestation_00008).reservable?
   end
 
-  def test test_manifestation_should_has_question
-    assert manifestations(:manifestation_00001).has_question?
-  end
 end

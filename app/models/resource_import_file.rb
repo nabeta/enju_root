@@ -43,8 +43,13 @@ class ResourceImportFile < ActiveRecord::Base
     self.reload
     num = {:found => 0, :success => 0, :failure => 0}
     record = 2
-    file = FasterCSV.open(self.resource_import.path, :col_sep => "\t")
-    rows = FasterCSV.open(self.resource_import.path, :headers => file.first, :col_sep => "\t")
+    if RUBY_VERSION > '1.9'
+      file = CSV.open(self.resource_import.path, :col_sep => "\t")
+      rows = CSV.open(self.resource_import.path, :headers => file.first, :col_sep => "\t")
+    else
+      file = FasterCSV.open(self.resource_import.path, :col_sep => "\t")
+      rows = FasterCSV.open(self.resource_import.path, :headers => file.first, :col_sep => "\t")
+    end
     file.close
     field = rows.first
     if [field['isbn'], field['original_title']].reject{|field| field.to_s.strip == ""}.empty?

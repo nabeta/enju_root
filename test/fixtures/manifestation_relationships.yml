@@ -2,13 +2,13 @@
 
 one:
   parent_id: 1
-  child_id: 1
+  child_id: 2
   position: 1
   manifestation_relationship_type_id: 1
 
 two:
   parent_id: 2
-  child_id: 1
+  child_id: 3
   position: 2
   manifestation_relationship_type_id: 1
 

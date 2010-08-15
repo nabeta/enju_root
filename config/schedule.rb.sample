@@ -5,7 +5,7 @@
 
 # Example:
 #
-# set :cron_log, "/path/to/my/cron_log.log"
+# set :output, "/path/to/my/cron_log.log"
 #
 # every 2.hours do
 #   command "/usr/bin/some_great_command"
@@ -19,9 +19,9 @@
 
 # Learn more: http://github.com/javan/whenever
 
-set :path, RAILS_ROOT
+set :path, '/path/to/enju_root'
 set :environment, :production
-set :cron_log, "#{RAILS_ROOT}/log/cron_log.log"
+set :output, "#{path}/log/cron_log.log"
 
 every 5.minute do
   runner "Session.expire; MessageRequest.send_messages"
@@ -51,3 +51,4 @@ end
 every 1.day, :at => '9:00 am' do
   runner "Checkout.send_due_date_notification(1); Checkout.send_overdue_notification"
 end
+

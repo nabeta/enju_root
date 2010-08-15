@@ -4,6 +4,6 @@ class SubscriptionTest < ActiveSupport::TestCase
   fixtures :subscriptions, :works, :subscribes
 
   def test_subscription_should_respond_to_subscribed
-    assert_nil subscriptions(:subscription_00001).subscribed(Work.first)
+    assert subscriptions(:subscription_00001).subscribed(works(:work_00001))
   end
 end

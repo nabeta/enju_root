@@ -1,4 +1,4 @@
-<div id="content_detail">
+div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
   <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :role => current_user_role_name, :locale => @locale) do -%>
@@ -57,7 +57,7 @@
 </div>
 </div>
 
-<div id="submenu">
+div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('expression.add'), expressions_path -%></li>
   </ul>

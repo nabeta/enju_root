@@ -385,7 +385,7 @@ class Manifestation < ActiveRecord::Base
   def sort_title
     # 並べ替えの順番に使う項目を指定する
     # TODO: 日本語以外の資料、読みが入力されていない資料
-    NKF.nkf('--katakana', title_transcription) if title_transcription
+    NKF.nkf('-w --katakana', title_transcription) if title_transcription
   end
 
   def classifications

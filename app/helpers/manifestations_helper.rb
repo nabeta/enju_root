@@ -20,7 +20,7 @@ module ManifestationsHelper
         numbers.each do |number|
           @call_numbers << h(number.to_s)
         end
-        render :partial => 'call_number', :locals => {:item => item}
+        render :partial => 'manifestations/call_number', :locals => {:item => item}
       end
     end
   end
@@ -56,34 +56,29 @@ module ManifestationsHelper
   def embed_content(manifestation)
     case
     when manifestation.youtube_id
-      render :partial => 'youtube', :locals => {:manifestation => manifestation}
+      render :partial => 'manifestations/youtube', :locals => {:manifestation => manifestation}
     when manifestation.nicovideo_id
-      render :partial => 'nicovideo', :locals => {:manifestation => manifestation}
+      render :partial => 'manifestations/nicovideo', :locals => {:manifestation => manifestation}
     when manifestation.flickr.present?
-      render :partial => 'flickr', :locals => {:manifestation => manifestation}
+      render :partial => 'manifestations/flickr', :locals => {:manifestation => manifestation}
     when manifestation.ipaper_id
-      render :partial => 'scribd', :locals => {:manifestation => manifestation}
+      render :partial => 'manifestations/scribd', :locals => {:manifestation => manifestation}
     end
   end
 
   def language_facet(language, current_languages, facet)
     string = ''
     languages = current_languages.dup
-    if languages.include?(language.name)
-      string << "<strong>"
-    end
+    current = true if languages.include?(language.name)
+    string << "<strong>" if current
     string << link_to("#{language.display_name.localize} (" + facet.count.to_s + ")", url_for(params.merge(:page => nil, :language => (current_languages << language.name).uniq.join(' '), :carrier_type => nil, :view => nil)))
-    if languages.include?(language.name)
-      string << "</strong>"
-    end
+    string << "</strong>" if current
     string.html_safe
   end
 
   def library_facet(library, current_libraries, facet)
     string = ''
-    if current_libraries.include?(library.name)
-      current = true
-    end
+    current = true if current_libraries.include?(library.name)
     string << "<strong>" if current
     string << link_to("#{library.display_name.localize} (" + facet.count.to_s + ")", url_for(params.merge(:page => nil, :library => (current_libraries << library.name).uniq.join(' '), :view => nil)))
     string << "</strong>" if current
@@ -95,13 +90,10 @@ module ManifestationsHelper
     carrier_type = CarrierType.first(:conditions => {:name => facet.value})
     if carrier_type
       string << form_icon(carrier_type)
-      if params[:carrier_type] == carrier_type.name
-        string << '<strong>'
-      end
+      current = true if params[:carrier_type] == carrier_type.name
+      string << '<strong>' if current
       string << link_to("#{carrier_type.display_name.localize} (" + facet.count.to_s + ")", url_for(params.merge(:carrier_type => carrier_type.name, :page => nil, :view => nil)))
-      if params[:carrier_type] == carrier_type.name
-        string << '</strong>'
-      end
+      string << '</strong>' if current
       string.html_safe
     end
   end
