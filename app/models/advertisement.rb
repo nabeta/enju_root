@@ -44,6 +44,10 @@ class Advertisement < ActiveRecord::Base
   end
 
   def expire_cache
+    self.expire_cache
+  end
+
+  def self.expire_cache
     Rails.cache.delete('Advertisement.current_advertisements')
   end
 
