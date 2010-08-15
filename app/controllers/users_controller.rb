@@ -74,6 +74,7 @@ class UsersController < ApplicationController
     end
     #@tags = @user.owned_tags_by_solr
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
+    @news_feeds = Rails.cache.fetch('news_feed_all'){NewsFeed.all}
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
 
