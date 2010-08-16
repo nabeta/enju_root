@@ -1,4 +1,4 @@
-div id="content_detail" class="ui-corner-all">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
 
@@ -59,7 +59,7 @@ div id="content_detail" class="ui-corner-all">
 </div>
 </div>
 
-div id="submenu" class="ui-corner-all">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <%- if can? :create, Item -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.item')), :controller => 'items', :action => 'new', :patron_id => @patron.id -%></li>

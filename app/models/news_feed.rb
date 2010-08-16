@@ -24,8 +24,10 @@ class NewsFeed < ActiveRecord::Base
   end
 
   def expire_fragment_cache
-    open("#{LibraryGroup.url}news_feeds/#{id}?mode=force_reload")
-    logger.info "#{Time.zone.now} feed reloaded! : #{url}"
+    Rails.cache.fetch('role_all').each do |role|
+      Rails.cache.delete("news_feed_content_#{id}_#{role.name}")
+      logger.info "#{Time.zone.now} feed reloaded! : #{url}"
+    end
   rescue
     logger.info "#{Time.zone.now} reloading feed failed! : #{url}"
   end

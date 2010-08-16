@@ -1,4 +1,4 @@
-div id="content_detail" class="ui-corner-all">
+<div id="content_detail" class="ui-corner-all">
   <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
 
@@ -133,7 +133,7 @@ div id="content_detail" class="ui-corner-all">
 </div>
 </div>
 
-div id="submenu" class="ui-corner-all">
+<div id="submenu" class="ui-corner-all">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
     <li><%= link_to t('page.show'), @manifestation -%></li>

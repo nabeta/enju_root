@@ -1,4 +1,4 @@
-div id="content_detail" class="ui-corner-all">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.user_has_shelf')) -%></h1>
 <div id="content_list">
 <p>
@@ -13,7 +13,7 @@ div id="content_detail" class="ui-corner-all">
 </div>
 </div>
 
-div id="submenu" class="ui-corner-all">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.edit'), edit_user_has_shelf_path(@user_has_shelf) -%></li>
     <li><%= link_to t('page.back'), user_has_shelves_path -%></li>

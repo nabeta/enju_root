@@ -1,4 +1,4 @@
-  div id="content_detail" class="ui-corner-all">
+  <div id="content_detail" class="ui-corner-all">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
   <div id="content_list">
     <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-div id="submenu" class="ui-corner-all">
+<div id="submenu" class="ui-corner-all">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
     <%- if @manifestation.picture_files.first -%>
