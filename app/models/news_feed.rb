@@ -25,7 +25,7 @@ class NewsFeed < ActiveRecord::Base
 
   def expire_fragment_cache
     Rails.cache.fetch('role_all').each do |role|
-      Rails.cache.delete("news_feed_content_#{id}_#{role.name}")
+      Rails.cache.delete("views/news_feed_content_#{id}_#{role.name}")
       logger.info "#{Time.zone.now} feed reloaded! : #{url}"
     end
   rescue
