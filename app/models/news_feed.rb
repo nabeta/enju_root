@@ -1,5 +1,3 @@
-require 'rss'
-#require 'action_controller/integration'
 class NewsFeed < ActiveRecord::Base
   include ExpireEditableFragment
   default_scope :order => "position"
@@ -78,7 +76,7 @@ class NewsFeed < ActiveRecord::Base
 
   def self.fetch_feeds
     NewsFeed.all.each do |news_feed|
-      news_feed.expire_cache
+      news_feed.force_reload
     end
   end
 end
