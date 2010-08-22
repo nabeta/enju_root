@@ -35,7 +35,7 @@ module ExpireEditableFragment
       I18n.available_locales.each do |locale|
         Rails.cache.fetch('role_all'){Role.all}.each do |role|
           formats.each do |format|
-            expire_fragment(:controller => :resources, :action => :show, :id => manifestation.id, :locale => locale.to_s, :role => role.name, :page => fragment, :user_id => nil, :format => format)
+            expire_fragment(:controller => :resources, :action => :show, :id => manifestation.id, :page => fragement, :role => role.name, :locale => locale.to_s, :user_id => nil, :format => format)
           end
         end
       end
@@ -45,8 +45,8 @@ module ExpireEditableFragment
   def expire_tag_cloud(bookmark)
     I18n.available_locales.each do |locale|
       Rails.cache.fetch('role_all'){Role.all}.each do |role|
-        expire_fragment(:controller => :tags, :action => :index, :page => 'user_tag_cloud', :user_id => bookmark.user.username, :locale => locale, :role => role.name, :user_id => nil)
-        expire_fragment(:controller => :tags, :action => :index, :page => 'public_tag_cloud', :locale => locale, :role => role.name, :user_id => nil)
+        expire_fragment(:controller => :tags, :action => :index, :page => 'user_tag_cloud', :role => role.name, :locale => locale, :user_id => bookmark.user.username)
+        expire_fragment(:controller => :tags, :action => :index, :page => 'public_tag_cloud', :role => role.name, :locale => locale, :user_id => nil)
       end
     end
   end

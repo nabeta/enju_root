@@ -81,7 +81,7 @@
 </p>
 -->
 
-<%- cache(:id => @item.id, :action => :show, :controller => :items, :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
+<%- cache(:controller => :items, :action => :show, :id => @item.id, :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
 <%- if can? :update, @item -%>
   <p>
     <strong><%= t('item.donor') -%>:</strong>

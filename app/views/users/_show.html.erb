@@ -27,7 +27,7 @@
   <div class="portlet" id="tag_cloud">
   <h3 class="title"><%= t('tag.my_tag') -%></h3>
   <div id="tag_cloud_box">
-    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => current_user.username, :locale => @locale) do -%>
+    <%- cache(:controller => 'tags', :action => 'index', :page => 'user_tag_cloud', :user_id => current_user.username, :locale => @locale) do -%>
       <%= render :partial => 'bookmarks/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
     <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>

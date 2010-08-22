@@ -2,7 +2,7 @@
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
               <td style="width: 30px"><%= itemnum = @manifestations.offset + 1 + i -%></td>
-              <% cache(:id => manifestation.id, :page => 'index_list') do %>
+              <% cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'index_list', :role => current_user_role_name, :locale => @locale) do %>
               <td style="480px">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <div id="access_address">
