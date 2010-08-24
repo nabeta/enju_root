@@ -4,7 +4,7 @@
 
 <%= form_for :expressions, :url => expression_merge_list_expressions_path(@expression_merge_list), :html => {:method => 'get'} do -%>
 <p>
-  <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+  <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
   <%- if can? :destroy, @expression_merge_list -%>
     <%- if params[:mode] == 'add' -%>
       <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>

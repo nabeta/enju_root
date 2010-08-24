@@ -7,7 +7,7 @@
 
 <%= form_for :works, :url => subscription_works_path(@subscription), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), :class => 'search_form' -%>
     <%- if can? :destroy, @subscription -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>

@@ -4,7 +4,7 @@ class UsersControllerTest < ActionController::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
   # Then, you can remove it from this and the units test.
 
-  fixtures :users, :roles, :patrons, :libraries, :checkouts, :checkins, :patron_types, :tags, :taggings,
+  fixtures :users, :roles, :patrons, :libraries, :checkouts, :patron_types, :tags, :taggings,
     :resources, :carrier_types, :creates, :realizes, :produces, :owns
 
   def test_guest_should_not_get_index
