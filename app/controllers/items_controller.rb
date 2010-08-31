@@ -2,8 +2,7 @@
 class ItemsController < ApplicationController
   load_and_authorize_resource
   before_filter :get_user_if_nil
-  before_filter :get_patron
-  before_filter :get_manifestation, :get_inventory_file
+  before_filter :get_patron, :get_manifestation, :get_inventory_file
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
   before_filter :get_item, :only => :index
@@ -12,7 +11,7 @@ class ItemsController < ApplicationController
   #before_filter :store_location
   after_filter :solr_commit, :only => [:create, :update, :destroy]
   after_filter :convert_charset, :only => :index
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  cache_sweeper :item_sweeper, :only => [:create, :update, :destroy]
 
   # GET /items
   # GET /items.xml
@@ -75,7 +74,7 @@ class ItemsController < ApplicationController
         order_by(:created_at, :desc)
       end
 
-      role = current_user.try(:role) || Role.find(1)
+      role = current_user.try(:role) || Role.default_role
       search.build do
         with(:required_role_id).less_than role.id
       end
@@ -161,7 +160,6 @@ class ItemsController < ApplicationController
       return
     end
     @item.manifestation = @manifestation
-    @item.item_identifier = @item.item_identifier.to_s.strip
 
     respond_to do |format|
       if @item.save
@@ -241,11 +239,7 @@ class ItemsController < ApplicationController
 
   private
   def prepare_options
-    if Rails.env == 'production'
-      @libraries = Rails.cache.fetch('Library.real'){Library.real}
-    else
-      @libraries = Library.real
-    end
+    @libraries = Library.real
     @library = Library.real.first(:order => :position, :include => :shelves) if @library.blank?
     @shelves = @library.shelves
     @circulation_statuses = CirculationStatus.all
@@ -256,7 +250,7 @@ class ItemsController < ApplicationController
     else
       @checkout_types = CheckoutType.all
     end
-    @roles = Role.all
+    @roles = Rails.cache.fetch('role_all'){Role.all}
   end
 
 end

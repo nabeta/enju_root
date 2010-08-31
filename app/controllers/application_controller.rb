@@ -1,8 +1,11 @@
+# -*- encoding: utf-8 -*-
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
   protect_from_forgery
-  
+
   include SslRequirement
+  include Oink::MemoryUsageLogger
+  include Oink::InstanceTypeCounter
 
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
@@ -43,15 +46,14 @@ class ApplicationController < ActionController::Base
       end
     end
     if user_signed_in?
-      locale = params[:locale] || session[:locale] || current_user.locale || I18n.default_locale.to_s
+      locale = params[:locale] || session[:locale] || current_user.locale
     else
-      locale = params[:locale] || session[:locale] || I18n.default_locale.to_s
+      locale = params[:locale] || session[:locale]
     end
-    I18n.locale = locale
-    @locale = session[:locale] = locale
+    I18n.locale = locale.to_sym if locale
+    @locale = session[:locale] = locale ||= I18n.default_locale.to_s
   rescue InvalidLocaleError
-    I18n.locale = I18n.default_locale
-    @locale = I18n.locale.to_s
+    @locale = I18n.default_locale.to_s
   end
 
   def default_url_options(options={})
@@ -147,7 +149,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_libraries
-    @libraries = Library.all
+    @libraries = Rails.cache.fetch('library_all'){Library.all}
   end
 
   def get_library_group
@@ -249,10 +251,10 @@ class ApplicationController < ActionController::Base
   end
 
   def check_dsbl
-    @library_group = LibraryGroup.site_config
-    return true if @library_group.network_access_allowed?(request.remote_ip, :network_type => 'lan')
+    library_group = LibraryGroup.site_config
+    return true if library_group.network_access_allowed?(request.remote_ip, :network_type => 'lan')
     begin
-      dsbl_hosts = @library_group.dsbl_list.split.compact
+      dsbl_hosts = library_group.dsbl_list.split.compact
       reversed_address = request.remote_ip.split(/\./).reverse.join(".")
       dsbl_hosts.each do |dsbl_host|
         result = Socket.gethostbyname("#{reversed_address}.#{dsbl_host}.").last.unpack("C4").join(".")
@@ -283,18 +285,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def profile
-    return yield if params[:profile].nil?
-    result = RubyProf.profile { yield }
-    printer = RubyProf::GraphPrinter.new(result)
-    out = StringIO.new
-    printer.print(out, 0)
-    response.body.replace out.string
-    response.content_type = "text/plain"
-  end
-
   def set_role_query(user, search)
-    role = user.try(:role) || Role.find(1)
+    role = user.try(:role) || Role.default_role
     search.build do
       with(:required_role_id).less_than role.id
     end
@@ -364,6 +356,10 @@ class ApplicationController < ActionController::Base
 
   def api_request?
     true unless params[:format].nil? or params[:format] == 'html'
+  end
+
+  def current_user_role_name
+    current_user.role.name || Role.find(1).name
   end
 
 end

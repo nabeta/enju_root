@@ -1,5 +1,6 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
-  observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
+  include ExpireEditableFragment
+  observe Expression, Work, Reify, Embody, Exemplify,
     Create, Realize, Produce, Own, Patron, Language,
     Library, WorkRelationship, ExpressionRelationship,
     ManifestationRelationship, ItemRelationship, PatronRelationship,
@@ -42,26 +43,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
-      end
-    when record.is_a?(Manifestation)
-      expire_editable_fragment(record)
-      record.expressions.each do |expression|
-        expire_editable_fragment(expression)
-      end
-      record.items.each do |item|
-        expire_editable_fragment(item)
-      end
-      record.patrons.each do |patron|
-        expire_editable_fragment(patron)
-      end
-    when record.is_a?(Item)
-      expire_editable_fragment(record)
-      expire_editable_fragment(record.manifestation, ['detail'])
-      record.patrons.each do |patron|
-        expire_editable_fragment(patron)
-      end
-      record.donors.each do |donor|
-        expire_editable_fragment(donor)
       end
     when record.is_a?(Library)
       expire_fragment(:controller => :libraries, :action => :index, :page => 'menu')
@@ -210,58 +191,5 @@ class ResourceSweeper < ActionController::Caching::Sweeper
 
   def after_destroy(record)
     after_save(record)
-  end
-
-  def expire_editable_fragment(record, fragments = nil)
-    if record
-      if record.is_a?(Manifestation)
-        expire_manifestation_cache(record, fragments)
-      else
-        I18n.available_locales.each do |locale|
-          Role.all.each do |role|
-            expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :role => role.name, :locale => locale.to_s)
-            if fragments
-              fragments.each do |fragment|
-                expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :page => fragment, :role => role.name, :locale => locale.to_s)
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
-  def expire_manifestation_cache(manifestation, fragments)
-    fragments = %w[detail pickup index_list book_jacket show_index show_limited_authors show_all_authors show_contributors_and_publishers title show_xisbn picture_file title_reserve index_list] if fragments.nil?
-    expire_fragment(:controller => :manifestations, :action => :index, :page => 'numdocs')
-    fragments.each do |fragment|
-      expire_manifestation_fragment(manifestation, fragment)
-    end
-    manifestation.bookmarks.each do |bookmark|
-      expire_tag_cloud(bookmark)
-    end
-    Rails.cache.delete("xisbn_#{manifestation.id}")
-  end
-
-  def expire_manifestation_fragment(manifestation, fragment)
-    if manifestation
-      I18n.available_locales.each do |locale|
-        Role.all.each do |role|
-          ['atom', 'csv', 'mods', 'oai_list_identifiers', 'oai_list_records', 'rdf', 'rss'].each do |format|
-            expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :format_suffix => format, :role => role.name, :locale => locale, :user_id => nil)
-          end
-          expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => fragment, :role => role.name, :locale => locale.to_s, :user_id => nil)
-        end
-      end
-    end
-  end
-
-  def expire_tag_cloud(bookmark)
-    I18n.available_locales.each do |locale|
-      Role.all.each do |role|
-        expire_fragment(:controller => :tags, :action => :index, :page => 'user_tag_cloud', :user_id => bookmark.user.username, :role => role.name, :locale => locale, :user_id => nil)
-        expire_fragment(:controller => :tags, :action => :index, :page => 'public_tag_cloud', :role => role.name, :locale => locale, :user_id => nil)
-      end
-    end
   end
 end
