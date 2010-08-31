@@ -1,6 +1,6 @@
 class ResourceSweeper < ActionController::Caching::Sweeper
   observe Manifestation, Item, Expression, Work, Reify, Embody, Exemplify,
-    Create, Realize, Produce, Own, Bookmark, Patron, Language,
+    Create, Realize, Produce, Own, Patron, Language,
     Library, WorkRelationship, ExpressionRelationship,
     ManifestationRelationship, ItemRelationship, PatronRelationship,
     SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag, Answer
@@ -70,11 +70,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       #record.items.each do |item|
       #  expire_editable_fragment(item, ['holding'])
       #end
-    when record.is_a?(Bookmark)
-      # Not supported by Memcache
-      # expire_fragment(%r{manifestations/\d*})
-      expire_editable_fragment(record.manifestation)
-      expire_tag_cloud(record)
     when record.is_a?(Tag)
       record.taggings.collect(&:taggable).each do |taggable|
         expire_editable_fragment(taggable)
