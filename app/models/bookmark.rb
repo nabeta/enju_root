@@ -15,7 +15,7 @@ class Bookmark < ActiveRecord::Base
   validate :bookmarkable_url?
   before_save :replace_space_in_tags
   after_create :create_frbr_object
-  after_save :save_tagger, :save_manifestation
+  after_save :save_manifestation
   after_destroy :save_manifestation
 
   acts_as_taggable_on :tags
@@ -41,10 +41,6 @@ class Bookmark < ActiveRecord::Base
     10
   end
 
-  def expire_cache
-    Rails.cache.delete("Manifestation.search.total")
-  end
-
   def set_url
     self.url = URI.parse(self.url).normalize.to_s
   rescue URI::InvalidURIError
@@ -59,7 +55,6 @@ class Bookmark < ActiveRecord::Base
   def save_manifestation
     self.manifestation.save
     self.manifestation.index!
-    expire_cache
   end
 
   def save_tagger
@@ -67,7 +62,6 @@ class Bookmark < ActiveRecord::Base
     taggings.each do |tagging|
       tagging.tagger = user
       tagging.save(:validate => false)
-      Tag.find(tagging.tag_id).index
     end
   end
 
@@ -98,7 +92,7 @@ class Bookmark < ActiveRecord::Base
       end
     end
     unless manifestation
-      doc = Nokogiri::HTML(open(url).read)
+      doc = Nokogiri::HTML(open(url))
       # TODO: 日本語以外
       #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
       #if charsets.include?(page.charset.downcase)
@@ -202,6 +196,12 @@ class Bookmark < ActiveRecord::Base
       self.bookmarked(start_date, end_date).count(:all, :conditions => {:manifestation_id => manifestation.id})
     else
       0
+    end
+  end
+
+  def create_tag_index
+    taggings.each do |tagging|
+      Tag.find(tagging.tag_id).index!
     end
   end
 

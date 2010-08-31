@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
   has_many :import_requests
   has_many :sent_messages, :foreign_key => 'sender_id', :class_name => 'Message'
   has_many :received_messages, :foreign_key => 'receiver_id', :class_name => 'Message'
-  has_many :user_has_shelves
   has_many :shelves, :through => :user_has_shelves
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   has_many :import_requests
@@ -28,6 +27,7 @@ class User < ActiveRecord::Base
   has_many :questions
   has_many :answers
   has_many :search_histories, :dependent => :destroy
+  #has_many :baskets, :dependent => :destroy
   has_many :purchase_requests
   has_many :order_lists
   has_many :subscriptions
@@ -65,7 +65,7 @@ class User < ActiveRecord::Base
   after_destroy :index_patron
 
   has_friendly_id :username
-  acts_as_tagger
+  #acts_as_tagger
   has_paper_trail
   normalize_attributes :username, :user_number #, :email
 
