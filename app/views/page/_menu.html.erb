@@ -1,33 +1,16 @@
 <div id="navibar">
   <a tabindex="0" href="#circulation_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_circulation"><span class="ui-icon ui-icon-triangle-1-s"></span>
-    <% if current_user.try(:has_role?, 'Librarian') %>
-      <%= t('page.librarian_circulation') -%>
-    <% else %>
-      <%= t('page.user_circulation') -%>
-    <% end %>
+    <%= t('activerecord.models.inter_library_loan') -%>
   </a>
   <div id="circulation_menu" class="hidden">
     <%- if user_signed_in? -%>
       <ul>
-        <li>
-          <%- if current_user.has_role?('Librarian') -%>
-            <%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%>
-          <%- else -%>
-            <%= link_to t('page.listing', :model => t('activerecord.models.reserve')), user_reserves_path(current_user.username) -%>
-          <%- end -%>
-        </li>
         <%- if current_user.has_role?('Librarian') -%>
           <li><%= link_to t('activerecord.models.inter_library_loan'), inter_library_loans_path -%></li>
           <!--
           <li><%= link_to 'NACSIS ILL', '/page/under_construction' -%></li>
           -->
         <%- end -%>
-        <li><%= link_to t('page.checkout_history'), user_checkouts_path(current_user.username) -%></li>
-      </ul>
-    <%- else -%>
-      <ul>
-        <li><%= link_to t('page.checkout_history'), checkouts_path -%></li>
-        <li><%= link_to t('page.listing', :model => t('activerecord.models.reserve')), reserves_path -%></li>
       </ul>
     <%- end -%>
   </div>
@@ -58,14 +41,12 @@
     <%- if user_signed_in? -%>
       <div id="request_menu" class="hidden">
         <ul>
-          <li><%= link_to t('activerecord.models.purchase_request'), user_purchase_requests_path(current_user.username) -%></li>
           <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user.username) -%></li>
         </ul>
       </div>
     <%- else -%>
       <div id="request_menu" class="hidden">
         <ul>
-          <li><%= link_to t('activerecord.models.purchase_request'), purchase_requests_path -%></li>
           <li><%= link_to t('activerecord.models.question'), questions_path -%></li>
         </ul>
       </div>
@@ -76,13 +57,6 @@
     <%- unless @library_group.real_libraries.blank? -%>
       <ul>
         <li><%= link_to t('page.calendar'), '/calendar' -%></li>
-        <li><%= link_to t('event.all'), events_path -%></li>
-        <%- @library_group.real_libraries.each do |library| -%>
-          <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
-        <%- end -%>
-        <%- if can? :create, Event -%>
-          <li><%= link_to t('page.import'), new_event_import_file_path -%></li>
-        <%- end -%>
       </ul>
     <%- end -%>
   </div>
@@ -101,7 +75,9 @@
             <li><%= link_to t('page.new', :model => t('activerecord.models.user')), new_user_path -%></li>
             <li><%= link_to t('page.patron_management'), patrons_path -%></li>
             <li><%= link_to t('page.import'), '/page/import' -%></li>
+            <!--
             <li><%= link_to t('page.export'), '/page/export' -%></li>
+            -->
             <li><%= link_to t('activerecord.models.order_list'), order_lists_path -%></li>
             <li><%= link_to t('page.statistics'), '/page/statistics' -%></li>
             <li><%= link_to t('activerecord.models.search_history'), search_histories_path -%></li>

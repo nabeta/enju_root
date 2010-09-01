@@ -80,17 +80,17 @@ class ManifestationsController < ApplicationController
 			case
       when params[:format] == 'sru'
         if params[:operation] == 'searchRetrieve'
-          @sru = Sru.new(params)
-          query = @sru.cql.to_sunspot
-          sort = @sru.sort_by
+          sru = Sru.new(params)
+          query = sru.cql.to_sunspot
+          sort = sru.sort_by
         else
           render :template => 'manifestations/explain', :layout => false
           return
         end
       when params[:api] == 'openurl' 
-        @openurl = Openurl.new(params)
-        @manifestations = @openurl.search
-        query = @openurl.query_text
+        openurl = Openurl.new(params)
+        @manifestations = openurl.search
+        query = openurl.query_text
         sort = set_search_result_order(params[:sort_by], params[:order])
       else
         query = make_query(params[:query], params)
