@@ -22,8 +22,8 @@ gem 'exception_notification', :git => 'git://github.com/rails/exception_notifica
 gem 'state_machine' #, :git => 'git://github.com/pluginaweek/state_machine.git'
 gem 'prawn' #, :git => 'git://github.com/sandal/prawn.git'
 if RUBY_VERSION > '1.9' or defined?(JRUBY_VERSION)
-  gem 'sunspot'
-  gem 'sunspot_rails', :require => 'sunspot/rails'
+  gem 'sunspot', '1.1.0'
+  gem 'sunspot_rails', '1.1.0', :require => 'sunspot/rails'
 else
   gem 'sunspot', '1.2.rc3'
   gem 'sunspot_rails', '1.2.rc3', :require => 'sunspot/rails'

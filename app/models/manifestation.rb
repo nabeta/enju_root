@@ -234,15 +234,11 @@ class Manifestation < ActiveRecord::Base
     #Rails.cache.delete("worldcat_record_#{id}")
     #Rails.cache.delete("xisbn_manifestations_#{id}")
     Rails.cache.fetch("manifestation_screen_shot_#{id}")
-    Rails.cache.delete("Manifestation.search.total")
+    Rails.cache.write("manifestation_search_total", Manifestation.search.total)
   end
 
   def self.cached_numdocs
-    if Rails.env == 'production'
-      Rails.cache.fetch("Manifestation.search.total"){Manifestation.search.total}
-    else
-      Manifestation.search.total
-    end
+    Rails.cache.fetch("manifestation_search_total"){Manifestation.search.total}
   end
 
   def full_title

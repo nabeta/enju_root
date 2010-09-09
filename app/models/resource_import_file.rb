@@ -79,7 +79,7 @@ class ResourceImportFile < ActiveRecord::Base
     self.update_attribute(:imported_at, Time.zone.now)
     Sunspot.commit
     rows.close
-    Rails.cache.delete("Manifestation.search.total")
+    Rails.cache.write("manifestation_search_total", Manifestation.search.total)
     return num
   end
 
