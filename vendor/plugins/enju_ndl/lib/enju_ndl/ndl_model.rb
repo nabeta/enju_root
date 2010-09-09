@@ -11,14 +11,14 @@ module EnjuNdl
 
     def import_isbn(isbn)
       isbn = ISBN_Tools.cleanup(isbn)
-      raise 'invalid ISBN' unless ISBN_Tools.is_valid?(isbn)
+      raise EnjuNdl::RecordNotFound unless ISBN_Tools.is_valid?(isbn)
 
       if manifestation = self.first(:conditions => {:isbn => isbn})
-        raise 'already imported'
+      #  raise 'already imported'
       end
 
       doc = return_xml(isbn)
-      raise "not found" if doc.at('//openSearch:totalResults').content.to_i == 0
+       raise EnjuNdl::RecordNotFound if doc.at('//openSearch:totalResults').content.to_i == 0
 
       date_of_publication, language, nbn = nil, nil, nil
 
@@ -156,16 +156,16 @@ module EnjuNdl
 
     def get_title(doc)
       title = {}
-      title[:manifestation] = doc.xpath('//item[1]/title').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-      title[:transcription] = doc.xpath('//item[1]/dcndl:titleTranscription').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
-      title[:original] = doc.xpath('//dcterms:alternative').collect(&:content).join(' ').tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:manifestation] = doc.xpath('//item[1]/title').collect(&:content).join(' ') #.tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:transcription] = doc.xpath('//item[1]/dcndl:titleTranscription').collect(&:content).join(' ') #.tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
+      title[:original] = doc.xpath('//dcterms:alternative').collect(&:content).join(' ') #.tr('ａ-ｚＡ-Ｚ０-９　', 'a-zA-Z0-9 ').squeeze(' ')
       return title
     end
 
     def get_authors(doc)
       authors = []
       doc.xpath('//item[1]/dc:creator[@xsi:type="dcndl:NDLNH"]').each do |creator|
-        authors << creator.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
+        authors << creator.content #.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return authors
     end
@@ -173,7 +173,7 @@ module EnjuNdl
     def get_subjects(doc)
       subjects = []
       doc.xpath('//item[1]/dc:subject[@xsi:type="dcndl:NDLSH"]').each do |subject|
-        subjects << subject.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
+        subjects << subject.content #.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return subjects
     end
@@ -186,7 +186,7 @@ module EnjuNdl
     def get_publishers(doc)
       publishers = []
       doc.xpath('//item[1]/dc:publisher').each do |publisher|
-        publishers << publisher.content.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
+        publishers << publisher.content #.tr('ａ-ｚＡ-Ｚ０-９　‖', 'a-zA-Z0-9 ')
       end
       return publishers
     end
@@ -226,4 +226,10 @@ module EnjuNdl
       end
     end
   end
+
+   class RecordNotFound < StandardError
+   end
+
+   class InvalidIsbn < StandardError
+   end
 end

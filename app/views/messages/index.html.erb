@@ -20,7 +20,7 @@
   <%- @messages.each do |message|  -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <input id="delete_<%=h message.id -%>" name="delete[]" type="checkbox" value="<%=h message.id %>" class="checkbox" />
+        <input id="delete_<%= message.id -%>" name="delete[]" type="checkbox" value="<%= message.id %>" class="checkbox" />
       </td>
       <td>
         <% unless message.read? %><strong><% end %>

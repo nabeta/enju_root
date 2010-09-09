@@ -135,11 +135,6 @@ class UsersController < ApplicationController
       @user = current_user
     end
     @user.operator = current_user
-    if @user != current_user
-       if !current_user.has_role?('Librarian')
-         access_denied; return
-       end
-    end
 
     if params[:user]
       #@user.username = params[:user][:login]

@@ -1,0 +1,8 @@
+<%= @user.patron.full_name -%> さん
+
+<%= LibraryGroup.site_config.display_name.localize -%>から新しいメッセージが届きました。
+<%= user_messages_url(@user.username) %>
+
+-- 
+<%= LibraryGroup.site_config.display_name.localize %>
+<%= LibraryGroup.url %>

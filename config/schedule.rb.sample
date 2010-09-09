@@ -41,7 +41,7 @@ every 1.day, :at => '1:00 am' do
 end
 
 every 1.hour do
-  runner "PatronImportFile.import; EventImportFile.import; ResourceImportFile.import; Rails.cache.delete('Manifestation.search.total')"
+  runner "PatronImportFile.import_start; EventImportFile.import_start; ResourceImportFile.import_start"
 end
 
 #every 1.day, :at => '3:00 am' do
@@ -52,4 +52,3 @@ end
 every 1.day, :at => '9:00 am' do
   runner "Checkout.send_due_date_notification(1); Checkout.send_overdue_notification"
 end
-

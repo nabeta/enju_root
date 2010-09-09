@@ -47,7 +47,7 @@ class ImportRequestsController < ApplicationController
 
     respond_to do |format|
       if @import_request.save
-        @import_request.delay.import
+        @import_request.delay.import!
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.import_request'))
         format.html { redirect_to new_import_request_path }
         format.xml  { render :xml => @import_request, :status => :created, :location => @import_request }
@@ -56,6 +56,12 @@ class ImportRequestsController < ApplicationController
         format.xml  { render :xml => @import_request.errors, :status => :unprocessable_entity }
       end
     end
+  rescue EnjuNdl::RecordNotFound
+    flash[:notice] = t('import_request.record_not_found')
+    redirect_to new_import_request_url
+  #rescue EnjuNdl::InvalidIsbn
+  #  flash[:errors] = t('import_request.invalid_isbn')
+  #  redirect_to new_import_request_url
   end
 
   # PUT /import_requests/1
@@ -65,7 +71,7 @@ class ImportRequestsController < ApplicationController
 
     respond_to do |format|
       if @import_request.update_attributes(params[:import_request])
-        @import_request.delay.import
+        @import_request.delay.import!
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.import_request'))
         format.html { redirect_to(@import_request) }
         format.xml  { head :ok }

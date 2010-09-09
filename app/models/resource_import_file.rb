@@ -9,7 +9,6 @@ class ResourceImportFile < ActiveRecord::Base
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
   state_machine :initial => :pending do
-    before_transition :pending => :started, :do => :import_start
     before_transition :started => :completed, :do => :import
 
     event :sm_import_start do
@@ -79,7 +78,7 @@ class ResourceImportFile < ActiveRecord::Base
     self.update_attribute(:imported_at, Time.zone.now)
     Sunspot.commit
     rows.close
-    Rails.cache.delete("Manifestation.search.total")
+    Rails.cache.write("manifestation_search_total", Manifestation.search.total)
     return num
   end
 
