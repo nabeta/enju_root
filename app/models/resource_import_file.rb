@@ -9,7 +9,6 @@ class ResourceImportFile < ActiveRecord::Base
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
   state_machine :initial => :pending do
-    before_transition :pending => :started, :do => :import_start
     before_transition :started => :completed, :do => :import
 
     event :sm_import_start do
