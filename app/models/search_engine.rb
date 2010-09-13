@@ -6,26 +6,21 @@ class SearchEngine < ActiveRecord::Base
   validates_presence_of :name, :url, :base_url, :query_param, :http_method
   validates_inclusion_of :http_method, :in => %w(get post)
   validates_length_of :url, :maximum => 255
+  validate :check_url
+  after_save :clear_all_cache
+  after_destroy :clear_all_cache
 
   def self.per_page
     10
   end
 
-  def validate
+  def clear_all_cache
+    Rails.cache.delete('search_engine_all')
+  end
+
+  def check_url
     errors.add(:url) unless (URI(read_attribute(:url)) rescue false)
     errors.add(:base_url) unless (URI(read_attribute(:base_url)) rescue false)
-  end
-
-  def after_save
-    expire_cache
-  end
-
-  def after_destroy
-    after_save
-  end
-
-  def expire_cache
-    Rails.cache.delete('SearchEngine.all')
   end
 
   def search_params(query)

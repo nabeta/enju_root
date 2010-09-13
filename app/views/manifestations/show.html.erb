@@ -1,12 +1,12 @@
-  <div id="content_detail">
+  <div id="content_detail" class="ui-corner-all">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
   <div id="content_list">
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+    <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <div>
         <%= raw paginate_id_link(@manifestation) -%>
         <%= back_to_manifestation_index -%>
         <%= t('page.search_term') -%>:
-        <%= text_field_tag 'query', session[:query], {:id => 'search_form_top', :class => 'search_form_short'} -%>
+        <%= search_field_tag 'query', session[:query], {:id => 'search_form_top', :class => 'search_form_short'} -%>
         <%= submit_tag t('page.search') -%>
         <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
       </div>
@@ -19,7 +19,7 @@
   <%- end -%>
   <!-- cache start -->
   <%
-    cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'detail', :role => current_user_role_name, :locale => @locale, :version => @version) do
+    cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'detail', :locale => @locale, :version => @version) do
   %>
     <% if current_user.try(:has_role?, 'Librarian') %>
       <%= render :partial => 'show_detail_librarian' %>
@@ -38,9 +38,9 @@
   </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'picture_file', :role => current_user_role_name, :locale => @locale, :version => @version) do -%>
+  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'picture_file', :locale => @locale, :version => @version) do -%>
     <%- if @manifestation.picture_files.first -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>

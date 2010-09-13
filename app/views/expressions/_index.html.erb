@@ -1,9 +1,9 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-<%- form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
+<%= form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if params[:view] == 'serial' -%>
       <%= check_box_tag 'view', 'serial', :checked => true -%>
     <%- else -%>
@@ -46,7 +46,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <%- if can? :create, Expression -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>

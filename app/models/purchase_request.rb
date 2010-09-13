@@ -1,6 +1,6 @@
 class PurchaseRequest < ActiveRecord::Base
-  named_scope :not_ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NULL']
-  named_scope :ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NOT NULL']
+  scope :not_ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NULL']
+  scope :ordered, :include => :order_list, :conditions => ['order_lists.ordered_at IS NOT NULL']
 
   belongs_to :user, :validate => true
   has_one :order, :dependent => :destroy
@@ -9,18 +9,9 @@ class PurchaseRequest < ActiveRecord::Base
   validates_associated :user
   validates_presence_of :user, :title
   validates_length_of :url, :maximum => 255, :allow_blank => true
-
-  def validate
-    errors.add(:price) unless self.price.nil? || self.price > 0.0
-  end
-
-  def after_save
-    index!
-  end
-
-  def after_destroy
-    index!
-  end
+  validate :check_price
+  after_save :index!
+  after_destroy :index!
 
   normalize_attributes :url
 
@@ -49,6 +40,10 @@ class PurchaseRequest < ActiveRecord::Base
 
   def pubdate
     self.date_of_publication
+  end
+
+  def check_price
+    errors.add(:price) unless self.price.nil? || self.price > 0.0
   end
 
 end

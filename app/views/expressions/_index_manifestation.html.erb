@@ -1,13 +1,13 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-  <%- cache(:id => @manifestation.id, :action => :show, :controller => :manifestations, :action_suffix => 'title', :role => current_user_role_name, :locale => @locale) do -%>
+  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'title', :role => current_user_role_name, :locale => @locale) do -%>
     <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   <%- end -%>
   
-  <%- form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
+  <%= form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%- if can? :destroy, @manifestation -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -57,7 +57,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('expression.add'), expressions_path -%></li>
   </ul>

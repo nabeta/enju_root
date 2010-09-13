@@ -1,10 +1,12 @@
 class Produce < ActiveRecord::Base
-  belongs_to :patron #, :counter_cache => true #,:polymorphic => true, :validate => true
-  belongs_to :manifestation #, :counter_cache => true #, :validate => true
+  belongs_to :patron
+  belongs_to :manifestation
 
   validates_associated :patron, :manifestation
   validates_presence_of :patron_id, :manifestation_id
   validates_uniqueness_of :manifestation_id, :scope => :patron_id
+  after_save :reindex
+  after_destroy :reindex
 
   acts_as_list :scope => :manifestation
 
@@ -12,16 +14,9 @@ class Produce < ActiveRecord::Base
     10
   end
 
-  def after_save
-    reindex
-  end
-
-  def after_destroy
-    reindex
-  end
-
   def reindex
     patron.index
     manifestation.index
   end
+
 end

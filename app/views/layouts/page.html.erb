@@ -10,7 +10,8 @@
     <%- end -%>
     <%= @library_group.display_name.localize -%></title>
   <%= render :partial => 'page/include' -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title = "<%= @library_group.display_name.localize -%>" />
+  <%= render :partial => 'page/portlets' %>
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title = "<%= @library_group.display_name.localize -%>" />
 </head>
 <body>
 

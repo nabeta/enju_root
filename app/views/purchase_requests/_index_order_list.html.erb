@@ -1,4 +1,4 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.purchase_request')) -%></h1>
 <div id="content_list">
 <h2 class="resource_title"><%= link_to h(@order_list.title), @order_list -%></h2>
@@ -10,9 +10,9 @@
   <%= t('order_list.total_price') -%>: <%= @order_list.total_price -%>
 </p>
 
-<%- form_for :purchase_requests, :url => order_list_purchase_requests_path(@order_list), :html => {:method => 'get'} do -%>
+<%= form_for :purchase_requests, :url => order_list_purchase_requests_path(@order_list), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
   <%= javascript_tag("$('#search_form_top').focus()") -%>
@@ -55,7 +55,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <%- unless @order_list.ordered? -%>
       <li><%= link_to t('activerecord.models.order'), edit_order_list_path(@order_list, :mode => 'order') -%></li>

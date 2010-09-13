@@ -18,7 +18,7 @@
 <div id="right_pane">
   <h3 class="title"><%= t('tag.user_tag', :login_name => @user.username) -%></h3>
   <div id="tag_cloud_box">
-    <%- cache(:controller => 'tags', :action => 'index', :action_suffix => 'user_tag_cloud', :user_id => @user.username, :locale => @locale, :role => current_user_role_name) do -%>
+    <%- cache(:controller => 'tags', :action => 'index', :page => 'user_tag_cloud', :user_id => @user.username, :locale => @locale, :role => current_user_role_name) do -%>
       <%= render :partial => 'bookmarks/tag_cloud', :locals => {:tags => @tags} -%>
     <%- end -%>
     <p>(<%= link_to t('page.listing', :model => t('activerecord.models.tag')), tags_path -%>)</p>

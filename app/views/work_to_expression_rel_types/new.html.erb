@@ -1,8 +1,8 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.work_to_expression_rel_type')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@work_to_expression_rel_type) do |f| -%>
+<%= form_for(@work_to_expression_rel_type) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.attributes.work_to_expression_rel_type.name') -%><br />
@@ -24,7 +24,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.back'), work_to_expression_rel_types_path -%></li>
   </ul>

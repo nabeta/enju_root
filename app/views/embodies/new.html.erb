@@ -1,8 +1,8 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@embody) do |f| -%>
+<%= form_for(@embody) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -32,7 +32,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <%- if @embody.manifestation -%>
       <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>

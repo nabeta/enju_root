@@ -1,12 +1,12 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
 
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} if @manifestation -%>
 
-<%- form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
+<%= form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if can? :destroy, @manifestation -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -56,7 +56,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
     <%- if can? :create, Item -%>

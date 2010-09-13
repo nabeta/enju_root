@@ -13,7 +13,7 @@
       <%= auto_discovery_link_tag(:atom, purchase_requests_url(:format => :atom), :title => (t('purchase_request.library_group_purchase_request', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
     <%- end -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body>
 

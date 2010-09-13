@@ -1,9 +1,9 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.advanced_search') -%></h1>
 <div id="content_list">
 
 <%- cache :controller => 'page', :action => 'advanced_search', :locale => @locale do -%>
-<%- form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
+<%= form_tag({:controller => 'manifestations'}, {:method => 'get'}) do -%>
   <table style="width: 100%">
     <tr>
       <td><label><%= t('page.search_term') -%>:</label></td>
@@ -62,5 +62,5 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
 </div>

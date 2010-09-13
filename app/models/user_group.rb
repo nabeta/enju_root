@@ -13,11 +13,4 @@ class UserGroup < ActiveRecord::Base
     10
   end
 
-  def after_save
-    Rails.cache.delete('UserGroup.all')
-  end
-
-  def after_destroy
-    after_save
-  end
 end

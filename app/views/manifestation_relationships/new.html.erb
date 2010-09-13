@@ -1,0 +1,42 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation_relationship')) -%></h1>
+<div id="content_list">
+
+<%= form_for(@manifestation_relationship) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label t('activerecord.attributes.manifestation_relationship.parent') -%><br />
+    <%- if @manifestation_relationship.parent -%>
+      <%= link_to h(@manifestation_relationship.parent.original_title), @manifestation_relationship.parent -%>
+      <%= f.hidden_field :parent_id -%>
+    <%- else -%>
+      <%= f.text_field :parent_id -%>
+    <%- end -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.manifestation_relationship.child') -%><br />
+    <%- if @manifestation_relationship.child -%>
+      <%= link_to h(@manifestation_relationship.child.original_title), @manifestation_relationship.child -%>
+      <%= f.hidden_field :child_id -%>
+    <%- else -%>
+      <%= f.text_field :child_id -%>
+    <%- end -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.models.manifestation_relationship_type') -%><br />
+    <%= f.select(:manifestation_relationship_type_id, @manifestation_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
+  </p>
+  <p>
+    <%= f.submit t('page.create') -%>
+  </p>
+<%- end -%>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to t('page.back'), manifestation_relationships_path -%></li>
+  </ul>
+</div>

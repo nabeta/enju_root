@@ -1,8 +1,8 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.expression_merge')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@expression_merge) do |f| -%>
+<%= form_for(@expression_merge) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -33,7 +33,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.back'), expression_merges_path -%></li>
   </ul>

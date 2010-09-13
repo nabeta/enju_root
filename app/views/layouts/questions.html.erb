@@ -25,7 +25,7 @@
       <%= auto_discovery_link_tag(:atom, question_answers_path(@question, :format => 'atom'), :title => (t('answer.library_group_answer', :library_group_name => @library_group.name) + " (Atom)")) %>
     <%- end -%>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body>
 

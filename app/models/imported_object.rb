@@ -1,8 +1,8 @@
 class ImportedObject < ActiveRecord::Base
-  named_scope :items, :conditions => ['importable_type = ?', 'Item']
-  named_scope :manifestations, :conditions => ['importable_type = ?', 'Manifestation']
-  named_scope :patrons, :conditions => ['importable_type = ?', 'Patron']
-  named_scope :events, :conditions => ['importable_type = ?', 'Event']
+  scope :items, :conditions => ['importable_type = ?', 'Item']
+  scope :manifestations, :conditions => ['importable_type = ?', 'Manifestation']
+  scope :patrons, :conditions => ['importable_type = ?', 'Patron']
+  scope :events, :conditions => ['importable_type = ?', 'Event']
 
   belongs_to :importable, :polymorphic => true #, :validate => true
   belongs_to :imported_file, :polymorphic => true #, :validate => true

@@ -1,17 +1,17 @@
 <div id="related">
   <ul>
-    <%- @patron.from_patrons.each do |patron_has_patron| -%>
+    <%- @patron.parents.each do |patron_relationship| -%>
       <li>
         [P]
-        (<%= h(patron_has_patron.patron_relationship_type.display_name.localize) -%>)
-        <%= link_to h(patron_has_patron.from_patron.full_name), patron_has_patron.from_patron -%>
+        (<%= h(patron_relationship.patron_relationship_type.display_name.localize) -%>)
+        <%= link_to h(patron_relationship.parent.full_name), patron_relationship.parent -%>
       </li>
     <%- end -%>
-    <%- @patron.to_patrons.each do |patron_has_patron| -%>
+    <%- @patron.children.each do |patron_relationship| -%>
       <li>
         [P]
-        (<%= h(patron_has_patron.patron_relationship_type.display_name.localize) -%>)
-        <%= link_to h(patron_has_patron.to_patron.full_name), patron_has_patron.to_patron -%>
+        (<%= h(patron_relationship.patron_relationship_type.display_name.localize) -%>)
+        <%= link_to h(patron_relationship.child.full_name), patron_relationship.child -%>
       </li>
     <%- end -%>
   </ul>

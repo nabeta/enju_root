@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class NewsFeedTest < ActiveSupport::TestCase
   fixtures :news_feeds, :library_groups

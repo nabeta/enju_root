@@ -1,6 +1,6 @@
 class Advertisement < ActiveRecord::Base
-  named_scope :current_ads, :conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id
-  named_scope :previous_ads, :conditions => ['ended_at <= ?', Time.zone.now], :order => :id
+  scope :current_ads, :conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id
+  scope :previous_ads, :conditions => ['ended_at <= ?', Time.zone.now], :order => :id
 
   has_many :advertises, :dependent => :destroy
   has_many :patrons, :through => :advertises
@@ -8,6 +8,7 @@ class Advertisement < ActiveRecord::Base
 
   validates_presence_of :title, :body, :started_at, :ended_at
   validates_length_of :url, :maximum => 255, :allow_blank => true
+  validate :set_date
 
   searchable do
     text :title, :body, :note, :url
@@ -19,12 +20,13 @@ class Advertisement < ActiveRecord::Base
   end
   acts_as_list
   #acts_as_soft_deletable
+  after_destroy :expire_cache
 
   def self.per_page
     10
   end
 
-  def validate
+  def set_date
     if self.started_at and self.ended_at
       if self.started_at > self.ended_at
         errors.add(:started_at)
@@ -33,16 +35,16 @@ class Advertisement < ActiveRecord::Base
     end
   end
 
-  def after_save
-    Advertisement.expire_cache
-  end
-
   def self.current_advertisements
     Advertisement.all(:conditions => ['started_at <= ? AND ended_at > ?', Time.zone.now, Time.zone.now], :order => :id)
   end
 
   def self.cached_current_ad_ids
     Rails.cache.fetch('Advertisement.current_advertisements'){Advertisement.current_advertisements}.collect(&:id)
+  end
+
+  def expire_cache
+    Advertisement.expire_cache
   end
 
   def self.expire_cache

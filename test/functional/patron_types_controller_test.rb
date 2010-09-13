@@ -201,21 +201,10 @@ class PatronTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_admin_should_not_destroy_patron_type_contains_patrons
-    sign_in users(:admin)
-    assert_no_difference('PatronType.count') do
-      assert_raise MasterModel::NotDeletableError do
-        delete :destroy, :id => patron_types(:patron_type_00001)
-      end
-    end
-    
-    assert_response :success
-  end
-
   def test_admin_should_destroy_patron_type
     sign_in users(:admin)
     assert_difference('PatronType.count', -1) do
-      delete :destroy, :id => patron_types(:patron_type_00003)
+      delete :destroy, :id => patron_types(:patron_type_00001)
     end
     
     assert_redirected_to patron_types_url

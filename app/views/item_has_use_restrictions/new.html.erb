@@ -1,6 +1,6 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.item_has_use_restriction')) -%></h1>
 
-<%- form_for(@item_has_use_restriction) do |f| -%>
+<%= form_for(@item_has_use_restriction) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.models.item') -%><br />

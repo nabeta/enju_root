@@ -1,8 +1,8 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.subject_has_classification')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@subject_has_classification) do |f| -%>
+<%= form_for(@subject_has_classification) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('activerecord.models.subject') -%><br />
@@ -22,7 +22,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.show'), @subject_has_classification -%></li>
     <li><%= link_to t('page.back'), subject_has_classifications_path -%></li>

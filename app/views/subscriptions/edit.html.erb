@@ -1,8 +1,8 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.subscription')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@subscription) do |f| -%>
+<%= form_for(@subscription) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -21,7 +21,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.show'), @subscription -%></li>
     <li><%= link_to t('page.back'), subscriptions_path -%></li>

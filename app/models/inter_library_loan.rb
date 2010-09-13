@@ -1,7 +1,7 @@
 class InterLibraryLoan < ActiveRecord::Base
-  named_scope :completed, :conditions => {:state => 'return_received'}
+  scope :completed, :conditions => {:state => 'return_received'}
   #scope :processing, lambda {|item, borrowing_library| {:conditions => ['item_id = ? AND borrowing_library_id = ? AND state != ?', item.id, borrowing_library.id, 'return_received']}}
-  named_scope :processing, lambda {|item, borrowing_library| {:conditions => ['item_id = ? AND borrowing_library_id = ?', item.id, borrowing_library.id]}}
+  scope :processing, lambda {|item, borrowing_library| {:conditions => ['item_id = ? AND borrowing_library_id = ?', item.id, borrowing_library.id]}}
 
   belongs_to :item, :validate => true
   #belongs_to :reserve
@@ -9,7 +9,7 @@ class InterLibraryLoan < ActiveRecord::Base
 
   validates_presence_of :item_id, :borrowing_library_id
   validates_associated :item, :borrowing_library
-  validate_on_create :check_library
+  validate :check_library, :on => :create
 
   def check_library
     if self.item and self.borrowing_library

@@ -13,7 +13,7 @@ class ManifestationsControllerTest < ActionController::TestCase
   def test_api_sru_template
     get :index, :format => 'sru', :query => 'title=ruby', :operation => 'searchRetrieve'
     assert_response :success
-    assert_template('manifestations/index.sru.builder')
+    assert_template('manifestations/index')
   end
 
   def test_api_sru_error

@@ -5,11 +5,13 @@ class Barcode < ActiveRecord::Base
   validates_uniqueness_of :barcodable_id, :scope => :barcodable_type
   validates_uniqueness_of :code_word, :scope => :barcode_type
 
+  before_create :create_barcode
+
   def self.per_page
     10
   end
 
-  def before_create
+  def create_barcode
     self.data = Barby::Code128B.new(self.code_word).to_png(:width => 150, :height => 70)
   end
 

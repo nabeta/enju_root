@@ -88,7 +88,7 @@ class AdvertisementsControllerTest < ActionController::TestCase
   def test_admin_should_not_create_advertisement_with_invalid_dates
     sign_in users(:admin)
     old_count = Advertisement.count
-    post :create, :advertisement => {:title => 'test', :body => 'test', :url => 'http://kamata.lib.teu.ac.jp/', :started_at => Date.tomorrow, :ended_at => Date.today }
+    post :create, :advertisement => {:title => 'test', :body => 'test', :url => 'http://kamata.lib.teu.ac.jp/', :started_at => Time.zone.now, :ended_at => 1.day.ago }
     assert_equal old_count, Advertisement.count
     
     assert_response :success

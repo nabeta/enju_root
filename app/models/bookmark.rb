@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class Bookmark < ActiveRecord::Base
-  named_scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
-  named_scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
+  scope :bookmarked, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  scope :user_bookmarks, lambda {|user| {:conditions => {:user_id => user.id}}}
   belongs_to :manifestation
   belongs_to :user #, :counter_cache => true, :validate => true
 
@@ -10,12 +10,12 @@ class Bookmark < ActiveRecord::Base
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
   #validate :get_manifestation
-  before_validation_on_create :create_manifestation
+  before_validation :create_manifestation, :on => :create
   before_validation :set_url
   validate :bookmarkable_url?
   before_save :replace_space_in_tags
   after_create :create_frbr_object
-  after_save :save_tagger, :save_manifestation
+  after_save :save_manifestation
   after_destroy :save_manifestation
 
   acts_as_taggable_on :tags
@@ -41,10 +41,6 @@ class Bookmark < ActiveRecord::Base
     10
   end
 
-  def expire_cache
-    Rails.cache.delete("Manifestation.search.total")
-  end
-
   def set_url
     self.url = URI.parse(self.url).normalize.to_s
   rescue URI::InvalidURIError
@@ -59,7 +55,6 @@ class Bookmark < ActiveRecord::Base
   def save_manifestation
     self.manifestation.save
     self.manifestation.index!
-    expire_cache
   end
 
   def save_tagger
@@ -67,7 +62,6 @@ class Bookmark < ActiveRecord::Base
     taggings.each do |tagging|
       tagging.tagger = user
       tagging.save(:validate => false)
-      Tag.find(tagging.tag_id).index
     end
   end
 
@@ -98,7 +92,7 @@ class Bookmark < ActiveRecord::Base
       end
     end
     unless manifestation
-      doc = Nokogiri::HTML(open(url).read)
+      doc = Nokogiri::HTML(open(url))
       # TODO: 日本語以外
       #charsets = ['iso-2022-jp', 'euc-jp', 'shift_jis', 'iso-8859-1']
       #if charsets.include?(page.charset.downcase)
@@ -202,6 +196,12 @@ class Bookmark < ActiveRecord::Base
       self.bookmarked(start_date, end_date).count(:all, :conditions => {:manifestation_id => manifestation.id})
     else
       0
+    end
+  end
+
+  def create_tag_index
+    taggings.each do |tagging|
+      Tag.find(tagging.tag_id).index!
     end
   end
 

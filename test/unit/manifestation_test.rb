@@ -1,10 +1,11 @@
-require File.dirname(__FILE__) + '/../test_helper'
+# -*- encoding: utf-8 -*-
+require 'test_helper'
 
 class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
     :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
     :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types,
-    :answer_has_items
+    :answer_has_items, :manifestation_relationships
 
   def test_sru_sort_by
     sru = Sru.new({:query => "title=Ruby"})
@@ -200,7 +201,4 @@ class ManifestationTest < ActiveSupport::TestCase
     assert_equal false, manifestations(:manifestation_00008).reservable?
   end
 
-  def test test_manifestation_should_has_question
-    assert manifestations(:manifestation_00001).has_question?
-  end
 end

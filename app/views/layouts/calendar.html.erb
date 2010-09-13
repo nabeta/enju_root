@@ -7,7 +7,7 @@
   <%- else -%>
     <title><%= t('calendar.calendar') -%> - <%= LibraryGroup.site_config.display_name.localize -%></title>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
   <%= render :partial => 'page/include' -%>
   <%= auto_discovery_link_tag(:rss, events_url(:format => :rss), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
   <%= auto_discovery_link_tag(:atom, events_url(:format => :atom), :title => (t('event.library_group_event', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>

@@ -1,9 +1,9 @@
 class Checkout < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  named_scope :not_returned, :conditions => ['checkin_id IS NULL']
-  named_scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
-  named_scope :due_date_on, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date = ?', date]}}
-  named_scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  scope :not_returned, :conditions => ['checkin_id IS NULL']
+  scope :overdue, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date < ?', date]}}
+  scope :due_date_on, lambda {|date| {:conditions => ['checkin_id IS NULL AND due_date = ?', date]}}
+  scope :completed, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   
   belongs_to :user #, :counter_cache => true #, :validate => true
   belongs_to :item #, :counter_cache => true #, :validate => true
@@ -16,7 +16,7 @@ class Checkout < ActiveRecord::Base
   #validates_presence_of :user, :item, :basket
   validates_presence_of :item_id, :basket_id
   validates_uniqueness_of :item_id, :scope => [:basket_id, :user_id]
-  validate_on_create :is_not_checked?
+  validate :is_not_checked?, :on => :create
 
   def self.per_page
     10

@@ -5,7 +5,7 @@ class BookmarksController < ApplicationController
   before_filter :get_user, :only => :new
   before_filter :get_user_if_nil, :except => :new
   after_filter :solr_commit, :only => [:create, :update, :destroy]
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  cache_sweeper :bookmark_sweeper, :only => [:create, :update, :destroy]
 
   # GET /bookmarks
   # GET /bookmarks.xml
@@ -27,7 +27,7 @@ class BookmarksController < ApplicationController
       end
     end
 
-    search = Sunspot.new_search(Bookmark)
+    search = Bookmark.search(:include => [:manifestation])
     query = params[:query].to_s.strip
     unless query.blank?
       @query = query.dup
@@ -114,11 +114,8 @@ class BookmarksController < ApplicationController
         access_denied; return
       end
     end
-    if params[:bookmark][:user_id]
-      user = User.find(params[:bookmark][:user_id]) rescue nil
-      if user != current_user
-        access_denied; return
-      end
+    if @bookmark.user != current_user
+      access_denied; return
     end
     manifestation = @bookmark.get_manifestation
     if manifestation.try(:bookmarked?, current_user)
@@ -130,6 +127,8 @@ class BookmarksController < ApplicationController
     respond_to do |format|
       if @bookmark.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.bookmark'))
+        @bookmark.create_tag_index
+        @bookmark.manifestation.reload
         @bookmark.manifestation.index!
         if params[:mode] == 'tag_edit'
           format.html { redirect_to manifestation_url(@bookmark.manifestation) }
@@ -166,7 +165,8 @@ class BookmarksController < ApplicationController
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.bookmark'))
-        @bookmark.manifestation.save
+        @bookmark.manifestation.index!
+        @bookmark.create_tag_index
         case params[:mode]
         when 'remove_tag'
           format.html { redirect_to manifestation_url(@bookmark.manifestation) }

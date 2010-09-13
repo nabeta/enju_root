@@ -8,7 +8,7 @@
     <%= auto_discovery_link_tag(:rss, order_lists_url(:format => :rss), :title => (t('order_list.library_group_order_list', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
     <%= auto_discovery_link_tag(:atom, order_lists_url(:format => :atom), :title => (t('order_list.library_group_order_list', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
+  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
 </head>
 <body>
 

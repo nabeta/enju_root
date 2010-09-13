@@ -1,4 +1,4 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.news_feed')) -%></h1>
 <div id="content_list">
 <p>
@@ -15,7 +15,7 @@
   <%= render :partial => 'news_feeds/content', :locals => {:news_feed => @news_feed} -%>
 </div>
 
-<%- form_for(@news_feed, :url => news_feed_url(@news_feed, :mode => 'force_reload')) do |f| -%>
+<%= form_for(@news_feed, :url => news_feed_url(@news_feed, :mode => 'force_reload')) do |f| -%>
   <%= f.error_messages -%>
 
   <p>
@@ -26,7 +26,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.edit'), edit_news_feed_path(@news_feed) -%></li>
     <li><%= link_to t('page.back'), news_feeds_path -%></li>

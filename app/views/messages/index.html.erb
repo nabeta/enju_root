@@ -1,15 +1,15 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
 <div id="content_list">
-<%- form_for :messages, :url => user_messages_path(current_user.username), :html => {:method => 'get'} do -%>
+<%= form_for :messages, :url => user_messages_path(current_user.username), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
    </p>
   <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
-<%- form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
+<%= form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
   <table class="index">
     <tr>
       <th></th>
@@ -20,7 +20,7 @@
   <%- @messages.each do |message|  -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <input id="delete_<%=h message.id -%>" name="delete[]" type="checkbox" value="<%=h message.id %>" class="checkbox" />
+        <input id="delete_<%= message.id -%>" name="delete[]" type="checkbox" value="<%= message.id %>" class="checkbox" />
       </td>
       <td>
         <% unless message.read? %><strong><% end %>
@@ -40,7 +40,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <% mode = params[:mode].to_s %>
     <%- @message_facet.each do |facet| -%>

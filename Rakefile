@@ -1,22 +1,14 @@
 # Add your own tasks in files placed in lib/tasks ending in .rake,
 # for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-require(File.join(File.dirname(__FILE__), 'config', 'boot'))
+require File.expand_path('../config/application', __FILE__)
 
 require 'rake'
 require 'rake/testtask'
 require 'rake/rdoctask'
 
-require 'tasks/rails'
-require 'sunspot/rails/tasks'
-begin
-  require 'sitemap_generator/tasks'
-rescue Exception => e
-  puts "Warning, couldn't load gem tasks: #{e.message}! Skipping..."
-end
-begin
-  require 'delayed/tasks'
-rescue LoadError
-  STDERR.puts "Run `rake gems:install` to install delayed_job"
-end
+EnjuRoot::Application.load_tasks
 
+require 'sitemap_generator/tasks'
+require 'delayed/tasks'
+require 'sunspot/rails/tasks'

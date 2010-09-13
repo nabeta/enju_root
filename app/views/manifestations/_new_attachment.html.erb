@@ -1,8 +1,8 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
 
-<%- form_for(@manifestation, :html => { :multipart => true, :method => :post }) do |f| -%>
+<%= form_for(@manifestation, :html => { :multipart => true, :method => :post }) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('page.file') -%><br />
@@ -32,7 +32,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.back'), manifestations_path -%></li>
   </ul>

@@ -1,4 +1,4 @@
-<%- cache(:id => reserve.manifestation.id, :controller => :manifestations, :action => :show, :action_suffix => 'reserve_title', :role => current_user_role_name, :locale => @locale) do -%>
+<%- cache(:controller => :manifestations, :action => :show, :id => reserve.manifestation.id, :page => 'reserve_title', :role => current_user_role_name, :locale => @locale) do -%>
     <strong><%= link_to h(reserve.manifestation.original_title), reserve -%></strong>
     <%- if reserve.manifestation.serial? -%>
       <%= reserve.manifestation.volume_number_list -%>

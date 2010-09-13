@@ -1,6 +1,5 @@
-require 'rss'
-require 'action_controller/integration'
 class NewsFeed < ActiveRecord::Base
+  include ExpireEditableFragment
   default_scope :order => "position"
   belongs_to :library_group, :validate => true
 
@@ -10,28 +9,23 @@ class NewsFeed < ActiveRecord::Base
 
   acts_as_list
 
+  after_save :expire_cache
+  after_destroy :expire_cache
+
   def self.per_page
     10
   end
 
-  def after_save
-    body = nil
-    expire_cache
-  end
-
-  def after_destroy
-    expire_cache
-  end
-
   def expire_cache
-    Rails.cache.delete('NewsFeed.all')
+    expire_fragment_cache
+    Rails.cache.delete('news_feed_all')
   end
 
   def expire_fragment_cache
-    app = ActionController::Integration::Session.new
-    app.host = LibraryGroup.url
-    app.get("#{LibraryGroup.url}news_feeds/#{id}", :mode => 'force_reload')
-    logger.info "#{Time.zone.now} feed reloaded! : #{url}"
+    Rails.cache.fetch('role_all').each do |role|
+      Rails.cache.delete("views/news_feed_content_#{id}_#{role.name}")
+      logger.info "#{Time.zone.now} feed reloaded! : #{url}"
+    end
   rescue
     logger.info "#{Time.zone.now} reloading feed failed! : #{url}"
   end
@@ -82,8 +76,7 @@ class NewsFeed < ActiveRecord::Base
 
   def self.fetch_feeds
     NewsFeed.all.each do |news_feed|
-      news_feed.expire_cache
-      news_feed.expire_fragment_cache
+      news_feed.force_reload
     end
   end
 end

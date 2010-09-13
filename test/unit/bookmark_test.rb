@@ -1,9 +1,9 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class BookmarkTest < ActiveSupport::TestCase
   fixtures :bookmarks,
     :users, :patrons, :patron_types, :languages, :countries,
-    :checked_items, :items, :manifestations, :exemplifies,
+    :items, :manifestations, :exemplifies,
     :expressions, :works, :carrier_types, :content_types,
     :shelves, :circulation_statuses, :libraries, :library_groups,
     :users, :user_groups, :lending_policies

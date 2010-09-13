@@ -1,4 +1,4 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.event')) -%></h1>
 <div id="content_list">
 
@@ -8,9 +8,9 @@
   <h2><%= t('event.all_libraries') -%></h2>
 <%- end -%>
 
-<%- form_for :events, :url => events_path, :html => {:method => 'get'} do -%>
+<%= form_for :events, :url => events_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
   </p>
   <%= javascript_tag("$('#search_form_top').focus()") -%>
@@ -70,7 +70,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.calendar'), '/calendar' -%></li>
   </ul>

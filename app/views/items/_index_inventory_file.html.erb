@@ -1,4 +1,4 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.item')) -%></h1>
 <div id="content_list">
 <%- case params[:inventory] when 'not_on_shelf' -%>
@@ -41,7 +41,7 @@
 <%= will_paginate(@items) -%>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
 <%- case params[:inventory] when 'not_on_shelf' -%>
   <p>
     <%= link_to t('activerecord.models.inventory_file'), @inventory_file -%>

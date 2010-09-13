@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead.
@@ -14,31 +14,38 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_require_login
+  def test_should_require_username
     assert_no_difference 'User.count' do
       u = create_user(:username => nil)
-      assert u.errors.on(:username)
+      assert u.errors[:username]
+    end
+  end
+
+  def test_should_not_require_user_number
+    assert_difference 'User.count' do
+      u = create_user(:user_number => nil)
+      assert_blank u.errors[:user_number]
     end
   end
 
   def test_should_require_password
     assert_no_difference 'User.count' do
       u = create_user(:password => nil)
-      assert u.errors.on(:password)
+      assert u.errors[:password]
     end
   end
 
   def test_should_not_require_password_confirmation_on_create
     assert_difference 'User.count' do
       u = create_user(:password => 'new_password', :password_confirmation => nil)
-      assert_nil u.errors.on(:email)
+      assert_blank u.errors[:email]
     end
   end
 
   def test_should_not_require_email_on_create
     assert_difference 'User.count' do
       u = create_user(:email => '')
-      assert_nil u.errors.on(:email)
+      assert_blank u.errors[:email]
     end
   end
 
@@ -131,22 +138,23 @@ class UserTest < ActiveSupport::TestCase
   end
 
   def test_should_get_highest_role
-    assert_equal 'Administrator', users(:admin).highest_role.name
+    assert_equal 'Administrator', users(:admin).role.name
   end
 
   def test_should_send_message
     assert users(:librarian1).send_message('reservation_expired_for_patron', :manifestations => users(:librarian1).reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
+    users(:librarian1).reload
     assert_equal [], users(:librarian1).reserves.not_sent_expiration_notice_to_patron
   end
 
   def test_should_lock_expired_users
     User.lock_expired_users
-    assert_equal false, users(:user4).active
+    assert_equal false, users(:user4).active?
   end
 
   protected
   def create_user(options = {})
-    user = User.new({ :username => 'quire', :email => 'quire@example.com', :email_confirmation => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword' }.merge(options))
+    user = User.new({ :username => 'quire', :email => 'quire@example.com', :email_confirmation => 'quire@example.com', :password => 'quirepassword', :password_confirmation => 'quirepassword', :user_number => '99999' }.merge(options))
     user.operator = users(:admin)
     user.save
     user

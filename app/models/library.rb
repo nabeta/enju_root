@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
-require 'mathn'
 class Library < ActiveRecord::Base
+  include MasterModel
   default_scope :order => 'libraries.position'
-  named_scope :real, :conditions => ['id != 1']
+  scope :real, :conditions => ['id != 1']
   has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
   has_many :events, :include => :event_category
@@ -12,10 +12,8 @@ class Library < ActiveRecord::Base
   has_many :users
   belongs_to :country
 
-  acts_as_list
   #acts_as_soft_deletable
   has_friendly_id :name
-  #acts_as_geocodable
   geocoded_by :address
   enju_calil_library
 
@@ -27,57 +25,37 @@ class Library < ActiveRecord::Base
 
   #validates_associated :library_group, :holding_patron
   validates_associated :library_group, :patron
-  validates_presence_of :name, :display_name, :short_display_name, :library_group, :patron
-  validates_uniqueness_of :name, :short_display_name, :case_sensitive => false
+  validates_presence_of :short_display_name, :library_group, :patron
+  validates_uniqueness_of :short_display_name, :case_sensitive => false
   validates_uniqueness_of :display_name
   validates_format_of :name, :with => /^[a-z][0-9a-z]{2,254}$/
+  before_validation :set_patron, :on => :create
+  before_validation :set_display_name
+  before_save :set_calil_neighborhood_library
+  #after_validation :fetch_coordinates
+  after_create :create_shelf
+  after_create :clear_all_cache
+  after_destroy :clear_all_cache
 
   def self.per_page
     10
   end
 
-  def after_save
-    expire_cache
+  def clear_all_cache
+    Rails.cache.delete('library_all')
   end
 
-  after_validation :fetch_coordinates
-
-  def before_save
-    set_calil_neighborhood_library
-    #set_geocode
-  end
-
-  def before_validation_on_create
+  def set_patron
     patron = Patron.create!(:full_name => self.name)
     self.patron = patron
   end
 
-  def after_create
+  def create_shelf
     Shelf.create!(:name => "#{self.name}_default", :library => self)
-  end
-
-  def set_geocode
-    self.latitude = self.geocode.latitude
-    self.longitude = self.geocode.longitude
-  rescue NoMethodError
-    nil
   end
 
   def set_calil_neighborhood_library
     self.calil_neighborhood_systemid = self.calil_library(self.access_calil).collect{|l| l[:systemid]}.uniq.join(',')
-  end
-
-  def after_destroy
-    after_save
-  end
-
-  def expire_cache
-    Rails.cache.delete("Library:#{id}")
-    Rails.cache.delete('Library.all')
-  end
-
-  def before_validation
-    self.display_name = self.name if display_name.blank?
   end
 
   def closed?(date)
@@ -90,7 +68,7 @@ class Library < ActiveRecord::Base
   end
 
   def self.web
-    Rails.cache.fetch("Library:1"){Library.find(1)}
+    Library.find(1)
   end
 
   def address

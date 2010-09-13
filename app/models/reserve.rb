@@ -1,22 +1,22 @@
 # -*- encoding: utf-8 -*-
 class Reserve < ActiveRecord::Base
-  named_scope :hold, :conditions => ['item_id IS NOT NULL']
-  named_scope :not_hold, :conditions => ['item_id IS NULL']
-  named_scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
-  named_scope :completed, :conditions => ['checked_out_at IS NOT NULL']
-  named_scope :canceled, :conditions => ['canceled_at IS NOT NULL']
+  scope :hold, :conditions => ['item_id IS NOT NULL']
+  scope :not_hold, :conditions => ['item_id IS NULL']
+  scope :waiting, :conditions => ['canceled_at IS NULL AND expired_at > ?', Time.zone.now], :order => 'id DESC'
+  scope :completed, :conditions => ['checked_out_at IS NOT NULL']
+  scope :canceled, :conditions => ['canceled_at IS NOT NULL']
   #scope :expired, lambda {|start_date, end_date| {:conditions => ['checked_out_at IS NULL AND expired_at > ? AND expired_at <= ?', start_date, end_date], :order => 'expired_at'}}
-  named_scope :will_expire_retained, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'retained'], :order => 'expired_at'}}
-  named_scope :will_expire_pending, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'pending'], :order => 'expired_at'}}
-  named_scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
+  scope :will_expire_retained, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'retained'], :order => 'expired_at'}}
+  scope :will_expire_pending, lambda {|datetime| {:conditions => ['checked_out_at IS NULL AND canceled_at IS NULL AND expired_at <= ? AND state = ?', datetime, 'pending'], :order => 'expired_at'}}
+  scope :created, lambda {|start_date, end_date| {:conditions => ['created_at >= ? AND created_at < ?', start_date, end_date]}}
   #scope :expired_not_notified, :conditions => {:state => 'expired_not_notified'}
   #scope :expired_notified, :conditions => {:state => 'expired'}
-  named_scope :not_sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => false}
-  named_scope :not_sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => false}
-  named_scope :sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => true}
-  named_scope :sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => true}
-  named_scope :not_sent_cancel_notice_to_patron, :conditions => {:state => 'canceled', :expiration_notice_to_patron => false}
-  named_scope :not_sent_cancel_notice_to_library, :conditions => {:state => 'canceled', :expiration_notice_to_library => false}
+  scope :not_sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => false}
+  scope :not_sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => false}
+  scope :sent_expiration_notice_to_patron, :conditions => {:state => 'expired', :expiration_notice_to_patron => true}
+  scope :sent_expiration_notice_to_library, :conditions => {:state => 'expired', :expiration_notice_to_library => true}
+  scope :not_sent_cancel_notice_to_patron, :conditions => {:state => 'canceled', :expiration_notice_to_patron => false}
+  scope :not_sent_cancel_notice_to_library, :conditions => {:state => 'canceled', :expiration_notice_to_library => false}
 
   belongs_to :user, :validate => true
   belongs_to :manifestation, :validate => true
@@ -26,18 +26,18 @@ class Reserve < ActiveRecord::Base
   belongs_to :request_status_type
 
   #acts_as_soft_deletable
-  validates_associated :user, :manifestation, :librarian, :item, :request_status_type
+  validates_associated :user, :librarian, :item, :request_status_type, :manifestation
   validates_presence_of :user, :manifestation, :request_status_type #, :expired_at
   #validates_uniqueness_of :manifestation_id, :scope => :user_id
   validate :manifestation_must_include_item
-  before_validation_on_create :set_expired_at
-  before_validation_on_create :set_item_and_manifestation
+  before_validation :set_expired_at, :on => :create
+  before_validation :set_item_and_manifestation, :on => :create
 
   attr_accessor :user_number, :item_identifier
 
   state_machine :initial => :pending do
     before_transition :pending => :requested, :do => :do_request
-    before_transition [:pending, :requested] => :retained, :do => :retain
+    before_transition [:pending, :requested, :retained] => :retained, :do => :retain
     before_transition [:pending ,:requested,  :retained] => :canceled, :do => :cancel
     before_transition [:pending, :requested, :retained] => :expired, :do => :expire
     before_transition :retained => :completed, :do => :checkout
@@ -47,7 +47,7 @@ class Reserve < ActiveRecord::Base
     end
 
     event :sm_retain do
-      transition [:pending, :requested] => :retained
+      transition [:pending, :requested, :retained] => :retained
     end
 
     event :sm_cancel do

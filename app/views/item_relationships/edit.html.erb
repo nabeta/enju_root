@@ -1,0 +1,32 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.item_relationship')) -%></h1>
+<div id="content_list">
+
+<%= form_for(@item_relationship) do |f| -%>
+  <%= f.error_messages -%>
+
+  <p>
+    <%= f.label t('activerecord.attributes.item_relationship.parent') -%><br />
+    <%= f.text_field :parent_id -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.attributes.item_relationship.child') -%><br />
+    <%= f.text_field :child_id -%>
+  </p>
+  <p>
+    <%= f.label t('activerecord.models.item_relationship_type') -%><br />
+    <%= f.select(:item_relationship_type_id, @item_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
+  </p>
+  <p>
+    <%= f.submit t('page.update') -%>
+  </p>
+<%- end -%>
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to t('page.show'), @item_relationship -%></li>
+    <li><%= link_to t('page.back'), item_relationships_path -%></li>
+  </ul>
+</div>

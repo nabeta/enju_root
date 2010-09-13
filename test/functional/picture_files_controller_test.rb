@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PictureFilesControllerTest < ActionController::TestCase
-    fixtures :picture_files, :manifestations, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
+    fixtures :picture_files, :resources, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
 
   def test_guest_should_get_index
     get :index
@@ -97,7 +97,7 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_picture_file_without_picture_attachable_type
     sign_in users(:librarian1)
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_id => 1, :picture => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif")}
+      post :create, :picture_file => {:picture_attachable_id => 1, :picture => fixture_file_upload("spinner.gif", "image/gif")}
     end
 
     assert_response :success
@@ -107,7 +107,7 @@ class PictureFilesControllerTest < ActionController::TestCase
   def test_librarian_should_not_create_picture_file_without_picture_attachable_id
     sign_in users(:librarian1)
     assert_no_difference('PictureFile.count') do
-      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif")}
+      post :create, :picture_file => {:picture_attachable_type => 'Manifestation', :picture => fixture_file_upload("spinner.gif", "image/gif")}
     end
 
     assert_response :success
@@ -125,9 +125,8 @@ class PictureFilesControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_picture_file
     sign_in users(:librarian1)
-    old_count = PictureFile.count
     assert_difference('PictureFile.count', 1) do
-      post :create, :picture_file => {:picture_attachable_type => 'Shelf', :picture_attachable_id => 1, :picture => ActionController::TestUploadedFile.new("#{RAILS_ROOT}/public/images/spinner.gif", "image/gif")}
+      post :create, :picture_file => {:picture_attachable_type => 'Shelf', :picture_attachable_id => 1, :picture => fixture_file_upload("spinner.gif", "image/gif")}
     end
 
     assert assigns(:picture_file).picture_attachable

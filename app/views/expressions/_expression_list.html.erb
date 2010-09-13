@@ -1,21 +1,21 @@
 <div id="expression">
   <ul>
-    <%- @expression.from_expressions.each do |expression_has_expression| -%>
+    <%- @expression.parents.each do |expression_relationship| -%>
       <li>
         [E]
-        (<%= h(expression_has_expression.expression_relationship_type.display_name.localize) -%>)
-        <%= link_to h(expression_has_expression.from_expression.original_title), expression_has_expression.from_expression -%>
-        <%= raw patrons_list(expression_has_expression.from_expression.creators, current_user) -%>
-        <%= raw patrons_list(expression_has_expression.from_expression.patrons, current_user) -%>
+        (<%= h(expression_relationship.expression_relationship_type.display_name.localize) -%>)
+        <%= link_to h(expression_relationship.parent.original_title), expression_relationship.parent -%>
+        <%= raw patrons_list(expression_relationship.parent.creators, current_user) -%>
+        <%= raw patrons_list(expression_relationship.parent.patrons, current_user) -%>
       </li>
     <%- end -%>
-    <%- @expression.to_expressions.each do |expression_has_expression| -%>
+    <%- @expression.children.each do |expression_relationship| -%>
       <li>
         [E]
-        (<%= h(expression_has_expression.expression_relationship_type.display_name.localize) -%>)
-        <%= link_to h(expression_has_expression.to_expression.original_title), expression_has_expression.to_expression -%>
-        <%= raw patrons_list(expression_has_expression.to_expression.creators, current_user) -%>
-        <%= raw patrons_list(expression_has_expression.to_expression.patrons, current_user) -%>
+        (<%= h(expression_relationship.expression_relationship_type.display_name.localize) -%>)
+        <%= link_to h(expression_relationship.child.original_title), expression_relationship.child -%>
+        <%= raw patrons_list(expression_relationship.child.creators, current_user) -%>
+        <%= raw patrons_list(expression_relationship.child.patrons, current_user) -%>
       </li>
     <%- end -%>
   </ul>

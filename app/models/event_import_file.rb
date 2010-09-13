@@ -1,6 +1,6 @@
 class EventImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  named_scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
   has_attached_file :event_import, :path => ":rails_root/private:url"
   validates_attachment_content_type :event_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
@@ -10,7 +10,6 @@ class EventImportFile < ActiveRecord::Base
   #after_create :set_digest
 
   state_machine :initial => :pending do
-    before_transition :pending => :started, :do => :import_start
     before_transition :started => :completed, :do => :import
 
     event :sm_import_start do
@@ -44,8 +43,13 @@ class EventImportFile < ActiveRecord::Base
     self.reload
     num = {:success => 0, :failure => 0}
     record = 2
-    file = FasterCSV.open(self.event_import.path, :col_sep => "\t")
-    rows = FasterCSV.open(self.event_import.path, :headers => file.first, :col_sep => "\t")
+    if RUBY_VERSION > '1.9'
+      file = CSV.open(self.event_import.path, :col_sep => "\t")
+      rows = CSV.open(self.event_import.path, :headers => file.first, :col_sep => "\t")
+    else
+      file = FasterCSV.open(self.event_import.path, :col_sep => "\t")
+      rows = FasterCSV.open(self.event_import.path, :headers => file.first, :col_sep => "\t")
+    end
     file.close
     field = rows.first
     if [field['name']].reject{|f| f.to_s.strip == ""}.empty?

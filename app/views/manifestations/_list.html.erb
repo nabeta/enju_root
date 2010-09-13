@@ -2,7 +2,7 @@
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
               <td style="width: 30px"><%= itemnum = @manifestations.offset + 1 + i -%></td>
-              <% cache(:id => manifestation.id, :page => 'index_list') do %>
+              <% cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'index_list', :role => current_user_role_name, :locale => @locale) do %>
               <td style="480px">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <div id="access_address">
@@ -52,9 +52,9 @@
 
 <div>
   <%- if @manifestations and @manifestations.size > Manifestation.per_page.div(2) -%>
-    <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+    <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
-        <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_bottom', :class => 'search_form'} -%>
+        <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_bottom', :class => 'search_form'} -%>
         <%= submit_tag t('page.search') -%>
         <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
       </p>

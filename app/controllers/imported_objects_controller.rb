@@ -44,23 +44,23 @@ class ImportedObjectsController < ApplicationController
 
   # GET /imported_objects/new
   # GET /imported_objects/new.xml
-  #def new
+  def new
   #  @imported_object = ImportedObject.new
   #
   #  respond_to do |format|
   #    format.html # new.html.erb
   #    format.xml  { render :xml => @imported_object }
   #  end
-  #end
+  end
 
   # GET /imported_objects/1/edit
-  #def edit
+  def edit
   #  @imported_object = ImportedObject.find(params[:id])
-  #end
+  end
 
   # POST /imported_objects
   # POST /imported_objects.xml
-  #def create
+  def create
   #  @imported_object = ImportedObject.new(params[:imported_object])
   #
   #  respond_to do |format|
@@ -73,11 +73,11 @@ class ImportedObjectsController < ApplicationController
   #      format.xml  { render :xml => @imported_object.errors, :status => :unprocessable_entity }
   #    end
   #  end
-  #end
+  end
 
   # PUT /imported_objects/1
   # PUT /imported_objects/1.xml
-  #def update
+  def update
   #  @imported_object = ImportedObject.find(params[:id])
   #
   #  respond_to do |format|
@@ -90,11 +90,11 @@ class ImportedObjectsController < ApplicationController
   #      format.xml  { render :xml => @imported_object.errors, :status => :unprocessable_entity }
   #    end
   #  end
-  #end
+  end
 
   # DELETE /imported_objects/1
   # DELETE /imported_objects/1.xml
-  #def destroy
+  def destroy
   #  @imported_object = ImportedObject.find(params[:id])
   #  @imported_object.destroy
   #
@@ -102,5 +102,5 @@ class ImportedObjectsController < ApplicationController
   #    format.html { redirect_to(imported_objects_url) }
   #    format.xml  { head :ok }
   #  end
-  #end
+  end
 end

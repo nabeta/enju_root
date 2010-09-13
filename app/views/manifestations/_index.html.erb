@@ -1,10 +1,10 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.search_resource', :model => t('page.resource')) -%></h1>
 <div id="content_list">
-  <%- form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+  <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <%= hidden_field_tag 'reservable', h(@reservable) if @reservable -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), '/page/advanced_search' -%>
@@ -45,14 +45,6 @@
       <%= render :partial => 'list', :locals => {:manifestations => @manifestations} -%>
     </div>
 
-    <%- cache :controller => 'manifestations', :action => 'index', :action_suffix => 'tag_cloud', :locale => @locale, :role => current_user_role_name do -%>
-    <div id="tag_cloud">
-      <h3><%= t('activerecord.models.tag') -%></h3>
-      <div id="tag_cloud_list"></div>
-      <%= image_tag 'spinner.gif', :id => 'spinner_tag_cloud',
-        :style => 'padding-bottom: 15px; padding-left: 40px;' -%>
-    </div>
-    <%- end -%>
   <%- else -%>
     <!-- TODO: 検索結果が少ない場合にも表示させる -->
     <%- if @suggested_tag -%>
@@ -70,37 +62,22 @@
   </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <%- unless @query.blank? -%>
-    <h3><%= link_to h("#{t('page.total')}: #{@count[:query_result]}"), manifestations_path(params.merge(:view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
+    <h3><%= link_to h("#{t('page.total')}: #{@count[:query_result]}"), url_for(params.merge(:action => 'index', :view => nil, :carrier_type => nil, :library => nil, :language => nil, :subject => nil))  -%></h3>
     <%- if @manifestations.total_entries > 0 -%>
       <%= render :partial => 'all_facet' -%>
     <%- end -%>
   <%- end -%>
   <div>
     <%- if params[:library_id].blank? -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)) -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(params.merge(:format => 'rss', :page => nil, :library_id => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(params.merge(:format => 'rss', :page => nil, :library_id => nil, :commit => nil)) -%>
     <%- else -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(:controller => 'manifestations', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)) -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), url_for(params.merge(:format => 'rss', :page => nil)) -%> <%= link_to t('page.search_result_feed'), url_for(params.merge(:format => 'rss', :page => nil, :commit => nil)) -%>
     <%- end -%>
   </div>
 </div>
 
-<script type="text/javascript">
-  window.onload = function() {
-    // $("#all_facet_list").load('<%= url_for(:params => params.merge(:view => "all_facet")) -%>', hideFacetSpinner);
-    $("#tag_cloud_list").load('<%= url_for(:params => params.merge(:view => "tag_cloud")) -%>', null, hideTagCloudSpinner);
-  }
-
-  /*
-  function hideFacetSpinner(){
-    $("#spinner_all_facet").hide();
-  }
-  */
-
-  function hideTagCloudSpinner(){
-    $("#spinner_tag_cloud").hide();
-  }
-
+<script>
   $('td').highlight('<%= @query -%>');
 </script>

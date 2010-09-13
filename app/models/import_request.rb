@@ -2,11 +2,10 @@ class ImportRequest < ActiveRecord::Base
   default_scope :order => 'id DESC'
   belongs_to :manifestation
   belongs_to :user
-
-  validates_presence_of :isbn, :user_id
-  validates_associated :user
-  #validates_uniqueness_of :isbn
-  validates_length_of :isbn, :is => 13
+  validates_presence_of :isbn
+  validate :check_isbn
+  validate :check_imported, :on => :create
+  enju_ndl
 
   state_machine :initial => :pending do
     event :sm_fail do
@@ -18,32 +17,39 @@ class ImportRequest < ActiveRecord::Base
     end
   end
 
-  #def after_save
-  #  send_later(:import)
-  #end
-
-  def before_validation_on_create
-    ISBN_Tools.cleanup!(self.isbn)
-    if isbn.length == 10
-      self.isbn = ISBN_Tools.isbn10_to_isbn13(self.isbn)
+  def check_isbn
+    if isbn.present?
+      errors.add(:isbn) unless ISBN_Tools.is_valid?(isbn)
     end
   end
 
-  def validate
-    unless ISBN_Tools.is_valid?(isbn)
-      errors.add(:isbn)
+  def check_imported
+    if isbn.present?
+      errors.add(:isbn) if Manifestation.first(:conditions => {:isbn => isbn})
     end
   end
 
-  def import
-    unless manifestation
-      if manifestation = Manifestation.import_isbn!(isbn) rescue nil
-        sm_complete!
-        self.manifestation = manifestation; save
-        manifestation.index!
-      else
-        sm_fail!
+  def self.import_patrons(patron_lists)
+    patrons = []
+    patron_lists.each do |patron_list|
+      unless patron = Patron.first(:conditions => {:full_name => patron_list})
+        patron = Patron.new(:full_name => patron_list) #, :language_id => 1)
+        #patron.required_role = Role.first(:conditions => {:name => 'Guest'})
       end
+      patron.save
+      patrons << patron
+    end
+    patrons
+  end
+
+  def import!
+    unless manifestation
+      manifestation = self.class.import_isbn!(isbn)
+      self.manifestation = manifestation
+      sm_complete!
+      manifestation.index!
+    else
+      sm_fail!
     end
   end
 end

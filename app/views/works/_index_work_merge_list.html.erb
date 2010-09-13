@@ -1,10 +1,10 @@
-<div id="content_detail">
+<div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
 
-<%- form_for :works, :url => work_merge_list_works_path(@work_merge_list), :html => {:method => 'get'} do -%>
+<%= form_for :works, :url => work_merge_list_works_path(@work_merge_list), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= text_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%- if can? :destroy, @work_merge_list -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
@@ -52,7 +52,7 @@
 </div>
 </div>
 
-<div id="submenu">
+<div id="submenu" class="ui-corner-all">
   <ul>
     <li><%= link_to t('page.listing', :model => t('activerecord.models.work_merge_list')), @work_merge_list -%></li>
   </ul>
