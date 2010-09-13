@@ -654,6 +654,7 @@ en:
         post_to_union_catalog: Post to union catalog
         valid_period_for_new_user: Valid period for new user
         allow_bookmark_external_url: Allow bookmark external url
+        write_log_file: Write search log to file
       event_import_file:
         event_import_file_name: Filename
         event_import_content_type: Content type
