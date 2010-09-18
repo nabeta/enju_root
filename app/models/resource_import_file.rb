@@ -9,13 +9,11 @@ class ResourceImportFile < ActiveRecord::Base
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
   state_machine :initial => :pending do
-    before_transition :started => :completed, :do => :import
-
     event :sm_import_start do
       transition :pending => :started
     end
 
-    event :sm_import do
+    event :sm_complete do
       transition :started => :completed
     end
 
@@ -31,7 +29,8 @@ class ResourceImportFile < ActiveRecord::Base
 
   def import_start
     sm_import_start!
-    sm_import!
+    import
+    sm_complete!
   end
 
   def import
