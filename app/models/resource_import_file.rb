@@ -9,7 +9,7 @@ class ResourceImportFile < ActiveRecord::Base
   has_many :imported_objects, :as => :imported_file, :dependent => :destroy
 
   state_machine :initial => :pending do
-    event :sm_import_start do
+    event :sm_start do
       transition :pending => :started
     end
 
@@ -28,9 +28,8 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def import_start
-    sm_import_start!
+    sm_start!
     import
-    sm_complete!
   end
 
   def import
@@ -76,6 +75,7 @@ class ResourceImportFile < ActiveRecord::Base
     self.update_attribute(:imported_at, Time.zone.now)
     Sunspot.commit
     rows.close
+    sm_complete!
     Rails.cache.write("manifestation_search_total", Manifestation.search.total)
     return num
   end
@@ -88,7 +88,7 @@ class ResourceImportFile < ActiveRecord::Base
     #if work.save!
       work.patrons << patrons
     #end
-    return work
+    work
   end
 
   def self.import_expression(work)
@@ -100,7 +100,7 @@ class ResourceImportFile < ActiveRecord::Base
     #if expression.save!
       work.expressions << expression
     #end
-    return expression
+    expression
   end
 
   def self.import_manifestation(expression, patrons, options = {})
@@ -110,7 +110,10 @@ class ResourceImportFile < ActiveRecord::Base
       manifestation.expressions << expression
       manifestation.patrons << patrons
     #end
-    return manifestation
+    manifestation.save!
+    manifestation
+  rescue ActiveRecord::RecordInvalid
+    nil
   end
 
   def self.import_item(manifestation, options)
@@ -219,13 +222,20 @@ class ResourceImportFile < ActiveRecord::Base
   def fetch(row)
     shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
 
-    if row['isbn']
+    unless row['manifestation_identifier'].blank?
+      if manifestation = Manifestation.first(:conditions => {:manifestation_identifier => row['manifestation_identifier'].to_s.strip})
+        return manifestation
+      end
+    end
+
+    unless row['isbn'].blank?
       isbn = ISBN_Tools.cleanup(row['isbn'])
       unless manifestation = Manifestation.find_by_isbn(isbn)
         manifestation = Manifestation.import_isbn!(isbn) rescue nil
         save_imported_object(manifestation) if manifestation
         #num[:success] += 1 if manifestation
       end
+      return manifestation if manifestation
     end
 
     title = {}
@@ -287,7 +297,7 @@ class ResourceImportFile < ActiveRecord::Base
           :end_page => end_page,
           :manifestation_identifier => row['manifestation_identifier']
         })
-        save_imported_object(manifestation)
+        save_imported_object(manifestation) if manifestation
       end
     end
     manifestation
