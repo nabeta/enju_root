@@ -11,4 +11,3 @@ EnjuRoot::Application.load_tasks
 
 require 'sitemap_generator/tasks'
 require 'delayed/tasks'
-require 'sunspot/rails/tasks'
