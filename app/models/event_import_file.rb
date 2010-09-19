@@ -10,7 +10,7 @@ class EventImportFile < ActiveRecord::Base
   #after_create :set_digest
 
   state_machine :initial => :pending do
-    event :sm_import_start do
+    event :sm_start do
       transition :pending => :started
     end
 
@@ -29,9 +29,8 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def import_start
-    sm_import_start!
+    sm_start!
     import
-    sm_complete!
   end
 
   def import
@@ -52,7 +51,7 @@ class EventImportFile < ActiveRecord::Base
     file.close
     field = rows.first
     if [field['name']].reject{|f| f.to_s.strip == ""}.empty?
-      raise "You should specify name in the first line"
+      raise "You should specify a name in the first line"
     end
     if [field['start_at'], field['end_at'], field['all_day']].reject{|field| field.to_s.strip == ""}.empty?
       raise "You should specify dates in the first line"
@@ -92,6 +91,7 @@ class EventImportFile < ActiveRecord::Base
     self.update_attribute(:imported_at, Time.zone.now)
     Sunspot.commit
     rows.close
+    sm_complete!
     return num
   end
 
