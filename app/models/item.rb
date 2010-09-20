@@ -31,6 +31,10 @@ class Item < ActiveRecord::Base
   has_many :lending_policies, :dependent => :destroy
   has_many :answer_has_items, :dependent => :destroy
   has_many :answers, :through => :answer_has_items
+  has_many :children, :foreign_key => 'parent_id', :class_name => 'ItemRelationship', :dependent => :destroy
+  has_many :parents, :foreign_key => 'child_id', :class_name => 'ItemRelationship', :dependent => :destroy
+  has_many :derived_items, :through => :children, :source => :child
+  has_many :original_items, :through => :parents, :source => :parent
   
   validates_associated :circulation_status, :shelf, :bookstore, :checkout_type
   validates_presence_of :circulation_status #, :checkout_type
@@ -60,6 +64,7 @@ class Item < ActiveRecord::Base
     integer :inventory_file_ids, :multiple => true
     time :created_at
     time :updated_at
+    integer :original_item_ids, :multiple => true
   end
 
   attr_accessor :library_id, :manifestation_id
