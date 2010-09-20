@@ -107,8 +107,8 @@ ja:
       user_reserve_stat: 利用者別予約統計
       work_relationship: 著作形間の関係
       expression_relationship: 表現形間の関係
-      manifestation_has_manifestation: 体現形間の関係
-      item_has_item: 個別資料間の関係
+      manifestation_relationship: 体現形間の関係
+      item_relationship: 個別資料間の関係
       bookmark_stat_has_manifestation: ブックマーク統計と体現形の関係
       reserve_stat_has_manifestation: 予約統計と体現形の関係
       reserve_stat_has_user: 予約統計と利用者の関係
@@ -122,7 +122,7 @@ ja:
       subject_heading_type_has_subject: 件名標目と件名の関係
       user_has_shelf: 利用者と書棚の関係
       participate: 参加
-      patron_has_patron: 著者・出版者・読者間の関係
+      patron_relationship: 著者・出版者・読者間の関係
       shelf_has_manifestation: 書棚と体現形の関係
       extent: 大きさ
       medium_of_performance: 演奏手段
@@ -855,20 +855,20 @@ ja:
       bookmark_stat_has_manifestation:
         bookmarks_count: ブックマーク回数
       work_relationship:
-        from_work: 始点
-        to_work: 終点
+        parent: 親
+        child: 子
       expression_relationship:
-        from_expression: 始点
-        to_expression: 終点
-      manifestation_has_manifestation:
-        from_manifestation: 始点
-        to_manifestation: 終点
-      item_has_item:
-        from_item: 始点
-        to_item: 終点
-      patron_has_patron:
-        from_patron: 始点
-        to_patron: 終点
+        parent: 親
+        child: 子
+      manifestation_relationship:
+        parent: 親
+        child: 子
+      item_relationship:
+        parent: 親
+        child: 子
+      patron_relationship:
+        parent: 親
+        child: 子
       shelf_has_manifestation:
         shelf: 書棚
         manifestation: 体現形

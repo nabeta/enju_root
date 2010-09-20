@@ -283,6 +283,7 @@ EnjuRoot::Application.routes.draw do
     resources :lending_policies
     resources :patrons
     resources :items
+    resource :exemplify
   end
 
   resources :owns

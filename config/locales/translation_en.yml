@@ -107,8 +107,8 @@ en:
       user_reserve_stat: User reserve stat
       work_relationship: Work to work relationship
       expression_relationship: Expression to expression relationship
-      manifestation_has_manifestation: Manifestation to manifestation relationship
-      item_has_item: Item to item relationship
+      manifestation_relationship: Manifestation to manifestation relationship
+      item_relationship: Item to item relationship
       bookmark_stat_has_manifestation: Bookmark stat to manifestation relationship
       reserve_stat_has_manifestation: Reserve stat to manifestation relationship
       reserve_stat_has_user: Reserve stat to user relationship
@@ -122,7 +122,7 @@ en:
       subject_heading_type_has_subject: Subject heading type to subject relationship
       user_has_shelf: User to shelf relationship
       participate: Participate
-      patron_has_patron: Patron to patron relationship
+      patron_relationship: Patron to patron relationship
       extent: Extent
       medium_of_performance: Medium of performance
       content_type: Content type
@@ -862,20 +862,20 @@ en:
       bookmark_stat_has_manifestation:
         bookmarks_count: Bookmark count
       work_relationship:
-        from_work: From
-        to_work: To
+        parent: Parent
+        child: Child
       expression_relationship:
-        from_expression: From
-        to_expression: To
-      manifestation_has_manifestation:
-        from_manifestation: From
-        to_manifestation: To
-      item_has_item:
-        from_item: From
-        to_item: To
-      patron_has_patron:
-        from_patron: From
-        to_patron: To
+        parent: Parent
+        child: Child
+      manifestation_relationship:
+        parent: Parent
+        child: Child
+      item_relationship:
+        parent: Parent
+        child: Child
+      patron_relationship:
+        parent: Parent
+        child: Child
       shelf_has_manifestation:
         shelf: Shelf
         manifestation: Manifestation

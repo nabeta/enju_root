@@ -62,11 +62,13 @@ class ItemsController < ApplicationController
       patron = @patron
       manifestation = @manifestation
       shelf = @shelf
+      item = @item
       unless params[:mode] == 'add'
         search.build do
           with(:patron_ids).equal_to patron.id if patron
           with(:manifestation_id).equal_to manifestation.id if manifestation
           with(:shelf_id).equal_to shelf.id if shelf
+          with(:item_id).equal_to item.id if item
         end
       end
 

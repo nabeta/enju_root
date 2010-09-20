@@ -63,10 +63,10 @@
         <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
         <td>
           <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_item_item_has_item_path(@item, :to_item_id => item.id) unless @item.derived_items.include?(item) or @item == item -%>
+            <%= link_to t('page.add'), new_item_item_relationship_path(@item, :to_item_id => item.id) unless @item.derived_items.include?(item) or @item == item -%>
           <%- else -%>
-            <%- item_has_item = @item.to_items.find_by_to_item_id(item.id) -%>
-            <%= link_to t('page.destroy'), item_has_item, :confirm => t('page.are_you_sure'), :method => :delete if item_has_item -%>
+            <%- item_relationship = @item.to_items.find_by_to_item_id(item.id) -%>
+            <%= link_to t('page.destroy'), item_relationship, :confirm => t('page.are_you_sure'), :method => :delete if item_relationship -%>
           <%- end -%>
         </td>
       <%- end -%>
