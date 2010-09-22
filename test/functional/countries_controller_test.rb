@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class CountriesControllerTest < ActionController::TestCase
-    fixtures :countries, :users
+  fixtures :countries, :users, :roles
 
   def test_guest_should_get_index
     get :index
@@ -54,45 +54,45 @@ class CountriesControllerTest < ActionController::TestCase
   end
   
   def test_guest_should_not_create_country
-    old_count = Country.count
-    post :create, :country => { }
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      post :create, :country => { }
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_create_country
     sign_in users(:user1)
-    old_count = Country.count
-    post :create, :country => { }
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      post :create, :country => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_create_country
     sign_in users(:librarian1)
-    old_count = Country.count
-    post :create, :country => { }
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      post :create, :country => { }
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_not_create_country_without_name
     sign_in users(:admin)
-    old_count = Country.count
-    post :create, :country => { }
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      post :create, :country => { }
+    end
     
     assert_response :success
   end
 
   def test_admin_should_create_country
     sign_in users(:admin)
-    old_count = Country.count
-    post :create, :country => {:name => 'test', :alpha_2 => '000', :alpha_3 => '000', :numeric_3 => '000'}
-    assert_equal old_count+1, Country.count
+    assert_difference('Country.count') do
+      post :create, :country => {:name => 'test', :alpha_2 => '000', :alpha_3 => '000', :numeric_3 => '000'}
+    end
     
     assert_redirected_to country_url(assigns(:country))
   end
@@ -172,37 +172,43 @@ class CountriesControllerTest < ActionController::TestCase
     assert_redirected_to country_url(assigns(:country))
   end
   
+  test "admin should update country with position" do
+    sign_in users(:admin)
+    put :update, :id => countries(:country_00001), :country => { }, :position => 2
+    assert_redirected_to countries_path
+  end
+
   def test_guest_should_not_destroy_country
-    old_count = Country.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end
 
   def test_user_should_not_destroy_country
     sign_in users(:user1)
-    old_count = Country.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_country
     sign_in users(:librarian1)
-    old_count = Country.count
-    delete :destroy, :id => 1
-    assert_equal old_count, Country.count
+    assert_no_difference('Country.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_response :forbidden
   end
 
   def test_admin_should_destroy_country
     sign_in users(:admin)
-    old_count = Country.count
-    delete :destroy, :id => 1
-    assert_equal old_count-1, Country.count
+    assert_difference('Country.count', -1) do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to countries_url
   end

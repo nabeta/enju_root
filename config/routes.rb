@@ -62,6 +62,7 @@ EnjuRoot::Application.routes.draw do
     resources :resource_relationships
     resources :manifestations
     resources :embodies
+    resources :exemplifies
   end
 
   resources :creators, :controller => 'patrons' do

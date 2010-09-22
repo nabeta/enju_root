@@ -26,6 +26,20 @@ class UsersControllerTest < ActionController::TestCase
     assert assigns(:users)
   end
 
+  def test_librarian_should_get_index_with_query
+    sign_in users(:librarian1)
+    get :index, :query => 'user1'
+    assert_response :success
+    assert assigns(:users)
+  end
+
+  def test_librarian_should_get_sorted_index
+    sign_in users(:librarian1)
+    get :index, :query => 'user1', :sort_by => 'username', :order => 'desc'
+    assert_response :success
+    assert assigns(:users)
+  end
+
   def test_guest_should_not_update_user
     put :update, :id => 'admin', :user => { }
     assert_response :redirect
@@ -144,6 +158,41 @@ class UsersControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  def test_guest_should_not_create_user
+    assert_no_difference('User.count') do
+      post :create, :user => { :username => 'test10' }
+    end
+
+    assert_redirected_to new_user_session_url
+  end
+
+  def test_user_should_not_create_user
+    sign_in users(:user1)
+    assert_no_difference('User.count') do
+      post :create, :user => { :username => 'test10' }
+    end
+
+    assert_response :forbidden
+  end
+
+  def test_librarian_should_not_create_user_without_username
+    sign_in users(:librarian1)
+    assert_no_difference('User.count') do
+      post :create, :user => { :username => '' }
+    end
+
+    assert_response :success
+  end
+
+  def test_librarian_should_create_user
+    sign_in users(:librarian1)
+    assert_difference('User.count') do
+      post :create, :user => { :username => 'test10' }
+    end
+
+    assert_redirected_to user_url(assigns(:user))
+  end
+
   def test_guest_should_not_show_user
     get :show, :id => users(:user1).username
     assert_response :redirect
@@ -258,10 +307,9 @@ class UsersControllerTest < ActionController::TestCase
 
   def test_admin_should_destroy_librarian
     sign_in users(:admin)
-    #assert_difference('User.count', -1) do
+    assert_difference('User.count', -1) do
       delete :destroy, :id => users(:librarian2).username
-    #end
-    assert_nil flash[:notice]
+    end
     assert_redirected_to users_url
   end
 

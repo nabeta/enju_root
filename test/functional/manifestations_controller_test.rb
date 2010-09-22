@@ -121,6 +121,13 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
+  def test_guest_should_get_index_with_page_number
+    get :index, :query => '2005', :number_of_pages_at_least => 1, :number_of_pages_at_most => 100
+    assert_response :success
+    assert assigns(:manifestations)
+    assert_equal '2005 number_of_pages_i: [1 TO 100]', assigns(:query)
+  end
+
   def test_guest_should_get_index_all_facet
     get :index, :query => '2005', :view => 'all_facet'
     assert_response :success
