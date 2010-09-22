@@ -2,9 +2,9 @@ class ResourceSweeper < ActionController::Caching::Sweeper
   include ExpireEditableFragment
   observe Expression, Work, Reify, Embody, Exemplify,
     Create, Realize, Produce, Own, Patron, Language,
-    Library, WorkRelationship, ExpressionRelationship,
+    WorkRelationship, ExpressionRelationship,
     ManifestationRelationship, ItemRelationship, PatronRelationship,
-    SeriesStatement, SubjectHeadingType, PictureFile, Shelf, Tag, Answer
+    SeriesStatement, SubjectHeadingType, PictureFile, Answer
 
   def after_save(record)
     case
@@ -43,33 +43,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
       record.patrons.each do |patron|
         expire_editable_fragment(patron)
-      end
-    when record.is_a?(Library)
-      expire_fragment(:controller => :libraries, :action => :index, :page => 'menu')
-    when record.is_a?(Shelf)
-      # TODO: 書架情報が更新されたときのキャッシュはバッチで削除する
-      #record.items.each do |item|
-      #  expire_editable_fragment(item, ['holding'])
-      #end
-    when record.is_a?(Tag)
-      record.taggings.collect(&:taggable).each do |taggable|
-        expire_editable_fragment(taggable)
-      end
-    when record.is_a?(Subject)
-      expire_editable_fragment(record)
-      record.works.each do |work|
-        expire_editable_fragment(work)
-        work.manifestations.each do |manifestation|
-          expire_editable_fragment(manifestation)
-        end
-      end
-      record.classifications.each do |classification|
-        expire_editable_fragment(classification)
-      end
-    when record.is_a?(Classification)
-      expire_editable_fragment(record)
-      record.subjects.each do |subject|
-        expire_editable_fragment(subject)
       end
     when record.is_a?(Create)
       expire_editable_fragment(record.patron)

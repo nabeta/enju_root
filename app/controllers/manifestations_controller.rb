@@ -280,10 +280,11 @@ class ManifestationsController < ApplicationController
         flash[:notice] = t('page.sent_email')
         redirect_to manifestation_url(@manifestation)
         return
+      else
+        access_denied; return
       end
     when 'generate_cache'
       check_client_ip_address
-      return
     end
 
     return if render_mode(params[:mode])
@@ -325,17 +326,15 @@ class ManifestationsController < ApplicationController
     @manifestation = Manifestation.new
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement
-    unless params[:mode] == 'import_isbn'
-      if @manifestation.series_statement
-        @manifestation.original_title = @manifestation.series_statement.original_title
-        @manifestation.title_transcription = @manifestation.series_statement.title_transcription
-      elsif @original_manifestation
-        @manifestation.original_title = @original_manifestation.original_title
-        @manifestation.title_transcription = @original_manifestation.title_transcription
-      elsif @expression
-        @manifestation.original_title = @expression.original_title
-        @manifestation.title_transcription = @expression.title_transcription
-      end
+    if @manifestation.series_statement
+      @manifestation.original_title = @manifestation.series_statement.original_title
+      @manifestation.title_transcription = @manifestation.series_statement.title_transcription
+    elsif @original_manifestation
+      @manifestation.original_title = @original_manifestation.original_title
+      @manifestation.title_transcription = @original_manifestation.title_transcription
+    elsif @expression
+      @manifestation.original_title = @expression.original_title
+      @manifestation.title_transcription = @expression.title_transcription
     end
     @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
     @manifestation = @manifestation.set_serial_number unless params[:mode] == 'attachment'
