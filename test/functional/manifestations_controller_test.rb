@@ -65,6 +65,54 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
+  def test_guest_should_get_index_mods
+    get :index, :format => 'mods'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_rdf
+    get :index, :format => 'rdf'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_without_resumption_token
+    get :index, :format => 'oai'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_list_identifiers
+    get :index, :format => 'oai', :verb => 'ListIdentifiers'
+    assert_response :success
+    assert_template('manifestations/list_identifiers')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_list_records
+    get :index, :format => 'oai', :verb => 'ListRecords'
+    assert_response :success
+    assert_template('manifestations/list_records')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_get_record_without_identifier
+    get :index, :format => 'oai', :verb => 'GetRecord'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert_nil assigns(:manifestation)
+  end
+
+  def test_guest_should_get_index_oai_get_record
+    get :index, :format => 'oai', :verb => 'GetRecord', :identifier => 'oai:localhost:manifestations-1'
+    assert_template('manifestations/show')
+    assert assigns(:manifestation)
+  end
+
   def test_user_should_not_create_search_history_if_log_is_written_to_file
     sign_in users(:user1)
     if configatron.write_search_log_to_file

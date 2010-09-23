@@ -195,7 +195,7 @@ class ManifestationsController < ApplicationController
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
       if params[:format] == 'oai'
         unless @manifestations.empty?
-          set_resumption_token(@manifestations, @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
+          set_resumption_token(params[:resumptionToken], @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)
         else
           @oai[:errors] << 'noRecordsMatch'
         end

@@ -172,6 +172,12 @@ class ManifestationRelationshipTypesControllerTest < ActionController::TestCase
     assert_redirected_to manifestation_relationship_type_url(assigns(:manifestation_relationship_type))
   end
   
+  test "admin should update manifestation_relationship_type with position" do
+    sign_in users(:admin)
+    put :update, :id => manifestation_relationship_types(:manifestation_relationship_type_00001), :manifestation_relationship_type => { }, :position => 2
+    assert_redirected_to manifestation_relationship_types_path
+  end
+
   def test_guest_should_not_destroy_manifestation_relationship_type
     old_count = ManifestationRelationshipType.count
     delete :destroy, :id => 1

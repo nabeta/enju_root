@@ -172,6 +172,12 @@ class WorkRelationshipTypesControllerTest < ActionController::TestCase
     assert_redirected_to work_relationship_type_url(assigns(:work_relationship_type))
   end
   
+  test "admin should update work_relationship_type with position" do
+    sign_in users(:admin)
+    put :update, :id => work_relationship_types(:work_relationship_type_00001), :work_relationship_type => { }, :position => 2
+    assert_redirected_to work_relationship_types_path
+  end
+
   def test_guest_should_not_destroy_work_relationship_type
     old_count = WorkRelationshipType.count
     delete :destroy, :id => 1

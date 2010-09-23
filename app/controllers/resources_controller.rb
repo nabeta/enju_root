@@ -99,7 +99,7 @@ class ResourcesController < ApplicationController
 
       if params[:format] == 'oai'
         unless @resources.empty?
-          set_resumption_token(@resources, @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
+          set_resumption_token(params[:resumptionToken], @from_time || Resource.last.updated_at, @until_time || Resource.first.updated_at)
         else
           @oai[:errors] << 'noRecordsMatch'
         end

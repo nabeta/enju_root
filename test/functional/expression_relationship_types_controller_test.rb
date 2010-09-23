@@ -172,6 +172,12 @@ class ExpressionRelationshipTypesControllerTest < ActionController::TestCase
     assert_redirected_to expression_relationship_type_url(assigns(:expression_relationship_type))
   end
   
+  test "admin should update expression_relationship_type with position" do
+    sign_in users(:admin)
+    put :update, :id => expression_relationship_types(:expression_relationship_type_00001), :expression_relationship_type => { }, :position => 2
+    assert_redirected_to expression_relationship_types_path
+  end
+
   def test_guest_should_not_destroy_expression_relationship_type
     old_count = ExpressionRelationshipType.count
     delete :destroy, :id => 1
