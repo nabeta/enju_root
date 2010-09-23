@@ -172,6 +172,12 @@ class ItemRelationshipTypesControllerTest < ActionController::TestCase
     assert_redirected_to item_relationship_type_url(assigns(:item_relationship_type))
   end
   
+  test "admin should update item_relationship_type with position" do
+    sign_in users(:admin)
+    put :update, :id => item_relationship_types(:item_relationship_type_00001), :item_relationship_type => { }, :position => 2
+    assert_redirected_to item_relationship_types_path
+  end
+
   def test_guest_should_not_destroy_item_relationship_type
     old_count = ItemRelationshipType.count
     delete :destroy, :id => 1

@@ -97,6 +97,7 @@ class Ability
       can [:show, :destroy], SearchHistory do |search_history|
         search_history.try(:user) == user
       end
+      can :manage, SeriesStatement
     when 'User'
       can :read, [Work, Expression, Manifestation, Item]
       can :edit, Manifestation
@@ -177,6 +178,7 @@ class Ability
       can [:show, :destroy], SearchHistory do |search_history|
         search_history.try(:user) == user
       end
+      can :read, SeriesStatement
     else
       can :index, [Work, Expression]
       can :show, [Work, Expression] do |object|
@@ -230,6 +232,7 @@ class Ability
       can :read, BookmarkStat
       can :read, SubjectHeadingTypeHasSubject
       can :index, Checkout
+      can :read, SeriesStatement
     end
   end
 end

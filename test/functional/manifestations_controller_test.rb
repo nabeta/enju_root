@@ -65,6 +65,54 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
+  def test_guest_should_get_index_mods
+    get :index, :format => 'mods'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_rdf
+    get :index, :format => 'rdf'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_without_resumption_token
+    get :index, :format => 'oai'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_list_identifiers
+    get :index, :format => 'oai', :verb => 'ListIdentifiers'
+    assert_response :success
+    assert_template('manifestations/list_identifiers')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_list_records
+    get :index, :format => 'oai', :verb => 'ListRecords'
+    assert_response :success
+    assert_template('manifestations/list_records')
+    assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_oai_get_record_without_identifier
+    get :index, :format => 'oai', :verb => 'GetRecord'
+    assert_response :success
+    assert_template('manifestations/index')
+    assert_nil assigns(:manifestation)
+  end
+
+  def test_guest_should_get_index_oai_get_record
+    get :index, :format => 'oai', :verb => 'GetRecord', :identifier => 'oai:localhost:manifestations-1'
+    assert_template('manifestations/show')
+    assert assigns(:manifestation)
+  end
+
   def test_user_should_not_create_search_history_if_log_is_written_to_file
     sign_in users(:user1)
     if configatron.write_search_log_to_file
@@ -119,6 +167,13 @@ class ManifestationsControllerTest < ActionController::TestCase
     get :index, :query => '2005'
     assert_response :success
     assert assigns(:manifestations)
+  end
+
+  def test_guest_should_get_index_with_page_number
+    get :index, :query => '2005', :number_of_pages_at_least => 1, :number_of_pages_at_most => 100
+    assert_response :success
+    assert assigns(:manifestations)
+    assert_equal '2005 number_of_pages_i: [1 TO 100]', assigns(:query)
   end
 
   def test_guest_should_get_index_all_facet

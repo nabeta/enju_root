@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 class LibrariesController < ApplicationController
   load_and_authorize_resource
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   cache_sweeper :page_sweeper, :only => [:create, :update, :destroy]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
@@ -20,7 +19,7 @@ class LibrariesController < ApplicationController
 
     if query.present?
       begin
-        @libraries = Library.search do
+        @libraries = Library.search(:include => [:shelves]) do
           fulltext query
           paginate :page => page.to_i, :per_page => Tag.per_page
           order_by sort[:sort_by], sort[:order]
@@ -98,8 +97,8 @@ class LibrariesController < ApplicationController
     respond_to do |format|
       if @library.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.library'))
-        format.html { redirect_to library_url(@library.name) }
-        format.xml  { render :xml => @library, :status => :created, :location => library_url(@library.name) }
+        format.html { redirect_to(@library) }
+        format.xml  { render :xml => @library, :status => :created }
       else
         prepare_options
         format.html { render :action => "new" }

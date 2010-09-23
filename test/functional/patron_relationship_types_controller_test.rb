@@ -172,10 +172,16 @@ class PatronRelationshipTypesControllerTest < ActionController::TestCase
     assert_redirected_to patron_relationship_type_url(assigns(:patron_relationship_type))
   end
   
+  def test_admin_should_update_patron_relationship_type_with_position
+    sign_in users(:admin)
+    put :update, :id => 1, :patron_relationship_type => { }, :position => 2
+    assert_redirected_to patron_relationship_types_url
+  end
+
   def test_guest_should_not_destroy_patron_relationship_type
-    old_count = PatronRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, PatronRelationshipType.count
+    assert_no_difference('PatronRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end

@@ -143,6 +143,7 @@ en:
       reserve_stat_has_user: Reserve stat has user
       import_request: Import request
       resource: Resource
+      user_has_role: User and roles
 
     attributes:
       library:
