@@ -40,7 +40,7 @@ class Ability
       can :read, NewsFeed
       can :manage, NewsPost
       can :read, [Country, Language]
-      can :read, CirculationStatus
+      can :read, [ResourceImportResult, PatronImportResult, EventImportResult]
       can :read, Library
       can :manage, Event
       can :read, EventCategory
