@@ -45,6 +45,7 @@ class Manifestation < ActiveRecord::Base
   belongs_to :series_statement
   has_one :import_request
   has_one :resource
+  has_one :resource_import_result
 
   searchable do
     text :title, :default_boost => 2

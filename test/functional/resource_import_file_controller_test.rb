@@ -4,7 +4,7 @@ class ResourceImportFilesControllerTest < ActionController::TestCase
   fixtures :resource_import_files, :users, :roles, :patrons,
     :user_groups, :libraries, :library_groups, :patron_types, :languages,
     :events, :event_categories, :circulation_statuses,
-    :imported_objects, :series_statements
+    :series_statements
 
   def test_guest_should_not_get_index
     get :index

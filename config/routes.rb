@@ -1,4 +1,10 @@
 EnjuRoot::Application.routes.draw do
+  resources :event_import_results
+
+  resources :patron_import_results
+
+  resources :resource_import_results
+
   devise_for :users
 
   resources :advertisements

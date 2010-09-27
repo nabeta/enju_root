@@ -35,6 +35,7 @@ class Patron < ActiveRecord::Base
   has_many :parents, :foreign_key => 'child_id', :class_name => 'PatronRelationship', :dependent => :destroy
   has_many :derived_patrons, :through => :children, :source => :child
   has_many :original_patrons, :through => :parents, :source => :parent
+  has_one :patron_import_result
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country

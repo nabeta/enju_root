@@ -4,8 +4,7 @@ require 'test_helper'
 class PatronImportFilesControllerTest < ActionController::TestCase
     fixtures :patron_import_files, :users, :roles, :patrons,
     :user_groups, :libraries, :library_groups, :patron_types, :languages,
-    :events, :event_categories,
-    :imported_objects
+    :events, :event_categories
 
   def test_guest_should_not_get_index
     get :index
