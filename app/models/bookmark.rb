@@ -121,17 +121,14 @@ class Bookmark < ActiveRecord::Base
   end
 
   def my_host_resource
-    if url.my_host?
-      path = URI.parse(url).path.split('/').reverse
-      if path[1] == 'manifestations' and Manifestation.find(path[0])
-        manifestation = Manifestation.find(path[0])
-      end
+    if url.bookmarkable_id
+      manifestation = Manifestation.find(url.bookmarkable_id)
     end
   end
 
   def bookmarkable_url?
     if url.try(:my_host?)
-      unless my_host_resource
+      unless url.try(:bookmarkable_id)
         errors[:base] << I18n.t('bookmark.not_our_holding')
       end
     end

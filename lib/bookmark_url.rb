@@ -18,6 +18,17 @@ module BookmarkUrl
     end
     true
   end
+
+  def bookmarkable_id
+    if self.my_host?
+      path = URI.parse(self).path.split("/").reverse
+      unless path[1] == "manifestations"
+        nil
+      else
+        path[0]
+      end
+    end
+  end
 end
 
 class String
