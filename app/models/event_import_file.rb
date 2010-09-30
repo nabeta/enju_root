@@ -2,16 +2,20 @@ class EventImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
   scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
-  has_attached_file :event_import, :path => ":rails_root/private:url"
+  if configatron.uploaded_file.storage == :s3
+    has_attached_file :event_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
+      :path => "event_import_files/:id/:filename"
+  else
+    has_attached_file :event_import, :path => ":rails_root/private:url"
+  end
   validates_attachment_content_type :event_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   validates_attachment_presence :event_import
   belongs_to :user, :validate => true
-  has_many :imported_objects, :as => :imported_file, :dependent => :destroy
   #after_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
-      transition :pending => :started
+      transition [:pending, :started] => :started
     end
 
     event :sm_complete do
@@ -24,7 +28,7 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.event_import.path, 'rb').read)
+    self.file_hash = Digest::SHA1.hexdigest(File.open(self.event_import.url, 'rb').read)
     save(:validate => false)
   end
 
@@ -34,20 +38,35 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def import
-    unless /text\/.+/ =~ FileWrapper.get_mime(event_import.path)
-      sm_fail!
-      raise 'Invalid format'
-    end
+    #unless /text\/.+/ =~ FileWrapper.get_mime(event_import.path)
+    #  sm_fail!
+    #  raise 'Invalid format'
+    #end
     self.reload
     num = {:success => 0, :failure => 0}
     record = 2
     if RUBY_VERSION > '1.9'
-      file = CSV.open(self.event_import.path, :col_sep => "\t")
-      rows = CSV.open(self.event_import.path, :headers => file.first, :col_sep => "\t")
+      if configatron.uploaded_file.storage == :s3
+        file = CSV.open(open(self.event_import.url).path, :col_sep => "\t")
+        header = file.first
+        rows = CSV.open(open(self.event_import.url).path, :headers => header, :col_sep => "\t")
+      else
+        file = CSV.open(self.event_import.path, :col_sep => "\t")
+        header = file.first
+        rows = CSV.open(self.event_import.path, :headers => header, :col_sep => "\t")
+      end
     else
-      file = FasterCSV.open(self.event_import.path, :col_sep => "\t")
-      rows = FasterCSV.open(self.event_import.path, :headers => file.first, :col_sep => "\t")
+      if configatron.uploaded_file.storage == :s3
+        file = FasterCSV.open(open(self.event_import.url).path, :col_sep => "\t")
+        header = file.first
+        rows = FasterCSV.open(open(self.event_import.url).path, :headers => header, :col_sep => "\t")
+      else
+        file = FasterCSV.open(self.event_import.path, :col_sep => "\t")
+        header = file.first
+        rows = FasterCSV.open(self.event_import.path, :headers => header, :col_sep => "\t")
+      end
     end
+    EventImportResult.create!(:event_import_file => self, :body => header.join("\t"))
     file.close
     field = rows.first
     if [field['name']].reject{|f| f.to_s.strip == ""}.empty?
@@ -58,6 +77,8 @@ class EventImportFile < ActiveRecord::Base
     end
     #rows.shift
     rows.each do |row|
+      import_result = EventImportResult.create!(:event_import_file => self, :body => row.fields.join("\t"))
+
       event = Event.new
       event.name = row['name']
       event.note = row['note']
@@ -76,16 +97,18 @@ class EventImportFile < ActiveRecord::Base
 
       begin
         if event.save!
-          imported_object = ImportedObject.new
-          imported_object.importable = event
-          self.imported_objects << imported_object
+          import_result.event = event
           num[:success] += 1
-          GC.start if record % 50 == 0
+          if record % 50 == 0
+            Sunspot.commit
+            GC.start
+          end
         end
       rescue
         Rails.logger.info("event import failed: column #{record}")
         num[:failure] += 1
       end
+      import_result.save!
       record += 1
     end
     self.update_attribute(:imported_at, Time.zone.now)

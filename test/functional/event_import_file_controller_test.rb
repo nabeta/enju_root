@@ -63,6 +63,7 @@ class EventImportFilesControllerTest < ActionController::TestCase
 
   def test_librarian_should_create_event_import_file
     old_event_count = Event.count
+    old_import_results_count = EventImportResult.count
     sign_in users(:librarian1)
     assert_difference('EventImportFile.count') do
       post :create, :event_import_file => {:event_import => fixture_file_upload("event_import_file_sample1.tsv", 'text/csv') }
@@ -70,6 +71,7 @@ class EventImportFilesControllerTest < ActionController::TestCase
 
     assigns(:event_import_file).import_start
     assert_equal old_event_count + 2, Event.count
+    assert_equal old_import_results_count + 3, EventImportResult.count
     assert_equal 'librarian1', assigns(:event_import_file).user.username
     assert_redirected_to event_import_file_url(assigns(:event_import_file))
     #assert assigns(:event_import_file).file_hash
