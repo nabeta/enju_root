@@ -2,15 +2,21 @@ class ResourceImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
   scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
 
-  has_attached_file :resource_import, :path => ":rails_root/private:url"
+  if configatron.uploaded_file.storage == :s3
+    has_attached_file :resource_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
+      :path => "resource_import_files/:id/:filename"
+  else
+    has_attached_file :resource_import, :path => ":rails_root/private:url"
+  end
   validates_attachment_content_type :resource_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   validates_attachment_presence :resource_import
   belongs_to :user, :validate => true
-  has_many :imported_objects, :as => :imported_file, :dependent => :destroy
+  has_many :resource_import_results
+  #after_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
-      transition :pending => :started
+      transition [:pending, :started] => :started
     end
 
     event :sm_complete do
@@ -23,7 +29,11 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.resource_import.path, 'rb').read)
+    if configatron.uploaded_file.storage == :s3
+      self.file_hash = Digest::SHA1.hexdigest(open(self.resource_import.url).read)
+    else
+      self.file_hash = Digest::SHA1.hexdigest(File.open(self.resource_import.path, 'rb').read)
+    end
     save(:validate => false)
   end
 
@@ -33,45 +43,62 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def import
-    unless /text\/.+/ =~ FileWrapper.get_mime(resource_import.path)
+    if configatron.uploaded_file.storage == :s3
+      mime_type = FileWrapper.get_mime(open(resource_import.url).path)
+    else
+      mime_type = FileWrapper.get_mime(resource_import.path)
+    end
+    unless /text\/.+/ =~ mime_type
       sm_fail!
       raise 'Invalid format'
     end
     self.reload
     num = {:found => 0, :success => 0, :failure => 0}
-    record = 2
-    if RUBY_VERSION > '1.9'
-      file = CSV.open(self.resource_import.path, :col_sep => "\t")
-      rows = CSV.open(self.resource_import.path, :headers => file.first, :col_sep => "\t")
-    else
-      file = FasterCSV.open(self.resource_import.path, :col_sep => "\t")
-      rows = FasterCSV.open(self.resource_import.path, :headers => file.first, :col_sep => "\t")
-    end
-    file.close
+    row_num = 2
+    rows = self.open_import_file
     field = rows.first
     if [field['isbn'], field['original_title']].reject{|field| field.to_s.strip == ""}.empty?
       raise "You should specify isbn or original_tile in the first line"
     end
-    #rows.shift
+
     rows.each do |row|
+      import_result = ResourceImportResult.create!(:resource_import_file => self, :body => row.fields.join("\t"))
+
       item_identifier = row['item_identifier'].to_s.strip
-      next if item = Item.first(:conditions => {:item_identifier => item_identifier})
+      if item = Item.first(:conditions => {:item_identifier => item_identifier})
+        import_result.item = item
+        import_result.save!
+        next
+      end
+
       manifestation = fetch(row)
+      import_result.manifestation = manifestation
+
       begin
         if manifestation and item_identifier.present?
-          create_item(row, manifestation)
-          Rails.logger.info("resource registration succeeded: column #{record}"); next
+          import_result.item = create_item(row, manifestation)
+          Rails.logger.info("resource registration succeeded: column #{row_num}"); next
           num[:success] += 1
         else
-          Rails.logger.info("item found: isbn #{row['isbn']}")
-          num[:found] += 1
+          if manifestation
+            Rails.logger.info("item found: isbn #{row['isbn']}")
+            num[:found] += 1
+          else
+            num[:failure] += 1
+          end
         end
       rescue Exception => e
-        Rails.logger.info("resource registration failed: column #{record}: #{e.message}")
+        Rails.logger.info("resource registration failed: column #{row_num}: #{e.message}")
       end
-      GC.start if record % 50 == 0
-      record += 1
+
+      import_result.save!
+      if row_num % 50 == 0
+        Sunspot.commit
+        GC.start
+      end
+      row_num += 1
     end
+
     self.update_attribute(:imported_at, Time.zone.now)
     Sunspot.commit
     rows.close
@@ -85,9 +112,7 @@ class ResourceImportFile < ActiveRecord::Base
     if series_statement = SeriesStatement.find(series_statement_id) rescue nil
       work.series_statement = series_statement
     end
-    #if work.save!
-      work.patrons << patrons
-    #end
+    work.patrons << patrons
     work
   end
 
@@ -124,12 +149,6 @@ class ResourceImportFile < ActiveRecord::Base
       item.patrons << options[:shelf].library.patron
     #end
     return item
-  end
-
-  def save_imported_object(record)
-    imported_object = ImportedObject.new
-    imported_object.importable = record
-    imported_objects << imported_object
   end
 
   def import_marc(marc_type)
@@ -191,6 +210,44 @@ class ResourceImportFile < ActiveRecord::Base
   #  end
   #end
 
+  def remove
+    rows = self.open_import_file
+    field = rows.first
+    rows.each do |row|
+      item_identifier = row['item_identifier'].to_s.strip
+      if item = Item.first(:conditions => {:item_identifier => item_identifier})
+        item.destroy
+      end
+    end
+  end
+
+  def open_import_file
+    if RUBY_VERSION > '1.9'
+      if configatron.uploaded_file.storage == :s3
+        file = CSV.open(open(self.resource_import.url).path, :col_sep => "\t")
+        header = file.first
+        rows = CSV.open(open(self.resource_import.url).path, :headers => header, :col_sep => "\t")
+      else
+        file = CSV.open(self.resource_import.path, :col_sep => "\t")
+        header = file.first
+        rows = CSV.open(self.resource_import.path, :headers => header, :col_sep => "\t")
+      end
+    else
+      if configatron.uploaded_file.storage == :s3
+        file = FasterCSV.open(open(self.resource_import.url).path, :col_sep => "\t")
+        header = file.first
+        rows = FasterCSV.open(open(self.resource_import.url).path, :headers => header, :col_sep => "\t")
+      else
+        file = FasterCSV.open(self.resource_import.path, :col_sep => "\t")
+        header = file.first
+        rows = FasterCSV.open(self.resource_import.path, :headers => header, :col_sep => "\t")
+      end
+    end
+    ResourceImportResult.create(:resource_import_file => self, :body => header.join("\t"))
+    file.close
+    rows
+  end
+
   private
   def import_subject(row)
     subjects = []
@@ -205,17 +262,15 @@ class ResourceImportFile < ActiveRecord::Base
   end
 
   def create_item(row, manifestation)
-    item_identifier = row['item_identifier'].to_s.strip
     circulation_status = CirculationStatus.first(:conditions => {:name => row['circulation_status'].to_s.strip}) || CirculationStatus.first(:conditions => {:name => 'In Process'})
     shelf = Shelf.first(:conditions => {:name => row['shelf'].to_s.strip}) || Shelf.web
     item = self.class.import_item(manifestation, {
-      :item_identifier => item_identifier,
+      :item_identifier => row['item_identifier'],
       :price => row['item_price'],
       :call_number => row['call_number'].to_s.strip,
       :circulation_status => circulation_status,
       :shelf => shelf
     })
-    save_imported_object(item)
     item
   end
 
@@ -232,7 +287,6 @@ class ResourceImportFile < ActiveRecord::Base
       isbn = ISBN_Tools.cleanup(row['isbn'])
       unless manifestation = Manifestation.find_by_isbn(isbn)
         manifestation = Manifestation.import_isbn!(isbn) rescue nil
-        save_imported_object(manifestation) if manifestation
         #num[:success] += 1 if manifestation
       end
       return manifestation if manifestation
@@ -257,9 +311,7 @@ class ResourceImportFile < ActiveRecord::Base
 
         work = self.class.import_work(title, author_patrons, row['series_statment_id'])
         work.subjects << subjects
-        save_imported_object(work)
         expression = self.class.import_expression(work)
-        save_imported_object(expression)
 
         if ISBN_Tools.is_valid?(row['isbn'].to_s.strip)
           isbn = ISBN_Tools.cleanup(row['isbn'])
@@ -297,7 +349,6 @@ class ResourceImportFile < ActiveRecord::Base
           :end_page => end_page,
           :manifestation_identifier => row['manifestation_identifier']
         })
-        save_imported_object(manifestation) if manifestation
       end
     end
     manifestation
