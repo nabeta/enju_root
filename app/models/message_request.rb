@@ -1,3 +1,4 @@
+require 'erubis'
 class MessageRequest < ActiveRecord::Base
   scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
   scope :sent, :conditions => {:state => 'sent'}
@@ -52,40 +53,12 @@ class MessageRequest < ActiveRecord::Base
     self.message_template.title
   end
 
-  def embed_body(options = {})
-    # テンプレートに実際の本文を組み込む
-    # :manifestations を指定する
-    message = self.message_body(options).dup
-    unless message.blank?
-      message = self.message_template.body.gsub('{receiver_full_name}', self.receiver.patron.full_name)
-      message = message.gsub("{manifestations}", self.message_body(:manifestations => options[:manifestations]))
-      message = message.gsub("{library_system_name}", LibraryGroup.site_config.display_name.localize)
-    end
-    self.update_attributes!({:body => message})
-  end
-
-  def message_body(options = {})
-    manifestation_message = []
-    manifestations = options[:manifestations]
-    unless manifestations.blank?
-      manifestations.each do |manifestation|
-        manifestation_message << manifestation.original_title
-        manifestation_message << "\r\n"
-        patrons = []
-        patrons << manifestation.creators
-        patrons << manifestation.contributors
-        patrons << manifestation.publishers
-        unless patrons.flatten.blank?
-          manifestation_message << "("
-          manifestation_message << patrons.flatten.collect(&:full_name).join(", ")
-          manifestation_message << ")"
-          manifestation_message << "\r\n"
-        end
-        manifestation_message << "#{LibraryGroup.url}manifestations/#{manifestation.id}"
-        manifestation_message << "\r\n\r\n"
-      end
-    end
-    return manifestation_message.to_s
+  def save_message_body(options = {})
+    options = {
+      :receiver => self.receiver.patron,
+      :locale => self.receiver.locale
+    }.merge(options)
+    self.update_attributes!({:body => self.message_template.embed_body(options)})
   end
 
   def self.send_messages

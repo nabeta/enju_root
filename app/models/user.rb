@@ -241,9 +241,8 @@ class User < ActiveRecord::Base
       request = MessageRequest.new
       request.sender = User.find(1) # TODO: システムからのメッセージ送信者
       request.receiver = self
-      request.message_template = MessageTemplate.find_by_status(status)
-      request.embed_body(options)
-      request.save!
+      request.message_template = MessageTemplate.localized_template(status, self.locale)
+      request.save_message_body(options)
       request.sm_send_message!
     end
   end

@@ -327,9 +327,17 @@ input.resource_title{
   width: 30em;
 }
 
+input.resource_locale{
+  width: 10em;
+}
+
 input.resource_email{
   width: 20em;
   ime-mode: disabled;
+}
+
+input.resource_zip_code{
+  width: 15em;
 }
 
 input.resource_url{

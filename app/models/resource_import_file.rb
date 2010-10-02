@@ -77,8 +77,8 @@ class ResourceImportFile < ActiveRecord::Base
       begin
         if manifestation and item_identifier.present?
           import_result.item = create_item(row, manifestation)
-          Rails.logger.info("resource registration succeeded: column #{row_num}"); next
-          num[:success] += 1
+           Rails.logger.info("resource registration succeeded: column #{row_num}"); next
+           num[:success] += 1
         else
           if manifestation
             Rails.logger.info("item found: isbn #{row['isbn']}")
@@ -107,38 +107,24 @@ class ResourceImportFile < ActiveRecord::Base
     return num
   end
 
-  def self.import_work(title, patrons, series_statement_id)
-    work = Work.new(title)
-    if series_statement = SeriesStatement.find(series_statement_id) rescue nil
+  def self.import_work(title, patrons, series_statement)
+    work = Work.create(title)
+    if series_statement
       work.series_statement = series_statement
     end
     work.patrons << patrons
     work
   end
 
-  def self.import_expression(work)
+  def self.import_expression(work, patrons)
     expression = Expression.new(
       :original_title => work.original_title,
       :title_transcription => work.title_transcription,
       :title_alternative => work.title_alternative
     )
-    #if expression.save!
-      work.expressions << expression
-    #end
+    work.expressions << expression
+    expression.patrons << patrons
     expression
-  end
-
-  def self.import_manifestation(expression, patrons, options = {})
-    manifestation = Manifestation.new(options)
-    manifestation.original_title = expression.original_title
-    #if manifestation.save!
-      manifestation.expressions << expression
-      manifestation.patrons << patrons
-    #end
-    manifestation.save!
-    manifestation
-  rescue ActiveRecord::RecordInvalid
-    nil
   end
 
   def self.import_item(manifestation, options)
@@ -300,18 +286,20 @@ class ResourceImportFile < ActiveRecord::Base
     return nil if title[:original_title].blank?
 
     ResourceImportFile.transaction do
-      if manifestation.nil?
+      unless manifestation
         authors = row['author'].to_s.split(';')
+        contributors = row['contributor'].to_s.split(';')
         publishers = row['publisher'].to_s.split(';')
         author_patrons = Patron.import_patrons(authors)
+        contributor_patrons = Patron.import_patrons(contributors)
         publisher_patrons = Patron.import_patrons(publishers)
         #classification = Classification.first(:conditions => {:category => row['classification'].to_s.strip)
         subjects = import_subject(row)
         series_statement = import_series_statement(row)
 
-        work = self.class.import_work(title, author_patrons, row['series_statment_id'])
-        work.subjects << subjects
-        expression = self.class.import_expression(work)
+        #work = self.class.import_work(title, author_patrons, row['series_statment_id'])
+        #work.subjects << subjects
+        #expression = self.class.import_expression(work, contributor_patrons)
 
         if ISBN_Tools.is_valid?(row['isbn'].to_s.strip)
           isbn = ISBN_Tools.cleanup(row['isbn'])
@@ -327,7 +315,7 @@ class ResourceImportFile < ActiveRecord::Base
           end_page = nil
         end
 
-        manifestation = self.class.import_manifestation(expression, publisher_patrons, {
+        manifestation = Manifestation.create(
           :original_title => title[:original_title],
           :title_transcription => title[:title_transcription],
           :title_alternative => title[:title_alternative],
@@ -348,9 +336,17 @@ class ResourceImportFile < ActiveRecord::Base
           :start_page => start_page,
           :end_page => end_page,
           :manifestation_identifier => row['manifestation_identifier']
-        })
+        )
+      end
+
+      if manifestation.valid?
+        manifestation.patrons << publisher_patrons
+        work = ResourceImportFile.import_work(title, author_patrons, series_statement)
+        expression = ResourceImportFile.import_expression(work, contributor_patrons) if work.valid?
+        expression.manifestations << manifestation if expression.valid?
       end
     end
+
     manifestation
   end
 
