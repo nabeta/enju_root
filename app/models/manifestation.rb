@@ -182,11 +182,7 @@ class Manifestation < ActiveRecord::Base
   enju_calil_check
   #enju_worldcat
   has_paper_trail
-  normalize_attributes :manifestation_identifier, :date_of_publication
 
-  def self.per_page
-    10
-  end
   attr_accessor :new_expression_id
 
   validates_presence_of :original_title, :carrier_type_id, :language_id
@@ -201,9 +197,11 @@ class Manifestation < ActiveRecord::Base
   before_validation :convert_isbn
   normalize_attributes :manifestation_identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
 
-  after_save :expire_cache
   after_create :post_to_scribd!
-  after_destroy :expire_cache
+
+  def self.per_page
+    10
+  end
 
   def check_isbn
     if isbn.present?
@@ -219,14 +217,13 @@ class Manifestation < ActiveRecord::Base
   end
 
   def convert_isbn
-    isbn = ISBN_Tools.cleanup(isbn) if isbn
-    if isbn
-      if isbn.length == 10
-        isbn10 = isbn.dup
-        isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
-        isbn10 = isbn10
-      elsif isbn.length == 13
-        isbn10 = ISBN_Tools.isbn13_to_isbn10(isbn)
+    num = ISBN_Tools.cleanup(isbn) if isbn
+    if num
+      if num.length == 10
+        isbn10 = num
+        isbn = ISBN_Tools.isbn10_to_isbn13(num)
+      elsif num.length == 13
+        isbn10 = ISBN_Tools.isbn13_to_isbn10(num)
       end
     end
   end
@@ -272,7 +269,7 @@ class Manifestation < ActiveRecord::Base
 
   def url
     #access_address
-    "#{LibraryGroup.url}manifestations/#{self.id}"
+    "#{LibraryGroup.url}#{self.to_s.tableize}/#{self.id}"
   end
 
   def available_checkout_types(user)
@@ -676,4 +673,14 @@ class Manifestation < ActiveRecord::Base
     items.first(:conditions => {:shelf_id => Shelf.web.id})
   end
 
+  def self.find_by_isbn(isbn)
+    if ISBN_Tools.is_valid?(isbn)
+      ISBN_Tools.cleanup!(isbn)
+      if isbn.size == 10
+        Manifestation.first(:conditions => {:isbn => ISBN_Tools.isbn10_to_isbn13(isbn)}) || Manifestation.first(:conditions => {:isbn => isbn})
+      else
+        Manifestation.first(:conditions => {:isbn => isbn}) || Manifestation.first(:conditions => {:isbn => ISBN_Tools.isbn13_to_isbn10(isbn)})
+      end
+    end
+  end
 end
