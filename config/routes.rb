@@ -46,6 +46,7 @@ EnjuRoot::Application.routes.draw do
     resources :expressions
     resources :resource_relationships
     resources :works
+    resources :reifies
   end
 
   resources :expressions do
