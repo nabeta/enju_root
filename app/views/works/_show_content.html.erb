@@ -1,0 +1,55 @@
+    <div id="detail">
+      <table class="index">
+        <tr>
+          <td style="width: 200px"><strong><%= t('activerecord.attributes.work.title_transcription') -%>:</strong></td>
+          <td>
+            <%= @work.title_transcription -%>
+          </td>
+        </tr>
+        <tr>
+          <td><strong><%= t('activerecord.models.form_of_work') -%>:</strong></td>
+          <td>
+            <%= link_to h(@work.form_of_work.display_name.localize), @work.form_of_work -%>
+          </td>
+        </tr>
+        <tr>
+          <td><strong><%= t('activerecord.models.series_statement') -%>:</strong></td>
+          <td>
+            <%= link_to h(@work.series_statement.original_title), @work.series_statement if @work.series_statement -%>
+          </td>
+        </tr>
+        <tr>
+          <td><strong><%= t('activerecord.attributes.work.context') -%>:</strong></td>
+          <td>
+            <%= @work.context -%>
+          </td>
+        </tr>
+        <tr>
+          <td><strong><%= t('activerecord.attributes.work.note') -%>:</strong></td>
+          <td>
+            <%= @work.note -%>
+          </td>
+        </tr>
+        <tr>
+          <td><strong><%= t('page.created_at') -%>:</strong></td>
+          <td><%= l(@work.created_at) -%></td>
+        </tr>
+        <tr>
+          <td><strong><%= t('page.updated_at') -%>:</strong></td>
+          <td><%= l(@work.updated_at) -%></td>
+        </tr>
+      </table>
+      <%= render :partial => 'works/show_subject_list' -%>
+    </div>
+    <%- if @work.derived_works.first or @work.original_works.first -%>
+      <%= render :partial => 'works/work_list' -%>
+    <%- end -%>
+    <%- if @work.patrons.first -%>
+      <%= render :partial => 'works/patron_list' -%>
+    <%- end -%>
+    <%- if @work.expressions.first -%>
+      <%= render :partial => 'works/expression_list' -%>
+    <%- end -%>
+    <%- if @work.manifestations.first -%>
+      <%= render :partial => 'works/manifestation_list' -%>
+    <%- end -%>

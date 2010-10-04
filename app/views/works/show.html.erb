@@ -1,98 +1,32 @@
 <div id="content_detail" class="ui-corner-all">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work')) -%></h1>
-<div id="content_list">
+  <div id="content_list">
+  <% if @version %>
+    <%= render 'show_version' %>
+  <% else %>
+    <%-
+      cache(:controller => :works, :action => :show, :id => @work.id, :role => current_user_role_name, :locale => @locale) do
+    -%>
+    <h2 class="resource_title">
+      [W]
+      <%= @work.original_title -%>
+    </h2>
 
-  <%-
-    cache(:controller => :works, :action => :show, :id => @work.id, :role => current_user_role_name, :locale => @locale, :version => @version) do
-  -%>
-  <h2 class="resource_title">
-    [W]
-    <%= @work.original_title -%>
-  </h2>
-  <%- if @version -%>
-    <p>(<%= l(@work.versions.find(@version).created_at) -%>)</p>
-  <%- end -%>
-
-  <p>
-    <%= raw patrons_list(@work.patrons, current_user) -%>
-  </p>
-  <div id="tabs">
-    <ul>
-      <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-      <%- if @work.derived_works.first or @work.original_works.first -%>
-        <li><a href="#work"><em><%= t('page.related') -%></em></a></li>
-      <%- end -%>
-      <%- if @work.patrons.first -%>
-        <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
-      <%- end -%>
-      <%- if @work.expressions.first -%>
-        <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
-      <%- end -%>
-      <%- if @work.manifestations.first -%>
-        <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
-      <%- end -%>
-      <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
-    </ul>
-      <div id="detail">
-        <table class="index">
-          <tr>
-            <td style="width: 200px"><strong><%= t('activerecord.attributes.work.title_transcription') -%>:</strong></td>
-            <td>
-              <%= @work.title_transcription -%>
-            </td>
-          </tr>
-          <tr>
-            <td><strong><%= t('activerecord.models.form_of_work') -%>:</strong></td>
-            <td>
-              <%= link_to h(@work.form_of_work.display_name.localize), @work.form_of_work -%>
-            </td>
-          </tr>
-          <tr>
-            <td><strong><%= t('activerecord.models.series_statement') -%>:</strong></td>
-            <td>
-              <%= link_to h(@work.series_statement.original_title), @work.series_statement if @work.series_statement -%>
-            </td>
-          </tr>
-          <tr>
-            <td><strong><%= t('activerecord.attributes.work.context') -%>:</strong></td>
-            <td>
-              <%= @work.context -%>
-            </td>
-          </tr>
-          <tr>
-            <td><strong><%= t('activerecord.attributes.work.note') -%>:</strong></td>
-            <td>
-              <%= @work.note -%>
-            </td>
-          </tr>
-          <tr>
-            <td><strong><%= t('page.created_at') -%>:</strong></td>
-            <td><%= l(@work.created_at) -%></td>
-          </tr>
-          <tr>
-            <td><strong><%= t('page.updated_at') -%>:</strong></td>
-            <td><%= l(@work.updated_at) -%></td>
-          </tr>
-        </table>
-        <%= render :partial => 'works/show_subject_list' -%>
-      </div>
-      <%- if @work.derived_works.first or @work.original_works.first -%>
-        <%= render :partial => 'works/work_list' -%>
-      <%- end -%>
-      <%- if @work.patrons.first -%>
-        <%= render :partial => 'works/patron_list' -%>
-      <%- end -%>
-      <%- if @work.expressions.first -%>
-        <%= render :partial => 'works/expression_list' -%>
-      <%- end -%>
-      <%- if @work.manifestations.first -%>
-        <%= render :partial => 'works/manifestation_list' -%>
-      <%- end -%>
+    <p>
+      <%= raw patrons_list(@work.patrons, current_user) -%>
+    </p>
+    <div id="tabs">
+      <ul>
+        <%= render :partial => 'show_menu' -%>
+        <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
+      </ul>
+      <%= render :partial => 'show_content' -%>
       <%= render :partial => 'history_list' -%>
     </div>
+    <%= render :partial => 'page/tabview' -%>
+    <%- end -%>
+  <%- end -%>
   </div>
-<%= render :partial => 'page/tabview' -%>
-<%- end -%>
 </div>
 
 <div id="submenu" class="ui-corner-all">  
