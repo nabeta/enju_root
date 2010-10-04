@@ -16,17 +16,19 @@
   <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
   <%- if @version -%>
     <p>(<%= l(@manifestation.versions.find(@version).created_at) -%>)</p>
-  <%- end -%>
-  <!-- cache start -->
-  <%
-    cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'detail', :locale => @locale, :version => @version) do
-  %>
-    <% if current_user.try(:has_role?, 'Librarian') %>
-      <%= render :partial => 'show_detail_librarian' %>
-    <% else %>
-      <%= render :partial => 'show_detail_user' %>
+    <%= render 'show_detail_librarian' %>
+  <% else %>
+    <!-- cache start -->
+    <%
+      cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'detail', :locale => @locale) do
+    %>
+      <% if current_user.try(:has_role?, 'Librarian') %>
+        <%= render :partial => 'show_detail_librarian' %>
+      <% else %>
+        <%= render :partial => 'show_detail_user' %>
+      <% end %>
+    <!-- cache end -->
     <% end %>
-  <!-- cache end -->
   <% end %>
 
 <%- if params[:mode] == 'generate_cache' -%>
@@ -40,7 +42,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'picture_file', :locale => @locale, :version => @version) do -%>
+  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'picture_file', :locale => @locale) do -%>
     <%- if @manifestation.picture_files.first -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>

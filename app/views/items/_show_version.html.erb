@@ -1,0 +1,4 @@
+  <%- if @version -%>
+    <p>(<%= l(@item.versions.find(@version).created_at) -%>)</p>
+  <%- end -%>
+  <%= render 'show_content' %>
