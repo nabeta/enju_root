@@ -7,14 +7,14 @@ class PatronMergeListsControllerTest < ActionController::TestCase
     get :index
     assert_response :redirect
     assert_redirected_to new_user_session_url
-    assert_nil assigns(:patron_merge_lists)
+    assert_equal assigns(:patron_merge_lists), []
   end
 
   def test_user_should_not_get_index
     sign_in users(:user1)
     get :index
     assert_response :forbidden
-    assert_nil assigns(:patron_merge_lists)
+    assert_equal assigns(:patron_merge_lists), []
   end
 
   def test_librarian_should_not_get_index
@@ -90,7 +90,7 @@ class PatronMergeListsControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_librarian_should_not_show_patron_merge_list
+  def test_librarian_should_show_patron_merge_list
     sign_in users(:librarian1)
     get :show, :id => patron_merge_lists(:patron_merge_list_00001).id
     assert_response :success

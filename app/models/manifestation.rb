@@ -220,10 +220,10 @@ class Manifestation < ActiveRecord::Base
     num = ISBN_Tools.cleanup(isbn) if isbn
     if num
       if num.length == 10
-        isbn10 = num
-        isbn = ISBN_Tools.isbn10_to_isbn13(num)
+        self.isbn10 = num
+        self.isbn = ISBN_Tools.isbn10_to_isbn13(num)
       elsif num.length == 13
-        isbn10 = ISBN_Tools.isbn13_to_isbn10(num)
+        self.isbn10 = ISBN_Tools.isbn13_to_isbn10(num)
       end
     end
   end

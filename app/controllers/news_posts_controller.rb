@@ -8,10 +8,10 @@ class NewsPostsController < ApplicationController
   def index
     if user_signed_in?
       if current_user.has_role?('Librarian')
-        @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
+        @news_posts = @news_posts.paginate(:all, :order => :position, :page => params[:page])
       end
     end
-    @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page]) if @news_posts.nil?
+    @news_posts = @news_posts.published.paginate(:all, :order => :position, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

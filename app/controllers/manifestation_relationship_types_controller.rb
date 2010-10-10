@@ -13,8 +13,12 @@ class ManifestationRelationshipTypesController < InheritedResources::Base
     update!
   end
 
+  def index
+    @manifestation_relationship_types = @manifestation_relationship_types.paginate(:page => params[:page])
+  end
+
   private
   def interpolation_options
-    {:resource_name => t('activerecord.models.manifestation_relationship_type')}
+    {:resource_name => t('activerecord.models.resource_relationship_type')}
   end
 end

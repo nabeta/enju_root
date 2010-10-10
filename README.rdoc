@@ -20,6 +20,10 @@ Next-L Enju Root is an integrated library system developed by {Project Next-L}[h
 Refer to the site below:
 * http://wiki.github.com/nabeta/enju_root/install
 
+== 関連するプロジェクト (Related projects)
+* {Next-L Enju Leaf}[http://github.com/nabeta/enju_leaf]
+* {Next-L Enju Flower}[http://github.com/nabeta/enju_flower]
+
 == 製作者・貢献者（アルファベット順） (Authors and contributors)
 * {田辺浩介 (TANABE, Kosuke)}[http://mwr.mediacom.keio.ac.jp/~tanabe/]
 * 浅川裕司 (ASAKAWA, Yuji)
