@@ -13,9 +13,8 @@ class PatronRelationshipTypesController < InheritedResources::Base
     update!
   end
 
-  protected
-  def collection
-    @patron_relationship_types ||= end_of_association_chain.paginate(:page => params[:page])
+  def index
+    @patron_relationship_types = @patron_relationship_types.paginate(:page => params[:page])
   end
 
   private

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ManifestationRelationshipTypesControllerTest < ActionController::TestCase
-  fixtures :manifestation_relationship_types, :users
+    fixtures :manifestation_relationship_types, :users
 
   def test_guest_should_get_index
     get :index
@@ -171,17 +171,17 @@ class ManifestationRelationshipTypesControllerTest < ActionController::TestCase
     put :update, :id => 1, :manifestation_relationship_type => { }
     assert_redirected_to manifestation_relationship_type_url(assigns(:manifestation_relationship_type))
   end
-  
-  test "admin should update manifestation_relationship_type with position" do
-    sign_in users(:admin)
-    put :update, :id => manifestation_relationship_types(:manifestation_relationship_type_00001), :manifestation_relationship_type => { }, :position => 2
-    assert_redirected_to manifestation_relationship_types_path
-  end
 
+  def test_admin_should_update_manifestation_relationship_type_with_position
+    sign_in users(:admin)
+    put :update, :id => 1, :manifestation_relationship_type => { }, :position => 2
+    assert_redirected_to manifestation_relationship_types_url
+  end
+  
   def test_guest_should_not_destroy_manifestation_relationship_type
-    old_count = ManifestationRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, ManifestationRelationshipType.count
+    assert_no_difference('ManifestationRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end

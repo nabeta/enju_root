@@ -7,14 +7,14 @@ class WorkMergesControllerTest < ActionController::TestCase
     get :index
     assert_response :redirect
     assert_redirected_to new_user_session_url
-    assert_nil assigns(:work_merges)
+    assert_equal assigns(:work_merges), []
   end
 
   def test_user_should_not_get_index
     sign_in users(:user1)
     get :index
     assert_response :forbidden
-    assert_nil assigns(:work_merges)
+    assert_equal assigns(:work_merges), []
   end
 
   def test_librarian_should_get_index

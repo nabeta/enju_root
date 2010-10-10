@@ -51,7 +51,7 @@ class BookmarksControllerTest < ActionController::TestCase
     sign_in users(:user2)
     get :index, :user_id => users(:user1).username
     assert_response :forbidden
-    assert_nil assigns(:bookmarks)
+    assert_equal assigns(:bookmarks), []
   end
 
   def test_guest_should_not_get_new
@@ -171,7 +171,7 @@ class BookmarksControllerTest < ActionController::TestCase
   def test_user_should_not_create_bookmark_without_url
     sign_in users(:user1)
     assert_no_difference('Bookmark.count') do
-      post :create, :bookmark => {}, :user_id => users(:user1).username
+      post :create, :bookmark => {:title => 'test'}
     end
     
     assert_response :success
