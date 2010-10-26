@@ -7,4 +7,4 @@
 # (create the session table with "rake db:sessions:create")
 #Rails.application.config.session_store :active_record_store
 
-Rails.application.config.session_store :mem_cache_store, :key => '_enju_root_session'
+Rails.application.config.session_store :dalli_store, :key => '_enju_root_session'
