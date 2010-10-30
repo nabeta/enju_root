@@ -1,4 +1,4 @@
-  <div id="content_detail" class="ui-corner-all">
+<div id="content_detail" class="ui-corner-all">
   <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
   <div id="content_list">
     <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
@@ -13,30 +13,21 @@
     <%- end -%>
     <%= javascript_tag("$('#search_form_top').focus()") -%>
 
-  <%= render :partial => 'title', :locals => {:manifestation => @manifestation} -%>
-  <%- if @version -%>
-    <p>(<%= l(@manifestation.versions.find(@version).created_at) -%>)</p>
-    <%= render 'show_detail_librarian' %>
-  <% else %>
-    <!-- cache start -->
-    <%
-      cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'detail', :locale => @locale) do
-    %>
-      <% if current_user.try(:has_role?, 'Librarian') %>
-        <%= render :partial => 'show_detail_librarian' %>
-      <% else %>
-        <%= render :partial => 'show_detail_user' %>
-      <% end %>
-    <!-- cache end -->
+    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
+    <%- if @version -%>
+      <p>(<%= l(@manifestation.versions.find(@version).created_at) -%>)</p>
+    <%- end -%>
+    <% if current_user.try(:has_role?, 'Librarian') %>
+      <%= render :partial => 'manifestations/show_detail_librarian', :locals => {:manifestation => @manifestation} %>
+    <% else %>
+      <%= render :partial => 'manifestations/show_detail_user', :locals => {:manifestation => @manifestation} %>
     <% end %>
-  <% end %>
 
-<%- if params[:mode] == 'generate_cache' -%>
-  <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
-  <%= render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation} -%>
-  <%= render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation} -%>
-<%- end -%>
-
+    <%- if params[:mode] == 'generate_cache' -%>
+      <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
+      <%= render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation} -%>
+      <%= render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation} -%>
+    <%- end -%>
   </div>
 </div>
 
