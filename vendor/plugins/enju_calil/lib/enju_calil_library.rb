@@ -11,12 +11,12 @@ module EnjuCalilLibrary
 
   module InstanceMethods
     def access_calil
-      if CALIL_APP_KEY == 'REPLACE_WITH_YOUR_CALIL_APP_KEY'
+      if configatron.calil.app_key == 'REPLACE_WITH_YOUR_CALIL_APP_KEY'
         Rails.logger.error "Calil access key is not set"
         return nil
       end
       if self.latitude.present? and self.longitude.present?
-        calil_url = "http://api.calil.jp/library?appkey=#{CALIL_APP_KEY}&geocode=#{self.longitude},#{self.latitude}"
+        calil_url = "http://api.calil.jp/library?appkey=#{configatron.calil.app_key}&geocode=#{self.longitude},#{self.latitude}"
         open(calil_url) do |f|
           f.read
         end
@@ -24,7 +24,7 @@ module EnjuCalilLibrary
     end
 
     def access_calil_systemid(systemid)
-      calil_url = "http://api.calil.jp/library?appkey=#{CALIL_APP_KEY}&systemid=#{systemid}"
+      calil_url = "http://api.calil.jp/library?appkey=#{configatron.calil.app_key}&systemid=#{systemid}"
       open(calil_url) do |f|
         f.read
       end
@@ -54,6 +54,15 @@ module EnjuCalilLibrary
       libraries
     #rescue NoMethodError
     #  nil
+    end
+
+    def calil_neighborhood_systems
+      systemid = self.calil_neighborhood_systemid
+      if systemid
+        self.calil_neighborhood_systemid.split(',')[0..2]
+      else
+        []
+      end
     end
 
   end

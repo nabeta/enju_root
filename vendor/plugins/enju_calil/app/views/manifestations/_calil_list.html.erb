@@ -3,7 +3,7 @@
 <%-
   library = current_user.try(:library)
   @calil_libraries = Rails.cache.fetch("calil_library_#{library.name}"){library.calil_library(library.access_calil)}
-  result = @manifestation.calil_check(@manifestation.access_calil(library.calil_neighborhood_systemid.split(',')[0..2]))
+  result = manifestation.calil_check(manifestation.access_calil(library.calil_neighborhood_systems))
 %>
 <% if result[:response].first[:system].size >= 1 %>
 <ul>
@@ -19,7 +19,7 @@
       <!--
       <%= link_to image_tag('/icons/map.png', :size => '16x16', :alt => '地図'), libraries_path(library, :mode => 'calil_map', :systemname => library[:systemname]) %>
       -->
-      (<%= link_to '紹介状を印刷', manifestation_path(@manifestation, :format => 'pdf', :name => library[:formal]) %>)
+      (<%= link_to '紹介状を印刷', manifestation_path(manifestation, :format => 'pdf', :name => library[:formal]) %>)
       </li>
       <%-
           end

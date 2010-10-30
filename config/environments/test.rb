@@ -1,5 +1,3 @@
-LIBRARY_WEB_HOSTNAME = 'localhost'
-LIBRARY_WEB_PORT_NUMBER = 3000
 EnjuRoot::Application.configure do
   # Settings specified here will take precedence over those in config/environment.rb
 
@@ -34,6 +32,4 @@ EnjuRoot::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
-
-  config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 end
