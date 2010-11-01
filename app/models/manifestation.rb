@@ -683,4 +683,14 @@ class Manifestation < ActiveRecord::Base
       end
     end
   end
+
+  # 仮実装
+  def similar_work
+    work = Work.first(:conditions => {:original_title => self.original_title})
+    if work
+      unless works.first == work
+        work
+      end
+    end
+  end
 end

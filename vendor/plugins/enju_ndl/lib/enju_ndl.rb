@@ -204,10 +204,13 @@ module EnjuNdl
 
       Patron.transaction do
         author_patrons = Patron.import_patrons(authors)
-        if title[:original].present?
-          work = Work.new(:original_title => title[:original])
-        else
-          work = Work.new(:original_title => title[:manifestation], :title_transcription => title[:transcription])
+        work = self.similar_work
+        unless work
+          if title[:original].present?
+            work = Work.new(:original_title => title[:original])
+          else
+            work = Work.new(:original_title => title[:manifestation], :title_transcription => title[:transcription])
+          end
         end
         language_id = Language.first(:conditions => {:iso_639_2 => language}).id rescue 1
         content_type_id = ContentType.first(:conditions => {:name => 'text'}).id rescue 1
