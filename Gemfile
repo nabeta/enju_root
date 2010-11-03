@@ -37,7 +37,7 @@ gem 'warden_oauth'
 gem 'acts-as-taggable-on'
 gem 'memcache-client'
 #gem 'dalli'
-gem 'sitemap_generator'
+gem 'sitemap_generator', '1.2.3'
 gem 'ri_cal'
 gem 'file_wrapper'
 gem 'paper_trail'
@@ -62,6 +62,7 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'astrails-safe'
 
 gem 'oink'
+gem "parallel_tests", :group => :development
 gem 'simplecov', :require => false if RUBY_VERSION > '1.9'
 
 # Use unicorn as the web server

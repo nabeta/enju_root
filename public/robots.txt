@@ -118,7 +118,6 @@ Disallow: user_checkout_stats
 Disallow: user_group_has_checkout_types
 Disallow: user_groups
 Disallow: user_has_roles
-Disallow: user_has_shelves
 Disallow: user_reserve_stats
 Disallow: users
 Disallow: work_has_subjects
