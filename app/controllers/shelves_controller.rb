@@ -66,7 +66,6 @@ class ShelvesController < ApplicationController
     respond_to do |format|
       if @shelf.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.shelf'))
-        current_user.shelves << @shelf
         format.html { redirect_to shelf_url(@shelf) }
         format.xml  { render :xml => @shelf, :status => :created, :location => library_shelf_url(@shelf.library.name, @shelf) }
       else

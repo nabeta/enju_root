@@ -24,23 +24,23 @@ class Ability
       can :read, Subject
       can :manage, Bookmark
       can :manage, [Question, Answer]
-      can :manage, [WorkMerge, WorkMergeList]
-      can :manage, [ExpressionMerge, ExpressionMergeList]
-      can :manage, [PatronMerge, PatronMergeList]
       can :read, [Classification, ClassificationType]
       can :read, [SubjectType, SubjectHeadingType]
       can :manage, SubjectHasClassification
+      can :manage, [WorkMerge, WorkMergeList]
+      can :manage, [ExpressionMerge, ExpressionMergeList]
+      can :manage, [PatronMerge, PatronMergeList]
       can :manage, [Subscribe, Subscription]
-      can :manage, Reserve
-      can :manage, PurchaseRequest
+      can :manage, [Reserve, PurchaseRequest]
       can :manage, PictureFile
-      can :manage, PatronRelationship
-      can :manage, Order
-      can :manage, OrderList
+      can :manage, [
+        WorkRelationship, ExpressionRelationship, ManifestationRelationship,
+        ItemRelationship, PatronRelationship
+      ]
+      can :manage, [Order, OrderList]
       can :read, NewsFeed
       can :manage, NewsPost
       can :read, [Country, Language]
-      can :read, [ResourceImportResult, PatronImportResult, EventImportResult]
       can :read, Library
       can :manage, Event
       can :read, EventCategory
@@ -56,10 +56,6 @@ class Ability
       can :manage, BookmarkStat
       can :manage, [UserCheckoutStat, UserReserveStat]
       can :manage, [ManifestationCheckoutStat, ManifestationReserveStat]
-      can :manage, [
-        WorkRelationship, ExpressionRelationship, ManifestationRelationship,
-        ItemRelationship, PatronRelationship
-      ]
       can :manage, Tag
       can :read, SearchEngine
       can :read, Role
@@ -79,11 +75,9 @@ class Ability
       can :manage, [CheckoutStatHasManifestation, CheckoutStatHasUser]
       can :manage, [ReserveStatHasManifestation, ReserveStatHasUser]
       can :read, [CirculationStatus, UseRestriction]
-      can :manage, ImportedObject
-      can :manage, UserHasShelf
+      can :read, [ResourceImportResult, PatronImportResult, EventImportResult]
       can :read, Shelf
       can :read, [RequestStatusType, RequestType]
-      can :manage, PictureFile
       can :manage, Participate
       can :manage, MessageTemplate
       can :manage, ItemHasUseRestriction
@@ -128,10 +122,6 @@ class Ability
       can :read, Subject
       can :create, Tag
       can :read, Tag
-      can :create, [Question, Answer]
-      can [:update, :destroy], [Question, Answer] do |object|
-        object.user == user
-      end
       can :read, [Event, EventCategory]
       can :read, [Country, Language, License]
       can :read, UserGroup
@@ -144,16 +134,20 @@ class Ability
       can :read, PatronRelationshipType
       can :read, [SubjectHeadingType, SubjectHasClassification]
       can [:update, :destroy, :show], [
-        Bookmark, Checkout, PurchaseRequest, Reserve, UserHasShelf
+        Bookmark, Checkout, PurchaseRequest, Reserve
       ] do |object|
         object.try(:user) == user
       end
       can :index, Question
+      can :create, Question
+      can [:update, :destroy], [Question, Answer] do |object|
+        object.user == user
+      end
       can :show, [Question, Answer] do |object|
         object.user == user or object.shared
       end
       can [:index, :create], [
-        Answer, Bookmark, Checkout, PurchaseRequest, Reserve, UserHasShelf
+        Answer, Bookmark, Checkout, PurchaseRequest, Reserve
       ]
       can :read, PictureFile
       can :read, MediumOfPerformance
@@ -209,11 +203,13 @@ class Ability
       end
       can :read, [ManifestationCheckoutStat, ManifestationReserveStat]
       can :read, [UserCheckoutStat, UserReserveStat]
-      can :read, WorkRelationshipType
-      can :read, ExpressionRelationshipType
-      can :read, ManifestationRelationshipType
-      can :read, ItemRelationshipType
-      can :read, PatronRelationshipType
+      can :read, [
+        WorkRelationshipType,
+        ExpressionRelationshipType,
+        ManifestationRelationshipType,
+        ItemRelationshipType,
+        PatronRelationshipType
+      ]
       can :read, [SubjectHeadingType, SubjectHasClassification]
       can :read, UserGroup
       can :read, WorkHasSubject
