@@ -66,7 +66,7 @@ class UsersController < ApplicationController
   def show
     session[:return_to] = nil
     session[:params] = nil
-    @user = User.first(:conditions => {:username => params[:id]})
+    #@user = User.first(:conditions => {:username => params[:id]})
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     unless @user.patron
@@ -106,11 +106,11 @@ class UsersController < ApplicationController
 
   def edit
     #@user = User.first(:conditions => {:login => params[:id]})
-    if current_user.has_role?('Librarian')
-      @user = User.first(:conditions => {:username => params[:id]})
-    else
-      @user = current_user
-    end
+    #if current_user.has_role?('Librarian')
+    #  @user = User.first(:conditions => {:username => params[:id]})
+    #else
+    #  @user = current_user
+    #end
     raise ActiveRecord::RecordNotFound if @user.blank?
     @user.role_id = @user.role.id
 
@@ -129,11 +129,11 @@ class UsersController < ApplicationController
 
   def update
     #@user = User.first(:conditions => {:login => params[:id]})
-    if current_user.has_role?('Librarian')
-      @user = User.first(:conditions => {:username => params[:id]})
-    else
-      @user = current_user
-    end
+    #if current_user.has_role?('Librarian')
+    #  @user = User.first(:conditions => {:username => params[:id]})
+    #else
+    #  @user = current_user
+    #end
     @user.operator = current_user
 
     if params[:user]
@@ -244,7 +244,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    @user = User.first(:conditions => {:username => params[:id]})
+    #@user = User.first(:conditions => {:username => params[:id]})
     #@user = User.find(params[:id])
 
     # 自分自身を削除しようとした

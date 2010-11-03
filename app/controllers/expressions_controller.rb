@@ -77,8 +77,8 @@ class ExpressionsController < ApplicationController
       @expression = @manifestation.expressions.find(params[:id])
     when @patron
       @expression = @patron.expressions.find(params[:id])
-    else
-      @expression = Expression.find(params[:id])
+    #else
+    #  @expression = Expression.find(params[:id])
     end
     @expression = @expression.versions.find(@version).item if @version
 
@@ -112,7 +112,7 @@ class ExpressionsController < ApplicationController
 
   # GET /expressions/1;edit
   def edit
-    @expression = Expression.find(params[:id])
+    #@expression = Expression.find(params[:id])
   end
 
   # POST /expressions
@@ -148,7 +148,7 @@ class ExpressionsController < ApplicationController
   # PUT /expressions/1
   # PUT /expressions/1.xml
   def update
-    @expression = Expression.find(params[:id])
+    #@expression = Expression.find(params[:id])
     params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
 
     respond_to do |format|
@@ -167,7 +167,7 @@ class ExpressionsController < ApplicationController
   # DELETE /expressions/1
   # DELETE /expressions/1.xml
   def destroy
-    @expression = Expression.find(params[:id])
+    #@expression = Expression.find(params[:id])
     @expression.destroy
 
     respond_to do |format|
