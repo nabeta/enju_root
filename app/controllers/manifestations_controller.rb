@@ -268,8 +268,8 @@ class ManifestationsController < ApplicationController
       else
         raise ActiveRecord::RecordNotFound if @manifestation.nil?
       end
-    else
-      @manifestation = Manifestation.find(params[:id], :include => [:patrons, :expressions, :items])
+    #else
+    #  @manifestation = Manifestation.find(params[:id], :include => [:patrons, :expressions, :items])
     end
     @manifestation = @manifestation.versions.find(@version).item if @version
 
@@ -352,7 +352,7 @@ class ManifestationsController < ApplicationController
         access_denied; return
       end
     end
-    @manifestation = Manifestation.find(params[:id])
+    #@manifestation = Manifestation.find(params[:id])
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
@@ -405,7 +405,7 @@ class ManifestationsController < ApplicationController
   # PUT /manifestations/1
   # PUT /manifestations/1.xml
   def update
-    @manifestation = Manifestation.find(params[:id])
+    #@manifestation = Manifestation.find(params[:id])
     
     respond_to do |format|
       if @manifestation.update_attributes(params[:manifestation])
@@ -426,7 +426,7 @@ class ManifestationsController < ApplicationController
   # DELETE /manifestations/1
   # DELETE /manifestations/1.xml
   def destroy
-    @manifestation = Manifestation.find(params[:id])
+    #@manifestation = Manifestation.find(params[:id])
     @manifestation.destroy
     flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.manifestation'))
 

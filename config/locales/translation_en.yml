@@ -1458,3 +1458,7 @@ en:
     withdraw: Withdraw
   news_feed:
     failed_to_fetch_feed: Failed to fetch feeds.
+  import_request:
+    record_not_found: Record not found.
+    invalid_isbn: Invalid ISBN.
+    isbn_taken: This ISBN has already been taken.

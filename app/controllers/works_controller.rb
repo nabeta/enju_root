@@ -69,7 +69,7 @@ class WorksController < ApplicationController
   # GET /works/1
   # GET /works/1.xml
   def show
-    @work = Work.find(params[:id])
+    #@work = Work.find(params[:id])
     @work = @work.versions.find(@version).item if @version
 
     if @patron
@@ -122,7 +122,7 @@ class WorksController < ApplicationController
 
   # GET /works/1;edit
   def edit
-    @work = Work.find(params[:id])
+    #@work = Work.find(params[:id])
     @work.series_statement = @series_statement
   end
 
@@ -150,7 +150,7 @@ class WorksController < ApplicationController
   # PUT /works/1
   # PUT /works/1.xml
   def update
-    @work = Work.find(params[:id])
+    #@work = Work.find(params[:id])
 
     respond_to do |format|
       if @work.update_attributes(params[:work])
@@ -170,7 +170,7 @@ class WorksController < ApplicationController
   # DELETE /works/1
   # DELETE /works/1.xml
   def destroy
-    @work = Work.find(params[:id])
+    #@work = Work.find(params[:id])
     @work.destroy
 
     respond_to do |format|

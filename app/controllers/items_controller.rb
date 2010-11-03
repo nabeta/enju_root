@@ -112,7 +112,7 @@ class ItemsController < ApplicationController
   # GET /items/1
   # GET /items/1.xml
   def show
-    @item = Item.find(params[:id])
+    #@item = Item.find(params[:id])
     @item = @item.versions.find(@version).item if @version
 
     canonical_url item_url(@item)
@@ -149,7 +149,7 @@ class ItemsController < ApplicationController
 
   # GET /items/1;edit
   def edit
-    @item = Item.find(params[:id])
+    #@item = Item.find(params[:id])
   end
 
   # POST /items
@@ -196,7 +196,7 @@ class ItemsController < ApplicationController
   # PUT /items/1
   # PUT /items/1.xml
   def update
-    @item = Item.find(params[:id])
+    #@item = Item.find(params[:id])
 
     respond_to do |format|
       if @item.update_attributes(params[:item])
@@ -224,7 +224,7 @@ class ItemsController < ApplicationController
   # DELETE /items/1
   # DELETE /items/1.xml
   def destroy
-    @item = Item.find(params[:id])
+    #@item = Item.find(params[:id])
     @item.destroy
 
     respond_to do |format|
