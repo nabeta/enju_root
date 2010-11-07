@@ -64,7 +64,14 @@ gem 'dynamic_form'
 
 gem 'oink'
 gem "parallel_tests", :group => :development
-gem 'simplecov', :require => false if RUBY_VERSION > '1.9'
+if RUBY_VERSION > '1.9'
+  gem 'simplecov', :require => false , :group => :test
+end
+if RUBY_VERSION > '1.9'
+  gem 'levenshtein19'
+else
+  gem 'levenshtein'
+end
 
 # Use unicorn as the web server
 gem 'unicorn' unless defined?(JRUBY_VERSION)
