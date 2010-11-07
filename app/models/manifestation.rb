@@ -686,12 +686,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   # 仮実装
-  def similar_work
-    work = Work.first(:conditions => {:original_title => self.original_title})
-    if work
-      unless works.first == work
-        work
-      end
-    end
+  def similar_works
+    Work.all(:conditions => {:original_title => self.original_title})
+  end
+
+  def same_work?(manifestation)
+    true unless (self.works & manifestation.works).empty?
   end
 end

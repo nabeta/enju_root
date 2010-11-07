@@ -204,7 +204,7 @@ module EnjuNdl
 
       Patron.transaction do
         author_patrons = Patron.import_patrons(authors)
-        work = self.similar_work
+        work = self.similar_works.first
         unless work
           if title[:original].present?
             work = Work.new(:original_title => title[:original])
