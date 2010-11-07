@@ -198,6 +198,7 @@ class Manifestation < ActiveRecord::Base
   normalize_attributes :identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
 
   after_create :post_to_scribd!
+  alias :producers :patrons
 
   def self.per_page
     10

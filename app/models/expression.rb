@@ -44,10 +44,12 @@ class Expression < ActiveRecord::Base
   #acts_as_soft_deletable
   has_paper_trail
 
+  attr_accessor :new_work_id
+  alias :contributors :patrons
+
   def self.per_page
     10
   end
-  attr_accessor :new_work_id
 
   def title
     title_array = titles
