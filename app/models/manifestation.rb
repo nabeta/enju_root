@@ -198,6 +198,7 @@ class Manifestation < ActiveRecord::Base
   normalize_attributes :identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
 
   after_create :post_to_scribd!
+  alias :producers :patrons
 
   def self.per_page
     10
@@ -685,12 +686,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   # 仮実装
-  def similar_work
-    work = Work.first(:conditions => {:original_title => self.original_title})
-    if work
-      unless works.first == work
-        work
-      end
-    end
+  def similar_works
+    Work.all(:conditions => {:original_title => self.original_title})
+  end
+
+  def same_work?(manifestation)
+    true unless (self.works & manifestation.works).empty?
   end
 end

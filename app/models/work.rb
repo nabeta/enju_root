@@ -53,12 +53,13 @@ class Work < ActiveRecord::Base
   #acts_as_tree
   has_paper_trail
 
+  validates_associated :form_of_work
+  validates_presence_of :original_title, :form_of_work_id
+  alias :creators :patrons
+
   def self.per_page
     10
   end
-
-  validates_associated :form_of_work
-  validates_presence_of :original_title, :form_of_work_id
 
   def title
     array = titles

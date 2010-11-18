@@ -341,8 +341,8 @@ class ResourceImportFile < ActiveRecord::Base
 
       if manifestation.valid?
         manifestation.patrons << publisher_patrons
-        if manifestation.similar_work
-          work = manifestation.similar_work
+        if manifestation.similar_works.present?
+          work = manifestation.similar_works.first
         else
           work = ResourceImportFile.import_work(title, author_patrons, series_statement)
         end

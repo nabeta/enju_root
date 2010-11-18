@@ -69,6 +69,7 @@ class Item < ActiveRecord::Base
   end
 
   attr_accessor :library_id, :manifestation_id
+  alias :owners :patrons
 
   def self.per_page
     10

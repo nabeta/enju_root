@@ -37,7 +37,7 @@ gem 'warden_oauth'
 gem 'acts-as-taggable-on'
 gem 'memcache-client'
 #gem 'dalli'
-gem 'sitemap_generator', '1.2.3'
+gem 'sitemap_generator'
 gem 'ri_cal'
 gem 'file_wrapper'
 gem 'paper_trail'
@@ -64,7 +64,14 @@ gem 'dynamic_form'
 
 gem 'oink'
 gem "parallel_tests", :group => :development
-gem 'simplecov', :require => false if RUBY_VERSION > '1.9'
+if RUBY_VERSION > '1.9'
+  gem 'simplecov', :require => false , :group => :test
+end
+if RUBY_VERSION > '1.9'
+  gem 'levenshtein19'
+else
+  gem 'levenshtein'
+end
 
 # Use unicorn as the web server
 gem 'unicorn' unless defined?(JRUBY_VERSION)
