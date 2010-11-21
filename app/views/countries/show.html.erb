@@ -1,38 +1,15 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.country')) -%></h1>
-<div id="content_list">
+<p class="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t('activerecord.attributes.country.display_name') -%>:</strong>
-  <%= @country.display_name.localize -%>
+  <b>Name:</b>
+  <%= @country.name %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.country.alpha_2') -%>:</strong>
-  <%= @country.alpha_2 -%>
+  <b>Display name:</b>
+  <%= @country.display_name %>
 </p>
 
-<p>
-  <strong><%= t('activerecord.attributes.country.alpha_3') -%>:</strong>
-  <%= @country.alpha_3 -%>
-</p>
 
-<p>
-  <strong><%= t('activerecord.attributes.country.numeric_3') -%>:</strong>
-  <%= @country.numeric_3 -%>
-</p>
-
-<p>
-  <strong><%= t('activerecord.attributes.country.note') -%>:</strong>
-  <%= @country.note -%>
-</p>
-
-</div>
-</div>
-
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_country_path(@country) -%></li>
-    <li><%= link_to t('page.back'), countries_path -%></li>
-  </ul>
-</div>
+<%= link_to 'Edit', edit_country_path(@country) %> |
+<%= link_to 'Back', countries_path %>

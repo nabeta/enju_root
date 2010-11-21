@@ -138,7 +138,7 @@
       <% end %>
 
       <h4><%= t('manifestation.user_who_bookmark_this_resource') -%></h4>
-      <%= render :partial => 'bookmarks_for_this_manifestation' -%>
+      <%= render :partial => 'bookmarks_for_this_manifestation', :locals => {:manifestation => manifestation} -%>
 
     </div>
     <%= render :partial => 'tab_list' %>

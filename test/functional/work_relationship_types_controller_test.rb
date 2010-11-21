@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class WorkRelationshipTypesControllerTest < ActionController::TestCase
-  fixtures :work_relationship_types, :users
+    fixtures :work_relationship_types, :users
 
   def test_guest_should_get_index
     get :index
@@ -41,16 +41,16 @@ class WorkRelationshipTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
   
-  def test_librarian_should_get_new
+  def test_librarian_should_not_get_new
     sign_in users(:librarian1)
     get :new
     assert_response :forbidden
   end
   
-  def test_admin_should_get_new
+  def test_admin_should_not_get_new
     sign_in users(:admin)
     get :new
-    assert_response :success
+    assert_response :forbidden
   end
   
   def test_guest_should_not_create_work_relationship_type
@@ -79,22 +79,13 @@ class WorkRelationshipTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_admin_should_not_create_work_relationship_type_without_name
+  def test_admin_should_not_create_work_relationship_type
     sign_in users(:admin)
     assert_no_difference('WorkRelationshipType.count') do
-      post :create, :work_relationship_type => { }
-    end
-    
-    assert_response :success
-  end
-
-  def test_admin_should_create_work_relationship_type
-    sign_in users(:admin)
-    assert_difference('WorkRelationshipType.count') do
       post :create, :work_relationship_type => {:name => 'test', :display_name => 'test'}
     end
     
-    assert_redirected_to work_relationship_type_url(assigns(:work_relationship_type))
+    assert_response :forbidden
   end
 
   def test_guest_should_show_work_relationship_type
@@ -172,16 +163,16 @@ class WorkRelationshipTypesControllerTest < ActionController::TestCase
     assert_redirected_to work_relationship_type_url(assigns(:work_relationship_type))
   end
   
-  test "admin should update work_relationship_type with position" do
+  def test_admin_should_update_work_relationship_type_with_position
     sign_in users(:admin)
-    put :update, :id => work_relationship_types(:work_relationship_type_00001), :work_relationship_type => { }, :position => 2
-    assert_redirected_to work_relationship_types_path
+    put :update, :id => 1, :work_relationship_type => { }, :position => 2
+    assert_redirected_to work_relationship_types_url
   end
 
   def test_guest_should_not_destroy_work_relationship_type
-    old_count = WorkRelationshipType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, WorkRelationshipType.count
+    assert_no_difference('WorkRelationshipType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end
@@ -204,12 +195,12 @@ class WorkRelationshipTypesControllerTest < ActionController::TestCase
     assert_response :forbidden
   end
 
-  def test_admin_should_destroy_work_relationship_type
+  def test_admin_should_not_destroy_work_relationship_type
     sign_in users(:admin)
-    assert_difference('WorkRelationshipType.count', -1) do
+    assert_no_difference('WorkRelationshipType.count') do
       delete :destroy, :id => 1
     end
     
-    assert_redirected_to work_relationship_types_url
+    assert_response :forbidden
   end
 end

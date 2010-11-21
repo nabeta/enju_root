@@ -1,7 +1,7 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('activerecord.models.message') -%></h1>
 <div id="content_list">
-<%= form_for :messages, :url => user_messages_path(current_user.username), :html => {:method => 'get'} do -%>
+<%= form_for :messages, :url => user_messages_path(current_user), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
     <%= submit_tag t('page.search') -%>
@@ -17,10 +17,10 @@
       <th><%= t('activerecord.attributes.message.sender') -%></th>
       <th><%= t('message.sent_at') -%></th>
     </tr>
-  <%- @messages.each do |message|  -%>
+  <%- @messages.each do |message| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <input id="delete_<%= message.id -%>" name="delete[]" type="checkbox" value="<%= message.id %>" class="checkbox" />
+        <input id="delete_<%=h message.id -%>" name="delete[]" type="checkbox" value="<%=h message.id %>" class="checkbox" />
       </td>
       <td>
         <% unless message.read? %><strong><% end %>
@@ -58,8 +58,8 @@
   </ul>
 
   <ul>
-    <% if current_user.has_role?('Librarian') %>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.message')), new_user_message_path(current_user.username) -%></li>
+    <% if can? :create, Message %>
+      <li><%= link_to t('page.new', :model => t('activerecord.models.message')), new_user_message_path(current_user) -%></li>
     <% end %>
   </ul>
 </div>
