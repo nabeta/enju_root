@@ -301,18 +301,27 @@ class PatronsControllerTest < ActionController::TestCase
 
   def test_librarian_should_not_destroy_librarian
     sign_in users(:librarian1)
-    old_count = Patron.count
-    delete :destroy, :id => users(:librarian1).patron
-    assert_equal old_count, Patron.count
+    assert_no_difference('Patron.count') do
+      delete :destroy, :id => users(:librarian2).patron
+    end
     
     assert_response :forbidden
   end
 
-  def test_admin_should_destroy_librarian
+  def test_admin_should_not_destroy_librarian_who_has_items_checked_out
     sign_in users(:admin)
-    old_count = Patron.count
-    delete :destroy, :id => users(:librarian1).patron
-    assert_equal old_count-1, Patron.count
+    assert_no_difference('Patron.count') do
+      delete :destroy, :id => users(:librarian1).patron
+    end
+    
+    assert_response :forbidden
+  end
+
+  def test_admin_should_destroy_librarian_who_doesnt_have_items_checked_out
+    sign_in users(:admin)
+    assert_difference('Patron.count', -1) do
+      delete :destroy, :id => users(:librarian2).patron
+    end
     
     assert_redirected_to patrons_url
   end

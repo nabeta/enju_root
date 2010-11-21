@@ -4,101 +4,368 @@ class Ability
   def initialize(user, ip_address)
     case user.try(:role).try(:name)
     when 'Administrator'
-      can :manage, :all
+      can [:read, :create, :update], Bookstore
+      can :destroy, Bookstore do |bookstore|
+        bookstore.order_lists.first.nil?
+      end
+      can [:read, :create, :update], ClassificationType
+      can :destroy, ClassificationType do |classification_type|
+        classification_type.classifications.first.nil?
+      end
+      can [:read, :create, :update], Item
+      can :destroy, Item do |item|
+        item.checkouts.not_returned.first.nil?
+      end
+      can [:read, :create, :update], Library
+      can :destroy, Library do |library|
+        library.shelves.first.nil?
+      end
+      can [:read, :create, :update], Manifestation
+      can :destroy, Manifestation do |manifestation|
+        manifestation.items.first.nil?
+      end
+      can [:read, :create, :update], Patron
+      can :destroy, Patron do |patron|
+        if patron.user
+          patron.user.checkouts.not_returned.first.nil?
+        else
+          true
+        end
+      end
+      can [:read, :create, :update], Shelf
+      can :destroy, Shelf do |shelf|
+        shelf.items.first.nil?
+      end
+      can [:read, :create, :update], User
+      can :destroy, User do |user|
+        user.checkouts.not_returned.first.nil?
+      end
+      can [:read, :create, :update], UserGroup
+      can :destroy, UserGroup do |user_group|
+        user_group.users.first.nil?
+      end
+      can :manage, [
+        Advertisement,
+        Advertise,
+        Answer,
+        Bookmark,
+        BookmarkStat,
+        BookmarkStatHasManifestation,
+        CarrierTypeHasCheckoutType,
+        Checkout,
+        CheckoutStatHasManifestation,
+        CheckoutStatHasUser,
+        CheckoutType,
+        Classification,
+        Create,
+        Donate,
+        Event,
+        EventCategory,
+        Exemplify,
+        ExpressionRelationship,
+        Expression,
+        EventImportFile,
+        ImportRequest,
+        InterLibraryLoan,
+        Inventory,
+        InventoryFile,
+        LendingPolicy,
+        ItemHasUseRestriction,
+        ManifestationCheckoutStat,
+        ManifestationRelationship,
+        ManifestationRelationshipType,
+        ManifestationReserveStat,
+        Message,
+        NewsFeed,
+        NewsPost,
+        Order,
+        OrderList,
+        Own,
+        Participate,
+        PatronImportFile,
+        PatronMerge,
+        PatronMergeList,
+        PatronRelationship,
+        PatronRelationshipType,
+        PictureFile,
+        Produce,
+        PurchaseRequest,
+        Question,
+        Realize,
+        Reserve,
+        ReserveStatHasManifestation,
+        ReserveStatHasUser,
+        ResourceImportFile,
+        SearchEngine,
+        SearchHistory,
+        SeriesStatement,
+        Subject,
+        SubjectHasClassification,
+        SubjectHeadingType,
+        SubjectHeadingTypeHasSubject,
+        SubjectType,
+        Subscribe,
+        Subscription,
+        Tag,
+        UserCheckoutStat,
+        UserGroupHasCheckoutType,
+        UserHasRole,
+        UserReserveStat,
+        Work,
+        WorkHasSubject,
+        WorkRelationship,
+        WorkToExpressionRelType
+      ]
+      can [:read, :update], [
+        CarrierType,
+        CirculationStatus,
+        ContentType,
+        Country,
+        ExpressionRelationshipType,
+        Extent,
+        Frequency,
+        FormOfWork,
+        ItemRelationshipType,
+        Language,
+        LibraryGroup,
+        License,
+        MediumOfPerformance,
+        MessageRequest,
+        MessageTemplate,
+        NiiType,
+        PatronType,
+        RequestStatusType,
+        RequestType,
+        Role,
+        UseRestriction,
+        WorkRelationshipType
+      ]
+      can :read, [
+        EventImportResult,
+        PatronImportResult,
+        ResourceImportResult
+      ]
     when 'Librarian'
-      can :manage, [Work, Expression, Manifestation, Item]
-      can :manage, [Create, Realize, Produce, Own]
-      can :manage, [Embody, Exemplify, Reify]
-      can :index, Patron
+      can [:index, :create], Bookmark
+      can [:update, :destroy, :show], Bookmark do |bookmark|
+        bookmark.user == user
+      end
+      can [:index, :create], Checkout
+      can [:update, :destroy, :show], Checkout do |checkout|
+        checkout.user == user
+      end
+      can [:index, :create], Expression
+      can [:show, :update, :destroy], Expression do |expression|
+        expression.required_role_id <= 3
+      end
+      can [:read, :create, :update], Item
+      can :destroy, Item do |item|
+        item.checkouts.not_returned.first.nil?
+      end
+      can [:read, :create, :update], Manifestation
+      can :destroy, Manifestation do |manifestation|
+        manifestation.items.first.nil?
+      end
+      can [:index, :create], Message
+      can [:update], Message do |message|
+        message.sender == user
+      end
+      can [:show, :destroy], Message do |message|
+        message.receiver == user
+      end
+      can [:read, :update, :destroy], MessageRequest
+      can [:read, :update], MessageTemplate
+      can [:index, :create], Patron
+      can :show, Patron do |patron|
+        patron.required_role_id <= 3
+      end
+      can [:index, :create], PurchaseRequest
+      can [:update, :destroy, :show], PurchaseRequest do |purchase_request|
+        purchase_request.user == user
+      end
+      can [:index, :create], Question
+      can [:update, :destroy], Question do |question|
+        question.user == user
+      end
+      can :show, Question do |question|
+        question.user == user or question.shared
+      end
+      can [:index, :create], Patron
       can :show, Patron do |patron|
         patron.required_role_id <= 3 #'Librarian'
       end
-      can :create, Patron
       can [:update, :destroy], Patron do |patron|
         patron.required_role_id <= 3 #'Librarian'
         patron.user.role.name != 'Administrator' if patron.user
       end
-      can :manage, User
-      can :read, [Advertisement, Bookstore, Donate]
-      can :manage, [Checkout]
-      can :read, Subject
-      can :manage, Bookmark
-      can :manage, [Question, Answer]
-      can :read, [Classification, ClassificationType]
-      can :read, [SubjectType, SubjectHeadingType]
-      can :manage, SubjectHasClassification
-      can :manage, [WorkMerge, WorkMergeList]
-      can :manage, [ExpressionMerge, ExpressionMergeList]
-      can :manage, [PatronMerge, PatronMergeList]
-      can :manage, [Subscribe, Subscription]
-      can :manage, [Reserve, PurchaseRequest]
-      can :manage, PictureFile
-      can :manage, [
-        WorkRelationship, ExpressionRelationship, ManifestationRelationship,
-        ItemRelationship, PatronRelationship
-      ]
-      can :manage, [Order, OrderList]
-      can :read, NewsFeed
-      can :manage, NewsPost
-      can :read, [Country, Language]
-      can :read, Library
-      can :manage, Event
-      can :read, EventCategory
-      can :manage, InterLibraryLoan
-      can :manage, [Inventory, InventoryFile]
-      can :read, [License, Extent, Frequency, FormOfWork]
-      can :read, [
-        WorkRelationshipType, ExpressionRelationshipType,
-        ManifestationRelationshipType, ItemRelationshipType,
-        PatronRelationshipType
-      ]
-      can :read, UserGroup
-      can :manage, BookmarkStat
-      can :manage, [UserCheckoutStat, UserReserveStat]
-      can :manage, [ManifestationCheckoutStat, ManifestationReserveStat]
-      can :manage, Tag
-      can :read, SearchEngine
-      can :read, Role
-      can :manage, [ResourceImportFile, PatronImportFile, EventImportFile]
-      can :manage, ImportRequest
-      can :read, PatronType
-      can :read, MediumOfPerformance
-      can :manage, Message
-      can :manage, MessageRequest
-      can :read, MessageTemplate
-      can :read, LibraryGroup
-      can :read, [UserGroup, UserGroupHasCheckoutType]
-      can :manage, WorkHasSubject
-      can :read, CarrierType
-      can :read, CheckoutType
-      can :read, CarrierTypeHasCheckoutType
-      can :manage, [CheckoutStatHasManifestation, CheckoutStatHasUser]
-      can :manage, [ReserveStatHasManifestation, ReserveStatHasUser]
-      can :read, [CirculationStatus, UseRestriction]
-      can :read, [ResourceImportResult, PatronImportResult, EventImportResult]
-      can :read, Shelf
-      can :read, [RequestStatusType, RequestType]
-      can :manage, Participate
-      can :manage, MessageTemplate
-      can :manage, ItemHasUseRestriction
-      can :manage, Donate
-      can :manage, BookmarkStatHasManifestation
-      can :read, ContentType
-      can :read, Advertise
-      can :read, NiiType
-      can :read, WorkToExpressionRelType
+      can [:index, :create], Reserve
+      can [:update, :destroy, :show], Reserve do |reserve|
+        reserve.try(:user) == user
+      end
       can :index, SearchHistory
       can [:show, :destroy], SearchHistory do |search_history|
-        search_history.try(:user) == user
+        search_history.user == user
       end
-      can :manage, SeriesStatement
+      can [:read, :create, :update], User
+      can :destroy, User do |user|
+        user.checkouts.not_returned.first.nil? and user.role.name == 'User'
+      end
+      can [:index, :create], Work
+      can [:show, :update, :destroy], Work do |work|
+        work.required_role_id <= 3
+      end
+      can :manage, [
+        Answer,
+        Bookmark,
+        BookmarkStat,
+        BookmarkStatHasManifestation,
+        Checkout,
+        CheckoutStatHasManifestation,
+        CheckoutStatHasUser,
+        Create,
+        Donate,
+        Embody,
+        Event,
+        Exemplify,
+        ExpressionMerge,
+        ExpressionMergeList,
+        ExpressionRelationship,
+        EventImportFile,
+        ImportRequest,
+        InterLibraryLoan,
+        Inventory,
+        InventoryFile,
+        ItemHasUseRestriction,
+        ItemRelationship,
+        ManifestationCheckoutStat,
+        ManifestationRelationship,
+        ManifestationReserveStat,
+        NewsPost,
+        Order,
+        OrderList,
+        Own,
+        Participate,
+        PatronImportFile,
+        PatronMerge,
+        PatronMergeList,
+        PatronRelationship,
+        PictureFile,
+        Produce,
+        PurchaseRequest,
+        Question,
+        Realize,
+        Reify,
+        Reserve,
+        ReserveStatHasManifestation,
+        ReserveStatHasUser,
+        ResourceImportFile,
+        SearchHistory,
+        SeriesStatement,
+        SubjectHasClassification,
+        Subscribe,
+        Subscription,
+        Tag,
+        UserCheckoutStat,
+        UserReserveStat,
+        WorkHasSubject,
+        WorkMerge,
+        WorkMergeList,
+        WorkRelationship
+      ]
+      can :read, [
+        Advertisement,
+        Advertise,
+        Bookstore,
+        CarrierType,
+        CarrierTypeHasCheckoutType,
+        CheckoutType,
+        CirculationStatus,
+        Classification,
+        ClassificationType,
+        ContentType,
+        Country,
+        EventCategory,
+        EventImportResult,
+        ExpressionRelationshipType,
+        Extent,
+        Frequency,
+        FormOfWork,
+        ItemRelationshipType,
+        Language,
+        LendingPolicy,
+        Library,
+        LibraryGroup,
+        License,
+        ManifestationRelationshipType,
+        MediumOfPerformance,
+        MessageTemplate,
+        NewsFeed,
+        NiiType,
+        PatronImportResult,
+        PatronRelationshipType,
+        PatronType,
+        RequestStatusType,
+        RequestType,
+        ResourceImportResult,
+        Role,
+        SearchEngine,
+        Shelf,
+        Subject,
+        SubjectType,
+        SubjectHeadingType,
+        UseRestriction,
+        UserGroup,
+        UserGroupHasCheckoutType,
+        WorkRelationshipType,
+        WorkToExpressionRelType
+      ]
     when 'User'
-      can :read, [Work, Expression, Manifestation, Item]
+      can [:index, :create], Answer
+      can :show, Answer do |answer|
+        if answer.user == user
+          true
+        elsif answer.question.shared
+          answer.shared
+        end
+      end
+      can [:update, :destroy], Answer do |answer|
+        answer.user == user
+      end
+      can [:index, :create], Bookmark
+      can [:show, :update, :destroy], Bookmark do |bookmark|
+        bookmark.user == user
+      end
+      can [:index, :create], Checkout
+      can [:show, :update, :destroy], Checkout do |checkout|
+        checkout.user == user
+      end
+      can :index, Expression
+      can :show, Expression do |expression|
+        expression.required_role_id <= 2
+      end
+      can :index, Item
+      can :show, Item do |item|
+        item.required_role_id <= 2
+      end
+      can :read, Manifestation do |manifestation|
+        manifestation.required_role_id <= 2
+      end
       can :edit, Manifestation
-      can :read, [Create, Realize, Produce, Own]
-      can :read, [Embody, Exemplify, Reify]
-      can :index, Patron
-      can :create, Patron
+      can [:read, :destroy], Message do |message|
+        message.receiver == user
+      end
+      can :index, Message
+      can :show, Message do |message|
+        message.receiver == user
+      end
+      can [:index, :create], Question
+      can [:update, :destroy], Question do |question|
+        question.user == user
+      end
+      can :show, Question do |question|
+        question.user == user or question.shared
+      end
+      can [:index, :create], Patron
       can :update, Patron do |patron|
         patron.user == user
       end
@@ -109,126 +376,161 @@ class Ability
           true if patron.required_role_id <= 2 #name == 'Administrator'
         end
       end
+      can :index, PictureFile
+      can :show, PictureFile do |picture_file|
+        begin
+          true if picture_file.picture_attachable.required_role_id <= 2
+        rescue NoMethodError
+          true
+        end
+      end
+      can [:index, :create], PurchaseRequest
+      can [:show, :update, :destroy], PurchaseRequest do |purchase_request|
+        purchase_request.user == user
+      end
+      can [:index, :create], Reserve
+      can [:show, :update, :destroy], Reserve do |reserve|
+        reserve.user == user
+      end
+      can :index, SearchHistory
+      can [:show, :destroy], SearchHistory do |search_history|
+        search_history.user == user
+      end
       can :show, User
       can :update, User do |u|
         u == user
       end
-      can :create, Bookmark
-      can [:update, :destroy, :show], Bookmark do |bookmark|
-        bookmark && bookmark.user == user
+      can :index, Work
+      can :show, Work do |work|
+        work.required_role_id <= 2
       end
-      can :read, Library
-      can :read, Shelf
-      can :read, Subject
-      can :create, Tag
-      can :read, Tag
-      can :read, [Event, EventCategory]
-      can :read, [Country, Language, License]
-      can :read, UserGroup
-      can :read, WorkHasSubject
-      can :read, [WorkRelationship, ExpressionRelationship]
-      can :read, [ManifestationRelationship, ItemRelationship]
-      can :read, PatronRelationship
-      can :read, [WorkRelationshipType, ExpressionRelationshipType]
-      can :read, [ManifestationRelationshipType, ItemRelationshipType]
-      can :read, PatronRelationshipType
-      can :read, [SubjectHeadingType, SubjectHasClassification]
-      can [:update, :destroy, :show], [
-        Bookmark, Checkout, PurchaseRequest, Reserve
-      ] do |object|
-        object.try(:user) == user
-      end
-      can :index, Question
-      can :create, Question
-      can [:update, :destroy], [Question, Answer] do |object|
-        object.user == user
-      end
-      can :show, [Question, Answer] do |object|
-        object.user == user or object.shared
-      end
-      can [:index, :create], [
-        Answer, Bookmark, Checkout, PurchaseRequest, Reserve
+      can :read, [
+        CarrierType,
+        CirculationStatus,
+        Classification,
+        ClassificationType,
+        ContentType,
+        Country,
+        Create,
+        Embody,
+        Event,
+        EventCategory,
+        Exemplify,
+        ExpressionRelationship,
+        ExpressionRelationshipType,
+        Extent,
+        Frequency,
+        FormOfWork,
+        ItemRelationship,
+        ItemRelationshipType,
+        Language,
+        Library,
+        LibraryGroup,
+        License,
+        ManifestationRelationship,
+        ManifestationRelationshipType,
+        MediumOfPerformance,
+        NewsFeed,
+        NewsPost,
+        NiiType,
+        Own,
+        PatronRelationship,
+        PatronRelationshipType,
+        Produce,
+        Realize,
+        Reify,
+        SeriesStatement,
+        Shelf,
+        Subject,
+        SubjectHasClassification,
+        SubjectHeadingType,
+        SubjectHeadingTypeHasSubject,
+        Tag,
+        UserGroup,
+        WorkHasSubject,
+        WorkRelationship,
+        WorkRelationshipType,
+        WorkToExpressionRelType
       ]
-      can :read, PictureFile
-      can :read, MediumOfPerformance
-      can :read, LibraryGroup
-      can :read, LendingPolicy
-      can :read, [License, Extent, Frequency, FormOfWork]
-      can :read, ContentType
-      can :read, [CirculationStatus, Classification, ClassificationType]
-      can :read, CarrierType
-      can :read, BookmarkStat
-      can :read, NiiType
-      can :read, WorkToExpressionRelType
-      can :index, Message
-      can :create, Message
-      can [:update], Message do |message|
-        message.sender == user
-      end
-      can [:show, :destroy], Message do |message|
-        message.receiver == user
-      end
-      can :index, SearchHistory
-      can [:show, :destroy], SearchHistory do |search_history|
-        search_history.try(:user) == user
-      end
-      can :read, SeriesStatement
     else
-      can :index, [Work, Expression]
-      can :show, [Work, Expression] do |object|
-        object.required_role_id == 1
+      can :index, Answer
+      can :show, Answer do |answer|
+        answer.user == user or answer.shared
       end
-      can :read, Manifestation
-      can :read, Item
+      can :index, Expression
+      can :read, Expression do |expression|
+        expression.required_role_id == 1
+      end
       can :index, Patron
       can :show, Patron do |patron|
         patron.required_role_id == 1 #name == 'Guest'
       end
-      can :read, [Create, Realize, Produce, Own]
-      can :read, [Embody, Exemplify, Reify]
-      can :read, [WorkRelationship, ExpressionRelationship]
-      can :read, [ManifestationRelationship, ItemRelationship]
-      can :read, PatronRelationship
-      can :read, Country
-      can :read, Event
-      can :read, EventCategory
-      can :read, Language
-      can :read, Library
-      can :read, Shelf
-      can :read, Subject
-      can :read, Tag
       can :index, Question
-      can :show, [Question, Answer] do |object|
-        object.user == user or object.shared
+      can :show, Question do |question|
+        question.user == user or question.shared
       end
-      can :read, [ManifestationCheckoutStat, ManifestationReserveStat]
-      can :read, [UserCheckoutStat, UserReserveStat]
+      can :index, Work
+      can :read, Work do |work|
+        work.required_role_id == 1
+      end
       can :read, [
-        WorkRelationshipType,
+        BookmarkStat,
+        CarrierType,
+        Checkout,
+        CirculationStatus,
+        Classification,
+        ClassificationType,
+        ContentType,
+        Country,
+        Create,
+        Embody,
+        Event,
+        EventCategory,
+        Exemplify,
+        ExpressionRelationship,
         ExpressionRelationshipType,
-        ManifestationRelationshipType,
+        Extent,
+        Frequency,
+        FormOfWork,
+        Item,
+        ItemRelationship,
         ItemRelationshipType,
-        PatronRelationshipType
+        Language,
+        LendingPolicy,
+        Library,
+        LibraryGroup,
+        License,
+        Manifestation,
+        ManifestationCheckoutStat,
+        ManifestationRelationship,
+        ManifestationRelationshipType,
+        ManifestationReserveStat,
+        MediumOfPerformance,
+        NewsFeed,
+        NewsPost,
+        NiiType,
+        Own,
+        PatronRelationship,
+        PatronRelationshipType,
+        PictureFile,
+        Produce,
+        Reify,
+        Realize,
+        SeriesStatement,
+        Shelf,
+        Subject,
+        SubjectHasClassification,
+        SubjectHeadingType,
+        SubjectHeadingTypeHasSubject,
+        Tag,
+        UserCheckoutStat,
+        UserGroup,
+        UserReserveStat,
+        WorkHasSubject,
+        WorkRelationship,
+        WorkRelationshipType,
+        WorkToExpressionRelType
       ]
-      can :read, [SubjectHeadingType, SubjectHasClassification]
-      can :read, UserGroup
-      can :read, WorkHasSubject
-      can :read, [WorkRelationship, ExpressionRelationship, ManifestationRelationship, ItemRelationship, PatronRelationship]
-      can :read, WorkToExpressionRelType
-      can :read, PictureFile
-      can :read, NiiType
-      can :read, [NewsFeed, NewsPost]
-      can :read, MediumOfPerformance
-      can :read, LibraryGroup
-      can :read, LendingPolicy
-      can :read, [License, Extent, Frequency, FormOfWork]
-      can :read, ContentType
-      can :read, [CirculationStatus, Classification, ClassificationType]
-      can :read, CarrierType
-      can :read, BookmarkStat
-      can :read, SubjectHeadingTypeHasSubject
-      can :index, Checkout
-      can :read, SeriesStatement
     end
   end
 end

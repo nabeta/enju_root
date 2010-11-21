@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class WorkToExpressionRelTypesControllerTest < ActionController::TestCase
-  fixtures :work_to_expression_rel_types, :users
+    fixtures :work_to_expression_rel_types, :users
 
   def test_guest_should_get_index
     get :index
@@ -172,10 +172,16 @@ class WorkToExpressionRelTypesControllerTest < ActionController::TestCase
     assert_redirected_to work_to_expression_rel_type_url(assigns(:work_to_expression_rel_type))
   end
   
+  def test_admin_should_update_work_to_expression_rel_type_with_position
+    sign_in users(:admin)
+    put :update, :id => 1, :work_to_expression_rel_type => { }, :position => 2
+    assert_redirected_to work_to_expression_rel_types_url
+  end
+
   def test_guest_should_not_destroy_work_to_expression_rel_type
-    old_count = WorkToExpressionRelType.count
-    delete :destroy, :id => 1
-    assert_equal old_count, WorkToExpressionRelType.count
+    assert_no_difference('WorkToExpressionRelType.count') do
+      delete :destroy, :id => 1
+    end
     
     assert_redirected_to new_user_session_url
   end
