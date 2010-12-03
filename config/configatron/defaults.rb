@@ -19,13 +19,7 @@ configatron.csv_charset_conversion = true
 configatron.google_maps.api_key = 'REPLACE_WITH_YOUR_GOOGLE_MAPS_API_KEY'
 configatron.google_maps.application_id = configatron.google_maps.api_key
 
-configatron.amazon.access_key = 'REPLACE_WITH_YOUR_AMAZON_KEY'
-configatron.amazon.secret_access_key = 'REPLACE_WITH_YOUR_AMAZON_SECRET_KEY'
-
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 #AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
 configatron.amazon.aws_hostname = 'ecs.amazonaws.jp'
 configatron.amazon.hostname = 'www.amazon.co.jp'
-
-configatron.calil.app_key = 'REPLACE_WITH_YOUR_CALIL_APP_KEY'
-configatron.calil.secret_key = 'REPLACE_WITH_YOUR_CALIL_SECRET_KEY'
