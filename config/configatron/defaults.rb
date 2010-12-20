@@ -16,10 +16,10 @@ configatron.max_number_of_results = 500
 configatron.write_search_log_to_file = true
 configatron.csv_charset_conversion = true
 
-configatron.google_maps.api_key = 'REPLACE_WITH_YOUR_GOOGLE_MAPS_API_KEY'
-configatron.google_maps.application_id = configatron.google_maps.api_key
-
 # Choose a locale from 'ca', 'de', 'fr', 'jp', 'uk', 'us'
 #AMAZON_AWS_HOSTNAME = 'ecs.amazonaws.com'
 configatron.amazon.aws_hostname = 'ecs.amazonaws.jp'
 configatron.amazon.hostname = 'www.amazon.co.jp'
+
+configatron.amazon.access_key = 'REPLACE_WITH_YOUR_AMAZON_KEY'
+configatron.amazon.secret_access_key = 'REPLACE_WITH_YOUR_SECRET_AMAZON_KEY'
