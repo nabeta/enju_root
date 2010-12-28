@@ -42,7 +42,7 @@
     <td>
       <%= link_to h(library.display_name.localize), library_path(library.name) -%>
       <br />
-      <%= library.postal_code -%>
+      <%= library.zip_code -%>
       <%= library.address -%>
     </td>
     <td>
@@ -52,8 +52,10 @@
     </td>
     <td><%= library.fax_number -%></td>
     <td>
-      <%- if can? :destroy, library -%>
+      <%- if can? :update, library -%>
         <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_library_path(library) -%>
+      <% end %>
+      <%- if can? :destroy, library -%>
         <%= link_to image_tag('/icons/delete.png', :size => '16x16', :alt => t('page.destroy')), library, :confirm => t('page.are_you_sure'), :method => :delete -%>
       <%- end -%>
     </td>

@@ -26,8 +26,8 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.attributes.library.postal_code') -%><br />
-    <%= f.text_field :postal_code -%>
+    <%= f.label t('activerecord.attributes.library.zip_code') -%><br />
+    <%= f.text_field :zip_code -%>
   </p>
 
   <p>
@@ -47,17 +47,17 @@
 
   <p>
     <%= f.label t('activerecord.attributes.library.telephone_number_1') -%><br />
-    <%= f.text_field :telephone_number_1 -%>
+    <%= f.phone_field :telephone_number_1 -%>
   </p>
 
   <p>
     <%= f.label t('activerecord.attributes.library.telephone_number_2') -%><br />
-    <%= f.text_field :telephone_number_2 -%>
+    <%= f.phone_field :telephone_number_2 -%>
   </p>
 
   <p>
     <%= f.label t('activerecord.attributes.library.fax_number') -%><br />
-    <%= f.text_field :fax_number -%>
+    <%= f.phone_field :fax_number -%>
   </p>
 
   <p>
@@ -81,7 +81,7 @@
   </p>
 
   <p>
-    <%= f.submit t('page.create') -%>
+    <%= f.submit %>
   </p>
   <%= javascript_tag("$('#library_name').focus()") -%>
 <%- end -%>
