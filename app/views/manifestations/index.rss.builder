@@ -20,7 +20,7 @@ xml.rss('version' => "2.0",
     end
     if @manifestations
       @manifestations.each do |manifestation|
-        cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :role => current_user_role_name, :format_suffix => 'rss', :locale => @locale) do
+        cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'rss', :role => current_user_role_name, :locale => @locale) do
           xml.item do
             xml.title h(manifestation.original_title)
             #xml.description(manifestation.original_title)

@@ -1,6 +1,6 @@
 <%- if @manifestation -%>
 <div id="pickup_book_jacket">
-  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'book_jacket', :locale => @locale, :role => current_user_role_name) do -%>
+  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'book_jacket', :role => current_user_role_name, :locale => @locale) do -%>
      <%= book_jacket(@manifestation) -%>
   <%- end -%>
 </div>

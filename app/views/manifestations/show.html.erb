@@ -33,7 +33,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
-  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :role => current_user_role_name, :page => 'picture_file', :locale => @locale) do -%>
+  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'picture_file', :role => current_user_role_name, :locale => @locale) do -%>
     <%- if @manifestation.picture_files.first -%>
       <ul>
         <%- @manifestation.picture_files.each_with_index do |picture_file, i| -%>

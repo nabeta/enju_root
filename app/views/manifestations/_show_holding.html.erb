@@ -8,7 +8,7 @@
   </tr>
   <%- manifestation.items.on_shelf.each do |item| -%>
     <tr>
-      <%- cache(:controller => :items, :action => :show, :id => item.id, :role => current_user_role_name, :page => 'holding', :locale => @locale) do -%>
+      <%- cache(:controller => :items, :action => :show, :id => item.id, :page => 'holding', :role => current_user_role_name, :locale => @locale) do -%>
       <td>
         <%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name)%>
       </td>

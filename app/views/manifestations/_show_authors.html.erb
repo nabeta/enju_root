@@ -1,5 +1,5 @@
   <%- if params[:mode] == 'show_all_authors' -%>
-    <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :role => current_user_role_name, :page => 'show_all_authors', :locale => @locale) do -%>
+    <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_all_authors', :role => current_user_role_name, :locale => @locale) do -%>
       <%- manifestation.creators.each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
@@ -8,7 +8,7 @@
       <%- end -%>
     <%- end -%>
   <%- else -%>
-    <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :role => current_user_role_name, :page => 'show_limited_authors', :locale => @locale) do -%>
+    <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_limited_authors', :role => current_user_role_name, :locale => @locale) do -%>
       <%- manifestation.creators[0..2].each do |patron| -%>
         <%= link_to h(patron.full_name), patron -%>
       <%- end -%>
@@ -18,7 +18,7 @@
     <%- end -%>
   <%- end -%>
 
-  <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :role => current_user_role_name, :page => 'show_contributors_and_publishers', :locale => @locale) do -%>
+  <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_contributors_and_publishers', :role => current_user_role_name, :locale => @locale) do -%>
     <%- manifestation.contributors.each do |patron| -%>
       <%= link_to h(patron.full_name), patron -%>
     <%- end -%>
