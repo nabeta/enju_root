@@ -65,25 +65,8 @@ module EnjuAmazon
       return bookjacket
 
     rescue
-      bookjacket = {:url => 'unknown_resource.png', :width => '100', :height => '100'}
-    end
-
-    def amazon_customer_reviews
-      if self.amazon
-        doc = Nokogiri::XML(self.amazon)
-        reviews = []
-        doc.xpath('//xmlns:Review').each do |item|
-          r = {
-            :date => item.at('Date').inner_text,
-            :summary => item.at('Summary').inner_text,
-            :content => item.at('Content').inner_text
-          }
-          reviews << r
-        end
-        reviews
-      else
-        []
-      end
+      #bookjacket = {:url => 'unknown_resource.png', :width => '100', :height => '100'}
+      nil
     end
 
     def asin

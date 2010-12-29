@@ -28,8 +28,8 @@
       <td><%= link_to h(work.series_statement.original_title), work.series_statement if work.series_statement -%></td>
       <td>
         <%- if can? :destroy, work -%>
-          <%= link_to image_tag('/icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_work_path(work) -%>
-          <%= link_to image_tag('/icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), work_works_path(work) -%>
+          <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_work_path(work) -%>
+          <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), work_works_path(work) -%>
         <%- end -%>
       </td>
     </tr>
