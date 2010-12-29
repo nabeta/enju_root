@@ -3,7 +3,7 @@ atom_feed(:url => manifestations_url(:format => :atom)) do |feed|
   feed.updated(@manifestations.first ? @manifestations.first.created_at : Time.zone.now)
 
   @manifestations.each do |manifestation|
-    cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :role => current_user_role_name, :format_suffix => 'atom', :locale => @locale) do
+    cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'atom', :role => current_user_role_name, :locale => @locale) do
       feed.entry(manifestation) do |entry|
         entry.title(manifestation.original_title)
         entry.content(manifestation.tags.join(' '), :type => 'html')
