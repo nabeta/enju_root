@@ -9,9 +9,6 @@
   <%- unless @manifestation.questions(:user => current_user).empty? -%>
     <li><a href="#question"><em><%= t('manifestation.question') -%></em></a></li>
   <%- end -%>
-  <%- unless @manifestation.amazon_customer_reviews.blank? -%>
-    <li><a href="#amazon"><em><%= t('page.amazon_review') -%></em></a></li>
-  <%- end -%>
   <%- unless @xisbn_manifestations.blank? -%>
     <li><a href="#worldcat"><em><%= 'WorldCat' -%></em></a></li>
   <%- end -%>
