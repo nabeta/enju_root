@@ -5,7 +5,7 @@ EnjuRoot::Application.routes.draw do
 
   resources :resource_import_results
 
-  devise_for :users
+  devise_for :users, :path => 'accounts'
 
   resources :advertisements
   resources :advertises
