@@ -39,10 +39,10 @@ module EnjuRoot
     # Configure sensitive parameters which will be filtered from the log file.
     config.filter_parameters += [:password, :password_confirmation, :current_password, :full_name, :address, :date_of_birth, :date_of_death, :zip_code, :checkout_icalendar_token]
 
-    #config.middleware.use '::ExceptionNotifier',
-    #  :email_prefix => "[Whatever] ",
-    #  :sender_address => %{"notifier" <notifier@example.com>},
-    #  :exception_recipients => %w{exceptions@example.com}
+    config.middleware.use '::ExceptionNotifier',
+      :email_prefix => "[Whatever] ",
+      :sender_address => %{"notifier" <notifier@example.com>},
+      :exception_recipients => %w{tanabe@mwr.mediacom.keio.ac.jp}
   end
 end
 
