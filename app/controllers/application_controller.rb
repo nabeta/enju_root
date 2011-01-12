@@ -45,14 +45,17 @@ class ApplicationController < ActionController::Base
       end
     end
     if user_signed_in?
-      locale = params[:locale] || session[:locale] || current_user.locale
+      locale = params[:locale] || session[:locale] || current_user.locale.to_sym
     else
       locale = params[:locale] || session[:locale]
     end
-    I18n.locale = locale.to_sym if locale
-    @locale = session[:locale] = locale ||= I18n.default_locale.to_s
+    if locale
+      I18n.locale = @locale = session[:locale] = locale.to_sym
+    else
+      I18n.locale = @locale = session[:locale] = I18n.default_locale
+    end
   rescue InvalidLocaleError
-    @locale = I18n.default_locale.to_s
+    @locale = I18n.default_locale
   end
 
   def default_url_options(options={})

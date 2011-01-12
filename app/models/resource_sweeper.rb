@@ -139,8 +139,8 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       expire_editable_fragment(record.parent)
       expire_editable_fragment(record.child)
     when record.is_a?(Language)
-      Language.all.each do |language|
-        expire_fragment(:controller => 'page', :locale => language.iso_639_1)
+      Rails.cache.fetch('language_all'){Language.all}.each do |language|
+        expire_fragment(:controller => 'page', :locale => language.iso_639_1.to_sym)
       end
     when record.is_a?(SeriesStatement)
       record.manifestations.each do |manifestation|
