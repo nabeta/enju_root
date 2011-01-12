@@ -5,7 +5,7 @@
     <%= render 'show_version' %>
   <% else %>
     <%-
-      cache(:controller => :works, :action => :show, :id => @work.id, :role => current_user_role_name, :locale => @locale) do
+      cache(:controller => :works, :action => :show, :id => @work.id, :page => 'detail', :role => current_user_role_name, :locale => @locale) do
     -%>
     <h2 class="resource_title">
       [W]
