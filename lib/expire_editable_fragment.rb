@@ -8,7 +8,7 @@ module ExpireEditableFragment
         I18n.available_locales.each do |locale|
           Rails.cache.fetch('role_all'){Role.all}.each do |role|
             fragments.each do |fragment|
-              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :page => fragment, :role => role.name, :locale => locale.to_s)
+              expire_fragment(:controller => record.class.to_s.pluralize.downcase, :action => :show, :id => record.id, :page => fragment, :role => role.name, :locale => locale)
             end
           end
         end
@@ -17,7 +17,7 @@ module ExpireEditableFragment
   end
 
   def expire_manifestation_cache(manifestation, fragments = [])
-    fragments = %w[detail pickup book_jacket title picture_file title_reserve show_list edit_list reserve_list] if fragments.empty?
+    fragments = %w[detail pickup book_jacket title picture_file title_reserve show_list edit_list reserve_list] if fragments.size == 1 and fragments.first == 'detail'
     expire_fragment(:controller => :manifestations, :action => :index, :page => 'numdocs')
     fragments.uniq.each do |fragment|
       expire_manifestation_fragment(manifestation, fragment)
@@ -27,14 +27,14 @@ module ExpireEditableFragment
     end
   end
 
-  def expire_manifestation_fragment(manifestation, fragment, formats = ['html'])
+  def expire_manifestation_fragment(manifestation, fragment, formats = [])
     formats = ['atom', 'csv', 'html', 'mods', 'oai_list_identifiers', 'oai_list_records', 'rdf', 'rss'] if formats.empty?
     if manifestation
       I18n.available_locales.each do |locale|
         Rails.cache.fetch('role_all'){Role.all}.each do |role|
-          expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => fragment, :role => role.name, :locale => locale.to_s)
+          expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => fragment, :role => role.name, :locale => locale)
           formats.each do |format|
-            expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => fragment, :role => role.name, :locale => locale.to_s, :format => format)
+            expire_fragment(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => fragment, :role => role.name, :locale => locale, :format => format)
           end
         end
       end
