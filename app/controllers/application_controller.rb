@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
 
-  before_filter :get_library_group, :set_locale, :set_available_languages,
-    :pickup_advertisement
+  before_filter :get_library_group, :set_locale, :set_available_languages
 
   def render_403
     if user_signed_in?
@@ -279,12 +278,6 @@ class ApplicationController < ActionController::Base
   def redirect_back_or_default(default = '/')
     redirect_to(session[:return_to] || default)
     session[:return_to] = nil
-  end
-
-  def pickup_advertisement
-    if params[:format] == 'html' or params[:format].nil?
-      @picked_advertisement = Advertisement.pickup
-    end
   end
 
   def set_role_query(user, search)
