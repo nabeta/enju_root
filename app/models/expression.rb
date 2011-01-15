@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Expression < ActiveRecord::Base
-  include EnjuFragmentCache
-
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy

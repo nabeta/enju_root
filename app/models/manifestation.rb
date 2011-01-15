@@ -572,11 +572,6 @@ class Manifestation < ActiveRecord::Base
     save(:validate => false)
   end
 
-  def generate_fragment_cache
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
-    Net::HTTP.get(URI.parse(url))
-  end
-
   def extract_text
     extractor = ExtractContent::Extractor.new
     text = Tempfile::new("text")

@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Work < ActiveRecord::Base
-  include EnjuFragmentCache
-
   has_many :creates, :dependent => :destroy
   has_many :patrons, :through => :creates
   has_many :reifies, :dependent => :destroy

@@ -77,6 +77,14 @@ else
   gem 'levenshtein'
 end
 
+group :development, :test do
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'autotest'
+  gem 'autotest-rails'
+  gem 'factory_girl_rails'
+end
+
 # Use unicorn as the web server
 # gem 'unicorn'
 

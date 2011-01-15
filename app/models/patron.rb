@@ -1,9 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Patron < ActiveRecord::Base
-  include EnjuFragmentCache
-
-  belongs_to :user #, :validate => true
-  has_one :library
   has_many :creates, :dependent => :destroy
   has_many :works, :through => :creates, :as => :creators
   has_many :realizes, :dependent => :destroy
@@ -17,14 +13,13 @@ class Patron < ActiveRecord::Base
   #has_one :conference
   has_many :donates
   has_many :donated_items, :through => :donates, :source => :item
-  belongs_to :language #, :validate => true
-  belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
-  belongs_to :patron_type #, :validate => true
+  belongs_to :user
+  belongs_to :patron_type
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :advertises, :dependent => :destroy
   has_many :advertisements, :through => :advertises
@@ -35,12 +30,18 @@ class Patron < ActiveRecord::Base
   has_many :parents, :foreign_key => 'child_id', :class_name => 'PatronRelationship', :dependent => :destroy
   has_many :derived_patrons, :through => :children, :source => :child
   has_many :original_patrons, :through => :parents, :source => :parent
+  belongs_to :language
+  belongs_to :country
   has_one :patron_import_result
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
+  validates_uniqueness_of :user_id, :allow_nil => true
   before_validation :set_role_and_name, :on => :create
+
+  has_paper_trail
+  attr_accessor :user_username
 
   searchable do
     text :name, :place, :address_1, :address_2, :other_designation, :note
@@ -63,11 +64,6 @@ class Patron < ActiveRecord::Base
     integer :patron_type_id
   end
 
-  #acts_as_soft_deletable
-  #acts_as_tree
-  has_paper_trail
-
-  attr_accessor :user_username
   def self.per_page
     10
   end
@@ -80,13 +76,13 @@ class Patron < ActiveRecord::Base
   def set_full_name
     if self.full_name.blank?
       if self.last_name.to_s.strip and self.first_name.to_s.strip and configatron.family_name_first == true
-        self.full_name = [last_name, middle_name, first_name].join(", ").to_s.strip
+        self.full_name = [last_name, middle_name, first_name].compact.join(", ").to_s.strip
       else
-        self.full_name = [first_name, middle_name, middle_name].join(" ").to_s.strip
+        self.full_name = [first_name, middle_name, middle_name].compact.join(" ").to_s.strip
       end
     end
     if self.full_name_transcription.blank?
-      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s.strip
+      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].join(" ").to_s.strip
     end
     [self.full_name, self.full_name_transcription]
   end
