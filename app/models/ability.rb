@@ -45,8 +45,6 @@ class Ability
         user_group.users.first.nil?
       end
       can :manage, [
-        Advertisement,
-        Advertise,
         Answer,
         Bookmark,
         BookmarkStat,
@@ -273,8 +271,6 @@ class Ability
         WorkRelationship
       ]
       can :read, [
-        Advertisement,
-        Advertise,
         Bookstore,
         CarrierType,
         CarrierTypeHasCheckoutType,

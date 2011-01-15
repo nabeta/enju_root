@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Item < ActiveRecord::Base
-  include EnjuFragmentCache
-
   scope :for_checkout, :conditions => ['item_identifier IS NOT NULL']
   scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   scope :on_shelf, :conditions => ['shelf_id != 1']

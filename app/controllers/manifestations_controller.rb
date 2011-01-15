@@ -256,7 +256,7 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/1
   # GET /manifestations/1.xml
   def show
-    if params[:api] or params[:mode] == 'generate_cache'
+    if params[:api]
       unless my_networks?
         access_denied; return
       end
@@ -283,8 +283,6 @@ class ManifestationsController < ApplicationController
       else
         access_denied; return
       end
-    when 'generate_cache'
-      check_client_ip_address
     end
 
     return if render_mode(params[:mode])

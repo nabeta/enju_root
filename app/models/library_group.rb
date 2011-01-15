@@ -2,6 +2,7 @@
 class LibraryGroup < ActiveRecord::Base
   #include Singleton
   #include Configurator
+  include MasterModel
 
   has_many :libraries
   has_many :search_engines
@@ -9,7 +10,6 @@ class LibraryGroup < ActiveRecord::Base
   belongs_to :country
 
   validates_presence_of :name, :display_name, :email
-  before_validation :set_display_name, :on => :create
   after_save :clear_site_config_cache
 
   def clear_site_config_cache
