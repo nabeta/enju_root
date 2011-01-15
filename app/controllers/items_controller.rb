@@ -2,7 +2,7 @@
 class ItemsController < ApplicationController
   load_and_authorize_resource
   before_filter :get_user_if_nil
-  before_filter :get_patron, :get_manifestation, :get_inventory_file
+  before_filter :get_patron, :get_manifestation
   before_filter :get_shelf, :only => [:index]
   before_filter :get_library, :only => [:new]
   before_filter :get_item, :only => :index
@@ -139,7 +139,6 @@ class ItemsController < ApplicationController
     @item.manifestation = @manifestation
     @circulation_statuses = CirculationStatus.all(:conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
     @item.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'})
-    @item.checkout_type = @manifestation.carrier_type.checkout_types.first
 
     respond_to do |format|
       format.html # new.html.erb
@@ -169,11 +168,6 @@ class ItemsController < ApplicationController
 
           if @item.shelf
             @item.shelf.library.patron.items << @item
-          end
-          if @item.reserved?
-            #ReservationNotifier.deliver_reserved(@item.manifestation.next_reservation.user)
-            flash[:message] = t('item.this_item_is_reserved')
-            @item.retain(current_user)
           end
         end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
@@ -246,13 +240,7 @@ class ItemsController < ApplicationController
     @library = Library.real.first(:order => :position, :include => :shelves) if @library.blank?
     @shelves = @library.shelves
     @circulation_statuses = CirculationStatus.all
-    @bookstores = Bookstore.all
     @use_restrictions = UseRestriction.all
-    if @manifestation
-      @checkout_types = CheckoutType.available_for_carrier_type(@manifestation.carrier_type)
-    else
-      @checkout_types = CheckoutType.all
-    end
     @roles = Rails.cache.fetch('role_all'){Role.all}
   end
 

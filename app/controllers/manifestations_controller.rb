@@ -59,15 +59,6 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      case params[:reservable].to_s
-      when 'true'
-        @reservable = true
-      when 'false'
-        @reservable = false
-      else
-        @reservable = nil
-      end
-
       if params[:format] == 'csv'
         per_page = 65534
       end
@@ -104,14 +95,6 @@ class ManifestationsController < ApplicationController
       search = Manifestation.search(:include => [:carrier_type, :required_role, :patrons, :expressions, :items, :bookmarks])
       role = current_user.try(:role) || Role.default_role
       oai_search = true if params[:format] == 'oai'
-      case @reservable
-      when 'true'
-        reservable = true
-      when 'false'
-        reservable = false
-      else
-        reservable = nil
-      end
       unless params[:mode] == 'add'
         manifestation = @manifestation if @manifestation
       end
@@ -126,12 +109,10 @@ class ManifestationsController < ApplicationController
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
-        facet :reservable
       end
       search = make_internal_query(search)
       all_result = search.execute!
       @count[:query_result] = all_result.total
-      @reservable_facet = all_result.facet(:reservable).rows
 
       if session[:search_params]
         unless search.query.to_params == session[:search_params]
@@ -166,7 +147,6 @@ class ManifestationsController < ApplicationController
         search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
       else
         search.build do
-          facet :reservable
           facet :carrier_type
           facet :library
           facet :language
@@ -286,9 +266,6 @@ class ManifestationsController < ApplicationController
     end
 
     return if render_mode(params[:mode])
-
-    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation.id, :checked_out_at => nil})
-    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation.id}) if user_signed_in?
 
     store_location
     canonical_url manifestation_url(@manifestation)

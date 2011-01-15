@@ -33,6 +33,5 @@
     <%- if @item.inter_library_loans.empty? -%>
       <li><%= link_to t('item.add_new_copy'), new_manifestation_item_path(@item.manifestation) -%></li>
     <%- end -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.lending_policy')), item_lending_policies_path(@item) -%></li>
   </ul>
 </div>

@@ -3,7 +3,7 @@ require 'test_helper'
 
 class ManifestationTest < ActiveSupport::TestCase
   fixtures :manifestations, :expressions, :works, :embodies, :items, :exemplifies,
-    :reserves, :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
+    :users, :roles, :languages, :reifies, :realizes, :creates, :produces,
     :frequencies, :form_of_works, :content_types, :carrier_types, :countries, :patron_types,
     :answer_has_items, :manifestation_relationships
 
@@ -141,14 +141,6 @@ class ManifestationTest < ActiveSupport::TestCase
     assert manifestations(:manifestation_00001).embodies?(expressions(:expression_00001))
   end
 
-  def test_reserved
-    assert manifestations(:manifestation_00007).is_reserved_by(users(:admin))
-  end
-
-  def test_not_reserved
-    assert_equal nil, manifestations(:manifestation_00007).is_reserved_by(users(:user1))
-  end
-
   def test_manifestation_should_show_languages
     assert manifestations(:manifestation_00001).languages
   end
@@ -196,9 +188,4 @@ class ManifestationTest < ActiveSupport::TestCase
   def test_manifestation_should_response_to_derived_manifestations_by_solr
     assert manifestations(:manifestation_00001).derived_manifestations_by_solr
   end
-
-  def test_manifestation_should_not_be_reserved_if_it_has_no_item
-    assert_equal false, manifestations(:manifestation_00008).reservable?
-  end
-
 end

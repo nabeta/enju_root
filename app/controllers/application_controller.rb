@@ -9,8 +9,7 @@ class ApplicationController < ActionController::Base
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
 
-  before_filter :get_library_group, :set_locale, :set_available_languages,
-    :pickup_advertisement
+  before_filter :get_library_group, :set_locale, :set_available_languages
 
   def render_403
     if user_signed_in?
@@ -167,10 +166,6 @@ class ApplicationController < ActionController::Base
     @event = Event.find(params[:event_id]) if params[:event_id]
   end
 
-  def get_bookstore
-    @bookstore = Bookstore.find(params[:bookstore_id]) if params[:bookstore_id]
-  end
-
   def get_subject
     @subject = Subject.find(params[:subject_id]) if params[:subject_id]
   end
@@ -181,22 +176,6 @@ class ApplicationController < ActionController::Base
 
   def get_subscription
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  end
-
-  def get_order_list
-    @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
-  end
-
-  def get_purchase_request
-    @purchase_request = PurchaseRequest.find(params[:purchase_request_id]) if params[:purchase_request_id]
-  end
-
-  def get_checkout_type
-    @checkout_type = CheckoutType.find(params[:checkout_type_id]) if params[:checkout_type_id]
-  end
-
-  def get_inventory_file
-    @inventory_file = InventoryFile.find(params[:inventory_file_id]) if params[:inventory_file_id]
   end
 
   def get_subject_heading_type
@@ -281,12 +260,6 @@ class ApplicationController < ActionController::Base
     session[:return_to] = nil
   end
 
-  def pickup_advertisement
-    if params[:format] == 'html' or params[:format].nil?
-      @picked_advertisement = Advertisement.pickup
-    end
-  end
-
   def set_role_query(user, search)
     role = user.try(:role) || Role.default_role
     search.build do
@@ -302,7 +275,6 @@ class ApplicationController < ActionController::Base
       expression = @expression
       patron = @patron
       manifestation = @manifestation
-      reservable = @reservable
       carrier_type = params[:carrier_type]
       library = params[:library]
       language = params[:language]
@@ -314,7 +286,6 @@ class ApplicationController < ActionController::Base
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
-        with(:reservable).equal_to true if reservable
         unless carrier_type.blank?
           with(:carrier_type).equal_to carrier_type
           with(:carrier_type).equal_to carrier_type

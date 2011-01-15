@@ -4,7 +4,7 @@ class UsersControllerTest < ActionController::TestCase
   # Be sure to include AuthenticatedTestHelper in test/test_helper.rb instead
   # Then, you can remove it from this and the units test.
 
-  fixtures :users, :roles, :patrons, :libraries, :checkouts, :patron_types, :tags, :taggings,
+  fixtures :users, :roles, :patrons, :libraries, :patron_types, :tags, :taggings,
     :manifestations, :carrier_types, :creates, :realizes, :produces, :owns
 
   def test_guest_should_not_get_index
@@ -279,14 +279,6 @@ class UsersControllerTest < ActionController::TestCase
       delete :destroy, :id => users(:user2).username
     end
     assert_redirected_to users_url
-  end
-
-  def test_librarian_should_not_destroy_user_who_has_items_not_checked_in
-    sign_in users(:librarian1)
-    assert_no_difference('User.count') do
-      delete :destroy, :id => users(:user1).username
-    end
-    assert_response :forbidden
   end
 
   def test_librarian_should_not_destroy_librarian

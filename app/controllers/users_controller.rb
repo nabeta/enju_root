@@ -113,15 +113,6 @@ class UsersController < ApplicationController
     raise ActiveRecord::RecordNotFound if @user.blank?
     @user.role_id = @user.role.id
 
-    if params[:mode] == 'feed_token'
-      if params[:disable] == 'true'
-        @user.delete_checkout_icalendar_token
-      else
-        @user.reset_checkout_icalendar_token
-      end
-      render :partial => 'users/feed_token'
-      return
-    end
     prepare_options
 
   end
@@ -139,7 +130,6 @@ class UsersController < ApplicationController
       #@user.username = params[:user][:login]
       @user.openid_identifier = params[:user][:openid_identifier]
       @user.keyword_list = params[:user][:keyword_list]
-      @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
       @user.email = params[:user][:email]
       #@user.note = params[:user][:note]
     end
@@ -252,12 +242,6 @@ class UsersController < ApplicationController
       flash[:notice] = t('user.cannot_destroy_myself')
     end
 
-    # 未返却の資料のあるユーザを削除しようとした
-    if @user.checkouts.count > 0
-      raise 'This user has items not checked in'
-      flash[:notice] = t('user.this_user_has_checked_out_item')
-    end
-
     # 管理者以外のユーザが図書館員を削除しようとした。図書館員の削除は管理者しかできない
     if @user.has_role?('Librarian')
       unless current_user.has_role?('Administrator')
@@ -306,13 +290,4 @@ class UsersController < ApplicationController
     @libraries = Rails.cache.fetch('library_all'){Library.all}
     @languages = Language.all
   end
-
-  def set_operator
-    @user.operator = current_user
-  end
-
-  def last_request_update_allowed?
-    true if %w[create update].include?(action_name)
-  end
-
 end

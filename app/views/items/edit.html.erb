@@ -17,11 +17,6 @@
   </p>
 
   <p>
-    <%= f.label t('activerecord.models.checkout_type') -%><br />
-    <%= f.select(:checkout_type_id, @checkout_types.collect{|c| [c.display_name.localize, c.id]}) -%>
-  </p>
-
-  <p>
     <%= f.label t('activerecord.models.circulation_status') -%><br />
     <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name.localize, c.id]}) -%>
   </p>
