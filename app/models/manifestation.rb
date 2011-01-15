@@ -160,11 +160,10 @@ class Manifestation < ActiveRecord::Base
   end
 
   #acts_as_tree
-  #enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_ndl
-  enju_cinii
+  #enju_cinii
   has_attached_file :attachment
   #has_ipaper_and_uses 'Paperclip'
   enju_scribd
