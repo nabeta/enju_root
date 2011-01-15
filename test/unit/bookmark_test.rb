@@ -6,7 +6,7 @@ class BookmarkTest < ActiveSupport::TestCase
     :items, :manifestations, :exemplifies,
     :expressions, :works, :carrier_types, :content_types,
     :shelves, :circulation_statuses, :libraries, :library_groups,
-    :users, :user_groups, :lending_policies
+    :users, :user_groups
 
   def test_bookmark_sheved
     assert bookmarks(:bookmark_00001).shelved?

@@ -84,26 +84,6 @@
         <%- else -%>
           <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.username, :bookmark => {:url => manifestation_url(@manifestation)}) -%></li>
         <%- end -%>
-
-      <%- unless @manifestation.carrier_type.name == 'file' -%>
-        <li>
-          <% if @manifestation.reservable? %>
-            <%- if current_user.has_role?('Librarian') -%>
-              <%= link_to t('manifestation.reserve_this'), new_reserve_path(:manifestation_id => @manifestation.id) -%>
-            <%- else -%>
-              <%- if @manifestation.is_reserved_by(current_user) -%>
-                <%= link_to t('manifestation.cancel_reservation'), user_reserve_path(@reserve.user.username, @reserve) -%>
-              <%- else -%>
-                <%= link_to t('manifestation.reserve_this'), new_user_reserve_path(current_user.username, :manifestation_id => @manifestation.id) -%>
-              <%- end -%>
-            <%- end -%>
-            <br />
-            (<%= t('page.number_of_reservations', :count => @reserved_count) -%>)
-          <%- else -%>
-            <%= link_to t('activerecord.models.purchase_request'), new_user_purchase_request_path(current_user.username, :url => manifestation_url(@manifestation)) %>
-          <%- end -%>
-        </li>
-      <%- end -%>
       </ul>
 
       <%- if current_user.has_role?('Librarian') -%>

@@ -15,8 +15,7 @@ class Event < ActiveRecord::Base
   has_one :event_import_result
 
   #acts_as_taggable_on :tags
-  #acts_as_soft_deletable
-  has_event_calendar
+  #has_event_calendar
 
   searchable do
     text :name, :note

@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PictureFilesControllerTest < ActionController::TestCase
-    fixtures :picture_files, :resources, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
+    fixtures :picture_files, :resources, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :library_groups, :countries, :shelves
 
   def test_guest_should_get_index
     get :index

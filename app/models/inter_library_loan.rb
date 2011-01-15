@@ -4,7 +4,6 @@ class InterLibraryLoan < ActiveRecord::Base
   scope :processing, lambda {|item, borrowing_library| {:conditions => ['item_id = ? AND borrowing_library_id = ?', item.id, borrowing_library.id]}}
 
   belongs_to :item, :validate => true
-  #belongs_to :reserve
   belongs_to :borrowing_library, :foreign_key => 'borrowing_library_id', :class_name => 'Library', :validate => true
 
   validates_presence_of :item_id, :borrowing_library_id

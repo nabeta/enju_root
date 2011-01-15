@@ -40,11 +40,6 @@ class MessageRequest < ActiveRecord::Base
       end
       self.update_attributes({:sent_at => Time.zone.now})
       Notifier.message_notification(self.receiver).deliver
-      if ['reservation_expired_for_patron', 'reservation_expired_for_patron'].include?(self.message_template.status)
-        self.receiver.reserves.each do |reserve|
-          reserve.update_attribute(:expiration_notice_to_patron, true)
-        end
-      end
     end
     return message
   end

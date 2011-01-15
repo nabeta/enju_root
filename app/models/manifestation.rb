@@ -17,8 +17,6 @@ class Manifestation < ActiveRecord::Base
   has_many :produces, :dependent => :destroy
   has_many :patrons, :through => :produces
   #has_one :manifestation_api_response, :dependent => :destroy
-  has_many :reserves, :dependent => :destroy
-  has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :carrier_type #, :validate => true
   belongs_to :extent #, :validate => true
   belongs_to :language, :validate => true
@@ -27,12 +25,8 @@ class Manifestation < ActiveRecord::Base
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
-  has_many :checkout_stat_has_manifestations
-  has_many :manifestation_checkout_stats, :through => :checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
-  has_many :reserve_stat_has_manifestations
-  has_many :manifestation_reserve_stats, :through => :reserve_stat_has_manifestations
   has_many :children, :foreign_key => 'parent_id', :class_name => 'ManifestationRelationship', :dependent => :destroy
   has_many :parents, :foreign_key => 'child_id', :class_name => 'ManifestationRelationship', :dependent => :destroy
   has_many :derived_manifestations, :through => :children, :source => :child
@@ -116,9 +110,6 @@ class Manifestation < ActiveRecord::Base
       self.subjects.collect(&:id)
     end
     float :price
-    boolean :reservable do
-      self.reservable?
-    end
     integer :series_statement_id
     boolean :repository_content
     # for OpenURL
@@ -169,11 +160,10 @@ class Manifestation < ActiveRecord::Base
   end
 
   #acts_as_tree
-  #enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_ndl
-  enju_cinii
+  #enju_cinii
   has_attached_file :attachment
   #has_ipaper_and_uses 'Paperclip'
   enju_scribd
@@ -273,18 +263,6 @@ class Manifestation < ActiveRecord::Base
     "#{LibraryGroup.url}#{self.class.to_s.tableize}/#{self.id}"
   end
 
-  def available_checkout_types(user)
-    user.user_group.user_group_has_checkout_types.available_for_carrier_type(self.carrier_type)
-  end
-
-  def checkout_period(user)
-    available_checkout_types(user).collect(&:checkout_period).max || 0
-  end 
-  
-  def reservation_expired_period(user)
-    available_checkout_types(user).collect(&:reservation_expired_period).max || 0
-  end
-  
   def embodies?(expression)
     expression.manifestations.detect{|manifestation| manifestation == self}
   end
@@ -325,10 +303,6 @@ class Manifestation < ActiveRecord::Base
     work.expressions << expression
     work.patrons << parent_of_series.patrons
     self.expressions << expression
-  end
-
-  def next_reservation
-    self.reserves.first(:order => ['reserves.created_at'])
   end
 
   def creators
@@ -529,43 +503,6 @@ class Manifestation < ActiveRecord::Base
     end
     return self
   end
-
-  def is_reserved_by(user = nil)
-    if user
-      Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
-    else
-      false
-    end
-  end
-
-  def is_reserved?
-    if self.reserves.present?
-      true
-    else
-      false
-    end
-  end
-
-  def reservable?
-    return false if self.items.for_checkout.empty?
-    true
-  end
-
-  def checkouts(start_date, end_date)
-    Checkout.completed(start_date, end_date).all(:conditions => {:item_id => self.items.collect(&:id)})
-  end
-
-  #def bookmarks(start_date = nil, end_date = nil)
-  #  if start_date.blank? and end_date.blank?
-  #    if self.bookmarks
-  #      self.bookmarks
-  #    else
-  #      []
-  #    end
-  #  else
-  #    Bookmark.bookmarked(start_date, end_date).all(:conditions => {:manifestation_id => self.id})
-  #  end
-  #end
 
   def set_digest(options = {:type => 'sha1'})
     self.file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)

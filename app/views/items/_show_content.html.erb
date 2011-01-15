@@ -6,29 +6,8 @@
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.item.checkout_type') -%>:</strong>
-  <%= link_to h(@item.checkout_type.display_name.localize), @item.checkout_type -%>
-</p>
-
-<p>
-  <strong><%= t('activerecord.models.lending_policy') -%>:</strong>
-  <ul>
-    <%- @item.lending_policies.each do |lending_policy| -%>
-      <li><%= link_to h(lending_policy.user_group.display_name.localize), lending_policy -%></li>
-    <%- end -%>
-  </ul>
-</p>
-
-<p>
   <strong><%= t('activerecord.models.circulation_status') -%>:</strong>
   <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
-  <%- if user_signed_in? -%>
-    <%- if current_user.has_role?('Librarian') -%>
-      <%- unless @item.checkouts.not_returned.blank? -%>
-        (<%= link_to t('item.current_checkout'), user_checkout_path(@item.checkouts.not_returned.first.user.username, @item.checkouts.not_returned.first) -%>)
-      <%- end -%>
-    <%- end -%>
-  <%- end -%>
 </p>
 
 <p>
