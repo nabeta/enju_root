@@ -2,7 +2,6 @@
 class UsersController < ApplicationController
   #before_filter :reset_params_session
   load_and_authorize_resource
-  before_filter :suspended?
   before_filter :get_patron, :only => :new
   before_filter :store_location, :only => [:index]
   before_filter :clear_search_sessions, :only => [:show]
@@ -277,13 +276,6 @@ class UsersController < ApplicationController
   end
 
   private
-  def suspended?
-    if user_signed_in? and !current_user.active?
-      current_user_session.destroy
-      access_denied
-    end
-  end
-
   def prepare_options
     @user_groups = UserGroup.all
     @roles = Rails.cache.fetch('role_all'){Role.all}
