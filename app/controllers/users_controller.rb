@@ -100,6 +100,7 @@ class UsersController < ApplicationController
     @user.patron_id = @patron.id if @patron
     @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
     @user.library = current_user.library
+    @user.locale = current_user.locale
   end
 
   def edit
