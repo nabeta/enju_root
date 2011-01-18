@@ -11,7 +11,7 @@ xml.rss('version' => "2.0",
       xml.link questions_url
     end
     xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
-    xml.language @locale
+    xml.language @locale.to_s
     xml.ttl "60"
     if @user
       xml.tag! "atom:link", :rel => 'self', :href => user_questions_url(@user.username, :format => "rss")

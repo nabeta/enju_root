@@ -15,7 +15,7 @@ xml.rss('version' => "2.0",
       xml.tag! "atom:link", :rel => 'self', :href => purchase_requests_url(:format => "rss")
       xml.tag! "atom:link", :rel => 'alternate', :href => purchase_requests_url
     end
-    xml.language @locale
+    xml.language @locale.to_s
     xml.ttl "60"
     #xml.tag! "atom:link", :rel => 'search', :type => 'application/opensearchdescription+xml', :href => "http://#{request.host_with_port}/page/opensearch"
     unless params[:query].blank?

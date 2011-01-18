@@ -6,7 +6,7 @@
   <%= f.error_messages %>
 
   <p><%= f.label t('activerecord.attributs.user.email') %></p>
-  <p><%= f.text_field :email, :class => 'resource_email' %></p>
+  <p><%= f.email_field :email, :class => 'resource_email' %></p>
 
   <p><%= f.submit "Send me reset password instructions" %></p>
   <%= javascript_tag("$('#user_email').focus()") -%>
