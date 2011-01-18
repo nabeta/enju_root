@@ -350,5 +350,9 @@ EnjuRoot::Application.routes.draw do
   match '/page/msie_acceralator' => 'page#msie_acceralator'
   match '/page/opensearch' => 'page#opensearch'
   match '/page/statistics' => 'page#statistics'
+  match '/page/routing_error' => 'page#routing_error'
   match '/sru/index' => 'sru#index'
+
+  # http://techoctave.com/c7/posts/36-rails-3-0-rescue-from-routing-error-solution
+  match '*a', :to => 'error#routing' unless Rails.application.config.consider_all_requests_local
 end
