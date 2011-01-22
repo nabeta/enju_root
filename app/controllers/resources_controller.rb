@@ -141,9 +141,7 @@ class ResourcesController < ApplicationController
         not_found
       end
       @resource = @resource.last_published
-      unless @resource.last_published.try(:is_readable_by, current_user)
-        access_denied
-      end
+      authorize! :show, @resource
     end
 
     respond_to do |format|

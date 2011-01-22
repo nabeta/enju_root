@@ -100,8 +100,6 @@ class PatronsController < ApplicationController
     @expressions = @patron.expressions.paginate(:page => params[:expression_list_page])
     @manifestations = @patron.manifestations.paginate(:page => params[:manifestation_list_page], :order => 'date_of_publication DESC')
 
-    canonical_url patron_url(@patron)
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @patron }

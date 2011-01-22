@@ -82,8 +82,6 @@ class ExpressionsController < ApplicationController
     end
     @expression = @expression.versions.find(@version).item if @version
 
-    canonical_url expression_url(@expression)
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @expression }

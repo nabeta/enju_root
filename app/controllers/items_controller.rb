@@ -115,8 +115,6 @@ class ItemsController < ApplicationController
     #@item = Item.find(params[:id])
     @item = @item.versions.find(@version).item if @version
 
-    canonical_url item_url(@item)
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @item }

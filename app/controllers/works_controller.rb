@@ -94,8 +94,6 @@ class WorksController < ApplicationController
 
     #@subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.work_has_subjects.size)
 
-    canonical_url work_url(@work)
-
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @work }

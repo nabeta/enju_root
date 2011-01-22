@@ -268,7 +268,6 @@ class ManifestationsController < ApplicationController
     return if render_mode(params[:mode])
 
     store_location
-    canonical_url manifestation_url(@manifestation)
 
     respond_to do |format|
       format.html # show.rhtml

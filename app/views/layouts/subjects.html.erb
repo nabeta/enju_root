@@ -13,7 +13,6 @@
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'subjects', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('page.listing', :model => t('activerecord.models.subject')) + " (Atom)")) %>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
-  <%= canonical_link_tag %>
 </head>
 <body>
 

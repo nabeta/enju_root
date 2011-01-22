@@ -26,7 +26,6 @@
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
-  <%= canonical_link_tag %>
   <%- if @manifestation and controller.action_name == 'show' -%>
     <script type="text/javascript" src="http://books.google.com/books/previewlib.js"></script>
   <%- end -%>

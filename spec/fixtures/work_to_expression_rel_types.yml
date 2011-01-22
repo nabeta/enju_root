@@ -1,0 +1,57 @@
+--- 
+work_to_expression_rel_type_00001: 
+  position: 1
+  name: Successor
+  created_at: 2009-11-18 17:21:22 Z
+  updated_at: 2009-11-18 17:21:22 Z
+  id: 1
+  note: ""
+  display_name: Successor
+work_to_expression_rel_type_00002: 
+  position: 2
+  name: Supplement
+  created_at: 2009-11-18 17:21:33 Z
+  updated_at: 2009-11-18 17:21:33 Z
+  id: 2
+  note: ""
+  display_name: Supplement
+work_to_expression_rel_type_00003: 
+  position: 3
+  name: Complement
+  created_at: 2009-11-18 17:21:42 Z
+  updated_at: 2009-11-19 00:11:05 Z
+  id: 3
+  note: ""
+  display_name: Complement
+work_to_expression_rel_type_00004: 
+  position: 4
+  name: Summarization
+  created_at: 2009-11-18 17:21:54 Z
+  updated_at: 2009-11-18 17:21:54 Z
+  id: 4
+  note: ""
+  display_name: Summarization
+work_to_expression_rel_type_00005: 
+  position: 5
+  name: Adaptation
+  created_at: 2009-11-18 17:22:13 Z
+  updated_at: 2009-11-18 17:22:13 Z
+  id: 5
+  note: ""
+  display_name: Adaptation
+work_to_expression_rel_type_00006: 
+  position: 6
+  name: Transformation
+  created_at: 2009-11-18 17:22:28 Z
+  updated_at: 2009-11-18 17:22:28 Z
+  id: 6
+  note: ""
+  display_name: Transformation
+work_to_expression_rel_type_00007: 
+  position: 7
+  name: Imitation
+  created_at: 2009-11-18 17:22:37 Z
+  updated_at: 2009-11-18 17:22:37 Z
+  id: 7
+  note: ""
+  display_name: Imitation
