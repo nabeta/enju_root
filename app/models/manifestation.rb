@@ -188,6 +188,7 @@ class Manifestation < ActiveRecord::Base
   normalize_attributes :identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
 
   after_create :post_to_scribd!
+  before_create :set_digest
   alias :producers :patrons
 
   def self.per_page
@@ -505,8 +506,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
-    save(:validate => false)
+    if attachment.queued_for_write[:original]
+      if File.exists?(attachment.queued_for_write[:original])
+        self.file_hash = Digest::SHA1.hexdigest(File.open(attachment.queued_for_write[:original], 'rb').read)
+      end
+    end
   end
 
   def extract_text

@@ -11,7 +11,8 @@ class EventImportFile < ActiveRecord::Base
   validates_attachment_content_type :event_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   validates_attachment_presence :event_import
   belongs_to :user, :validate => true
-  #after_create :set_digest
+  has_many :event_import_results
+  before_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
@@ -28,8 +29,9 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.event_import.url, 'rb').read)
-    save(:validate => false)
+    if File.exists?(event_import.queued_for_write[:original])
+      self.file_hash = Digest::SHA1.hexdigest(File.open(event_import.queued_for_write[:original], 'rb').read)
+    end
   end
 
   def import_start

@@ -14,7 +14,8 @@ class PatronImportFile < ActiveRecord::Base
 
   validates_associated :user
   validates_presence_of :user
-  #after_create :set_digest
+  has_many :patron_import_results
+  before_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
@@ -31,8 +32,9 @@ class PatronImportFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.patron_import.url, 'rb').read)
-    save(:validate => false)
+    if File.exists?(patron_import.queued_for_write[:original])
+      self.file_hash = Digest::SHA1.hexdigest(File.open(patron_import.queued_for_write[:original], 'rb').read)
+    end
   end
 
   def import_start
