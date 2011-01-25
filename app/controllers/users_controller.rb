@@ -105,25 +105,13 @@ class UsersController < ApplicationController
 
   def edit
     #@user = User.first(:conditions => {:login => params[:id]})
-    #if current_user.has_role?('Librarian')
-    #  @user = User.first(:conditions => {:username => params[:id]})
-    #else
-    #  @user = current_user
-    #end
-    raise ActiveRecord::RecordNotFound if @user.blank?
     @user.role_id = @user.role.id
-
     prepare_options
 
   end
 
   def update
     #@user = User.first(:conditions => {:login => params[:id]})
-    #if current_user.has_role?('Librarian')
-    #  @user = User.first(:conditions => {:username => params[:id]})
-    #else
-    #  @user = current_user
-    #end
     @user.operator = current_user
 
     if params[:user]
@@ -132,10 +120,8 @@ class UsersController < ApplicationController
       @user.keyword_list = params[:user][:keyword_list]
       @user.email = params[:user][:email]
       #@user.note = params[:user][:note]
-    end
 
-    if current_user.has_role?('Librarian')
-      if params[:user]
+      if current_user.has_role?('Librarian')
         @user.note = params[:user][:note]
         @user.user_group_id = params[:user][:user_group_id] || 1
         @user.library_id = params[:user][:library_id] || 1
@@ -143,6 +129,7 @@ class UsersController < ApplicationController
         @user.required_role_id = params[:user][:required_role_id] || 1
         @user.user_number = params[:user][:user_number]
         @user.locale = params[:user][:locale]
+        @user.locked = params[:user][:locked]
         expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
         begin
           @user.expired_at = Time.zone.parse(expired_at_array.join("-"))
@@ -153,13 +140,8 @@ class UsersController < ApplicationController
         end
       end
       if params[:user][:auto_generated_password] == "1"
-        @user.password = Devise.friendly_token
-      else
-        params.delete(:password) if params[:password].blank?
-        params.delete(:password_confirmation) if params[:password_confirmation].blank?
-        @user.current_password = params[:current_password]
-        @user.password = params[:password]
-        @user.password_confirmation = params[:password_confirmation]
+        @user.set_auto_generated_password
+        flash[:temporary_password] = @user.password
       end
     end
     if current_user.has_role?('Administrator')
@@ -171,11 +153,12 @@ class UsersController < ApplicationController
 
     #@user.save do |result|
     respond_to do |format|
-      #if @user.update_attributes(params[:user])
-      if @user.save!
+      if params[:user][:current_password].present? or params[:user][:password].present? or params[:user][:password_confirmation].present?
         @user.update_with_password(params[:user])
-        flash[:temporary_password] = @user.password
-
+      else
+        @user.save
+      end
+      if @user.errors.empty?
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
         format.html { redirect_to user_url(@user.username) }
         format.xml  { head :ok }
@@ -219,6 +202,7 @@ class UsersController < ApplicationController
       if @user.save
         #self.current_user = @user
         flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
+        flash[:temporary_password] = @user.password
         format.html { redirect_to user_url(@user.username) }
         #format.html { redirect_to new_user_patron_url(@user.username) }
         format.xml  { head :ok }
@@ -242,16 +226,13 @@ class UsersController < ApplicationController
       flash[:notice] = t('user.cannot_destroy_myself')
     end
 
-    # 管理者以外のユーザが図書館員を削除しようとした。図書館員の削除は管理者しかできない
     if @user.has_role?('Librarian')
+      # 管理者以外のユーザが図書館員を削除しようとした。図書館員の削除は管理者しかできない
       unless current_user.has_role?('Administrator')
         raise 'Only administrators can destroy users'
         flash[:notice] = t('user.only_administrator_can_destroy')
       end
-    end
-
-    # 最後の図書館員を削除しようとした
-    if @user.has_role?('Librarian')
+      # 最後の図書館員を削除しようとした
       if @user.last_librarian?
         raise 'This user is the last librarian in this system'
         flash[:notice] = t('user.last_librarian')
@@ -281,6 +262,11 @@ class UsersController < ApplicationController
     @user_groups = UserGroup.all
     @roles = Rails.cache.fetch('role_all'){Role.all}
     @libraries = Rails.cache.fetch('library_all'){Library.all}
-    @languages = Language.all
+    @languages = Rails.cache.fetch('language_all'){Language.all}
+    if @user.active?
+      @user.locked = '0'
+    else
+      @user.locked = '1'
+    end
   end
 end

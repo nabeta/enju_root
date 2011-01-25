@@ -285,7 +285,7 @@ ja:
         activation_code: 活性化コード
         activated_at: 登録時刻
         expired_at: 有効期限
-        active: 利用可能
+        locked: 利用不可
         confirmed: 確認済み
         approved: 承認済み
         answer_rss_token: 回答用RSSのトークン
