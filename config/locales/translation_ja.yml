@@ -552,6 +552,7 @@ ja:
         position: 位置
       bookmark:
         note: 注記
+        shared: 共有する
         url: URL
       create:
         position: 位置

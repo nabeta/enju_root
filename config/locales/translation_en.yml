@@ -551,6 +551,7 @@ en:
         position: Position
       bookmark:
         note: Note
+        shared: Shared
         url: URL
       create:
         position: Position
