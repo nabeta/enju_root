@@ -354,5 +354,5 @@ EnjuRoot::Application.routes.draw do
   match '/sru/index' => 'sru#index'
 
   # http://techoctave.com/c7/posts/36-rails-3-0-rescue-from-routing-error-solution
-  match '*a', :to => 'error#routing' unless Rails.application.config.consider_all_requests_local
+  match '*a', :to => 'page#routing_error' unless Rails.application.config.consider_all_requests_local
 end
