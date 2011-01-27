@@ -31,7 +31,7 @@
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
       <td>
-        <%- if can? :destroy, patron -%>
+        <%- if can? :update, patron -%>
           <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_patron_path(patron) -%>
           <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('patron.add_derivation')), patron_patrons_path(patron) -%>
         <%- end -%>

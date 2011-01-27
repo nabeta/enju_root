@@ -8,7 +8,7 @@
 <%= form_for :expressions, :url => expression_expressions_path(@expression), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @expression -%>
+    <%- if can? :update, @expression -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -40,18 +40,13 @@
       </td>
       <td><%= expression.language.display_name.localize -%></td>
       <td>
-        <%- if can? :destroy, expression -%>
+        <%- if can? :update, expression -%>
           <%= link_to t('page.edit'), edit_expression_path(expression) -%>
+          <%= link_to t('page.add'), new_expression_expression_relationship_path(@expression, :child_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
         <% end %>
-      </td>
-      <td>
         <%- if can? :destroy, expression -%>
-          <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_expression_expression_relationship_path(@expression, :child_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
-          <%- else -%>
-            <%- expression_relationship = @expression.children.find_by_child_id(expression.id) -%>
-            <%= link_to t('page.destroy'), expression_relationship, :confirm => t('page.are_you_sure'), :method => :delete if expression_relationship -%>
-          <%- end -%>
+          <%- expression_relationship = @expression.children.find_by_child_id(expression.id) -%>
+          <%= link_to t('page.destroy'), expression_relationship, :confirm => t('page.are_you_sure'), :method => :delete if expression_relationship -%>
         <%- end -%>
       </td>
     </tr>

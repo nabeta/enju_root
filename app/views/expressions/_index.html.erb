@@ -32,8 +32,10 @@
       </td>
       <td><%= expression.language.display_name.localize -%></td>
       <td>
-        <%- if can? :destroy, expression -%>
+        <%- if can? :update, expression -%>
           <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_expression_path(expression) -%>
+        <% end %>
+        <%- if can? :destroy, expression -%>
           <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), expression_expressions_path(expression) -%>
         <%- end -%>
       </td>

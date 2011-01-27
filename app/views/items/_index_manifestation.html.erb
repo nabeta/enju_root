@@ -7,7 +7,7 @@
 <%= form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @manifestation -%>
+    <%- if can? :update, @manifestation -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -29,6 +29,7 @@
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
+    <th></th>
   </tr>
   
 <%- @items.each do |item| -%>
@@ -44,10 +45,14 @@
     <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
     <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
     <td><%= item.circulation_status.display_name.localize -%></td>
-    <%- if can? :destroy, item -%>
-      <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
-      <td><%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :update, item -%>
+        <%= link_to t('page.edit'), edit_item_path(item) -%>
+      <% end %>
+      <%- if can? :destroy, item -%>
+        <%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

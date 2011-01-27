@@ -15,7 +15,7 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= search_field_tag 'search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
-      <%- if can? :destroy, @manifestation -%>
+      <%- if can? :update, @manifestation -%>
         <%- if params[:mode] == 'add' -%>
           <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
           <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -40,7 +40,6 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th></th>
-    <th></th>
   </tr>
   <%- @manifestations.each do |manifestation| -%>
     <tr class="line<%= cycle("0", "1") -%>">
@@ -49,12 +48,7 @@
         <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
       </td>
       <td>
-        <%- if can? :destroy, manifestation -%>
-          <%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%>
-        <% end %>
-      </td>
-      <td>
-        <%- if can? :destroy, manifestation -%>
+        <%- if can? :update, manifestation -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_manifestation_manifestation_relationship_path(@manifestation, :child_id => manifestation.id) unless @manifestation.derived_manifestations.include?(manifestation) or @manifestation == manifestation -%>
           <%- else -%>

@@ -13,7 +13,7 @@
 <%= form_for :items, :url => item_items_path(@item), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @item -%>
+    <%- if can? :update, @item -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -35,7 +35,6 @@
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
-    <th></th>
     <th></th>
   </tr>
   
@@ -59,17 +58,17 @@
       <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
       <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
       <td><%= item.circulation_status.display_name.localize -%></td>
-      <%- if can? :destroy, item -%>
-        <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
-        <td>
+      <td>
+        <%- if can? :update, item -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_item_item_relationship_path(@item, :to_item_id => item.id) unless @item.derived_items.include?(item) or @item == item -%>
-          <%- else -%>
-            <%- item_relationship = @item.to_items.find_by_to_item_id(item.id) -%>
-            <%= link_to t('page.destroy'), item_relationship, :confirm => t('page.are_you_sure'), :method => :delete if item_relationship -%>
           <%- end -%>
-        </td>
-      <%- end -%>
+        <% end %>
+        <%- if can? :destroy, item -%>
+          <%- item_relationship = @item.to_items.find_by_to_item_id(item.id) -%>
+          <%= link_to t('page.destroy'), item_relationship, :confirm => t('page.are_you_sure'), :method => :delete if item_relationship -%>
+        <%- end -%>
+      </td>
     </tr>
   <%- end -%>
 </table>

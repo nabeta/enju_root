@@ -8,7 +8,7 @@
   <%= form_for :works, :url => work_works_path(@work), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @work -%>
+    <%- if can? :update, @work -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -26,10 +26,7 @@
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.work.context') -%></th>
-    <%- if can? :destroy, @work -%>
-      <th></th>
-      <th></th>
-    <%- end -%>
+    <th></th>
   </tr>
   
   <%- @works.each do |work| -%>
@@ -40,8 +37,7 @@
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= work.context -%></td>
-      <%- if can? :destroy, work -%>
-        <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
+      <%- if can? :update, work -%>
         <td>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_work_work_relationship_path(@work, :child_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>

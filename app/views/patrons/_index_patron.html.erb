@@ -8,7 +8,7 @@
 <%= form_for :patrons, :url => patron_patrons_path(@patron), :html => {:method => 'get'} do -%>
   <p>
     <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @patron -%>
+    <%- if can? :update, @patron -%>
       <%- if params[:mode] == 'add' -%>
         <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
         <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
@@ -30,7 +30,6 @@
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <th></th>
-    <th></th>
   </tr>
   <%- @patrons.each do |patron| -%>
     <tr class="line<%= cycle("0", "1") -%>">
@@ -45,18 +44,15 @@
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
       <td>
-        <%- if can? :destroy, patron -%>
+        <%- if can? :update, patron -%>
           <%= link_to t('page.edit'), edit_patron_path(patron) -%>
-        <% end %>
-      </td>
-      <td>
-        <%- if can? :destroy, patron -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_patron_patron_relationship_path(@patron, :child_id => patron.id) unless @patron.derived_patrons.include?(patron) or @patron == patron -%>
-          <%- else -%>
-            <%- patron_relationship = @patron.children.find_by_child_id(patron.id) -%>
-            <%= link_to t('page.destroy'), patron_relationship, :confirm => t('page.are_you_sure'), :method => :delete if patron_relationship -%>
           <%- end -%>
+        <% end %>
+        <%- if can? :destroy, patron -%>
+          <%- patron_relationship = @patron.children.find_by_child_id(patron.id) -%>
+          <%= link_to t('page.destroy'), patron_relationship, :confirm => t('page.are_you_sure'), :method => :delete if patron_relationship -%>
         <%- end -%>
       </td>
     </tr>
