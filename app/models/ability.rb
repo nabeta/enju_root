@@ -34,6 +34,7 @@ class Ability
       end
       can :manage, [
         Answer,
+        Barcode,
         Bookmark,
         BookmarkStat,
         BookmarkStatHasManifestation,

@@ -17,7 +17,6 @@ class Item < ActiveRecord::Base
   has_many :use_restrictions, :through => :item_has_use_restrictions
   has_many :inter_library_loans, :dependent => :destroy
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
-  has_one :barcode, :as => :barcodable, :dependent => :destroy
   has_many :answer_has_items, :dependent => :destroy
   has_many :answers, :through => :answer_has_items
   has_many :children, :foreign_key => 'parent_id', :class_name => 'ItemRelationship', :dependent => :destroy
@@ -118,18 +117,6 @@ class Item < ActiveRecord::Base
   def hold?(library)
     return true if self.shelf.library == library
     false
-  end
-
-  def create_barcode
-    unless self.item_identifier.blank?
-      barcode = Barcode.first(:conditions => {:code_word => self.item_identifier})
-      if barcode.nil?
-        barcode = Barcode.create(:code_word => self.item_identifier)
-      end
-
-      self.barcode = barcode
-      self.barcode.save(:validate => false)
-    end
   end
 
   def lending_rule(user)
