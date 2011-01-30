@@ -26,14 +26,12 @@
                 <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
               <% end %>
-              <%- if user_signed_in? -%>
-                <%- if can? :destroy, manifestation -%>
-                  <td id="edit_icons">
-                    <%= link_to image_tag('icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>
-                    <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), manifestation_manifestations_path(manifestation) -%>
-                  </td>
+              <td id="edit_icons">
+                <%- if can? :update, manifestation -%>
+                  <%= link_to image_tag('icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>
+                  <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), manifestation_manifestations_path(manifestation) -%>
                 <%- end -%>
-              <%- end -%>
+              </td>
             </tr>
           <%- end -%>
         </table>

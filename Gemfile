@@ -71,6 +71,7 @@ gem 'sanitize'
 gem 'zipruby'
 gem 'formatize'
 gem 'barby'
+gem 'prawnto'
 
 gem 'oink'
 gem "parallel_tests", :group => :development
