@@ -1,49 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <title>
-    <%= LibraryGroup.site_config.display_name.localize -%>: 
-    <%- case when @patron -%>
-      <%= @patron.full_name -%> : 
-    <%- when @expression -%>
-      <%= @expression.original_title -%> : 
-    <%- when @query.present? -%>
-      <%= @query -%> : 
-    <%- end -%>     
-    <%- if @manifestation -%>
-      <%- if @manifestation.original_title -%>
-        <%= @manifestation.original_title -%> : 
-      <%- end -%>
-    <%- end -%>
-    : 
-    <%= t('activerecord.models.manifestation') -%> :
-    <%= title_action_name -%>
-  </title>
-  <%= render :partial => 'page/include' -%>
+  <title><%= resource_title(@manifestation, controller.action_name) %></title>
+  <%= render :partial => 'page/include' %>
   <%- if controller.action_name == 'index' -%>
-    <%= auto_discovery_link_tag(:rss, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
-    <%= auto_discovery_link_tag(:atom, url_for(:controller => 'manifestations', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('manifestation.library_group_manifestation', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
+    <%= auto_discovery_link_tag(:rss, url_for(params.merge(:format => 'rss', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name.localize) + " (RSS)")) %>
+    <%= auto_discovery_link_tag(:atom, url_for(params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
   <%- end -%>
-  <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
-  <%- if @manifestation and controller.action_name == 'show' -%>
+  <% if controller.action_name == 'show' %>
     <script type="text/javascript" src="http://books.google.com/books/previewlib.js"></script>
-  <%- end -%>
+  <% end %>
 </head>
 <body>
 
-<%= render :partial => 'page/header' -%>
-<%= render :partial => 'page/menu' -%>
+<%= render 'page/header' %>
+<%= render 'page/menu' %>
 
 <div id="content">
+<div class="notice"><%= notice %></div>
 
-<div style="color: green"><%= flash[:notice] -%></div>
-
-<%= yield  -%>
+<%= yield %>
 
 </div>
 
-<%= render :partial => 'page/footer' -%>
+<%= render 'page/footer' %>
 
 </body>
 </html>
