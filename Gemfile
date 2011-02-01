@@ -10,12 +10,15 @@ platforms :ruby do
   gem 'ruby-prof', :group => [:development, :test]
   gem 'zipruby'
   gem 'formatize'
-  gem 'levenshtein'
 end
 
 platforms :ruby_19 do
   gem 'simplecov', :require => false, :group => :test
   gem 'levenshtein19'
+end
+
+platforms :ruby_18 do
+  gem 'levenshtein'
 end
 
 platforms :jruby do
