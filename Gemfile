@@ -7,25 +7,26 @@ gem 'rails', '3.0.3'
 
 platforms :ruby do
   gem 'pg'
-  gem "ruby-prof", :group => [:development, :test]
+  gem 'ruby-prof', :group => [:development, :test]
+  gem 'zipruby'
+  gem 'formatize'
+  gem 'levenshtein'
 end
 
 platforms :ruby_19 do
-  gem 'levenshtein19'
   gem 'simplecov', :require => false, :group => :test
-end
-
-platforms :ruby_18 do
-  gem 'fastercsv'
-  gem 'levenshtein'
+  gem 'levenshtein19'
 end
 
 platforms :jruby do
   gem 'activerecord-jdbc-adapter'
   gem 'jdbc-postgres', :require => false
   #gem 'jdbc-mysql', :require => false
-  gem 'fastercsv'
+  gem 'rubyzip'
+  #gem 'glassfish'
 end
+
+gem 'fastercsv' if RUBY_VERSION < '1.9'
 
 gem 'will_paginate', :git => 'git://github.com/mislav/will_paginate.git', :branch => 'rails3'
 gem 'exception_notification', :git => 'git://github.com/rails/exception_notification.git', :require => 'exception_notifier'
@@ -68,13 +69,11 @@ gem 'dynamic_form'
 gem 'formtastic'
 gem 'jquery-rails'
 gem 'sanitize'
-gem 'zipruby'
-gem 'formatize'
 gem 'barby'
 gem 'prawnto'
 
 gem 'oink'
-gem "parallel_tests", :group => :development
+gem 'parallel_tests', :group => :development
 
 group :development, :test do
   gem 'rspec'
