@@ -569,8 +569,8 @@ class ManifestationsController < ApplicationController
 
   def prepare_options
     @carrier_types = CarrierType.all
-    @roles = Rails.cache.fetch('role_all'){Role.all}
-    @languages = Rails.cache.fetch('language_all'){Language.all}
+    @roles = Role.all_cache
+    @languages = Language.all_cache
     @frequencies = Frequency.all
     @nii_types = NiiType.all
   end

@@ -37,9 +37,7 @@
   <tr>
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.attributes.event.name') -%></th>
-    <%- if can? :update, @events.first -%>
-      <th></th>
-    <% end %>
+    <th id="edit_icons"></th>
   </tr>
 
 <%- @events.each_with_index do |event, i| -%>
@@ -56,12 +54,12 @@
       -
       <%= l(event.end_at, :format => :short) -%>
     </td>
-    <%- if can? :destroy, event -%>
-      <td id="edit_icons">
+    <td>
+      <%- if can? :destroy, event -%>
         <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_event_path(event) -%>
         <%= link_to image_tag('icons/delete.png', :size => '16x16', :alt => t('page.destroy')), event, :confirm => t('page.are_you_sure'), :method => :delete -%>
-      </td>
-    <%- end -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>
@@ -87,7 +85,7 @@
     <%- end -%>
   </ul>
   <ul>
-    <%- Library.all.each do |library| -%>
+    <%- @libraries.each do |library| -%>
       <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
     <%- end -%>
   </ul>
@@ -102,5 +100,5 @@
       (<%= link_to 'CSV', events_path(:format => :csv, :locale => @locale) -%>)
     <%- end -%>
   </p>
-  <%= render :partial => 'page/login' unless current_user -%>
+  <%= render 'page/login' unless current_user -%>
 </div>

@@ -33,7 +33,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <%- cache(:controller => :patrons, :action => :show, :id => @patron.id, :page => 'picture_file', :role => current_user_role_name, :locale => @locale) do -%>
-    <%- if @patron.picture_files.first -%>
+    <%- if @patron.picture_files.exists? -%>
       <div id="manifestation_book_jacket">
         <%= patron_custom_book_jacket(@patron) -%>
       </div>

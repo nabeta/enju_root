@@ -178,7 +178,7 @@ class User < ActiveRecord::Base
 
   def last_librarian?
     if self.has_role?('Librarian')
-      role = Role.first(:conditions => {:name => 'Librarian'})
+      role = Role.where(:name => 'Librarian').first
       true if role.users.size == 1
     end
   end

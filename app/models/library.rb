@@ -41,21 +41,22 @@ class Library < ActiveRecord::Base
     10
   end
 
+  def self.all_cache
+    Rails.cache.fetch('library_all'){Library.all}
+  end
+  
   def clear_all_cache
     Rails.cache.delete('library_all')
   end
 
   def set_patron
-    patron = Patron.create!(:full_name => self.name)
-    self.patron = patron
+    self.patron = Patron.new(
+      :full_name => self.name
+    )
   end
 
   def create_shelf
     Shelf.create!(:name => "#{self.name}_default", :library => self)
-  end
-
-  def set_calil_neighborhood_library
-    self.calil_neighborhood_systemid = self.calil_library(self.access_calil).collect{|l| l[:systemid]}.uniq.join(',')
   end
 
   def closed?(date)

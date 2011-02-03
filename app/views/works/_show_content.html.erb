@@ -41,13 +41,13 @@
       </table>
       <%= render :partial => 'works/show_subject_list' -%>
     </div>
-    <%- if @work.derived_works.first or @work.original_works.first -%>
+    <%- if @work.derived_works.exists? or @work.original_works.exists? -%>
       <%= render :partial => 'works/work_list' -%>
     <%- end -%>
-    <%- if @work.patrons.first -%>
+    <%- if @work.patrons.exists? -%>
       <%= render :partial => 'works/patron_list' -%>
     <%- end -%>
-    <%- if @work.expressions.first -%>
+    <%- if @work.expressions.exists? -%>
       <%= render :partial => 'works/expression_list' -%>
     <%- end -%>
     <%- if @work.manifestations.first -%>

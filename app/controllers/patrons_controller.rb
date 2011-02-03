@@ -225,10 +225,10 @@ class PatronsController < ApplicationController
 
   def prepare_options
     if Rails.env == 'production'
-      @countries = Rails.cache.fetch('Country.all'){Country.all}
+      @countries = Country.all_cache
       @patron_types = Rails.cache.fetch('PatronType.all'){PatronType.all}
-      @roles = Rails.cache.fetch('Role.all'){Role.all}
-      @languages = Rails.cache.fetch('Language.all'){Language.all}
+      @roles = Role.all_cache
+      @languages = Language.all_cache
     else
       @countries = Country.all
       @patron_types = PatronType.all

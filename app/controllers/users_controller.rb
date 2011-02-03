@@ -260,9 +260,9 @@ class UsersController < ApplicationController
   private
   def prepare_options
     @user_groups = UserGroup.all
-    @roles = Rails.cache.fetch('role_all'){Role.all}
-    @libraries = Rails.cache.fetch('library_all'){Library.all}
-    @languages = Rails.cache.fetch('language_all'){Language.all}
+    @roles = Role.all_cache
+    @libraries = Library.all_cache
+    @languages = Language.all_cache
     if @user.active?
       @user.locked = '0'
     else

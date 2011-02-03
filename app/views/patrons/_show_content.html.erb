@@ -110,7 +110,7 @@
       </tr>
     </table>
   </div>
-  <%- if @patron.derived_patrons.first or @patron.original_patrons.first -%>
+  <%- if @patron.derived_patrons.exists? or @patron.original_patrons.exists? -%>
     <%= render :partial => 'patrons/patron_list' -%>
   <%- end -%>
   <%- unless @works.blank? -%>

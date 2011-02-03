@@ -239,7 +239,7 @@ class ItemsController < ApplicationController
     @shelves = @library.shelves
     @circulation_statuses = CirculationStatus.all
     @use_restrictions = UseRestriction.all
-    @roles = Rails.cache.fetch('role_all'){Role.all}
+    @roles = Role.all_cache
   end
 
 end

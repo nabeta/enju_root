@@ -1,13 +1,13 @@
         <li title="active" class="selected"><a href="#detail"><em><%= t('page.detail') -%></em></a></li>
-        <%- if @expression.patrons.first -%>
+        <%- if @expression.patrons.exists? -%>
         <li><a href="#patron"><em><%= t('activerecord.models.patron') -%></em></a></li>
         <%- end -%>
         <%- if @expression.work -%>
           <li><a href="#work"><em><%= t('page.related_work') -%></em></a></li>
         <%- end -%>
-        <%- if @expression.derived_expressions.first or @expression.original_expressions.first -%>
+        <%- if @expression.derived_expressions.exists? or @expression.original_expressions.exists? -%>
           <li><a href="#expression"><em><%= t('page.related') -%></em></a></li>
         <%- end -%>
-        <%- if @expression.manifestations.first -%>
+        <%- if @expression.manifestations.exists? -%>
           <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
         <%- end -%>
