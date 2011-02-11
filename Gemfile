@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.3'
+gem 'rails', '3.0.4'
 
 # Bundle edge Rails instead:
 #gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -52,8 +52,8 @@ gem 'paper_trail', '>=1.6.4'
 gem 'recurrence'
 gem 'prism'
 gem 'money'
-gem 'rails-geocoder', :require => 'geocoder'
-gem 'RedCloth'
+gem 'rails-geocoder', '0.9.7', :require => 'geocoder'
+gem 'RedCloth', '4.2.5'
 gem 'isbn-tools', :require => 'isbn/tools'
 gem 'attribute_normalizer'
 gem 'configatron'
