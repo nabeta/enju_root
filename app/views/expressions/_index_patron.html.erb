@@ -3,7 +3,7 @@
 <div id="content_list">
   <h2 class="resource_title">
     [P]
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </h2>
 
   <%= form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
@@ -33,7 +33,7 @@
 <%- @expressions.each do |expression| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(expression.original_title), expression -%>
+      <%= link_to expression.original_title, expression -%>
       <%= content_type_icon(expression.content_type) -%>
     </td>
     <td><%= expression.language.display_name.localize -%></td>

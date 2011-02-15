@@ -4,7 +4,7 @@
       <%- @involved_manifestations.each do |manifestation| -%>
         <li>
           [M]
-          <%= link_to h(manifestation.original_title), manifestation -%>
+          <%= link_to manifestation.original_title, manifestation -%>
           <%= form_icon(manifestation.carrier_type) -%>
           <%- manifestation.expressions.each do |expression| -%>
             <%= content_type_icon(expression.content_type) -%>
@@ -20,7 +20,7 @@
                 <%- if work.patrons.include?(@patron) -%>
                   <li>
                   [W]
-                  <%= link_to h(work.original_title), work -%>
+                  <%= link_to work.original_title, work -%>
                   <%= raw patrons_list(work.patrons, current_user) -%>
                   </li>
                 <%- end -%>
@@ -29,7 +29,7 @@
                 <%- if expression.patrons.include?(@patron) -%>
                   <li>
                   [E]
-                  <%= link_to h(expression.original_title), expression -%>
+                  <%= link_to expression.original_title, expression -%>
                   <%= content_type_icon(expression.content_type, current_user) -%>
                   <%= raw patrons_list(expression.work.patrons, current_user) -%>
                   <%= raw patrons_list(expression.patrons, current_user) -%>

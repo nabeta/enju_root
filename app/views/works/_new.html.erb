@@ -6,7 +6,7 @@
   <%- if @work.series_statement -%>
     <p>
       <%= t('activerecord.models.series_statement') -%>
-      <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
+      <%= link_to @work.series_statement.original_title, @work.series_statement -%>
       <%= f.hidden_field :series_statement_id -%>
     </p>
   <%- end -%>

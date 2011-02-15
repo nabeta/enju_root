@@ -3,7 +3,7 @@
 <div id="content_list">
   <h2 class="resource_title">
     [W]
-    <%= link_to h(@work.original_title), @work -%>
+    <%= link_to @work.original_title, @work -%>
     <%- if @work.series_statement -%>
       (<%= link_to h(@work.series_statement.original_title), @work.series_statement -%>)
     <%- end -%>
@@ -41,7 +41,7 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
-      <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
+      <%= link_to expression.original_title, work_expression_path(@work, expression) -%>
       <%= content_type_icon(expression.content_type) -%><br />
       <%= raw patrons_list(expression.patrons, current_user) -%>
     </td>

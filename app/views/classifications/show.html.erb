@@ -25,7 +25,7 @@
   </tr>
   <%- @classification.subjects.each do |subject| -%>
     <tr class="line<%= cycle("0", "1") -%>">
-      <td><%= link_to h(subject.term), subject -%></td>
+      <td><%= link_to subject.term, subject -%></td>
     </tr>
   <%- end -%>
 </table>

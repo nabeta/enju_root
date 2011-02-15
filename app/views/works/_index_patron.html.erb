@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
   <h2 class="resource_title">
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </h2>
 
   <%= form_for :works, :url => patron_works_path(@patron), :html => {:method => 'get'} do -%>
@@ -32,7 +32,7 @@
   <%- @works.each do |work| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(work.original_title), work -%>
+        <%= link_to work.original_title, work -%>
         <br />
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>

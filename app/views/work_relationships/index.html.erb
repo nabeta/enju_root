@@ -11,8 +11,8 @@
 
 <%- @work_relationships.each do |work_relationship| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(work_relationship.parent.original_title), work_relationship.parent -%></td>
-    <td><%= link_to h(work_relationship.child.original_title), work_relationship.child -%></td>
+    <td><%= link_to work_relationship.parent.original_title, work_relationship.parent -%></td>
+    <td><%= link_to work_relationship.child.original_title, work_relationship.child -%></td>
     <td><%= work_relationship.work_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), work_relationship -%></td>
     <td><%= link_to t('page.edit'), edit_work_relationship_path(work_relationship) -%></td>

@@ -65,7 +65,7 @@
               <ul>
                 <%- manifestation.subjects.each do |subject| -%>
                   <li>
-                    <%= link_to h(subject.term), subject -%>
+                    <%= link_to subject.term, subject -%>
                     <%- unless subject.classifications.empty? -%>
                       (
                       <%- subject.classifications.each do |classification| -%>

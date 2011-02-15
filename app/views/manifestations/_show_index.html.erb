@@ -1,5 +1,5 @@
 <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_index', :role => current_user_role_name, :locale => @locale) do -%>
-  <strong><%= link_to h(manifestation.original_title), manifestation -%></strong>
+  <strong><%= link_to manifestation.original_title, manifestation -%></strong>
   <%- if manifestation.serial? -%>
     <%= manifestation.volume_number_list -%>
     <%- unless manifestation.issue_number_list.blank? -%>

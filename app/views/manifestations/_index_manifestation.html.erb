@@ -3,7 +3,7 @@
 <div id="content_list">
   <h2 class="resource_title">
     [M]
-    <%= link_to h(@manifestation.original_title), @manifestation -%>
+    <%= link_to @manifestation.original_title, @manifestation -%>
   </h2>
   <p>
     <%= raw patrons_list(@manifestation.creators, current_user) -%>

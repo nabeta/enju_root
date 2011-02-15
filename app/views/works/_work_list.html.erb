@@ -3,15 +3,15 @@
     <%- @work.parents.each do |work_relationship| -%>
       <li>
         [W]
-        (<%= h(work_relationship.work_relationship_type.display_name.localize) -%>)
-        <%= link_to h(work_relationship.parent.original_title), work_relationship.parent -%>
+        (<%= work_relationship.work_relationship_type.display_name.localize -%>)
+        <%= link_to work_relationship.parent.original_title, work_relationship.parent -%>
         <%= raw patrons_list(work_relationship.parent.patrons, current_user) -%>
         <%- unless work_relationship.parent.expressions.blank? -%>
           <ul>
             <%- work_relationship.parent.expressions.each do |expression| -%>
               <li>
               [E]
-              <%= link_to h(expression.original_title), expression -%>
+              <%= link_to expression.original_title, expression -%>
               <%= raw patrons_list(expression.creators, current_user) -%>
               <%= raw patrons_list(expression.patrons, current_user) -%>
               </li>
@@ -23,15 +23,15 @@
     <%- @work.children.each do |work_relationship| -%>
       <li>
         [W]
-        (<%= h(work_relationship.work_relationship_type.display_name.localize) -%>)
-        <%= link_to h(work_relationship.child.original_title), work_relationship.child -%>
+        (<%= work_relationship.work_relationship_type.display_name.localize -%>)
+        <%= link_to work_relationship.child.original_title, work_relationship.child -%>
         <%= raw patrons_list(work_relationship.child.patrons, current_user) -%>
         <%- unless work_relationship.child.expressions.blank? -%>
           <ul>
             <%- work_relationship.child.expressions.each do |expression| -%>
               <li>
               [E]
-              <%= link_to h(expression.original_title), expression -%>
+              <%= link_to expression.original_title, expression -%>
               <%= raw patrons_list(expression.patrons, current_user) -%>
               </li>
             <%- end -%>

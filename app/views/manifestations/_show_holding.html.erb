@@ -10,7 +10,7 @@
     <tr>
       <%- cache(:controller => :items, :action => :show, :id => item.id, :page => 'holding', :role => current_user_role_name, :locale => @locale) do -%>
       <td>
-        <%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name)%>
+        <%= link_to h(item.shelf.library.display_name.localize), item.shelf.library%>
       </td>
       <td>
         <%= link_to h(item.shelf.display_name.localize), shelf_path(item.shelf) -%>

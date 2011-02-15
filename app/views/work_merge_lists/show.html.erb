@@ -9,7 +9,7 @@
 
   <ul>
     <%- @work_merge_list.works.each do |work| -%>
-      <li><%= radio_button_tag 'selected_work_id', work.id -%><%= link_to h(work.original_title), work -%></li>
+      <li><%= radio_button_tag 'selected_work_id', work.id -%><%= link_to work.original_title, work -%></li>
     <%- end -%>
   </ul>
   <%- if @work_merge_list.works.size > 1 -%>

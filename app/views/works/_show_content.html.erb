@@ -9,13 +9,13 @@
         <tr>
           <td><strong><%= t('activerecord.models.form_of_work') -%>:</strong></td>
           <td>
-            <%= link_to h(@work.form_of_work.display_name.localize), @work.form_of_work -%>
+            <%= link_to @work.form_of_work.display_name.localize, @work.form_of_work -%>
           </td>
         </tr>
         <tr>
           <td><strong><%= t('activerecord.models.series_statement') -%>:</strong></td>
           <td>
-            <%= link_to h(@work.series_statement.original_title), @work.series_statement if @work.series_statement -%>
+            <%= link_to @work.series_statement.original_title, @work.series_statement if @work.series_statement -%>
           </td>
         </tr>
         <tr>

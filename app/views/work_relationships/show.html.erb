@@ -3,12 +3,12 @@
 <div id="content_list">
 <p>
   <strong><%= t('activerecord.attributes.work_relationship.parent') -%>:</strong>
-  <%= link_to h(@work_relationship.parent.original_title), @work_relationship.parent -%>
+  <%= link_to @work_relationship.parent.original_title, @work_relationship.parent -%>
 </p>
 
 <p>
   <strong><%= t('activerecord.attributes.work_relationship.child') -%>:</strong>
-  <%= link_to h(@work_relationship.child.original_title), @work_relationship.child -%>
+  <%= link_to @work_relationship.child.original_title, @work_relationship.child -%>
 </p>
 
 <p>

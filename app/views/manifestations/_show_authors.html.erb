@@ -1,7 +1,7 @@
   <%- if params[:mode] == 'show_all_authors' -%>
     <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_all_authors', :role => current_user_role_name, :locale => @locale) do -%>
       <%- manifestation.creators.each do |patron| -%>
-        <%= link_to h(patron.full_name), patron -%>
+        <%= link_to patron.full_name, patron -%>
       <%- end -%>
       <%- if manifestation.creators.size > 5 -%>
         (<a href="#" onclick="$.ajax({data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>'), success:function(request){$('#author_list_<%= manifestation.id %>').html(request);}, type:'get', url:'/manifestations/<%= manifestation.id %>?index_num=<%= manifestation.id %>&amp;mode=show_authors'}); return false;"><%= t('page.hide') %></a>)
@@ -10,7 +10,7 @@
   <%- else -%>
     <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_limited_authors', :role => current_user_role_name, :locale => @locale) do -%>
       <%- manifestation.creators[0..2].each do |patron| -%>
-        <%= link_to h(patron.full_name), patron -%>
+        <%= link_to patron.full_name, patron -%>
       <%- end -%>
       <%- if manifestation.creators.size > 5 -%>
         (<a href="#" onclick="$.ajax({data:'authenticity_token=' + encodeURIComponent('<%= form_authenticity_token %>'), success:function(request){$('#author_list_<%= manifestation.id %>').html(request);}, type:'get', url:'/manifestations/<%= manifestation.id %>?index_num=<%= manifestation.id %>&amp;mode=show_all_authors'}); return false;"><%= t('page.show_all') %></a>)
@@ -20,7 +20,7 @@
 
   <%- cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'show_contributors_and_publishers', :role => current_user_role_name, :locale => @locale) do -%>
     <%- manifestation.contributors.each do |patron| -%>
-      <%= link_to h(patron.full_name), patron -%>
+      <%= link_to patron.full_name, patron -%>
     <%- end -%>
 
     <%- manifestation.publishers.each do |publisher| -%>

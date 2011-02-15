@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
   <%- if @expression -%>
-    <h2 class="resource_title"><%= link_to h(@expression.original_title), @expression -%></h2>
+    <h2 class="resource_title"><%= link_to @expression.original_title, @expression -%></h2>
   <%- end -%>
 
 <%= form_for(@manifestation) do |f| -%>
@@ -10,7 +10,7 @@
   <p>
     <%- if @manifestation.series_statement -%>
       <%= f.label t('activerecord.models.series_statement') -%>
-      <%= link_to h(@manifestation.series_statement.original_title), @manifestation.series_statement -%>
+      <%= link_to @manifestation.series_statement.original_title, @manifestation.series_statement -%>
       (<%= link_to t('series_statement.edit'), series_statements_path -%>)
       <%= f.hidden_field :series_statement_id -%>
     <%- else -%>

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.embody')) -%></h1>
 <div id="content_list">
 
-<h3><%= link_to h(@expression.original_title), @expression -%></h3>
+<h3><%= link_to @expression.original_title, @expression -%></h3>
 
 <table class="index">
   <tr>
@@ -12,7 +12,7 @@
 <%- @embodies.each do |embody| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
+      <%= link_to embody.manifestation.original_title, embody.manifestation -%>
       <%= form_icon(embody.manifestation.carrier_type) -%>
     </td>
     <%- if can? :destroy, embody -%>

@@ -25,7 +25,7 @@
         <%- end -%>
         <li><%= link_to t('page.search_resource', :model => t('activerecord.models.subject')), subjects_path -%></li>
         <!--
-        <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user.username, :url => request.url) -%></li>
+        <li><%= link_to t('bookmark.add_to_my_bookmark'), new_user_bookmark_path(current_user, :url => request.url) -%></li>
         -->
       </ul>
     </div>
@@ -41,7 +41,7 @@
     <%- if user_signed_in? -%>
       <div id="request_menu" class="hidden">
         <ul>
-          <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user.username) -%></li>
+          <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user) -%></li>
         </ul>
       </div>
     <%- else -%>
@@ -83,7 +83,7 @@
           </ul>
         <%- else -%>
           <ul>
-            <li><%= link_to t('user.account_management'), edit_user_path(current_user.username) -%></li>
+            <li><%= link_to t('user.account_management'), edit_user_path(current_user) -%></li>
           </ul>
         <%- end -%>
       <%- else -%>

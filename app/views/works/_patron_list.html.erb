@@ -3,7 +3,7 @@
     <%- @work.patrons.each do |patron| -%>
       <li>
         [P]
-        <%= link_to h(patron.full_name), patron -%>
+        <%= link_to patron.full_name, patron -%>
         (<%= link_to_wikipedia(patron.full_name_without_space) -%>)
       </li>
     <%- end -%>

@@ -43,7 +43,7 @@
           (<%= link_to t('item.no_manifestation'), item_exemplify_path(item) -%>)
         <%- end -%>
       </td>
-      <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
+      <td><%= link_to h(item.shelf.library.display_name.localize), item.shelf.library -%></td>
       <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
       <td><%= item.circulation_status.display_name.localize -%></td>
       <%- if can? :destroy, item -%>

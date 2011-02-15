@@ -67,7 +67,7 @@
       <%- if @patron.user.blank? -%>
         <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
       <%- else -%>
-        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user.username) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user) -%></li>
       <%- end -%>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
     <%- end -%>

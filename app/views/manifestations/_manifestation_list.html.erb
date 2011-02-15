@@ -7,7 +7,7 @@
           <li>
             [M]
             (<%= manifestation_relationship.manifestation_relationship_type.display_name.localize -%>)
-            <%= link_to h(manifestation.original_title), manifestation -%>
+            <%= link_to manifestation.original_title, manifestation -%>
             <%= form_icon(manifestation.carrier_type) -%>
             <%- manifestation.expressions.each do |expression| -%>
               <%= link_to content_type_icon(expression.content_type), expression -%>
@@ -26,7 +26,7 @@
                     <li>
                       [W]
                       <%= image_tag('icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
-                      <%= link_to h(work.original_title), work -%>
+                      <%= link_to work.original_title, work -%>
                       <%- work.expressions.each do |expression| -%>
                         <%= link_to content_type_icon(expression.content_type), expression -%>
                       <%- end -%>
@@ -45,7 +45,7 @@
           <li>
             [M]
             (<%= manifestation_relationship.manifestation_relationship_type.display_name.localize -%>)
-            <%= link_to h(manifestation.original_title), manifestation -%>
+            <%= link_to manifestation.original_title, manifestation -%>
             <%= form_icon(manifestation.carrier_type) -%>
             <%- manifestation.expressions.each do |expression| -%>
               <%= link_to content_type_icon(expression.content_type), expression -%>
@@ -64,7 +64,7 @@
                     <li>
                       [W]
                       <%= image_tag('icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if @manifestation.works.include?(work) -%>
-                      <%= link_to h(work.original_title), work -%>
+                      <%= link_to work.original_title, work -%>
                       <%- work.expressions.each do |expression| -%>
                         <%= link_to content_type_icon(expression.content_type), expression -%>
                       <%- end -%>

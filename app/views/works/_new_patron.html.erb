@@ -18,7 +18,7 @@
   <%- unless @patron.blank? -%>
   <p>
     <%= f.label ('Creator') -%><br />
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </p>
   <%- end -%>
 

@@ -63,7 +63,7 @@
           <td>
             <%- if manifestation.subjects.first -%>
               <%- manifestation.subjects.each do |subject| -%>
-                <%= link_to h(subject.term), subject -%>
+                <%= link_to subject.term, subject -%>
               <%- end -%>
             <%- end -%>
           </td>

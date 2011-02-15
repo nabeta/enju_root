@@ -29,7 +29,7 @@
 <%- @works.each do |work| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(work.original_title), work_merge_list_work_path(@work_merge_list, work) -%>
+      <%= link_to work.original_title, work_merge_list_work_path(@work_merge_list, work) -%>
       <br />
       <%= raw patrons_list(work.patrons, current_user) -%>
     </td>
