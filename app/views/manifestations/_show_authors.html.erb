@@ -24,6 +24,6 @@
     <%- end -%>
 
     <%- manifestation.publishers.each do |publisher| -%>
-      <%= link_to h(publisher.full_name), publisher -%>
+      <%= link_to publisher.full_name, publisher -%>
     <%- end -%>
   <%- end -%>

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
   <h2 class="resource_title">
-    <%= link_to h(@series_statement.original_title), @series_statement -%>
+    <%= link_to @series_statement.original_title, @series_statement -%>
   </h2>
 
   <%= form_for :manifestations, :url => series_statement_manifestations_path(@series_statement), :html => {:method => 'get'} do -%>
@@ -19,7 +19,7 @@
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <!--
-      <%= link_to h(t('page.advanced_search')), page_advanced_search_path -%>
+      <%= link_to t('page.advanced_search'), page_advanced_search_path -%>
       -->
       <%= link_to t('page.back_to_index'), series_statement_manifestations_path(@series_statement) -%>
     </p>

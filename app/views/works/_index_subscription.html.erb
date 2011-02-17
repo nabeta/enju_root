@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.subscription')) -%></h1>
 <div id="content_list">
   <h2 class="resource_title">
-    <%= link_to h(@subscription.full_name), @subscription -%>
+    <%= link_to @subscription.full_name, @subscription -%>
   </h2>
 
 <%= form_for :works, :url => subscription_works_path(@subscription), :html => {:method => 'get'} do -%>

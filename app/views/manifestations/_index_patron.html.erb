@@ -10,7 +10,7 @@
     <p>
       <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
       <!--
-      <%= link_to h(t('page.advanced_search')), :controller => :page, :action => :advanced_search, :patron_id => h(@patron.id) -%>
+      <%= link_to t('page.advanced_search'), :controller => :page, :action => :advanced_search, :patron_id => @patron.id -%>
       -->
       <%- if can? :update, @patron -%>
         <%- if params[:mode] == 'add' -%>

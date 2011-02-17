@@ -18,8 +18,8 @@
         <%= move_position(circulation_status) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(circulation_status.name), circulation_status -%></td>
-    <td><%= link_to h(circulation_status.display_name.localize), circulation_status -%></td>
+    <td><%= link_to circulation_status.name, circulation_status -%></td>
+    <td><%= link_to circulation_status.display_name.localize, circulation_status -%></td>
     <td>
       <%- if can? :destroy, circulation_status -%>
         <%= link_to t('page.edit'), edit_circulation_status_path(circulation_status) -%>

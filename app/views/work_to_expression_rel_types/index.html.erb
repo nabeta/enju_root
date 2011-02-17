@@ -17,8 +17,8 @@
         <%= move_position(work_to_expression_rel_type) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(work_to_expression_rel_type.name), work_to_expression_rel_type -%></td>
-    <td><%= link_to h(work_to_expression_rel_type.display_name.localize), work_to_expression_rel_type -%></td>
+    <td><%= link_to work_to_expression_rel_type.name, work_to_expression_rel_type -%></td>
+    <td><%= link_to work_to_expression_rel_type.display_name.localize, work_to_expression_rel_type -%></td>
     <td><%= work_to_expression_rel_type.note -%></td>
     <td><%= link_to t('page.edit'), edit_work_to_expression_rel_type_path(work_to_expression_rel_type) -%></td>
     <td><%= link_to t('page.destroy'), work_to_expression_rel_type, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

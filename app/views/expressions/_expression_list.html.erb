@@ -3,7 +3,7 @@
     <%- @expression.parents.each do |expression_relationship| -%>
       <li>
         [E]
-        (<%= h(expression_relationship.expression_relationship_type.display_name.localize) -%>)
+        (<%= expression_relationship.expression_relationship_type.display_name.localize -%>)
         <%= link_to expression_relationship.parent.original_title, expression_relationship.parent -%>
         <%= raw patrons_list(expression_relationship.parent.creators, current_user) -%>
         <%= raw patrons_list(expression_relationship.parent.patrons, current_user) -%>
@@ -12,7 +12,7 @@
     <%- @expression.children.each do |expression_relationship| -%>
       <li>
         [E]
-        (<%= h(expression_relationship.expression_relationship_type.display_name.localize) -%>)
+        (<%= expression_relationship.expression_relationship_type.display_name.localize -%>)
         <%= link_to expression_relationship.child.original_title, expression_relationship.child -%>
         <%= raw patrons_list(expression_relationship.child.creators, current_user) -%>
         <%= raw patrons_list(expression_relationship.child.patrons, current_user) -%>

@@ -18,8 +18,8 @@
         <%= move_position(item_relationship_type) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(item_relationship_type.name), item_relationship_type -%></td>
-    <td><%= link_to h(item_relationship_type.display_name.localize), item_relationship_type -%></td>
+    <td><%= link_to item_relationship_type.name, item_relationship_type -%></td>
+    <td><%= link_to item_relationship_type.display_name.localize, item_relationship_type -%></td>
     <td><%= item_relationship_type.note -%></td>
     <td>
       <%- if can? :destroy, item_relationship_type -%>

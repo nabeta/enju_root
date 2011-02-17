@@ -2,7 +2,7 @@
   <ul>
     <li>
       [W]
-      <%= link_to h(@expression.work.original_title), @expression.work if @expression.work -%>
+      <%= link_to @expression.work.original_title, @expression.work if @expression.work -%>
       <%= raw patrons_list(@expression.work.patrons, current_user) -%>
       <%- unless @expression.manifestations.blank? -%>
         <ul>

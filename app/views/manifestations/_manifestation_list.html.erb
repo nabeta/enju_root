@@ -12,7 +12,7 @@
             <%- manifestation.expressions.each do |expression| -%>
               <%= link_to content_type_icon(expression.content_type), expression -%>
             <%- end -%>
-            <%= link_to image_tag('icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
+            <%= link_to image_tag('icons/world_go.png', :size => '16x16', :alt => ('Web')), manifestation.access_address unless manifestation.access_address.blank? -%>
             <%= raw patrons_list(manifestation.creators, current_user) -%>
             <%= raw patrons_list(manifestation.contributors, current_user) -%>
             <%= raw patrons_list(manifestation.publishers, current_user) -%>
@@ -50,7 +50,7 @@
             <%- manifestation.expressions.each do |expression| -%>
               <%= link_to content_type_icon(expression.content_type), expression -%>
             <%- end -%>
-            <%= link_to image_tag('icons/world_go.png', :size => '16x16', :alt => ('Web')), h(manifestation.access_address) unless manifestation.access_address.blank? -%>
+            <%= link_to image_tag('icons/world_go.png', :size => '16x16', :alt => ('Web')), manifestation.access_address unless manifestation.access_address.blank? -%>
             <%= raw patrons_list(manifestation.creators, current_user) -%>
             <%= raw patrons_list(manifestation.contributors, current_user) -%>
             <%= raw patrons_list(manifestation.publishers, current_user) -%>

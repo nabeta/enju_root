@@ -18,8 +18,8 @@
         <%= move_position(expression_relationship_type) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(expression_relationship_type.name), expression_relationship_type -%></td>
-    <td><%= link_to h(expression_relationship_type.display_name.localize), expression_relationship_type -%></td>
+    <td><%= link_to expression_relationship_type.name, expression_relationship_type -%></td>
+    <td><%= link_to expression_relationship_type.display_name.localize, expression_relationship_type -%></td>
     <td><%= expression_relationship_type.note -%></td>
     <td>
       <%- if can? :destroy, expression_relationship_type -%>

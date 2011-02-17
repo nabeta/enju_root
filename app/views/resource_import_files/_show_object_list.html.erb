@@ -5,15 +5,15 @@
       <td><%= link_to h("#{imported_object.importable_type}/#{imported_object.importable_id}"), imported_object -%></td>
       <td>
         <%- case imported_object.importable_type when 'Work' -%>
-          <%= link_to h(imported_object.importable.original_title), imported_object.importable -%>
+          <%= link_to imported_object.importable.original_title, imported_object.importable -%>
         <%- when 'Expression' -%>
-          <%= link_to h(imported_object.importable.original_title), imported_object.importable -%>
+          <%= link_to imported_object.importable.original_title, imported_object.importable -%>
         <%- when 'Manifestation' -%>
-          <%= link_to h(imported_object.importable.original_title), imported_object.importable -%>
+          <%= link_to imported_object.importable.original_title, imported_object.importable -%>
         <%- when 'Item' -%>
-          <%= link_to h(imported_object.importable.item_identifier), imported_object.importable -%>
+          <%= link_to imported_object.importable.item_identifier, imported_object.importable -%>
           <%- if imported_object.importable.manifestation -%>
-            (<%= link_to h(imported_object.importable.manifestation.original_title), imported_object.importable.manifestation -%>)
+            (<%= link_to imported_object.importable.manifestation.original_title, imported_object.importable.manifestation -%>)
           <%- end -%>
         <%- end -%>
       </td>
