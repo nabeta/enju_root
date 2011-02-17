@@ -5,11 +5,10 @@ require 'sru'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  #scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'manifestations.updated_at DESC'
-  scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  scope :pictures, where(:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'])
   scope :serials, :conditions => ['frequency_id > 1']
-  scope :not_serials, :conditions => ['frequency_id = 1']
+  scope :not_serials, where(:frequency_id => 1)
   has_many :embodies, :dependent => :destroy
   has_many :expressions, :through => :embodies
   has_many :exemplifies, :dependent => :destroy
@@ -431,14 +430,14 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
-      manifestation = Manifestation.first(:conditions => {:isbn => isbn})
+      manifestation = Manifestation.where(:isbn => isbn).first
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.first(:conditions => {:isbn => isbn})
+        manifestation = Manifestation.where(:isbn => isbn).first
       end
     end
     return manifestation
@@ -563,11 +562,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def produced(patron)
-    produces.first(:conditions => {:patron_id => patron.id})
+    produces.where(:patron_id => patron.id).first
   end
 
   def embodied(expression)
-    embodies.first(:conditions => {:expression_id => expression.id})
+    embodies.where(:expression_id => expression.id).first
   end
 
   def check_series_statement
@@ -577,7 +576,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def bookmark_for(user)
-    Bookmark.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
+    Bookmark.where(:user_id => user.id, :manifestation_id => self.id).first
   end
 
   def has_single_work?
@@ -607,23 +606,23 @@ class Manifestation < ActiveRecord::Base
   end
 
   def web_item
-    items.first(:conditions => {:shelf_id => Shelf.web.id})
+    items.where(:shelf_id => Shelf.web.id).first
   end
 
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
       if isbn.size == 10
-        Manifestation.first(:conditions => {:isbn => ISBN_Tools.isbn10_to_isbn13(isbn)}) || Manifestation.first(:conditions => {:isbn => isbn})
+        Manifestation.where(:isbn => ISBN_Tools.isbn10_to_isbn13(isbn)).first || Manifestation.where(:isbn => isbn).first
       else
-        Manifestation.first(:conditions => {:isbn => isbn}) || Manifestation.first(:conditions => {:isbn => ISBN_Tools.isbn13_to_isbn10(isbn)})
+        Manifestation.where(:isbn => isbn).first || Manifestation.where(:isbn => ISBN_Tools.isbn13_to_isbn10(isbn)).first
       end
     end
   end
 
   # 仮実装
   def similar_works
-    Work.all(:conditions => {:original_title => self.original_title})
+    Work.where(:original_title => self.original_title)
   end
 
   def same_work?(manifestation)

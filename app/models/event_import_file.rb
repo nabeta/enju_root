@@ -1,6 +1,6 @@
 class EventImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, where(:state => 'pending', :imported_at => nil)
 
   if configatron.uploaded_file.storage == :s3
     has_attached_file :event_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
@@ -86,11 +86,11 @@ class EventImportFile < ActiveRecord::Base
       unless row['all_day'].to_s.strip.blank?
         all_day = true
       end
-      library = Library.first(:conditions => {:name => row['library_short_name']})
+      library = Library.where(:name => row['library_short_name']).first
       library = Library.web if library.blank?
       event.library = library
       if category == "closed"
-        event.event_category = EventCagetory.first(:conditions => {:name => 'closed'})
+        event.event_category = EventCagetory.where(:name => 'closed').first
       end
 
       begin

@@ -247,7 +247,7 @@ class ResourcesController < ApplicationController
       if params[:to_approved].present?
         resources = params[:to_approved].map {|r| Resource.find_by_id(r)}
       elsif params[:approve] == 'all_resources'
-        resources = Resource.all(:conditions => {:state => 'not_approved'})
+        resources = Resource.where(:state => 'not_approved')
       end
       if resources.present?
         resources.each do |resource|
@@ -276,7 +276,7 @@ class ResourcesController < ApplicationController
       if params[:to_published].present?
         resources = params[:to_published].map {|r| Resource.find_by_id(r)}
       elsif params[:publish] == 'all_resources'
-        resources = Resource.all(:conditions => {:state => 'approved'})
+        resources = Resource.where(:state => 'approved')
       end
       if resources.present?
         resources.each do |resource|

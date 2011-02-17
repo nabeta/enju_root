@@ -2,12 +2,12 @@
   <strong><%= t('activerecord.models.shelf') -%>:</strong>
   <%= link_to h(@item.shelf.display_name.localize), shelf_path(@item.shelf_id) -%>
   <%= render :partial => 'items/shelf_picture', :locals => {:item => @item} -%>
-  (<%= link_to h(@item.shelf.library.display_name.localize), @item.shelf.library -%>)
+  (<%= link_to @item.shelf.library.display_name.localize, @item.shelf.library -%>)
 </p>
 
 <p>
   <strong><%= t('activerecord.models.circulation_status') -%>:</strong>
-  <%= link_to h(@item.circulation_status.display_name.localize), @item.circulation_status -%>
+  <%= link_to @item.circulation_status.display_name.localize, @item.circulation_status -%>
 </p>
 
 <p>

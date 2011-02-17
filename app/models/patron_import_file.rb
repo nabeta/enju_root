@@ -1,6 +1,6 @@
 class PatronImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, where(:state => 'pending', :imported_at => nil)
 
   if configatron.uploaded_file.storage == :s3
     has_attached_file :patron_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
@@ -130,10 +130,10 @@ class PatronImportFile < ActiveRecord::Base
             user.set_auto_generated_password
           end
           user.operator = User.find('admin')
-          library = Library.first(:conditions => {:name => row['library_short_name'].to_s.strip}) || Library.web
-          user_group = UserGroup.first(:conditions => {:name => row['user_group_name']}) || UserGroup.first
+          library = Library.where(:name => row['library_short_name'].to_s.strip).first || Library.web
+          user_group = UserGroup.where(:name => row['user_group_name']).first || UserGroup.first
           user.library = library
-          role = Role.first(:conditions => {:name => row['role']}) || Role.find(2)
+          role = Role.where(:name => row['role']).first || Role.find(2)
           user.role = role
           if user.save!
             import_result.user = user

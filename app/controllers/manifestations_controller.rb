@@ -310,7 +310,7 @@ class ManifestationsController < ApplicationController
       @manifestation.original_title = @expression.original_title
       @manifestation.title_transcription = @expression.title_transcription
     end
-    @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
+    @manifestation.language = Language.where(:iso_639_1 => @locale).first
     @manifestation = @manifestation.set_serial_number unless params[:mode] == 'attachment'
 
     respond_to do |format|
@@ -330,7 +330,7 @@ class ManifestationsController < ApplicationController
     @original_manifestation = get_manifestation
     @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.first(:conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
+      @bookmark = current_user.bookmarks.where(:manifestation_id => @manifestation.id).first if @manifestation rescue nil
       render :partial => 'manifestations/tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location unless params[:mode] == 'tag_edit'

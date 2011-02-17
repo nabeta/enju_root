@@ -100,7 +100,7 @@ class ExpressionsController < ApplicationController
       @expression.original_title = @work.original_title
       @expression.title_transcription = @work.title_transcription
     end
-    @expression.language = Language.first(:conditions => {:iso_639_1 => @locale})
+    @expression.language = Language.where(:iso_639_1 => @locale).first
 
     respond_to do |format|
       format.html # new.html.erb

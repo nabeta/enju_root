@@ -3,7 +3,7 @@ class Item < ActiveRecord::Base
   scope :for_checkout, :conditions => ['item_identifier IS NOT NULL']
   scope :not_for_checkout, :conditions => ['item_identifier IS NULL']
   scope :on_shelf, :conditions => ['shelf_id != 1']
-  scope :on_web, :conditions => ['shelf_id = 1']
+  scope :on_web, where(:shelf_id => 1)
   #belongs_to :manifestation, :class_name => 'Resource'
   has_one :exemplify
   has_one :manifestation, :through => :exemplify
@@ -67,7 +67,7 @@ class Item < ActiveRecord::Base
   end
 
   def set_circulation_status
-    self.circulation_status = CirculationStatus.first(:conditions => {:name => 'In Process'}) if self.circulation_status.nil?
+    self.circulation_status = CirculationStatus.where(:name => 'In Process').first if self.circulation_status.nil?
   end
 
   def available_for_checkout?
@@ -77,12 +77,12 @@ class Item < ActiveRecord::Base
   end
 
   def checkout!(user)
-    self.circulation_status = CirculationStatus.first(:conditions => {:name => 'On Loan'})
+    self.circulation_status = CirculationStatus.where(:name => 'On Loan').first
     save!
   end
 
   def checkin!
-    self.circulation_status = CirculationStatus.first(:conditions => {:name => 'Available On Shelf'})
+    self.circulation_status = CirculationStatus.where(:name => 'Available On Shelf').first
     save!
   end
 
@@ -120,11 +120,11 @@ class Item < ActiveRecord::Base
   end
 
   def lending_rule(user)
-    lending_policies.first(:conditions => {:user_group_id => user.user_group.id})
+    lending_policies.where(:user_group_id => user.user_group.id).first
   end
 
   def owned(patron)
-    owns.first(:conditions => {:patron_id => patron.id})
+    owns.where(:patron_id => patron.id).first
   end
 
   def library_url

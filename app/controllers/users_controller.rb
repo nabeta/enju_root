@@ -196,7 +196,7 @@ class UsersController < ApplicationController
       @user.patron = Patron.find(@user.patron_id) rescue nil
     end
     @user.set_auto_generated_password
-    @user.role = Role.first(:conditions => {:name => 'User'})
+    @user.role = Role.where(:name => 'User').first
 
     respond_to do |format|
       if @user.save

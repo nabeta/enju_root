@@ -80,11 +80,11 @@ class Expression < ActiveRecord::Base
   end
 
   def realized(patron)
-    realizes.first(:conditions => {:patron_id => patron.id})
+    realizes.where(:patron_id => patron.id).first
   end
 
   def embodied(manifestation)
-    embodies.first(:conditions => {:manifestation_id => manifestation.id})
+    embodies.where(:manifestation_id => manifestation.id).first
   end
 
 end

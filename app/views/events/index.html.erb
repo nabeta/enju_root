@@ -76,7 +76,7 @@
     <%- if user_signed_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <%- if @library -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.name) -%></li>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library) -%></li>
         <%- else -%>
           <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
         <%- end -%>
@@ -86,14 +86,14 @@
   </ul>
   <ul>
     <%- @libraries.each do |library| -%>
-      <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
+      <li><%= link_to library.display_name.localize, library_events_path(library) -%></li>
     <%- end -%>
   </ul>
   <p>
     <%- if @library -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :class => 'icon'), library_events_path(@library.name, :format => :rss) -%>
-      (<%= link_to 'RSS', library_events_path(@library.name, :format => :rss) -%>)
-      (<%= link_to 'CSV', library_events_path(@library.name, :format => :csv, :locale => @locale) -%>)
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :class => 'icon'), library_events_path(@library, :format => :rss) -%>
+      (<%= link_to 'RSS', library_events_path(@library, :format => :rss) -%>)
+      (<%= link_to 'CSV', library_events_path(@library, :format => :csv, :locale => @locale) -%>)
     <%- else -%>
       <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :class => 'icon'), events_path(:format => :rss) -%>
       (<%= link_to 'RSS', events_path(:format => :rss) -%>)

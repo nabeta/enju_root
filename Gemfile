@@ -18,15 +18,17 @@ platforms :ruby_19 do
 end
 
 platforms :ruby_18 do
+  gem 'system_timer'
   gem 'levenshtein'
 end
 
 platforms :jruby do
+  gem 'jruby-openssl'
   gem 'activerecord-jdbc-adapter'
   gem 'jdbc-postgres', :require => false
   #gem 'jdbc-mysql', :require => false
   gem 'rubyzip'
-  #gem 'glassfish'
+  gem 'glassfish'
 end
 
 gem 'fastercsv' if RUBY_VERSION < '1.9'
@@ -54,7 +56,7 @@ gem 'prism'
 gem 'money'
 gem 'rails-geocoder', :require => 'geocoder'
 gem 'RedCloth', '>=4.2.7'
-gem 'isbn-tools', :require => 'isbn/tools'
+gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 'isbn/tools'
 gem 'attribute_normalizer'
 gem 'configatron'
 gem 'extractcontent'
@@ -63,7 +65,6 @@ gem 'scribd_fu', :git => 'git://github.com/nabeta/scribd_fu.git'
 gem 'devise'
 gem 'omniauth'
 gem 'paperclip'
-gem 'bcrypt-ruby', :require => 'bcrypt'
 gem 'whenever', :require => false
 gem 'amazon-ecs', :require => 'amazon/ecs'
 gem 'aws-s3', :require => 'aws/s3'
