@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.4'
+gem 'rails', '3.0.5'
 
 # Bundle edge Rails instead:
 #gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -82,9 +82,9 @@ gem 'parallel_tests', :group => :development
 group :development, :test do
   gem 'rspec'
   gem 'rspec-rails'
-  gem 'autotest'
-  gem 'autotest-rails'
+  gem 'guard-rspec'
   gem 'factory_girl_rails'
+  gem 'spork', '~> 0.9.0.rc4'
 end
 
 # Use unicorn as the web server
