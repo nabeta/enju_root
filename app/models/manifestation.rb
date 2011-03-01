@@ -188,6 +188,7 @@ class Manifestation < ActiveRecord::Base
 
   after_create :post_to_scribd!
   before_create :set_digest
+  before_save :set_date_of_publication
   alias :producers :patrons
 
   def self.per_page
@@ -217,6 +218,20 @@ class Manifestation < ActiveRecord::Base
         self.isbn10 = ISBN_Tools.isbn13_to_isbn10(num)
       end
     end
+  end
+
+  def set_date_of_publication
+    return if pub_date.blank?
+    begin
+      date = Time.zone.parse(pub_date)
+    rescue ArgumentError
+      begin
+        date = Time.zone.parse("#{pub_date}-01")
+      rescue ArgumentError
+        date = Time.zone.parse("#{pub_date}-01-01")
+      end
+    end
+    self.date_of_publication = date
   end
 
   def expire_cache
