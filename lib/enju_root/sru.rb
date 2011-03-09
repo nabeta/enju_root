@@ -1,4 +1,4 @@
-require 'porta_cql'
+require 'enju_root/porta_cql'
 
 class QueryArgumentError < QueryError; end
 

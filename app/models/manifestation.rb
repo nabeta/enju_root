@@ -1,7 +1,6 @@
 # -*- encoding: utf-8 -*-
 #require 'wakati'
 require 'timeout'
-require 'sru'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper

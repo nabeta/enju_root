@@ -1,6 +1,4 @@
 require 'forwardable'
-#require 'rubygems'
-require 'sru'
 
 class Srw
   extend Forwardable

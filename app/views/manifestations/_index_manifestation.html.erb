@@ -16,13 +16,7 @@
       <%= t('page.search_term') -%>:
       <%= search_field_tag 'search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
       <%- if can? :update, @manifestation -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-        <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-        <%- end -%>
+        <%= render 'page/add' %>
         <!--
         <%= check_box_tag 'subscription_master', true, @subscription_master -%> <%= t('activerecord.attributes.manifestation.subscription_master') -%>
         -->

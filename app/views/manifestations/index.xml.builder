@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
-#require 'rubygems'
-#require 'fileutils'
 require 'cgi'
-#require 'builder/xmlmarkup'
-require 'sru'
 
 if @sru
   unless @sru.extra_response_data.empty?
