@@ -167,7 +167,7 @@ class Manifestation < ActiveRecord::Base
   enju_scribd
   enju_mozshot
   enju_oai
-  enju_calil_check
+  #enju_calil_check
   #enju_worldcat
   has_paper_trail
 
