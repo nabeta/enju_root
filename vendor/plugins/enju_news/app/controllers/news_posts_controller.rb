@@ -6,12 +6,11 @@ class NewsPostsController < ApplicationController
   # GET /news_posts
   # GET /news_posts.xml
   def index
-    if user_signed_in?
-      if current_user.has_role?('Librarian')
-        @news_posts = @news_posts.paginate(:all, :order => :position, :page => params[:page])
-      end
+    if current_user.try(:has_role?, 'Librarian')
+      @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
+    else
+      @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page])
     end
-    @news_posts = @news_posts.published.paginate(:all, :order => :position, :page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
