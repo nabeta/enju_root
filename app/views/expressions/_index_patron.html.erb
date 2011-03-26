@@ -8,14 +8,13 @@
 
   <%= form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <%- if can? :update, @patron -%>
         <%= render 'page/add' %>
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), patron_expressions_path(@patron) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table style="width:100%">

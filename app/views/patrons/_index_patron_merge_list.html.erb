@@ -4,7 +4,7 @@
 
 <%= form_for :patrons, :url => patron_merge_list_patrons_path(@patron_merge_list), :html => {:method => 'get'} do -%>
 <p>
-  <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:class => 'search_form'} -%>
+  <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:class => 'search_form', :placeholder => t('page.search_term')} -%>
   <%- if can? :update, @patron_merge_list -%>
     <%= render 'page/add' %>
   <%- end -%>

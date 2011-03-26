@@ -8,7 +8,7 @@
   <%= form_for :manifestations, :url => patron_manifestations_path(@patron), :html => {:method => 'get'} do -%>
 
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <!--
       <%= link_to t('page.advanced_search'), :controller => :page, :action => :advanced_search, :patron_id => @patron.id -%>
       -->
@@ -18,7 +18,6 @@
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), patron_manifestations_path(@patron) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <!--

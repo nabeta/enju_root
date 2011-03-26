@@ -7,7 +7,7 @@
 
   <%= form_for :manifestations, :url => subscription_manifestations_path(@subscription), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <%- if can? :update, @subscription -%>
         <%= render 'page/add' %>
       <%- end -%>
@@ -17,7 +17,6 @@
       -->
       <%= link_to t('page.back_to_index'), subscription_manifestations_path(@subscription) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">

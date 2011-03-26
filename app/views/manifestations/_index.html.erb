@@ -4,11 +4,10 @@
   <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>:
-      <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.advanced_search'), page_advanced_search_path -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <%- unless @query.blank? -%>
@@ -53,7 +52,6 @@
   <%- end -%>
 <%- else -%>
   <p><%= t('page.enter_search_term') -%></p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
     <div class="autopagerize_insert_before"></div>

@@ -7,14 +7,13 @@
 
 <%= form_for :works, :url => series_statement_works_path(@series_statement), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), :class => 'search_form', :placeholder => t('page.search_term') -%>
     <%- if can? :update, @series_statement -%>
       <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
     <%= link_to t('page.back_to_index'), series_statement_works_path(@series_statement) -%>
   </p>
-  <%= javascript_tag("$('#query').focus()") -%>
 <%- end -%>
 
 <table class="index">

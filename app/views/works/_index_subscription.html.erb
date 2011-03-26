@@ -7,14 +7,13 @@
 
 <%= form_for :works, :url => subscription_works_path(@subscription), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), :class => 'search_form' -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), :class => 'search_form', :placeholder => t('page.search_term') -%>
     <%- if can? :update, @subscription -%>
       <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
     <%= link_to t('page.back_to_index'), subscription_works_path(@subscription) -%>
   </p>
-  <%= javascript_tag("$('#query').focus()") -%>
 <%- end -%>
 
 <table class="index">

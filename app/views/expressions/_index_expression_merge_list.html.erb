@@ -4,14 +4,13 @@
 
 <%= form_for :expressions, :url => expression_merge_list_expressions_path(@expression_merge_list), :html => {:method => 'get'} do -%>
 <p>
-  <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+  <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
   <%- if can? :update, @expression_merge_list -%>
     <%= render 'page/add' %>
   <%- end -%>
   <%= submit_tag t('page.search') -%>
   <%= link_to t('page.back_to_index'), expression_merge_list_expressions_path(@expression_merge_list) -%>
 </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
   <table class="index">
