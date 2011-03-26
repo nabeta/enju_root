@@ -44,7 +44,7 @@ gem 'inherited_resources'
 gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
-gem 'strongbox', '>=0.4.1'
+gem 'strongbox', '>=0.4.6'
 gem 'acts-as-taggable-on'
 gem 'dalli'
 gem 'sitemap_generator'
@@ -60,9 +60,9 @@ gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 
 gem 'attribute_normalizer'
 gem 'configatron'
 gem 'extractcontent'
-gem 'cancan', '>=1.5.1'
+gem 'cancan', '>=1.6.3'
 gem 'scribd_fu', :git => 'git://github.com/nabeta/scribd_fu.git'
-gem 'devise'
+gem 'devise', '>=1.2.0'
 gem 'omniauth'
 gem 'paperclip'
 gem 'whenever', :require => false
@@ -76,7 +76,7 @@ gem 'sanitize'
 gem 'barby'
 gem 'prawnto'
 
-gem 'oink'
+gem 'oink', '>=0.9.1'
 gem 'parallel_tests', :group => :development
 
 group :development, :test do

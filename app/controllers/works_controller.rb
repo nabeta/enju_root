@@ -48,11 +48,7 @@ class WorksController < ApplicationController
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Work.per_page)
-    begin
-      @works = search.execute!.results
-    rescue RSolr::RequestError
-      @works = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @works = search.execute!.results
     @count[:total] = @works.total_entries
 
     respond_to do |format|
@@ -60,10 +56,6 @@ class WorksController < ApplicationController
       format.xml  { render :xml => @works }
       format.atom
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to works_url
-    return
   end
 
   # GET /works/1
@@ -86,11 +78,7 @@ class WorksController < ApplicationController
     end
     page = params[:subject_page] || 1
     search.query.paginate(page.to_i, Subject.per_page)
-    begin
-      @subjects = search.execute!.results
-    rescue RSolr::RequestError
-      @subjects = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @subjects = search.execute!.results
 
     #@subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.work_has_subjects.size)
 

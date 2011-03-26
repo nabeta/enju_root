@@ -7,7 +7,7 @@ xml.entry('xmlns' => "http://www.w3.org/2005/Atom"){
   xml.source do
     xml.author do
       xml.name LibraryGroup.site_config.name
-      xml.uri LibraryGroup.url
+      xml.uri LibraryGroup.site_config.url
     end
     xml.id "tag:#{request.host},2008:#{LibraryGroup.site_config.class}"
     xml.updated @manifestation.updated_at.utc.iso8601

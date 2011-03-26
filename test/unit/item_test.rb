@@ -8,7 +8,7 @@ class ItemTest < ActiveSupport::TestCase
     :patron_types, :message_templates, :message_requests, :barcodes, :request_status_types
 
   def test_should_have_library_url
-    assert_equal "#{LibraryGroup.url}libraries/web", items(:item_00001).library_url
+    assert_equal "#{LibraryGroup.site_config.url}libraries/web", items(:item_00001).library_url
   end
 
 end

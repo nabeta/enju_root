@@ -2,7 +2,7 @@
 class UsersController < ApplicationController
   #before_filter :reset_params_session
   load_and_authorize_resource
-  before_filter :get_patron, :only => :new
+  helper_method :get_patron
   before_filter :store_location, :only => [:index]
   before_filter :clear_search_sessions, :only => [:show]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -32,15 +32,11 @@ class UsersController < ApplicationController
     role = current_user.try(:role) || Role.default_role
 
     unless query.blank?
-      begin
-        @users = User.search do
-          fulltext query
-          order_by sort[:sort_by], sort[:order]
-          with(:required_role_id).less_than role.id
-        end.results
-      rescue RSolr::RequestError
-        @users = WillPaginate::Collection.create(1,1,0) do end
-      end
+      @users = User.search do
+        fulltext query
+        order_by sort[:sort_by], sort[:order]
+        with(:required_role_id).less_than role.id
+      end.results
     else
       @users = User.paginate(:all, :page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
     end
@@ -56,10 +52,6 @@ class UsersController < ApplicationController
         :inline => true
       }
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to users_url
-    return
   end
 
   def show
@@ -68,11 +60,10 @@ class UsersController < ApplicationController
     #@user = User.find(params[:id])
     raise ActiveRecord::RecordNotFound if @user.blank?
     unless @user.patron
-      redirect_to new_user_patron_url(@user.username); return
+      redirect_to new_user_patron_url(@user); return
     end
     #@tags = @user.owned_tags_by_solr
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
-    @news_feeds = Rails.cache.fetch('news_feed_all'){NewsFeed.all}
 
     @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
 
@@ -92,13 +83,13 @@ class UsersController < ApplicationController
     #@user.openid_identifier = flash[:openid_identifier]
     prepare_options
     @user_groups = UserGroup.all
+    get_patron
     if @patron.try(:user)
       redirect_to patron_url(@patron)
       flash[:notice] = t('page.already_activated')
       return
     end
     @user.patron_id = @patron.id if @patron
-    @user.expired_at = LibraryGroup.site_config.valid_period_for_new_user.days.from_now
     @user.library = current_user.library
     @user.locale = current_user.locale
   end
@@ -106,8 +97,8 @@ class UsersController < ApplicationController
   def edit
     #@user = User.first(:conditions => {:login => params[:id]})
     @user.role_id = @user.role.id
-    prepare_options
 
+    prepare_options
   end
 
   def update
@@ -118,6 +109,7 @@ class UsersController < ApplicationController
       #@user.username = params[:user][:login]
       @user.openid_identifier = params[:user][:openid_identifier]
       @user.keyword_list = params[:user][:keyword_list]
+      @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
       @user.email = params[:user][:email]
       #@user.note = params[:user][:note]
 
@@ -132,10 +124,10 @@ class UsersController < ApplicationController
         @user.locked = params[:user][:locked]
         expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
         begin
-          @user.expired_at = Time.zone.parse(expired_at_array.join("-"))
+          @user.expired_at = Time.zone.parse(expired_at_array.join("-")).try(:end_of_day)
         rescue ArgumentError
           flash[:notice] = t('page.invalid_date')
-          redirect_to edit_user_url(@user.username)
+          redirect_to edit_user_url(@user)
           return
         end
       end
@@ -160,7 +152,7 @@ class UsersController < ApplicationController
       end
       if @user.errors.empty?
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user'))
-        format.html { redirect_to user_url(@user.username) }
+        format.html { redirect_to user_url(@user) }
         format.xml  { head :ok }
       else
         prepare_options
@@ -172,7 +164,7 @@ class UsersController < ApplicationController
     #unless performed?
     #  # OpenIDでの認証後
     #  flash[:notice] = t('user_session.login_failed')
-    #  redirect_to edit_user_url(@user.username)
+    #  redirect_to edit_user_url(@user)
     #end
 
   end
@@ -187,7 +179,6 @@ class UsersController < ApplicationController
       @user.library_id = params[:user][:library_id] ||= 1
       @user.role_id = params[:user][:role_id] ||= 1
       @user.required_role_id = params[:user][:required_role_id] ||= 1
-      @user.expired_at = Time.zone.local(params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]) rescue nil
       @user.keyword_list = params[:user][:keyword_list]
       @user.user_number = params[:user][:user_number]
       @user.locale = params[:user][:locale]
@@ -203,8 +194,8 @@ class UsersController < ApplicationController
         #self.current_user = @user
         flash[:notice] = t('controller.successfully_created.', :model => t('activerecord.models.user'))
         flash[:temporary_password] = @user.password
-        format.html { redirect_to user_url(@user.username) }
-        #format.html { redirect_to new_user_patron_url(@user.username) }
+        format.html { redirect_to user_url(@user) }
+        #format.html { redirect_to new_user_patron_url(@user) }
         format.xml  { head :ok }
       else
         prepare_options
@@ -241,7 +232,7 @@ class UsersController < ApplicationController
 
     # 最後の管理者を削除しようとした
     if @user.has_role?('Administrator')
-      if Role.first(:conditions => {:name => 'Administrator'}).users.size == 1
+      if Role.where(:name => 'Administrator').first.users.size == 1
         raise 'This user is the last administrator in this system'
         flash[:notice] = t('user.last_administrator')
       end
@@ -260,10 +251,10 @@ class UsersController < ApplicationController
   private
   def prepare_options
     @user_groups = UserGroup.all
-    @roles = Role.all_cache
+    @roles = Role.all
     @libraries = Library.all_cache
     @languages = Language.all_cache
-    if @user.active?
+    if @user.active_for_authentication?
       @user.locked = '0'
     else
       @user.locked = '1'

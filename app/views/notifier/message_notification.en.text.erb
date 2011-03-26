@@ -1,8 +1,8 @@
-<%= @user.patron.full_name -%> :
+<%=h @user.patron.full_name -%> :
 
-A new message arrived from <%= LibraryGroup.site_config.display_name.localize -%>.
-<%= user_messages_url(@user.username) %>
+A new message arrived from <%=h LibraryGroup.system_name(@locale) -%>.
+<%=h user_messages_url(@user) %>
 
 -- 
-<%= LibraryGroup.site_config.display_name.localize %>
-<%= LibraryGroup.url %>
+<%=h LibraryGroup.system_name(@locale) %>
+<%=h LibraryGroup.site_config.url %>

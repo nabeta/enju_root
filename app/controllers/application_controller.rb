@@ -3,16 +3,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   include SslRequirement
-  include Oink::MemoryUsageLogger
-  include Oink::InstanceTypeCounter
 
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+  rescue_from Errno::ECONNREFUSED, :with => :render_500
+  rescue_from RSolr::RequestError, :with => :render_500
 
   before_filter :get_library_group, :set_locale, :set_available_languages
 
   private
   def render_403
+    return if performed?
     if user_signed_in?
       respond_to do |format|
         format.html {render :template => 'page/403', :status => 403}
@@ -27,9 +28,19 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
+    return if performed?
     respond_to do |format|
       format.html {render :template => 'page/404', :status => 404}
       format.xml {render :template => 'page/404', :status => 404}
+    end
+  end
+
+  def render_500
+    return if performed?
+    #flash[:notice] = t('page.connection_failed')
+    respond_to do |format|
+      format.html {render :file => "#{Rails.root.to_s}/public/500.html", :layout => false, :status => 500}
+      format.mobile {render :file => "#{Rails.root.to_s}/public/500.html", :layout => false, :status => 500}
     end
   end
 
@@ -62,7 +73,14 @@ class ApplicationController < ActionController::Base
   end
 
   def set_available_languages
-    @available_languages = Language.available_languages
+    if Rails.env == 'production'
+      @available_languages = Rails.cache.fetch('available_languages'){
+        Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s}).select([:id, :iso_639_1, :name, :native_name, :display_name, :position]).all
+      }
+    else
+      @available_languages = Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s})
+    end
+    @selectable_languages = @available_languages - Language.where(:iso_639_1 => @locale.to_s)
   end
 
   def reset_params_session
@@ -184,14 +202,6 @@ class ApplicationController < ActionController::Base
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  end
-
-  def librarian_authorized?
-    return false unless user_signed_in?
-    user = get_user_if_nil
-    return true if user == current_user
-    return true if current_user.has_role?('Librarian')
-    false
   end
 
   def convert_charset

@@ -128,10 +128,10 @@ class Item < ActiveRecord::Base
   end
 
   def library_url
-    "#{LibraryGroup.url}libraries/#{self.shelf.library.name}"
+    "#{LibraryGroup.site_config.url}libraries/#{self.shelf.library.name}"
   end
 
   def manifestation_url
-    URI.parse("#{LibraryGroup.url}manifestations/#{self.manifestation.id}").normalize.to_s if self.manifestation
+    URI.parse("#{LibraryGroup.site_config.url}manifestations/#{self.manifestation.id}").normalize.to_s if self.manifestation
   end
 end

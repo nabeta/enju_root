@@ -16,7 +16,7 @@ xml.rdf(:RDF,
       xml.items do
         xml.tag! "rdf:Seq" do
           @manifestations.each do |manifestation|
-            xml.tag! "rdf:li", 'rdf:resource' => "http://#{LibraryGroup.url}manifestations/#{manifestation.id}"
+            xml.tag! "rdf:li", 'rdf:resource' => "http://#{LibraryGroup.site_config.url}manifestations/#{manifestation.id}"
           end
         end
       end

@@ -274,7 +274,7 @@ class Manifestation < ActiveRecord::Base
 
   def url
     #access_address
-    "#{LibraryGroup.url}#{self.class.to_s.tableize}/#{self.id}"
+    "#{LibraryGroup.site_config.url}#{self.class.to_s.tableize}/#{self.id}"
   end
 
   def embodies?(expression)

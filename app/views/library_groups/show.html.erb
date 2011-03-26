@@ -16,11 +16,6 @@
   <%= @library_group.email -%>
 </p>
 
-<p>
-  <strong><%= t('activerecord.attributes.library_group.valid_period_for_new_user') -%>:</strong>
-  <%= @library_group.valid_period_for_new_user -%>
-</p>
-
 <div>
   <strong><%= t('activerecord.attributes.library_group.login_banner') -%>:</strong>
   <%= raw textilize(h(@library_group.login_banner)) -%>
@@ -67,17 +62,7 @@
 
 <ul>
   <%- @library_group.real_libraries.each do |library| -%>
-    <li><%= link_to library.display_name.localize, library -%></li>
-  <%- end -%>
-</ul>
-
-<p>
-  <strong><%= t('activerecord.models.news_feed') -%>:</strong><br />
-</p>
-
-<ul>
-  <%- @library_group.news_feeds.each do |news_feed| -%>
-    <li><%= link_to news_feed.title, news_feed -%></li>
+    <li><%= link_to h(library.display_name.localize), library -%></li>
   <%- end -%>
 </ul>
 

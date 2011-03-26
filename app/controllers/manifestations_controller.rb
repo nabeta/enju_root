@@ -217,16 +217,6 @@ class ManifestationsController < ApplicationController
           :inline => true
       }
     end
-  #rescue RSolr::RequestError
-  #  unless params[:format] == 'sru'
-  #    flash[:notice] = t('page.error_occured')
-  #    redirect_to manifestations_url
-  #    return
-  #  else
-  #    render :template => 'manifestations/error.xml', :layout => false
-  #    return
-  #  end
-  #  return
   rescue QueryError => e
   #  render :template => 'manifestations/error.xml', :layout => false
     Rails.logger.info "#{Time.zone.now}\t#{query}\t\t#{current_user.try(:username)}\t#{e}"
@@ -298,7 +288,7 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/new
   def new
     @manifestation = Manifestation.new
-    @original_manifestation = get_manifestation
+    @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
     @manifestation.series_statement = @series_statement
     if @manifestation.series_statement
       @manifestation.original_title = @manifestation.series_statement.original_title
@@ -327,7 +317,7 @@ class ManifestationsController < ApplicationController
       end
     end
     #@manifestation = Manifestation.find(params[:id])
-    @original_manifestation = get_manifestation
+    @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
     @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
       @bookmark = current_user.bookmarks.where(:manifestation_id => @manifestation.id).first if @manifestation rescue nil
@@ -350,7 +340,8 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       if @manifestation.save
         Manifestation.transaction do
-          if @original_manifestation = get_manifestation
+          @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
+          if @original_manifestation
             @manifestation.derived_manifestations << @original_manifestation
           end
           # 雑誌の場合、出版者を自動的に追加
@@ -569,7 +560,7 @@ class ManifestationsController < ApplicationController
 
   def prepare_options
     @carrier_types = CarrierType.all
-    @roles = Role.all_cache
+    @roles = Role.all
     @languages = Language.all_cache
     @frequencies = Frequency.all
     @nii_types = NiiType.all

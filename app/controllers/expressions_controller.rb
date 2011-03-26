@@ -50,11 +50,7 @@ class ExpressionsController < ApplicationController
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)
-    begin
-      @expressions = search.execute!.results
-    rescue RSolr::RequestError
-      @expressions = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @expressions = search.execute!.results
     @count[:total] = @expressions.total_entries
 
     respond_to do |format|
@@ -62,10 +58,6 @@ class ExpressionsController < ApplicationController
       format.xml  { render :xml => @expressions }
       format.atom
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to expressions_url
-    return
   end
 
   # GET /expressions/1
