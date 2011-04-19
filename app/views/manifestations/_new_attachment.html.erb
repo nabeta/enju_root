@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
 
-<%= form_for(@manifestation, :html => { :multipart => true, :method => :post }) do |f| -%>
+<%= form_for(manifestation, :url => manifestations_path(:mode => 'attachment'), :html => { :multipart => true, :method => :post }) do |f| -%>
   <%= f.error_messages -%>
   <p>
     <%= f.label t('page.file') -%><br />
@@ -14,10 +14,10 @@
     <%= f.text_field :original_title -%>
   </p>
 
-  <%- if @manifestation.respond_to?(:post_to_twitter) -%>
+  <%- if manifestation.respond_to?(:post_to_twitter) -%>
     <%= render :partial => 'manifestations/post_to_twitter', :locals => {:f => f} -%>
   <%- end -%>
-  <%- if @manifestation.respond_to?(:post_to_scribd) -%>
+  <%- if manifestation.respond_to?(:post_to_scribd) -%>
     <p>
       <%= t('scribd.post_to_scribd') -%>
       <%= f.check_box :post_to_scribd -%>
@@ -25,7 +25,7 @@
   <%- end -%>
 
   <p>
-    <%= f.submit t('page.create') -%>
+    <%= f.submit %>
   </p>
 
 <%- end -%>
