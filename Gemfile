@@ -26,7 +26,7 @@ platforms :jruby do
   gem 'activerecord-jdbc-adapter'
   gem 'jdbc-postgres', :require => false
   #gem 'jdbc-mysql', :require => false
-  gem 'rubyzip'
+  gem 'rubyzip2'
   gem 'glassfish'
 end
 
@@ -60,7 +60,7 @@ gem 'configatron'
 gem 'extractcontent'
 gem 'cancan', '>=1.6.4'
 gem 'scribd_fu'
-gem 'devise', '>=1.3.1'
+gem 'devise', '>=1.3.3'
 gem 'omniauth'
 gem 'paperclip'
 gem 'whenever', :require => false
@@ -69,16 +69,20 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'formtastic'
-gem 'jquery-rails'
 gem 'sanitize'
 gem 'barby'
 gem 'prawnto'
 gem 'jpmobile', '>=1.0.0.pre.4'
 #gem 'geokit'
 gem 'geocoder'
+gem 'acts_as_list', :git => 'git://github.com/haihappen/acts_as_list.git'
 
 gem 'oink', '>=0.9.1'
-gem 'parallel_tests', :group => :development
+
+group :development do
+  gem 'parallel_tests'
+  gem 'jquery-rails'
+end
 
 group :development, :test do
   gem 'rspec'
