@@ -9,9 +9,9 @@ class Bookmark < ActiveRecord::Base
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates_length_of :url, :maximum => 255, :allow_blank => true
+  validate :check_url
   #validate :get_manifestation
   before_validation :create_manifestation, :on => :create
-  before_validation :set_url
   validate :bookmarkable_url?
   before_save :replace_space_in_tags
   after_create :create_frbr_object
@@ -41,10 +41,13 @@ class Bookmark < ActiveRecord::Base
     10
   end
 
-  def set_url
-    self.url = URI.parse(self.url).normalize.to_s
-  rescue URI::InvalidURIError
-    nil
+  def check_url
+    parsed_url = Addressable::URI.parse(self.url)
+    if parsed_url.host and ['http', 'https'].index(parsed_url.scheme)
+      self.url = parsed_url.to_s
+    else
+      errors.add(:url)
+    end
   end
 
   def replace_space_in_tags
