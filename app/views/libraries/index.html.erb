@@ -4,10 +4,9 @@
 
 <%= form_for :libraries, :url => libraries_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <p>
@@ -40,7 +39,7 @@
       <%- end -%>
     </td>
     <td>
-      <%= link_to h(library.display_name.localize), library_path(library.name) -%>
+      <%= link_to library.display_name.localize, library -%>
       <br />
       <%= library.zip_code -%>
       <%= library.address -%>

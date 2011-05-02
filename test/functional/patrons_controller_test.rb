@@ -74,15 +74,13 @@ class PatronsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
 
-  def test_user_should_create_patron_myself
+  def test_user_should_not_create_patron_myself
     sign_in users(:user1)
-    #assert_difference('Patron.count') do
+    assert_no_difference('Patron.count') do
       post :create, :patron => { :full_name => 'test', :user_username => users(:user1).username }
-    #end
+    end
     
-    assert_response :redirect
-    assert_equal assigns(:patron).user, users(:user1)
-    assert_redirected_to patron_url(assigns(:patron))
+    assert_response :success
     assigns(:patron).remove_from_index!
   end
 
@@ -306,23 +304,5 @@ class PatronsControllerTest < ActionController::TestCase
     end
     
     assert_response :forbidden
-  end
-
-  def test_admin_should_not_destroy_librarian_who_has_items_checked_out
-    sign_in users(:admin)
-    assert_no_difference('Patron.count') do
-      delete :destroy, :id => users(:librarian1).patron
-    end
-    
-    assert_response :forbidden
-  end
-
-  def test_admin_should_destroy_librarian_who_doesnt_have_items_checked_out
-    sign_in users(:admin)
-    assert_difference('Patron.count', -1) do
-      delete :destroy, :id => users(:librarian2).patron
-    end
-    
-    assert_redirected_to patrons_url
   end
 end

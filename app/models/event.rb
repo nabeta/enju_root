@@ -4,7 +4,7 @@ class Event < ActiveRecord::Base
   scope :on, lambda {|datetime| {:conditions => ['start_at >= ? AND start_at < ?', Time.zone.parse(datetime).beginning_of_day, Time.zone.parse(datetime).tomorrow.beginning_of_day + 1]}}
   scope :past, lambda {|datetime| {:conditions => ['end_at <= ?', Time.zone.parse(datetime).beginning_of_day]}}
   scope :upcoming, lambda {|datetime| {:conditions => ['start_at >= ?', Time.zone.parse(datetime).beginning_of_day]}}
-  scope :at, lambda {|library| {:conditions => {:library_id => library.id}}}
+  scope :at, lambda {|library| where(:library_id => library.id)}
 
   belongs_to :event_category, :validate => true
   belongs_to :library, :validate => true
@@ -15,8 +15,7 @@ class Event < ActiveRecord::Base
   has_one :event_import_result
 
   #acts_as_taggable_on :tags
-  #acts_as_soft_deletable
-  has_event_calendar
+  #has_event_calendar
 
   searchable do
     text :name, :note

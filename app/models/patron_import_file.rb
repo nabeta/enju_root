@@ -1,6 +1,6 @@
 class PatronImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, where(:state => 'pending', :imported_at => nil)
 
   if configatron.uploaded_file.storage == :s3
     has_attached_file :patron_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
@@ -11,10 +11,11 @@ class PatronImportFile < ActiveRecord::Base
   validates_attachment_content_type :patron_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   validates_attachment_presence :patron_import
   belongs_to :user, :validate => true
+  has_many :patron_import_results
 
   validates_associated :user
   validates_presence_of :user
-  #after_create :set_digest
+  before_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
@@ -31,8 +32,9 @@ class PatronImportFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.patron_import.url, 'rb').read)
-    save(:validate => false)
+    if File.exists?(patron_import.queued_for_write[:original])
+      self.file_hash = Digest::SHA1.hexdigest(File.open(patron_import.queued_for_write[:original].path, 'rb').read)
+    end
   end
 
   def import_start
@@ -41,10 +43,6 @@ class PatronImportFile < ActiveRecord::Base
   end
 
   def import
-    #unless /text\/.+/ =~ FileWrapper.get_mime(patron_import.path)
-    #  sm_fail!
-    #  raise 'Invalid format'
-    #end
     self.reload
     num = {:success => 0, :failure => 0, :activated => 0}
     row_num = 2
@@ -131,11 +129,11 @@ class PatronImportFile < ActiveRecord::Base
           if user.password.blank?
             user.set_auto_generated_password
           end
-          user.operator = User.find(1)
-          library = Library.first(:conditions => {:name => row['library_short_name'].to_s.strip}) || Library.web
-          user_group = UserGroup.first(:conditions => {:name => row['user_group_name']}) || UserGroup.first
+          user.operator = User.find('admin')
+          library = Library.where(:name => row['library_short_name'].to_s.strip).first || Library.web
+          user_group = UserGroup.where(:name => row['user_group_name']).first || UserGroup.first
           user.library = library
-          role = Role.first(:conditions => {:name => row['role']}) || Role.find(2)
+          role = Role.where(:name => row['role']).first || Role.find(2)
           user.role = role
           if user.save!
             import_result.user = user

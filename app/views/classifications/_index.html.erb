@@ -4,10 +4,9 @@
 
 <%= form_for :classifications, :url => classifications_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
         
 <table class="index">
@@ -19,9 +18,9 @@
 
 <%- @classifications.each do |classification| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(classification.category), classification -%></td>
+    <td><%= link_to classification.category, classification -%></td>
     <td><%= classification.note -%></td>
-    <td><%= link_to h(classification.classification_type.display_name.localize), classification.classification_type -%></td>
+    <td><%= link_to classification.classification_type.display_name.localize, classification.classification_type -%></td>
     <%- if can? :destroy, classification -%>
       <td><%= link_to t('page.edit'), edit_classification_path(classification) -%></td>
       <td><%= link_to t('page.destroy'), classification, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

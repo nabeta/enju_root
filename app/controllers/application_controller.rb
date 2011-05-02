@@ -3,16 +3,17 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   include SslRequirement
-  include Oink::MemoryUsageLogger
-  include Oink::InstanceTypeCounter
 
   rescue_from CanCan::AccessDenied, :with => :render_403
   rescue_from ActiveRecord::RecordNotFound, :with => :render_404
+  rescue_from Errno::ECONNREFUSED, :with => :render_500
+  rescue_from RSolr::RequestError, :with => :render_500
 
-  before_filter :get_library_group, :set_locale, :set_available_languages,
-    :pickup_advertisement
+  before_filter :get_library_group, :set_locale, :set_available_languages
 
+  private
   def render_403
+    return if performed?
     if user_signed_in?
       respond_to do |format|
         format.html {render :template => 'page/403', :status => 403}
@@ -27,13 +28,22 @@ class ApplicationController < ActionController::Base
   end
 
   def render_404
+    return if performed?
     respond_to do |format|
       format.html {render :template => 'page/404', :status => 404}
       format.xml {render :template => 'page/404', :status => 404}
     end
   end
 
-  private
+  def render_500
+    return if performed?
+    #flash[:notice] = t('page.connection_failed')
+    respond_to do |format|
+      format.html {render :file => "#{Rails.root.to_s}/public/500.html", :layout => false, :status => 500}
+      format.mobile {render :file => "#{Rails.root.to_s}/public/500.html", :layout => false, :status => 500}
+    end
+  end
+
   def get_library_group
     @library_group = LibraryGroup.site_config
   end
@@ -63,7 +73,14 @@ class ApplicationController < ActionController::Base
   end
 
   def set_available_languages
-    @available_languages = Language.available_languages
+    if Rails.env == 'production'
+      @available_languages = Rails.cache.fetch('available_languages'){
+        Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s}).select([:id, :iso_639_1, :name, :native_name, :display_name, :position]).all
+      }
+    else
+      @available_languages = Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s})
+    end
+    @selectable_languages = @available_languages - Language.where(:iso_639_1 => @locale.to_s)
   end
 
   def reset_params_session
@@ -128,7 +145,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user
-    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
+    @user = User.where(:username => params[:user_id]).first if params[:user_id]
     if @user
       authorize! :show, @user
     else
@@ -138,7 +155,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_user_if_nil
-    @user = User.first(:conditions => {:username => params[:user_id]}) if params[:user_id]
+    @user = User.where(:username => params[:user_id]).first if params[:user_id]
     #authorize! :show, @user if @user
   end
   
@@ -151,7 +168,7 @@ class ApplicationController < ActionController::Base
   end
 
   def get_libraries
-    @libraries = Rails.cache.fetch('library_all'){Library.all}
+    @libraries = Library.all_cache
   end
 
   def get_library_group
@@ -167,10 +184,6 @@ class ApplicationController < ActionController::Base
     @event = Event.find(params[:event_id]) if params[:event_id]
   end
 
-  def get_bookstore
-    @bookstore = Bookstore.find(params[:bookstore_id]) if params[:bookstore_id]
-  end
-
   def get_subject
     @subject = Subject.find(params[:subject_id]) if params[:subject_id]
   end
@@ -183,36 +196,12 @@ class ApplicationController < ActionController::Base
     @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
   end
 
-  def get_order_list
-    @order_list = OrderList.find(params[:order_list_id]) if params[:order_list_id]
-  end
-
-  def get_purchase_request
-    @purchase_request = PurchaseRequest.find(params[:purchase_request_id]) if params[:purchase_request_id]
-  end
-
-  def get_checkout_type
-    @checkout_type = CheckoutType.find(params[:checkout_type_id]) if params[:checkout_type_id]
-  end
-
-  def get_inventory_file
-    @inventory_file = InventoryFile.find(params[:inventory_file_id]) if params[:inventory_file_id]
-  end
-
   def get_subject_heading_type
     @subject_heading_type = SubjectHeadingType.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
   end
 
   def get_series_statement
     @series_statement = SeriesStatement.find(params[:series_statement_id]) if params[:series_statement_id]
-  end
-
-  def librarian_authorized?
-    return false unless user_signed_in?
-    user = get_user_if_nil
-    return true if user == current_user
-    return true if current_user.has_role?('Librarian')
-    false
   end
 
   def convert_charset
@@ -273,17 +262,8 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    session[:return_to] = request.fullpath
-  end
-
-  def redirect_back_or_default(default = '/')
-    redirect_to(session[:return_to] || default)
-    session[:return_to] = nil
-  end
-
-  def pickup_advertisement
-    if params[:format] == 'html' or params[:format].nil?
-      @picked_advertisement = Advertisement.pickup
+    if request.get? and request.format.html? and !request.xhr?
+      session[:user_return_to] = request.fullpath
     end
   end
 
@@ -302,19 +282,17 @@ class ApplicationController < ActionController::Base
       expression = @expression
       patron = @patron
       manifestation = @manifestation
-      reservable = @reservable
       carrier_type = params[:carrier_type]
       library = params[:library]
       language = params[:language]
       subject = params[:subject]
-      subject_by_term = Subject.first(:conditions => {:term => params[:subject]})
+      subject_by_term = Subject.where(:term => params[:subject]).first
       @subject_by_term = subject_by_term
 
       search.build do
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
-        with(:reservable).equal_to true if reservable
         unless carrier_type.blank?
           with(:carrier_type).equal_to carrier_type
           with(:carrier_type).equal_to carrier_type

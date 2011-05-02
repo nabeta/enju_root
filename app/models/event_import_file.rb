@@ -1,6 +1,6 @@
 class EventImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  scope :not_imported, :conditions => {:state => 'pending', :imported_at => nil}
+  scope :not_imported, where(:state => 'pending', :imported_at => nil)
 
   if configatron.uploaded_file.storage == :s3
     has_attached_file :event_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
@@ -11,7 +11,8 @@ class EventImportFile < ActiveRecord::Base
   validates_attachment_content_type :event_import, :content_type => ['text/csv', 'text/plain', 'text/tab-separated-values', 'application/octet-stream']
   validates_attachment_presence :event_import
   belongs_to :user, :validate => true
-  #after_create :set_digest
+  has_many :event_import_results
+  before_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
@@ -28,8 +29,9 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.event_import.url, 'rb').read)
-    save(:validate => false)
+    if File.exists?(event_import.queued_for_write[:original])
+      self.file_hash = Digest::SHA1.hexdigest(File.open(event_import.queued_for_write[:original].path, 'rb').read)
+    end
   end
 
   def import_start
@@ -38,10 +40,6 @@ class EventImportFile < ActiveRecord::Base
   end
 
   def import
-    #unless /text\/.+/ =~ FileWrapper.get_mime(event_import.path)
-    #  sm_fail!
-    #  raise 'Invalid format'
-    #end
     self.reload
     num = {:success => 0, :failure => 0}
     record = 2
@@ -88,11 +86,11 @@ class EventImportFile < ActiveRecord::Base
       unless row['all_day'].to_s.strip.blank?
         all_day = true
       end
-      library = Library.first(:conditions => {:name => row['library_short_name']})
+      library = Library.where(:name => row['library_short_name']).first
       library = Library.web if library.blank?
       event.library = library
       if category == "closed"
-        event.event_category = EventCagetory.first(:conditions => {:name => 'closed'})
+        event.event_category = EventCagetory.where(:name => 'closed').first
       end
 
       begin

@@ -2,7 +2,7 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.reify')) -%></h1>
 <div id="content_list">
   <h2 class="resource_title">
-    <%= link_to h(@expression.original_title), @expression -%>
+    <%= link_to @expression.original_title, @expression -%>
   </h2>
 
 <table class="index">
@@ -20,7 +20,7 @@
       <%- end -%>
     </td>
     <td>
-      <%= link_to h(reify.expression.original_title), reify.expression -%>
+      <%= link_to reify.expression.original_title, reify.expression -%>
       <%= content_type_icon(reify.expression.content_type) -%>
       <br />
       <%= raw patrons_list(reify.expression.patrons, current_user) -%>

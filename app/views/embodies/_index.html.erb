@@ -11,11 +11,11 @@
 <%- @embodies.each do |embody| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(embody.expression.original_title), embody.expression -%>
+      <%= link_to embody.expression.original_title, embody.expression -%>
       <%= content_type_icon(embody.expression.content_type) -%>
     </td>
     <td>
-      <%= link_to h(embody.manifestation.original_title), embody.manifestation -%>
+      <%= link_to embody.manifestation.original_title, embody.manifestation -%>
       <%= content_type_icon(embody.expression.content_type) -%>
     </td>
     <%- if can? :destroy, embody -%>

@@ -3,7 +3,7 @@
 <div id="content_list">
   <h2 class="resource_title">
     [M]
-    <%= link_to h(@manifestation.original_title), @manifestation -%>
+    <%= link_to @manifestation.original_title, @manifestation -%>
   </h2>
   <p>
     <%= raw patrons_list(@manifestation.creators, current_user) -%>
@@ -15,31 +15,23 @@
     <p>
       <%= t('page.search_term') -%>:
       <%= search_field_tag 'search_form_top', h(@query), {:id => 'query', :class => 'search_form_short'} -%>
-      <%- if can? :destroy, @manifestation -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-        <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-        <%- end -%>
+      <%- if can? :update, @manifestation -%>
+        <%= render 'page/add' %>
         <!--
         <%= check_box_tag 'subscription_master', true, @subscription_master -%> <%= t('activerecord.attributes.manifestation.subscription_master') -%>
         -->
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <!--
-      <%= link_to h(t('page.advanced_search')), page_advanced_search_path -%>
+      <%= link_to t('page.advanced_search'), page_advanced_search_path -%>
       -->
       <%= link_to t('page.back_to_index'), manifestation_manifestations_path(@manifestation) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
-    <th></th>
     <th></th>
   </tr>
   <%- @manifestations.each do |manifestation| -%>
@@ -49,12 +41,7 @@
         <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
       </td>
       <td>
-        <%- if can? :destroy, manifestation -%>
-          <%= link_to t('page.edit'), edit_manifestation_path(manifestation) -%>
-        <% end %>
-      </td>
-      <td>
-        <%- if can? :destroy, manifestation -%>
+        <%- if can? :update, manifestation -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_manifestation_manifestation_relationship_path(@manifestation, :child_id => manifestation.id) unless @manifestation.derived_manifestations.include?(manifestation) or @manifestation == manifestation -%>
           <%- else -%>

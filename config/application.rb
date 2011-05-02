@@ -43,20 +43,12 @@ module EnjuRoot
       :email_prefix => "[Whatever] ",
       :sender_address => %{"notifier" <notifier@example.com>},
       :exception_recipients => %w{tanabe@mwr.mediacom.keio.ac.jp}
+    #config.middleware.use '::ExceptionNotifier',
+    #  :email_prefix => "[Whatever] ",
+    #  :sender_address => %{"notifier" <notifier@example.com>},
+    #  :exception_recipients => %w{exceptions@example.com}
+    config.middleware.use "Oink::Middleware"
   end
 end
 
-require 'csv' if RUBY_VERSION > '1.9'
-require 'mathn'
-require 'rss'
-require 'nkf'
-require 'ipaddr'
-require 'bookmark_url'
-require 'localized_name'
-require 'porta_cql'
-require 'master_model'
-require 'enju_fragment_cache'
-require 'calculate_stat'
-require 'openurl'
-require 'sru'
-require 'expire_editable_fragment'
+require 'enju_root'

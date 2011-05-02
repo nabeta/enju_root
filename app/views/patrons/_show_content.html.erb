@@ -13,7 +13,7 @@
       <%- if @patron.user -%>
         <tr>
           <td><strong><%= t('activerecord.attributes.user.username') -%>:</strong></td>
-          <td><%= link_to h(@patron.user.username), edit_user_path(@patron.user.username) -%></td>
+          <td><%= link_to @patron.user.username, @patron.user -%></td>
         </tr>
       <%- end -%>
       <tr>
@@ -23,13 +23,13 @@
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.email') -%>:</strong></td>
         <td>
-          <%= mail_to h(@patron.email), nil, :class => 'email' -%>
+          <%= mail_to @patron.email, nil, :class => 'email' -%>
         </td>
       </tr>
       <tr>
         <td><strong><%= t('activerecord.attributes.patron.url') -%>:</strong></td>
         <td>
-          <%= link_to h(@patron.url), @patron.url, :class => 'url' -%>
+          <%= link_to @patron.url, @patron.url, :class => 'url' -%>
         </td>
       </tr>
       <tr>
@@ -110,7 +110,7 @@
       </tr>
     </table>
   </div>
-  <%- if @patron.derived_patrons.first or @patron.original_patrons.first -%>
+  <%- if @patron.derived_patrons.exists? or @patron.original_patrons.exists? -%>
     <%= render :partial => 'patrons/patron_list' -%>
   <%- end -%>
   <%- unless @works.blank? -%>

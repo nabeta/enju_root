@@ -1,0 +1,20 @@
+--- 
+manifestation_relationship_type_00001: 
+  position: 1
+  name: Reproduction
+  created_at: 2009-11-18 17:23:48 Z
+  updated_at: 2009-11-19 00:10:42 Z
+  id: 1
+  note: ""
+  display_name: "en:Reproduction\r\n\
+    ja:複製"
+
+manifestation_relationship_type_00002: 
+  position: 2
+  name: Alternate
+  created_at: 2009-11-18 17:23:58 Z
+  updated_at: 2009-11-19 00:10:29 Z
+  id: 2
+  note: ""
+  display_name: "en:Alternate\r\n\
+    ja:代替"

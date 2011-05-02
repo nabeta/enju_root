@@ -47,10 +47,6 @@ class BookmarksController < ApplicationController
       format.html # index.rhtml
       format.xml  { render :xml => @bookmarks }
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to bookmarks_url
-    return
   end
 
   # GET /bookmarks/1
@@ -160,7 +156,7 @@ class BookmarksController < ApplicationController
       access_denied; return
     end
     @bookmark.title = @bookmark.manifestation.try(:original_title)
-    @bookmark.taggings.all(:conditions => {:tagger_id => @bookmark.user.id}).map{|t| t.destroy}
+    @bookmark.taggings.where(:tagger_id => @bookmark.user.id).map{|t| t.destroy}
 
     respond_to do |format|
       if @bookmark.update_attributes(params[:bookmark])

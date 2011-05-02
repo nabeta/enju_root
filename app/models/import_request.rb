@@ -25,7 +25,7 @@ class ImportRequest < ActiveRecord::Base
 
   def check_imported
     if isbn.present?
-      if Manifestation.first(:conditions => {:isbn => isbn})
+      if Manifestation.where(:isbn => isbn).first
         errors.add(:isbn, I18n.t('import_request.isbn_taken'))
       end
     end
@@ -34,7 +34,7 @@ class ImportRequest < ActiveRecord::Base
   def self.import_patrons(patron_lists)
     patrons = []
     patron_lists.each do |patron_list|
-      unless patron = Patron.first(:conditions => {:full_name => patron_list})
+      unless patron = Patron.where(:full_name => patron_list).first
         patron = Patron.new(:full_name => patron_list) #, :language_id => 1)
         #patron.required_role = Role.first(:conditions => {:name => 'Guest'})
       end

@@ -1,9 +1,8 @@
 <div class="header_and_footer">
   <div id="footer">
-    <a href="http://github.com/nabeta/enju_root/wiki">Next-L Enju Root</a>,
+    <a href="http://github.com/nabeta/enju_root/wiki">Next-L Enju Root <%= EnjuRoot.version %></a>,
     <%= t('page.open_source_integrated_library_system') -%> |
     <%= link_to t('page.about_this_system'), page_about_path -%> |
-    <%= link_to t('page.add_on'), page_add_on_path -%> |
     <%= link_to t('page.report_bugs'), "http://github.com/nabeta/enju_root/issues" -%>
     <br />
     Developed by <a href="http://mwr.mediacom.keio.ac.jp/~tanabe/">Kosuke Tanabe</a> and <a href="http://www.next-l.jp/">Project Next-L</a> |
@@ -13,7 +12,7 @@
     <%= database_adapter -%>
     and <a href="http://lucene.apache.org/solr/">Solr</a>
     <%- if Manifestation.respond_to?(:enju_worldcat) -%>
-      <a href="http://www.worldcat.org/" target="_blank"><img border="0" src="http://www.worldcat.org/images/wc_badge_144x19.gif?ai=Tokyo_nabeta" width="144" height="19" alt="WorldCat lets people access the collections of libraries worldwide [WorldCat.org]" title="WorldCat lets people access the collections of libraries worldwide [WorldCat.org]" /></a>
+      <a href="http://www.worldcat.org/" target="_blank"><img class="icon" src="http://www.worldcat.org/images/wc_badge_144x19.gif?ai=Tokyo_nabeta" width="144" height="19" alt="WorldCat lets people access the collections of libraries worldwide [WorldCat.org]" title="WorldCat lets people access the collections of libraries worldwide [WorldCat.org]" /></a>
     <%- end -%>
   </div>
 </div>

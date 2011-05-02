@@ -3,10 +3,9 @@
 <div id="content_list">
 <%= form_for :messages, :url => user_messages_path(current_user), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
     <%= submit_tag t('page.search') -%>
    </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <%= form_for :message, :url => destroy_selected_user_messages_path do |form| -%>
@@ -24,10 +23,10 @@
       </td>
       <td>
         <% unless message.read? %><strong><% end %>
-          <%= link_to h(message.subject), message -%>
+          <%= link_to message.subject, message -%>
         <% unless message.read? %></strong><% end %>
       </td>
-      <td><%= link_to h(message.sender.username), message.sender -%></td>
+      <td><%= link_to message.sender.username, message.sender -%></td>
       <td><%= l(message.created_at) -%></td>  
     </tr>
   <%- end -%>

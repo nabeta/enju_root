@@ -18,8 +18,8 @@
         <%= move_position(work_relationship_type) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(work_relationship_type.name), work_relationship_type -%></td>
-    <td><%= link_to h(work_relationship_type.display_name.localize), work_relationship_type -%></td>
+    <td><%= link_to work_relationship_type.name, work_relationship_type -%></td>
+    <td><%= link_to work_relationship_type.display_name.localize, work_relationship_type -%></td>
     <td><%= work_relationship_type.note -%></td>
     <td>
       <%- if can? :destroy, work_relationship_type -%>

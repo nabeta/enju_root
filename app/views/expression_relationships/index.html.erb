@@ -11,8 +11,8 @@
 
 <%- @expression_relationships.each do |expression_relationship| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(expression_relationship.parent.original_title), expression_relationship.parent -%></td>
-    <td><%= link_to h(expression_relationship.child.original_title), expression_relationship.child -%></td>
+    <td><%= link_to expression_relationship.parent.original_title, expression_relationship.parent -%></td>
+    <td><%= link_to expression_relationship.child.original_title, expression_relationship.child -%></td>
     <td><%= expression_relationship.expression_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), expression_relationship -%></td>
     <td><%= link_to t('page.edit'), edit_expression_relationship_path(expression_relationship) -%></td>

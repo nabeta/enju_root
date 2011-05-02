@@ -13,7 +13,7 @@
 
 <%- @work_merge_lists.each do |work_merge_list| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(work_merge_list.title), work_merge_list -%></td>
+    <td><%= link_to work_merge_list.title, work_merge_list -%></td>
     <td><%= l(work_merge_list.created_at) -%></td>
     <td><%= link_to t('page.show'), work_merge_list -%></td>
     <td><%= link_to t('page.edit'), edit_work_merge_list_path(work_merge_list) -%></td>

@@ -4,7 +4,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     Create, Realize, Produce, Own, Patron, Language,
     WorkRelationship, ExpressionRelationship,
     ManifestationRelationship, ItemRelationship, PatronRelationship,
-    SeriesStatement, SubjectHeadingType, PictureFile, Answer
+    SeriesStatement, SubjectHeadingType, Answer
 
   def after_save(record)
     case
@@ -138,23 +138,12 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     when record.is_a?(PatronRelationship)
       expire_editable_fragment(record.parent)
       expire_editable_fragment(record.child)
-    when record.is_a?(Language)
-      Rails.cache.fetch('language_all'){Language.all}.each do |language|
-        expire_fragment(:controller => 'page', :locale => language.iso_639_1.to_sym)
-      end
     when record.is_a?(SeriesStatement)
       record.manifestations.each do |manifestation|
         expire_editable_fragment(manifestation, ['detail'])
       end
     when record.is_a?(SubjectHeadingTypeHasSubject)
       expire_editable_fragment(record.subject)
-    when record.is_a?(PictureFile)
-      case
-      when record.picture_attachable.is_a?(Manifestation)
-        expire_editable_fragment(record.picture_attachable, ['picture_file', 'book_jacket'])
-      when record.picture_attachable.is_a?(Patron)
-        expire_editable_fragment(record.picture_attachable, ['picture_file'])
-      end
     when record.is_a?(Answer)
       record.items.each do |item|
         expire_editable_fragment(item.manifestation, ['detail'])

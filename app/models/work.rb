@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Work < ActiveRecord::Base
-  include EnjuFragmentCache
-
   has_many :creates, :dependent => :destroy
   has_many :patrons, :through => :creates
   has_many :reifies, :dependent => :destroy
@@ -92,11 +90,11 @@ class Work < ActiveRecord::Base
   end
 
   def created(patron)
-    creates.first(:conditions => {:patron_id => patron.id})
+    creates.where(:patron_id => patron.id).first
   end
 
   def reified(expression)
-    reifies.first(:conditions => {:expression_id => expression.id})
+    reifies.where(:expression_id => expression.id).first
   end
 
   def subscribed?(time = Time.zone.now)

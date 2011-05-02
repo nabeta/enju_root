@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class PictureFilesControllerTest < ActionController::TestCase
-    fixtures :picture_files, :resources, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :reserves, :library_groups, :countries, :shelves
+    fixtures :picture_files, :manifestations, :carrier_types, :events, :languages, :users, :user_groups, :patrons, :patron_types, :event_categories, :libraries, :library_groups, :countries, :shelves
 
   def test_guest_should_get_index
     get :index
@@ -130,6 +130,7 @@ class PictureFilesControllerTest < ActionController::TestCase
     end
 
     assert assigns(:picture_file).picture_attachable
+    assert assigns(:picture_file).file_hash
     assert_redirected_to picture_file_url(assigns(:picture_file))
     #assert assigns(:picture_file).file_hash
   end

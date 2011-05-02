@@ -24,11 +24,11 @@ set :environment, :production
 set :output, "#{path}/log/cron_log.log"
 
 every 5.minute do
-  runner "Session.expire; MessageRequest.send_messages"
+  runner "MessageRequest.send_messages"
 end
 
 every 1.hour do
-  runner "Advertisement.expire_cache; NewsFeed.fetch_feeds"
+  runner "NewsFeed.fetch_feeds"
 end
 
 every 1.day, :at => '0:00 am' do

@@ -1,8 +1,8 @@
 # -*- encoding: utf-8 -*-
 class Answer < ActiveRecord::Base
   default_scope :order => 'id ASC'
-  scope :public_answers, :conditions => {:shared => true}
-  scope :private_answers, :conditions => {:shared => false}
+  scope :public_answers, where(:shared => true)
+  scope :private_answers, where(:shared => false)
   belongs_to :user, :counter_cache => true, :validate => true
   belongs_to :question, :counter_cache => true, :validate => true
   has_many :answer_has_items, :dependent => :destroy
@@ -13,7 +13,7 @@ class Answer < ActiveRecord::Base
   before_save :add_items
 
   validates_associated :user, :question
-  validates_presence_of :user_id, :question_id, :body
+  validates_presence_of :user, :question, :body
 
   def self.per_page
     10
@@ -24,13 +24,13 @@ class Answer < ActiveRecord::Base
   end
 
   def add_items
-    item_list = item_identifier_list.to_s.strip.split.map{|i| Item.first(:conditions => {:item_identifier => i})}.compact.uniq
+    item_list = item_identifier_list.to_s.strip.split.map{|i| Item.where(:item_identifier => i).first}.compact.uniq
     url_list = add_urls
     self.items = item_list + url_list
   end
 
   def add_urls
-    list = url_list.to_s.strip.split.map{|u| Manifestation.first(:conditions => {:access_address => URI.parse(u).normalize.to_s})}.compact.map{|m| m.web_item}.compact.uniq
+    list = url_list.to_s.strip.split.map{|u| Manifestation.where(:access_address => URI.parse(u).normalize.to_s)}.compact.map{|m| m.web_item}.compact.uniq
   end
 
 end

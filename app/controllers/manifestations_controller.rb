@@ -59,15 +59,6 @@ class ManifestationsController < ApplicationController
         end
       end
 
-      case params[:reservable].to_s
-      when 'true'
-        @reservable = true
-      when 'false'
-        @reservable = false
-      else
-        @reservable = nil
-      end
-
       if params[:format] == 'csv'
         per_page = 65534
       end
@@ -104,14 +95,6 @@ class ManifestationsController < ApplicationController
       search = Manifestation.search(:include => [:carrier_type, :required_role, :patrons, :expressions, :items, :bookmarks])
       role = current_user.try(:role) || Role.default_role
       oai_search = true if params[:format] == 'oai'
-      case @reservable
-      when 'true'
-        reservable = true
-      when 'false'
-        reservable = false
-      else
-        reservable = nil
-      end
       unless params[:mode] == 'add'
         manifestation = @manifestation if @manifestation
       end
@@ -126,12 +109,10 @@ class ManifestationsController < ApplicationController
         with(:original_manifestation_ids).equal_to manifestation.id if manifestation
         with(:expression_ids).equal_to expression.id if expression
         with(:patron_ids).equal_to patron.id if patron
-        facet :reservable
       end
       search = make_internal_query(search)
       all_result = search.execute!
       @count[:query_result] = all_result.total
-      @reservable_facet = all_result.facet(:reservable).rows
 
       if session[:search_params]
         unless search.query.to_params == session[:search_params]
@@ -152,7 +133,7 @@ class ManifestationsController < ApplicationController
       end
         
       if session[:manifestation_ids]
-        bookmark_ids = Bookmark.all(:select => :id, :conditions => {:manifestation_id => session[:manifestation_ids]}).collect(&:id)
+        bookmark_ids = Bookmark.where(:manifestation_id => session[:manifestation_ids]).select(:id).collect(&:id)
         @tags = Tag.bookmarked(bookmark_ids)
         if params[:view] == 'tag_cloud'
           render :partial => 'manifestations/tag_cloud'
@@ -166,7 +147,6 @@ class ManifestationsController < ApplicationController
         search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
       else
         search.build do
-          facet :reservable
           facet :carrier_type
           facet :library
           facet :language
@@ -237,16 +217,6 @@ class ManifestationsController < ApplicationController
           :inline => true
       }
     end
-  #rescue RSolr::RequestError
-  #  unless params[:format] == 'sru'
-  #    flash[:notice] = t('page.error_occured')
-  #    redirect_to manifestations_url
-  #    return
-  #  else
-  #    render :template => 'manifestations/error.xml', :layout => false
-  #    return
-  #  end
-  #  return
   rescue QueryError => e
   #  render :template => 'manifestations/error.xml', :layout => false
     Rails.logger.info "#{Time.zone.now}\t#{query}\t\t#{current_user.try(:username)}\t#{e}"
@@ -256,7 +226,7 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/1
   # GET /manifestations/1.xml
   def show
-    if params[:api] or params[:mode] == 'generate_cache'
+    if params[:api]
       unless my_networks?
         access_denied; return
       end
@@ -283,17 +253,11 @@ class ManifestationsController < ApplicationController
       else
         access_denied; return
       end
-    when 'generate_cache'
-      check_client_ip_address
     end
 
     return if render_mode(params[:mode])
 
-    @reserved_count = Reserve.waiting.count(:all, :conditions => {:manifestation_id => @manifestation.id, :checked_out_at => nil})
-    @reserve = current_user.reserves.first(:conditions => {:manifestation_id => @manifestation.id}) if user_signed_in?
-
     store_location
-    canonical_url manifestation_url(@manifestation)
 
     respond_to do |format|
       format.html # show.rhtml
@@ -324,7 +288,7 @@ class ManifestationsController < ApplicationController
   # GET /manifestations/new
   def new
     @manifestation = Manifestation.new
-    @original_manifestation = get_manifestation
+    @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
     @manifestation.series_statement = @series_statement
     if @manifestation.series_statement
       @manifestation.original_title = @manifestation.series_statement.original_title
@@ -336,7 +300,7 @@ class ManifestationsController < ApplicationController
       @manifestation.original_title = @expression.original_title
       @manifestation.title_transcription = @expression.title_transcription
     end
-    @manifestation.language = Language.first(:conditions => {:iso_639_1 => @locale})
+    @manifestation.language = Language.where(:iso_639_1 => @locale).first
     @manifestation = @manifestation.set_serial_number unless params[:mode] == 'attachment'
 
     respond_to do |format|
@@ -353,10 +317,10 @@ class ManifestationsController < ApplicationController
       end
     end
     #@manifestation = Manifestation.find(params[:id])
-    @original_manifestation = get_manifestation
+    @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
     @manifestation.series_statement = @series_statement if @series_statement
     if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.first(:conditions => {:manifestation_id => @manifestation.id}) if @manifestation rescue nil
+      @bookmark = current_user.bookmarks.where(:manifestation_id => @manifestation.id).first if @manifestation rescue nil
       render :partial => 'manifestations/tag_edit', :locals => {:manifestation => @manifestation}
     end
     store_location unless params[:mode] == 'tag_edit'
@@ -376,7 +340,8 @@ class ManifestationsController < ApplicationController
     respond_to do |format|
       if @manifestation.save
         Manifestation.transaction do
-          if @original_manifestation = get_manifestation
+          @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
+          if @original_manifestation
             @manifestation.derived_manifestations << @original_manifestation
           end
           # 雑誌の場合、出版者を自動的に追加
@@ -566,7 +531,7 @@ class ManifestationsController < ApplicationController
     case mode
     when 'barcode'
       barcode = Barby::QrCode.new(@manifestation.id)
-      send_data(barcode.to_png.to_blob, :disposition => 'inline', :type => 'image/png')
+      send_data(barcode.to_svg, :disposition => 'inline', :type => 'image/png')
     when 'holding'
       render :partial => 'manifestations/show_holding', :locals => {:manifestation => @manifestation}
     when 'tag_edit'
@@ -595,8 +560,8 @@ class ManifestationsController < ApplicationController
 
   def prepare_options
     @carrier_types = CarrierType.all
-    @roles = Rails.cache.fetch('role_all'){Role.all}
-    @languages = Rails.cache.fetch('language_all'){Language.all}
+    @roles = Role.all
+    @languages = Language.all_cache
     @frequencies = Frequency.all
     @nii_types = NiiType.all
   end

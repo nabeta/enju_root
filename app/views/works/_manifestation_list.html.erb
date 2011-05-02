@@ -3,7 +3,7 @@
     <%- @work.manifestations.each do |manifestation| -%>
       <li>
         [M]
-        <%= link_to h(manifestation.original_title), manifestation -%>
+        <%= link_to manifestation.original_title, manifestation -%>
         <%= form_icon(manifestation.carrier_type) -%>
         <%- manifestation.expressions.each do |expression| -%>
           <%= content_type_icon(expression.content_type) -%>
@@ -20,7 +20,7 @@
               <li>
                 [W]
                 <%= image_tag('icons/bullet_go.png', :size => '16x16', :alt => ('Work that contains this manifestation')) if work == @work -%>
-                <%= link_to h(work.original_title), work -%>
+                <%= link_to work.original_title, work -%>
                 <%= raw patrons_list(work.patrons, current_user) -%>
               </li>
             <%- end -%>

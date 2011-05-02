@@ -2,14 +2,14 @@
 class LibraryGroup < ActiveRecord::Base
   #include Singleton
   #include Configurator
+  include MasterModel
 
   has_many :libraries
   has_many :search_engines
   has_many :news_feeds
   belongs_to :country
 
-  validates_presence_of :name, :display_name, :email
-  before_validation :set_display_name, :on => :create
+  validates_presence_of :email
   after_save :clear_site_config_cache
 
   def clear_site_config_cache
@@ -17,11 +17,15 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def self.site_config
-    Rails.cache.fetch('library_site_config'){LibraryGroup.find(1)}
+    if Rails.env == 'production'
+      Rails.cache.fetch('library_site_config'){LibraryGroup.find(1)}
+    else
+      LibraryGroup.find(1) rescue nil
+    end
   end
 
-  def self.url
-    URI.parse("http://#{configatron.enju.web_hostname}:#{configatron.enju.web_port_number}").normalize.to_s
+  def self.system_name(locale = I18n.locale)
+    LibraryGroup.site_config.display_name.localize(locale)
   end
 
   def config?

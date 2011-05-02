@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Subject < ActiveRecord::Base
-  include EnjuFragmentCache
-
   has_many :work_has_subjects, :dependent => :destroy
   has_many :works, :through => :work_has_subjects
   has_many :use_terms, :class_name => 'Subject', :foreign_key => :use_term_id

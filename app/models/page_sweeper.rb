@@ -1,6 +1,6 @@
 class PageSweeper < ActionController::Caching::Sweeper
   include ExpireEditableFragment
-  observe Library, Shelf, Tag, Subject, Classification
+  observe Library, Shelf, Tag, Subject, Classification, PictureFile
 
   def after_save(record)
     case
@@ -27,6 +27,13 @@ class PageSweeper < ActionController::Caching::Sweeper
       expire_editable_fragment(record)
       record.subjects.each do |subject|
         expire_editable_fragment(subject)
+      end
+    when record.is_a?(PictureFile)
+      case
+      when record.picture_attachable.is_a?(Manifestation)
+        expire_editable_fragment(record.picture_attachable, ['picture_file', 'book_jacket'])
+      when record.picture_attachable.is_a?(Patron)
+        expire_editable_fragment(record.picture_attachable, ['picture_file'])
       end
     end
   end

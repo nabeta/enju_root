@@ -3,9 +3,9 @@
 <div id="content_list">
   <h2 class="resource_title">
     [W]
-    <%= link_to h(@work.original_title), @work -%>
+    <%= link_to @work.original_title, @work -%>
     <%- if @work.series_statement -%>
-      (<%= link_to h(@work.series_statement.original_title), @work.series_statement -%>)
+      (<%= link_to @work.series_statement.original_title, @work.series_statement -%>)
     <%- end -%>
   </h2>
   <p>
@@ -14,20 +14,13 @@
 
   <%= form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if can? :destroy, @work -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-        <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-        <%- end -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+      <%- if can? :update, @work -%>
+        <%= render 'page/add' %>
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), work_expressions_path(@work) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table style="width:100%">
@@ -41,13 +34,13 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
-      <%= link_to h(expression.original_title), work_expression_path(@work, expression) -%>
+      <%= link_to expression.original_title, work_expression_path(@work, expression) -%>
       <%= content_type_icon(expression.content_type) -%><br />
       <%= raw patrons_list(expression.patrons, current_user) -%>
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
-      <%- if can? :destroy, expression -%>
+      <%- if can? :update, expression -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_work_reify_path(@work, :expression_id => expression.id) unless @work.expressions.include?(expression) -%>
         <%- else -%>

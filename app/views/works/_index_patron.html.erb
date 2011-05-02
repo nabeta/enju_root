@@ -2,25 +2,18 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.patron')) -%></h1>
 <div id="content_list">
   <h2 class="resource_title">
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </h2>
 
   <%= form_for :works, :url => patron_works_path(@patron), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if can? :destroy, @patron -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-        <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-        <%- end -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term'), :placeholder => t('page.search_term')} -%>
+      <%- if can? :update, @patron -%>
+        <%= render 'page/add' %>
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), patron_works_path(@patron) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
@@ -32,13 +25,13 @@
   <%- @works.each do |work| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(work.original_title), work -%>
+        <%= link_to work.original_title, work -%>
         <br />
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= work.context -%></td>
       <td>
-        <%- if can? :destroy, work -%>
+        <%- if can? :update, work -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_patron_create_path(@patron, :work_id => work.id) -%>
           <%- else -%>

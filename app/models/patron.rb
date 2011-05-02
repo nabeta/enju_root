@@ -1,9 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Patron < ActiveRecord::Base
-  include EnjuFragmentCache
-
-  belongs_to :user #, :validate => true
-  has_one :library
   has_many :creates, :dependent => :destroy
   has_many :works, :through => :creates, :as => :creators
   has_many :realizes, :dependent => :destroy
@@ -17,17 +13,14 @@ class Patron < ActiveRecord::Base
   #has_one :conference
   has_many :donates
   has_many :donated_items, :through => :donates, :source => :item
-  belongs_to :language #, :validate => true
-  belongs_to :country #, :validate => true
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
-  belongs_to :patron_type #, :validate => true
+  belongs_to :user
+  belongs_to :patron_type
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
-  has_many :advertises, :dependent => :destroy
-  has_many :advertisements, :through => :advertises
   has_many :participates, :dependent => :destroy
   has_many :events, :through => :participates
   #has_many :works_as_subjects, :through => :work_has_subjects, :as => :subjects
@@ -35,12 +28,22 @@ class Patron < ActiveRecord::Base
   has_many :parents, :foreign_key => 'child_id', :class_name => 'PatronRelationship', :dependent => :destroy
   has_many :derived_patrons, :through => :children, :source => :child
   has_many :original_patrons, :through => :parents, :source => :parent
+  belongs_to :language
+  belongs_to :country
   has_one :patron_import_result
 
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
+  validates_uniqueness_of :user_id, :allow_nil => true
+  validates_format_of :birth_date, :with => /^\d+(-\d{0,2}){0,2}$/, :allow_blank => true
+  validates_format_of :death_date, :with => /^\d+(-\d{0,2}){0,2}$/, :allow_blank => true
+  validate :check_birth_date
   before_validation :set_role_and_name, :on => :create
+  before_save :set_date_of_birth, :set_date_of_death
+
+  has_paper_trail
+  attr_accessor :user_username
 
   searchable do
     text :name, :place, :address_1, :address_2, :other_designation, :note
@@ -63,32 +66,72 @@ class Patron < ActiveRecord::Base
     integer :patron_type_id
   end
 
-  #acts_as_soft_deletable
-  #acts_as_tree
-  has_paper_trail
-
-  attr_accessor :user_username
   def self.per_page
     10
   end
 
   def set_role_and_name
-    self.required_role = Role.first(:conditions => {:name => 'Librarian'}) if self.required_role_id.nil?
+    self.required_role = Role.where(:name => 'Librarian').first if self.required_role_id.nil?
     set_full_name
   end
 
   def set_full_name
     if self.full_name.blank?
       if self.last_name.to_s.strip and self.first_name.to_s.strip and configatron.family_name_first == true
-        self.full_name = [last_name, middle_name, first_name].join(", ").to_s.strip
+        self.full_name = [last_name, middle_name, first_name].compact.join(", ").to_s.strip
       else
-        self.full_name = [first_name, middle_name, middle_name].join(" ").to_s.strip
+        self.full_name = [first_name, middle_name, middle_name].compact.join(" ").to_s.strip
       end
     end
     if self.full_name_transcription.blank?
-      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].split(" ").to_s.strip
+      self.full_name_transcription = [last_name_transcription, middle_name_transcription, first_name_transcription].join(" ").to_s.strip
     end
     [self.full_name, self.full_name_transcription]
+  end
+
+  def set_date_of_birth
+    return if birth_date.blank?
+    begin
+      date = Time.zone.parse(birth_date)
+    rescue ArgumentError
+      begin
+        date = Time.zone.parse("#{birth_date}-01")
+      rescue ArgumentError
+        begin
+          date = Time.zone.parse("#{birth_date}-01-01")
+        rescue
+          nil
+        end
+      end
+    end
+    self.date_of_birth = date
+  end
+
+  def set_date_of_death
+    return if death_date.blank?
+    begin
+      date = Time.zone.parse(death_date)
+    rescue ArgumentError
+      begin
+        date = Time.zone.parse("#{death_date}-01")
+      rescue ArgumentError
+        begin
+          date = Time.zone.parse("#{death_date}-01-01")
+        rescue
+          nil
+        end
+      end
+    end
+    self.date_of_death = date
+  end
+
+  def check_birth_date
+    if date_of_birth.present? and date_of_death.present?
+      if date_of_birth > date_of_death
+        errors.add(:birth_date)
+        errors.add(:death_date)
+      end
+    end
   end
 
   #def full_name_generate
@@ -191,33 +234,27 @@ class Patron < ActiveRecord::Base
   end
 
   def created(work)
-    creates.first(:conditions => {:work_id => work.id})
+    creates.where(:work_id => work.id).first
   end
 
   def realized(expression)
-    realizes.first(:conditions => {:expression_id => expression.id})
+    realizes.where(:expression_id => expression.id).first
   end
 
   def produced(manifestation)
-    produces.first(:conditions => {:manifestation_id => manifestation.id})
+    produces.where(:manifestation_id => manifestation.id).first
   end
 
   def owned(item)
-    owns.first(:conditions => {:item_id => item.id})
-  end
-
-  def is_readable_by(user, parent = nil)
-    true if self.required_role.id == 1 || user.role.id == self.required_role.id || user == self.user
-  rescue NoMethodError
-    false
+    owns.where(:item_id => item.id).first
   end
 
   def self.import_patrons(patron_lists)
     patrons = []
     patron_lists.each do |patron_list|
-      unless patron = Patron.first(:conditions => {:full_name => patron_list})
+      unless patron = Patron.where(:full_name => patron_list).first
         patron = Patron.new(:full_name => patron_list, :language_id => 1)
-        patron.required_role = Role.first(:conditions => {:name => 'Guest'})
+        patron.required_role = Role.where(:name => 'Guest').first
         patron.save
       end
       patrons << patron

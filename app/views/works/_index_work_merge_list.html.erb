@@ -4,20 +4,13 @@
 
 <%= form_for :works, :url => work_merge_list_works_path(@work_merge_list), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @work_merge_list -%>
-      <%- if params[:mode] == 'add' -%>
-        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-      <%- else -%>
-        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-      <%- end -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+    <%- if can? :update, @work_merge_list -%>
+      <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
     <%= link_to t('page.back_to_index'), work_merge_list_works_path(@work_merge_list) -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
   <table class="index">
@@ -29,7 +22,7 @@
 <%- @works.each do |work| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(work.original_title), work_merge_list_work_path(@work_merge_list, work) -%>
+      <%= link_to work.original_title, work_merge_list_work_path(@work_merge_list, work) -%>
       <br />
       <%= raw patrons_list(work.patrons, current_user) -%>
     </td>

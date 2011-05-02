@@ -8,7 +8,7 @@
   <p>
     <%= f.label t('activerecord.models.work') -%><br />
     <%- if @reify.work -%>
-		  <%= link_to h(@reify.work.original_title), @reify.work -%>
+		  <%= link_to @reify.work.original_title, @reify.work -%>
       <%= f.hidden_field :work_id -%>
     <%- else -%>
       <%= f.text_field :work_id -%>
@@ -17,7 +17,7 @@
   <p>
     <%= f.label t('activerecord.models.expression') -%><br />
     <%- if @reify.expression -%>
-		  <%= link_to h(@reify.expression.original_title), @reify.expression -%>
+		  <%= link_to @reify.expression.original_title, @reify.expression -%>
       <%= f.hidden_field :expression_id -%>
     <%- else -%>
       <%= f.text_field :expression_id -%>

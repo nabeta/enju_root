@@ -7,8 +7,8 @@
       <p>
         <label for="message_recepient"><%= t('message.recipient') -%>:</label>
         <%- if @message.recipient -%>
-          <%= link_to h(@message.recipient), user_path(@message.recipient) -%>
-          <%= f.hidden_field :recipient, :value => h(@message.recipient) -%>
+          <%= link_to @message.recipient, user_path(@message.recipient) -%>
+          <%= f.hidden_field :recipient, :value => @message.recipient -%>
         <%- else -%>
           <%= f.text_field :recipient, :class => 'resource_title', :value => @message.recipient -%>
         <%- end -%>
@@ -25,9 +25,7 @@
       </p>
 
       <%= f.hidden_field :parent_id -%>
-      <%= javascript_tag("$('#message_recipient').focus()") -%>
       <%= submit_tag t('message.send') -%>
-
     <%- end -%>
   </fieldset>
   

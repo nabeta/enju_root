@@ -3,14 +3,14 @@
     <%- @works.each do |work| -%>
       <li>
         [W]
-        <%= link_to h(work.original_title), work -%>
+        <%= link_to work.original_title, work -%>
         <%= raw patrons_list(work.patrons, current_user) -%>
         <%- unless work.manifestations.blank? -%>
           <ul>
             <%- work.manifestations.each do |manifestation| -%>
               <li>
               [M]
-              <%= link_to h(manifestation.original_title), manifestation -%>
+              <%= link_to manifestation.original_title, manifestation -%>
               <%= form_icon(manifestation.carrier_type) -%>
               <%- manifestation.expressions.each do |expression| -%>
                 <%= content_type_icon(expression.content_type) -%>

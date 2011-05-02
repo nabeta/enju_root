@@ -7,7 +7,7 @@
 
   <p>
     <%= f.label t('activerecord.attributes.user.email') %><br />
-    <%= f.text_field :email %>
+    <%= f.email_field :email %>
   </p>
 
   <p><%= f.submit t('devise.unlocks.resend_unlock_instructions') %></p>

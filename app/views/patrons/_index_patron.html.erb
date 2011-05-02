@@ -3,23 +3,16 @@
 <div id="content_list">
   <h2 class="resource_title">
     [P]
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </h2>
 <%= form_for :patrons, :url => patron_patrons_path(@patron), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @patron -%>
-      <%- if params[:mode] == 'add' -%>
-        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-      <%- else -%>
-        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-      <%- end -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+    <%- if can? :update, @patron -%>
+      <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -30,33 +23,29 @@
     <th><%= t('activerecord.attributes.patron.date_of_birth') -%></th>
     <th><%= t('activerecord.attributes.patron.date_of_death') -%></th>
     <th></th>
-    <th></th>
   </tr>
   <%- @patrons.each do |patron| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(patron.full_name), patron -%><br />
+        <%= link_to patron.full_name, patron -%><br />
         <%= patron.full_name_transcription -%>
       </td>
       <td>
-        <%= link_to h(patron.user.username), edit_user_path(patron.user.username) if patron.user -%>
+        <%= link_to patron.user.username, edit_user_path(patron.user) if patron.user -%>
       </td>
       <td><%= patron.patron_type.display_name.localize -%></td>
       <td><%=l patron.date_of_birth if patron.date_of_birth -%></td>
       <td><%=l patron.date_of_death if patron.date_of_death -%></td>
       <td>
-        <%- if can? :destroy, patron -%>
+        <%- if can? :update, patron -%>
           <%= link_to t('page.edit'), edit_patron_path(patron) -%>
-        <% end %>
-      </td>
-      <td>
-        <%- if can? :destroy, patron -%>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_patron_patron_relationship_path(@patron, :child_id => patron.id) unless @patron.derived_patrons.include?(patron) or @patron == patron -%>
-          <%- else -%>
-            <%- patron_relationship = @patron.children.find_by_child_id(patron.id) -%>
-            <%= link_to t('page.destroy'), patron_relationship, :confirm => t('page.are_you_sure'), :method => :delete if patron_relationship -%>
           <%- end -%>
+        <% end %>
+        <%- if can? :destroy, patron -%>
+          <%- patron_relationship = @patron.children.find_by_child_id(patron.id) -%>
+          <%= link_to t('page.destroy'), patron_relationship, :confirm => t('page.are_you_sure'), :method => :delete if patron_relationship -%>
         <%- end -%>
       </td>
     </tr>

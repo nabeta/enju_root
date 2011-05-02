@@ -2,28 +2,22 @@
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.manifestation')) -%></h1>
 <div id="content_list">
   <h2 class="resource_title">
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </h2>
 
   <%= form_for :manifestations, :url => patron_manifestations_path(@patron), :html => {:method => 'get'} do -%>
 
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <!--
-      <%= link_to h(t('page.advanced_search')), :controller => :page, :action => :advanced_search, :patron_id => h(@patron.id) -%>
+      <%= link_to t('page.advanced_search'), :controller => :page, :action => :advanced_search, :patron_id => @patron.id -%>
       -->
-      <%- if can? :destroy, @patron -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-        <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-        <%- end -%>
+      <%- if can? :update, @patron -%>
+        <%= render 'page/add' %>
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), patron_manifestations_path(@patron) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <!--
@@ -44,7 +38,7 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
     </td>
     <td>
-      <%- if can? :destroy, manifestation -%>
+      <%- if can? :update, manifestation -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_patron_produce_path(@patron, :manifestation_id => manifestation.id) -%>
         <%- else -%>

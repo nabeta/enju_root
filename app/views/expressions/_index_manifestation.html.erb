@@ -7,20 +7,13 @@
   
   <%= form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
-      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-      <%- if can? :destroy, @manifestation -%>
-        <%- if params[:mode] == 'add' -%>
-          <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-        <%- else -%>
-          <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-          <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-        <%- end -%>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+      <%- if can? :update, @manifestation -%>
+        <%= render 'page/add' %>
       <%- end -%>
       <%= submit_tag t('page.search') -%>
       <%= link_to t('page.back_to_index'), manifestation_expressions_path(@manifestation) -%>
     </p>
-    <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table style="width:100%">
@@ -34,14 +27,14 @@
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       [E]
-      <%= link_to h(expression.original_title), expression -%>
+      <%= link_to expression.original_title, expression -%>
       <%= content_type_icon(expression.content_type) -%><br />
       <%= raw patrons_list(expression.creators, current_user) -%>
       <%= raw patrons_list(expression.patrons, current_user) -%>
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>
-      <%- if can? :destroy, expression -%>
+      <%- if can? :update, expression -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_manifestation_embody_path(@manifestation, :expression_id => expression.id) -%>
         <%- else -%>

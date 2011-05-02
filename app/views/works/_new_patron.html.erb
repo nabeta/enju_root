@@ -18,7 +18,7 @@
   <%- unless @patron.blank? -%>
   <p>
     <%= f.label ('Creator') -%><br />
-    <%= link_to h(@patron.full_name), @patron -%>
+    <%= link_to @patron.full_name, @patron -%>
   </p>
   <%- end -%>
 
@@ -30,7 +30,6 @@
   <p>
     <%= submit_tag t('page.create') -%>
   </p>
-  <%= javascript_tag("$('#work_original_title').focus()") -%>
 <%- end -%>
 </div>
 </div>

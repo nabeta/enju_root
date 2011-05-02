@@ -6,20 +6,13 @@
 
 <%= form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @manifestation -%>
-      <%- if params[:mode] == 'add' -%>
-        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-      <%- else -%>
-        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-      <%- end -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+    <%- if can? :update, @manifestation -%>
+      <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
     <%= link_to t('page.back_to_index'), manifestation_items_path(@manifestation) -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -29,25 +22,30 @@
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.models.circulation_status') -%></th>
+    <th></th>
   </tr>
   
 <%- @items.each do |item| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
       <%- unless item.item_identifier.blank? -%>
-        <%= link_to h(item.item_identifier), item -%>
+        <%= link_to item.item_identifier, item -%>
       <%- else -%>
         (<%= link_to t('item.no_number'), item -%>)
       <%- end -%>
     </td>
     <td><%= item.call_number -%></td>
-    <td><%= link_to h(item.shelf.library.display_name.localize), library_path(item.shelf.library.name) -%></td>
-    <td><%= link_to h(item.shelf.display_name.localize), item.shelf -%></td>
+    <td><%= link_to item.shelf.library.display_name.localize, item.shelf.library -%></td>
+    <td><%= link_to item.shelf.display_name.localize, item.shelf -%></td>
     <td><%= item.circulation_status.display_name.localize -%></td>
-    <%- if can? :destroy, item -%>
-      <td><%= link_to t('page.edit'), edit_item_path(item) -%></td>
-      <td><%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
-    <%- end -%>
+    <td>
+      <%- if can? :update, item -%>
+        <%= link_to t('page.edit'), edit_item_path(item) -%>
+      <% end %>
+      <%- if can? :destroy, item -%>
+        <%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>

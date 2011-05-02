@@ -10,7 +10,7 @@
 <%- unless manifestation.works.blank? -%>
   <ul>
     <%- manifestation.works.each do |work| -%>
-        <li>[W] <%= link_to h(work.original_title), work -%>
+        <li>[W] <%= link_to work.original_title, work -%>
           <%- work.expressions.each do |expression| -%>
             <%= link_to content_type_icon(expression.content_type), expression -%>
           <%- end -%>
@@ -22,7 +22,7 @@
                 <%- unless manifestation == mnfst -%>
                   <%- unless work.original_title == mnfst.original_title and work.expressions.size == 1 -%>
                     <li>[M]
-                    <%= link_to h(mnfst.original_title), mnfst -%>
+                    <%= link_to mnfst.original_title, mnfst -%>
                     <%= form_icon(mnfst.carrier_type) -%>
                     <%- mnfst.expressions.each do |expression| -%>
                       <%= link_to content_type_icon(expression.content_type), expression -%>

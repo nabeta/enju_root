@@ -3,23 +3,16 @@
 <div id="content_list">
   <h2 class="resource_title">
     [E]
-    <%= link_to h(@expression.original_title), @expression -%>
+    <%= link_to @expression.original_title, @expression -%>
   </h2>
 <%= form_for :expressions, :url => expression_expressions_path(@expression), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @expression -%>
-      <%- if params[:mode] == 'add' -%>
-        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-      <%- else -%>
-        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-      <%- end -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+    <%- if can? :update, @expression -%>
+      <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -33,25 +26,20 @@
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         [E]
-        <%= link_to h(expression.original_title), expression -%>
+        <%= link_to expression.original_title, expression -%>
         <%= content_type_icon(expression.content_type) -%><br />
         <%= raw patrons_list(expression.creators, current_user) -%>
         <%= raw patrons_list(expression.patrons, current_user) -%>
       </td>
       <td><%= expression.language.display_name.localize -%></td>
       <td>
-        <%- if can? :destroy, expression -%>
+        <%- if can? :update, expression -%>
           <%= link_to t('page.edit'), edit_expression_path(expression) -%>
+          <%= link_to t('page.add'), new_expression_expression_relationship_path(@expression, :child_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
         <% end %>
-      </td>
-      <td>
         <%- if can? :destroy, expression -%>
-          <%- if params[:mode] == "add" -%>
-            <%= link_to t('page.add'), new_expression_expression_relationship_path(@expression, :child_id => expression.id) unless @expression.derived_expressions.include?(expression) or @expression == expression -%>
-          <%- else -%>
-            <%- expression_relationship = @expression.children.find_by_child_id(expression.id) -%>
-            <%= link_to t('page.destroy'), expression_relationship, :confirm => t('page.are_you_sure'), :method => :delete if expression_relationship -%>
-          <%- end -%>
+          <%- expression_relationship = @expression.children.find_by_child_id(expression.id) -%>
+          <%= link_to t('page.destroy'), expression_relationship, :confirm => t('page.are_you_sure'), :method => :delete if expression_relationship -%>
         <%- end -%>
       </td>
     </tr>

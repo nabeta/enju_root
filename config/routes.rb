@@ -90,11 +90,6 @@ EnjuRoot::Application.routes.draw do
 
   resources :users do
     resources :answers
-    resources :baskets do
-      resources :checked_items
-      resources :checkins
-    end
-    resources :checkouts
     resources :questions do
       resources :answers
     end
@@ -103,7 +98,6 @@ EnjuRoot::Application.routes.draw do
         post :destroy_selected
       end
     end
-    resources :reserves
     resources :bookmarks
     resources :purchase_requests
     resources :questions
@@ -118,10 +112,6 @@ EnjuRoot::Application.routes.draw do
   resources :nii_types
   resources :bookmark_stats
   resources :bookmark_stat_has_manifestations
-  resources :user_checkout_stats
-  resources :user_reserve_stats
-  resources :manifestation_checkout_stats
-  resources :manifestation_reserve_stats
   resources :resource_relationship_types
   resources :patron_relationship_types
   resources :work_relationship_types
@@ -136,7 +126,6 @@ EnjuRoot::Application.routes.draw do
   resources :frequencies
   resources :use_restrictions
   resources :item_has_use_restrictions
-  resources :lending_policies
   resources :patron_types
   resources :circulation_statuses
   resources :form_of_works
@@ -160,10 +149,6 @@ EnjuRoot::Application.routes.draw do
 
   resources :work_to_expression_rel_types
 
-  resources :inventory_files do
-    resources :items
-  end
-  resources :inventories
   resources :donates
   resources :subscriptions do
     resources :works
@@ -177,11 +162,6 @@ EnjuRoot::Application.routes.draw do
   resources :barcodes
   resources :message_requests
   resources :message_templates
-  resources :carrier_type_has_checkout_types
-  resources :user_group_has_checkout_types
-  resources :checkout_types do
-    resources :user_group_has_checkout_types
-  end
   resources :search_histories
 
   resources :order_lists do
@@ -243,8 +223,6 @@ EnjuRoot::Application.routes.draw do
 
   resources :search_engines
 
-  resources :reserves
-
   resources :event_categories
 
   resources :events
@@ -267,9 +245,7 @@ EnjuRoot::Application.routes.draw do
 
   resources :import_requests
 
-  resources :user_groups do
-    resources :user_group_has_checkout_types
-  end
+  resources :user_groups
 
   resources :shelves do
     resources :picture_files
@@ -280,8 +256,6 @@ EnjuRoot::Application.routes.draw do
     resources :shelves
   end
 
-  resources :checkouts
-
   resources :countries
 
   resources :languages
@@ -289,10 +263,8 @@ EnjuRoot::Application.routes.draw do
   resources :resource_relationships
 
   resources :items do
-    resources :checked_items
     resources :inter_library_loans
     resources :item_has_use_restrictions
-    resources :lending_policies
     resources :patrons
     resources :items
     resource :exemplify
@@ -306,10 +278,6 @@ EnjuRoot::Application.routes.draw do
   resources :embodies
   resources :reifies
 
-  resources :checkout_stat_has_manifestations
-  resources :checkout_stat_has_users
-  resources :reserve_stat_has_manifestations
-  resources :reserve_stat_has_users
   resources :user_has_shelves
   resources :news_posts
   resources :news_feeds
@@ -382,5 +350,9 @@ EnjuRoot::Application.routes.draw do
   match '/page/msie_acceralator' => 'page#msie_acceralator'
   match '/page/opensearch' => 'page#opensearch'
   match '/page/statistics' => 'page#statistics'
+  match '/page/routing_error' => 'page#routing_error'
   match '/sru/index' => 'sru#index'
+
+  # http://techoctave.com/c7/posts/36-rails-3-0-rescue-from-routing-error-solution
+  match '*a', :to => 'page#routing_error' unless Rails.application.config.consider_all_requests_local
 end

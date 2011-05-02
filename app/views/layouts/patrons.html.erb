@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale -%>" lang="<%= @locale -%>">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<%= @locale.to_s -%>" lang="<%= @locale.to_s -%>">
 <head>
   <meta charset="UTF-8" />
   <%- case when @patron -%>
@@ -23,7 +23,6 @@
     <%= auto_discovery_link_tag(:atom, url_for(:controller => 'patrons', :action => 'index', :params => params.merge(:format => 'atom', :page => nil, :commit => nil)), :title => (t('patron.library_group_patron', :library_group_name => @library_group.display_name.localize) + " (Atom)")) %>
   <%- end -%>
   <link rel="search" type="application/opensearchdescription+xml" href="<%= page_opensearch_url -%>" title="<%= @library_group.display_name.localize -%>" />
-  <%= canonical_link_tag %>
 </head>
 <body>
 

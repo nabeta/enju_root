@@ -3,7 +3,7 @@
 <div id="content_list">
 <%= form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
     <%- if params[:view] == 'serial' -%>
       <%= check_box_tag 'view', 'serial', :checked => true -%>
     <%- else -%>
@@ -12,7 +12,6 @@
     <%= t('page.serial') -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <table class="index">
@@ -25,15 +24,17 @@
   <%- @expressions.each do |expression| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(expression.original_title), expression -%>
+        <%= link_to expression.original_title, expression -%>
         <%= content_type_icon(expression.content_type) -%>
         <br />
         <%= raw patrons_list(expression.patrons, current_user) -%>
       </td>
       <td><%= expression.language.display_name.localize -%></td>
       <td>
-        <%- if can? :destroy, expression -%>
+        <%- if can? :update, expression -%>
           <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_expression_path(expression) -%>
+        <% end %>
+        <%- if can? :destroy, expression -%>
           <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), expression_expressions_path(expression) -%>
         <%- end -%>
       </td>

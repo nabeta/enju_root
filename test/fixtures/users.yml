@@ -10,7 +10,6 @@ librarian2:
   encrypted_password: $2a$10$YmmTGrYQ1Ir6oc7wXnp.GuNeO1eYLoP3sv8wMSIrTdaGw2BPwRrpS
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 4
   bookmarks_count: 0
   share_bookmarks: true
@@ -37,7 +36,6 @@ user2:
   encrypted_password: $2a$10$i7UjJhLVrJM/J7qaTwW39OXw1NiwowUEbtNHVDV0sqMLjX9.UO9ca
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 5
   bookmarks_count: 0
   share_bookmarks: true
@@ -64,7 +62,6 @@ admin:
   encrypted_password: $2a$10$vHohD1WflnTIqAa8zMkF9evwAgIZRw3XuR4d3bi29M.jph/MB/AJi
   deleted_at: 
   user_group_id: 2
-  reserves_count: 2
   id: 1
   bookmarks_count: 0
   share_bookmarks: true
@@ -91,7 +88,6 @@ librarian1:
   encrypted_password: $2a$10$9O2VuTccN4gHq36ARg0QReSrb1D7WrBBhZZ759RM9moHbB0W5zCzS
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 2
   bookmarks_count: 0
   share_bookmarks: true
@@ -118,7 +114,6 @@ user1:
   encrypted_password: $2a$10$JthS59A0BNkDOoFpCXM0V.GhhffKaoWKbzpPahYp/vTFrOyM7h/uW
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 3
   bookmarks_count: 0
   share_bookmarks: false
@@ -146,7 +141,6 @@ user3:
   encrypted_password: cc53de0c2d9a1a228daa9a673ec824473747e17507a6c3c4f7e5eff8821f531d4b9e23616b3ddc66fe17006b2298a556fbd567ac080e87f00f37eef8cee6c417
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 7
   bookmarks_count: 0
   share_bookmarks: false
@@ -174,7 +168,6 @@ user4:
   encrypted_password: cc53de0c2d9a1a228daa9a673ec824473747e17507a6c3c4f7e5eff8821f531d4b9e23616b3ddc66fe17006b2298a556fbd567ac080e87f00f37eef8cee6c417
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 6
   bookmarks_count: 0
   share_bookmarks: false
@@ -201,7 +194,6 @@ user3:
   encrypted_password: cc53de0c2d9a1a228daa9a673ec824473747e17507a6c3c4f7e5eff8821f531d4b9e23616b3ddc66fe17006b2298a556fbd567ac080e87f00f37eef8cee6c417
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 7
   bookmarks_count: 0
   share_bookmarks: false
@@ -229,7 +221,6 @@ user4:
   encrypted_password: cc53de0c2d9a1a228daa9a673ec824473747e17507a6c3c4f7e5eff8821f531d4b9e23616b3ddc66fe17006b2298a556fbd567ac080e87f00f37eef8cee6c417
   deleted_at: 
   user_group_id: 1
-  reserves_count: 0
   id: 6
   bookmarks_count: 0
   share_bookmarks: false
@@ -240,4 +231,4 @@ user4:
   answers_count: 0
   locked_at: <%= 1.day.ago %>
   email: user4@kamata.lib.teu.ac.jp
-
+  locale: "ja"

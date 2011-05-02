@@ -43,18 +43,14 @@ class ExpressionsController < ApplicationController
       end
     end
 
-    role = current_user.try(:role) || Role.find(1)
+    role = current_user.try(:role) || Role.find('Guest')
     search.build do
       with(:required_role_id).less_than role.id
     end
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Expression.per_page)
-    begin
-      @expressions = search.execute!.results
-    rescue RSolr::RequestError
-      @expressions = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @expressions = search.execute!.results
     @count[:total] = @expressions.total_entries
 
     respond_to do |format|
@@ -62,10 +58,6 @@ class ExpressionsController < ApplicationController
       format.xml  { render :xml => @expressions }
       format.atom
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to expressions_url
-    return
   end
 
   # GET /expressions/1
@@ -81,8 +73,6 @@ class ExpressionsController < ApplicationController
     #  @expression = Expression.find(params[:id])
     end
     @expression = @expression.versions.find(@version).item if @version
-
-    canonical_url expression_url(@expression)
 
     respond_to do |format|
       format.html # show.rhtml
@@ -102,7 +92,7 @@ class ExpressionsController < ApplicationController
       @expression.original_title = @work.original_title
       @expression.title_transcription = @work.title_transcription
     end
-    @expression.language = Language.first(:conditions => {:iso_639_1 => @locale})
+    @expression.language = Language.where(:iso_639_1 => @locale).first
 
     respond_to do |format|
       format.html # new.html.erb
@@ -181,8 +171,8 @@ class ExpressionsController < ApplicationController
   def prepare_options
     if Rails.env == 'production'
       @content_types = Rails.cache.fetch('ContentType.all'){ContentType.all}
-      @languages = Rails.cache.fetch('Language.all'){Language.all}
-      @roles = Rails.cache.fetch('Role.all'){Role.all}
+      @languages = Language.all_cache
+      @roles = Role.all_cache
     else
       @content_types = ContentType.all
       @languages = Language.all

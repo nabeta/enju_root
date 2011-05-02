@@ -4,18 +4,12 @@ class Ability
   def initialize(user, ip_address)
     case user.try(:role).try(:name)
     when 'Administrator'
-      can [:read, :create, :update], Bookstore
-      can :destroy, Bookstore do |bookstore|
-        bookstore.order_lists.first.nil?
-      end
       can [:read, :create, :update], ClassificationType
       can :destroy, ClassificationType do |classification_type|
         classification_type.classifications.first.nil?
       end
       can [:read, :create, :update], Item
-      can :destroy, Item do |item|
-        item.checkouts.not_returned.first.nil?
-      end
+      can :destroy, Item
       can [:read, :create, :update], Library
       can :destroy, Library do |library|
         library.shelves.first.nil?
@@ -25,37 +19,25 @@ class Ability
         manifestation.items.first.nil?
       end
       can [:read, :create, :update], Patron
-      can :destroy, Patron do |patron|
-        if patron.user
-          patron.user.checkouts.not_returned.first.nil?
-        else
-          true
-        end
-      end
+      can :destroy, Patron
       can [:read, :create, :update], Shelf
       can :destroy, Shelf do |shelf|
         shelf.items.first.nil?
       end
       can [:read, :create, :update], User
-      can :destroy, User do |user|
-        user.checkouts.not_returned.first.nil?
+      can :destroy, User do |u|
+        u != user
       end
       can [:read, :create, :update], UserGroup
       can :destroy, UserGroup do |user_group|
         user_group.users.first.nil?
       end
       can :manage, [
-        Advertisement,
-        Advertise,
         Answer,
+        Barcode,
         Bookmark,
         BookmarkStat,
         BookmarkStatHasManifestation,
-        CarrierTypeHasCheckoutType,
-        Checkout,
-        CheckoutStatHasManifestation,
-        CheckoutStatHasUser,
-        CheckoutType,
         Classification,
         Create,
         Donate,
@@ -67,19 +49,12 @@ class Ability
         EventImportFile,
         ImportRequest,
         InterLibraryLoan,
-        Inventory,
-        InventoryFile,
-        LendingPolicy,
         ItemHasUseRestriction,
-        ManifestationCheckoutStat,
         ManifestationRelationship,
         ManifestationRelationshipType,
-        ManifestationReserveStat,
         Message,
         NewsFeed,
         NewsPost,
-        Order,
-        OrderList,
         Own,
         Participate,
         PatronImportFile,
@@ -89,12 +64,8 @@ class Ability
         PatronRelationshipType,
         PictureFile,
         Produce,
-        PurchaseRequest,
         Question,
         Realize,
-        Reserve,
-        ReserveStatHasManifestation,
-        ReserveStatHasUser,
         ResourceImportFile,
         SearchEngine,
         SearchHistory,
@@ -107,10 +78,7 @@ class Ability
         Subscribe,
         Subscription,
         Tag,
-        UserCheckoutStat,
-        UserGroupHasCheckoutType,
         UserHasRole,
-        UserReserveStat,
         Work,
         WorkHasSubject,
         WorkRelationship,
@@ -150,18 +118,12 @@ class Ability
       can [:update, :destroy, :show], Bookmark do |bookmark|
         bookmark.user == user
       end
-      can [:index, :create], Checkout
-      can [:update, :destroy, :show], Checkout do |checkout|
-        checkout.user == user
-      end
       can [:index, :create], Expression
       can [:show, :update, :destroy], Expression do |expression|
         expression.required_role_id <= 3
       end
       can [:read, :create, :update], Item
-      can :destroy, Item do |item|
-        item.checkouts.not_returned.first.nil?
-      end
+      can :destroy, Item
       can [:read, :create, :update], Manifestation
       can :destroy, Manifestation do |manifestation|
         manifestation.items.first.nil?
@@ -179,10 +141,6 @@ class Ability
       can :show, Patron do |patron|
         patron.required_role_id <= 3
       end
-      can [:index, :create], PurchaseRequest
-      can [:update, :destroy, :show], PurchaseRequest do |purchase_request|
-        purchase_request.user == user
-      end
       can [:index, :create], Question
       can [:update, :destroy], Question do |question|
         question.user == user
@@ -198,17 +156,13 @@ class Ability
         patron.required_role_id <= 3 #'Librarian'
         patron.user.role.name != 'Administrator' if patron.user
       end
-      can [:index, :create], Reserve
-      can [:update, :destroy, :show], Reserve do |reserve|
-        reserve.try(:user) == user
-      end
       can :index, SearchHistory
       can [:show, :destroy], SearchHistory do |search_history|
         search_history.user == user
       end
       can [:read, :create, :update], User
-      can :destroy, User do |user|
-        user.checkouts.not_returned.first.nil? and user.role.name == 'User'
+      can :destroy, User do |u|
+        u != user
       end
       can [:index, :create], Work
       can [:show, :update, :destroy], Work do |work|
@@ -219,9 +173,6 @@ class Ability
         Bookmark,
         BookmarkStat,
         BookmarkStatHasManifestation,
-        Checkout,
-        CheckoutStatHasManifestation,
-        CheckoutStatHasUser,
         Create,
         Donate,
         Embody,
@@ -233,16 +184,10 @@ class Ability
         EventImportFile,
         ImportRequest,
         InterLibraryLoan,
-        Inventory,
-        InventoryFile,
         ItemHasUseRestriction,
         ItemRelationship,
-        ManifestationCheckoutStat,
         ManifestationRelationship,
-        ManifestationReserveStat,
         NewsPost,
-        Order,
-        OrderList,
         Own,
         Participate,
         PatronImportFile,
@@ -251,13 +196,9 @@ class Ability
         PatronRelationship,
         PictureFile,
         Produce,
-        PurchaseRequest,
         Question,
         Realize,
         Reify,
-        Reserve,
-        ReserveStatHasManifestation,
-        ReserveStatHasUser,
         ResourceImportFile,
         SearchHistory,
         SeriesStatement,
@@ -265,20 +206,13 @@ class Ability
         Subscribe,
         Subscription,
         Tag,
-        UserCheckoutStat,
-        UserReserveStat,
         WorkHasSubject,
         WorkMerge,
         WorkMergeList,
         WorkRelationship
       ]
       can :read, [
-        Advertisement,
-        Advertise,
-        Bookstore,
         CarrierType,
-        CarrierTypeHasCheckoutType,
-        CheckoutType,
         CirculationStatus,
         Classification,
         ClassificationType,
@@ -292,7 +226,6 @@ class Ability
         FormOfWork,
         ItemRelationshipType,
         Language,
-        LendingPolicy,
         Library,
         LibraryGroup,
         License,
@@ -315,7 +248,6 @@ class Ability
         SubjectHeadingType,
         UseRestriction,
         UserGroup,
-        UserGroupHasCheckoutType,
         WorkRelationshipType,
         WorkToExpressionRelType
       ]
@@ -334,10 +266,6 @@ class Ability
       can [:index, :create], Bookmark
       can [:show, :update, :destroy], Bookmark do |bookmark|
         bookmark.user == user
-      end
-      can [:index, :create], Checkout
-      can [:show, :update, :destroy], Checkout do |checkout|
-        checkout.user == user
       end
       can :index, Expression
       can :show, Expression do |expression|
@@ -383,14 +311,6 @@ class Ability
         rescue NoMethodError
           true
         end
-      end
-      can [:index, :create], PurchaseRequest
-      can [:show, :update, :destroy], PurchaseRequest do |purchase_request|
-        purchase_request.user == user
-      end
-      can [:index, :create], Reserve
-      can [:show, :update, :destroy], Reserve do |reserve|
-        reserve.user == user
       end
       can :index, SearchHistory
       can [:show, :destroy], SearchHistory do |search_history|
@@ -476,7 +396,6 @@ class Ability
       can :read, [
         BookmarkStat,
         CarrierType,
-        Checkout,
         CirculationStatus,
         Classification,
         ClassificationType,
@@ -496,15 +415,12 @@ class Ability
         ItemRelationship,
         ItemRelationshipType,
         Language,
-        LendingPolicy,
         Library,
         LibraryGroup,
         License,
         Manifestation,
-        ManifestationCheckoutStat,
         ManifestationRelationship,
         ManifestationRelationshipType,
-        ManifestationReserveStat,
         MediumOfPerformance,
         NewsFeed,
         NewsPost,
@@ -523,9 +439,7 @@ class Ability
         SubjectHeadingType,
         SubjectHeadingTypeHasSubject,
         Tag,
-        UserCheckoutStat,
         UserGroup,
-        UserReserveStat,
         WorkHasSubject,
         WorkRelationship,
         WorkRelationshipType,

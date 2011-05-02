@@ -3,45 +3,34 @@
 <div id="content_list">
   <h2 class="resource_title">
     [W]
-    <%= link_to h(@work.original_title), @work -%>
+    <%= link_to @work.original_title, @work -%>
   </h2>
   <%= form_for :works, :url => work_works_path(@work), :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
-    <%- if can? :destroy, @work -%>
-      <%- if params[:mode] == 'add' -%>
-        <%= radio_button_tag 'mode', 'show' -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add', :checked => true -%> <%= t('page.add') -%>
-      <%- else -%>
-        <%= radio_button_tag 'mode', 'show', :checked => true -%> <%= t('page.show') -%>
-        <%= radio_button_tag 'mode', 'add' -%> <%= t('page.add') -%>
-      <%- end -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+    <%- if can? :update, @work -%>
+      <%= render 'page/add' %>
     <%- end -%>
     <%= submit_tag t('page.search') -%>
    </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
   <%- end -%>
 
 <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.attributes.work.context') -%></th>
-    <%- if can? :destroy, @work -%>
-      <th></th>
-      <th></th>
-    <%- end -%>
+    <th></th>
   </tr>
   
   <%- @works.each do |work| -%>
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
-        <%= link_to h(work.original_title), work -%>
+        <%= link_to work.original_title, work -%>
         <br />
         <%= raw patrons_list(work.patrons, current_user) -%>
       </td>
       <td><%= work.context -%></td>
-      <%- if can? :destroy, work -%>
-        <td><%= link_to t('page.edit'), edit_work_path(work) -%></td>
+      <%- if can? :update, work -%>
         <td>
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_work_work_relationship_path(@work, :child_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>

@@ -6,7 +6,7 @@ class BookmarkTest < ActiveSupport::TestCase
     :items, :manifestations, :exemplifies,
     :expressions, :works, :carrier_types, :content_types,
     :shelves, :circulation_statuses, :libraries, :library_groups,
-    :users, :user_groups, :lending_policies
+    :users, :user_groups
 
   def test_bookmark_sheved
     assert bookmarks(:bookmark_00001).shelved?
@@ -39,7 +39,7 @@ class BookmarkTest < ActiveSupport::TestCase
     old_expression_count = Expression.count
     old_manifestation_count = Manifestation.count
     old_item_count = Item.count
-    bookmark = users(:user1).bookmarks.create(:url => "#{LibraryGroup.url}manifestations/1", :title => 'test')
+    bookmark = users(:user1).bookmarks.create(:url => "#{LibraryGroup.site_config.url}manifestations/1", :title => 'test')
     assert_equal old_count + 1, Bookmark.count
     assert_equal old_manifestation_count, Manifestation.count
     bookmark.create_frbr_object

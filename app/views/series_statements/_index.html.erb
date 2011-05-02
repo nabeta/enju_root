@@ -3,10 +3,9 @@
 <div id="content_list">
 <%= form_for :series_statements, :url => series_statements_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 <table class="index">
   <tr>
@@ -27,7 +26,7 @@
         <%= move_position(series_statement) -%>
       <%- end -%>
     </td>
-    <td><%= link_to h(series_statement.original_title), series_statement %></td>
+    <td><%= link_to series_statement.original_title, series_statement %></td>
     <td><%= series_statement.numbering %></td>
     <td><%= series_statement.title_subseries %></td>
     <td><%= series_statement.numbering_subseries %></td>

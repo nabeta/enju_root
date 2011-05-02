@@ -52,18 +52,14 @@ class PatronsController < ApplicationController
       end
     end
 
-    role = current_user.try(:role) || Role.find(1)
+    role = current_user.try(:role) || Role.find('Guest')
     search.build do
       with(:required_role_id).less_than role.id
     end
 
     page = params[:page] || 1
-    begin
-      search.query.paginate(page.to_i, Patron.per_page)
-      @patrons = search.execute!.results
-    rescue RSolr::RequestError
-      @patrons = WillPaginate::Collection.create(1,1,0) do end
-    end
+    search.query.paginate(page.to_i, Patron.per_page)
+    @patrons = search.execute!.results
 
     respond_to do |format|
       format.html # index.rhtml
@@ -72,10 +68,6 @@ class PatronsController < ApplicationController
       format.atom
       format.json { render :json => @patrons }
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to patrons_url
-    return
   end
 
   # GET /patrons/1
@@ -99,8 +91,6 @@ class PatronsController < ApplicationController
     @works = @patron.works.paginate(:page => params[:work_list_page])
     @expressions = @patron.expressions.paginate(:page => params[:expression_list_page])
     @manifestations = @patron.manifestations.paginate(:page => params[:manifestation_list_page], :order => 'date_of_publication DESC')
-
-    canonical_url patron_url(@patron)
 
     respond_to do |format|
       format.html # show.rhtml
@@ -227,10 +217,10 @@ class PatronsController < ApplicationController
 
   def prepare_options
     if Rails.env == 'production'
-      @countries = Rails.cache.fetch('Country.all'){Country.all}
+      @countries = Country.all_cache
       @patron_types = Rails.cache.fetch('PatronType.all'){PatronType.all}
-      @roles = Rails.cache.fetch('Role.all'){Role.all}
-      @languages = Rails.cache.fetch('Language.all'){Language.all}
+      @roles = Role.all_cache
+      @languages = Language.all_cache
     else
       @countries = Country.all
       @patron_types = PatronType.all

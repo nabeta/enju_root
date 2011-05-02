@@ -8,7 +8,7 @@
   <p>
     <%= f.label t('activerecord.models.expression') -%><br />
     <%- if @expression -%>
-      <%= link_to h(@expression.original_title), expression_path(@expression) -%>
+      <%= link_to @expression.original_title, expression_path(@expression) -%>
       <%= f.hidden_field :expression_id -%>
     <%- else -%>
       <%= f.text_field :expression_id -%>
@@ -18,7 +18,7 @@
   <p>
     <%= f.label t('activerecord.models.expression_merge_list') -%><br />
     <%- if @expression_merge_list -%>
-      <%= link_to h(@expression_merge_list.title), expression_merge_list_path(@expression_merge_list) -%>
+      <%= link_to @expression_merge_list.title, expression_merge_list_path(@expression_merge_list) -%>
       <%= f.hidden_field :expression_merge_list_id, :value => @expression_merge_list.id -%>
     <%- else -%>
       <%= f.text_field :expression_merge_list_id, :value => params[:expression_merge_list_id] -%>

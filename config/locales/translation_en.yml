@@ -45,7 +45,6 @@ en:
       subject_type: Subject type
       subject_heading_type: Subject heading type
       subscribe: Subscribe
-      checkin: Checkin
       item: Item
       barcode: Barcode
       work: Work
@@ -79,7 +78,6 @@ en:
       manifestation: Manifestation
       user_group: User group
       resource_import_file: Resource import file
-      checkout: Checkout
       subscription: Subscription
       message_template: Message template
       patron_merge: Patron merge
@@ -87,31 +85,21 @@ en:
       library_group: Library group
       event_import_file: Event import file
       attachment_file: Attachment file
-      reserve: Reserve
       message_request: Message request
       answer: Answer
       bookstore: Bookstore
-      checkout_type: Checkout type
       classification_type: Classification type
       country: Country
       manifestation_api_response: Manifestation API Response
       request_type: Request type
       inventory_file: Inventory file
-      user_group_has_checkout_type: User group has checkout type
-      carrier_type_has_checkout_type: Carrier type and checkout type
       tag: Tag
       bookmark_stat: Bookmark stat
-      manifestation_checkout_stat: Manifestation checkout stat
-      user_checkout_stat: User checkout stat
-      manifestation_reserve_stat: Manifestation reserve stat
-      user_reserve_stat: User reserve stat
       work_relationship: Work to work relationship
       expression_relationship: Expression to expression relationship
       manifestation_relationship: Manifestation to manifestation relationship
       item_relationship: Item to item relationship
       bookmark_stat_has_manifestation: Bookmark stat to manifestation relationship
-      reserve_stat_has_manifestation: Reserve stat to manifestation relationship
-      reserve_stat_has_user: Reserve stat to user relationship
       concept: Concept
       place: Place
       work_has_concept: Work to concept relationship
@@ -137,10 +125,6 @@ en:
       work_to_expression_rel_type: Work-to-Expression relationship type
       expression_to_manifestation_rel_type: Expression-to-Manifestation relationship type
       series_statement: Series statement
-      checkout_stat_has_manifestation: Checkout stat has manifestation
-      checkout_stat_has_user: Checkout stat has user
-      reserve_stat_has_manifestation: Reserve stat has manifestation
-      reserve_stat_has_user: Reserve stat has user
       import_request: Import request
       resource: Resource
       user_has_role: User and roles
@@ -299,16 +283,14 @@ en:
         activation_code: Activation code
         activated_at: Activated at
         expired_at: Expired at
-        active: Active
+        locked: Locked
         confirmed: Confirmed
         approved: Approved
-        checkout_icalendar_token: Checkout iCalendar token
         answer_rss_token: Answer rss token
         due_date_reminder_days: Due date reminder days
         note: Note
         share_bookmarks: Share bookmarks
         save_search_history: Save search history
-        save_checkout_history: Save checkout history
         lock_version: Lock version
         keyword_list: Keyword list
         user_number: User number
@@ -437,7 +419,6 @@ en:
       subscribe:
         started_on: Start on
         ended_on: End on
-      checkin:
       item:
         call_number: Call number
         item_identifier: Item identifier
@@ -447,7 +428,6 @@ en:
         url: URL
         price: Price
         lock_version: Lock version
-        checkout_type: Checkout type
       barcode:
         barcode_type: Barcode type
         barcodable_type: Barcodable type
@@ -571,6 +551,7 @@ en:
         position: Position
       bookmark:
         note: Note
+        shared: Shared
         url: URL
       create:
         position: Position
@@ -626,9 +607,6 @@ en:
         imported_at: Imported at
         resource_import_updated_at: Updated at
         state: State
-      checkout:
-        due_date: Due date
-        lock_version: Lock version
       subscription:
         title: Title
         note: Note
@@ -677,14 +655,6 @@ en:
         thumbnail: Thumbnail
         fulltext: Fulltext
         file_hash: File hash
-      reserve:
-        user: User
-        checked_out_at: Checked out at
-        canceled_at: Canceled at
-        expired_at: Expired at
-        deleted_at: Deleted at
-        created_at: Reserved at
-        state: State
       message_request:
         sent_at: Sent at
         deleted_at: Deleted at
@@ -704,11 +674,6 @@ en:
         url: URL
         position: Position
         deleted_at: Deleted at
-      checkout_type:
-        name: Name
-        display_name: Display name
-        note: Note
-        position: Position
       classification_type:
         name: Name
         display_name: Display name
@@ -735,38 +700,7 @@ en:
         inventory_file_size: Size
         file_hash: File hash
         note: Note
-      user_group_has_checkout_type:
-        checkout_limit: Checkout limit
-        checkout_period: Checkout period
-        checkout_renewal_limit: Checkout renewal limit
-        reservation_limit: Reservation limit
-        reservation_expired_period: Reservation expired period
-        set_due_date_before_closing_day: Set due date before the closing day
-        fixed_due_date: Fixed due date
-        note: Note
-        position: Position
-        user_group_id: User group
-        checkout_type_id: Checkout type
-      carrier_type_has_checkout_type:
-        note: Note
-        position: Position
       bookmark_stat:
-        start_date: Start date
-        end_date: End date
-        note: Note
-      manifestation_checkout_stat:
-        start_date: Start date
-        end_date: End date
-        note: Note
-      user_checkout_stat:
-        start_date: Start date
-        end_date: End date
-        note: Note
-      manifestation_reserve_stat:
-        start_date: Start date
-        end_date: End date
-        note: Note
-      user_reserve_stat:
         start_date: Start date
         end_date: End date
         note: Note
@@ -1017,7 +951,6 @@ en:
     created_at: "Created at"
     updated_at: "Updated at"
     checkout: "Checkout"
-    checkin: "Checkin"
     name: "Name"
     are_you_sure: "Are you sure?"
     previous: "Previous"
@@ -1360,6 +1293,7 @@ en:
     forgot_your_password: "Forgot your password?"
     send_me_reset_password_instruction: "Send me reset password instruction"
     change_my_password: "Change my password"
+    management: "User management"
   news_post:
     library_group_news_post: "News from %{library_group_name}"
   reserve:
@@ -1396,13 +1330,6 @@ en:
     checkout: "Checkout!"
     ignore_restriction: "Ignore restriction"
     already_checked_out: "This item is already checked out."
-  checkin:
-    item_not_found: "Item not found."
-    enter_item_identifier: "Enter item identifier."
-    other_library_item: "This item is other library's item!"
-    already_checked_in: "This item is already checked in."
-    checkin: "Checkin!"
-    successfully_checked_in: "This items was successfully checked in."
   search_history:
     all_history: "All search history"
     failed_search: "Failed searches"

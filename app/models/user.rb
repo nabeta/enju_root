@@ -6,36 +6,24 @@ class User < ActiveRecord::Base
          :lockable, :lock_strategy => :none, :unlock_strategy => :none
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :username, :current_password, :user_number
+  attr_accessible :email, :password, :password_confirmation, :username, :current_password, :user_number, :remember_me
 
   scope :administrators, :include => ['role'], :conditions => ['roles.name = ?', 'Administrator']
   scope :librarians, :include => ['role'], :conditions => ['roles.name = ? OR roles.name = ?', 'Administrator', 'Librarian']
   scope :suspended, :conditions => ['locked_at IS NOT NULL']
   has_one :patron
-  has_many :checkouts
   has_many :import_requests
   has_many :sent_messages, :foreign_key => 'sender_id', :class_name => 'Message'
   has_many :received_messages, :foreign_key => 'receiver_id', :class_name => 'Message'
-  #has_many :user_has_shelves
-  #has_many :shelves, :through => :user_has_shelves
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   has_many :import_requests
   has_one :user_has_role
   has_one :role, :through => :user_has_role
   has_many :bookmarks, :dependent => :destroy
-  has_many :reserves, :dependent => :destroy
-  has_many :reserved_manifestations, :through => :reserves, :source => :manifestation
   has_many :questions
   has_many :answers
   has_many :search_histories, :dependent => :destroy
-  #has_many :baskets, :dependent => :destroy
-  has_many :purchase_requests
-  has_many :order_lists
   has_many :subscriptions
-  has_many :checkout_stat_has_users
-  has_many :user_checkout_stats, :through => :checkout_stat_has_users
-  has_many :reserve_stat_has_users
-  has_many :user_reserve_stats, :through => :reserve_stat_has_users
   belongs_to :library, :validate => true
   belongs_to :user_group
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
@@ -59,8 +47,8 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
   validates_confirmation_of :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
   before_validation :set_role_and_patron, :on => :create
-  before_destroy :check_item_before_destroy, :check_role_before_destroy
-  before_save :set_expiration, :deactivate
+  before_validation :set_lock_information
+  before_save :set_expiration
   after_destroy :remove_from_index
   after_create :set_confirmation
   after_save :index_patron
@@ -83,7 +71,7 @@ class User < ActiveRecord::Base
     time :created_at
     time :updated_at
     boolean :active do
-      active?
+      active_for_authentication?
     end
     time :confirmed_at
   end
@@ -94,7 +82,7 @@ class User < ActiveRecord::Base
     :zip_code, :address, :telephone_number, :fax_number, :address_note,
     :role_id, :patron_id, :operator, :password_not_verified,
     :update_own_account, :auto_generated_password, :current_password,
-    :deactivated
+    :locked
 
   def self.per_page
     10
@@ -105,15 +93,16 @@ class User < ActiveRecord::Base
   end
 
   def has_role?(role_in_question)
-    if role
-      return true if role.name == 'Administrator'
-      return true if role.name == role_in_question
-    end
-    if role == 'Librarian'
+    return false unless role
+    return true if role.name == role_in_question
+    case role.name
+    when 'Administrator'
+      return true
+    when 'Librarian'
       return true if role_in_question == 'User'
+    else
+      false
     end
-    return true if role_in_question == 'Guest'
-    false
   end
 
   def set_role_and_patron
@@ -124,9 +113,11 @@ class User < ActiveRecord::Base
     end
   end
 
-  def deactivate
-    if self.deactivated
-      lock
+  def set_lock_information
+    if self.locked == '1' and self.active_for_authentication?
+      lock_access!
+    elsif self.locked == '0' and !self.active_for_authentication?
+      unlock_access!
     end
   end
 
@@ -145,15 +136,10 @@ class User < ActiveRecord::Base
 
   def set_expiration
     return if self.has_role?('Administrator')
-    unless self.expired_at.blank?
-      self.lock! if self.expired_at.beginning_of_day < Time.zone.now.beginning_of_day
-    end
-  end
-
-  def check_item_before_destroy
-    # TODO: 貸出記録を残す場合
-    if checkouts.size > 0
-      raise 'This user has items still checked out.'
+    if expired_at
+      if expired_at.beginning_of_day < Time.zone.now.beginning_of_day
+        lock_access! if self.active_for_authentication?
+      end
     end
   end
 
@@ -164,16 +150,8 @@ class User < ActiveRecord::Base
   end
 
   def set_auto_generated_password
-    password = Devise.friendly_token
+    password = Devise.friendly_token[0..7]
     self.reset_password!(password, password)
-  end
-
-  def reset_checkout_icalendar_token
-    self.checkout_icalendar_token = Devise.friendly_token
-  end
-
-  def delete_checkout_icalendar_token
-    self.checkout_icalendar_token = nil
   end
 
   def reset_answer_feed_token
@@ -186,7 +164,7 @@ class User < ActiveRecord::Base
 
   def self.lock_expired_users
     User.find_each do |user|
-      user.lock! if user.expired?
+      user.lock_access! if user.expired? and user.active_for_authentication?
     end
   end
 
@@ -196,50 +174,21 @@ class User < ActiveRecord::Base
     end
   end
 
-  def checked_item_count
-    checkout_count = {}
-    CheckoutType.all.each do |checkout_type|
-      # 資料種別ごとの貸出中の冊数を計算
-      checkout_count[:"#{checkout_type.name}"] = self.checkouts.count_by_sql(["
-        SELECT count(item_id) FROM checkouts
-          WHERE item_id IN (
-            SELECT id FROM items
-              WHERE checkout_type_id = ?
-          )
-          AND user_id = ? AND checkin_id IS NULL", checkout_type.id, self.id]
-      )
-    end
-    return checkout_count
-  end
-
-  def reached_reservation_limit?(manifestation)
-    return true if self.user_group.user_group_has_checkout_types.available_for_carrier_type(manifestation.carrier_type).all(:conditions => {:user_group_id => self.user_group.id}).collect(&:reservation_limit).max <= self.reserves.waiting.size
-    false
-  end
-
   def is_admin?
     true if self.has_role?('Administrator')
   end
 
   def last_librarian?
     if self.has_role?('Librarian')
-      role = Role.first(:conditions => {:name => 'Librarian'})
+      role = Role.where(:name => 'Librarian').first
       true if role.users.size == 1
     end
-  end
-
-  def self.secure_digest(*args)
-    Digest::SHA1.hexdigest(args.flatten.join('--'))
-  end
-
-  def self.make_token
-    secure_digest(Time.now, (1..10).map{ rand.to_s })
   end
 
   def send_message(status, options = {})
     MessageRequest.transaction do
       request = MessageRequest.new
-      request.sender = User.find(1) # TODO: システムからのメッセージ送信者
+      request.sender = User.find('admin')
       request.receiver = self
       request.message_template = MessageTemplate.localized_template(status, self.locale)
       request.save_message_body(options)
@@ -264,19 +213,9 @@ class User < ActiveRecord::Base
     false
   end
 
-  def has_no_credentials?
-    crypted_password.blank? && openid_identifier.blank?
-  end
-        
   def send_confirmation_instructions
     unless self.operator
       Devise::Mailer.confirmation_instructions(self).deliver if self.email.present?
     end
   end
-
-  private
-  def validate_password_with_openid?
-    require_password?
-  end
-
 end

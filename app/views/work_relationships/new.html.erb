@@ -8,7 +8,7 @@
   <p>
     <%= f.label t('activerecord.attributes.work_relationship.parent') -%><br />
     <%- if @work_relationship.parent -%>
-      <%= link_to h(@work_relationship.parent.original_title), @work_relationship.parent -%>
+      <%= link_to @work_relationship.parent.original_title, @work_relationship.parent -%>
       <%= f.hidden_field :parent_id -%>
     <%- else -%>
       <%= f.text_field :parent_id -%>
@@ -17,7 +17,7 @@
   <p>
     <%= f.label t('activerecord.attributes.work_relationship.child') -%><br />
     <%- if @work_relationship.child -%>
-      <%= link_to h(@work_relationship.child.original_title), @work_relationship.child -%>
+      <%= link_to @work_relationship.child.original_title, @work_relationship.child -%>
       <%= f.hidden_field :child_id -%>
     <%- else -%>
       <%= f.text_field :child_id -%>

@@ -9,7 +9,7 @@
 
   <ul>
     <%- @expression_merge_list.expressions.each do |expression| -%>
-      <li><%= radio_button_tag 'selected_expression_id', expression.id -%><%= link_to h(expression.original_title), expression -%></li>
+      <li><%= radio_button_tag 'selected_expression_id', expression.id -%><%= link_to expression.original_title, expression -%></li>
     <%- end -%>
   </ul>
   <%- if @expression_merge_list.expressions.size > 1 -%>

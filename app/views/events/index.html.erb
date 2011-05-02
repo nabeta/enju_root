@@ -3,17 +3,16 @@
 <div id="content_list">
 
 <%- if @library -%>
-  <h2><%= link_to h(@library.display_name.localize), library_path(@library.name) -%></h2>
+  <h2><%= link_to @library.display_name.localize, @library -%></h2>
 <%- else -%>
   <h2><%= t('event.all_libraries') -%></h2>
 <%- end -%>
 
 <%= form_for :events, :url => events_path, :html => {:method => 'get'} do -%>
   <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form'} -%>
+    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
     <%= submit_tag t('page.search') -%>
   </p>
-  <%= javascript_tag("$('#search_form_top').focus()") -%>
 <%- end -%>
 
 <p>
@@ -37,31 +36,29 @@
   <tr>
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.attributes.event.name') -%></th>
-    <%- if can? :update, @events.first -%>
-      <th></th>
-    <% end %>
+    <th id="edit_icons"></th>
   </tr>
 
 <%- @events.each_with_index do |event, i| -%>
   <tr class="line<%= cycle("0", "1") -%>">
     <td>
-      <%= link_to h(event.library.display_name.localize), library_path(event.library.name) -%>
+      <%= link_to event.library.display_name.localize, event.library -%>
       <br />
       <%= event.event_category.display_name.localize -%>
     </td>
     <td>
-      <%= link_to h(event.name.localize), event -%>
+      <%= link_to event.name.localize, event -%>
       <br />
       <%= l(event.start_at, :format => :short) -%>
       -
       <%= l(event.end_at, :format => :short) -%>
     </td>
-    <%- if can? :destroy, event -%>
-      <td id="edit_icons">
+    <td>
+      <%- if can? :destroy, event -%>
         <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_event_path(event) -%>
         <%= link_to image_tag('icons/delete.png', :size => '16x16', :alt => t('page.destroy')), event, :confirm => t('page.are_you_sure'), :method => :delete -%>
-      </td>
-    <%- end -%>
+      <%- end -%>
+    </td>
   </tr>
 <%- end -%>
 </table>
@@ -78,7 +75,7 @@
     <%- if user_signed_in? -%>
       <%- if current_user.has_role?('Librarian') -%>
         <%- if @library -%>
-          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library.name) -%></li>
+          <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_library_event_path(@library) -%></li>
         <%- else -%>
           <li><%= link_to t('page.new', :model => t('activerecord.models.event')), new_event_path(:date => params[:date]) -%></li>
         <%- end -%>
@@ -87,20 +84,20 @@
     <%- end -%>
   </ul>
   <ul>
-    <%- Library.all.each do |library| -%>
-      <li><%= link_to h(library.display_name.localize), library_events_path(library.name) -%></li>
+    <%- @libraries.each do |library| -%>
+      <li><%= link_to library.display_name.localize, library_events_path(library) -%></li>
     <%- end -%>
   </ul>
   <p>
     <%- if @library -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), library_events_path(@library.name, :format => :rss) -%>
-      (<%= link_to 'RSS', library_events_path(@library.name, :format => :rss) -%>)
-      (<%= link_to 'CSV', library_events_path(@library.name, :format => :csv, :locale => @locale) -%>)
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :class => 'icon'), library_events_path(@library, :format => :rss) -%>
+      (<%= link_to 'RSS', library_events_path(@library, :format => :rss) -%>)
+      (<%= link_to 'CSV', library_events_path(@library, :format => :csv, :locale => @locale) -%>)
     <%- else -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :border => 0), events_path(:format => :rss) -%>
+      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :class => 'icon'), events_path(:format => :rss) -%>
       (<%= link_to 'RSS', events_path(:format => :rss) -%>)
       (<%= link_to 'CSV', events_path(:format => :csv, :locale => @locale) -%>)
     <%- end -%>
   </p>
-  <%= render :partial => 'page/login' unless current_user -%>
+  <%= render 'page/login' unless current_user -%>
 </div>

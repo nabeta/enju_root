@@ -1,8 +1,8 @@
 require 'erubis'
 class MessageRequest < ActiveRecord::Base
-  scope :not_sent, :conditions => ['sent_at IS NULL AND state = ?', 'pending']
-  scope :sent, :conditions => {:state => 'sent'}
-  scope :started, :conditions => {:state => 'started'}
+  scope :not_sent, where(:sent_at => nil, :state => 'pending')
+  scope :sent, where(:state => 'sent')
+  scope :started, where(:state => 'started')
   belongs_to :message_template, :validate => true
   belongs_to :sender, :class_name => "User", :foreign_key => "sender_id", :validate => true
   belongs_to :receiver, :class_name => "User", :foreign_key => "receiver_id", :validate => true
@@ -40,11 +40,6 @@ class MessageRequest < ActiveRecord::Base
       end
       self.update_attributes({:sent_at => Time.zone.now})
       Notifier.message_notification(self.receiver).deliver
-      if ['reservation_expired_for_patron', 'reservation_expired_for_patron'].include?(self.message_template.status)
-        self.receiver.reserves.each do |reserve|
-          reserve.update_attribute(:expiration_notice_to_patron, true)
-        end
-      end
     end
     return message
   end

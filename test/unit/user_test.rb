@@ -101,29 +101,14 @@ class UserTest < ActiveSupport::TestCase
   #  assert users(:user1).remember_token_expires_at.between?(before, after)
   #end
 
-  def test_should_reset_checkout_icalendar_token
-    users(:user1).reset_checkout_icalendar_token
-    assert_not_nil users(:user1).checkout_icalendar_token
-  end
-
   def test_should_reset_answer_feed_token
     users(:user1).reset_answer_feed_token
     assert_not_nil users(:user1).answer_feed_token
   end
 
-  def test_should_delete_checkout_icalendar_token
-    users(:user1).delete_checkout_icalendar_token
-    assert_nil users(:user1).checkout_icalendar_token
-  end
-
   def test_should_delete_answer_feed_token
     users(:user1).delete_answer_feed_token
     assert_nil users(:user1).answer_feed_token
-  end
-
-  def test_should_get_checked_item_count
-    count = users(:user1).checked_item_count
-    assert_not_nil count
   end
 
   def test_should_set_temporary_password
@@ -133,23 +118,19 @@ class UserTest < ActiveSupport::TestCase
     assert !users(:user1).valid_password?('user1password')
   end
 
-  def test_should_get_reserves_count
-    assert_equal 1, users(:user1).reserves.waiting.size
-  end
-
   def test_should_get_highest_role
     assert_equal 'Administrator', users(:admin).role.name
   end
 
-  def test_should_send_message
-    assert users(:librarian1).send_message('reservation_expired_for_patron', :manifestations => users(:librarian1).reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
-    users(:librarian1).reload
-    assert_equal [], users(:librarian1).reserves.not_sent_expiration_notice_to_patron
-  end
+  #def test_should_send_message
+  #  assert users(:librarian1).send_message('reservation_expired_for_patron', :manifestations => users(:librarian1).reserves.not_sent_expiration_notice_to_patron.collect(&:manifestation))
+  #  users(:librarian1).reload
+  #  assert_equal [], users(:librarian1).reserves.not_sent_expiration_notice_to_patron
+  #end
 
   def test_should_lock_expired_users
     User.lock_expired_users
-    assert_equal false, users(:user4).active?
+    assert_equal false, users(:user4).active_for_authentication?
   end
 
   protected

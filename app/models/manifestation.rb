@@ -1,15 +1,13 @@
 # -*- encoding: utf-8 -*-
 #require 'wakati'
 require 'timeout'
-require 'sru'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  #scope :pictures, :conditions => {:content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
   default_scope :order => 'manifestations.updated_at DESC'
-  scope :pictures, :conditions => {:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png']}
+  scope :pictures, where(:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'])
   scope :serials, :conditions => ['frequency_id > 1']
-  scope :not_serials, :conditions => ['frequency_id = 1']
+  scope :not_serials, where(:frequency_id => 1)
   has_many :embodies, :dependent => :destroy
   has_many :expressions, :through => :embodies
   has_many :exemplifies, :dependent => :destroy
@@ -17,8 +15,6 @@ class Manifestation < ActiveRecord::Base
   has_many :produces, :dependent => :destroy
   has_many :patrons, :through => :produces
   #has_one :manifestation_api_response, :dependent => :destroy
-  has_many :reserves, :dependent => :destroy
-  has_many :reserving_users, :through => :reserves, :source => :user
   belongs_to :carrier_type #, :validate => true
   belongs_to :extent #, :validate => true
   belongs_to :language, :validate => true
@@ -27,12 +23,8 @@ class Manifestation < ActiveRecord::Base
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
-  has_many :checkout_stat_has_manifestations
-  has_many :manifestation_checkout_stats, :through => :checkout_stat_has_manifestations
   has_many :bookmark_stat_has_manifestations
   has_many :bookmark_stats, :through => :bookmark_stat_has_manifestations
-  has_many :reserve_stat_has_manifestations
-  has_many :manifestation_reserve_stats, :through => :reserve_stat_has_manifestations
   has_many :children, :foreign_key => 'parent_id', :class_name => 'ManifestationRelationship', :dependent => :destroy
   has_many :parents, :foreign_key => 'child_id', :class_name => 'ManifestationRelationship', :dependent => :destroy
   has_many :derived_manifestations, :through => :children, :source => :child
@@ -116,9 +108,6 @@ class Manifestation < ActiveRecord::Base
       self.subjects.collect(&:id)
     end
     float :price
-    boolean :reservable do
-      self.reservable?
-    end
     integer :series_statement_id
     boolean :repository_content
     # for OpenURL
@@ -169,17 +158,16 @@ class Manifestation < ActiveRecord::Base
   end
 
   #acts_as_tree
-  #enju_twitter
   enju_manifestation_viewer
   enju_amazon
   enju_ndl
-  enju_cinii
+  #enju_cinii
   has_attached_file :attachment
   #has_ipaper_and_uses 'Paperclip'
   enju_scribd
   enju_mozshot
   enju_oai
-  enju_calil_check
+  #enju_calil_check
   #enju_worldcat
   has_paper_trail
 
@@ -198,6 +186,8 @@ class Manifestation < ActiveRecord::Base
   normalize_attributes :identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
 
   after_create :post_to_scribd!
+  before_create :set_digest
+  before_save :set_date_of_publication
   alias :producers :patrons
 
   def self.per_page
@@ -227,6 +217,20 @@ class Manifestation < ActiveRecord::Base
         self.isbn10 = ISBN_Tools.isbn13_to_isbn10(num)
       end
     end
+  end
+
+  def set_date_of_publication
+    return if pub_date.blank?
+    begin
+      date = Time.zone.parse(pub_date)
+    rescue ArgumentError
+      begin
+        date = Time.zone.parse("#{pub_date}-01")
+      rescue ArgumentError
+        date = Time.zone.parse("#{pub_date}-01-01")
+      end
+    end
+    self.date_of_publication = date
   end
 
   def expire_cache
@@ -270,21 +274,9 @@ class Manifestation < ActiveRecord::Base
 
   def url
     #access_address
-    "#{LibraryGroup.url}#{self.class.to_s.tableize}/#{self.id}"
+    "#{LibraryGroup.site_config.url}#{self.class.to_s.tableize}/#{self.id}"
   end
 
-  def available_checkout_types(user)
-    user.user_group.user_group_has_checkout_types.available_for_carrier_type(self.carrier_type)
-  end
-
-  def checkout_period(user)
-    available_checkout_types(user).collect(&:checkout_period).max || 0
-  end 
-  
-  def reservation_expired_period(user)
-    available_checkout_types(user).collect(&:reservation_expired_period).max || 0
-  end
-  
   def embodies?(expression)
     expression.manifestations.detect{|manifestation| manifestation == self}
   end
@@ -325,10 +317,6 @@ class Manifestation < ActiveRecord::Base
     work.expressions << expression
     work.patrons << parent_of_series.patrons
     self.expressions << expression
-  end
-
-  def next_reservation
-    self.reserves.first(:order => ['reserves.created_at'])
   end
 
   def creators
@@ -456,14 +444,14 @@ class Manifestation < ActiveRecord::Base
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
-      manifestation = Manifestation.first(:conditions => {:isbn => isbn})
+      manifestation = Manifestation.where(:isbn => isbn).first
       if manifestation.nil?
         if isbn.length == 13
           isbn = ISBN_Tools.isbn13_to_isbn10(isbn)
         else
           isbn = ISBN_Tools.isbn10_to_isbn13(isbn)
         end
-        manifestation = Manifestation.first(:conditions => {:isbn => isbn})
+        manifestation = Manifestation.where(:isbn => isbn).first
       end
     end
     return manifestation
@@ -530,51 +518,12 @@ class Manifestation < ActiveRecord::Base
     return self
   end
 
-  def is_reserved_by(user = nil)
-    if user
-      Reserve.waiting.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
-    else
-      false
-    end
-  end
-
-  def is_reserved?
-    if self.reserves.present?
-      true
-    else
-      false
-    end
-  end
-
-  def reservable?
-    return false if self.items.for_checkout.empty?
-    true
-  end
-
-  def checkouts(start_date, end_date)
-    Checkout.completed(start_date, end_date).all(:conditions => {:item_id => self.items.collect(&:id)})
-  end
-
-  #def bookmarks(start_date = nil, end_date = nil)
-  #  if start_date.blank? and end_date.blank?
-  #    if self.bookmarks
-  #      self.bookmarks
-  #    else
-  #      []
-  #    end
-  #  else
-  #    Bookmark.bookmarked(start_date, end_date).all(:conditions => {:manifestation_id => self.id})
-  #  end
-  #end
-
   def set_digest(options = {:type => 'sha1'})
-    self.file_hash = Digest::SHA1.hexdigest(File.open(self.attachment.path, 'rb').read)
-    save(:validate => false)
-  end
-
-  def generate_fragment_cache
-    url = "#{LibraryGroup.url}manifestations/#{id}?mode=generate_cache"
-    Net::HTTP.get(URI.parse(url))
+    if attachment.queued_for_write[:original]
+      if File.exists?(attachment.queued_for_write[:original])
+        self.file_hash = Digest::SHA1.hexdigest(File.open(attachment.queued_for_write[:original].path, 'rb').read)
+      end
+    end
   end
 
   def extract_text
@@ -595,7 +544,7 @@ class Manifestation < ActiveRecord::Base
       self.fulltext = extractor.analyse(text.read)
     when "text/html"
       # TODO: 日本語以外
-      system("elinks --dump 1 #{attachment(:path)} 2> /dev/null | nkf -w > #{text.path}")
+      system("w3m -dump #{attachment(:path)} 2> /dev/null | nkf -w > #{text.path}")
       self.fulltext = extractor.analyse(text.read)
     end
 
@@ -627,11 +576,11 @@ class Manifestation < ActiveRecord::Base
   end
 
   def produced(patron)
-    produces.first(:conditions => {:patron_id => patron.id})
+    produces.where(:patron_id => patron.id).first
   end
 
   def embodied(expression)
-    embodies.first(:conditions => {:expression_id => expression.id})
+    embodies.where(:expression_id => expression.id).first
   end
 
   def check_series_statement
@@ -641,7 +590,7 @@ class Manifestation < ActiveRecord::Base
   end
 
   def bookmark_for(user)
-    Bookmark.first(:conditions => {:user_id => user.id, :manifestation_id => self.id})
+    Bookmark.where(:user_id => user.id, :manifestation_id => self.id).first
   end
 
   def has_single_work?
@@ -671,23 +620,23 @@ class Manifestation < ActiveRecord::Base
   end
 
   def web_item
-    items.first(:conditions => {:shelf_id => Shelf.web.id})
+    items.where(:shelf_id => Shelf.web.id).first
   end
 
   def self.find_by_isbn(isbn)
     if ISBN_Tools.is_valid?(isbn)
       ISBN_Tools.cleanup!(isbn)
       if isbn.size == 10
-        Manifestation.first(:conditions => {:isbn => ISBN_Tools.isbn10_to_isbn13(isbn)}) || Manifestation.first(:conditions => {:isbn => isbn})
+        Manifestation.where(:isbn => ISBN_Tools.isbn10_to_isbn13(isbn)).first || Manifestation.where(:isbn => isbn).first
       else
-        Manifestation.first(:conditions => {:isbn => isbn}) || Manifestation.first(:conditions => {:isbn => ISBN_Tools.isbn13_to_isbn10(isbn)})
+        Manifestation.where(:isbn => isbn).first || Manifestation.where(:isbn => ISBN_Tools.isbn13_to_isbn10(isbn)).first
       end
     end
   end
 
   # 仮実装
   def similar_works
-    Work.all(:conditions => {:original_title => self.original_title})
+    Work.where(:original_title => self.original_title)
   end
 
   def same_work?(manifestation)

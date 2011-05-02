@@ -10,8 +10,8 @@
 
 <%- @reifies.each do |reify| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(reify.work.original_title), reify.work -%></td>
-    <td><%= link_to h(reify.expression.original_title), reify.expression -%></td>
+    <td><%= link_to reify.work.original_title, reify.work -%></td>
+    <td><%= link_to reify.expression.original_title, reify.expression -%></td>
     <%- if can? :destroy, reify -%>
       <td><%= link_to t('page.show'), reify -%></td>
       <td><%= link_to t('page.destroy'), reify, :confirm => t('page.are_you_sure'), :method => :delete -%></td>

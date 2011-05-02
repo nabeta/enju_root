@@ -5,8 +5,8 @@
               <% cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'index_list', :role => current_user_role_name, :locale => @locale) do %>
               <td style="480px">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
-                <div id="access_address">
-                  <%= link_to h(manifestation.access_address), manifestation.access_address if manifestation.access_address.present? -%>
+                <div class="access_address">
+                  <%= link_to manifestation.access_address, manifestation.access_address if manifestation.access_address.present? -%>
                 </div>
                 <%- if manifestation.items.on_shelf.first -%>
                   (<%= link_to_function t('page.holding'), "$('#holding_#{manifestation.id}').toggle()" -%>)
@@ -26,23 +26,12 @@
                 <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
               <% end %>
-              <%- if user_signed_in? -%>
-                <td>
-                  <% if manifestation.reservable? %>
-                    <%- if reserve = manifestation.is_reserved_by(current_user) -%>
-                      <%= link_to t('page.cancel'), user_reserve_path(reserve.user.username, reserve) -%>
-                    <%- else -%>
-                      <%= link_to t('activerecord.models.reserve'), new_user_reserve_path(current_user.username, :manifestation_id => manifestation.id) -%>
-                    <%- end -%>
-                  <%- end -%>
-                </td>
-                <%- if can? :destroy, manifestation -%>
-                  <td id="edit_icons">
-                    <%= link_to image_tag('icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>
-                    <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), manifestation_manifestations_path(manifestation) -%>
-                  </td>
+              <td id="edit_icons">
+                <%- if can? :update, manifestation -%>
+                  <%= link_to image_tag('icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>
+                  <%= link_to image_tag('icons/arrow_divide.png', :size => '16x16', :alt => t('page.add_derivation')), manifestation_manifestations_path(manifestation) -%>
                 <%- end -%>
-              <%- end -%>
+              </td>
             </tr>
           <%- end -%>
         </table>
@@ -54,7 +43,7 @@
   <%- if @manifestations and @manifestations.size > Manifestation.per_page.div(2) -%>
     <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
-        <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_bottom', :class => 'search_form'} -%>
+        <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_bottom', :class => 'search_form', :placeholder => t('page.search_term')} -%>
         <%= submit_tag t('page.search') -%>
         <%= link_to t('page.advanced_search'), page_advanced_search_path -%>
       </p>

@@ -1,7 +1,5 @@
 # -*- encoding: utf-8 -*-
 class Expression < ActiveRecord::Base
-  include EnjuFragmentCache
-
   has_one :reify, :dependent => :destroy
   has_one :work, :through => :reify
   has_many :embodies, :dependent => :destroy
@@ -82,11 +80,11 @@ class Expression < ActiveRecord::Base
   end
 
   def realized(patron)
-    realizes.first(:conditions => {:patron_id => patron.id})
+    realizes.where(:patron_id => patron.id).first
   end
 
   def embodied(manifestation)
-    embodies.first(:conditions => {:manifestation_id => manifestation.id})
+    embodies.where(:manifestation_id => manifestation.id).first
   end
 
 end

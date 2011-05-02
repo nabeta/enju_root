@@ -11,8 +11,8 @@
 
 <%- @item_relationships.each do |item_relationship| -%>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to h(item_relationship.parent.manifestation.original_title), item_relationship.parent -%></td>
-    <td><%= link_to h(item_relationship.child.manifestation.original_title), item_relationship.child -%></td>
+    <td><%= link_to item_relationship.parent.manifestation.original_title, item_relationship.parent -%></td>
+    <td><%= link_to item_relationship.child.manifestation.original_title, item_relationship.child -%></td>
     <td><%= item_relationship.item_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), item_relationship -%></td>
     <td><%= link_to t('page.edit'), edit_item_relationship_path(item_relationship) -%></td>

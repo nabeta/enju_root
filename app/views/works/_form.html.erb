@@ -2,7 +2,7 @@
   <%- if @work.series_statement -%>
     <p>
       <%= f.label t('activerecord.models.series_statement') -%><br />
-      <%= link_to h(@work.series_statement.original_title), @work.series_statement -%>
+      <%= link_to @work.series_statement.original_title, @work.series_statement -%>
       <%= f.hidden_field :series_statement_id -%>
     </p>
   <%- end -%>
@@ -42,4 +42,3 @@
     <%= f.label t('activerecord.attributes.work.note') -%><br />
     <%= f.text_area :note, :class => 'resource_textarea' -%>
   </p>
-  <%= javascript_tag("$('#work_original_title').focus()") -%>

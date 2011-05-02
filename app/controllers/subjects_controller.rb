@@ -41,18 +41,14 @@ class SubjectsController < ApplicationController
       end
     end
 
-    role = current_user.try(:role) || Role.find(1)
+    role = current_user.try(:role) || Role.find('Guest')
     search.build do
       with(:required_role_id).less_than role.id
     end
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Subject.per_page)
-    begin
-      @subjects = search.execute!.results
-    rescue RSolr::RequestError
-      @subjects = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @subjects = search.execute!.results
     session[:params] = {} unless session[:params]
     session[:params][:subject] = params
 
@@ -62,17 +58,13 @@ class SubjectsController < ApplicationController
       format.rss
       format.atom
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to subjects_url
-    return
   end
 
   # GET /subjects/1
   # GET /subjects/1.xml
   def show
     if params[:term]
-      subject = Subject.first(:conditions => {:term => params[:term]})
+      subject = Subject.where(:term => params[:term]).first
       redirected_to subject
       return
     end
@@ -85,11 +77,7 @@ class SubjectsController < ApplicationController
     end
     page = params[:work_page] || 1
     search.query.paginate(page.to_i, Work.per_page)
-    begin
-      @works = search.execute!.results
-    rescue RSolr::RequestError
-      @works = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @works = search.execute!.results
     #@works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.work_has_subjects.size)
 
     if @work
@@ -99,8 +87,6 @@ class SubjectsController < ApplicationController
         return
       end
     end
-
-    canonical_url subject_url(@subject)
 
     respond_to do |format|
       format.html # show.rhtml

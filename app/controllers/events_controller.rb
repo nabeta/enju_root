@@ -2,8 +2,7 @@
 class EventsController < ApplicationController
   load_and_authorize_resource
   before_filter :get_library, :get_patron
-  before_filter :get_libraries, :except => [:index, :destroy]
-  #before_filter :get_patron, :only => [:index]
+  before_filter :get_libraries, :except => :destroy
   before_filter :prepare_options
   before_filter :store_page, :only => :index
   after_filter :solr_commit, :only => [:create, :update, :destroy]
@@ -41,11 +40,7 @@ class EventsController < ApplicationController
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, Event.per_page)
-    begin
-      @events = search.execute!.results
-    rescue RSolr::RequestError
-      @events = WillPaginate::Collection.create(1,1,0) do end
-    end
+    @events = search.execute!.results
     @count[:query_result] = @events.total_entries
 
     respond_to do |format|
@@ -56,10 +51,6 @@ class EventsController < ApplicationController
       format.atom
       format.ics
     end
-  rescue RSolr::RequestError
-    flash[:notice] = t('page.error_occured')
-    redirect_to events_url
-    return
   end
 
   # GET /events/1
@@ -106,6 +97,7 @@ class EventsController < ApplicationController
   # POST /events.xml
   def create
     @event = Event.new(params[:event])
+    @event.set_date
 
     respond_to do |format|
       if @event.save
@@ -124,6 +116,7 @@ class EventsController < ApplicationController
   # PUT /events/1.xml
   def update
     @event = Event.find(params[:id])
+    @event.set_date
 
     respond_to do |format|
       if @event.update_attributes(params[:event])

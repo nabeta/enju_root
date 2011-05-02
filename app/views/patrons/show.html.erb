@@ -33,21 +33,18 @@
 
 <div id="submenu" class="ui-corner-all">
   <%- cache(:controller => :patrons, :action => :show, :id => @patron.id, :page => 'picture_file', :role => current_user_role_name, :locale => @locale) do -%>
-    <%- if @patron.picture_files.first -%>
+    <%- if @patron.picture_files.exists? -%>
       <div id="manifestation_book_jacket">
         <%= patron_custom_book_jacket(@patron) -%>
       </div>
       <ul>
         <%- @patron.picture_files.each_with_index do |picture_file, i| -%>
-          <%- next if i == 0 -%>
-          <%- if i == 1 -%>
-            <li><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
-          <%- else -%>
+          <%- if i > 0 -%>
             <li style="display: none"><%= link_to_custom_book_jacket(@patron, picture_file) -%></li>
           <%- end -%>
         <%- end -%>
         <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), patron_picture_files_path(@patron) -%></li>
-        <%- if current_user.try(:has_role?, 'Librarian') -%>
+        <%- if can? :create, PictureFile -%>
           <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
         <%- end -%>
       </ul>
@@ -57,7 +54,7 @@
         })
       </script>
     <%- else -%>
-      <%- if current_user.try(:has_role?, 'Librarian') -%>
+      <%- if can? :create, PictureFile -%>
         <ul>
           <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_patron_picture_file_path(@patron) -%></li>
         </ul>
@@ -70,9 +67,8 @@
       <%- if @patron.user.blank? -%>
         <li><%= link_to t('patron.activate_as_user'), new_user_path(:patron_id => @patron.id) -%></li>
       <%- else -%>
-        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user.username) -%></li>
+        <li><%= link_to t('page.editing', :model => t('activerecord.models.user')), edit_user_path(@patron.user) -%></li>
       <%- end -%>
-      <li><%= link_to t('page.add_picture'), new_patron_picture_file_path(@patron) -%></li>
       <li><%= link_to t('page.edit'), edit_patron_path(@patron) -%></li>
     <%- end -%>
     <%- if can? :destroy, @patron -%>
