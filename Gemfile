@@ -3,17 +3,16 @@ source 'http://rubygems.org'
 gem 'rails', '3.0.9'
 
 # Bundle edge Rails instead:
-#gem 'rails', :git => 'git://github.com/rails/rails.git'
+# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 platforms :ruby do
   gem 'pg'
   gem 'ruby-prof', :group => [:development, :test]
   gem 'zipruby'
-  gem 'formatize'
 end
 
 platforms :ruby_19 do
-  gem 'simplecov', :require => false, :group => :test
+  gem 'simplecov', '>= 0.4.0', :require => false, :group => :test
   gem 'levenshtein19'
 end
 
@@ -47,7 +46,7 @@ gem 'marc'
 gem 'strongbox', '>=0.4.7'
 gem 'acts-as-taggable-on'
 gem 'dalli'
-gem 'sitemap_generator'
+gem 'sitemap_generator', '>=1.5.2'
 gem 'ri_cal'
 gem 'file_wrapper'
 gem 'paper_trail', '>=2.2.4'
@@ -91,6 +90,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'factory_girl_rails'
   gem 'spork', '~> 0.9.0.rc5'
+  gem 'metric_fu'
 end
 
 # Use unicorn as the web server
