@@ -1,8 +1,10 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
+  include WillPaginate::ViewHelpers::ActionView
+  include PictureFilesHelper
 
   def library_system_name
-    h(LibraryGroup.site_config.name)
+    LibraryGroup.site_config.name
   end
   
   def form_icon(carrier_type)
@@ -51,17 +53,17 @@ module ApplicationHelper
   end
 
   def link_to_tag(tag)
-    link_to h(tag), manifestations_path(:tag => tag.name)
+    link_to tag, manifestations_path(:tag => tag.name)
   end
 
   def render_tag_cloud(tags, options = {})
     return nil if tags.nil?
     # TODO: add options to specify different limits and sorts
     #tags = Tag.all(:limit => 100, :order => 'taggings_count DESC').sort_by(&:name)
-    
+
     # TODO: add option to specify which classes you want and overide this if you want?
     classes = %w(popular v-popular vv-popular vvv-popular vvvv-popular)
-    
+
     max, min = 0, 0
     tags.each do |tag|
       #if options[:max] or options[:min]
@@ -72,12 +74,12 @@ module ApplicationHelper
       min = tag.taggings.size if tag.taggings.size < min
     end
     divisor = ((max - min).div(classes.size)) + 1
-    
+
     html =    %(<div class="hTagcloud">\n)
     html <<   %(  <ul class="popularity">\n)
     tags.each do |tag|
       html << %(  <li>)
-      html << link_to(h(tag.name), manifestations_path(:tag => tag.name), :class => classes[(tag.taggings.size - min).div(divisor)]) 
+      html << link_to(tag.name, manifestations_path(:tag => tag.name), :class => classes[(tag.taggings.size - min).div(divisor)])
       html << %(  </li>\n) # FIXME: IEのために文末の空白を入れている
     end
     html <<   %(  </ul>\n)
@@ -88,9 +90,9 @@ module ApplicationHelper
     return nil if patrons.blank?
     patrons_list = []
     if options[:nolink]
-      patrons_list = patrons.map{|patron| h(patron.full_name) if can?(:read, patron)}
+      patrons_list = patrons.map{|patron| patron.full_name if can?(:read, patron)}
     else
-      patrons_list = patrons.map{|patron| link_to(h(patron.full_name), patron) if can?(:read, patron)}
+      patrons_list = patrons.map{|patron| link_to(patron.full_name, patron) if can?(:read, patron)}
     end
     patrons_list.join(" ")
   end
@@ -106,7 +108,7 @@ module ApplicationHelper
           link = link_to image_tag(book_jacket[:url], :width => book_jacket[:width], :height => book_jacket[:height], :alt => manifestation.original_title, :class => 'book_jacket'), "http://#{configatron.amazon.hostname}/dp/#{book_jacket[:asin]}"
         end
       else
-        if manifestation.access_address.present?
+        if manifestation.access_address?
           # TODO: thumbalizerはプラグインに移動
           if configatron.thumbalizr.api_key
             link = link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=128", :width => 128, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
@@ -130,9 +132,9 @@ module ApplicationHelper
   def advertisement_pickup(advertisement)
     if advertisement
       if advertisement.url.present?
-        link_to h(advertisement.body), advertisement.url
+        link_to advertisement.body, advertisement.url
       else
-        h(advertisement.body)
+        advertisement.body
       end
     end
   end
@@ -172,11 +174,11 @@ module ApplicationHelper
   end
 
   def locale_display_name(locale)
-    h(Language.first(:conditions => {:iso_639_1 => locale}).display_name)
+    Language.where(:iso_639_1 => locale).first.display_name
   end
 
   def locale_native_name(locale)
-    h(Language.first(:conditions => {:iso_639_1 => locale}).native_name)
+    Language.where(:iso_639_1 => locale).first.native_name
   end
 
   def move_position(object)
@@ -186,9 +188,9 @@ module ApplicationHelper
   def link_to_custom_book_jacket(object, picture_file)
     case
     when object.is_a?(Manifestation)
-      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => picture_file.extname), :rel => "manifestation_#{object.id}" 
+      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => picture_file.extname), :rel => "manifestation_#{object.id}"
     when object.is_a?(Patron)
-      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => picture_file.extname), :rel => "patron_#{object.id}" 
+      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => picture_file.extname), :rel => "patron_#{object.id}"
     end
   end
 
@@ -228,7 +230,13 @@ module ApplicationHelper
     unless model_name == 'page'
       string << t("activerecord.models.#{model_name.singularize}") + ' - '
     end
-    string << LibraryGroup.site_config.display_name.localize + ' - Next-L Enju Root'
+    string << LibraryGroup.system_name + ' - Next-L Enju Root'
     string.html_safe
   end
+
+  def will_paginate_with_i18n(collection, options = {})
+    will_paginate_without_i18n(collection, options.merge(:previous_label => I18n.t('page.previous'), :next_label => I18n.t('page.next')))
+  end
+
+  alias_method_chain :will_paginate, :i18n
 end

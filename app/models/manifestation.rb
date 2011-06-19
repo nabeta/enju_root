@@ -185,7 +185,6 @@ class Manifestation < ActiveRecord::Base
   before_validation :convert_isbn
   normalize_attributes :identifier, :date_of_publication, :isbn, :issn, :nbn, :lccn
 
-  after_create :post_to_scribd!
   before_create :set_digest
   before_save :set_date_of_publication
   alias :producers :patrons

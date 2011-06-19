@@ -31,7 +31,7 @@ module EnjuRoot
     config.i18n.default_locale = :ja
 
     # JavaScript files you want as :defaults (application.js is always included).
-    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min rails)
+    config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery-ui.min jquery_ujs)
 
     # Configure the default encoding used in templates for Ruby 1.9.
     config.encoding = "utf-8"
@@ -47,4 +47,5 @@ module EnjuRoot
   end
 end
 
+ActiveSupport::XmlMini.backend = 'Nokogiri'
 require 'enju_root'

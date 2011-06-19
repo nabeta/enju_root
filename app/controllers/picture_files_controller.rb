@@ -9,7 +9,7 @@ class PictureFilesController < ApplicationController
     if @attachable
       @picture_files = @attachable.picture_files.attached.paginate(:page => params[:page])
     else
-      @picture_files = PictureFile.attached.paginate(:all, :page => params[:page])
+      @picture_files = PictureFile.attached.paginate(:page => params[:page])
     end
 
     respond_to do |format|
@@ -21,7 +21,6 @@ class PictureFilesController < ApplicationController
   # GET /picture_files/1
   # GET /picture_files/1.xml
   def show
-    #@picture_file = PictureFile.find(params[:id])
     case params[:size]
     when 'original'
       size = 'original'
@@ -31,32 +30,72 @@ class PictureFilesController < ApplicationController
       size = 'medium'
     end
 
-    if configatron.uploaded_file.storage == :s3
-      data = open(@picture_file.picture.url(size)).read.force_encoding('UTF-8')
-    else
-      file = @picture_file.picture.path(size)
+    if @picture_file.picture.path
+      if configatron.uploaded_file.storage == :s3
+        data = open(@picture_file.picture.url(size)).read.force_encoding('UTF-8')
+      else
+        file = @picture_file.picture.path(size)
+      end
     end
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @picture_file }
-      if configatron.uploaded_file.storage == :s3
-        format.download  { send_data data, :filename => @picture_file.picture_file_name, :type => @picture_file.picture_content_type, :disposition => 'inline' }
-        format.jpeg  { send_data data, :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline' }
-        format.gif  { send_data data, :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline' }
-        format.png  { send_data data, :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline' }
-      else
-        format.download  { send_file file, :filename => @picture_file.picture_file_name, :type => @picture_file.picture_content_type, :disposition => 'inline' }
-        format.jpeg  { send_file file, :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline' }
-        format.gif  { send_file file, :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline' }
-        format.png  { send_file file, :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline' }
-      end
+      format.download {
+        if @picture_file.picture.path
+          if configatron.uploaded_file.storage == :s3
+            send_data data, :filename => @picture_file.picture_file_name, :type => @picture_file.picture_content_type, :disposition => 'attachment'
+          else
+            send_file file, :filename => @picture_file.picture_file_name, :type => @picture_file.picture_content_type, :disposition => 'attachment'
+          end
+        end
+      }
+      format.jpeg {
+        if @picture_file.picture.path
+          if configatron.uploaded_file.storage == :s3
+            send_data data, :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline'
+          else
+            send_file file, :filename => @picture_file.picture_file_name, :type => 'image/jpeg', :disposition => 'inline'
+          end
+        end
+      }
+      format.gif {
+        if @picture_file.picture.path
+          if configatron.uploaded_file.storage == :s3
+            send_data data, :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline'
+          else
+            send_file file, :filename => @picture_file.picture_file_name, :type => 'image/gif', :disposition => 'inline'
+          end
+        end
+      }
+      format.png {
+        if @picture_file.picture.path
+          if configatron.uploaded_file.storage == :s3
+            send_data data, :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline'
+          else
+            send_file file, :filename => @picture_file.picture_file_name, :type => 'image/png', :disposition => 'inline'
+          end
+        end
+      }
+      format.svg {
+        if @picture_file.picture.path
+          if configatron.uploaded_file.storage == :s3
+            send_data data, :filename => @picture_file.picture_file_name, :type => 'image/svg+xml', :disposition => 'inline'
+          else
+            send_file file, :filename => @picture_file.picture_file_name, :type => 'image/svg+xml', :disposition => 'inline'
+          end
+        end
+      }
     end
   end
 
   # GET /picture_files/new
   # GET /picture_files/new.xml
   def new
+    unless @attachable
+      redirect_to picture_files_url
+      return
+    end
     #raise unless @event or @manifestation or @shelf or @patron
     @picture_file = PictureFile.new
     @picture_file.picture_attachable = @attachable
@@ -69,15 +108,12 @@ class PictureFilesController < ApplicationController
 
   # GET /picture_files/1/edit
   def edit
-    #@picture_file = PictureFile.find(params[:id])
   end
 
   # POST /picture_files
   # POST /picture_files.xml
   def create
     @picture_file = PictureFile.new(params[:picture_file])
-    @picture_file.picture_attachable_id = params[:picture_file][:picture_attachable_id]
-    @picture_file.picture_attachable_type = params[:picture_file][:picture_attachable_type]
 
     respond_to do |format|
       if @picture_file.save
@@ -94,8 +130,6 @@ class PictureFilesController < ApplicationController
   # PUT /picture_files/1
   # PUT /picture_files/1.xml
   def update
-    #@picture_file = PictureFile.find(params[:id])
-
     # 並べ替え
     if params[:position]
       @picture_file.insert_at(params[:position])
@@ -125,7 +159,6 @@ class PictureFilesController < ApplicationController
   # DELETE /picture_files/1
   # DELETE /picture_files/1.xml
   def destroy
-    #@picture_file = PictureFile.find(params[:id])
     @picture_file.destroy
 
     respond_to do |format|
