@@ -29,11 +29,10 @@ class User < ActiveRecord::Base
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
   has_one :patron_import_result
 
-  validates_presence_of :username
-  validates_uniqueness_of :username
+  validates :username, :presence => true, :uniqueness => true
   validates_uniqueness_of :email, :scope => authentication_keys[1..-1], :case_sensitive => false, :allow_blank => true
-  EMAIL_REGEX = /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i
-  validates_format_of     :email, :with  => EMAIL_REGEX, :allow_blank => true
+  validates :email, :format => {:with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i}, :allow_blank => true
+  validates_date :expired_at, :allow_blank => true
 
   with_options :if => :password_required? do |v|
     v.validates_presence_of     :password
@@ -44,11 +43,12 @@ class User < ActiveRecord::Base
   validates_presence_of     :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
   validates_associated :patron, :user_group, :library
   validates_presence_of :user_group, :library, :locale #, :user_number
-  validates_uniqueness_of :user_number, :with=>/\A[0-9A-Za-z_]+\Z/, :allow_blank => true
+  validates :user_number, :uniqueness => true, :format => {:with => /\A[0-9A-Za-z_]+\Z/}, :allow_blank => true
   validates_confirmation_of :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
   before_validation :set_role_and_patron, :on => :create
   before_validation :set_lock_information
-  before_save :set_expiration
+  before_save :check_expiration
+  before_create :set_expired_at
   after_destroy :remove_from_index
   after_create :set_confirmation
   after_save :index_patron
@@ -134,12 +134,18 @@ class User < ActiveRecord::Base
     end
   end
 
-  def set_expiration
+  def check_expiration
     return if self.has_role?('Administrator')
     if expired_at
       if expired_at.beginning_of_day < Time.zone.now.beginning_of_day
         lock_access! if self.active_for_authentication?
       end
+    end
+  end
+
+  def set_expired_at
+    if self.user_group.valid_period_for_new_user > 0
+      self.expired_at = self.user_group.valid_period_for_new_user.days.from_now.end_of_day
     end
   end
 
@@ -188,7 +194,7 @@ class User < ActiveRecord::Base
   def send_message(status, options = {})
     MessageRequest.transaction do
       request = MessageRequest.new
-      request.sender = User.find('admin')
+      request.sender = User.find(1)
       request.receiver = self
       request.message_template = MessageTemplate.localized_template(status, self.locale)
       request.save_message_body(options)
@@ -217,5 +223,48 @@ class User < ActiveRecord::Base
     unless self.operator
       Devise::Mailer.confirmation_instructions(self).deliver if self.email.present?
     end
+  end
+
+  def self.create_with_params(params, current_user)
+    user = User.new(params)
+    user.operator = current_user
+    if params[:user]
+      #self.username = params[:user][:login]
+      user.note = params[:note]
+      user.user_group_id = params[:user_group_id] ||= 1
+      user.library_id = params[:library_id] ||= 1
+      user.role_id = params[:role_id] ||= 1
+      user.required_role_id = params[:required_role_id] ||= 1
+      user.keyword_list = params[:keyword_list]
+      user.user_number = params[:user_number]
+      user.locale = params[:locale]
+    end
+    if user.patron_id
+      user.patron = Patron.find(user.patron_id) rescue nil
+    end
+    user
+  end
+
+  def update_with_params(params, current_user)
+    self.operator = current_user
+    #self.username = params[:login]
+    self.openid_identifier = params[:openid_identifier]
+    self.keyword_list = params[:keyword_list]
+    self.checkout_icalendar_token = params[:checkout_icalendar_token]
+    self.email = params[:email]
+    #self.note = params[:note]
+
+    if current_user.has_role?('Librarian')
+      self.note = params[:note]
+      self.user_group_id = params[:user_group_id] || 1
+      self.library_id = params[:library_id] || 1
+      self.role_id = params[:role_id]
+      self.required_role_id = params[:required_role_id] || 1
+      self.user_number = params[:user_number]
+      self.locale = params[:locale]
+      self.locked = params[:locked]
+      self.expired_at = params[:expired_at]
+    end
+    self
   end
 end

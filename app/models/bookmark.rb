@@ -8,8 +8,7 @@ class Bookmark < ActiveRecord::Base
   validates_presence_of :user, :title, :url
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
-  validates_length_of :url, :maximum => 255, :allow_blank => true
-  validate :check_url
+  validates :url, :url => true, :presence => true, :length => {:maximum => 255}
   #validate :get_manifestation
   before_validation :create_manifestation, :on => :create
   validate :bookmarkable_url?
@@ -39,15 +38,6 @@ class Bookmark < ActiveRecord::Base
 
   def self.per_page
     10
-  end
-
-  def check_url
-    parsed_url = Addressable::URI.parse(self.url)
-    if parsed_url.host and ['http', 'https'].index(parsed_url.scheme)
-      self.url = parsed_url.to_s
-    else
-      errors.add(:url)
-    end
   end
 
   def replace_space_in_tags

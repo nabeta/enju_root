@@ -38,7 +38,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.show'), user_question_path(@question.user.username, @question) -%></li>
-    <li><%= link_to t('page.back'), user_questions_path(@question.user.username) -%></li>
+    <li><%= link_to t('page.show'), user_question_path(@question.user, @question) -%></li>
+    <li><%= link_to t('page.back'), user_questions_path(@question.user) -%></li>
   </ul>
 </div>
