@@ -46,10 +46,10 @@ gem 'marc'
 gem 'strongbox', '>=0.4.7'
 gem 'acts-as-taggable-on'
 gem 'dalli'
-gem 'sitemap_generator', '>=1.5.2'
+gem 'sitemap_generator', '>=2.0.1'
 gem 'ri_cal'
 gem 'file_wrapper'
-gem 'paper_trail', '>=2.2.4'
+gem 'paper_trail', '>=2.2.5'
 gem 'recurrence'
 gem 'prism'
 gem 'money'
@@ -80,7 +80,7 @@ gem 'client_side_validations'
 gem 'simple_form'
 gem 'validates_timeliness'
 
-gem 'oink', '>=0.9.1'
+gem 'oink', '>=0.9.2'
 
 group :development do
   gem 'parallel_tests'
@@ -92,7 +92,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'factory_girl_rails'
-  gem 'spork', '~> 0.9.0.rc5'
+  gem 'spork', '~> 0.9.0.rc8'
   gem 'metric_fu'
 end
 
