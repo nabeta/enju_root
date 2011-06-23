@@ -1,8 +1,14 @@
-<%=h @user.patron.full_name -%> さん
+<%=h @message.receiver.patron.full_name -%> さん
 
-<%=h LibraryGroup.system_name(@locale) -%>から新しいメッセージが届きました。
-<%=h user_messages_url(@user) %>
+<%=h @sender_name -%> さんから新しいメッセージが届きました。
+<%=h user_messages_url(@message.receiver) %>
+
+-----
+
+<%= @message.body %>
+
+-----
 
 -- 
-<%=h LibraryGroup.system_name(@locale) %>
+<%=h LibraryGroup.system_name(@message.receiver.locale) %>
 <%=h LibraryGroup.site_config.url %>

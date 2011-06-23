@@ -30,7 +30,7 @@ div#narrow_search, div#narrow_library_search{
 }
 
 div#navibar, div#bd{
-  padding-left: 2px;
+  padding-left: 1px;
 }
 
 div#navibar{
@@ -385,6 +385,10 @@ input.date_field{
   ime-mode: disabled;
 }
 
+input.date_text_field{
+  width: 80px;
+}
+
 input.short_name{
   ime-mode: disabled;
 }
@@ -415,7 +419,7 @@ th.checked_item_title{
   color: red;
 }
 
-div.holding{
+div.holding_index{
   margin-top: 10px;
 }
 
@@ -492,4 +496,24 @@ img.icon{
   padding-bottom: 0.5em;
 }
 
-/* .yui-skin-sam .yui-navset .yui-content{background:white;} */
+li{
+  margin-left: 20px;
+}
+
+p{
+  line-height: 2em;
+}
+
+table#resource_detail{
+  background-color: white;
+  width: 100%;
+}
+
+div#holding{
+  margin-top: 10px;
+}
+
+table.holding{
+  background-color: white;
+  width: 100%;
+}

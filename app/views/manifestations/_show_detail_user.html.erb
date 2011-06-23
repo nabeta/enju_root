@@ -71,7 +71,7 @@
         <tr>
           <td><%= t('activerecord.models.tag') -%>:</td>
           <td>
-            <%= render :partial => 'tag_list' -%>
+            <%= render :partial => 'manifestations/tag_list', :locals => {:manifestation => manifestation} -%>
           </td>
         </tr>
         <%- unless manifestation.serial? -%>

@@ -7,19 +7,24 @@ class Language < ActiveRecord::Base
   # alias_attribute :iso3, :iso_639_3
 
   # Validations
-  # validates_presence_of :iso_639_1, iso_639_2, iso_639_3
+  validates_presence_of :iso_639_1, :iso_639_2, :iso_639_3
   after_save :clear_available_languages_cache
   after_destroy :clear_available_languages_cache
 
   def self.all_cache
-    Rails.cache.fetch('language_all'){Language.all}
+    if Rails.env == 'production'
+      Rails.cache.fetch('language_all'){Language.all}
+    else
+      Language.all
+    end
   end
-  
+
   def clear_available_languages_cache
     Rails.cache.delete('language_all')
+    Rails.cache.delete('available_languages')
   end
-  
+
   def self.available_languages
-    Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s})
+    Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s}).order(:position)
   end
 end

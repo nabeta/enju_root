@@ -102,40 +102,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    #@user = User.first(:conditions => {:login => params[:id]})
-    @user.operator = current_user
-
-    if params[:user]
-      #@user.username = params[:user][:login]
-      @user.openid_identifier = params[:user][:openid_identifier]
-      @user.keyword_list = params[:user][:keyword_list]
-      @user.checkout_icalendar_token = params[:user][:checkout_icalendar_token]
-      @user.email = params[:user][:email]
-      #@user.note = params[:user][:note]
-
-      if current_user.has_role?('Librarian')
-        @user.note = params[:user][:note]
-        @user.user_group_id = params[:user][:user_group_id] || 1
-        @user.library_id = params[:user][:library_id] || 1
-        @user.role_id = params[:user][:role_id]
-        @user.required_role_id = params[:user][:required_role_id] || 1
-        @user.user_number = params[:user][:user_number]
-        @user.locale = params[:user][:locale]
-        @user.locked = params[:user][:locked]
-        expired_at_array = [params[:user]["expired_at(1i)"], params[:user]["expired_at(2i)"], params[:user]["expired_at(3i)"]]
-        begin
-          @user.expired_at = Time.zone.parse(expired_at_array.join("-")).try(:end_of_day)
-        rescue ArgumentError
-          flash[:notice] = t('page.invalid_date')
-          redirect_to edit_user_url(@user)
-          return
-        end
-      end
-      if params[:user][:auto_generated_password] == "1"
-        @user.set_auto_generated_password
-        flash[:temporary_password] = @user.password
-      end
+    @user.update_with_params(params[:user], current_user)
+    if params[:user][:auto_generated_password] == "1"
+      @user.set_auto_generated_password
+      flash[:temporary_password] = @user.password
     end
+
     if current_user.has_role?('Administrator')
       if @user.role_id
         role = Role.find(@user.role_id)
@@ -170,22 +142,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
-    @user.operator = current_user
-    if params[:user]
-      #@user.username = params[:user][:login]
-      @user.note = params[:user][:note]
-      @user.user_group_id = params[:user][:user_group_id] ||= 1
-      @user.library_id = params[:user][:library_id] ||= 1
-      @user.role_id = params[:user][:role_id] ||= 1
-      @user.required_role_id = params[:user][:required_role_id] ||= 1
-      @user.keyword_list = params[:user][:keyword_list]
-      @user.user_number = params[:user][:user_number]
-      @user.locale = params[:user][:locale]
-    end
-    if @user.patron_id
-      @user.patron = Patron.find(@user.patron_id) rescue nil
-    end
+    @user = User.create_with_params(params[:user], current_user)
     @user.set_auto_generated_password
     @user.role = Role.where(:name => 'User').first
 
