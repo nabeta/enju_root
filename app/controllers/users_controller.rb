@@ -62,10 +62,8 @@ class UsersController < ApplicationController
     unless @user.patron
       redirect_to new_user_patron_url(@user); return
     end
-    #@tags = @user.owned_tags_by_solr
     @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
-
-    @manifestation = Manifestation.pickup(@user.keyword_list.to_s.split.sort_by{rand}.first) rescue nil
+    get_top_page_content
 
     respond_to do |format|
       format.html # show.rhtml

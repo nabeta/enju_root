@@ -348,6 +348,10 @@ class ApplicationController < ActionController::Base
     @current_ability ||= Ability.new(current_user, request.remote_ip)
   end
 
+  def get_top_page_content
+     @news_feeds = Rails.cache.fetch('news_feed_all'){NewsFeed.all}
+     @manifestation = Manifestation.pickup rescue nil
+  end
 end
 
 class InvalidLocaleError < StandardError

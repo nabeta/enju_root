@@ -10,9 +10,8 @@ class PageController < ApplicationController
     @numdocs = Manifestation.search.total
     # TODO: タグ下限の設定
     #@tags = Tag.all(:limit => 50, :order => 'taggings_count DESC')
-    @news_feeds = Rails.cache.fetch('news_feed_all'){NewsFeed.all}
     @tags = Bookmark.tag_counts.sort{|a,b| a.count <=> b.count}.reverse[0..49]
-    @manifestation = Manifestation.pickup rescue nil
+    get_top_page_content
   end
 
   def msie_acceralator
