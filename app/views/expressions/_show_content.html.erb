@@ -37,15 +37,15 @@
           </tr>
         </table>
       </div>
-      <%- if @expression.patrons.exists? -%>
+      <%- unless @expression.patrons.empty? -%>
         <%= render :partial => 'expressions/patron_list' -%>
       <%- end -%>
       <%- if @expression.work -%>
         <%= render :partial => 'expressions/work_list' -%>
       <%- end -%>
-      <%- if @expression.derived_expressions.exists? or @expression.original_expressions.exists? -%>
+      <%- unless @expression.derived_expressions.empty? and @expression.original_expressions.empty? -%>
         <%= render :partial => 'expressions/expression_list' -%>
       <%- end -%>
-      <%- if @expression.manifestations.exists? -%>
+      <%- unless @expression.manifestations.empty? -%>
         <%= render :partial => 'expressions/manifestation_list' -%>
       <%- end -%>

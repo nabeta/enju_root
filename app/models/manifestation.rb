@@ -200,6 +200,23 @@ class Manifestation < ActiveRecord::Base
     end
   end
 
+  def check_issn
+    self.issn = ISBN_Tools.cleanup(issn)
+    if issn.present?
+      unless StdNum::ISSN.valid?(issn)
+        errors.add(:issn)
+      end
+    end
+  end
+
+  def check_lccn
+    if lccn.present?
+      unless StdNum::LCCN.valid?(issn)
+        errors.add(:issn)
+      end
+    end
+  end
+
   def set_wrong_isbn
     if isbn.present?
       wrong_isbn = isbn unless ISBN_Tools.is_valid?(isbn)
@@ -473,20 +490,14 @@ class Manifestation < ActiveRecord::Base
   # TODO: よりよい推薦方法
   def self.pickup(keyword = nil)
     return nil if self.cached_numdocs < 5
-    resource = nil
+    manifestation = nil
     # TODO: ヒット件数が0件のキーワードがあるときに指摘する
     response = Sunspot.search(Manifestation) do
       fulltext keyword if keyword
       order_by(:random)
       paginate :page => 1, :per_page => 1
     end
-    resource = response.results.first
-    #if resource.nil?
-    #  while resource.nil?
-    #    resource = self.find(rand(self.cached_numdocs) + 1) rescue nil
-    #  end
-    #end
-    #return resource
+    manifestation = response.results.first
   end
 
   def set_serial_number

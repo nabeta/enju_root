@@ -5,8 +5,8 @@
       [E]
       <%= link_to expression.original_title, expression -%>
       <%= content_type_icon(expression.content_type) -%>
-      <%= raw patrons_list(expression.work.patrons, current_user) -%>
-      <%= raw patrons_list(expression.patrons, current_user) -%>
+      <%= patrons_list(expression.work.patrons) -%>
+      <%= patrons_list(expression.patrons) -%>
         <ul>
           <%- expression.manifestations.each do |manifestation| -%>
             <li>
@@ -16,9 +16,9 @@
             <%- manifestation.expressions.each do |expression| -%>
               <%= content_type_icon(expression.content_type) -%>
             <%- end -%>
-            <%= raw patrons_list(manifestation.creators, current_user) -%>
-            <%= raw patrons_list(manifestation.contributors, current_user) -%>
-            <%= raw patrons_list(manifestation.patrons, current_user) -%>
+            <%= patrons_list(manifestation.creators) -%>
+            <%= patrons_list(manifestation.contributors) -%>
+            <%= patrons_list(manifestation.patrons) -%>
             <%- if manifestation.date_of_publication -%>
               (<%= manifestation.date_of_publication.strftime('%Y') -%>)
             <%- end -%>

@@ -6,23 +6,23 @@ class Ability
     when 'Administrator'
       can [:read, :create, :update], ClassificationType
       can :destroy, ClassificationType do |classification_type|
-        classification_type.classifications.first.nil?
+        classification_type.classifications.empty?
       end
       can [:read, :create, :update], Item
       can :destroy, Item
       can [:read, :create, :update], Library
       can :destroy, Library do |library|
-        library.shelves.first.nil?
+        library.shelves.empty?
       end
       can [:read, :create, :update], Manifestation
       can :destroy, Manifestation do |manifestation|
-        manifestation.items.first.nil?
+        manifestation.items.empty?
       end
       can [:read, :create, :update], Patron
       can :destroy, Patron
       can [:read, :create, :update], Shelf
       can :destroy, Shelf do |shelf|
-        shelf.items.first.nil?
+        shelf.items.empty?
       end
       can [:read, :create, :update], User
       can :destroy, User do |u|
@@ -30,7 +30,7 @@ class Ability
       end
       can [:read, :create, :update], UserGroup
       can :destroy, UserGroup do |user_group|
-        user_group.users.first.nil?
+        user_group.users.empty?
       end
       can :manage, [
         Answer,
@@ -126,7 +126,7 @@ class Ability
       can :destroy, Item
       can [:read, :create, :update], Manifestation
       can :destroy, Manifestation do |manifestation|
-        manifestation.items.first.nil?
+        manifestation.items.empty?
       end
       can [:index, :create], Message
       can [:update], Message do |message|

@@ -15,8 +15,8 @@
     </h2>
 
     <p>
-      <%= raw patrons_list(@expression.work.patrons, current_user) if @expression.work -%>
-      <%= raw patrons_list(@expression.patrons, current_user) -%>
+      <%= patrons_list(@expression.work.patrons) if @expression.work -%>
+      <%= patrons_list(@expression.patrons) -%>
     </p>
     <div id="tabs">
       <ul>

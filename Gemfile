@@ -7,6 +7,7 @@ gem 'rails', '3.0.9'
 
 platforms :ruby do
   gem 'pg'
+  #gem 'mysql2', '~>0.2.11'
   gem 'ruby-prof', :group => [:development, :test]
   gem 'zipruby'
 end
@@ -32,7 +33,7 @@ end
 
 gem 'fastercsv' if RUBY_VERSION < '1.9'
 
-gem 'will_paginate', :git => 'git://github.com/mislav/will_paginate.git', :branch => 'rails3'
+gem 'will_paginate', :git => 'git://github.com/wantful/will_paginate.git', :branch => 'rails3'
 gem 'exception_notification', :require => 'exception_notifier'
 gem 'delayed_job', '>=2.1.4'
 gem 'state_machine'
@@ -60,18 +61,18 @@ gem 'configatron'
 gem 'extractcontent'
 gem 'cancan', '>=1.6.5'
 gem 'scribd_fu'
-gem 'devise', '>=1.3.4'
-gem 'omniauth'
+gem 'devise', '>=1.4.2'
+gem 'omniauth', '>=0.2.6'
 gem 'paperclip'
 gem 'whenever', :require => false
-gem 'amazon-ecs', :require => 'amazon/ecs'
+gem 'amazon-ecs', '>=2.0.0', :require => 'amazon/ecs'
 gem 'aws-s3', :require => 'aws/s3'
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'sanitize'
 gem 'barby'
 gem 'prawnto'
-gem 'jpmobile', '>=1.0.0.pre.4'
+gem 'jpmobile', '1.0.0.pre.6'
 #gem 'geokit'
 gem 'geocoder'
 gem 'acts_as_list', :git => 'git://github.com/haihappen/acts_as_list.git'
@@ -79,6 +80,7 @@ gem 'library_stdnums'
 gem 'client_side_validations'
 gem 'simple_form'
 gem 'validates_timeliness'
+gem 'rack-protection'
 
 gem 'oink', '>=0.9.2'
 
@@ -92,8 +94,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'guard-rspec'
   gem 'factory_girl_rails'
-  gem 'spork', '~> 0.9.0.rc8'
+  gem 'spork', '~> 0.9.0.rc9'
   gem 'metric_fu'
+  gem 'timecop'
 end
 
 # Use unicorn as the web server

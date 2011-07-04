@@ -26,7 +26,7 @@
       <%= link_to expression.original_title, expression_merge_list_expression_path(@expression_merge_list, expression) -%>
       <%= content_type_icon(expression.content_type) -%>
       <br />
-      <%= raw patrons_list(expression.patrons, current_user) -%>
+      <%= patrons_list(expression.patrons) -%>
     </td>
     <td><%= expression.language.display_name.localize -%></td>
     <td>

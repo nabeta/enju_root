@@ -6,8 +6,8 @@
     <%= link_to @expression.original_title, @expression -%>
   </h2>
   <p>
-    <%= raw patrons_list(@expression.creators, current_user) -%>
-    <%= raw patrons_list(@expression.patrons, current_user) -%>
+    <%= patrons_list(@expression.creators) -%>
+    <%= patrons_list(@expression.patrons) -%>
   </p>
 
   <%= form_for :manifestations, :url => expression_manifestations_path(@expression), :html => {:method => 'get'} do -%>

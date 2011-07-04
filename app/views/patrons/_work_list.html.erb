@@ -4,7 +4,7 @@
       <li>
         [W]
         <%= link_to work.original_title, work -%>
-        <%= raw patrons_list(work.patrons, current_user) -%>
+        <%= patrons_list(work.patrons) -%>
         <%- unless work.manifestations.blank? -%>
           <ul>
             <%- work.manifestations.each do |manifestation| -%>
@@ -15,9 +15,9 @@
               <%- manifestation.expressions.each do |expression| -%>
                 <%= content_type_icon(expression.content_type) -%>
               <%- end -%>
-              <%= raw patrons_list(manifestation.creators, current_user) -%>
-              <%= raw patrons_list(manifestation.contributors, current_user) -%>
-              <%= raw patrons_list(manifestation.publishers, current_user) -%>
+              <%= patrons_list(manifestation.creators) -%>
+              <%= patrons_list(manifestation.contributors) -%>
+              <%= patrons_list(manifestation.publishers) -%>
               <%- if manifestation.date_of_publication -%>
                 (<%= manifestation.date_of_publication.strftime('%Y') -%>)
               <%- end -%>

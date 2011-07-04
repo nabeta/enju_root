@@ -14,7 +14,7 @@
           <%- work.expressions.each do |expression| -%>
             <%= link_to content_type_icon(expression.content_type), expression -%>
           <%- end -%>
-          <%= raw patrons_list(work.patrons, current_user) -%>
+          <%= patrons_list(work.patrons) -%>
           <%- unless work.manifestations.empty? -%>
             <ul>
               <%# カウンタ変数はmnfstとする >%>
@@ -27,9 +27,9 @@
                     <%- mnfst.expressions.each do |expression| -%>
                       <%= link_to content_type_icon(expression.content_type), expression -%>
                     <%- end -%>
-                    <%= raw patrons_list(mnfst.creators, current_user) -%>
-                    <%= raw patrons_list(mnfst.contributors, current_user) -%>
-                    <%= raw patrons_list(mnfst.patrons, current_user) -%>
+                    <%= patrons_list(mnfst.creators) -%>
+                    <%= patrons_list(mnfst.contributors) -%>
+                    <%= patrons_list(mnfst.patrons) -%>
                     <%- if mnfst.date_of_publication -%>
                       (<%= mnfst.date_of_publication.strftime('%Y') -%>)
                     <%- end -%>

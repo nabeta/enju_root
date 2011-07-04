@@ -3,10 +3,6 @@ module ApplicationHelper
   include WillPaginate::ViewHelpers::ActionView
   include PictureFilesHelper
 
-  def library_system_name
-    LibraryGroup.site_config.name
-  end
-  
   def form_icon(carrier_type)
     case carrier_type.name
     when 'print'
@@ -84,45 +80,47 @@ module ApplicationHelper
     end
     html <<   %(  </ul>\n)
     html <<   %(</div>\n)
+    html.html_safe
   end
 
-  def patrons_list(patrons = [], user = nil, options = {})
+  def patrons_list(patrons = [], options = {}, user)
     return nil if patrons.blank?
     patrons_list = []
     if options[:nolink]
-      patrons_list = patrons.map{|patron| patron.full_name if can?(:read, patron)}
+      patrons_list = patrons.map{|patron| patron.full_name}
     else
-      patrons_list = patrons.map{|patron| link_to(patron.full_name, patron) if can?(:read, patron)}
+      patrons_list = patrons.map{|patron| link_to(patron.full_name, patron, options)}
     end
-    patrons_list.join(" ")
+    patrons_list.join(" ").html_safe
   end
 
   def book_jacket(manifestation)
-    if picture_file = manifestation.picture_files.first and picture_file.extname
-      link = link_to image_tag(picture_file_path(picture_file, :format => :download, :size => 'thumb')), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}"
+    picture_file = manifestation.picture_files.first
+    if picture_file and picture_file.extname
+      link = link_to show_image(picture_file, :size => :thumb, :itemprop => 'image'), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}"
     else
       # TODO: Amazon優先でよい？
       book_jacket = manifestation.amazon_book_jacket
       if book_jacket
         unless book_jacket[:asin].blank?
-          link = link_to image_tag(book_jacket[:url], :width => book_jacket[:width], :height => book_jacket[:height], :alt => manifestation.original_title, :class => 'book_jacket'), "http://#{configatron.amazon.hostname}/dp/#{book_jacket[:asin]}"
+          link = link_to image_tag(book_jacket[:url], :width => book_jacket[:width], :height => book_jacket[:height], :alt => manifestation.original_title, :class => 'book_jacket', :itemprop => 'image'), "http://#{configatron.amazon.hostname}/dp/#{book_jacket[:asin]}"
         end
       else
         if manifestation.access_address?
           # TODO: thumbalizerはプラグインに移動
           if configatron.thumbalizr.api_key
-            link = link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=128", :width => 128, :height => 144, :alt => manifestation.original_title, :border => 0), manifestation.access_address
+            link = link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=128", :width => 128, :height => 144, :alt => manifestation.original_title, :border => 0, :itemprop => 'image'), manifestation.access_address
           elsif manifestation.screen_shot.present?
             #link = link_to image_tag("http://capture.heartrails.com/medium?#{manifestation.access_address}", :width => 200, :height => 150, :alt => manifestation.original_title, :border => 0), manifestation.access_address
             # TODO: Project Next-L 専用のMozshotサーバを作る
-            link = link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot'), manifestation.access_address
+            link = link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot', :itemprop => 'image'), manifestation.access_address
           end
         end
       end
     end
 
     unless link
-      link = link_to image_tag('unknown_resource.png', :width => '100', :height => '100', :alt => '*'), manifestation
+      link = link_to image_tag('unknown_resource.png', :width => '100', :height => '100', :alt => '*', :itemprop => 'image'), manifestation
     end
     link
   #rescue NoMethodError
@@ -227,7 +225,7 @@ module ApplicationHelper
 
   def title(model_name)
     string = ''
-    unless model_name == 'page'
+    unless model_name == 'page' or model_name == 'my_account'
       string << t("activerecord.models.#{model_name.singularize}") + ' - '
     end
     string << LibraryGroup.system_name + ' - Next-L Enju Root'

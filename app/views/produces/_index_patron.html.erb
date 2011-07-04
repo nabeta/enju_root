@@ -15,9 +15,9 @@
     <td>
       <%= link_to produce.manifestation.original_title, produce.manifestation -%>
       <%= form_icon(produce.manifestation.carrier_type) -%><br />
-      <%= raw patrons_list(produce.manifestation.creators, current_user) -%>
-      <%= raw patrons_list(produce.manifestation.contributors, current_user) -%>
-      <%= raw patrons_list(produce.manifestation.patrons, current_user) -%>
+      <%= patrons_list(produce.manifestation.creators) -%>
+      <%= patrons_list(produce.manifestation.contributors) -%>
+      <%= patrons_list(produce.manifestation.patrons) -%>
     </td>
     <%- if can? :destroy, produce -%>
       <td><%= link_to t('page.destroy'), patron_produce_path(produce.patron, produce), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

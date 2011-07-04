@@ -6,7 +6,7 @@
   <p>(<%= l(@work.versions.find(@version).created_at) -%>)</p>
 
   <p>
-    <%= raw patrons_list(@work.patrons, current_user) -%>
+    <%= patrons_list(@work.patrons) -%>
   </p>
 
   <div id="tabs">

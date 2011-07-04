@@ -86,7 +86,6 @@ class ApplicationController < ActionController::Base
     else
       @available_languages = Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s})
     end
-    @selectable_languages = @available_languages - Language.where(:iso_639_1 => @locale.to_s)
   end
 
   def reset_params_session
@@ -268,7 +267,7 @@ class ApplicationController < ActionController::Base
   end
 
   def store_location
-    if request.get? and request.format.html? and !request.xhr?
+    if request.get? and request.format.try(:html?) and !request.xhr?
       session[:user_return_to] = request.fullpath
     end
   end

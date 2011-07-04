@@ -23,7 +23,7 @@
       <%= link_to realize.expression.original_title, realize.expression -%>
       <%= content_type_icon(@expression.content_type) -%>
       <br />
-      <%= raw patrons_list(@expression.patrons, current_user) -%>
+      <%= patrons_list(@expression.patrons) -%>
     </td>
     <%- if can? :destroy, realize -%>
       <td><%= link_to t('page.destroy'), expression_realize_path(@expression, realize), :confirm => t('page.are_you_sure'), :method => :delete -%></td>

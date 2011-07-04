@@ -1,11 +1,13 @@
 EnjuRoot::Application.routes.draw do
+  devise_for :users, :path => 'accounts'
+
+  resource :my_account
+
   resources :event_import_results
 
   resources :patron_import_results
 
   resources :resource_import_results
-
-  devise_for :users, :path => 'accounts'
 
   resources :advertisements
   resources :advertises
