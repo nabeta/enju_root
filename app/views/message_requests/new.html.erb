@@ -19,7 +19,7 @@
     <%= f.select(:message_template_id, @message_templates.collect{|m| [m.title, m.id]}) -%>
   </p>
   <p>
-    <%= f.submit t('page.create') -%>
+    <%= f.submit %>
   </p>
 <%- end -%>
 </div>

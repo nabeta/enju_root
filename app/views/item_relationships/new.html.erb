@@ -18,7 +18,7 @@
     <%= f.select(:item_relationship_type_id, @item_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
   </p>
   <p>
-    <%= f.submit t('page.create') -%>
+    <%= f.submit %>
   </p>
 <%- end -%>
 
