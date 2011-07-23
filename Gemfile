@@ -37,7 +37,6 @@ gem 'will_paginate', :git => 'git://github.com/wantful/will_paginate.git', :bran
 gem 'exception_notification', :require => 'exception_notifier'
 gem 'delayed_job', '>=2.1.4'
 gem 'state_machine'
-gem 'prawn'
 gem 'sunspot_rails', '>=1.2.1'
 gem 'friendly_id'
 gem 'inherited_resources'

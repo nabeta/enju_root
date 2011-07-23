@@ -210,12 +210,6 @@ class ManifestationsController < ApplicationController
       format.mods
       format.json { render :json => @manifestations }
       format.js
-      format.pdf {
-        prawnto :prawn => {
-          :page_layout => :landscape,
-          :page_size => "A4"},
-          :inline => true
-      }
     end
   rescue QueryError => e
   #  render :template => 'manifestations/error.xml', :layout => false
@@ -276,12 +270,6 @@ class ManifestationsController < ApplicationController
       #format.atom { render :template => 'manifestations/oai_ore' }
       #format.xml  { render :action => 'mods', :layout => false }
       format.js
-      format.pdf {
-        prawnto :prawn => {
-          :page_layout => :portrait,
-          :page_size => "A4"},
-          :inline => true
-      }
     end
   end
 
