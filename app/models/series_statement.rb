@@ -1,5 +1,6 @@
 class SeriesStatement < ActiveRecord::Base
   has_many :manifestations
+  has_one :work
   validates_presence_of :original_title
   validate :check_issn
   after_create :create_initial_manifestation

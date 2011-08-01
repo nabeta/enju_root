@@ -13,7 +13,7 @@ class EmbodiesController < ApplicationController
     when @expression
       @embodies = @expression.embodies.paginate(:page => params[:page], :order => ['embodies.id'])
     else
-      @embodies = Embody.paginate(:all, :page => params[:page], :order => :id)
+      @embodies = Embody.paginate(:page => params[:page], :order => :id)
     end
 
     respond_to do |format|

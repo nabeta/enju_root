@@ -11,7 +11,7 @@ class ReifiesController < ApplicationController
     if @work
       @reifies = @work.reifies.paginate(:page => params[:page])
     else
-      @reifies = Reify.paginate(:all, :page => params[:page])
+      @reifies = Reify.paginate(:page => params[:page])
     end
 
     respond_to do |format|

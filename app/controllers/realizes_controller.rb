@@ -14,7 +14,7 @@ class RealizesController < ApplicationController
     when @expression
       @realizes = @expression.realizes.paginate(:order =>'position', :page => params[:page])
     else
-      @realizes = Realize.paginate(:all, :page => params[:page])
+      @realizes = Realize.paginate(:page => params[:page])
     end
 
     respond_to do |format|
