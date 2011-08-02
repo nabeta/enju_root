@@ -6,7 +6,7 @@ class NewsFeedsController < ApplicationController
   # GET /news_feeds
   # GET /news_feeds.xml
   def index
-    @news_feeds = NewsFeed.paginate(:all, :order => :position, :page => params[:page])
+    @news_feeds = NewsFeed.paginate(:order => :position, :page => params[:page])
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @news_feeds }

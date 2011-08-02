@@ -7,9 +7,9 @@ class NewsPostsController < ApplicationController
   # GET /news_posts.xml
   def index
     if current_user.try(:has_role?, 'Librarian')
-      @news_posts = NewsPost.paginate(:all, :order => :position, :page => params[:page])
+      @news_posts = NewsPost.paginate(:order => :position, :page => params[:page])
     else
-      @news_posts = NewsPost.published.paginate(:all, :order => :position, :page => params[:page])
+      @news_posts = NewsPost.published.paginate(:order => :position, :page => params[:page])
     end
 
     respond_to do |format|
