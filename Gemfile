@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.9'
+gem 'rails', '3.0.10'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -33,7 +33,7 @@ end
 
 gem 'fastercsv' if RUBY_VERSION < '1.9'
 
-gem 'will_paginate', '3.0.pre4'
+gem 'will_paginate', '~>3.0'
 gem 'exception_notification', :require => 'exception_notifier'
 gem 'delayed_job', '>=2.1.4'
 gem 'state_machine'
@@ -69,7 +69,8 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'sanitize'
-gem 'barby'
+gem 'barby', '>=0.4.4'
+gem 'rqrcode'
 gem 'jpmobile', '~>1.0.0'
 #gem 'geokit'
 gem 'geocoder'

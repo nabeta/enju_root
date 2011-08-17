@@ -19,10 +19,10 @@ xml.rss('version' => "2.0",
     if @news_posts
       @news_posts.each do |news_post|
         xml.item do
-          xml.title h(news_post.title)
-          xml.description(news_post.body)
+          xml.title news_post.title
+          xml.description news_post.body 
           # rfc822
-          xml.pubDate h(news_post.created_at.utc.rfc822)
+          xml.pubDate news_post.created_at.utc.rfc822
           xml.link news_post_url(news_post)
           xml.guid news_post_url(news_post), :isPermaLink => "true"
         end

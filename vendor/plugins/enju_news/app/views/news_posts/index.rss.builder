@@ -7,7 +7,7 @@ xml.rss('version' => "2.0",
     xml.title t('news_post.library_group_news_post', :library_group_name => @library_group.display_name.localize)
     xml.link news_posts_url
     xml.description "Next-L Enju, an open source integrated library system developed by Project Next-L"
-    xml.language @locale
+    xml.language @locale.to_s
     xml.ttl "60"
     xml.tag! "atom:link", :rel => 'self', :href => news_posts_url(:format => :rss)
     xml.tag! "atom:link", :rel => 'alternate', :href => root_url
@@ -19,7 +19,7 @@ xml.rss('version' => "2.0",
     if @news_posts
       @news_posts.each do |news_post|
         xml.item do
-          xml.title h(news_post.title)
+          xml.title(news_post.title)
           xml.description(news_post.body)
           # rfc822
           xml.pubDate h(news_post.created_at.utc.iso8601)

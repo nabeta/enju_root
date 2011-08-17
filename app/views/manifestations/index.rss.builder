@@ -32,7 +32,7 @@ xml.rss('version' => "2.0",
             xml.link manifestation_url(manifestation)
             xml.guid manifestation_url(manifestation), :isPermaLink => "true"
             manifestation.tags.each do |tag|
-              xml.category h(tag)
+              xml.category tag
             end
             xml.tag! "dc:Identifier", manifestation.isbn
           end
