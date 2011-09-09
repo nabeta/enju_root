@@ -10,6 +10,7 @@ platforms :ruby do
   #gem 'mysql2', '~>0.2.11'
   gem 'ruby-prof', :group => [:development, :test]
   gem 'zipruby'
+  gem 'kgio'
 end
 
 platforms :ruby_19 do
@@ -71,7 +72,7 @@ gem 'dynamic_form'
 gem 'sanitize'
 gem 'barby', '~>0.5'
 gem 'rqrcode'
-gem 'jpmobile', '~>1.0.0'
+gem 'jpmobile', '~>1.0'
 #gem 'geokit'
 gem 'geocoder'
 gem 'acts_as_list', :git => 'https://github.com/swanandp/acts_as_list'
