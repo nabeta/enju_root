@@ -10,7 +10,7 @@ module Sunspot
         @highlights = []
       end
 
-      # 
+      #
       # The query as Solr parameters
       #
       def to_params
@@ -44,7 +44,7 @@ module Sunspot
         params
       end
 
-      # 
+      #
       # Assign a new boost query and return it.
       #
       def create_boost_query(factor)
@@ -52,7 +52,7 @@ module Sunspot
         boost_query
       end
 
-      # 
+      #
       # Add a fulltext field to be searched, with optional boost
       #
       def add_fulltext_field(field, boost = nil)
@@ -67,7 +67,7 @@ module Sunspot
         @phrase_fields << TextFieldBoost.new(field, boost)
       end
 
-      # 
+      #
       # Set highlighting options for the query. If fields is empty, the
       # Highlighting object won't pass field names at all, which means
       # the dismax's :qf parameter will be used by Solr.
@@ -76,7 +76,7 @@ module Sunspot
         @highlights << Highlighting.new(fields, options)
       end
 
-      # 
+      #
       # Determine if a given field is being searched. Used by DSL to avoid
       # overwriting boost parameters when injecting defaults.
       #

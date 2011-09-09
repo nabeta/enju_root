@@ -17,6 +17,7 @@ end
 sample_files = [
   "#{Rails.root.to_s}/config/initializers/devise.rb.sample",
   "#{Rails.root.to_s}/config/initializers/secret_token.rb.sample",
+  "#{Rails.root.to_s}/config/application.rb.sample",
   "#{Rails.root.to_s}/config/configatron/production.rb.sample",
   "#{Rails.root.to_s}/config/environments/production.rb.sample",
   "#{Rails.root.to_s}/config/schedule.rb.sample",
