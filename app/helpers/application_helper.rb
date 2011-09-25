@@ -1,6 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include PictureFilesHelper
+  include EnjuBookJacketHelper
 
   def form_icon(carrier_type)
     case carrier_type.name
@@ -94,27 +95,20 @@ module ApplicationHelper
   end
 
   def book_jacket(manifestation)
-    picture_file = manifestation.picture_files.first
-    if picture_file and picture_file.extname
-      link = link_to show_image(picture_file, :size => :thumb, :itemprop => 'image'), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}"
+    if manifestation.picture_files.exists?
+      link = ''
+      manifestation.picture_files.each_with_index do |picture_file, i|
+        if i == 0
+          link += link_to(show_image(picture_file, :size => :thumb), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}")
+        else
+          link += '<span style="display: none">' + link_to(show_image(picture_file, :size => :thumb), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}") + '</span>'
+        end
+      end
+      return link.html_safe
     else
-      # TODO: Amazon優先でよい？
-      book_jacket = manifestation.amazon_book_jacket
-      if book_jacket
-        unless book_jacket[:asin].blank?
-          link = link_to image_tag(book_jacket[:url], :width => book_jacket[:width], :height => book_jacket[:height], :alt => manifestation.original_title, :class => 'book_jacket', :itemprop => 'image'), "http://#{configatron.amazon.hostname}/dp/#{book_jacket[:asin]}"
-        end
-      else
-        if manifestation.access_address?
-          # TODO: thumbalizerはプラグインに移動
-          if configatron.thumbalizr.api_key
-            link = link_to image_tag("http://api.thumbalizr.com/?url=#{manifestation.access_address}&width=128", :width => 128, :height => 144, :alt => manifestation.original_title, :border => 0, :itemprop => 'image'), manifestation.access_address
-          elsif manifestation.screen_shot.present?
-            #link = link_to image_tag("http://capture.heartrails.com/medium?#{manifestation.access_address}", :width => 200, :height => 150, :alt => manifestation.original_title, :border => 0), manifestation.access_address
-            # TODO: Project Next-L 専用のMozshotサーバを作る
-            link = link_to image_tag(manifestation_path(manifestation, :mode => 'screen_shot'), :width => 128, :height => 128, :alt => manifestation.original_title, :class => 'screen_shot', :itemprop => 'image'), manifestation.access_address
-          end
-        end
+      link = book_jacket_tag(manifestation)
+      unless link
+        link = screenshot_tag(manifestation)
       end
     end
 
@@ -122,8 +116,6 @@ module ApplicationHelper
       link = link_to image_tag('unknown_resource.png', :width => '100', :height => '100', :alt => '*', :itemprop => 'image'), manifestation
     end
     link
-  #rescue NoMethodError
-  #  nil
   end
 
   def advertisement_pickup(advertisement)

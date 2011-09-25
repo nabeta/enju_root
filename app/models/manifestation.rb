@@ -159,12 +159,12 @@ class Manifestation < ActiveRecord::Base
 
   #acts_as_tree
   enju_manifestation_viewer
-  enju_amazon
+  #enju_amazon
   enju_ndl
   #enju_cinii
   has_attached_file :attachment
   #has_ipaper_and_uses 'Paperclip'
-  enju_scribd
+  #enju_scribd
   enju_mozshot
   enju_oai
   #enju_calil_check

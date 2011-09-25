@@ -6,6 +6,7 @@ class Bookmark < ActiveRecord::Base
   belongs_to :user #, :counter_cache => true, :validate => true
 
   validates_presence_of :user, :title, :url
+  validates_presence_of :manifestation_id, :on => :update
   validates_associated :user, :manifestation
   validates_uniqueness_of :manifestation_id, :scope => :user_id
   validates :url, :url => true, :presence => true, :length => {:maximum => 255}
@@ -46,7 +47,7 @@ class Bookmark < ActiveRecord::Base
   end
 
   def save_manifestation
-    self.manifestation.save
+    self.manifestation.try(:save)
   end
 
   def reindex_manifestation

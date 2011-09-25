@@ -2,7 +2,7 @@
 class Library < ActiveRecord::Base
   include MasterModel
   default_scope :order => 'libraries.position'
-  scope :real, :conditions => ['id != 1']
+  scope :real, where('id != 1')
   has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
   has_many :events, :include => :event_category
@@ -12,7 +12,8 @@ class Library < ActiveRecord::Base
   has_many :users
   belongs_to :country
 
-  has_friendly_id :name
+  extend FriendlyId
+  friendly_id :name
   geocoded_by :address
   #enju_calil_library
 
@@ -31,7 +32,7 @@ class Library < ActiveRecord::Base
   validates :name, :format => {:with => /^[a-z][0-9a-z]{2,254}$/}
   before_validation :set_patron, :on => :create
   #before_save :set_calil_neighborhood_library
-  after_validation :geocode, :unless => :skip_geocode
+  after_validation :geocode, :if => :address_changed?
   after_create :create_shelf
   after_save :clear_all_cache
   after_destroy :clear_all_cache
@@ -75,15 +76,19 @@ class Library < ActiveRecord::Base
     Library.find(1)
   end
 
-  def address
-    self.region.to_s + self.locality.to_s + " " + self.street.to_s
+  def address(locale = I18n.locale)
+    case locale.to_sym
+    when :ja
+      "#{self.region.to_s.localize(locale)}#{self.locality.to_s.localize(locale)}#{self.street.to_s.localize(locale)}"
+    else
+      "#{self.street.to_s.localize(locale)} #{self.locality.to_s.localize(locale)} #{self.region.to_s.localize(locale)}"
+    end
   rescue
     nil
   end
 
-  private
-  def skip_geocode
-    return true if Rails.env == 'test'
-    return true if configatron.google.google_maps_api_key.nil?
+  def address_changed?
+    return true if region_changed? or locality_changed? or street_changed?
+    false
   end
 end
