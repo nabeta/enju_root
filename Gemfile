@@ -44,12 +44,12 @@ gem 'fastercsv' if RUBY_VERSION < '1.9'
 
 gem 'will_paginate', '~> 3.0'
 gem 'exception_notification', '~> 2.5.2'
-gem 'delayed_job', '>=2.1.4'
+gem 'delayed_job', '>= 2.1.4'
 gem 'state_machine'
-gem 'sunspot_rails', '~>1.3.0.rc4'
-gem 'sunspot_solr', '~>1.3.0.rc4'
+gem 'sunspot_rails', '~> 1.3.0.rc4'
+gem 'sunspot_solr', '~> 1.3.0.rc4'
 gem 'progress_bar'
-gem "friendly_id", "~> 4.0.0.beta12"
+gem "friendly_id", "~> 4.0.0.beta14"
 gem 'inherited_resources', '~> 1.3'
 gem 'has_scope'
 gem 'nokogiri'
@@ -69,8 +69,8 @@ gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 
 gem 'attribute_normalizer'
 gem 'configatron'
 gem 'extractcontent'
-gem 'cancan', '>= 1.6.6'
-gem 'devise', '~> 1.4.7'
+gem 'cancan', '>= 1.6.7'
+gem 'devise', '~> 1.4.8'
 gem 'omniauth', '~> 0.3'
 gem 'paperclip', '~> 2.4'
 gem 'whenever', '~> 0.6', :require => false
@@ -91,6 +91,8 @@ gem 'simple_form', '~> 1.5'
 gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'rails_autolink'
+gem 'rake', '0.9.2'
+gem 'vidibus-routing_error', :git => 'git://github.com/nabeta/vidibus-routing_error'
 
 gem 'oink', '>= 0.9.2'
 
