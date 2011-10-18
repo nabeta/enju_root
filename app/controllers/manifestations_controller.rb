@@ -67,6 +67,8 @@ class ManifestationsController < ApplicationController
       query = ""
       sort = {}
 
+      page ||= params[:page] || 1
+      per_page ||= Manifestation.per_page
 			case
       when params[:format] == 'sru'
         if params[:operation] == 'searchRetrieve'
