@@ -67,6 +67,8 @@ class ManifestationsController < ApplicationController
       query = ""
       sort = {}
 
+      page ||= params[:page] || 1
+      per_page ||= Manifestation.per_page
 			case
       when params[:format] == 'sru'
         if params[:operation] == 'searchRetrieve'
@@ -153,9 +155,15 @@ class ManifestationsController < ApplicationController
           paginate :page => page.to_i, :per_page => per_page || Manifestation.per_page
         end
       end
-      search_result = search.execute!
-      @manifestations = search_result.results
-      @manifestations.total_entries = configatron.max_number_of_results if @count[:query_result] > configatron.max_number_of_results
+      search_result = search.execute
+      if @count[:query_result] > configatron.max_number_of_results
+        max_count = configatron.max_number_of_results
+      else
+        max_count = @count[:query_result]
+      end
+      @manifestations = WillPaginate::Collection.create(page, per_page, max_count) do |pager|
+        pager.replace(search_result.results)
+      end
 
       if params[:format].blank? or params[:format] == 'html'
         @carrier_type_facet = search_result.facet(:carrier_type).rows

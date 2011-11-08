@@ -9,6 +9,7 @@ gem 'enju_barcode', :git => 'git://github.com/nabeta/enju_barcode.git'
 gem 'enju_nii', :git => 'git://github.com/nabeta/enju_nii.git'
 gem 'enju_oai', :git => 'git://github.com/nabeta/enju_oai.git'
 #gem 'enju_scribd', :git => 'git://github.com/nabeta/enju_scribd.git'
+gem 'enju_news', :git => 'git://github.com/nabeta/enju_news.git'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
