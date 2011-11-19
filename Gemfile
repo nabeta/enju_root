@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.1'
+gem 'rails', '3.1.2'
 
 #gem 'enju_amazon', :git => 'git://github.com/nabeta/enju_amazon.git'
 gem 'enju_barcode', :git => 'git://github.com/nabeta/enju_barcode.git'
@@ -23,7 +23,7 @@ platforms :ruby do
 end
 
 platforms :ruby_19 do
-  gem 'simplecov', '>= 0.4.0', :require => false, :group => :test
+  gem 'simplecov', '~> 0.5', :require => false, :group => [:development]
   gem 'levenshtein19'
 end
 
@@ -47,8 +47,8 @@ gem 'will_paginate', '~> 3.0'
 gem 'exception_notification', '~> 2.5.2'
 gem 'delayed_job', '>= 2.1.4'
 gem 'state_machine'
-gem 'sunspot_rails', '~> 1.3.0.rc4'
-gem 'sunspot_solr', '~> 1.3.0.rc4'
+gem 'sunspot_rails', '~> 1.3.0.rc6'
+gem 'sunspot_solr', '~> 1.3.0.rc6'
 gem 'progress_bar'
 gem "friendly_id", "~> 4.0.0.beta14"
 gem 'inherited_resources', '~> 1.3'
@@ -61,7 +61,7 @@ gem 'dalli', '~>1.1'
 gem 'sitemap_generator', '~> 2.1'
 gem 'ri_cal'
 gem 'file_wrapper'
-gem 'paper_trail', '~> 2.4'
+gem 'paper_trail', '~> 2.5'
 #gem 'recurrence'
 #gem 'prism'
 #gem 'money'
@@ -70,7 +70,7 @@ gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 
 gem 'configatron'
 gem 'extractcontent'
 gem 'cancan', '>= 1.6.7'
-gem 'devise', '~> 1.4.9'
+gem 'devise', '~> 1.5'
 gem 'omniauth', '~> 1.0'
 gem 'addressable'
 gem 'paperclip', '~> 2.4'
@@ -86,7 +86,7 @@ gem 'jpmobile', '~> 2.0'
 gem 'attribute_normalizer'
 #gem 'geokit'
 gem 'geocoder'
-gem 'acts_as_list', :git => 'https://github.com/swanandp/acts_as_list'
+gem 'acts_as_list', :git => 'git://github.com/swanandp/acts_as_list.git'
 gem 'library_stdnums'
 gem 'client_side_validations'
 gem 'simple_form', '~> 1.5'
@@ -94,23 +94,42 @@ gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'rails_autolink'
 gem 'rake', '0.9.2.2'
-gem 'vidibus-routing_error', :git => 'git://github.com/nabeta/vidibus-routing_error'
 
 gem 'oink', '>= 0.9.2'
 
+group :production do
+  gem 'vidibus-routing_error', :git => 'git://github.com/nabeta/vidibus-routing_error.git'
+end
+
 group :development do
   gem 'parallel_tests'
-  gem 'jquery-rails'
+  gem 'annotate'
 end
 
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.8.0.rc1'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 1.2'
+  gem 'factory_girl_rails', '~> 1.4'
   gem 'spork', '~> 0.9.0.rc9'
   gem 'metric_fu', '~> 2.1'
   gem 'timecop'
+  gem 'sunspot-rails-tester'
+  gem 'vcr', '~> 2.0.0.beta2'
+  gem 'webmock'
 end
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.1.5.rc.2'
+  gem 'coffee-rails', '~> 3.1.1'
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem 'jquery-rails'
+
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
 
 # Use unicorn as the web server
 # gem 'unicorn'
@@ -118,19 +137,10 @@ end
 # Deploy with Capistrano
 # gem 'capistrano'
 
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19'
+# To use debugger
+# gem 'ruby-debug19', :require => 'ruby-debug'
 
-# Bundle the extra gems:
-# gem 'bj'
-# gem 'nokogiri'
-# gem 'sqlite3-ruby', :require => 'sqlite3'
-# gem 'aws-s3', :require => 'aws/s3'
-
-# Bundle gems for the local environment. Make sure to
-# put test-only gems in this group so their generators
-# and rake tasks are available in development mode:
-# group :development, :test do
-#   gem 'webrat'
-# end
+group :test do
+  # Pretty printed test output
+  gem 'turn', '~> 0.8.3', :require => false
+end
