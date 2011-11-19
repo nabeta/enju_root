@@ -3,7 +3,7 @@ class CreateItems < ActiveRecord::Migration
     create_table :items do |t|
       t.string :call_number
       t.string :item_identifier
-      t.integer :circulation_status_id, :null => false
+      t.integer :circulation_status_id, :default => 5, :null => false
       t.integer :checkout_type_id, :default => 1, :null => false
       t.timestamps
       t.datetime :deleted_at
