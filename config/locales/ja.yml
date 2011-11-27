@@ -3,6 +3,10 @@
 # AR error messages are basically taken from Ruby-GetText-Package. Thanks to Masao Mutoh.
 
 ja:
+  helpers:
+    submit:
+      create: "%{model}を作成"
+      update: "%{model}を更新"
   date:
     formats:
       default: "%Y/%m/%d"
