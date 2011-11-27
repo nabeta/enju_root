@@ -1,6 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.2'
+gem 'rails', '3.1.3'
+
+# Bundle edge Rails instead:
+# gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
 #gem 'enju_amazon', :git => 'git://github.com/nabeta/enju_amazon.git'
 gem 'enju_barcode', :git => 'git://github.com/nabeta/enju_barcode.git'
@@ -10,9 +13,6 @@ gem 'enju_nii', :git => 'git://github.com/nabeta/enju_nii.git'
 gem 'enju_oai', :git => 'git://github.com/nabeta/enju_oai.git'
 #gem 'enju_scribd', :git => 'git://github.com/nabeta/enju_scribd.git'
 gem 'enju_news', :git => 'git://github.com/nabeta/enju_news.git'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 platforms :ruby do
   gem 'pg'
@@ -45,19 +45,19 @@ gem 'fastercsv' if RUBY_VERSION < '1.9'
 
 gem 'will_paginate', '~> 3.0'
 gem 'exception_notification', '~> 2.5.2'
-gem 'delayed_job', '>= 2.1.4'
+gem 'delayed_job', '~> 2.1.4'
 gem 'state_machine'
-gem 'sunspot_rails', '~> 1.3.0.rc6'
-gem 'sunspot_solr', '~> 1.3.0.rc6'
+gem 'sunspot_rails', '~> 1.3'
+gem 'sunspot_solr', '~> 1.3'
 gem 'progress_bar'
-gem "friendly_id", "~> 4.0.0.beta14"
+gem 'friendly_id', '4.0.0.beta14'
 gem 'inherited_resources', '~> 1.3'
 gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
 gem 'strongbox', '>= 0.4.8'
 gem 'acts-as-taggable-on', '~> 2.1'
-gem 'dalli', '~>1.1'
+gem 'dalli', '~> 1.1'
 gem 'sitemap_generator', '~> 2.1'
 gem 'ri_cal'
 gem 'file_wrapper'
@@ -74,16 +74,14 @@ gem 'devise', '~> 1.5'
 gem 'omniauth', '~> 1.0'
 gem 'addressable'
 gem 'paperclip', '~> 2.4'
-gem 'whenever', '~> 0.6', :require => false
+gem 'whenever', '~> 0.6.8', :require => false
 #gem 'amazon-ecs', '>= 2.2.0', :require => 'amazon/ecs'
 #gem 'aws-s3', :require => 'aws/s3'
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'sanitize'
-#gem 'barby', '~> 0.5'
-#gem 'rqrcode'
 gem 'jpmobile', '2.0.4'
-gem 'attribute_normalizer'
+gem 'attribute_normalizer', '~> 1.0'
 #gem 'geokit'
 gem 'geocoder'
 gem 'acts_as_list', :git => 'git://github.com/swanandp/acts_as_list.git'
@@ -122,7 +120,7 @@ end
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.1.5.rc.2'
+  gem 'sass-rails',   '~> 3.1.5'
   gem 'coffee-rails', '~> 3.1.1'
   gem 'uglifier', '>= 1.0.3'
 end

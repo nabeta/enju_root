@@ -222,4 +222,20 @@ module ApplicationHelper
     string << LibraryGroup.system_name + ' - Next-L Enju Root'
     string.html_safe
   end
+
+  def back_to_index(options = {})
+    if options == nil
+      options = {}
+    else
+      options.reject!{|key, value| value.blank?}
+      options.delete(:page) if options[:page].to_i == 1
+    end
+    unless controller_name == 'test'
+      link_to t('page.listing', :model => t("activerecord.models.#{controller_name.singularize}")), url_for(params.merge(:controller => controller_name, :action => :index, :id => nil).merge(options))
+    end
+  end
+
+  def set_focus_on_search_form
+    javascript_tag("$('#search_form').focus()") if @query.blank?
+  end
 end

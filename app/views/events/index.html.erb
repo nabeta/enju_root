@@ -90,7 +90,7 @@
   </ul>
   <p>
     <%- if @library -%>
-      <%= link_to (image_tag 'feed-icon-14x14.png', :size => '14x14', :alt => t('page.feed'), :class => 'icon'), library_events_path(@library, :format => :rss) -%>
+      <%= link_to (image_tag 'icons/feed.png', :size => '16x16', :alt => t('page.feed'), :class => 'icon'), library_events_path(@library, :format => :rss) -%>
       (<%= link_to 'RSS', library_events_path(@library, :format => :rss) -%>)
       (<%= link_to 'CSV', library_events_path(@library, :format => :csv, :locale => @locale) -%>)
     <%- else -%>

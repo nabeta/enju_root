@@ -7,6 +7,7 @@ end
 
 require 'rubygems'
 require 'spork'
+require 'vcr'
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However, 
@@ -48,6 +49,8 @@ Spork.prefork do
     config.before do
       Sunspot.session = Sunspot::Rails::StubSessionProxy.new($original_sunspot_session)
       SimpleCov.command_name "RSpec:#{Process.pid.to_s}#{ENV['TEST_ENV_NUMBER']}"
+      PaperTrail.controller_info = {}
+      PaperTrail.whodunnit = nil
     end
 
     config.before :each, :solr => true do
@@ -57,6 +60,8 @@ Spork.prefork do
     end
 
     config.extend ControllerMacros, :type => :controller
+
+    config.extend VCR::RSpec::Macros
   end
 end
 

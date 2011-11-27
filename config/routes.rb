@@ -3,6 +3,12 @@ EnjuRoot::Application.routes.draw do
 
   resource :my_account
 
+  resources :produce_types
+
+  resources :realize_types
+
+  resources :create_types
+
   resources :event_import_results
 
   resources :patron_import_results
