@@ -216,8 +216,8 @@ module ApplicationHelper
 
   def title(model_name)
     string = ''
-    unless model_name == 'page' or model_name == 'my_account'
-      string << t("activerecord.models.#{model_name.singularize}") + ' - '
+    unless ['page', 'routing_error', 'my_accounts'].include?(controller_name)
+      string << t("activerecord.models.#{controller_name.singularize}") + ' - '
     end
     string << LibraryGroup.system_name + ' - Next-L Enju Root'
     string.html_safe
