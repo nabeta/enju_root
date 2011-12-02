@@ -106,4 +106,12 @@ class Work < ActiveRecord::Base
     false
   end
 
+  def expire_cache
+    Rails.cache.fetch("work_screen_shot_#{id}")
+    Rails.cache.write("work_search_total", Work.search.total)
+  end
+
+  def self.cached_numdocs
+    Rails.cache.fetch("work_search_total"){Work.search.total}
+  end
 end

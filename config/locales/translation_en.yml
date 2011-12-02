@@ -923,6 +923,9 @@ en:
     catalog_search: "Catalog search"
     search: "Search"
     search_term: "Search term"
+    number_of_works:
+      one: "1 record in this library."
+      other: "%{numdocs} records in this library."
     number_of_manifestations:
       one: "1 record in this library."
       other: "%{numdocs} records in this library."
