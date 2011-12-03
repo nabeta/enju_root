@@ -39,6 +39,7 @@
           <td><%= l(@work.updated_at) -%></td>
         </tr>
       </table>
+      <h2 class="resource_title"><%= t('page.listing', :model => t('activerecord.models.subject')) -%></h2>
       <%= render :partial => 'works/show_subject_list' -%>
     </div>
     <%- unless @work.derived_works.empty? and @work.original_works.empty? -%>
