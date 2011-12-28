@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 gem 'rails', '3.1.3'
 
@@ -52,13 +52,12 @@ gem 'state_machine'
 gem 'sunspot_rails', '~> 1.3'
 gem 'sunspot_solr', '~> 1.3'
 gem 'progress_bar'
-gem 'friendly_id', '4.0.0.beta14'
+gem 'friendly_id', '~> 4.0'
 gem 'inherited_resources', '~> 1.3'
 gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
-gem 'strongbox', '~> 0.5'
-gem 'acts-as-taggable-on', '~> 2.2'
+#gem 'strongbox', '~> 0.5'
 gem 'dalli', '~> 1.1'
 gem 'sitemap_generator', '~> 2.1'
 gem 'ri_cal'
@@ -94,7 +93,6 @@ gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'awesome_nested_set', '~> 2.0'
 gem 'rails_autolink'
-gem 'rake', '0.9.2.2'
 
 group :production do
   gem 'vidibus-routing_error', :git => 'git://github.com/nabeta/vidibus-routing_error.git'
@@ -108,7 +106,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.8.0.rc1'
+  gem 'rspec-rails', '~> 2.8.0.rc2'
   gem 'guard-rspec'
   gem 'factory_girl_rails', '~> 1.4'
   gem 'spork', '~> 0.9.0.rc9'
