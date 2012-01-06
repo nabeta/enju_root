@@ -97,10 +97,6 @@ EnjuRoot::Application.routes.draw do
   end
 
   resources :users do
-    resources :answers
-    resources :questions do
-      resources :answers
-    end
     resources :messages do
       collection do
         post :destroy_selected
@@ -108,14 +104,9 @@ EnjuRoot::Application.routes.draw do
     end
     resources :bookmarks
     resources :purchase_requests
-    resources :questions
     resource :patron
   end
 
-  resources :questions do
-    resources :answers
-  end
-  resources :answers
   resources :imported_objects
   resources :nii_types
   resources :bookmark_stats
@@ -191,8 +182,6 @@ EnjuRoot::Application.routes.draw do
   end
 
   resources :participates
-
-  resources :questions
 
   resources :purchase_requests do
     resources :order

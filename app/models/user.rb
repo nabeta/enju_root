@@ -20,8 +20,6 @@ class User < ActiveRecord::Base
   has_one :user_has_role
   has_one :role, :through => :user_has_role
   has_many :bookmarks, :dependent => :destroy
-  has_many :questions
-  has_many :answers
   has_many :search_histories, :dependent => :destroy
   has_many :subscriptions
   belongs_to :library, :validate => true

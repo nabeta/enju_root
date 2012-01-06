@@ -5,7 +5,7 @@ class ImportRequest < ActiveRecord::Base
   validates_presence_of :isbn
   validate :check_isbn
   validate :check_imported, :on => :create
-  enju_ndl
+  #enju_ndl
 
   state_machine :initial => :pending do
     event :sm_fail do

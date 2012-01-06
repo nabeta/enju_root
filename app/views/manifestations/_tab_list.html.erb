@@ -4,9 +4,6 @@
 <%- unless @manifestation.original_manifestations.empty? and @manifestation.derived_manifestations.empty? -%>
   <%= render :partial => 'manifestations/manifestation_list' -%>
 <%- end -%>
-<%- unless @manifestation.questions(:user => current_user).empty? -%>
-  <%= render :partial => 'manifestations/question_list', :locals => {:manifestation => @manifestation} -%>
-<%- end -%>
 <%- unless @xisbn_manifestations.blank? -%>
   <%= render :partial => 'manifestations/show_xisbn' -%>
 <%- end -%>

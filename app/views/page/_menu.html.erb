@@ -40,15 +40,9 @@
     <a tabindex="2" href="#request_menu" class="fg-button fg-button-icon-right ui-widget ui-state-default ui-corner-all" id="fg_request"><span class="ui-icon ui-icon-triangle-1-s"></span><%= t('page.request') -%></a>
     <%- if user_signed_in? -%>
       <div id="request_menu" class="hidden">
-        <ul>
-          <li><%= link_to t('activerecord.models.question'), user_questions_path(current_user) -%></li>
-        </ul>
       </div>
     <%- else -%>
       <div id="request_menu" class="hidden">
-        <ul>
-          <li><%= link_to t('activerecord.models.question'), questions_path -%></li>
-        </ul>
       </div>
     <%- end -%>
   <%- end -%>
@@ -75,10 +69,6 @@
             -->
             <li><%= link_to t('page.statistics'), page_statistics_path -%></li>
             <li><%= link_to t('activerecord.models.search_history'), search_histories_path -%></li>
-            <!--
-            <li><%= link_to t('page.recommendation'), 'page/under_construction' -%></li>
-            <li><%= link_to 'Send questions and answers to CRD', 'page/under_construction' -%></li>
-            -->
             <li><%= link_to t('page.configuration'), page_configuration_path -%></li>
           </ul>
         <%- else -%>

@@ -188,11 +188,6 @@ class ApplicationController < ActionController::Base
     @library_group = LibraryGroup.site_config
   end
 
-  def get_question
-    @question = Question.find(params[:question_id]) if params[:question_id]
-    authorize! :show, @question if @question
-  end
-
   def get_event
     @event = Event.find(params[:event_id]) if params[:event_id]
   end

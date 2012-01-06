@@ -18,11 +18,11 @@ class LibraryGroup < ActiveRecord::Base
   end
 
   def self.site_config
-    if Rails.env == 'production'
-      Rails.cache.fetch('library_site_config'){LibraryGroup.find(1)}
-    else
+    #if Rails.env == 'production'
+    #  Rails.cache.fetch('library_site_config'){LibraryGroup.find(1)}
+    #else
       LibraryGroup.find(1) rescue nil
-    end
+    #end
   end
 
   def self.system_name(locale = I18n.locale)
