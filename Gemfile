@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.0.rc2'
+gem 'rails', '3.2.0'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -82,7 +82,7 @@ gem 'whenever', '~> 0.6.8', :require => false
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'sanitize'
-gem 'jpmobile', '2.0.4'
+gem 'jpmobile', '~> 2.0', :require => false
 gem 'attribute_normalizer', '~> 1.0'
 #gem 'geokit'
 gem 'geocoder'
@@ -123,7 +123,7 @@ end
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.0'
+  gem 'coffee-rails', '~> 3.2.1'
 
   gem 'uglifier', '>= 1.0.3'
 end
