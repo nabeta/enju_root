@@ -6,10 +6,10 @@ class LibraryGroup < ActiveRecord::Base
 
   has_many :libraries
   has_many :search_engines
-  has_many :news_feeds
+  #has_many :news_feeds
   belongs_to :country
 
-  validates :email, :presence => true, :format => {:with => /^([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})$/i}
+  validates :email, :format => {:with => /\A([\w\.%\+\-]+)@([\w\-]+\.)+([\w]{2,})\z/i}, :presence => true
   validates :url, :presence => true, :url => true
   after_save :clear_site_config_cache
 
@@ -21,8 +21,10 @@ class LibraryGroup < ActiveRecord::Base
     #if Rails.env == 'production'
     #  Rails.cache.fetch('library_site_config'){LibraryGroup.find(1)}
     #else
-      LibraryGroup.find(1) rescue nil
+      LibraryGroup.find(1)
     #end
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 
   def self.system_name(locale = I18n.locale)
@@ -35,14 +37,14 @@ class LibraryGroup < ActiveRecord::Base
 
   def real_libraries
     # 物理的な図書館 = IDが1以外
-    self.libraries.all(:conditions => ['id != 1'])
+    libraries.where('id != 1').all
   end
 
   def network_access_allowed?(ip_address, options = {})
-    options = {:network_type => 'lan'}.merge(options)
+    options = {:network_type => :lan}.merge(options)
     client_ip = IPAddr.new(ip_address)
     case options[:network_type]
-    when 'admin'
+    when :admin
       allowed_networks = self.admin_networks.to_s.split
     else
       allowed_networks = self.my_networks.to_s.split
@@ -57,5 +59,28 @@ class LibraryGroup < ActiveRecord::Base
     end
     return false
   end
-
 end
+
+
+# == Schema Information
+#
+# Table name: library_groups
+#
+#  id                          :integer         not null, primary key
+#  name                        :string(255)     not null
+#  display_name                :text
+#  short_name                  :string(255)     not null
+#  email                       :string(255)
+#  my_networks                 :text
+#  login_banner                :text
+#  note                        :text
+#  post_to_union_catalog       :boolean         default(FALSE), not null
+#  country_id                  :integer
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#  admin_networks              :text
+#  allow_bookmark_external_url :boolean         default(FALSE), not null
+#  position                    :integer
+#  url                         :string(255)     default("http://localhost:3000/")
+#
+

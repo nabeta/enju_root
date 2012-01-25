@@ -4,7 +4,6 @@ require 'timeout'
 
 class Manifestation < ActiveRecord::Base
   include ActionView::Helpers::TextHelper
-  default_scope :order => 'manifestations.updated_at DESC'
   scope :pictures, where(:attachment_content_type => ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png'])
   scope :serials, :conditions => ['frequency_id > 1']
   scope :not_serials, where(:frequency_id => 1)

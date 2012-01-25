@@ -4,7 +4,7 @@ class ResourceSweeper < ActionController::Caching::Sweeper
     Create, Realize, Produce, Own, Patron, Language,
     WorkRelationship, ExpressionRelationship,
     ManifestationRelationship, ItemRelationship, PatronRelationship,
-    SeriesStatement, SubjectHeadingType, Answer
+    SeriesStatement, SubjectHeadingType
 
   def after_save(record)
     case
@@ -144,10 +144,6 @@ class ResourceSweeper < ActionController::Caching::Sweeper
       end
     when record.is_a?(SubjectHeadingTypeHasSubject)
       expire_editable_fragment(record.subject)
-    when record.is_a?(Answer)
-      record.items.each do |item|
-        expire_editable_fragment(item.manifestation, ['detail'])
-      end
     end
   end
 

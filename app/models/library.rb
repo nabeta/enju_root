@@ -5,7 +5,6 @@ class Library < ActiveRecord::Base
   scope :real, where('id != 1')
   has_many :shelves, :order => 'shelves.position'
   belongs_to :library_group, :validate => true
-  has_many :events, :include => :event_category
   #belongs_to :holding_patron, :polymorphic => true, :validate => true
   belongs_to :patron #, :validate => true
   has_many :inter_library_loans, :foreign_key => 'borrowing_library_id'
@@ -28,8 +27,10 @@ class Library < ActiveRecord::Base
   validates_associated :library_group, :patron
   validates_presence_of :short_display_name, :library_group, :patron
   validates_uniqueness_of :short_display_name, :case_sensitive => false
+  validates_uniqueness_of :isil, :allow_blank => true
   validates :display_name, :uniqueness => true
   validates :name, :format => {:with => /^[a-z][0-9a-z]{2,254}$/}
+  validates :isil, :format => {:with => /^[A-Za-z]{1,4}-[A-Za-z0-9\/:\-]{2,11}$/}, :allow_blank => true
   before_validation :set_patron, :on => :create
   #before_save :set_calil_neighborhood_library
   after_validation :geocode, :if => :address_changed?
@@ -63,10 +64,6 @@ class Library < ActiveRecord::Base
     Shelf.create!(:name => "#{self.name}_default", :library => self)
   end
 
-  def closed?(date)
-    events.closing_days.collect{|c| c.start_at.beginning_of_day}.include?(date.beginning_of_day)
-  end
-
   def web?
     return true if self.id == 1
     false
@@ -91,4 +88,47 @@ class Library < ActiveRecord::Base
     return true if region_changed? or locality_changed? or street_changed?
     false
   end
+
+  if defined?(EnjuEvent)
+    has_many :events, :include => :event_category
+
+    def closed?(date)
+      events.closing_days.collect{|c| c.start_at.beginning_of_day}.include?(date.beginning_of_day)
+    end
+  end
 end
+
+# == Schema Information
+#
+# Table name: libraries
+#
+#  id                          :integer         not null, primary key
+#  patron_id                   :integer
+#  patron_type                 :string(255)
+#  name                        :string(255)     not null
+#  display_name                :text
+#  short_display_name          :string(255)     not null
+#  zip_code                    :string(255)
+#  street                      :text
+#  locality                    :text
+#  region                      :text
+#  telephone_number_1          :string(255)
+#  telephone_number_2          :string(255)
+#  fax_number                  :string(255)
+#  note                        :text
+#  call_number_rows            :integer         default(1), not null
+#  call_number_delimiter       :string(255)     default("|"), not null
+#  library_group_id            :integer         default(1), not null
+#  users_count                 :integer         default(0), not null
+#  position                    :integer
+#  country_id                  :integer
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#  deleted_at                  :datetime
+#  opening_hour                :text
+#  latitude                    :float
+#  longitude                   :float
+#  calil_systemid              :string(255)
+#  calil_neighborhood_systemid :text
+#
+

@@ -6,8 +6,8 @@ work_relationship_type_00001:
   updated_at: 2009-11-18 17:25:28 Z
   id: 1
   note: ""
-  display_name: "en:Successor\r\n\
-    ja:後継"
+  display_name: "en: Successor\r\n\
+    ja: 後継"
 work_relationship_type_00002: 
   position: 2
   name: Supplement
@@ -15,8 +15,8 @@ work_relationship_type_00002:
   updated_at: 2009-11-18 17:25:57 Z
   id: 2
   note: ""
-  display_name: "en:Supplement\r\n\
-    ja:付録"
+  display_name: "en: Supplement\r\n\
+    ja: 付録"
 work_relationship_type_00003: 
   position: 3
   name: Complement
@@ -24,8 +24,8 @@ work_relationship_type_00003:
   updated_at: 2009-11-18 17:26:21 Z
   id: 3
   note: ""
-  display_name: "en:Complement\r\n\
-    ja:補足"
+  display_name: "en: Complement\r\n\
+    ja: 補足"
 work_relationship_type_00004: 
   position: 4
   name: Summarization
@@ -33,8 +33,8 @@ work_relationship_type_00004:
   updated_at: 2009-11-18 17:26:36 Z
   id: 4
   note: ""
-  display_name: "en:Summarization\r\n\
-    ja:要約"
+  display_name: "en: Summarization\r\n\
+    ja: 要約"
 work_relationship_type_00005: 
   position: 5
   name: Adaptation
@@ -42,8 +42,8 @@ work_relationship_type_00005:
   updated_at: 2009-11-18 17:27:02 Z
   id: 5
   note: ""
-  display_name: "en:Adaptation\r\n\
-    ja:翻案"
+  display_name: "en: Adaptation\r\n\
+    ja: 翻案"
 work_relationship_type_00006: 
   position: 6
   name: Transformation
@@ -51,8 +51,8 @@ work_relationship_type_00006:
   updated_at: 2009-11-18 17:27:27 Z
   id: 6
   note: ""
-  display_name: "en:Transformation\r\n\
-    ja:変形"
+  display_name: "en: Transformation\r\n\
+    ja: 変形"
 work_relationship_type_00007: 
   position: 7
   name: Imitation
@@ -60,5 +60,5 @@ work_relationship_type_00007:
   updated_at: 2009-11-18 17:27:51 Z
   id: 7
   note: ""
-  display_name: "en:Imitation\r\n\
-    ja:模倣"
+  display_name: "en: Imitation\r\n\
+    ja: 模倣"

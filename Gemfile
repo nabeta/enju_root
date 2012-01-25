@@ -5,15 +5,10 @@ gem 'rails', '3.2.0'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-#gem 'enju_amazon', :git => 'git://github.com/nabeta/enju_amazon.git'
-#gem 'enju_barcode', :git => 'git://github.com/nabeta/enju_barcode.git'
-#gem 'enju_calil', :git => 'git://github.com/nabeta/enju_calil.git'
 gem 'enju_event', :git => 'git://github.com/nabeta/enju_event.git'
 #gem 'enju_ndl', :git => 'git://github.com/nabeta/enju_ndl.git'
 gem 'enju_nii', :git => 'git://github.com/nabeta/enju_nii.git'
 gem 'enju_oai', :git => 'git://github.com/nabeta/enju_oai.git'
-gem 'enju_question', :git => 'git://github.com/nabeta/enju_question.git'
-#gem 'enju_scribd', :git => 'git://github.com/nabeta/enju_scribd.git'
 gem 'enju_news', :git => 'git://github.com/nabeta/enju_news.git'
 
 platforms :ruby do
@@ -73,18 +68,18 @@ gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 
 gem 'configatron'
 gem 'extractcontent'
 gem 'cancan', '>= 1.6.7'
-gem 'devise', '~> 1.5'
+gem 'devise', '~> 2.0.0.rc2'
 gem 'omniauth', '~> 1.0'
 gem 'addressable'
 gem 'paperclip', '~> 2.5'
 gem "aws-sdk", '~> 1.3'
+gem 'acts-as-taggable-on', '~> 2.2'
 gem 'whenever', :require => false
 #gem 'amazon-ecs', '>= 2.2.0', :require => 'amazon/ecs'
 #gem 'aws-s3', :require => 'aws/s3'
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'sanitize'
-gem 'jpmobile', '~> 2.0', :require => false
 gem 'attribute_normalizer', '~> 1.0'
 #gem 'geokit'
 gem 'geocoder'
@@ -94,7 +89,7 @@ gem 'client_side_validations'
 gem 'simple_form', '~> 1.5'
 gem 'validates_timeliness'
 gem 'rack-protection'
-gem 'awesome_nested_set', '~> 2.0'
+gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
 
 group :production do
