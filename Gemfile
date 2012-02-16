@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.0'
+gem 'rails', '3.2.1'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -43,6 +43,7 @@ gem 'fastercsv' if RUBY_VERSION < '1.9'
 
 gem 'will_paginate', '~> 3.0'
 gem 'exception_notification', '~> 2.5.2'
+gem 'configatron'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'state_machine', '~> 1.1.2'
@@ -65,13 +66,12 @@ gem 'paper_trail', '~> 2.6'
 #gem 'money'
 gem 'RedCloth', '>= 4.2.9'
 gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 'isbn/tools'
-gem 'configatron'
 gem 'extractcontent'
 gem 'cancan', '>= 1.6.7'
-gem 'devise', '~> 2.0.0.rc2'
+gem 'devise', '~> 2.0'
 gem 'omniauth', '~> 1.0'
 gem 'addressable'
-gem 'paperclip', '~> 2.5'
+gem 'paperclip', '~> 2.6'
 gem "aws-sdk", '~> 1.3'
 gem 'acts-as-taggable-on', '~> 2.2'
 gem 'whenever', :require => false
@@ -93,7 +93,7 @@ gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
 
 group :production do
-  gem 'vidibus-routing_error', :git => 'git://github.com/nabeta/vidibus-routing_error.git'
+  gem 'vidibus-routing_error'
 end
 
 gem 'oink', '>= 0.9.3'
