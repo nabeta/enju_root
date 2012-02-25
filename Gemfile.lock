@@ -1,14 +1,23 @@
 GIT
-  remote: git://github.com/nabeta/enju_event.git
-  revision: 04f5c2f24474d6853d67db517ac840a792dbbd33
+  remote: git://github.com/nabeta/enju_book_jacket.git
+  revision: 688cca0c3a0e101d7cd208e71ce6aa7e9fd0cbed
   specs:
-    enju_event (0.0.5)
+    enju_book_jacket (0.0.1)
+      configatron
+      rails (~> 3.2)
+
+GIT
+  remote: git://github.com/nabeta/enju_event.git
+  revision: f0a3d95d9aa71fde327cd7adfa673ac590dd9f3e
+  specs:
+    enju_event (0.0.8)
+      acts_as_list (~> 0.1.5)
       addressable
-      attribute_normalizer (~> 1.0)
+      attribute_normalizer (~> 1.1)
       cancan
       configatron
       devise
-      enju_message (>= 0.0.5)
+      enju_message (~> 0.0.10)
       event-calendar (~> 2.3.3)
       friendly_id (~> 4.0)
       has_scope
@@ -22,10 +31,19 @@ GIT
       will_paginate (~> 3.0)
 
 GIT
+  remote: git://github.com/nabeta/enju_manifestation_viewer.git
+  revision: 63cddc5dbd2865cec4bb571700a5b0880d42128f
+  specs:
+    enju_manifestation_viewer (0.0.1)
+      addressable
+      rails (~> 3.2)
+
+GIT
   remote: git://github.com/nabeta/enju_news.git
-  revision: 43902189ccf44b82b887dd208b84284c7746b39c
+  revision: a88be62bf8a6d87d1986c0e49fbbd3e7c3db43fd
   specs:
     enju_news (0.0.2)
+      acts_as_list (~> 0.1.5)
       cancan
       devise
       rails (~> 3.1)
@@ -33,7 +51,7 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_nii.git
-  revision: 081a0464b9159a50463fc7d27930f96fcc739f53
+  revision: 732981d84dccdeaf9019adeab6511efd79e01930
   specs:
     enju_nii (0.0.2)
       cancan
@@ -43,7 +61,7 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_oai.git
-  revision: 0e7a88bc97de7785b8a5dceebad0a4f2bab832c6
+  revision: 7e7fb239ddbc4d7d084be5043d34d2f0e991b379
   specs:
     enju_oai (0.0.1)
       rails (~> 3.1)
@@ -62,24 +80,18 @@ GIT
       sunspot_rails
       sunspot_solr
 
-GIT
-  remote: git://github.com/swanandp/acts_as_list.git
-  revision: 7fd29b74eec9327a3d2a3033e1ca249ba04fc7e5
-  specs:
-    acts_as_list (0.1.4)
-
 GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.2.9)
     Saikuro (1.1.0)
     aaronh-chronic (0.3.9)
-    actionmailer (3.2.1)
-      actionpack (= 3.2.1)
+    actionmailer (3.2.2.rc1)
+      actionpack (= 3.2.2.rc1)
       mail (~> 2.4.0)
-    actionpack (3.2.1)
-      activemodel (= 3.2.1)
-      activesupport (= 3.2.1)
+    actionpack (3.2.2.rc1)
+      activemodel (= 3.2.2.rc1)
+      activesupport (= 3.2.2.rc1)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
       journey (~> 1.0.1)
@@ -87,38 +99,39 @@ GEM
       rack-cache (~> 1.1)
       rack-test (~> 0.6.1)
       sprockets (~> 2.1.2)
-    activemodel (3.2.1)
-      activesupport (= 3.2.1)
+    activemodel (3.2.2.rc1)
+      activesupport (= 3.2.2.rc1)
       builder (~> 3.0.0)
-    activerecord (3.2.1)
-      activemodel (= 3.2.1)
-      activesupport (= 3.2.1)
-      arel (~> 3.0.0)
+    activerecord (3.2.2.rc1)
+      activemodel (= 3.2.2.rc1)
+      activesupport (= 3.2.2.rc1)
+      arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activeresource (3.2.1)
-      activemodel (= 3.2.1)
-      activesupport (= 3.2.1)
-    activesupport (3.2.1)
+    activeresource (3.2.2.rc1)
+      activemodel (= 3.2.2.rc1)
+      activesupport (= 3.2.2.rc1)
+    activesupport (3.2.2.rc1)
       i18n (~> 0.6)
       multi_json (~> 1.0)
     acts-as-taggable-on (2.2.2)
       rails (~> 3.0)
-    addressable (2.2.6)
+    acts_as_list (0.1.5)
+    addressable (2.2.7)
     annotate (2.4.0)
     ansi (1.4.2)
-    arel (3.0.0)
+    arel (3.0.2)
     astrails-safe (0.2.7)
       aws-s3
       cloudfiles
       net-sftp
-    attribute_normalizer (1.0.1)
+    attribute_normalizer (1.1.0)
     awesome_nested_set (2.1.2)
       activerecord (>= 3.0.0)
     aws-s3 (0.6.2)
       builder
       mime-types
       xml-simple
-    aws-sdk (1.3.4)
+    aws-sdk (1.3.5)
       httparty (~> 0.7)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -134,7 +147,7 @@ GEM
       main
       ruby_parser (~> 2.0.4)
       sexp_processor (~> 3.0.3)
-    client_side_validations (3.1.4)
+    client_side_validations (3.2.0.beta.2)
     cloudfiles (1.5.0.1)
       json
     cocaine (0.2.1)
@@ -149,22 +162,23 @@ GEM
     configatron (2.9.0)
       yamler (>= 0.1.0)
     daemons (1.1.8)
-    dalli (1.1.4)
+    dalli (1.1.5)
     delayed_job (3.0.1)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.2)
       activerecord (> 2.1.0)
       delayed_job (~> 3.0.0)
-    devise (2.0.2)
+    devise (2.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
       railties (~> 3.1)
-      warden (~> 1.1)
+      warden (~> 1.1.1)
     diff-lcs (1.1.3)
     dynamic_form (1.1.4)
-    enju_message (0.0.9)
+    enju_message (0.0.11)
+      acts_as_list (~> 0.1.5)
       addressable
-      attribute_normalizer (~> 1.0)
+      attribute_normalizer (~> 1.1)
       awesome_nested_set (~> 2.1)
       cancan
       configatron
@@ -185,11 +199,10 @@ GEM
       actionmailer (>= 3.0.4)
     execjs (1.3.0)
       multi_json (~> 1.0)
-    extractcontent (0.0.1)
-    factory_girl (2.5.2)
+    factory_girl (2.6.0)
       activesupport (>= 2.3.9)
-    factory_girl_rails (1.6.0)
-      factory_girl (~> 2.5.0)
+    factory_girl_rails (1.7.0)
+      factory_girl (~> 2.6.0)
       railties (>= 3.0.0)
     fakeweb (1.3.0)
     fattr (2.2.1)
@@ -202,7 +215,7 @@ GEM
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
     friendly_id (4.0.0)
-    geocoder (1.1.0)
+    geocoder (1.1.1)
     guard (1.0.0)
       ffi (>= 0.5.0)
       thor (~> 0.14.6)
@@ -221,7 +234,7 @@ GEM
     inherited_resources (1.3.0)
       has_scope (~> 0.5.0)
       responders (~> 0.6.0)
-    journey (1.0.1)
+    journey (1.0.3)
     jquery-rails (2.0.0)
       railties (>= 3.2.0.beta, < 5.0)
       thor (~> 0.14)
@@ -230,7 +243,7 @@ GEM
     kgio (2.7.2)
     levenshtein (0.2.1)
     levenshtein19 (0.2.0)
-    library_stdnums (1.0.2)
+    library_stdnums (1.1.0)
     mail (2.4.1)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -250,7 +263,7 @@ GEM
       roodi (>= 2.1.0)
       syntax
     mime-types (1.17.2)
-    multi_json (1.0.4)
+    multi_json (1.1.0)
     multi_xml (0.4.1)
     net-sftp (2.0.5)
       net-ssh (>= 2.0.9)
@@ -267,15 +280,15 @@ GEM
     orm_adapter (0.0.6)
     paper_trail (2.6.0)
       rails (~> 3)
-    paperclip (2.6.0)
+    paperclip (2.7.0)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
       mime-types
-    parallel (0.5.14)
-    parallel_tests (0.6.18)
+    parallel (0.5.15)
+    parallel_tests (0.6.20)
       parallel
-    pg (0.13.1)
+    pg (0.13.2)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
     progress_bar (0.4.0)
@@ -291,26 +304,26 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.2.1)
-      actionmailer (= 3.2.1)
-      actionpack (= 3.2.1)
-      activerecord (= 3.2.1)
-      activeresource (= 3.2.1)
-      activesupport (= 3.2.1)
+    rails (3.2.2.rc1)
+      actionmailer (= 3.2.2.rc1)
+      actionpack (= 3.2.2.rc1)
+      activerecord (= 3.2.2.rc1)
+      activeresource (= 3.2.2.rc1)
+      activesupport (= 3.2.2.rc1)
       bundler (~> 1.0)
-      railties (= 3.2.1)
+      railties (= 3.2.2.rc1)
     rails_autolink (1.0.5)
       rails (~> 3.1)
-    rails_best_practices (1.7.2)
+    rails_best_practices (1.8.0)
       activesupport
       colored
       erubis
       i18n
       progressbar
       sexp_processor
-    railties (3.2.1)
-      actionpack (= 3.2.1)
-      activesupport (= 3.2.1)
+    railties (3.2.2.rc1)
+      actionpack (= 3.2.2.rc1)
+      activesupport (= 3.2.2.rc1)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
@@ -356,16 +369,19 @@ GEM
       sass (>= 3.1.10)
       tilt (~> 1.3)
     sexp_processor (3.0.10)
-    simple_form (1.5.2)
+    simple_form (2.0.0)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
-    simplecov (0.5.4)
-      multi_json (~> 1.0.3)
+    simplecov (0.6.1)
+      multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     sitemap_generator (3.0.0)
       builder
-    spork (0.9.0)
+    spork (1.0.0rc2)
+    spork-rails (3.2.0)
+      rails (>= 3.0.0, < 3.3.0)
+      spork (>= 1.0rc0)
     sprockets (2.1.2)
       hike (~> 1.2)
       rack (~> 1.0)
@@ -398,9 +414,9 @@ GEM
     uuidtools (2.1.2)
     validates_timeliness (3.0.8)
       timeliness (~> 0.3.4)
-    vcr (2.0.0.rc1)
+    vcr (2.0.0.rc2)
     vidibus-routing_error (0.2.2)
-    warden (1.1.0)
+    warden (1.1.1)
       rack (>= 1.0)
     whenever (0.6.8)
       aaronh-chronic (>= 0.3.9)
@@ -417,16 +433,16 @@ DEPENDENCIES
   RedCloth (>= 4.2.9)
   activerecord-jdbc-adapter
   acts-as-taggable-on (~> 2.2)
-  acts_as_list!
+  acts_as_list (~> 0.1.5)
   addressable
   annotate
   astrails-safe
-  attribute_normalizer (~> 1.0)
+  attribute_normalizer (~> 1.1)
   awesome_nested_set (~> 2.1)
   aws-sdk (~> 1.3)
   cancan (>= 1.6.7)
   churn (= 0.0.13)
-  client_side_validations
+  client_side_validations (~> 3.2.0.beta.2)
   coffee-rails (~> 3.2.1)
   configatron
   daemons
@@ -434,13 +450,14 @@ DEPENDENCIES
   delayed_job_active_record
   devise (~> 2.0)
   dynamic_form
+  enju_book_jacket!
   enju_event!
+  enju_manifestation_viewer!
   enju_news!
   enju_nii!
   enju_oai!
   exception_notification (~> 2.5.2)
-  extractcontent
-  factory_girl_rails (~> 1.6)
+  factory_girl_rails (~> 1.7)
   fakeweb
   file_wrapper
   friendly_id (~> 4.0)
@@ -463,12 +480,12 @@ DEPENDENCIES
   oink (>= 0.9.3)
   omniauth (~> 1.0)
   paper_trail (~> 2.6)
-  paperclip (~> 2.6)
+  paperclip (~> 2.7)
   parallel_tests
   pg
   progress_bar
   rack-protection
-  rails (= 3.2.1)
+  rails (= 3.2.2.rc1)
   rails_autolink
   rcov (= 0.9.11)
   ri_cal
@@ -477,10 +494,10 @@ DEPENDENCIES
   rubyzip2
   sanitize
   sass-rails (~> 3.2.3)
-  simple_form (~> 1.5)
+  simple_form (~> 2.0)
   simplecov (~> 0.5)
   sitemap_generator (~> 3.0)
-  spork (~> 0.9)
+  spork-rails
   state_machine (~> 1.1.2)
   sunspot-rails-tester!
   sunspot_rails (~> 2.0.0.pre.111215)
@@ -490,7 +507,7 @@ DEPENDENCIES
   turn (~> 0.8.3)
   uglifier (>= 1.0.3)
   validates_timeliness
-  vcr (~> 2.0.0.rc1)
+  vcr (~> 2.0.0.rc2)
   vidibus-routing_error
   whenever
   will_paginate (~> 3.0)
