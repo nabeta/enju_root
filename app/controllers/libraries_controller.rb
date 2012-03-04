@@ -52,7 +52,7 @@ class LibrariesController < ApplicationController
     respond_to do |format|
       format.html # show.rhtml
       format.xml  { render :xml => @library }
-      format.js
+      #format.js
     end
   end
 

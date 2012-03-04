@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.2.rc1'
+gem 'rails', '3.2.2'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -87,7 +87,7 @@ gem 'attribute_normalizer', '~> 1.1'
 gem 'geocoder'
 gem 'acts_as_list', '~> 0.1.5'
 gem 'library_stdnums'
-gem 'client_side_validations', '~> 3.2.0.beta.2'
+gem 'client_side_validations', '~> 3.2.0.beta.3'
 gem 'simple_form', '~> 2.0'
 gem 'validates_timeliness'
 gem 'rack-protection'
@@ -114,7 +114,7 @@ group :development, :test do
   gem 'metric_fu', '~> 2.1'
   gem 'timecop'
   gem 'sunspot-rails-tester', :git => 'git://github.com/nabeta/sunspot-rails-tester.git'
-  gem 'vcr', '~> 2.0.0.rc2'
+  gem 'vcr', '~> 2.0'
   gem 'fakeweb'
   gem 'churn', '0.0.13'
 end
