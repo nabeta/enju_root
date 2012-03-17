@@ -47,7 +47,7 @@ class OwnsController < ApplicationController
     end
   end
 
-  # GET /owns/1;edit
+  # GET /owns/1/edit
   def edit
     @own = Own.find(params[:id])
   end

@@ -11,7 +11,7 @@ class WorksController < ApplicationController
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /works
-  # GET /works.xml
+  # GET /works.json
   def index
     query = params[:query].to_s.strip
     search = Sunspot.new_search(Work)
@@ -53,15 +53,14 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @works }
+      format.json  { render :json => @works }
       format.atom
     end
   end
 
   # GET /works/1
-  # GET /works/1.xml
+  # GET /works/1.json
   def show
-    #@work = Work.find(params[:id])
     @work = @work.versions.find(@version).item if @version
 
     if @patron
@@ -84,7 +83,6 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @work }
       format.json { render :json => @work }
       format.js
     end
@@ -102,18 +100,17 @@ class WorksController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @work }
+      format.json  { render :json => @work }
     end
   end
 
-  # GET /works/1;edit
+  # GET /works/1/edit
   def edit
-    #@work = Work.find(params[:id])
     @work.series_statement = @series_statement
   end
 
   # POST /works
-  # POST /works.xml
+  # POST /works.json
   def create
     @work = Work.new(params[:work])
 
@@ -124,45 +121,40 @@ class WorksController < ApplicationController
           @patron.works << @work
         end
         format.html { redirect_to @work }
-        format.xml  { render :xml => @work, :status => :created, :location => @work }
+        format.json { render :json => @work, :status => :created, :location => @work }
       else
         prepare_options
         format.html { render :action => "new" }
-        format.xml  { render :xml => @work.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /works/1
-  # PUT /works/1.xml
+  # PUT /works/1.json
   def update
-    #@work = Work.find(params[:id])
-
     respond_to do |format|
       if @work.update_attributes(params[:work])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work'))
         format.html { redirect_to work_url(@work) }
-        format.xml  { head :ok }
-        format.json { render :json => @work }
+        format.json { head :no_content }
       else
         prepare_options
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @work.errors, :status => :unprocessable_entity }
-        format.json { render :json => @work, :status => :unprocessable_entity }
+        format.json { render :json => @work.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /works/1
-  # DELETE /works/1.xml
+  # DELETE /works/1.json
   def destroy
-    #@work = Work.find(params[:id])
     @work.destroy
 
     respond_to do |format|
       flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.work'))
       format.html { redirect_to works_url }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 
@@ -171,5 +163,4 @@ class WorksController < ApplicationController
     @form_of_works = FormOfWork.all
     @roles = Role.all
   end
-
 end

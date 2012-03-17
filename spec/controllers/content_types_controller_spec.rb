@@ -5,15 +5,17 @@ describe ContentTypesController do
   fixtures :all
   disconnect_sunspot
 
+  def valid_attributes
+    FactoryGirl.attributes_for(:content_type)
+  end
+
   describe "GET index" do
     before(:each) do
-      Factory.create(:content_type)
+      FactoryGirl.create(:content_type)
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns all content_types as @content_types" do
         get :index
@@ -22,9 +24,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns all content_types as @content_types" do
         get :index
@@ -33,9 +33,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns all content_types as @content_types" do
         get :index
@@ -53,36 +51,30 @@ describe ContentTypesController do
 
   describe "GET show" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+        content_type = FactoryGirl.create(:content_type)
         get :show, :id => content_type.id
         assigns(:content_type).should eq(content_type)
       end
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+        content_type = FactoryGirl.create(:content_type)
         get :show, :id => content_type.id
         assigns(:content_type).should eq(content_type)
       end
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+        content_type = FactoryGirl.create(:content_type)
         get :show, :id => content_type.id
         assigns(:content_type).should eq(content_type)
       end
@@ -90,7 +82,7 @@ describe ContentTypesController do
 
     describe "When not logged in" do
       it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+        content_type = FactoryGirl.create(:content_type)
         get :show, :id => content_type.id
         assigns(:content_type).should eq(content_type)
       end
@@ -99,11 +91,9 @@ describe ContentTypesController do
 
   describe "GET new" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
-      it "assigns the requested content_type as @content_type" do
+      it "should not assign the requested content_type as @content_type" do
         get :new
         assigns(:content_type).should_not be_valid
         response.should be_forbidden
@@ -111,9 +101,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "should not assign the requested content_type as @content_type" do
         get :new
@@ -123,9 +111,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "should not assign the requested content_type as @content_type" do
         get :new
@@ -145,36 +131,30 @@ describe ContentTypesController do
 
   describe "GET edit" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+        content_type = FactoryGirl.create(:content_type)
         get :edit, :id => content_type.id
         assigns(:content_type).should eq(content_type)
       end
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
-      it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+      it "should not assign the requested content_type as @content_type" do
+        content_type = FactoryGirl.create(:content_type)
         get :edit, :id => content_type.id
         response.should be_forbidden
       end
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
-      it "assigns the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+      it "should not assign the requested content_type as @content_type" do
+        content_type = FactoryGirl.create(:content_type)
         get :edit, :id => content_type.id
         response.should be_forbidden
       end
@@ -182,7 +162,7 @@ describe ContentTypesController do
 
     describe "When not logged in" do
       it "should not assign the requested content_type as @content_type" do
-        content_type = Factory.create(:content_type)
+        content_type = FactoryGirl.create(:content_type)
         get :edit, :id => content_type.id
         response.should redirect_to(new_user_session_url)
       end
@@ -191,14 +171,12 @@ describe ContentTypesController do
 
   describe "POST create" do
     before(:each) do
-      @attrs = Factory.attributes_for(:content_type)
+      @attrs = valid_attributes
       @invalid_attrs = {:name => ''}
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       describe "with valid params" do
         it "assigns a newly created content_type as @content_type" do
@@ -226,9 +204,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       describe "with valid params" do
         it "assigns a newly created content_type as @content_type" do
@@ -256,9 +232,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       describe "with valid params" do
         it "assigns a newly created content_type as @content_type" do
@@ -314,15 +288,13 @@ describe ContentTypesController do
 
   describe "PUT update" do
     before(:each) do
-      @content_type = Factory(:content_type)
-      @attrs = Factory.attributes_for(:content_type)
+      @content_type = FactoryGirl.create(:content_type)
+      @attrs = valid_attributes
       @invalid_attrs = {:name => ''}
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       describe "with valid params" do
         it "updates the requested content_type" do
@@ -335,7 +307,7 @@ describe ContentTypesController do
         end
 
         it "moves its position when specified" do
-          put :update, :id => @content_type.id, :content_type => @attrs, :position => 2
+          put :update, :id => @content_type.id, :content_type => @attrs, :move => 'lower'
           response.should redirect_to(content_types_url)
         end
       end
@@ -349,9 +321,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       describe "with valid params" do
         it "updates the requested content_type" do
@@ -374,9 +344,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       describe "with valid params" do
         it "updates the requested content_type" do
@@ -421,13 +389,11 @@ describe ContentTypesController do
 
   describe "DELETE destroy" do
     before(:each) do
-      @content_type = Factory(:content_type)
+      @content_type = FactoryGirl.create(:content_type)
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "destroys the requested content_type" do
         delete :destroy, :id => @content_type.id
@@ -440,9 +406,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "destroys the requested content_type" do
         delete :destroy, :id => @content_type.id
@@ -455,9 +419,7 @@ describe ContentTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "destroys the requested content_type" do
         delete :destroy, :id => @content_type.id

@@ -30,7 +30,7 @@ class LibraryGroupsController < ApplicationController
   #  @library_group = LibraryGroup.new
   #end
 
-  # GET /library_groups/1;edit
+  # GET /library_groups/1/edit
   def edit
     #@library_group = LibraryGroup.find(params[:id])
     @countries = Country.all

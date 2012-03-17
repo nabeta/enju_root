@@ -69,7 +69,7 @@ class LibrariesController < ApplicationController
     prepare_options
   end
 
-  # GET /libraries/1;edit
+  # GET /libraries/1/edit
   def edit
     #@library = Library.first(:conditions => {:name => params[:id]})
     #raise ActiveRecord::RecordNotFound if @library.nil?

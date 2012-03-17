@@ -38,7 +38,7 @@ class ReifiesController < ApplicationController
     @reify.expression = @expression
   end
 
-  # GET /reifies/1;edit
+  # GET /reifies/1/edit
   def edit
     @reify = Reify.find(params[:id])
   end

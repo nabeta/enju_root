@@ -123,7 +123,7 @@ class PatronsController < ApplicationController
     end
   end
 
-  # GET /patrons/1;edit
+  # GET /patrons/1/edit
   def edit
     #@patron = Patron.find(params[:id])
     prepare_options

@@ -354,6 +354,14 @@ class ApplicationController < ActionController::Base
      @news_feeds = Rails.cache.fetch('news_feed_all'){NewsFeed.all}
      @manifestation = Manifestation.pickup rescue nil
   end
+
+  def move_position(resource, direction)
+    if ['higher', 'lower'].include?(direction)
+      resource.send("move_#{direction}")
+      redirect_to url_for(:controller => resource.class.to_s.pluralize.underscore)
+      return
+    end
+  end
 end
 
 class InvalidLocaleError < StandardError

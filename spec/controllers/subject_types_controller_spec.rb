@@ -5,15 +5,17 @@ describe SubjectTypesController do
   fixtures :all
   disconnect_sunspot
 
+  def valid_attributes
+    FactoryGirl.attributes_for(:subject_type)
+  end
+
   describe "GET index" do
     before(:each) do
-      Factory.create(:subject_type)
+      FactoryGirl.create(:subject_type)
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns all subject_types as @subject_types" do
         get :index
@@ -22,9 +24,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns all subject_types as @subject_types" do
         get :index
@@ -33,9 +33,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns all subject_types as @subject_types" do
         get :index
@@ -55,36 +53,30 @@ describe SubjectTypesController do
 
   describe "GET show" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :show, :id => subject_type.id
         assigns(:subject_type).should eq(subject_type)
       end
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :show, :id => subject_type.id
         assigns(:subject_type).should eq(subject_type)
       end
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :show, :id => subject_type.id
         assigns(:subject_type).should eq(subject_type)
       end
@@ -92,7 +84,7 @@ describe SubjectTypesController do
 
     describe "When not logged in" do
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :show, :id => subject_type.id
         assigns(:subject_type).should eq(subject_type)
       end
@@ -101,9 +93,7 @@ describe SubjectTypesController do
 
   describe "GET new" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested subject_type as @subject_type" do
         get :new
@@ -113,9 +103,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "should not assign the requested subject_type as @subject_type" do
         get :new
@@ -125,9 +113,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "should not assign the requested subject_type as @subject_type" do
         get :new
@@ -147,36 +133,30 @@ describe SubjectTypesController do
 
   describe "GET edit" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :edit, :id => subject_type.id
         assigns(:subject_type).should eq(subject_type)
       end
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :edit, :id => subject_type.id
         response.should be_forbidden
       end
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :edit, :id => subject_type.id
         response.should be_forbidden
       end
@@ -184,7 +164,7 @@ describe SubjectTypesController do
 
     describe "When not logged in" do
       it "should not assign the requested subject_type as @subject_type" do
-        subject_type = Factory.create(:subject_type)
+        subject_type = FactoryGirl.create(:subject_type)
         get :edit, :id => subject_type.id
         response.should redirect_to(new_user_session_url)
       end
@@ -193,14 +173,12 @@ describe SubjectTypesController do
 
   describe "POST create" do
     before(:each) do
-      @attrs = Factory.attributes_for(:subject_type)
+      @attrs = valid_attributes
       @invalid_attrs = {:name => ''}
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       describe "with valid params" do
         it "assigns a newly created subject_type as @subject_type" do
@@ -228,9 +206,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       describe "with valid params" do
         it "assigns a newly created subject_type as @subject_type" do
@@ -258,9 +234,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       describe "with valid params" do
         it "assigns a newly created subject_type as @subject_type" do
@@ -316,15 +290,13 @@ describe SubjectTypesController do
 
   describe "PUT update" do
     before(:each) do
-      @subject_type = Factory(:subject_type)
-      @attrs = Factory.attributes_for(:subject_type)
+      @subject_type = FactoryGirl.create(:subject_type)
+      @attrs = valid_attributes
       @invalid_attrs = {:name => ''}
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       describe "with valid params" do
         it "updates the requested subject_type" do
@@ -337,7 +309,7 @@ describe SubjectTypesController do
         end
 
         it "moves its position when specified" do
-          put :update, :id => @subject_type.id, :subject_type => @attrs, :position => 2
+          put :update, :id => @subject_type.id, :subject_type => @attrs, :move => 'lower'
           response.should redirect_to(subject_types_url)
         end
       end
@@ -351,9 +323,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       describe "with valid params" do
         it "updates the requested subject_type" do
@@ -376,9 +346,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       describe "with valid params" do
         it "updates the requested subject_type" do
@@ -423,13 +391,11 @@ describe SubjectTypesController do
 
   describe "DELETE destroy" do
     before(:each) do
-      @subject_type = Factory(:subject_type)
+      @subject_type = FactoryGirl.create(:subject_type)
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "destroys the requested subject_type" do
         delete :destroy, :id => @subject_type.id
@@ -442,9 +408,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "destroys the requested subject_type" do
         delete :destroy, :id => @subject_type.id
@@ -457,9 +421,7 @@ describe SubjectTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "destroys the requested subject_type" do
         delete :destroy, :id => @subject_type.id

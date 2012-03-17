@@ -49,7 +49,7 @@ class CreatesController < ApplicationController
     end
   end
 
-  # GET /creates/1;edit
+  # GET /creates/1/edit
   def edit
     @create = Create.find(params[:id])
   end

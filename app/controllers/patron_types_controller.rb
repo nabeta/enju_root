@@ -1,24 +1,17 @@
 class PatronTypesController < InheritedResources::Base
-  respond_to :html, :xml
-  before_filter :check_client_ip_address
+  respond_to :html, :json
   load_and_authorize_resource
 
   def update
     @patron_type = PatronType.find(params[:id])
-    if params[:position]
-      @patron_type.insert_at(params[:position])
-      redirect_to patron_types_url
+    if params[:move]
+      move_position(@patron_type, params[:move])
       return
     end
     update!
   end
 
   def index
-    @patron_types = @patron_types.paginate(:page => params[:page])
-  end
-
-  private
-  def interpolation_options
-    {:resource_name => t('activerecord.models.patron_type')}
+    @patron_types = @patron_types.page(params[:page])
   end
 end

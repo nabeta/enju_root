@@ -100,9 +100,9 @@ module ApplicationHelper
       link = ''
       manifestation.picture_files.each_with_index do |picture_file, i|
         if i == 0
-          link += link_to(show_image(picture_file, :size => :thumb), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}")
+          link += link_to(show_image(picture_file, :size => :thumb), picture_file_path(picture_file, :format => :download), :rel => "manifestation_#{manifestation.id}")
         else
-          link += '<span style="display: none">' + link_to(show_image(picture_file, :size => :thumb), picture_file_path(picture_file, :format => picture_file.extname), :rel => "manifestation_#{manifestation.id}") + '</span>'
+          link += '<span style="display: none">' + link_to(show_image(picture_file, :size => :thumb), picture_file_path(picture_file, :format => :download), :rel => "manifestation_#{manifestation.id}") + '</span>'
         end
       end
       return link.html_safe
@@ -178,9 +178,9 @@ module ApplicationHelper
   def link_to_custom_book_jacket(object, picture_file)
     case
     when object.is_a?(Manifestation)
-      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => picture_file.extname), :rel => "manifestation_#{object.id}"
+      link_to t('page.other_view'), manifestation_picture_file_path(object, picture_file, :format => :download), :rel => "manifestation_#{object.id}"
     when object.is_a?(Patron)
-      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => picture_file.extname), :rel => "patron_#{object.id}"
+      link_to t('page.other_view'), patron_picture_file_path(object, picture_file, :format => :download), :rel => "patron_#{object.id}"
     end
   end
 

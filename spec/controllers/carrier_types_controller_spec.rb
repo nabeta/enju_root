@@ -5,15 +5,17 @@ describe CarrierTypesController do
   fixtures :all
   disconnect_sunspot
 
+  def valid_attributes
+    FactoryGirl.attributes_for(:carrier_type)
+  end
+
   describe "GET index" do
     before(:each) do
-      Factory.create(:carrier_type)
+      FactoryGirl.create(:carrier_type)
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns all carrier_types as @carrier_types" do
         get :index
@@ -22,9 +24,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns all carrier_types as @carrier_types" do
         get :index
@@ -33,9 +33,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns all carrier_types as @carrier_types" do
         get :index
@@ -52,56 +50,48 @@ describe CarrierTypesController do
   end
 
   describe "GET show" do
+    before(:each) do
+      @carrier_type = FactoryGirl.create(:carrier_type)
+    end
+
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :show, :id => carrier_type.id
-        assigns(:carrier_type).should eq(carrier_type)
+        get :show, :id => @carrier_type.id
+        assigns(:carrier_type).should eq(@carrier_type)
       end
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :show, :id => carrier_type.id
-        assigns(:carrier_type).should eq(carrier_type)
+        get :show, :id => @carrier_type.id
+        assigns(:carrier_type).should eq(@carrier_type)
       end
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :show, :id => carrier_type.id
-        assigns(:carrier_type).should eq(carrier_type)
+        get :show, :id => @carrier_type.id
+        assigns(:carrier_type).should eq(@carrier_type)
       end
     end
 
     describe "When not logged in" do
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :show, :id => carrier_type.id
-        assigns(:carrier_type).should eq(carrier_type)
+        get :show, :id => @carrier_type.id
+        assigns(:carrier_type).should eq(@carrier_type)
       end
     end
   end
 
   describe "GET new" do
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested carrier_type as @carrier_type" do
         get :new
@@ -111,9 +101,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "should not assign the requested carrier_type as @carrier_type" do
         get :new
@@ -123,9 +111,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "should not assign the requested carrier_type as @carrier_type" do
         get :new
@@ -144,46 +130,40 @@ describe CarrierTypesController do
   end
 
   describe "GET edit" do
+    before(:each) do
+      @carrier_type = FactoryGirl.create(:carrier_type)
+    end
+
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :edit, :id => carrier_type.id
-        assigns(:carrier_type).should eq(carrier_type)
+        get :edit, :id => @carrier_type.id
+        assigns(:carrier_type).should eq(@carrier_type)
       end
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :edit, :id => carrier_type.id
+        get :edit, :id => @carrier_type.id
         response.should be_forbidden
       end
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "assigns the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :edit, :id => carrier_type.id
+        get :edit, :id => @carrier_type.id
         response.should be_forbidden
       end
     end
 
     describe "When not logged in" do
       it "should not assign the requested carrier_type as @carrier_type" do
-        carrier_type = Factory.create(:carrier_type)
-        get :edit, :id => carrier_type.id
+        get :edit, :id => @carrier_type.id
         response.should redirect_to(new_user_session_url)
       end
     end
@@ -191,14 +171,12 @@ describe CarrierTypesController do
 
   describe "POST create" do
     before(:each) do
-      @attrs = Factory.attributes_for(:carrier_type)
+      @attrs = valid_attributes
       @invalid_attrs = {:name => ''}
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       describe "with valid params" do
         it "assigns a newly created carrier_type as @carrier_type" do
@@ -226,9 +204,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       describe "with valid params" do
         it "assigns a newly created carrier_type as @carrier_type" do
@@ -256,9 +232,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       describe "with valid params" do
         it "assigns a newly created carrier_type as @carrier_type" do
@@ -314,15 +288,13 @@ describe CarrierTypesController do
 
   describe "PUT update" do
     before(:each) do
-      @carrier_type = Factory(:carrier_type)
-      @attrs = Factory.attributes_for(:carrier_type)
+      @carrier_type = FactoryGirl.create(:carrier_type)
+      @attrs = valid_attributes
       @invalid_attrs = {:name => ''}
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       describe "with valid params" do
         it "updates the requested carrier_type" do
@@ -335,7 +307,7 @@ describe CarrierTypesController do
         end
 
         it "moves its position when specified" do
-          put :update, :id => @carrier_type.id, :carrier_type => @attrs, :position => 2
+          put :update, :id => @carrier_type.id, :carrier_type => @attrs, :move => 'lower'
           response.should redirect_to(carrier_types_url)
         end
       end
@@ -349,9 +321,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       describe "with valid params" do
         it "updates the requested carrier_type" do
@@ -374,9 +344,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       describe "with valid params" do
         it "updates the requested carrier_type" do
@@ -421,13 +389,11 @@ describe CarrierTypesController do
 
   describe "DELETE destroy" do
     before(:each) do
-      @carrier_type = Factory(:carrier_type)
+      @carrier_type = FactoryGirl.create(:carrier_type)
     end
 
     describe "When logged in as Administrator" do
-      before(:each) do
-        sign_in Factory(:admin)
-      end
+      login_admin
 
       it "destroys the requested carrier_type" do
         delete :destroy, :id => @carrier_type.id
@@ -440,9 +406,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as Librarian" do
-      before(:each) do
-        sign_in Factory(:librarian)
-      end
+      login_librarian
 
       it "destroys the requested carrier_type" do
         delete :destroy, :id => @carrier_type.id
@@ -455,9 +419,7 @@ describe CarrierTypesController do
     end
 
     describe "When logged in as User" do
-      before(:each) do
-        sign_in Factory(:user)
-      end
+      login_user
 
       it "destroys the requested carrier_type" do
         delete :destroy, :id => @carrier_type.id

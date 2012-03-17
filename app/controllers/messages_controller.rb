@@ -68,7 +68,7 @@ class MessagesController < ApplicationController
     end
   end
 
-  # GET /messages/1;edit
+  # GET /messages/1/edit
   def edit
     @message = current_user.received_messages.find(params[:id])
     @message.sm_read!

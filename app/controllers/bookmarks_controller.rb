@@ -92,7 +92,7 @@ class BookmarksController < ApplicationController
     end
   end
   
-  # GET /bookmarks/1;edit
+  # GET /bookmarks/1/edit
   def edit
     if @user
       @bookmark = @user.bookmarks.find(params[:id])

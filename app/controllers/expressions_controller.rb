@@ -12,7 +12,7 @@ class ExpressionsController < ApplicationController
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /expressions
-  # GET /expressions.xml
+  # GET /expressions.json
   def index
     query = params[:query].to_s.strip
     search = Sunspot.new_search(Expression)
@@ -55,13 +55,13 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @expressions }
+      format.son { render :json => @expressions }
       format.atom
     end
   end
 
   # GET /expressions/1
-  # GET /expressions/1.xml
+  # GET /expressions/1.json
   def show
     case when @work
       @expression = @work.expressions.find(params[:id])
@@ -76,7 +76,7 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @expression }
+      format.json { render :json => @expression }
     end
   end
 
@@ -96,17 +96,17 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @expression }
+      format.json  { render :json => @expression }
     end
   end
 
-  # GET /expressions/1;edit
+  # GET /expressions/1/edit
   def edit
     #@expression = Expression.find(params[:id])
   end
 
   # POST /expressions
-  # POST /expressions.xml
+  # POST /expressions.json
   def create
     unless @work
       flash[:notice] = t('expression.specify_work')
@@ -126,44 +126,42 @@ class ExpressionsController < ApplicationController
 
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
         format.html { redirect_to @expression }
-        format.xml  { render :xml => @expression, :status => :created, :location => @expression }
+        format.json { render :json => @expression, :status => :created, :location => @expression }
       else
         prepare_options
         format.html { render :action => "new" }
-        format.xml  { render :xml => @expression.errors, :status => :unprocessable_entity }
+        format.json { render :json => @expression.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /expressions/1
-  # PUT /expressions/1.xml
+  # PUT /expressions/1.json
   def update
-    #@expression = Expression.find(params[:id])
     params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
 
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
         format.html { redirect_to expression_url(@expression) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         prepare_options
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @expression.errors, :status => :unprocessable_entity }
+        format.json { render :json => @expression.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /expressions/1
-  # DELETE /expressions/1.xml
+  # DELETE /expressions/1.json
   def destroy
-    #@expression = Expression.find(params[:id])
     @expression.destroy
 
     respond_to do |format|
       flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.expression'))
       format.html { redirect_to expressions_url }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 

@@ -42,7 +42,7 @@ class SearchHistoriesController < ApplicationController
   #  @search_history = SearchHistory.new
   end
 
-  # GET /search_histories/1;edit
+  # GET /search_histories/1/edit
   def edit
   #  @search_history = @user.search_histories.find(params[:id])
   end

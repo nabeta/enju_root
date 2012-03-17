@@ -107,7 +107,7 @@ class SubjectsController < ApplicationController
     end
   end
 
-  # GET /subjects/1;edit
+  # GET /subjects/1/edit
   def edit
     if @work
       @subject = @work.subjects.find(params[:id])
