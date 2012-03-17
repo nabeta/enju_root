@@ -55,7 +55,7 @@ class ExpressionsController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.son { render :json => @expressions }
+      format.json { render :json => @expressions }
       format.atom
     end
   end
