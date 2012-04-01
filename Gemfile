@@ -58,7 +58,7 @@ gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
 #gem 'attr_encryptor'
-gem 'dalli', '~> 1.1'
+gem 'dalli', '~> 2.0'
 gem 'sitemap_generator', '~> 3.1'
 gem 'ri_cal'
 gem 'file_wrapper'
@@ -94,9 +94,9 @@ gem 'rack-protection'
 gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
 
-group :production do
-  gem 'vidibus-routing_error'
-end
+#group :production do
+#  gem 'vidibus-routing_error'
+#end
 
 gem 'oink', '>= 0.9.3'
 
@@ -108,7 +108,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 2.9'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 2.0.0.rc'
+  gem 'factory_girl_rails', '~> 3.0'
   gem 'spork-rails'
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'

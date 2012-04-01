@@ -152,7 +152,7 @@ GEM
     configatron (2.9.0)
       yamler (>= 0.1.0)
     daemons (1.1.8)
-    dalli (1.1.5)
+    dalli (2.0.2)
     delayed_job (3.0.1)
       activesupport (~> 3.0)
     delayed_job_active_record (0.3.2)
@@ -191,7 +191,7 @@ GEM
       multi_json (~> 1.0)
     factory_girl (3.0.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (2.0.0)
+    factory_girl_rails (3.0.0)
       factory_girl (~> 3.0.0)
       railties (>= 3.0.0)
     fakeweb (1.3.0)
@@ -364,7 +364,6 @@ GEM
     validates_timeliness (3.0.11)
       timeliness (~> 0.3.6)
     vcr (2.0.1)
-    vidibus-routing_error (0.2.2)
     warden (1.1.1)
       rack (>= 1.0)
     whenever (0.7.3)
@@ -394,7 +393,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   configatron
   daemons
-  dalli (~> 1.1)
+  dalli (~> 2.0)
   delayed_job_active_record
   devise (~> 2.0)
   dynamic_form
@@ -405,7 +404,7 @@ DEPENDENCIES
   enju_nii!
   enju_oai!
   exception_notification (~> 2.5.2)
-  factory_girl_rails (~> 2.0.0.rc)
+  factory_girl_rails (~> 3.0)
   fakeweb
   file_wrapper
   friendly_id (~> 4.0)
@@ -454,7 +453,6 @@ DEPENDENCIES
   uglifier (>= 1.0.3)
   validates_timeliness
   vcr (~> 2.0)
-  vidibus-routing_error
   whenever
   will_paginate (~> 3.0)
   zipruby
