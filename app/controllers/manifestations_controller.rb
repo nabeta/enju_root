@@ -93,7 +93,7 @@ class ManifestationsController < ApplicationController
       @query = query.dup
       query = query.gsub('　', ' ')
 
-      search = Manifestation.search(:include => [:carrier_type, :required_role, :patrons, :expressions, :items, :bookmarks])
+      search = Manifestation.search(:include => [:carrier_type, :required_role, :patrons, :expressions, :items])
       role = current_user.try(:role) || Role.default_role
       oai_search = true if params[:format] == 'oai'
       unless params[:mode] == 'add'
@@ -304,10 +304,6 @@ class ManifestationsController < ApplicationController
     #@manifestation = Manifestation.find(params[:id])
     @original_manifestation = Manifestation.where(:id => params[:manifestation_id]).first
     @manifestation.series_statement = @series_statement if @series_statement
-    if params[:mode] == 'tag_edit'
-      @bookmark = current_user.bookmarks.where(:manifestation_id => @manifestation.id).first if @manifestation rescue nil
-      render :partial => 'manifestations/tag_edit', :locals => {:manifestation => @manifestation}
-    end
     store_location unless params[:mode] == 'tag_edit'
   end
 
