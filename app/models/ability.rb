@@ -33,9 +33,6 @@ class Ability
         user_group.users.empty?
       end
       can :manage, [
-        Bookmark,
-        BookmarkStat,
-        BookmarkStatHasManifestation,
         Classification,
         Create,
         CreateType,
@@ -359,7 +356,6 @@ class Ability
         work.required_role_id == 1
       end
       can :read, [
-        BookmarkStat,
         CarrierType,
         CirculationStatus,
         Classification,

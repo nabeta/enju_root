@@ -335,7 +335,6 @@ class ApplicationController < ActionController::Base
   end
 
   def get_top_page_content
-     @news_feeds = Rails.cache.fetch('news_feed_all'){NewsFeed.all}
      @manifestation = Manifestation.pickup rescue nil
   end
 
