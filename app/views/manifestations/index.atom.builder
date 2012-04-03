@@ -6,7 +6,6 @@ atom_feed(:url => manifestations_url(:format => :atom)) do |feed|
     cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'atom', :role => current_user_role_name, :locale => @locale) do
       feed.entry(manifestation) do |entry|
         entry.title(manifestation.original_title)
-        entry.content(manifestation.tags.join(' '), :type => 'html')
 
         manifestation.creators.each do |patron|
           entry.author do |author|
