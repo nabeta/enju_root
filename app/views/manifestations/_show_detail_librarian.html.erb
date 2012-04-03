@@ -127,9 +127,6 @@
       <%- if manifestation.items.on_shelf.first -%>
         <%= render :partial => 'manifestations/show_holding', :locals => {:manifestation => manifestation} -%>
       <%- end -%>
-      <%- if user_signed_in? and manifestation.isbn.present? %>
-        <%= render :partial => 'calil', :locals => {:manifestation => manifestation} %>
-      <% end %>
     </div>
     <%= render :partial => 'tab_list' %>
   </div>

@@ -93,6 +93,7 @@ gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
+gem 'acts_as_tree'
 
 #group :production do
 #  gem 'vidibus-routing_error'
