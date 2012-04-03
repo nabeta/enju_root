@@ -74,7 +74,6 @@ class Ability
         SubjectType,
         Subscribe,
         Subscription,
-        Tag,
         UserHasRole,
         Work,
         WorkHasSubject,
@@ -111,10 +110,6 @@ class Ability
         ResourceImportResult
       ]
     when 'Librarian'
-      can [:index, :create], Bookmark
-      can [:update, :destroy, :show], Bookmark do |bookmark|
-        bookmark.user == user
-      end
       can [:index, :create], Expression
       can [:show, :update, :destroy], Expression do |expression|
         expression.required_role_id <= 3
@@ -159,9 +154,6 @@ class Ability
         work.required_role_id <= 3
       end
       can :manage, [
-        Bookmark,
-        BookmarkStat,
-        BookmarkStatHasManifestation,
         Create,
         Donate,
         Embody,
@@ -193,7 +185,6 @@ class Ability
         SubjectHasClassification,
         Subscribe,
         Subscription,
-        Tag,
         WorkHasSubject,
         WorkMerge,
         WorkMergeList,
@@ -240,10 +231,6 @@ class Ability
         WorkToExpressionRelType
       ]
     when 'User'
-      can [:index, :create], Bookmark
-      can [:show, :update, :destroy], Bookmark do |bookmark|
-        bookmark.user == user
-      end
       can :index, Expression
       can :show, Expression do |expression|
         expression.required_role_id <= 2
@@ -335,7 +322,6 @@ class Ability
         SubjectHasClassification,
         SubjectHeadingType,
         SubjectHeadingTypeHasSubject,
-        Tag,
         UserGroup,
         WorkHasSubject,
         WorkRelationship,
@@ -399,7 +385,6 @@ class Ability
         SubjectHasClassification,
         SubjectHeadingType,
         SubjectHeadingTypeHasSubject,
-        Tag,
         UserGroup,
         WorkHasSubject,
         WorkRelationship,
