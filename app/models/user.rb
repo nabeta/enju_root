@@ -7,7 +7,8 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :email, :password, :password_confirmation, :username, :current_password, :user_number, :remember_me,
-    :locale
+    :email_confirmation, :note, :user_group_id, :library_id, :locale, :expired_at, :locked, :required_role_id, :role_id,
+    :keyword_list #, :as => :admin
 
   scope :administrators, :include => ['role'], :conditions => ['roles.name = ?', 'Administrator']
   scope :librarians, :include => ['role'], :conditions => ['roles.name = ? OR roles.name = ?', 'Administrator', 'Librarian']
@@ -250,7 +251,6 @@ class User < ActiveRecord::Base
     #self.username = params[:login]
     self.openid_identifier = params[:openid_identifier]
     self.keyword_list = params[:keyword_list]
-    self.checkout_icalendar_token = params[:checkout_icalendar_token]
     self.email = params[:email]
     #self.note = params[:note]
 

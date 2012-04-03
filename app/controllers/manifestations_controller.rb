@@ -560,7 +560,6 @@ class ManifestationsController < ApplicationController
   end
 
   def save_search_history(query, offset = 0, total = 0, user = nil)
-    check_dsbl if LibraryGroup.site_config.use_dsbl
     if configatron.write_search_log_to_file
       write_search_log(query, total, user)
     else
