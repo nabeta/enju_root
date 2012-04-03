@@ -30,8 +30,6 @@ class Manifestation < ActiveRecord::Base
   has_many :original_manifestations, :through => :parents, :source => :parent
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :produces
   belongs_to :frequency #, :validate => true
-  has_many :bookmarks, :include => :tags, :dependent => :destroy
-  has_many :users, :through => :bookmarks
   belongs_to :nii_type
   belongs_to :series_statement
   has_one :import_request
@@ -54,18 +52,12 @@ class Manifestation < ActiveRecord::Base
     string :connect_publisher do
       publisher.join('').gsub(/\s/, '').downcase
     end
-    text :tag do
-      tags.collect(&:name)
-    end
     string :isbn, :multiple => true do
       [isbn, isbn10, wrong_isbn]
     end
     string :issn
     string :lccn
     string :nbn
-    string :tag, :multiple => true do
-      tags.collect(&:name)
-    end
     string :carrier_type do
       carrier_type.name
     end
@@ -74,7 +66,6 @@ class Manifestation < ActiveRecord::Base
       languages.collect(&:name)
     end
     string :shelf, :multiple => true
-    string :user, :multiple => true
     string :subject, :multiple => true
     string :classification, :multiple => true do
       classifications.collect(&:category)
@@ -354,14 +345,6 @@ class Manifestation < ActiveRecord::Base
     self.items.collect{|item| item.shelves}.flatten.uniq
   end
 
-  def tags
-    if self.bookmarks.first
-      self.bookmarks.tag_counts
-    else
-      []
-    end
-  end
-
   def works
     self.expressions.collect{|e| e.work}.uniq.compact
   end
@@ -475,14 +458,6 @@ class Manifestation < ActiveRecord::Base
 
   def subjects
     self.works.collect(&:subjects).flatten
-  end
-
-  def user
-    if self.bookmarks
-      self.bookmarks.collect(&:user).collect(&:username)
-    else
-      []
-    end
   end
 
   # TODO: よりよい推薦方法

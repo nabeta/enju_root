@@ -126,6 +126,7 @@
   <div class="actions">
     <%= hidden_field_tag :patron_id, @patron.id if @patron -%>
     <%= hidden_field_tag :manifestation_id, @original_manifestation.id if @original_manifestation -%>
+    <%= hidden_field_tag :expression_id, @expression.id if @expression -%>
     <%= f.submit %>
   </div>
   <%= javascript_tag("$('#manifestation_original_title').focus()") -%>

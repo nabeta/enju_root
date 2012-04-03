@@ -133,16 +133,6 @@ class ManifestationsController < ApplicationController
         session[:manifestation_ids] = manifestation_ids
       end
         
-      if session[:manifestation_ids]
-        bookmark_ids = Bookmark.where(:manifestation_id => session[:manifestation_ids]).select(:id).collect(&:id)
-        @tags = Tag.bookmarked(bookmark_ids)
-        if params[:view] == 'tag_cloud'
-          render :partial => 'manifestations/tag_cloud'
-          #session[:manifestation_ids] = nil
-          return
-        end
-      end
-
       page ||= params[:page] || 1
       if params[:format] == 'sru'
         search.query.start_record(params[:startRecord] || 1, params[:maximumRecords] || 200)
@@ -325,9 +315,6 @@ class ManifestationsController < ApplicationController
   # POST /manifestations.json
   def create
     @manifestation = Manifestation.new(params[:manifestation])
-    if @manifestation.respond_to?(:post_to_scribd)
-      @manifestation.post_to_scribd = true if params[:manifestation][:post_to_scribd] == "1"
-    end
     if @manifestation.original_title.blank?
       @manifestation.original_title = @manifestation.attachment_file_name
     end
