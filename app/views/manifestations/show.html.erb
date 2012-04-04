@@ -61,12 +61,13 @@
       <%- if current_user.has_role?('Librarian') -%>
         <ul>
           <li><%= link_to t('page.add_derivation'), manifestation_manifestations_path(@manifestation) -%></li>
+          <li>
           <%- case when @expression -%>
-            <li><%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%></li>
+            <%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%>
           <%- when @patron -%>
-            <li><%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%></li>
+            <%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%>
           <%- else -%>
-            <li><%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%></li>
+            <%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%>
           <%- end -%>
           <ul>
             <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
@@ -74,6 +75,7 @@
               <li><%= link_to t('manifestation.add_next_issue'), new_series_statement_manifestation_path(@manifestation.series_statement) if @manifestation.series_statement -%></li>
             <%- end -%>
           </ul>
+          </li>
           <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
           <li><%= link_to t('manifestation.edit_item'), manifestation_items_path(@manifestation) -%></li>
         </ul>
