@@ -25,7 +25,7 @@ platforms :ruby do
 end
 
 platforms :ruby_19 do
-  gem 'simplecov', '~> 0.5', :require => false, :group => :test
+  gem 'simplecov', '~> 0.6', :require => false, :group => :test
   gem 'levenshtein19'
 end
 
@@ -76,8 +76,7 @@ gem 'devise', '~> 2.0'
 gem 'omniauth', '~> 1.0'
 gem 'addressable'
 gem 'paperclip', '~> 2.7'
-gem "aws-sdk", '~> 1.3'
-gem 'acts-as-taggable-on', '~> 2.2'
+gem 'aws-sdk', '~> 1.3'
 gem 'whenever', :require => false
 #gem 'amazon-ecs', '>= 2.2.0', :require => 'amazon/ecs'
 #gem 'aws-s3', :require => 'aws/s3'
@@ -104,7 +103,7 @@ gem 'acts_as_tree'
 gem 'oink', '>= 0.9.3'
 
 group :development do
-  gem 'parallel_tests'
+  gem 'parallel_tests', '~> 0.7'
   gem 'annotate'
 end
 
@@ -128,6 +127,9 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
 
+  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  # gem 'therubyracer'
+
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -144,8 +146,3 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'ruby-debug19', :require => 'ruby-debug'
-
-group :test do
-  # Pretty printed test output
-  gem 'turn', '~> 0.8.3', :require => false
-end
