@@ -10,7 +10,6 @@
     </p>
   <%- end -%>
 
-<%- unless @query.blank? -%>
   <%- if @manifestations.total_entries > 0 -%>
     <p>
       <%= t('page.number_of_search_results', :count => @manifestations.total_entries, :numdocs => Manifestation.cached_numdocs, :seconds => sprintf("%.3f", @seconds)) -%>
@@ -50,9 +49,6 @@
     <%- end -%>
     <%= render :partial => 'not_found', :locals => {:manifestations => @manifestations} -%>
   <%- end -%>
-<%- else -%>
-  <p><%= t('page.enter_search_term') -%></p>
-<%- end -%>
 
     <div class="autopagerize_insert_before"></div>
 

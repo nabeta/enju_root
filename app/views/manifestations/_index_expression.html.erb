@@ -37,7 +37,7 @@
       <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
     </td>
     <td>
-      <%- if can? :updatey, manifestation -%>
+      <%- if can? :update, manifestation -%>
         <%- if params[:mode] == "add" -%>
           <%= link_to t('page.add'), new_expression_embody_path(@expression, :manifestation_id => manifestation.id) unless @expression.manifestations.include?(manifestation) -%>
         <%- else -%>

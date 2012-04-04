@@ -98,9 +98,9 @@ class ManifestationsController < ApplicationController
       oai_search = true if params[:format] == 'oai'
       unless params[:mode] == 'add'
         manifestation = @manifestation if @manifestation
+        patron = @patron if @patron
+        expression = @expression if @expression
       end
-      patron = @patron if @patron
-      expression = @expression if @expression
 
       search.build do
         fulltext query unless query.blank?
@@ -163,12 +163,6 @@ class ManifestationsController < ApplicationController
 
       @search_engines = Rails.cache.fetch('search_engine_all'){SearchEngine.all}
 
-      # TODO: 検索結果が少ない場合にも表示させる
-      if manifestation_ids.blank?
-        if query.respond_to?(:suggest_tags)
-          @suggested_tag = query.suggest_tags.first
-        end
-      end
       save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
       if params[:format] == 'oai'
         unless @manifestations.empty?

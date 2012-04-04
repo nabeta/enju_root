@@ -1,0 +1,26 @@
+<%= form_for(@embody) do |f| -%>
+  <%= f.error_messages -%>
+
+  <div class="field">
+    <%= f.label t('activerecord.models.expression') -%><br />
+    <%- if @embody.expression -%>
+      <%= link_to @embody.expression.original_title, @embody.expression -%>
+      <%= f.hidden_field :expression_id -%>
+    <%- else -%>
+      <%= f.text_field :expression_id -%>
+    <%- end -%>
+  </div>
+  <div class="field">
+    <%= f.label t('activerecord.models.manifestation') -%><br />
+    <%- if @embody.manifestation -%>
+      <%= link_to @embody.manifestation.original_title, @embody.manifestation -%>
+      <%= f.hidden_field :manifestation_id -%>
+    <%- else -%>
+      <%= f.text_field :manifestation_id -%>
+    <%- end -%>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<%- end -%>

@@ -1,34 +1,7 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.embody')) -%></h1>
 <div id="content_list">
-
-<%= form_for(@embody) do |f| -%>
-  <%= f.error_messages -%>
-
-  <p>
-    <%= f.label t('activerecord.models.expression') -%><br />
-    <%- if @embody.expression -%>
-      <%= link_to @embody.expression.original_title, @embody.expression -%>
-      <%= f.hidden_field :expression_id -%>
-    <%- else -%>
-      <%= f.text_field :expression_id -%>
-    <%- end -%>
-  </p>
-  <p>
-    <%= f.label t('activerecord.models.manifestation') -%><br />
-    <%- if @embody.manifestation -%>
-      <%= link_to @embody.manifestation.original_title, @embody.manifestation -%>
-      <%= f.hidden_field :manifestation_id -%>
-    <%- else -%>
-      <%= f.text_field :manifestation_id -%>
-    <%- end -%>
-  </p>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<%- end -%>
-
+  <%= render 'form' %>
 </div>
 </div>
 

@@ -37,6 +37,7 @@ class Ability
         Create,
         CreateType,
         Donate,
+        Embody,
         Event,
         EventCategory,
         Exemplify,
