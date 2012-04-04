@@ -1,12 +1,12 @@
 <%= form_for(@patron) do |f| -%>
   <%= f.error_messages -%>
 
-  <p>
+  <div class="field">
     <%= f.label t('activerecord.models.patron_type') -%>
     <%= f.select(:patron_type_id, @patron_types.collect{|p| [p.display_name.localize, p.id]}) -%>
-  </p>
+  </div>
 
-  <p>
+  <div class="field">
     <span id="name_person">
       <%- if configatron.family_name_first == true -%>
         <%= render :partial => 'patrons/form_family_name_first', :locals => {:f => f} -%>
@@ -14,16 +14,16 @@
         <%= render :partial => 'patrons/form_family_name_last', :locals => {:f => f} -%>
       <%- end -%>
     </span>
-    <%= f.label t('activerecord.attributes.patron.full_name') -%><br />
+    <%= f.label :full_name -%><br />
     <%= f.text_field :full_name, :class => 'resource_title' -%><br />
-    <%= f.label t('activerecord.attributes.patron.full_name_transcription') -%><br />
+    <%= f.label :full_name_transcription -%><br />
     <%= f.text_field :full_name_transcription, :class => 'resource_title' -%><br />
     <%= link_to_function t('activerecord.attributes.patron.full_name_alternative'), "$('#full_name_alternative').toggle()" -%>
     <span id="full_name_alternative" style="display: none">
       <br />
       <%= f.text_area :full_name_alternative, :class => 'resource_textarea' -%>
     </span>
-  </p>
+  </div>
 
   <script>
     $("select#patron_patron_type_id").change(function(){
