@@ -1,40 +1,7 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.shelf')) -%></h1>
 <div id="content_list">
-
-<%= form_for(@shelf) do |f| -%>
-  <%= f.error_messages -%>
-
-  <p>
-    <%= f.label t('activerecord.attributes.shelf.name') -%><br />
-    <%= f.text_field :name, :class => 'short_name' -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.shelf.display_name') -%><br />
-    <%= f.text_area :display_name, :class => 'resource_textarea' -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.attributes.shelf.note') -%><br />
-    <%= f.text_area :note, :class => 'resource_textarea' -%>
-  </p>
-
-  <%- if current_user.has_role?('Librarian') -%>
-    <p>
-      <%= f.label t('activerecord.models.library') -%><br />
-      <select id="library_id" name="library_id">
-        <%- @libraries.each do |library| -%>
-          <option value="<%= library.name -%>"<%= " selected='selected'" if @library == library -%>><%= library.display_name.localize -%></option>
-        <%- end -%>
-      </select>
-    </p>
-  <%- end -%>
-
-  <p>
-    <%= f.submit %>
-  </p>
-<%- end -%>
+  <%= render 'form' %>
 </div>
 </div>
 

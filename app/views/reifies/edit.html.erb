@@ -1,30 +1,7 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.reify')) -%></h1>
 <div id="content_list">
-
-<%= form_for(@reify) do |f| -%>
-  <%= f.error_messages -%>
-
-  <p>
-    <%= f.label t('activerecord.models.work') -%><br />
-    <%= f.text_field :work_id -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.models.expression') -%><br />
-    <%= f.text_field :expression_id -%>
-  </p>
-
-  <p>
-    <%= f.label t('activerecord.models.work_to_expression_rel_type') -%><br />
-    <%= f.select(:relationship_type_id, @work_to_expression_rel_types.collect{|r| [r.display_name.localize, r.id]}) -%>
-  </p>
-
-  <div class="actions">
-    <%= f.submit %>
-  </div>
-<%- end -%>
-
+  <%= render 'form' %>
 </div>
 </div>
 
