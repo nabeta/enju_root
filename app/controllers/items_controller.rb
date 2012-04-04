@@ -29,72 +29,46 @@ class ItemsController < ApplicationController
       end
     end
 
-    if @inventory_file
-      if user_signed_in?
-        if current_user.has_role?('Librarian')
-          case params[:inventory]
-          when 'not_on_shelf'
-            mode = 'not_on_shelf'
-          when 'not_in_catalog'
-            mode = 'not_in_catalog'
-          end
-          order = 'id'
-          @items = Item.inventory_items(@inventory_file, mode).paginate(:page => params[:page], :order => order, :per_page => per_page) rescue [].paginate
-        else
-          access_denied
-          return
-        end
-      else
-        redirect_to new_user_session_url
-        return
-      end
-    else
-      search = Sunspot.new_search(Item)
-      set_role_query(current_user, search)
+    search = Sunspot.new_search(Item)
+    set_role_query(current_user, search)
 
-      @query = query.dup
-      unless query.blank?
-        search.build do
-          fulltext query
-        end
-      end
-
-      patron = @patron
-      manifestation = @manifestation
-      shelf = @shelf
-      item = @item
-      unless params[:mode] == 'add'
-        search.build do
-          with(:patron_ids).equal_to patron.id if patron
-          with(:manifestation_id).equal_to manifestation.id if manifestation
-          with(:shelf_id).equal_to shelf.id if shelf
-          with(:original_item_ids).equal_to item.id if item
-        end
-      end
-
+    @query = query.dup
+    unless query.blank?
       search.build do
-        order_by(:created_at, :desc)
-      end
-
-      role = current_user.try(:role) || Role.default_role
-      search.build do
-        with(:required_role_id).less_than role.id
-      end
-
-      page = params[:page] || 1
-      search.query.paginate(page.to_i, per_page)
-      begin
-        @items = search.execute!.results
-        @count[:total] = @items.total_entries
-      rescue
-        @items = WillPaginate::Collection.create(1,1,0) do end
-        @count[:total] = 0
+        fulltext query
       end
     end
 
-    if params[:mode] == 'barcode'
-      render :action => 'barcode', :layout => false
-      return
+    patron = @patron
+    manifestation = @manifestation
+    shelf = @shelf
+    item = @item
+    unless params[:mode] == 'add'
+      search.build do
+        with(:patron_ids).equal_to patron.id if patron
+        with(:manifestation_id).equal_to manifestation.id if manifestation
+        with(:shelf_id).equal_to shelf.id if shelf
+        with(:original_item_ids).equal_to item.id if item
+      end
+    end
+
+    search.build do
+      order_by(:created_at, :desc)
+    end
+
+    role = current_user.try(:role) || Role.default_role
+    search.build do
+      with(:required_role_id).less_than role.id
+    end
+
+    page = params[:page] || 1
+    search.query.paginate(page.to_i, per_page)
+    begin
+      @items = search.execute!.results
+      @count[:total] = @items.total_entries
+    rescue
+      @items = WillPaginate::Collection.create(1,1,0) do end
+      @count[:total] = 0
     end
 
     respond_to do |format|
