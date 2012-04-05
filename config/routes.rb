@@ -18,21 +18,6 @@ EnjuRoot::Application.routes.draw do
   resources :advertisements
   resources :advertises
 
-  resources :resources do
-    resources :patrons
-    resources :creators, :controller => 'patrons'
-    resources :contributors, :controller => 'patrons'
-    resources :publishers, :controller => 'patrons'
-    resources :creates
-    resources :realizes
-    resources :produces
-    resources :picture_files
-    resources :items
-    resources :work_has_subjects
-    resources :resource_relationships
-    resources :resources
-  end
-
   resources :patrons do
     resources :works
     resources :expressions
@@ -56,7 +41,7 @@ EnjuRoot::Application.routes.draw do
     resources :subjects
     resources :work_has_subjects
     resources :expressions
-    resources :resource_relationships
+    resources :work_relationships
     resources :works
     resources :reifies
   end
@@ -65,7 +50,7 @@ EnjuRoot::Application.routes.draw do
     resources :patrons
     resources :realizes
     resources :manifestations
-    resources :resource_relationships
+    resources :expression_relationships
     resources :expressions
     resources :reifies
     resources :embodies
@@ -78,7 +63,7 @@ EnjuRoot::Application.routes.draw do
     resources :items
     resources :picture_files
     resources :expressions
-    resources :resource_relationships
+    resources :manifestation_relationships
     resources :manifestations
     resources :embodies
     resources :exemplifies
@@ -111,7 +96,6 @@ EnjuRoot::Application.routes.draw do
   resources :nii_types
   resources :bookmark_stats
   resources :bookmark_stat_has_manifestations
-  resources :resource_relationship_types
   resources :patron_relationship_types
   resources :work_relationship_types
   resources :expression_relationship_types
@@ -256,8 +240,6 @@ EnjuRoot::Application.routes.draw do
   resources :countries
 
   resources :languages
-
-  resources :resource_relationships
 
   resources :items do
     resources :inter_library_loans

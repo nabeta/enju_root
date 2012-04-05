@@ -1,0 +1,29 @@
+<%= form_for(@expression_relationship) do |f| -%>
+  <%= f.error_messages -%>
+
+  <div class="field">
+    <%= f.label t('activerecord.attributes.expression_relationship.parent_id') -%><br />
+    <%- if @expression_relationship.parent -%>
+      <%= link_to @expression_relationship.parent.original_title, @expression_relationship.parent -%>
+      <%= f.hidden_field :parent_id -%>
+    <%- else -%>
+      <%= f.text_field :parent_id -%>
+    <%- end -%>
+  </div>
+  <div class="field">
+    <%= f.label t('activerecord.attributes.expression_relationship.child_id') -%><br />
+    <%- if @expression_relationship.child -%>
+      <%= link_to @expression_relationship.child.original_title, @expression_relationship.child -%>
+      <%= f.hidden_field :child_id -%>
+    <%- else -%>
+      <%= f.text_field :child_id -%>
+    <%- end -%>
+  </div>
+  <div class="field">
+    <%= f.label t('activerecord.models.expression_relationship_type') -%><br />
+    <%= f.select(:expression_relationship_type_id, @expression_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<%- end -%>

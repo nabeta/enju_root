@@ -1,37 +1,7 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.new', :model => t('activerecord.models.work_relationship')) -%></h1>
 <div id="content_list">
-
-<%= form_for(@work_relationship) do |f| -%>
-  <%= f.error_messages -%>
-
-  <p>
-    <%= f.label t('activerecord.attributes.work_relationship.parent') -%><br />
-    <%- if @work_relationship.parent -%>
-      <%= link_to @work_relationship.parent.original_title, @work_relationship.parent -%>
-      <%= f.hidden_field :parent_id -%>
-    <%- else -%>
-      <%= f.text_field :parent_id -%>
-    <%- end -%>
-  </p>
-  <p>
-    <%= f.label t('activerecord.attributes.work_relationship.child') -%><br />
-    <%- if @work_relationship.child -%>
-      <%= link_to @work_relationship.child.original_title, @work_relationship.child -%>
-      <%= f.hidden_field :child_id -%>
-    <%- else -%>
-      <%= f.text_field :child_id -%>
-    <%- end -%>
-  </p>
-  <p>
-    <%= f.label t('activerecord.models.work_relationship_type') -%><br />
-    <%= f.select(:work_relationship_type_id, @work_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
-  </p>
-  <p>
-    <%= f.submit %>
-  </p>
-<%- end -%>
-
+  <%= render 'form' %>
 </div>
 </div>
 
