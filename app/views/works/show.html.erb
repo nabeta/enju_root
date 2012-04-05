@@ -7,7 +7,7 @@
     <h2 class="resource_title">
       [W]
       <%= @work.original_title -%>
-      (-> <% @work.expressions.each do |expression| %>
+      (<% @work.expressions.each do |expression| %>
         <%= link_to content_type_icon(expression.content_type), expression %>
       <% end %>)
     </h2>

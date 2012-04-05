@@ -10,7 +10,7 @@
       <%= @expression.original_title -%>
       <%= content_type_icon(@expression.content_type) -%>
       (<% @expression.manifestations.each do |manifestation| %>
-        <%= form_icon(manifestation.carrier_type) %>
+        <%= link_to form_icon(manifestation.carrier_type), manifestation %>
       <% end %>)
     </h2>
 
