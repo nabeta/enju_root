@@ -27,7 +27,10 @@
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         <%= link_to expression.original_title, expression -%>
-        <%= content_type_icon(expression.content_type) -%>
+        <%= link_to content_type_icon(expression.content_type), expression -%>
+        (<% expression.manifestations.each do |manifestation| %>
+          <%= link_to form_icon(manifestation.carrier_type), manifestation %>
+        <% end %>)
         <br />
         <%= patrons_list(expression.patrons) -%>
       </td>

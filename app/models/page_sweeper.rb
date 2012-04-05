@@ -1,6 +1,6 @@
 class PageSweeper < ActionController::Caching::Sweeper
   include ExpireEditableFragment
-  observe Library, Shelf, Tag, Subject, Classification, PictureFile
+  observe Library, Shelf, Subject, Classification, PictureFile
 
   def after_save(record)
     case

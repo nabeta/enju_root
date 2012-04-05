@@ -8,4 +8,4 @@
 # EnjuRoot::Application.config.session_store :active_record_store
 
 require 'action_dispatch/middleware/session/dalli_store'
-EnjuRoot::Application.config.session_store :dalli_store, :key => '_enju_root_session'
+EnjuRoot::Application.config.session_store :dalli_store, :key => '_enju_root_session', :namespace => 'enju_root_session'

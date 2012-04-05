@@ -197,8 +197,8 @@ class UsersController < ApplicationController
   def prepare_options
     @user_groups = UserGroup.all
     @roles = Role.all
-    @libraries = Library.all_cache
-    @languages = Language.all_cache
+    @libraries = Library.all
+    @languages = Language.all
     if @user.active_for_authentication?
       @user.locked = '0'
     else
