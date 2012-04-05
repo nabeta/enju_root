@@ -4,7 +4,6 @@
   <%- if @version -%>
     <%= render 'show_version' %>
   <%- else -%>
-    <% cache(:controller => :patrons, :action => :show, :id => @patron.id, :page => 'detail', :role => current_user_role_name, :locale => @locale) do %>
     <h2 class="resource_title">
       [P]
       <%= @patron.full_name -%>
@@ -26,13 +25,11 @@
       <%= render :partial => 'history_list' -%>
     </div>
     <%= render :partial => 'page/tabview' %>
-    <%- end -%>
   <%- end -%>
   </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
-  <%- cache(:controller => :patrons, :action => :show, :id => @patron.id, :page => 'picture_file', :role => current_user_role_name, :locale => @locale) do -%>
     <%- unless @patron.picture_files.empty? -%>
       <div id="manifestation_book_jacket">
         <%= patron_custom_book_jacket(@patron) -%>
@@ -60,7 +57,6 @@
         </ul>
       <%- end -%>
     <%- end -%>
-  <%- end -%>
   <ul>
     <li><%= link_to t('page.back'), patrons_path -%></li>
     <%- if can? :update, @patron -%>

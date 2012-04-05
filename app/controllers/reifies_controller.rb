@@ -3,7 +3,7 @@ class ReifiesController < ApplicationController
   before_filter :get_work, :get_expression
   before_filter :prepare_options, :only => [:new, :edit]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /reifies
   # GET /reifies.xml

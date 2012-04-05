@@ -4,16 +4,18 @@
 
 <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} if @manifestation -%>
 
-<%= form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
-  <p>
-    <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
-    <%- if can? :update, @manifestation -%>
-      <%= render 'page/add' %>
-    <%- end -%>
-    <%= submit_tag t('page.search') -%>
-    <%= link_to t('page.back_to_index'), manifestation_items_path(@manifestation) -%>
-  </p>
-<%- end -%>
+  <div class="search_form">
+  <%= form_for :items, :url => manifestation_items_path(@manifestation), :html => {:method => 'get'} do -%>
+    <p>
+      <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
+      <%- if can? :update, @manifestation -%>
+        <%= render 'page/add' %>
+      <%- end -%>
+      <%= submit_tag t('page.search') -%>
+      <%= link_to t('page.back_to_index'), manifestation_items_path(@manifestation) -%>
+    </p>
+  <%- end -%>
+  </div>
 
 <table class="index">
   <tr>

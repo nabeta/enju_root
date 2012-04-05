@@ -10,9 +10,7 @@
   <%- if @version -%>
     <%= render 'show_version' %>
   <%- else -%>
-    <%- cache(:controller => :items, :action => :show, :id => @item.id, :page => 'detail', :role => current_user_role_name, :locale => @locale) do %>
-      <%= render 'show_content' %>
-    <%- end -%>
+    <%= render 'show_content' %>
   <%- end -%>
 
 </div>

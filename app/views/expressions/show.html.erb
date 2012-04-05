@@ -5,13 +5,13 @@
   <% if @version %>
     <%= render 'show_version' %>
   <% else %>
-    <%-
-      cache(:controller => :expressions, :action => :show, :id => @expression.id, :page => 'detail', :role => current_user_role_name, :locale => @locale) do
-    -%>
     <h2 class="resource_title">
       [E]
       <%= @expression.original_title -%>
       <%= content_type_icon(@expression.content_type) -%>
+      (<% @expression.manifestations.each do |manifestation| %>
+        <%= form_icon(manifestation.carrier_type) %>
+      <% end %>)
     </h2>
 
     <p>
@@ -27,7 +27,6 @@
       <%= render :partial => 'history_list' -%>
     </div>
     <%= render :partial => 'page/tabview' -%>
-    <%- end -%>
   <%- end -%>
   </div>
 </div>

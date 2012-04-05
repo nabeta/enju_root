@@ -9,7 +9,7 @@
     </h2>
     <div id="user_search_form">
       <%= render 'page/search_form' -%>
-      <p><%= t('page.number_of_works', :numdocs => Work.cached_numdocs, :count => Work.cached_numdocs) -%></p>
+      <p><%= t('page.number_of_works', :numdocs => Work.search.total, :count => Work.search.total) -%></p>
       <h3><%= link_to t('page.new_resource'), works_path(:mode => 'recent') -%></h3>
     </div>
   </div>

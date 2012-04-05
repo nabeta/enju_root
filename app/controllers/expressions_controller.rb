@@ -8,7 +8,7 @@ class ExpressionsController < ApplicationController
   before_filter :get_expression_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
   before_filter :get_version, :only => [:show]
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /expressions

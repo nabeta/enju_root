@@ -2,7 +2,6 @@
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
               <td style="width: 30px"><%= itemnum = @manifestations.offset + 1 + i -%></td>
-              <% cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'index_list', :role => current_user_role_name, :locale => @locale) do %>
               <td style="480px">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <div class="access_address">
@@ -21,7 +20,6 @@
                 <%# グループ表示の部分テンプレート %>
                 <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
-              <% end %>
               <td id="edit_icons">
                 <%- if can? :update, manifestation -%>
                   <%= link_to image_tag('icons/book_edit.png', :size => '16x16', :alt => t('page.edit')), edit_manifestation_path(manifestation) -%>

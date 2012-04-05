@@ -3,7 +3,7 @@ class RealizesController < ApplicationController
   before_filter :get_patron
   before_filter :get_expression
   after_filter :solr_commit, :only => [:create, :update, :destroy]
-  cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
+  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /realizes
   # GET /realizes.xml

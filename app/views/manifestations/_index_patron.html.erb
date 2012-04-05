@@ -5,8 +5,8 @@
     <%= link_to @patron.full_name, @patron -%>
   </h2>
 
+  <div class="search_form">
   <%= form_for :manifestations, :url => patron_manifestations_path(@patron), :html => {:method => 'get'} do -%>
-
     <p>
       <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <!--
@@ -19,10 +19,7 @@
       <%= link_to t('page.back_to_index'), patron_manifestations_path(@patron) -%>
     </p>
   <%- end -%>
-
-<!--
-<p>for <%= @patron.full_name -%></p>
--->
+  </div>
 
 <table class="index">
   <tr>

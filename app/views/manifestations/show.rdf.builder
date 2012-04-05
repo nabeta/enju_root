@@ -6,7 +6,5 @@ xml.rdf(:RDF,
         'xmlns:foaf' => "http://xmlns.com/foaf/0.1/",
         'xmlns:prism' => "http://prismstandard.org/namespaces/basic/2.0/",
         'xmlns:rdfs' =>"http://www.w3.org/2000/01/rdf-schema#") do
-  cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'rdf', :role => current_user_role_name, :locale => @locale) do
     xml << render(:partial => 'show', :locals => {:manifestation => @manifestation})
-  end
 end

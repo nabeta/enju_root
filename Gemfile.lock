@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nabeta/enju_book_jacket.git
-  revision: 24319de4c3898abef24b3079adbb0be4a0f9fb9d
+  revision: 7498bed4f55da66c7206e9f125d94ceff349fc9f
   specs:
     enju_book_jacket (0.0.1)
       configatron
@@ -87,6 +87,23 @@ GIT
   specs:
     enju_oai (0.0.1)
       rails (~> 3.1)
+
+GIT
+  remote: git://github.com/nabeta/enju_subject.git
+  revision: 5c42fd9505387eb2e3d7903a357b5ef7957633a1
+  specs:
+    enju_subject (0.0.10)
+      acts_as_list (~> 0.1.5)
+      attribute_normalizer (~> 1.1)
+      cancan
+      devise
+      dynamic_form
+      friendly_id (~> 4.0)
+      inherited_resources
+      rails (~> 3.1)
+      sunspot_rails
+      sunspot_solr
+      will_paginate (~> 3.0)
 
 GIT
   remote: git://github.com/nabeta/isbn-tools.git
@@ -411,6 +428,7 @@ DEPENDENCIES
   enju_news!
   enju_nii!
   enju_oai!
+  enju_subject!
   exception_notification (~> 2.5.2)
   factory_girl_rails (~> 3.0)
   fakeweb

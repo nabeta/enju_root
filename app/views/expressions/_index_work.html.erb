@@ -12,6 +12,7 @@
     <%= patrons_list(@work.patrons) -%>
   </p>
 
+  <div class="search_form">
   <%= form_for :expressions, :url => work_expressions_path(@work), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
@@ -22,6 +23,7 @@
       <%= link_to t('page.back_to_index'), work_expressions_path(@work) -%>
     </p>
   <%- end -%>
+  </div>
 
 <table style="width:100%">
   <tr>

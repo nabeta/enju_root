@@ -1,18 +1,19 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work')) -%></h1>
 <div id="content_list">
+  <div class="search_form">
   <%= form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
       <%= submit_tag t('page.search') -%>
     </p>
   <%- end -%>
+  </div>
 
 <table class="index">
   <tr>
     <th><%= t('page.title') -%></th>
     <th><%= t('activerecord.models.form_of_work') -%></th>
-    <th><%= t('activerecord.models.series_statement') -%></th>
     <th></th>
   </tr>
   
@@ -20,11 +21,13 @@
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         <%= link_to work.original_title, work -%>
+        <% work.expressions.each do |expression| %>
+          <%= link_to content_type_icon(expression.content_type), expression %>
+        <% end %>
         <br />
         <%= patrons_list(work.patrons) -%>
       </td>
       <td><%= link_to work.form_of_work.display_name.localize, work.form_of_work -%></td>
-      <td><%= link_to work.series_statement.original_title, work.series_statement if work.series_statement -%></td>
       <td>
         <%- if can? :update, work -%>
           <%= link_to image_tag('icons/page_white_edit.png', :size => '16x16', :alt => t('page.edit')), edit_work_path(work) -%>

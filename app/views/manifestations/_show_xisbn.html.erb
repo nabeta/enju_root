@@ -1,7 +1,4 @@
 <div id="xisbn_list">
-<%- 
-  #cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'show_xisbn', :role => current_user_role_name, :locale => @locale) do
--%>
   <ul>
     <%- @xisbn_manifestations.each do |xisbn| -%>
       <li><%= link_to h(xisbn[:title]), "http://www.worldcat.org/isbn/#{xisbn[:isbn]}" -%>
@@ -15,7 +12,4 @@
     <%- end -%>
   </ul>
   <%= will_paginate(@xisbn_manifestations, :param_name => :xisbn_page, :class => 'content_pagination digg_pagination') -%>
-<%-
-  #end
--%>
 </div>    

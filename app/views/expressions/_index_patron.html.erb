@@ -6,6 +6,7 @@
     <%= link_to @patron.full_name, @patron -%>
   </h2>
 
+  <div class="search_form">
   <%= form_for :expressions, :url => patron_expressions_path(@patron), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
@@ -16,6 +17,7 @@
       <%= link_to t('page.back_to_index'), patron_expressions_path(@patron) -%>
     </p>
   <%- end -%>
+  </div>
 
 <table style="width:100%">
   <tr>

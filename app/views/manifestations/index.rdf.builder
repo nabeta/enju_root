@@ -23,8 +23,6 @@ xml.rdf(:RDF,
     end
   }
   @manifestations.each do |manifestation|
-    cache(:controller => :manifestations, :action => :show, :id => manifestation.id, :page => 'rdf', :role => current_user_role_name, :locale => @locale) do
       xml << render(:partial => 'show', :locals => {:manifestation => manifestation})
-    end
   end
 }

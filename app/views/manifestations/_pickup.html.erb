@@ -1,10 +1,7 @@
 <%- if @manifestation -%>
 <div id="pickup_book_jacket">
-  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'book_jacket', :role => current_user_role_name, :locale => @locale) do -%>
-     <%= book_jacket(@manifestation) -%>
-  <%- end -%>
+   <%= book_jacket(@manifestation) -%>
 </div>
-<%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'pickup', :locale => @locale, :role => current_user_role_name) do -%>
   <div style="float: left">
     <p>
     <strong><%= t('activerecord.models.subject') -%>:</strong>
@@ -18,5 +15,4 @@
     <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => @manifestation} -%>
     <%= render :partial => 'manifestations/holding', :locals => {:manifestation => @manifestation} -%>
   </div>
-<%- end -%>
 <%- end -%>

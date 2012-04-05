@@ -1,10 +1,9 @@
 <div id="content_detail" class="ui-corner-all">
 <h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression')) -%></h1>
 <div id="content_list">
-  <%- cache(:controller => :manifestations, :action => :show, :id => @manifestation.id, :page => 'title', :role => current_user_role_name, :locale => @locale) do -%>
-    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
-  <%- end -%>
+  <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
   
+  <div class="search_form">
   <%= form_for :expressions, :url => manifestation_expressions_path(@manifestation), :html => {:method => 'get'} do -%>
     <p>
       <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_top', :class => 'search_form', :placeholder => t('page.search_term')} -%>
@@ -15,6 +14,7 @@
       <%= link_to t('page.back_to_index'), manifestation_expressions_path(@manifestation) -%>
     </p>
   <%- end -%>
+  </div>
 
 <table style="width:100%">
   <tr>

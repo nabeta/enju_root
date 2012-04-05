@@ -4,12 +4,12 @@
   <% if @version %>
     <%= render 'show_version' %>
   <% else %>
-    <%-
-      cache(:controller => :works, :action => :show, :id => @work.id, :page => 'detail', :role => current_user_role_name, :locale => @locale) do
-    -%>
     <h2 class="resource_title">
       [W]
       <%= @work.original_title -%>
+      (-> <% @work.expressions.each do |expression| %>
+        <%= link_to content_type_icon(expression.content_type), expression %>
+      <% end %>)
     </h2>
 
     <p>
@@ -25,7 +25,6 @@
     </div>
     <%= render :partial => 'page/tabview' -%>
     <%- end -%>
-  <%- end -%>
   </div>
 </div>
 
