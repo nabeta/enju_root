@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_event.git
-  revision: 656af0947fff8992349ead0c57fad5c850a9ffd9
+  revision: a3cddfdd69f9f91ad637491d9da9d99a866a2a22
   specs:
     enju_event (0.0.9)
       acts_as_list (~> 0.1.5)
@@ -17,13 +17,13 @@ GIT
       cancan
       configatron
       devise
-      enju_message (~> 0.0.10)
+      enju_message (~> 0.0.13)
       event-calendar (~> 2.3.3)
       friendly_id (~> 4.0)
       has_scope
       inherited_resources
       paperclip
-      rails (~> 3.1)
+      rails (~> 3.2)
       simple_form
       state_machine
       sunspot_rails
@@ -40,7 +40,7 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_message.git
-  revision: 5db0cf7fea708b71b40529c609049b751b6a87a2
+  revision: ef7b7c7031cae0d6894de98334fdf84efb219bd7
   specs:
     enju_message (0.0.13)
       acts_as_list (~> 0.1.5)
@@ -53,7 +53,7 @@ GIT
       devise
       friendly_id (~> 4.0)
       inherited_resources
-      rails (~> 3.1)
+      rails (~> 3.2)
       simple_form
       state_machine
       sunspot_rails
@@ -73,24 +73,24 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_nii.git
-  revision: 732981d84dccdeaf9019adeab6511efd79e01930
+  revision: 4e115c6c55ae8384f60d43148b030dd434f73b35
   specs:
     enju_nii (0.0.2)
       cancan
       devise
       inherited_resources
-      rails (~> 3.1)
+      rails (~> 3.2)
 
 GIT
   remote: git://github.com/nabeta/enju_oai.git
-  revision: 7e7fb239ddbc4d7d084be5043d34d2f0e991b379
+  revision: 9edb21b36a3281676278ea1e59855354e4f47142
   specs:
     enju_oai (0.0.1)
-      rails (~> 3.1)
+      rails (~> 3.2)
 
 GIT
   remote: git://github.com/nabeta/enju_subject.git
-  revision: 5c42fd9505387eb2e3d7903a357b5ef7957633a1
+  revision: 512e7199f20fe0fc7c5ef8e0a20216d54c4961cc
   specs:
     enju_subject (0.0.10)
       acts_as_list (~> 0.1.5)
@@ -100,7 +100,7 @@ GIT
       dynamic_form
       friendly_id (~> 4.0)
       inherited_resources
-      rails (~> 3.1)
+      rails (~> 3.2)
       sunspot_rails
       sunspot_solr
       will_paginate (~> 3.0)
@@ -209,10 +209,10 @@ GEM
       actionmailer (>= 3.0.4)
     execjs (1.3.0)
       multi_json (~> 1.0)
-    factory_girl (3.0.0)
+    factory_girl (3.1.0)
       activesupport (>= 3.0.0)
-    factory_girl_rails (3.0.0)
-      factory_girl (~> 3.0.0)
+    factory_girl_rails (3.1.0)
+      factory_girl (~> 3.1.0)
       railties (>= 3.0.0)
     fakeweb (1.3.0)
     fattr (2.2.1)
@@ -424,7 +424,7 @@ DEPENDENCIES
   enju_oai!
   enju_subject!
   exception_notification (~> 2.5.2)
-  factory_girl_rails (~> 3.0)
+  factory_girl_rails (~> 3.1)
   fakeweb
   file_wrapper
   friendly_id (~> 4.0)
