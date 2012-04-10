@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nabeta/enju_book_jacket.git
-  revision: 7498bed4f55da66c7206e9f125d94ceff349fc9f
+  revision: 695d38b71da56bfd097f5486c3075520faab866a
   specs:
     enju_book_jacket (0.0.1)
       configatron
@@ -151,7 +151,7 @@ GEM
       i18n (~> 0.6)
       multi_json (~> 1.0)
     acts_as_list (0.1.5)
-    acts_as_tree (0.1.1)
+    acts_as_tree (0.2.0)
     addressable (2.2.7)
     annotate (2.4.0)
     arel (3.0.2)
@@ -374,7 +374,7 @@ GEM
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.32)
+    tzinfo (0.3.33)
     uglifier (1.2.4)
       execjs (>= 0.3.0)
       multi_json (>= 1.0.2)
