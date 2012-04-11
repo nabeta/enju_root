@@ -145,6 +145,9 @@ class Manifestation < ActiveRecord::Base
       # TODO 詳細不明
     end
     # OTC end
+    integer :work_ids, :multiple => true do
+      expressions.collect(&:work_id)
+    end
   end
 
   #acts_as_tree

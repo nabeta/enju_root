@@ -31,6 +31,23 @@ GIT
       will_paginate (~> 3.0)
 
 GIT
+  remote: git://github.com/nabeta/enju_inter_library_loan.git
+  revision: 5aa9205ea9457a444dcb57962216e2dce49005c4
+  specs:
+    enju_inter_library_loan (0.0.1)
+      acts_as_list (~> 0.1.5)
+      addressable
+      attribute_normalizer (~> 1.1)
+      cancan
+      devise
+      friendly_id (~> 4.0)
+      rails (~> 3.2)
+      state_machine
+      sunspot_rails
+      sunspot_solr
+      will_paginate
+
+GIT
   remote: git://github.com/nabeta/enju_manifestation_viewer.git
   revision: 63cddc5dbd2865cec4bb571700a5b0880d42128f
   specs:
@@ -417,6 +434,7 @@ DEPENDENCIES
   dynamic_form
   enju_book_jacket!
   enju_event!
+  enju_inter_library_loan!
   enju_manifestation_viewer!
   enju_message!
   enju_news!

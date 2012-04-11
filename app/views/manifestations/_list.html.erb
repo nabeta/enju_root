@@ -7,18 +7,9 @@
                 <div class="access_address">
                   <%= link_to manifestation.access_address, manifestation.access_address if manifestation.access_address.present? -%>
                 </div>
-                <%- if manifestation.items.on_shelf.first -%>
-                  (<%= link_to_function t('page.holding'), "$('#holding_#{manifestation.id}').toggle()" -%>)
-                <%- end -%>
-                <%# 当該ManifestationにWorkがある場合、グループ表示へのリンクを表示する %>
                 <%- if manifestation.works.size > 0 -%>
-                  <%- unless manifestation.works.size == 1 and  manifestation.works.first.original_title == manifestation.original_title -%>
-                    (<%= link_to_function t('page.related_work'), "$('#group_#{manifestation.id}').toggle()" -%>)
-                  <%- end -%>
+                   (<%= t('page.related_work') %>: <%= manifestation.works.count %>)
                 <%- end -%>
-                <%= render :partial => 'manifestations/holding', :locals => {:manifestation => manifestation} -%>
-                <%# グループ表示の部分テンプレート %>
-                <%= render :partial => 'manifestations/show_group', :locals => {:manifestation => manifestation} -%>
               </td>
               <td id="edit_icons">
                 <%- if can? :update, manifestation -%>

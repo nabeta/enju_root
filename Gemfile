@@ -14,6 +14,7 @@ gem 'enju_book_jacket', :git => 'git://github.com/nabeta/enju_book_jacket.git'
 gem 'enju_manifestation_viewer', :git => 'git://github.com/nabeta/enju_manifestation_viewer.git'
 gem 'enju_message', :git => 'git://github.com/nabeta/enju_message.git'
 gem 'enju_subject', :git => 'git://github.com/nabeta/enju_subject.git'
+gem 'enju_inter_library_loan', :git => 'git://github.com/nabeta/enju_inter_library_loan.git'
 
 platforms :ruby do
   gem 'pg'

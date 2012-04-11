@@ -71,13 +71,28 @@ class WorksController < ApplicationController
       end
     end
     search = Sunspot.new_search(Subject)
-    work = @work.dup
+    work = @work
     search.build do
       with(:work_ids).equal_to work.id if work
     end
     page = params[:subject_page] || 1
     search.query.paginate(page.to_i, Subject.per_page)
     @subjects = search.execute!.results
+
+    expression_list_page = params[:expression_list_page] || 1
+    manifestation_list_page = params[:manifestation_list_page] || 1
+    if params[:expression_list_page] or expression_list_page == 1
+      @expressions = Expression.search do
+        with(:work_id).equal_to work.id
+        paginate :page => expression_list_page, :per_page => Expression.per_page
+      end.results
+    end
+    if params[:manifestation_list_page] or manifestation_list_page == 1
+      @manifestations = Manifestation.search do
+        with(:work_ids).equal_to work.id
+        paginate :page => manifestation_list_page, :per_page => Manifestation.per_page
+      end.results
+    end
 
     #@subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.work_has_subjects.size)
 
