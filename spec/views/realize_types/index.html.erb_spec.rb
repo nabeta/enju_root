@@ -1,17 +1,18 @@
+# -*- encoding: utf-8 -*-
 require 'spec_helper'
 
-describe "realize_types/index.html.erb" do
+describe "realize_types/index" do
   before(:each) do
     assign(:realize_types, [
       stub_model(RealizeType,
         :name => "Name",
-        :display_name => "MyText",
+        :display_name => "ja: テキスト",
         :note => "MyText",
         :position => 1
       ),
       stub_model(RealizeType,
         :name => "Name",
-        :display_name => "MyText",
+        :display_name => "ja: テキスト",
         :note => "MyText",
         :position => 1
       )
@@ -25,8 +26,6 @@ describe "realize_types/index.html.erb" do
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "tr>td", :text => "MyText".to_s, :count => 2
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => "MyText".to_s, :count => 2
-    # Run the generator again with the --webrat flag if you want to use webrat matchers
-    assert_select "tr>td", :text => 1.to_s, :count => 2
+    assert_select "tr>td", :text => "テキスト".to_s, :count => 2
   end
 end

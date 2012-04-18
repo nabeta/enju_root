@@ -110,6 +110,9 @@ class Ability
         PatronImportResult,
         ResourceImportResult
       ]
+      can [:read, :update], [
+        UseRestriction
+      ]
     when 'Librarian'
       can [:index, :create], Expression
       can [:show, :update, :destroy], Expression do |expression|

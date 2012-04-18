@@ -15,7 +15,6 @@ class PatronImportFile < ActiveRecord::Base
 
   validates_associated :user
   validates_presence_of :user
-  before_create :set_digest
 
   state_machine :initial => :pending do
     event :sm_start do
@@ -28,12 +27,6 @@ class PatronImportFile < ActiveRecord::Base
 
     event :sm_fail do
       transition :started => :failed
-    end
-  end
-
-  def set_digest(options = {:type => 'sha1'})
-    if File.exists?(patron_import.queued_for_write[:original])
-      self.file_hash = Digest::SHA1.hexdigest(File.open(patron_import.queued_for_write[:original].path, 'rb').read)
     end
   end
 

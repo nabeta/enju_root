@@ -18,7 +18,7 @@ class Patron < ActiveRecord::Base
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
   #has_many :subjects, :through => :work_has_subjects
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
-  belongs_to :user
+  #belongs_to :user
   belongs_to :patron_type
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id', :validate => true
   has_many :participates, :dependent => :destroy
@@ -35,7 +35,7 @@ class Patron < ActiveRecord::Base
   validates_presence_of :full_name, :language, :patron_type, :country
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
-  validates_uniqueness_of :user_id, :allow_nil => true
+  #validates_uniqueness_of :user_id, :allow_nil => true
   validates_format_of :birth_date, :with => /^\d+(-\d{0,2}){0,2}$/, :allow_blank => true
   validates_format_of :death_date, :with => /^\d+(-\d{0,2}){0,2}$/, :allow_blank => true
   validate :check_birth_date
@@ -43,20 +43,20 @@ class Patron < ActiveRecord::Base
   before_save :set_date_of_birth, :set_date_of_death
 
   has_paper_trail
-  attr_accessor :user_username
+  #attr_accessor :user_username
 
   searchable do
     text :name, :place, :address_1, :address_2, :other_designation, :note
     string :zip_code_1
     string :zip_code_2
-    string :username do
-      user.username if user
-    end
+    #string :username do
+    #  user.username if user
+    #end
     time :created_at
     time :updated_at
     time :date_of_birth
     time :date_of_death
-    string :user
+    #string :user
     integer :work_ids, :multiple => true
     integer :expression_ids, :multiple => true
     integer :manifestation_ids, :multiple => true
@@ -222,16 +222,6 @@ class Patron < ActiveRecord::Base
   #  return true if self.hidden
   #  false
   #end
-
-  def check_required_role(user)
-    return true if self.user.blank?
-    return true if self.user.required_role.name == 'Guest'
-    return true if user == self.user
-    return true if user.has_role?(self.user.required_role.name)
-    false
-  rescue NoMethodError
-    false
-  end
 
   def created(work)
     creates.where(:work_id => work.id).first

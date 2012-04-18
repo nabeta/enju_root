@@ -73,13 +73,13 @@ class UsersController < ApplicationController
     #@user.openid_identifier = flash[:openid_identifier]
     prepare_options
     @user_groups = UserGroup.all
-    get_patron
-    if @patron.try(:user)
-      flash[:notice] = t('page.already_activated')
-      redirect_to @patron
-      return
-    end
-    @user.patron_id = @patron.id if @patron
+    #get_patron
+    #if @patron.try(:user)
+    #  flash[:notice] = t('page.already_activated')
+    #  redirect_to @patron
+    #  return
+    #end
+    #@user.patron_id = @patron.id if @patron
     @user.library = current_user.library
     @user.locale = current_user.locale
   end

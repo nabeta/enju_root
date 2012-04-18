@@ -15,9 +15,6 @@ EnjuRoot::Application.routes.draw do
 
   resources :resource_import_results
 
-  resources :advertisements
-  resources :advertises
-
   resources :patrons do
     resources :works
     resources :expressions
@@ -70,32 +67,21 @@ EnjuRoot::Application.routes.draw do
   end
 
   resources :creators, :controller => 'patrons' do
-    resources :resources
+    resources :works
   end
 
   resources :contributors, :controller => 'patrons' do
-    resources :resources
+    resources :expressions
   end
 
   resources :publishers, :controller => 'patrons' do
-    resources :resources
+    resources :manifestations
   end
 
   resources :users do
-    resources :messages do
-      collection do
-        post :destroy_selected
-      end
-    end
-    resources :bookmarks
-    resources :purchase_requests
-    resource :patron
+  #  resource :patron
   end
 
-  resources :imported_objects
-  resources :nii_types
-  resources :bookmark_stats
-  resources :bookmark_stat_has_manifestations
   resources :patron_relationship_types
   resources :work_relationship_types
   resources :expression_relationship_types
@@ -112,11 +98,6 @@ EnjuRoot::Application.routes.draw do
   resources :patron_types
   resources :circulation_statuses
   resources :form_of_works
-  resources :subject_has_classifications
-  resources :subject_heading_types do
-    resources :subjects
-  end
-  resources :subject_heading_type_has_subjects
   resources :patron_merge_lists do
     resources :patrons
   end
@@ -142,18 +123,7 @@ EnjuRoot::Application.routes.draw do
   resources :series_statements do
     resources :manifestations
   end
-  resources :barcodes
-  resources :message_requests
-  resources :message_templates
   resources :search_histories
-
-  resources :order_lists do
-    resource :order
-    resources :purchase_requests
-  end
-  resources :orders
-
-  resources :inter_library_loans
 
   resources :resource_import_files
 
@@ -161,70 +131,25 @@ EnjuRoot::Application.routes.draw do
 
   resources :event_import_files
 
-  resources :events do
-    resources :picture_files
-  end
-
-  resources :participates
-
-  resources :purchase_requests do
-    resources :order
-  end
-
-  resources :bookmarks
-
-  resources :tags
-
   resources :patron_relationships
   resources :work_relationships
   resources :expression_relationships
   resources :manifestation_relationships
   resources :item_relationships
 
-  resources :bookstores do
-    resources :order_lists
-  end
+  resources :bookstores
 
   resources :user_has_roles
 
   resources :roles
 
-  resources :messages
-
   resources :library_groups
 
-  resources :classifications do
-    resources :subject_has_classifications
-    resources :subjects
-  end
-
-  resources :classification_types do
-    resource :classifications
-  end
-
   resources :search_engines
-
-  resources :event_categories
-
-  resources :events
-
-  resources :subject_types
-
-  resources :work_has_subjects
-
-  resources :subjects do
-    resources :works
-    resources :subject_heading_types
-    resources :subject_has_classifications
-    resources :work_has_subjects
-    resources :classifications
-  end
 
   resources :content_types
 
   resources :carrier_types
-
-  resources :import_requests
 
   resources :user_groups
 
@@ -233,7 +158,6 @@ EnjuRoot::Application.routes.draw do
   end
 
   resources :libraries do
-    resources :events
     resources :shelves
   end
 
@@ -242,7 +166,6 @@ EnjuRoot::Application.routes.draw do
   resources :languages
 
   resources :items do
-    resources :inter_library_loans
     resources :item_has_use_restrictions
     resources :patrons
     resources :items
@@ -256,10 +179,6 @@ EnjuRoot::Application.routes.draw do
   resources :exemplifies
   resources :embodies
   resources :reifies
-
-  resources :user_has_shelves
-  resources :news_posts
-  resources :news_feeds
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
