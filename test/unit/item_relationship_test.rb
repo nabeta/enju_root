@@ -6,3 +6,16 @@ class ItemRelationshipTest < ActiveSupport::TestCase
     assert true
   end
 end
+# == Schema Information
+#
+# Table name: item_relationships
+#
+#  id                        :integer         not null, primary key
+#  parent_id                 :integer
+#  child_id                  :integer
+#  item_relationship_type_id :integer
+#  position                  :integer
+#  created_at                :datetime        not null
+#  updated_at                :datetime        not null
+#
+

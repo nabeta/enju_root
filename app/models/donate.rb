@@ -8,3 +8,14 @@ class Donate < ActiveRecord::Base
     10
   end
 end
+# == Schema Information
+#
+# Table name: donates
+#
+#  id         :integer         not null, primary key
+#  patron_id  :integer         not null
+#  item_id    :integer         not null
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+

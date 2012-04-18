@@ -6,3 +6,16 @@ class ExtentTest < ActiveSupport::TestCase
     assert true
   end
 end
+# == Schema Information
+#
+# Table name: extents
+#
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+

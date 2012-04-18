@@ -15,3 +15,13 @@ class WorkMergeList < ActiveRecord::Base
     end
   end
 end
+# == Schema Information
+#
+# Table name: work_merge_lists
+#
+#  id         :integer         not null, primary key
+#  title      :string(255)
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+

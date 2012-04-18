@@ -6,3 +6,16 @@ class ExpressionRelationshipTest < ActiveSupport::TestCase
     assert true
   end
 end
+# == Schema Information
+#
+# Table name: expression_relationships
+#
+#  id                              :integer         not null, primary key
+#  parent_id                       :integer
+#  child_id                        :integer
+#  expression_relationship_type_id :integer
+#  position                        :integer
+#  created_at                      :datetime        not null
+#  updated_at                      :datetime        not null
+#
+
