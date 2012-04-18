@@ -1,39 +1,16 @@
 <div id="work">
-<%- unless @manifestation.works.blank? -%>
+<%- unless @works.blank? -%>
+  <%= will_paginate(@works, :param_name => :work_list_page, :class => 'content_pagination digg_pagination') -%>
   <ul>
-    <%- @manifestation.works.each do |work| -%>
+    <%- @works.each do |work| -%>
         <li>[W] <%= link_to work.original_title, work -%>
-          <%- work.expressions.each do |expression| -%>
-            <%= link_to content_type_icon(expression.content_type), expression -%>
+          <%- work.manifestations.each do |manifestation| -%>
+            <%= link_to form_icon(manifestation.carrier_type), manifestation -%>
           <%- end -%>
           <%= patrons_list(work.patrons) -%>
-          <%- unless work.manifestations.empty? -%>
-            <ul>
-              <%- work.manifestations.each do |manifestation| -%>
-                <%- unless @manifestation == manifestation -%>
-                  <%- unless work.original_title == manifestation.original_title and work.expressions.size == 1 -%>
-                    <li>[M]
-                    <%= link_to manifestation.original_title, manifestation -%>
-                    <%= form_icon(manifestation.carrier_type) -%>
-                    <%- manifestation.expressions.each do |expression| -%>
-                      <%= link_to content_type_icon(expression.content_type), expression -%>
-                    <%- end -%>
-                    <%= patrons_list(manifestation.creators) -%>
-                    <%= patrons_list(manifestation.contributors) -%>
-                    <%= patrons_list(manifestation.patrons) -%>
-                    <%- if manifestation.date_of_publication -%>
-                      (<%= manifestation.date_of_publication.strftime('%Y') -%>)
-                    <%- end -%>
-                    </li>
-                  <%- end -%>
-                <%- end -%>
-              <%- end -%>
-            </ul>
-          <%- else -%>
-          <ul><li></li></ul>
-          <%- end -%>
         </li>
     <%- end -%>
   </ul>
+  <%= will_paginate(@works, :param_name => :work_list_page, :class => 'content_pagination digg_pagination') -%>
 <%- end -%>
 </div>

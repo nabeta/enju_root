@@ -5,9 +5,11 @@
       <%- unless @work.patrons.empty? -%>
         <li><a href="#patron"><em><%= t('page.author') -%></em></a></li>
       <%- end -%>
-      <%- unless @work.expressions.empty? -%>
+      <!--
+      <%- #unless @work.expressions.empty? -%>
         <li><a href="#expression"><em><%= t('activerecord.models.expression') -%></em></a></li>
-      <%- end -%>
+      <%- #end -%>
+      -->
       <%- if @work.manifestations.first -%>
         <li><a href="#manifestation"><em><%= t('page.related_manifestation') -%></em></a></li>
       <%- end -%>

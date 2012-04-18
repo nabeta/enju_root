@@ -79,7 +79,10 @@ class Work < ActiveRecord::Base
   end
   
   def manifestations
-    expressions.collect(&:manifestations).flatten.uniq
+    #expressions.collect(&:manifestations).flatten.uniq
+    Manifestation.search do
+      with(:work_ids).equal_to self.id
+    end.results
   end
 
   #def serials

@@ -48,9 +48,9 @@
     <%- unless @work.patrons.empty? -%>
       <%= render :partial => 'works/patron_list' -%>
     <%- end -%>
-    <%- unless @work.expressions.empty? -%>
-      <%= render :partial => 'works/expression_list' -%>
-    <%- end -%>
+    <%- #unless @work.expressions.empty? -%>
+      <%- #render :partial => 'works/expression_list' -%>
+    <%- #end -%>
     <%- if @work.manifestations.first -%>
       <%= render :partial => 'works/manifestation_list' -%>
     <%- end -%>

@@ -21,9 +21,7 @@
     <tr class="line<%= cycle("0", "1") -%>">
       <td>
         <%= link_to work.original_title, work -%>
-        <% work.expressions.each do |expression| %>
-          <%= link_to content_type_icon(expression.content_type), expression %>
-        <% end %>
+        (<%= t('activerecord.models.manifestation') %>: <%= work.manifestations.total_count %>)
         <br />
         <%= patrons_list(work.patrons) -%>
       </td>
