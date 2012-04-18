@@ -8,3 +8,16 @@ class PatronRelationship < ActiveRecord::Base
     errors.add(:parent) if parent_id == child_id
   end
 end
+# == Schema Information
+#
+# Table name: patron_relationships
+#
+#  id                          :integer         not null, primary key
+#  parent_id                   :integer
+#  child_id                    :integer
+#  patron_relationship_type_id :integer
+#  position                    :integer
+#  created_at                  :datetime        not null
+#  updated_at                  :datetime        not null
+#
+

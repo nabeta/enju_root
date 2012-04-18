@@ -21,3 +21,16 @@ class Own < ActiveRecord::Base
   end
 
 end
+# == Schema Information
+#
+# Table name: owns
+#
+#  id         :integer         not null, primary key
+#  patron_id  :integer         not null
+#  item_id    :integer         not null
+#  position   :integer
+#  type       :string(255)
+#  created_at :datetime        not null
+#  updated_at :datetime        not null
+#
+

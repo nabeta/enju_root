@@ -8,3 +8,14 @@ class PatronMerge < ActiveRecord::Base
     10
   end
 end
+# == Schema Information
+#
+# Table name: patron_merges
+#
+#  id                   :integer         not null, primary key
+#  patron_id            :integer         not null
+#  patron_merge_list_id :integer         not null
+#  created_at           :datetime        not null
+#  updated_at           :datetime        not null
+#
+

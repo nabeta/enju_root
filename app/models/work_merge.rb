@@ -8,3 +8,14 @@ class WorkMerge < ActiveRecord::Base
     10
   end
 end
+# == Schema Information
+#
+# Table name: work_merges
+#
+#  id                 :integer         not null, primary key
+#  work_id            :integer         not null
+#  work_merge_list_id :integer         not null
+#  created_at         :datetime        not null
+#  updated_at         :datetime        not null
+#
+

@@ -17,3 +17,16 @@ item_relationship_type_00002:
   note: ""
   display_name: "en:Reproduction\r\n\
     ja:複製"
+# == Schema Information
+#
+# Table name: item_relationship_types
+#
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+

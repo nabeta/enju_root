@@ -18,3 +18,16 @@ manifestation_relationship_type_00002:
   note: ""
   display_name: "en:Alternate\r\n\
     ja:代替"
+# == Schema Information
+#
+# Table name: manifestation_relationship_types
+#
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+

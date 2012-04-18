@@ -98,3 +98,16 @@ expression_relationship_type_00011:
   note: ""
   display_name: "en: Imitation\r\n\
     ja: 模倣"
+# == Schema Information
+#
+# Table name: expression_relationship_types
+#
+#  id           :integer         not null, primary key
+#  name         :string(255)     not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime        not null
+#  updated_at   :datetime        not null
+#
+

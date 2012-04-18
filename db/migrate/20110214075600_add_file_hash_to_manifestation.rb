@@ -1,4 +1,4 @@
-class AddFileHasToManifestation < ActiveRecord::Migration
+class AddFileHashToManifestation < ActiveRecord::Migration
   def self.up
     add_column :manifestations, :file_hash, :string
   end
