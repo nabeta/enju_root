@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nabeta/enju_book_jacket.git
-  revision: 695d38b71da56bfd097f5486c3075520faab866a
+  revision: 37101695b2c1798f6708642b61e52b773c7468ab
   specs:
     enju_book_jacket (0.0.1)
       configatron
@@ -57,9 +57,9 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_message.git
-  revision: 502225a319ed12821b1735158bf093f3daa201fd
+  revision: d78f3f8a70f409991ddf72f1e7bb75e10ccf8145
   specs:
-    enju_message (0.0.14)
+    enju_message (0.0.18)
       acts_as_list (~> 0.1.5)
       addressable
       attribute_normalizer (~> 1.1)
@@ -167,7 +167,7 @@ GEM
     activesupport (3.2.3)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    acts_as_list (0.1.5)
+    acts_as_list (0.1.6)
     addressable (2.2.7)
     annotate (2.4.1.beta1)
     arel (3.0.2)
@@ -182,7 +182,7 @@ GEM
       builder
       mime-types
       xml-simple
-    aws-sdk (1.4.0)
+    aws-sdk (1.4.1)
       httparty (~> 0.7)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -220,7 +220,7 @@ GEM
     dynamic_form (1.1.4)
     erubis (2.7.0)
     event-calendar (2.3.3)
-    exception_notification (2.5.2)
+    exception_notification (2.6.1)
       actionmailer (>= 3.0.4)
     execjs (1.3.0)
       multi_json (~> 1.0)
@@ -244,8 +244,8 @@ GEM
     highline (1.6.11)
     hike (1.2.1)
     hodel_3000_compliant_logger (0.1.0)
-    httparty (0.8.2)
-      multi_json
+    httparty (0.8.3)
+      multi_json (~> 1.0)
       multi_xml
     i18n (0.6.0)
     inherited_resources (1.3.1)
@@ -290,7 +290,7 @@ GEM
     paperclip-meta (0.4.1)
       paperclip
     parallel (0.5.16)
-    parallel_tests (0.7.3)
+    parallel_tests (0.7.4)
       parallel
     pg (0.13.2)
     polyglot (0.3.3)
@@ -348,7 +348,7 @@ GEM
     ruby-prof (0.10.8)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
-    sass (3.1.15)
+    sass (3.1.16)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
@@ -356,8 +356,8 @@ GEM
     simple_form (2.0.1)
       actionpack (~> 3.0)
       activemodel (~> 3.0)
-    simplecov (0.6.1)
-      multi_json (~> 1.0)
+    simplecov (0.6.2)
+      multi_json (~> 1.3)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
     sitemap_generator (3.1.1)
@@ -393,7 +393,7 @@ GEM
     uuidtools (2.1.2)
     validates_timeliness (3.0.11)
       timeliness (~> 0.3.6)
-    vcr (2.0.1)
+    vcr (2.1.0)
     warden (1.1.1)
       rack (>= 1.0)
     whenever (0.7.3)
@@ -410,7 +410,7 @@ PLATFORMS
 DEPENDENCIES
   RedCloth (>= 4.2.9)
   activerecord-jdbc-adapter
-  acts_as_list (~> 0.1.5)
+  acts_as_list (~> 0.1.6)
   addressable
   annotate (~> 2.4.1.beta1)
   astrails-safe
@@ -435,7 +435,7 @@ DEPENDENCIES
   enju_nii!
   enju_oai!
   enju_subject!
-  exception_notification (~> 2.5.2)
+  exception_notification (~> 2.6)
   factory_girl_rails (~> 3.1)
   fakeweb
   file_wrapper
@@ -483,7 +483,7 @@ DEPENDENCIES
   timecop
   uglifier (>= 1.0.3)
   validates_timeliness
-  vcr (~> 2.0)
+  vcr (~> 2.1)
   whenever
   will_paginate (~> 3.0)
   zipruby
