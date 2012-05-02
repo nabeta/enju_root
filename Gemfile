@@ -102,7 +102,7 @@ gem 'rails_autolink'
 gem 'oink', '>= 0.9.3'
 
 group :development do
-  gem 'parallel_tests', '~> 0.7'
+  gem 'parallel_tests', '~> 0.8'
   gem 'annotate', '~> 2.4.1.beta1'
   gem 'progress_bar'
   gem 'sunspot_solr', '~> 2.0.0.pre.120417'
@@ -111,7 +111,7 @@ end
 group :development, :test do
   gem 'rspec-rails', '~> 2.9'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 3.1'
+  gem 'factory_girl_rails', '~> 3.2'
   gem 'spork-rails'
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'
