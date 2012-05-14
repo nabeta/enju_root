@@ -4,7 +4,7 @@ class SearchHistoriesController < ApplicationController
   load_and_authorize_resource
 
   # GET /search_histories
-  # GET /search_histories.xml
+  # GET /search_histories.json
   def index
     if params[:mode] == 'not_found'
       if current_user.has_role?('Administrator')
@@ -22,18 +22,18 @@ class SearchHistoriesController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @search_histories.to_xml }
+      format.json { render :json => @search_histories }
     end
   end
 
   # GET /search_histories/1
-  # GET /search_histories/1.xml
+  # GET /search_histories/1.json
   def show
     @search_history = SearchHistory.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @search_history.to_xml }
+      format.json { render :json => @search_history }
     end
   end
 
@@ -48,7 +48,7 @@ class SearchHistoriesController < ApplicationController
   end
 
   # POST /search_histories
-  # POST /search_histories.xml
+  # POST /search_histories.json
   def create
   #  if @user
   #    @search_history = @user.search_histories.new(params[:search_history])
@@ -60,16 +60,16 @@ class SearchHistoriesController < ApplicationController
   #    if @search_history.save
   #      flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.search_history'))
   #      format.html { redirect_to search_history_url(@search_history) }
-  #      format.xml  { head :created, :location => search_history_url(@search_history) }
+  #      format.json { head :created, :location => search_history_url(@search_history) }
   #    else
   #      format.html { render :action => "new" }
-  #      format.xml  { render :xml => @search_history.errors.to_xml }
+  #      format.json { render :json => @search_history.errors }
   #    end
   #  end
   end
 
   # PUT /search_histories/1
-  # PUT /search_histories/1.xml
+  # PUT /search_histories/1.json
   def update
   #  @search_history = @user.search_histories.find(params[:id])
   #
@@ -77,16 +77,16 @@ class SearchHistoriesController < ApplicationController
   #    if @search_history.update_attributes(params[:search_history])
   #      flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.search_history'))
   #      format.html { redirect_to user_search_history_url(@user, @search_history) }
-  #      format.xml  { head :ok }
+  #      format.json { head :no_content }
   #    else
   #      format.html { render :action => "edit" }
-  #      format.xml  { render :xml => @search_history.errors.to_xml }
+  #      format.json { render :json => @search_history.errors }
   #    end
   #  end
   end
 
   # DELETE /search_histories/1
-  # DELETE /search_histories/1.xml
+  # DELETE /search_histories/1.json
   def destroy
     @search_history = SearchHistory.find(params[:id])
     @search_history.destroy
@@ -94,7 +94,7 @@ class SearchHistoriesController < ApplicationController
     respond_to do |format|
       #format.html { redirect_to user_search_histories_url(@user.username) }
       format.html { redirect_to search_histories_url }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 end

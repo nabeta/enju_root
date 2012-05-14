@@ -5,7 +5,7 @@ class EmbodiesController < ApplicationController
   #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /embodies
-  # GET /embodies.xml
+  # GET /embodies.json
   def index
     case 
     when @manifestation
@@ -18,23 +18,23 @@ class EmbodiesController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @embodies }
+      format.json { render :json => @embodies }
     end
   end
 
   # GET /embodies/1
-  # GET /embodies/1.xml
+  # GET /embodies/1.json
   def show
     @embody = Embody.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @embody }
+      format.json { render :json => @embody }
     end
   end
 
   # GET /embodies/new
-  # GET /embodies/new.xml
+  # GET /embodies/new.json
   def new
     @embody = Embody.new
     @embody.expression = @expression
@@ -42,7 +42,7 @@ class EmbodiesController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @embody }
+      format.json { render :json => @embody }
     end
   end
 
@@ -52,7 +52,7 @@ class EmbodiesController < ApplicationController
   end
 
   # POST /embodies
-  # POST /embodies.xml
+  # POST /embodies.json
   def create
     @embody = Embody.new(params[:embody])
 
@@ -60,16 +60,16 @@ class EmbodiesController < ApplicationController
       if @embody.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.embody'))
         format.html { redirect_to(@embody) }
-        format.xml  { render :xml => @embody, :status => :created, :location => @embody }
+        format.json { render :json => @embody, :status => :created, :location => @embody }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @embody.errors, :status => :unprocessable_entity }
+        format.json { render :json => @embody.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /embodies/1
-  # PUT /embodies/1.xml
+  # PUT /embodies/1.json
   def update
     @embody = Embody.find(params[:id])
 
@@ -77,23 +77,23 @@ class EmbodiesController < ApplicationController
       if @embody.update_attributes(params[:embody])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.embody'))
         format.html { redirect_to(@embody) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @embody.errors, :status => :unprocessable_entity }
+        format.json { render :json => @embody.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /embodies/1
-  # DELETE /embodies/1.xml
+  # DELETE /embodies/1.json
   def destroy
     @embody = Embody.find(params[:id])
     @embody.destroy
 
     respond_to do |format|
       format.html { redirect_to(embodies_url) }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 

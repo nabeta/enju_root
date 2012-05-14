@@ -5,24 +5,24 @@ class UserGroupsController < ApplicationController
   before_filter :get_library, :only => :create
 
   # GET /user_groups
-  # GET /user_groups.xml
+  # GET /user_groups.json
   def index
     @user_groups = UserGroup.all
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @user_groups.to_xml }
+      format.json { render :json => @user_groups }
     end
   end
 
   # GET /user_groups/1
-  # GET /user_groups/1.xml
+  # GET /user_groups/1.json
   def show
     @user_group = UserGroup.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @user_group.to_xml }
+      format.json { render :json => @user_group }
     end
   end
 
@@ -37,7 +37,7 @@ class UserGroupsController < ApplicationController
   end
 
   # POST /user_groups
-  # POST /user_groups.xml
+  # POST /user_groups.json
   def create
     UserGroup.transaction do
       @user_group = UserGroup.create(params[:user_group])
@@ -50,16 +50,16 @@ class UserGroupsController < ApplicationController
       if @user_group.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.user_group'))
         format.html { redirect_to user_group_url(@user_group) }
-        format.xml  { render :xml => @user_group, :status => :created, :location => @user_group }
+        format.json { render :json => @user_group, :status => :created, :location => @user_group }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @user_group.errors.to_xml }
+        format.json { render :json => @user_group.errors }
       end
     end
   end
 
   # PUT /user_groups/1
-  # PUT /user_groups/1.xml
+  # PUT /user_groups/1.json
   def update
     @user_group = UserGroup.find(params[:id])
 
@@ -73,23 +73,23 @@ class UserGroupsController < ApplicationController
       if @user_group.update_attributes(params[:user_group])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.user_group'))
         format.html { redirect_to user_group_url(@user_group) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @user_group.errors.to_xml }
+        format.json { render :json => @user_group.errors }
       end
     end
   end
 
   # DELETE /user_groups/1
-  # DELETE /user_groups/1.xml
+  # DELETE /user_groups/1.json
   def destroy
     @user_group = UserGroup.find(params[:id])
     @user_group.destroy
 
     respond_to do |format|
       format.html { redirect_to user_groups_url }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 end

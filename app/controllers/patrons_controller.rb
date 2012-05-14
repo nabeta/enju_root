@@ -12,7 +12,7 @@ class PatronsController < ApplicationController
   #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
   
   # GET /patrons
-  # GET /patrons.xml
+  # GET /patrons.json
   def index
     #session[:params] = {} unless session[:params]
     #session[:params][:patron] = params
@@ -28,7 +28,7 @@ class PatronsController < ApplicationController
     set_role_query(current_user, search)
 
     if params[:mode] == 'recent'
-      query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
+      query = "#{query} created_at_d:[NOW-1MONTH TO NOW]"
     end
     unless query.blank?
       search.build do
@@ -63,7 +63,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @patrons }
+      format.json { render :json => @patrons }
       format.rss  { render :layout => false }
       format.atom
       format.json { render :json => @patrons }
@@ -71,7 +71,7 @@ class PatronsController < ApplicationController
   end
 
   # GET /patrons/1
-  # GET /patrons/1.xml
+  # GET /patrons/1.json
   def show
     case
     when @work
@@ -94,7 +94,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @patron }
+      format.json { render :json => @patron }
       format.js
     end
   end
@@ -119,7 +119,7 @@ class PatronsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @patron }
+      format.json { render :json => @patron }
     end
   end
 
@@ -130,7 +130,7 @@ class PatronsController < ApplicationController
   end
 
   # POST /patrons
-  # POST /patrons.xml
+  # POST /patrons.json
   def create
     @patron = Patron.new(params[:patron])
     if @patron.user_username
@@ -149,33 +149,33 @@ class PatronsController < ApplicationController
         when @work
           @work.patrons << @patron
           format.html { redirect_to patron_work_url(@patron, @work) }
-          format.xml  { head :created, :location => patron_work_url(@patron, @work) }
+          format.json { head :created, :location => patron_work_url(@patron, @work) }
         when @expression
           @expression.patrons << @patron
           format.html { redirect_to patron_expression_url(@patron, @expression) }
-          format.xml  { head :created, :location => patron_expression_url(@patron, @expression) }
+          format.json { head :created, :location => patron_expression_url(@patron, @expression) }
         when @manifestation
           @manifestation.patrons << @patron
           format.html { redirect_to patron_manifestation_url(@patron, @manifestation) }
-          format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
+          format.json { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
         when @item
           @item.patrons << @patron
           format.html { redirect_to patron_item_url(@patron, @item) }
-          format.xml  { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
+          format.json { head :created, :location => patron_manifestation_url(@patron, @manifestation) }
         else
           format.html { redirect_to(@patron) }
-          format.xml  { render :xml => @patron, :status => :created, :location => @patron }
+          format.json { render :json => @patron, :status => :created, :location => @patron }
         end
       else
         prepare_options
         format.html { render :action => "new" }
-        format.xml  { render :xml => @patron.errors, :status => :unprocessable_entity }
+        format.json { render :json => @patron.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /patrons/1
-  # PUT /patrons/1.xml
+  # PUT /patrons/1.json
   def update
     #@patron = Patron.find(params[:id])
 
@@ -183,17 +183,17 @@ class PatronsController < ApplicationController
       if @patron.update_attributes(params[:patron])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.patron'))
         format.html { redirect_to patron_url(@patron) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         prepare_options
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @patron.errors, :status => :unprocessable_entity }
+        format.json { render :json => @patron.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /patrons/1
-  # DELETE /patrons/1.xml
+  # DELETE /patrons/1.json
   def destroy
     #@patron = Patron.find(params[:id])
 
@@ -209,7 +209,7 @@ class PatronsController < ApplicationController
     respond_to do |format|
       flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.patron'))
       format.html { redirect_to patrons_url }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 

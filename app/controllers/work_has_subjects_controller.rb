@@ -6,7 +6,7 @@ class WorkHasSubjectsController < ApplicationController
   #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /work_has_subjects
-  # GET /work_has_subjects.xml
+  # GET /work_has_subjects.json
   def index
     if @work
       @work_has_subjects = @work.work_has_subjects.paginate(:page => params[:page])
@@ -18,23 +18,23 @@ class WorkHasSubjectsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @work_has_subjects }
+      format.json { render :json => @work_has_subjects }
     end
   end
 
   # GET /work_has_subjects/1
-  # GET /work_has_subjects/1.xml
+  # GET /work_has_subjects/1.json
   def show
     @work_has_subject = WorkHasSubject.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @work_has_subject }
+      format.json { render :json => @work_has_subject }
     end
   end
 
   # GET /work_has_subjects/new
-  # GET /work_has_subjects/new.xml
+  # GET /work_has_subjects/new.json
   def new
     @work_has_subject = WorkHasSubject.new
     @work_has_subject.work = @work
@@ -42,7 +42,7 @@ class WorkHasSubjectsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @work_has_subject }
+      format.json { render :json => @work_has_subject }
     end
   end
 
@@ -52,7 +52,7 @@ class WorkHasSubjectsController < ApplicationController
   end
 
   # POST /work_has_subjects
-  # POST /work_has_subjects.xml
+  # POST /work_has_subjects.json
   def create
     @work_has_subject = WorkHasSubject.new(params[:work_has_subject])
     #begin
@@ -67,16 +67,16 @@ class WorkHasSubjectsController < ApplicationController
       if @work_has_subject.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_has_subject'))
         format.html { redirect_to(@work_has_subject) }
-        format.xml  { render :xml => @work_has_subject, :status => :created, :location => @work_has_subject }
+        format.json { render :json => @work_has_subject, :status => :created, :location => @work_has_subject }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @work_has_subject.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work_has_subject.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /work_has_subjects/1
-  # PUT /work_has_subjects/1.xml
+  # PUT /work_has_subjects/1.json
   def update
     @work_has_subject = WorkHasSubject.find(params[:id])
 
@@ -84,16 +84,16 @@ class WorkHasSubjectsController < ApplicationController
       if @work_has_subject.update_attributes(params[:work_has_subject])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_has_subject'))
         format.html { redirect_to(@work_has_subject) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @work_has_subject.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work_has_subject.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /work_has_subjects/1
-  # DELETE /work_has_subjects/1.xml
+  # DELETE /work_has_subjects/1.json
   def destroy
     @work_has_subject = WorkHasSubject.find(params[:id])
     @work_has_subject.destroy
@@ -102,25 +102,25 @@ class WorkHasSubjectsController < ApplicationController
       case
       when @patron
         format.html { redirect_to(patron_work_has_subjects_url(@patron)) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       when @work
         format.html { redirect_to(work_work_has_subjects_url(@work)) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       #when @expression
       #  format.html { redirect_to(expression_work_has_subjects_url(@expression)) }
-      #  format.xml  { head :ok }
+      #  format.json { head :no_content }
       #when @manifestation
       #  format.html { redirect_to(manifestation_work_has_subjects_url(@manifestation)) }
-      #  format.xml  { head :ok }
+      #  format.json { head :no_content }
       #when @item
       #  format.html { redirect_to(item_work_has_subjects_url(@item)) }
-      #  format.xml  { head :ok }
+      #  format.json { head :no_content }
       when @subject
         format.html { redirect_to(subject_work_has_subjects_url(@subject)) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { redirect_to(work_has_subjects_url) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       end
     end
   end

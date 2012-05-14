@@ -72,6 +72,7 @@ gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 
 #gem 'extractcontent'
 gem 'cancan', '>= 1.6.7'
 gem 'devise', '~> 2.1.0.rc'
+gem 'devise-encryptable'
 #gem 'omniauth', '~> 1.0'
 gem 'addressable'
 gem 'paperclip', '~> 3.0'
@@ -109,9 +110,9 @@ group :development do
 end
 
 group :development, :test do
-  gem 'rspec-rails', '~> 2.9'
+  gem 'rspec-rails', '~> 2.10'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 3.2'
+  gem 'factory_girl_rails', '~> 3.3'
   gem 'spork-rails'
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'

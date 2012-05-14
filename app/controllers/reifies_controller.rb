@@ -6,7 +6,7 @@ class ReifiesController < ApplicationController
   #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /reifies
-  # GET /reifies.xml
+  # GET /reifies.json
   def index
     if @work
       @reifies = @work.reifies.paginate(:page => params[:page])
@@ -16,18 +16,18 @@ class ReifiesController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @reifies }
+      format.json { render :json => @reifies }
     end
   end
 
   # GET /reifies/1
-  # GET /reifies/1.xml
+  # GET /reifies/1.json
   def show
     @reify = Reify.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @reify }
+      format.json { render :json => @reify }
     end
   end
 
@@ -44,7 +44,7 @@ class ReifiesController < ApplicationController
   end
 
   # POST /reifies
-  # POST /reifies.xml
+  # POST /reifies.json
   def create
     @reify = Reify.new(params[:reify])
 
@@ -52,17 +52,17 @@ class ReifiesController < ApplicationController
       if @reify.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reify'))
         format.html { redirect_to(@reify) }
-        format.xml  { render :xml => @reify, :status => :created, :location => @reify }
+        format.json { render :json => @reify, :status => :created, :location => @reify }
       else
         prepare_options
         format.html { render :action => "new" }
-        format.xml  { render :xml => @reify.errors, :status => :unprocessable_entity }
+        format.json { render :json => @reify.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /reifies/1
-  # PUT /reifies/1.xml
+  # PUT /reifies/1.json
   def update
     @reify = Reify.find(params[:id])
     
@@ -77,17 +77,17 @@ class ReifiesController < ApplicationController
       if @reify.update_attributes(params[:reify])
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reify'))
         format.html { redirect_to reify_url(@reify) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         prepare_options
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @reify.errors, :status => :unprocessable_entity }
+        format.json { render :json => @reify.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /reifies/1
-  # DELETE /reifies/1.xml
+  # DELETE /reifies/1.json
   def destroy
     @reify = Reify.find(params[:id])
     @reify.destroy
@@ -95,10 +95,10 @@ class ReifiesController < ApplicationController
     respond_to do |format|
       if @work
         format.html { redirect_to work_expressions_url(@work) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { redirect_to reifies_url }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       end
     end
   end
