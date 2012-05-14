@@ -53,7 +53,7 @@ class SubjectsController < ApplicationController
     session[:params][:subject] = params
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @subjects }
       format.rss
       format.atom
@@ -89,7 +89,7 @@ class SubjectsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @subject }
       format.js
     end

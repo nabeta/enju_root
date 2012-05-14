@@ -28,7 +28,7 @@ class LibrariesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @libraries }
     end
   end
@@ -50,7 +50,7 @@ class LibrariesController < ApplicationController
     @events = search.execute!.results
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @library }
       #format.js
     end

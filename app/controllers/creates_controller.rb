@@ -18,7 +18,7 @@ class CreatesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @creates }
     end
   end
@@ -29,7 +29,7 @@ class CreatesController < ApplicationController
     @create = Create.find(params[:id])
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @create }
     end
   end

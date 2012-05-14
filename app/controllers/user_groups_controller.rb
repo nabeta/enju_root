@@ -10,7 +10,7 @@ class UserGroupsController < ApplicationController
     @user_groups = UserGroup.all
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @user_groups }
     end
   end
@@ -21,7 +21,7 @@ class UserGroupsController < ApplicationController
     @user_group = UserGroup.find(params[:id])
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @user_group }
     end
   end

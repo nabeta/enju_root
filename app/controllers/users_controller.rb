@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     @count[:query_result] = @users.total_entries
     
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @users }
     end
   end
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     get_top_page_content
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @user }
     end
   end

@@ -21,7 +21,7 @@ class SearchHistoriesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @search_histories }
     end
   end
@@ -32,7 +32,7 @@ class SearchHistoriesController < ApplicationController
     @search_history = SearchHistory.find(params[:id])
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @search_history }
     end
   end

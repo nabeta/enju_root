@@ -245,7 +245,7 @@ class ManifestationsController < ApplicationController
     store_location
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json {
         case params[:mode]
         when 'related'
