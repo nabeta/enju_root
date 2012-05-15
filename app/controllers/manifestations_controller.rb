@@ -254,7 +254,7 @@ class ManifestationsController < ApplicationController
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  {
+      format.json {
         case params[:mode]
         when 'related'
           render :template => 'manifestations/related'
@@ -267,7 +267,7 @@ class ManifestationsController < ApplicationController
       format.mods
       format.json { render :json => @manifestation }
       #format.atom { render :template => 'manifestations/oai_ore' }
-      #format.xml  { render :action => 'mods', :layout => false }
+      #format.json { render :action => 'mods', :layout => false }
       format.js
     end
   end
@@ -385,56 +385,56 @@ class ManifestationsController < ApplicationController
     # TODO: integerやstringもqfに含める
     query = query.to_s.strip
     if options[:mode] == 'recent'
-      query = "#{query} created_at_d: [NOW-1MONTH TO NOW]"
+      query = "#{query} created_at_d:[NOW-1MONTH TO NOW]"
     end
 
     #unless options[:carrier_type].blank?
-    #  query = "#{query} carrier_type_s: #{options[:carrier_type]}"
+    #  query = "#{query} carrier_type_s:#{options[:carrier_type]}"
     #end
 
     #unless options[:library].blank?
     #  library_list = options[:library].split.uniq.join(' and ')
-    #  query = "#{query} library_sm: #{library_list}"
+    #  query = "#{query} library_sm:#{library_list}"
     #end
 
     #unless options[:language].blank?
-    #  query = "#{query} language_sm: #{options[:language]}"
+    #  query = "#{query} language_sm:#{options[:language]}"
     #end
 
     #unless options[:subject].blank?
-    #  query = "#{query} subject_sm: #{options[:subject]}"
+    #  query = "#{query} subject_sm:#{options[:subject]}"
     #end
 
     unless options[:tag].blank?
-      query = "#{query} tag_sm: #{options[:tag]}"
+      query = "#{query} tag_sm:#{options[:tag]}"
     end
 
     unless options[:creator].blank?
-      query = "#{query} creator_text: #{options[:creator]}"
+      query = "#{query} creator_text:#{options[:creator]}"
     end
 
     unless options[:contributor].blank?
-      query = "#{query} contributor_text: #{options[:contributor]}"
+      query = "#{query} contributor_text:#{options[:contributor]}"
     end
 
     unless options[:isbn].blank?
-      query = "#{query} isbn_sm: #{options[:isbn]}"
+      query = "#{query} isbn_sm:#{options[:isbn]}"
     end
 
     unless options[:issn].blank?
-      query = "#{query} issn_s: #{options[:issn]}"
+      query = "#{query} issn_s:#{options[:issn]}"
     end
 
     unless options[:lccn].blank?
-      query = "#{query} lccn_s: #{options[:lccn]}"
+      query = "#{query} lccn_s:#{options[:lccn]}"
     end
 
     unless options[:nbn].blank?
-      query = "#{query} nbn_s: #{options[:nbn]}"
+      query = "#{query} nbn_s:#{options[:nbn]}"
     end
 
     unless options[:publisher].blank?
-      query = "#{query} publisher_text: #{options[:publisher]}"
+      query = "#{query} publisher_text:#{options[:publisher]}"
     end
 
     unless options[:number_of_pages_at_least].blank? and options[:number_of_pages_at_most].blank?
@@ -444,7 +444,7 @@ class ManifestationsController < ApplicationController
       number_of_pages[:at_least] = "*" if number_of_pages[:at_least] == 0
       number_of_pages[:at_most] = "*" if number_of_pages[:at_most] == 0
 
-      query = "#{query} number_of_pages_i: [#{number_of_pages[:at_least]} TO #{number_of_pages[:at_most]}]"
+      query = "#{query} number_of_pages_i:[#{number_of_pages[:at_least]} TO #{number_of_pages[:at_most]}]"
     end
 
     unless options[:pub_date_from].blank? and options[:pub_date_to].blank?
@@ -469,7 +469,7 @@ class ManifestationsController < ApplicationController
           pub_date[:to] = Time.zone.parse(Time.mktime(options[:pub_date_to]).to_s).beginning_of_day.utc.iso8601
         end
       end
-      query = "#{query} date_of_publication_d: [#{pub_date[:from]} TO #{pub_date[:to]}]"
+      query = "#{query} date_of_publication_d:[#{pub_date[:from]} TO #{pub_date[:to]}]"
     end
 
     query = query.strip

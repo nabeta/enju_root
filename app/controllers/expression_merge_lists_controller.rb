@@ -3,35 +3,35 @@ class ExpressionMergeListsController < ApplicationController
   load_and_authorize_resource
 
   # GET /expression_merge_lists
-  # GET /expression_merge_lists.xml
+  # GET /expression_merge_lists.json
   def index
     @expression_merge_lists = ExpressionMergeList.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @expression_merge_lists }
+      format.json { render :json => @expression_merge_lists }
     end
   end
 
   # GET /expression_merge_lists/1
-  # GET /expression_merge_lists/1.xml
+  # GET /expression_merge_lists/1.json
   def show
     @expression_merge_list = ExpressionMergeList.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @expression_merge_list }
+      format.json { render :json => @expression_merge_list }
     end
   end
 
   # GET /expression_merge_lists/new
-  # GET /expression_merge_lists/new.xml
+  # GET /expression_merge_lists/new.json
   def new
     @expression_merge_list = ExpressionMergeList.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @expression_merge_list }
+      format.json { render :json => @expression_merge_list }
     end
   end
 
@@ -41,7 +41,7 @@ class ExpressionMergeListsController < ApplicationController
   end
 
   # POST /expression_merge_lists
-  # POST /expression_merge_lists.xml
+  # POST /expression_merge_lists.json
   def create
     @expression_merge_list = ExpressionMergeList.new(params[:expression_merge_list])
 
@@ -49,16 +49,16 @@ class ExpressionMergeListsController < ApplicationController
       if @expression_merge_list.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression_merge_list'))
         format.html { redirect_to(@expression_merge_list) }
-        format.xml  { render :xml => @expression_merge_list, :status => :created, :location => @expression_merge_list }
+        format.json { render :json => @expression_merge_list, :status => :created, :location => @expression_merge_list }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @expression_merge_list.errors, :status => :unprocessable_entity }
+        format.json { render :json => @expression_merge_list.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /expression_merge_lists/1
-  # PUT /expression_merge_lists/1.xml
+  # PUT /expression_merge_lists/1.json
   def update
     @expression_merge_list = ExpressionMergeList.find(params[:id])
 
@@ -78,23 +78,23 @@ class ExpressionMergeListsController < ApplicationController
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression_merge_list'))
         end
         format.html { redirect_to(@expression_merge_list) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @expression_merge_list.errors, :status => :unprocessable_entity }
+        format.json { render :json => @expression_merge_list.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /expression_merge_lists/1
-  # DELETE /expression_merge_lists/1.xml
+  # DELETE /expression_merge_lists/1.json
   def destroy
     @expression_merge_list = ExpressionMergeList.find(params[:id])
     @expression_merge_list.destroy
 
     respond_to do |format|
       format.html { redirect_to(expression_merge_lists_url) }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 end

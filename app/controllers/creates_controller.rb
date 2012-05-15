@@ -6,7 +6,7 @@ class CreatesController < ApplicationController
   #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
 
   # GET /creates
-  # GET /creates.xml
+  # GET /creates.json
   def index
     case
     when @patron
@@ -19,18 +19,18 @@ class CreatesController < ApplicationController
 
     respond_to do |format|
       format.html # index.rhtml
-      format.xml  { render :xml => @creates }
+      format.json { render :json => @creates }
     end
   end
 
   # GET /creates/1
-  # GET /creates/1.xml
+  # GET /creates/1.json
   def show
     @create = Create.find(params[:id])
 
     respond_to do |format|
       format.html # show.rhtml
-      format.xml  { render :xml => @create }
+      format.json { render :json => @create }
     end
   end
 
@@ -55,7 +55,7 @@ class CreatesController < ApplicationController
   end
 
   # POST /creates
-  # POST /creates.xml
+  # POST /creates.json
   def create
     @create = Create.new(params[:create])
 
@@ -63,16 +63,16 @@ class CreatesController < ApplicationController
       if @create.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.create'))
         format.html { redirect_to(@create) }
-        format.xml  { render :xml => @create, :status => :created, :location => @create }
+        format.json { render :json => @create, :status => :created, :location => @create }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @create.errors, :status => :unprocessable_entity }
+        format.json { render :json => @create.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /creates/1
-  # PUT /creates/1.xml
+  # PUT /creates/1.json
   def update
     @create = Create.find(params[:id])
 
@@ -88,23 +88,23 @@ class CreatesController < ApplicationController
         flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.create'))
         if @patron
           format.html { redirect_to patron_works_url(@patron) }
-          format.xml  { head :ok }
+          format.json { head :no_content }
         elsif @work
           format.html { redirect_to work_patrons_url(@work) }
-          format.xml  { head :ok }
+          format.json { head :no_content }
         else
           format.html { redirect_to create_url(@create) }
-          format.xml  { head :ok }
+          format.json { head :no_content }
         end
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @create.errors, :status => :unprocessable_entity }
+        format.json { render :json => @create.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /creates/1
-  # DELETE /creates/1.xml
+  # DELETE /creates/1.json
   def destroy
     @create = Create.find(params[:id])
     @create.destroy
@@ -113,13 +113,13 @@ class CreatesController < ApplicationController
       case
       when @patron
         format.html { redirect_to patron_works_url(@patron) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       when @work
         format.html { redirect_to work_patrons_url(@work) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { redirect_to creates_url }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       end
     end
   end

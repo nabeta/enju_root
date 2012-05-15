@@ -3,35 +3,35 @@ class WorkMergeListsController < ApplicationController
   load_and_authorize_resource
 
   # GET /work_merge_lists
-  # GET /work_merge_lists.xml
+  # GET /work_merge_lists.json
   def index
     @work_merge_lists = WorkMergeList.paginate(:page => params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @work_merge_lists }
+      format.json { render :json => @work_merge_lists }
     end
   end
 
   # GET /work_merge_lists/1
-  # GET /work_merge_lists/1.xml
+  # GET /work_merge_lists/1.json
   def show
     @work_merge_list = WorkMergeList.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @work_merge_list }
+      format.json { render :json => @work_merge_list }
     end
   end
 
   # GET /work_merge_lists/new
-  # GET /work_merge_lists/new.xml
+  # GET /work_merge_lists/new.json
   def new
     @work_merge_list = WorkMergeList.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @work_merge_list }
+      format.json { render :json => @work_merge_list }
     end
   end
 
@@ -41,7 +41,7 @@ class WorkMergeListsController < ApplicationController
   end
 
   # POST /work_merge_lists
-  # POST /work_merge_lists.xml
+  # POST /work_merge_lists.json
   def create
     @work_merge_list = WorkMergeList.new(params[:work_merge_list])
 
@@ -49,16 +49,16 @@ class WorkMergeListsController < ApplicationController
       if @work_merge_list.save
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.work_merge_list'))
         format.html { redirect_to(@work_merge_list) }
-        format.xml  { render :xml => @work_merge_list, :status => :created, :location => @work_merge_list }
+        format.json { render :json => @work_merge_list, :status => :created, :location => @work_merge_list }
       else
         format.html { render :action => "new" }
-        format.xml  { render :xml => @work_merge_list.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work_merge_list.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # PUT /work_merge_lists/1
-  # PUT /work_merge_lists/1.xml
+  # PUT /work_merge_lists/1.json
   def update
     @work_merge_list = WorkMergeList.find(params[:id])
 
@@ -77,23 +77,23 @@ class WorkMergeListsController < ApplicationController
           flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.work_merge_list'))
         end
         format.html { redirect_to(@work_merge_list) }
-        format.xml  { head :ok }
+        format.json { head :no_content }
       else
         format.html { render :action => "edit" }
-        format.xml  { render :xml => @work_merge_list.errors, :status => :unprocessable_entity }
+        format.json { render :json => @work_merge_list.errors, :status => :unprocessable_entity }
       end
     end
   end
 
   # DELETE /work_merge_lists/1
-  # DELETE /work_merge_lists/1.xml
+  # DELETE /work_merge_lists/1.json
   def destroy
     @work_merge_list = WorkMergeList.find(params[:id])
     @work_merge_list.destroy
 
     respond_to do |format|
       format.html { redirect_to(work_merge_lists_url) }
-      format.xml  { head :ok }
+      format.json { head :no_content }
     end
   end
 end
