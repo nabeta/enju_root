@@ -52,7 +52,7 @@ class WorksController < ApplicationController
     @count[:total] = @works.total_entries
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json  { render :json => @works }
       format.atom
     end
@@ -97,7 +97,7 @@ class WorksController < ApplicationController
     #@subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.work_has_subjects.size)
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @work }
       format.js
     end

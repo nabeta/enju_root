@@ -24,7 +24,7 @@ class ShelvesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @shelves }
     end
   end
@@ -35,7 +35,7 @@ class ShelvesController < ApplicationController
     @shelf = Shelf.find(params[:id], :include => :library)
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @shelf }
     end
   end

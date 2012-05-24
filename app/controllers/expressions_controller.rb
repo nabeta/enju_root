@@ -54,7 +54,7 @@ class ExpressionsController < ApplicationController
     @count[:total] = @expressions.total_entries
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @expressions }
       format.atom
     end
@@ -75,7 +75,7 @@ class ExpressionsController < ApplicationController
     @expression = @expression.versions.find(@version).item if @version
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @expression }
     end
   end

@@ -72,7 +72,7 @@ class ItemsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @items }
       format.csv  { render :layout => false }
       format.atom
@@ -86,7 +86,7 @@ class ItemsController < ApplicationController
     @item = @item.versions.find(@version).item if @version
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @item }
     end
   end

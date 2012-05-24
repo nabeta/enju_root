@@ -15,7 +15,7 @@ class ReifiesController < ApplicationController
     end
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @reifies }
     end
   end
@@ -26,7 +26,7 @@ class ReifiesController < ApplicationController
     @reify = Reify.find(params[:id])
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @reify }
     end
   end

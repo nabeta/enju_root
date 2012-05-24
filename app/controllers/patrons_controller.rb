@@ -62,7 +62,7 @@ class PatronsController < ApplicationController
     @patrons = search.execute!.results
 
     respond_to do |format|
-      format.html # index.rhtml
+      format.html # index.html.erb
       format.json { render :json => @patrons }
       format.rss  { render :layout => false }
       format.atom
@@ -93,7 +93,7 @@ class PatronsController < ApplicationController
     @manifestations = @patron.manifestations.paginate(:page => params[:manifestation_list_page], :order => 'date_of_publication DESC')
 
     respond_to do |format|
-      format.html # show.rhtml
+      format.html # show.html.erb
       format.json { render :json => @patron }
       format.js
     end

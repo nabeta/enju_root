@@ -11,6 +11,11 @@ class ApplicationController < ActionController::Base
   before_filter :get_library_group, :set_locale, :set_available_languages
 
   private
+  def after_sign_in_path_for(resource)
+    session[:locale] = nil
+    super
+  end
+
   def render_403
     return if performed?
     if user_signed_in?
