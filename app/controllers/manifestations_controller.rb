@@ -516,13 +516,10 @@ class ManifestationsController < ApplicationController
       render :partial => 'manifestations/show_authors', :locals => {:manifestation => @manifestation}
     when 'pickup'
       render :partial => 'manifestations/pickup', :locals => {:manifestation => @manifestation}
-    when 'screen_shot'
-      if @manifestation.screen_shot
-        mime = FileWrapper.get_mime(@manifestation.screen_shot.path)
-        send_file @manifestation.screen_shot.path, :type => mime, :disposition => 'inline'
-      end
     when 'calil_list'
-      render :partial => 'manifestations/calil_list', :locals => {:manifestation => @manifestation}
+      if defined?(EnjuCalil)
+        render :partial => 'manifestations/calil_list', :locals => {:manifestation => @manifestation}
+      end
     else
       false
     end

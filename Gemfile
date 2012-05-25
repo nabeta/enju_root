@@ -16,24 +16,15 @@ gem 'enju_message', :git => 'git://github.com/nabeta/enju_message.git'
 gem 'enju_subject', :git => 'git://github.com/nabeta/enju_subject.git'
 gem 'enju_inter_library_loan', :git => 'git://github.com/nabeta/enju_inter_library_loan.git'
 
-platforms :ruby do
-  gem 'pg'
-  #gem 'mysql2', '~> 0.3'
-  #gem 'sqlite3'
-  gem 'ruby-prof', :group => [:development, :test]
-  gem 'zipruby'
-  gem 'kgio'
-end
+gem 'pg'
+#gem 'mysql2', '~> 0.3'
+#gem 'sqlite3'
+gem 'ruby-prof', :group => [:development, :test]
+gem 'zipruby'
+gem 'kgio'
 
-platforms :ruby_19 do
-  gem 'simplecov', '~> 0.6', :require => false, :group => :test
-  gem 'levenshtein19'
-end
-
-platforms :ruby_18 do
-  gem 'system_timer'
-  gem 'levenshtein'
-end
+gem 'simplecov', '~> 0.6', :require => false, :group => :test
+gem 'levenshtein19'
 
 platforms :jruby do
   gem 'jruby-openssl'
@@ -43,8 +34,6 @@ platforms :jruby do
   gem 'rubyzip2'
   gem 'glassfish'
 end
-
-gem 'fastercsv' if RUBY_VERSION < '1.9'
 
 gem 'will_paginate', '~> 3.0'
 gem 'exception_notification', '~> 2.6'
@@ -62,7 +51,6 @@ gem 'marc'
 gem 'dalli', '~> 2.0'
 gem 'sitemap_generator', '~> 3.1'
 gem 'ri_cal'
-gem 'file_wrapper'
 gem 'paper_trail', '~> 2.6'
 #gem 'recurrence'
 #gem 'prism'
