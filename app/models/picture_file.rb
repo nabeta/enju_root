@@ -21,20 +21,8 @@ class PictureFile < ActiveRecord::Base
   def self.per_page
     10
   end
-
-  def extname
-    ext = picture.content_type.split('/')[1].gsub('+xml', '') if picture.content_type
-    if ext == 'pjpeg'
-      ext = 'jpeg'
-    else
-      ext
-    end
-  end
-
-  def content_type
-    FileWrapper.get_mime(picture.path) rescue nil
-  end
 end
+
 # == Schema Information
 #
 # Table name: picture_files
@@ -42,14 +30,10 @@ end
 #  id                      :integer         not null, primary key
 #  picture_attachable_id   :integer
 #  picture_attachable_type :string(255)
-#  size                    :integer
 #  content_type            :string(255)
 #  title                   :text
 #  filename                :text
-#  height                  :integer
-#  width                   :integer
 #  thumbnail               :string(255)
-#  file_hash               :string(255)
 #  position                :integer
 #  created_at              :datetime        not null
 #  updated_at              :datetime        not null
@@ -58,5 +42,6 @@ end
 #  picture_file_size       :integer
 #  picture_updated_at      :datetime
 #  picture_fingerprint     :string(255)
+#  picture_meta            :text
 #
 
