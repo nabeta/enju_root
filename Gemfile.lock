@@ -8,9 +8,9 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_event.git
-  revision: bed0a940853a5bb48ad12bb58a37cde81c1b4c04
+  revision: 1cc2ba4a81c6f5da0408fca59e5caaa7c348f823
   specs:
-    enju_event (0.1.6)
+    enju_event (0.1.8)
       acts_as_list (~> 0.1.6)
       addressable
       attribute_normalizer (~> 1.1)
@@ -32,9 +32,9 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_inter_library_loan.git
-  revision: f9a95fccf2062e80161ffce1ea09104d6e36fa7a
+  revision: 1879669f1412327123700b928c1088a508a38c18
   specs:
-    enju_inter_library_loan (0.0.3)
+    enju_inter_library_loan (0.0.4)
       acts_as_list (~> 0.1.6)
       addressable
       attribute_normalizer (~> 1.1)
@@ -57,9 +57,9 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_message.git
-  revision: 5902f87108ed2c131bc5cf264ba5a7f59933d723
+  revision: fe174a6ea3570b6956fa0c18749f888aa1064e2a
   specs:
-    enju_message (0.1.2)
+    enju_message (0.1.7)
       acts_as_list (~> 0.1.6)
       addressable
       attribute_normalizer (~> 1.1)
@@ -90,9 +90,9 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_nii.git
-  revision: 56b2e659bf0a8671476a3e6bb614bfc33627209b
+  revision: faf20273f2cff951340fde7ef61b41b26bfe868c
   specs:
-    enju_nii (0.0.2)
+    enju_nii (0.0.4)
       cancan
       devise
       inherited_resources
@@ -116,9 +116,9 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_subject.git
-  revision: 6de65b530e358147515cb76060c2f36b5a502509
+  revision: 4339148e4e7a9b02157f20ef302c52eaed004f04
   specs:
-    enju_subject (0.0.13)
+    enju_subject (0.0.14)
       acts_as_list (~> 0.1.6)
       attribute_normalizer (~> 1.1)
       cancan
@@ -329,7 +329,7 @@ GEM
       activesupport (= 3.2.3)
       bundler (~> 1.0)
       railties (= 3.2.3)
-    rails_autolink (1.0.8)
+    rails_autolink (1.0.9)
       rails (~> 3.1)
     railties (3.2.3)
       actionpack (= 3.2.3)
@@ -362,7 +362,7 @@ GEM
     ruby-prof (0.11.2)
     sanitize (2.0.3)
       nokogiri (>= 1.4.4, < 1.6)
-    sass (3.1.18)
+    sass (3.1.19)
     sass-rails (3.2.5)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
