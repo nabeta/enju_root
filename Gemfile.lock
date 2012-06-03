@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/nabeta/enju_book_jacket.git
-  revision: 0d52b21f96b0e4d73a2df2afd0183cae6c3dd367
+  revision: df9510fe2bb918a61e297d373ab8c08876605290
   specs:
     enju_book_jacket (0.0.1)
       configatron
@@ -49,7 +49,7 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_manifestation_viewer.git
-  revision: 59a3037c304ce907a1f66a8dcc837acc1603fc0f
+  revision: 46e748b0d56ab4be4a0f858f84785a75004880cd
   specs:
     enju_manifestation_viewer (0.0.1)
       addressable
@@ -79,12 +79,15 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_news.git
-  revision: 9a3c3ba95397a3bf9e0c90f6611e4dbdc5b12912
+  revision: 4c65de8704cf012acaafb4e5c4aab1a893b9cb30
   specs:
-    enju_news (0.0.2)
+    enju_news (0.0.3)
       acts_as_list (~> 0.1.6)
+      addressable
+      attribute_normalizer
       cancan
       devise
+      friendly_id
       rails (~> 3.2)
       will_paginate (~> 3.0)
 
@@ -245,7 +248,7 @@ GEM
     ffi (1.0.11)
     friendly_id (4.0.6)
     geocoder (1.1.2)
-    guard (1.1.0)
+    guard (1.1.1)
       listen (>= 0.4.2)
       thor (>= 0.14.6)
     guard-rspec (0.7.3)
@@ -305,7 +308,7 @@ GEM
       mime-types
     paperclip-meta (0.4.2)
       paperclip
-    parallel (0.5.16)
+    parallel (0.5.17)
     parallel_tests (0.8.2)
       parallel
     pg (0.13.2)
