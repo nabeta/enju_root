@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.3'
+gem 'rails', '3.2.5'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -106,7 +106,7 @@ group :development, :test do
 #  gem 'metric_fu', '~> 2.1'
   gem 'timecop'
   gem 'sunspot-rails-tester', :git => 'git://github.com/nabeta/sunspot-rails-tester.git'
-  gem 'vcr', '~> 2.1'
+  gem 'vcr', '~> 2.2'
   gem 'fakeweb'
 #  gem 'churn', '0.0.13'
 end
