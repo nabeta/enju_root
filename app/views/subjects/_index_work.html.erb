@@ -35,7 +35,7 @@
             <%= link_to t('page.add'), new_work_work_has_subject_path(@work, :subject_id => subject.id) unless @work.subjects.include?(subject) -%>
           <%- else -%>
             <%- has_subject = @work.work_has_subjects.find_by_subject_id(subject) -%>
-            <%= link_to t('page.destroy'), work_work_has_subject_path(@work, has_subject), :confirm => t('page.are_you_sure'), :method => :delete -%>
+            <%= link_to t('page.destroy'), work_work_has_subject_path(@work, has_subject), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
           <%- end -%>
         </td>
       <%- end -%>

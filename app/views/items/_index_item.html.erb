@@ -61,7 +61,7 @@
         <% end %>
         <%- if can? :destroy, item -%>
           <%- item_relationship = @item.to_items.find_by_to_item_id(item.id) -%>
-          <%= link_to t('page.destroy'), item_relationship, :confirm => t('page.are_you_sure'), :method => :delete if item_relationship -%>
+          <%= link_to t('page.destroy'), item_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete if item_relationship -%>
         <%- end -%>
       </td>
     </tr>

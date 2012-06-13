@@ -14,7 +14,7 @@
     <td><%= link_to expression_merge.expression_merge_list.title, expression_merge_list_path(expression_merge.expression_merge_list) -%></td>
     <td><%= link_to t('page.show'), expression_merge -%></td>
     <td><%= link_to t('page.edit'), edit_expression_merge_path(expression_merge) -%></td>
-    <td><%= link_to t('page.destroy'), expression_merge, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), expression_merge, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

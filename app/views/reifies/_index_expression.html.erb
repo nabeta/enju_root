@@ -26,7 +26,7 @@
       <%= patrons_list(reify.expression.patrons) -%>
     </td>
     <%- if can? :destroy, reify -%>
-      <td><%= link_to t('page.destroy'), expression_reify_path(reify.expression, reify), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), expression_reify_path(reify.expression, reify), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

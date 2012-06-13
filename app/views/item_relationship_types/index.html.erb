@@ -24,7 +24,7 @@
     <td>
       <%- if can? :destroy, item_relationship_type -%>
         <%= link_to t('page.edit'), edit_item_relationship_type_path(item_relationship_type) -%>
-        <%= link_to t('page.destroy'), item_relationship_type, :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to t('page.destroy'), item_relationship_type, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
       <%- end -%>
     </td>
   </tr>

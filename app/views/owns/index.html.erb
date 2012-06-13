@@ -24,7 +24,7 @@
     </td>
     <%- if can? :destroy, own -%>
       <td><%= link_to t('page.show'), own -%></td>
-      <td><%= link_to t('page.destroy'), own, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), own, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

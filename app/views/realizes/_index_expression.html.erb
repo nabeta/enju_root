@@ -26,7 +26,7 @@
       <%= patrons_list(@expression.patrons) -%>
     </td>
     <%- if can? :destroy, realize -%>
-      <td><%= link_to t('page.destroy'), expression_realize_path(@expression, realize), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), expression_realize_path(@expression, realize), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

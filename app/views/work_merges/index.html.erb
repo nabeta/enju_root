@@ -14,7 +14,7 @@
     <td><%= link_to work_merge.work_merge_list.title, work_merge_list_path(work_merge.work_merge_list) -%></td>
     <td><%= link_to t('page.show'), work_merge -%></td>
     <td><%= link_to t('page.edit'), edit_work_merge_path(work_merge) -%></td>
-    <td><%= link_to t('page.destroy'), work_merge, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), work_merge, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

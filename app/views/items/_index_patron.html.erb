@@ -48,7 +48,7 @@
         <%= link_to t('page.edit'), edit_item_path(item) -%>
       <% end %>
       <%- if can? :destroy, item -%>
-        <%= link_to t('page.destroy'), item, :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to t('page.destroy'), item, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
       <%- end -%>
     </td>
   </tr>

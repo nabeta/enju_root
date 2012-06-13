@@ -45,7 +45,7 @@
             <%= link_to t('page.add'), new_manifestation_manifestation_relationship_path(@manifestation, :child_id => manifestation.id) unless @manifestation.derived_manifestations.include?(manifestation) or @manifestation == manifestation -%>
           <%- else -%>
             <%- manifestation_relationship = @manifestation.children.find_by_child_id(manifestation.id) -%>
-            <%= link_to t('page.destroy'), manifestation_relationship, :confirm => t('page.are_you_sure'), :method => :delete if manifestation_relationship -%>
+            <%= link_to t('page.destroy'), manifestation_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete if manifestation_relationship -%>
           <%- end -%>
         <%- end -%>
       </td>

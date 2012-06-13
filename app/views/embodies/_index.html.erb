@@ -20,7 +20,7 @@
     </td>
     <%- if can? :destroy, embody -%>
       <td><%= link_to t('page.show'), embody_path(embody) -%></td>
-      <td><%= link_to t('page.destroy'), embody_path(embody), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), embody_path(embody), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

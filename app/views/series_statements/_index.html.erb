@@ -36,7 +36,7 @@
       <%- end -%>
     </td>
     <td><%= link_to t('page.edit'), edit_series_statement_path(series_statement) %></td>
-    <td><%= link_to t('page.destroy'), series_statement, :confirm => t('page.are_you_sure'), :method => :delete %></td>
+    <td><%= link_to t('page.destroy'), series_statement, :data => {:confirm => t('page.are_you_sure')}, :method => :delete %></td>
   </tr>
 <% end %>
 </table>

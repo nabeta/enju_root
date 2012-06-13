@@ -15,7 +15,7 @@
     <td><%= link_to work_has_subject.work.original_title, work_has_subject.work -%></td>
     <td><%= link_to t('page.show'), work_has_subject -%></td>
     <td><%= link_to t('page.edit'), edit_work_has_subject_path(work_has_subject) -%></td>
-    <td><%= link_to t('page.destroy'), work_has_subject, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), work_has_subject, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>
