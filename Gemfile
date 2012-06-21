@@ -5,6 +5,7 @@ gem 'rails', '3.2.6'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
+gem 'enju_core', :git => 'git://github.com/next-l/enju_core.git'
 gem 'enju_event', :git => 'git://github.com/nabeta/enju_event.git'
 #gem 'enju_ndl', :git => 'git://github.com/nabeta/enju_ndl.git'
 gem 'enju_nii', :git => 'git://github.com/nabeta/enju_nii.git'
@@ -19,11 +20,9 @@ gem 'enju_inter_library_loan', :git => 'git://github.com/nabeta/enju_inter_libra
 gem 'pg'
 #gem 'mysql2', '~> 0.3'
 #gem 'sqlite3'
-gem 'ruby-prof', :group => [:development, :test]
 gem 'zipruby'
 gem 'kgio'
 
-gem 'simplecov', '~> 0.6', :require => false, :group => :test
 gem 'levenshtein19'
 
 platforms :jruby do
@@ -31,18 +30,15 @@ platforms :jruby do
   gem 'activerecord-jdbc-adapter'
   gem 'jdbc-postgres', :require => false
   #gem 'jdbc-mysql', :require => false
-  gem 'rubyzip2'
+  gem 'rubyzip'
   gem 'glassfish'
 end
 
-gem 'will_paginate', '~> 3.0'
 gem 'exception_notification', '~> 2.6'
 gem 'configatron'
 gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'state_machine', '~> 1.1.2'
-gem 'sunspot_rails', '~> 2.0.0.pre.120417'
-gem 'friendly_id', '~> 4.0'
 gem 'inherited_resources', '~> 1.3'
 gem 'has_scope'
 gem 'nokogiri'
@@ -56,10 +52,8 @@ gem 'paper_trail', '~> 2.6'
 #gem 'prism'
 #gem 'money'
 gem 'RedCloth', '>= 4.2.9'
-gem 'isbn-tools', :git => 'git://github.com/nabeta/isbn-tools.git', :require => 'isbn/tools'
+gem 'lisbn'
 #gem 'extractcontent'
-gem 'cancan', '>= 1.6.7'
-gem 'devise', '~> 2.1'
 gem 'devise-encryptable'
 #gem 'omniauth', '~> 1.0'
 gem 'addressable'
@@ -72,10 +66,8 @@ gem 'whenever', :require => false
 gem 'astrails-safe'
 gem 'dynamic_form'
 gem 'sanitize'
-gem 'attribute_normalizer', '~> 1.1'
 #gem 'geokit'
 gem 'geocoder'
-gem 'acts_as_list', '~> 0.1.6'
 gem 'library_stdnums'
 gem 'client_side_validations', '~> 3.2.0.beta.3'
 gem 'simple_form', '~> 2.0'
@@ -98,6 +90,8 @@ group :development do
 end
 
 group :development, :test do
+  gem 'ruby-prof'
+  gem 'simplecov', '~> 0.6', :require => false
   gem 'rspec-rails', '~> 2.10'
   gem 'guard-rspec'
   gem 'factory_girl_rails', '~> 3.4'
@@ -105,7 +99,7 @@ group :development, :test do
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'
   gem 'timecop'
-  gem 'sunspot-rails-tester', :git => 'git://github.com/nabeta/sunspot-rails-tester.git'
+  gem 'sunspot-rails-tester', :git => 'git://github.com/justinko/sunspot-rails-tester.git'
   gem 'vcr', '~> 2.2'
   gem 'fakeweb'
 #  gem 'churn', '0.0.13'
