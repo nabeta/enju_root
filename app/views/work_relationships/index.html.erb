@@ -16,7 +16,7 @@
     <td><%= work_relationship.work_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), work_relationship -%></td>
     <td><%= link_to t('page.edit'), edit_work_relationship_path(work_relationship) -%></td>
-    <td><%= link_to t('page.destroy'), work_relationship, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), work_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

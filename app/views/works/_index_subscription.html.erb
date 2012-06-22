@@ -34,7 +34,7 @@
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :work_id => work.id) -%>
           <%- else -%>
-            <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, @subscription.subscribed(work)), :confirm => t('page.are_you_sure'), :method => :delete -%>
+            <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, @subscription.subscribed(work)), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
           <%- end -%>
         <%- end -%>
       </td>

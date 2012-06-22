@@ -16,7 +16,7 @@
       <%= form_icon(embody.manifestation.carrier_type) -%>
     </td>
     <%- if can? :destroy, embody -%>
-      <td><%= link_to t('page.destroy'), embody, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), embody, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

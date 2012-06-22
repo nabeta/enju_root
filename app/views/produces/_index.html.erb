@@ -14,7 +14,7 @@
     <td><%= link_to produce.manifestation.original_title, produce.manifestation -%></td>
     <%- if can? :destroy, produce -%>
       <td><%= link_to t('page.show'), produce -%></td>
-      <td><%= link_to t('page.destroy'), produce, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), produce, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

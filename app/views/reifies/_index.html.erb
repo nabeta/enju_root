@@ -14,7 +14,7 @@
     <td><%= link_to reify.expression.original_title, reify.expression -%></td>
     <%- if can? :destroy, reify -%>
       <td><%= link_to t('page.show'), reify -%></td>
-      <td><%= link_to t('page.destroy'), reify, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), reify, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

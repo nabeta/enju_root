@@ -18,7 +18,7 @@
     </td>
     <td><%= link_to produce.patron.full_name, produce.patron -%></td>
     <%- if can? :destroy, produce -%>
-      <td><%= link_to t('page.destroy'), manifestation_produce_path(produce.manifestation, produce), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), manifestation_produce_path(produce.manifestation, produce), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

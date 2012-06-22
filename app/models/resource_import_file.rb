@@ -251,7 +251,7 @@ class ResourceImportFile < ActiveRecord::Base
     end
 
     unless row['isbn'].blank?
-      isbn = ISBN_Tools.cleanup(row['isbn'])
+      isbn = StdNum::ISBN.normalize(row['isbn'])
       unless manifestation = Manifestation.find_by_isbn(isbn)
         manifestation = Manifestation.import_isbn!(isbn) rescue nil
         #num[:success] += 1 if manifestation
@@ -282,8 +282,9 @@ class ResourceImportFile < ActiveRecord::Base
         #work.subjects << subjects
         #expression = self.class.import_expression(work, contributor_patrons)
 
-        if ISBN_Tools.is_valid?(row['isbn'].to_s.strip)
-          isbn = ISBN_Tools.cleanup(row['isbn'])
+        lisbn = Lisbn.new(row['isbn'].to_s.strip)
+        if lisbn.isbn.valid?
+          isbn = lisbn.isbn
         end
         date_of_publication = Time.zone.parse(row['date_of_publication']) rescue nil
         # TODO: 小数点以下の表現

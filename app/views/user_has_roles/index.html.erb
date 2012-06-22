@@ -17,7 +17,7 @@
     <td><%= link_to t('page.show'), user_has_role -%></td>
     <td>
       <%= link_to t('page.edit'), edit_user_has_role_path(user_has_role) -%>
-      <%= link_to t('page.destroy'), user_has_role, :confirm => t('page.are_you_sure'), :method => :delete -%>
+      <%= link_to t('page.destroy'), user_has_role, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
     </td>
   </tr>
 <%- end -%>

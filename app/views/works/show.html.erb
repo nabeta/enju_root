@@ -32,7 +32,7 @@
     <%- if can? :destroy, @work -%>
       <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
       <li><%= link_to t('page.edit'), edit_work_path(@work) -%></li>
-      <li><%= link_to t('page.destroy'), @work, :confirm => t('page.are_you_sure'), :method => :delete -%></li>
+      <li><%= link_to t('page.destroy'), @work, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
     <%- end -%>
   </ul>
   <ul>

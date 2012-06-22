@@ -36,7 +36,7 @@
             <%= link_to t('page.add'), new_work_work_relationship_path(@work, :child_id => work.id) unless @work.derived_works.include?(work) or @work == work -%>
           <%- else -%>
             <%- work_relationship = @work.childs.find_by_child_id(work.id) -%>
-            <%= link_to t('page.destroy'), work_relationship, :confirm => t('page.are_you_sure'), :method => :delete if work_relationship -%>
+            <%= link_to t('page.destroy'), work_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete if work_relationship -%>
           <%- end -%>
         </td>
       <%- end -%>

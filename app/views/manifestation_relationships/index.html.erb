@@ -16,7 +16,7 @@
     <td><%= manifestation_relationship.manifestation_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), manifestation_relationship -%></td>
     <td><%= link_to t('page.edit'), edit_manifestation_relationship_path(manifestation_relationship) -%></td>
-    <td><%= link_to t('page.destroy'), manifestation_relationship, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), manifestation_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

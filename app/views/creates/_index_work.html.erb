@@ -26,7 +26,7 @@
     <td><%= l(create.updated_at) -%></td>
     <%- if can? :destroy, create -%>
       <td><%= link_to t('page.show'), work_create_path(@work, create) -%></td>
-      <td><%= link_to t('page.destroy'), work_create_path(@work, create), :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), work_create_path(@work, create), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
     </tr>
 <%- end -%>

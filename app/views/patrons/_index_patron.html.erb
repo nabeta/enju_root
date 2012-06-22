@@ -48,7 +48,7 @@
         <% end %>
         <%- if can? :destroy, patron -%>
           <%- patron_relationship = @patron.children.find_by_child_id(patron.id) -%>
-          <%= link_to t('page.destroy'), patron_relationship, :confirm => t('page.are_you_sure'), :method => :delete if patron_relationship -%>
+          <%= link_to t('page.destroy'), patron_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete if patron_relationship -%>
         <%- end -%>
       </td>
     </tr>

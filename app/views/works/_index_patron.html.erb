@@ -35,7 +35,7 @@
           <%- if params[:mode] == "add" -%>
             <%= link_to t('page.add'), new_patron_create_path(@patron, :work_id => work.id) -%>
           <%- else -%>
-            <%= link_to t('page.destroy'), patron_create_path(@patron, @patron.created(work)), :confirm => t('page.are_you_sure'), :method => :delete -%>
+            <%= link_to t('page.destroy'), patron_create_path(@patron, @patron.created(work)), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
           <%- end -%>
         <%- end -%>
       </td>

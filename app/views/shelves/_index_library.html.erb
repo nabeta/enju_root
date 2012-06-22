@@ -20,7 +20,7 @@
     <td><%= link_to shelf.library.display_name.localize, shelf.library -%></td>
     <%- if can? :destroy, shelf -%>
       <td><%= link_to t('page.edit'), edit_library_shelf_path(shelf.library, shelf) -%></td>
-      <td><%= link_to t('page.destroy'), shelf, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+      <td><%= link_to t('page.destroy'), shelf, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
     <%- end -%>
   </tr>
 <%- end -%>

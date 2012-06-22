@@ -37,7 +37,7 @@
           <%= link_to t('page.add'), new_subscription_subscribe_path(@subscription, :manifestation_id => manifestation.id) unless @subscription.manifestations.include?(manifestation) -%>
         <%- else -%>
           <%- subscribe = @subscription.subscribes.find_by_manifestation_id(manifestation.id) -%>
-          <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, subscribe), :confirm => t('page.are_you_sure'), :method => :delete -%>
+          <%= link_to t('page.destroy'), subscription_subscribe_path(@subscription, subscribe), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
         <%- end -%>
       <%- end -%>
     </td>

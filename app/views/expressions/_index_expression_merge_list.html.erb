@@ -39,7 +39,7 @@
       <%- end -%>
       <%- if can? :destroy, expression -%>
         <%- expression_merge = @expression_merge_list.expression_merges.find_by_expression_id(expression) -%>
-        <%= link_to t('page.destroy'), expression_merge_list_expression_merge_path(@expression_merge_list, expression_merge), :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to t('page.destroy'), expression_merge_list_expression_merge_path(@expression_merge_list, expression_merge), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
       <%- end -%>
     </td>
   </tr>

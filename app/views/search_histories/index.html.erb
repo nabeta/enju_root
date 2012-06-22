@@ -41,7 +41,7 @@
     </td>
     <td>
       <%- if can? :destroy, search_history -%>
-        <%= link_to t('page.destroy'), search_history, :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to t('page.destroy'), search_history, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
       <%- end -%>
     </td>
   </tr>

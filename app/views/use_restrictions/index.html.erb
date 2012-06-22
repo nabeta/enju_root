@@ -24,7 +24,7 @@
         <%= link_to t('page.edit'), edit_use_restriction_path(use_restriction) -%>
       <% end %>
       <%- if can? :destroy, use_restriction -%>
-        <%= link_to t('page.destroy'), use_restriction, :confirm => t('page.are_you_sure'), :method => :delete -%>
+        <%= link_to t('page.destroy'), use_restriction, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
       <%- end -%>
     </td>
   </tr>

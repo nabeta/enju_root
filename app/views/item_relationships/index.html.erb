@@ -16,7 +16,7 @@
     <td><%= item_relationship.item_relationship_type.display_name.localize -%></td>
     <td><%= link_to t('page.show'), item_relationship -%></td>
     <td><%= link_to t('page.edit'), edit_item_relationship_path(item_relationship) -%></td>
-    <td><%= link_to t('page.destroy'), item_relationship, :confirm => t('page.are_you_sure'), :method => :delete -%></td>
+    <td><%= link_to t('page.destroy'), item_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
   </tr>
 <%- end -%>
 </table>

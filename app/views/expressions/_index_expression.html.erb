@@ -42,7 +42,7 @@
         <% end %>
         <%- if can? :destroy, expression -%>
           <%- expression_relationship = @expression.children.find_by_child_id(expression.id) -%>
-          <%= link_to t('page.destroy'), expression_relationship, :confirm => t('page.are_you_sure'), :method => :delete if expression_relationship -%>
+          <%= link_to t('page.destroy'), expression_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete if expression_relationship -%>
         <%- end -%>
       </td>
     </tr>
