@@ -44,7 +44,7 @@ gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
 #gem 'attr_encryptor'
-gem 'dalli', '~> 2.0'
+gem 'dalli', '~> 2.1'
 gem 'sitemap_generator', '~> 3.1'
 gem 'ri_cal'
 gem 'paper_trail', '~> 2.6'
@@ -59,7 +59,7 @@ gem 'devise-encryptable'
 gem 'addressable'
 gem 'paperclip', '~> 3.0'
 gem 'paperclip-meta'
-gem 'aws-sdk', '~> 1.4'
+gem 'aws-sdk', '~> 1.5'
 gem 'whenever', :require => false
 #gem 'amazon-ecs', '>= 2.2.0', :require => 'amazon/ecs'
 #gem 'aws-s3', :require => 'aws/s3'
@@ -75,16 +75,15 @@ gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
-
-#group :production do
-#  gem 'vidibus-routing_error'
-#end
+#gem 'strong_parameters'
+gem 'resque-scheduler', '~> 2.0.0', :require => 'resque_scheduler'
+gem 'resque_mailer'
 
 gem 'oink', '>= 0.9.3'
 
 group :development do
   gem 'parallel_tests', '~> 0.8'
-  gem 'annotate', '~> 2.4.1.beta1'
+  gem 'annotate', '~> 2.5.0.pre1'
   gem 'progress_bar'
   gem 'sunspot_solr', '~> 2.0.0.pre.120417'
 end
@@ -94,7 +93,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.6', :require => false
   gem 'rspec-rails', '~> 2.10'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 3.4'
+  gem 'factory_girl_rails', '~> 3.5'
   gem 'spork-rails'
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'
