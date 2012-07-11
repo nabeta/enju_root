@@ -44,7 +44,7 @@ gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
 #gem 'attr_encryptor'
-gem 'dalli', '~> 2.0'
+gem 'dalli', '~> 2.1'
 gem 'sitemap_generator', '~> 3.1'
 gem 'ri_cal'
 gem 'paper_trail', '~> 2.6'
@@ -84,7 +84,7 @@ gem 'oink', '>= 0.9.3'
 
 group :development do
   gem 'parallel_tests', '~> 0.8'
-  gem 'annotate', '~> 2.4.1.beta1'
+  gem 'annotate', '~> 2.5.0.pre1'
   gem 'progress_bar'
   gem 'sunspot_solr', '~> 2.0.0.pre.120417'
 end
@@ -94,7 +94,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.6', :require => false
   gem 'rspec-rails', '~> 2.10'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 3.4'
+  gem 'factory_girl_rails', '~> 3.5'
   gem 'spork-rails'
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'
