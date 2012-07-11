@@ -59,7 +59,7 @@ gem 'devise-encryptable'
 gem 'addressable'
 gem 'paperclip', '~> 3.0'
 gem 'paperclip-meta'
-gem 'aws-sdk', '~> 1.4'
+gem 'aws-sdk', '~> 1.5'
 gem 'whenever', :require => false
 #gem 'amazon-ecs', '>= 2.2.0', :require => 'amazon/ecs'
 #gem 'aws-s3', :require => 'aws/s3'
@@ -75,10 +75,9 @@ gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
-
-#group :production do
-#  gem 'vidibus-routing_error'
-#end
+#gem 'strong_parameters'
+gem 'resque-scheduler', '~> 2.0.0', :require => 'resque_scheduler'
+gem 'resque_mailer'
 
 gem 'oink', '>= 0.9.3'
 
