@@ -78,6 +78,7 @@ gem 'rails_autolink'
 #gem 'strong_parameters'
 gem 'resque-scheduler', :require => 'resque_scheduler'
 gem 'resque_mailer'
+gem 'linkeddata'
 
 gem 'oink', '>= 0.9.3'
 
