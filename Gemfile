@@ -69,23 +69,24 @@ gem 'sanitize'
 #gem 'geokit'
 gem 'geocoder'
 gem 'library_stdnums'
-gem 'client_side_validations', '~> 3.2.0.beta.3'
+gem 'client_side_validations', '~> 3.2.0.beta.6'
 gem 'simple_form', '~> 2.0'
 gem 'validates_timeliness'
 gem 'rack-protection'
 gem 'awesome_nested_set', '~> 2.1'
 gem 'rails_autolink'
 #gem 'strong_parameters'
-gem 'resque-scheduler', '~> 2.0.0', :require => 'resque_scheduler'
+gem 'resque-scheduler', :require => 'resque_scheduler'
 gem 'resque_mailer'
+gem 'linkeddata'
 
 gem 'oink', '>= 0.9.3'
 
 group :development do
   gem 'parallel_tests', '~> 0.8'
-  gem 'annotate', '~> 2.5.0.pre1'
+  gem 'annotate', '~> 2.5.0.pre2'
   gem 'progress_bar'
-  gem 'sunspot_solr', '~> 2.0.0.pre.120417'
+  gem 'sunspot_solr', '~> 2.0.0.pre.120720'
 end
 
 group :development, :test do
