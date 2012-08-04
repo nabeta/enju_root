@@ -43,11 +43,11 @@ class SubjectsController < ApplicationController
 
     role = current_user.try(:role) || Role.find('Guest')
     search.build do
-      with(:required_role_id).less_than role.id
+      with(:required_role_id).less_than_or_equal_to role.id
     end
 
     page = params[:page] || 1
-    search.query.paginate(page.to_i, Subject.per_page)
+    search.query.paginate(page.to_i, Subject.default_per_page)
     @subjects = search.execute!.results
     session[:params] = {} unless session[:params]
     session[:params][:subject] = params
@@ -76,7 +76,7 @@ class SubjectsController < ApplicationController
       with(:subject_ids).equal_to subject.id if subject
     end
     page = params[:work_page] || 1
-    search.query.paginate(page.to_i, Work.per_page)
+    search.query.paginate(page.to_i, Work.default_per_page)
     @works = search.execute!.results
     #@works = @subject.works.paginate(:page => params[:work_page], :total_entries => @subject.work_has_subjects.size)
 

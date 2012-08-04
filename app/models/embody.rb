@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: embodies
+#
+#  id               :integer          not null, primary key
+#  expression_id    :integer          not null
+#  manifestation_id :integer          not null
+#  type             :string(255)
+#  position         :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 class Embody < ActiveRecord::Base
   belongs_to :expression
   belongs_to :manifestation
@@ -10,9 +23,7 @@ class Embody < ActiveRecord::Base
 
   acts_as_list :scope => :expression
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def reindex
     expression.index
@@ -20,16 +31,3 @@ class Embody < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: embodies
-#
-#  id               :integer         not null, primary key
-#  expression_id    :integer         not null
-#  manifestation_id :integer         not null
-#  type             :string(255)
-#  position         :integer
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
-#
-

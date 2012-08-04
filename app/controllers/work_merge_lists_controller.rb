@@ -5,7 +5,7 @@ class WorkMergeListsController < ApplicationController
   # GET /work_merge_lists
   # GET /work_merge_lists.json
   def index
-    @work_merge_lists = WorkMergeList.paginate(:page => params[:page])
+    @work_merge_lists = WorkMergeList.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: work_relationship_types
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 --- 
 work_relationship_type_00001: 
   position: 1
@@ -62,16 +75,3 @@ work_relationship_type_00007:
   note: ""
   display_name: "en:Imitation\r\n\
     ja:模倣"
-# == Schema Information
-#
-# Table name: work_relationship_types
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: expression_relationships
+#
+#  id                              :integer          not null, primary key
+#  parent_id                       :integer
+#  child_id                        :integer
+#  expression_relationship_type_id :integer
+#  position                        :integer
+#  created_at                      :datetime         not null
+#  updated_at                      :datetime         not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
@@ -9,16 +22,3 @@ two:
   parent_id: 2
   child_id: 3
   expression_relationship_type_id: 1
-# == Schema Information
-#
-# Table name: expression_relationships
-#
-#  id                              :integer         not null, primary key
-#  parent_id                       :integer
-#  child_id                        :integer
-#  expression_relationship_type_id :integer
-#  position                        :integer
-#  created_at                      :datetime        not null
-#  updated_at                      :datetime        not null
-#
-

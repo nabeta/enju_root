@@ -1,11 +1,19 @@
+# == Schema Information
+#
+# Table name: work_merge_lists
+#
+#  id         :integer          not null, primary key
+#  title      :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class WorkMergeList < ActiveRecord::Base
   has_many :work_merges, :dependent => :destroy
   has_many :works, :through => :work_merges
   validates_presence_of :title
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def merge_works(selected_work)
     self.works.each do |work|
@@ -15,13 +23,3 @@ class WorkMergeList < ActiveRecord::Base
     end
   end
 end
-# == Schema Information
-#
-# Table name: work_merge_lists
-#
-#  id         :integer         not null, primary key
-#  title      :string(255)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#
-

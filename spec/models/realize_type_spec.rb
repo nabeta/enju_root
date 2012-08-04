@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: realize_types
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 require 'spec_helper'
 
 describe RealizeType do
@@ -5,17 +18,3 @@ describe RealizeType do
     FactoryGirl.create(:realize_type)
   end
 end
-
-# == Schema Information
-#
-# Table name: realize_types
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime
-#  updated_at   :datetime
-#
-

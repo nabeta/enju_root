@@ -7,11 +7,11 @@ class WorkMergesController < ApplicationController
   # GET /work_merges.json
   def index
     if @work
-      @work_merges = @work.work_merges.paginate(:page => params[:page], :order => ['work_merges.id'])
+      @work_merges = @work.work_merges.order('work_merges.id').page(params[:page])
     elsif @work_merge_list
-      @work_merges = @work_merge_list.work_merges.paginate(:page => params[:page], :include => 'work', :order => ['work_merges.id'])
+      @work_merges = @work_merge_list.work_merges.includes(:work).order('work_merges.id').page(params[:page])
     else
-      @work_merges = WorkMerge.paginate(:page => params[:page])
+      @work_merges = WorkMerge.page(params[:page])
     end
 
     respond_to do |format|

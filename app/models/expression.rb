@@ -1,3 +1,31 @@
+# == Schema Information
+#
+# Table name: expressions
+#
+#  id                          :integer          not null, primary key
+#  original_title              :text             not null
+#  title_transcription         :text
+#  title_alternative           :text
+#  summarization               :text
+#  context                     :text
+#  language_id                 :integer          default(1), not null
+#  content_type_id             :integer          default(1), not null
+#  note                        :text
+#  realizes_count              :integer          default(0), not null
+#  embodies_count              :integer          default(0), not null
+#  resource_has_subjects_count :integer          default(0), not null
+#  lock_version                :integer          default(0), not null
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  deleted_at                  :datetime
+#  required_role_id            :integer          default(1), not null
+#  feed_url                    :string(255)
+#  state                       :string(255)
+#  required_score              :integer          default(0), not null
+#  date_of_expression          :datetime
+#  identifier                  :string(255)
+#
+
 # -*- encoding: utf-8 -*-
 class Expression < ActiveRecord::Base
   has_one :reify, :dependent => :destroy
@@ -45,9 +73,7 @@ class Expression < ActiveRecord::Base
   attr_accessor :new_work_id
   alias :contributors :patrons
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def title
     title_array = titles
@@ -88,31 +114,3 @@ class Expression < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: expressions
-#
-#  id                          :integer         not null, primary key
-#  original_title              :text            not null
-#  title_transcription         :text
-#  title_alternative           :text
-#  summarization               :text
-#  context                     :text
-#  language_id                 :integer         default(1), not null
-#  content_type_id             :integer         default(1), not null
-#  note                        :text
-#  realizes_count              :integer         default(0), not null
-#  embodies_count              :integer         default(0), not null
-#  resource_has_subjects_count :integer         default(0), not null
-#  lock_version                :integer         default(0), not null
-#  created_at                  :datetime        not null
-#  updated_at                  :datetime        not null
-#  deleted_at                  :datetime
-#  required_role_id            :integer         default(1), not null
-#  feed_url                    :string(255)
-#  state                       :string(255)
-#  required_score              :integer         default(0), not null
-#  date_of_expression          :datetime
-#  identifier                  :string(255)
-#
-

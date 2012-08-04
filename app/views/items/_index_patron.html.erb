@@ -26,7 +26,6 @@
     <th><%= t('activerecord.attributes.item.call_number') -%></th>
     <th><%= t('activerecord.models.library') -%></th>
     <th><%= t('activerecord.models.shelf') -%></th>
-    <th><%= t('activerecord.models.circulation_status') -%></th>
     <th></th>
   </tr>
   
@@ -42,7 +41,6 @@
     <td><%= item.call_number -%></td>
     <td><%= link_to item.shelf.library.display_name.localize, item.shelf.library -%></td>
     <td><%= link_to item.shelf.display_name.localize, item.shelf -%></td>
-    <td><%= item.circulation_status.display_name.localize -%></td>
     <td>
       <%- if can? :update, item -%>
         <%= link_to t('page.edit'), edit_item_path(item) -%>
@@ -55,7 +53,7 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@items) -%>
+<%= paginate(@items) -%>
 </div>
 </div>
 

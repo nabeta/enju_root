@@ -9,5 +9,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@subjects, :param_name => :subject_page, :class => 'content_pagination digg_pagination') -%>
+<%= paginate(@subjects, :param_name => :subject_page, :remote => true) -%>
 </div>

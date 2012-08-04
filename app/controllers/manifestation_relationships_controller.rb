@@ -7,7 +7,7 @@ class ManifestationRelationshipsController < InheritedResources::Base
   end
 
   def index
-    @manifestation_relationships = ManifestationRelationship.paginate(:page => params[:page])
+    @manifestation_relationships = ManifestationRelationship.page(params[:page])
   end
 
   def new

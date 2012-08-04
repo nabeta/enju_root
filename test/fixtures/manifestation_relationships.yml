@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: manifestation_relationships
+#
+#  id                                 :integer          not null, primary key
+#  parent_id                          :integer
+#  child_id                           :integer
+#  manifestation_relationship_type_id :integer
+#  position                           :integer
+#  created_at                         :datetime         not null
+#  updated_at                         :datetime         not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
@@ -27,16 +40,3 @@ five:
   child_id: 206
   position: 1
   manifestation_relationship_type_id: 1
-# == Schema Information
-#
-# Table name: manifestation_relationships
-#
-#  id                                 :integer         not null, primary key
-#  parent_id                          :integer
-#  child_id                           :integer
-#  manifestation_relationship_type_id :integer
-#  position                           :integer
-#  created_at                         :datetime        not null
-#  updated_at                         :datetime        not null
-#
-

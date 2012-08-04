@@ -9,9 +9,9 @@ class ReifiesController < ApplicationController
   # GET /reifies.json
   def index
     if @work
-      @reifies = @work.reifies.paginate(:page => params[:page])
+      @reifies = @work.reifies.page(params[:page])
     else
-      @reifies = Reify.paginate(:page => params[:page])
+      @reifies = Reify.page(params[:page])
     end
 
     respond_to do |format|

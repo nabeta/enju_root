@@ -5,7 +5,7 @@ class ExpressionMergeListsController < ApplicationController
   # GET /expression_merge_lists
   # GET /expression_merge_lists.json
   def index
-    @expression_merge_lists = ExpressionMergeList.paginate(:page => params[:page])
+    @expression_merge_lists = ExpressionMergeList.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

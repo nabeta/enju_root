@@ -8,6 +8,7 @@ end
 require 'rubygems'
 require 'spork'
 require 'vcr'
+require 'sunspot-rails-tester'
 
 Spork.prefork do
   # Loading more in this block will cause your tests to run faster. However, 
@@ -41,9 +42,6 @@ Spork.prefork do
   # instead of true.
     config.use_transactional_fixtures = true
 
-    config.include Devise::TestHelpers, :type => :controller
-    config.include Devise::TestHelpers, :type => :view
-
     $original_sunspot_session = Sunspot.session
 
     config.before do
@@ -56,7 +54,7 @@ Spork.prefork do
     config.before :each, :solr => true do
       Sunspot::Rails::Tester.start_original_sunspot_session
       Sunspot.session = $original_sunspot_session
-      #Sunspot.remove_all!
+      Sunspot.remove_all!
     end
 
     config.extend ControllerMacros, :type => :controller

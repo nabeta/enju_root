@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: search_engines
+#
+#  id               :integer          not null, primary key
+#  name             :string(255)      not null
+#  url              :string(255)      not null
+#  base_url         :text             not null
+#  http_method      :text             not null
+#  query_param      :text             not null
+#  additional_param :text
+#  note             :text
+#  position         :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 class SearchEngine < ActiveRecord::Base
   default_scope :order => "position"
   belongs_to :library_group, :validate => true
@@ -10,9 +27,7 @@ class SearchEngine < ActiveRecord::Base
   after_save :clear_all_cache
   after_destroy :clear_all_cache
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def clear_all_cache
     Rails.cache.delete('search_engine_all')
@@ -35,20 +50,3 @@ class SearchEngine < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: search_engines
-#
-#  id               :integer         not null, primary key
-#  name             :string(255)     not null
-#  url              :string(255)     not null
-#  base_url         :text            not null
-#  http_method      :text            not null
-#  query_param      :text            not null
-#  additional_param :text
-#  note             :text
-#  position         :integer
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
-#
-

@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: use_restrictions
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 --- 
 use_restriction_00006: 
   name: Not For Loan
@@ -95,16 +108,3 @@ use_restriction_00005:
   note: ""
   created_at: 2008-02-12 17:56:01.916749 +09:00
   position: 6
-# == Schema Information
-#
-# Table name: use_restrictions
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

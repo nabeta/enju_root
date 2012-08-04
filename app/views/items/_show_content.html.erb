@@ -6,11 +6,6 @@
 </p>
 
 <p>
-  <strong><%= t('activerecord.models.circulation_status') -%>:</strong>
-  <%= link_to @item.circulation_status.display_name.localize, @item.circulation_status -%>
-</p>
-
-<p>
   <strong><%= t('activerecord.attributes.item.call_number') -%>:</strong>
   <%= @item.call_number -%>
 </p>
@@ -45,15 +40,6 @@
   </ul>
 </p>
 -->
-
-<%- if can? :update, @item -%>
-  <p>
-    <strong><%= t('item.donor') -%>:</strong>
-    <%- @item.donors.each do |patron| -%>
-      <%= link_to patron.full_name, patron -%>
-    <%- end -%>
-  </p>
-<%- end -%>
 
 <p>
   <strong><%= t('page.created_at') -%>:</strong>

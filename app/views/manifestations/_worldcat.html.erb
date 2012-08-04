@@ -13,6 +13,6 @@
     </tr>
   <%- end -%>
 </table>
-<%= will_paginate(@worldcat_results, :param_name => :worldcat_page, :class => 'content_pagination digg_pagination') -%>
+<%= paginate(@worldcat_results, :param_name => :worldcat_page, :remote => true) -%>
 <%- end -%>
 </div>

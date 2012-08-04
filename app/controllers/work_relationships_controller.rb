@@ -7,7 +7,7 @@ class WorkRelationshipsController < InheritedResources::Base
   end
 
   def index
-    @work_relationships = WorkRelationship.paginate(:page => params[:page])
+    @work_relationships = WorkRelationship.page(params[:page])
   end
 
   def new

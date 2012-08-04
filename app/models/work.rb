@@ -1,3 +1,30 @@
+# == Schema Information
+#
+# Table name: works
+#
+#  id                          :integer          not null, primary key
+#  original_title              :text             not null
+#  title_transcription         :text
+#  title_alternative           :text
+#  context                     :text
+#  form_of_work_id             :integer          default(1), not null
+#  note                        :text
+#  creates_count               :integer          default(0), not null
+#  reifies_count               :integer          default(0), not null
+#  resource_has_subjects_count :integer          default(0), not null
+#  lock_version                :integer          default(0), not null
+#  created_at                  :datetime         not null
+#  updated_at                  :datetime         not null
+#  deleted_at                  :datetime
+#  required_role_id            :integer          default(1), not null
+#  state                       :string(255)
+#  required_score              :integer          default(0), not null
+#  medium_of_performance_id    :integer          default(1), not null
+#  parent_of_series            :boolean          default(FALSE), not null
+#  series_statement_id         :integer
+#  work_identifier             :string(255)
+#
+
 # -*- encoding: utf-8 -*-
 class Work < ActiveRecord::Base
   has_many :creates, :dependent => :destroy
@@ -21,8 +48,6 @@ class Work < ActiveRecord::Base
   #has_many_polymorphs :subjects, :from => [:concepts, :places], :through => :work_has_subjects
   #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :creates
   belongs_to :medium_of_performance
-  has_many :subscribes, :dependent => :destroy
-  has_many :subscriptions, :through => :subscribes
   belongs_to :series_statement
 
   accepts_nested_attributes_for :expressions, :allow_destroy => true
@@ -43,7 +68,6 @@ class Work < ActiveRecord::Base
     integer :manifestation_ids, :multiple => true do
       expressions.collect(&:manifestations).flatten.collect(&:id)
     end
-    integer :subscription_ids, :multiple => true
     integer :series_statement_id
   end
 
@@ -55,9 +79,7 @@ class Work < ActiveRecord::Base
   validates_presence_of :original_title, :form_of_work_id
   alias :creators :patrons
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def title
     array = titles
@@ -97,15 +119,6 @@ class Work < ActiveRecord::Base
     reifies.where(:expression_id => expression.id).first
   end
 
-  def subscribed?(time = Time.zone.now)
-    if subscribe = subscribes.first(:order => 'end_at DESC')
-      if subscribe.end_at
-        return true if subscribe.start_at <= time and subscribe.end_at >= time
-      end
-    end
-    false
-  end
-
   def expire_cache
     Rails.cache.fetch("work_screen_shot_#{id}")
     Rails.cache.write("work_search_total", Work.search.total)
@@ -115,30 +128,3 @@ class Work < ActiveRecord::Base
     Rails.cache.fetch("work_search_total"){Work.search.total}
   end
 end
-# == Schema Information
-#
-# Table name: works
-#
-#  id                          :integer         not null, primary key
-#  original_title              :text            not null
-#  title_transcription         :text
-#  title_alternative           :text
-#  context                     :text
-#  form_of_work_id             :integer         default(1), not null
-#  note                        :text
-#  creates_count               :integer         default(0), not null
-#  reifies_count               :integer         default(0), not null
-#  resource_has_subjects_count :integer         default(0), not null
-#  lock_version                :integer         default(0), not null
-#  created_at                  :datetime        not null
-#  updated_at                  :datetime        not null
-#  deleted_at                  :datetime
-#  required_role_id            :integer         default(1), not null
-#  state                       :string(255)
-#  required_score              :integer         default(0), not null
-#  medium_of_performance_id    :integer         default(1), not null
-#  parent_of_series            :boolean         default(FALSE), not null
-#  series_statement_id         :integer
-#  work_identifier             :string(255)
-#
-

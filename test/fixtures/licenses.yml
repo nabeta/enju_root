@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: licenses
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :string(255)
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
@@ -13,16 +26,3 @@ two:
   display_name: MIT
   note: MIT
   position: 2
-# == Schema Information
-#
-# Table name: licenses
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :string(255)
-#  note         :text
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

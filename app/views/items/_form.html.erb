@@ -9,11 +9,6 @@
   </div>
 
   <div class="field">
-    <%= f.label t('activerecord.models.circulation_status') -%><br />
-    <%= f.select(:circulation_status_id, @circulation_statuses.collect{|c| [c.display_name.localize, c.id]}) -%>
-  </div>
-
-  <div class="field">
     <%= f.label t('activerecord.attributes.item.call_number') -%><br />
     <%= f.text_field :call_number -%>
   </div>

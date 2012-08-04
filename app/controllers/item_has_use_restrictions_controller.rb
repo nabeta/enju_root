@@ -7,9 +7,9 @@ class ItemHasUseRestrictionsController < ApplicationController
   # GET /item_has_use_restrictions.json
   def index
     if @item
-      @item_has_use_restrictions = @item.item_has_use_restrictions.paginate(:page => params[:page], :order => ['item_has_use_restrictions.id'])
+      @item_has_use_restrictions = @item.item_has_use_restrictions.order('item_has_use_restrictions.id').page(params[:page])
     else
-      @item_has_use_restrictions = ItemHasUseRestriction.paginate(:page => params[:page], :order => :id)
+      @item_has_use_restrictions = ItemHasUseRestriction.order('item_has_use_restrictions.id').page(params[:page])
     end
 
     respond_to do |format|

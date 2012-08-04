@@ -45,11 +45,11 @@ class ExpressionsController < ApplicationController
 
     role = current_user.try(:role) || Role.find('Guest')
     search.build do
-      with(:required_role_id).less_than role.id
+      with(:required_role_id).less_than_or_equal_to role.id
     end
 
     page = params[:page] || 1
-    search.query.paginate(page.to_i, Expression.per_page)
+    search.query.paginate(page.to_i, Expression.default_per_page)
     @expressions = search.execute!.results
     @count[:total] = @expressions.total_entries
 

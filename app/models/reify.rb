@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: reifies
+#
+#  id                   :integer          not null, primary key
+#  work_id              :integer          not null
+#  expression_id        :integer          not null
+#  position             :integer
+#  type                 :string(255)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  relationship_type_id :integer
+#
+
 class Reify < ActiveRecord::Base
   belongs_to :work
   belongs_to :expression
@@ -11,26 +25,10 @@ class Reify < ActiveRecord::Base
 
   acts_as_list :scope => :work
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def reindex
     work.index
     expression.index
   end
 end
-# == Schema Information
-#
-# Table name: reifies
-#
-#  id                   :integer         not null, primary key
-#  work_id              :integer         not null
-#  expression_id        :integer         not null
-#  position             :integer
-#  type                 :string(255)
-#  created_at           :datetime        not null
-#  updated_at           :datetime        not null
-#  relationship_type_id :integer
-#
-

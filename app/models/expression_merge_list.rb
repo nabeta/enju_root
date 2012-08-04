@@ -1,11 +1,19 @@
+# == Schema Information
+#
+# Table name: expression_merge_lists
+#
+#  id         :integer          not null, primary key
+#  title      :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class ExpressionMergeList < ActiveRecord::Base
   has_many :expression_merges, :dependent => :destroy
   has_many :expressions, :through => :expression_merges
   validates_presence_of :title
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def merge_expressions(selected_expression)
     self.expressions.each do |expression|
@@ -16,13 +24,3 @@ class ExpressionMergeList < ActiveRecord::Base
     end
   end
 end
-# == Schema Information
-#
-# Table name: expression_merge_lists
-#
-#  id         :integer         not null, primary key
-#  title      :string(255)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#
-

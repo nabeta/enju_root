@@ -7,7 +7,7 @@ class ExpressionRelationshipsController < InheritedResources::Base
   end
 
   def index
-    @expression_relationships = ExpressionRelationship.paginate(:page => params[:page])
+    @expression_relationships = ExpressionRelationship.page(params[:page])
   end
 
   def new

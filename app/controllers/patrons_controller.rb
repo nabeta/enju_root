@@ -54,11 +54,11 @@ class PatronsController < ApplicationController
 
     role = current_user.try(:role) || Role.find('Guest')
     search.build do
-      with(:required_role_id).less_than role.id
+      with(:required_role_id).less_than_or_equal_to role.id
     end
 
     page = params[:page] || 1
-    search.query.paginate(page.to_i, Patron.per_page)
+    search.query.paginate(page.to_i, Patron.default_per_page)
     @patrons = search.execute!.results
 
     respond_to do |format|
@@ -87,10 +87,9 @@ class PatronsController < ApplicationController
     end
     @patron = @patron.versions.find(@version).item if @version
 
-    #@involved_manifestations = @patron.involved_manifestations.paginate(:page => params[:page], :order => 'date_of_publication DESC')
-    @works = @patron.works.paginate(:page => params[:work_list_page])
-    @expressions = @patron.expressions.paginate(:page => params[:expression_list_page])
-    @manifestations = @patron.manifestations.paginate(:page => params[:manifestation_list_page], :order => 'date_of_publication DESC')
+    @works = @patron.works.page(params[:work_list_page])
+    @expressions = @patron.expressions.page(params[:expression_list_page])
+    @manifestations = @patron.manifestations.page(params[:manifestation_list_page])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -133,14 +132,6 @@ class PatronsController < ApplicationController
   # POST /patrons.json
   def create
     @patron = Patron.new(params[:patron])
-    if @patron.user_username
-      @patron.user = User.find(@patron.user_username) rescue nil
-    end
-    unless current_user.has_role?('Librarian')
-      if @patron.user != current_user
-        access_denied; return
-      end
-    end
 
     respond_to do |format|
       if @patron.save

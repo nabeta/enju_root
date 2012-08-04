@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: expression_relationship_types
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 require 'test_helper'
 
 class ExpressionRelationshipTypeTest < ActiveSupport::TestCase
@@ -6,16 +19,3 @@ class ExpressionRelationshipTypeTest < ActiveSupport::TestCase
     assert true
   end
 end
-# == Schema Information
-#
-# Table name: expression_relationship_types
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

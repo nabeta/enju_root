@@ -1,7 +1,7 @@
         <table id="manifestation_list">
           <%- @manifestations.each_with_index do |manifestation, i| -%>
             <tr class="line<%= cycle("0", "1") -%>">
-              <td style="width: 30px"><%= itemnum = @manifestations.offset + 1 + i -%></td>
+              <td style="width: 30px"><%= itemnum = @manifestations.offset_value + 1 + i -%></td>
               <td style="480px">
                 <%= render :partial => 'manifestations/show_index', :locals => {:manifestation => manifestation} -%>
                 <div class="access_address">
@@ -21,11 +21,11 @@
           <%- end -%>
         </table>
 
-<%= will_paginate(@manifestations) -%>
+<%= paginate(@manifestations) -%>
 <br />
 
 <div>
-  <%- if @manifestations and @manifestations.size > Manifestation.per_page.div(2) -%>
+  <%- if @manifestations and @manifestations.size > @manifestations.limit_value.div(2) -%>
     <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
       <p>
         <%= t('page.search_term') -%>: <%= search_field_tag 'query', h(@query), {:id => 'search_form_bottom', :class => 'search_form', :placeholder => t('page.search_term')} -%>

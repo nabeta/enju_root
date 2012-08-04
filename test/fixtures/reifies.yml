@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: reifies
+#
+#  id                   :integer          not null, primary key
+#  work_id              :integer          not null
+#  expression_id        :integer          not null
+#  position             :integer
+#  type                 :string(255)
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  relationship_type_id :integer
+#
+
 --- 
 reify_00001: 
   updated_at: 2008-01-11 23:28:19.277110 +09:00
@@ -62,17 +76,3 @@ reify_00104:
   id: 104
   position: 2
   created_at: 2010-03-16 19:00:00.352223 +09:00
-# == Schema Information
-#
-# Table name: reifies
-#
-#  id                   :integer         not null, primary key
-#  work_id              :integer         not null
-#  expression_id        :integer         not null
-#  position             :integer
-#  type                 :string(255)
-#  created_at           :datetime        not null
-#  updated_at           :datetime        not null
-#  relationship_type_id :integer
-#
-

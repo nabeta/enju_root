@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: patron_import_files
+#
+#  id                         :integer          not null, primary key
+#  parent_id                  :integer
+#  filename                   :string(255)
+#  content_type               :string(255)
+#  size                       :integer
+#  file_hash                  :string(255)
+#  user_id                    :integer
+#  note                       :text
+#  executed_at                :datetime
+#  state                      :string(255)
+#  patron_import_file_name    :string(255)
+#  patron_import_content_type :string(255)
+#  patron_import_file_size    :integer
+#  patron_import_updated_at   :datetime
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  patron_import_fingerprint  :string(255)
+#
+
 require 'test_helper'
 
 class PatronImportFileTest < ActiveSupport::TestCase
@@ -9,26 +32,3 @@ class PatronImportFileTest < ActiveSupport::TestCase
   #  end
   #end
 end
-# == Schema Information
-#
-# Table name: patron_import_files
-#
-#  id                         :integer         not null, primary key
-#  parent_id                  :integer
-#  filename                   :string(255)
-#  content_type               :string(255)
-#  size                       :integer
-#  file_hash                  :string(255)
-#  user_id                    :integer
-#  note                       :text
-#  imported_at                :datetime
-#  state                      :string(255)
-#  patron_import_file_name    :string(255)
-#  patron_import_content_type :string(255)
-#  patron_import_file_size    :integer
-#  patron_import_updated_at   :datetime
-#  created_at                 :datetime        not null
-#  updated_at                 :datetime        not null
-#  patron_import_fingerprint  :string(255)
-#
-

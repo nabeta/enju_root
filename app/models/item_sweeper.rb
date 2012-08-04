@@ -8,9 +8,6 @@ class ItemSweeper < ActionController::Caching::Sweeper
     record.patrons.each do |patron|
       expire_editable_fragment(patron)
     end
-    record.donors.each do |donor|
-      expire_editable_fragment(donor)
-    end
   end
 
   def after_destroy(record)

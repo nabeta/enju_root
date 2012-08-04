@@ -1,3 +1,48 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string(255)      default(""), not null
+#  encrypted_password     :string(255)
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  password_salt          :string(255)
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string(255)
+#  failed_attempts        :integer          default(0)
+#  unlock_token           :string(255)
+#  locked_at              :datetime
+#  authentication_token   :string(255)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  deleted_at             :datetime
+#  username               :string(255)
+#  library_id             :integer          default(1), not null
+#  user_group_id          :integer          default(1), not null
+#  expired_at             :datetime
+#  required_role_id       :integer          default(1), not null
+#  note                   :text
+#  keyword_list           :text
+#  user_number            :string(255)
+#  state                  :string(255)
+#  required_score         :integer          default(0), not null
+#  locale                 :string(255)
+#  openid_identifier      :string(255)
+#  oauth_token            :string(255)
+#  oauth_secret           :string(255)
+#  active                 :boolean          default(FALSE)
+#  enju_access_key        :string(255)
+#
+
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
@@ -42,10 +87,10 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  def test_should_not_require_email_on_create
-    assert_difference 'User.count' do
+  def test_should_require_email_on_create
+    assert_no_difference 'User.count' do
       u = create_user(:email => '')
-      assert_blank u.errors[:email]
+      assert u.errors[:email]
     end
   end
 
@@ -101,16 +146,6 @@ class UserTest < ActiveSupport::TestCase
   #  assert users(:user1).remember_token_expires_at.between?(before, after)
   #end
 
-  def test_should_reset_answer_feed_token
-    users(:user1).reset_answer_feed_token
-    assert_not_nil users(:user1).answer_feed_token
-  end
-
-  def test_should_delete_answer_feed_token
-    users(:user1).delete_answer_feed_token
-    assert_nil users(:user1).answer_feed_token
-  end
-
   def test_should_set_temporary_password
     old_password = users(:user1).encrypted_password
     users(:user1).set_auto_generated_password
@@ -142,48 +177,3 @@ class UserTest < ActiveSupport::TestCase
   end
 
 end
-# == Schema Information
-#
-# Table name: users
-#
-#  id                     :integer         not null, primary key
-#  email                  :string(255)     default(""), not null
-#  encrypted_password     :string(255)
-#  reset_password_token   :string(255)
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer         default(0)
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
-#  password_salt          :string(255)
-#  confirmation_token     :string(255)
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
-#  failed_attempts        :integer         default(0)
-#  unlock_token           :string(255)
-#  locked_at              :datetime
-#  authentication_token   :string(255)
-#  created_at             :datetime        not null
-#  updated_at             :datetime        not null
-#  deleted_at             :datetime
-#  username               :string(255)
-#  library_id             :integer         default(1), not null
-#  user_group_id          :integer         default(1), not null
-#  expired_at             :datetime
-#  required_role_id       :integer         default(1), not null
-#  note                   :text
-#  keyword_list           :text
-#  user_number            :string(255)
-#  state                  :string(255)
-#  required_score         :integer         default(0), not null
-#  locale                 :string(255)
-#  openid_identifier      :string(255)
-#  oauth_token            :string(255)
-#  oauth_secret           :string(255)
-#  active                 :boolean         default(FALSE)
-#  enju_access_key        :string(255)
-#
-

@@ -7,11 +7,11 @@ class ExpressionMergesController < ApplicationController
   # GET /expression_merges.json
   def index
     if @expression
-      @expression_merges = @expression.expression_merges.paginate(:page => params[:page], :order => ['expression_merges.id'])
+      @expression_merges = @expression.expression_merges.order('expression_merges.id').page(params[:page])
     elsif @expression_merge_list
-      @expression_merges = @expression_merge_list.expression_merges.paginate(:page => params[:page], :include => 'expression', :order => ['expression_merges.id'])
+      @expression_merges = @expression_merge_list.expression_merges.order('expression_merges.id').page(params[:page])
     else
-      @expression_merges = ExpressionMerge.paginate(:page => params[:page])
+      @expression_merges = ExpressionMerge.page(params[:page])
     end
 
     respond_to do |format|

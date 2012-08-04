@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: form_of_works
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 --- 
 form_of_work_00001: 
   name: (not specified)
@@ -23,16 +36,3 @@ form_of_work_00003:
   note: ""
   created_at: 2008-01-08 15:35:55.188771 +09:00
   position: 3
-# == Schema Information
-#
-# Table name: form_of_works
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

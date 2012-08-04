@@ -10,5 +10,5 @@
 <%- end -%>
 </table>
 
-<%= will_paginate(@manifestations, :param_name => :manifestation_page, :class => 'content_pagination digg_pagination') -%>
+<%= paginate(@manifestations, :param_name => :manifestation_page, :remote => true) -%>
 </div>

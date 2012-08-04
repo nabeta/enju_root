@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: exemplifies
+#
+#  id               :integer          not null, primary key
+#  manifestation_id :integer          not null
+#  item_id          :integer          not null
+#  type             :string(255)
+#  position         :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 class Exemplify < ActiveRecord::Base
   belongs_to :manifestation #, :counter_cache => true, :validate => true
   belongs_to :item #, :validate => true
@@ -11,25 +24,10 @@ class Exemplify < ActiveRecord::Base
 
   acts_as_list :scope => :manifestation_id
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def reindex
     manifestation.index
     item.index
   end
 end
-# == Schema Information
-#
-# Table name: exemplifies
-#
-#  id               :integer         not null, primary key
-#  manifestation_id :integer         not null
-#  item_id          :integer         not null
-#  type             :string(255)
-#  position         :integer
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
-#
-
