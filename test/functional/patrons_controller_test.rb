@@ -235,32 +235,6 @@ class PatronsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
   
-  def test_user_should_update_myself
-    sign_in users(:user1)
-    put :update, :id => users(:user1).patron.id, :patron => { :full_name => 'test' }
-    assert_redirected_to patron_url(assigns(:patron))
-    assigns(:patron).remove_from_index!
-  end
-  
-  def test_user_should_not_update_myself_without_name
-    sign_in users(:user1)
-    put :update, :id => users(:user1).patron.id, :patron => { :first_name => '', :last_name => '', :full_name => '' }
-    assert_response :success
-  end
-  
-  def test_user_should_not_update_other_patron
-    sign_in users(:user1)
-    put :update, :id => users(:user2).patron.id, :patron => { :full_name => 'test' }
-    assert_response :forbidden
-  end
-  
-  def test_librarian_should_update_other_patron
-    sign_in users(:librarian1)
-    put :update, :id => users(:user2).patron.id, :patron => { :full_name => 'test' }
-    assert_redirected_to patron_url(assigns(:patron))
-    assigns(:patron).remove_from_index!
-  end
-  
   def test_guest_should_not_destroy_patron
     old_count = Patron.count
     delete :destroy, :id => 1

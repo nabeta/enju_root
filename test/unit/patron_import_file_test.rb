@@ -19,6 +19,8 @@
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  patron_import_fingerprint  :string(255)
+#  edit_mode                  :string(255)
+#  error_message              :text
 #
 
 require 'test_helper'

@@ -180,6 +180,8 @@ EnjuRoot::Application.routes.draw do
   resources :embodies
   resources :reifies
 
+  resources :import_requests
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

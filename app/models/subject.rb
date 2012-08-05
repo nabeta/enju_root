@@ -44,8 +44,7 @@ class Subject < ActiveRecord::Base
     integer :subject_heading_type_ids, :multiple => true
     integer :required_role_id
   end
-  #acts_as_soft_deletable
-  acts_as_nested_set
+  #acts_as_nested_set
 
   attr_accessor :classification_id, :subject_heading_type_id
 
