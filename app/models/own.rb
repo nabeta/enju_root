@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: owns
+#
+#  id         :integer          not null, primary key
+#  patron_id  :integer          not null
+#  item_id    :integer          not null
+#  position   :integer
+#  type       :string(255)
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
 class Own < ActiveRecord::Base
   belongs_to :patron #, :counter_cache => true #, :polymorphic => true, :validate => true
   belongs_to :item #, :counter_cache => true #, :validate => true
@@ -10,9 +23,7 @@ class Own < ActiveRecord::Base
 
   acts_as_list :scope => :item
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
   attr_accessor :item_identifier
 
   def reindex
@@ -21,16 +32,3 @@ class Own < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: owns
-#
-#  id         :integer         not null, primary key
-#  patron_id  :integer         not null
-#  item_id    :integer         not null
-#  position   :integer
-#  type       :string(255)
-#  created_at :datetime        not null
-#  updated_at :datetime        not null
-#
-

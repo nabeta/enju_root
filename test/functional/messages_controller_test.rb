@@ -13,7 +13,7 @@ class MessagesControllerTest < ActionController::TestCase
     sign_in users(:user1)
     get :index
     assert_response :redirect
-    assert_redirected_to user_messages_url(users(:user1))
+    assert_redirected_to messages_url
   end
   
   def test_user_should_get_index_with_query
@@ -86,7 +86,7 @@ class MessagesControllerTest < ActionController::TestCase
       post :create, :message => {:recipient => 'user2', :subject => "test", :body => "test", :parent_id => 2}
     end
     assert_response :redirect
-    assert_redirected_to user_messages_path(users(:librarian1))
+    assert_redirected_to messages_url
   end
   
   def test_user_should_not_update_own_message
@@ -107,7 +107,7 @@ class MessagesControllerTest < ActionController::TestCase
       delete :destroy, :id => 2
     end
     assert_response :redirect
-    assert_redirected_to user_messages_path(users(:user1))
+    assert_redirected_to messages_url
   end
   
   def test_user_should_not_destroy_other_message

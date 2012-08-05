@@ -28,6 +28,6 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(@expressions, :param_name => :expression_list_page, :class => 'content_pagination digg_pagination') -%>
+  <%= paginate(@expressions, :param_name => :expression_list_page, :remote => true) -%>
 </div>
 

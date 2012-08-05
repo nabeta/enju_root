@@ -11,5 +11,5 @@
       </li>
     <%- end -%>
   </ul>
-  <%= will_paginate(@xisbn_manifestations, :param_name => :xisbn_page, :class => 'content_pagination digg_pagination') -%>
+  <%= paginate(@xisbn_manifestations, :param_name => :xisbn_page, :remote => true) -%>
 </div>    

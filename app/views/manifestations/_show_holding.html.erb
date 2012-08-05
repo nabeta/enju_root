@@ -4,7 +4,6 @@
     <th><%= t('activerecord.models.shelf') -%></th>
     <th><%= t('activerecord.attributes.item.call_number') -%></th>
     <th><%= t('activerecord.attributes.item.item_identifier') -%></th>
-    <th><%= t('activerecord.models.circulation_status') -%></th>
   </tr>
   <%- manifestation.items.on_shelf.each do |item| -%>
     <tr>
@@ -24,9 +23,6 @@
         <%- else -%>
           (<%= link_to t('item.no_number'), item -%>)
         <%- end -%>
-      </td>
-      <td>
-        <%= item.circulation_status.display_name.localize if item.circulation_status -%>
       </td>
     </tr>
   <%- end -%>

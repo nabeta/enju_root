@@ -1,3 +1,48 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string(255)      default(""), not null
+#  encrypted_password     :string(255)
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0)
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :string(255)
+#  last_sign_in_ip        :string(255)
+#  password_salt          :string(255)
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string(255)
+#  failed_attempts        :integer          default(0)
+#  unlock_token           :string(255)
+#  locked_at              :datetime
+#  authentication_token   :string(255)
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  deleted_at             :datetime
+#  username               :string(255)
+#  library_id             :integer          default(1), not null
+#  user_group_id          :integer          default(1), not null
+#  expired_at             :datetime
+#  required_role_id       :integer          default(1), not null
+#  note                   :text
+#  keyword_list           :text
+#  user_number            :string(255)
+#  state                  :string(255)
+#  required_score         :integer          default(0), not null
+#  locale                 :string(255)
+#  openid_identifier      :string(255)
+#  oauth_token            :string(255)
+#  oauth_secret           :string(255)
+#  active                 :boolean          default(FALSE)
+#  enju_access_key        :string(255)
+#
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :lockable and :timeoutable
@@ -24,7 +69,6 @@ class User < ActiveRecord::Base
   has_one :role, :through => :user_has_role
   #has_many :bookmarks, :dependent => :destroy
   has_many :search_histories, :dependent => :destroy
-  #has_many :subscriptions
   belongs_to :library, :validate => true
   belongs_to :user_group
   belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
@@ -41,11 +85,11 @@ class User < ActiveRecord::Base
     v.validates_length_of       :password, :within => 6..20, :allow_blank => true
   end
 
-  validates_presence_of     :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
+  validates_presence_of     :email, :email_confirmation
   validates_associated :user_group, :library #, :patron
   validates_presence_of :user_group, :library, :locale #, :user_number
   validates :user_number, :uniqueness => true, :format => {:with => /\A[0-9A-Za-z_]+\Z/}, :allow_blank => true
-  validates_confirmation_of :email, :email_confirmation, :on => :create, :if => proc{|user| !user.operator.try(:has_role?, 'Librarian')}
+  validates_confirmation_of :email, :email_confirmation
   before_validation :set_role_and_patron, :on => :create
   before_validation :set_lock_information
   before_save :check_expiration
@@ -86,9 +130,7 @@ class User < ActiveRecord::Base
     :update_own_account, :auto_generated_password, :current_password,
     :locked #, :patron_id
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
   
   def password_required?
     !persisted? || !password.nil? || !password_confirmation.nil?
@@ -160,14 +202,6 @@ class User < ActiveRecord::Base
   def set_auto_generated_password
     password = Devise.friendly_token[0..7]
     self.reset_password!(password, password)
-  end
-
-  def reset_answer_feed_token
-    self.answer_feed_token = Devise.friendly_token
-  end
-
-  def delete_answer_feed_token
-    self.answer_feed_token = nil
   end
 
   def self.lock_expired_users
@@ -273,48 +307,3 @@ class User < ActiveRecord::Base
     LocalPatron.new(self)
   end
 end
-# == Schema Information
-#
-# Table name: users
-#
-#  id                     :integer         not null, primary key
-#  email                  :string(255)     default(""), not null
-#  encrypted_password     :string(255)
-#  reset_password_token   :string(255)
-#  reset_password_sent_at :datetime
-#  remember_created_at    :datetime
-#  sign_in_count          :integer         default(0)
-#  current_sign_in_at     :datetime
-#  last_sign_in_at        :datetime
-#  current_sign_in_ip     :string(255)
-#  last_sign_in_ip        :string(255)
-#  password_salt          :string(255)
-#  confirmation_token     :string(255)
-#  confirmed_at           :datetime
-#  confirmation_sent_at   :datetime
-#  unconfirmed_email      :string(255)
-#  failed_attempts        :integer         default(0)
-#  unlock_token           :string(255)
-#  locked_at              :datetime
-#  authentication_token   :string(255)
-#  created_at             :datetime        not null
-#  updated_at             :datetime        not null
-#  deleted_at             :datetime
-#  username               :string(255)
-#  library_id             :integer         default(1), not null
-#  user_group_id          :integer         default(1), not null
-#  expired_at             :datetime
-#  required_role_id       :integer         default(1), not null
-#  note                   :text
-#  keyword_list           :text
-#  user_number            :string(255)
-#  state                  :string(255)
-#  required_score         :integer         default(0), not null
-#  locale                 :string(255)
-#  openid_identifier      :string(255)
-#  oauth_token            :string(255)
-#  oauth_secret           :string(255)
-#  active                 :boolean         default(FALSE)
-#  enju_access_key        :string(255)
-#
-

@@ -17,7 +17,7 @@ class ItemsController < ApplicationController
   # GET /items.json
   def index
     query = params[:query].to_s.strip
-    per_page = Item.per_page
+    per_page = Item.default_per_page
     @count = {}
     if user_signed_in?
       if current_user.has_role?('Librarian')
@@ -58,18 +58,13 @@ class ItemsController < ApplicationController
 
     role = current_user.try(:role) || Role.default_role
     search.build do
-      with(:required_role_id).less_than role.id
+      with(:required_role_id).less_than_or_equal_to role.id
     end
 
     page = params[:page] || 1
     search.query.paginate(page.to_i, per_page)
-    begin
-      @items = search.execute!.results
-      @count[:total] = @items.total_entries
-    rescue
-      @items = WillPaginate::Collection.create(1,1,0) do end
-      @count[:total] = 0
-    end
+    @items = search.execute!.results
+    @count[:total] = @items.total_entries
 
     respond_to do |format|
       format.html # index.html.erb
@@ -105,8 +100,6 @@ class ItemsController < ApplicationController
     end
     @item = Item.new
     @item.manifestation = @manifestation
-    @circulation_statuses = CirculationStatus.all(:conditions => {:name => ['In Process', 'Available For Pickup', 'Available On Shelf', 'Claimed Returned Or Never Borrowed', 'Not Available']}, :order => :position)
-    @item.circulation_status = CirculationStatus.where(:name => 'In Process').first
 
     respond_to do |format|
       format.html # new.html.erb
@@ -132,12 +125,6 @@ class ItemsController < ApplicationController
 
     respond_to do |format|
       if @item.save
-        Item.transaction do
-
-          if @item.shelf
-            @item.shelf.library.patron.items << @item
-          end
-        end
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
         @item.delay.post_to_union_catalog if LibraryGroup.site_config.post_to_union_catalog
         if @patron
@@ -207,7 +194,6 @@ class ItemsController < ApplicationController
     @libraries = Library.real
     @library = Library.real.first(:order => :position, :include => :shelves) if @library.blank?
     @shelves = @library.shelves
-    @circulation_statuses = CirculationStatus.all
     @use_restrictions = UseRestriction.all
     @roles = Role.all
   end

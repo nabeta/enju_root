@@ -27,7 +27,7 @@ class SeriesStatementsController < ApplicationController
       end
     end
     page = params[:page] || 1
-    search.query.paginate(page.to_i, SeriesStatement.per_page)
+    search.query.paginate(page.to_i, SeriesStatement.default_per_page)
     @series_statements = search.execute!.results
 
     respond_to do |format|
@@ -40,7 +40,7 @@ class SeriesStatementsController < ApplicationController
   # GET /series_statements/1.json
   def show
     @series_statement = SeriesStatement.find(params[:id])
-    @manifestations = @series_statement.manifestations.paginate(:page => params[:manifestation_page])
+    @manifestations = @series_statement.manifestations.page(params[:manifestation_page])
 
     respond_to do |format|
       format.html # show.html.erb

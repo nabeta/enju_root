@@ -205,10 +205,6 @@ class ApplicationController < ActionController::Base
     @classification = Classification.find(params[:classification_id]) if params[:classification_id]
   end
 
-  def get_subscription
-    @subscription = Subscription.find(params[:subscription_id]) if params[:subscription_id]
-  end
-
   def get_subject_heading_type
     @subject_heading_type = SubjectHeadingType.find(params[:subject_heading_type_id]) if params[:subject_heading_type_id]
   end
@@ -267,7 +263,7 @@ class ApplicationController < ActionController::Base
   def set_role_query(user, search)
     role = user.try(:role) || Role.default_role
     search.build do
-      with(:required_role_id).less_than role.id
+      with(:required_role_id).less_than_or_equal_to role.id
     end
   end
 
@@ -342,11 +338,13 @@ class ApplicationController < ActionController::Base
      @manifestation = Manifestation.pickup rescue nil
   end
 
-  def move_position(resource, direction)
+  def move_position(resource, direction, redirect = true)
     if ['higher', 'lower'].include?(direction)
       resource.send("move_#{direction}")
-      redirect_to url_for(:controller => resource.class.to_s.pluralize.underscore)
-      return
+      if redirect
+        redirect_to url_for(:controller => resource.class.to_s.pluralize.underscore)
+        return
+      end
     end
   end
 end

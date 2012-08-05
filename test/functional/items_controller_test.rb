@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class ItemsControllerTest < ActionController::TestCase
-    fixtures :items, :circulation_statuses, :shelves, :manifestations, :exemplifies, :carrier_types,
+    fixtures :items, :shelves, :manifestations, :exemplifies, :carrier_types,
       :languages, :libraries, :patrons, :users, :user_groups
 
   def test_guest_should_get_index
@@ -218,12 +218,6 @@ class ItemsControllerTest < ActionController::TestCase
     sign_in users(:user1)
     put :update, :id => 1, :item => { }
     assert_response :forbidden
-  end
-  
-  def test_librarian_should_not_update_item_without_circulation_status_id
-    sign_in users(:librarian1)
-    put :update, :id => 1, :item => {:circulation_status_id => nil}
-    assert_response :success
   end
   
   def test_librarian_should_update_item

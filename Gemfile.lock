@@ -8,17 +8,17 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_book_jacket.git
-  revision: 17dfceb94ad2bbf7e1a079c72008b7a5bab0bd34
+  revision: b645c7a0ec634fc45e5948c7605e0a2da2cde5cb
   specs:
-    enju_book_jacket (0.0.2)
+    enju_book_jacket (0.1.0.pre)
       configatron
       rails (~> 3.2)
 
 GIT
   remote: git://github.com/nabeta/enju_event.git
-  revision: 83cafd2a1b5b7446f4cd751cac4f2480af6af23b
+  revision: f052e93c0f61dc24246c88de7feeb7e519a4cee0
   specs:
-    enju_event (0.1.13)
+    enju_event (0.1.16)
       enju_core
       enju_message (>= 0.0.25)
       event-calendar (~> 2.3.3)
@@ -30,27 +30,17 @@ GIT
       state_machine
 
 GIT
-  remote: git://github.com/nabeta/enju_inter_library_loan.git
-  revision: a1ab08554a661ddfa6e7ff8b1e072f94aa8661b8
-  specs:
-    enju_inter_library_loan (0.0.6)
-      enju_core
-      rails (~> 3.2)
-      state_machine
-
-GIT
   remote: git://github.com/nabeta/enju_manifestation_viewer.git
-  revision: 46e748b0d56ab4be4a0f858f84785a75004880cd
+  revision: 29c157e4fcc7bc9590968df9057ca685b89031ac
   specs:
-    enju_manifestation_viewer (0.0.1)
-      addressable
+    enju_manifestation_viewer (0.1.0.pre)
       rails (~> 3.2)
 
 GIT
   remote: git://github.com/nabeta/enju_message.git
-  revision: ef45b344017c9f5b023972e1567a98f9ee3a80e1
+  revision: 4a3fb0caef80fd304ab749345a9bfbd50da00434
   specs:
-    enju_message (0.1.11)
+    enju_message (0.1.13)
       awesome_nested_set (~> 2.1)
       enju_core
       inherited_resources
@@ -61,15 +51,15 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_news.git
-  revision: 8d6155a88cecb123cae823acde36e6fd9d5f353e
+  revision: 5796d0a4f0332eca24cf102808cf1a10f58c5d77
   specs:
-    enju_news (0.0.5)
+    enju_news (0.1.0.pre2)
       enju_core
       rails (~> 3.2)
 
 GIT
   remote: git://github.com/nabeta/enju_nii.git
-  revision: cae5c46a084d20885efc12b1871577137630d4dc
+  revision: 2c6857b797df7c2ed0021eab4f99c47994795313
   specs:
     enju_nii (0.0.4)
       cancan
@@ -79,18 +69,17 @@ GIT
 
 GIT
   remote: git://github.com/nabeta/enju_oai.git
-  revision: e5df0e329ca287d77c23f670bb5fa39273d194ec
+  revision: 39796832d33c3916917b2c88551f4cfa253d498f
   specs:
-    enju_oai (0.0.4)
-      enju_core
+    enju_oai (0.1.0.pre4)
       mobile-fu
       rails (~> 3.2)
 
 GIT
   remote: git://github.com/nabeta/enju_subject.git
-  revision: e367125469e0fee2fc9ab52aee875485af2a9ad9
+  revision: 4b9d1d2a50ae94c3c2d7304fe73f726a7a29b579
   specs:
-    enju_subject (0.0.18)
+    enju_subject (0.1.0.pre)
       dynamic_form
       enju_core
       inherited_resources
@@ -98,9 +87,9 @@ GIT
 
 GIT
   remote: git://github.com/next-l/enju_core.git
-  revision: e3df1f1123c8bf84971c90512547e2e7ca8235ae
+  revision: 8a79e23953dccd16ea258d79a6a05d41544274bd
   specs:
-    enju_core (0.0.3)
+    enju_core (0.1.0.pre)
       acts_as_list
       addressable
       attribute_normalizer (~> 1.1)
@@ -108,45 +97,45 @@ GIT
       configatron
       devise
       friendly_id (~> 4.0)
+      kaminari
       rails (~> 3.2)
       resque
       sunspot_rails (~> 2.0.0.pre.120720)
-      will_paginate
 
 GEM
   remote: https://rubygems.org/
   specs:
     RedCloth (4.2.9)
-    actionmailer (3.2.6)
-      actionpack (= 3.2.6)
+    actionmailer (3.2.8.rc2)
+      actionpack (= 3.2.8.rc2)
       mail (~> 2.4.4)
-    actionpack (3.2.6)
-      activemodel (= 3.2.6)
-      activesupport (= 3.2.6)
+    actionpack (3.2.8.rc2)
+      activemodel (= 3.2.8.rc2)
+      activesupport (= 3.2.8.rc2)
       builder (~> 3.0.0)
       erubis (~> 2.7.0)
-      journey (~> 1.0.1)
+      journey (~> 1.0.4)
       rack (~> 1.4.0)
       rack-cache (~> 1.2)
       rack-test (~> 0.6.1)
       sprockets (~> 2.1.3)
-    activemodel (3.2.6)
-      activesupport (= 3.2.6)
+    activemodel (3.2.8.rc2)
+      activesupport (= 3.2.8.rc2)
       builder (~> 3.0.0)
-    activerecord (3.2.6)
-      activemodel (= 3.2.6)
-      activesupport (= 3.2.6)
+    activerecord (3.2.8.rc2)
+      activemodel (= 3.2.8.rc2)
+      activesupport (= 3.2.8.rc2)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activeresource (3.2.6)
-      activemodel (= 3.2.6)
-      activesupport (= 3.2.6)
-    activesupport (3.2.6)
+    activeresource (3.2.8.rc2)
+      activemodel (= 3.2.8.rc2)
+      activesupport (= 3.2.8.rc2)
+    activesupport (3.2.8.rc2)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    acts_as_list (0.1.6)
-    addressable (2.3.1)
-    annotate (2.5.0.pre2)
+    acts_as_list (0.1.7)
+    addressable (2.3.2)
+    annotate (2.5.0)
       rake
     arel (3.0.2)
     astrails-safe (0.2.7)
@@ -160,7 +149,7 @@ GEM
       builder
       mime-types
       xml-simple
-    aws-sdk (1.5.7)
+    aws-sdk (1.6.0)
       httparty (~> 0.7)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
@@ -185,11 +174,6 @@ GEM
       yamler (>= 0.1.0)
     daemons (1.1.8)
     dalli (2.1.0)
-    delayed_job (3.0.3)
-      activesupport (~> 3.0)
-    delayed_job_active_record (0.3.2)
-      activerecord (> 2.1.0)
-      delayed_job (~> 3.0.0)
     devise (2.1.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -205,20 +189,20 @@ GEM
       actionmailer (>= 3.0.4)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    factory_girl (3.5.0)
+    factory_girl (3.6.1)
       activesupport (>= 3.0.0)
-    factory_girl_rails (3.5.0)
-      factory_girl (~> 3.5.0)
+    factory_girl_rails (3.6.0)
+      factory_girl (~> 3.6.0)
       railties (>= 3.0.0)
     fakeweb (1.3.0)
     fattr (2.2.1)
-    ffi (1.1.0)
-    friendly_id (4.0.7)
+    ffi (1.1.4)
+    friendly_id (4.0.8)
     geocoder (1.1.2)
-    guard (1.2.3)
+    guard (1.3.0)
       listen (>= 0.4.2)
       thor (>= 0.14.6)
-    guard-rspec (1.2.0)
+    guard-rspec (1.2.1)
       guard (>= 1.1)
     haml (3.1.6)
     has_scope (0.5.1)
@@ -237,15 +221,19 @@ GEM
     jquery-rails (2.0.2)
       railties (>= 3.2.0, < 5.0)
       thor (~> 0.14)
-    json (1.7.3)
-    json-ld (0.1.4.1)
+    json (1.7.4)
+    json-ld (0.1.4.2)
       backports
       json (>= 1.6.5)
       rdf (>= 0.3.5)
-    json_pure (1.7.3)
+    json_pure (1.7.4)
+    kaminari (0.13.0)
+      actionpack (>= 3.0.0)
+      activesupport (>= 3.0.0)
+      railties (>= 3.0.0)
     kgio (2.7.4)
     levenshtein19 (0.2.0)
-    library_stdnums (1.1.0)
+    library_stdnums (1.2.0)
     linkeddata (0.3.5)
       json-ld (>= 0.1.0)
       rdf (>= 0.3.5)
@@ -289,7 +277,7 @@ GEM
     paper_trail (2.6.3)
       activerecord (~> 3.0)
       railties (~> 3.0)
-    paperclip (3.1.3)
+    paperclip (3.1.4)
       activemodel (>= 3.0.0)
       activerecord (>= 3.0.0)
       activesupport (>= 3.0.0)
@@ -298,7 +286,7 @@ GEM
     paperclip-meta (0.4.2)
       paperclip
     parallel (0.5.17)
-    parallel_tests (0.8.6)
+    parallel_tests (0.8.7)
       parallel
     pg (0.14.0)
     polyglot (0.3.3)
@@ -317,19 +305,19 @@ GEM
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
-    rails (3.2.6)
-      actionmailer (= 3.2.6)
-      actionpack (= 3.2.6)
-      activerecord (= 3.2.6)
-      activeresource (= 3.2.6)
-      activesupport (= 3.2.6)
+    rails (3.2.8.rc2)
+      actionmailer (= 3.2.8.rc2)
+      actionpack (= 3.2.8.rc2)
+      activerecord (= 3.2.8.rc2)
+      activeresource (= 3.2.8.rc2)
+      activesupport (= 3.2.8.rc2)
       bundler (~> 1.0)
-      railties (= 3.2.6)
+      railties (= 3.2.8.rc2)
     rails_autolink (1.0.9)
       rails (~> 3.1)
-    railties (3.2.6)
-      actionpack (= 3.2.6)
-      activesupport (= 3.2.6)
+    railties (3.2.8.rc2)
+      actionpack (= 3.2.8.rc2)
+      activesupport (= 3.2.8.rc2)
       rack-ssl (~> 1.3.2)
       rake (>= 0.8.7)
       rdoc (~> 3.4)
@@ -399,7 +387,7 @@ GEM
       rspec-expectations (~> 2.11.0)
       rspec-mocks (~> 2.11.0)
     rspec-core (2.11.1)
-    rspec-expectations (2.11.1)
+    rspec-expectations (2.11.2)
       diff-lcs (~> 1.1.3)
     rspec-mocks (2.11.1)
     rspec-rails (2.11.0)
@@ -439,6 +427,11 @@ GEM
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     state_machine (1.1.2)
+    strong_parameters (0.1.3)
+      actionpack (>= 3.2.0)
+      activemodel (>= 3.2.0)
+    strongbox (0.6.0)
+      activerecord
     sunspot (2.0.0.pre.120720)
       pr_geohash (~> 1.0)
       rsolr (~> 1.0.7)
@@ -448,13 +441,13 @@ GEM
     sunspot_solr (2.0.0.pre.120720)
     thor (0.15.4)
     tilt (1.3.3)
-    timecop (0.3.5)
+    timecop (0.4.4)
     timeliness (0.3.6)
     treetop (1.4.10)
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.33)
-    uglifier (1.2.6)
+    uglifier (1.2.7)
       execjs (>= 0.3.0)
       multi_json (~> 1.3)
     uuidtools (2.1.3)
@@ -468,7 +461,6 @@ GEM
     whenever (0.7.3)
       activesupport (>= 2.3.4)
       chronic (~> 0.6.3)
-    will_paginate (3.0.3)
     xml-simple (1.1.1)
     yamler (0.1.0)
     zipruby (0.3.6)
@@ -480,22 +472,20 @@ DEPENDENCIES
   RedCloth (>= 4.2.9)
   activerecord-jdbc-adapter
   addressable
-  annotate (~> 2.5.0.pre2)
+  annotate (~> 2.5)
   astrails-safe
   awesome_nested_set (~> 2.1)
-  aws-sdk (~> 1.5)
+  aws-sdk (~> 1.6)
   client_side_validations (~> 3.2.0.beta.6)
   coffee-rails (~> 3.2.1)
   configatron
   daemons
   dalli (~> 2.1)
-  delayed_job_active_record
   devise-encryptable
   dynamic_form
   enju_book_jacket!
   enju_core!
   enju_event!
-  enju_inter_library_loan!
   enju_manifestation_viewer!
   enju_message!
   enju_news!
@@ -503,7 +493,7 @@ DEPENDENCIES
   enju_oai!
   enju_subject!
   exception_notification (~> 2.6)
-  factory_girl_rails (~> 3.5)
+  factory_girl_rails (~> 3.6)
   fakeweb
   geocoder
   glassfish
@@ -528,7 +518,7 @@ DEPENDENCIES
   pg
   progress_bar
   rack-protection
-  rails (= 3.2.6)
+  rails (= 3.2.8.rc2)
   rails_autolink
   resque-scheduler
   resque_mailer
@@ -543,6 +533,8 @@ DEPENDENCIES
   sitemap_generator (~> 3.1)
   spork-rails
   state_machine (~> 1.1.2)
+  strong_parameters
+  strongbox
   sunspot-rails-tester!
   sunspot_solr (~> 2.0.0.pre.120720)
   timecop

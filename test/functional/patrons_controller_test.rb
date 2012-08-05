@@ -74,16 +74,6 @@ class PatronsControllerTest < ActionController::TestCase
     assert_redirected_to new_user_session_url
   end
 
-  def test_user_should_not_create_patron_myself
-    sign_in users(:user1)
-    assert_no_difference('Patron.count') do
-      post :create, :patron => { :full_name => 'test', :user_username => users(:user1).username }
-    end
-    
-    assert_response :success
-    assigns(:patron).remove_from_index!
-  end
-
   def test_user_should_not_create_patron_without_user_id
     sign_in users(:user1)
     assert_no_difference('Patron.count') do

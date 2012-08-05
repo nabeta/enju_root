@@ -1,3 +1,61 @@
+# == Schema Information
+#
+# Table name: patrons
+#
+#  id                                  :integer          not null, primary key
+#  user_id                             :integer
+#  last_name                           :string(255)
+#  middle_name                         :string(255)
+#  first_name                          :string(255)
+#  last_name_transcription             :string(255)
+#  middle_name_transcription           :string(255)
+#  first_name_transcription            :string(255)
+#  corporate_name                      :string(255)
+#  corporate_name_transcription        :string(255)
+#  full_name                           :string(255)
+#  full_name_transcription             :text
+#  full_name_alternative               :text
+#  created_at                          :datetime         not null
+#  updated_at                          :datetime         not null
+#  deleted_at                          :datetime
+#  zip_code_1                          :string(255)
+#  zip_code_2                          :string(255)
+#  address_1                           :text
+#  address_2                           :text
+#  address_1_note                      :text
+#  address_2_note                      :text
+#  telephone_number_1                  :string(255)
+#  telephone_number_2                  :string(255)
+#  fax_number_1                        :string(255)
+#  fax_number_2                        :string(255)
+#  other_designation                   :text
+#  place                               :text
+#  street                              :text
+#  locality                            :text
+#  region                              :text
+#  date_of_birth                       :datetime
+#  date_of_death                       :datetime
+#  language_id                         :integer          default(1), not null
+#  country_id                          :integer          default(1), not null
+#  patron_type_id                      :integer          default(1), not null
+#  lock_version                        :integer          default(0), not null
+#  note                                :text
+#  creates_count                       :integer          default(0), not null
+#  realizes_count                      :integer          default(0), not null
+#  produces_count                      :integer          default(0), not null
+#  owns_count                          :integer          default(0), not null
+#  required_role_id                    :integer          default(1), not null
+#  required_score                      :integer          default(0), not null
+#  state                               :string(255)
+#  full_name_alternative_transcription :text
+#  email                               :text
+#  url                                 :text
+#  title                               :string(255)
+#  birth_date                          :string(255)
+#  death_date                          :string(255)
+#  patron_identifier                   :string(255)
+#
+
 # -*- encoding: utf-8 -*-
 class Patron < ActiveRecord::Base
   has_many :creates, :dependent => :destroy
@@ -11,8 +69,6 @@ class Patron < ActiveRecord::Base
   #has_one :person
   #has_one :corporate_body
   #has_one :conference
-  has_many :donates
-  has_many :donated_items, :through => :donates, :source => :item
   has_many :patron_merges, :dependent => :destroy
   has_many :patron_merge_lists, :through => :patron_merges
   #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
@@ -36,8 +92,8 @@ class Patron < ActiveRecord::Base
   validates_associated :language, :patron_type, :country
   validates_length_of :full_name, :maximum => 255
   #validates_uniqueness_of :user_id, :allow_nil => true
-  validates_format_of :birth_date, :with => /^\d+(-\d{0,2}){0,2}$/, :allow_blank => true
-  validates_format_of :death_date, :with => /^\d+(-\d{0,2}){0,2}$/, :allow_blank => true
+  validates_format_of :birth_date, :with => /\A\d+(-\d{0,2}){0,2}\z/, :allow_blank => true
+  validates_format_of :death_date, :with => /\A\d+(-\d{0,2}){0,2}\z/, :allow_blank => true
   validate :check_birth_date
   before_validation :set_role_and_name, :on => :create
   before_save :set_date_of_birth, :set_date_of_death
@@ -66,9 +122,7 @@ class Patron < ActiveRecord::Base
     integer :patron_type_id
   end
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def set_role_and_name
     self.required_role = Role.where(:name => 'Librarian').first if self.required_role_id.nil?
@@ -257,61 +311,3 @@ class Patron < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: patrons
-#
-#  id                                  :integer         not null, primary key
-#  user_id                             :integer
-#  last_name                           :string(255)
-#  middle_name                         :string(255)
-#  first_name                          :string(255)
-#  last_name_transcription             :string(255)
-#  middle_name_transcription           :string(255)
-#  first_name_transcription            :string(255)
-#  corporate_name                      :string(255)
-#  corporate_name_transcription        :string(255)
-#  full_name                           :string(255)
-#  full_name_transcription             :text
-#  full_name_alternative               :text
-#  created_at                          :datetime        not null
-#  updated_at                          :datetime        not null
-#  deleted_at                          :datetime
-#  zip_code_1                          :string(255)
-#  zip_code_2                          :string(255)
-#  address_1                           :text
-#  address_2                           :text
-#  address_1_note                      :text
-#  address_2_note                      :text
-#  telephone_number_1                  :string(255)
-#  telephone_number_2                  :string(255)
-#  fax_number_1                        :string(255)
-#  fax_number_2                        :string(255)
-#  other_designation                   :text
-#  place                               :text
-#  street                              :text
-#  locality                            :text
-#  region                              :text
-#  date_of_birth                       :datetime
-#  date_of_death                       :datetime
-#  language_id                         :integer         default(1), not null
-#  country_id                          :integer         default(1), not null
-#  patron_type_id                      :integer         default(1), not null
-#  lock_version                        :integer         default(0), not null
-#  note                                :text
-#  creates_count                       :integer         default(0), not null
-#  realizes_count                      :integer         default(0), not null
-#  produces_count                      :integer         default(0), not null
-#  owns_count                          :integer         default(0), not null
-#  required_role_id                    :integer         default(1), not null
-#  required_score                      :integer         default(0), not null
-#  state                               :string(255)
-#  full_name_alternative_transcription :text
-#  email                               :text
-#  url                                 :text
-#  title                               :string(255)
-#  birth_date                          :string(255)
-#  death_date                          :string(255)
-#  patron_identifier                   :string(255)
-#
-

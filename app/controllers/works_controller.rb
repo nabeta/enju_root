@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 class WorksController < ApplicationController
   load_and_authorize_resource
-  before_filter :get_patron, :get_subject, :get_subscription
+  before_filter :get_patron, :get_subject
   before_filter :get_work, :only => :index
   before_filter :get_series_statement, :only => [:index, :new, :edit]
   before_filter :get_work_merge_list
@@ -29,13 +29,11 @@ class WorksController < ApplicationController
     unless params[:mode] == 'add'
       patron = @patron
       subject = @subject
-      subscription = @subscription
       work = @work
       work_merge_list = @work_merge_list
       search.build do
         with(:patron_ids).equal_to patron.id if patron
         with(:subject_ids).equal_to subject.id if subject
-        with(:subscription_ids).equal_to subscription.id if subscription
         with(:original_work_ids).equal_to work.id if work
         with(:work_merge_list_ids).equal_to work_merge_list.id if work_merge_list
       end
@@ -43,11 +41,11 @@ class WorksController < ApplicationController
 
     role = current_user.try(:role) || Role.find('Guest')
     search.build do
-      with(:required_role_id).less_than role.id
+      with(:required_role_id).less_than_or_equal_to role.id
     end
 
     page = params[:page] || 1
-    search.query.paginate(page.to_i, Work.per_page)
+    search.query.paginate(page.to_i, Work.default_per_page)
     @works = search.execute!.results
     @count[:total] = @works.total_entries
 
@@ -76,7 +74,7 @@ class WorksController < ApplicationController
       with(:work_ids).equal_to work.id if work
     end
     page = params[:subject_page] || 1
-    search.query.paginate(page.to_i, Subject.per_page)
+    search.query.paginate(page.to_i, Subject.default_per_page)
     @subjects = search.execute!.results
 
     expression_list_page = params[:expression_list_page] || 1
@@ -84,17 +82,15 @@ class WorksController < ApplicationController
     if params[:expression_list_page] or expression_list_page == 1
       @expressions = Expression.search do
         with(:work_id).equal_to work.id
-        paginate :page => expression_list_page, :per_page => Expression.per_page
+        paginate :page => expression_list_page, :per_page => Expression.default_per_page
       end.results
     end
     if params[:manifestation_list_page] or manifestation_list_page == 1
       @manifestations = Manifestation.search do
         with(:work_ids).equal_to work.id
-        paginate :page => manifestation_list_page, :per_page => Manifestation.per_page
+        paginate :page => manifestation_list_page, :per_page => Manifestation.default_per_page
       end.results
     end
-
-    #@subjects = @work.subjects.paginate(:page => params[:subject_page], :total_entries => @work.work_has_subjects.size)
 
     respond_to do |format|
       format.html # show.html.erb

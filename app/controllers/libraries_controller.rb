@@ -20,11 +20,11 @@ class LibrariesController < ApplicationController
     if query.present?
       @libraries = Library.search(:include => [:shelves]) do
         fulltext query
-        paginate :page => page.to_i, :per_page => Tag.per_page
+        paginate :page => page.to_i, :per_page => Library.default_per_page
         order_by sort[:sort_by], sort[:order]
       end.results
     else
-      @libraries = Library.paginate(:page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+      @libraries = Library.order("#{sort[:sort_by]} #{sort[:order]}").page(page)
     end
 
     respond_to do |format|
@@ -46,7 +46,7 @@ class LibrariesController < ApplicationController
       order_by(:start_at, :desc)
     end
     page = params[:event_page] || 1
-    search.query.paginate(page.to_i, Event.per_page)
+    search.query.paginate(page.to_i, Event.default_per_page)
     @events = search.execute!.results
 
     respond_to do |format|

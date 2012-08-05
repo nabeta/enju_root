@@ -10,8 +10,8 @@ module EnjuNdl
     end
 
     def import_isbn(isbn)
-      isbn = ISBN_Tools.cleanup(isbn)
-      raise EnjuNdl::InvalidIsbn unless ISBN_Tools.is_valid?(isbn)
+      lisbn = Lisbn.new(isbn)
+      raise EnjuNdl::InvalidIsbn unless lisbn.valid?
 
       if manifestation = Manifestation.first(:conditions => {:isbn => isbn})
         return manifestation
@@ -63,19 +63,17 @@ module EnjuNdl
       manifestation
     end
 
-    def search_porta(query, options = {})
-      options = {:item => 'any', :startrecord => 1, :per_page => 10, :raw => false}.merge(options)
+    def search_ndl(query, options = {})
+      options = {:dpid => 'iss-ndl-opac', :item => 'any', :idx => 1, :per_page => 10, :raw => false}.merge(options)
       doc = nil
       results = {}
-      startrecord = options[:startrecord].to_i
+      startrecord = options[:idx].to_i
       if startrecord == 0
         startrecord = 1
       end
-      url = "http://api.porta.ndl.go.jp/servicedp/opensearch?dpid=#{options[:dpid]}&#{options[:item]}=#{URI.escape(query)}&cnt=#{options[:per_page]}&idx=#{startrecord}"
+      url = "http://iss.ndl.go.jp/api/opensearch?dpid=#{options[:dpid]}&#{options[:item]}=#{URI.escape(query)}&cnt=#{options[:per_page]}&idx=#{startrecord}"
       if options[:raw] == true
-        open(url) do |f|
-          f.read
-        end
+        open(url).read
       else
         RSS::Rss::Channel.install_text_element("openSearch:totalResults", "http://a9.com/-/spec/opensearchrss/1.0/", "?", "totalResults", :text, "openSearch:totalResults")
         RSS::BaseListener.install_get_text_element "http://a9.com/-/spec/opensearchrss/1.0/", "totalResults", "totalResults="
@@ -83,80 +81,23 @@ module EnjuNdl
       end
     end
 
+    def normalize_isbn(isbn)
+      if isbn.length == 10
+        Lisbn.new(isbn).isbn13
+      else
+        Lisbn.new(isbn).isbn10
+      end
+    end
+
     def return_xml(isbn)
-      xml = self.search_porta(isbn, {:dpid => 'zomoku', :item => 'isbn', :raw => true}).to_s
+      xml = self.search_ndl(isbn, {:dpid => 'zomoku', :item => 'isbn', :raw => true}).to_s
       doc = Nokogiri::XML(xml)
       if doc.at('//openSearch:totalResults').content.to_i == 0
         isbn = normalize_isbn(isbn)
-        xml = self.search_porta(isbn, {:dpid => 'zomoku', :item => 'isbn', :raw => true}).to_s
+        xml = self.search_ndl(isbn, {:dpid => 'zomoku', :item => 'isbn', :raw => true}).to_s
         doc = Nokogiri::XML(xml)
       end
       return doc
-    end
-
-    def get_crd_response(options)
-      params = {:query_logic => 1, :results_num => 1, :results_num => 200, :sort => 10}.merge(options)
-      query = []
-      query << "01_#{params[:query_01].to_s.gsub('　', ' ')}" if params[:query_01]
-      query << "02_#{params[:query_02].to_s.gsub('　', ' ')}" if params[:query_02]
-      delimiter = '.'
-      url = "http://crd.ndl.go.jp/refapi/servlet/refapi.RSearchAPI?query=#{URI.escape(query.join(delimiter))}&query_logic=#{params[:query_logic]}&results_get_position=#{params[:results_get_position]}&results_num=#{params[:results_num]}&sort=#{params[:sort]}"
-
-      xml = open(url).read.to_s
-    end
-
-    def search_crd(options)
-      params = {:page => 1}.merge(options)
-      crd_page = params[:page].to_i
-      crd_page = 1 if crd_page <= 0
-      crd_startrecord = (crd_page - 1) * Question.crd_per_page + 1
-      params[:results_get_position] = crd_startrecord
-      params[:results_num] = Question.crd_per_page
-
-      xml = get_crd_response(params)
-      doc = Nokogiri::XML(xml)
-
-      response = {
-        :results_num => doc.at('//xmlns:hit_num').try(:content).to_i,
-        :results => []
-      }
-      doc.xpath('//xmlns:result').each do |result|
-        set = {
-          :question => result.at('QUESTION').try(:content),
-          :reg_id => result.at('REG-ID').try(:content),
-          :answer => result.at('ANSWER').try(:content),
-          :crt_date => result.at('CRT-DATE').try(:content),
-          :solution => result.at('SOLUTION').try(:content),
-          :lib_id => result.at('LIB-ID').try(:content),
-          :lib_name => result.at('LIB-NAME').try(:content),
-          :url => result.at('URL').try(:content),
-          :ndc => result.at('NDC').try(:content)
-        }
-        begin
-          set[:keyword] = result.xpath('xmlns:KEYWORD').collect(&:content)
-        rescue NoMethodError
-          set[:keyword] = []
-        end
-        response[:results] << set
-      end
-
-      crd_count = response[:results_num]
-      if crd_count > 1000
-        crd_total_count = 1000
-      else
-        crd_total_count = crd_count
-      end
-
-      resources = response[:results]
-      crd_results = WillPaginate::Collection.create(crd_page, Question.crd_per_page, crd_total_count) do |pager| pager.replace(resources) end
-    end
-
-    def normalize_isbn(isbn)
-      if isbn.length == 10
-        ISBN_Tools.isbn10_to_isbn13(isbn)
-      else
-        ISBN_Tools.isbn13_to_isbn10(isbn)
-      end
     end
 
     def get_title(doc)

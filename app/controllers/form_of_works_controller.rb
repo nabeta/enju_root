@@ -1,20 +1,14 @@
 class FormOfWorksController < InheritedResources::Base
   respond_to :html, :json
-  before_filter :check_client_ip_address
+  has_scope :page, :default => 1
   load_and_authorize_resource
 
   def update
     @form_of_work = FormOfWork.find(params[:id])
-    if params[:position]
-      @form_of_work.insert_at(params[:position])
-      redirect_to form_of_works_url
+    if params[:move]
+      move_position(@form_of_work, params[:move])
       return
     end
     update!
-  end
-
-  private
-  def interpolation_options
-    {:resource_name => t('activerecord.models.form_of_work')}
   end
 end

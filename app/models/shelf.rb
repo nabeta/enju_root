@@ -1,9 +1,25 @@
+# == Schema Information
+#
+# Table name: shelves
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :text
+#  note         :text
+#  library_id   :integer          default(1), not null
+#  items_count  :integer          default(0), not null
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  deleted_at   :datetime
+#
+
 class Shelf < ActiveRecord::Base
   include MasterModel
   default_scope :order => "position"
   scope :real, :conditions => ['library_id != 1']
   belongs_to :library, :validate => true
-  has_many :items, :include => [:use_restrictions, :circulation_status]
+  has_many :items, :include => [:use_restrictions]
   has_many :picture_files, :as => :picture_attachable, :dependent => :destroy
   #has_many :shelf_has_manifestations, :dependent => :destroy
   #has_many :manifestations, :through => :shelf_has_manifestations
@@ -17,9 +33,7 @@ class Shelf < ActiveRecord::Base
   acts_as_list :scope => :library
   #acts_as_soft_deletable
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def web_shelf?
     return true if self.id == 1
@@ -41,19 +55,3 @@ class Shelf < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: shelves
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :text
-#  note         :text
-#  library_id   :integer         default(1), not null
-#  items_count  :integer         default(0), not null
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#  deleted_at   :datetime
-#
-

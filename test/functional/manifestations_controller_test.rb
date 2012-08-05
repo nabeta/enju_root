@@ -6,8 +6,8 @@ class ManifestationsControllerTest < ActionController::TestCase
     :expressions, :content_types, :frequencies,
     :items, :library_groups, :libraries, :shelves, :languages, :exemplifies,
     :embodies, :patrons, :user_groups, :users,
-    :bookmarks, :roles,
-    :subscriptions, :subscribes, :search_histories
+    :roles,
+    :search_histories
 
 
   def test_api_sru_template
@@ -149,20 +149,6 @@ class ManifestationsControllerTest < ActionController::TestCase
     assert assigns(:manifestations)
   end
 
-  #def test_user_should_not_get_index_with_subscription
-  #  sign_in users(:user1)
-  #  get :index, :subscription_id => 1
-  #  assert_response :forbidden
-  #end
-
-  #def test_librarian_should_get_index_with_subscription
-  #  sign_in users(:librarian1)
-  #  get :index, :subscription_id => 1
-  #  assert_response :success
-  #  assert assigns(:subscription)
-  #  assert assigns(:manifestations)
-  #end
-
   def test_guest_should_get_index_with_query
     get :index, :query => '2005'
     assert_response :success
@@ -173,21 +159,21 @@ class ManifestationsControllerTest < ActionController::TestCase
     get :index, :query => '2005', :number_of_pages_at_least => 1, :number_of_pages_at_most => 100
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal '2005 number_of_pages_i: [1 TO 100]', assigns(:query)
+    assert_equal '2005 number_of_pages_i:[1 TO 100]', assigns(:query)
   end
 
   def test_guest_should_get_index_with_pub_date_from
     get :index, :query => '2005', :pub_date_from => '2000'
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal '2005 date_of_publication_d: [1999-12-31T15:00:00Z TO *]', assigns(:query)
+    assert_equal '2005 date_of_publication_d:[1999-12-31T15:00:00Z TO *]', assigns(:query)
   end
 
   def test_guest_should_get_index_with_pub_date_to
     get :index, :query => '2005', :pub_date_to => '2000'
     assert_response :success
     assert assigns(:manifestations)
-    assert_equal '2005 date_of_publication_d: [* TO 1999-12-31T15:00:00Z]', assigns(:query)
+    assert_equal '2005 date_of_publication_d:[* TO 1999-12-31T15:00:00Z]', assigns(:query)
   end
 
   def test_guest_should_get_index_all_facet

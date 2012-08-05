@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: work_has_subjects
+#
+#  id           :integer          not null, primary key
+#  subject_id   :integer
+#  subject_type :string(255)
+#  work_id      :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 class WorkHasSubject < ActiveRecord::Base
   belongs_to :subject
   belongs_to :work
@@ -8,24 +20,10 @@ class WorkHasSubject < ActiveRecord::Base
   after_save :reindex
   after_destroy :reindex
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def reindex
     work.index
     subject.index
   end
 end
-# == Schema Information
-#
-# Table name: work_has_subjects
-#
-#  id           :integer         not null, primary key
-#  subject_id   :integer
-#  subject_type :string(255)
-#  work_id      :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

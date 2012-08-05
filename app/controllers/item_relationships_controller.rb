@@ -7,7 +7,7 @@ class ItemRelationshipsController < InheritedResources::Base
   end
 
   def index
-    @item_relationships = ItemRelationship.paginate(:page => params[:page])
+    @item_relationships = ItemRelationship.page(params[:page])
   end
 
   def new

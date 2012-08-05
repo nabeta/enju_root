@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: patron_types
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  display_name :text
+#  note         :text
+#  position     :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
 --- 
 patron_type_00001:
   id: 1
@@ -19,16 +32,3 @@ patron_type_00003:
   display_name: Conference
   note: 
   position: 3
-# == Schema Information
-#
-# Table name: patron_types
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  display_name :text
-#  note         :text
-#  position     :integer
-#  created_at   :datetime        not null
-#  updated_at   :datetime        not null
-#
-

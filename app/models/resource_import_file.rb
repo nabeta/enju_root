@@ -1,6 +1,29 @@
+# == Schema Information
+#
+# Table name: resource_import_files
+#
+#  id                           :integer          not null, primary key
+#  parent_id                    :integer
+#  filename                     :string(255)
+#  content_type                 :string(255)
+#  size                         :integer
+#  file_hash                    :string(255)
+#  user_id                      :integer
+#  note                         :text
+#  executed_at                  :datetime
+#  state                        :string(255)
+#  resource_import_file_name    :string(255)
+#  resource_import_content_type :string(255)
+#  resource_import_file_size    :integer
+#  resource_import_updated_at   :datetime
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#  resource_import_fingerprint  :string(255)
+#
+
 class ResourceImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  scope :not_imported, where(:state => 'pending', :imported_at => nil)
+  scope :not_imported, where(:state => 'pending', :executed_at => nil)
 
   if configatron.uploaded_file.storage == :s3
     has_attached_file :resource_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
@@ -80,7 +103,7 @@ class ResourceImportFile < ActiveRecord::Base
       row_num += 1
     end
 
-    self.update_attribute(:imported_at, Time.zone.now)
+    self.update_attribute(:executed_at, Time.zone.now)
     Sunspot.commit
     rows.close
     sm_complete!
@@ -348,26 +371,3 @@ class ResourceImportFile < ActiveRecord::Base
     end
   end
 end
-# == Schema Information
-#
-# Table name: resource_import_files
-#
-#  id                           :integer         not null, primary key
-#  parent_id                    :integer
-#  filename                     :string(255)
-#  content_type                 :string(255)
-#  size                         :integer
-#  file_hash                    :string(255)
-#  user_id                      :integer
-#  note                         :text
-#  imported_at                  :datetime
-#  state                        :string(255)
-#  resource_import_file_name    :string(255)
-#  resource_import_content_type :string(255)
-#  resource_import_file_size    :integer
-#  resource_import_updated_at   :datetime
-#  created_at                   :datetime        not null
-#  updated_at                   :datetime        not null
-#  resource_import_fingerprint  :string(255)
-#
-

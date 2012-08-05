@@ -36,7 +36,6 @@ class Ability
         Classification,
         Create,
         CreateType,
-        Donate,
         Embody,
         Event,
         EventCategory,
@@ -45,7 +44,6 @@ class Ability
         Expression,
         EventImportFile,
         ImportRequest,
-        InterLibraryLoan,
         ItemHasUseRestriction,
         ManifestationRelationship,
         ManifestationRelationshipType,
@@ -73,8 +71,6 @@ class Ability
         SubjectHeadingType,
         SubjectHeadingTypeHasSubject,
         SubjectType,
-        Subscribe,
-        Subscription,
         UserHasRole,
         Work,
         WorkHasSubject,
@@ -83,7 +79,6 @@ class Ability
       ]
       can [:read, :update], [
         CarrierType,
-        CirculationStatus,
         ContentType,
         Country,
         ExpressionRelationshipType,
@@ -159,7 +154,6 @@ class Ability
       end
       can :manage, [
         Create,
-        Donate,
         Embody,
         Event,
         Exemplify,
@@ -168,7 +162,6 @@ class Ability
         ExpressionRelationship,
         EventImportFile,
         ImportRequest,
-        InterLibraryLoan,
         ItemHasUseRestriction,
         ItemRelationship,
         ManifestationRelationship,
@@ -187,8 +180,6 @@ class Ability
         SearchHistory,
         SeriesStatement,
         SubjectHasClassification,
-        Subscribe,
-        Subscription,
         WorkHasSubject,
         WorkMerge,
         WorkMergeList,
@@ -196,7 +187,6 @@ class Ability
       ]
       can :read, [
         CarrierType,
-        CirculationStatus,
         Classification,
         ClassificationType,
         ContentType,
@@ -254,16 +244,9 @@ class Ability
       can :show, Message do |message|
         message.receiver == user
       end
-      can [:index, :create], Patron
-      can :update, Patron do |patron|
-        patron.user == user
-      end
+      can :index, Patron
       can :show, Patron do |patron|
-        if patron.user == user
-          true
-        elsif patron.user != user
-          true if patron.required_role_id <= 2 #name == 'Administrator'
-        end
+        true if patron.required_role_id <= 2 #name == 'Administrator'
       end
       can :index, PictureFile
       can :show, PictureFile do |picture_file|
@@ -287,7 +270,6 @@ class Ability
       end
       can :read, [
         CarrierType,
-        CirculationStatus,
         Classification,
         ClassificationType,
         ContentType,
@@ -347,7 +329,6 @@ class Ability
       end
       can :read, [
         CarrierType,
-        CirculationStatus,
         Classification,
         ClassificationType,
         ContentType,

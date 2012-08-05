@@ -1,6 +1,29 @@
+# == Schema Information
+#
+# Table name: patron_import_files
+#
+#  id                         :integer          not null, primary key
+#  parent_id                  :integer
+#  filename                   :string(255)
+#  content_type               :string(255)
+#  size                       :integer
+#  file_hash                  :string(255)
+#  user_id                    :integer
+#  note                       :text
+#  executed_at                :datetime
+#  state                      :string(255)
+#  patron_import_file_name    :string(255)
+#  patron_import_content_type :string(255)
+#  patron_import_file_size    :integer
+#  patron_import_updated_at   :datetime
+#  created_at                 :datetime         not null
+#  updated_at                 :datetime         not null
+#  patron_import_fingerprint  :string(255)
+#
+
 class PatronImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
-  scope :not_imported, where(:state => 'pending', :imported_at => nil)
+  scope :not_imported, where(:state => 'pending', :executed_at => nil)
 
   if configatron.uploaded_file.storage == :s3
     has_attached_file :patron_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
@@ -112,7 +135,6 @@ class PatronImportFile < ActiveRecord::Base
       unless row['username'].blank?
         begin
           user = User.new
-          user.patron = patron
           user.username = row['username'].to_s.strip
           user.email = row['email'].to_s.strip
           user.email_confirmation = row['email'].to_s.strip
@@ -140,7 +162,7 @@ class PatronImportFile < ActiveRecord::Base
       import_result.save!
       row_num += 1
     end
-    self.update_attribute(:imported_at, Time.zone.now)
+    self.update_attribute(:executed_at, Time.zone.now)
     Sunspot.commit
     rows.close
     sm_complete!
@@ -155,26 +177,3 @@ class PatronImportFile < ActiveRecord::Base
     logger.info "#{Time.zone.now} importing patrons failed!"
   end
 end
-# == Schema Information
-#
-# Table name: patron_import_files
-#
-#  id                         :integer         not null, primary key
-#  parent_id                  :integer
-#  filename                   :string(255)
-#  content_type               :string(255)
-#  size                       :integer
-#  file_hash                  :string(255)
-#  user_id                    :integer
-#  note                       :text
-#  imported_at                :datetime
-#  state                      :string(255)
-#  patron_import_file_name    :string(255)
-#  patron_import_content_type :string(255)
-#  patron_import_file_size    :integer
-#  patron_import_updated_at   :datetime
-#  created_at                 :datetime        not null
-#  updated_at                 :datetime        not null
-#  patron_import_fingerprint  :string(255)
-#
-

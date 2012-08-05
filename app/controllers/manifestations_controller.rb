@@ -50,10 +50,10 @@ class ManifestationsController < ApplicationController
             @manifestation = Manifestation.find_by_oai_identifier(params[:identifier])
           rescue ActiveRecord::RecordNotFound
             @oai[:errors] << "idDoesNotExist"
-            render :template => 'manifestations/index.oai.builder'
+            render :template => 'manifestations/index', :formats => [:oai]
             return
           end
-          render :template => 'manifestations/show.oai.builder'
+          render :template => 'manifestations/show', :formats => [:oai]
           return
         end
       end
@@ -68,7 +68,7 @@ class ManifestationsController < ApplicationController
       sort = {}
 
       page ||= params[:page] || 1
-      per_page ||= Manifestation.per_page
+      per_page ||= Manifestation.default_per_page
 			case
       when params[:format] == 'sru'
         if params[:operation] == 'searchRetrieve'
@@ -142,7 +142,7 @@ class ManifestationsController < ApplicationController
           facet :library
           facet :language
           facet :subject_ids
-          paginate :page => page.to_i, :per_page => per_page || Manifestation.per_page
+          paginate :page => page.to_i, :per_page => per_page || Manifestation.default_per_page
         end
       end
       search_result = search.execute
@@ -151,9 +151,9 @@ class ManifestationsController < ApplicationController
       else
         max_count = @count[:query_result]
       end
-      @manifestations = WillPaginate::Collection.create(page, per_page, max_count) do |pager|
-        pager.replace(search_result.results)
-      end
+      @manifestations = Kaminari.paginate_array(
+        search_result.results, :total_count => max_count
+      ).page(page)
 
       if params[:format].blank? or params[:format] == 'html'
         @carrier_type_facet = search_result.facet(:carrier_type).rows
@@ -163,7 +163,7 @@ class ManifestationsController < ApplicationController
 
       @search_engines = Rails.cache.fetch('search_engine_all'){SearchEngine.all}
 
-      save_search_history(query, @manifestations.offset, @count[:query_result], current_user)
+      save_search_history(query, @manifestations.offset_value + 1, @count[:query_result], current_user)
       if params[:format] == 'oai'
         unless @manifestations.empty?
           set_resumption_token(params[:resumptionToken], @from_time || Manifestation.last.updated_at, @until_time || Manifestation.first.updated_at)

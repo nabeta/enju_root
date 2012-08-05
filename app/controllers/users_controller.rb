@@ -33,12 +33,12 @@ class UsersController < ApplicationController
       @users = User.search do
         fulltext query
         order_by sort[:sort_by], sort[:order]
-        with(:required_role_id).less_than role.id
+        with(:required_role_id).less_than_or_equal_to role.id
       end.results
     else
-      @users = User.paginate(:page => page, :order => "#{sort[:sort_by]} #{sort[:order]}")
+      @users = User.order("#{sort[:sort_by]} #{sort[:order]}").page(page)
     end
-    @count[:query_result] = @users.total_entries
+    @count[:query_result] = @users.total_count
     
     respond_to do |format|
       format.html # index.html.erb
@@ -54,7 +54,6 @@ class UsersController < ApplicationController
     unless @user.patron
       redirect_to new_user_patron_url(@user); return
     end
-    @tags = @user.bookmarks.tag_counts.sort{|a,b| a.count <=> b.count}.reverse
     get_top_page_content
 
     respond_to do |format|

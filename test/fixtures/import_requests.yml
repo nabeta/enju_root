@@ -1,3 +1,16 @@
+# == Schema Information
+#
+# Table name: import_requests
+#
+#  id               :integer          not null, primary key
+#  isbn             :string(255)
+#  state            :string(255)
+#  manifestation_id :integer
+#  user_id          :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
@@ -11,16 +24,3 @@ two:
   state: pending
   manifestation_id: 2
   user_id: 1
-# == Schema Information
-#
-# Table name: import_requests
-#
-#  id               :integer         not null, primary key
-#  isbn             :string(255)
-#  state            :string(255)
-#  manifestation_id :integer
-#  user_id          :integer
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
-#
-

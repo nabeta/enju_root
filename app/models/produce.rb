@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: produces
+#
+#  id               :integer          not null, primary key
+#  patron_id        :integer          not null
+#  manifestation_id :integer          not null
+#  position         :integer
+#  type             :string(255)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  produce_type_id  :integer
+#
+
 class Produce < ActiveRecord::Base
   belongs_to :patron
   belongs_to :manifestation
@@ -10,9 +24,7 @@ class Produce < ActiveRecord::Base
 
   acts_as_list :scope => :manifestation
 
-  def self.per_page
-    10
-  end
+  paginates_per 10
 
   def reindex
     patron.index
@@ -20,17 +32,3 @@ class Produce < ActiveRecord::Base
   end
 
 end
-# == Schema Information
-#
-# Table name: produces
-#
-#  id               :integer         not null, primary key
-#  patron_id        :integer         not null
-#  manifestation_id :integer         not null
-#  position         :integer
-#  type             :string(255)
-#  created_at       :datetime        not null
-#  updated_at       :datetime        not null
-#  produce_type_id  :integer
-#
-

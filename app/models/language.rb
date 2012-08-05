@@ -1,3 +1,18 @@
+# == Schema Information
+#
+# Table name: languages
+#
+#  id           :integer          not null, primary key
+#  name         :string(255)      not null
+#  native_name  :string(255)
+#  display_name :text
+#  iso_639_1    :string(255)
+#  iso_639_2    :string(255)
+#  iso_639_3    :string(255)
+#  note         :text
+#  position     :integer
+#
+
 class Language < ActiveRecord::Base
   include MasterModel
   default_scope :order => "languages.position"
@@ -28,18 +43,3 @@ class Language < ActiveRecord::Base
     Language.where(:iso_639_1 => I18n.available_locales.map{|l| l.to_s}).order(:position)
   end
 end
-# == Schema Information
-#
-# Table name: languages
-#
-#  id           :integer         not null, primary key
-#  name         :string(255)     not null
-#  native_name  :string(255)
-#  display_name :text
-#  iso_639_1    :string(255)
-#  iso_639_2    :string(255)
-#  iso_639_3    :string(255)
-#  note         :text
-#  position     :integer
-#
-

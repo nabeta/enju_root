@@ -8,11 +8,11 @@ class OwnsController < ApplicationController
   # GET /owns.json
   def index
     if @patron
-      @owns = @patron.owns.paginate(:page => params[:page], :order => ['owns.position'])
+      @owns = @patron.owns.order('owns.position').page(params[:page])
     elsif @item
-      @owns = @item.owns.paginate(:page => params[:page], :order => ['owns.position'])
+      @owns = @item.owns.order('owns.position').page(params[:page])
     else
-      @owns = Own.paginate(:page => params[:page], :order => ['owns.position'])
+      @owns = Own.order('owns.position').page(params[:page])
     end
 
     respond_to do |format|
