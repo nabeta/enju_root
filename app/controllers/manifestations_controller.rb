@@ -247,7 +247,7 @@ class ManifestationsController < ApplicationController
     if params[:work_list_page] or work_list_page == 1
       @works = Work.search do
         with(:manifestation_ids).equal_to manifestation.id
-        paginate :page => work_list_page, :per_page => Work.per_page
+        paginate :page => work_list_page, :per_page => Work.default_per_page
       end.results
     end
     store_location
