@@ -32,8 +32,6 @@ en:
       search_history: Search history
       shelf: Shelf
       event_category: Event category
-      advertisement: Advertisement
-      porta_response: PORTA Response
       donate: Donate
       basket: Basket
       subject_as_event: Subject as event
@@ -63,7 +61,6 @@ en:
       work_merge_list: Work merge list
       order: Order
       order_list: Order list
-      advertise: Advertise
       event: Event
       embody: Embody
       item_has_use_restriction: Item has use restriction
@@ -380,17 +377,6 @@ en:
         display_name: Display name
         note: Note
         position: Position
-      advertisement:
-        title: Title
-        url: URL
-        body: Body
-        note: Note
-        started_at: Started at
-        ended_at: Ended at
-        deleted_at: Deleted at
-        position: Position
-      porta_response:
-        body: Body
       donate:
       basket:
         user: User
@@ -508,8 +494,6 @@ en:
         ordered_at: Ordered at
         deleted_at: Deleted at
         state: State
-      advertise:
-        position: Position
       event:
         name: Name
         note: Note
@@ -1346,8 +1330,6 @@ en:
     this_subscription_is_expired: "This subscription is expired!"
   role:
     required_role: "Required role"
-  advertisement:
-    period: "Period"
   attachment_file:
     invalid_file: "Invalid file."
   inventory_file:

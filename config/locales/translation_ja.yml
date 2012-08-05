@@ -32,8 +32,6 @@ ja:
       search_history: 検索履歴
       shelf: 本棚
       event_category: 催し物の種類
-      advertisement: 広告記事
-      porta_response: PORTAの応答
       donate: 寄贈
       basket: 貸出セッション
       subject_as_event: 対象イベントとして
@@ -63,8 +61,7 @@ ja:
       work_merge_list: 著作形の併合リスト
       order: 発注
       order_list: 発注リスト
-      advertise: 広告
-      event: 開館日と催し物
+      event: 催し物
       embody: 具体化
       item_has_use_restriction: 項目を制限している
       expression_merge: 表現形の併合
@@ -381,17 +378,6 @@ ja:
         display_name: 表示名
         note: 注記
         position: 位置
-      advertisement:
-        title: タイトル
-        url: URL
-        body: 本文
-        note: 注記
-        started_at: 開始時刻
-        ended_at: 終了時刻
-        deleted_at: 削除時刻
-        position: 位置
-      porta_response:
-        body: 本文
       donate:
       basket:
         user: 利用者
@@ -509,8 +495,6 @@ ja:
         ordered_at: 発注時刻
         deleted_at: 削除時刻
         state: 状態
-      advertise:
-        position: 位置
       event:
         name: 名前
         note: 注記
@@ -1349,8 +1333,6 @@ ja:
     this_subscription_is_expired: "購読期間が過ぎています。"
   role:
     required_role: "参照に必要な権限"
-  advertisement:
-    period: "期間"
   attachment_file:
     invalid_file: "無効なファイルです。"
   inventory_file:

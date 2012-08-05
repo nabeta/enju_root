@@ -38,11 +38,10 @@
         <%- if can? :update, patron -%>
           <%- if params[:mode] == 'add' -%>
             <%= link_to t('page.add'), new_expression_realize_path(@expression, :patron_id => patron.id) unless @expression.patrons.include?(patron) -%>
-          <%- end -%>
+          <%- else -%>
+            <%= link_to t('page.destroy'), expression_realize_path(@expression, @expression.realized(patron)), :data => {:confirm => t('page.are_you_sure')}, :method => :delete if @expression.realized(patron) -%>
+          <% end %>
         <% end %>
-        <%- if can? :destroy, patron -%>
-          <%= link_to t('page.destroy'), expression_realize_path(@expression, @expression.realized(patron)), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
-        <%- end -%>
       </td>
     </tr>
   <%- end -%>
