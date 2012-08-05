@@ -99,7 +99,7 @@ class ItemsController < ApplicationController
       return
     end
     @item = Item.new
-    @item.manifestation = @manifestation
+    @item.manifestation_id = @manifestation.id if @manifestation
 
     respond_to do |format|
       format.html # new.html.erb
@@ -116,15 +116,11 @@ class ItemsController < ApplicationController
   # POST /items.json
   def create
     @item = Item.new(params[:item])
-    unless @manifestation
-      flash[:notice] = t('item.specify_manifestation')
-      redirect_to manifestations_url
-      return
-    end
-    @item.manifestation = @manifestation
+    manifestation = Manifestation.find(@item.manifestation_id)
 
     respond_to do |format|
       if @item.save
+        @item.manifestation = manifestation
         flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.item'))
         @item.delay.post_to_union_catalog if LibraryGroup.site_config.post_to_union_catalog
         if @patron
