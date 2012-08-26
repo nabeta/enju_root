@@ -218,7 +218,7 @@ class ApplicationController < ActionController::Base
     #  response.body = NKF::nkf('-w -Lw', response.body)
     case params[:format]
     when 'csv'
-      return unless configatron.csv_charset_conversion
+      return unless Setting.csv_charset_conversion
       # TODO: 他の言語
       if @locale == 'ja'
         headers["Content-Type"] = "text/csv; charset=Shift_JIS"

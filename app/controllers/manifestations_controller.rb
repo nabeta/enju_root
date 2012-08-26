@@ -128,7 +128,7 @@ class ManifestationsController < ApplicationController
 
       unless session[:manifestation_ids]
         manifestation_ids = search.build do
-          paginate :page => 1, :per_page => configatron.max_number_of_results
+          paginate :page => 1, :per_page => Setting.max_number_of_results
         end.execute!.raw_results.collect(&:primary_key).map{|id| id.to_i}
         session[:manifestation_ids] = manifestation_ids
       end
@@ -146,8 +146,8 @@ class ManifestationsController < ApplicationController
         end
       end
       search_result = search.execute
-      if @count[:query_result] > configatron.max_number_of_results
-        max_count = configatron.max_number_of_results
+      if @count[:query_result] > Setting.max_number_of_results
+        max_count = Setting.max_number_of_results
       else
         max_count = @count[:query_result]
       end
@@ -542,7 +542,7 @@ class ManifestationsController < ApplicationController
   end
 
   def save_search_history(query, offset = 0, total = 0, user = nil)
-    if configatron.write_search_log_to_file
+    if Setting.write_search_log_to_file
       write_search_log(query, total, user)
     else
       history = SearchHistory.create(:query => query, :user => user, :start_record => offset + 1, :maximum_records => nil, :number_of_records => total)

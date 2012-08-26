@@ -27,7 +27,7 @@ class ResourceImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
   scope :not_imported, where(:state => 'pending', :executed_at => nil)
 
-  if configatron.uploaded_file.storage == :s3
+  if Setting.uploaded_file.storage == :s3
     has_attached_file :resource_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
       :path => "resource_import_files/:id/:filename"
   else
@@ -215,7 +215,7 @@ class ResourceImportFile < ActiveRecord::Base
 
   def open_import_file
     if RUBY_VERSION > '1.9'
-      if configatron.uploaded_file.storage == :s3
+      if Setting.uploaded_file.storage == :s3
         file = CSV.open(open(self.resource_import.url).path, :col_sep => "\t")
         header = file.first
         rows = CSV.open(open(self.resource_import.url).path, :headers => header, :col_sep => "\t")
@@ -225,7 +225,7 @@ class ResourceImportFile < ActiveRecord::Base
         rows = CSV.open(self.resource_import.path, :headers => header, :col_sep => "\t")
       end
     else
-      if configatron.uploaded_file.storage == :s3
+      if Setting.uploaded_file.storage == :s3
         file = FasterCSV.open(open(self.resource_import.url).path, :col_sep => "\t")
         header = file.first
         rows = FasterCSV.open(open(self.resource_import.url).path, :headers => header, :col_sep => "\t")

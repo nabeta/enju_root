@@ -27,7 +27,7 @@ class PatronImportFile < ActiveRecord::Base
   default_scope :order => 'id DESC'
   scope :not_imported, where(:state => 'pending', :executed_at => nil)
 
-  if configatron.uploaded_file.storage == :s3
+  if Setting.uploaded_file.storage == :s3
     has_attached_file :patron_import, :storage => :s3, :s3_credentials => "#{Rails.root.to_s}/config/s3.yml",
       :path => "patron_import_files/:id/:filename"
   else
@@ -65,7 +65,7 @@ class PatronImportFile < ActiveRecord::Base
     num = {:success => 0, :failure => 0, :activated => 0}
     row_num = 2
     if RUBY_VERSION > '1.9'
-      if configatron.uploaded_file.storage == :s3
+      if Setting.uploaded_file.storage == :s3
         file = CSV.open(open(self.patron_import.url).path, :col_sep => "\t")
         header = file.first
         rows = CSV.open(open(self.patron_import.url).path, :headers => header, :col_sep => "\t")
@@ -76,7 +76,7 @@ class PatronImportFile < ActiveRecord::Base
         rows = CSV.open(self.patron_import.path, :headers => header, :col_sep => "\t")
       end
     else
-      if configatron.uploaded_file.storage == :s3
+      if Setting.uploaded_file.storage == :s3
         file = FasterCSV.open(open(self.patron_import.url).path, :col_sep => "\t")
         header = file.first
         rows = FasterCSV.open(open(self.patron_import.url).path, :headers => header, :col_sep => "\t")

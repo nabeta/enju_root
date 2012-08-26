@@ -30,13 +30,11 @@ platforms :jruby do
   gem 'jdbc-postgres', :require => false
   #gem 'jdbc-mysql', :require => false
   gem 'rubyzip'
-  gem 'glassfish'
+  gem 'trinidad'
 end
 
 gem 'exception_notification', '~> 2.6'
-gem 'configatron'
 gem 'resque_mailer'
-gem 'daemons'
 gem 'state_machine', '~> 1.1.2'
 gem 'inherited_resources', '~> 1.3'
 gem 'has_scope'
@@ -44,14 +42,14 @@ gem 'nokogiri'
 gem 'marc'
 gem 'strongbox'
 gem 'dalli', '~> 2.1'
-gem 'sitemap_generator', '~> 3.1'
+gem 'sitemap_generator', '~> 3.2'
 gem 'ri_cal'
 gem 'paper_trail', '~> 2.6'
 gem 'RedCloth', '>= 4.2.9'
 gem 'lisbn'
 gem 'devise-encryptable'
 gem 'addressable'
-gem 'paperclip', '~> 3.0'
+gem 'paperclip', '~> 3.1'
 gem 'paperclip-meta'
 gem 'aws-sdk', '~> 1.6'
 gem 'whenever', :require => false
@@ -84,7 +82,7 @@ group :development, :test do
   gem 'simplecov', '~> 0.6', :require => false
   gem 'rspec-rails', '~> 2.10'
   gem 'guard-rspec'
-  gem 'factory_girl_rails', '~> 3.6'
+  gem 'factory_girl_rails', '~> 4.0'
   gem 'spork-rails'
 #  gem 'rcov', '0.9.11'
 #  gem 'metric_fu', '~> 2.1'
