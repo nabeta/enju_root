@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '1.9.3'
 gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
@@ -26,9 +27,8 @@ gem 'levenshtein19'
 
 platforms :jruby do
   gem 'jruby-openssl'
-  gem 'activerecord-jdbc-adapter'
-  gem 'jdbc-postgres', :require => false
-  #gem 'jdbc-mysql', :require => false
+  gem 'activerecord-jdbcpostgresql-adapter'
+  #gem 'activerecord-jdbcmysql-adapter'
   gem 'rubyzip'
   gem 'trinidad'
 end
