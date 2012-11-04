@@ -88,7 +88,7 @@ group :development, :test do
 #  gem 'metric_fu', '~> 2.1'
   gem 'timecop'
   gem 'sunspot-rails-tester', :git => 'git://github.com/justinko/sunspot-rails-tester.git'
-  gem 'vcr', '~> 2.2'
+  gem 'vcr', '~> 2.3'
   gem 'fakeweb'
 #  gem 'churn', '0.0.13'
   gem 'parallel_tests', '~> 0.8'
