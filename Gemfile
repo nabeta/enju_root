@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '1.9.3'
-gem 'rails', '3.2.8'
+gem 'rails', '3.2.9'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -41,7 +41,7 @@ gem 'has_scope'
 gem 'nokogiri'
 gem 'marc'
 gem 'strongbox'
-gem 'dalli', '~> 2.2'
+gem 'dalli', '~> 2.5'
 gem 'sitemap_generator', '~> 3.4'
 gem 'ri_cal'
 gem 'paper_trail', '~> 2.6'
@@ -80,7 +80,7 @@ end
 group :development, :test do
   gem 'ruby-prof'
   gem 'simplecov', '~> 0.7', :require => false
-  gem 'rspec-rails', '~> 2.10'
+  gem 'rspec-rails', '~> 2.12'
   gem 'guard-rspec'
   gem 'factory_girl_rails', '~> 4.1'
   gem 'spork-rails'
