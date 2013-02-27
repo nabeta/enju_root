@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '1.9.3'
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.12'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -74,7 +74,7 @@ gem 'oink', '>= 0.9.3'
 group :development do
   gem 'annotate', '~> 2.5'
   gem 'progress_bar'
-  gem 'sunspot_solr', '~> 2.0.0.pre.120925'
+  gem 'sunspot_solr', '~> 2.0.0'
 end
 
 group :development, :test do
