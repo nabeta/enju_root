@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
-ruby '1.9.3'
-gem 'rails', '3.2.12'
+#ruby '1.9.3'
+gem 'rails', '3.2.13'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -80,18 +80,15 @@ end
 group :development, :test do
   gem 'ruby-prof'
   gem 'simplecov', '~> 0.7', :require => false
-  gem 'rspec-rails', '~> 2.12'
+  gem 'rspec-rails', '~> 2.13'
   gem 'guard-rspec'
   gem 'factory_girl_rails', '~> 4.1'
   gem 'spork-rails'
-#  gem 'rcov', '0.9.11'
-#  gem 'metric_fu', '~> 2.1'
   gem 'timecop'
   gem 'sunspot-rails-tester', :git => 'git://github.com/justinko/sunspot-rails-tester.git'
-  gem 'vcr', '~> 2.3'
+  gem 'vcr', '~> 2.4'
   gem 'fakeweb'
-#  gem 'churn', '0.0.13'
-  gem 'parallel_tests', '~> 0.8'
+  gem 'parallel_tests', '~> 0.10'
 end
 
 # Gems used only for assets and not required
