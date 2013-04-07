@@ -34,7 +34,7 @@ GIT
 
 GIT
   remote: git://github.com/next-l/enju_event.git
-  revision: eecff4b333c96699a73b3190cd657f36d1086dfc
+  revision: 8162c0b6aa3f4c2311026c5654dba5d1ffb9eaf9
   specs:
     enju_event (0.1.17.pre7)
       enju_core (~> 0.1.1.pre4)
@@ -69,14 +69,14 @@ GIT
 
 GIT
   remote: git://github.com/next-l/enju_news.git
-  revision: 0e2e8dc70e616b80ffd3431477d23c2b1ea35093
+  revision: 4a2b74cd76e58f2a78c8ee65b8eea53dcc73f087
   specs:
     enju_news (0.1.0.pre3)
       enju_core (~> 0.1.1.pre4)
 
 GIT
   remote: git://github.com/next-l/enju_nii.git
-  revision: d893be3c46c27f383cee9e33860f3fb8c1dc5077
+  revision: 25da6d9b338d426e26ca26ee79136411b3fd9395
   specs:
     enju_nii (0.1.0.pre4)
       enju_biblio (~> 0.1.0.pre26)
@@ -90,9 +90,9 @@ GIT
 
 GIT
   remote: git://github.com/next-l/enju_subject.git
-  revision: 4e187594f44f104a763096c727ab84f3ec356d72
+  revision: fe00b71e68bb54b95dd04724d524c6a27ea7152b
   specs:
-    enju_subject (0.1.0.pre7)
+    enju_subject (0.1.0.pre8)
       dynamic_form
       enju_core (~> 0.1.1.pre4)
       inherited_resources
@@ -149,12 +149,12 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
-    backports (3.1.1)
+    backports (3.3.0)
     bcrypt-ruby (3.0.1)
     builder (3.0.4)
     cancan (1.6.9)
     chronic (0.9.1)
-    client_side_validations (3.2.2)
+    client_side_validations (3.2.5)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cloudfiles (1.5.0.1)
@@ -168,7 +168,7 @@ GEM
     coffee-script (2.2.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.6.1)
+    coffee-script-source (1.6.2)
     dalli (2.6.2)
     devise (2.2.3)
       bcrypt-ruby (~> 3.0)
@@ -177,8 +177,11 @@ GEM
       warden (~> 1.2.1)
     devise-encryptable (0.1.1)
       devise (>= 2.1.0.rc)
-    diff-lcs (1.2.1)
+    diff-lcs (1.2.2)
     dynamic_form (1.1.4)
+    ebnf (0.2.3)
+      rdf
+      sxp
     enju_biblio (0.1.0.pre26)
       aws-sdk
       dynamic_form
@@ -209,18 +212,19 @@ GEM
       railties (>= 3.0.0)
     fakeweb (1.3.0)
     fattr (2.2.1)
+    formatador (0.2.4)
     friendly_id (4.0.9)
     geocoder (1.1.6)
-    guard (1.6.2)
+    guard (1.7.0)
+      formatador (>= 0.2.4)
       listen (>= 0.6.0)
       lumberjack (>= 1.0.2)
       pry (>= 0.9.10)
-      terminal-table (>= 1.4.3)
       thor (>= 0.14.6)
-    guard-rspec (2.5.1)
+    guard-rspec (2.5.2)
       guard (>= 1.1)
       rspec (~> 2.11)
-    haml (4.0.0)
+    haml (4.0.2)
       tilt
     has_scope (0.5.1)
     highline (1.6.16)
@@ -228,9 +232,9 @@ GEM
     hodel_3000_compliant_logger (0.1.1)
     htmlentities (4.3.1)
     i18n (0.6.1)
-    inherited_resources (1.3.1)
+    inherited_resources (1.4.0)
       has_scope (~> 0.5.0)
-      responders (~> 0.6)
+      responders (~> 0.9)
     journey (1.0.4)
     jquery-rails (2.2.1)
       railties (>= 3.0, < 5.0)
@@ -263,20 +267,21 @@ GEM
       nokogiri
       nori (~> 2.0)
     listen (0.7.3)
-    lumberjack (1.0.2)
+    lumberjack (1.0.3)
     mail (2.5.3)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     marc (0.5.0)
     method_source (0.8.1)
-    mime-types (1.21)
-    multi_json (1.7.1)
-    nested_form (0.3.1)
+    mime-types (1.22)
+    mono_logger (1.0.0)
+    multi_json (1.7.2)
+    nested_form (0.3.2)
     net-sftp (2.1.1)
       net-ssh (>= 2.6.5)
     net-ssh (2.6.6)
-    nokogiri (1.5.7)
+    nokogiri (1.5.9)
     nori (2.0.4)
     oink (0.10.1)
       activerecord
@@ -295,10 +300,10 @@ GEM
       mime-types
     paperclip-meta (0.4.3)
       paperclip
-    parallel (0.6.2)
-    parallel_tests (0.10.1)
+    parallel (0.6.4)
+    parallel_tests (0.10.4)
       parallel
-    pg (0.14.1)
+    pg (0.15.0)
     polyglot (0.3.3)
     pr_geohash (1.0.0)
     progress_bar (1.0.0)
@@ -334,8 +339,8 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.0.3)
-    rdf (1.0.3)
+    rake (10.0.4)
+    rdf (1.0.4)
       addressable (>= 2.2)
     rdf-isomorphic (1.0.0)
       rdf (>= 1.0)
@@ -358,12 +363,14 @@ GEM
     rdf-rdfxml (1.0.0)
       rdf (>= 1.0)
       rdf-xsd (>= 1.0)
-    rdf-trig (1.0.0.beta1)
+    rdf-trig (1.0.0.beta3)
+      ebnf (>= 0.2.0)
       rdf (>= 1.0)
       rdf-turtle (>= 1.0)
     rdf-trix (1.0.0)
       rdf (>= 1.0)
-    rdf-turtle (1.0.0)
+    rdf-turtle (1.0.3)
+      ebnf (>= 0.2.1)
       rdf (>= 1.0)
     rdf-xsd (1.0.0)
       backports
@@ -376,19 +383,20 @@ GEM
       redis (~> 3.0.0)
     responders (0.9.3)
       railties (~> 3.1)
-    resque (1.23.1)
+    resque (1.24.1)
+      mono_logger (~> 1.0)
       multi_json (~> 1.0)
-      redis-namespace (~> 1.0)
+      redis-namespace (~> 1.2)
       sinatra (>= 0.9.2)
       vegas (~> 0.1.2)
-    resque-scheduler (2.0.0)
+    resque-scheduler (2.0.1)
       redis (>= 2.0.1)
       resque (>= 1.20.0)
       rufus-scheduler
     resque_mailer (2.2.3)
       actionmailer (~> 3.0)
     ri_cal (0.8.8)
-    rsolr (1.0.8)
+    rsolr (1.0.9)
       builder (>= 2.1.2)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
@@ -397,7 +405,7 @@ GEM
     rspec-core (2.13.1)
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.13.0)
+    rspec-mocks (2.13.1)
     rspec-rails (2.13.0)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -409,6 +417,7 @@ GEM
     rufus-scheduler (2.0.18)
       tzinfo (>= 0.3.23)
     sanitize (2.0.3)
+      nokogiri (>= 1.4.4, < 1.6)
       nokogiri (>= 1.4.4, < 1.6)
     sass (3.2.7)
     sass-rails (3.2.6)
@@ -453,8 +462,9 @@ GEM
       nokogiri
       sunspot (= 2.0.0)
     sunspot_solr (2.0.0)
-    terminal-table (1.4.5)
-    thor (0.17.0)
+    sxp (0.1.2)
+      json (>= 1.1.1)
+    thor (0.18.1)
     tilt (1.3.6)
     timecop (0.6.1)
     timeliness (0.3.7)
@@ -462,7 +472,7 @@ GEM
       polyglot
       polyglot (>= 0.3.1)
     tzinfo (0.3.37)
-    uglifier (1.3.0)
+    uglifier (2.0.1)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     uuidtools (2.1.3)
