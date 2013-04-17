@@ -83,7 +83,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.2'
   gem 'spork-rails'
   gem 'timecop'
-  gem 'sunspot-rails-tester', :git => 'git://github.com/justinko/sunspot-rails-tester.git'
+  gem 'sunspot-rails-tester'
   gem 'vcr', '~> 2.4'
   gem 'fakeweb'
   gem 'parallel_tests', '~> 0.10'
