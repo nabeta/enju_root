@@ -86,7 +86,7 @@ group :development, :test do
   gem 'sunspot-rails-tester'
   gem 'vcr', '~> 2.4'
   gem 'fakeweb'
-  gem 'parallel_tests', '~> 0.10'
+  gem 'parallel_tests', '~> 0.11'
 end
 
 # Gems used only for assets and not required
