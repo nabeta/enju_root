@@ -1,13 +1,85 @@
-<%- case when @work -%>
-  <%= render :partial => 'index_work' -%>
-<%- when @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- when @subject -%>
-  <%= render :partial => 'index_subject' -%>
-<%- when @series_statement -%>
-  <%= render :partial => 'index_series_statement' -%>
-<%- when @work_merge_list -%>
-  <%= render :partial => 'index_work_merge_list' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+  <h1 class="title">Listing
+    <% if @manifestation_id %>
+      work candidates of [M] <%= Manifestation.find(@manifestation_id).title_proper %>
+    <% else %>
+      works
+    <% end %>
+  </h1>
+<div id="content_list">
+  <p id="notice"><%= notice %></p>
+  <% if params[:work_url] %>
+    <p>
+      <%= params[:work_url] %> に対応するWorkを選択してください。
+      <%= link_to '追加', works_path(:mode => 'fetch', :work_url => params[:work_url]), :method => 'post' %>
+    </p>
+  <% elsif params[:manifestation_url] %>
+    <p><%= params[:manifestation_url] %> に対応するWorkを選択してください。</p>
+  <% end %>
+
+  <%= form_for :works, :url => works_path, :html => {:method => 'get'} do -%>
+    <p>
+      <%= search_field_tag 'query', params[:query], :class => 'search_form_short', :placeholder => t('enju.search') -%>
+      <%= submit_tag t('enju.search') -%><br />
+      <%= hidden_field_tag 'manifestation_id', @manifestation_id if @manifestation_id %>
+      <%= hidden_field_tag 'manifestation_url', params[:manifestation_url] if params[:manifestation_url] %>
+      <%= hidden_field_tag 'parent_id', @parent_work.id if @parent_work %>
+    </p>
+  <%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.work.original_title') %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @works.each do |work| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <strong>[W] <%= link_to work.original_title, work_path(work, :manifestation_id => @manifestation_id) %></strong>
+      <br />
+      <!--
+      Creator:
+      <% work.creators.each do |creator| %>
+        <%= link_to creator.full_name, creator %>
+      <% end %>
+      -->
+    </td>
+    <td>
+      <% if params[:manifestation_url] %>
+        <%= link_to '関連を追加', expressions_path(:work_id => work.id, :manifestation_url => params[:manifestation_url]) unless work.expressions.map{|e| e.manifestations}.flatten.include?(Manifestation.where(:url => params[:manifestation_url]).first) %>
+      <% elsif @parent_work and @parent_work != work %>
+        <%= link_to '関連著作を追加', new_work_relationship_path(:parent_id => @parent_work.id, :child_id => work.id) if !work.parents.include?(@parent_work)%>
+      <% elsif @expression %>
+        <%= link_to '関連著作を修正', edit_reify_path(@reify, :work_id => work.id, :expression_id => @expression) if !work.expressions.include?(@expression) and @reify %>
+      <% elsif @manifestation_id %>
+        <%= link_to '関連著作を追加', expressions_path(:work_id => work.id, :manifestation_id => @manifestation_id, :mode => 'add') unless work.expressions.map{|e| e.manifestations}.flatten.include?(Manifestation.find(@manifestation_id)) %>
+      <% elsif @person %>
+        <%= link_to '関連著作を追加', new_create_path(:work_id => work.id, :person_id => @person.id) unless work.creators.include?(@person) %>
+      <% end %>
+    </td>
+    <td><%= link_to t('enju.edit'), edit_work_path(work) %></td>
+    <td><%= link_to t('enju.destroy'), work, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate(@works) %>
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <% if @parent_work %>
+      <li><%= link_to 'New Work', new_work_path(:parent_id => @parent_work.id) %></li>
+    <% elsif params[:work_url] %>
+      <li><%= link_to 'New Work', new_work_path(:work_url => params[:work_url]) %></li>
+    <% else %>
+      <li><%= link_to 'New Work', new_work_path(:manifestation_url => params[:manifestation_url]) %></li>
+    <% end %>
+    <li><a href="javascript:window.location.href='<%= works_url %>?manifestation_url='+encodeURIComponent(location.href);">ブックマークレット</a></li>
+    <li><a href="javascript:window.location.href='<%= works_url %>?query=url_sm%3A'+encodeURIComponent(location.href);">検索用ブックマークレット</a></li>
+  </ul>
+</div>

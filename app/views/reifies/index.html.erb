@@ -1,7 +1,37 @@
-<%- if @work -%>
-  <%= render :partial => 'index_work' -%>
-<%- elsif @expression -%>
-  <%= render :partial => 'index_expression' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title">Listing reifies</h1>
+<div id="content_list" class="ui-corner-all">
+
+<table class="index">
+  <tr>
+    <th>Work</th>
+    <th>Expression</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @reifies.each do |reify| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to reify.work.original_title, reify.work if reify.work %></td>
+    <td>
+      <%= link_to reify.expression.work.original_title, reify.expression if reify.expression %>
+      <br />
+      (<%= reify.expression.try(:language) %>)
+    </td>
+    <td><%= link_to t('enju.show'), reify %></td>
+    <td><%= link_to t('enju.edit'), edit_reify_path(reify) %></td>
+    <td><%= link_to t('enju.destroy'), reify, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= paginate(@reifies) %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <%= link_to 'New Reify', new_reify_path %>
+</div>

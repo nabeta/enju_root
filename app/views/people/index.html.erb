@@ -1,0 +1,55 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title">Listing people</h1>
+<div id="content_list">
+
+  <%= form_for :people, :url => people_path, :html => {:method => 'get'} do -%>
+    <p>
+      <%= search_field_tag 'query', params[:query], :class => 'search_form_short', :placeholder => t('enju.search') -%>
+      <%= submit_tag t('enju.search') -%><br />
+    </p>
+  <%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.person.full_name') %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @people.each do |person| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <strong><%= link_to person.full_name, person %></strong>
+    </td>
+    <td>
+      <% if @work %>
+        <%= link_to '関連を追加', new_create_path(:person_id => person.id, :work_id => @work.id) if !@work.creators.include?(person) %>
+      <% elsif @expression %>
+        <%= link_to '関連を追加', new_realize_path(:person_id => person.id, :expression_id => @expression.id) if !@expression.contributors.include?(person) %>
+      <% elsif @manifestation %>
+        <%= link_to '関連を追加', new_produce_path(:person_id => person.id, :manifestation_id => @manifestation.id) if !@manifestation.producers.include?(person) %>
+      <% end %>
+    </td>
+    <td><%= link_to t('enju.edit'), edit_person_path(person) %></td>
+    <td><%= link_to t('enju.destroy'), person, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate(@people) %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <% if @work %>
+      <li><%= link_to 'New Person', new_person_path(:work_id => @work.id) %></li>
+    <% elsif @expression %>
+      <li><%= link_to 'New Person', new_person_path(:expression_id => @expression.id) %></li>
+    <% else %>
+      <li><%= link_to 'New Person', new_person_path %></li>
+    <% end %>
+  </ul>
+</div>

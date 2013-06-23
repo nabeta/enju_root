@@ -1,0 +1,53 @@
+<div id="content_detail" class="ui-corner-all">
+<div id="content_list">
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%= t('activerecord.attributes.person.full_name') %>:</b>
+  <%= @person.full_name %>
+</p>
+
+<p>
+  <b>Work:</b>
+</p>
+<ul>
+  <% @person.works.each do |work| %>
+    <li>[W] <%= link_to work.original_title, work %></li>
+  <% end %>
+</ul>
+
+<p>
+  <b>Expression:</b>
+</p>
+<ul>
+  <% @person.expressions.each do |expression| %>
+    <li>[E] <%= link_to expression.original_title, expression %></li>
+  <% end %>
+</ul>
+
+<p>
+  <b>Manifestation:</b>
+</p>
+<ul>
+  <% @person.manifestations.each do |manifestation| %>
+    <li>
+      [M] <%= link_to manifestation.title_proper, manifestation %>
+      Creator: <% manifestation.creators.each do |creator| %>
+        <%= link_to creator.full_name, creator %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to t('enju.edit'), edit_person_path(@person) %></li>
+    <li><%= link_to t('enju.back'), people_path %></li>
+    <li><%= link_to 'Add a work', works_path(:person_id => @person.id, :mode => :add) %></li>
+    <li><%= link_to 'Add an expression', expressions_path(:person_id => @person.id, :mode => :add) %></li>
+    <li><%= link_to 'Add a manifestation', manifestations_path(:person_id => @person.id, :mode => :add) %></li>
+  </ul>
+</div>

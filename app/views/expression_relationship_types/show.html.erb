@@ -1,20 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_relationship_type')) -%></h1>
 <div id="content_list">
+<p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t('activerecord.attributes.expression_relationship_type.name') -%>:</strong>
-  <%= @expression_relationship_type.name -%>
+  <b>Name:</b>
+  <%= @expression_relationship_type.name %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.expression_relationship_type.display_name') -%>:</strong>
-  <%= @expression_relationship_type.display_name.localize -%>
-</p>
-
-<p>
-  <strong><%= t('activerecord.attributes.expression_relationship_type.note') -%>:</strong>
-  <%= @expression_relationship_type.note -%>
+  <b>Definition:</b>
+  <%= @expression_relationship_type.definition %>
 </p>
 
 </div>
@@ -22,7 +17,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.edit'), edit_expression_relationship_type_path(@expression_relationship_type) -%></li>
-    <li><%= link_to t('page.back'), expression_relationship_types_path -%></li>
+    <li><%= link_to t('enju.edit'), edit_expression_relationship_type_path(@expression_relationship_type) %></li>
+    <li><%= link_to t('enju.back'), expression_relationship_types_path %></li>
   </ul>
 </div>

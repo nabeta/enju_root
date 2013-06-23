@@ -1,0 +1,8 @@
+{
+  "@id": "<%= manifestation_url(@manifestation) %>",
+  "@type": "http://purl.org/vocab/frbr/core#Manifestation",
+  "http://purl.org/dc/terms/title": "<%= @manifestation.title_proper %>",
+  "http://purl.org/dc/terms/identifier": "<%= @manifestation.url %>",
+  "http://purl.org/vocab/frbr/core#embodimentOf":
+    <%=raw @manifestation.expressions.map{|expression| expression_url(expression)}.to_s %>
+}

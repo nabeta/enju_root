@@ -1,136 +1,88 @@
-# -*- encoding: utf-8 -*-
 class ExpressionsController < ApplicationController
-  load_and_authorize_resource
-  before_filter :get_user_if_nil
-  before_filter :get_patron
-  before_filter :get_work, :get_manifestation
-  before_filter :get_expression, :only => :index
-  before_filter :get_expression_merge_list
   before_filter :prepare_options, :only => [:new, :edit]
-  before_filter :get_version, :only => [:show]
-  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
-  after_filter :solr_commit, :only => [:create, :update, :destroy]
 
   # GET /expressions
   # GET /expressions.json
   def index
-    query = params[:query].to_s.strip
-    search = Sunspot.new_search(Expression)
-    @count = {}
-    unless query.blank?
-      @query = query.dup
-      query = query.gsub('　', ' ')
-      #query = "#{query} frequency_of_issue_id: [2 TO *]" if params[:view] == 'serial'
-      search.build do
-        fulltext query
-      end
-    end
-
-    set_role_query(current_user, search)
-
-    unless params[:mode] == 'add'
-      manifestation = @manifestation
-      patron = @patron
-      work = @work
-      expression = @expression
-      expression_merge_list = @expression_merge_list
-      search.build do
-        with(:manifestation_ids).equal_to manifestation.id if manifestation
-        with(:patron_ids).equal_to patron.id if patron
+    @work = work = Work.find(params[:work_id]) if params[:work_id]
+    @parent_expression = Expression.find(params[:parent_id]) if params[:parent_id]
+    @manifestation = manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
+    @person = person = Person.find(params[:person_id]) if params[:person_id]
+    @expressions = Expression.search do
+      if params[:mode] != 'add'
         with(:work_id).equal_to work.id if work
-        with(:original_expression_ids).equal_to expression.id if expression
-        with(:expression_merge_list_ids).equal_to expression_merge_list.id if expression_merge_list
+        with(:manifestation_ids).equal_to manifestation.id if manifestation
+        with(:person_ids).equal_to person.id if person
       end
-    end
-
-    role = current_user.try(:role) || Role.find('Guest')
-    search.build do
-      with(:required_role_id).less_than_or_equal_to role.id
-    end
-
-    page = params[:page] || 1
-    search.query.paginate(page.to_i, Expression.default_per_page)
-    @expressions = search.execute!.results
-    @count[:total] = @expressions.total_entries
+      fulltext params[:query]
+      paginate :page => params[:page], :per_page => Expression.default_per_page
+    end.results
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @expressions }
-      format.atom
+      format.json { render json: @expressions }
     end
   end
 
   # GET /expressions/1
   # GET /expressions/1.json
   def show
-    case when @work
-      @expression = @work.expressions.find(params[:id])
-    when @manifestation
-      @expression = @manifestation.expressions.find(params[:id])
-    when @patron
-      @expression = @patron.expressions.find(params[:id])
-    #else
-    #  @expression = Expression.find(params[:id])
-    end
-    @expression = @expression.versions.find(@version).item if @version
+    @expression = Expression.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @expression }
+      format.json #{ render json: @expression }
     end
   end
 
   # GET /expressions/new
+  # GET /expressions/new.json
   def new
-    #unless @work
-    #  flash[:notice] = t('expression.specify_work')
-    #  redirect_to works_path
-    #  return
-    #end
     @expression = Expression.new
-    if @work
-      @expression.original_title = @work.original_title
-      @expression.title_transcription = @work.title_transcription
+    @expression.manifestation_url = params[:manifestation_url]
+    @work = Work.find(params[:work_id]) if params[:work_id]
+    unless @work
+      flash[:notice] = "You should specify the Work entity."
+      redirect_to works_url; return
     end
-    @expression.language = Language.where(:iso_639_1 => @locale).first
+    @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
+    @expression.work = @work
+    @expression.work_id = @work.id
+    @expression.original_title = @expression.work.original_title
+    @expression.manifestation_id = @manifestation.id if @manifestation
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json  { render :json => @expression }
+      format.json { render json: @expression }
     end
   end
 
   # GET /expressions/1/edit
   def edit
-    #@expression = Expression.find(params[:id])
+    @expression = Expression.find(params[:id])
   end
 
   # POST /expressions
   # POST /expressions.json
   def create
-    unless @work
-      flash[:notice] = t('expression.specify_work')
-      redirect_to works_path
-      return
-    end
     @expression = Expression.new(params[:expression])
 
     respond_to do |format|
+      work = Work.find(@expression.work_id)
+      @expression.work = work
       if @expression.save
-        Expression.transaction do
-          @work.expressions << @expression
-          #if @expression.serial?
-          #  @expression.patrons << @work.patrons
-          #end
+        if @expression.manifestation_id.present?
+          format.html { redirect_to new_embody_url(:expression_id => @expression.id, :manifestation_id => @expression.manifestation_id), notice: 'Expression was successfully created.' }
+        else
+          manifestation = Manifestation.create(:url => @expression.manifestation_url)
+          @expression.manifestations << manifestation
+          format.html { redirect_to manifestation, :notice => 'Expression was successfully created.' }
         end
-
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.expression'))
-        format.html { redirect_to @expression }
-        format.json { render :json => @expression, :status => :created, :location => @expression }
+        format.json { render json: @expression, status: :created, location: @expression }
       else
         prepare_options
-        format.html { render :action => "new" }
-        format.json { render :json => @expression.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @expression.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -138,17 +90,16 @@ class ExpressionsController < ApplicationController
   # PUT /expressions/1
   # PUT /expressions/1.json
   def update
-    params[:issn] = params[:issn].gsub(/\D/, "") if params[:issn]
+    @expression = Expression.find(params[:id])
 
     respond_to do |format|
       if @expression.update_attributes(params[:expression])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.expression'))
-        format.html { redirect_to expression_url(@expression) }
+        format.html { redirect_to @expression, notice: 'Expression was successfully updated.' }
         format.json { head :no_content }
       else
         prepare_options
-        format.html { render :action => "edit" }
-        format.json { render :json => @expression.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @expression.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -156,10 +107,10 @@ class ExpressionsController < ApplicationController
   # DELETE /expressions/1
   # DELETE /expressions/1.json
   def destroy
+    @expression = Expression.find(params[:id])
     @expression.destroy
 
     respond_to do |format|
-      flash[:notice] = t('controller.successfully_deleted', :model => t('activerecord.models.expression'))
       format.html { redirect_to expressions_url }
       format.json { head :no_content }
     end
@@ -168,7 +119,5 @@ class ExpressionsController < ApplicationController
   private
   def prepare_options
     @content_types = ContentType.all
-    @languages = Language.all
-    @roles = Role.all
   end
 end

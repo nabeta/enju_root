@@ -1,16 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.create')) -%></h1>
 <div id="content_list">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t('activerecord.models.patron') -%>:</strong>
-  <%= link_to @create.patron.full_name, @create.patron -%>
+  <b>Work:</b>
+  <%= link_to @create.work.original_title, @create.work %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.models.work') -%>:</strong>
-  <%= link_to @create.work.original_title, @create.work -%>
+  <b>Person:</b>
+  <%= link_to @create.person.full_name, @create.person %>
 </p>
 
 </div>
@@ -18,7 +17,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.patron')), work_patrons_path(@create.work) -%></li>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.work')), patron_works_path(@create.patron) -%></li>
+    <li><%= link_to t('enju.edit'), edit_create_path(@create) %></li>
+    <li><%= link_to t('enju.back'), creates_path %></li>
   </ul>
 </div>

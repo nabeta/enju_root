@@ -1,85 +1,106 @@
 <div id="content_detail" class="ui-corner-all">
-  <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.manifestation')) -%></h1>
-  <div id="content_list">
-    <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
-      <div>
-        <%= raw paginate_id_link(@manifestation) -%>
-        <%= back_to_manifestation_index -%>
-        <%= t('page.search_term') -%>:
-        <%= search_field_tag 'query', session[:query], {:id => 'search_form_top', :class => 'search_form_short'} -%>
-        <%= submit_tag t('page.search') -%>
-        <%= link_to t('page.advanced_search'), page_advanced_search_path -%>
-      </div>
-    <%- end -%>
+  <h1 class="title">[M<%= @manifestation.id %>] <%= t('enju.showing', :model => t('activerecord.models.manifestation')) -%></h1>
+<div id="content_list">
+<p id="notice"><%= notice %></p>
 
-    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @manifestation} -%>
-    <%- if @version -%>
-      <p>(<%= l(@manifestation.versions.find(@version).created_at) -%>)</p>
-    <%- end -%>
-    <% if current_user.try(:has_role?, 'Librarian') %>
-      <%= render :partial => 'manifestations/show_detail_librarian', :locals => {:manifestation => @manifestation} %>
-    <% else %>
-      <%= render :partial => 'manifestations/show_detail_user', :locals => {:manifestation => @manifestation} %>
-    <% end %>
-  </div>
+<p>
+  <b>タイトル:</b>
+  [M<%= @manifestation.id %>] <%= @manifestation.cinii_title %>
+  <br />
+  (Creator: <%= @manifestation.cinii_creator %>)
+</p>
+
+<p>
+  <b>出版社:</b>
+  <%= @manifestation.cinii_publisher %>
+</p>
+
+<ul>
+  <% @manifestation.producers.each do |producer| %>
+    <li><%= link_to producer.full_name, producer %></li>
+  <% end %>
+</ul>
+
+<!--
+<p>
+  <b>書誌ID:</b>
+  <%= @manifestation.bib_id %>
+</p>
+-->
+
+<p>
+  <b>目録システムURL:</b>
+  <%= link_to @manifestation.url, @manifestation.url if @manifestation.url? %>
+</p>
+
+<p>
+  <b>備考:</b>
+  <%= @manifestation.note %>
+</p>
+
+<p>
+  <b>関連の表示:</b>
+</p>
+
+<ul>
+  <% @manifestation.expressions.each do |expression| %>
+    <li>
+    [W<%= expression.work.id %>] <%= link_to expression.work.original_title, expression.work %>
+      <ul>
+        <% expression.work.expressions.each do |e| %>
+          <li>
+          <% if @manifestation.expressions.exists?(e) %>
+            <strong>
+          <% end %>
+          [E<%= e.id %>] <%= link_to e.original_title, e %>
+          <% if @manifestation.expressions.exists?(e) %>
+            </strong>
+          <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>
+
+<%= frbr_graph(@manifestation) %>
+
+<p>
+  <b>他のサイト:</b>
+</p>
+
+<ul>
+  <% @catalogs.each do |catalog| %>
+    <li><%= catalog.name %>:
+      <ul>
+        <% begin %>
+          <% JSON::LD::API.toRDF("#{catalog.url}/bib_id/#{@manifestation.bib_id}.json").value["http://purl.org/vocab/frbr/core#embodimentOf"].each do |v| %>
+            <li>[W] <%= remote_work(v) %></li>
+          <% end %>
+        <% rescue SocketError %>
+          <li>Socket error.</li>
+        <% rescue Errno::ENETUNREACH %>
+          <li>Network is unreachable.</li>
+        <% rescue OpenURI::HTTPError %>
+          <li>Not found.</li>
+        <% end %>
+      </ul>
+    </li>
+  <% end %>
+</ul>
+
+</div>
 </div>
 
+
 <div id="submenu" class="ui-corner-all">
-  <%= render 'manifestations/book_jacket', :manifestation => @manifestation -%>
   <ul>
-    <%- if @manifestation.picture_files.exists? -%>
-      <li><%= t('page.total') %>: <%= @manifestation.picture_files.count %> <%= t('page.number_of_pictures', :count => @manifestation.picture_files.count) %></li>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.picture_file')), manifestation_picture_files_path(@manifestation) -%></li>
-    <% end %>
-    <%- if can? :create, PictureFile -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.picture_file')), new_manifestation_picture_file_path(@manifestation) -%></li>
-    <%- end -%>
-    <script type="text/javascript">
-      $(document).ready(function(){
-        $("a[rel='manifestation_<%= @manifestation.id -%>']").colorbox({transition:"none"; photo:true});
-      })
-    </script>
-  </ul>
-  <%- if user_signed_in? -%>
-    <div id="call_number_content">
-      <%- @manifestation.items.on_shelf.each do |item| -%>
-        <%- if item.hold?(current_user.library) -%>
-          <%= call_number_label(item) -%>
-        <%- end -%>
-      <%- end -%>
-    </div>
-  <%- end -%>
+    <li><%= link_to t('enju.edit'), edit_manifestation_path(@manifestation) %></li>
+    <li><%= link_to t('enju.back'), manifestations_path %></li>
 
-  <div id="manifestation_bookmark_buttons">
-    <%- if user_signed_in? -%>
-      <ul>
-        <%- if current_user.email.present? -%>
-          <li><%= link_to t('manifestation.send_email'), manifestation_path(:mode => 'send_email'), :data => {:confirm => t('page.are_you_sure')} -%></li>
-        <%- end -%>
-      </ul>
-
-      <%- if current_user.has_role?('Librarian') -%>
-        <ul>
-          <li><%= link_to t('page.add_derivation'), manifestation_manifestations_path(@manifestation) -%></li>
-          <li>
-          <%- case when @expression -%>
-            <%= link_to t('page.edit'), edit_expression_manifestation_path(@expression, @manifestation) -%>
-          <%- when @patron -%>
-            <%= link_to t('page.edit'), edit_patron_manifestation_path(@patron, @manifestation) -%>
-          <%- else -%>
-            <%= link_to t('page.edit'), edit_manifestation_path(@manifestation) -%>
-          <%- end -%>
-          <ul>
-            <li><%= link_to t('manifestation.edit_publisher'), manifestation_patrons_path(@manifestation) -%></li>
-            <%- if @manifestation.serial? -%>
-              <li><%= link_to t('manifestation.add_next_issue'), new_series_statement_manifestation_path(@manifestation.series_statement) if @manifestation.series_statement -%></li>
-            <%- end -%>
-          </ul>
-          </li>
-          <li><%= link_to t('manifestation.edit_expression'), manifestation_expressions_path(@manifestation) -%></li>
-          <li><%= link_to t('manifestation.edit_item'), manifestation_items_path(@manifestation) -%></li>
-        </ul>
-      <%- end -%>
-    <%- end -%>
+    <li><%= link_to 'New work', works_path(:manifestation_id => @manifestation.id) %></li>
+    <li><%= link_to 'New expression', expressions_path(:manifestation_id => @manifestation.id, :mode => 'add') %></li>
+    <li><%= link_to 'New producer', people_path(:manifestation_id => @manifestation.id, :mode => 'add') %></li>
+    <li><%= link_to 'JSON-LD', manifestation_path(@manifestation, :format => :json) %></li>
   </div>
 </div>

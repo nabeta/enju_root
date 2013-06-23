@@ -1,34 +1,5 @@
-# == Schema Information
-#
-# Table name: produces
-#
-#  id               :integer          not null, primary key
-#  patron_id        :integer          not null
-#  manifestation_id :integer          not null
-#  position         :integer
-#  type             :string(255)
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  produce_type_id  :integer
-#
-
 class Produce < ActiveRecord::Base
-  belongs_to :patron
+  attr_accessible :manifestation_id, :person_id
   belongs_to :manifestation
-
-  validates_associated :patron, :manifestation
-  validates_presence_of :patron_id, :manifestation_id
-  validates_uniqueness_of :manifestation_id, :scope => :patron_id
-  after_save :reindex
-  after_destroy :reindex
-
-  acts_as_list :scope => :manifestation
-
-  paginates_per 10
-
-  def reindex
-    patron.index
-    manifestation.index
-  end
-
+  belongs_to :person
 end

@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Place associated:</b>
+  <%= @corporate_body.place_associated %>
+</p>
+
+<p>
+  <b>Date associated:</b>
+  <%= @corporate_body.date_associated %>
+</p>
+
+<p>
+  <b>Language:</b>
+  <%= @corporate_body.language_id %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @corporate_body.address %>
+</p>
+
+<p>
+  <b>Field of activity:</b>
+  <%= @corporate_body.field_of_activity %>
+</p>
+
+<p>
+  <b>History:</b>
+  <%= @corporate_body.history %>
+</p>
+
+<p>
+  <b>Other information:</b>
+  <%= @corporate_body.other_information %>
+</p>
+
+
+<%= link_to 'Edit', edit_corporate_body_path(@corporate_body) %> |
+<%= link_to 'Back', corporate_bodies_path %>

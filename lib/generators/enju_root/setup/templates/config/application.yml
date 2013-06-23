@@ -1,0 +1,13 @@
+defaults: &defaults
+  generate_graph: true
+  site:
+    name: Next-L Enju Root
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

@@ -1,7 +1,25 @@
-<%- case when @expression -%>
-  <%= render :partial => 'index_expression' -%>
-<%- when @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<h1 class="title">Listing embodies</h1>
+
+<table class="index">
+  <tr class="line<%= cycle("0", "1") -%>">
+    <th>Expression</th>
+    <th>Manifestation</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @embodies.each do |embody| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= link_to embody.expression.work.original_title, embody.expression %></td>
+    <td><%= link_to embody.manifestation.title_proper, embody.manifestation %></td>
+    <td><%= link_to t('enju.show'), embody %></td>
+    <td><%= link_to t('enju.edit'), edit_embody_path(embody) %></td>
+    <td><%= link_to t('enju.destroy'), embody, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Embodiment', new_embody_path %>

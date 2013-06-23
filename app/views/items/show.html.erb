@@ -1,31 +1,10 @@
-<div style="color: red"><%= flash[:message] -%></div>
+<p id="notice"><%= notice %></p>
 
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.item')) -%></h1>
-<div id="content_list">
-  <%- if @item.manifestation -%>
-    <%= render :partial => 'manifestations/title', :locals => {:manifestation => @item.manifestation} -%>
-  <%- end -%>
+<p>
+  <b>Item identifier:</b>
+  <%= @item.item_identifier %>
+</p>
 
-  <%- if @version -%>
-    <%= render 'show_version' %>
-  <%- else -%>
-    <%= render 'show_content' %>
-  <%- end -%>
 
-</div>
-</div>
-
-<div id="submenu" class="ui-corner-all">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @item.manifestation} -%>
-  <ul>
-    <%- if @shelf -%>
-      <li><%= link_to t('page.edit'), edit_library_shelf_item_path(@shelf.library, @shelf, @item) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.edit'), edit_item_path(@item) -%></li>
-    <%- end -%>
-    <li><%= link_to t('page.add_derivation'), item_items_path(@item) -%></li>
-    <li><%= link_to t('page.back'), items_path -%></li>
-    <li><%= link_to t('page.destroy'), @item, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
-  </ul>
-</div>
+<%= link_to t('enju.edit'), edit_item_path(@item) %> |
+<%= link_to t('enju.back'), items_path %>

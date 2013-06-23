@@ -1,13 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.reify')) -%></h1>
+<h1 class="title">Editing reification</h1>
 <div id="content_list">
-  <%= render 'form' %>
+
+<%= render 'form' %>
+
 </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.show'), @reify -%></li>
-    <li><%= link_to t('page.back'), reifies_path -%></li>
+    <li><%= link_to t('enju.show'), @reify %></li>
+    <li><%= link_to t('enju.back'), reifies_path %></li>
   </ul>
 </div>

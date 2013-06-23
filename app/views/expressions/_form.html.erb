@@ -1,64 +1,45 @@
+<%= form_for(@expression) do |f| %>
+  <% if @expression.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@expression.errors.count, "error") %> prohibited this expression from being saved:</h2>
+
+      <ul>
+      <% @expression.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
   <div class="field">
-    <%= f.label t('page.title') -%><br />
-    <%- if @work -%>
-      <%= f.text_field :original_title, :value => @work.original_title, :class => 'resource_title' -%>
-    <%- elsif @manifestation -%>
-      <%= f.text_field :original_title, :value => @manifestation.original_title, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :original_title, :class => 'resource_title' -%>
-    <%- end -%>
+    <%= f.label :work %><br />
+    <%= link_to @expression.work.original_title, @expression.work %>
+    <%= f.hidden_field :work_id %>
+  </div>
+  <div class="field">
+    <%= f.label :original_title %><br />
+    <%= f.text_field :original_title %>
+  </div>
+  <div class="field">
+    <%= f.label :language %><br />
+    <%= f.text_field :language %>
+  </div>
+  <div class="field">
+    <%= f.label :content_type_id %><br />
+    <%= f.select(:content_type_id, @content_types.map{|c| [c.name, c.id]}) %>
   </div>
 
   <div class="field">
-    <%= f.label :title_transcription -%><br />
-    <%- if @work -%>
-      <%= f.text_field :title_transcription, :value => @work.title_transcription, :class => 'resource_title' -%>
-    <%- elsif @manifestation -%>
-      <%= f.text_field :title_transcription, :value => @manifestation.title_transcription, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :title_transcription, :class => 'resource_title' -%>
-    <%- end -%>
+    <%= f.label :manifestation_url %><br />
+    <%= link_to @expression.manifestation_url, @expression.manifestation_url if @expression.manifestation_url %>
+    <%= f.hidden_field :manifestation_id %>
+    <%= f.hidden_field :manifestation_url %>
   </div>
-
   <div class="field">
-    <%= f.label :title_alternative -%><br />
-    <%- if @work -%>
-      <%= f.text_field :title_alternative, :value => @work.title_alternative, :class => 'resource_title' -%>
-    <%- elsif @manifestation -%>
-      <%= f.text_field :title_alternative, :value => @manifestation.title_alternative, :class => 'resource_title' -%>
-    <%- else -%>
-      <%= f.text_field :title_alternative, :class => 'resource_title' -%>
-    <%- end -%>
+    <%= f.label :note %><br />
+    <%= f.text_area :note %>
   </div>
-
-  <!--
-  <div class="field">
-    <%= f.label t('activerecord.attributes.expression.summarization') -%><br />
-    <%= f.text_area :summarization, :class => 'resource_textarea' -%>
+  <div class="actions">
+    <%= f.submit %>
   </div>
-
-  <div class="field">
-    <%= f.label t('activerecord.attributes.expression.context') -%><br />
-    <%= f.text_area :context, :class => 'resource_textarea' -%>
-  </div>
-  -->
-
-  <div class="field">
-    <%= f.label t('activerecord.models.language') -%>
-    <%= f.select(:language_id, @languages.collect{|l| [l.display_name.localize, l.id]}) -%>
-  </div>
-
-  <div class="field">
-    <%= f.label t('activerecord.models.content_type') -%>
-    <%= f.select(:content_type_id, @content_types.collect{|e| [e.display_name.localize, e.id]}) -%>
-  </div>
-
-  <div class="field">
-    <%= f.label t('role.required_role') -%>
-    <%= f.select(:required_role_id, @roles.collect{|r| [r.display_name.localize, r.id]}) -%>
-  </div>
-
-  <div class="field">
-    <%= f.label :note -%><br />
-    <%= f.text_area :note, :class => 'resource_textarea' -%>
-  </div>
+<% end %>

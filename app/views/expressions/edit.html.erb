@@ -1,22 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression')) -%></h1>
+<h1 class="title">Editing expression</h1>
 <div id="content_list">
 
-<%= form_for(@expression) do |f| -%>
-  <%= f.error_messages -%>
-
-  <%= render :partial => 'form', :locals => {:f => f} -%>
-  <p>
-    <%= f.submit %>
-  </p>
-<%- end -%>
+<%= render 'form' %>
 
 </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.show'), @expression -%></li>
-    <li><%= link_to t('page.back'), expressions_path -%></li>
+    <li><%= link_to t('enju.show'), @expression %></li>
+    <li><%= link_to t('enju.back'), expressions_path %></li>
   </ul>
 </div>

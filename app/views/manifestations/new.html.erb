@@ -1,16 +1,14 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.new', :model => t('activerecord.models.resource')) -%></h1>
+<h1 class="title">New manifestation</h1>
 <div id="content_list">
-  <%= render 'form' %>
+
+<%= render 'form' %>
+
 </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <%- if @patron -%>
-      <li><%= link_to t('page.back'), publisher_manifestations_path(@patron) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), manifestations_path -%></li>
-    <%- end -%>
+    <li><%= link_to t('enju.back'), manifestations_path %></li>
   </ul>
 </div>

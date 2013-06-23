@@ -1,13 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.expression_relationship')) -%></h1>
+<h1 class="title">New expression_relationship</h1>
 <div id="content_list">
-  <%= render 'form' %>
+
+<%= render 'form' %>
+
 </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.show'), @expression_relationship -%></li>
-    <li><%= link_to t('page.back'), expression_relationships_path -%></li>
+    <li><%= link_to 'Show', @expression_relationship %></li>
+    <li><%= link_to 'Back', expression_relationships_path %></li>
   </ul>
 </div>

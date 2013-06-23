@@ -1,34 +1,45 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.language')) -%></h1>
-<div id="content_list">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t('activerecord.attributes.language.native_name') -%>:</strong>
-  <%= @language.native_name -%>
+  <b>Name:</b>
+  <%= @language.name %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.language.name') -%>:</strong>
-  <%= @language.name -%>
+  <b>Native name:</b>
+  <%= @language.native_name %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.language.display_name') -%>:</strong>
-  <%= @language.display_name.localize -%>
+  <b>Display name:</b>
+  <%= @language.display_name %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.language.note') -%>:</strong>
-  <%= @language.note -%>
+  <b>Iso 639 1:</b>
+  <%= @language.iso_639_1 %>
 </p>
 
-</div>
-</div>
+<p>
+  <b>Iso 639 2:</b>
+  <%= @language.iso_639_2 %>
+</p>
 
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_language_path(@language) -%></li>
-    <li><%= back_to_index(flash[:page_info]) -%></li>
-  </ul>
-</div>
+<p>
+  <b>Iso 639 3:</b>
+  <%= @language.iso_639_3 %>
+</p>
+
+<p>
+  <b>Note:</b>
+  <%= @language.note %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%= @language.position %>
+</p>
+
+
+<%= link_to 'Edit', edit_language_path(@language) %> |
+<%= link_to 'Back', languages_path %>

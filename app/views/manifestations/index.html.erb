@@ -1,13 +1,67 @@
-<%- case when @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- when @expression -%>
-  <%= render :partial => 'index_expression' -%>
-<%- when @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- when @series_statement -%>
-  <%= render :partial => 'index_series_statement' -%>
-<%- when @subscription -%>
-  <%= render :partial => 'index_subscription' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+  <h1 class="title">Listing
+    <% if params[:mode] == 'add' %>
+      manifestation candidates
+    <% else %>
+      manifestations
+    <% end %>
+    <% if @expression  %>
+      of [E] <%= link_to @expression.original_title, @expression %>
+    <% end %>
+  </h1>
+<div id="content_list">
+
+  <%= form_for :manifestations, :url => manifestations_path, :html => {:method => 'get'} do -%>
+    <p>
+      <%= search_field_tag 'query', params[:query], :class => 'search_form_short', :placeholder => t('enju.search') -%>
+      <%= submit_tag t('enju.search') -%><br />
+      <%= hidden_field_tag 'expression_id', @expression.id if @expression %>
+      <%= hidden_field_tag 'mode', 'add' if params[:mode] == 'add' %>
+    </p>
+  <%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.manifestation.title_proper') %></th>
+    <% if params[:mode] == 'add' %>
+      <th></th>
+    <% end %>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @manifestations.each do |manifestation| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <strong><%= link_to manifestation.cinii_title, manifestation %></strong>
+      <%= manifestation.source_year %>
+      <br />
+      Creator: <%= manifestation.cinii_creator %>
+      <br />
+      Publisher: <%= manifestation.cinii_publisher %>
+      <br />
+      (<%= link_to '目録システム', manifestation.url %>)
+    </td>
+    <% if params[:mode] == 'add' %>
+      <td><%= link_to '関連を追加', new_embody_path(:expression_id => @expression.id, :manifestation_id => manifestation.id) if @expression and !manifestation.expressions.include?(@expression) %></td>
+    <% end %>
+    <td><%= link_to t('enju.edit'), edit_manifestation_path(manifestation) %></td>
+    <td><%= link_to t('enju.destroy'), manifestation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate(@manifestations) %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <% if @expression %>
+      <li><%= link_to 'New Manifestation', new_manifestation_path(:expression_id => @expression.id) %></li>
+    <% else %>
+      <li><%= link_to 'New Manifestation', new_manifestation_path %></li>
+    <% end %>
+  </ul>
+</div>

@@ -1,63 +1,20 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.subject')) -%></h1>
-<div id="content_list">
-<h2 class="resource_title">
-  [S]
-  <%= @subject.term -%>
-</h2>
-  <p>
-    (<%= link_to_wikipedia(@subject.term) -%>)
-  </p>
+<p id="notice"><%= notice %></p>
 
-  <p>
-    <%- @subject.subject_heading_types.uniq.each do |subject_heading_type| -%>
-      <%= link_to subject_heading_type.display_name.localize, subject_heading_type -%>
-    <%- end -%>
-  </p>
+<p>
+  <b>Term:</b>
+  <%= @subject.term %>
+</p>
 
-  <div id="tabs">
-    <ul>
-      <li title="active" class="selected"><a href="#work"><em><%= t('activerecord.models.work') -%></em></a></li>
-      <li><a href="#classification"><em><%= t('activerecord.models.classification') -%></em></a></li>
-    </ul>
-    <%= render :partial => 'subjects/show_work_list' -%>
-    <div id="classification">
-      <table class="table table-striped index">
-        <tr>
-          <th><%= t('activerecord.attributes.classification.category') -%></th>
-          <th><%= t('activerecord.models.classification_type') -%></th>
-        </tr>
-        <%- @subject.classifications.each do |classification| -%>
-          <tr class="line<%= cycle("0", "1") -%>">
-            <td><%= link_to classification.category, classification -%></td>
-            <td><%= link_to classification.classification_type.name, classification.classification_type -%></td>
-          </tr>
-        <%- end -%>
-      </table>
+<p>
+  <b>Subject heading:</b>
+  <%= @subject.subject_heading_id %>
+</p>
 
-      <p>
-        <strong><%= t('activerecord.attributes.subject.note') -%>:</strong>
-        <%= @subject.note -%>
-      </p>
-    </div>
-    </div>
-    <%= render :partial => 'page/tabview' -%>
-</div>
-</div>
+<p>
+  <b>Subject type:</b>
+  <%= @subject.subject_type_id %>
+</p>
 
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <%- if flash[:query] -%>
-      <li><%= link_to t('page.back'), subjects_path(:query => flash[:query]) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), subjects_path -%></li>
-    <%- end -%>
-    <%- if can? :create, SubjectHasClassification -%>
-      <li><%= link_to t('page.edit'), edit_subject_path(@subject) -%></li>
-      <li><%= link_to t('page.destroy'), subject_path(@subject), :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
-    <%- end -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.classification')), subject_classifications_path(@subject) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), subject_works_path(@subject) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject_heading_type')), subject_subject_heading_types_path(@subject) -%></li>
-  </ul>
-</div>
+
+<%= link_to t('enju.edit'), edit_subject_path(@subject) %> |
+<%= link_to t('enju.back'), subjects_path %>

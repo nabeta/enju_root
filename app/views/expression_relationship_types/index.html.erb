@@ -1,34 +1,21 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression_relationship_type')) -%></h1>
+<h1 class="title">Listing expression_relationship_types</h1>
 <div id="content_list">
 
-<table class="table table-striped index">
+<table class="index">
   <tr>
-    <th id="position"></th>
-    <th><%= t('activerecord.attributes.expression_relationship_type.name') -%></th>
-    <th><%= t('activerecord.attributes.expression_relationship_type.display_name') -%></th>
-    <th><%= t('activerecord.attributes.expression_relationship_type.note') -%></th>
+    <th>Name</th>
+    <th></th>
     <th></th>
   </tr>
 
-<%- @expression_relationship_types.each do |expression_relationship_type| -%>
+<% @expression_relationship_types.each do |expression_relationship_type| %>
   <tr class="line<%= cycle("0", "1") -%>">
-    <td>
-      <%- if can? :destroy, expression_relationship_type -%>
-        <%= move_position(expression_relationship_type) -%>
-      <%- end -%>
-    </td>
-    <td><%= link_to expression_relationship_type.name, expression_relationship_type -%></td>
-    <td><%= link_to expression_relationship_type.display_name.localize, expression_relationship_type -%></td>
-    <td><%= expression_relationship_type.note -%></td>
-    <td>
-      <%- if can? :destroy, expression_relationship_type -%>
-        <%= link_to t('page.edit'), edit_expression_relationship_type_path(expression_relationship_type) -%>
-        <%= link_to t('page.destroy'), expression_relationship_type, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%>
-      <%- end -%>
-    </td>
+    <td><%= link_to expression_relationship_type.name, expression_relationship_type %></td>
+    <td><%= link_to t('enju.edit'), edit_expression_relationship_type_path(expression_relationship_type) %></td>
+    <td><%= link_to t('enju.destroy'), expression_relationship_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
-<%- end -%>
+<% end %>
 </table>
 
 </div>
@@ -36,6 +23,6 @@
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.expression_relationship_type')), new_expression_relationship_type_path -%></li>
+    <li><%= link_to 'New Content type', new_expression_relationship_type_path %></li>
   </ul>
 </div>

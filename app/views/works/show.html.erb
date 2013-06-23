@@ -1,43 +1,83 @@
 <div id="content_detail" class="ui-corner-all">
-  <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.work')) -%></h1>
-  <div id="content_list">
-  <% if @version %>
-    <%= render 'show_version' %>
-  <% else %>
-    <h2 class="resource_title">
-      [W]
-      <%= @work.original_title -%>
-    </h2>
+  <h1 class="title">[W<%= @work.id %>] <%= t('enju.showing', :model => t('activerecord.models.work')) -%></h1>
+<div id="content_list">
+<p id="notice"><%= notice %></p>
 
-    <p>
-      <%= patrons_list(@work.patrons) -%>
-    </p>
-    <div id="tabs">
+<p>
+  <b><%= t('activerecord.attributes.work.original_title') %>:</b>
+  [W<%= @work.id %>] <%= @work.original_title %>
+    <br />
+    (Creator: <%= @work.expressions.map{|e| e.manifestations}.flatten.map{|m| m.cinii_creator}.join(" / ") %>)
+</p>
+
+<p>
+  <b>Parent:</b>
+  </p>
+
+<ul>
+  <% @work.parents.each do |parent| %>
+    <li>[W<%= @work.id %>] <%= link_to parent.original_title, parent %></li>
+  <% end %>
+</ul>
+
+<p>
+  <b>Child:</b>
+</p>
+
+<ul>
+  <% @work.children.each do |child| %>
+    <li>[W<%= child.id %>] <%= link_to child.original_title, child %></li>
+  <% end %>
+</ul>
+
+<p>
+  <b>Expression:</b>
+</p>
+  
+<ul>
+  <% @work.expressions.each do |expression| %>
+    <li>
+    [E<%= expression.id %>] <%= link_to expression.original_title, expression %>
+      <!--
+      Creator: <% expression.work.creators.each do |creator| %>
+        <%= link_to creator.full_name, creator %>
+      <% end %>
+      Contributor: <% expression.contributors.each do |contributor| %>
+        <%= link_to contributor.full_name, contributor %>
+      <% end %>
+      -->
       <ul>
-        <%= render :partial => 'show_menu' -%>
-        <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
+        <% expression.manifestations.each do |manifestation| %>
+          <li>
+          [M<%= manifestation.id %>] <%= link_to manifestation.cinii_title, manifestation %>
+          Publisher: <%= manifestation.cinii_publisher %>
+          </li>
+        <% end %>
       </ul>
-      <%= render :partial => 'show_content' -%>
-      <%= render :partial => 'history_list' -%>
-    </div>
-    <%= render :partial => 'page/tabview' -%>
-    <%- end -%>
-  </div>
+    </li>
+  <% end %>
+</ul>
+
+<p>
+  <b>relationship graph:</b>
+</p>
+
+<%=raw File.open("#{Rails.root.to_s}/public/works/#{@work.id}.svg").read if Setting.generate_graph %>
+
+</div>
 </div>
 
-<div id="submenu" class="ui-corner-all">  
+
+<div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.work')), works_path -%></li>
-    <li><%= link_to t('page.add_derivation'), work_works_path(@work) -%></li>
-    <%- if can? :destroy, @work -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.work')), new_work_path -%></li>
-      <li><%= link_to t('page.edit'), edit_work_path(@work) -%></li>
-      <li><%= link_to t('page.destroy'), @work, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
-    <%- end -%>
-  </ul>
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), work_patrons_path(@work) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.subject')), work_subjects_path(@work) -%></li>
+    <li><%= link_to t('enju.edit'), edit_work_path(@work) %></li>
+    <li><%= link_to t('enju.back'), works_path %></li>
+    <!--
+    <li><%= link_to '関連を作る', new_reify_path(:work_id => @work.id, :manifestation_id => @manifestation_id) %></li>
+    -->
+    <li><%= link_to 'New expression', expressions_path(:work_id => @work.id, :manifestation_url => params[:manifestation_url], :mode => 'add') %></li>
+    <li><%= link_to 'New child', works_path(:parent_id => @work.id) %></li>
+    <li><%= link_to 'New creator', people_path(:work_id => @work.id, :mode => 'add') %></li>
+    <li><%= link_to 'JSON-LD', work_path(@work, :format => :json) %></li>
   </ul>
 </div>

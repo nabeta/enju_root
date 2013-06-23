@@ -1,2 +1,0 @@
-module OwnsHelper
-end

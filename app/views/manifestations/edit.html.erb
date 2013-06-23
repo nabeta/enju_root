@@ -1,21 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-  <h1 class="title"><%= t('page.editing', :model => t('activerecord.models.manifestation')) -%></h1>
+<h1 class="title">Editing manifestation</h1>
 <div id="content_list">
-  <%= render 'manifestations/form' %>
+
+<%= render 'form' %>
+
 </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
-  <%= render :partial => 'manifestations/book_jacket', :locals => {:manifestation => @manifestation} -%>
   <ul>
-    <li><%= link_to t('page.show'), @manifestation -%></li>
-    <li><%= link_to t('page.destroy'), @manifestation, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
-    <%- case when @expression -%>
-    <li><%= link_to t('page.back'), expression_manifestations_path(@expression) -%></li>
-    <%- when @patron -%>
-      <li><%= link_to t('page.back'), patron_manifestations_path(@patron) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.back'), manifestations_path -%></li>
-    <%- end -%>
+    <li><%= link_to t('enju.show'), @manifestation %></li>
+    <li><%= link_to t('enju.back'), manifestations_path %></li>
   </ul>
 </div>

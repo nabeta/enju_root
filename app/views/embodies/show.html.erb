@@ -1,16 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.embody')) -%></h1>
 <div id="content_list">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t('activerecord.models.expression') -%>:</strong>
-  <%= link_to @embody.expression.original_title, @embody.expression -%>
+  <b>Expression:</b>
+  <%= link_to @embody.expression.original_title, @embody.expression %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.models.manifestation') -%>:</strong>
-  <%= link_to @embody.manifestation.original_title, @embody.manifestation -%>
+  <b>Manifestation:</b>
+  <%= link_to @embody.manifestation.title_proper, @embody.manifestation %>
 </p>
 
 </div>
@@ -18,9 +17,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.expression')), manifestation_expressions_path(@embody.manifestation) -%></li>
-    <li><%= link_to t('page.back_to', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@embody.expression) -%></li>
+    <li><%= link_to t('enju.edit'), edit_embody_path(@embody) %></li>
+    <li><%= link_to t('enju.back'), embodies_path %></li>
   </ul>
 </div>
-
-

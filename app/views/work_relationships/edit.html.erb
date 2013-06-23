@@ -1,13 +1,6 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.work_relationship')) -%></h1>
-<div id="content_list">
-  <%= render 'form' %>
-</div>
-</div>
+<h1>Editing work_relationship</h1>
 
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.show'), @work_relationship -%></li>
-    <li><%= link_to t('page.back'), work_relationships_path -%></li>
-  </ul>
-</div>
+<%= render 'form' %>
+
+<%= link_to 'Show', @work_relationship %> |
+<%= link_to 'Back', work_relationships_path %>

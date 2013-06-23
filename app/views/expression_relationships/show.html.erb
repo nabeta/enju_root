@@ -1,26 +1,20 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression_relationship')) -%></h1>
-<div id="content_list">
+<p id="notice"><%= notice %></p>
+
 <p>
-  <strong><%= t('activerecord.attributes.expression_relationship.parent') -%>:</strong>
-  <%= link_to @expression_relationship.parent.original_title, @expression_relationship.parent -%>
+  <b>Parent:</b>
+  <%= @expression_relationship.parent_id %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.attributes.expression_relationship.child') -%>:</strong>
-  <%= link_to @expression_relationship.child.original_title, @expression_relationship.child -%>
+  <b>Child:</b>
+  <%= @expression_relationship.child_id %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.models.expression_relationship_type') -%>:</strong>
-  <%= @expression_relationship.expression_relationship_type.display_name.localize -%>
+  <b>Expression relationship type:</b>
+  <%= @expression_relationship.expression_relationship_type_id %>
 </p>
-</div>
-</div>
 
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.edit'), edit_expression_relationship_path(@expression_relationship) -%></li>
-    <li><%= link_to t('page.back'), expression_relationships_path -%></li>
-  </ul>
-</div>
+
+<%= link_to 'Edit', edit_expression_relationship_path(@expression_relationship) %> |
+<%= link_to 'Back', expression_relationships_path %>

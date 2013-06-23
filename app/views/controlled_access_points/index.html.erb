@@ -1,0 +1,47 @@
+<h1>Listing controlled_access_points</h1>
+
+<table>
+  <tr>
+    <th>Type of controlled access point</th>
+    <th>Status</th>
+    <th>Designated usage</th>
+    <th>Undifferentiated access point</th>
+    <th>Base access point language</th>
+    <th>Cataloging language</th>
+    <th>Script of base access point</th>
+    <th>Script of cataloging</th>
+    <th>Transliteratrion scheme of base access point</th>
+    <th>Transliteration scheme of cataloging</th>
+    <th>Source</th>
+    <th>Base access point</th>
+    <th>Addition</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @controlled_access_points.each do |controlled_access_point| %>
+  <tr>
+    <td><%= controlled_access_point.type_of_controlled_access_point %></td>
+    <td><%= controlled_access_point.status %></td>
+    <td><%= controlled_access_point.designated_usage %></td>
+    <td><%= controlled_access_point.undifferentiated_access_point %></td>
+    <td><%= controlled_access_point.base_access_point_language_id %></td>
+    <td><%= controlled_access_point.cataloging_language_id %></td>
+    <td><%= controlled_access_point.script_of_base_access_point %></td>
+    <td><%= controlled_access_point.script_of_cataloging %></td>
+    <td><%= controlled_access_point.transliteratrion_scheme_of_base_access_point %></td>
+    <td><%= controlled_access_point.transliteration_scheme_of_cataloging %></td>
+    <td><%= controlled_access_point.source %></td>
+    <td><%= controlled_access_point.base_access_point_id %></td>
+    <td><%= controlled_access_point.addition %></td>
+    <td><%= link_to 'Show', controlled_access_point %></td>
+    <td><%= link_to 'Edit', edit_controlled_access_point_path(controlled_access_point) %></td>
+    <td><%= link_to 'Destroy', controlled_access_point, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Controlled access point', new_controlled_access_point_path %>

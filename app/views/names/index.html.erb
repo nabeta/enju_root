@@ -1,0 +1,44 @@
+<div id="content_detail" class="ui-corner-all">
+  <h1 class="title">Listing names</h1>
+  <div id="content_list">
+
+<table>
+  <tr>
+    <th>Type of name</th>
+    <th>Name string</th>
+    <th>Scope of usage</th>
+    <th>Dates of usage</th>
+    <th>Language</th>
+    <th>Script</th>
+    <th>Transliteration scheme</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @names.each do |name| %>
+  <tr>
+    <td><%= name.type_of_name %></td>
+    <td><%= name.name_string %></td>
+    <td><%= name.scope_of_usage %></td>
+    <td><%= name.dates_of_usage %></td>
+    <td><%= name.language_id %></td>
+    <td><%= name.script %></td>
+    <td><%= name.transliteration_scheme %></td>
+    <td><%= link_to 'Show', name %></td>
+    <td><%= link_to 'Edit', edit_name_path(name) %></td>
+    <td><%= link_to 'Destroy', name, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate(@names) %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to 'New Name', new_name_path %></li>
+  </ul>
+</div>

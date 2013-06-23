@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<work>
+  <title><%= @work.original_title %></title>
+  <url><%= work_url(@work) %></url>
+  <expressions>
+    <% @work.expressions.each do |expression| %>
+      <expression>
+        <title><%= expression.original_title %></title>
+        <content_type><%= expression.content_type.name %></content_type>
+        <url><%= expression_url(expression) %></url>
+        <manifestations>
+          <% expression.manifestations.each do |manifestation| %>
+            <url><%= manifestation_url(manifestation) %></url>
+            <mihub_url><%= manifestation.url %></mihub_url>
+          <% end %>
+        </manifestations>
+      </expression>
+    <% end %>
+  </expressions>
+</work>

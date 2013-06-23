@@ -1,22 +1,13 @@
 class ReifiesController < ApplicationController
-  load_and_authorize_resource
-  before_filter :get_work, :get_expression
   before_filter :prepare_options, :only => [:new, :edit]
-  after_filter :solr_commit, :only => [:create, :update, :destroy]
-  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
-
   # GET /reifies
   # GET /reifies.json
   def index
-    if @work
-      @reifies = @work.reifies.page(params[:page])
-    else
-      @reifies = Reify.page(params[:page])
-    end
+    @reifies = Reify.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @reifies }
+      format.json { render json: @reifies }
     end
   end
 
@@ -27,20 +18,40 @@ class ReifiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @reify }
+      format.json { render json: @reify }
     end
   end
 
   # GET /reifies/new
+  # GET /reifies/new.json
   def new
     @reify = Reify.new
+    @work = Work.find(params[:work_id]) if params[:work_id]
+    @expression = Expression.find(params[:expression_id]) if params[:expression_id]
     @reify.work = @work
     @reify.expression = @expression
+    @manifestation_id = Manifestation.find(params[:manifestation_id]).id if params[:manifestation_id]
+    if @manifestation_id and @work
+      expression = Expression.create(:original_title => @work.original_title)
+      @reify.expression = expression
+      @reify.save
+      redirect_to new_embody_path(:expression_id => expression.id, :manifestation_id => @manifestation_id)
+      return
+    end
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @reify }
+    end
   end
 
   # GET /reifies/1/edit
   def edit
     @reify = Reify.find(params[:id])
+    @work = Work.find(params[:work_id]) if params[:work_id]
+    @expression = Expression.find(params[:expression_id]) if params[:expression_id]
+    @reify.work = @work if @work
+    @reify.expression = @expression if @expression
   end
 
   # POST /reifies
@@ -50,13 +61,11 @@ class ReifiesController < ApplicationController
 
     respond_to do |format|
       if @reify.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.reify'))
-        format.html { redirect_to(@reify) }
-        format.json { render :json => @reify, :status => :created, :location => @reify }
+        format.html { redirect_to @reify, notice: 'Reify was successfully created.' }
+        format.json { render json: @reify, status: :created, location: @reify }
       else
-        prepare_options
-        format.html { render :action => "new" }
-        format.json { render :json => @reify.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @reify.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -65,23 +74,14 @@ class ReifiesController < ApplicationController
   # PUT /reifies/1.json
   def update
     @reify = Reify.find(params[:id])
-    
-    # 並べ替え
-    if @expression and params[:position]
-      @reify.insert_at(params[:position])
-      redirect_to expression_reifies_url(@expression)
-      return
-    end
 
     respond_to do |format|
       if @reify.update_attributes(params[:reify])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.reify'))
-        format.html { redirect_to reify_url(@reify) }
+        format.html { redirect_to @reify, notice: 'Reify was successfully updated.' }
         format.json { head :no_content }
       else
-        prepare_options
-        format.html { render :action => "edit" }
-        format.json { render :json => @reify.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @reify.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -93,18 +93,13 @@ class ReifiesController < ApplicationController
     @reify.destroy
 
     respond_to do |format|
-      if @work
-        format.html { redirect_to work_expressions_url(@work) }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to reifies_url }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to reifies_url }
+      format.json { head :no_content }
     end
   end
 
   private
   def prepare_options
-    @work_to_expression_rel_types = WorkToExpressionRelType.all
+    @relationship_types = ExpressionRelationshipType.order(:position)
   end
 end

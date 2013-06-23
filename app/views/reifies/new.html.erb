@@ -1,17 +1,14 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.new', :model => t('activerecord.models.reify')) -%></h1>
+<h1 class="title">New reify</h1>
 <div id="content_list">
-  <%= render 'form' %>
+
+<%= render 'form' %>
+
 </div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <%- if @reify.expression -%>
-    <li><%= link_to t('activerecord.models.expression'), expression_path(@reify.expression) -%></li>
-    <%- end -%>
-    <%- if @reify.work -%>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@reify.work) -%></li>
-    <%- end -%>
+    <li><%= link_to t('enju.back'), reifies_path %></li>
   </ul>
 </div>

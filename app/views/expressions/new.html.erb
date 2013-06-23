@@ -1,9 +1,23 @@
-<%- case when @patron -%>
-  <%= render :partial => 'new_patron' -%>
-<%- when @work -%>
-  <%= render :partial => 'new_work' -%>
-<%- when @manifestation -%>
-  <%= render :partial => 'new_manifestation' -%>
-<%- else -%>
-  <%= render :partial => 'new' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+  <h1 class="title">New expression
+    <% if @expression.work_id and @expression.manifestation_id %>
+      of [W] <%= Work.find(@expression.work_id).original_title %>
+      ([M] <%= Manifestation.find(@expression.manifestation_id).title_proper if @expression.manifestation_id.present? %>)
+    <% elsif @expression.work_id %>
+      of [W] <%= Work.find(@expression.work_id).original_title %>
+    <% elsif @expression.manifestation_id %>
+      of [M] <%= Manifestation.find(@expression.manifestation_id).title_proper if @expression.manifestation_id %>
+    <% end %>
+  </h1>
+<div id="content_list">
+
+<%= render 'form' %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to t('enju.back'), expressions_path %></li>
+  </ul>
+</div>

@@ -1,26 +1,38 @@
-<%= form_for(@embody) do |f| -%>
-  <%= f.error_messages -%>
+<%= form_for(@embody) do |f| %>
+  <% if @embody.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@embody.errors.count, "error") %> prohibited this embody from being saved:</h2>
+
+      <ul>
+      <% @embody.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label t('activerecord.models.expression') -%><br />
-    <%- if @embody.expression -%>
-      <%= link_to @embody.expression.original_title, @embody.expression -%>
-      <%= f.hidden_field :expression_id -%>
-    <%- else -%>
-      <%= f.text_field :expression_id -%>
-    <%- end -%>
+    <%= f.label :expression %><br />
+    <%= link_to @embody.expression.original_title, @embody.expression %>
+    <br />
+    <%= f.hidden_field :expression_id %>
   </div>
   <div class="field">
-    <%= f.label t('activerecord.models.manifestation') -%><br />
-    <%- if @embody.manifestation -%>
-      <%= link_to @embody.manifestation.original_title, @embody.manifestation -%>
-      <%= f.hidden_field :manifestation_id -%>
-    <%- else -%>
-      <%= f.text_field :manifestation_id -%>
-    <%- end -%>
+    <%= f.label :manifestation %><br />
+    <% if params[:manifestation_url] %>
+      <%= link_to @embody.manifestation_url, @embody.manifestation_url %>
+      <%= f.hidden_field :manifestation_url %>
+    <% else %>
+      <%= link_to @embody.manifestation.title_proper, @embody.manifestation %>
+      <%= f.hidden_field :manifestation_id %>
+    <% end %>
+    <br />
   </div>
-
+  <div class="field">
+    <%= f.label :relationship_type_id %><br />
+    <%= f.select(:relationship_type_id, @relationship_types.map{|w| [w.name, w.id]}) %>
+  </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Create embodiment' %>
   </div>
-<%- end -%>
+<% end %>

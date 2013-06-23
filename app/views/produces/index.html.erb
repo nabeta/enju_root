@@ -1,7 +1,25 @@
-<%- if @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- elsif @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<h1 class="title">Listing produces</h1>
+
+<table class="index">
+  <tr class="line<%= cycle("0", "1") -%>">
+    <th>Manifestation</th>
+    <th>Person</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @produces.each do |produce| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= produce.manifestation %></td>
+    <td><%= produce.person %></td>
+    <td><%= link_to t('enju.show'), produce %></td>
+    <td><%= link_to t('enju.edit'), edit_produce_path(produce) %></td>
+    <td><%= link_to t('enju.destroy'), produce, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Produce', new_produce_path %>

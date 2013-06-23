@@ -1,13 +1,6 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.editing', :model => t('activerecord.models.embody')) -%></h1>
-<div id="content_list">
-  <%= render 'form' %>
-</div>
-</div>
+<h1 class="title">Editing embody</h1>
 
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.show'), @embody -%></li>
-    <li><%= link_to t('page.back'), embodies_path -%></li>
-  </ul>
-</div>
+<%= render 'form' %>
+
+<%= link_to t('enju.show'), @embody %> |
+<%= link_to t('enju.back'), embodies_path %>

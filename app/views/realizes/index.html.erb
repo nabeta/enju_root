@@ -1,7 +1,25 @@
-<%- if @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- elsif @expression -%>
-  <%= render :partial => 'index_expression' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<h1 class="title">Listing realizes</h1>
+
+<table class="index">
+  <tr class="line<%= cycle("0", "1") -%>">
+    <th>Expression</th>
+    <th>Person</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @realizes.each do |realize| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= realize.expression.original_title %></td>
+    <td><%= realize.person.full_name %></td>
+    <td><%= link_to t('enju.show'), realize %></td>
+    <td><%= link_to t('enju.edit'), edit_realize_path(realize) %></td>
+    <td><%= link_to t('enju.destroy'), realize, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Realize', new_realize_path %>

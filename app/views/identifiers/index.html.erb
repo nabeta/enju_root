@@ -1,0 +1,23 @@
+<h1>Listing identifiers</h1>
+
+<table>
+  <tr>
+    <th>Type of identifier</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @identifiers.each do |identifier| %>
+  <tr>
+    <td><%= identifier.type_of_identifier %></td>
+    <td><%= link_to 'Show', identifier %></td>
+    <td><%= link_to 'Edit', edit_identifier_path(identifier) %></td>
+    <td><%= link_to 'Destroy', identifier, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Identifier', new_identifier_path %>

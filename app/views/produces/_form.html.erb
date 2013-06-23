@@ -1,40 +1,29 @@
-<%= form_for(@produce) do |f| -%>
-  <%= f.error_messages -%>
+<%= form_for(@produce) do |f| %>
+  <% if @produce.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@produce.errors.count, "error") %> prohibited this produce from being saved:</h2>
+
+      <ul>
+      <% @produce.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label t('activerecord.models.patron') -%><br />
-    <%- if @produce.patron -%>
-      <%= link_to @produce.patron.full_name, @produce.patron -%>
-      <%= f.hidden_field :patron_id -%>
-    <%- else -%>
-      <%= f.text_field :patron_id -%>
-    <%- end -%>
+    <%= f.label :manifestation %><br />
+    <%= link_to @produce.manifestation.title_proper, @produce.manifestation %>
+    <br />
+    <%= f.hidden_field :manifestation_id %>
   </div>
-
   <div class="field">
-    <%= f.label t('activerecord.models.manifestation') -%><br />
-    <%- if @produce.manifestation -%>
-      <%= link_to @produce.manifestation.original_title, @produce.manifestation -%>
-      <%= f.hidden_field :manifestation_id -%>
-    <%- else -%>
-      <%= f.text_field :manifestation_id -%>
-    <%- end -%>
+    <%= f.label :person %><br />
+    <%= link_to @produce.person.full_name, @produce.person %>
+    <br />
+    <%= f.hidden_field :person_id %>
   </div>
-
   <div class="actions">
     <%= f.submit %>
   </div>
-<%- end -%>
-</div>
-</div>
-
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <%- if @produce.patron -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), patron_manifestations_path(@produce.patron) -%></li>
-    <%- end -%>
-    <%- if @produce.manifestation -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), manifestation_patrons_path(@produce.manifestation) -%></li>
-    <%- end -%>
-  </ul>
-</div>
+<% end %>

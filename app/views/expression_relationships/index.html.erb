@@ -1,34 +1,27 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.expression_relationship')) -%></h1>
-<div id="content_list">
+<h1>Listing expression_relationships</h1>
 
-<table class="table table-striped index">
+<table>
   <tr>
-    <th><%= t('activerecord.attributes.expression_relationship.parent') -%></th>
-    <th><%= t('activerecord.attributes.expression_relationship.child') -%></th>
-    <th><%= t('activerecord.models.expression_relationship_type') -%></th>
+    <th>Parent</th>
+    <th>Child</th>
+    <th>Expression relationship type</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
-<%- @expression_relationships.each do |expression_relationship| -%>
-  <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to expression_relationship.parent.original_title, expression_relationship.parent -%></td>
-    <td><%= link_to expression_relationship.child.original_title, expression_relationship.child -%></td>
-    <td><%= expression_relationship.expression_relationship_type.display_name.localize -%></td>
-    <td><%= link_to t('page.show'), expression_relationship -%></td>
-    <td><%= link_to t('page.edit'), edit_expression_relationship_path(expression_relationship) -%></td>
-    <td><%= link_to t('page.destroy'), expression_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
+<% @expression_relationships.each do |expression_relationship| %>
+  <tr>
+    <td><%= expression_relationship.parent_id %></td>
+    <td><%= expression_relationship.child_id %></td>
+    <td><%= expression_relationship.expression_relationship_type_id %></td>
+    <td><%= link_to 'Show', expression_relationship %></td>
+    <td><%= link_to 'Edit', edit_expression_relationship_path(expression_relationship) %></td>
+    <td><%= link_to 'Destroy', expression_relationship, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
-<%- end -%>
+<% end %>
 </table>
 
-<%= paginate(@expression_relationships) -%>
 <br />
 
-</div>
-</div>
-
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.expression_relationship')), new_expression_relationship_path -%></li>
-  </ul>
-</div>
+<%= link_to 'New Expression relationship', new_expression_relationship_path %>

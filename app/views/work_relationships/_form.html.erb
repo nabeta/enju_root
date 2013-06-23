@@ -1,29 +1,31 @@
-<%= form_for(@work_relationship) do |f| -%>
-  <%= f.error_messages -%>
+<%= form_for(@work_relationship) do |f| %>
+  <% if @work_relationship.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@work_relationship.errors.count, "error") %> prohibited this work_relationship from being saved:</h2>
+
+      <ul>
+      <% @work_relationship.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label t('activerecord.attributes.work_relationship.parent') -%><br />
-    <%- if @work_relationship.parent -%>
-      <%= link_to @work_relationship.parent.original_title, @work_relationship.parent -%>
-      <%= f.hidden_field :parent_id -%>
-    <%- else -%>
-      <%= f.text_field :parent_id -%>
-    <%- end -%>
+    <%= f.label :parent_id %><br />
+    <%= link_to @work_relationship.parent.original_title, @work_relationship.parent %>
+    <%= f.hidden_field :parent_id %>
   </div>
   <div class="field">
-    <%= f.label t('activerecord.attributes.work_relationship.child') -%><br />
-    <%- if @work_relationship.child -%>
-      <%= link_to @work_relationship.child.original_title, @work_relationship.child -%>
-      <%= f.hidden_field :child_id -%>
-    <%- else -%>
-      <%= f.text_field :child_id -%>
-    <%- end -%>
+    <%= f.label :child_id %><br />
+    <%= link_to @work_relationship.child.original_title, @work_relationship.child %>
+    <%= f.hidden_field :child_id %>
   </div>
   <div class="field">
-    <%= f.label t('activerecord.models.work_relationship_type') -%><br />
-    <%= f.select(:work_relationship_type_id, @work_relationship_types.collect{|r| [r.display_name.localize, r.id]}) -%>
+    <%= f.label :work_relationship_type_id %><br />
+    <%= f.select(:work_relationship_type_id, @relationship_types.map{|w| [w.name, w.id]}) %>
   </div>
   <div class="actions">
     <%= f.submit %>
   </div>
-<%- end -%>
+<% end %>

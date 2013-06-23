@@ -1,30 +1,33 @@
-<%= form_for(@reify) do |f| -%>
-  <%= f.error_messages -%>
+<%= form_for(@reify) do |f| %>
+  <% if @reify.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@reify.errors.count, "error") %> prohibited this reify from being saved:</h2>
+
+      <ul>
+      <% @reify.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label t('activerecord.models.work') -%><br />
-    <%- if @reify.work -%>
-		  <%= link_to @reify.work.original_title, @reify.work -%>
-      <%= f.hidden_field :work_id -%>
-    <%- else -%>
-      <%= f.text_field :work_id -%>
-    <%- end -%>
+    <%= f.label :work %><br />
+    <%= link_to @reify.work.original_title, @reify.work %>
+    <br />
+    <%= f.hidden_field :work_id %>
   </div>
   <div class="field">
-    <%= f.label t('activerecord.models.expression') -%><br />
-    <%- if @reify.expression -%>
-		  <%= link_to @reify.expression.original_title, @reify.expression -%>
-      <%= f.hidden_field :expression_id -%>
-    <%- else -%>
-      <%= f.text_field :expression_id -%>
-    <%- end -%>
+    <%= f.label :expression %><br />
+    <%= link_to @reify.expression.original_title, @reify.expression %>
+    <br />
+    <%= f.hidden_field :expression_id %>
   </div>
   <div class="field">
-    <%= f.label t('activerecord.models.work_to_expression_rel_type') -%><br />
-    <%= f.select(:relationship_type_id, @work_to_expression_rel_types.collect{|r| [r.display_name.localize, r.id]}) -%>
+    <%= f.label :relationship_type_id %><br />
+    <%= f.select(:relationship_type_id, @relationship_types.map{|w| [w.name, w.id]}) %>
   </div>
-
   <div class="actions">
     <%= f.submit %>
   </div>
-<%- end -%>
+<% end %>

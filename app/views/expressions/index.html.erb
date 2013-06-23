@@ -1,14 +1,87 @@
-<%- case when @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- when @work -%>
-  <%= render :partial => 'index_work' -%>
-<%- when @expression -%>
-  <%= render :partial => 'index_expression' -%>
-<%- when @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- when @expression_merge_list -%>
-  <%= render :partial => 'index_expression_merge_list' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+  <h1 class="title">Listing
+    <% if params[:mode] == 'add' %>
+      expression candidates
+    <% else %>
+      expressions
+    <% end %>
+    <% if @manifestation %>
+      of [M] <%= @manifestation.title_proper %>
+    <% elsif @work %>
+      of [W] <%= @work.original_title %>
+    <% end %>
+  </h1>
+<div id="content_list">
+<p id="notice"><%= notice %></p>
 
+  <%= form_for :expressions, :url => expressions_path, :html => {:method => 'get'} do -%>
+    <p>
+      <%= search_field_tag 'query', params[:query], :class => 'search_form_short', :placeholder => t('enju.search') -%>
+      <%= submit_tag t('enju.search') -%><br />
+      <%= hidden_field_tag 'work_id', @work.id if @work %>
+      <%= hidden_field_tag 'manifestation_url', params[:manifestation_url] if params[:manifestation_url] %>
+      <%= hidden_field_tag 'mode', 'add' if params[:mode] == 'add' %>
+    </p>
+  <%- end -%>
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.expression.original_title') %></th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @expressions.each do |expression| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td>
+      <strong><%= link_to expression.original_title, expression %></strong>
+      <br />
+      <%= t('activerecord.attributes.expression.language') %>: <%= expression.language %>
+      <%= t('activerecord.models.content_type') %>: <%= expression.content_type.name %>
+      <br />
+      <%= t('activerecord.attributes.expression.note') %>: <%= expression.note %>
+    </td>
+    <td>
+      <% if params[:manifestation_url] %>
+        <%= link_to '関連を追加', new_embody_path(:expression_id => expression.id, :manifestation_url => params[:manifestation_url]) unless expression.manifestations.include?(Manifestation.where(:url => params[:manifestation_url]).first) %>
+      <% elsif @parent_expression and @parent_expression != expression %>
+        <%= link_to '関連著作を追加', new_expression_relationship_path(:parent_id => @parent_expression.id, :child_id => expression.id) if !expression.parents.include?(@parent_expression)%>
+      <% elsif @manifestation %>
+        <%= link_to '関連を追加', new_embody_path(:expression_id => expression.id, :manifestation_id => @manifestation.id) if !@manifestation.expressions.include?(expression) %>
+      <% elsif @person %>
+        <%= link_to '関連を追加', new_realize_path(:expression_id => expression.id, :person_id => @person.id) if @person and !expression.contributors.include?(@person) %>
+      <% else %>
+        <%= link_to '関連を追加', new_reify_path(:work_id => @work.id, :expression_id => expression.id) if @work and expression.work != @work %>
+      <% end %>
+    </td>
+    <td><%= link_to t('enju.edit'), edit_expression_path(expression) %></td>
+    <td><%= link_to t('enju.destroy'), expression, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<%= paginate(@expressions) %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li>
+    <% if params[:manifestation_url] %>
+      <%= link_to 'New Expression', new_expression_path(:work_id => @work.id, :manifestation_url => params[:manifestation_url]) %>
+    <% elsif @manifestation and @work %>
+      <%= link_to 'New Expression', new_expression_path(:work_id => @work.id, :manifestation_id => @manifestation.id) %>
+    <% elsif @work %>
+      <%= link_to 'New Expression', new_expression_path(:work_id => @work.id) %>
+    <% elsif @manifestation %>
+      <%= link_to 'New Work', new_work_path(:manifestation_id => @manifestation.id) %>
+    <% elsif @expression %>
+      <%= link_to 'New Work', new_work_path(:expression_id => @expression.id) %>
+    <% else %>
+      <%= link_to 'New Work', new_work_path %>
+    <% end %>
+    </li>
+  </ul>
+</div>

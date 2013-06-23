@@ -1,5 +1,18 @@
-<%- if @patron -%>
-  <%= render :partial => 'new_patron' -%>
-<%- else -%>
-  <%= render :partial => 'new' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+  <h1 class="title">New work
+    <% if @manifestation_id %>
+      of [M] <%= Manifestation.find(@manifestation_id).title_proper %>
+    <% end %>
+  </h1>
+<div id="content_list">
+
+<%= render 'form' %>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to t('enju.back'), works_path %></li>
+  </ul>
+</div>

@@ -1,4 +1,0 @@
-title,creator,contributor,publisher,isbn,created_at
-<%- @manifestations.each do |manifestation| -%>
-"<%= manifestation.original_title.gsub(/"/, '""') -%>",<%= manifestation.creator -%>,<%= manifestation.contributor -%>,<%= manifestation.publisher -%>,<%= manifestation.isbn -%>,<%= manifestation.created_at -%><%= "\n" -%>
-<%- end -%>

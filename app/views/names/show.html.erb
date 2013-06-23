@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type of name:</b>
+  <%= @name.type_of_name %>
+</p>
+
+<p>
+  <b>Name string:</b>
+  <%= @name.name_string %>
+</p>
+
+<p>
+  <b>Scope of usage:</b>
+  <%= @name.scope_of_usage %>
+</p>
+
+<p>
+  <b>Dates of usage:</b>
+  <%= @name.dates_of_usage %>
+</p>
+
+<p>
+  <b>Language:</b>
+  <%= @name.language_id %>
+</p>
+
+<p>
+  <b>Script:</b>
+  <%= @name.script %>
+</p>
+
+<p>
+  <b>Transliteration scheme:</b>
+  <%= @name.transliteration_scheme %>
+</p>
+
+
+<%= link_to 'Edit', edit_name_path(@name) %> |
+<%= link_to 'Back', names_path %>

@@ -1,34 +1,26 @@
-# == Schema Information
-#
-# Table name: reifies
-#
-#  id                   :integer          not null, primary key
-#  work_id              :integer          not null
-#  expression_id        :integer          not null
-#  position             :integer
-#  type                 :string(255)
-#  created_at           :datetime         not null
-#  updated_at           :datetime         not null
-#  relationship_type_id :integer
-#
-
 class Reify < ActiveRecord::Base
   belongs_to :work
   belongs_to :expression
-
-  validates_associated :work, :expression
-  validates_presence_of :work_id, :expression_id
+  belongs_to :relationship_type
+  # attr_accessible :title, :body
+  attr_accessible :work_id, :expression_id, :relationship_type_id
   validates_uniqueness_of :expression_id, :scope => :work_id
 
-  after_save :reindex
-  after_destroy :reindex
+  after_save :generate_graph if Setting.generate_graph
+  after_save :create_index
 
-  acts_as_list :scope => :work
-
-  paginates_per 10
-
-  def reindex
+  def create_index
     work.index
     expression.index
+    Sunspot.commit
+  end
+
+  def generate_graph
+    begin
+      work.generate_graph
+      expression.generate_graph
+    rescue
+      nil
+    end
   end
 end

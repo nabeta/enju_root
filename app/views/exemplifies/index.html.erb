@@ -1,33 +1,25 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.exemplify')) -%></h1>
-<div id="content_list">
+<h1 class="title">Listing exemplifies</h1>
 
-<table class="table table-striped index">
-  <tr>
-    <th><%= t('activerecord.models.manifestation') -%></th>
-    <th><%= t('activerecord.models.item') -%></th>
-  </tr>
-
-<%- @exemplifies.each do |exemplify| -%>
+<table class="index">
   <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to exemplify.manifestation.original_title, exemplify.manifestation -%></td>
-    <td><%= link_to exemplify.item.item_identifier, exemplify.item -%></td>
-    <%- if can? :destroy, exemplify -%>
-      <td><%= link_to t('page.show'), exemplify -%></td>
-      <td><%= link_to t('page.destroy'), exemplify, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
-    <%- end -%>
+    <th>Manifestation</th>
+    <th>Item</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
-<%- end -%>
+
+<% @exemplifies.each do |exemplify| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= exemplify.manifestation %></td>
+    <td><%= exemplify.item %></td>
+    <td><%= link_to t('enju.show'), exemplify %></td>
+    <td><%= link_to t('enju.edit'), edit_exemplify_path(exemplify) %></td>
+    <td><%= link_to t('enju.destroy'), exemplify, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
 </table>
 
-<%= paginate(@exemplifies) -%>
-</div>
-</div>
+<br />
 
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <%- if can? :create, Exemplify -%>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.exemplify')), new_exemplify_path -%></li>
-    <%- end -%>
-  </ul>
-</div>
+<%= link_to 'New Exemplify', new_exemplify_path %>

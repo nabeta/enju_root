@@ -1,0 +1,9 @@
+{
+  "@id": "<%= work_url(@work) %>",
+  "@type": "http://purl.org/vocab/frbr/core#Work",
+  "http://purl.org/dc/terms/title": "<%= @work.original_title %>",
+  "http://purl.org/dc/terms/creator":
+    <%=raw @work.creators.map{|creator| person_url(creator)}.to_s %>,
+  "http://purl.org/vocab/frbr/core#realization": 
+  <%=raw @work.expressions.map{|expression| expression_url(expression)}.to_s %>
+}

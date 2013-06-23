@@ -1,16 +1,25 @@
-<%= form_for(@exemplify) do |f| -%>
-  <%= f.error_messages -%>
+<%= form_for(@exemplify) do |f| %>
+  <% if @exemplify.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@exemplify.errors.count, "error") %> prohibited this exemplify from being saved:</h2>
+
+      <ul>
+      <% @exemplify.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label t('activerecord.models.manifestation') -%><br />
-    <%= f.text_field :manifestation_id -%>
+    <%= f.label :manifestation %><br />
+    <%= f.text_field :manifestation %>
   </div>
   <div class="field">
-    <%= f.label t('activerecord.models.item') -%><br />
-    <%= f.text_field :item_id -%>
+    <%= f.label :item %><br />
+    <%= f.text_field :item %>
   </div>
-
   <div class="actions">
     <%= f.submit %>
   </div>
-<%- end -%>
+<% end %>

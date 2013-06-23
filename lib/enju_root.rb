@@ -1,13 +1,12 @@
-require 'csv'
-#require 'mathn'
-require 'rss'
-require 'nkf'
-require 'ipaddr'
-require 'plugins'
-require 'enju_root/bookmark_url'
-require 'enju_root/calculate_stat'
-require 'enju_root/expire_editable_fragment'
-require 'enju_root/openurl'
-require 'enju_root/porta_cql'
-require 'enju_root/sru'
-require 'enju_root/version'
+require "enju_root/engine"
+require "enju_core"
+require "sitemap_generator"
+require "devise-encryptable"
+require "redis-rails"
+require "rails_autolink"
+require "jquery-ui-rails"
+require "ruby-graphviz"
+require "linkeddata"
+
+module EnjuRoot
+end

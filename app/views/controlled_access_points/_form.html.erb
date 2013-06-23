@@ -1,0 +1,69 @@
+<%= form_for(@controlled_access_point) do |f| %>
+  <% if @controlled_access_point.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@controlled_access_point.errors.count, "error") %> prohibited this controlled_access_point from being saved:</h2>
+
+      <ul>
+      <% @controlled_access_point.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :type_of_controlled_access_point %><br />
+    <%= f.text_field :type_of_controlled_access_point %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.text_area :status %>
+  </div>
+  <div class="field">
+    <%= f.label :designated_usage %><br />
+    <%= f.text_area :designated_usage %>
+  </div>
+  <div class="field">
+    <%= f.label :undifferentiated_access_point %><br />
+    <%= f.text_area :undifferentiated_access_point %>
+  </div>
+  <div class="field">
+    <%= f.label :base_access_point_language_id %><br />
+    <%= f.number_field :base_access_point_language_id %>
+  </div>
+  <div class="field">
+    <%= f.label :cataloging_language_id %><br />
+    <%= f.number_field :cataloging_language_id %>
+  </div>
+  <div class="field">
+    <%= f.label :script_of_base_access_point %><br />
+    <%= f.text_area :script_of_base_access_point %>
+  </div>
+  <div class="field">
+    <%= f.label :script_of_cataloging %><br />
+    <%= f.text_area :script_of_cataloging %>
+  </div>
+  <div class="field">
+    <%= f.label :transliteratrion_scheme_of_base_access_point %><br />
+    <%= f.text_area :transliteratrion_scheme_of_base_access_point %>
+  </div>
+  <div class="field">
+    <%= f.label :transliteration_scheme_of_cataloging %><br />
+    <%= f.text_area :transliteration_scheme_of_cataloging %>
+  </div>
+  <div class="field">
+    <%= f.label :source %><br />
+    <%= f.text_area :source %>
+  </div>
+  <div class="field">
+    <%= f.label :base_access_point_id %><br />
+    <%= f.number_field :base_access_point_id %>
+  </div>
+  <div class="field">
+    <%= f.label :addition %><br />
+    <%= f.text_area :addition %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

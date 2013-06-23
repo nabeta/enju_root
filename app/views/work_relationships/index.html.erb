@@ -1,34 +1,27 @@
-<div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.listing', :model => t('activerecord.models.work_relationship')) -%></h1>
-<div id="content_list">
+<h1>Listing work_relationships</h1>
 
-<table class="table table-striped index">
+<table>
   <tr>
-    <th><%= t('activerecord.attributes.work_relationship.parent') -%></th>
-    <th><%= t('activerecord.attributes.work_relationship.child') -%></th>
-    <th><%= t('activerecord.models.work_relationship_type') -%></th>
+    <th>Parent</th>
+    <th>Child</th>
+    <th>Work relationship type</th>
+    <th></th>
+    <th></th>
+    <th></th>
   </tr>
 
-<%- @work_relationships.each do |work_relationship| -%>
-  <tr class="line<%= cycle("0", "1") -%>">
-    <td><%= link_to work_relationship.parent.original_title, work_relationship.parent -%></td>
-    <td><%= link_to work_relationship.child.original_title, work_relationship.child -%></td>
-    <td><%= work_relationship.work_relationship_type.display_name.localize -%></td>
-    <td><%= link_to t('page.show'), work_relationship -%></td>
-    <td><%= link_to t('page.edit'), edit_work_relationship_path(work_relationship) -%></td>
-    <td><%= link_to t('page.destroy'), work_relationship, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></td>
+<% @work_relationships.each do |work_relationship| %>
+  <tr>
+    <td><%= work_relationship.parent_id %></td>
+    <td><%= work_relationship.child_id %></td>
+    <td><%= work_relationship.work_relationship_type_id %></td>
+    <td><%= link_to 'Show', work_relationship %></td>
+    <td><%= link_to 'Edit', edit_work_relationship_path(work_relationship) %></td>
+    <td><%= link_to 'Destroy', work_relationship, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
-<%- end -%>
+<% end %>
 </table>
 
-<%= paginate(@work_relationships) -%>
 <br />
 
-</div>
-</div>
-
-<div id="submenu" class="ui-corner-all">
-  <ul>
-    <li><%= link_to t('page.new', :model => t('activerecord.models.work_relationship')), new_work_relationship_path -%></li>
-  </ul>
-</div>
+<%= link_to 'New Work relationship', new_work_relationship_path %>

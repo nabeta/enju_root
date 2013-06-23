@@ -1,7 +1,25 @@
-<%- if @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- elsif @work -%>
-  <%= render :partial => 'index_work' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<h1 class="title">Listing creates</h1>
+
+<table class="index">
+  <tr class="line<%= cycle("0", "1") -%>">
+    <th>Work</th>
+    <th>Person</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @creates.each do |create| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= create.work %></td>
+    <td><%= create.person %></td>
+    <td><%= link_to t('enju.show'), create %></td>
+    <td><%= link_to t('enju.edit'), edit_create_path(create) %></td>
+    <td><%= link_to t('enju.destroy'), create, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Create', new_create_path %>

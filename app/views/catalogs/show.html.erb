@@ -1,0 +1,23 @@
+<div id="content_detail" class="ui-corner-all">
+<div id="content_list">
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b><%= t('activerecord.attributes.catalog.name') %></b>
+  <%= @catalog.name %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.catalog.url') %></b>
+  <%= link_to @catalog.url, @catalog.url %>
+</p>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to t('enju.edit'), edit_catalog_path(@catalog) %></li>
+    <li><%= link_to t('enju.back'), catalogs_path %></li>
+  </ul>
+</div>

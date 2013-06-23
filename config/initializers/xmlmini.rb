@@ -1,1 +1,0 @@
-ActiveSupport::XmlMini.backend = 'Nokogiri'

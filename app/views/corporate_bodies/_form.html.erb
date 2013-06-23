@@ -1,0 +1,45 @@
+<%= form_for(@corporate_body) do |f| %>
+  <% if @corporate_body.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@corporate_body.errors.count, "error") %> prohibited this corporate_body from being saved:</h2>
+
+      <ul>
+      <% @corporate_body.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :place_associated %><br />
+    <%= f.text_area :place_associated %>
+  </div>
+  <div class="field">
+    <%= f.label :date_associated %><br />
+    <%= f.text_area :date_associated %>
+  </div>
+  <div class="field">
+    <%= f.label :language_id %><br />
+    <%= f.number_field :language_id %>
+  </div>
+  <div class="field">
+    <%= f.label :address %><br />
+    <%= f.text_area :address %>
+  </div>
+  <div class="field">
+    <%= f.label :field_of_activity %><br />
+    <%= f.text_area :field_of_activity %>
+  </div>
+  <div class="field">
+    <%= f.label :history %><br />
+    <%= f.text_area :history %>
+  </div>
+  <div class="field">
+    <%= f.label :other_information %><br />
+    <%= f.text_area :other_information %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

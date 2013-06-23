@@ -1,0 +1,70 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Type of controlled access point:</b>
+  <%= @controlled_access_point.type_of_controlled_access_point %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @controlled_access_point.status %>
+</p>
+
+<p>
+  <b>Designated usage:</b>
+  <%= @controlled_access_point.designated_usage %>
+</p>
+
+<p>
+  <b>Undifferentiated access point:</b>
+  <%= @controlled_access_point.undifferentiated_access_point %>
+</p>
+
+<p>
+  <b>Base access point language:</b>
+  <%= @controlled_access_point.base_access_point_language_id %>
+</p>
+
+<p>
+  <b>Cataloging language:</b>
+  <%= @controlled_access_point.cataloging_language_id %>
+</p>
+
+<p>
+  <b>Script of base access point:</b>
+  <%= @controlled_access_point.script_of_base_access_point %>
+</p>
+
+<p>
+  <b>Script of cataloging:</b>
+  <%= @controlled_access_point.script_of_cataloging %>
+</p>
+
+<p>
+  <b>Transliteratrion scheme of base access point:</b>
+  <%= @controlled_access_point.transliteratrion_scheme_of_base_access_point %>
+</p>
+
+<p>
+  <b>Transliteration scheme of cataloging:</b>
+  <%= @controlled_access_point.transliteration_scheme_of_cataloging %>
+</p>
+
+<p>
+  <b>Source:</b>
+  <%= @controlled_access_point.source %>
+</p>
+
+<p>
+  <b>Base access point:</b>
+  <%= @controlled_access_point.base_access_point_id %>
+</p>
+
+<p>
+  <b>Addition:</b>
+  <%= @controlled_access_point.addition %>
+</p>
+
+
+<%= link_to 'Edit', edit_controlled_access_point_path(@controlled_access_point) %> |
+<%= link_to 'Back', controlled_access_points_path %>

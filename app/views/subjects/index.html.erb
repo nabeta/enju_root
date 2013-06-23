@@ -1,7 +1,27 @@
-<%- case when @work -%>
-  <%= render :partial => 'subjects/index_work', :locals => {:subjects => @subjects} -%>
-<%- when @classification -%>
-  <%= render :partial => 'subjects/index_classification', :locals => {:subjects => @subjects} -%>
-<%- else -%>
-  <%= render :partial => 'subjects/index', :locals => {:subjects => @subjects} -%>
-<%- end -%>
+<h1 class="title">Listing subjects</h1>
+
+<table class="index">
+  <tr class="line<%= cycle("0", "1") -%>">
+    <th>Term</th>
+    <th>Subject heading</th>
+    <th>Subject type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @subjects.each do |subject| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= subject.term %></td>
+    <td><%= subject.subject_heading_id %></td>
+    <td><%= subject.subject_type_id %></td>
+    <td><%= link_to t('enju.show'), subject %></td>
+    <td><%= link_to t('enju.edit'), edit_subject_path(subject) %></td>
+    <td><%= link_to t('enju.destroy'), subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Subject', new_subject_path %>

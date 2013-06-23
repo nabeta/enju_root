@@ -1,9 +1,32 @@
-<%- case when @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- when @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- when @item -%>
-  <%= render :partial => 'index_item' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title">Listing items</h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th>Item identifier</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @items.each do |item| %>
+  <tr class="line<%= cycle("0", "1") -%>">
+    <td><%= item.item_identifier %></td>
+    <td><%= link_to t('enju.show'), item %></td>
+    <td><%= link_to t('enju.edit'), edit_item_path(item) %></td>
+    <td><%= link_to t('enju.destroy'), item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to 'New Item', new_item_path %></li>
+  </ul>
+</div>

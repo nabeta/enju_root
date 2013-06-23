@@ -1,17 +1,12 @@
 class ExemplifiesController < ApplicationController
-  load_and_authorize_resource
-  before_filter :get_manifestation, :get_item
-  after_filter :solr_commit, :only => [:create, :update, :destroy]
-  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
-
   # GET /exemplifies
   # GET /exemplifies.json
   def index
-    @exemplifies = Exemplify.page(params[:page])
+    @exemplifies = Exemplify.all
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @exemplifies }
+      format.json { render json: @exemplifies }
     end
   end
 
@@ -22,7 +17,7 @@ class ExemplifiesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @exemplify }
+      format.json { render json: @exemplify }
     end
   end
 
@@ -30,18 +25,24 @@ class ExemplifiesController < ApplicationController
   # GET /exemplifies/new.json
   def new
     @exemplify = Exemplify.new
+    @expression = Expression.find(params[:expression_id]) if params[:expression_id]
+    @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
+    @exemplify.expression = @expression
     @exemplify.manifestation = @manifestation
-    @exemplify.item = @item
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @exemplify }
+      format.json { render json: @exemplify }
     end
   end
 
   # GET /exemplifies/1/edit
   def edit
     @exemplify = Exemplify.find(params[:id])
+    @expression = Expression.find(params[:expression_id]) if params[:expression_id]
+    @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
+    @exemplify.expression = @expression if @expression
+    @exemplify.manifestation = @manifestation if @manifestation
   end
 
   # POST /exemplifies
@@ -51,12 +52,11 @@ class ExemplifiesController < ApplicationController
 
     respond_to do |format|
       if @exemplify.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.exemplify'))
-        format.html { redirect_to(@exemplify) }
-        format.json { render :json => @exemplify, :status => :created, :location => @exemplify }
+        format.html { redirect_to @exemplify, notice: 'Exemplify was successfully created.' }
+        format.json { render json: @exemplify, status: :created, location: @exemplify }
       else
-        format.html { render :action => "new" }
-        format.json { render :json => @exemplify.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @exemplify.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -66,28 +66,13 @@ class ExemplifiesController < ApplicationController
   def update
     @exemplify = Exemplify.find(params[:id])
 
-    if @manifestation and params[:position]
-      @exemplify.insert_at(params[:position])
-      redirect_to manifestation_exemplifies_url(@manifestation)
-      return
-    end
-
     respond_to do |format|
       if @exemplify.update_attributes(params[:exemplify])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.exemplify'))
-        case when @manifestation
-          format.html { redirect_to manifestation_items_path(@exemplify.manifestation) }
-          format.json { head :no_content }
-        when @item
-          format.html { redirect_to @exemplify.item }
-          format.json { head :no_content }
-        else
-          format.html { redirect_to(@exemplify) }
-          format.json { head :no_content }
-        end
+        format.html { redirect_to @exemplify, notice: 'Exemplify was successfully updated.' }
+        format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @exemplify.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @exemplify.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -99,16 +84,8 @@ class ExemplifiesController < ApplicationController
     @exemplify.destroy
 
     respond_to do |format|
-      case when @manifestation
-        format.html { redirect_to manifestation_items_path(@exemplify.manifestation) }
-        format.json { head :no_content }
-      when @item
-        format.html { redirect_to @exemplify.item }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to exemplifies_url }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to exemplifies_url }
+      format.json { head :no_content }
     end
   end
 end

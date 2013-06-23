@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @family.name_id %>
+</p>
+
+<p>
+  <b>Identifier:</b>
+  <%= @family.identifier_id %>
+</p>
+
+<p>
+  <b>Type of family:</b>
+  <%= @family.type_of_family %>
+</p>
+
+<p>
+  <b>Dates:</b>
+  <%= @family.dates %>
+</p>
+
+<p>
+  <b>Places associated:</b>
+  <%= @family.places_associated %>
+</p>
+
+<p>
+  <b>Field of activity:</b>
+  <%= @family.field_of_activity %>
+</p>
+
+<p>
+  <b>History:</b>
+  <%= @family.history %>
+</p>
+
+
+<%= link_to 'Edit', edit_family_path(@family) %> |
+<%= link_to 'Back', families_path %>

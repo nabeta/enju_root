@@ -1,9 +1,0 @@
-<%- case when @shelf -%>
-  <%= render :partial => 'index_shelf' -%>
-<%- when @manifestation -%>
-  <%= render :partial => 'index_manifestation' -%>
-<%- when @patron -%>
-  <%= render :partial => 'index_patron' -%>
-<%- else -%>
-  <%= render :partial => 'index' -%>
-<%- end -%>

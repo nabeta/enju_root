@@ -1,30 +1,13 @@
 class ProducesController < ApplicationController
-  load_and_authorize_resource
-  before_filter :get_patron, :get_manifestation
-  after_filter :solr_commit, :only => [:create, :update, :destroy]
-  #cache_sweeper :resource_sweeper, :only => [:create, :update, :destroy]
-
   # GET /produces
   # GET /produces.json
   def index
-    case
-    when @patron
-      @produces = @patron.produces.order('produces.position').page(params[:page])
-    when @manifestation
-      @produces = @manifestation.produces.order('produces.position').page(params[:page])
-    else
-      @produces = Produce.order('produces.position').page(params[:page])
-    end
-      
+    @produces = Produce.all
+
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render :json => @produces }
+      format.json { render json: @produces }
     end
-  #rescue
-  #  respond_to do |format|
-  #    format.html { render :action => "new" }
-  #    format.json { render :json => @produce.errors }
-  #  end
   end
 
   # GET /produces/1
@@ -34,22 +17,22 @@ class ProducesController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render :json => @produce }
+      format.json { render json: @produce }
     end
   end
 
   # GET /produces/new
+  # GET /produces/new.json
   def new
-    if @patron and @manifestation.blank?
-      redirect_to patron_manifestations_url(@patron)
-      return
-    elsif @manifestation and @patron.blank?
-      redirect_to manifestation_patrons_url(@manifestation)
-      return
-    else
-      @produce = Produce.new
-      @produce.patron = @patron
-      @produce.manifestation = @manifestation
+    @produce = Produce.new
+    @person = Person.find(params[:person_id]) if params[:person_id]
+    @manifestation = Manifestation.find(params[:manifestation_id]) if params[:manifestation_id]
+    @produce.person = @person
+    @produce.manifestation = @manifestation
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @produce }
     end
   end
 
@@ -65,12 +48,11 @@ class ProducesController < ApplicationController
 
     respond_to do |format|
       if @produce.save
-        flash[:notice] = t('controller.successfully_created', :model => t('activerecord.models.produce'))
-        format.html { redirect_to(@produce) }
-        format.json { render :json => @produce, :status => :created, :location => @produce }
+        format.html { redirect_to @produce, notice: 'Produce was successfully created.' }
+        format.json { render json: @produce, status: :created, location: @produce }
       else
-        format.html { render :action => "new" }
-        format.json { render :json => @produce.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.json { render json: @produce.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -80,28 +62,13 @@ class ProducesController < ApplicationController
   def update
     @produce = Produce.find(params[:id])
 
-    if @manifestation and params[:position]
-      @produce.insert_at(params[:position])
-      redirect_to manifestation_produces_url(@manifestation)
-      return
-    end
-
     respond_to do |format|
       if @produce.update_attributes(params[:produce])
-        flash[:notice] = t('controller.successfully_updated', :model => t('activerecord.models.produce'))
-        if @patron
-          format.html { redirect_to patron_manifestations_url(@patron) }
-          format.json { head :no_content }
-        elsif @manifestation
-          format.html { redirect_to manifestation_patrons_url(@manifestation) }
-          format.json { head :no_content }
-        else
-          format.html { redirect_to produce_url(@produce) }
-          format.json { head :no_content }
-        end
+        format.html { redirect_to @produce, notice: 'Produce was successfully updated.' }
+        format.json { head :no_content }
       else
-        format.html { render :action => "edit" }
-        format.json { render :json => @produce.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.json { render json: @produce.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -113,17 +80,8 @@ class ProducesController < ApplicationController
     @produce.destroy
 
     respond_to do |format|
-      case
-      when @patron
-        format.html { redirect_to patron_manifestations_url(@patron) }
-        format.json { head :no_content }
-      when @manifestation
-        format.html { redirect_to manifestation_patrons_url(@manifestation) }
-        format.json { head :no_content }
-      else
-        format.html { redirect_to produces_url }
-        format.json { head :no_content }
-      end
+      format.html { redirect_to produces_url }
+      format.json { head :no_content }
     end
   end
 end

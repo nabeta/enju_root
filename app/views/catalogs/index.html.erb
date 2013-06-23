@@ -1,0 +1,31 @@
+<div id="content_detail" class="ui-corner-all">
+<h1 class="title">Listing catalogs</h1>
+<div id="content_list">
+
+<table class="index">
+  <tr>
+    <th><%= t('activerecord.attributes.catalog.name') %></th>
+    <th><%= t('activerecord.attributes.catalog.url') %></th>
+    <th></th>
+  </tr>
+
+<% @catalogs.each do |catalog| %>
+  <tr>
+    <td><%= link_to catalog.name, catalog %></td>
+    <td><%= link_to catalog.url, catalog.url %></td>
+    <td>
+      <%= link_to t('enju.edit'), edit_catalog_path(catalog) %>
+      <%= link_to t('enju.destroy'), catalog, method: :delete, data: { confirm: 'Are you sure?' } %>
+    </td>
+  </tr>
+<% end %>
+</table>
+
+</div>
+</div>
+
+<div id="submenu" class="ui-corner-all">
+  <ul>
+    <li><%= link_to 'New Catalog', new_catalog_path %></li>
+  </ul>
+</div>

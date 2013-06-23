@@ -1,56 +1,56 @@
 <div id="content_detail" class="ui-corner-all">
-  <h1 class="title"><%= t('page.showing', :model => t('activerecord.models.expression')) -%></h1>
-  <div id="content_list">
+  <h1 class="title">[E<%= @expression.id %>] <%= t('enju.showing', :model => t('activerecord.models.expression')) -%></h1>
+<div id="content_list">
+<p id="notice"><%= notice %></p>
 
-  <% if @version %>
-    <%= render 'show_version' %>
-  <% else %>
-    <h2 class="resource_title">
-      [E]
-      <%= @expression.original_title -%>
-      <%= content_type_icon(@expression.content_type) -%>
-      (<% @expression.manifestations.each do |manifestation| %>
-        <%= link_to form_icon(manifestation.carrier_type), manifestation %>
-      <% end %>)
-    </h2>
+<p>
+  <b><%= t('activerecord.attributes.expression.original_title') %>:</b>
+  [E<%= @expression.id %>] <%= @expression.original_title %>
+</p>
 
-    <p>
-      <%= patrons_list(@expression.work.patrons) if @expression.work -%>
-      <%= patrons_list(@expression.patrons) -%>
-    </p>
-    <div id="tabs">
-      <ul>
-        <%= render :partial => 'show_menu' %>
-        <li><a href="#history"><em><%= t('page.history') -%></em></a></li>
-      </ul>
-      <%= render :partial => 'show_content' -%>
-      <%= render :partial => 'history_list' -%>
-    </div>
-    <%= render :partial => 'page/tabview' -%>
-  <%- end -%>
-  </div>
+<p>
+  <b><%= t('activerecord.attributes.expression.content_type_id') %>:</b>
+  <%= @expression.content_type.name %>
+</p>
+
+<p>
+  <b><%= t('activerecord.attributes.expression.language') %>:</b>
+  <%= @expression.language %>
+</p>
+
+<p>
+  <b>Work:</b>
+  [W<%= @expression.work.id %>] <%= link_to @expression.work.original_title, @expression.work %>
+</p>
+
+<p>
+  <b>Manifestations</b>
+</p>
+  
+<ul>
+  <% @expression.manifestations.each do |manifestation| %>
+    <li>[M<%= manifestation.id %>] <%= link_to manifestation.cinii_title, manifestation %></li>
+  <% end %>
+</ul>
+
+<p>
+  <b>relationship graph:</b>
+</p>
+
+<%=raw File.open("#{Rails.root.to_s}/public/expressions/#{@expression.id}.svg").read if Setting.generate_graph %>
+
+</div>
 </div>
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <%- case when @work -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), work_expressions_path(@work) -%></li>
-    <%- when @patron -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), patron_expressions_path(@patron) -%></li>
-    <%- else -%>
-      <li><%= link_to t('page.listing', :model => t('activerecord.models.expression')), expressions_path -%></li>
-    <%- end -%>
-    <li><%= link_to t('page.add_derivation'), expression_expressions_path(@expression) -%></li>
-  </ul>
-  <%- if can? :destroy, @expression -%>
-    <ul>
-      <li><%= link_to t('page.new', :model => t('activerecord.models.expression')), new_expression_path -%></li>
-      <li><%= link_to t('page.edit'), edit_expression_path(@expression) -%></li>
-      <li><%= link_to t('page.destroy'), @expression, :data => {:confirm => t('page.are_you_sure')}, :method => :delete -%></li>
-    </ul>
-  <%- end -%>
-  <ul>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.patron')), expression_patrons_path(@expression) -%></li>
-    <li><%= link_to t('page.listing', :model => t('activerecord.models.manifestation')), expression_manifestations_path(@expression) -%></li>
+    <li><%= link_to t('enju.edit'), edit_expression_path(@expression) %></li>
+    <li><%= link_to t('enju.back'), expressions_path %></li>
+
+    <li><%= link_to 'New child', expressions_path(:parent_id => @expression.id) %></li>
+    <li><%= link_to 'New manifestation', manifestations_path(:expression_id => @expression.id, :mode => 'add') %></li>
+    <li><%= link_to 'New contributor', people_path(:expression_id => @expression.id, :mode => 'add') %></li>
+    <li><%= link_to 'Edit work', works_path(:expression_id => @expression.id, :mode => 'edit') %></li>
+    <li><%= link_to 'JSON-LD', expression_path(@expression, :format => :json) %></li>
   </ul>
 </div>

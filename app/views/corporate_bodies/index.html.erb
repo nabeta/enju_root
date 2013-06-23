@@ -1,0 +1,35 @@
+<h1>Listing corporate_bodies</h1>
+
+<table>
+  <tr>
+    <th>Place associated</th>
+    <th>Date associated</th>
+    <th>Language</th>
+    <th>Address</th>
+    <th>Field of activity</th>
+    <th>History</th>
+    <th>Other information</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @corporate_bodies.each do |corporate_body| %>
+  <tr>
+    <td><%= corporate_body.place_associated %></td>
+    <td><%= corporate_body.date_associated %></td>
+    <td><%= corporate_body.language_id %></td>
+    <td><%= corporate_body.address %></td>
+    <td><%= corporate_body.field_of_activity %></td>
+    <td><%= corporate_body.history %></td>
+    <td><%= corporate_body.other_information %></td>
+    <td><%= link_to 'Show', corporate_body %></td>
+    <td><%= link_to 'Edit', edit_corporate_body_path(corporate_body) %></td>
+    <td><%= link_to 'Destroy', corporate_body, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Corporate body', new_corporate_body_path %>

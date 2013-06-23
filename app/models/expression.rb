@@ -1,116 +1,64 @@
-# == Schema Information
-#
-# Table name: expressions
-#
-#  id                          :integer          not null, primary key
-#  original_title              :text             not null
-#  title_transcription         :text
-#  title_alternative           :text
-#  summarization               :text
-#  context                     :text
-#  language_id                 :integer          default(1), not null
-#  content_type_id             :integer          default(1), not null
-#  note                        :text
-#  realizes_count              :integer          default(0), not null
-#  embodies_count              :integer          default(0), not null
-#  resource_has_subjects_count :integer          default(0), not null
-#  lock_version                :integer          default(0), not null
-#  created_at                  :datetime         not null
-#  updated_at                  :datetime         not null
-#  deleted_at                  :datetime
-#  required_role_id            :integer          default(1), not null
-#  feed_url                    :string(255)
-#  state                       :string(255)
-#  required_score              :integer          default(0), not null
-#  date_of_expression          :datetime
-#  identifier                  :string(255)
-#
-
-# -*- encoding: utf-8 -*-
 class Expression < ActiveRecord::Base
-  has_one :reify, :dependent => :destroy
-  has_one :work, :through => :reify
-  has_many :embodies, :dependent => :destroy
-  has_many :manifestations, :through => :embodies
-  has_many :realizes, :dependent => :destroy
-  has_many :patrons, :through => :realizes
-  belongs_to :language #, :validate => true
-  has_many :expression_merges, :dependent => :destroy
-  has_many :expression_merge_lists, :through => :expression_merges
-  #has_many :work_has_subjects, :as => :subjectable, :dependent => :destroy
-  #has_many :subjects, :through => :work_has_subjects
-  belongs_to :required_role, :class_name => 'Role', :foreign_key => 'required_role_id' #, :validate => true
-  has_many :children, :foreign_key => 'parent_id', :class_name => 'ExpressionRelationship', :dependent => :destroy
-  has_many :parents, :foreign_key => 'child_id', :class_name => 'ExpressionRelationship', :dependent => :destroy
-  has_many :derived_expressions, :through => :children, :source => :child
-  has_many :original_expressions, :through => :parents, :source => :parent
-  #has_many_polymorphs :patrons, :from => [:people, :corporate_bodies, :families], :through => :realizes
   belongs_to :content_type
-  
-  validates_associated :content_type, :language
-  validates_presence_of :content_type_id, :language_id, :original_title
-  
+  attr_accessible :original_title, :content_type_id, :work_id,
+    :manifestation_id, :note, :language,
+    :manifestation_url
+  has_one :reify
+  has_one :work, :through => :reify
+  has_many :realizes, :dependent => :destroy, :foreign_key => 'expression_id'
+  has_many :contributors, :through => :realizes, :source => :person #, :order => 'realizes.position'
+  has_many :embodies
+  has_many :manifestations, :through => :embodies
+  has_many :children_relationships, :foreign_key => 'parent_id', :class_name => 'WorkRelationship', :dependent => :destroy
+  has_many :parents_relationships, :foreign_key => 'child_id', :class_name => 'WorkRelationship', :dependent => :destroy
+  has_many :children, :through => :children_relationships, :source => :child
+  has_many :parents, :through => :parents_relationships, :source => :parent
+
+  validates :original_title, :presence => true
+  #validates :manifestation_url, :presence => true, :on => :create
+
+  after_save :generate_graph if Setting.generate_graph
+
   searchable do
-    text :title, :summarization, :context, :note
-    text :creator do
-      creators.collect(&:full_name) + creators.collect(&:full_name_transcription) if creators
+    text :original_title
+    integer :work_id do
+      work.id if work
     end
-    time :created_at
-    time :updated_at
-    integer :patron_ids, :multiple => true
     integer :manifestation_ids, :multiple => true
-    integer :expression_merge_list_ids, :multiple => true
-    integer :work_id
-    integer :content_type_id
-    integer :language_id
-    integer :required_role_id
-    integer :original_expression_ids, :multiple => true
-  end
-  #acts_as_tree
-  #acts_as_soft_deletable
-  has_paper_trail
-
-  attr_accessor :new_work_id
-  alias :contributors :patrons
-
-  paginates_per 10
-
-  def title
-    title_array = titles
-    #title_array << self.work.titles if self.work
-    #title_array << self.manifestations.collect(&:titles)
-    title_array.flatten.compact.sort.uniq
   end
 
-  def titles
-    title = []
-    title << original_title
-    title << title_transcription
-    title << title_alternative
-    #title << original_title.wakati
-    #title << title_transcription.wakati rescue nil
-    #title << title_alternative.wakati rescue nil
-    title
-  end
+  attr_accessor :work_id, :manifestation_id, :manifestation_url
 
-  def creators
-    self.work.patrons if self.work
-  end
+  def generate_graph
+    begin
+    return nil unless work
+    work.generate_graph
+    g = GraphViz::new("G", :type => :graph, :use => "dot")
+    g.node[:shape] = "box"
+    g.node[:color] = "blue"
+    g.node[:fontsize] = 10
 
-  def work_id
-    self.work.id if self.work
-  end
+    e = g.add_nodes("[E#{id}] #{language} #{content_type.name}", "URL" => "/expressions/#{id}", :fontcolor => "red", :shape => 'box', :color => 'blue')
+    w = g.add_nodes("[W#{work.id}] #{work.original_title}", "URL" => "/works/#{work.id}", :shape => 'box', :color => 'blue')
+    g.add_edges(w, e)
 
-  def expression_merge_list_ids
-    self.expression_merge_lists.collect(&:id)
-  end
+    manifestations.each do |manifestation|
+      m = g.add_nodes("[M#{manifestation.id}] #{manifestation.cinii_title}", "URL" => "/manifestations/#{manifestation.id}")
+      g.add_edges(e, m)
+      manifestation.expressions.each do |expression|
+        if expression != self
+          e2 = g.add_nodes("[E#{expression.id}] #{expression.language} #{expression.content_type.name}", "URL" => "/expressions/#{expression.id}")
+          g.add_edges(e2, m)
 
-  def realized(patron)
-    realizes.where(:patron_id => patron.id).first
+          w2 = g.add_nodes("[W#{expression.work.id}] #{expression.work.original_title}", "URL" => "/works/#{expression.work.id}")
+          g.add_edges(w2, e2)
+        end
+      end
+    end
+    g.output(:png => "#{Rails.root.to_s}/public/expressions/#{id}.png")
+    g.output(:svg => "#{Rails.root.to_s}/public/expressions/#{id}.svg")
+  rescue
+    nil
   end
-
-  def embodied(manifestation)
-    embodies.where(:manifestation_id => manifestation.id).first
   end
-
 end

@@ -1,27 +1,29 @@
-<%= form_for(@realize) do |f| -%>
-  <%= f.error_messages -%>
+<%= form_for(@realize) do |f| %>
+  <% if @realize.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@realize.errors.count, "error") %> prohibited this realize from being saved:</h2>
+
+      <ul>
+      <% @realize.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 
   <div class="field">
-    <%= f.label t('activerecord.models.patron') -%><br />
-    <%- if @realize.patron -%>
-		  <%= link_to @realize.patron.full_name, @realize.patron -%>
-      <%= f.hidden_field :patron_id -%>
-    <%- else -%>
-      <%= f.text_field :patron_id -%>
-    <%- end -%>
+    <%= f.label :expression %><br />
+    <%= link_to @realize.expression.original_title, @realize.expression %>
+    <br />
+    <%= f.hidden_field :expression_id %>
   </div>
-
   <div class="field">
-    <%= f.label t('activerecord.models.expression') -%><br />
-    <%- if @realize.expression -%>
-		  <%= link_to @realize.expression.original_title, @realize.expression -%>
-      <%= f.hidden_field :expression_id -%>
-    <%- else -%>
-      <%= f.text_field :expression_id -%>
-    <%- end -%>
+    <%= f.label :person %><br />
+    <%= link_to @realize.person.full_name, @realize.person %>
+    <br />
+    <%= f.hidden_field :person_id %>
   </div>
-
   <div class="actions">
     <%= f.submit %>
   </div>
-<%- end -%>
+<% end %>

@@ -1,16 +1,15 @@
 <div id="content_detail" class="ui-corner-all">
-<h1 class="title"><%= t('page.showing', :model => t('activerecord.models.reify')) -%></h1>
 <div id="content_list">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong><%= t('activerecord.models.work') -%>:</strong>
-  <%= link_to @reify.work.original_title, @reify.work -%>
+  <b>Work:</b>
+  <%= link_to @reify.work.original_title, @reify.work %>
 </p>
 
 <p>
-  <strong><%= t('activerecord.models.expression') -%>:</strong>
-  <%= link_to @reify.expression.original_title, @reify.expression -%>
+  <b>Expression:</b>
+  <%= link_to @reify.expression.original_title, @reify.expression %>
 </p>
 
 </div>
@@ -18,7 +17,7 @@
 
 <div id="submenu" class="ui-corner-all">
   <ul>
-    <li><%= link_to t('page.edit'), edit_reify_path(@reify) -%></li>
-    <li><%= link_to t('page.back'), reifies_path -%></li>
+    <li><%= link_to t('enju.edit'), edit_reify_path(@reify) %></li>
+    <li><%= link_to t('enju.back'), reifies_path %></li>
   </ul>
 </div>
